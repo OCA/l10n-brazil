@@ -37,9 +37,11 @@ class CommissionMakeInvoice(models.TransientModel):
 
     commission_gen_br_fiscal_doc = fields.Boolean(
         string="Generate Brazilian Fiscal Document",
-        default=lambda s: s.env["ir.config_parameter"]
-        .sudo()
-        .get_param("l10n_sale_commission.commission_gen_br_fiscal_doc"),
+        default=lambda s: (
+            s.env["ir.config_parameter"]
+            .sudo()
+            .get_param("l10n_br_sale_commission.commission_gen_br_fiscal_doc")
+        ),
     )
 
     commission_document_type_id = fields.Many2one(

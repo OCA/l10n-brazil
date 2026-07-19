@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
-
     <!-- Generate BR Fiscal Doc -->
     <record
         id="commission_gen_br_fiscal_doc_config_settings"
@@ -68,5 +67,4 @@
             search="[('id', '=', ref('commission_product_id_config_settings'))]"
         />
     </function>
-
 </odoo>

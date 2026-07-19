@@ -10,7 +10,7 @@ class ResConfigSettings(models.TransientModel):
 
     commission_gen_br_fiscal_doc = fields.Boolean(
         string="Generate Brazilian Fiscal Document",
-        config_parameter="l10n_sale_commission.commission_gen_br_fiscal_doc",
+        config_parameter="l10n_br_sale_commission.commission_gen_br_fiscal_doc",
         help="When create the invoice for commission payment should"
         " generate Brazilian Fiscal Document.",
     )

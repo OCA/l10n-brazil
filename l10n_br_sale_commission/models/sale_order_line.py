@@ -14,5 +14,4 @@ class SaleOrderLine(models.Model):
         for record in self.filtered(lambda ln: ln.cfop_id):
             if not record.cfop_id.finance_move:
                 record.agent_ids = False
-
         return res

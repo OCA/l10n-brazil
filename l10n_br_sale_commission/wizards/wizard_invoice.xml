@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="make_invoice_form" model="ir.ui.view">
         <field name="name">l10n_br_commission.make_invoice.form</field>
         <field name="model">commission.make.invoice</field>
@@ -9,7 +8,7 @@
             ref="account_commission.commission_make_invoice_form"
         />
         <field name="arch" type="xml">
-            <xpath expr="//form/group" position="after">
+            <xpath expr="//form/group[1]" position="after">
                 <field name="commission_gen_br_fiscal_doc" invisible="1" />
                 <group
                     string="Brazilian Fiscal Data"
@@ -28,5 +27,4 @@
             </xpath>
         </field>
     </record>
-
 </odoo>
