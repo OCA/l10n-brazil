@@ -11,6 +11,7 @@ from ..constants.fiscal import (
     NFE_IND_IE_DEST,
     OPERATION_STATE,
     OPERATION_STATE_DEFAULT,
+    PRODUCT_DESTINATION,
     PRODUCT_FISCAL_TYPE,
     TAX_DOMAIN_CBS,
     TAX_DOMAIN_IBS,
@@ -122,6 +123,15 @@ class OperationLine(models.Model):
 
     product_type = fields.Selection(
         selection=PRODUCT_FISCAL_TYPE, string="Product Fiscal Type"
+    )
+
+    product_destination = fields.Selection(
+        selection=PRODUCT_DESTINATION,
+        string="Destinação da Mercadoria",
+        help="Destinação da mercadoria adquirida (revenda, industrialização,"
+        " uso/consumo ou ativo imobilizado). Parametriza a creditabilidade dos"
+        " impostos e a formação do custo de estoque na entrada. Só é relevante"
+        " em operações de entrada (compra/importação).",
     )
 
     company_tax_framework = fields.Selection(selection=TAX_FRAMEWORK)
