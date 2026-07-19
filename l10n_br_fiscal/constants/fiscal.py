@@ -168,6 +168,28 @@ PROFIT_CALCULATION = [
 
 
 PROFIT_CALCULATION_PRESUMED = "presumed"
+PROFIT_CALCULATION_REAL = "real"
+
+# Destinação da mercadoria adquirida, para fins de formação do custo de estoque
+# e da creditabilidade dos impostos (Art. 301 RIR/2018, CPC 16).
+PRODUCT_DESTINATION_RESALE = "resale"
+PRODUCT_DESTINATION_INDUSTRIALIZATION = "industrialization"
+PRODUCT_DESTINATION_USE_CONSUMPTION = "use_consumption"
+PRODUCT_DESTINATION_FIXED_ASSET = "fixed_asset"
+
+PRODUCT_DESTINATION = [
+    (PRODUCT_DESTINATION_RESALE, "Revenda"),
+    (PRODUCT_DESTINATION_INDUSTRIALIZATION, "Industrialização"),
+    (PRODUCT_DESTINATION_USE_CONSUMPTION, "Uso e Consumo"),
+    (PRODUCT_DESTINATION_FIXED_ASSET, "Ativo Imobilizado"),
+]
+
+# Destinações que, em regra, dão direito a crédito dos impostos recuperáveis
+# (revenda e industrialização); uso/consumo e imobilizado não creditam ICMS/IPI.
+PRODUCT_DESTINATION_CREDIT = (
+    PRODUCT_DESTINATION_RESALE,
+    PRODUCT_DESTINATION_INDUSTRIALIZATION,
+)
 
 COEFFICIENT_R = 0.28
 
