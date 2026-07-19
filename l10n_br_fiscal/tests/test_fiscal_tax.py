@@ -374,3 +374,71 @@ class TestFiscalTax(TransactionCase):
         )
 
         self.assertEqual(compute_result["taxes"]["icms"]["cst_id"].code, "10")
+
+    def test_compute_taxes_cache_savepoint_rollback(self):
+        """A savepoint rollback that reverts a tax rate must not leave the
+        transaction cache serving the reverted (stale) value.
+
+        The fiscal transaction cache is a per-cursor attribute that survives a
+        savepoint rollback (``cr.clear()`` clears the ORM cache, not that
+        attribute). Without the self-validating (``write_date``-versioned) key, a
+        rate edited and computed *inside* a rolled-back savepoint keeps being
+        served afterwards. See l10n_br_fiscal/models/fiscal_cache.py.
+        """
+        kwargs = self._create_compute_taxes_kwargs()
+        currency = kwargs["company"].currency_id
+        icms_tax = self.env.ref("l10n_br_fiscal.tax_icms_7")
+        fiscal_taxes = (
+            icms_tax
+            + self.env.ref("l10n_br_fiscal.tax_ipi_15")
+            + self.env.ref("l10n_br_fiscal.tax_pis_0_65")
+            + self.env.ref("l10n_br_fiscal.tax_cofins_3")
+        )
+
+        # Baseline: compute once and remember the original ICMS value.
+        original_icms_value = fiscal_taxes.compute_taxes(**kwargs)["taxes"]["icms"][
+            "tax_value"
+        ]
+
+        savepoint = self.env.cr.savepoint()
+        # Edit the rate and recompute *inside* the savepoint: the write wipes the
+        # cache (FiscalCacheMixin.write) and repopulates it with the new value.
+        icms_tax.percent_amount = icms_tax.percent_amount + 11.0
+        # Flush so the edit reaches the DB and actually bumps ``write_date``
+        # *inside* the savepoint. This reproduces the real contamination scenario
+        # (a polluting transaction/test method flushes the write before its
+        # rollback); it is also what makes the self-validating key observable:
+        # the stale entry is stored under the bumped-``write_date`` key, and the
+        # rollback reverts ``write_date`` so the post-rollback key no longer
+        # reaches it.
+        self.env.flush_all()
+        changed_icms_value = fiscal_taxes.compute_taxes(**kwargs)["taxes"]["icms"][
+            "tax_value"
+        ]
+        self.assertNotEqual(
+            float_compare(
+                changed_icms_value,
+                original_icms_value,
+                precision_rounding=currency.rounding,
+            ),
+            0,
+            "Sanity: editing the ICMS rate should change the computed value.",
+        )
+
+        # Roll back: reverts the rate (and its write_date) and clears the ORM
+        # cache, but NOT the per-cursor fiscal transaction cache.
+        savepoint.close()  # rollback=True by default
+
+        reverted_icms_value = fiscal_taxes.compute_taxes(**kwargs)["taxes"]["icms"][
+            "tax_value"
+        ]
+        self.assertEqual(
+            float_compare(
+                reverted_icms_value,
+                original_icms_value,
+                precision_rounding=currency.rounding,
+            ),
+            0,
+            "After rollback compute_taxes must return the ORIGINAL rate, not the "
+            "reverted-away value left in the transaction cache.",
+        )
