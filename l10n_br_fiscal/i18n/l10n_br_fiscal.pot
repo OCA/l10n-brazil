@@ -8880,6 +8880,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cnae__version
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_estimate__version
 msgid "Version"
 msgstr ""
 
