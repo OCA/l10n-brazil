@@ -14,7 +14,11 @@ from ..constants.fiscal import (
     FISCAL_COMMENT_LINE,
     FISCAL_IN,
     FISCAL_TAX_ID_FIELDS,
+    PRODUCT_DESTINATION,
+    PRODUCT_DESTINATION_CREDIT,
+    PRODUCT_DESTINATION_INDUSTRIALIZATION,
     PRODUCT_FISCAL_TYPE,
+    PROFIT_CALCULATION_REAL,
     TAX_BASE_TYPE,
     TAX_BASE_TYPE_PERCENT,
     TAX_DOMAIN_CBS,
@@ -926,6 +930,160 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     def _rm_fields_to_amount(self):
         return ["icms_relief_value"]
 
+    # -------------------------------------------------------------------------
+    # Formação do custo de estoque (Art. 301 RIR/2018, CPC 16)
+    # -------------------------------------------------------------------------
+
+    def _stock_cost_add_value_fields(self):
+        """Campos de valor que SEMPRE integram o custo de estoque.
+
+        São os componentes não recuperáveis lançados "por fora" do preço da
+        mercadoria (não embutidos): ICMS-ST, FCP-ST, II, despesas aduaneiras,
+        além de frete, seguro e outras despesas acessórias.
+        """
+        self.ensure_one()
+        return [
+            "freight_value",
+            "insurance_value",
+            "other_value",
+            "icmsst_value",
+            "icmsfcpst_value",
+            "ii_value",
+            "ii_customhouse_charges",
+        ]
+
+    def _stock_cost_recoverable_domains(self):
+        """Impostos recuperáveis por natureza, resolvidos por domínio.
+
+        Retorna dict {tax_domain: campo_de_valor} apenas para os impostos cujo
+        grupo tem ``credit_stock_cost`` marcado e que possuem campo de valor no
+        mixin. IPI é "por fora" (somado quando NÃO creditável); ICMS/PIS/COFINS
+        são "por dentro" (subtraídos quando creditáveis).
+        """
+        self.ensure_one()
+        return {
+            TAX_DOMAIN_ICMS: "icms_value",
+            TAX_DOMAIN_PIS: "pis_value",
+            TAX_DOMAIN_COFINS: "cofins_value",
+            TAX_DOMAIN_IPI: "ipi_value",
+        }
+
+    def _get_stock_cost_tax_map(self):
+        """Resolvedor regime × destinação × CST/domínio → crédito ou custo.
+
+        Retorna dict ``{tax_domain: 'credit' | 'cost'}`` para os impostos
+        recuperáveis presentes na linha. ``'credit'`` significa que o imposto
+        gera crédito e NÃO integra o custo; ``'cost'`` significa que integra.
+
+        Regras (fundação — Item 1):
+        - grupo sem ``credit_stock_cost`` → sempre 'cost' (não recuperável);
+        - Simples Nacional (tax_framework 1/2) da EMPRESA → tudo 'cost' (sem crédito);
+        - FORNECEDOR optante do Simples Nacional (em entradas) → ICMS/IPI 'cost'
+          (não transfere crédito ao adquirente; CSOSN 101 é refinamento de fase
+          posterior, via ``icmssn_credit_value``);
+        - uso/consumo e imobilizado → ICMS/IPI 'cost'; PIS/COFINS 'cost'
+          (crédito de ativo/CIAP 1/48 é refinamento de fase posterior);
+        - revenda/industrialização (regime Normal):
+            * ICMS → 'credit';
+            * IPI → 'credit' só na industrialização e empresa industrial;
+            * PIS/COFINS → 'credit' só no Lucro Real (não-cumulativo).
+        """
+        self.ensure_one()
+        company = self.company_id
+        destination = self.product_destination
+        result = {}
+        recoverable = self._stock_cost_recoverable_domains()
+        # Eixo fornecedor: numa entrada (compra), o optante do Simples Nacional
+        # não transfere crédito de ICMS/IPI ao adquirente (art. 23 LC 123/2006).
+        supplier = self._get_fiscal_partner()
+        supplier_is_simples = (
+            self.fiscal_operation_type == FISCAL_IN
+            and supplier
+            and supplier.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL
+        )
+        for tax in self.fiscal_tax_ids:
+            domain = tax.tax_domain
+            if domain not in recoverable:
+                continue
+            group = tax.tax_group_id
+            # Não recuperável por natureza, ou empresa no Simples, ou destinação
+            # sem direito a crédito, ou fornecedor Simples (ICMS/IPI) →
+            # integra o custo.
+            if (
+                not group.credit_stock_cost
+                or company.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL
+                or destination not in PRODUCT_DESTINATION_CREDIT
+                or (supplier_is_simples and domain in (TAX_DOMAIN_ICMS, TAX_DOMAIN_IPI))
+            ):
+                result[domain] = "cost"
+                continue
+            if domain == TAX_DOMAIN_IPI:
+                is_industrial = company.ripi or company.is_industry
+                if (
+                    destination == PRODUCT_DESTINATION_INDUSTRIALIZATION
+                    and is_industrial
+                ):
+                    result[domain] = "credit"
+                else:
+                    result[domain] = "cost"
+            elif domain in (TAX_DOMAIN_PIS, TAX_DOMAIN_COFINS):
+                if company.profit_calculation == PROFIT_CALCULATION_REAL:
+                    result[domain] = "credit"
+                else:
+                    result[domain] = "cost"
+            else:  # ICMS
+                result[domain] = "credit"
+        return result
+
+    @api.depends(
+        "price_gross",
+        "discount_value",
+        "quantity",
+        "freight_value",
+        "insurance_value",
+        "other_value",
+        "icms_value",
+        "icmsst_value",
+        "icmsfcpst_value",
+        "ipi_value",
+        "ii_value",
+        "ii_customhouse_charges",
+        "pis_value",
+        "cofins_value",
+        "fiscal_tax_ids",
+        "product_destination",
+        "fiscal_operation_line_id",
+        "fiscal_operation_type",
+        "partner_id",
+    )
+    def _compute_stock_cost_unit(self):
+        for line in self:
+            round_curr = line.currency_id or self.env.ref("base.BRL")
+            quantity = line.quantity or line.fiscal_quantity
+            if not quantity:
+                line.stock_cost_unit = 0.0
+                continue
+
+            tax_map = line._get_stock_cost_tax_map()
+            recoverable = line._stock_cost_recoverable_domains()
+
+            # Base: mercadoria líquida de desconto, com ICMS/PIS/COFINS embutidos.
+            cost_total = line.price_gross - line.discount_value
+
+            # Componentes não recuperáveis que sempre somam ("por fora").
+            cost_total += sum(line[f] for f in line._stock_cost_add_value_fields())
+
+            # IPI: "por fora" — só soma quando integra o custo (não creditável).
+            if tax_map.get(TAX_DOMAIN_IPI) == "cost":
+                cost_total += line.ipi_value
+
+            # ICMS/PIS/COFINS: "por dentro" — subtrai o que for creditável.
+            for domain in (TAX_DOMAIN_ICMS, TAX_DOMAIN_PIS, TAX_DOMAIN_COFINS):
+                if tax_map.get(domain) == "credit":
+                    cost_total -= line[recoverable[domain]]
+
+            line.stock_cost_unit = round_curr.round(cost_total / quantity)
+
     def _is_imported(self):
         # When the mixin is used for instance
         # in a PO line or SO line, there is no document_id
@@ -1182,6 +1340,29 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     financial_discount_value = fields.Monetary(
         compute="_compute_fiscal_amounts",
+    )
+
+    product_destination = fields.Selection(
+        selection=PRODUCT_DESTINATION,
+        string="Destinação da Mercadoria",
+        related="fiscal_operation_line_id.product_destination",
+        store=True,
+        readonly=True,
+        help="Destinação da mercadoria, herdada da linha da operação fiscal."
+        " Parametriza a creditabilidade dos impostos na formação do custo de"
+        " estoque (ver stock_cost_unit).",
+    )
+
+    stock_cost_unit = fields.Monetary(
+        string="Custo Unitário de Estoque",
+        compute="_compute_stock_cost_unit",
+        store=True,
+        help="Custo unitário de aquisição para valorização de estoque, líquido"
+        " dos impostos recuperáveis (ICMS/PIS/COFINS/IPI creditáveis) e"
+        " acrescido dos componentes não recuperáveis (ICMS-ST, FCP-ST, II,"
+        " despesas aduaneiras, frete, seguro, outros). Segue o Art. 301"
+        " RIR/2018 e o CPC 16. Este campo é a base para o Item 2 (override do"
+        " custo de entrada na valorização de estoque).",
     )
 
     amount_tax_included = fields.Monetary(

@@ -45,6 +45,7 @@
                         />
                         <field name="tax_include" />
                         <field name="tax_withholding" />
+                        <field name="credit_stock_cost" />
                         <field name="tax_scope" />
                         <field
                             name="base_without_icms"
