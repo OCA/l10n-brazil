@@ -383,6 +383,94 @@ class TestStockCost(TransactionCase):
         self.assertEqual(tax_map.get(TAX_DOMAIN_PIS), "credit")
         self.assertEqual(tax_map.get(TAX_DOMAIN_COFINS), "credit")
 
+    # ------------------------------------------------------------------
+    # Fase D — granularidade por CST
+    # ------------------------------------------------------------------
+
+    def test_cst_monofasico_blocks_piscofins_credit(self):
+        """RF-D1: aquisição sem direito a crédito de PIS/COFINS (CST 70+,
+        ex. monofásico/alíquota zero p/ revenda) integra o custo MESMO no
+        Lucro Real."""
+        self._set_context(
+            TAX_FRAMEWORK_NORMAL,
+            PROFIT_CALCULATION_REAL,
+            PRODUCT_DESTINATION_INDUSTRIALIZATION,
+            is_industry=True,
+        )
+        cst_70_pis = self.env.ref("l10n_br_fiscal.cst_pis_70")
+        cst_70_cofins = self.env.ref("l10n_br_fiscal.cst_cofins_70")
+        self.line.write(
+            {"pis_cst_id": cst_70_pis.id, "cofins_cst_id": cst_70_cofins.id}
+        )
+        tax_map = self.line._get_stock_cost_tax_map()
+        self.assertEqual(tax_map.get(TAX_DOMAIN_PIS), "cost")
+        self.assertEqual(tax_map.get(TAX_DOMAIN_COFINS), "cost")
+        # ICMS não é afetado pelo CST do PIS:
+        self.assertEqual(tax_map.get(TAX_DOMAIN_ICMS), "credit")
+
+    def test_cst_icms_deferral_blocks_credit(self):
+        """RF-D3: ICMS com diferimento (CST 51) ou ST retido (CST 60) não
+        credita — integra o custo."""
+        self._set_context(
+            TAX_FRAMEWORK_NORMAL,
+            PROFIT_CALCULATION_REAL,
+            PRODUCT_DESTINATION_INDUSTRIALIZATION,
+            is_industry=True,
+        )
+        for xmlid in ("cst_icms_51", "cst_icms_60"):
+            self.line.icms_cst_id = self.env.ref(f"l10n_br_fiscal.{xmlid}")
+            tax_map = self.line._get_stock_cost_tax_map()
+            self.assertEqual(
+                tax_map.get(TAX_DOMAIN_ICMS), "cost", f"CST {xmlid}"
+            )
+
+    def test_csosn_101_partial_credit_reduces_cost(self):
+        """RF-D2: compra de Simples com CSOSN 101 — o crédito parcial
+        permitido na NF (icmssn_credit_value) reduz o custo."""
+        self._set_context(
+            TAX_FRAMEWORK_NORMAL,
+            PROFIT_CALCULATION_REAL,
+            PRODUCT_DESTINATION_INDUSTRIALIZATION,
+            is_industry=True,
+        )
+        base_cost = self.line.stock_cost_unit
+        self.line.icmssn_credit_value = 10.0
+        self.line._compute_stock_cost_unit()
+        self.assertAlmostEqual(
+            self.line.stock_cost_unit, base_cost - 10.0, places=2
+        )
+
+    def test_csosn_101_not_for_simples_buyer(self):
+        """O crédito parcial do CSOSN 101 só vale para COMPRADOR em regime
+        normal — empresa do Simples não aproveita crédito (nela o campo
+        reflete o crédito que ELA transferiria numa venda)."""
+        self._set_context(
+            TAX_FRAMEWORK_SIMPLES,
+            PROFIT_CALCULATION_REAL,
+            PRODUCT_DESTINATION_RESALE,
+        )
+        base_cost = self.line.stock_cost_unit
+        self.line.icmssn_credit_value = 10.0
+        self.line._compute_stock_cost_unit()
+        self.assertAlmostEqual(self.line.stock_cost_unit, base_cost, places=2)
+        self.line.icmssn_credit_value = 0.0
+
+    def test_icms_relief_reduces_cost(self):
+        """RF-D4: desoneração de ICMS — o valor desonerado não é pago e não
+        integra o custo."""
+        self._set_context(
+            TAX_FRAMEWORK_NORMAL,
+            PROFIT_CALCULATION_REAL,
+            PRODUCT_DESTINATION_INDUSTRIALIZATION,
+            is_industry=True,
+        )
+        base_cost = self.line.stock_cost_unit
+        self.line.icms_relief_value = 15.0
+        self.line._compute_stock_cost_unit()
+        self.assertAlmostEqual(
+            self.line.stock_cost_unit, base_cost - 15.0, places=2
+        )
+
     def test_zero_quantity_is_safe(self):
         """Quantidade zero não deve estourar divisão."""
         self.line.quantity = 0
