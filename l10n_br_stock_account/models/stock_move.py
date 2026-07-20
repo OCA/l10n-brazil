@@ -216,6 +216,17 @@ class StockMove(models.Model):
         #  e continua sendo feito abaixo?
         if self.fiscal_operation_id.fiscal_operation_type == "out":
             result = self.product_id.with_company(self.company_id).standard_price
+        elif self.fiscal_operation_id.fiscal_operation_type == "in":
+            # Entradas: o custo de aquisição para valorização de estoque é o
+            # custo LÍQUIDO (Art. 301 RIR/2018, CPC 16) — sem os impostos
+            # recuperáveis (ICMS/IPI/PIS/COFINS creditáveis) e com os
+            # componentes não recuperáveis (ICMS-ST, FCP-ST, II, frete,
+            # seguro, outros). O stock_cost_unit é computado pelo
+            # l10n_br_fiscal.document.line.mixin; o campo price_unit do move
+            # NÃO é alterado, pois ele alimenta a fatura/nota do picking
+            # (_get_price_unit_invoice).
+            if self.stock_cost_unit:
+                result = self.stock_cost_unit
 
         return result
 
