@@ -6,7 +6,7 @@ from collections import namedtuple
 
 import requests
 
-import odoo
+from odoo import _
 from odoo.exceptions import UserError
 
 WS_SERVICOS = 0
@@ -33,7 +33,7 @@ def _request(ws_url, params, ibpt_request_timeout=30):
             )
         elif response.status_code == requests.codes.forbidden:
             raise UserError(
-                odoo.api.Environment._(
+                _(
                     "IBPT Forbidden - token=%(token)s, cnpj=%(cnpj)s, UF=%(uf)s",
                     token=params.get("token"),
                     cnpj=params.get("cnpj"),
@@ -42,24 +42,21 @@ def _request(ws_url, params, ibpt_request_timeout=30):
             )
         elif response.status_code == requests.codes.not_found:
             raise UserError(
-                odoo.api.Environment._(
+                _(
                     "IBPT URL not found - %(url)s",
                     url=ws_url,
                 )
             )
         elif response.status_code == requests.codes.service_unavailable:
-            raise UserError(
-                odoo.api.Environment._(
-                    "IBPT Service Unavailable - %s(url)s", url=ws_url
-                )
-            )
+            raise UserError(_("IBPT Service Unavailable - %s(url)s", url=ws_url))
+    except requests.exceptions.RequestException as err:
+        # Use non-translatable message for network errors
+        raise UserError(f"Error in the request: {str(err)}") from err
+    except UserError:
+        raise
     except Exception as err:
-        raise UserError(
-            odoo.api.Environment._(
-                "Error in the request: %(error)s",
-                error=str(err),
-            )
-        ) from err
+        # Use non-translatable message for unexpected errors
+        raise UserError(f"Unexpected error in IBPT request: {str(err)}") from err
 
 
 def get_ibpt_product(
@@ -78,7 +75,7 @@ def get_ibpt_product(
         "gtin": gtin,
     }
 
-    return _request(WS_IBPT[WS_PRODUTOS], data, config.ibpt_request_timeout)
+    return _request(WS_IBPT[WS_PRODUTOS], data, config.ibpt_request_timeout or 30)
 
 
 def get_ibpt_service(config, nbs, description="", uom="", amount="0"):
@@ -92,4 +89,4 @@ def get_ibpt_service(config, nbs, description="", uom="", amount="0"):
         "valor": amount,
     }
 
-    return _request(WS_IBPT[WS_SERVICOS], data, config.ibpt_request_timeout)
+    return _request(WS_IBPT[WS_SERVICOS], data, config.ibpt_request_timeout or 30)
