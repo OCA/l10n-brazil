@@ -14,6 +14,9 @@ from ..constants.fiscal import (
     FISCAL_COMMENT_LINE,
     FISCAL_IN,
     FISCAL_TAX_ID_FIELDS,
+    ICMS_CST_NO_CREDIT,
+    IPI_CST_NO_CREDIT,
+    PIS_COFINS_CST_NO_CREDIT,
     PRODUCT_DESTINATION,
     PRODUCT_DESTINATION_CREDIT,
     PRODUCT_DESTINATION_INDUSTRIALIZATION,
@@ -968,6 +971,26 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             TAX_DOMAIN_IPI: "ipi_value",
         }
 
+    def _stock_cost_cst_blocks_credit(self, domain):
+        """O CST da linha impede o crédito deste imposto? (Fase D)
+
+        Independe do regime do comprador: ICMS isento/não tributado/
+        suspensão/diferimento/ST-retido (CST 40/41/50/51/60), IPI de
+        entrada isenta/não tributada/imune/suspensa (CST 01-05) e
+        PIS/COFINS sem direito a crédito (CST 70-75/98/99 — inclui a
+        aquisição monofásica/alíquota zero para revenda) integram o
+        custo mesmo no Lucro Real."""
+        self.ensure_one()
+        if domain == TAX_DOMAIN_ICMS:
+            return self.icms_cst_id.code in ICMS_CST_NO_CREDIT
+        if domain == TAX_DOMAIN_IPI:
+            return self.ipi_cst_id.code in IPI_CST_NO_CREDIT
+        if domain == TAX_DOMAIN_PIS:
+            return self.pis_cst_id.code in PIS_COFINS_CST_NO_CREDIT
+        if domain == TAX_DOMAIN_COFINS:
+            return self.cofins_cst_id.code in PIS_COFINS_CST_NO_CREDIT
+        return False
+
     def _get_stock_cost_tax_map(self):
         """Resolvedor regime × destinação × CST/domínio → crédito ou custo.
 
@@ -1014,6 +1037,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                 or company.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL
                 or destination not in PRODUCT_DESTINATION_CREDIT
                 or (supplier_is_simples and domain in (TAX_DOMAIN_ICMS, TAX_DOMAIN_IPI))
+                or self._stock_cost_cst_blocks_credit(domain)
             ):
                 result[domain] = "cost"
                 continue
@@ -1081,6 +1105,18 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             for domain in (TAX_DOMAIN_ICMS, TAX_DOMAIN_PIS, TAX_DOMAIN_COFINS):
                 if tax_map.get(domain) == "credit":
                     cost_total -= line[recoverable[domain]]
+
+            # CSOSN 101: fornecedor do Simples que transfere crédito parcial
+            # de ICMS (art. 23, §1º, LC 123/2006) — o crédito permitido na NF
+            # reduz o custo de aquisição. Só vale para COMPRADOR em regime
+            # normal: empresa do Simples não aproveita crédito (e nela o
+            # campo reflete o crédito que ELA transferiria numa venda).
+            if line.company_id.tax_framework not in TAX_FRAMEWORK_SIMPLES_ALL:
+                cost_total -= line.icmssn_credit_value
+
+            # Desoneração de ICMS: o valor desonerado não é pago pelo
+            # adquirente — não integra o custo.
+            cost_total -= line.icms_relief_value
 
             line.stock_cost_unit = round_curr.round(cost_total / quantity)
 

@@ -191,6 +191,17 @@ PRODUCT_DESTINATION_CREDIT = (
     PRODUCT_DESTINATION_INDUSTRIALIZATION,
 )
 
+# CSTs que IMPEDEM o crédito do imposto na entrada (formação do custo de
+# estoque), independentemente do regime do comprador:
+# ICMS — isenta, não tributada, suspensão, diferimento, ST retido anteriormente.
+ICMS_CST_NO_CREDIT = ("40", "41", "50", "51", "60")
+# IPI — entradas isentas/não tributadas/imunes/com suspensão (01–05);
+# o CST 00 (entrada com recuperação de crédito) mantém a regra por regime.
+IPI_CST_NO_CREDIT = ("01", "02", "03", "04", "05")
+# PIS/COFINS — entradas sem direito a crédito (70–75) e outras operações
+# (98/99): aquisição monofásica/alíquota zero para revenda cai aqui.
+PIS_COFINS_CST_NO_CREDIT = ("70", "71", "72", "73", "74", "75", "98", "99")
+
 COEFFICIENT_R = 0.28
 
 INDUSTRY_TYPE = [
