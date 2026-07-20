@@ -2691,12 +2691,6 @@ msgid "Enviar"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#. odoo-python
-#: code:addons/l10n_br_fiscal/models/ibpt.py:0
-msgid "Error in the request: %(error)s"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__public_entity_type__2
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_partner_profile__public_entity_type__2
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_partner__public_entity_type__2
