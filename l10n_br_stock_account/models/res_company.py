@@ -21,3 +21,11 @@ class ResCompany(models.Model):
         comodel_name="l10n_br_fiscal.operation",
         domain=[("state", "=", "approved"), ("fiscal_operation_type", "=", "out")],
     )
+
+    stock_valuation_via_stock_price = fields.Boolean(
+        string="Valuation Via Stock Price",
+        default=True,
+        help="Determina se o valor utilizado no custeamento automático será padrão do"
+        " Odoo ou com base no campo stock_price_br.\n\n"
+        "    * Usar True para valor de estoque líquido (sem imposto)",
+    )
