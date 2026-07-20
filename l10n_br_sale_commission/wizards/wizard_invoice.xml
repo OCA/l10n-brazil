@@ -5,7 +5,7 @@
         <field name="model">commission.make.invoice</field>
         <field
             name="inherit_id"
-            ref="account_commission.commission_make_invoice_form"
+            ref="account_commission_oca.commission_make_invoice_form"
         />
         <field name="arch" type="xml">
             <xpath expr="//form/group[1]" position="after">

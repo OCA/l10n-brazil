@@ -37,6 +37,7 @@ class CommissionSettlement(models.Model):
             )
 
             invoice = self.env["account.move"].new(vals)
+            invoice.company_id = invoice.company_id or journal.company_id
             invoice._onchange_partner_id()
             invoice._inverse_company_id()
             invoice._inverse_currency_id()
