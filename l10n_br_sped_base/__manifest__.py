@@ -5,7 +5,7 @@
     "name": "SPED Base",
     "summary": """
         Framework abstrato pro SPED""",
-    "version": "18.0.1.1.0",
+    "version": "18.0.1.1.1",
     "license": "AGPL-3",
     "author": "Akretion, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
