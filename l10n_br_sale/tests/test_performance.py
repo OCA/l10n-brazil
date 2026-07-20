@@ -32,6 +32,10 @@ the Odoo/OCB jobs, spread <=1q):
     invoice_post:    simple=56q  complex=140q
 Limits = CI measured * 1.15 rounded up; minimal-db runs stay far below.
 Time is logged, never asserted.
+
+Opt-in: this suite is tagged ``-standard`` so it is EXCLUDED from the default
+test run (``inv test`` / OCA CI). Run it explicitly with
+``--test-tags l10n_br_performance``.
 """
 
 from odoo.tests.common import tagged, warmup
@@ -56,7 +60,7 @@ SCALING_MAX_FACTOR = 1.5
 STEPS = ("so_create", "so_confirm", "create_invoices", "invoice_post")
 
 
-@tagged("post_install", "-at_install", "l10n_br_performance")
+@tagged("-standard", "post_install", "-at_install", "l10n_br_performance")
 class TestL10nBrSalePerformance(PerfMixin, AccountMoveBRCommon):
     @classmethod
     def setUpClass(cls):
