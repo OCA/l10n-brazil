@@ -209,6 +209,82 @@
         <field name="state">approved</field>
     </record>
 
+    <!-- Transferência entre filiais -->
+    <record id="fo_transferencia_saida" model="l10n_br_fiscal.operation">
+        <field name="code">TRANSF-S</field>
+        <field name="name">Transferência - Saída</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">other</field>
+        <field name="default_price_unit">cost_price</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record
+        id="fo_transferencia_saida_transferencia"
+        model="l10n_br_fiscal.operation.line"
+    >
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_transferencia_saida" />
+        <field name="name">Transferência de mercadoria</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5152" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6152" />
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_transferencia_entrada" model="l10n_br_fiscal.operation">
+        <field name="code">TRANSF-E</field>
+        <field name="name">Transferência - Entrada</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">other</field>
+        <field name="default_price_unit">cost_price</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record
+        id="fo_transferencia_entrada_transferencia"
+        model="l10n_br_fiscal.operation.line"
+    >
+        <field
+            name="fiscal_operation_id"
+            ref="l10n_br_fiscal.fo_transferencia_entrada"
+        />
+        <field name="name">Transferência para comercialização</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <!-- Destinação revenda: o ICMS destacado na transferência gera
+             crédito na filial destino e NÃO integra o custo — o custo
+             trafega líquido entre filiais (RF-G1/G2). -->
+        <field name="product_destination">resale</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1152" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2152" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- Transferência não destaca IPI: forçar IPI NT nas linhas -->
+    <record id="fo_transferencia_entrada_ipi_nt" model="l10n_br_fiscal.tax.definition">
+        <field
+            name="fiscal_operation_line_id"
+            ref="fo_transferencia_entrada_transferencia"
+        />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_03" />
+        <field name="type_in_out">in</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_transferencia_saida_ipi_nt" model="l10n_br_fiscal.tax.definition">
+        <field
+            name="fiscal_operation_line_id"
+            ref="fo_transferencia_saida_transferencia"
+        />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53" />
+        <field name="state">approved</field>
+    </record>
+
     <record id="fo_compras_compras_uso_consumo" model="l10n_br_fiscal.operation.line">
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field name="name">Compras para Uso e Consumo</field>

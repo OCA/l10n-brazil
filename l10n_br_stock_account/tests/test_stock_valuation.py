@@ -4,20 +4,13 @@
 from odoo.tests import TransactionCase
 
 
-class TestStockValuationNetCost(TransactionCase):
-    """Valorização de entrada pelo custo líquido (Art. 301 RIR/2018, CPC 16).
+class StockValuationNetCostCase(TransactionCase):
+    """Base comum (setup + helpers) para os testes de valorização pelo
+    custo líquido — sem testes próprios."""
 
-    Cruzamento das três pontes, na mesma operação:
-
-    * **fiscal** — a NF destaca ICMS embutido e IPI por fora
-      (``icms_value``/``ipi_value`` na linha);
-    * **custo/valorização** — o SVL entra pelo ``stock_cost_unit``
-      (líquido dos créditos, somando não recuperáveis);
-    * **contábil** — o lançamento do SVL (Db estoque / Cr conta ponte de
-      entrada) é feito pelo MESMO líquido, deixando a ponte pronta para a
-      fatura de fornecedor (que, com ``deductible_taxes``, debita a ponte
-      pelo líquido e os créditos de impostos nas contas próprias) zerá-la.
-    """
+    @classmethod
+    def _get_fiscal_operation_refs(cls):
+        return ("l10n_br_fiscal.fo_compras", "l10n_br_fiscal.fo_compras_compras")
 
     @classmethod
     def setUpClass(cls):
@@ -30,8 +23,9 @@ class TestStockValuationNetCost(TransactionCase):
         cls.product = cls.env.ref("product.product_product_6")
         cls.supplier_normal = cls.env.ref("l10n_br_base.res_partner_intel")
         cls.supplier_simples = cls.env.ref("l10n_br_base.res_partner_cliente2_sp")
-        cls.fiscal_operation = cls.env.ref("l10n_br_fiscal.fo_compras")
-        cls.fiscal_operation_line = cls.env.ref("l10n_br_fiscal.fo_compras_compras")
+        op_ref, op_line_ref = cls._get_fiscal_operation_refs()
+        cls.fiscal_operation = cls.env.ref(op_ref)
+        cls.fiscal_operation_line = cls.env.ref(op_line_ref)
 
         # Contas dedicadas para asserts limpos da ponte contábil.
         Account = cls.env["account.account"]
@@ -93,7 +87,7 @@ class TestStockValuationNetCost(TransactionCase):
             "company_id": self.company.id,
         }
         move_vals = {
-            "name": "compra teste",
+            "name": "entrada teste",
             "product_id": self.product.id,
             "product_uom": self.product.uom_id.id,
             "product_uom_qty": qty,
@@ -124,16 +118,26 @@ class TestStockValuationNetCost(TransactionCase):
         picking.action_confirm()
         picking.action_assign()
         for line in picking.move_ids.move_line_ids:
-            line.qty_done = (
-                qty_done if qty_done is not None else line.reserved_uom_qty
-            )
+            line.qty_done = qty_done if qty_done is not None else line.reserved_uom_qty
         picking.with_context(skip_immediate=True, skip_backorder=True).with_user(
             self.env.user
         ).button_validate()
 
-    # ------------------------------------------------------------------
-    # RF-A1 — SVL pelo custo líquido (FIFO e AVCO)
-    # ------------------------------------------------------------------
+
+class TestStockValuationNetCost(StockValuationNetCostCase):
+    """Valorização de entrada pelo custo líquido (Art. 301 RIR/2018, CPC 16).
+
+    Cruzamento das três pontes, na mesma operação:
+
+    * **fiscal** — a NF destaca ICMS embutido e IPI por fora
+      (``icms_value``/``ipi_value`` na linha);
+    * **custo/valorização** — o SVL entra pelo ``stock_cost_unit``
+      (líquido dos créditos, somando não recuperáveis);
+    * **contábil** — o lançamento do SVL (Db estoque / Cr conta ponte de
+      entrada) é feito pelo MESMO líquido, deixando a ponte pronta para a
+      fatura de fornecedor (que, com ``deductible_taxes``, debita a ponte
+      pelo líquido e os créditos de impostos nas contas próprias) zerá-la.
+    """
 
     def test_fifo_incoming_net_cost(self):
         """FIFO: SVL entra pelo custo líquido, não pelo preço bruto da NF."""
@@ -183,10 +187,6 @@ class TestStockValuationNetCost(TransactionCase):
             places=2,
         )
 
-    # ------------------------------------------------------------------
-    # Eixo fornecedor na valorização
-    # ------------------------------------------------------------------
-
     def test_supplier_simples_valuation(self):
         """Compra de fornecedor Simples: nada credita e o IPI soma —
         o SVL fica MAIOR que o preço da mercadoria."""
@@ -200,10 +200,6 @@ class TestStockValuationNetCost(TransactionCase):
         self.assertAlmostEqual(svl.unit_cost, expected, places=2)
         self.assertGreater(svl.unit_cost, move.price_unit)
 
-    # ------------------------------------------------------------------
-    # RF-A4 — recebimento parcial
-    # ------------------------------------------------------------------
-
     def test_partial_receipt_net_cost(self):
         """Receber 3 de 10: o SVL das 3 unidades usa o custo líquido
         unitário (o split preserva os campos fiscais)."""
@@ -214,13 +210,7 @@ class TestStockValuationNetCost(TransactionCase):
         done_move = picking.move_ids.filtered(lambda m: m.state == "done")
         svl = done_move.stock_valuation_layer_ids
         self.assertEqual(svl.quantity, 3.0)
-        self.assertAlmostEqual(
-            svl.value, 3.0 * done_move.stock_cost_unit, places=2
-        )
-
-    # ------------------------------------------------------------------
-    # RF-A6 — fatura do picking não muda
-    # ------------------------------------------------------------------
+        self.assertAlmostEqual(svl.value, 3.0 * done_move.stock_cost_unit, places=2)
 
     def test_invoice_price_unaffected(self):
         """O preço da fatura do picking continua sendo o price_unit
@@ -229,15 +219,9 @@ class TestStockValuationNetCost(TransactionCase):
         picking, move = self._make_incoming(self.supplier_normal)
         self._receive(picking)
 
-        invoice_price = move._get_price_unit_invoice(
-            "in_invoice", move.partner_id
-        )
+        invoice_price = move._get_price_unit_invoice("in_invoice", move.partner_id)
         self.assertAlmostEqual(invoice_price, move.price_unit, places=2)
         self.assertNotEqual(invoice_price, move.stock_cost_unit)
-
-    # ------------------------------------------------------------------
-    # RF-A7 — sem operação fiscal, core intocado
-    # ------------------------------------------------------------------
 
     def test_no_fiscal_operation_core_behavior(self):
         """Sem operação fiscal (caso não-Brasil), o SVL usa o preço bruto
@@ -248,3 +232,51 @@ class TestStockValuationNetCost(TransactionCase):
 
         svl = move.stock_valuation_layer_ids
         self.assertAlmostEqual(svl.unit_cost, move.price_unit, places=2)
+
+
+class TestTransferValuation(StockValuationNetCostCase):
+    """Fase G — transferências entre filiais (RF-G1/G2): o custo trafega
+    LÍQUIDO. O ICMS destacado na NF de transferência gera crédito na filial
+    destino (regime que credita) e NÃO infla o SVL; numa filial do Simples
+    nada credita e o SVL fica pelo valor cheio. A operação de transferência
+    não destaca IPI (IPI NT nas operation lines).
+
+    Nota: o valor da alíquota interestadual na entrada depende da RFC do
+    motor fiscal (ICMS interestadual em operações de entrada) — estes testes
+    cobrem a mecânica de custo com o ICMS que o motor mapeia hoje."""
+
+    @classmethod
+    def _get_fiscal_operation_refs(cls):
+        return (
+            "l10n_br_fiscal.fo_transferencia_entrada",
+            "l10n_br_fiscal.fo_transferencia_entrada_transferencia",
+        )
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        # Filial de origem: contribuinte normal (a NF de transferência
+        # destaca ICMS).
+        cls.branch_partner = cls.env.ref("l10n_br_base.lucro_presumido_partner")
+
+    def test_transfer_in_net_cost(self):
+        """Filial destino que credita: SVL = valor da NF − ICMS destacado
+        (o custo trafega líquido); o ICMS vira crédito, não custo; sem IPI."""
+        self._set_cost_method("fifo")
+        picking, move = self._make_incoming(self.branch_partner)
+        self._receive(picking)
+
+        self.assertGreater(move.icms_value, 0)
+        self.assertEqual(move.ipi_value, 0, "transferência não destaca IPI")
+        tax_map = move._get_stock_cost_tax_map()
+        self.assertEqual(tax_map.get("icms"), "credit")
+
+        svl = move.stock_valuation_layer_ids
+        self.assertAlmostEqual(
+            svl.unit_cost, move.price_unit - move.icms_value, places=2
+        )
+
+    # O caso "filial destino no Simples Nacional (nada credita -> SVL cheio)"
+    # é coberto em l10n_br_fiscal/tests/test_stock_cost.py (resolvedor) e no
+    # teste unit do crédito CSOSN por comprador — o E2E correspondente depende
+    # do refinamento CSOSN do PR da granularidade por CST.
