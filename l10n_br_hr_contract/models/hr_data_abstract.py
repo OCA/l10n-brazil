@@ -1,7 +1,7 @@
 # Copyright 2025 Akretion - Renato Lima <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class HrDataAbstract(models.AbstractModel):
@@ -13,9 +13,7 @@ class HrDataAbstract(models.AbstractModel):
 
     name = fields.Char(required=True, index=True)
 
-    def name_get(self):
-        data_names = []
-        for data in self:
-            name = f"{data.code} - {data.name}"
-            data_names.append((data.id, name))
-        return data_names
+    @api.depends("code", "name")
+    def _compute_display_name(self):
+        for record in self:
+            record.display_name = f"{record.code} - {record.name}"

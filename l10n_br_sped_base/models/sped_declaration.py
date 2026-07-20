@@ -100,15 +100,13 @@ class SpedDeclaration(models.AbstractModel):
     def _get_kind(self) -> str:
         return self._name.replace(".0000", "").split(".")[-1]
 
-    def name_get(self):
-        return [
-            (
-                declaration.id,
+    @api.depends("DT_FIN", "company_id.name")
+    def _compute_display_name(self):
+        for declaration in self:
+            declaration.display_name = (
                 f"{declaration.DT_FIN:%m-%Y}-"
-                f"{declaration.company_id.name.replace(' ', '_')}",
+                f"{declaration.company_id.name.replace(' ', '_')}"
             )
-            for declaration in self
-        ]
 
     @api.depends("company_id", "DT_INI", "DT_FIN")
     def _compute_fiscal_documents(self):
@@ -230,9 +228,9 @@ class SpedDeclaration(models.AbstractModel):
     def _create_sped_attachment(self, text, bloco=None):
         kind = self._get_kind()
         if bloco:
-            file_name = f"{kind.upper()}-bloco_{bloco}-{self.name_get()[0][1]}.txt"
+            file_name = f"{kind.upper()}-bloco_{bloco}-{self.display_name}.txt"
         else:
-            file_name = f"{kind.upper()}-{self.name_get()[0][1]}.txt"
+            file_name = f"{kind.upper()}-{self.display_name}.txt"
 
         return {
             "name": file_name,

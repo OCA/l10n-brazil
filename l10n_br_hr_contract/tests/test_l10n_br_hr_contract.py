@@ -46,7 +46,7 @@ class TestL10nBrContract(TransactionCase):
 
     def test_admission_type(self):
         admission_type = (
-            self.env["hr.contract.admission.type"].search([])[0].name_get()[0][1]
+            self.env["hr.contract.admission.type"].search([])[0].display_name
         )
         self.assertEqual(
             admission_type,
@@ -56,9 +56,7 @@ class TestL10nBrContract(TransactionCase):
         )
 
     def test_labor_regime(self):
-        labor_regime = (
-            self.env["hr.contract.labor.regime"].search([])[0].name_get()[0][1]
-        )
+        labor_regime = self.env["hr.contract.labor.regime"].search([])[0].display_name
         self.assertEqual(
             labor_regime,
             "CLT - Consolidação das Leis de " "Trabalho",
@@ -67,7 +65,7 @@ class TestL10nBrContract(TransactionCase):
 
     def test_labor_bond_type(self):
         labor_bond_obj = self.env["hr.contract.labor.bond.type"]
-        labor_bond = labor_bond_obj.search([])[0].name_get()[0][1]
+        labor_bond = labor_bond_obj.search([])[0].display_name
         self.assertEqual(
             labor_bond,
             "10 - Trabalhador urbano vinculado a"
@@ -79,7 +77,7 @@ class TestL10nBrContract(TransactionCase):
         )
 
     def test_salary_unit(self):
-        salary_unit = self.env["hr.contract.salary.unit"].search([])[0].name_get()[0][1]
+        salary_unit = self.env["hr.contract.salary.unit"].search([])[0].display_name
         self.assertEqual(
             salary_unit,
             "1 - Hourly",
@@ -88,7 +86,7 @@ class TestL10nBrContract(TransactionCase):
 
     def test_resignation_cause(self):
         res_cause_obj = self.env["hr.contract.resignation.cause"]
-        resignation_cause = res_cause_obj.search([])[0].name_get()[0][1]
+        resignation_cause = res_cause_obj.search([])[0].display_name
         self.assertEqual(
             resignation_cause,
             "10 - Rescisão de contrato de"
