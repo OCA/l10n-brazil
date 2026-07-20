@@ -24,8 +24,10 @@ class ResCompany(models.Model):
 
     stock_valuation_via_stock_price = fields.Boolean(
         string="Valuation Via Stock Price",
-        default=True,
+        default=False,
         help="Determina se o valor utilizado no custeamento automático será padrão do"
-        " Odoo ou com base no campo stock_price_br.\n\n"
-        "    * Usar True para valor de estoque líquido (sem imposto)",
+        " Odoo ou com base no custo líquido de aquisição (cost_unit).\n\n"
+        "    * Usar True para valor de estoque líquido (sem imposto).\n"
+        "    Opt-in: o padrão False preserva o comportamento atual das bases"
+        " existentes.",
     )

@@ -144,7 +144,7 @@
                         <page name="fiscal_taxes" string="Taxes" />
                         <page name="others" string="Others">
                             <group>
-                                <field name="stock_price_br" readonly="1" />
+                                <field name="cost_unit" readonly="1" />
                             </group>
 
                             <group>

@@ -220,8 +220,13 @@ class StockMove(models.Model):
         #  e continua sendo feito abaixo?
         if self.fiscal_operation_id.fiscal_operation_type == "out":
             result = self.product_id.with_company(self.company_id).standard_price
-        elif self.fiscal_operation_id.fiscal_operation_type == "in":
-            result = self.stock_price_br
+        elif (
+            self.fiscal_operation_id.fiscal_operation_type == "in"
+            and self.valuation_via_stock_price
+        ):
+            # Opt-in: incoming moves are valued at the net acquisition cost
+            # (art. 301 RIR/2018, CPC 16) instead of the purchase price.
+            result = self.cost_unit
 
         return result
 
