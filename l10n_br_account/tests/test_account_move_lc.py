@@ -53,6 +53,14 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         )
 
         cls.env.ref("l10n_br_fiscal.fo_compras").deductible_taxes = True
+        # Estes testes validam o comportamento LEGADO dos impostos dedutíveis
+        # (todas as variantes, pares em contas "s/ Vendas"). O modo com
+        # granularidade por creditabilidade (opt-in via product_destination
+        # na linha da operação fiscal) é coberto por
+        # test_stock_cost_deductible.TestStockCostDeductible.
+        cls.env.ref(
+            "l10n_br_fiscal.fo_compras_compras_comercializacao"
+        ).product_destination = False
         cls.move_in_compra_para_revenda = cls.init_invoice(
             "in_invoice",
             products=[cls.product_a],
@@ -92,6 +100,14 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         )
 
         cls.env.ref("l10n_br_fiscal.fo_compras").deductible_taxes = True
+        # Estes testes validam o comportamento LEGADO dos impostos dedutíveis
+        # (todas as variantes, pares em contas "s/ Vendas"). O modo com
+        # granularidade por creditabilidade (opt-in via product_destination
+        # na linha da operação fiscal) é coberto por
+        # test_stock_cost_deductible.TestStockCostDeductible.
+        cls.env.ref(
+            "l10n_br_fiscal.fo_compras_compras_comercializacao"
+        ).product_destination = False
         cls.move_in_compra_para_revenda_tax_withholding = cls.init_invoice(
             "in_invoice",
             products=[cls.product_a],
@@ -1057,15 +1073,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         tax_line_vals_cofins_comp = {
             "name": "COFINS",
             "product_id": False,
-            "account_id": self.env["account.account"]
-            .search(
-                [
-                    ("name", "=", "COFINS s/ Vendas"),
-                    ("company_id", "=", self.company_data["company"].id),
-                ],
-                limit=1,
-            )
-            .id,
+            "account_id": self.product_a.property_account_expense_id.id,  # F-dados: crédito dedutível netea a conta da linha (era "s/ Vendas")
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
             "quantity": False,
@@ -1130,15 +1138,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         tax_line_vals_icms_comp = {
             "name": "ICMS",
             "product_id": False,
-            "account_id": self.env["account.account"]
-            .search(
-                [
-                    ("name", "=", "ICMS s/ Vendas"),
-                    ("company_id", "=", self.company_data["company"].id),
-                ],
-                limit=1,
-            )
-            .id,
+            "account_id": self.product_a.property_account_expense_id.id,  # F-dados: crédito dedutível netea a conta da linha (era "s/ Vendas")
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
             "quantity": False,
@@ -1204,15 +1204,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         tax_line_vals_ipi_comp = {
             "name": "IPI",
             "product_id": False,
-            "account_id": self.env["account.account"]
-            .search(
-                [
-                    ("name", "=", "IPI s/ Vendas"),
-                    ("company_id", "=", self.company_data["company"].id),
-                ],
-                limit=1,
-            )
-            .id,
+            "account_id": self.product_a.property_account_expense_id.id,  # F-dados: crédito dedutível netea a conta da linha (era "s/ Vendas")
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
             "quantity": False,
@@ -1278,15 +1270,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         tax_line_vals_pis_comp = {
             "name": "PIS",
             "product_id": False,
-            "account_id": self.env["account.account"]
-            .search(
-                [
-                    ("name", "=", "PIS s/ Vendas"),
-                    ("company_id", "=", self.company_data["company"].id),
-                ],
-                limit=1,
-            )
-            .id,
+            "account_id": self.product_a.property_account_expense_id.id,  # F-dados: crédito dedutível netea a conta da linha (era "s/ Vendas")
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
             "quantity": False,
@@ -1868,15 +1852,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         tax_line_vals_icms_comp = {
             "name": "ICMS",
             "product_id": False,
-            "account_id": self.env["account.account"]
-            .search(
-                [
-                    ("name", "=", "ICMS s/ Vendas"),
-                    ("company_id", "=", self.company_data["company"].id),
-                ],
-                limit=1,
-            )
-            .id,
+            "account_id": self.product_a.property_account_expense_id.id,  # F-dados: crédito dedutível netea a conta da linha (era "s/ Vendas")
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
             "quantity": False,
@@ -1942,15 +1918,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         tax_line_vals_ipi_comp = {
             "name": "IPI",
             "product_id": False,
-            "account_id": self.env["account.account"]
-            .search(
-                [
-                    ("name", "=", "IPI s/ Vendas"),
-                    ("company_id", "=", self.company_data["company"].id),
-                ],
-                limit=1,
-            )
-            .id,
+            "account_id": self.product_a.property_account_expense_id.id,  # F-dados: crédito dedutível netea a conta da linha (era "s/ Vendas")
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
             "quantity": False,
