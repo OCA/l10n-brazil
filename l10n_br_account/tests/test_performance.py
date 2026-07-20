@@ -43,6 +43,10 @@ by the fiscal_amount_total_signal trigger. Measured warm=1 (perf-oca):
 That count is IDENTICAL with and without the trigger (the change is
 query-neutral; its gain is fewer modified() propagations / CPU, which the
 query guard does not measure -- wall time is logged for reference only).
+
+Opt-in: this suite is tagged ``-standard`` so it is EXCLUDED from the default
+test run (``inv test`` / OCA CI). Run it explicitly with
+``--test-tags l10n_br_performance``.
 """
 
 from odoo.tests.common import tagged, warmup
@@ -73,7 +77,7 @@ QUERY_LIMIT_EDIT_SAVED_COMPLEX = 791
 SCALING_MAX_FACTOR = 1.5
 
 
-@tagged("post_install", "-at_install", "l10n_br_performance")
+@tagged("-standard", "post_install", "-at_install", "l10n_br_performance")
 class TestL10nBrAccountPerformance(PerfMixin, AccountMoveBRCommon):
     @classmethod
     def setUpClass(cls):
