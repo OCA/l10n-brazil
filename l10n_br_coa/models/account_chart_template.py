@@ -74,11 +74,29 @@ class AccountChartTemplate(models.Model):
                     "l10n_br_coa.account.tax.group.account.template"
                 ].search(domain)
                 if group_tax_account_template:
+                    if tax.no_credit:
+                        # Variante "s/ Crédito" (imposto por fora sem direito a
+                        # crédito): par de repartições +100/-100 SEM contas —
+                        # o valor compõe o total mas não gera lançamento
+                        # próprio (fica no custo da linha do produto).
+                        tax._setup_no_credit_repartition()
+                        continue
                     if tax.deductible:
-                        account = group_tax_account_template.ded_account_id
-                        refund_account = (
-                            group_tax_account_template.ded_refund_account_id
-                        )
+                        if tax.type_tax_use == "purchase":
+                            # Compra: a contrapartida do crédito (factor -100)
+                            # fica SEM conta → o crédito reduz a conta da
+                            # própria linha do produto (estoque/ponte), em vez
+                            # de creditar contas de dedução de receita
+                            # ("* s/ Vendas", DRE) — formação do custo líquido
+                            # (Art. 301 RIR/2018, CPC 16). Mesmo padrão já
+                            # usado por IBS/CBS/IS Entrada Dedutível.
+                            account = False
+                            refund_account = False
+                        else:
+                            account = group_tax_account_template.ded_account_id
+                            refund_account = (
+                                group_tax_account_template.ded_refund_account_id
+                            )
                     elif tax.withholdable:
                         if tax.type_tax_use == "purchase":
                             account = group_tax_account_template.account_id
