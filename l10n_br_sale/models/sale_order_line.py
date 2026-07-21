@@ -2,7 +2,7 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, fields, models
+from odoo import Command, api, fields, models
 
 
 class SaleOrderLine(models.Model):
@@ -197,7 +197,8 @@ class SaleOrderLine(models.Model):
         self.ensure_one()
         result = {}
         super_result = super()._prepare_invoice_line(**optional_values)
-        if not self.display_type and self.fiscal_operation_id:
+        is_fiscal_line = not self.display_type and self.fiscal_operation_id
+        if is_fiscal_line:
             result = self._prepare_br_fiscal_dict()
             invoice_qty = super_result["quantity"]
             if invoice_qty != result["quantity"]:
@@ -211,6 +212,17 @@ class SaleOrderLine(models.Model):
                     for fname in result
                 }
         result.update(super_result)
+        if is_fiscal_line:
+            result["fiscal_tax_ids"] = [Command.set(self.fiscal_tax_ids.ids)]
+            result["tax_ids"] = [
+                Command.set(
+                    self.fiscal_tax_ids.account_taxes(
+                        user_type="sale",
+                        fiscal_operation=self.fiscal_operation_id,
+                        company=self.company_id,
+                    ).ids
+                )
+            ]
         return result
 
     @api.depends(
