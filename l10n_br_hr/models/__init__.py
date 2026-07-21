@@ -2,6 +2,7 @@ from . import data_abstract
 from . import l10n_br_hr_cbo
 from . import hr_employee
 from . import hr_job
+from . import hr_version
 from . import res_partner
 from . import res_company
 from . import hr_civil_certificate_type
