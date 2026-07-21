@@ -67,3 +67,9 @@ class TestL10nBr(TransactionCase):
             "1 - Branca",
             "The ethnicity display_name is not valid, expected '1 - Branca'",
         )
+
+    def test_marital_status_selection(self):
+        selection = self.env["hr.version"]._get_marital_status_selection()
+        selection_keys = [item[0] for item in selection]
+        self.assertIn("common_law_marriage", selection_keys)
+        self.assertIn("separated", selection_keys)
