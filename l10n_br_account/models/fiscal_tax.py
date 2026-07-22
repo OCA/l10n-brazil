@@ -27,13 +27,6 @@ class FiscalTax(models.Model):
 
     def _account_taxes(self, company=False):
         self.ensure_one()
-        account_tax_group = self.env["account.tax.group"].search(
-            [
-                ("fiscal_tax_group_id", "=", self.tax_group_id.id),
-                ("company_id", "=", company.id),
-            ],
-            limit=1,
-        )
         if not company:
             company = self.env.company
             if self.env.context.get("default_company_id") or self.env.context.get(
@@ -43,6 +36,13 @@ class FiscalTax(models.Model):
                     self.env.context.get("default_company_id")
                     or self.env.context.get("allowed_company_ids")[0]
                 )
+        account_tax_group = self.env["account.tax.group"].search(
+            [
+                ("fiscal_tax_group_id", "=", self.tax_group_id.id),
+                ("company_id", "=", company.id),
+            ],
+            limit=1,
+        )
         return self.env["account.tax"].search(
             [
                 ("tax_group_id", "=", account_tax_group.id),
