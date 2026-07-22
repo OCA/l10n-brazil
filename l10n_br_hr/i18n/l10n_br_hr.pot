@@ -274,16 +274,6 @@ msgid "Driver license number"
 msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__emergency_phone
-msgid "Emergency Phone"
-msgstr ""
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__talk_to
-msgid "Emergency contact name"
-msgstr ""
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__rg_emission
 msgid "Emission date"
 msgstr ""
