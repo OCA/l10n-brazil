@@ -25650,16 +25650,6 @@ msgid "The Partner already has a State Tax Number for that State!"
 msgstr "O Parceiro já possui um número de Inscrição Estadual para esse Estado!"
 
 #. module: l10n_br_base
-#: model:ir.model.fields,help:l10n_br_base.field_res_company__vat
-#: model:ir.model.fields,help:l10n_br_base.field_res_partner__vat
-#: model:ir.model.fields,help:l10n_br_base.field_res_users__vat
-msgid ""
-"The Tax Identification Number. Values here will be validated based on the "
-"country format. You can use '/' to indicate that the partner is not subject "
-"to tax."
-msgstr ""
-
-#. module: l10n_br_base
 #. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_pix.py:0
 msgid ""
@@ -27384,6 +27374,13 @@ msgstr "Xinguara"
 #: model:res.city,name:l10n_br_base.city_2933604
 msgid "Xique-Xique"
 msgstr "Xique-Xique"
+
+#. module: l10n_br_base
+#: model:ir.model.fields,help:l10n_br_base.field_res_company__vat
+#: model:ir.model.fields,help:l10n_br_base.field_res_partner__vat
+#: model:ir.model.fields,help:l10n_br_base.field_res_users__vat
+msgid "You can use '/' to indicate that the customer has no Tax ID."
+msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2517407
