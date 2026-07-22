@@ -37,6 +37,11 @@ class TestL10nBr(TransactionCase):
         self.employee.onchange_cpf()
         self.assertEqual(self.employee.cpf, "780.048.630-35")
 
+    def test_onchange_cpf_empty(self):
+        self.employee.cpf = ""
+        self.employee.onchange_cpf()
+        self.assertFalse(self.employee.cpf)
+
     def test_invalid_employee_pis_pasep(self):
         try:
             result = self.employee.write({"pis_pasep": "496.851994.95-6"})
@@ -67,3 +72,13 @@ class TestL10nBr(TransactionCase):
             "1 - Branca",
             "The ethnicity display_name is not valid, expected '1 - Branca'",
         )
+
+    def test_marital_status_selection(self):
+        selection = self.env["hr.version"]._get_marital_status_selection()
+        selection_keys = [item[0] for item in selection]
+        self.assertIn("common_law_marriage", selection_keys)
+        self.assertIn("separated", selection_keys)
+        self.employee.marital = "common_law_marriage"
+        self.assertEqual(self.employee.marital, "common_law_marriage")
+        self.employee.marital = "separated"
+        self.assertEqual(self.employee.marital, "separated")

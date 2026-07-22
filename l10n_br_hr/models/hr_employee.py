@@ -151,11 +151,6 @@ class HrEmployee(models.Model):
 
     alternate_email = fields.Char(groups="hr.group_hr_user")
 
-    marital = fields.Selection(
-        selection="_get_marital_status_selection",
-        groups="hr.group_hr_user",
-    )
-
     registration = fields.Char(string="Registration number", groups="hr.group_hr_user")
 
     country_id = fields.Many2one(
@@ -193,10 +188,3 @@ class HrEmployee(models.Model):
         cpf = cnpj_cpf.formata(str(self.cpf))
         if cpf:
             self.cpf = cpf
-
-    @api.model
-    def _get_marital_status_selection(self):
-        return super()._get_marital_status_selection() + [
-            ("common_law_marriage", self.env._("Common law marriage")),
-            ("separated", self.env._("Separated")),
-        ]
