@@ -145,10 +145,6 @@ class HrEmployee(models.Model):
 
     alternate_phone = fields.Char(groups="hr.group_hr_user")
 
-    emergency_phone = fields.Char(groups="hr.group_hr_user")
-
-    talk_to = fields.Char(string="Emergency contact name", groups="hr.group_hr_user")
-
     alternate_email = fields.Char(groups="hr.group_hr_user")
 
     marital = fields.Selection(
