@@ -278,16 +278,6 @@ msgid "Driver license number"
 msgstr "Número da carteira de motorista"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__emergency_phone
-msgid "Emergency Phone"
-msgstr "Telefone de emergência"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__talk_to
-msgid "Emergency contact name"
-msgstr "Nome de contato de emergência"
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__rg_emission
 msgid "Emission date"
 msgstr "Data de emissão"
@@ -608,6 +598,12 @@ msgstr ""
 #: code:addons/l10n_br_hr/models/hr_version.py:0
 msgid "separated"
 msgstr ""
+
+#~ msgid "Emergency Phone"
+#~ msgstr "Telefone de emergência"
+
+#~ msgid "Emergency contact name"
+#~ msgstr "Nome de contato de emergência"
 
 #~ msgid "Marital Status"
 #~ msgstr "Estado civil"
