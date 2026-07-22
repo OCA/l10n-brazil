@@ -164,7 +164,7 @@ msgstr ""
 
 #. module: l10n_br_hr
 #. odoo-python
-#: code:addons/l10n_br_hr/models/hr_employee.py:0
+#: code:addons/l10n_br_hr/models/hr_version.py:0
 msgid "Common law marriage"
 msgstr ""
 
@@ -245,6 +245,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_ethnicity__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_identity_type__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_job__display_name
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_version__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_cbo__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_data_abstract__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_res_company__display_name
@@ -356,6 +357,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_ethnicity__id
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_identity_type__id
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_job__id
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_version__id
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_cbo__id
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_data_abstract__id
 #: model:ir.model.fields,field_description:l10n_br_hr.field_res_company__id
@@ -432,11 +434,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_identity_type__write_date
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_cbo__write_date
 msgid "Last Updated on"
-msgstr ""
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__marital
-msgid "Marital"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -536,7 +533,7 @@ msgstr ""
 
 #. module: l10n_br_hr
 #. odoo-python
-#: code:addons/l10n_br_hr/models/hr_employee.py:0
+#: code:addons/l10n_br_hr/models/hr_version.py:0
 msgid "Separated"
 msgstr ""
 
@@ -549,14 +546,6 @@ msgstr ""
 #: model:ir.actions.act_window,name:l10n_br_hr.hr_employee_terceirizado_action
 #: model:ir.ui.menu,name:l10n_br_hr.hr_menu_employee_terceirizado
 msgid "Terceirizados"
-msgstr ""
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee__cpf
-msgid ""
-"The Tax Identification Number. Values here will be validated based on the "
-"country format. You can use '/' to indicate that the partner is not subject "
-"to tax."
 msgstr ""
 
 #. module: l10n_br_hr
@@ -573,6 +562,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_hr.field_res_partner__union_entity_code
 #: model:ir.model.fields,field_description:l10n_br_hr.field_res_users__union_entity_code
 msgid "Union Entity code"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model,name:l10n_br_hr.model_hr_version
+msgid "Version"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -601,7 +595,12 @@ msgid "XXX.XXXXX.XX-X"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee__cpf
+msgid "You can use '/' to indicate that the customer has no Tax ID."
+msgstr ""
+
+#. module: l10n_br_hr
 #. odoo-python
-#: code:addons/l10n_br_hr/models/hr_employee.py:0
+#: code:addons/l10n_br_hr/models/hr_version.py:0
 msgid "separated"
 msgstr ""
