@@ -182,11 +182,6 @@ msgid "Contact"
 msgstr "Contato"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__emergency_phone
-msgid "Contact Phone"
-msgstr ""
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__create_uid
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_deficiency__create_uid
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_ethnicity__create_uid
@@ -269,11 +264,6 @@ msgstr "Categoria da carteira de motorista"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__driver_license
 msgid "Driver license number"
 msgstr "Número da carteira de motorista"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__talk_to
-msgid "Emergency contact name"
-msgstr "Nome de contato de emergência"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__rg_emission
@@ -592,6 +582,9 @@ msgstr "Zona Eleitoral"
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
 msgid "XXX.XXXXX.XX-X"
 msgstr "XXX.XXXXX.XX-X"
+
+#~ msgid "Emergency contact name"
+#~ msgstr "Nome de contato de emergência"
 
 #~ msgid "# Meetings"
 #~ msgstr "# Reuniões"
