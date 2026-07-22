@@ -463,8 +463,13 @@
                 expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='name']"
                 position="after"
             >
-                <group name="fiscal_fields" invisible="1" />
                 <field name="tax_icms_or_issqn" invisible="1" />
+            </xpath>
+            <xpath
+                expr="//field[@name='invoice_line_ids']/form/sheet/group[2]"
+                position="after"
+            >
+                <group name="fiscal_fields" invisible="1" />
                 <notebook invisible="not document_type_id">
                     <page name="fiscal_taxes" string="Taxes" />
                     <page name="amounts" string="Amounts">
