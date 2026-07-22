@@ -448,6 +448,10 @@
             name="domain"
             eval="[('document_type_id', '=', ref('l10n_br_fiscal.document_55'))]"
         />
+        <field
+            name="context"
+            eval="{'default_document_type_id': ref('l10n_br_fiscal.document_55')}"
+        />
         <field name="view_id" ref="document_tree" />
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">Add a new NFe</p>
@@ -465,6 +469,10 @@
             name="domain"
             eval="[('document_type_id', '=', ref('l10n_br_fiscal.document_SE'))]"
         />
+        <field
+            name="context"
+            eval="{'default_document_type_id': ref('l10n_br_fiscal.document_SE')}"
+        />
         <field name="view_id" ref="document_tree" />
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">Add a new NFSe</p>
@@ -481,6 +489,10 @@
         <field
             name="domain"
             eval="[('document_type_id', '=', ref('l10n_br_fiscal.document_57'))]"
+        />
+        <field
+            name="context"
+            eval="{'default_document_type_id': ref('l10n_br_fiscal.document_57')}"
         />
         <field name="view_id" ref="document_tree" />
         <field name="help" type="html">
