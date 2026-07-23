@@ -192,7 +192,6 @@ class AccountMoveLine(models.Model):
                 unlink_fiscal_lines |= inv_line.fiscal_document_line_id
         result = super().unlink()
         unlink_fiscal_lines.unlink()
-        self.clear_caches()
         return result
 
     @contextmanager
