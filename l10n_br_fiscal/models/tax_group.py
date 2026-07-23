@@ -43,6 +43,18 @@ class TaxGroup(models.Model):
 
     tax_withholding = fields.Boolean(default=False)
 
+    credit_stock_cost = fields.Boolean(
+        string="Recuperável (não integra custo)",
+        default=False,
+        help="Quando marcado, este imposto é recuperável por natureza e, quando"
+        " creditável, NÃO integra o custo de aquisição do estoque (Art. 301"
+        " RIR/2018, CPC 16). A creditabilidade efetiva ainda depende do regime"
+        " tributário da empresa e da destinação da mercadoria, resolvidos em"
+        " l10n_br_fiscal.document.line.mixin._get_stock_cost_tax_map(). Impostos"
+        " não recuperáveis (ICMS-ST, FCP-ST, II, retenções) devem ficar"
+        " desmarcados: sempre integram o custo.",
+    )
+
     # PIS / COFINS
     base_without_icms = fields.Boolean(
         string="Remove ICMS value from Base",
