@@ -1,4 +1,5 @@
 # Copyright 2023 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+# Copyright 2026 - TODAY, Cristiano Mafra Junior <cristiano.mafra@escodoo.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 """Base class for FocusNFE NFSe operations."""
@@ -54,7 +55,41 @@ class FocusnfeNfseBase(models.AbstractModel):
             response.raise_for_status()  # Raises an error for 4xx/5xx responses
             return response
         except requests.HTTPError as e:
+            detail = self._extract_focus_nfse_error_detail(e.response)
             raise UserError(
-                _("Error communicating with %(service)s service: %(error)s")
-                % {"service": service_name, "error": e}
+                _("Error communicating with %(service)s service: %(error)s%(detail)s")
+                % {
+                    "service": service_name,
+                    "error": e,
+                    "detail": f" - {detail}" if detail else "",
+                }
             ) from e
+
+    @staticmethod
+    def _extract_focus_nfse_error_detail(response):
+        """Extract a human-readable detail from a FocusNFE error response body.
+
+        The FocusNFE API usually returns a JSON body with a "mensagem" key
+        (or an "erros" list) describing the actual cause of a failure, which
+        is otherwise lost when only the HTTP status line is reported.
+
+        Args:
+            response (requests.Response): The error response, if available.
+
+        Returns:
+            str: The extracted message, or an empty string if unavailable.
+        """
+        if response is None:
+            return ""
+        try:
+            payload = response.json()
+        except ValueError:
+            return response.text or ""
+        if isinstance(payload, dict):
+            erros = payload.get("erros")
+            if erros:
+                return "; ".join(
+                    erro.get("mensagem", "") for erro in erros if isinstance(erro, dict)
+                )
+            return payload.get("mensagem") or str(payload)
+        return str(payload)
