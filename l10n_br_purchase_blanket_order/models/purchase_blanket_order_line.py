@@ -48,7 +48,10 @@ class PurchaseBlanketOrderLine(models.Model):
         string="Partner",
     )
     price_gross = fields.Monetary(
-        compute="_compute_amount", string="Gross Amount", compute_sudo=True
+        compute="_compute_amount",
+        string="Gross Amount",
+        compute_sudo=True,
+        store=True,
     )
     comment_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.comment",
