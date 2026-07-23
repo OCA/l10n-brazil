@@ -153,6 +153,25 @@ class FocusnfeNfse(FocusnfeNfseBase):
         Returns:
             dict: The service section of the payload.
         """
+        situacao_tributaria_pis_cofins = (
+            service.get("situacao_tributaria_pis")
+            or service.get("situacao_tributaria_cofins")
+            or ""
+        )
+        if situacao_tributaria_pis_cofins == "99":
+            situacao_tributaria_pis_cofins = "00"
+
+        base_calculo_pis = service.get("base_calculo_pis", 0)
+        base_calculo_cofins = service.get("base_calculo_cofins", 0)
+        base_calculo_pis_cofins = round(
+            base_calculo_pis if base_calculo_pis else base_calculo_cofins, 2
+        )
+        if situacao_tributaria_pis_cofins:
+            if situacao_tributaria_pis_cofins in ["00", "08", "09"]:
+                base_calculo_pis_cofins = 0.0
+            elif not base_calculo_pis_cofins:
+                base_calculo_pis_cofins = round(service.get("valor_servicos", 0), 2)
+
         return {
             "aliquota": service.get("aliquota")
             if company.focusnfe_tax_rate_format == "decimal"
@@ -164,6 +183,16 @@ class FocusnfeNfse(FocusnfeNfseBase):
             ),
             "discriminacao": service.get("discriminacao"),
             "iss_retido": service.get("iss_retido"),
+            **(
+                {
+                    "situacao_tributaria_pis_cofins": situacao_tributaria_pis_cofins,
+                    "base_calculo_pis_cofins": base_calculo_pis_cofins,
+                    "aliquota_pis": round(service.get("aliquota_pis", 0), 2),
+                    "aliquota_cofins": round(service.get("aliquota_cofins", 0), 2),
+                }
+                if situacao_tributaria_pis_cofins
+                else {}
+            ),
             **(
                 {"codigo_municipio": service.get("municipio_prestacao_servico")}
                 if service.get("municipio_prestacao_servico") != "3507605"
