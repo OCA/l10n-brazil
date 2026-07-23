@@ -265,7 +265,7 @@ class AccountPaymentLine(models.Model):
             "nome_sacado": self.partner_id.legal_name.strip()[:40],
             "numero": self.document_number,
             "endereco_sacado": str(
-                self.partner_id.street_name + ", " + str(self.partner_id.street_number)
+                self.partner_id.street_name or "" + ", " + str(self.partner_id.street_number or "")
             )[:40],
             "bairro_sacado": self.partner_id.district.strip(),
             "cep_sacado": misc.punctuation_rm(self.partner_id.zip),
