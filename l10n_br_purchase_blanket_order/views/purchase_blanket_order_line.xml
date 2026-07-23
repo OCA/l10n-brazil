@@ -58,32 +58,32 @@
                 <field name="fiscal_price" />
                 <field name="fiscal_operation_id" options="{'no_create': True}" />
                 <field name="fiscal_operation_line_id" options="{'no_create': True}" />
-                <field
-                    name="cfop_id"
-                    options="{'no_create': True}"
-                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'issqn'), ('country_id', '!=', %(base.br)d)]}"
-                />
                 <field name="price_total" invisible="1" />
                 <field name="price_subtotal" invisible="1" />
                 <field
+                    name="cfop_id"
+                    options="{'no_create': True}"
+                    invisible="tax_icms_or_issqn == 'issqn' or country_id != %(base.br)d"
+                />
+                <field
                     name="service_type_id"
                     options="{'no_create': True}"
-                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d)]}"
+                    invisible="tax_icms_or_issqn == 'icms' or country_id != %(base.br)d"
                 />
                 <field
                     name="city_taxation_code_id"
-                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d)]}"
                     options="{'no_create': True}"
+                    invisible="tax_icms_or_issqn == 'icms' or country_id != %(base.br)d"
                 />
                 <field
                     name="national_taxation_code_id"
-                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d)]}"
                     options="{'no_create': True}"
+                    invisible="tax_icms_or_issqn == 'icms' or country_id != %(base.br)d"
                 />
                 <field
                     name="cnae_id"
-                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d)]}"
                     options="{'no_create': True}"
+                    invisible="tax_icms_or_issqn == 'icms' or country_id != %(base.br)d"
                 />
             </xpath>
 
@@ -118,7 +118,7 @@
                             options="{'no_create': True}"
                             context="{'search_view_ref': 'account.account_tax_view_search'}"
                             domain="[('type_tax_use','=','purchase'),('company_id','=',parent.company_id)]"
-                            attrs="{'readonly': [('invoiced_uom_qty', '&gt;', 0)]}"
+                            readonly="invoiced_uom_qty &gt; 0"
                         />
                     </group>
                 </page>

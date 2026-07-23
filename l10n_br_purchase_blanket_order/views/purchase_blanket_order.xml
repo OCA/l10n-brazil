@@ -27,7 +27,7 @@
                     options="{'currency_field': 'currency_id'}"
                 />
             </field>
-            <xpath expr="//field[@name='line_ids']/tree" position="inside">
+            <xpath expr="//field[@name='line_ids']/list" position="inside">
                 <control name="fiscal_fields" invisible="1" />
                 <!-- this is a dynamic fiscal fields placeholder-->
                 <control name="fiscal_taxes_fields" string="Taxes" invisible="1" />
@@ -38,18 +38,22 @@
                     domain here that is checked before the dynamic fiscal
                     placeholders kick in.
                 -->
-                <field name="fiscal_operation_type" invisible="1" />
-                <field name="cfop_id" invisible="1" />
-                <field name="tax_framework" invisible="1" />
-                <field name="fiscal_operation_id" invisible="1" />
-                <field name="freight_value" invisible="1" />
-                <field name="insurance_value" invisible="1" />
-                <field name="other_value" invisible="1" />
+                <field name="fiscal_operation_type" column_invisible="1" />
+                <field name="cfop_id" column_invisible="1" />
+                <field name="tax_framework" column_invisible="1" />
+                <field name="fiscal_operation_id" column_invisible="1" />
+                <field name="freight_value" column_invisible="1" />
+                <field name="insurance_value" column_invisible="1" />
+                <field name="other_value" column_invisible="1" />
             </xpath>
             <field name="validity_date" position="after">
-                <field name="fiscal_operation_id" required="True" />
-                <field name="ind_final" required="True" />
-                <field name="ind_pres" required="True" />
+                <field
+                    name="fiscal_operation_id"
+                    required="1"
+                    readonly="state != 'draft'"
+                />
+                <field name="ind_final" required="1" />
+                <field name="ind_pres" required="1" readonly="state != 'draft'" />
             </field>
             <field name="note" position="replace">
                 <group>
@@ -68,28 +72,17 @@
                     />
                 </group>
             </field>
-            <xpath
-                expr="//field[@name='line_ids']/tree/field[@name='product_id']"
-                position="before"
-            >
-                <button
-                    name="dummy_button_for_js"
-                    icon="fa-external-link"
-                    title="Edit in Form"
-                    class="btn-sm btn-link p-0 edit-line-popup"
-                />
-            </xpath>
             <xpath expr="//field[@name='line_ids']" position="attributes">
                 <attribute
                     name="context"
                 >{'default_fiscal_operation_id': fiscal_operation_id, 'default_partner_id': partner_id, 'default_company_id': company_id}</attribute>
             </xpath>
             <xpath
-                expr="//field[@name='line_ids']/tree/field[@name='taxes_id']"
+                expr="//field[@name='line_ids']/list/field[@name='taxes_id']"
                 position="replace"
             />
             <xpath
-                expr="//field[@name='line_ids']/tree/field[@name='price_unit']"
+                expr="//field[@name='line_ids']/list/field[@name='price_unit']"
                 position="after"
             >
                 <field name="fiscal_operation_id" options="{'no_create': True}" />
@@ -105,10 +98,10 @@
                 />
             </xpath>
             <xpath
-                expr="//field[@name='line_ids']/tree/field[@name='price_subtotal']"
+                expr="//field[@name='line_ids']/list/field[@name='price_subtotal']"
                 position="after"
             >
-                <field name="price_total" invisible="1" />
+                <field name="price_total" column_invisible="1" />
             </xpath>
         </field>
     </record>
