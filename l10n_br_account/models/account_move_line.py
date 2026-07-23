@@ -568,10 +568,21 @@ class AccountMoveLine(models.Model):
         elif self.move_id.is_purchase_document(include_receipts=True):
             user_type = "purchase"
 
+        # Em compras com destinação configurada na operação fiscal, a escolha
+        # da variante dedutível é por imposto, decidida pelo resolvedor de
+        # creditabilidade (regime x destinação x fornecedor) — evita, p.ex.,
+        # crédito de PIS/COFINS numa empresa do Lucro Presumido. Sem
+        # destinação, comportamento histórico (credit_map=None).
+        credit_map = None
+        fiscal_line = self.fiscal_document_line_id
+        if user_type == "purchase" and fiscal_line.product_destination:
+            credit_map = fiscal_line._get_stock_cost_tax_map()
+
         return self.fiscal_tax_ids.account_taxes(
             user_type=user_type,
             fiscal_operation=self.fiscal_operation_id,
             company=self.company_id,
+            credit_map=credit_map,
         )
 
     @api.constrains("product_uom_id")

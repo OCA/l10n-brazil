@@ -95,6 +95,16 @@ class PurchaseOrderLine(models.Model):
                 )
         return result
 
+    def _get_account_taxes_credit_map(self):
+        """Mapa de creditabilidade por imposto (resolvedor regime x
+        destinação x fornecedor) para a escolha da variante dedutível.
+        None quando a operação não tem destinação → comportamento
+        histórico (todas as variantes dedutíveis)."""
+        self.ensure_one()
+        if self.product_destination:
+            return self._get_stock_cost_tax_map()
+        return None
+
     def _compute_tax_id(self):
         for line in self:
             if line.fiscal_operation_line_id:
@@ -103,6 +113,7 @@ class PurchaseOrderLine(models.Model):
                     user_type="purchase",
                     fiscal_operation=line.fiscal_operation_id,
                     company=line.company_id,
+                    credit_map=line._get_account_taxes_credit_map(),
                 )
             else:
                 res = None
@@ -115,6 +126,7 @@ class PurchaseOrderLine(models.Model):
                 user_type="purchase",
                 fiscal_operation=self.fiscal_operation_id,
                 company=self.company_id,
+                credit_map=self._get_account_taxes_credit_map(),
             )
 
     def _prepare_account_move_line(self, move=False):
