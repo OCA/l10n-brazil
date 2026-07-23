@@ -7,7 +7,8 @@ from erpbrasil.base import misc
 from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.misc import punctuation_rm
 
-from odoo import Command, api, fields, models
+from odoo import Command, _, api, fields, models
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -73,8 +74,15 @@ class PartnerCnpjSearchWizard(models.TransientModel):
                 headers=webservice.get_headers(),
                 timeout=5,
             )
-        except requests.exceptions.Timeout:
-            _logger.debug("Request timed out!")
+        except requests.exceptions.Timeout as exc:
+            _logger.warning(
+                "CNPJ search request timed out (provider: %s)",
+                provider_name,
+                exc_info=True,
+            )
+            raise UserError(
+                _("The CNPJ search service did not respond in time.")
+            ) from exc
         data = webservice.validate(response)
         values = webservice.import_data(data)
         values["provider_name"] = provider_name
@@ -83,16 +91,13 @@ class PartnerCnpjSearchWizard(models.TransientModel):
 
     def default_get(self, fields):
         res = super().default_get(fields)
-        active_model = self.env.context.get("active_model")
-        if active_model == "res.partner":
-            partner_id = self.env.context.get("default_partner_id")
-            if partner_id:
-                partner_model = self.env["res.partner"]
-                partner = partner_model.browse(partner_id)
-                cnpj_cpf = punctuation_rm(partner.cnpj_cpf)
-                misc.punctuation_rm(self.zip)
-                values = self._get_partner_values(cnpj_cpf)
-                res.update(values)
+        partner_id = self.env.context.get("default_partner_id")
+        if partner_id:
+            partner_model = self.env["res.partner"]
+            partner = partner_model.browse(partner_id)
+            cnpj_cpf = punctuation_rm(partner.vat)
+            values = self._get_partner_values(cnpj_cpf)
+            res.update(values)
         return res
 
     def action_update_partner(self):

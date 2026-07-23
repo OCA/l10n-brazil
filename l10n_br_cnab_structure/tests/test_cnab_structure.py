@@ -8,6 +8,8 @@ import base64
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
+from unidecode import unidecode
+
 from odoo import fields
 from odoo.tests import Form
 from odoo.tests.common import tagged
@@ -604,6 +606,20 @@ class TestCNABStructure(AccountTestInvoicingCommon):
         line_other._compute_cnab_payment_way_id()
         self.assertEqual(line_other.cnab_payment_way_id, way_other_bank)
         self.assertEqual(line_other.service_type, SVC_SALARY)
+
+        with self.subTest("_compute_cnab_beneficiary_name"):
+            self.partner_a_itau_bank.acc_holder_name = "São Paulo"
+            line_same._compute_cnab_beneficiary_name()
+            self.assertEqual(
+                line_same.cnab_beneficiary_name,
+                unidecode("São Paulo").strip(),
+            )
+            self.partner_a_itau_bank.acc_holder_name = False
+            line_other._compute_cnab_beneficiary_name()
+            self.assertEqual(
+                line_other.cnab_beneficiary_name,
+                unidecode(self.partner_a.name).strip(),
+            )
 
     def test_unique_sequence_per_segment_behavior(self):
         cnab_structure = self.cnab_structure_bb_240

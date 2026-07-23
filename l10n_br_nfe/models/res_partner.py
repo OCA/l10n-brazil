@@ -237,7 +237,11 @@ class ResPartner(spec_models.SpecModel):
             else:
                 rec.nfe40_IE = None
 
-            rec.nfe40_CEP = punctuation_rm(rec.zip)
+            if rec.country_id.code != "BR":
+                rec.nfe40_CEP = None
+            else:
+                rec.nfe40_CEP = punctuation_rm(rec.zip)
+
             rec.nfe40_fone = punctuation_rm(rec.phone or "").replace(" ", "")
 
     def _inverse_nfe40_CNPJ(self):

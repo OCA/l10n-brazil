@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="nfe_document_line_form" model="ir.ui.view">
+        <field name="name">l10n_br_nfe.document.line.form</field>
+        <field name="model">l10n_br_fiscal.document.line</field>
+        <field name="priority">5</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_line_form" />
+        <field name="arch" type="xml">
+            <page name="import_declaration" position="inside">
+                <field
+                    name="nfe40_DI"
+                    context="{'form_view_ref': 'nfe_di_form', 'tree_view_ref': 'l10n_br_nfe.nfe_di_tree'}"
+                />
+            </page>
+        </field>
+    </record>
+
+</odoo>

@@ -23,22 +23,15 @@ class MDFeMunicipioDescarga(spec_models.SpecModel):
 
     mdfe30_infMDFeTransp = fields.One2many(compute="_compute_document_data")
 
-    country_id = fields.Many2one(
-        comodel_name="res.country.state",
-        default=lambda self: self.env.ref("base.br"),
-    )
-
     state_id = fields.Many2one(
         comodel_name="res.country.state",
         string="State",
-        domain="[('country_id', '=', country_id)]",
         compute="_compute_state_id",
     )
 
     city_id = fields.Many2one(
         string="City",
         comodel_name="res.city",
-        domain="[('state_id', '=', state_id)]",
         required=True,
     )
 
@@ -93,5 +86,4 @@ class MDFeMunicipioDescarga(spec_models.SpecModel):
     @api.depends("city_id")
     def _compute_state_id(self):
         for record in self:
-            if record.city_id:
-                record.state_id = record.city_id.state_id.id
+            record.state_id = record.city_id.state_id if record.city_id else False

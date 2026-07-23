@@ -60,6 +60,7 @@ class AccountMove(models.Model):
         ondelete="cascade",
         store=True,
         readonly=False,
+        index="btree_not_null",
     )
 
     fiscal_document_ids = fields.One2many(

@@ -111,10 +111,14 @@ class Partner(models.Model):
             ) or self.env.context.get("allow_vat_duplicate"):
                 return
 
-            allow_cnpj_multi_ie = (
+            # allow_cnpj_multi_ie is a res.config.settings boolean: it is stored
+            # as "True" when enabled and removed entirely when disabled
+            # (set_param deletes on a False bool), so a plain bool() reads it
+            # correctly (absent -> strict), matching base_setup.show_effect.
+            allow_cnpj_multi_ie = bool(
                 record.env["ir.config_parameter"]
                 .sudo()
-                .get_param("l10n_br_base.allow_cnpj_multi_ie", default=True)
+                .get_param("l10n_br_base.allow_cnpj_multi_ie")
             )
 
             if record.parent_id:
@@ -136,8 +140,8 @@ class Partner(models.Model):
             matches = record.env["res.partner"].search(domain)
             if matches:
                 if cnpj_cpf.validar_cnpj(record.vat):
-                    if allow_cnpj_multi_ie == "True":
-                        for partner in record.env["res.partner"].search(domain):
+                    if allow_cnpj_multi_ie:
+                        for partner in matches:
                             if (
                                 partner.l10n_br_ie_code == record.l10n_br_ie_code
                                 and record.l10n_br_ie_code

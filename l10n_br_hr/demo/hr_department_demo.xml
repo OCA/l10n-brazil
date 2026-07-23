@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="demo_department_administrativo" model="hr.department">
+            <field name="name">Administrativo</field>
+        </record>
+
+        <record id="demo_department_operacional" model="hr.department">
+            <field name="name">Operacional</field>
+        </record>
+
+        <record id="demo_department_ti" model="hr.department">
+            <field name="name">Tecnologia da Informação</field>
+        </record>
+
+</odoo>

@@ -809,6 +809,14 @@ class NFe(spec_models.StackedModel):
     # Framework Spec model's methods
     ################################
 
+    def _nfe_export_ibscbs_totals(self):
+        """Return True when the document has IBS/CBS values to export"""
+        self.ensure_one()
+        return bool(
+            sum(self.fiscal_line_ids.mapped("ibs_value"))
+            or sum(self.fiscal_line_ids.mapped("cbs_value"))
+        )
+
     def _export_field(self, xsd_field, class_obj, member_spec, export_value=None):
         if xsd_field == "nfe40_tpAmb":
             self.env.context = dict(self.env.context)
