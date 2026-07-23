@@ -41,7 +41,8 @@ test run (``inv test`` / OCA CI). Run it explicitly with
 from odoo.tests.common import tagged, warmup
 
 from odoo.addons.l10n_br_account.tests.common import AccountMoveBRCommon
-from odoo.addons.l10n_br_account.tests.perf_common import PerfMixin
+
+from .perf_common import PerfMixin
 
 LINES_SIMPLE = 2
 LINES_COMPLEX = 30
