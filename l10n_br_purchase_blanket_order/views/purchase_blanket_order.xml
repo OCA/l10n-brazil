@@ -27,7 +27,7 @@
                     options="{'currency_field': 'currency_id'}"
                 />
             </field>
-             <xpath expr="//field[@name='line_ids']/tree" position="inside">
+            <xpath expr="//field[@name='line_ids']/tree" position="inside">
                 <control name="fiscal_fields" invisible="1" />
                 <!-- this is a dynamic fiscal fields placeholder-->
                 <control name="fiscal_taxes_fields" string="Taxes" invisible="1" />
