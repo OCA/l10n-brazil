@@ -221,9 +221,28 @@ class DocumentImportWizard(models.TransientModel):
 
             if self.fiscal_operation_type == "in":
                 self.imported_products_ids._find_or_create_product_supplierinfo()
+                self._update_new_products_standard_price(edoc)
 
             return binding, edoc
         return super()._create_edoc_from_file()
+
+    def _update_new_products_standard_price(self, edoc):
+        """Produtos CRIADOS neste import: o custo padrão deve ser o custo de
+        aquisição LÍQUIDO da linha (Art. 301 RIR/2018, CPC 16), não o vUnCom
+        bruto da NF (que embute ICMS/PIS/COFINS recuperáveis e exclui ICMS-ST/
+        IPI/frete). Produtos pré-existentes não são tocados (o custo deles é
+        gerido pela valorização de estoque).
+
+        Produto criado neste import = create_date na mesma transação do
+        documento (now() do PostgreSQL é fixo por transação)."""
+        for line in edoc.fiscal_line_ids.filtered("product_id"):
+            product = line.product_id
+            if (
+                product.create_date >= edoc.create_date
+                and line.stock_cost_unit
+                and product.standard_price != line.stock_cost_unit
+            ):
+                product.standard_price = line.stock_cost_unit
 
     def _attach_original_nfe_xml_to_document(self, edoc):
         return self.env["ir.attachment"].create(
