@@ -502,6 +502,7 @@ class CNABFileParser(FileParser):
                         "partner_id": account_move_line.partner_id.id,
                         "payment_line_ids": payment_lines.ids,
                         "cnab_returned_ref": account_move_line.document_number,
+                        "date": data_credito,
                     }
                 )
 
@@ -517,6 +518,7 @@ class CNABFileParser(FileParser):
                         "partner_id": account_move_line.partner_id.id,
                         "payment_line_ids": payment_lines.ids,
                         "cnab_returned_ref": account_move_line.document_number,
+                        "date": data_credito,
                     }
                 )
 
@@ -573,6 +575,7 @@ class CNABFileParser(FileParser):
                         "type": "abatimento",
                         "payment_line_ids": payment_lines.ids,
                         "cnab_returned_ref": account_move_line.document_number,
+                        "date": data_credito,
                     }
                 )
 
@@ -587,6 +590,7 @@ class CNABFileParser(FileParser):
                         "partner_id": account_move_line.partner_id.id,
                         "payment_line_ids": payment_lines.ids,
                         "cnab_returned_ref": account_move_line.document_number,
+                        "date": data_credito,
                     }
                 )
 
