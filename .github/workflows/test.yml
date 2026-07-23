@@ -80,7 +80,7 @@ jobs:
         if: contains(github.event.pull_request.labels.*.name, 'performance')
         run: |
           unbuffer $(which odoo) -d ${PGDATABASE} \
-            -u l10n_br_account,l10n_br_sale --test-enable \
+            -u l10n_br_account,l10n_br_sale,l10n_br_setup_tests --test-enable \
             --test-tags l10n_br_performance --stop-after-init
       - uses: codecov/codecov-action@v4
         with:
