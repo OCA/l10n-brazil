@@ -86,6 +86,7 @@ def pre_init_hook(cr):
         _logger.info(_("Loading l10n_br_stock warehouse external ids..."))
         set_stock_warehouse_external_ids(env, "l10n_br_base.empresa_simples_nacional")
         set_stock_warehouse_external_ids(env, "l10n_br_base.empresa_lucro_presumido")
+        set_stock_warehouse_external_ids(env, "l10n_br_base.empresa_lucro_real")
 
 
 def create_locations_quants(cr, locations, products):
@@ -121,6 +122,7 @@ def post_init_hook(cr, registry):
             [
                 env.ref("l10n_br_stock.wh_empresa_simples_nacional").lot_stock_id,
                 env.ref("l10n_br_stock.wh_empresa_lucro_presumido").lot_stock_id,
+                env.ref("l10n_br_stock.wh_empresa_lucro_real").lot_stock_id,
             ],
             [
                 env.ref("product.product_product_24"),
