@@ -11,11 +11,9 @@
         <field name="processador_edoc">oca</field>
     </record>
 
-     <!-- Sua Empresa - Simples Nacional -->
-    <record id="base.main_partner" model="res.partner">
-        <field name="city_id" ref="l10n_br_base.city_3550308" />
-        <field name="country_id" ref="base.br" />
-        <field name='state_id' ref='base.state_br_sp' />
+    <!-- Empresa Lucro Real -->
+    <record id="l10n_br_base.empresa_lucro_real" model="res.company">
+        <field name="processador_edoc">oca</field>
     </record>
 
 </odoo>
