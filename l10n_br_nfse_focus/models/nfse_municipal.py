@@ -175,6 +175,16 @@ class FocusnfeNfse(FocusnfeNfseBase):
         pis_retido = bool(service.get("valor_pis_retido"))
         cofins_retido = bool(service.get("valor_cofins_retido"))
         csll_retido = bool(service.get("valor_csll_retido"))
+        inss_retido = bool(service.get("valor_inss_retido"))
+        ir_retido = bool(service.get("valor_ir_retido"))
+        icms_retido = bool(service.get("valor_icms_retido"))
+
+        valor_servicos = round(service.get("valor_servicos", 0), 2)
+        base_calculo_csll = valor_servicos if csll_retido else 0.0
+        base_calculo_inss = valor_servicos if inss_retido else 0.0
+        base_calculo_ir = valor_servicos if ir_retido else 0.0
+        base_calculo_icms = valor_servicos if icms_retido else 0.0
+
         tipo_retencao_pis_cofins = {
             (False, False, False): "0",
             (True, True, True): "3",
@@ -217,6 +227,14 @@ class FocusnfeNfse(FocusnfeNfseBase):
             "aliquota_inss": round(service.get("aliquota_inss", 0), 2),
             "aliquota_cp": round(service.get("aliquota_inss", 0), 2),
             "aliquota_icms": round(service.get("aliquota_icms", 0), 2),
+            "base_calculo_csll": base_calculo_csll,
+            "base_calculo_ir": base_calculo_ir,
+            "base_calculo_inss": base_calculo_inss,
+            "base_calculo_cp": base_calculo_inss,
+            "base_calculo_icms": base_calculo_icms,
+            "inss_retido": inss_retido,
+            "ir_retido": ir_retido,
+            "icms_retido": icms_retido,
             **(
                 {"codigo_municipio": service.get("municipio_prestacao_servico")}
                 if service.get("municipio_prestacao_servico") != "3507605"
