@@ -14,6 +14,12 @@ def post_init_hook(cr, registry):
     )
     if company_lc:
         coa_generic_tmpl.try_loading(company=company_lc)
+
+    company_lr = env.ref("l10n_br_base.empresa_lucro_real", raise_if_not_found=False)
+    if company_lr:
+        coa_generic_tmpl.try_loading(company=company_lr)
+
+    if company_lc or company_lr:
         tools.convert_file(
             cr,
             "l10n_br_coa_generic",
