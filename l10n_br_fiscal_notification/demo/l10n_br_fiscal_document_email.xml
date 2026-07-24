@@ -49,4 +49,29 @@
         />
         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
     </record>
+
+    <record
+        id="fiscal_document_email_definition_5"
+        model="l10n_br_fiscal.document.email"
+    >
+        <field name="issuer">company</field>
+        <field
+            name="email_template_id"
+            ref="l10n_br_fiscal_notification.fiscal_document_change_state_template"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_real" />
+    </record>
+
+    <record
+        id="fiscal_document_email_definition_6"
+        model="l10n_br_fiscal.document.email"
+    >
+        <field name="document_type_id" ref="l10n_br_fiscal.document_SE" />
+        <field name="issuer">company</field>
+        <field
+            name="email_template_id"
+            ref="l10n_br_fiscal_notification.fiscal_document_change_state_template_nfse"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_real" />
+    </record>
 </odoo>
