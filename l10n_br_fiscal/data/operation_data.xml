@@ -626,6 +626,70 @@
         <field name="state">approved</field>
     </record>
 
+    <record id="fo_transferencia" model="l10n_br_fiscal.operation">
+        <field name="code">TR</field>
+        <field name="name">Transferência</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">return_out</field>
+        <field name="default_price_unit">cost_price</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fol_manifesto_produto_acabado" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_transferencia" />
+        <field name="name">Transferenia de Produção</field>
+        <field name="tax_classification_id" ref="tax_classification_410002" />
+        <field name="product_type">04</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">return_out</field>
+        <field name="add_to_amount" eval="True" />
+        <field name="state">approved</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5151" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6151" />
+    </record>
+
+    <record id="fol_manifesto_mercadoria" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_transferencia" />
+        <field name="name">Transferenia de Mercadoria</field>
+        <field name="tax_classification_id" ref="tax_classification_410002" />
+        <field name="product_type">00</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">return_out</field>
+        <field name="add_to_amount" eval="True" />
+        <field name="state">approved</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5152" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6152" />
+    </record>
+
+    <record id="fol_manifesto_ativo" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_transferencia" />
+        <field name="name">Transferenia de Ativo Imobilizado</field>
+        <field name="tax_classification_id" ref="tax_classification_410002" />
+        <field name="product_type">08</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">return_out</field>
+        <field name="add_to_amount" eval="True" />
+        <field name="state">approved</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5552" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6552" />
+    </record>
+
+    <record
+        id="fol_manifesto_material_uso_consumo"
+        model="l10n_br_fiscal.operation.line"
+    >
+        <field name="fiscal_operation_id" ref="fo_transferencia" />
+        <field name="name">Transferenia Material de Uso e Consumo</field>
+        <field name="tax_classification_id" ref="tax_classification_410002" />
+        <field name="product_type">07</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">return_out</field>
+        <field name="add_to_amount" eval="True" />
+        <field name="state">approved</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5557" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6557" />
+    </record>
+
     <!-- l10n_br_fiscal.operation relations -->
     <record id="fo_venda" model="l10n_br_fiscal.operation">
         <field name="return_fiscal_operation_id" ref="fo_devolucao_venda" />

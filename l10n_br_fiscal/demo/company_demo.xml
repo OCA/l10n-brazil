@@ -2,33 +2,6 @@
 <odoo noupdate="1">
 
     <!-- Sua Empresa -->
-    <record id="base.main_partner" model="res.partner">
-        <field
-            name="fiscal_profile_id"
-            ref="l10n_br_fiscal.partner_fiscal_profile_snc"
-        />
-        <field name="legal_nature_id" ref="l10n_br_fiscal.legal_nature_2062" />
-    </record>
-
-    <!-- Empresa Lucro Presumido -->
-    <record id="l10n_br_base.lucro_presumido_partner" model="res.partner">
-        <field
-            name="fiscal_profile_id"
-            ref="l10n_br_fiscal.partner_fiscal_profile_cnt"
-        />
-        <field name="legal_nature_id" ref="l10n_br_fiscal.legal_nature_2062" />
-    </record>
-
-    <!-- Empresa Simples Nacional -->
-    <record id="l10n_br_base.simples_nacional_partner" model="res.partner">
-        <field
-            name="fiscal_profile_id"
-            ref="l10n_br_fiscal.partner_fiscal_profile_snc"
-        />
-        <field name="legal_nature_id" ref="l10n_br_fiscal.legal_nature_2062" />
-    </record>
-
-    <!-- Sua Empresa -->
     <record id="base.main_company" model="res.company">
         <field name="tax_framework">1</field>
         <field name="is_industry" eval="True" />
