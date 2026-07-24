@@ -62,6 +62,27 @@
         <field name="journal_id" ref="lucro_presumido_bank_journal" />
     </record>
 
+    <!-- Account Journal for Lucro Real -->
+    <record id="lucro_real_bank_journal" model="account.journal">
+        <field name="name">Diário de Banco - Lucro Real</field>
+        <field name="code">TPO3</field>
+        <field name="type">sale</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_real" />
+        <field name="edi_format_ids" eval="False" />
+    </record>
+
+    <record
+        id="lucro_real_bank_journal_payment_method"
+        model="account.payment.method.line"
+    >
+        <field name="name">Manual</field>
+        <field
+            name="payment_method_id"
+            ref="account.account_payment_method_manual_in"
+        />
+        <field name="journal_id" ref="lucro_real_bank_journal" />
+    </record>
+
     <!-- Diario Bradesco -->
     <record id="bradesco_journal" model="account.journal">
         <field name="name">Banco Bradesco</field>
