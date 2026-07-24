@@ -12,6 +12,13 @@ def _post_init_hook(env):
     if company_lc:
         chart_template = env["account.chart.template"]
         chart_template.try_loading("br_oca_generic", company_lc, install_demo=True)
+
+    company_lr = env.ref("l10n_br_base.empresa_lucro_real", raise_if_not_found=False)
+    if company_lr:
+        chart_template = env["account.chart.template"]
+        chart_template.try_loading("br_oca_generic", company_lr, install_demo=True)
+
+    if company_lc or company_lr:
         tools.convert_file(
             env,
             "l10n_br_coa_generic",
