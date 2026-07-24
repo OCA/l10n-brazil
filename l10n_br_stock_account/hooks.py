@@ -13,6 +13,7 @@ def post_init_hook(env):
                 env.ref("stock.warehouse0").lot_stock_id,
                 env.ref("l10n_br_stock.wh_empresa_simples_nacional").lot_stock_id,
                 env.ref("l10n_br_stock.wh_empresa_lucro_presumido").lot_stock_id,
+                env.ref("l10n_br_stock.wh_empresa_lucro_real").lot_stock_id,
             ],
             [
                 env.ref("product.product_product_12"),
@@ -82,6 +83,27 @@ def stock_account_set_journal_in_fiscal_operation(env):
                     "fiscal_operation": "l10n_br_fiscal.fo_simples_remessa",
                     "journal": "l10n_br_stock_account."
                     "simples_remessa_journal_lucro_presumido",
+                },
+            ],
+        )
+
+        company_lr = env.ref(
+            "l10n_br_base.empresa_lucro_real", raise_if_not_found=False
+        )
+
+        set_journal_in_fiscal_operation(
+            env.cr,
+            company_lr,
+            [
+                {
+                    "fiscal_operation": "l10n_br_fiscal.fo_entrada_remessa",
+                    "journal": "l10n_br_stock_account."
+                    "entrada_remessa_journal_lucro_real",
+                },
+                {
+                    "fiscal_operation": "l10n_br_fiscal.fo_simples_remessa",
+                    "journal": "l10n_br_stock_account."
+                    "simples_remessa_journal_lucro_real",
                 },
             ],
         )
