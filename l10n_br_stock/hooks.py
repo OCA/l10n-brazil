@@ -131,8 +131,15 @@ def pre_init_hook(env):
             "l10n_br_base.res_partner_cliente1_sp",
             "ELP",
         )
+        ensure_demo_warehouse(
+            env,
+            "l10n_br_base.empresa_lucro_real",
+            "l10n_br_base.res_partner_cliente1_sp",
+            "ELR",
+        )
         set_stock_warehouse_external_ids(env, "l10n_br_base.empresa_simples_nacional")
         set_stock_warehouse_external_ids(env, "l10n_br_base.empresa_lucro_presumido")
+        set_stock_warehouse_external_ids(env, "l10n_br_base.empresa_lucro_real")
 
 
 def create_locations_quants(env, locations, products):
@@ -165,6 +172,7 @@ def post_init_hook(env):
         # during pre_init_hook because stock module creates them after)
         set_stock_warehouse_external_ids(env, "l10n_br_base.empresa_simples_nacional")
         set_stock_warehouse_external_ids(env, "l10n_br_base.empresa_lucro_presumido")
+        set_stock_warehouse_external_ids(env, "l10n_br_base.empresa_lucro_real")
 
         # Get warehouses for demo companies
         company_sn = env.ref(
@@ -172,6 +180,9 @@ def post_init_hook(env):
         )
         company_lp = env.ref(
             "l10n_br_base.empresa_lucro_presumido", raise_if_not_found=False
+        )
+        company_lr = env.ref(
+            "l10n_br_base.empresa_lucro_real", raise_if_not_found=False
         )
 
         locations = []
@@ -187,6 +198,12 @@ def post_init_hook(env):
             )
             if warehouse_lp:
                 locations.append(warehouse_lp.lot_stock_id)
+        if company_lr:
+            warehouse_lr = env["stock.warehouse"].search(
+                [("company_id", "=", company_lr.id)], limit=1
+            )
+            if warehouse_lr:
+                locations.append(warehouse_lr.lot_stock_id)
 
         if locations:
             create_locations_quants(
