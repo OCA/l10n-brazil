@@ -114,3 +114,34 @@ def purchase_set_journal_in_fiscal_operation(cr):
                     },
                 ],
             )
+
+        company_lr = env.ref(
+            "l10n_br_base.empresa_lucro_real", raise_if_not_found=False
+        )
+
+        # COA Generic Fiscal Operation properties
+        if company_lr and env["ir.module.module"].search_count(
+            [
+                ("name", "=", "l10n_br_coa_generic"),
+                ("state", "=", "installed"),
+            ]
+        ):
+            # Load Fiscal Operation for Lucro Real
+            set_journal_in_fiscal_operation(
+                cr,
+                company_lr,
+                [
+                    {
+                        "fiscal_operation": "l10n_br_fiscal.fo_compras",
+                        "journal": "l10n_br_coa_generic.purchase_journal_empresa_lr",
+                    },
+                    {
+                        "fiscal_operation": "l10n_br_fiscal.fo_devolucao_compras",
+                        "journal": "l10n_br_coa_generic.purchase_journal_empresa_lr",
+                    },
+                    {
+                        "fiscal_operation": "l10n_br_fiscal.fo_entrada_remessa",
+                        "journal": "l10n_br_coa_generic.purchase_journal_empresa_lr",
+                    },
+                ],
+            )
