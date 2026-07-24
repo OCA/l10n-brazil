@@ -18,4 +18,12 @@
         />
     </record>
 
+    <record id="l10n_br_base.empresa_lucro_real" model="res.company">
+        <field name="contract_sale_fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field
+            name="contract_purchase_fiscal_operation_id"
+            ref="l10n_br_fiscal.fo_compras"
+        />
+    </record>
+
 </odoo>
