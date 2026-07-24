@@ -172,6 +172,20 @@ class FocusnfeNfse(FocusnfeNfseBase):
             elif not base_calculo_pis_cofins:
                 base_calculo_pis_cofins = round(service.get("valor_servicos", 0), 2)
 
+        pis_retido = bool(service.get("valor_pis_retido"))
+        cofins_retido = bool(service.get("valor_cofins_retido"))
+        csll_retido = bool(service.get("valor_csll_retido"))
+        tipo_retencao_pis_cofins = {
+            (False, False, False): "0",
+            (True, True, True): "3",
+            (True, True, False): "4",
+            (True, False, False): "5",
+            (False, True, False): "6",
+            (False, True, True): "7",
+            (False, False, True): "8",
+            (True, False, True): "9",
+        }[(pis_retido, cofins_retido, csll_retido)]
+
         return {
             "aliquota": service.get("aliquota")
             if company.focusnfe_tax_rate_format == "decimal"
@@ -193,6 +207,16 @@ class FocusnfeNfse(FocusnfeNfseBase):
                 if situacao_tributaria_pis_cofins
                 else {}
             ),
+            **(
+                {"tipo_retencao_pis_cofins": tipo_retencao_pis_cofins}
+                if pis_retido or cofins_retido or csll_retido
+                else {}
+            ),
+            "aliquota_csll": round(service.get("aliquota_csll", 0), 2),
+            "aliquota_ir": round(service.get("aliquota_ir", 0), 2),
+            "aliquota_inss": round(service.get("aliquota_inss", 0), 2),
+            "aliquota_cp": round(service.get("aliquota_inss", 0), 2),
+            "aliquota_icms": round(service.get("aliquota_icms", 0), 2),
             **(
                 {"codigo_municipio": service.get("municipio_prestacao_servico")}
                 if service.get("municipio_prestacao_servico") != "3507605"
