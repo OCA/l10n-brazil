@@ -1,0 +1,809 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Família: Consignação mercantil (Ajuste SINIEF 02/93).
+
+  Princípio que rege o desenho: o fato gerador do ICMS/IPI (circulação física)
+  ocorre na REMESSA; o do PIS/COFINS (receita) ocorre no FATURAMENTO/venda. Por
+  isso PIS/COFINS são zerados (CST 49) na remessa/devolução e o ICMS é sem
+  destaque (CST 90) no faturamento — os tax.definition abaixo materializam essa
+  dissociação; onde o tributo incide normalmente, usa-se o default de venda.
+
+  Caso geral modelado: consignação MERCANTIL (product_type=00), regime NORMAL
+  (CST, não CSOSN), SEM ICMS-ST. Variantes industrial/Simples/ST são sub-famílias
+  próprias (ver readme). Mecânica B (devolução simbólica, CFOPs 5919/1919) está
+  incluída como operações à parte — ativar conforme a prática do fisco.
+-->
+<odoo noupdate="1">
+
+    <!-- ============ Informações complementares (infCpl) ============ -->
+    <record id="comment_consig_remessa" model="l10n_br_fiscal.comment">
+        <field name="name">Remessa em consignação mercantil</field>
+        <field
+            name="comment"
+        >Mercadoria remetida em consignação mercantil - Ajuste SINIEF 02/93.</field>
+        <field name="comment_type">fiscal</field>
+        <field name="object">l10n_br_fiscal.document.mixin</field>
+    </record>
+
+    <record id="comment_consig_reajuste" model="l10n_br_fiscal.comment">
+        <field name="name">Reajuste de preço em consignação</field>
+        <field
+            name="comment"
+        >Reajuste de preço de mercadoria em consignação mercantil - Ajuste SINIEF 02/93.</field>
+        <field name="comment_type">fiscal</field>
+        <field name="object">l10n_br_fiscal.document.mixin</field>
+    </record>
+
+    <record id="comment_consig_faturamento" model="l10n_br_fiscal.comment">
+        <field name="name">Faturamento de consignação</field>
+        <field
+            name="comment"
+        >Simples faturamento de mercadoria remetida em consignação mercantil, sem novo destaque de ICMS (débito ocorrido na remessa) - Ajuste SINIEF 02/93.</field>
+        <field name="comment_type">fiscal</field>
+        <field name="object">l10n_br_fiscal.document.mixin</field>
+    </record>
+
+    <record id="comment_consig_devolucao" model="l10n_br_fiscal.comment">
+        <field name="name">Devolução de consignação</field>
+        <field
+            name="comment"
+        >Devolução de mercadoria em consignação mercantil, não comercializada - Ajuste SINIEF 02/93.</field>
+        <field name="comment_type">fiscal</field>
+        <field name="object">l10n_br_fiscal.document.mixin</field>
+    </record>
+
+    <record id="comment_consig_devsimb" model="l10n_br_fiscal.comment">
+        <field name="name">Devolução simbólica de consignação</field>
+        <field
+            name="comment"
+        >Devolução simbólica de mercadoria vendida, recebida em consignação mercantil - Ajuste SINIEF 02/93.</field>
+        <field name="comment_type">fiscal</field>
+        <field name="object">l10n_br_fiscal.document.mixin</field>
+    </record>
+
+    <record id="comment_consig_entrada" model="l10n_br_fiscal.comment">
+        <field name="name">Entrada em consignação mercantil</field>
+        <field
+            name="comment"
+        >Entrada de mercadoria recebida em consignação mercantil - Ajuste SINIEF 02/93.</field>
+        <field name="comment_type">fiscal</field>
+        <field name="object">l10n_br_fiscal.document.mixin</field>
+    </record>
+
+    <record id="comment_consig_venda" model="l10n_br_fiscal.comment">
+        <field name="name">Venda de mercadoria em consignação</field>
+        <field
+            name="comment"
+        >Venda de mercadoria recebida em consignação mercantil - Ajuste SINIEF 02/93.</field>
+        <field name="comment_type">fiscal</field>
+        <field name="object">l10n_br_fiscal.document.mixin</field>
+    </record>
+
+    <!-- ============ LADO CONSIGNANTE ============ -->
+
+    <!-- OP-4: Devolução recebida (entrada) — definida antes por ser alvo do return da OP-1 -->
+    <record id="fo_consig_ret" model="l10n_br_fiscal.operation">
+        <field name="code">CONSIG_RET</field>
+        <field name="name">Devolução de mercadoria remetida em consignação</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">other</field>
+        <field name="state">approved</field>
+        <field name="comment_ids" eval="[(6, 0, [ref('comment_consig_devolucao')])]" />
+    </record>
+
+    <record id="fo_consig_ret_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_consig_ret" />
+        <field name="name">Devolução de mercadoria remetida em consignação</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1918" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2918" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <!-- ICMS/IPI: default de entrada (crédito, espelhando a remessa). PIS/COFINS não incidem. -->
+    <record id="fo_consig_ret_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_ret_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_ret_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_ret_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- OP-1: Remessa em consignação -->
+    <record id="fo_consig_rem" model="l10n_br_fiscal.operation">
+        <field name="code">CONSIG_REM</field>
+        <field name="name">Remessa em consignação mercantil</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">other</field>
+        <field name="return_fiscal_operation_id" ref="fo_consig_ret" />
+        <field name="state">approved</field>
+        <field name="comment_ids" eval="[(6, 0, [ref('comment_consig_remessa')])]" />
+    </record>
+
+    <record id="fo_consig_rem_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_consig_rem" />
+        <field name="name">Remessa em consignação mercantil</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5917" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6917" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <!-- ICMS/IPI: default de venda (destaque normal). PIS/COFINS não incidem (sem receita). -->
+    <record id="fo_consig_rem_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_rem_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_rem_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_rem_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- OP-2: Reajuste de preço em consignação (NF complementar) -->
+    <record id="fo_consig_rem_reaj" model="l10n_br_fiscal.operation">
+        <field name="code">CONSIG_REM_REAJ</field>
+        <field name="name">Reajuste de preço em consignação mercantil</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">other</field>
+        <field name="state">approved</field>
+        <field name="comment_ids" eval="[(6, 0, [ref('comment_consig_reajuste')])]" />
+    </record>
+
+    <record id="fo_consig_rem_reaj_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_consig_rem_reaj" />
+        <field name="name">Reajuste de preço em consignação mercantil</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5917" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6917" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_rem_reaj_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_rem_reaj_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_rem_reaj_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_rem_reaj_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- OP-3: Faturamento (venda) de mercadoria em consignação -->
+    <record id="fo_consig_fat" model="l10n_br_fiscal.operation">
+        <field name="code">CONSIG_FAT</field>
+        <field
+            name="name"
+        >Venda de mercadoria remetida em consignação (faturamento)</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">sale</field>
+        <field name="state">approved</field>
+        <field
+            name="comment_ids"
+            eval="[(6, 0, [ref('comment_consig_faturamento')])]"
+        />
+    </record>
+
+    <record id="fo_consig_fat_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_consig_fat" />
+        <field
+            name="name"
+        >Venda de mercadoria remetida em consignação (faturamento)</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5114" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6114" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <!-- ICMS sem novo destaque (CST 90, já debitado na remessa). PIS/COFINS: default de venda (incide). -->
+    <record id="fo_consig_fat_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_fat_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_0" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_90" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_fat_ipi" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_fat_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_49" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- OP-5: Entrada por devolução simbólica (Mecânica B) -->
+    <record id="fo_consig_devsimb_ent" model="l10n_br_fiscal.operation">
+        <field name="code">CONSIG_DEVSIMB_ENT</field>
+        <field name="name">Entrada de devolução simbólica de consignação</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">other</field>
+        <field name="state">approved</field>
+        <field name="comment_ids" eval="[(6, 0, [ref('comment_consig_devsimb')])]" />
+    </record>
+
+    <record id="fo_consig_devsimb_ent_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_consig_devsimb_ent" />
+        <field name="name">Entrada de devolução simbólica de consignação</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1919" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2919" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <!-- Operação simbólica: todos os tributos zerados. -->
+    <record id="fo_consig_devsimb_ent_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_devsimb_ent_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_0" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_90" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_devsimb_ent_ipi" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_devsimb_ent_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_devsimb_ent_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_devsimb_ent_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_devsimb_ent_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_devsimb_ent_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- ============ LADO CONSIGNATÁRIO ============ -->
+
+    <!-- OP-8: Devolução ao consignante (saída) — definida antes por ser alvo do return da OP-6 -->
+    <record id="fo_consig_dev" model="l10n_br_fiscal.operation">
+        <field name="code">CONSIG_DEV</field>
+        <field name="name">Devolução de mercadoria recebida em consignação</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">other</field>
+        <field name="state">approved</field>
+        <field name="comment_ids" eval="[(6, 0, [ref('comment_consig_devolucao')])]" />
+    </record>
+
+    <record id="fo_consig_dev_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_consig_dev" />
+        <field name="name">Devolução de mercadoria recebida em consignação</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5918" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6918" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <!-- ICMS espelha a remessa recebida (para o consignante se creditar). IPI replicado. PIS/COFINS não incidem. -->
+    <record id="fo_consig_dev_ipi" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_dev_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_dev_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_dev_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_dev_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_dev_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- OP-6: Entrada de mercadoria em consignação -->
+    <record id="fo_consig_ent" model="l10n_br_fiscal.operation">
+        <field name="code">CONSIG_ENT</field>
+        <field name="name">Entrada de mercadoria em consignação mercantil</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">other</field>
+        <field name="return_fiscal_operation_id" ref="fo_consig_dev" />
+        <field name="state">approved</field>
+        <field name="comment_ids" eval="[(6, 0, [ref('comment_consig_entrada')])]" />
+    </record>
+
+    <record id="fo_consig_ent_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_consig_ent" />
+        <field name="name">Entrada de mercadoria em consignação mercantil</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1917" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2917" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <!-- ICMS/IPI: default de entrada (crédito quando permitido). PIS/COFINS não incidem. -->
+    <record id="fo_consig_ent_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_ent_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_ent_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_ent_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- OP-7: Venda de mercadoria recebida em consignação (ao cliente final) -->
+    <record id="fo_consig_venda" model="l10n_br_fiscal.operation">
+        <field name="code">CONSIG_VENDA</field>
+        <field name="name">Venda de mercadoria recebida em consignação</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">sale</field>
+        <field
+            name="return_fiscal_operation_id"
+            ref="l10n_br_fiscal.fo_devolucao_venda"
+        />
+        <field name="state">approved</field>
+        <field name="comment_ids" eval="[(6, 0, [ref('comment_consig_venda')])]" />
+    </record>
+
+    <record id="fo_consig_venda_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_consig_venda" />
+        <field name="name">Venda de mercadoria recebida em consignação</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5115" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6115" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <!-- Venda normal: ICMS e PIS/COFINS default (incidem). IPI não destacado (comerciante). -->
+    <record id="fo_consig_venda_ipi" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_venda_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_49" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- OP-9: Devolução simbólica na venda (Mecânica B) -->
+    <record id="fo_consig_devsimb" model="l10n_br_fiscal.operation">
+        <field name="code">CONSIG_DEVSIMB</field>
+        <field
+            name="name"
+        >Devolução simbólica de mercadoria vendida em consignação</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">other</field>
+        <field name="state">approved</field>
+        <field name="comment_ids" eval="[(6, 0, [ref('comment_consig_devsimb')])]" />
+    </record>
+
+    <record id="fo_consig_devsimb_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_consig_devsimb" />
+        <field
+            name="name"
+        >Devolução simbólica de mercadoria vendida em consignação</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5919" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6919" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <!-- Operação simbólica: todos os tributos zerados. -->
+    <record id="fo_consig_devsimb_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_devsimb_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_0" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_90" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_devsimb_ipi" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_devsimb_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_devsimb_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_devsimb_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_devsimb_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_devsimb_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+
+
+    <!-- ================= Simples Nacional =================
+         Linhas irmãs para empresa do Simples (company_tax_framework=1): o
+         seletor de linha prefere a mais específica, então a empresa SN casa
+         estas (CSOSN via grupo icmssn) e os demais regimes casam as genéricas
+         (CST). Empresa em excesso de sublimite (framework=2) recolhe ICMS fora
+         do DAS e cai na genérica com CST — correto. Regra geral: movimento sem
+         receita/titularidade = CSOSN 400; ajuste/simbólica = 900; linha de
+         receita não fixa ICMS (herda a tributação SN da empresa). Mapa a
+         ratificar com contador (transferência de mercadoria: ADC 49). -->
+    <record id="fo_consig_ret_line_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_consig_ret" />
+        <field
+            name="name"
+        >Devolução de mercadoria remetida em consignação - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1918" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2918" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_ret_pis_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_ret_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_ret_cofins_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_ret_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_ret_line_sn_icmssn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_ret_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_rem_line_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_consig_rem" />
+        <field name="name">Remessa em consignação mercantil - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5917" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6917" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_rem_pis_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_rem_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_rem_cofins_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_rem_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_rem_line_sn_icmssn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_rem_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_rem_reaj_line_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_consig_rem_reaj" />
+        <field
+            name="name"
+        >Reajuste de preço em consignação mercantil - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5917" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6917" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_rem_reaj_pis_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_rem_reaj_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_rem_reaj_cofins_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_rem_reaj_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_consig_rem_reaj_line_sn_icmssn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_consig_rem_reaj_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_dev_line_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_consig_dev" />
+        <field
+            name="name"
+        >Devolução de mercadoria recebida em consignação - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5918" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6918" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_dev_ipi_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_dev_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_dev_pis_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_dev_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_dev_cofins_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_dev_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_dev_line_sn_icmssn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_dev_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_ent_line_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_consig_ent" />
+        <field
+            name="name"
+        >Entrada de mercadoria em consignação mercantil - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1917" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2917" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_ent_pis_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_ent_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_ent_cofins_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_ent_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_ent_line_sn_icmssn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_ent_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_devsimb_ent_line_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_consig_devsimb_ent" />
+        <field
+            name="name"
+        >Entrada de devolução simbólica de consignação - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1919" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2919" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_devsimb_ent_ipi_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_devsimb_ent_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_devsimb_ent_pis_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_devsimb_ent_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_devsimb_ent_cofins_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_devsimb_ent_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_consig_devsimb_ent_line_sn_icmssn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_consig_devsimb_ent_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_900" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_devsimb_line_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_consig_devsimb" />
+        <field
+            name="name"
+        >Devolução simbólica de mercadoria vendida em consignação - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5919" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6919" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_devsimb_ipi_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_devsimb_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_devsimb_pis_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_devsimb_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_devsimb_cofins_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_devsimb_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_devsimb_line_sn_icmssn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_devsimb_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_900" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_fat_line_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_consig_fat" />
+        <field
+            name="name"
+        >Venda de mercadoria remetida em consignação (faturamento) - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5114" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6114" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_consig_fat_ipi_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_consig_fat_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_49" />
+        <field name="state">approved</field>
+    </record>
+
+</odoo>
