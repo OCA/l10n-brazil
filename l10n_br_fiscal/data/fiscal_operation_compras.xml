@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<!--
+  Compra para prestação de serviço: linhas que faltam em fo_compras no core.
+  A matriz de crédito por destinação fica fora, para não sobrescrever o imposto que
+  vem do produto e do regime da empresa.
+-->
+<odoo noupdate="1">
+
+    <!-- Compra para prestação de serviço (linhas novas em fo_compras) -->
+    <record id="fo_compras_servico_icms" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field name="name">Compra para prestação de serviço (ICMS)</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1126" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2126" />
+        <field name="product_type">09</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_compras_servico_iss" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field name="name">Compra para prestação de serviço (ISS)</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1128" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2128" />
+        <field name="product_type">09</field>
+        <field name="tax_icms_or_issqn">issqn</field>
+        <field name="state">approved</field>
+    </record>
+
+</odoo>
