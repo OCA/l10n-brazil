@@ -22,7 +22,7 @@ class StockMove(models.Model):
 
         values.update(super()._get_new_picking_values())
         # self is a recordset, possibly with different fiscal operations
-        # so we use the fiscal_opration from the SO for the picking:
+        # so we use the fiscal_operation from the SO for the picking:
         if fiscal_operation:
             values.update({"fiscal_operation_id": fiscal_operation.id})
 

@@ -1,4 +1,5 @@
 # Copyright 2020 KMEE
+# Copyright (C) 2021  Magno Costa - Akretion
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import Command, models
@@ -32,7 +33,7 @@ class StockInvoiceOnshipping(models.TransientModel):
         # TODO: Should get any value?
         if sale_pickings and self._get_invoice_type() != "out_refund":
             # Case more than one Sale Order the fields below will be join
-            # the others will be overwritting, as done in sale module,
+            # the others will be overwriting, as done in sale module,
             # one more field include here Note
             customer_data = set()
             fiscal_data = set()
@@ -41,20 +42,17 @@ class StockInvoiceOnshipping(models.TransientModel):
                 #  porque dessa forma evitaria a necessidade de ser feito aqui
                 picking.sale_id._prepare_invoice()
                 # Fields to Join
-                # Evita enviar False quando não tem nada
-                # {False}     {''}
                 additional_data = ""
                 if picking.sale_id.manual_customer_additional_data:
-                    additional_data = "{}".format(
+                    additional_data = str(
                         picking.sale_id.manual_customer_additional_data
                     )
                 customer_data.add(additional_data)
                 values["manual_customer_additional_data"] = additional_data
 
-                # Evita enviar False quando não tem nada
                 fiscal_additional_data = ""
                 if picking.sale_id.manual_fiscal_additional_data:
-                    fiscal_additional_data = "{}".format(
+                    fiscal_additional_data = str(
                         picking.sale_id.manual_fiscal_additional_data
                     )
                 fiscal_data.add(fiscal_additional_data)
@@ -78,7 +76,6 @@ class StockInvoiceOnshipping(models.TransientModel):
         :param invoice: account.invoice
         :return: dict
         """
-
         values = super()._get_invoice_line_values(moves, invoice_values, invoice)
         # Devido ao KEY com sale_line_id aqui
         # vem somente um registro
@@ -89,7 +86,6 @@ class StockInvoiceOnshipping(models.TransientModel):
 
         sale_line_id = moves.sale_line_id
         values["sale_line_ids"] = [Command.set(sale_line_id.ids)]
-        sale_line_id = moves.sale_line_id
         analytic_account_id = sale_line_id.order_id.analytic_account_id.id
         if sale_line_id.analytic_distribution and not sale_line_id.display_type:
             values["analytic_distribution"] = sale_line_id.analytic_distribution
