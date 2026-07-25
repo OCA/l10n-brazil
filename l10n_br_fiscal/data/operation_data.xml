@@ -149,6 +149,11 @@
         <field name="tax_icms_or_issqn">icms</field>
         <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5910" />
         <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6910" />
+        <!-- ind_ie_dest e product_type ficam vazios de propósito: em
+             operation.line eles são critério de match (ver _line_domain), e
+             vazio é curinga. Esta é a única linha da operação, então fixá-los
+             deixaria de fora a bonificação para não contribuinte e a de
+             produto que não seja mercadoria para revenda. -->
         <field name="state">approved</field>
     </record>
 
@@ -844,7 +849,7 @@
         <field name="custom_tax" eval="True" />
         <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_suspensao" />
         <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
-        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_55" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_05" />
         <field
             name="fiscal_operation_line_id"
             ref="l10n_br_fiscal.fo_entrada_industrializacao_entrada_industrializacao"
@@ -988,7 +993,7 @@
         <field name="custom_tax" eval="True" />
         <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
         <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
-        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_00" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_49" />
         <field
             name="fiscal_operation_line_id"
             ref="l10n_br_fiscal.fo_entrada_reparo_entrada_reparo"
@@ -1004,9 +1009,9 @@
         <field name="is_taxed" eval="False" />
         <field name="is_debit_credit" eval="True" />
         <field name="custom_tax" eval="True" />
-        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_0" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
         <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
-        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_99" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_98" />
         <field
             name="fiscal_operation_line_id"
             ref="l10n_br_fiscal.fo_entrada_reparo_entrada_reparo"
@@ -1022,9 +1027,9 @@
         <field name="is_taxed" eval="False" />
         <field name="is_debit_credit" eval="True" />
         <field name="custom_tax" eval="True" />
-        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_0" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
         <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
-        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_99" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_98" />
         <field
             name="fiscal_operation_line_id"
             ref="l10n_br_fiscal.fo_entrada_reparo_entrada_reparo"
