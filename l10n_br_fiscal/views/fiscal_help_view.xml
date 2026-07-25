@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Abas de Ajuda para o usuário final nos modelos que influenciam o cálculo de
+  impostos. Linguagem não-técnica, em português (o domínio fiscal é brasileiro).
+  Os fluxos são desenhados em HTML puro (renderiza nativamente no backend, sem
+  dependência de bibliotecas de diagrama).
+-->
+<odoo>
+
+    <!-- ====================== Operação Fiscal ====================== -->
+    <record id="operation_form_help" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.operation.form.help</field>
+        <field name="model">l10n_br_fiscal.operation</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.operation_form" />
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page name="help" string="Ajuda">
+                    <div class="alert alert-info" role="alert">
+                        <strong>A operação fiscal diz ao sistema O QUE a sua
+                        empresa está fazendo</strong>: vendendo, comprando,
+                        transferindo entre filiais, emprestando um equipamento,
+                        mandando mercadoria para conserto... É a partir dela que
+                        o sistema preenche sozinho o CFOP, os impostos e as
+                        mensagens da nota fiscal.
+                    </div>
+                    <h4>Como funciona</h4>
+                    <div
+                        style="display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:12px 0;"
+                    >
+                        <div
+                            style="border:1px solid #ccc; border-radius:8px; padding:10px 14px; background:#f8f9fa;"
+                        >
+                            1. Você cria um pedido<br /><small
+                                class="text-muted"
+                            >venda, compra, transferência...</small>
+                        </div>
+                        <div style="font-size:20px;">→</div>
+                        <div
+                            style="border:1px solid #ccc; border-radius:8px; padding:10px 14px; background:#f8f9fa;"
+                        >
+                            2. Escolhe a operação<br /><small
+                                class="text-muted"
+                            >ex.: "Venda", "Remessa em comodato"</small>
+                        </div>
+                        <div style="font-size:20px;">→</div>
+                        <div
+                            style="border:1px solid #ccc; border-radius:8px; padding:10px 14px; background:#f8f9fa;"
+                        >
+                            3. O sistema escolhe a linha certa<br /><small
+                                class="text-muted"
+                            >conforme o cliente, o produto e o regime da sua empresa</small>
+                        </div>
+                        <div style="font-size:20px;">→</div>
+                        <div
+                            style="border:1px solid #b8e0b8; border-radius:8px; padding:10px 14px; background:#eaf7ea;"
+                        >
+                            4. Nota sai pronta<br /><small
+                                class="text-muted"
+                            >CFOP, impostos e mensagens preenchidos</small>
+                        </div>
+                    </div>
+                    <h4>Boas práticas</h4>
+                    <ul>
+                        <li><strong>Antes de criar uma operação nova</strong>,
+                        verifique se já não existe uma pronta no catálogo. Os
+                        cenários brasileiros mais comuns (venda, devolução,
+                        consignação, comodato, industrialização, demonstração,
+                        transferência...) já vêm configurados e testados.</li>
+                        <li>Se precisar de uma variação, <strong>duplique uma
+                        operação parecida</strong> e ajuste. É mais seguro do
+                        que começar do zero.</li>
+                        <li>A <strong>operação de retorno</strong> liga a ida à
+                        volta (ex.: a remessa em comodato sabe qual é a operação
+                        de devolução). É ela que permite criar devoluções com um
+                        clique.</li>
+                        <li>Somente operações <strong>aprovadas</strong> são
+                        usadas nos documentos. Deixe em rascunho enquanto estiver
+                        configurando.</li>
+                        <li><strong>Várias empresas no mesmo banco?</strong>
+                        Operações sem empresa definida valem para todas, e cada
+                        empresa emite conforme o próprio regime (a do Simples com
+                        CSOSN, as demais com CST), sem configuração extra. Se uma
+                        empresa precisa de um comportamento só dela, duplique a
+                        operação e preencha o campo Empresa na cópia: a mudança
+                        não afeta as outras.</li>
+                    </ul>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <!-- ====================== Linha de Operação ====================== -->
+    <record id="operation_line_form_help" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.operation.line.form.help</field>
+        <field name="model">l10n_br_fiscal.operation.line</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.operation_line_form" />
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page name="help" string="Ajuda">
+                    <div class="alert alert-info" role="alert">
+                        <strong>Você não escolhe a linha, o sistema
+                        escolhe.</strong> Cada operação tem uma ou mais linhas, e
+                        na hora de emitir o documento o sistema seleciona
+                        automaticamente a que melhor combina com a situação.
+                    </div>
+                    <h4>O que o sistema olha para escolher a linha</h4>
+                    <table class="table table-sm" style="max-width:720px;">
+                        <tr>
+                            <td style="width:40%;"><strong>Quem recebe</strong></td>
+                            <td>é contribuinte do ICMS, isento de inscrição ou
+                            consumidor final?</td>
+                        </tr>
+                        <tr>
+                            <td><strong>O produto</strong></td>
+                            <td>é mercadoria para revenda, produção própria,
+                            bem do ativo ou material de uso e consumo?</td>
+                        </tr>
+                        <tr>
+                            <td><strong>O regime da SUA empresa</strong></td>
+                            <td>Simples Nacional ou regime normal (Presumido /
+                            Real)?</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Para onde vai</strong></td>
+                            <td>dentro do estado, para outro estado ou para o
+                            exterior. É isso que define qual dos CFOPs da linha
+                            será usado.</td>
+                        </tr>
+                    </table>
+                    <p>Quando mais de uma linha serve, <strong>vence a mais
+                    específica</strong> (a que tem mais condições preenchidas).</p>
+                    <h4>Linhas por regime tributário</h4>
+                    <p>Uma linha pode ser marcada para valer só num regime (o
+                    campo "Company Tax Framework", ex.: linhas com sufixo
+                    "- Simples Nacional"). Quando existem, elas são usadas
+                    automaticamente conforme o regime da <strong>sua
+                    empresa</strong>: a do Simples emite com os códigos próprios
+                    (CSOSN) e as demais com os do regime normal (CST).
+                    <strong>Não apague essas linhas</strong>: se a empresa mudar
+                    de regime, o sistema troca de linha sozinho, sem
+                    reconfiguração.</p>
+                    <h4>Definições de imposto da linha</h4>
+                    <p>A aba "Tax Definitions" guarda <strong>exceções</strong>:
+                    impostos que nesta linha fogem do padrão (ex.: uma remessa
+                    que não paga PIS/COFINS porque não é venda). Se estiver
+                    vazia, vale o padrão do produto, do estado e da empresa,
+                    que é o normal para vendas e compras comuns.</p>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <!-- ====================== Definição de Imposto ====================== -->
+    <record id="tax_definition_form_help" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.tax.definition.form.help</field>
+        <field name="model">l10n_br_fiscal.tax.definition</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.tax_definition_form" />
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page name="help" string="Ajuda">
+                    <div class="alert alert-info" role="alert">
+                        <strong>Uma definição de imposto é uma regra de
+                        exceção</strong>: ela diz "nesta situação, este imposto
+                        se comporta assim" (não incide, fica suspenso, usa outra
+                        alíquota...). Sem nenhuma definição, vale o padrão do
+                        produto e do estado.
+                    </div>
+                    <h4>Onde uma regra pode morar e quem ganha</h4>
+                    <p>O sistema junta as regras de vários lugares, nesta ordem
+                    (as de baixo refinam as de cima):</p>
+                    <div style="max-width:560px;">
+                        <div
+                            style="border:1px solid #ccc; border-radius:8px; padding:8px 14px; margin:4px 0; background:#f8f9fa;"
+                        >1. Padrões da <strong>empresa</strong> <small
+                                class="text-muted"
+                            >(regime, impostos padrão)</small></div>
+                        <div style="text-align:center;">↓</div>
+                        <div
+                            style="border:1px solid #ccc; border-radius:8px; padding:8px 14px; margin:4px 0; background:#f8f9fa;"
+                        >2. <strong>Produto</strong> (NCM) e <strong
+                            >tabela de ICMS</strong> por estado</div>
+                        <div style="text-align:center;">↓</div>
+                        <div
+                            style="border:1px solid #ccc; border-radius:8px; padding:8px 14px; margin:4px 0; background:#f8f9fa;"
+                        >3. Regras da <strong>linha de operação</strong> <small
+                                class="text-muted"
+                            >(ex.: remessa sem PIS/COFINS)</small></div>
+                        <div style="text-align:center;">↓</div>
+                        <div
+                            style="border:1px solid #ccc; border-radius:8px; padding:8px 14px; margin:4px 0; background:#f8f9fa;"
+                        >4. Regras do <strong>CFOP</strong></div>
+                        <div style="text-align:center;">↓</div>
+                        <div
+                            style="border:1px solid #b8e0b8; border-radius:8px; padding:8px 14px; margin:4px 0; background:#eaf7ea;"
+                        >5. Regras do <strong>perfil do parceiro</strong> <small
+                                class="text-muted"
+                            >(a palavra final)</small></div>
+                    </div>
+                    <h4>Boas práticas</h4>
+                    <ul>
+                        <li>Uma regra só vale depois de <strong>aprovada</strong>.</li>
+                        <li>Preencha só as condições necessárias (estado, NCM,
+                        produto...): quanto mais condições, mais específica. E
+                        regras específicas ganham das gerais.</li>
+                        <li>Antes de criar uma regra nova, procure entender de
+                        onde vem o valor atual: muitas vezes a mudança certa é
+                        no cadastro do produto (NCM) ou na operação, não aqui.</li>
+                    </ul>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <!-- ====================== Alíquota (Imposto) ====================== -->
+    <record id="tax_form_help" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.tax.form.help</field>
+        <field name="model">l10n_br_fiscal.tax</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.tax_form" />
+        <field name="arch" type="xml">
+            <sheet position="inside">
+                <notebook>
+                    <page name="help" string="Ajuda">
+                        <div class="alert alert-info" role="alert">
+                            <strong>Este cadastro é uma alíquota</strong>: um
+                            percentual com o seu código fiscal (CST) já
+                            embutido. As regras e operações apontam para
+                            alíquotas daqui.
+                        </div>
+                        <div class="alert alert-warning" role="alert">
+                            <strong>Cuidado ao editar:</strong> alterar o
+                            percentual aqui muda o cálculo em <em>todos</em> os
+                            lugares que usam esta alíquota. Se a mudança vale só
+                            para um caso, o caminho certo é criar uma alíquota
+                            nova e apontar a regra específica para ela.
+                        </div>
+                        <ul>
+                            <li>As alíquotas padrão do Brasil (ICMS por estado,
+                            IPI, PIS/COFINS por regime) já vêm carregadas e são
+                            mantidas pela comunidade. Normalmente você não
+                            precisa criar nenhuma.</li>
+                            <li>Alíquota com percentual zero não significa "sem
+                            regra": o código fiscal dela (isento, suspenso, não
+                            tributado...) é o que sai na nota.</li>
+                        </ul>
+                    </page>
+                </notebook>
+            </sheet>
+        </field>
+    </record>
+
+    <!-- ====================== Regulamento do ICMS ====================== -->
+    <record id="icms_regulation_form_help" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.icms.regulation.form.help</field>
+        <field name="model">l10n_br_fiscal.icms.regulation</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.tax_icms_regulation_form" />
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page name="help" string="Ajuda">
+                    <div class="alert alert-info" role="alert">
+                        <strong>O regulamento do ICMS é a tabela que responde:
+                        "saindo do estado X para o estado Y, qual é o
+                        ICMS?"</strong> É daqui que sai o ICMS das vendas e
+                        compras comuns, sem você configurar nada por operação.
+                    </div>
+                    <ul>
+                        <li>As alíquotas internas e interestaduais de todos os
+                        estados já vêm carregadas e são mantidas pela
+                        comunidade.</li>
+                        <li>Benefícios estaduais (redução de base, isenção para
+                        determinados produtos) entram aqui como regras por
+                        estado e NCM.</li>
+                        <li>Empresas do <strong>Simples Nacional</strong> não
+                        usam esta tabela nas saídas: o ICMS delas é recolhido
+                        dentro do DAS, pela faixa do anexo configurada na
+                        empresa.</li>
+                    </ul>
+                    <div class="alert alert-warning" role="alert">
+                        Alterações aqui afetam <em>todas</em> as vendas e
+                        compras da empresa. Na dúvida, confirme com o seu
+                        contador antes de mudar.
+                    </div>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <!-- ====================== NCM ====================== -->
+    <record id="ncm_form_help" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.ncm.form.help</field>
+        <field name="model">l10n_br_fiscal.ncm</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.ncm_form" />
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page name="help" string="Ajuda">
+                    <div class="alert alert-info" role="alert">
+                        <strong>O NCM é a classificação fiscal do produto</strong>
+                        e é dele que vêm o IPI e o PIS/COFINS padrão de cada
+                        item. Produto com NCM errado = imposto errado em todas
+                        as notas.
+                    </div>
+                    <ul>
+                        <li>A tabela oficial completa já vem carregada; o seu
+                        trabalho é <strong>escolher o NCM certo em cada
+                        produto</strong>, não cadastrar NCMs.</li>
+                        <li>Quem define o NCM correto de um produto é o
+                        <strong>contador ou o fornecedor</strong> (a nota de
+                        compra é uma boa referência, mas confirme, pois o
+                        fornecedor também erra).</li>
+                        <li>NCM também determina se o produto tem
+                        <strong>substituição tributária</strong> em cada estado
+                        (junto com o CEST).</li>
+                    </ul>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <!-- ====================== Empresa (aba fiscal) ====================== -->
+    <record id="res_company_form_help" model="ir.ui.view">
+        <field name="name">res.company.form.fiscal.help</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.fiscal_res_company_form" />
+        <field name="arch" type="xml">
+            <page name="edoc" position="after">
+                <page name="fiscal_help" string="Ajuda">
+                    <div class="alert alert-info" role="alert">
+                        <strong>O regime tributário da empresa é o interruptor
+                        central do cálculo de impostos.</strong> Tudo o que
+                        depende de regime (códigos da nota CST ou CSOSN,
+                        PIS/COFINS, ICMS) se ajusta sozinho a partir do que
+                        está configurado aqui.
+                    </div>
+                    <h4>Mudou de regime? É aqui, e só aqui</h4>
+                    <div
+                        style="display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:12px 0;"
+                    >
+                        <div
+                            style="border:1px solid #ccc; border-radius:8px; padding:10px 14px; background:#f8f9fa;"
+                        >
+                            Saiu do <strong>Simples</strong> para o
+                            <strong>Presumido</strong>?<br />
+                            <small class="text-muted">Troque o Regime Tributário
+                            para "Regime Normal" e a apuração para
+                            "Presumido".</small>
+                        </div>
+                        <div
+                            style="border:1px solid #ccc; border-radius:8px; padding:10px 14px; background:#f8f9fa;"
+                        >
+                            Do <strong>Presumido</strong> para o
+                            <strong>Real</strong>?<br />
+                            <small class="text-muted">Troque só a apuração para
+                            "Real". O PIS/COFINS muda de alíquota
+                            automaticamente.</small>
+                        </div>
+                    </div>
+                    <p>As operações preparadas para múltiplos regimes
+                    (com linhas por regime tributário) <strong>não precisam ser
+                    reconfiguradas</strong>: elas reconhecem o regime da empresa
+                    e passam a emitir com os códigos certos (CSOSN no Simples,
+                    CST no regime normal) a partir da próxima nota. Revise com o
+                    contador apenas as operações criadas manualmente para um
+                    regime específico.</p>
+                    <ul>
+                        <li>Empresa do <strong>Simples Nacional</strong>:
+                        configure também o anexo e a faixa de faturamento. É
+                        deles que sai o percentual do DAS.</li>
+                        <li>Empresa do Simples que <strong>estourou o sublimite
+                        estadual</strong>: use o enquadramento "excesso de
+                        sublimite". O ICMS passa a ser destacado na nota como
+                        no regime normal, e o resto continua pelo Simples.</li>
+                        <li>Confirme a mudança de regime com o seu contador: a
+                        data de corte importa (notas antigas não são
+                        recalculadas).</li>
+                    </ul>
+                </page>
+            </page>
+        </field>
+    </record>
+
+</odoo>
