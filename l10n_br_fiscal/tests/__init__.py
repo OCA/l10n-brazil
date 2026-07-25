@@ -28,4 +28,5 @@ from . import (
     test_document_line_report,
     test_catalog_consignacao,
     test_regime,
+    test_catalog_venda_compras,
 )
