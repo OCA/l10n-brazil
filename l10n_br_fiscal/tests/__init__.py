@@ -33,4 +33,5 @@ from . import (
     test_catalog_triangular_industrializacao,
     test_catalog_ativo_demonstracao_transferencia,
     test_catalog_comex_armazem,
+    test_catalog_entrega_futura_vfe,
 )
