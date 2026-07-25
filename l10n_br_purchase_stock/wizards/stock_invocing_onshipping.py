@@ -21,7 +21,7 @@ class StockInvoiceOnshipping(models.TransientModel):
         purchase_pickings = pickings.filtered(lambda pk: pk.purchase_id)
         if purchase_pickings and self._get_invoice_type() != "in_refund":
             # Case more than one Purchase Order the fields below will be join
-            # the others will be overwritting, as done in purchase module,
+            # the others will be overwriting, as done in purchase module,
             # one more field include here Note
             payment_refs = set()
             refs = set()
@@ -37,26 +37,12 @@ class StockInvoiceOnshipping(models.TransientModel):
                     values["issuer"] = DOCUMENT_ISSUER_PARTNER
 
                 # Refund case don't get values from Purchase Dict
-                # TODO: Should get any value?
                 purchase_values = purchase._prepare_invoice()
 
                 # Fields to Join
-                # origins.add(purchase_values["invoice_origin"])
                 payment_refs.add(purchase_values["payment_reference"])
                 refs.add(purchase_values["ref"])
                 narration.add(purchase_values["narration"])
-
-                # Original dict from purchase module.
-
-                # Fields to get from original dict:
-                # - "ref": self.partner_ref or "",
-                # - "narration": self.notes,
-                # - "currency_id": self.currency_id.id,
-                # - "invoice_user_id": self.user_id and self.user_id.id
-                #    or self.env.user.id,
-                # - "payment_reference": self.partner_ref or "",
-                # - "partner_bank_id": partner_bank_id.id,
-                # - "invoice_payment_term_id": self.payment_term_id.id,
 
                 # Fields to remove from Original Dict
                 vals_to_remove = {
@@ -82,7 +68,6 @@ class StockInvoiceOnshipping(models.TransientModel):
                     {
                         "ref": ", ".join(refs)[:2000],
                         # In this case Origin get Pickings Names
-                        # "invoice_origin": ", ".join(origins),
                         "payment_reference": len(payment_refs) == 1
                         and payment_refs.pop()
                         or False,
@@ -129,14 +114,7 @@ class StockInvoiceOnshipping(models.TransientModel):
             )
 
             # Refund case don't get values from Purchase Line Dict
-            # TODO: Should get any value?
             if self._get_invoice_type() != "in_refund":
-                # Fields to get:
-                # "display_type": self.display_type or 'product'
-                # "sequence": self.sequence,
-                # * 'N field' included in _prepare_account_move_line method
-                #   by another module
-
                 # Fields to remove:
                 vals_to_remove = {
                     # Fields from Move has priority
@@ -168,7 +146,6 @@ class StockInvoiceOnshipping(models.TransientModel):
         :param invoice_values: dict with the invoice and its lines
         :return: invoice
         """
-        purchase = self.env["purchase.order"].browse(invoice_values.get("purchase_id"))
         pickings = self._load_pickings()
         purchase_pickings = pickings.filtered(lambda pk: pk.purchase_id)
         if not purchase_pickings or self._get_invoice_type() == "in_refund":
@@ -207,21 +184,17 @@ class StockInvoiceOnshipping(models.TransientModel):
                         }
                     )
 
-        # 3) Create invoices.
+        # Create invoices.
         moves = self.env["account.move"]
         AccountMove = self.env["account.move"].with_context(
             default_move_type="in_invoice"
         )
-        # for vals in invoice_vals_list:
         moves |= AccountMove.with_company(self.env.company).create(invoice_values)
 
-        # 4) Some moves might actually be refunds: convert them if the
+        # Some moves might actually be refunds: convert them if the
         # total amount is negative
-        # We do this after the moves have been created since we need taxes,
-        # etc. to know if the total
-        # is actually negative or not
         moves.filtered(
             lambda m: m.currency_id.round(m.amount_total) < 0
-        ).action_switch_invoice_into_refund_credit_note()
+        ).action_switch_move_type()
 
         return moves

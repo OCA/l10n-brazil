@@ -13,17 +13,13 @@
                 expr="//button[@name='action_create_invoice'][1]"
                 position="attributes"
             >
-                <attribute
-                    name="attrs"
-                >{'invisible': [('button_create_invoice_invisible', '=', True)]}</attribute>
+                <attribute name="invisible">button_create_invoice_invisible</attribute>
             </xpath>
             <xpath
                 expr="//button[@name='action_create_invoice'][2]"
                 position="attributes"
             >
-                <attribute
-                    name="attrs"
-                >{'invisible': [('button_create_invoice_invisible', '=', True)]}</attribute>
+                <attribute name="invisible">button_create_invoice_invisible</attribute>
             </xpath>
         </field>
     </record>

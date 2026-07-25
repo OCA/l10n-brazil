@@ -9,37 +9,20 @@
         />
         <field name="arch" type="xml">
             <xpath
-                expr="//div[@data-key='purchase']//h2[2]/following-sibling::div[1]"
+                expr="//block[@name='invoicing_settings_container']"
                 position="inside"
             >
-                <div
-                    class="col-12 col-lg-6 o_setting_box"
-                    title="If enabled, activates 3-way matching on vendor bills : the items must be received in order to pay the invoice."
+                <setting
+                    id="purchase_invoicing_policy_setting"
+                    title="Select invoiced based on order or picking"
+                    help="Define if Vendor Bill should be created from Purchase Order or from Stock Picking"
                 >
-                    <div class="o_setting_left_pane" />
-                    <div class="o_setting_right_pane">
-                        <label for="purchase_invoicing_policy" />
-                        <span
-                            class="fa fa-lg fa-building-o"
-                            title="Values set here are company-specific."
-                            aria-label="Values set here are company-specific."
-                            groups="base.group_multi_company"
-                            role="img"
-                        />
-                        <div
-                            class="text-muted"
-                        >Select invoiced based on order or picking</div>
-                        <div class="content-group">
-                            <div class="mt16">
-                                <field
-                                    name="purchase_invoicing_policy"
-                                    class="o_light_label"
-                                    widget="radio"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    <field
+                        name="purchase_invoicing_policy"
+                        class="o_light_label"
+                        widget="radio"
+                    />
+                </setting>
             </xpath>
         </field>
     </record>
