@@ -1,34 +1,32 @@
 # Copyright (C) 2020  Magno Costa - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, models
+from odoo import models
 
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    @api.onchange("partner_shipping_id")
-    def _onchange_partner_shipping_id(self):
+    def write(self, values):
         """
-        Caso ocorra a alteração do campo Endereço de Entrega/partner_shipping_id
-        depois do Pedido confirmado os stock.picking relacionados ficam com o
-        partner_id anterior, o que é errado, o metodo original apenas mostra uma
-        mensagem de alerta na tela orientando o usuário a corrigir manualmente,
-        mas como na localização com esse modulo pode se definir a criação da
-        Invoice a partir do stock.picking é melhor garantir a alteração do campo
-        partner_id da stock.picking afim de evitar erros na criação da Invoice.
-        :return: super()
+        When partner_shipping_id is changed after the order is confirmed,
+        the related stock.picking records keep the old partner_id, which is
+        wrong. In the Brazilian localization, where invoices can be created
+        from stock.picking, this can cause errors. So we force the update of
+        the partner_id on the related pickings.
+
+        In Odoo 17.0, the native sale_stock module only schedules a warning
+        activity but does not update the picking partner.
         """
-        # TODO: Verificar essa questão na migração a partir da v14
+        if values.get("partner_shipping_id"):
+            new_partner_id = values["partner_shipping_id"]
+            for record in self:
+                pickings = record.picking_ids.filtered(
+                    lambda p: (
+                        p.state not in ["done", "cancel"]
+                        and p.partner_id.id != new_partner_id
+                    )
+                )
+                pickings.write({"partner_id": new_partner_id})
 
-        pickings = self.picking_ids.filtered(
-            lambda p: p.state not in ["done", "cancel"]
-            and p.partner_id != self.partner_shipping_id
-        )
-        # Atribuição da forma abaixo por algum motivo
-        # não funciona apenas o write
-        # for picking in pickings:
-        #    picking.partner_id = self.partner_shipping_id
-        pickings.write({"partner_id": self.partner_shipping_id.id})
-
-        return super()._onchange_partner_shipping_id()
+        return super().write(values)
