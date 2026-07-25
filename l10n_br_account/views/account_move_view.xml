@@ -505,7 +505,6 @@
                     <page name="fiscal_line_extra_info" string="Extra Info" />
                     <page name="accounting" string="Accounting">
                         <group>
-                            <field name="fiscal_document_line_id" />
                             <field
                                 name="tax_ids"
                                 context="{'move_type': parent.move_type}"
