@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Família INDUSTRIALIZAÇÃO POR ENCOMENDA — completa o core (que só tem a remessa
+  do encomendante 5901/6901 e a entrada do industrializador 1901/2901).
+
+  Acrescenta: (a) retorno do INDUSTRIALIZADOR (5902/6902 insumo aplicado +
+  5903/6903 não aplicado + 5124/6124 cobrança da industrialização); (b) entrada
+  do retorno no ENCOMENDANTE (1902/2902 + 1903/2903 + 1124/2124 crédito da MO);
+  (c) variante "não transita pelo encomendante" (conta e ordem, 5924/1924 e
+  5925/1925).
+
+  Tributação: remessa/retorno do INSUMO têm SUSPENSÃO (ICMS CST 50, IPI CST
+  55-saída/05-entrada, PIS/COFINS CST 08). A parcela de industrialização
+  (5124/6124) é TRIBUTADA no caso geral (default). A suspensão do ICMS sobre a
+  MO+materiais (Conv. AE-15/74) é override por UF — não default.
+
+  ADITIVO: NÃO altera os return do core. O core tem um pareamento
+  remessa↔entrada de industrialização questionável (1901/2901 é entrada do
+  industrializador, não retorno do encomendante) — correção fica como PR de core
+  separado (ver ESTADO). Aqui as operações novas apontam para as do core.
+-->
+<odoo noupdate="1">
+
+    <!-- (b) ENCOMENDANTE: entrada do retorno da industrialização -->
+    <record id="fo_entrada_retorno_industrializacao" model="l10n_br_fiscal.operation">
+        <field name="code">ER-IND</field>
+        <field name="name">Entrada de retorno de industrialização por encomenda</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">return_in</field>
+        <field
+            name="return_fiscal_operation_id"
+            ref="l10n_br_fiscal.fo_remessa_industrializacao"
+        />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_eri_insumo" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_entrada_retorno_industrializacao" />
+        <field name="name">Retorno de insumo aplicado (suspensão)</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1902" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2902" />
+        <field name="product_type">01</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_eri_insumo_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_eri_insumo" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_suspensao" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_50" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_eri_insumo_ipi" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_eri_insumo" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_suspensao" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_05" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_eri_mo" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_entrada_retorno_industrializacao" />
+        <field name="name">Crédito da industrialização (mão de obra)</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1124" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2124" />
+        <field name="product_type">09</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+
+    <!-- (a) INDUSTRIALIZADOR: retorno da industrialização -->
+    <record id="fo_retorno_industrializacao" model="l10n_br_fiscal.operation">
+        <field name="code">RT-IND</field>
+        <field name="name">Retorno de industrialização por encomenda</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">return_out</field>
+        <field
+            name="return_fiscal_operation_id"
+            ref="l10n_br_fiscal.fo_entrada_industrializacao"
+        />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rti_insumo" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_retorno_industrializacao" />
+        <field name="name">Retorno de insumo aplicado (suspensão)</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5902" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6902" />
+        <field name="product_type">01</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rti_insumo_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_rti_insumo" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_suspensao" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_50" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rti_insumo_ipi" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_rti_insumo" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_suspensao" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_55" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rti_mo" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_retorno_industrializacao" />
+        <field
+            name="name"
+        >Cobrança da industrialização (mão de obra e materiais)</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5124" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6124" />
+        <field name="product_type">09</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+
+    <!-- (c) Variante "não transita pelo encomendante" (conta e ordem) -->
+    <!-- Encomendante: entrada do retorno (alvo do return) -->
+    <record id="fo_entrada_retorno_ind_conta_ordem" model="l10n_br_fiscal.operation">
+        <field name="code">ER-IND-CO</field>
+        <field
+            name="name"
+        >Entrada de retorno de industrialização por conta e ordem (não transita)</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">return_in</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_eri_co_insumo" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_entrada_retorno_ind_conta_ordem" />
+        <field name="name">Retorno de insumo por conta e ordem (suspensão)</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1925" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2925" />
+        <field name="product_type">01</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_eri_co_insumo_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_eri_co_insumo" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_suspensao" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_50" />
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_remessa_ind_conta_ordem" model="l10n_br_fiscal.operation">
+        <field name="code">REM-IND-CO</field>
+        <field
+            name="name"
+        >Remessa simbólica para industrialização por conta e ordem (não transita)</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">return_out</field>
+        <field
+            name="return_fiscal_operation_id"
+            ref="fo_entrada_retorno_ind_conta_ordem"
+        />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_ind_co_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_remessa_ind_conta_ordem" />
+        <field name="name">Remessa simbólica por conta e ordem (suspensão)</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5924" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6924" />
+        <field name="product_type">01</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_ind_co_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_rem_ind_co_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_suspensao" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_50" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- Industrializador: retorno por conta e ordem (alvo do return) -->
+    <record id="fo_retorno_ind_conta_ordem" model="l10n_br_fiscal.operation">
+        <field name="code">RT-IND-CO</field>
+        <field
+            name="name"
+        >Retorno de industrialização por conta e ordem (não transita)</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">return_out</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rti_co_insumo" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_retorno_ind_conta_ordem" />
+        <field name="name">Retorno de insumo por conta e ordem (suspensão)</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5925" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6925" />
+        <field name="product_type">01</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rti_co_mo" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_retorno_ind_conta_ordem" />
+        <field name="name">Cobrança da industrialização por conta e ordem</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5124" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6124" />
+        <field name="product_type">09</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_entrada_ind_conta_ordem" model="l10n_br_fiscal.operation">
+        <field name="code">ENT-IND-CO</field>
+        <field
+            name="name"
+        >Entrada para industrialização por conta e ordem (não transita)</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">return_in</field>
+        <field name="return_fiscal_operation_id" ref="fo_retorno_ind_conta_ordem" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ent_ind_co_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_entrada_ind_conta_ordem" />
+        <field name="name">Entrada por conta e ordem (suspensão)</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1924" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2924" />
+        <field name="product_type">01</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+
+    <!-- Correção do pareamento de return do core (SANEAMENTO). O core apontava
+         fo_remessa_industrializacao.return -> fo_entrada_industrializacao (1901),
+         mas 1901 é a ENTRADA do industrializador (a inversa), não o RETORNO do
+         encomendante (1902). Corrige para as operações certas. Estes records
+         atualizam só o campo return e vivem aqui porque referenciam operações
+         definidas acima (carregam após operation_data.xml). Bases existentes:
+         ver migração pós-saneamento. -->
+    <record id="fo_remessa_industrializacao" model="l10n_br_fiscal.operation">
+        <field
+            name="return_fiscal_operation_id"
+            ref="fo_entrada_retorno_industrializacao"
+        />
+    </record>
+    <record id="fo_entrada_industrializacao" model="l10n_br_fiscal.operation">
+        <field name="return_fiscal_operation_id" ref="fo_retorno_industrializacao" />
+    </record>
+
+
+    <!-- ================= Simples Nacional =================
+         Linhas irmãs para empresa do Simples (company_tax_framework=1): o
+         seletor de linha prefere a mais específica, então a empresa SN casa
+         estas (CSOSN via grupo icmssn) e os demais regimes casam as genéricas
+         (CST). Empresa em excesso de sublimite (framework=2) recolhe ICMS fora
+         do DAS e cai na genérica com CST — correto. Regra geral: movimento sem
+         receita/titularidade = CSOSN 400; ajuste/simbólica = 900; linha de
+         receita não fixa ICMS (herda a tributação SN da empresa). Mapa a
+         ratificar com contador (transferência de mercadoria: ADC 49). -->
+    <record id="fo_eri_insumo_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_entrada_retorno_industrializacao" />
+        <field
+            name="name"
+        >Retorno de insumo aplicado (suspensão) - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1902" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2902" />
+        <field name="product_type">01</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_eri_insumo_ipi_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_eri_insumo_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_suspensao" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_05" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_eri_insumo_sn_icmssn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_eri_insumo_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rti_insumo_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_retorno_industrializacao" />
+        <field
+            name="name"
+        >Retorno de insumo aplicado (suspensão) - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5902" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6902" />
+        <field name="product_type">01</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rti_insumo_ipi_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_rti_insumo_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_suspensao" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_55" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rti_insumo_sn_icmssn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_rti_insumo_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_eri_co_insumo_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_entrada_retorno_ind_conta_ordem" />
+        <field
+            name="name"
+        >Retorno de insumo por conta e ordem (suspensão) - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1925" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2925" />
+        <field name="product_type">01</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_eri_co_insumo_sn_icmssn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_eri_co_insumo_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_ind_co_line_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_remessa_ind_conta_ordem" />
+        <field
+            name="name"
+        >Remessa simbólica por conta e ordem (suspensão) - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5924" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6924" />
+        <field name="product_type">01</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_ind_co_line_sn_icmssn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_rem_ind_co_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rti_co_insumo_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_retorno_ind_conta_ordem" />
+        <field
+            name="name"
+        >Retorno de insumo por conta e ordem (suspensão) - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5925" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6925" />
+        <field name="product_type">01</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rti_co_insumo_sn_icmssn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_rti_co_insumo_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ent_ind_co_line_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_entrada_ind_conta_ordem" />
+        <field
+            name="name"
+        >Entrada por conta e ordem (suspensão) - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1924" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2924" />
+        <field name="product_type">01</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ent_ind_co_line_sn_icmssn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_ent_ind_co_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+
+</odoo>
