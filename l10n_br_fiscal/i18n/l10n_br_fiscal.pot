@@ -3344,14 +3344,6 @@ msgid "Geral"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,help:l10n_br_fiscal.field_product_product__type
-#: model:ir.model.fields,help:l10n_br_fiscal.field_product_template__type
-msgid ""
-"Goods are tangible materials and merchandise you provide.\n"
-"A service is a non-material product you provide."
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__price_gross
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__price_gross
 msgid "Gross Product/Service Amount"
@@ -6934,12 +6926,6 @@ msgid "Product Information"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__type
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__type
-msgid "Product Type"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_uom_uom
 msgid "Product Unit of Measure"
 msgstr ""
@@ -7781,11 +7767,6 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__stock_move
 msgid "Stock Moves?"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__product_template__type__product
-msgid "Storable Product"
 msgstr ""
 
 #. module: l10n_br_fiscal
