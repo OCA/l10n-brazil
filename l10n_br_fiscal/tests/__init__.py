@@ -16,4 +16,8 @@ from . import (
     test_partner_profile,
     test_service_type,
     test_operation,
+    # Catálogo de operações fiscais (F7)
+    test_operation_catalog,
+    test_cfop_flags,
+    test_regime,
 )

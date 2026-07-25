@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Família ENTREGA FUTURA — parte ADITIVA sobre o core.
+
+  ⚠ DEPENDÊNCIA: só fica correta em produção APÓS o PR de saneamento dos flags
+  finance_move/stock_move do CFOP (ver data/AUDITORIA_CFOP_FLAGS.md). Modela a
+  ESCOLA A (faturamento antecipado): PIS/COFINS incidem no FATURAMENTO (receita);
+  ICMS/IPI na REMESSA (circulação). Com os flags corrigidos (5922→1/0
+  faturamento; 5116/5117→0/1 remessa), o financeiro nasce no faturamento e o
+  estoque sai na remessa.
+
+  O core já tem o lado venda parcial (fo_simples_faturamento 5922, fo_entrega_
+  futura 5116 produção) — porém com bugs (fo_entrega_futura zera IPI/PIS-COFINS
+  indevidamente; falta zerar IPI no faturamento). Essas CORREÇÕES do lado venda
+  existente entram no PR de saneamento de core, não aqui. Este arquivo adiciona
+  só o que falta: lado COMPRA (recebimento futuro) e a remessa de REVENDA (5117).
+-->
+<odoo noupdate="1">
+
+    <!-- Remessa de entrega futura — mercadoria de terceiros (revenda). O core só
+         tem a de produção (5116); esta complementa. PIS/COFINS já foram no
+         faturamento (CST 49); IPI não destaca (comerciante); ICMS destaca. -->
+    <record id="fo_entrega_futura_remessa_revenda" model="l10n_br_fiscal.operation">
+        <field name="code">EF-REM-REV</field>
+        <field name="name">Remessa de entrega futura - mercadoria de terceiros</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">sale</field>
+        <field
+            name="return_fiscal_operation_id"
+            ref="l10n_br_fiscal.fo_devolucao_venda"
+        />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ef_remessa_revenda_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_entrega_futura_remessa_revenda" />
+        <field name="name">Remessa de entrega futura (revenda)</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5117" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6117" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ef_remessa_revenda_ipi" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_ef_remessa_revenda_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ef_remessa_revenda_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_ef_remessa_revenda_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ef_remessa_revenda_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_ef_remessa_revenda_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- LADO COMPRA: faturamento antecipado recebido (1922). PIS/COFINS creditam
+         (espelham o débito do vendedor); ICMS/IPI sem crédito (crédito vem na
+         entrada física). -->
+    <record id="fo_entrega_futura_compra" model="l10n_br_fiscal.operation">
+        <field name="code">EF-COMPRA</field>
+        <field name="name">Simples faturamento - compra para recebimento futuro</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">other</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ef_compra_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_entrega_futura_compra" />
+        <field name="name">Faturamento de compra para recebimento futuro</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1922" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2922" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ef_compra_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_ef_compra_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_0" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_90" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ef_compra_ipi" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_ef_compra_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_49" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- LADO COMPRA: entrada física - industrialização (1116). ICMS/IPI creditam
+         (default); PIS/COFINS sem novo crédito (CST 98, já creditados no fat.). -->
+    <record id="fo_entrega_futura_entrada_ind" model="l10n_br_fiscal.operation">
+        <field name="code">EF-ENT-IND</field>
+        <field
+            name="name"
+        >Entrada de compra p/ industrialização - recebimento futuro</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">purchase</field>
+        <field
+            name="return_fiscal_operation_id"
+            ref="l10n_br_fiscal.fo_devolucao_compras"
+        />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ef_entrada_ind_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_entrega_futura_entrada_ind" />
+        <field
+            name="name"
+        >Entrada física - industrialização (recebimento futuro)</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1116" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2116" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ef_entrada_ind_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_ef_entrada_ind_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_98" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ef_entrada_ind_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_ef_entrada_ind_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_98" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- LADO COMPRA: entrada física - comercialização (1117). ICMS credita; IPI
+         não creditável (revenda); PIS/COFINS CST 98. -->
+    <record id="fo_entrega_futura_entrada_com" model="l10n_br_fiscal.operation">
+        <field name="code">EF-ENT-COM</field>
+        <field
+            name="name"
+        >Entrada de compra p/ comercialização - recebimento futuro</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">purchase</field>
+        <field
+            name="return_fiscal_operation_id"
+            ref="l10n_br_fiscal.fo_devolucao_compras"
+        />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ef_entrada_com_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_entrega_futura_entrada_com" />
+        <field name="name">Entrada física - comercialização (recebimento futuro)</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1117" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2117" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ef_entrada_com_ipi" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_ef_entrada_com_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ef_entrada_com_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_ef_entrada_com_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_98" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ef_entrada_com_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_ef_entrada_com_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_98" />
+        <field name="state">approved</field>
+    </record>
+
+
+    <!-- ================= Simples Nacional =================
+         Linhas irmãs para empresa do Simples (company_tax_framework=1): o
+         seletor de linha prefere a mais específica, então a empresa SN casa
+         estas (CSOSN via grupo icmssn) e os demais regimes casam as genéricas
+         (CST). Empresa em excesso de sublimite (framework=2) recolhe ICMS fora
+         do DAS e cai na genérica com CST — correto. Regra geral: movimento sem
+         receita/titularidade = CSOSN 400; ajuste/simbólica = 900; linha de
+         receita não fixa ICMS (herda a tributação SN da empresa). Mapa a
+         ratificar com contador (transferência de mercadoria: ADC 49). -->
+    <record id="fo_ef_remessa_revenda_line_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_entrega_futura_remessa_revenda" />
+        <field
+            name="name"
+        >Remessa de entrega futura (revenda) - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5117" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6117" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ef_remessa_revenda_ipi_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_ef_remessa_revenda_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ef_remessa_revenda_pis_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_ef_remessa_revenda_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ef_remessa_revenda_cofins_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_ef_remessa_revenda_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_ef_remessa_revenda_line_sn_icmssn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_ef_remessa_revenda_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ef_compra_line_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_entrega_futura_compra" />
+        <field
+            name="name"
+        >Faturamento de compra para recebimento futuro - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1922" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2922" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ef_compra_ipi_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_ef_compra_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ef_compra_line_sn_icmssn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_ef_compra_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_900" />
+        <field name="state">approved</field>
+    </record>
+
+</odoo>
