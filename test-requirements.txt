@@ -3,3 +3,4 @@ nfelib
 xsdata
 signxml==3.2.2
 xmldiff
+odoo-addon-sale_stock_picking_invoicing @ git+https://github.com/akretion/account-invoicing.git@refs/pull/16/head#subdirectory=sale_stock_picking_invoicing
