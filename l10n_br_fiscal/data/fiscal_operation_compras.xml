@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Família COMPRAS — acrescenta apenas as linhas de compra para prestação de
+  serviço, que faltam no core.
+
+  A matriz de crédito por destinação (PIS/COFINS/IPI por regime) NÃO entra aqui:
+  fixar tax.definition nas linhas de fo_compras sobrescreve o imposto que vem do
+  produto/regulamento e quebra o comportamento por regime (Simples/Presumido/
+  Real) — é decisão de regime, deve morar num módulo/config próprio, não no
+  catálogo base. Ver SANEAMENTO_OPERACOES_BASE.md.
+-->
+<odoo noupdate="1">
+
+    <!-- Compra para prestação de serviço (linhas novas em fo_compras) -->
+    <record id="fo_compras_servico_icms" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field name="name">Compra para prestação de serviço (ICMS)</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1126" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2126" />
+        <field name="product_type">09</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_compras_servico_iss" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field name="name">Compra para prestação de serviço (ISS)</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1128" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2128" />
+        <field name="product_type">09</field>
+        <field name="tax_icms_or_issqn">issqn</field>
+        <field name="state">approved</field>
+    </record>
+
+</odoo>
