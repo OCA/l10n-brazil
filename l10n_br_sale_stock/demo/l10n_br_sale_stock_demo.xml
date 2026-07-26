@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="sale.sale_order_1" model="sale.order">
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
     </record>
@@ -108,5 +107,4 @@
     <record id="sale.sale_order_line_21" model="sale.order.line">
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
     </record>
-
 </odoo>

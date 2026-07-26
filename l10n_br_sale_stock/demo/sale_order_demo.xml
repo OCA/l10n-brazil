@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <!-- Pedido de Venda com o Endereço de Entrega(partner_shipping_id)
      diferente do Endereço de Faturamento( partner_invoice_id ), no Brasil
      isso só é permitido se os dois endereços estiverem no mesmo Estado,
@@ -388,7 +387,6 @@
         <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
         <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion" />
         <field name="user_id" ref="l10n_br_base.user_demo_presumido" />
-        <field name="pricelist_id" ref="sale_stock_picking_invoicing.demo_pricelist" />
         <field name="team_id" ref="sales_team.crm_team_1" />
         <field name="state">draft</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
@@ -458,5 +456,4 @@
             ref="l10n_br_fiscal.fo_bonificacao_bonificacao"
         />
     </record>
-
 </odoo>

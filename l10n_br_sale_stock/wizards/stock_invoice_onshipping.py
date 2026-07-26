@@ -86,16 +86,7 @@ class StockInvoiceOnshipping(models.TransientModel):
 
         sale_line_id = moves.sale_line_id
         values["sale_line_ids"] = [Command.set(sale_line_id.ids)]
-        analytic_account_id = sale_line_id.order_id.analytic_account_id.id
         if sale_line_id.analytic_distribution and not sale_line_id.display_type:
-            values["analytic_distribution"] = sale_line_id.analytic_distribution
-        if analytic_account_id and not sale_line_id.display_type:
-            analytic_account_id = str(analytic_account_id)
-            if "analytic_distribution" in values:
-                values["analytic_distribution"][analytic_account_id] = (
-                    values["analytic_distribution"].get(analytic_account_id, 0) + 100
-                )
-            else:
-                values["analytic_distribution"] = {analytic_account_id: 100}
+            values["analytic_distribution"] = dict(sale_line_id.analytic_distribution)
 
         return values
