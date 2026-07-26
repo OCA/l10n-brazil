@@ -9,7 +9,6 @@ class Carrier(models.Model):
 
     antt_code = fields.Char(
         string="Codigo ANTT",
-        size=32,
     )
 
     vehicle_ids = fields.One2many(

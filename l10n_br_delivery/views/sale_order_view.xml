@@ -20,13 +20,13 @@
                             context="{'order_id': id}"
                             class="oe_inline"
                             options="{'no_create': True, 'no_open': True}"
-                            attrs="{'readonly':[('state','not in',('draft','sent'))]}"
+                            readonly="state not in ('draft', 'sent')"
                         />
                     </div>
                     <div
                         class="alert alert-info"
                         role="status"
-                        attrs="{'invisible': ['|',('carrier_id','=', False),('delivery_message','=',False)]}"
+                        invisible="not carrier_id or not delivery_message"
                     >
                         <field name='delivery_message' force_save="1" />
                     </div>

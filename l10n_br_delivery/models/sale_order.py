@@ -10,19 +10,15 @@ class SaleOrder(models.Model):
     # A partir da v9 existe apenas o campo weight, que é referente ao
     # Peso Bruto/Gross Weight https://github.com/OCA/product-attribute/pull/894
     # Caso a implementação precise do Peso Liquido o modulo do link deve ser
-    # cosiderado.
+    # considerado.
     # Esse modulo l10n_br_delivery é pensando para ter aderencia com o
     # product_net_weight (modulo link acima).
     amount_gross_weight = fields.Float(compute="_compute_amount_gross_weight")
 
     amount_volume = fields.Float(compute="_compute_amount_volume")
 
-    # Devido o campo no sale_order chamar apenas incoterm
-    # ao inves de incoterm_id como o padrão, a copia do
-    # arquivo não acontece, por isso é preciso fazer o
-    # related abaixo
-    # TODO: Verificar na migração se isso foi alterado
-    incoterm_id = fields.Many2one(related="incoterm")
+    # sale.order.incoterm foi removido no Odoo 17+ — o campo incoterm_id
+    # eh fornecido pelo mixin l10n_br_fiscal.document.mixin.
 
     @api.depends("order_line")
     def _compute_delivery_state(self):
@@ -46,12 +42,12 @@ class SaleOrder(models.Model):
         for record in self:
             amount_gross_weight = 0.0
             for line in record.order_line:
-                amount_gross_weight += line.product_qty * line.product_id.weight
+                amount_gross_weight += line.product_uom_qty * line.product_id.weight
             record.amount_gross_weight = amount_gross_weight
 
     def _compute_amount_volume(self):
         for record in self:
             amount_volume = 0.0
             for line in record.order_line:
-                amount_volume += line.product_qty * line.product_id.volume
+                amount_volume += line.product_uom_qty * line.product_id.volume
             record.amount_volume = amount_volume

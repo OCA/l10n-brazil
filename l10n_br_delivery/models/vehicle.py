@@ -8,31 +8,15 @@ class CarrierVehicle(models.Model):
     _name = "l10n_br_delivery.carrier.vehicle"
     _description = "Carrier Vehicle"
 
-    name = fields.Char(
-        required=True,
-        size=32,
-        unaccent=False,
-    )
+    name = fields.Char(required=True)
 
-    description = fields.Char(
-        size=132,
-        unaccent=False,
-    )
+    description = fields.Char()
 
-    plate = fields.Char(
-        string="Placa",
-        size=7,
-    )
+    plate = fields.Char(string="Placa")
 
-    driver = fields.Char(
-        size=64,
-        unaccent=False,
-    )
+    driver = fields.Char()
 
-    rntc_code = fields.Char(
-        string="ANTT Code",
-        size=32,
-    )
+    rntc_code = fields.Char(string="ANTT Code")
 
     country_id = fields.Many2one(
         comodel_name="res.country",
@@ -53,18 +37,12 @@ class CarrierVehicle(models.Model):
 
     active = fields.Boolean()
 
-    manufacture_year = fields.Char(
-        string="Ano de Fabricação",
-        size=4,
-    )
+    manufacture_year = fields.Char(string="Ano de Fabricacao")
 
-    model_year = fields.Char(
-        string="Ano do Modelo",
-        size=4,
-    )
+    model_year = fields.Char(string="Ano do Modelo")
 
     type = fields.Selection(
-        selection=[("bau", "Caminhão Baú")],
+        selection=[("bau", "Caminhao Bau")],
         string="Model Type",
     )
 

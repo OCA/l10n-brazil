@@ -3,7 +3,7 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo.tests.common import Form, TransactionCase
+from odoo.tests import Form, TransactionCase
 
 
 class TestDeliveryInverseAmount(TransactionCase):
@@ -36,7 +36,7 @@ class TestDeliveryInverseAmount(TransactionCase):
         picking.action_confirm()
         picking.action_assign()
         for move in picking.move_ids_without_package:
-            move.quantity_done = move.product_uom_qty
+            move.quantity = move.product_uom_qty
         picking.button_validate()
 
         wizard = (

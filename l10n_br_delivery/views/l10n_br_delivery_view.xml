@@ -34,13 +34,13 @@
     <record id="l10n_br_delivery_carrier_vehicle_tree" model="ir.ui.view">
         <field name="name">l10n_br_delivery.carrier.vehicle.tree</field>
         <field name="model">l10n_br_delivery.carrier.vehicle</field>
-        <field name="type">tree</field>
+        <field name="type">list</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field colspan="4" name="name" />
                 <field name="plate" />
                 <field name="manufacture_year" />
-            </tree>
+            </list>
         </field>
     </record>
 

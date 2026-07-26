@@ -7,7 +7,7 @@
     "author": "Akretion, Odoo Community Association (OCA)",
     "maintainers": ["renatonlima", "mbcosta"],
     "website": "https://github.com/OCA/l10n-brazil",
-    "version": "16.0.4.0.0",
+    "version": "18.0.1.0.0",
     "development_status": "Beta",
     "depends": [
         "l10n_br_sale_stock",
@@ -16,7 +16,6 @@
     ],
     "data": [
         # Data
-        "data/res_config_settings_data.xml",
         "data/account_incoterms_data.xml",
         # View
         "views/delivery_carrier_views.xml",

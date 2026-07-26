@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
-
     <!--
     Transportadora res.partner
     -->
     <record id="test_carrier" model="res.partner">
         <field name="name">Transportadora - Teste</field>
         <field name="legal_name">Transportadora - Teste</field>
-        <field name="cnpj_cpf">21.221.265/0001-90</field>
+        <field name="vat">21.221.265/0001-90</field>
         <field name="street_name">Estrada do Caminho Velho</field>
         <field name="street_number">1</field>
         <field name="district">Jardim Nova Cidade</field>
@@ -67,7 +66,7 @@
         <field name="fixed_price">10.0</field>
         <field name="sequence">3</field>
         <field name="delivery_type">fixed</field>
-        <field name="product_id" ref="delivery.product_product_local_delivery" />
+        <field name="product_id" ref="product.product_product_local_delivery" />
         <field name="partner_id" ref="test_carrier" />
         <field name="antt_code">Teste - Código ANTT</field>
         <field
@@ -94,7 +93,7 @@
     </record>
 
     <function model="stock.quant" name="action_apply_inventory">
-            <function
+        <function
             eval="[[('id', 'in', (ref('l10n_br_delivery_stock_quant_1'),
                                             ref('l10n_br_delivery_stock_quant_2'),
                                             ))]]"
@@ -115,5 +114,4 @@
         <field name="weight">3.0</field>
         <field name="volume">1</field>
     </record>
-
 </odoo>
