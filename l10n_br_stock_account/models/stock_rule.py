@@ -66,14 +66,26 @@ class StockRule(models.Model):
         easily add fields from procurement 'values' argument to move data.
         """
         custom_move_fields = super()._get_custom_move_fields()
-        # Keep only simple (non-relational) fields to avoid "can't adapt type" errors
-        # during move creation.
+        # Collect all fiscal document line mixin fields that should be
+        # propagated from procurement values to the stock move.
+        # Exclude fields that already exist on stock.move with different
+        # semantics (quantity, partner_id, price_unit, uom_id, sequence)
+        # to avoid corrupting core stock.move behavior (e.g. quantity=3.0
+        # set at creation triggers _recompute_state → assigned, which
+        # prevents _action_confirm from creating a picking).
+        _conflicting_fields = {
+            "quantity",
+            "partner_id",
+            "price_unit",
+            "uom_id",
+            "sequence",
+        }
         custom_move_fields += [
             key
             for key, field in self.env[
                 "l10n_br_fiscal.document.line.mixin"
             ]._fields.items()
-            if key not in {"product_id", "company_id"}
+            if key not in ({"product_id", "company_id"} | _conflicting_fields)
             and field.type not in ("one2many", "many2many")
         ]
         return custom_move_fields
