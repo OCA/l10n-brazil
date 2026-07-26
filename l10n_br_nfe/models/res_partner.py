@@ -10,11 +10,6 @@ from odoo.addons.spec_driven_model.models import spec_models
 
 
 class ResPartner(spec_models.SpecModel):
-    # NOTE TODO
-    # dest has a m2o tendereco. tlocal and tendereco are really similar...
-    # what happen to m2o to tendereco if we don't inherit from tendereco?
-    # should we stack tendereco from dest? will m2o to tendereco work?
-    # can we use related fields and context views to avoid troubles?
     _name = "res.partner"
     _inherit = [
         "res.partner",
@@ -35,8 +30,13 @@ class ResPartner(spec_models.SpecModel):
         values = super()._prepare_import_dict(
             values, model, parent_dict, defaults_model
         )
-        if not values.get("name") and values.get("legal_name"):
-            values["name"] = values["legal_name"]
+        if not values.get("name"):
+            if values.get("legal_name"):
+                values["name"] = values["legal_name"]
+            elif values.get("nfe40_CPF"):  # autXML for instance
+                values["name"] = f"contato CPF {values['nfe40_CPF']}"
+            elif values.get("nfe40_CNPJ"):
+                values["name"] = f"contato CNPJ {values['nfe40_CNPJ']}"
         return values
 
     # nfe.40.tlocal / nfe.40.enderEmit / 'nfe.40.enderDest

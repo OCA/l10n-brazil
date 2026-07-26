@@ -962,6 +962,14 @@ class NFe(spec_models.StackedModel):
             )
         return res
 
+    @api.model
+    def _build_attr(self, node, fields, vals, path, attr):
+        key = f"nfe40_{attr[1].metadata.get('name', attr[0])}"
+        if key == "nfe40_IBSCBSTot":
+            # IBSCBSTot fields are computed from lines, skip importing
+            return
+        return super()._build_attr(node, fields, vals, path, attr)
+
     def _build_many2one(self, comodel, vals, new_value, key, value, path):
         if key == "nfe40_entrega" and self.env.context.get("edoc_type") == "in":
             enderEntreg_value = self.env["res.partner"].build_attrs(value, path=path)
@@ -977,8 +985,17 @@ class NFe(spec_models.StackedModel):
                 "company_type": "person",
             }
             new_value.update(new_vals)
+            # Store the delivery address on the stored partner_shipping_id
+            # field (like emit/dest write to partner_id). nfe40_entrega is a
+            # non-stored computed field, so writing to it would silently drop
+            # the imported delivery address.
             super()._build_many2one(
-                self.env["res.partner"], vals, new_value, key, value, path
+                self.env["res.partner"],
+                vals,
+                new_value,
+                "partner_shipping_id",
+                value,
+                path,
             )
         elif key == "nfe40_emit" and self.env.context.get("edoc_type") == "in":
             enderEmit_value = self.env["res.partner"].build_attrs(
