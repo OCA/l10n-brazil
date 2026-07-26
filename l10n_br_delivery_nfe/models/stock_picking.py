@@ -53,8 +53,8 @@ class StockPicking(models.Model):
                         vol_data["nfe40_marca"] = (
                             vol_data["nfe40_marca"] or product_nfe40_marca
                         )
-                        pesoL = line.qty_done * line.product_id.net_weight
-                        pesoB = line.qty_done * line.product_id.weight
+                        pesoL = line.quantity * line.product_id.net_weight
+                        pesoB = line.quantity * line.product_id.weight
                         vol_data["nfe40_pesoL"] += pesoL
                         vol_data["nfe40_pesoB"] += 0 if manual_weight else pesoB
                     vols_data.append(vol_data)
@@ -83,7 +83,7 @@ class StockPicking(models.Model):
             for line in picking_id.move_line_ids_without_package.filtered(
                 lambda ml: not ml.package_level_id and not ml.result_package_id
             ):
-                new_vol["nfe40_qVol"] += line.qty_done
+                new_vol["nfe40_qVol"] += line.quantity
                 new_vol["nfe40_esp"] = (
                     new_vol["nfe40_esp"] or line.product_id.product_volume_type
                 )
@@ -93,8 +93,8 @@ class StockPicking(models.Model):
                     else ""
                 )
                 new_vol["nfe40_marca"] = new_vol["nfe40_marca"] or product_nfe40_marca
-                pesoL = line.qty_done * line.product_id.net_weight
-                pesoB = line.qty_done * line.product_id.weight
+                pesoL = line.quantity * line.product_id.net_weight
+                pesoB = line.quantity * line.product_id.weight
                 new_vol["nfe40_pesoL"] += pesoL
                 new_vol["nfe40_pesoB"] += pesoB
 

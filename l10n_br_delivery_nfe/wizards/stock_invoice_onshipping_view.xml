@@ -10,7 +10,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='invoice_date']" position="after">
                 <field name="vol_ids">
-                    <tree default_order="picking_id">
+                    <list default_order="picking_id">
                         <field name="picking_id" string="Transfer" />
                         <field name="nfe40_qVol" string="Qt Vol" />
                         <field name="nfe40_esp" string="Esp." />
@@ -18,7 +18,7 @@
                         <field name="nfe40_nVol" string="N. Vol." />
                         <field name="nfe40_pesoL" string="Peso L." />
                         <field name="nfe40_pesoB" string="Peso B." />
-                    </tree>
+                    </list>
                 </field>
             </xpath>
         </field>
