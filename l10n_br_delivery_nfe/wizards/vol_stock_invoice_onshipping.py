@@ -16,7 +16,6 @@ class StockInvoiceOnshippingVol(models.TransientModel):
     sadly, _name/_inherit breaks spec_model
     TODO: learn how to inherit nfe mixin (https://github.com/OCA/l10n-brazil/pull/3091)
     """
-    nfe40_vol_transp_id = fields.Many2one(comodel_name="nfe.40.transp")
     nfe40_qVol = fields.Char(string="Quantidade de volumes transportados")
     nfe40_esp = fields.Char(string="Espécie dos volumes transportados")
     nfe40_marca = fields.Char(string="Marca dos volumes transportados")

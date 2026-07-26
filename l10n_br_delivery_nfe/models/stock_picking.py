@@ -29,35 +29,36 @@ class StockPicking(models.Model):
         """Generate a single volume for packages"""
         vols_data = []
         for picking_id in self:
-            if picking_id.package_ids:
-                for package_level_id in picking_id.package_level_ids:
-                    manual_weight = package_level_id.package_id.shipping_weight
-                    vol_data = {
-                        "nfe40_qVol": 1,
-                        "nfe40_esp": "",
-                        "nfe40_marca": "",
-                        "nfe40_pesoL": 0,
-                        "nfe40_pesoB": (manual_weight if manual_weight else 0),
-                        "picking_id": picking_id.id,
-                    }
+            # Odoo 18.0 removed the delivery module package_ids m2m field:
+            # iterate the package levels directly like core stock does.
+            for package_level_id in picking_id.package_level_ids:
+                manual_weight = package_level_id.package_id.shipping_weight
+                vol_data = {
+                    "nfe40_qVol": 1,
+                    "nfe40_esp": "",
+                    "nfe40_marca": "",
+                    "nfe40_pesoL": 0,
+                    "nfe40_pesoB": (manual_weight if manual_weight else 0),
+                    "picking_id": picking_id.id,
+                }
 
-                    for line in package_level_id.move_line_ids:
-                        vol_data["nfe40_esp"] = (
-                            vol_data["nfe40_esp"] or line.product_id.product_volume_type
-                        )
-                        product_nfe40_marca = (
-                            line.product_id.product_brand_id.name
-                            if line.product_id.product_brand_id
-                            else ""
-                        )
-                        vol_data["nfe40_marca"] = (
-                            vol_data["nfe40_marca"] or product_nfe40_marca
-                        )
-                        pesoL = line.qty_done * line.product_id.net_weight
-                        pesoB = line.qty_done * line.product_id.weight
-                        vol_data["nfe40_pesoL"] += pesoL
-                        vol_data["nfe40_pesoB"] += 0 if manual_weight else pesoB
-                    vols_data.append(vol_data)
+                for line in package_level_id.move_line_ids:
+                    vol_data["nfe40_esp"] = (
+                        vol_data["nfe40_esp"] or line.product_id.product_volume_type
+                    )
+                    product_nfe40_marca = (
+                        line.product_id.product_brand_id.name
+                        if line.product_id.product_brand_id
+                        else ""
+                    )
+                    vol_data["nfe40_marca"] = (
+                        vol_data["nfe40_marca"] or product_nfe40_marca
+                    )
+                    pesoL = line.quantity * line.product_id.net_weight
+                    pesoB = line.quantity * line.product_id.weight
+                    vol_data["nfe40_pesoL"] += pesoL
+                    vol_data["nfe40_pesoB"] += 0 if manual_weight else pesoB
+                vols_data.append(vol_data)
 
         return vols_data
 
@@ -83,7 +84,7 @@ class StockPicking(models.Model):
             for line in picking_id.move_line_ids_without_package.filtered(
                 lambda ml: not ml.package_level_id and not ml.result_package_id
             ):
-                new_vol["nfe40_qVol"] += line.qty_done
+                new_vol["nfe40_qVol"] += line.quantity
                 new_vol["nfe40_esp"] = (
                     new_vol["nfe40_esp"] or line.product_id.product_volume_type
                 )
@@ -93,8 +94,8 @@ class StockPicking(models.Model):
                     else ""
                 )
                 new_vol["nfe40_marca"] = new_vol["nfe40_marca"] or product_nfe40_marca
-                pesoL = line.qty_done * line.product_id.net_weight
-                pesoB = line.qty_done * line.product_id.weight
+                pesoL = line.quantity * line.product_id.net_weight
+                pesoB = line.quantity * line.product_id.weight
                 new_vol["nfe40_pesoL"] += pesoL
                 new_vol["nfe40_pesoB"] += pesoB
 

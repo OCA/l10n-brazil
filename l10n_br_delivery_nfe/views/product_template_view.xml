@@ -6,7 +6,7 @@
             <xpath expr="//label[@for='net_weight']" position="before">
                 <field
                     name="product_volume_type"
-                    attrs="{'invisible':[('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}"
+                    invisible="product_variant_count > 1 and not is_product_variant"
                 />
             </xpath>
         </field>
