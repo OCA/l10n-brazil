@@ -2,6 +2,7 @@
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import logging
 import sys
 from enum import Enum
 
@@ -18,6 +19,8 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 from odoo.addons.l10n_br_fiscal.constants.icms import ICMS_CST, ICMS_SN_CST
 from odoo.addons.l10n_br_fiscal.tools import remove_non_ascii_characters
 from odoo.addons.spec_driven_model.models import spec_models
+
+_logger = logging.getLogger(__name__)
 
 ICMSSN_CST_CODES_USE_102 = ("102", "103", "300", "400")
 ICMSSN_CST_CODES_USE_202 = ("202", "203")
@@ -83,7 +86,7 @@ class NFeLine(spec_models.StackedModel):
 
     # When dynamic stacking is applied, the NFe line has the following structure:
     DET_TREE = """
-> <det>
+    > <det>
     > <prod>
         ≡ <gCred>
         ≡ <DI>
@@ -1633,6 +1636,57 @@ class NFeLine(spec_models.StackedModel):
         # elif kind == "cofins":  # (will also apply to cofinsst)
         #     pass
         #     # TODO  qBCProd, vAliqProd
+
+    def _create_reduced_fiscal_tax(
+        self, tax_group_id, percent, cst_id, percent_reduction
+    ):
+        """Create an ICMS fiscal tax with a base reduction when the company
+        has none configured for this rate/reduction combination.
+
+        Without this, an imported NFe line that declares an ICMS base
+        reduction (redução de base de cálculo) would fall back to a plain
+        no-reduction tax, computing a higher ICMS credit than the supplier
+        actually charged and diverging from the NFe / SPED. The created tax
+        carries the proper percent_reduction so it is reused on the next
+        import (idempotent via the earlier search on percent_reduction).
+        """
+        cst_field = "cst_{}_id".format(self.env.context.get("edoc_type", "in"))
+        vals = {
+            "name": _("ICMS %(percent)s%% Com Red. %(red)s%%")
+            % {"percent": percent, "red": percent_reduction},
+            "tax_group_id": tax_group_id,
+            "percent_amount": percent,
+            "percent_reduction": percent_reduction,
+            "percent_debit_credit": 0,
+            "value_amount": 0,
+            "icmsst_mva_percent": 0,
+            "icmsst_value": 0,
+            cst_field: cst_id,
+        }
+        tax = self.env["l10n_br_fiscal.tax"].create(vals)
+        # Master data created as an import side effect must leave a trail
+        # so the fiscal responsible can review it afterwards.
+        _logger.info(
+            "NFe import created fiscal tax '%s' (id %s) for company %s "
+            "(no existing ICMS tax with rate %s%% and base reduction %s%%)",
+            tax.name,
+            tax.id,
+            self.env.company.display_name,
+            percent,
+            percent_reduction,
+        )
+        return tax
+
+    def _import_ibscbs_attrs(self, value, odoo_attrs):
+        """Import IBSCBS tax attributes from NFe binding."""
+        tax_ids = self.env["l10n_br_fiscal.document.line"]._add_imported_ibscbs_vals(
+            value, odoo_attrs
+        )
+        if tax_ids:
+            # the NFe import framework links m2m fields with raw ids
+            if not odoo_attrs.get("fiscal_tax_ids"):
+                odoo_attrs["fiscal_tax_ids"] = []
+            odoo_attrs["fiscal_tax_ids"].extend(tax_ids)
 
     def _verify_related_many2ones(self, related_many2ones):
         if (
