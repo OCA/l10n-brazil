@@ -140,5 +140,4 @@
         <field name="recurring_interval">1</field>
         <field name="recurring_rule_type">monthly</field>
     </record>
-
 </odoo>
