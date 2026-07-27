@@ -2,6 +2,7 @@
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import logging
 import sys
 from enum import Enum
 
@@ -18,6 +19,8 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 from odoo.addons.l10n_br_fiscal.constants.icms import ICMS_CST, ICMS_SN_CST
 from odoo.addons.l10n_br_fiscal.tools import remove_non_ascii_characters
 from odoo.addons.spec_driven_model.models import spec_models
+
+_logger = logging.getLogger(__name__)
 
 ICMSSN_CST_CODES_USE_102 = ("102", "103", "300", "400")
 ICMSSN_CST_CODES_USE_202 = ("202", "203")
@@ -1705,7 +1708,19 @@ class NFeLine(spec_models.StackedModel):
             "icmsst_value": 0,
             cst_field: cst_id,
         }
-        return self.env["l10n_br_fiscal.tax"].create(vals)
+        tax = self.env["l10n_br_fiscal.tax"].create(vals)
+        # Master data created as an import side effect must leave a trail
+        # so the fiscal responsible can review it afterwards.
+        _logger.info(
+            "NFe import created fiscal tax '%s' (id %s) for company %s "
+            "(no existing ICMS tax with rate %s%% and base reduction %s%%)",
+            tax.name,
+            tax.id,
+            self.env.company.display_name,
+            percent,
+            percent_reduction,
+        )
+        return tax
 
     def _import_ibscbs_attrs(self, value, odoo_attrs):
         """Import IBSCBS tax attributes from NFe binding."""
