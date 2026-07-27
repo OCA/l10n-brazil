@@ -31,6 +31,25 @@ class ContractLine(models.Model):
         precompute=True,
     )
 
+    uom_id = fields.Many2one(
+        comodel_name="uom.uom",
+        compute="_compute_uom_id",
+        store=True,
+        precompute=True,
+    )
+
+    automatic_price = fields.Boolean(
+        compute="_compute_automatic_price",
+        store=True,
+        precompute=True,
+    )
+
+    price_unit = fields.Float(
+        compute="_compute_price_unit",
+        store=True,
+        precompute=True,
+    )
+
     comment_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.comment",
         relation="contract_line_comment_rel",
