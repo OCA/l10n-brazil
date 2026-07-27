@@ -203,6 +203,28 @@ class NFeImportWizardTest(TransactionCase):
         prod_id = self.wizard._match_product(MagicMock())
         self.assertFalse(prod_id)
 
+    def test_match_product_by_purchase(self):
+        """The purchase-order priority match is a soft dependency on
+        l10n_br_purchase (which adds partner_order/partner_order_line to
+        purchase.order.line). It must be a no-op when those fields are absent,
+        so _match_product falls back to supplierinfo/default_code/barcode."""
+        self._prepare_wizard(self.xml_1)
+        pol = self.env.get("purchase.order.line")
+        has_fields = pol is not None and "partner_order" in pol._fields
+        mock = MagicMock()
+        mock.xPed = "NONEXISTENT-PO-REF"
+        mock.nItemPed = "999"
+        # No PO references this xPed (and/or l10n_br_purchase absent) -> no
+        # match, and crucially no crash on a missing field.
+        self.assertFalse(self.wizard._match_product_by_purchase(mock))
+        if not has_fields:
+            # guard short-circuits before any purchase.order.line search
+            self.assertFalse(
+                self.wizard._match_product_by_purchase(
+                    self.wizard._parse_file().infNFe.det[0].prod
+                )
+            )
+
     def test__parse_xml(self):
         self._prepare_wizard(self.xml_1)
 
@@ -224,3 +246,38 @@ class NFeImportWizardTest(TransactionCase):
         self.assertEqual(taxes["vICMS"], 100)
         self.assertEqual(taxes["pIPI"], 5)
         self.assertEqual(taxes["vIPI"], 100)
+
+    def test_cfop_warning(self):
+        """The wizard line flags a CFOP whose scope (intra/interstate) is
+        inconsistent with the real issuer/company geography."""
+        sp = self.env.ref("base.state_br_sp")
+        rj = self.env.ref("base.state_br_rj")
+        company = self.env.ref("base.main_company")
+        company.state_id = sp
+        issuer = self.env["res.partner"].create(
+            {"name": "Issuer SP", "state_id": sp.id}
+        )
+        wizard = self.env["l10n_br_fiscal.document.import.wizard"].create(
+            {"company_id": company.id, "issuer_partner_id": issuer.id}
+        )
+        line = self.env["l10n_br_fiscal.document.import.wizard.line"].create(
+            {"import_xml_id": wizard.id}
+        )
+
+        # interstate CFOP but both parties in SP -> warn
+        line.cfop_xml = "6101"
+        self.assertTrue(line.cfop_warning)
+
+        # intrastate CFOP and both parties in SP -> no warning
+        line.cfop_xml = "1101"
+        self.assertFalse(line.cfop_warning)
+
+        # issuer now in RJ: intrastate CFOP is inconsistent -> warn
+        issuer.state_id = rj
+        line._compute_cfop_warning()
+        self.assertTrue(line.cfop_warning)
+
+        # interstate CFOP with issuer RJ / company SP -> consistent, no warning
+        line.cfop_xml = "6101"
+        line._compute_cfop_warning()
+        self.assertFalse(line.cfop_warning)
