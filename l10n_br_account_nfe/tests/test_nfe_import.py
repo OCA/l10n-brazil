@@ -178,6 +178,10 @@ class NFeImportTest(TransactionCase):
 
         self.assertEqual(len(move.invoice_line_ids), 4)
 
+        # The wizard stamps the effective incoming date (DT_E_S in the SPED
+        # bookkeeping), defaulting to the import date.
+        self.assertTrue(move.fiscal_document_id.date_in_out)
+
         # The supplier declared CFOP 6101 (interstate sale); the de-para
         # recomputes it to the company's inbound CFOP, but partner_cfop_id
         # preserves the declared value for bookkeeping / SPED (C197).
