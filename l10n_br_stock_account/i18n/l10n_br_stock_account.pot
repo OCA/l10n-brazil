@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 17.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -483,18 +483,8 @@ msgid "Document Key Random Code"
 msgstr ""
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_number
-msgid "Document Number"
-msgstr ""
-
-#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_serie_id
 msgid "Document Serie"
-msgstr ""
-
-#. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_type_id
-msgid "Document Type"
 msgstr ""
 
 #. module: l10n_br_stock_account
@@ -577,9 +567,24 @@ msgid "Fiscal Document"
 msgstr ""
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_number
+msgid "Fiscal Document Number"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_type_id
+msgid "Fiscal Document Type"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_rule__fiscal_operation_id
 #: model:ir.model.fields.selection,name:l10n_br_stock_account.selection__stock_invoice_onshipping__group__fiscal_operation
 msgid "Fiscal Operation"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_operation_type
+msgid "Fiscal Operation Type"
 msgstr ""
 
 #. module: l10n_br_stock_account
@@ -1178,21 +1183,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__insurance_endorsement
-msgid "Insurance Endorsement"
-msgstr ""
-
-#. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__insurance_policy
-msgid "Insurance Policy"
-msgstr ""
-
-#. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__partner_insurance_id
-msgid "Insurance Provider"
-msgstr ""
-
-#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__insurance_value
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_insurance_value
 msgid "Insurance Value"
@@ -1201,7 +1191,6 @@ msgstr ""
 #. module: l10n_br_stock_account
 #. odoo-python
 #: code:addons/l10n_br_stock_account/wizards/stock_invoice_onshipping.py:0
-#, python-format
 msgid ""
 "Invalid Journal! There is not journal defined for this company: %(company)s "
 "in fiscal operation: %(operation)s!"
@@ -1286,10 +1275,7 @@ msgid "None"
 msgstr ""
 
 #. module: l10n_br_stock_account
-#. odoo-python
-#: code:addons/l10n_br_stock_account/models/stock_rule.py:0
 #: model:ir.model.fields.selection,name:l10n_br_stock_account.selection__stock_rule__invoice_state__none
-#, python-format
 msgid "Not Applicable"
 msgstr ""
 
@@ -1322,11 +1308,6 @@ msgstr ""
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__operation_name
 msgid "Operation Name"
-msgstr ""
-
-#. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_operation_type
-msgid "Operation Type"
 msgstr ""
 
 #. module: l10n_br_stock_account
@@ -1506,18 +1487,8 @@ msgid "Quantity"
 msgstr ""
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__partner_receivering_id
-msgid "Receiver Address"
-msgstr ""
-
-#. module: l10n_br_stock_account
 #: model:ir.model,name:l10n_br_stock_account.model_stock_return_picking
 msgid "Return Picking"
-msgstr ""
-
-#. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__partner_sendering_id
-msgid "Sender Address"
 msgstr ""
 
 #. module: l10n_br_stock_account
@@ -1533,11 +1504,6 @@ msgstr ""
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__service_type_id
 msgid "Service Type LC 166"
-msgstr ""
-
-#. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__partner_shippering_id
-msgid "Shipper Address"
 msgstr ""
 
 #. module: l10n_br_stock_account
@@ -1734,61 +1700,13 @@ msgid "Taxes that apply on the base amount"
 msgstr ""
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_picking__insurance_endorsement
-msgid ""
-"The endorsement number associated with the insurance policy, indicating any "
-"modifications or adjustments to the coverage. This field is primarily used "
-"when issuing the CT-e."
-msgstr ""
-
-#. module: l10n_br_stock_account
-#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_picking__insurance_policy
-msgid ""
-"The insurance policy number covering the transported goods. This field is "
-"primarily used when issuing the CT-e."
-msgstr ""
-
-#. module: l10n_br_stock_account
-#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_picking__partner_receivering_id
-msgid ""
-"The intermediary partner who receives the goods before they reach the final "
-"recipient, often involved in verification, temporary storage, or further "
-"distribution. This field is primarily used when issuing the CT-e."
-msgstr ""
-
-#. module: l10n_br_stock_account
-#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_picking__partner_insurance_id
-msgid ""
-"The partner providing insurance coverage for the transported goods. This "
-"field is primarily used when issuing the CT-e."
-msgstr ""
-
-#. module: l10n_br_stock_account
-#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_picking__partner_shippering_id
-msgid ""
-"The partner responsible for delivering the cargo to the carrier, if not done"
-" directly by the sender. This field is primarily used when issuing the CT-e."
-msgstr ""
-
-#. module: l10n_br_stock_account
-#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_picking__partner_sendering_id
-msgid ""
-"The partner responsible for sending the goods, typically the issuer of the "
-"document. This field is primarily used when issuing the CT-e."
-msgstr ""
-
-#. module: l10n_br_stock_account
 #. odoo-python
 #: code:addons/l10n_br_stock_account/wizards/stock_return_picking.py:0
-#, python-format
 msgid "This Fiscal Operation has no Fiscal Operation for Returns defined!"
 msgstr ""
 
 #. module: l10n_br_stock_account
-#. odoo-python
-#: code:addons/l10n_br_stock_account/models/stock_rule.py:0
 #: model:ir.model.fields.selection,name:l10n_br_stock_account.selection__stock_rule__invoice_state__2binvoiced
-#, python-format
 msgid "To Be Invoiced"
 msgstr ""
 
