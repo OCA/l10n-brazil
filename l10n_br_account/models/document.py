@@ -6,7 +6,7 @@ from datetime import datetime, time
 
 from pytz import UTC, timezone
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -376,7 +376,11 @@ class FiscalDocument(models.Model):
                 errors.append(_("- %s: no unit of measure.") % label)
             if not line.quantity:
                 errors.append(_("- %s: no quantity.") % label)
-            if not line.price_unit:
+            if not line.price_unit and line.fiscal_amount_total:
+                # A zero unit price with a zero line total is a legitimate
+                # free line (bonificação / amostra grátis declared with
+                # vUnCom=0). Only flag the inconsistent case where amounts
+                # exist but the unit price was not resolved.
                 errors.append(_("- %s: no unit price.") % label)
         if errors:
             raise UserError(
