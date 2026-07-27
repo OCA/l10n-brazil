@@ -50,7 +50,7 @@
                             <field name="tax_icms_or_issqn" />
                             <field name="icms_origin" />
                             <field
-                                name="product_fiscal_tag_ids"
+                                name="fiscal_product_tag_ids"
                                 widget="many2many_tags"
                                 options="{'no_create_edit': False}"
                             />

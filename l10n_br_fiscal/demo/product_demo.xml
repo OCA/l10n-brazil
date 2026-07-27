@@ -1991,7 +1991,7 @@
         <field name="uom_po_id" ref="uom.product_uom_unit" />
         <field name="default_code">FURN_8889</field>
         <field
-            name="operation_line_tag_ids"
+            name="fiscal_product_tag_ids"
             eval="[(6,0,[ref('l10n_br_fiscal.product_tag_st_6404')])]"
         />
         <field
@@ -2053,7 +2053,7 @@
         <field name="uom_po_id" ref="uom.product_uom_unit" />
         <field name="default_code">FURN_8880</field>
         <field
-            name="operation_line_tag_ids"
+            name="fiscal_product_tag_ids"
             eval="[(6,0,[ref('l10n_br_fiscal.product_tag_st_6401')])]"
         />
         <field

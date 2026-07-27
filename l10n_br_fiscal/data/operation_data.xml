@@ -81,7 +81,7 @@
         <field name="state">approved</field>
         <field name="product_type">04</field>
         <field
-            name="product_fiscal_tag_ids"
+            name="fiscal_product_tag_ids"
             eval="[(6,0,[ref('l10n_br_fiscal.product_tag_st_6401')])]"
         />
         <field name="tax_icms_or_issqn">icms</field>
@@ -122,7 +122,7 @@
         <field name="state">approved</field>
         <field name="product_type">00</field>
         <field
-            name="product_fiscal_tag_ids"
+            name="fiscal_product_tag_ids"
             eval="[(6,0,[ref('l10n_br_fiscal.product_tag_st_6404')])]"
         />
         <field name="tax_icms_or_issqn">icms</field>

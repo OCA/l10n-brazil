@@ -238,8 +238,8 @@ class Operation(models.Model):
 
         domain += [
             "|",
-            ("product_fiscal_tag_ids", "in", product.operation_line_tag_ids.ids),
-            ("product_fiscal_tag_ids", "=", False),
+            ("fiscal_product_tag_ids", "in", product.fiscal_product_tag_ids.ids),
+            ("fiscal_product_tag_ids", "=", False),
         ]
 
         return domain
@@ -265,7 +265,7 @@ class Operation(models.Model):
                 "product_type",
                 "tax_icms_or_issqn",
                 "icms_origin",
-                "product_fiscal_tag_ids",
+                "fiscal_product_tag_ids",
             ]
             return sum(1 for field in fields if getattr(line, field))
 

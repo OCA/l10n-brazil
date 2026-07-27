@@ -110,12 +110,14 @@ class OperationLine(models.Model):
         selection=PRODUCT_FISCAL_TYPE, string="Product Fiscal Type"
     )
 
-    product_fiscal_tag_ids = fields.Many2many(
+    fiscal_product_tag_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.product.tag",
         string="Fiscal Product Tags",
-        help="If enabled, only products that share a product tag with this line can "
-        "auto-select this operation line. When other factors are equal, a match will "
-        "be preferred over a line without this setting.",
+        help="Restricts this line to products carrying at least one of these "
+        "fiscal tags. Leave empty for a generic line, eligible for any product. "
+        "A tagged line wins over a generic one when both match, so use it for "
+        "cases the other criteria cannot tell apart, such as goods under tax "
+        "substitution needing their own CFOP.",
     )
 
     company_tax_framework = fields.Selection(selection=TAX_FRAMEWORK)

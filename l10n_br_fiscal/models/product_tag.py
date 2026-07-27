@@ -6,14 +6,17 @@ from odoo import _, fields, models
 
 class ProductTag(models.Model):
     _name = "l10n_br_fiscal.product.tag"
-    _description = "Fiscal Product Tags"
+    _description = "Fiscal Product Tag"
+    _order = "name"
 
-    name = fields.Char()
+    name = fields.Char(required=True)
+
+    active = fields.Boolean(default=True)
 
     _sql_constraints = [
         (
             "fiscal_tag_name_uniq",
             "unique (name)",
-            _("Fiscal Product Tag already exists with this code !"),
+            _("Fiscal Product Tag already exists with this name !"),
         )
     ]

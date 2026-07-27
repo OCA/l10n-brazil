@@ -109,7 +109,7 @@
                                 attrs="{'invisible': [('fiscal_type', '=', '09')]}"
                             />
                             <field
-                                name="operation_line_tag_ids"
+                                name="fiscal_product_tag_ids"
                                 widget="many2many_tags"
                                 options="{'no_create': True, 'no_create_edit': True}"
                             />
