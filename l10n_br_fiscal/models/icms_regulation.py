@@ -1932,12 +1932,16 @@ class ICMSRegulation(models.Model):
         ncm=None,
         nbm=None,
         cest=None,
+        ind_final=None,
     ):
         self.ensure_one()
         domain = [
             ("icms_regulation_id", "=", self.id),
             ("state", "=", "approved"),
             ("tax_group_id", "=", tax_group_icms.id),
+            "|",
+            ("ind_final", "=", ind_final),
+            ("ind_final", "=", False),
         ]
 
         if tax_group_icms.tax_domain in (TAX_DOMAIN_ICMS, TAX_DOMAIN_ICMS_ST):
@@ -2050,7 +2054,7 @@ class ICMSRegulation(models.Model):
         else:
             # ICMS
             domain = self._build_map_tax_def_domain(
-                company, partner, tax_group_icms, ncm, nbm, cest
+                company, partner, tax_group_icms, ncm, nbm, cest, ind_final
             )
 
             tax_definitions = self._tax_definition_search(
@@ -2074,7 +2078,7 @@ class ICMSRegulation(models.Model):
 
         # ICMS ST
         domain = self._build_map_tax_def_domain(
-            company, partner, tax_group_icmsst, ncm, nbm, cest
+            company, partner, tax_group_icmsst, ncm, nbm, cest, ind_final
         )
 
         tax_definitions = self._tax_definition_search(
@@ -2105,7 +2109,7 @@ class ICMSRegulation(models.Model):
             and operation_line.fiscal_operation_type == FISCAL_IN
         ):
             domain = self._build_map_tax_def_domain(
-                partner, partner, tax_group_icms, ncm, nbm, cest
+                partner, partner, tax_group_icms, ncm, nbm, cest, ind_final
             )
 
             tax_definitions = self._tax_definition_search(
@@ -2137,7 +2141,7 @@ class ICMSRegulation(models.Model):
             and operation_line.fiscal_operation_type == FISCAL_IN
         ):
             domain = self._build_map_tax_def_domain(
-                partner, partner, tax_group_icmsfcp, ncm, nbm, cest
+                partner, partner, tax_group_icmsfcp, ncm, nbm, cest, ind_final
             )
 
             tax_definitions = self._tax_definition_search(
@@ -2163,7 +2167,7 @@ class ICMSRegulation(models.Model):
 
         # FCP ST
         domain = self._build_map_tax_def_domain(
-            company, partner, tax_group_icmsfcpst, ncm, nbm, cest
+            company, partner, tax_group_icmsfcpst, ncm, nbm, cest, ind_final
         )
 
         tax_definitions = self._tax_definition_search(
