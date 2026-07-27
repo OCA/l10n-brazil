@@ -1482,7 +1482,7 @@ class ICMSRegulation(models.Model):
         domain=[
             ("state_from_id.code", "in", ("RJ", False)),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
-            ("is_benefit", "=", False),
+            ("is_benefit", "=", True),
         ],
     )
 
@@ -1494,7 +1494,7 @@ class ICMSRegulation(models.Model):
             ("state_from_id.code", "=", "RO"),
             ("state_to_ids.code", "=", "RO"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
-            ("is_benefit", "=", True),
+            ("is_benefit", "=", False),
         ],
     )
 
