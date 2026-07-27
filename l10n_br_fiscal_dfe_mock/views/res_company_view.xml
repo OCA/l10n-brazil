@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2026 Engenere (<https://engenere.one>)
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+    <record id="dfe_mock_res_company_form" model="ir.ui.view">
+        <field name="name">dfe.mock.res.company.form</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="l10n_br_fiscal_dfe.dfe_res_company_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='dfe_settings']" position="inside">
+                <group>
+                    <field name="dfe_mock_mode" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

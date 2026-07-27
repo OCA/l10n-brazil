@@ -1,10 +1,6 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
-==================
-L10n BR Fiscal Dfe
-==================
+===============
+Monitor de NF-e
+===============
 
 .. 
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17,7 +13,7 @@ L10n BR Fiscal Dfe
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
@@ -32,12 +28,198 @@ L10n BR Fiscal Dfe
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Distribuição de documentos fiscais
+Módulo para monitoramento de NF-e recebidas via o web service de
+Distribuição de DF-e da SEFAZ (NFeDistribuicaoDFe — Ambiente Nacional),
+implementado conforme a `Nota Técnica 2014.002
+v1.30 <https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=P0U3lU1Fe40=>`__.
+
+Permite que empresas consultem automaticamente todos os documentos
+fiscais eletrônicos emitidos contra seu CNPJ, sem necessidade de receber
+o XML diretamente do emissor.
+
+Principais funcionalidades:
+
+-  **Consulta automática** via cron com ``queue_job`` — paginação de
+   NSUs, agendamento inteligente baseado na resposta da SEFAZ (138, 137,
+   656)
+-  **Consulta manual** — busca geral ou específica (por chave de acesso
+   ou NSU)
+-  **Processamento de 4 schemas XML**: ``procNFe`` (NF-e completa),
+   ``resNFe`` (resumo), ``resEvento`` e ``procEventoNFe``
+-  **Importação de NF-e** — cria ``l10n_br_fiscal.document`` a partir do
+   XML completo
+-  **Geração de DANFE** em PDF via ``brazilfiscalreport``
+-  **Download de XMLs** — individual ou em lote (zip)
+-  **Manifestação automática** do destinatário (ciência da operação)
+-  **Dashboard** com status da distribuição, progresso de NSU, alertas
+   de inatividade e documentos pendentes de importação
+-  **Notificações no Inbox** — notifica usuários sobre novos documentos
+   de terceiros
+-  **Matching automático de parceiro** pelo CNPJ da chave de acesso
+-  **Suporte multi-empresa** com record rules e configuração por empresa
+-  **Log de distribuição** com request/response SOAP para depuração
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Installation
+============
+
+Dependências Python
+-------------------
+
+Este módulo requer as seguintes bibliotecas:
+
+-  ``nfelib`` — cliente SOAP para o web service NFeDistribuicaoDFe da
+   SEFAZ
+-  ``brazilfiscalreport`` — geração de DANFE em PDF
+-  ``erpbrasil.base`` — validação de chave de acesso (dígito
+   verificador)
+
+queue_job como server wide module
+---------------------------------
+
+O ``queue_job`` precisa ser carregado na inicialização do Odoo. Adicione
+na configuração do servidor:
+
+.. code:: ini
+
+   [options]
+   server_wide_modules = web,queue_job
+
+Ou via variável de ambiente:
+
+::
+
+   SERVER_WIDE_MODULES=web,queue_job
+
+Em produção, o Odoo deve rodar com ``workers > 0`` para que o jobrunner
+inicie como processo dedicado.
+
+Com ``--workers=0`` (modo threaded / desenvolvimento), o queue_job
+funciona normalmente — ele cria uma thread extra no mesmo processo.
+
+Configuration
+=============
+
+Canal queue_job
+---------------
+
+O módulo registra os jobs de distribuição DF-e no canal ``root.dfe``. É
+**obrigatório** configurar este canal com capacidade máxima de **1 job
+simultâneo**, caso contrário consultas concorrentes à SEFAZ podem causar
+erro 656 (consumo indevido) e bloqueio temporário do CNPJ.
+
+No arquivo de configuração do Odoo:
+
+.. code:: ini
+
+   [queue_job]
+   channels = root:2,root.dfe:1
+
+Ou via variável de ambiente:
+
+::
+
+   ODOO_QUEUE_JOB_CHANNELS=root:2,root.dfe:1
+
+Configuração da empresa
+-----------------------
+
+Em **Faturamento > Configuração > Empresas**, na aba **Fiscal > DF-e**
+(Configurações DF-e):
+
+-  **Versão DF-e**: versão do serviço (padrão: 1.01)
+-  **Ambiente DF-e**: Produção ou Homologação
+-  **Busca automática de DF-e**: habilita a consulta automática via cron
+-  **Manifestação Automática do Destinatário (NF-e)**: envia ciência da
+   operação automaticamente para cada resumo de NF-e recebido
+
+A empresa precisa ter um **certificado digital A1** configurado no
+módulo ``l10n_br_fiscal_certificate``.
+
+Notificação de documentos (por usuário)
+---------------------------------------
+
+Em **Preferências do Usuário**, o campo **Notificação DF-e** habilita o
+recebimento de notificações na caixa de entrada quando novos documentos
+de terceiros são encontrados pela distribuição DF-e.
+
+Usage
+=====
+
+Painel (Banner)
+---------------
+
+O menu **Faturamento > Consultas DF-e > NF-e de Terceiros** exibe a
+lista de documentos recebidos. No topo da tela, um banner mostra:
+
+-  **Última Consulta**: data e status da última consulta à SEFAZ
+-  **Próxima Consulta**: próxima consulta agendada e status da busca
+   automática (ativa/desativada)
+-  **NSU**: progresso de sincronização (último NSU / NSU máximo) com
+   indicadores Sincronizado/Pendente
+-  **Documentos Hoje**: documentos de terceiros recebidos hoje
+-  **Importação Pendente**: NF-e completas ainda não importadas como
+   documento fiscal
+
+O banner também exibe alertas quando o ambiente está em Homologação ou
+quando há inatividade superior a 30 dias (após 60 dias sem consulta, a
+SEFAZ para de gerar NSUs para o CNPJ).
+
+Consulta manual
+---------------
+
+-  **Pesquisar Todos**: busca todos os documentos a partir do último
+   NSU. Respeita o cooldown — se houver consulta agendada no futuro,
+   exibe notificação com o tempo restante.
+-  **Pesquisa Específica**: abre assistente para buscar por chave de
+   acesso (com validação do dígito verificador) ou por NSU específico.
+
+Documentos recebidos
+--------------------
+
+Cada documento na lista mostra: tipo (NF-e Completa / Resumo da NF-e /
+Cancelada/Denegada), chave de acesso, emitente, CNPJ, valor, CFOPs e
+status de manifestação. Ações disponíveis nos botões da lista e
+formulário:
+
+-  **XML**: download do XML da NF-e completa
+-  **DANFE**: gera e baixa o DANFE em PDF
+-  **Importar**: importa a NF-e como documento fiscal
+   (``l10n_br_fiscal.document``)
+-  **Manifestar**: abre assistente de manifestação do destinatário
+-  **Vincular Parceiro**: recomputa o parceiro pelo CNPJ da chave de
+   acesso
+
+Filtros disponíveis: NF-e Completa, Resumo, Cancelada/Denegada, Sem
+Parceiro, Data de Emissão. Agrupamento por Parceiro, Data de Emissão ou
+Empresa.
+
+Download em lote
+----------------
+
+Na lista de documentos, selecione múltiplos registros e use **Ação >
+Download XMLs (zip)** para baixar todos os XMLs completos em um arquivo
+zip.
+
+Manifestação automática
+-----------------------
+
+Com a opção **Manifestação Automática do Destinatário (NF-e)**
+habilitada na empresa, o módulo envia automaticamente uma ciência da
+operação para cada resumo de NF-e recebido. O envio é feito via
+``queue_job`` no canal ``root.dfe``.
+
+Log de Distribuição
+-------------------
+
+Acessível pelo botão de link no card "Última Consulta" do banner, o log
+registra cada interação com a SEFAZ incluindo o XML SOAP de requisição e
+resposta completos, útil para depuração de problemas. Filtros
+disponíveis: Sucesso, Informação, Aviso, Erro, Com Dados SOAP.
 
 Bug Tracker
 ===========
@@ -55,16 +237,23 @@ Credits
 Authors
 -------
 
+* Engenere
 * KMEE
 
 Contributors
 ------------
 
-- `KMEE <https://www.kmee.com.br>`__:
+-  `Engenere <https://engenere.one>`__:
 
-  - Luis Felipe Miléo <mileo@kmee.com.br>
-  - Gabriel Cardoso <gabriel.cardoso@kmee.com.br>
-  - Felipe Zago <felipe.zago@kmee.com.br>
+   -  Felipe Motter <felipe@engenere.one>
+   -  Antônio Neto <neto@engenere.one>
+   -  Cristiano Mafra Junior
+
+-  `KMEE <https://www.kmee.com.br>`__:
+
+   -  Luis Felipe Miléo <mileo@kmee.com.br>
+   -  Gabriel Cardoso <gabriel.cardoso@kmee.com.br>
+   -  Felipe Zago <felipe.zago@kmee.com.br>
 
 Maintainers
 -----------
@@ -78,6 +267,17 @@ This module is maintained by the OCA.
 OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
+
+.. |maintainer-felipemotter| image:: https://github.com/felipemotter.png?size=40px
+    :target: https://github.com/felipemotter
+    :alt: felipemotter
+.. |maintainer-antoniospneto| image:: https://github.com/antoniospneto.png?size=40px
+    :target: https://github.com/antoniospneto
+    :alt: antoniospneto
+
+Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
+
+|maintainer-felipemotter| |maintainer-antoniospneto| 
 
 This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_fiscal_dfe>`_ project on GitHub.
 

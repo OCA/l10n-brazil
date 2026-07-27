@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2023 KMEE INFORMATICA LTDA
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+    <!-- FORM-->
+    <record model="ir.ui.view" id="l10n_br_nfe_recipient_manifestation_event_form">
+        <field name="name">l10n_br_nfe_recipient_manifestation_event_form</field>
+        <field name="model">l10n_br_nfe.md_event</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Recipient Manifestation">
+                <header>
+                    <button
+                        name="action_confirm"
+                        string="Confirm"
+                        type="object"
+                        class="btn-primary"
+                        attrs="{'invisible':[('state','!=','draft')]}"
+                    />
+                <field name="state" widget="statusbar" statusbar_visible="draft,done" />
+                </header>
+                <group>
+                <field
+                        name="event_type"
+                        attrs="{'readonly': [('state', '!=', 'draft')]}"
+                    />
+                <field
+                        name="access_key"
+                        attrs="{'readonly': [('state', '!=', 'draft')]}"
+                    />
+                <field
+                        name="document_type"
+                        attrs="{'readonly': [('state', '!=', 'draft')]}"
+                    />
+                <field
+                        name="company_id"
+                        attrs="{'readonly': [('state', '!=', 'draft')]}"
+                    />
+                </group>
+                <group name="info" string="Document Info">
+                    <field name="document_number" readonly="1" />
+                    <field name="serie" readonly="1" />
+                </group>
+                <group name="transmission" string="Transmission">
+                    <field name="protocol" readonly="1" />
+                    <field name="protocol_date" readonly="1" />
+                    <field name="response_xml" readonly="1" />
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- FILTER -->
+    <record
+        id="view_l10n_br_nfe_recipient_manifestation_event_filter"
+        model="ir.ui.view"
+    >
+        <field name="name">l10n_br_nfe_recipient_manifestation_event_select</field>
+        <field name="model">l10n_br_nfe.md_event</field>
+        <field name="arch" type="xml">
+            <search string="Filter">
+                <field name="company_id" string="Razão Social" />
+                <field name="event_type" />
+                <filter
+                    name="situacao_pendente"
+                    string="Pending"
+                    domain="[('event_type','=','pendente')]"
+                />
+                <filter
+                    name="situacao_confirmado"
+                    string="Confirmed"
+                    domain="[('event_type','=','confirmado')]"
+                />
+                <filter
+                    name="situacao_ciente"
+                    string="Aware"
+                    domain="[('event_type','=','ciente')]"
+                />
+                <filter
+                    name="situacao_desconhecido"
+                    string="Unknown"
+                    domain="[('event_type','=','desconhecido')]"
+                />
+                <filter
+                    name="situacao_nao_realizado"
+                    string="Unrealized"
+                    domain="[('event_type','=','nao_realizado')]"
+                />
+            </search>
+        </field>
+    </record>
+
+    <!-- TREE -->
+    <record model="ir.ui.view" id="l10n_br_nfe_recipient_manifestation_event_tree">
+        <field name="name">l10n_br_nfe_recipient_manifestation_event_tree</field>
+        <field name="model">l10n_br_nfe.md_event</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="company_id" />
+                <field name="event_type" />
+                <field name="document_type" />
+                <field name="access_key" />
+                <field name="protocol" />
+                <field name="protocol_date" widget="date" string="Date" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- ACTION -->
+    <record
+        model="ir.actions.act_window"
+        id="l10n_br_nfe_recipient_manifestation_event_action"
+    >
+        <field name="name">NF-e Recipient Manifestation</field>
+        <field name="res_model">l10n_br_nfe.md_event</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>
