@@ -9,6 +9,7 @@ from . import invalidate_number
 from . import comment
 from . import ibpt
 from . import cfop
+from . import product_tag
 from . import cst
 from . import legal_nature
 from . import cnae
