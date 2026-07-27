@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2010-TODAY Akretion (http://www.akretion.com/)
+  @author: Renato Lima <renato.lima@akretion.com.br>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="stock_picking_form" model="ir.ui.view">
+        <field name="name">l10n_br_stock_account.picking.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock_picking_invoicing.view_picking_form" />
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <field name="picking_type_id" position="after">
+                <field
+                    name="fiscal_operation_id"
+                    invisible="invoice_state == 'none'"
+                    readonly="state != 'draft' or invoice_state == 'invoiced'"
+                />
+                <field
+                    name="ind_final"
+                    invisible="invoice_state == 'none' or not fiscal_operation_id"
+                    readonly="state != 'draft' or invoice_state == 'invoiced'"
+                />
+            </field>
+            <field name="invoice_state" position="attributes">
+                <attribute name="readonly">1</attribute>
+                <attribute name="force_save">1</attribute>
+            </field>
+            <field name="move_ids_without_package" position="attributes">
+                <attribute
+                    name="context"
+                >{'default_invoice_state': invoice_state, 'address_in_id': partner_id, 'default_picking_type_id': picking_type_id, 'default_picking_id': id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_fiscal_operation_id': fiscal_operation_id, 'default_company_id': company_id, 'default_partner_id': partner_id, 'picking_type_code': picking_type_code}</attribute>
+            </field>
+            <xpath
+                expr="//field[@name='move_ids_without_package']//list/field[@name='product_id']"
+                position="before"
+            >
+                <button
+                    name="dummy_button_for_js"
+                    icon="fa-external-link"
+                    title="Edit in Form"
+                    class="btn-sm btn-link p-0 edit-line-popup"
+                />
+            </xpath>
+            <xpath
+                expr="//field[@name='move_ids_without_package']//list/field[@name='invoice_state']"
+                position="after"
+            >
+                <field
+                    name="fiscal_operation_line_id"
+                    column_invisible="parent.invoice_state == 'none' or not parent.fiscal_operation_id"
+                    readonly="invoice_state == 'invoiced'"
+                />
+                <control name="fiscal_fields" invisible="1" />
+                <!-- this is a dynamic fiscal fields placeholder-->
+                <control name="fiscal_taxes_fields" string="Taxes" invisible="1" />
+                <!-- this is a dynamic fiscal fields placeholder-->
+                <!-- the fields below would be injected by the placeholders
+                    above, but we need to repeat them here to please the
+                    Form test framework or because they are used in some
+                    domain here that is checked before the dynamic fiscal
+                    placeholders kick in.
+                -->
+                <field name="fiscal_operation_type" invisible="1" />
+                <field name="cfop_id" invisible="1" />
+                <field name="tax_framework" invisible="1" />
+                <field
+                    name="fiscal_operation_id"
+                    invisible="1"
+                    readonly="state != 'draft'"
+                />
+                <field name="freight_value" invisible="1" />
+                <field name="insurance_value" invisible="1" />
+                <field name="other_value" invisible="1" />
+            </xpath>
+            <xpath expr="//page[@name='extra']/group" position="inside">
+                <group name="delivery_costs" string="Delivery Costs">
+                    <field name="delivery_costs" invisible="1" />
+                    <field
+                        name="amount_freight_value"
+                        widget='monetary'
+                        options="{'currency_field': 'currency_id'}"
+                        readonly="delivery_costs == 'line'"
+                    />
+                    <field
+                        name="amount_insurance_value"
+                        widget='monetary'
+                        options="{'currency_field': 'currency_id'}"
+                        readonly="delivery_costs == 'line'"
+                    />
+                    <field
+                        name="amount_other_value"
+                        widget='monetary'
+                        options="{'currency_field': 'currency_id'}"
+                        readonly="delivery_costs == 'line'"
+                    />
+                </group>
+            </xpath>
+            <xpath expr="//group[div[field[@name='scheduled_date']]]" position="after">
+                <!-- Estes campos são read only momentaneamente, pode ser que em
+                um segundo momento essas informações também sejam relevantes para
+                pickings de entrada com relação com documentos fiscais ainda não
+                importados no sistema.
+                -->
+                <group
+                    name="document_info"
+                    string="Fiscal Document"
+                    colspan="2"
+                    invisible="invoice_state in ['none', False] or not fiscal_operation_id"
+                >
+                    <group colspan="2">
+                        <field name="document_type_id" string="Type" readonly="1" />
+                        <field name="document_key" readonly="1" />
+                    </group>
+                    <group>
+                        <field name="document_serie_id" string="Serie" readonly="1" />
+                    </group>
+                    <group>
+                        <field name="document_number" string="Number" readonly="1" />
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="stock_picking_tree" model="ir.ui.view">
+        <field name="name">l10n_br_stock_account.picking.list</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree" />
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <field name="company_id" position="before">
+                <field name="document_number" readonly="1" />
+            </field>
+        </field>
+    </record>
+</odoo>
