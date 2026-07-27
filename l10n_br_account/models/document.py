@@ -364,7 +364,7 @@ class FiscalDocument(models.Model):
             action["res_id"] = self.move_ids.id
 
         return action
-    
+
     def exec_after_SITUACAO_EDOC_DENEGADA(self, old_state, new_state):
         self.ensure_one()
         models_cancel_on_deny = [MODELO_FISCAL_NFE, MODELO_FISCAL_CTE]
@@ -392,7 +392,11 @@ class FiscalDocument(models.Model):
                 errors.append(_("- %s: no unit of measure.") % label)
             if not line.quantity:
                 errors.append(_("- %s: no quantity.") % label)
-            if not line.price_unit:
+            if not line.price_unit and line.fiscal_amount_total:
+                # A zero unit price with a zero line total is a legitimate
+                # free line (bonificação / amostra grátis declared with
+                # vUnCom=0). Only flag the inconsistent case where amounts
+                # exist but the unit price was not resolved.
                 errors.append(_("- %s: no unit price.") % label)
         if errors:
             raise UserError(
