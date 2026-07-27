@@ -21,4 +21,5 @@ from . import (
     test_tax_pis_cofins,
     test_icmssn,
     test_simplified_tax,
+    test_catalog_importacao_especiais,
 )
