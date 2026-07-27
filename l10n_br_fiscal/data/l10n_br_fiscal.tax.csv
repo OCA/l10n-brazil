@@ -172,6 +172,7 @@
 "tax_ii_7_2","II 7,2%","percent","7.20","0.00","tax_group_ii",,,,,,,"0","4",,
 "tax_ii_8","II 8%","percent","8.00","0.00","tax_group_ii",,,,,,,"0","4",,
 "tax_ii_9","II 9%","percent","9.00","0.00","tax_group_ii",,,,,,,"0","4",,
+"tax_ii_suspensao","II Suspensão","percent","0.00","0.00","tax_group_ii",,,,,,,"0","4",,
 "tax_inss_11","INSS 11%","percent","11.00","0.00","tax_group_inss",,,,,,,"0","4",,
 "tax_inss_nt","INSS NT","percent","0.00","0.00","tax_group_inss",,,,,,,"0","4",,
 "tax_inss_wh_11","INSS RET 11%","percent","11.00","0.00","tax_group_inss_wh",,,,,,,"0","4",,

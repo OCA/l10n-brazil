@@ -35,4 +35,5 @@ from . import (
     test_catalog_comex_armazem,
     test_catalog_entrega_futura_vfe,
     test_catalog_importacao,
+    test_catalog_importacao_especiais,
 )
