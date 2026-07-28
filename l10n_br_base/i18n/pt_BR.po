@@ -23366,6 +23366,11 @@ msgid "Street Number"
 msgstr ""
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__street_number2
+msgid "Street Number2"
+msgstr ""
+
+#. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
 msgid "Street number..."
 msgstr "Número da Rua..."
