@@ -28,11 +28,19 @@ class ProductMixin(models.AbstractModel):
 
     @api.depends("ncm_id")
     def _compute_fiscal_genre_id(self):
+        # the genre table is the 100 NCM chapters, read it once for the whole
+        # batch instead of searching it again for every product
+        genre_id_by_code = {
+            genre["code"]: genre["id"]
+            for genre in self.env["l10n_br_fiscal.product.genre"].search_read(
+                [], ["code"]
+            )
+        }
         for product in self:
             if product.ncm_id:
-                product.fiscal_genre_id = self.env[
-                    "l10n_br_fiscal.product.genre"
-                ].search([("code", "=", product.ncm_id.code[0:2])])
+                product.fiscal_genre_id = genre_id_by_code.get(
+                    product.ncm_id.code[0:2], False
+                )
 
     @api.depends("fiscal_type")
     def _compute_tax_icms_or_issqn(self):
