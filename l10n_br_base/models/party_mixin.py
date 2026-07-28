@@ -18,7 +18,10 @@ class PartyMixin(models.AbstractModel):
         help="CNPJ/CPF without special characters",
         compute="_compute_cnpj_cpf_stripped",
         store=True,
-        index=True,
+        # trigram GIN index to speed up the leading-wildcard ilike issued by
+        # name_search (see _rec_names_search on res.partner). The value is
+        # alphanumeric and never accented, so the index is always used.
+        index="trigram",
     )
 
     vat_formatted_cnpj = fields.Char(
@@ -36,6 +39,9 @@ class PartyMixin(models.AbstractModel):
     l10n_br_ie_code = fields.Char(
         string="State Tax Number",
         size=17,
+        # trigram: alphanumeric value, index and query stay on the raw column
+        # so the GIN index accelerates the ilike unconditionally.
+        index="trigram",
     )
 
     state_tax_number_ids = fields.One2many(
@@ -57,6 +63,15 @@ class PartyMixin(models.AbstractModel):
     legal_name = fields.Char(
         size=128,
         help="Used in fiscal documents",
+        # trigram GIN index to speed up the name_search ilike on legal_name.
+        # Names carry accents and must match accent-insensitively; the index
+        # is only effective when the database `unaccent` function is
+        # IMMUTABLE (INDEXABLE): only then does Odoo build the index on
+        # unaccent(legal_name), matching the unaccent(col) like unaccent(%s)
+        # query. On a stock PostgreSQL the contrib unaccent is STABLE, not
+        # immutable, so the index is built on the raw column and the planner
+        # cannot use it. See the PR body.
+        index="trigram",
     )
 
     city_id = fields.Many2one(
