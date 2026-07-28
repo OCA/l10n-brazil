@@ -4,7 +4,8 @@
 #
 
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_CFE,
@@ -52,17 +53,8 @@ class SubsequentDocument(models.Model):
 
     operation_performed = fields.Boolean(
         compute="_compute_operation_performed",
-        default=False,
         copy=False,
     )
-
-    # def _subsequent_payment_type(self):
-    #     return (self.operation_id.ind_forma_pagamento or
-    #             self.source_document_id.ind_forma_pagamento)
-    #
-    # def _subsequent_payment_condition(self):
-    #     return (self.operation_id.condicao_pagamento_id or
-    #             self.source_document_id.condicao_pagamento_id)
 
     def _subsequent_company(self):
         return self.fiscal_operation_id.company_id or self.source_document_id.company_id
@@ -75,16 +67,15 @@ class SubsequentDocument(models.Model):
 
     def _subsequent_referenced(self):
         if self.subsequent_operation_id.reference_document:
-            return self.env.context.get(
-                "referenciado_ids",
-                self.source_document_id._prepare_referenced_subsequent(),
-            )
-        return []
+            return self.source_document_id
+        return self.env["l10n_br_fiscal.document"]
 
     def generate_subsequent_document(self):
-        self._generate_subsequent_document()
+        for record in self:
+            record._generate_subsequent_document()
 
     def _generate_subsequent_document(self):
+        self.ensure_one()
         if self.operation_performed:
             return self.subsequent_document_id
 
@@ -93,29 +84,22 @@ class SubsequentDocument(models.Model):
         new_doc.partner_id = self._subsequent_partner()
         new_doc.company_id = self._subsequent_company()
         new_doc.fiscal_operation_id = self.fiscal_operation_id
-        new_doc.document_type_id = (
-            self.subsequent_operation_id.operation_document_type_id
-        )
+        if self.subsequent_operation_id.operation_document_type_id:
+            new_doc.document_type_id = (
+                self.subsequent_operation_id.operation_document_type_id
+            )
         new_doc.document_serie_id = new_doc.document_type_id.get_document_serie(
             new_doc.company_id, new_doc.fiscal_operation_id
         )
 
-        # new_doc.condicao_pagamento_id = \
-        #     self._subsequent_payment_condition()
-        # new_doc.tipo_pagamento = self._subsequent_payment_type()
-
-        #
-        # Reference document
-        #
-        reference_ids = self._subsequent_referenced()
-        new_doc._document_reference(reference_ids)
+        new_doc._document_reference(self._subsequent_referenced())
         new_doc.fiscal_line_ids.write(
             {"fiscal_operation_id": new_doc.fiscal_operation_id.id}
         )
 
-        document = new_doc
-        document.action_document_confirm()
-        self.subsequent_document_id = document
+        new_doc.action_document_confirm()
+        self.subsequent_document_id = new_doc
+        return new_doc
 
     @api.depends("subsequent_document_id.state_edoc")
     def _compute_operation_performed(self):
@@ -152,10 +136,12 @@ class SubsequentDocument(models.Model):
     def unlink(self):
         for subsequent_id in self:
             if subsequent_id.operation_performed:
-                raise UserWarning(
-                    "The document cannot be deleted: the "
-                    "subsequent document has already been "
-                    "generated."
+                raise UserError(
+                    _(
+                        "The document cannot be deleted: the "
+                        "subsequent document has already been "
+                        "generated."
+                    )
                 )
         return super().unlink()
 

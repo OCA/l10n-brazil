@@ -2,6 +2,7 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 
 from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_AUTORIZADA,
@@ -14,7 +15,9 @@ class Document(models.Model):
     document_subsequent_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.subsequent.document",
         inverse_name="source_document_id",
-        copy=True,
+        compute="_compute_document_subsequent_ids",
+        store=True,
+        readonly=False,
     )
 
     document_subsequent_generated = fields.Boolean(
@@ -22,6 +25,29 @@ class Document(models.Model):
         compute="_compute_document_subsequent_generated",
         default=False,
     )
+
+    @api.depends("fiscal_operation_id")
+    def _compute_document_subsequent_ids(self):
+        for document in self:
+            commands = [
+                fields.Command.delete(subsequent.id)
+                for subsequent in document.document_subsequent_ids
+                if not subsequent.operation_performed
+            ]
+            commands.extend(
+                fields.Command.create(
+                    {
+                        "subsequent_operation_id": subsequent_operation.id,
+                        "fiscal_operation_id": (
+                            subsequent_operation.subsequent_operation_id.id
+                        ),
+                    }
+                )
+                for subsequent_operation in (
+                    document.fiscal_operation_id.operation_subsequent_ids
+                )
+            )
+            document.document_subsequent_ids = commands
 
     def _prepare_referenced_subsequent(self, doc_referenced):
         self.ensure_one()
@@ -60,20 +86,23 @@ class Document(models.Model):
             ):
                 subsequent_id.generate_subsequent_document()
 
-    def cancel_edoc(self):
+    def _document_cancel(self, justificative):
         self.ensure_one()
         if any(
-            doc.state_edoc == SITUACAO_EDOC_AUTORIZADA
-            for doc in self.document_subsequent_ids.mapped("document_subsequent_ids")
-        ):
-            message = _(
-                "Canceling the document is not allowed: one or more "
-                "associated documents have already been authorized."
+            document.state_edoc == SITUACAO_EDOC_AUTORIZADA
+            for document in self.document_subsequent_ids.mapped(
+                "subsequent_document_id"
             )
-            raise UserWarning(message)
+        ):
+            raise UserError(
+                _(
+                    "Canceling the document is not allowed: one or more "
+                    "subsequent documents have already been authorized."
+                )
+            )
+        return super()._document_cancel(justificative)
 
     def _after_change_state(self, old_state, new_state):
-        self.ensure_one()
         result = super()._after_change_state(old_state, new_state)
         self._generates_subsequent_operations()
         return result

@@ -11,11 +11,14 @@
     "version": "16.0.2.0.0",
     "depends": [
         "l10n_br_fiscal",
+        "l10n_br_fiscal_edi",
     ],
     "data": [
         "security/ir.model.access.csv",
         "views/subsequent_operation_view.xml",
         "views/subsequent_document_view.xml",
+        "views/document_view.xml",
+        "views/operation_view.xml",
         "views/l10n_br_fiscal_action.xml",
         "views/l10n_br_fiscal_menu.xml",
     ],
