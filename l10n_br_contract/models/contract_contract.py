@@ -74,6 +74,13 @@ class ContractContract(models.Model):
         column1="contract_id",
         column2="comment_id",
         string="Comments",
+        # o compute/store são herdados do l10n_br_fiscal.document.mixin, mas
+        # precisam ser repetidos aqui: sem eles nos atributos da redefinição o
+        # Odoo descarta o precompute. Sem precompute o m2m é gravado num flush
+        # tardio, antes da linha do contrato existir, violando a FK.
+        compute="_compute_comment_ids",
+        store=True,
+        precompute=True,
     )
 
     operation_name = fields.Char(
