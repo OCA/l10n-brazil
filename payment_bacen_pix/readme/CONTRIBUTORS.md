@@ -1,3 +1,2 @@
-- [KMEE](https://www.kmee.com.br):
-  - Luis Felipe Miléo \<<mileo@kmee.com.br>\>
-  - André Marcos Ferreira \<<andre.marcos@kmee.com.br>\>
+- Luis Felipe Mileo \<<mileo@kmee.com.br>\>
+- Bruno Corredato Botti \<<bruno.botti@kmee.com.br>\>

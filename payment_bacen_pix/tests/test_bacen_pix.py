@@ -1,92 +1,198 @@
 # Copyright 2023 KMEE
-# License MIT - See https://opensource.org/license/mit
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-import os
-from datetime import datetime
+from unittest.mock import patch
 
-import vcr
+from odoo import fields
+from odoo.exceptions import ValidationError
+from odoo.tests import tagged
 
-import odoo
+from odoo.addons.payment_bacen_pix.const import PSP_CONFIG
+
+from .common import BacenPixCommon
 
 
-@odoo.tests.tagged("post_install", "-at_install")
-class BacenCommon(odoo.tests.HttpCase):
-    def setUp(self):
-        super().setUp()
+class _ResponseStub:
+    status_code = 200
 
-        bacenpix_client_id = "test_client_id"
-        bacenpix_client_secret = "test_client_secret"
-        bacenpix_basic = "test_client_basic"
+    def __init__(self, content, ok=True):
+        self._content = content
+        self.ok = ok
+        self.text = str(content)
 
-        self.bacen = self.env["payment.provider"].create(
+    def json(self):
+        return self._content
+
+    def raise_for_status(self):
+        return None
+
+
+@tagged("post_install", "-at_install")
+class TestBacenPixProvider(BacenPixCommon):
+    def test_provider_is_compatible_with_brl_only(self):
+        """Pix settles in BRL only."""
+        self.bacenpix.is_published = True
+        providers = self.env["payment.provider"]._get_compatible_providers(
+            self.company.id,
+            self.partner.id,
+            self.amount,
+            currency_id=self.currency_brl.id,
+        )
+        self.assertIn(self.bacenpix, providers)
+
+        providers = self.env["payment.provider"]._get_compatible_providers(
+            self.company.id,
+            self.partner.id,
+            self.amount,
+            currency_id=self.currency_usd.id,
+        )
+        self.assertNotIn(self.bacenpix, providers)
+
+    def test_api_url_depends_on_the_psp_and_on_the_state(self):
+        """Only the base URL changes from one PSP to another."""
+        self.bacenpix.write({"bacenpix_psp": "bb", "state": "test"})
+        self.assertEqual(
+            self.bacenpix._bacenpix_get_api_url(), PSP_CONFIG["bb"]["api_url"]["test"]
+        )
+
+        self.bacenpix.state = "enabled"
+        self.assertEqual(
+            self.bacenpix._bacenpix_get_api_url(), PSP_CONFIG["bb"]["api_url"]["prod"]
+        )
+
+        self.bacenpix.write({"bacenpix_psp": "inter", "state": "test"})
+        self.assertEqual(
+            self.bacenpix._bacenpix_get_api_url(),
+            PSP_CONFIG["inter"]["api_url"]["test"],
+        )
+
+    def test_token_is_requested_with_basic_auth_for_the_bb(self):
+        """The BB expects the credentials in the authorization header."""
+        self.bacenpix.bacenpix_psp = "bb"
+        with patch(
+            "odoo.addons.payment_bacen_pix.models.payment_provider.requests.post",
+            return_value=_ResponseStub({"access_token": "tok", "expires_in": 600}),
+        ) as post_mock:
+            token = self.bacenpix._bacenpix_get_token()
+
+        self.assertEqual(token, "tok")
+        self.assertEqual(
+            post_mock.call_args.args[0], PSP_CONFIG["bb"]["token_url"]["test"]
+        )
+        self.assertEqual(
+            post_mock.call_args.kwargs["auth"],
+            ("dummy-client-id", "dummy-client-secret"),
+        )
+        self.assertNotIn("client_secret", post_mock.call_args.kwargs["data"])
+
+    def test_token_is_requested_in_the_body_for_the_inter(self):
+        """The Inter expects the credentials in the body of the request."""
+        self.bacenpix.write(
             {
-                "name": "Bacen (pix)",
-                "provider": "bacenpix",
-                "bacenpix_email_account": "test@example.com",
-                "bacen_pix_key": "7f6844d0-de89-47e5-9ef7-e0a35a681615",
-                "bacenpix_client_id": bacenpix_client_id,
-                "bacenpix_client_secret": bacenpix_client_secret,
-                "bacenpix_dev_app_key": "7415558232312afe7fb3ccf1e0508aef",
-                "bacen_pix_basic": bacenpix_basic,
-                "bacenpix_api_key": "",
+                "bacenpix_psp": "inter",
+                "bacenpix_certificate": b"Y2VydA==",
+                "bacenpix_private_key": b"a2V5",
             }
         )
+        with patch(
+            "odoo.addons.payment_bacen_pix.models.payment_provider.requests.post",
+            return_value=_ResponseStub({"access_token": "tok", "expires_in": 600}),
+        ) as post_mock:
+            self.bacenpix._bacenpix_get_token()
 
-        self.bacen.write(
+        self.assertIsNone(post_mock.call_args.kwargs["auth"])
+        self.assertEqual(
+            post_mock.call_args.kwargs["data"]["client_secret"], "dummy-client-secret"
+        )
+        self.assertEqual(len(post_mock.call_args.kwargs["cert"]), 2)
+
+    def test_token_is_cached_until_it_expires(self):
+        """The token endpoint is not called again while the token is valid."""
+        with patch(
+            "odoo.addons.payment_bacen_pix.models.payment_provider.requests.post",
+            return_value=_ResponseStub({"access_token": "tok", "expires_in": 600}),
+        ) as post_mock:
+            self.bacenpix._bacenpix_get_token()
+            self.bacenpix._bacenpix_get_token()
+
+        self.assertEqual(post_mock.call_count, 1)
+
+    def test_expired_token_is_renewed(self):
+        """A token that has expired is requested again."""
+        self.bacenpix.write(
             {
-                "state": "test",
+                "bacenpix_token": "old-token",
+                "bacenpix_token_expiry": fields.Datetime.subtract(
+                    fields.Datetime.now(), minutes=5
+                ),
             }
         )
+        with patch(
+            "odoo.addons.payment_bacen_pix.models.payment_provider.requests.post",
+            return_value=_ResponseStub(
+                {"access_token": "new-token", "expires_in": 600}
+            ),
+        ):
+            self.assertEqual(self.bacenpix._bacenpix_get_token(), "new-token")
 
-
-class BacenTest(BacenCommon):
-    @vcr.use_cassette(
-        os.path.dirname(__file__) + "/fixtures/test_pix_bacen.yaml",
-        match_on=["method", "scheme", "host", "port", "path", "query", "body"],
-        ignore_localhost=True,
-    )
-    def test_bacen_pix(self):
-        partner = self.env["res.partner"].create(
+    def test_mutual_tls_certificate_is_required_by_the_inter(self):
+        """The PSPs that demand mutual TLS refuse to run without a certificate."""
+        self.bacenpix.write(
             {
-                "name": "Francisco da Silva",
-                "email": "test@partner.com",
-                "cnpj_cpf": "123.456.789-09",
+                "bacenpix_psp": "inter",
+                "bacenpix_certificate": False,
+                "bacenpix_private_key": False,
             }
         )
+        with self.assertRaises(ValidationError):
+            with self.bacenpix._bacenpix_certificate_files():
+                pass
 
-        tx = self.env["payment.transaction"].create(
+    def test_no_certificate_is_needed_by_the_bb(self):
+        """The BB works without a client certificate."""
+        self.bacenpix.bacenpix_psp = "bb"
+        with self.bacenpix._bacenpix_certificate_files() as cert:
+            self.assertIsNone(cert)
+
+    def test_certificate_files_are_removed_after_use(self):
+        """The private key does not stay on the disk."""
+        self.bacenpix.write(
             {
-                "provider_id": self.bacen.id,
-                "partner_id": partner.id,
-                "bacenpix_date_due": datetime.now(),
-                "bacenpix_currency": "BRL",
-                "bacenpix_amount": 42.42,
-                "partner_name": partner.name,
-                "bacenpix_txid": 12345678909,
-                "amount": "123.45",
+                "bacenpix_psp": "inter",
+                "bacenpix_certificate": b"Y2VydA==",
+                "bacenpix_private_key": b"a2V5",
             }
         )
+        import os
 
-        self.assertEqual(tx.state_message, 0)
+        with self.bacenpix._bacenpix_certificate_files() as cert:
+            paths = list(cert)
+            self.assertTrue(all(os.path.exists(path) for path in paths))
+        self.assertFalse(any(os.path.exists(path) for path in paths))
 
-    def test_bacen_pix_fail_token(self):
-        self.bacen.bacen_pix_get_token()
-        self.assertEqual(self.bacen.bacenpix_api_key, "Error")
-
-
-class TestBacenWebhook(odoo.tests.HttpCase):
-    def test_bacenpix_webhook(self):
-        tx_reference = {"reference": 12345678909}
-
-        response = self.url_open(
-            "/webhook/%s" % tx_reference,
-            data=tx_reference,
-            headers={"Content-Type": "application/json"},
+    def test_error_message_of_a_failed_request(self):
+        """The problem details returned by the API are reported to the user."""
+        response = _ResponseStub(
+            {
+                "title": "Cobrança inválida",
+                "detail": "A requisição está fora do padrão.",
+                "violacoes": [
+                    {"razao": "chave não encontrada", "propriedade": "chave"}
+                ],
+            }
         )
+        message = self.env["payment.provider"]._bacenpix_get_error_message(response)
+        self.assertIn("Cobrança inválida", message)
+        self.assertIn("[chave: chave não encontrada]", message)
 
-        self.assertEqual(response.status_code, 400)
-
-    def test_transfer_form_feedback(self):
-        tx_reference = {"reference": 12345678909}
-        response = self.url_open("/payment/bacenpix/feedback", data=tx_reference)
-        self.assertEqual(response.status_code, 200)
+    def test_unknown_psp_is_rejected(self):
+        """A provider without a PSP cannot reach any API."""
+        # The field is required by the framework, so it is emptied in the
+        # database to reproduce a provider that was configured by a module.
+        self.env.cr.execute(
+            "UPDATE payment_provider SET bacenpix_psp = NULL WHERE id = %s",
+            (self.bacenpix.id,),
+        )
+        self.bacenpix.invalidate_recordset(["bacenpix_psp"])
+        with self.assertRaises(ValidationError):
+            self.bacenpix._bacenpix_get_api_url()

@@ -1,6 +1,6 @@
-=================
-Payment Bacen PIX
-=================
+===========
+Payment Pix
+===========
 
 .. 
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -10,9 +10,9 @@ Payment Bacen PIX
    !! source digest: sha256:17c928dac1c9e12576cfa14d204f1812c723b788cf98087dc09d4dedcf463bf8
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Alpha-red.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Alpha
 .. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
@@ -28,10 +28,22 @@ Payment Bacen PIX
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Payment Acquirer: PIX with Bacen
+Payment Provider: Pix, through the API standardized by the Brazilian
+Central Bank.
 
-This module extends the payment module to add a new payment method: Pix
-Bacen.
+The customer pays with a QR code (or with the copy and paste payload)
+generated as an immediate charge (``cob``) on the account of the
+merchant. The API of the charges is the same for every PSP: the bank is
+chosen in the configuration of the provider, which only changes the base
+URL, the way the OAuth token is obtained and whether a client
+certificate is required.
+
+Supported PSPs: Banco do Brasil and Banco Inter.
+
+.. IMPORTANT::
+   This is an alpha version, the data model and design can change at any time without warning.
+   Only for development or testing purpose, do not use in production.
+   `More details on development status <https://odoo-community.org/page/development-status>`_
 
 **Table of contents**
 
@@ -43,7 +55,56 @@ Installation
 
 This module depends on:
 
--  account_payment
+- payment
+
+Configuration
+=============
+
+To configure the provider go to Invoicing -> Configuration -> Payment
+Providers -> Pix and fill in:
+
+- **Pix Provider**: the bank that holds the account;
+- **Pix Key**: the key that receives the payments, as registered with
+  the PSP;
+- **Client ID** and **Client Secret**: the credentials of the
+  application created in the developer portal of the bank;
+- **Application Key**: only for the Banco do Brasil, the
+  ``gw-dev-app-key`` of the application;
+- **Certificate** and **Private Key**: the client certificate in the PEM
+  format, required by the PSPs that demand mutual TLS, such as the Banco
+  Inter;
+- **Expiration**: how long a charge stays payable, in seconds.
+
+While the provider is in the *Test Mode* state, the sandbox of the PSP
+is used.
+
+The payment is confirmed either by the notification of the PSP, sent to
+``/payment/bacenpix/webhook`` and registered with
+``PUT /webhook/{chave}``, or by the scheduled action *Pix: Poll the
+charges waiting for a payment*, which is disabled by default. The page
+holding the QR code also polls the charge while the payer keeps it open.
+
+Pix settles in BRL only: the provider is filtered out of the payment
+methods offered to the customer for any other currency.
+
+API reference: https://bacen.github.io/pix-api
+
+Known issues / Roadmap
+======================
+
+- Only the immediate charge (``cob``) is implemented. The API also
+  offers the charge with a due date (``cobv``), with interest, fine and
+  discount, which is the natural next step for the integration with the
+  payment orders.
+- Pix Automático (``rec``, ``solicrec`` and ``cobr``, introduced in
+  version 2.7 of the API) is not implemented: recurring payments still
+  need a new charge each time.
+- Refunds (``PUT /pix/{e2eid}/devolucao/{id}``) are not implemented.
+- The webhook is not registered automatically: it must be declared once
+  with ``PUT /webhook/{chave}`` on the PSP. The notification is not
+  trusted as is, the charge is always queried again on the PSP.
+- Adding another PSP means adding an entry to ``PSP_CONFIG`` with its
+  URLs and the way it authenticates, not a new module.
 
 Bug Tracker
 ===========
@@ -66,10 +127,8 @@ Authors
 Contributors
 ------------
 
--  `KMEE <https://www.kmee.com.br>`__:
-
-   -  Luis Felipe Miléo <mileo@kmee.com.br>
-   -  André Marcos Ferreira <andre.marcos@kmee.com.br>
+- Luis Felipe Mileo <mileo@kmee.com.br>
+- Bruno Corredato Botti <bruno.botti@kmee.com.br>
 
 Maintainers
 -----------

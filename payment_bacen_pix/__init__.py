@@ -1,9 +1,9 @@
-from . import models
-from . import controllers
+# Copyright 2023 KMEE
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-# from odoo.addons.payment.models.payment_provider import (
-#     create_missing_journal_for_providers,
-# )
+from . import controllers
+from . import models
+
 from odoo.addons.payment import reset_payment_provider
 
 
