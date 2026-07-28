@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -87,7 +87,6 @@ msgstr ""
 #. module: l10n_br_purchase_blanket_order
 #. odoo-python
 #: code:addons/l10n_br_purchase_blanket_order/wizards/create_purchase_orders.py:0
-#, python-format
 msgid "An order can't be empty"
 msgstr ""
 
@@ -362,7 +361,6 @@ msgstr ""
 #. module: l10n_br_purchase_blanket_order
 #. odoo-python
 #: code:addons/l10n_br_purchase_blanket_order/wizards/create_purchase_orders.py:0
-#, python-format
 msgid ""
 "Can not create Purchase Order from Blanket Order lines with different "
 "currencies"
@@ -371,7 +369,6 @@ msgstr ""
 #. module: l10n_br_purchase_blanket_order
 #. odoo-python
 #: code:addons/l10n_br_purchase_blanket_order/wizards/create_purchase_orders.py:0
-#, python-format
 msgid ""
 "Can not create Purchase Order from Blanket Order lines with different fiscal"
 " operations"
@@ -470,23 +467,8 @@ msgid "Document Key Random Code"
 msgstr ""
 
 #. module: l10n_br_purchase_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order__document_number
-msgid "Document Number"
-msgstr ""
-
-#. module: l10n_br_purchase_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order__document_serie_id
 msgid "Document Serie"
-msgstr ""
-
-#. module: l10n_br_purchase_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order__document_type_id
-msgid "Document Type"
-msgstr ""
-
-#. module: l10n_br_purchase_blanket_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_blanket_order.view_purchase_blanket_order_form_inherit
-msgid "Edit in Form"
 msgstr ""
 
 #. module: l10n_br_purchase_blanket_order
@@ -551,6 +533,16 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order__fiscal_amount_untaxed
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__fiscal_amount_untaxed
 msgid "Fiscal Amount Untaxed"
+msgstr ""
+
+#. module: l10n_br_purchase_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order__document_number
+msgid "Fiscal Document Number"
+msgstr ""
+
+#. module: l10n_br_purchase_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order__document_type_id
+msgid "Fiscal Document Type"
 msgstr ""
 
 #. module: l10n_br_purchase_blanket_order
@@ -1116,6 +1108,11 @@ msgid "ISSQN Value"
 msgstr ""
 
 #. module: l10n_br_purchase_blanket_order
+#: model:ir.model.fields,help:l10n_br_purchase_blanket_order.field_purchase_blanket_order__cnpj_cpf
+msgid "Identification Number for selected type"
+msgstr ""
+
+#. module: l10n_br_purchase_blanket_order
 #: model:ir.model.fields,help:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__cfop_destination
 msgid "Identifies the operation destination."
 msgstr ""
@@ -1132,21 +1129,6 @@ msgid ""
 "government-related entity. It encompasses a range of entities such as "
 "municipal governments, state-owned enterprises (where the government is the "
 "largest shareholder), and other government-controlled organizations."
-msgstr ""
-
-#. module: l10n_br_purchase_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order__insurance_endorsement
-msgid "Insurance Endorsement"
-msgstr ""
-
-#. module: l10n_br_purchase_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order__insurance_policy
-msgid "Insurance Policy"
-msgstr ""
-
-#. module: l10n_br_purchase_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order__partner_insurance_id
-msgid "Insurance Provider"
 msgstr ""
 
 #. module: l10n_br_purchase_blanket_order
@@ -1418,18 +1400,7 @@ msgstr ""
 #. module: l10n_br_purchase_blanket_order
 #. odoo-python
 #: code:addons/l10n_br_purchase_blanket_order/wizards/create_purchase_orders.py:0
-#, python-format
 msgid "RFQ"
-msgstr ""
-
-#. module: l10n_br_purchase_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order__partner_receivering_id
-msgid "Receiver Address"
-msgstr ""
-
-#. module: l10n_br_purchase_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order__partner_sendering_id
-msgid "Sender Address"
 msgstr ""
 
 #. module: l10n_br_purchase_blanket_order
@@ -1443,13 +1414,13 @@ msgid "Service Type LC 166"
 msgstr ""
 
 #. module: l10n_br_purchase_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order__partner_shippering_id
-msgid "Shipper Address"
+#: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__icmssn_range_id
+msgid "Simplified Range Tax"
 msgstr ""
 
 #. module: l10n_br_purchase_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__icmssn_range_id
-msgid "Simplified Range Tax"
+#: model:ir.model.fields,help:l10n_br_purchase_blanket_order.field_purchase_blanket_order__l10n_br_ie_code
+msgid "State Tax Identification Number. Should contain 9-14 digits."
 msgstr ""
 
 #. module: l10n_br_purchase_blanket_order
@@ -1622,58 +1593,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_purchase_blanket_order
-#: model:ir.model.fields,help:l10n_br_purchase_blanket_order.field_purchase_blanket_order__cnpj_cpf
-msgid ""
-"The Tax Identification Number. Values here will be validated based on the "
-"country format. You can use '/' to indicate that the partner is not subject "
-"to tax."
-msgstr ""
-
-#. module: l10n_br_purchase_blanket_order
-#: model:ir.model.fields,help:l10n_br_purchase_blanket_order.field_purchase_blanket_order__insurance_endorsement
-msgid ""
-"The endorsement number associated with the insurance policy, indicating any "
-"modifications or adjustments to the coverage. This field is primarily used "
-"when issuing the CT-e."
-msgstr ""
-
-#. module: l10n_br_purchase_blanket_order
-#: model:ir.model.fields,help:l10n_br_purchase_blanket_order.field_purchase_blanket_order__insurance_policy
-msgid ""
-"The insurance policy number covering the transported goods. This field is "
-"primarily used when issuing the CT-e."
-msgstr ""
-
-#. module: l10n_br_purchase_blanket_order
-#: model:ir.model.fields,help:l10n_br_purchase_blanket_order.field_purchase_blanket_order__partner_receivering_id
-msgid ""
-"The intermediary partner who receives the goods before they reach the final "
-"recipient, often involved in verification, temporary storage, or further "
-"distribution. This field is primarily used when issuing the CT-e."
-msgstr ""
-
-#. module: l10n_br_purchase_blanket_order
-#: model:ir.model.fields,help:l10n_br_purchase_blanket_order.field_purchase_blanket_order__partner_insurance_id
-msgid ""
-"The partner providing insurance coverage for the transported goods. This "
-"field is primarily used when issuing the CT-e."
-msgstr ""
-
-#. module: l10n_br_purchase_blanket_order
-#: model:ir.model.fields,help:l10n_br_purchase_blanket_order.field_purchase_blanket_order__partner_shippering_id
-msgid ""
-"The partner responsible for delivering the cargo to the carrier, if not done"
-" directly by the sender. This field is primarily used when issuing the CT-e."
-msgstr ""
-
-#. module: l10n_br_purchase_blanket_order
-#: model:ir.model.fields,help:l10n_br_purchase_blanket_order.field_purchase_blanket_order__partner_sendering_id
-msgid ""
-"The partner responsible for sending the goods, typically the issuer of the "
-"document. This field is primarily used when issuing the CT-e."
-msgstr ""
-
-#. module: l10n_br_purchase_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__price_total
 msgid "Total"
 msgstr ""
@@ -1728,6 +1647,5 @@ msgstr ""
 #. module: l10n_br_purchase_blanket_order
 #. odoo-python
 #: code:addons/l10n_br_purchase_blanket_order/wizards/create_purchase_orders.py:0
-#, python-format
 msgid "You can't order more than the remaining quantities"
 msgstr ""
