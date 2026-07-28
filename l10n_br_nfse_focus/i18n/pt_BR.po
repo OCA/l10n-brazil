@@ -6,16 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-06-11 19:36+0000\n"
-"Last-Translator: Rodrigo Macedo "
-"<sottomaiormacedotec@users.noreply.translation.odoo-community.org>\n"
+"PO-Revision-Date: 2026-07-28 20:46+0000\n"
+"Last-Translator: Cristiano Mafra Junior <cristiano.mafracontanto@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: l10n_br_nfse_focus
 #. odoo-python
@@ -33,7 +32,7 @@ msgstr "%(code)s - %(status)s"
 #. odoo-python
 #: code:addons/l10n_br_nfse_focus/models/document.py:0
 msgid "Authorization error"
-msgstr ""
+msgstr "Erro de autorização"
 
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields.selection,name:l10n_br_nfse_focus.selection__res_company__focusnfe_nfse_cnae_code_value__codigo_cnae
@@ -60,7 +59,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_nfse_focus/models/base.py:0
 msgid "Error communicating with %(service)s service: %(error)s"
-msgstr ""
+msgstr "\"Erro na comunicação com o serviço %(service)s: %(error)s\""
 
 #. module: l10n_br_nfse_focus
 #: model:ir.model,name:l10n_br_nfse_focus.model_l10n_br_fiscal_document
@@ -105,7 +104,7 @@ msgstr "Token de produção FocusNFe"
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__focusnfe_tax_rate_format
 msgid "Focusnfe Tax Rate Format"
-msgstr ""
+msgstr "Formato da Alíquota Focusnfe"
 
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_force_odoo_danfse
@@ -120,6 +119,10 @@ msgid ""
 "and if there are discrepancies with the status in Odoo, it will "
 "automatically update the status in the system."
 msgstr ""
+"Se marcado, os documentos autorizados serão incluídos no assistente de "
+"verificação de status. O sistema irá verificar o status dos documentos com a "
+"Focus NFE e, caso haja divergências com o status no Odoo, atualizará "
+"automaticamente o status no sistema."
 
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields,help:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_force_odoo_danfse
@@ -127,11 +130,13 @@ msgid ""
 "If checked, the system will always use the Odoo DANFSE instead of the Focus "
 "DANFSE."
 msgstr ""
+"Se marcado, o sistema sempre usará o DANFSE do Odoo em vez do DANFSE da "
+"Focus."
 
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_update_authorized_document_status
 msgid "Include Authorized Documents in Status Check"
-msgstr ""
+msgstr "Incluir Documentos Autorizados na Verificação de Status"
 
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_cnae_code_value
@@ -168,7 +173,7 @@ msgstr "Provedor NFSe"
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields.selection,name:l10n_br_nfse_focus.selection__res_company__focusnfe_nfse_service_type_value__codigo_tributacao_nacional
 msgid "National Taxation Code"
-msgstr ""
+msgstr "Código de Tributação Nacional"
 
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields.selection,name:l10n_br_nfse_focus.selection__res_company__focusnfe_tax_rate_format__percentage
@@ -179,11 +184,13 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_type
 msgid "Select whether to use NFSe (municipal) or NFSe Nacional (national) API"
 msgstr ""
+"Selecione se deve usar a API da NFSe (municipal) ou da NFSe Nacional "
+"(nacional)"
 
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_nacional_send_im_prestador
 msgid "Send Provider Municipal Registration (NFSe Nacional)"
-msgstr ""
+msgstr "Enviar Inscrição Municipal do Prestador (NFSe Nacional)"
 
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields.selection,name:l10n_br_nfse_focus.selection__res_company__focusnfe_nfse_service_type_value__item_lista_servico
