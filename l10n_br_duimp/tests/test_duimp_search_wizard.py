@@ -8,6 +8,10 @@ from odoo.tests import tagged
 
 from odoo.addons.l10n_br_account.tests.common import AccountMoveBRCommon
 from odoo.addons.l10n_br_duimp.models.res_company import ResCompany
+from odoo.addons.l10n_br_duimp.tests.common import (
+    DUIMP_NUMBER,
+    grant_nfe_access,
+)
 
 from .test_duimp_import_wizard import FakeDuimpWebservice
 
@@ -31,6 +35,7 @@ class TestDuimpSearchWizard(AccountMoveBRCommon):
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
         super().setUpClass(chart_template_ref or "l10n_br_coa.l10n_br_coa_template")
+        grant_nfe_access(cls.env)
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.company = cls.company_data["company"]
         cls.company.cnpj_cpf = "42.245.642/0001-09"
@@ -46,12 +51,12 @@ class TestDuimpSearchWizard(AccountMoveBRCommon):
                 "company_id": self.company.id,
                 "document_type_id": self.env.ref("l10n_br_fiscal.document_55").id,
                 "issuer": "company",
-                "duimp_number": "26BR0000758808",
+                "duimp_number": DUIMP_NUMBER,
             }
         )
         fake = FakeDuimpSearchWebservice(
             access_keys=[
-                {"numero": "26BR0000758808", "chaveAcesso": "already-imported"},
+                {"numero": DUIMP_NUMBER, "chaveAcesso": "already-imported"},
                 {"numero": "26BR0000999999", "chaveAcesso": "new"},
             ]
         )
@@ -84,11 +89,11 @@ class TestDuimpSearchWizard(AccountMoveBRCommon):
                 "company_id": self.company.id,
                 "document_type_id": self.env.ref("l10n_br_fiscal.document_55").id,
                 "issuer": "company",
-                "duimp_number": "26BR0000758808",
+                "duimp_number": DUIMP_NUMBER,
             }
         )
         fake = FakeDuimpSearchWebservice(
-            access_keys=[{"numero": "26BR0000758808", "chaveAcesso": "x"}]
+            access_keys=[{"numero": DUIMP_NUMBER, "chaveAcesso": "x"}]
         )
         wizard = self._create_wizard()
         with patch.object(ResCompany, "_get_duimp_webservice", new=lambda self: fake):
@@ -109,7 +114,7 @@ class TestDuimpSearchWizard(AccountMoveBRCommon):
         with self.assertRaises(UserError):
             wizard.action_import_selected()
 
-    def test_action_import_selected_creates_import_wizards(self):
+    def test_action_import_selected_creates_declaracoes(self):
         fake = FakeDuimpSearchWebservice()
         wizard = self._create_wizard()
         wizard.line_ids = [
@@ -117,7 +122,7 @@ class TestDuimpSearchWizard(AccountMoveBRCommon):
                 0,
                 0,
                 {
-                    "duimp_number": "26BR0000758808",
+                    "duimp_number": DUIMP_NUMBER,
                     "duimp_version": 1,
                     "selected": True,
                 },
@@ -126,9 +131,10 @@ class TestDuimpSearchWizard(AccountMoveBRCommon):
         with patch.object(ResCompany, "_get_duimp_webservice", new=lambda self: fake):
             action = wizard.action_import_selected()
 
-        import_wizards = self.env["l10n_br_fiscal.document.import.wizard"].search(
+        declaracoes = self.env["l10n_br_duimp.declaracao"].search(
             [("id", "in", action["domain"][0][2])]
         )
-        self.assertEqual(len(import_wizards), 1)
-        self.assertEqual(import_wizards.duimp_number, "26BR0000758808")
-        self.assertTrue(import_wizards.duimp_line_ids)
+        self.assertEqual(len(declaracoes), 1)
+        self.assertEqual(declaracoes.numero, DUIMP_NUMBER)
+        self.assertEqual(declaracoes.state, "open")
+        self.assertTrue(declaracoes.item_ids)

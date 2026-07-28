@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2026 - TODAY, KMEE (<https://kmee.com.br>)
+     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html -->
+<odoo>
+
+    <!-- Demo imported products -->
+    <record id="product_duimp_demo_1" model="product.product">
+        <field name="name">DUIMP Demo - Imported Bearing</field>
+        <field name="default_code">DUIMP-BRG-001</field>
+        <field name="type">product</field>
+        <field name="purchase_ok" eval="True" />
+    </record>
+    <record id="product_duimp_demo_2" model="product.product">
+        <field name="name">DUIMP Demo - Imported Sensor</field>
+        <field name="default_code">DUIMP-SNS-002</field>
+        <field name="type">product</field>
+        <field name="purchase_ok" eval="True" />
+    </record>
+
+    <!-- Foreign vendor -->
+    <record id="partner_duimp_demo_vendor" model="res.partner">
+        <field name="name">DUIMP Demo Exporter Ltd.</field>
+        <field name="supplier_rank">1</field>
+        <field name="is_company" eval="True" />
+    </record>
+
+    <!-- Persistent DUIMP with two items (open, ready for de-para/invoice) -->
+    <record id="duimp_demo_declaracao" model="l10n_br_duimp.declaracao">
+        <field name="numero">26BR0000758808</field>
+        <field name="versao">1</field>
+        <field name="situacao">REGISTRADA</field>
+        <field name="canal">VERDE</field>
+        <field name="data_registro" eval="(DateTime.today()).strftime('%Y-%m-%d')" />
+        <field name="fornecedor_partner_id" ref="partner_duimp_demo_vendor" />
+        <field name="importador_nome">Demo Importer S.A.</field>
+        <field name="incoterm">FOB</field>
+        <field name="urf_despacho_nome">PORTO DE SANTOS</field>
+        <field name="uf_desembaraco">SP</field>
+        <field name="via_transporte_codigo">01</field>
+        <field name="caracterizacao_operacao_codigo">1</field>
+        <field name="afrmm_total">1200.00</field>
+        <field name="taxa_siscomex_total">154.23</field>
+        <field name="state">open</field>
+    </record>
+
+    <record id="duimp_demo_item_1" model="l10n_br_duimp.item">
+        <field name="declaracao_id" ref="duimp_demo_declaracao" />
+        <field name="numero_item">1</field>
+        <field name="codigo_produto">DUIMP-BRG-001</field>
+        <field name="ncm_codigo">84821010</field>
+        <field name="descricao">Imported bearing</field>
+        <field name="quantidade">100</field>
+        <field name="unidade_comercializada">UN</field>
+        <field name="product_id" ref="product_duimp_demo_1" />
+        <field name="price_unit">50.00</field>
+        <field name="valor_mercadoria">5000.00</field>
+        <field name="valor_aduaneiro">5300.00</field>
+        <field name="valor_frete_rateado">200.00</field>
+        <field name="valor_seguro_rateado">100.00</field>
+    </record>
+    <record id="duimp_demo_item_1_tributo_ii" model="l10n_br_duimp.item.tributo">
+        <field name="item_id" ref="duimp_demo_item_1" />
+        <field name="tipo">II</field>
+        <field name="base_calculo">5300.00</field>
+        <field name="aliquota_ad_valorem">16.0</field>
+        <field name="valor_devido">848.00</field>
+    </record>
+
+    <record id="duimp_demo_item_2" model="l10n_br_duimp.item">
+        <field name="declaracao_id" ref="duimp_demo_declaracao" />
+        <field name="numero_item">2</field>
+        <field name="codigo_produto">DUIMP-SNS-002</field>
+        <field name="ncm_codigo">90258090</field>
+        <field name="descricao">Imported sensor</field>
+        <field name="quantidade">40</field>
+        <field name="unidade_comercializada">UN</field>
+        <field name="product_id" ref="product_duimp_demo_2" />
+        <field name="price_unit">120.00</field>
+        <field name="valor_mercadoria">4800.00</field>
+        <field name="valor_aduaneiro">4950.00</field>
+        <field name="valor_frete_rateado">100.00</field>
+        <field name="valor_seguro_rateado">50.00</field>
+    </record>
+    <record id="duimp_demo_item_2_tributo_ii" model="l10n_br_duimp.item.tributo">
+        <field name="item_id" ref="duimp_demo_item_2" />
+        <field name="tipo">II</field>
+        <field name="base_calculo">4950.00</field>
+        <field name="aliquota_ad_valorem">14.0</field>
+        <field name="valor_devido">693.00</field>
+    </record>
+
+</odoo>

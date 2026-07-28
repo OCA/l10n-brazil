@@ -71,3 +71,27 @@ DUIMP_SEARCH_DEFAULT_DAYS = 60
 # every time; this TTL (in seconds) bounds how long a cached token is
 # trusted before authenticating again.
 DUIMP_TOKEN_CACHE_SECONDS = 300
+
+# State machine of the persistent l10n_br_duimp.declaracao, mirroring the
+# lifecycle used by KMEE's l10n_br_di.declaracao (14.0).
+DUIMP_STATE_SELECTION = [
+    ("draft", "Draft"),
+    ("open", "Open"),
+    ("locked", "Locked"),
+    ("canceled", "Canceled"),
+]
+
+# Federal tribute types persisted on l10n_br_duimp.item.tributo. Besides
+# the four taxes that map to fiscal document line fields, the DUIMP also
+# reports the Siscomex utilisation fee ("Taxa de Utilização"), kept for
+# auditing/landed-cost purposes (phase 2).
+DUIMP_TRIBUTO_TYPE_SELECTION = [
+    ("II", "II - Imposto de Importação"),
+    ("IPI", "IPI - Imposto sobre Produtos Industrializados"),
+    ("PIS", "PIS/PASEP-Importação"),
+    ("COFINS", "COFINS-Importação"),
+    ("CIDE", "CIDE"),
+    ("ANTIDUMPING", "Direito Antidumping"),
+    ("TAXA_UTILIZACAO", "Taxa de Utilização do Siscomex"),
+    ("OUTRO", "Outro"),
+]

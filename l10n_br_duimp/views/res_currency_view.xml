@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2026 - TODAY, KMEE (<https://kmee.com.br>)
+     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html -->
+<odoo>
+    <record id="res_currency_form_duimp" model="ir.ui.view">
+        <field name="name">l10n_br_duimp.res.currency.form</field>
+        <field name="model">res.currency</field>
+        <field name="inherit_id" ref="base.view_currency_form" />
+        <field name="arch" type="xml">
+            <field name="rounding" position="after">
+                <field name="siscomex_code" />
+            </field>
+        </field>
+    </record>
+</odoo>

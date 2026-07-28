@@ -1,4 +1,5 @@
 # Copyright (C) 2026 - TODAY, Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+# Copyright (C) 2026 - TODAY, KMEE (<https://kmee.com.br>)
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 """Fixtures reproduce the shape of the Portal Único Siscomex DUIMP API
@@ -14,9 +15,13 @@ from odoo.tests import tagged
 
 from odoo.addons.l10n_br_account.tests.common import AccountMoveBRCommon
 from odoo.addons.l10n_br_duimp.models.res_company import ResCompany
+from odoo.addons.l10n_br_duimp.tests.common import (
+    DUIMP_NUMBER,
+    grant_nfe_access,
+)
 
 DUIMP_GENERAL_DATA = {
-    "identificacao": {"numero": "26BR0000758808", "versao": 1},
+    "identificacao": {"numero": DUIMP_NUMBER, "versao": 1},
     "tributos": {
         "tributosCalculados": [
             {"tipo": "II", "valoresBRL": {"devido": 20625.01}},
@@ -128,11 +133,9 @@ class TestDuimpImportWizard(AccountMoveBRCommon):
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
         super().setUpClass(chart_template_ref or "l10n_br_coa.l10n_br_coa_template")
+        grant_nfe_access(cls.env)
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.company = cls.company_data["company"]
-        nfe_group = cls.env.ref("l10n_br_nfe.group_manager", raise_if_not_found=False)
-        if nfe_group:
-            cls.env.user.groups_id |= nfe_group
         cls.product = cls.env["product.product"].create(
             {
                 "name": "DENSOLEN-AS39 P BLACK",
@@ -163,45 +166,61 @@ class TestDuimpImportWizard(AccountMoveBRCommon):
         return self.env["l10n_br_fiscal.document.import.wizard"].create(
             {
                 "company_id": self.company.id,
-                "duimp_number": "26BR0000758808",
+                "duimp_number": DUIMP_NUMBER,
                 "fiscal_operation_id": self.fiscal_operation.id,
             }
         )
 
     def _consult_wizard(self, webservice=None):
+        """Runs action_consult_duimp and returns the persistent DUIMP
+        declaration it created/refreshed."""
         wizard = self._create_wizard()
         fake = webservice or FakeDuimpWebservice()
         with patch.object(ResCompany, "_get_duimp_webservice", new=lambda self: fake):
-            wizard.action_consult_duimp()
-        return wizard
+            action = wizard.action_consult_duimp()
+        return self.env["l10n_br_duimp.declaracao"].browse(action["res_id"])
 
-    def test_consult_and_import_duimp(self):
-        """Query a DUIMP, match its item to a product/CFOP, import it,
-        and confirm the imported tax values survive a save untouched.
+    def test_consult_creates_persistent_declaracao(self):
+        declaracao = self._consult_wizard()
+        self.assertTrue(declaracao.exists())
+        self.assertEqual(declaracao.numero, DUIMP_NUMBER)
+        self.assertEqual(declaracao.versao, 1)
+        self.assertEqual(declaracao.state, "open")
+        self.assertEqual(len(declaracao.item_ids), 1)
+        item = declaracao.item_ids
+        self.assertEqual(item.quantidade, 846.0)
+        self.assertAlmostEqual(item.valor_aduaneiro, 145600.16)
+        self.assertAlmostEqual(item.valor_frete_rateado, 11947.04)
+        self.assertAlmostEqual(item.valor_seguro_rateado, 720.13)
+        # products are auto-matched by codigoProduto == default_code
+        self.assertEqual(item.product_id, self.product)
+        # the exporter name matches an existing partner (best-effort)
+        self.assertEqual(declaracao.fornecedor_partner_id, self.partner)
+        # header federal taxes
+        self.assertAlmostEqual(declaracao.ii_total, 20625.01)
+        self.assertAlmostEqual(declaracao.cofins_total, 14115.22)
+
+    def test_consult_and_generate_invoice(self):
+        """Query a DUIMP, match its item to a product/CFOP, generate the
+        vendor bill, and confirm the imported tax values survive a save
+        untouched. Single item => allocation proportion == 1.0, so the
+        line values match the header totals exactly.
         """
-        wizard = self._consult_wizard()
+        declaracao = self._consult_wizard()
+        declaracao.item_ids.cfop_id = self.cfop
 
-        self.assertEqual(len(wizard.duimp_line_ids), 1)
-        line = wizard.duimp_line_ids[0]
-        self.assertEqual(line.quantity, 846.0)
-        self.assertAlmostEqual(line.customs_value, 145600.16)
-        self.assertAlmostEqual(line.freight_value, 11947.04)
-        self.assertAlmostEqual(line.insurance_value, 720.13)
-        # the exporter name matches an existing partner, so it is
-        # auto-matched by _search_partner during _fill_wizard_from_duimp:
-        self.assertEqual(wizard.partner_id, self.partner)
-
-        line.product_id = self.product
-        line.cfop_id = self.cfop
-
-        action = wizard.action_import_duimp()
+        action = declaracao.action_generate_vendor_bill()
         move = self.env["account.move"].browse(action["res_id"])
 
+        self.assertEqual(declaracao.state, "locked")
+        self.assertEqual(declaracao.account_move_id, move)
         self.assertTrue(move.fiscal_document_id.imported_document)
-        self.assertEqual(move.fiscal_document_id.duimp_number, "26BR0000758808")
+        self.assertEqual(move.fiscal_document_id.duimp_number, DUIMP_NUMBER)
+        self.assertEqual(move.fiscal_document_id.duimp_declaracao_id, declaracao)
         fiscal_lines = move.fiscal_document_id.fiscal_line_ids
         self.assertEqual(len(fiscal_lines), 1)
         fiscal_line = fiscal_lines[0]
+        self.assertEqual(fiscal_line.duimp_item_id, declaracao.item_ids)
         self.assertAlmostEqual(fiscal_line.ii_base, 145600.16, places=2)
         self.assertAlmostEqual(fiscal_line.ii_value, 20625.01, places=2)
         self.assertAlmostEqual(fiscal_line.ipi_value, 11095.51, places=2)
@@ -211,16 +230,51 @@ class TestDuimpImportWizard(AccountMoveBRCommon):
         fiscal_line.write({"quantity": fiscal_line.quantity})
         self.assertAlmostEqual(fiscal_line.ii_value, 20625.01, places=2)
 
-    def test_onchange_duimp_number_resets_lines(self):
-        wizard = self._consult_wizard()
-        self.assertTrue(wizard.duimp_line_ids)
-        self.assertTrue(wizard.duimp_raw_json)
+    def test_two_items_header_tax_allocation(self):
+        """Without a per-item tax breakdown in the payload, the header
+        totals are allocated by customs value (80000/100000 and
+        20000/100000)."""
+        declaracao = self._consult_wizard(
+            webservice=FakeDuimpWebservice(items=DUIMP_ITEMS_TWO)
+        )
+        declaracao.item_ids.cfop_id = self.cfop
 
-        wizard.duimp_number = "26BR0000000000"
-        wizard._onchange_duimp_number()
+        action = declaracao.action_generate_vendor_bill()
+        move = self.env["account.move"].browse(action["res_id"])
+        fiscal_lines = move.fiscal_document_id.fiscal_line_ids
+        self.assertEqual(len(fiscal_lines), 2)
+        line_1 = fiscal_lines.filtered(lambda line: line.product_id == self.product)
+        line_2 = fiscal_lines.filtered(lambda line: line.product_id == self.product_2)
+        self.assertAlmostEqual(line_1.ii_value, 20625.01 * 0.8, places=2)
+        self.assertAlmostEqual(line_2.ii_value, 20625.01 * 0.2, places=2)
+        self.assertAlmostEqual(line_1.ii_base, 80000.0, places=2)
+        self.assertAlmostEqual(line_2.ii_base, 20000.0, places=2)
 
-        self.assertFalse(wizard.duimp_line_ids)
-        self.assertFalse(wizard.duimp_raw_json)
+    def test_zero_customs_value(self):
+        declaracao = self._consult_wizard(
+            webservice=FakeDuimpWebservice(items=DUIMP_ITEMS_ZERO_VALUE)
+        )
+        item = declaracao.item_ids
+        self.assertAlmostEqual(item.valor_aduaneiro, 0.0)
+        self.assertAlmostEqual(item.amount_afrmm, 0.0)
+
+    def test_consult_reuses_open_declaracao(self):
+        first = self._consult_wizard()
+        second = self._consult_wizard()
+        self.assertEqual(first, second)
+
+    def test_consult_wizard_costs_forwarded(self):
+        wizard = self._create_wizard()
+        wizard.duimp_afrmm_value = 1000.0
+        wizard.duimp_siscomex_value = 223.64
+        fake = FakeDuimpWebservice()
+        with patch.object(ResCompany, "_get_duimp_webservice", new=lambda self: fake):
+            action = wizard.action_consult_duimp()
+        declaracao = self.env["l10n_br_duimp.declaracao"].browse(action["res_id"])
+        self.assertAlmostEqual(declaracao.afrmm_total, 1000.0)
+        self.assertAlmostEqual(declaracao.taxa_siscomex_total, 223.64)
+        # single item receives the full allocation
+        self.assertAlmostEqual(declaracao.item_ids.amount_afrmm, 1000.0, places=2)
 
     def test_action_consult_duimp_requires_number(self):
         wizard = self._create_wizard()
@@ -228,131 +282,23 @@ class TestDuimpImportWizard(AccountMoveBRCommon):
         with self.assertRaises(UserError):
             wizard.action_consult_duimp()
 
-    def test_action_import_duimp_validations(self):
-        with self.subTest(scenario="no_lines"):
-            wizard = self._create_wizard()
+    def test_generate_invoice_validations(self):
+        with self.subTest(scenario="no_vendor"):
+            declaracao = self._consult_wizard()
+            declaracao.fornecedor_partner_id = False
+            declaracao.item_ids.cfop_id = self.cfop
             with self.assertRaises(UserError):
-                wizard.action_import_duimp()
-
-        with self.subTest(scenario="no_partner"):
-            wizard = self._consult_wizard()
-            wizard.partner_id = False
-            wizard.duimp_line_ids.product_id = self.product
-            wizard.duimp_line_ids.cfop_id = self.cfop
-            with self.assertRaises(UserError):
-                wizard.action_import_duimp()
+                declaracao.action_generate_vendor_bill()
 
         with self.subTest(scenario="no_product"):
-            wizard = self._consult_wizard()
-            wizard.duimp_line_ids.cfop_id = self.cfop
+            declaracao = self._consult_wizard()
+            declaracao.item_ids.product_id = False
+            declaracao.item_ids.cfop_id = self.cfop
             with self.assertRaises(UserError):
-                wizard.action_import_duimp()
+                declaracao.action_generate_vendor_bill()
 
         with self.subTest(scenario="no_cfop"):
-            wizard = self._consult_wizard()
-            wizard.duimp_line_ids.product_id = self.product
+            declaracao = self._consult_wizard()
+            declaracao.item_ids.cfop_id = False
             with self.assertRaises(UserError):
-                wizard.action_import_duimp()
-
-    def test_duimp_exporter_name_fallbacks(self):
-        wizard = self._create_wizard()
-
-        with self.subTest(case="no_items"):
-            self.assertFalse(wizard._duimp_exporter_name([]))
-
-        with self.subTest(case="fabricante_fallback"):
-            name = wizard._duimp_exporter_name(
-                [{"dadosOperadorFabricante": {"nome": "FAB LTDA"}}]
-            )
-            self.assertEqual(name, "FAB LTDA")
-
-        with self.subTest(case="nome_operador_fallback"):
-            name = wizard._duimp_exporter_name(
-                [{"dadosOperadorExportador": {"nomeOperador": "OP LTDA"}}]
-            )
-            self.assertEqual(name, "OP LTDA")
-
-    def test_consult_without_exporter_name_leaves_partner_unset(self):
-        """A DUIMP whose items carry no exporter/manufacturer name still
-        fills the item grid; only the vendor lookup is skipped, since
-        there is no name to search a partner with.
-        """
-        item = {
-            key: value
-            for key, value in DUIMP_ITEMS[0].items()
-            if key != "dadosOperadorExportador"
-        }
-        wizard = self._consult_wizard(FakeDuimpWebservice(items=[item]))
-
-        self.assertFalse(wizard.issuer_legal_name)
-        self.assertFalse(wizard.partner_id)
-        self.assertEqual(len(wizard.duimp_line_ids), 1)
-        self.assertEqual(wizard.duimp_line_ids.product_code, "102")
-
-    def test_prepare_duimp_line_values_zero_quantity(self):
-        wizard = self._create_wizard()
-        item = {
-            "numeroItem": "9",
-            "dadosProduto": {},
-            "itemTributo": {
-                "dadosMercadoria": {"quantidadeUnidadeComercializada": 0.0},
-                "valorMercadoria": {},
-            },
-        }
-        values = wizard._prepare_duimp_line_values(item)
-        self.assertEqual(values["quantity"], 0.0)
-        self.assertEqual(values["price_unit"], 0.0)
-
-    def test_get_document_serie_reuses_existing(self):
-        wizard = self._create_wizard()
-        serie_model = self.env["l10n_br_fiscal.document.serie"]
-        domain = [
-            ("company_id", "=", self.company.id),
-            ("document_type_id", "=", self.env.ref("l10n_br_fiscal.document_55").id),
-        ]
-        before = serie_model.search_count(domain)
-
-        first = wizard._get_document_serie()
-        second = wizard._get_document_serie()
-
-        self.assertEqual(first, second)
-        self.assertEqual(serie_model.search_count(domain), before + 1)
-
-    def test_zero_customs_value_allocation(self):
-        """When every item has a zero customs value, both the
-        proportion (denominator) and the per-tax percent (base) fall
-        back to their else-branches instead of raising ZeroDivisionError.
-        """
-        wizard = self._consult_wizard(FakeDuimpWebservice(items=DUIMP_ITEMS_ZERO_VALUE))
-        wizard.duimp_line_ids.product_id = self.product
-        wizard.duimp_line_ids.cfop_id = self.cfop
-
-        action = wizard.action_import_duimp()
-        move = self.env["account.move"].browse(action["res_id"])
-        fiscal_line = move.fiscal_document_id.fiscal_line_ids
-        self.assertEqual(fiscal_line.ii_base, 0.0)
-        self.assertEqual(fiscal_line.ii_percent, 0.0)
-        self.assertEqual(fiscal_line.afrmm_value, 0.0)
-
-    def test_multi_item_afrmm_allocation(self):
-        """AFRMM and tax totals are allocated proportionally to each
-        item's customs value when there is more than one line.
-        """
-        wizard = self._consult_wizard(FakeDuimpWebservice(items=DUIMP_ITEMS_TWO))
-        self.assertEqual(len(wizard.duimp_line_ids), 2)
-        wizard.duimp_afrmm_value = 1000.0
-        line_1, line_2 = wizard.duimp_line_ids
-        line_1.product_id = self.product
-        line_1.cfop_id = self.cfop
-        line_2.product_id = self.product_2
-        line_2.cfop_id = self.cfop
-
-        action = wizard.action_import_duimp()
-        move = self.env["account.move"].browse(action["res_id"])
-        fiscal_lines = move.fiscal_document_id.fiscal_line_ids.sorted("id")
-        self.assertEqual(len(fiscal_lines), 2)
-
-        self.assertAlmostEqual(fiscal_lines[0].afrmm_value, 800.0, places=2)
-        self.assertAlmostEqual(fiscal_lines[1].afrmm_value, 200.0, places=2)
-        self.assertAlmostEqual(fiscal_lines[0].ii_value, 20625.01 * 0.8, places=2)
-        self.assertAlmostEqual(fiscal_lines[1].ii_value, 20625.01 * 0.2, places=2)
+                declaracao.action_generate_vendor_bill()
