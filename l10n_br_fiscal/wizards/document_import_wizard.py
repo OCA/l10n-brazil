@@ -38,6 +38,13 @@ class DocumentImportWizard(models.TransientModel):
 
     file = fields.Binary(string="File to Import")
 
+    date_in_out = fields.Datetime(
+        default=fields.Datetime.now,
+        help="Effective incoming/outgoing date of the goods (DT_E_S in the "
+        "SPED bookkeeping). Defaults to today; adjust it when the physical "
+        "receipt happened on another date.",
+    )
+
     imported_products_ids = fields.One2many(
         string="Imported Products",
         comodel_name="l10n_br_fiscal.document.import.wizard.line",
@@ -126,6 +133,8 @@ class DocumentImportWizard(models.TransientModel):
             binding, self.document_id = self._create_edoc_from_file()
         else:
             binding = self._parse_file()
+        if self.date_in_out and not self.document_id.date_in_out:
+            self.document_id.date_in_out = self.date_in_out
         return binding, self.document_id
 
     def action_import_and_open_document(self):  # TODO used?
