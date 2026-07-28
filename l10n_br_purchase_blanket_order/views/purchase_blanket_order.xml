@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Wesley Oliveira <wesley.oliveira@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.ui.view" id="view_purchase_blanket_order_form_inherit">
+        <field
+            name="name"
+        >purchase.blanket.order.form (in l10n_br_purchase_blanket_order)</field>
+        <field name="model">purchase.blanket.order</field>
+        <field
+            name="inherit_id"
+            ref="purchase_blanket_order.view_purchase_blanket_order_form"
+        />
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <field name="amount_untaxed" position="before">
+                <field
+                    name="amount_price_gross"
+                    widget='monetary'
+                    options="{'currency_field': 'currency_id'}"
+                />
+            </field>
+            <field name="amount_total" position="after">
+                <field
+                    name="amount_financial_total"
+                    widget='monetary'
+                    options="{'currency_field': 'currency_id'}"
+                />
+            </field>
+            <xpath expr="//field[@name='line_ids']/list" position="inside">
+                <control name="fiscal_fields" invisible="1" />
+                <!-- this is a dynamic fiscal fields placeholder-->
+                <control name="fiscal_taxes_fields" string="Taxes" invisible="1" />
+                <!-- this is a dynamic fiscal fields placeholder-->
+                <!-- the fields below would be injected by the placeholders
+                    above, but we need to repeat them here to please the
+                    Form test framework or because they are used in some
+                    domain here that is checked before the dynamic fiscal
+                    placeholders kick in.
+                -->
+                <field name="fiscal_operation_type" column_invisible="1" />
+                <field name="cfop_id" column_invisible="1" />
+                <field name="tax_framework" column_invisible="1" />
+                <field name="fiscal_operation_id" column_invisible="1" />
+                <field name="freight_value" column_invisible="1" />
+                <field name="insurance_value" column_invisible="1" />
+                <field name="other_value" column_invisible="1" />
+            </xpath>
+            <field name="validity_date" position="after">
+                <field
+                    name="fiscal_operation_id"
+                    required="1"
+                    readonly="state != 'draft'"
+                />
+                <field name="ind_final" required="1" />
+                <field name="ind_pres" required="1" readonly="state != 'draft'" />
+            </field>
+            <field name="note" position="replace">
+                <group>
+                    <field
+                        name="note"
+                        placeholder="Terms and conditions... (note: you can setup default ones in the Configuration menu)"
+                        style="min-width: 590px;"
+                    />
+                    <field
+                        name="manual_customer_additional_data"
+                        style="min-width: 590px;"
+                    />
+                    <field
+                        name="manual_fiscal_additional_data"
+                        style="min-width: 590px;"
+                    />
+                </group>
+            </field>
+            <xpath expr="//field[@name='line_ids']" position="attributes">
+                <attribute
+                    name="context"
+                >{'default_fiscal_operation_id': fiscal_operation_id, 'default_partner_id': partner_id, 'default_company_id': company_id}</attribute>
+            </xpath>
+            <xpath
+                expr="//field[@name='line_ids']/list/field[@name='taxes_id']"
+                position="replace"
+            />
+            <xpath
+                expr="//field[@name='line_ids']/list/field[@name='price_unit']"
+                position="after"
+            >
+                <field name="fiscal_operation_id" options="{'no_create': True}" />
+                <field
+                    name="fiscal_operation_line_id"
+                    column_invisible="1"
+                    options="{'no_create': True}"
+                />
+                <field
+                    name="fiscal_tax_ids"
+                    widget="many2many_tags"
+                    options="{'no_create': True}"
+                />
+            </xpath>
+            <xpath
+                expr="//field[@name='line_ids']/list/field[@name='price_subtotal']"
+                position="after"
+            >
+                <field name="price_total" column_invisible="1" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
