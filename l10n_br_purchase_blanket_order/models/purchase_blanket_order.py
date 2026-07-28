@@ -19,13 +19,11 @@ class PurchaseBlanketOrder(models.Model):
     fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
         readonly=True,
-        states={"draft": [("readonly", False)]},
         default=_default_fiscal_operation,
         domain=lambda self: self._fiscal_operation_domain(),
     )
     ind_pres = fields.Selection(
         readonly=True,
-        states={"draft": [("readonly", False)]},
     )
     cnpj_cpf = fields.Char(
         string="CNPJ/CPF",
@@ -73,10 +71,10 @@ class PurchaseBlanketOrder(models.Model):
             arch = self.env["purchase.blanket.order.line"].inject_fiscal_fields(arch)
 
         if view_type == "form" and (
-            self.user_has_groups("l10n_br_purchase.group_line_fiscal_detail")
+            self.env.user.has_group("l10n_br_purchase.group_line_fiscal_detail")
             or self.env.context.get("force_line_fiscal_detail")
         ):
-            for sub_tree_node in arch.xpath("//field[@name='order_line']/tree"):
+            for sub_tree_node in arch.xpath("//field[@name='line_ids']/list"):
                 sub_tree_node.attrib["editable"] = ""
 
         return arch, view

@@ -132,7 +132,7 @@ class PurchaseBlanketOrderWizard(models.TransientModel):
         return {
             "domain": [("id", "in", res)],
             "name": _("RFQ"),
-            "view_mode": "tree,form",
+            "view_mode": "list,form",
             "res_model": "purchase.order",
             "view_id": False,
             "context": {"from_purchase_order": True},
