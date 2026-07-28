@@ -1,0 +1,4 @@
+- [KMEE](https://kmee.com.br):
+    - Luis Felipe Miléo <mileo@kmee.com.br>
+- [Engenere](https://engenere.one):
+    - Antônio S. Pereira Neto <neto@engenere.one>
