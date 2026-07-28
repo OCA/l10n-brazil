@@ -23,6 +23,11 @@
                     name="type_all"
                     domain="[('type_in_out','=','all')]"
                 />
+                <filter
+                    string="ICMS ST"
+                    name="is_icmsst"
+                    domain="[('is_icmsst', '=', True)]"
+                />
                 <separator />
             </field>
             <group name="group_by" position="inside">
@@ -52,6 +57,7 @@
                 <field name="type_in_out" />
                 <field name="destination" />
                 <field name="type_move" />
+                <field name="is_icmsst" optional="show" />
                 <field name="ind_nfe" optional="hide" />
                 <field name="ind_cte" optional="hide" />
                 <field name="ind_comunica" optional="hide" />
@@ -75,6 +81,7 @@
                 <field name="small_name" />
                 <field name="type_in_out" />
                 <field name="destination" />
+                <field name="is_icmsst" />
                 <field name="cfop_inverse_id" />
                 <field name="cfop_return_id" />
             </field>
