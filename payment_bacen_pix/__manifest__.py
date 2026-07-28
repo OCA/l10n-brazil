@@ -2,23 +2,28 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 {
-    "name": "Payment Bacen PIX",
+    "name": "Payment Pix",
     "summary": """
-        Payment PIX with bacen""",
+        Payment Provider: Pix, through the API of the Central Bank""",
     "version": "16.0.1.0.0",
+    "development_status": "Alpha",
     "license": "AGPL-3",
     "author": "KMEE,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
-    "depends": [
-        "account_payment",
-    ],
+    "depends": ["payment"],
     "data": [
-        "views/payment_transfer_templates.xml",
+        "views/payment_bacen_pix_templates.xml",
+        "views/payment_provider_views.xml",
         "data/payment_icon_data.xml",
         "data/payment_provider_data.xml",
-        "views/payment_views.xml",
+        "data/ir_cron.xml",
     ],
+    "assets": {
+        "web.assets_frontend": [
+            "payment_bacen_pix/static/src/js/payment_status.js",
+        ],
+    },
     "demo": [],
-    # "post_init_hook": "create_missing_journal_for_acquirers",
+    "installable": True,
     "uninstall_hook": "uninstall_hook",
 }
