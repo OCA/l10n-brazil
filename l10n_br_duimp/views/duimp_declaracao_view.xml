@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2026 - TODAY, KMEE (<https://kmee.com.br>)
+     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html -->
+<odoo>
+
+    <record id="l10n_br_duimp_declaracao_tree" model="ir.ui.view">
+        <field name="name">l10n_br_duimp.declaracao.tree</field>
+        <field name="model">l10n_br_duimp.declaracao</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="numero" />
+                <field name="versao" />
+                <field name="data_registro" />
+                <field name="fornecedor_partner_id" />
+                <field name="total_valor_aduaneiro" />
+                <field name="account_move_id" />
+                <field name="state" widget="badge" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="l10n_br_duimp_declaracao_form" model="ir.ui.view">
+        <field name="name">l10n_br_duimp.declaracao.form</field>
+        <field name="model">l10n_br_duimp.declaracao</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="action_open"
+                        string="Open"
+                        type="object"
+                        class="oe_highlight"
+                        states="draft"
+                    />
+                    <button
+                        name="action_refresh_from_siscomex"
+                        string="Refresh from Siscomex"
+                        type="object"
+                        states="draft,open"
+                    />
+                    <button
+                        name="action_generate_vendor_bill"
+                        string="Generate Vendor Bill"
+                        type="object"
+                        class="oe_highlight"
+                        states="open"
+                    />
+                    <button
+                        name="action_cancel"
+                        string="Cancel"
+                        type="object"
+                        states="draft,open"
+                    />
+                    <button
+                        name="action_draft"
+                        string="Reset to Draft"
+                        type="object"
+                        states="canceled"
+                    />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_visible="draft,open,locked"
+                    />
+                </header>
+                <sheet>
+                    <field name="account_move_id" invisible="1" />
+                    <div class="oe_button_box" name="button_box">
+                        <button
+                            name="action_view_invoice"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-pencil-square-o"
+                            attrs="{'invisible': [('account_move_id', '=', False)]}"
+                        >
+                            <span class="o_stat_text">Vendor Bill</span>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="numero" />
+                        <h1>
+                            <field name="numero" placeholder="DUIMP Number" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group name="identification">
+                            <field name="versao" />
+                            <field name="situacao" />
+                            <field name="canal" />
+                            <field name="data_registro" />
+                            <field name="data_desembaraco" />
+                        </group>
+                        <group name="parties">
+                            <field name="fornecedor_partner_id" />
+                            <field name="importador_nome" />
+                            <field name="incoterm" />
+                            <field
+                                name="fiscal_operation_id"
+                                options="{'no_create': True}"
+                            />
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                            <field name="currency_id" invisible="1" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Items" name="items">
+                            <field name="item_ids">
+                                <tree editable="bottom">
+                                    <field name="numero_item" readonly="1" />
+                                    <field name="codigo_produto" readonly="1" />
+                                    <field name="ncm_codigo" readonly="1" />
+                                    <field name="descricao" readonly="1" />
+                                    <field
+                                        name="product_id"
+                                        options="{'no_quick_create': True}"
+                                        domain="[('purchase_ok', '=', True)]"
+                                    />
+                                    <field name="cfop_id" />
+                                    <field name="quantidade" />
+                                    <field name="uom_id" />
+                                    <field name="price_unit" />
+                                    <field name="valor_aduaneiro" />
+                                    <field name="amount_afrmm" readonly="1" />
+                                    <field name="amount_other" readonly="1" />
+                                    <field name="final_price_unit" readonly="1" />
+                                    <field name="currency_id" invisible="1" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Costs &amp; Taxes" name="costs">
+                            <group>
+                                <group string="Header Taxes (BRL)">
+                                    <field name="ii_total" />
+                                    <field name="ipi_total" />
+                                    <field name="pis_total" />
+                                    <field name="cofins_total" />
+                                </group>
+                                <group string="Import Costs (manual)">
+                                    <field name="afrmm_total" />
+                                    <field name="taxa_siscomex_total" />
+                                    <field name="capatazia_total" />
+                                    <field name="frete_total" />
+                                    <field name="seguro_total" />
+                                    <field name="total_valor_aduaneiro" readonly="1" />
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Payments" name="payments">
+                            <field name="pagamento_ids">
+                                <tree>
+                                    <field name="codigo_receita" />
+                                    <field name="nome_tipo_pagamento" />
+                                    <field name="valor_receita" />
+                                    <field name="valor_juros_encargos" />
+                                    <field name="valor_multa" />
+                                    <field name="currency_id" invisible="1" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page
+                            string="Raw Payload"
+                            name="payload"
+                            groups="base.group_no_one"
+                        >
+                            <field
+                                name="payload_json"
+                                widget="ace"
+                                options="{'mode': 'json'}"
+                            />
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="l10n_br_duimp_declaracao_action" model="ir.actions.act_window">
+        <field name="name">DUIMP</field>
+        <field name="res_model">l10n_br_duimp.declaracao</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="l10n_br_duimp_declaracao_menu"
+        action="l10n_br_duimp_declaracao_action"
+        name="DUIMP"
+        parent="account.menu_finance_payables"
+        sequence="5"
+        groups="l10n_br_fiscal.group_user"
+    />
+
+</odoo>

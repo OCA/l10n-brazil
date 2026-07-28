@@ -1,3 +1,7 @@
+- [KMEE](https://kmee.com.br):
+    - Luis Felipe Miléo <mileo@kmee.com.br>
 - [Escodoo](https://escodoo.com.br):
     - Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
     - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+- [Engenere](https://engenere.one):
+    - Antônio S. Pereira Neto <neto@engenere.one>

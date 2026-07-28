@@ -13,6 +13,10 @@
             <group name="certificate" position="after">
                 <group name="duimp" string="DUIMP (Siscomex)">
                     <field name="duimp_environment" />
+                    <field
+                        name="import_fiscal_operation_id"
+                        options="{'no_create': True}"
+                    />
                 </group>
             </group>
         </field>

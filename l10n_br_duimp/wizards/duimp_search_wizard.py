@@ -110,24 +110,24 @@ class DuimpSearchWizard(models.TransientModel):
         if not selected_lines:
             raise UserError(_("Select at least one DUIMP to import!"))
 
-        import_wizards = self.env["l10n_br_fiscal.document.import.wizard"]
+        declaracoes = self.env["l10n_br_duimp.declaracao"]
         for line in selected_lines:
-            wizard = import_wizards.create(
+            wizard = self.env["l10n_br_fiscal.document.import.wizard"].create(
                 {
                     "company_id": self.company_id.id,
                     "duimp_number": line.duimp_number,
                     "duimp_version": line.duimp_version,
                 }
             )
-            wizard.action_consult_duimp()
-            import_wizards |= wizard
+            action = wizard.action_consult_duimp()
+            declaracoes |= declaracoes.browse(action["res_id"])
 
         return {
             "name": _("DUIMP Imports"),
             "type": "ir.actions.act_window",
-            "res_model": "l10n_br_fiscal.document.import.wizard",
+            "res_model": "l10n_br_duimp.declaracao",
             "view_mode": "tree,form",
-            "domain": [("id", "in", import_wizards.ids)],
+            "domain": [("id", "in", declaracoes.ids)],
             "target": "current",
         }
 
