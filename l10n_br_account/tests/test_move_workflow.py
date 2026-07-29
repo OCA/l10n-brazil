@@ -44,7 +44,14 @@ class TestMoveWorkflow(AccountMoveBRCommon):
             self.assertEqual(document_id.state, "em_digitacao")
 
     def test_document_deny(self):
+        """A denied document cancels the invoice it belongs to.
+
+        The state change is what has to trigger the cancellation: calling the
+        hook by hand passed even while the dispatch never reached it, which is
+        how the cancellation stayed broken.
+        """
         document_id = self.move_out_venda.fiscal_document_id
         self.assertEqual(self.move_out_venda.state, "draft")
-        document_id.exec_after_SITUACAO_EDOC_DENEGADA("em_digitacao", "denegada")
+        document_id._change_state("denegada", force_change=True)
+        self.assertEqual(document_id.state_edoc, "denegada")
         self.assertEqual(self.move_out_venda.state, "cancel")

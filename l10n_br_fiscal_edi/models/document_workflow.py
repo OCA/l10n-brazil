@@ -182,7 +182,13 @@ class DocumentWorkflow(models.AbstractModel):
         elif new_state == SITUACAO_EDOC_CANCELADA:
             self._exec_after_SITUACAO_EDOC_CANCELADA(old_state, new_state)
         elif new_state == SITUACAO_EDOC_DENEGADA:
-            self._exec_after_SITUACAO_EDOC_DENEGADA(old_state, new_state)
+            # The public method is the extension point of the denial (see
+            # https://github.com/OCA/l10n-brazil/pull/3272): it chains to the
+            # overrides of the other modules and then to the private hook of
+            # this one. Calling the private hook straight from here left every
+            # override of exec_after_SITUACAO_EDOC_DENEGADA dead, l10n_br_account
+            # included, so a denied document never cancelled its invoice.
+            self.exec_after_SITUACAO_EDOC_DENEGADA(old_state, new_state)
         elif new_state == SITUACAO_EDOC_INUTILIZADA:
             self._exec_after_SITUACAO_EDOC_INUTILIZADA(old_state, new_state)
 
