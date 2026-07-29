@@ -119,6 +119,12 @@ class DocumentLine(models.Model):
             "aliquota_inss": round(self.inss_percent, 2)
             or round(self.inss_wh_percent, 2),
             "aliquota_icms": round(self.icms_percent, 2) if self.icms_percent else 0.0,
+            "base_calculo_csll": round(self.csll_base, 2)
+            or round(self.csll_wh_base, 2),
+            "base_calculo_ir": round(self.irpj_base, 2) or round(self.irpj_wh_base, 2),
+            "base_calculo_inss": round(self.inss_base, 2)
+            or round(self.inss_wh_base, 2),
+            "base_calculo_icms": round(self.icms_base, 2) if self.icms_base else 0.0,
             "tipo_retencao_pis_cofins": (
                 "1" if (self.pis_wh_value or self.cofins_wh_value) else "2"
             ),

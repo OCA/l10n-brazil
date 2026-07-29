@@ -172,6 +172,10 @@ class Document(models.Model):
         cbs_valor = 0
         base_calculo_pis = 0
         base_calculo_cofins = 0
+        base_calculo_csll = 0
+        base_calculo_ir = 0
+        base_calculo_inss = 0
+        base_calculo_icms = 0
 
         for line in lines:
             result_line.update(line._prepare_line_service())
@@ -204,6 +208,10 @@ class Document(models.Model):
             situacao_tributaria_cofins = result_line.get("situacao_tributaria_cofins")
             base_calculo_pis += result_line.get("base_calculo_pis", 0)
             base_calculo_cofins += result_line.get("base_calculo_cofins", 0)
+            base_calculo_csll += result_line.get("base_calculo_csll", 0)
+            base_calculo_ir += result_line.get("base_calculo_ir", 0)
+            base_calculo_inss += result_line.get("base_calculo_inss", 0)
+            base_calculo_icms += result_line.get("base_calculo_icms", 0)
             aliquota_pis = result_line.get("aliquota_pis") or 0
             aliquota_cofins = result_line.get("aliquota_cofins") or 0
             aliquota_csll = result_line.get("aliquota_csll") or 0
@@ -288,6 +296,10 @@ class Document(models.Model):
             "situacao_tributaria_cofins": situacao_tributaria_cofins,
             "base_calculo_pis": round(base_calculo_pis, 2),
             "base_calculo_cofins": round(base_calculo_cofins, 2),
+            "base_calculo_csll": round(base_calculo_csll, 2),
+            "base_calculo_ir": round(base_calculo_ir, 2),
+            "base_calculo_inss": round(base_calculo_inss, 2),
+            "base_calculo_icms": round(base_calculo_icms, 2),
             "aliquota_pis": round(aliquota_pis, 2),
             "aliquota_cofins": round(aliquota_cofins, 2),
             "aliquota_csll": round(aliquota_csll, 2),
