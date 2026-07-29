@@ -138,3 +138,7 @@ class Document(models.Model):
             "view_mode": "tree,form",
             "domain": [("guide_id", "=", self.id)],
         }
+
+    def action_gnre_render_xml(self):
+        """Return the lote XML for the selected guides."""
+        return self.env["l10n_br_gnre.xml"].render_lote(self)
