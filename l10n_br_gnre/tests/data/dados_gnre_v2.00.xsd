@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.gnre.pe.gov.br"
+	attributeFormDefault="unqualified" 
+	elementFormDefault="qualified" 
+	targetNamespace="http://www.gnre.pe.gov.br" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include xmlns="http://www.gnre.pe.gov.br" schemaLocation="tiposBasicoGNRE_v2.00.xsd"/>
+	<xs:group name="dadosGnre_2.00_1">
+		<xs:sequence>
+			<xs:element name="ufFavorecida" type="TUf" maxOccurs="1"
+				minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						Código da UF Favorecida. (Utilizar a Tabela do
+						IBGE)
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+            <xs:element name="tipoGnre" maxOccurs="1" minOccurs="1">
+                <xs:annotation>
+                	<xs:documentation>0 - GNRE Simples
+1 - GNRE Multiplos Doc. de Origem
+2 - GNRE Multiplas Receitas</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="0"></xs:enumeration>
+						<xs:enumeration value="1"></xs:enumeration>
+						<xs:enumeration value="2"></xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+            <xs:element name="contribuinteEmitente" minOccurs="0"
+				maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="identificacao" minOccurs="1"
+							maxOccurs="1" type="TIdentificacao2">
+						</xs:element>
+						<xs:element name="razaoSocial" minOccurs="0"
+							maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="60"></xs:maxLength>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element minOccurs="0" name="endereco">
+							<xs:annotation>
+								<xs:documentation>
+									Endereço do Contribuinte.
+								</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="TString">
+									<xs:maxLength value="60" />
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element minOccurs="0" name="municipio"
+							type="TCodMunIBGE">
+							<xs:annotation>
+								<xs:documentation>
+									Código do Município de localização
+									do Contribuinte.(Utilizar a tabela
+									do IBGE)
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element minOccurs="0" name="uf"
+							type="TUf">
+							<xs:annotation>
+								<xs:documentation>
+									Código da UF do Contribuinte.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element minOccurs="0" name="cep">
+							<xs:annotation>
+								<xs:documentation>
+									CEP do Contribuinte.
+								</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:whiteSpace value="preserve" />
+									<xs:pattern value="[0-9]{8}" />
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element minOccurs="0" name="telefone">
+							<xs:annotation>
+								<xs:documentation>
+									Telefone do contribuinte.
+								</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:whiteSpace value="preserve" />
+									<xs:pattern value="[0-9]{6,11}" />
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="itensGNRE" minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="item" minOccurs="1"
+							maxOccurs="100">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element minOccurs="0"
+										name="receita">
+										<xs:annotation>
+											<xs:documentation>
+												Código da Receita.
+											</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction
+												base="xs:string">
+												<xs:whiteSpace
+													value="preserve" />
+												<xs:pattern
+													value="[0-9]{6}" />
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element minOccurs="0"
+										name="detalhamentoReceita">
+										<xs:annotation>
+											<xs:documentation>
+												Código do Detalhamento
+												da Receita.
+											</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction
+												base="xs:string">
+												<xs:whiteSpace
+													value="preserve" />
+												<xs:pattern
+													value="[0-9]{6}" />
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element minOccurs="0"
+										name="documentoOrigem" maxOccurs="1">
+										<xs:annotation>
+											<xs:documentation>
+												Número do Documento de
+												Origem.
+											</xs:documentation>
+										</xs:annotation>
+
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension
+													base="TDocOrigem">
+													<xs:attribute
+														name="tipo" use="required">
+														<xs:simpleType>
+															<xs:restriction
+																base="xs:string">
+																<xs:pattern
+																	value="[0-9]{2}">
+																</xs:pattern>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:attribute>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+
+									</xs:element>
+
+									<xs:element minOccurs="0"
+										name="produto">
+										<xs:annotation>
+											<xs:documentation>
+												Código do Produto.
+											</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction
+												base="xs:string">
+												<xs:whiteSpace
+													value="preserve" />
+												<xs:pattern
+													value="[1-9]{1}[0-9]{0,3}" />
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element minOccurs="0"
+										maxOccurs="1" name="referencia">
+										<xs:complexType>
+											<xs:annotation>
+												<xs:documentation>
+													Informações de
+													período de apuração
+												</xs:documentation>
+											</xs:annotation>
+											<xs:sequence>
+												<xs:element
+													minOccurs="0" name="periodo">
+													<xs:annotation>
+														<xs:documentation>
+															Indicador do
+															Periodo: 0 –
+															mensal; 1 –
+															1a.
+															quinzena; 2
+															– 2a.
+															quinzena; 3
+															– 1o.
+															decêndio; 4
+															– 2o.
+															decêndio; 5
+															– 3o.
+															decêndio;
+														</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction
+															base="xs:string">
+															<xs:whiteSpace
+																value="preserve" />
+															<xs:enumeration
+																value="0" />
+															<xs:enumeration
+																value="1" />
+															<xs:enumeration
+																value="2" />
+															<xs:enumeration
+																value="3" />
+															<xs:enumeration
+																value="4" />
+															<xs:enumeration
+																value="5" />
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:element>
+												<xs:element
+													minOccurs="0" name="mes" type="TMes">
+													<xs:annotation>
+														<xs:documentation>
+															Mês de
+															referência
+															da Apuração
+														</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element
+													minOccurs="0" name="ano" type="TAno">
+													<xs:annotation>
+														<xs:documentation>
+															Ano de
+															referência
+															da Apuração
+														</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element
+													minOccurs="0" name="parcela">
+													<xs:annotation>
+														<xs:documentation>
+															Parcela de
+															referência
+															da Apuração
+														</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction
+															base="xs:string">
+															<xs:whiteSpace
+																value="preserve" />
+															<xs:pattern
+																value="[1-9]{1}[0-9]{0,2}" />
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element minOccurs="0"
+										name="dataVencimento" type="TData" maxOccurs="1">
+										<xs:annotation>
+											<xs:documentation>
+												Data de vencimento da
+												guia.
+											</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="valor"
+										maxOccurs="10" minOccurs="0">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension
+													base="TDec_1502">
+													<xs:attribute
+														name="tipo" use="required">
+														<xs:annotation>
+															<xs:documentation>
+																11 -
+																Valor
+																Principal
+																ICMS 12
+																- Valor
+																Principal
+																Fundo de
+																Pobreza
+																(FP) 21
+																- Valor
+																Total
+																ICMS 22
+																- Valor
+																Total FP
+																31 -
+																Valor
+																Multa
+																ICMS 32
+																- Valor
+																Multa FP
+																41 -
+																Valor
+																Juros
+																ICMS 42
+																- Valor
+																Juros FP
+																51 -
+																Valor
+																Atualização
+																Monetaria
+																ICMS 52
+																- Valor
+																Atualização
+																Monetaria
+																FP
+															</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction
+																base="xs:string">
+																<xs:enumeration
+																	value="11">
+																</xs:enumeration>
+																<xs:enumeration
+																	value="12">
+																</xs:enumeration>
+																<xs:enumeration
+																	value="21">
+																</xs:enumeration>
+																<xs:enumeration
+																	value="22">
+																</xs:enumeration>
+																<xs:enumeration
+																	value="31">
+																</xs:enumeration>
+																<xs:enumeration
+																	value="32">
+																</xs:enumeration>
+																<xs:enumeration
+																	value="41">
+																</xs:enumeration>
+																<xs:enumeration
+																	value="42">
+																</xs:enumeration>
+																<xs:enumeration
+																	value="51">
+																</xs:enumeration>
+																<xs:enumeration
+																	value="52">
+																</xs:enumeration>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:attribute>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element minOccurs="0"
+										name="convenio">
+										<xs:annotation>
+											<xs:documentation>
+												Número do convênio.
+											</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction
+												base="TString">
+												<xs:maxLength
+													value="30" />
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+
+									<xs:element
+										name="contribuinteDestinatario" maxOccurs="1" minOccurs="0">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element
+													name="identificacao" maxOccurs="1" minOccurs="1"
+													type="TIdentificacao2">
+												</xs:element>
+												<xs:element
+													minOccurs="0" name="razaoSocial">
+													<xs:annotation>
+														<xs:documentation>
+															Nome da
+															firma ou a
+															Razão Social
+															do
+															Contribuinte.
+														</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction
+															base="TString">
+															<xs:maxLength
+																value="60" />
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:element>
+												<xs:element
+													minOccurs="0" name="municipio" type="TCodMunIBGE">
+													<xs:annotation>
+														<xs:documentation>
+															Código do
+															Município de
+															Destino.(Utilizar
+															a tabela do
+															IBGE)
+														</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="camposExtras"
+										maxOccurs="1" minOccurs="0">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element
+													name="campoExtra" minOccurs="1" maxOccurs="3">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element
+																name="codigo" type="xs:int" minOccurs="1"
+																maxOccurs="1">
+															</xs:element>
+
+															<xs:element
+																name="valor" minOccurs="1" maxOccurs="1">
+																<xs:simpleType>
+																	<xs:restriction
+																		base="xs:string">
+																		<xs:maxLength
+																			value="100">
+																		</xs:maxLength>
+																	</xs:restriction>
+																</xs:simpleType>
+															</xs:element>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="numeroControle"
+										maxOccurs="1" minOccurs="0">
+										<xs:simpleType>
+											<xs:restriction
+												base="xs:string">
+												<xs:pattern
+													value="[0-9]{1,20}">
+												</xs:pattern>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element
+										name="numeroControleFecp" minOccurs="0" maxOccurs="1">
+										<xs:simpleType>
+											<xs:restriction
+												base="xs:string">
+												<xs:pattern
+													value="[0-9]{1,20}">
+												</xs:pattern>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="dadosGnre_2.00_2_envio">
+		<xs:sequence>
+			<xs:element name="valorGNRE" type="TDec_1502" maxOccurs="1"
+				minOccurs="0">
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="dadosGnre_2.00_2_retorno">
+		<xs:sequence>
+			<xs:element name="valorGNRE" type="TDec_1502" maxOccurs="1"
+				minOccurs="1">
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="dadosGnre_2.00_3">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="dataPagamento"
+				type="TData">
+				<xs:annotation>
+					<xs:documentation>
+						Data prevista de pagamento informada pelo
+						contribuinte.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="identificadorGuia" maxOccurs="1"
+				minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="TString">
+						<xs:maxLength value="10"></xs:maxLength>
+
+						<xs:pattern value="[0-9]{1,10}"></xs:pattern>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+</xs:schema>
