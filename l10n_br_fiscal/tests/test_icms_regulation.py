@@ -119,6 +119,37 @@ class TestICMSRegulation(TransactionCase):
         )
         self.assertEqual(tax_icms.percent_amount, 12.00)
 
+    def test_map_tax_def_icmsst_true(self):
+        self.company.state_id = self.sp_state_id
+        self.partner.state_id = self.sp_state_id
+        self.product.cest_id = self.env.ref("l10n_br_fiscal.cest_2112300")
+
+        tax_definitions = self.icms_regulation._map_tax_def_icmsst(
+            company=self.company,
+            partner=self.partner,
+            product=self.product,
+            ncm=self.product.ncm_id,
+            nbm=self.product.nbm_id,
+            cest=self.product.cest_id,
+        )
+        self.assertTrue(tax_definitions)
+
+    def test_map_tax_def_icmsst_false(self):
+        self.company.state_id = self.sp_state_id
+        self.partner.state_id = self.sp_state_id
+        self.product.cest_id = False
+        self.product.ncm_id = self.ncm_48191000_id
+
+        tax_definitions = self.icms_regulation._map_tax_def_icmsst(
+            company=self.company,
+            partner=self.partner,
+            product=self.product,
+            ncm=self.product.ncm_id,
+            nbm=self.product.nbm_id,
+            cest=self.product.cest_id,
+        )
+        self.assertFalse(tax_definitions)
+
     def find_icms_tax(self, in_state_id, out_state_id, ncm_id, ind_final):
         self.partner.state_id = in_state_id
         self.company.partner_id.l10n_br_ie_code = False
