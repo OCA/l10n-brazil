@@ -41,3 +41,32 @@ class TestAccountTaxes(TransactionCase):
                     is_fiscal_taxes = True
 
             assert is_fiscal_taxes, "There are not fiscal taxes related"
+
+    def test_load_fiscal_taxes_manual_tax(self):
+        """Taxes created by hand have no XML ID and must be skipped"""
+        coa_template = self.env["account.chart.template"].create(
+            {
+                "name": "Plano de Contas Teste",
+                "parent_id": self.env.ref("l10n_br_coa.l10n_br_coa_template").id,
+                "currency_id": self.env.ref("base.BRL").id,
+                "bank_account_code_prefix": "1.1.1.2",
+                "cash_account_code_prefix": "1.1.1.1",
+                "transfer_account_code_prefix": "1.1.1.3",
+            }
+        )
+        self.l10n_br_company.chart_template_id = coa_template
+        manual_tax = self.env["account.tax"].create(
+            {
+                "name": "IRRF Manual",
+                "amount": 1.5,
+                "amount_type": "percent",
+                "type_tax_use": "sale",
+                "company_id": self.l10n_br_company.id,
+            }
+        )
+
+        self.assertFalse(manual_tax.get_external_id().get(manual_tax.id))
+
+        coa_template.load_fiscal_taxes()
+
+        self.assertFalse(manual_tax.fiscal_tax_ids)
