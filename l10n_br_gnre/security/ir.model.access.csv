@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_gnre_state_config_user,gnre.state.config.user,model_l10n_br_gnre_state_config,l10n_br_fiscal.group_user,1,0,0,0
+access_gnre_state_config_manager,gnre.state.config.manager,model_l10n_br_gnre_state_config,l10n_br_fiscal.group_manager,1,1,1,1
+access_gnre_obligation_user,gnre.obligation.user,model_l10n_br_gnre_obligation,l10n_br_fiscal.group_user,1,1,1,0
+access_gnre_obligation_manager,gnre.obligation.manager,model_l10n_br_gnre_obligation,l10n_br_fiscal.group_manager,1,1,1,1
+access_gnre_generate_wizard,gnre.generate.wizard,model_l10n_br_gnre_generate_wizard,l10n_br_fiscal.group_user,1,1,1,1
