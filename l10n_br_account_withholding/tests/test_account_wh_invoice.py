@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import Command, fields
+from odoo.exceptions import ValidationError
 from odoo.tests.common import tagged
 
 from odoo.addons.l10n_br_account.tests.common import AccountMoveBRCommon
@@ -533,3 +534,58 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
                 for pay_line in payable_line_ids
             )
         )
+
+    def _create_state_treasury(self, name, state_ref):
+        return self.env["res.partner"].create(
+            {
+                "name": name,
+                "state_id": self.env.ref(state_ref).id,
+                "country_id": self.env.ref("base.br").id,
+                "wh_state_treasury": True,
+            }
+        )
+
+    def test_state_scope_resolves_state_treasury(self):
+        """A state scoped tax group resolves the treasury of the delivery state."""
+        tax_group = self.env.ref("l10n_br_fiscal.tax_group_icmsst")
+        self.assertEqual(tax_group.tax_scope, "state")
+        treasury = self._create_state_treasury("SEFAZ SP", "base.state_br_sp")
+
+        move = self.move_in_compra_para_revenda
+        move.partner_id.state_id = self.env.ref("base.state_br_sp")
+
+        self.assertEqual(tax_group._get_tax_authority_partner(move), treasury)
+
+    def test_state_scope_uses_delivery_state(self):
+        """The delivery address wins over the invoice address."""
+        tax_group = self.env.ref("l10n_br_fiscal.tax_group_icmsst")
+        self._create_state_treasury("SEFAZ SP", "base.state_br_sp")
+        treasury_rj = self._create_state_treasury("SEFAZ RJ", "base.state_br_rj")
+
+        move = self.move_in_compra_para_revenda
+        move.partner_id.state_id = self.env.ref("base.state_br_sp")
+        move.partner_shipping_id = self.env["res.partner"].create(
+            {
+                "name": "Filial RJ",
+                "state_id": self.env.ref("base.state_br_rj").id,
+                "country_id": self.env.ref("base.br").id,
+            }
+        )
+
+        self.assertEqual(tax_group._get_tax_authority_partner(move), treasury_rj)
+
+    def test_state_scope_falls_back_to_tax_group_partner(self):
+        """Without a registered treasury, the tax group partner is used."""
+        tax_group = self.env.ref("l10n_br_fiscal.tax_group_icmsst")
+        tax_group.partner_id = self.test_partner
+
+        move = self.move_in_compra_para_revenda
+        move.partner_id.state_id = self.env.ref("base.state_br_ac")
+
+        self.assertEqual(tax_group._get_tax_authority_partner(move), self.test_partner)
+
+    def test_unique_state_treasury(self):
+        """Only one treasury partner may exist per state."""
+        self._create_state_treasury("SEFAZ SP", "base.state_br_sp")
+        with self.assertRaises(ValidationError):
+            self._create_state_treasury("SEFAZ SP duplicada", "base.state_br_sp")
