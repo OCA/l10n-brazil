@@ -374,6 +374,11 @@ class AccountMoveLine(models.Model):
 
             # Compute 'price_total'.
             if line.tax_ids:
+                # line.fiscal_tax_ids (delegated via _inherits) can still read
+                # empty here even though it was just set on creation: reading
+                # through fiscal_document_line_id avoids that stale cache and
+                # keeps the embedded-tax split (e.g. IBS/CBS) from silently
+                # computing as 0.
                 taxes_res = line.tax_ids._origin.with_context().compute_all(
                     line_discount_price_unit,
                     currency=line.currency_id,
@@ -382,7 +387,7 @@ class AccountMoveLine(models.Model):
                     partner=line.partner_id,
                     is_refund=line.move_type in ("out_refund", "in_refund"),
                     handle_price_include=True,  # sure?
-                    fiscal_taxes=line.fiscal_tax_ids,
+                    fiscal_taxes=line.fiscal_document_line_id.fiscal_tax_ids,
                     operation_line=line.fiscal_operation_line_id,
                     cfop=line.cfop_id or None,
                     ncm=line.ncm_id,
@@ -525,7 +530,10 @@ class AccountMoveLine(models.Model):
                 handle_price_include=handle_price_include,
                 include_caba_tags=line.move_id.always_tax_exigible,
                 fixed_multiplicator=sign,
-                fiscal_taxes=line.fiscal_tax_ids,
+                # see the note in _compute_totals: read through
+                # fiscal_document_line_id to avoid a stale fiscal_tax_ids,
+                # otherwise every dynamic tax line silently computes as 0.
+                fiscal_taxes=line.fiscal_document_line_id.fiscal_tax_ids,
                 operation_line=line.fiscal_operation_line_id,
                 cfop=line.cfop_id or None,
                 ncm=line.ncm_id,
