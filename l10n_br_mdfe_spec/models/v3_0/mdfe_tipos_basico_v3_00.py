@@ -802,7 +802,10 @@ class TunidCarga(models.AbstractModel):
     _binding_type = "TunidCarga"
 
     mdfe30_infUnidCarga_TUnidadeTransp_id = fields.Many2one(
-        comodel_name="mdfe.30.tunidadetransp", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.tunidadetransp",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_tpUnidCarga = fields.Selection(
         TTIPOUNIDCARGA,
@@ -843,7 +846,10 @@ class LacUnidCarga(models.AbstractModel):
     _binding_type = "TunidCarga.LacUnidCarga"
 
     mdfe30_lacUnidCarga_TUnidCarga_id = fields.Many2one(
-        comodel_name="mdfe.30.tunidcarga", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.tunidcarga",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_nLacre = fields.Char(string="Número do lacre", xsd_required=True)
 
@@ -901,13 +907,22 @@ class TunidadeTransp(models.AbstractModel):
     _binding_type = "TunidadeTransp"
 
     mdfe30_infUnidTransp_infCTe_id = fields.Many2one(
-        comodel_name="mdfe.30.infcte", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.infcte",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_infUnidTransp_infNFe_id = fields.Many2one(
-        comodel_name="mdfe.30.tmdfe_infnfe", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.tmdfe_infnfe",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_infUnidTransp_infMDFeTransp_id = fields.Many2one(
-        comodel_name="mdfe.30.infmdfetransp", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.infmdfetransp",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_tpUnidTransp = fields.Selection(
         TTIPOUNIDTRANSP,
@@ -969,7 +984,10 @@ class LacUnidTransp(models.AbstractModel):
     _binding_type = "TunidadeTransp.LacUnidTransp"
 
     mdfe30_lacUnidTransp_TUnidadeTransp_id = fields.Many2one(
-        comodel_name="mdfe.30.tunidadetransp", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.tunidadetransp",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_nLacre = fields.Char(string="Número do lacre", xsd_required=True)
 
@@ -1322,7 +1340,10 @@ class InfMunCarrega(models.AbstractModel):
     _binding_type = "Tmdfe.InfMdfe.Ide.InfMunCarrega"
 
     mdfe30_infMunCarrega_ide_id = fields.Many2one(
-        comodel_name="mdfe.30.ide", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.ide",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_cMunCarrega = fields.Char(
         string="Código do Município de Carregamento",
@@ -1344,7 +1365,10 @@ class InfPercurso(models.AbstractModel):
     _binding_type = "Tmdfe.InfMdfe.Ide.InfPercurso"
 
     mdfe30_infPercurso_ide_id = fields.Many2one(
-        comodel_name="mdfe.30.ide", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.ide",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_UFPer = fields.Selection(
         TUF,
@@ -1443,7 +1467,10 @@ class InfMunDescarga(models.AbstractModel):
     _binding_type = "Tmdfe.InfMdfe.InfDoc.InfMunDescarga"
 
     mdfe30_infMunDescarga_infDoc_id = fields.Many2one(
-        comodel_name="mdfe.30.tmdfe_infdoc", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.tmdfe_infdoc",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_cMunDescarga = fields.Char(
         string="Código do Município de Descarregamento",
@@ -1492,7 +1519,10 @@ class InfCte(models.AbstractModel):
     _binding_type = "Tmdfe.InfMdfe.InfDoc.InfMunDescarga.InfCte"
 
     mdfe30_infCTe_infMunDescarga_id = fields.Many2one(
-        comodel_name="mdfe.30.infmundescarga", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.infmundescarga",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_chCTe = fields.Char(
         string="Conhecimento Eletrônico",
@@ -1559,7 +1589,10 @@ class InfCtePeri(models.AbstractModel):
     _binding_type = "Tmdfe.InfMdfe.InfDoc.InfMunDescarga.InfCte.Peri"
 
     mdfe30_peri_infCTe_id = fields.Many2one(
-        comodel_name="mdfe.30.infcte", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.infcte",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_nONU = fields.Char(
         string="Número ONU/UN",
@@ -1656,7 +1689,10 @@ class InfNfePrestParcial(models.AbstractModel):
     _binding_type = "Tmdfe.InfMdfe.InfDoc.InfMunDescarga.InfCte.InfNfePrestParcial"
 
     mdfe30_infNFePrestParcial_infCTe_id = fields.Many2one(
-        comodel_name="mdfe.30.infcte", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.infcte",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_chNFe = fields.Char(
         string="Nota Fiscal Eletrônica", xsd_required=True, xsd_type="TChCTe"
@@ -1672,7 +1708,10 @@ class TmdfeInfNfe(models.AbstractModel):
     _binding_type = "Tmdfe.InfMdfe.InfDoc.InfMunDescarga.InfNfe"
 
     mdfe30_infNFe_infMunDescarga_id = fields.Many2one(
-        comodel_name="mdfe.30.infmundescarga", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.infmundescarga",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_chNFe = fields.Char(
         string="Nota Fiscal Eletrônica", xsd_required=True, xsd_type="TChNFe"
@@ -1719,7 +1758,10 @@ class InfNfePeri(models.AbstractModel):
     _binding_type = "Tmdfe.InfMdfe.InfDoc.InfMunDescarga.InfNfe.Peri"
 
     mdfe30_peri_infNFe_id = fields.Many2one(
-        comodel_name="mdfe.30.tmdfe_infnfe", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.tmdfe_infnfe",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_nONU = fields.Char(
         string="Número ONU/UN",
@@ -1788,7 +1830,10 @@ class InfMdfeTransp(models.AbstractModel):
     _binding_type = "Tmdfe.InfMdfe.InfDoc.InfMunDescarga.InfMdfeTransp"
 
     mdfe30_infMDFeTransp_infMunDescarga_id = fields.Many2one(
-        comodel_name="mdfe.30.infmundescarga", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.infmundescarga",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_chMDFe = fields.Char(
         string="Manifesto Eletrônico",
@@ -1836,7 +1881,10 @@ class InfMdfeTranspPeri(models.AbstractModel):
     _binding_type = "Tmdfe.InfMdfe.InfDoc.InfMunDescarga.InfMdfeTransp.Peri"
 
     mdfe30_peri_infMDFeTransp_id = fields.Many2one(
-        comodel_name="mdfe.30.infmdfetransp", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.infmdfetransp",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_nONU = fields.Char(
         string="Número ONU/UN",
@@ -1904,7 +1952,10 @@ class Seg(models.AbstractModel):
     _binding_type = "Tmdfe.InfMdfe.Seg"
 
     mdfe30_seg_infMDFe_id = fields.Many2one(
-        comodel_name="mdfe.30.tmdfe_infmdfe", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.tmdfe_infmdfe",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_infResp = fields.Many2one(
         comodel_name="mdfe.30.infresp",
@@ -2196,7 +2247,10 @@ class Lacres(models.AbstractModel):
     _binding_type = "Tmdfe.InfMdfe.Lacres"
 
     mdfe30_lacres_infMDFe_id = fields.Many2one(
-        comodel_name="mdfe.30.tmdfe_infmdfe", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.tmdfe_infmdfe",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_nLacre = fields.Char(string="número do lacre", xsd_required=True)
 
@@ -2211,7 +2265,10 @@ class AutXml(models.AbstractModel):
     _binding_type = "Tmdfe.InfMdfe.AutXml"
 
     mdfe30_autXML_infMDFe_id = fields.Many2one(
-        comodel_name="mdfe.30.tmdfe_infmdfe", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.tmdfe_infmdfe",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_CNPJ = fields.Char(
         string="CNPJ do autorizado",
