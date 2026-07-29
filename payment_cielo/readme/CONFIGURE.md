@@ -1,12 +1,21 @@
-This module will require registering in eCommerce Cielo
-<https://www.cielo.com.br/e-commerce/api/>
+Using this module requires an eCommerce Cielo account
+(<https://www.cielo.com.br/e-commerce/api/>). The MerchantId and MerchantKey
+credentials are secret and are given by Cielo when the account is opened.
 
-To configure your API keys go to Invoicing -\> Configuration -\> Payment
-Acquirers -\> Cielo.
+To configure the provider go to Invoicing -\> Configuration -\> Payment
+Providers -\> Cielo and fill in:
 
-The credentials MerchantId and MerchantKey are secret and can only be
-acquired by contacting Cielo via e-mail.
+- **Merchant Id**: the store identifier, in the GUID format;
+- **Merchant Key**: the 40 characters long authentication key;
+- **Soft Descriptor**: the name shown on the credit card statement of the
+  customer. Cielo truncates it to 13 characters.
 
-- full manual for API:
+While the provider is in the *Test Mode* state, the sandbox of Cielo
+(`apisandbox.cieloecommerce.cielo.com.br`) is used, with the very same
+credentials. Set the provider to *Enabled* to reach production.
 
-<https://developercielo.github.io/manual/cielo-ecommerce#vis%C3%A3o-geral-api-cielo-ecommerce>
+Cielo settles in BRL only: the provider is filtered out of the payment methods
+offered to the customer for any other currency.
+
+Full manual of the API:
+<https://developercielo.github.io/manual/cielo-ecommerce>
