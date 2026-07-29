@@ -3,21 +3,24 @@
 
 {
     "name": "Payment PagSeguro",
-    "summary": """Payment Acquirer: PagSeguro  Implementation""",
-    "version": "14.0.1.0.12",
+    "summary": """Payment Provider: PagSeguro (PagBank) Implementation""",
+    "version": "16.0.1.0.0",
+    "development_status": "Alpha",
     "license": "AGPL-3",
     "author": "KMEE, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
-    "depends": [
-        "sale",  # Used sale order in currency validation
-        "web_tour",
-        "website_sale",
-    ],
+    "depends": ["payment"],
     "data": [
         "views/payment_pagseguro_templates.xml",
-        "data/payment_acquirer_data.xml",
-        "views/payment_acquirer.xml",
+        "views/payment_provider_views.xml",
+        "data/payment_provider_data.xml",
     ],
+    "assets": {
+        "web.assets_frontend": [
+            "payment_pagseguro/static/src/js/payment_form.js",
+        ],
+    },
     "demo": [],
+    "installable": True,
     "uninstall_hook": "uninstall_hook",
 }

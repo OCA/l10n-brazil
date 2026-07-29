@@ -1,101 +1,115 @@
-# # Copyright 2020 KMEE INFORMATICA LTDA
-# # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+# Copyright 2020 KMEE
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import os
-import time
+from unittest.mock import patch
 
-import vcr
-
-import odoo
 from odoo.exceptions import ValidationError
+from odoo.tests import tagged
+from odoo.tools import mute_logger
+
+from odoo.addons.payment import utils as payment_utils
+from odoo.addons.payment_pagseguro.const import API_URLS, PAYMENT_STATUS_MAPPING
+
+from .common import PagseguroCommon
 
 
-@odoo.tests.tagged("post_install", "-at_install")
-class PagseguroTest(odoo.tests.HttpCase):
-    def setUp(self):
-        super().setUp()
+@tagged("post_install", "-at_install")
+class TestPagseguroProvider(PagseguroCommon):
+    def test_feature_support(self):
+        """The features supported by the PagBank API are enabled."""
+        self.assertTrue(self.pagseguro.support_manual_capture)
+        self.assertTrue(self.pagseguro.support_tokenization)
+        self.assertEqual(self.pagseguro.support_refund, "full_only")
 
-        self.eur_currency = self.env["res.currency"].search([("name", "=", "EUR")])
-        self.brl_currency = self.env["res.currency"].search([("name", "=", "BRL")])
-
-    @vcr.use_cassette(
-        os.path.dirname(__file__) + "/fixtures/test_buy_pagseguro.yaml",
-        match_on=["method", "scheme", "host", "port", "path", "query", "body"],
-        filter_post_data_parameters=[
-            "description",
-            "reference_id",
-            "payment_method",
-            "charge_id",
-            "amount",
-        ],
-        ignore_localhost=True,
-    )
-    def test_buy_pagseguro(self):
-        self.start_tour(
-            "/shop",
-            "shop_buy_pagseguro",
-            login="admin",
+    def test_provider_is_compatible_with_brl_only(self):
+        """PagBank settles in BRL only."""
+        self.pagseguro.is_published = True
+        providers = self.env["payment.provider"]._get_compatible_providers(
+            self.company.id,
+            self.partner.id,
+            self.amount,
+            currency_id=self.currency_brl.id,
         )
+        self.assertIn(self.pagseguro, providers)
 
-        tx = self.env["payment.transaction"].search([], limit=1, order="id desc")
-        self.set_transaction_currency(tx, self.eur_currency)
+        providers = self.env["payment.provider"]._get_compatible_providers(
+            self.company.id,
+            self.partner.id,
+            self.amount,
+            currency_id=self.currency_usd.id,
+        )
+        self.assertNotIn(self.pagseguro, providers)
 
+    def test_api_url_depends_on_the_state(self):
+        """The sandbox is used unless the provider is enabled."""
+        self.pagseguro.state = "test"
+        self.assertEqual(self.pagseguro._pagseguro_get_api_url(), API_URLS["test"])
+
+        self.pagseguro.state = "enabled"
+        self.assertEqual(self.pagseguro._pagseguro_get_api_url(), API_URLS["prod"])
+
+    def test_api_headers_carry_the_token(self):
+        """The token of the provider authenticates every request."""
+        headers = self.pagseguro._pagseguro_get_api_headers()
+        self.assertEqual(headers["Authorization"], "Bearer dummy-token")
+        self.assertEqual(headers["x-api-version"], "4.0")
+
+    def test_api_headers_require_the_token(self):
+        """No request is made when the token is not configured."""
+        self.pagseguro.write({"state": "disabled", "pagseguro_token": False})
         with self.assertRaises(ValidationError):
-            tx.pagseguro_s2s_capture_transaction()
+            self.pagseguro._pagseguro_get_api_headers()
 
-        self.set_transaction_currency(tx, self.brl_currency)
+    def test_error_message_of_a_failed_request(self):
+        """The error messages returned by PagBank are reported to the user."""
 
-        tx.pagseguro_s2s_capture_transaction()
-        self.assertEqual(tx.state, "done", "transaction state should be authorized")
+        class ResponseStub:
+            @staticmethod
+            def json():
+                return {
+                    "error_messages": [
+                        {
+                            "code": "40002",
+                            "description": "must be numeric",
+                            "parameter_name": "charges[0].amount.value",
+                        }
+                    ]
+                }
 
-        time.sleep(3)
-        tx.pagseguro_s2s_void_transaction()
-        self.assertEqual(tx.state, "done", "transaction state should be done")
-
-    @staticmethod
-    def set_transaction_currency(transaction, currency):
-        for order in transaction.sale_order_ids:
-            order.currency_id = currency.id
-
-    @vcr.use_cassette(
-        os.path.dirname(__file__) + "/fixtures/test_buy_pagseguro_fail.yaml"
-    )
-    def test_buy_pagseguro_fail(self):
-        pagseguro_acquirer = self.env.ref(
-            "payment_pagseguro.payment_acquirer_pagseguro"
+        message = self.env["payment.provider"]._pagseguro_get_error_message(
+            ResponseStub()
         )
-        pagseguro_acquirer.write(
-            {
-                "pagseguro_token": "70490B37BABA1C2EE4F4FFB244ED8425",
-                "journal_id": 1,
-                "payment_flow": "s2s",
-            }
-        )
+        self.assertEqual(message, "40002: must be numeric (charges[0].amount.value)")
 
-        buyer = self.env["res.partner"].create({"name": "Buyer"})
+    def test_every_documented_status_is_mapped(self):
+        """Every charge status documented by PagBank is mapped."""
+        mapped = [s for statuses in PAYMENT_STATUS_MAPPING.values() for s in statuses]
+        for status in (
+            "AUTHORIZED",
+            "PAID",
+            "DECLINED",
+            "CANCELED",
+            "IN_ANALYSIS",
+            "WAITING",
+        ):
+            self.assertIn(status, mapped)
+        self.assertEqual(len(mapped), len(set(mapped)), "a status is mapped twice")
 
-        payment_token = self.env["payment.token"].create(
-            {
-                "acquirer_ref": buyer.id,
-                "acquirer_id": pagseguro_acquirer.id,
-                "partner_id": buyer.id,
-                "cc_holder_name": buyer.name,
-                "pagseguro_card_token": "wrongcardtoken",
-                "pagseguro_payment_method": "CREDIT_CARD",
-                "pagseguro_installments": 1,
-            }
-        )
+    def test_processing_values_include_an_access_token(self):
+        """The inline form receives an access token to secure the route."""
+        tx = self._create_transaction(flow="direct")
+        with mute_logger("odoo.addons.payment.models.payment_transaction"), patch(
+            "odoo.addons.payment.utils.generate_access_token",
+            new=self._generate_test_access_token,
+        ):
+            processing_values = tx._get_processing_values()
 
-        transaction = self.env["payment.transaction"].create(
-            {
-                "reference": "test_ref_10001",
-                "currency_id": self.brl_currency.id,
-                "acquirer_id": pagseguro_acquirer.id,
-                "partner_id": buyer.id,
-                "payment_token_id": payment_token.id,
-                "type": "server2server",
-                "amount": 100.0,
-            }
-        )
-
-        self.assertFalse(transaction.pagseguro_s2s_do_transaction())
+        with patch(
+            "odoo.addons.payment.utils.generate_access_token",
+            new=self._generate_test_access_token,
+        ):
+            self.assertTrue(
+                payment_utils.check_access_token(
+                    processing_values["access_token"], self.reference, self.partner.id
+                )
+            )
