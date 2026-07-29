@@ -103,8 +103,12 @@ class Partner(models.Model):
         for record in self:
             domain = []
 
+            # `continue`, not `return`: this is a per-record check, and
+            # returning would silently skip every remaining record of the
+            # recordset -- on a batch create, a single partner without a vat
+            # would disable the check for all the ones after it.
             if not record.vat:
-                return
+                continue
 
             if self.env.context.get(
                 "disable_allow_cnpj_multi_ie"
