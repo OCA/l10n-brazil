@@ -9,6 +9,14 @@ GNRE_MODE = [
     ("consolidated", "Guia consolidada no período"),
 ]
 
+# Qual valor da linha fiscal alimenta a obrigação. Não dá para derivar isso do
+# grupo de imposto: o DIFAL não tem grupo nem tax_domain proprios, o valor vive
+# como icms_destination_value dentro do domínio icms.
+GNRE_AMOUNT_SOURCE = [
+    ("icmsst", "ICMS ST e FCP ST"),
+    ("difal", "DIFAL e FCP destino"),
+]
+
 GNRE_PERIOD = [
     ("0", "Mensal"),
     ("1", "1a. quinzena"),
@@ -52,6 +60,14 @@ class GnreStateConfig(models.Model):
         required=True,
         domain=[("tax_scope", "=", "state")],
         help="Grupo de imposto que esta regra atende, por exemplo ICMS ST.",
+    )
+
+    amount_source = fields.Selection(
+        selection=GNRE_AMOUNT_SOURCE,
+        string="Origem do Valor",
+        required=True,
+        default="icmsst",
+        help="Quais valores da linha fiscal alimentam a obrigação.",
     )
 
     authority_partner_id = fields.Many2one(
@@ -103,9 +119,9 @@ class GnreStateConfig(models.Model):
 
     _sql_constraints = [
         (
-            "state_tax_group_uniq",
-            "unique (company_id, fiscal_state_id, tax_group_id)",
-            "Já existe uma regra de GNRE para esta UF e grupo fiscal.",
+            "state_source_uniq",
+            "unique (company_id, fiscal_state_id, amount_source)",
+            "Já existe uma regra de GNRE para esta UF e origem de valor.",
         )
     ]
 
@@ -118,13 +134,13 @@ class GnreStateConfig(models.Model):
                 )
 
     @api.model
-    def _find_config(self, company, fiscal_state, tax_group):
+    def _find_config(self, company, fiscal_state, amount_source):
         """Return the config that applies, or an empty recordset."""
         return self.search(
             [
                 ("company_id", "=", company.id),
                 ("fiscal_state_id", "=", fiscal_state.id),
-                ("tax_group_id", "=", tax_group.id),
+                ("amount_source", "=", amount_source),
             ],
             limit=1,
         )

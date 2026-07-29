@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="account_move_form" model="ir.ui.view">
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button
+                    name="action_view_gnre_obligations"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-money"
+                    attrs="{'invisible': [('gnre_obligation_count', '=', 0)]}"
+                >
+                    <field
+                        name="gnre_obligation_count"
+                        widget="statinfo"
+                        string="GNRE"
+                    />
+                </button>
+            </div>
+        </field>
+    </record>
+</odoo>
