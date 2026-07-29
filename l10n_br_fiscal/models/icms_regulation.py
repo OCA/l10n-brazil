@@ -1955,8 +1955,14 @@ class ICMSRegulation(models.Model):
                 "|",
                 ("state_to_ids", "=", partner.state_id.id),
                 ("state_to_ids", "=", company.state_id.id),
+                "|",
+                ("ncm_ids", "=", False),
                 ("ncm_ids", "=", ncm.id),
+                "|",
+                ("nbm_ids", "=", False),
                 ("nbm_ids", "=", nbm.id),
+                "|",
+                ("cest_ids", "=", False),
                 ("cest_ids", "=", cest.id),
             ]
 
@@ -1967,8 +1973,14 @@ class ICMSRegulation(models.Model):
             domain += [
                 ("state_from_id", "=", company.state_id.id),
                 ("state_to_ids", "=", partner.state_id.id),
+                "|",
+                ("ncm_ids", "=", False),
                 ("ncm_ids", "=", ncm.id),
+                "|",
+                ("nbm_ids", "=", False),
                 ("nbm_ids", "=", nbm.id),
+                "|",
+                ("cest_ids", "=", False),
                 ("cest_ids", "=", cest.id),
             ]
 
@@ -1983,28 +1995,34 @@ class ICMSRegulation(models.Model):
         else:
             icms_defs_benefit = icms_defs.filtered(
                 lambda d: (
-                    ncm.id in d.ncm_ids.ids
-                    or nbm.id in d.nbm_ids.ids
-                    or cest.id in d.cest_ids.ids
-                    or product.id in d.product_ids.ids
+                    (
+                        ncm.id in d.ncm_ids.ids
+                        or nbm.id in d.nbm_ids.ids
+                        or cest.id in d.cest_ids.ids
+                        or product.id in d.product_ids.ids
+                    )
+                    and d.is_benefit
                 )
-                and d.is_benefit
             )
             icms_defs_specific = icms_defs.filtered(
                 lambda d: (
-                    ncm.id in d.ncm_ids.ids
-                    or nbm.id in d.nbm_ids.ids
-                    or cest.id in d.cest_ids.ids
-                    or product.id in d.product_ids.ids
+                    (
+                        ncm.id in d.ncm_ids.ids
+                        or nbm.id in d.nbm_ids.ids
+                        or cest.id in d.cest_ids.ids
+                        or product.id in d.product_ids.ids
+                    )
+                    and not d.is_benefit
                 )
-                and not d.is_benefit
             )
             icms_defs_generic = icms_defs.filtered(
-                lambda d: not d.ncm_ids.ids
-                and not d.nbm_ids.ids
-                and not d.cest_ids.ids
-                and not d.product_ids.ids
-                and not d.is_benefit
+                lambda d: (
+                    not d.ncm_ids.ids
+                    and not d.nbm_ids.ids
+                    and not d.cest_ids.ids
+                    and not d.product_ids.ids
+                    and not d.is_benefit
+                )
             )
 
             if icms_defs_benefit:
