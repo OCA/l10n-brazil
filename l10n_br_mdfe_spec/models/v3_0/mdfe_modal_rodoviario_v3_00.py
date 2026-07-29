@@ -207,7 +207,10 @@ class InfCiot(models.AbstractModel):
     _binding_type = "Rodo.InfAntt.InfCiot"
 
     mdfe30_infCIOT_infANTT_id = fields.Many2one(
-        comodel_name="mdfe.30.infantt", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.infantt",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_CIOT = fields.Char(
         string="Código Identificador da Operação",
@@ -282,7 +285,10 @@ class Disp(models.AbstractModel):
     _binding_type = "Rodo.InfAntt.ValePed.Disp"
 
     mdfe30_disp_valePed_id = fields.Many2one(
-        comodel_name="mdfe.30.valeped", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.valeped",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_CNPJForn = fields.Char(
         string="CNPJ da empresa fornecedora",
@@ -353,7 +359,10 @@ class InfContratante(models.AbstractModel):
     _binding_type = "Rodo.InfAntt.InfContratante"
 
     mdfe30_infContratante_infANTT_id = fields.Many2one(
-        comodel_name="mdfe.30.infantt", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.infantt",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_xNome = fields.Char(string="Razão social ou Nome do contratante")
 
@@ -427,7 +436,10 @@ class RodoInfPag(models.AbstractModel):
     _binding_type = "Rodo.InfAntt.InfPag"
 
     mdfe30_infPag_infANTT_id = fields.Many2one(
-        comodel_name="mdfe.30.infantt", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.infantt",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_xNome = fields.Char(
         string="Razão social ou Nome do respnsável",
@@ -548,7 +560,10 @@ class RodoComp(models.AbstractModel):
     _binding_type = "Rodo.InfAntt.InfPag.Comp"
 
     mdfe30_Comp_infPag_id = fields.Many2one(
-        comodel_name="mdfe.30.rodo_infpag", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.rodo_infpag",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_tpComp = fields.Selection(
         COMP_TPCOMP_2,
@@ -581,7 +596,10 @@ class RodoInfPrazo(models.AbstractModel):
     _binding_type = "Rodo.InfAntt.InfPag.InfPrazo"
 
     mdfe30_infPrazo_infPag_id = fields.Many2one(
-        comodel_name="mdfe.30.rodo_infpag", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.rodo_infpag",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_nParcela = fields.Char(string="Número da Parcela", xsd_required=True)
 
@@ -781,7 +799,10 @@ class RodoCondutor(models.AbstractModel):
     _binding_type = "Rodo.VeicTracao.Condutor"
 
     mdfe30_condutor_veicTracao_id = fields.Many2one(
-        comodel_name="mdfe.30.veictracao", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.veictracao",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_xNome = fields.Char(string="Nome do Condutor", xsd_required=True)
 
@@ -799,7 +820,10 @@ class VeicReboque(models.AbstractModel):
     _binding_type = "Rodo.VeicReboque"
 
     mdfe30_veicReboque_rodo_id = fields.Many2one(
-        comodel_name="mdfe.30.rodo", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.rodo",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_cInt = fields.Char(string="Código interno do veículo")
 
@@ -914,6 +938,9 @@ class LacRodo(models.AbstractModel):
     _binding_type = "Rodo.LacRodo"
 
     mdfe30_lacRodo_rodo_id = fields.Many2one(
-        comodel_name="mdfe.30.rodo", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.rodo",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_nLacre = fields.Char(string="Número do Lacre", xsd_required=True)
