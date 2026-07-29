@@ -54,13 +54,13 @@ class TestBacenPixCharge(BacenPixCommon):
 
     def test_debtor_is_sent_with_a_cnpj(self):
         """A partner with a CNPJ is sent as the debtor of the charge."""
-        self.partner.vat = "23.130.935/0001-98"
+        self.partner.vat = "11.222.333/0001-81"
         tx = self._create_transaction(flow="redirect")
         with self._patch_request(self._charge_response()) as request_mock:
             tx._bacenpix_create_charge()
 
         self.assertEqual(
-            request_mock.call_args.args[1]["devedor"]["cnpj"], "23130935000198"
+            request_mock.call_args.args[1]["devedor"]["cnpj"], "11222333000181"
         )
 
     def test_debtor_is_left_out_without_a_tax_id(self):
