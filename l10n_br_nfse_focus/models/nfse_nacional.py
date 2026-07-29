@@ -108,11 +108,16 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
 
         regime_especial_tributacao = rps_info.get("regime_especial_tributacao") or 0
 
+        inscricao_municipal = ""
+        if company.focusnfe_nfse_nacional_send_im_prestador:
+            inscricao_municipal = rps_info.get("inscricao_municipal") or ""
+
         return {
             "is_cpf": is_cpf_prestador,
             "is_cnpj": is_cnpj_prestador,
             "cpf_limpo": cpf_prestador_limpo,
             "cnpj_limpo": cnpj_prestador_limpo,
+            "inscricao_municipal": inscricao_municipal,
             "codigo_opcao_simples_nacional": int(codigo_opcao_simples_nacional),
             "regime_especial_tributacao": int(regime_especial_tributacao),
             "codigo_municipio_emissora": int(company.city_id.ibge_code or 0),
@@ -304,6 +309,11 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
             **(
                 {"cpf_prestador": provider_data["cpf_limpo"]}
                 if provider_data["is_cpf"]
+                else {}
+            ),
+            **(
+                {"inscricao_municipal_prestador": provider_data["inscricao_municipal"]}
+                if provider_data["inscricao_municipal"]
                 else {}
             ),
             "codigo_opcao_simples_nacional": provider_data[

@@ -186,7 +186,10 @@ class Peri(models.AbstractModel):
     _binding_type = "Aereo.Peri"
 
     cte40_peri_aereo_id = fields.Many2one(
-        comodel_name="cte.40.aereo", xsd_implicit=True, ondelete="cascade"
+        comodel_name="cte.40.aereo",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     cte40_nONU = fields.Char(
         string="Número ONU/UN",

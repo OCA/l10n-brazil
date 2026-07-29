@@ -10,9 +10,13 @@ class AccountMove(models.Model):
 
     def _compute_imported_terms(self):
         res = super()._compute_imported_terms()
-        if not self.imported_document:
+        if not self.imported_document or len(self.invoice_line_ids) < len(
+            self.fiscal_document_id.fiscal_line_ids
+        ):
             return res
-        for dup in self.nfe40_dup:
+
+        self.fiscal_document_id._compute_nfe40_dup()
+        for dup in self.fiscal_document_id.nfe40_dup:
             key = frozendict(
                 {
                     "move_id": self.id,

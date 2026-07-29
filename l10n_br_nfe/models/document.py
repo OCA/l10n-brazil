@@ -810,6 +810,14 @@ class NFe(spec_models.StackedModel):
     # Framework Spec model's methods
     ################################
 
+    def _nfe_export_ibscbs_totals(self):
+        """Return True when the document has IBS/CBS values to export"""
+        self.ensure_one()
+        return bool(
+            sum(self.fiscal_line_ids.mapped("ibs_value"))
+            or sum(self.fiscal_line_ids.mapped("cbs_value"))
+        )
+
     def _export_field(self, xsd_field, class_obj, member_spec, export_value=None):
         if xsd_field == "nfe40_tpAmb":
             self.env.context = dict(self.env.context)
@@ -818,11 +826,21 @@ class NFe(spec_models.StackedModel):
                 xsd_field, class_obj, member_spec, export_value
             )
 
-        if xsd_field == "nfe40_IBSCBSTot":
-            total_ibs = sum(self.fiscal_line_ids.mapped("ibs_value"))
-            total_cbs = sum(self.fiscal_line_ids.mapped("cbs_value"))
+        if xsd_field == "nfe40_vNFTot":
+            # NT 2025.002 (rule W60): total of the NF-e considering the
+            # IBS/CBS/IS taxes. This mirrors fiscal_amount_total, which
+            # already honors each tax group's "tax_include" flag: taxes
+            # flagged as included in the price do not add to the total,
+            # taxes flagged as "outside" do. In the 2026 transition the
+            # IBS/CBS/IS groups are set as included, so vNFTot equals vNF;
+            # switching those groups to "outside" makes them compose the
+            # total automatically, with no code change.
+            if not self._nfe_export_ibscbs_totals():
+                return False
+            return f"{self.fiscal_amount_total:.2f}"
 
-            if not total_ibs and not total_cbs:
+        if xsd_field == "nfe40_IBSCBSTot":
+            if not self._nfe_export_ibscbs_totals():
                 return False
 
             # Build gIBSUF
@@ -944,6 +962,14 @@ class NFe(spec_models.StackedModel):
             )
         return res
 
+    @api.model
+    def _build_attr(self, node, fields, vals, path, attr):
+        key = f"nfe40_{attr[1].metadata.get('name', attr[0])}"
+        if key == "nfe40_IBSCBSTot":
+            # IBSCBSTot fields are computed from lines, skip importing
+            return
+        return super()._build_attr(node, fields, vals, path, attr)
+
     def _build_many2one(self, comodel, vals, new_value, key, value, path):
         if key == "nfe40_entrega" and self.env.context.get("edoc_type") == "in":
             enderEntreg_value = self.env["res.partner"].build_attrs(value, path=path)
@@ -959,8 +985,17 @@ class NFe(spec_models.StackedModel):
                 "company_type": "person",
             }
             new_value.update(new_vals)
+            # Store the delivery address on the stored partner_shipping_id
+            # field (like emit/dest write to partner_id). nfe40_entrega is a
+            # non-stored computed field, so writing to it would silently drop
+            # the imported delivery address.
             super()._build_many2one(
-                self.env["res.partner"], vals, new_value, key, value, path
+                self.env["res.partner"],
+                vals,
+                new_value,
+                "partner_shipping_id",
+                value,
+                path,
             )
         elif key == "nfe40_emit" and self.env.context.get("edoc_type") == "in":
             enderEmit_value = self.env["res.partner"].build_attrs(

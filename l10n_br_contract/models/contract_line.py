@@ -29,8 +29,6 @@ class ContractLine(models.Model):
         string="Partner",
     )
 
-    ind_final = fields.Selection(related="contract_id.ind_final")
-
     comment_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.comment",
         relation="contract_line_comment_rel",
@@ -40,6 +38,11 @@ class ContractLine(models.Model):
     )
 
     line_recurrence = fields.Boolean(related="contract_id.line_recurrence")
+
+    # adapted for _compute_find_final:
+    def _get_document(self):
+        self.ensure_one()
+        return self.contract_id
 
     def _prepare_invoice_line(self):
         self.ensure_one()

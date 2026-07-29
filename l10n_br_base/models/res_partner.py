@@ -19,8 +19,8 @@ class Partner(models.Model):
     @property
     def _rec_names_search(self):
         names = super()._rec_names_search
-        names += ["cnpj_cpf_stripped", "legal_name", "l10n_br_ie_code"]
-        return names
+        # not "names +=": that would extend the parent class attribute in place
+        return names + ["cnpj_cpf_stripped", "legal_name", "l10n_br_ie_code"]
 
     def _inverse_street_data(self):
         """In Brazil the address format is street_name, street_number
@@ -111,10 +111,14 @@ class Partner(models.Model):
             ) or self.env.context.get("allow_vat_duplicate"):
                 return
 
-            allow_cnpj_multi_ie = (
+            # allow_cnpj_multi_ie is a res.config.settings boolean: it is stored
+            # as "True" when enabled and removed entirely when disabled
+            # (set_param deletes on a False bool), so a plain bool() reads it
+            # correctly (absent -> strict), matching base_setup.show_effect.
+            allow_cnpj_multi_ie = bool(
                 record.env["ir.config_parameter"]
                 .sudo()
-                .get_param("l10n_br_base.allow_cnpj_multi_ie", default=True)
+                .get_param("l10n_br_base.allow_cnpj_multi_ie")
             )
 
             if record.parent_id:
@@ -123,19 +127,25 @@ class Partner(models.Model):
                     ("parent_id", "not in", record.parent_id.ids),
                 ]
 
-            if record.vat:
-                domain += [
-                    ("vat", "=", record.vat),
-                    ("id", "!=", record.id),
-                    ("parent_id", "!=", record.id),
-                ]
-                return
+            # Compare by the normalized CNPJ/CPF (cnpj_cpf_stripped, without mask)
+            # so the same number typed with a different mask is still detected as
+            # a duplicate: `vat` is only normalized when written through the
+            # `cnpj_cpf` alias, so a direct `vat` write could store a different
+            # mask and slip past a raw `vat` comparison.
+            # NOTE for the v19 migration: once `vat` is stored unformatted and
+            # `cnpj_cpf_stripped` is retired, comparing by `vat` directly here is
+            # enough.
+            domain += [
+                ("cnpj_cpf_stripped", "=", record.cnpj_cpf_stripped),
+                ("id", "!=", record.id),
+                ("parent_id", "!=", record.id),
+            ]
 
             matches = record.env["res.partner"].search(domain)
             if matches:
                 if cnpj_cpf.validar_cnpj(record.vat):
-                    if allow_cnpj_multi_ie == "True":
-                        for partner in record.env["res.partner"].search(domain):
+                    if allow_cnpj_multi_ie:
+                        for partner in matches:
                             if (
                                 partner.l10n_br_ie_code == record.l10n_br_ie_code
                                 and record.l10n_br_ie_code

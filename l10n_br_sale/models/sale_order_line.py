@@ -100,8 +100,6 @@ class SaleOrderLine(models.Model):
         precompute=True,
     )
 
-    ind_final = fields.Selection(related="order_id.ind_final")
-
     # Usado para tornar Somente Leitura os campos dos custos
     # de entrega quando a definição for por Total
     delivery_costs = fields.Selection(
@@ -123,6 +121,11 @@ class SaleOrderLine(models.Model):
         string="CNAE Code",
         domain=lambda self: self._cnae_domain(),
     )
+
+    # adapted for _compute_find_final:
+    def _get_document(self):
+        self.ensure_one()
+        return self.order_id
 
     # Depends on price_unit because we need a field to force compute in new records
     # not created yet. This field is necessary to compute readonly condition for
@@ -193,10 +196,21 @@ class SaleOrderLine(models.Model):
     def _prepare_invoice_line(self, **optional_values):
         self.ensure_one()
         result = {}
+        super_result = super()._prepare_invoice_line(**optional_values)
         if not self.display_type and self.fiscal_operation_id:
             result = self._prepare_br_fiscal_dict()
-            result.pop("fiscal_quantity", None)
-        result.update(super()._prepare_invoice_line(**optional_values))
+            invoice_qty = super_result["quantity"]
+            if invoice_qty != result["quantity"]:
+                # Tax fields must be recomputed for the invoiced quantity.
+                virtual = self.env["l10n_br_fiscal.document.line"].new(result)
+                virtual.quantity = invoice_qty
+                result = {
+                    fname: virtual._fields[fname].convert_to_write(
+                        virtual[fname], virtual
+                    )
+                    for fname in result
+                }
+        result.update(super_result)
         return result
 
     @api.depends(
