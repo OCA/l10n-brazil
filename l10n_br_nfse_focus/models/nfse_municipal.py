@@ -180,10 +180,16 @@ class FocusnfeNfse(FocusnfeNfseBase):
         icms_retido = bool(service.get("valor_icms_retido"))
 
         valor_servicos = round(service.get("valor_servicos", 0), 2)
-        base_calculo_csll = valor_servicos if csll_retido else 0.0
-        base_calculo_inss = valor_servicos if inss_retido else 0.0
-        base_calculo_ir = valor_servicos if ir_retido else 0.0
-        base_calculo_icms = valor_servicos if icms_retido else 0.0
+
+        def _base_calculo(field_name, retido):
+            if not retido:
+                return 0.0
+            return round(service.get(field_name, 0), 2) or valor_servicos
+
+        base_calculo_csll = _base_calculo("base_calculo_csll", csll_retido)
+        base_calculo_inss = _base_calculo("base_calculo_inss", inss_retido)
+        base_calculo_ir = _base_calculo("base_calculo_ir", ir_retido)
+        base_calculo_icms = _base_calculo("base_calculo_icms", icms_retido)
 
         tipo_retencao_pis_cofins = {
             (False, False, False): "0",
