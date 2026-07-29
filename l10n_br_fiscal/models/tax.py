@@ -561,7 +561,7 @@ class Tax(models.Model):
         tax_dict = taxes_dict.get(tax.tax_domain)
         partner = kwargs.get("partner")
         company = kwargs.get("company")
-        icms_cst_id = kwargs.get("icms_cst_id")
+        icms_cst_id = kwargs.get("icms_cst_id") or self.env["l10n_br_fiscal.cst"]
 
         if taxes_dict.get("icms"):
             if company.state_id != partner.state_id:
@@ -835,11 +835,14 @@ class Tax(models.Model):
             operation_line = kwargs.get("operation_line")
             fiscal_operation_type = operation_line.fiscal_operation_type or FISCAL_OUT
             kwargs.update({"cst": tax.cst_from_tax(fiscal_operation_type)})
-            try:
-                compute_method = getattr(self, f"_compute_{tax.tax_domain}")
+            # getattr with a default instead of try/except AttributeError: the
+            # previous form also caught AttributeError raised INSIDE the compute
+            # method, silently replacing a specialized computation that crashed
+            # with the generic formula.
+            compute_method = getattr(self, f"_compute_{tax.tax_domain}", None)
+            if compute_method is not None:
                 taxes[tax.tax_domain].update(compute_method(tax, taxes, **kwargs))
-
-            except AttributeError:
+            else:
                 taxes[tax.tax_domain].update(tax._compute_tax(tax, taxes, **kwargs))
 
             tax_domain = taxes[tax.tax_domain]
