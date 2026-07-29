@@ -127,16 +127,27 @@ class Partner(models.Model):
                     ("parent_id", "not in", record.parent_id.ids),
                 ]
 
-            # Compare by the normalized CNPJ/CPF (cnpj_cpf_stripped, without mask)
-            # so the same number typed with a different mask is still detected as
-            # a duplicate: `vat` is only normalized when written through the
+            # Compare by the normalized CNPJ/CPF (without mask) so the same
+            # number typed with a different mask is still detected as a
+            # duplicate: `vat` is only normalized when written through the
             # `cnpj_cpf` alias, so a direct `vat` write could store a different
             # mask and slip past a raw `vat` comparison.
+            #
+            # Normalize from `vat` instead of reading the stored
+            # `cnpj_cpf_stripped`: the latter is a stored computed field, so a
+            # raw SQL write on `vat` (a data migration, a bulk import) leaves it
+            # out of sync. An empty value would turn the clause below into
+            # ("cnpj_cpf_stripped", "=", False) and match every *other*
+            # out-of-sync record, reporting an unrelated partner as a duplicate.
             # NOTE for the v19 migration: once `vat` is stored unformatted and
             # `cnpj_cpf_stripped` is retired, comparing by `vat` directly here is
             # enough.
+            stripped_vat = "".join(char for char in record.vat if char.isalnum())
+            if not stripped_vat:
+                continue
+
             domain += [
-                ("cnpj_cpf_stripped", "=", record.cnpj_cpf_stripped),
+                ("cnpj_cpf_stripped", "=", stripped_vat),
                 ("id", "!=", record.id),
                 ("parent_id", "!=", record.id),
             ]
