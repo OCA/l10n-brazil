@@ -177,7 +177,10 @@ class TprotNfe(models.AbstractModel):
     _binding_type = "TprotNfe"
 
     nfe40_protNFe_TRetConsReciNFe_id = fields.Many2one(
-        comodel_name="nfe.40.tretconsrecinfe", xsd_implicit=True, ondelete="cascade"
+        comodel_name="nfe.40.tretconsrecinfe",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     nfe40_infProt = fields.Many2one(
         comodel_name="nfe.40.infprot",
@@ -476,7 +479,10 @@ class TprocEvento(models.AbstractModel):
     _binding_type = "TprocEvento"
 
     nfe40_procEventoNFe_TRetConsSitNFe_id = fields.Many2one(
-        comodel_name="nfe.40.tretconssitnfe", xsd_implicit=True, ondelete="cascade"
+        comodel_name="nfe.40.tretconssitnfe",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     nfe40_evento = fields.Many2one(
         comodel_name="nfe.40.tevento",
