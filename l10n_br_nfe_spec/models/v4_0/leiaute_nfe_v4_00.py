@@ -1458,7 +1458,10 @@ class TprotNfe(models.AbstractModel):
     _binding_type = "TprotNfe"
 
     nfe40_protNFe_TRetConsReciNFe_id = fields.Many2one(
-        comodel_name="nfe.40.tretconsrecinfe", xsd_implicit=True, ondelete="cascade"
+        comodel_name="nfe.40.tretconsrecinfe",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     nfe40_infProt = fields.Many2one(
         comodel_name="nfe.40.infprot",
@@ -1563,7 +1566,10 @@ class Tveiculo(models.AbstractModel):
     _binding_type = "Tveiculo"
 
     nfe40_reboque_transp_id = fields.Many2one(
-        comodel_name="nfe.40.transp", xsd_implicit=True, ondelete="cascade"
+        comodel_name="nfe.40.transp",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     nfe40_placa = fields.Char(string="Placa do veículo (NT2011/004)", xsd_required=True)
 
@@ -1584,7 +1590,10 @@ class Tnfe(models.AbstractModel):
     _binding_type = "Tnfe"
 
     nfe40_NFe_TEnviNFe_id = fields.Many2one(
-        comodel_name="nfe.40.tenvinfe", xsd_implicit=True, ondelete="cascade"
+        comodel_name="nfe.40.tenvinfe",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     nfe40_infNFe = fields.Many2one(
         comodel_name="nfe.40.infnfe",
@@ -2002,7 +2011,10 @@ class Nfref(models.AbstractModel):
     _binding_type = "Tnfe.InfNfe.Ide.Nfref"
 
     nfe40_NFref_ide_id = fields.Many2one(
-        comodel_name="nfe.40.ide", xsd_implicit=True, ondelete="cascade"
+        comodel_name="nfe.40.ide",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     nfe40_refNFe = fields.Char(
         string="Chave de acesso das NF-e referenciadas",
@@ -2429,7 +2441,10 @@ class AutXml(models.AbstractModel):
     _binding_type = "Tnfe.InfNfe.AutXml"
 
     nfe40_autXML_infNFe_id = fields.Many2one(
-        comodel_name="nfe.40.infnfe", xsd_implicit=True, ondelete="cascade"
+        comodel_name="nfe.40.infnfe",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     nfe40_CNPJ = fields.Char(
         string="CNPJ Autorizado",
@@ -2455,7 +2470,10 @@ class Det(models.AbstractModel):
     _binding_type = "Tnfe.InfNfe.Det"
 
     nfe40_det_infNFe_id = fields.Many2one(
-        comodel_name="nfe.40.infnfe", xsd_implicit=True, ondelete="cascade"
+        comodel_name="nfe.40.infnfe",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     nfe40_prod = fields.Many2one(
         comodel_name="nfe.40.prod",
@@ -2807,7 +2825,10 @@ class GCred(models.AbstractModel):
     _binding_type = "Tnfe.InfNfe.Det.Prod.GCred"
 
     nfe40_gCred_prod_id = fields.Many2one(
-        comodel_name="nfe.40.prod", xsd_implicit=True, ondelete="cascade"
+        comodel_name="nfe.40.prod",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     nfe40_cCredPresumido = fields.Char(
         string="Código de Benefício Fiscal",
@@ -2842,7 +2863,10 @@ class Di(models.AbstractModel):
     _binding_type = "Tnfe.InfNfe.Det.Prod.Di"
 
     nfe40_DI_prod_id = fields.Many2one(
-        comodel_name="nfe.40.prod", xsd_implicit=True, ondelete="cascade"
+        comodel_name="nfe.40.prod",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     nfe40_nDI = fields.Char(
         string="Número do Documento de Importação",
@@ -2945,7 +2969,10 @@ class Adi(models.AbstractModel):
     _binding_type = "Tnfe.InfNfe.Det.Prod.Di.Adi"
 
     nfe40_adi_DI_id = fields.Many2one(
-        comodel_name="nfe.40.di", xsd_implicit=True, ondelete="cascade"
+        comodel_name="nfe.40.di",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     nfe40_nAdicao = fields.Char(string="Número da Adição")
 
@@ -2978,7 +3005,10 @@ class DetExport(models.AbstractModel):
     _binding_type = "Tnfe.InfNfe.Det.Prod.DetExport"
 
     nfe40_detExport_prod_id = fields.Many2one(
-        comodel_name="nfe.40.prod", xsd_implicit=True, ondelete="cascade"
+        comodel_name="nfe.40.prod",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     nfe40_nDraw = fields.Char(string="Número do ato concessório de Drawback")
 
@@ -3023,7 +3053,10 @@ class Rastro(models.AbstractModel):
     _binding_type = "Tnfe.InfNfe.Det.Prod.Rastro"
 
     nfe40_rastro_prod_id = fields.Many2one(
-        comodel_name="nfe.40.prod", xsd_implicit=True, ondelete="cascade"
+        comodel_name="nfe.40.prod",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     nfe40_nLote = fields.Char(string="Número do lote do produto", xsd_required=True)
 
@@ -3289,7 +3322,10 @@ class Arma(models.AbstractModel):
     _binding_type = "Tnfe.InfNfe.Det.Prod.Arma"
 
     nfe40_arma_prod_id = fields.Many2one(
-        comodel_name="nfe.40.prod", xsd_implicit=True, ondelete="cascade"
+        comodel_name="nfe.40.prod",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     nfe40_tpArma = fields.Selection(
         ARMA_TPARMA,
@@ -3546,7 +3582,10 @@ class OrigComb(models.AbstractModel):
     _binding_type = "Tnfe.InfNfe.Det.Prod.Comb.OrigComb"
 
     nfe40_origComb_comb_id = fields.Many2one(
-        comodel_name="nfe.40.comb", xsd_implicit=True, ondelete="cascade"
+        comodel_name="nfe.40.comb",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     nfe40_indImport = fields.Selection(
         ORIGCOMB_INDIMPORT,
@@ -5664,7 +5703,10 @@ class Vol(models.AbstractModel):
     _binding_type = "Tnfe.InfNfe.Transp.Vol"
 
     nfe40_vol_transp_id = fields.Many2one(
-        comodel_name="nfe.40.transp", xsd_implicit=True, ondelete="cascade"
+        comodel_name="nfe.40.transp",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     nfe40_qVol = fields.Char(string="Quantidade de volumes transportados")
 
@@ -5704,7 +5746,10 @@ class Lacres(models.AbstractModel):
     _binding_type = "Tnfe.InfNfe.Transp.Vol.Lacres"
 
     nfe40_lacres_vol_id = fields.Many2one(
-        comodel_name="nfe.40.vol", xsd_implicit=True, ondelete="cascade"
+        comodel_name="nfe.40.vol",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     nfe40_nLacre = fields.Char(string="Número dos Lacres", xsd_required=True)
 
@@ -5762,7 +5807,10 @@ class Dup(models.AbstractModel):
     _binding_type = "Tnfe.InfNfe.Cobr.Dup"
 
     nfe40_dup_cobr_id = fields.Many2one(
-        comodel_name="nfe.40.cobr", xsd_implicit=True, ondelete="cascade"
+        comodel_name="nfe.40.cobr",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     nfe40_nDup = fields.Char(string="Número da duplicata")
 
@@ -5809,7 +5857,10 @@ class DetPag(models.AbstractModel):
     _binding_type = "Tnfe.InfNfe.Pag.DetPag"
 
     nfe40_detPag_pag_id = fields.Many2one(
-        comodel_name="nfe.40.pag", xsd_implicit=True, ondelete="cascade"
+        comodel_name="nfe.40.pag",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     nfe40_indPag = fields.Selection(
         DETPAG_INDPAG,
@@ -5986,7 +6037,10 @@ class InfAdicObsCont(models.AbstractModel):
     _binding_type = "Tnfe.InfNfe.InfAdic.ObsCont"
 
     nfe40_obsCont_infAdic_id = fields.Many2one(
-        comodel_name="nfe.40.infadic", xsd_implicit=True, ondelete="cascade"
+        comodel_name="nfe.40.infadic",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     nfe40_xTexto = fields.Char(string="xTexto", xsd_required=True)
 
@@ -6002,7 +6056,10 @@ class InfAdicObsFisco(models.AbstractModel):
     _binding_type = "Tnfe.InfNfe.InfAdic.ObsFisco"
 
     nfe40_obsFisco_infAdic_id = fields.Many2one(
-        comodel_name="nfe.40.infadic", xsd_implicit=True, ondelete="cascade"
+        comodel_name="nfe.40.infadic",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     nfe40_xTexto = fields.Char(string="xTexto", xsd_required=True)
 
@@ -6018,7 +6075,10 @@ class ProcRef(models.AbstractModel):
     _binding_type = "Tnfe.InfNfe.InfAdic.ProcRef"
 
     nfe40_procRef_infAdic_id = fields.Many2one(
-        comodel_name="nfe.40.infadic", xsd_implicit=True, ondelete="cascade"
+        comodel_name="nfe.40.infadic",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     nfe40_nProc = fields.Char(
         string="Indentificador do processo ou ato",
@@ -6178,7 +6238,10 @@ class ForDia(models.AbstractModel):
     _binding_type = "Tnfe.InfNfe.Cana.ForDia"
 
     nfe40_forDia_cana_id = fields.Many2one(
-        comodel_name="nfe.40.cana", xsd_implicit=True, ondelete="cascade"
+        comodel_name="nfe.40.cana",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     nfe40_qtde = fields.Float(
         string="Quantidade em quilogramas",
@@ -6203,7 +6266,10 @@ class Deduc(models.AbstractModel):
     _binding_type = "Tnfe.InfNfe.Cana.Deduc"
 
     nfe40_deduc_cana_id = fields.Many2one(
-        comodel_name="nfe.40.cana", xsd_implicit=True, ondelete="cascade"
+        comodel_name="nfe.40.cana",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     nfe40_xDed = fields.Char(string="Descrição da Dedução", xsd_required=True)
 
@@ -6265,7 +6331,10 @@ class Defensivo(models.AbstractModel):
     _binding_type = "Tnfe.InfNfe.Agropecuario.Defensivo"
 
     nfe40_defensivo_agropecuario_id = fields.Many2one(
-        comodel_name="nfe.40.agropecuario", xsd_implicit=True, ondelete="cascade"
+        comodel_name="nfe.40.agropecuario",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     nfe40_nReceituario = fields.Char(
         string="Número do Receituário ou Receita",
