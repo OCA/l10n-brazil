@@ -8,6 +8,7 @@
             <tree>
                 <field name="fiscal_state_id" />
                 <field name="tax_group_id" />
+                        <field name="amount_source" />
                 <field name="revenue_code" />
                 <field name="mode" />
                 <field name="due_days" />
@@ -26,6 +27,7 @@
                         <group string="Abrangência">
                             <field name="fiscal_state_id" />
                             <field name="tax_group_id" />
+                        <field name="amount_source" />
                             <field
                                 name="company_id"
                                 groups="base.group_multi_company"
