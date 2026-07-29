@@ -21,7 +21,10 @@ _WATCHED_LOGGERS = (
 )
 ENCRYPTED_CARD = "encrypted-card-credential"
 HOLDER = "CARDHOLDER TEST"
-TAX_ID = "23130935000198"
+# A CNPJ that is not in the demo data of l10n_br_base, otherwise the
+# uniqueness constraint of the partner rejects the write when the whole
+# repository is installed together, as the CI does.
+TAX_ID = "11222333000181"
 
 
 class _ResponseStub:
