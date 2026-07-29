@@ -272,6 +272,15 @@ msgid "CFOP Destination"
 msgstr ""
 
 #. module: l10n_br_pos
+#: model:ir.model.fields,help:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__partner_cfop_id
+#: model:ir.model.fields,help:l10n_br_pos.field_pos_order_line__partner_cfop_id
+msgid ""
+"CFOP as declared by the counterparty in the imported document. It is "
+"preserved as-is for fiscal bookkeeping / SPED (e.g. C197), while cfop_id "
+"reflects the company's own operation after the de-para."
+msgstr ""
+
+#. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cnae_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cnae_id
 msgid "CNAE Code"
@@ -2243,6 +2252,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__partner_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__partner_id
 msgid "Partner"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__partner_cfop_id
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__partner_cfop_id
+msgid "Partner CFOP"
 msgstr ""
 
 #. module: l10n_br_pos

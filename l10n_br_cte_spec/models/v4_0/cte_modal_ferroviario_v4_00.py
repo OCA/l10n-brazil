@@ -168,7 +168,10 @@ class FerroEnv(models.AbstractModel):
     _binding_type = "Ferrov.TrafMut.FerroEnv"
 
     cte40_ferroEnv_trafMut_id = fields.Many2one(
-        comodel_name="cte.40.trafmut", xsd_implicit=True, ondelete="cascade"
+        comodel_name="cte.40.trafmut",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     cte40_CNPJ = fields.Char(
         string="Número do CNPJ",

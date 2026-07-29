@@ -125,6 +125,9 @@ class SpecMixin(models.AbstractModel):
             odoo_module = spec_module.split("_spec.")[0].split(".")[-1]
         else:  # for tests:
             odoo_module = "spec_driven_model"
+        # concrete classes we build below, tracked so we can drop them
+        # from module_to_models at the end of this method
+        concrete_models = []
         for name in remaining_models:
             spec_class = StackedModel._odoo_name_to_class(name, spec_module)
             if spec_class is None:
@@ -171,6 +174,7 @@ class SpecMixin(models.AbstractModel):
             model_type._spec_schema = spec_schema
             model_type._spec_version = spec_version
             models.MetaModel.module_to_models[odoo_module] += [model_type]
+            concrete_models.append(model_type)
 
             # now we init these models properly
             # a bit like odoo.modules.loading#load_module_graph would do
@@ -214,6 +218,20 @@ class SpecMixin(models.AbstractModel):
         )
         with mute_logger("odoo.models"):
             imd_recs.unlink()
+
+        # The concrete classes we built above are rebuilt from scratch every
+        # time this hook runs, but Odoo's MetaModel registered them in
+        # module_to_models, which persists across registry rebuilds. Leaving
+        # them there would make the next Registry.new() -- triggered by any
+        # module install/update -- rebuild these *stale* classes as extra bases
+        # of their model; being subclasses of the downstream classes that extend
+        # the model via _inherit, they break the C3 linearization and crash
+        # setup_models() with an inconsistent MRO (#4668). Drop exactly the ones
+        # we just built; the hook recreates them on every registry (re)load.
+        registered = models.MetaModel.module_to_models[odoo_module]
+        models.MetaModel.module_to_models[odoo_module] = [
+            cls for cls in registered if cls not in concrete_models
+        ]
 
     @classmethod
     def _auto_fill_access_data(cls, env, module_name: str, access_data: list):

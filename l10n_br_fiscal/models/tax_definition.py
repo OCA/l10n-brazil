@@ -491,6 +491,9 @@ class TaxDefinition(models.Model):
             l10n_br_fiscal.tax.definition.
         """
 
+        if not self:
+            return self
+
         if not ncm:
             ncm = product.ncm_id
 
