@@ -141,7 +141,10 @@ class InfTermCarreg(models.AbstractModel):
     _binding_type = "Aquav.InfTermCarreg"
 
     mdfe30_infTermCarreg_aquav_id = fields.Many2one(
-        comodel_name="mdfe.30.aquav", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.aquav",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_cTermCarreg = fields.Char(
         string="Código do Terminal de Carregamento",
@@ -167,7 +170,10 @@ class InfTermDescarreg(models.AbstractModel):
     _binding_type = "Aquav.InfTermDescarreg"
 
     mdfe30_infTermDescarreg_aquav_id = fields.Many2one(
-        comodel_name="mdfe.30.aquav", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.aquav",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_cTermDescarreg = fields.Char(
         string="Código do Terminal de Descarregamento",
@@ -193,7 +199,10 @@ class InfEmbComb(models.AbstractModel):
     _binding_type = "Aquav.InfEmbComb"
 
     mdfe30_infEmbComb_aquav_id = fields.Many2one(
-        comodel_name="mdfe.30.aquav", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.aquav",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_cEmbComb = fields.Char(
         string="Código da embarcação do comboio", xsd_required=True
@@ -211,7 +220,10 @@ class InfUnidCargaVazia(models.AbstractModel):
     _binding_type = "Aquav.InfUnidCargaVazia"
 
     mdfe30_infUnidCargaVazia_aquav_id = fields.Many2one(
-        comodel_name="mdfe.30.aquav", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.aquav",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_idUnidCargaVazia = fields.Char(
         string="Identificação da unidades de carga vazia",
@@ -239,7 +251,10 @@ class InfUnidTranspVazia(models.AbstractModel):
     _binding_type = "Aquav.InfUnidTranspVazia"
 
     mdfe30_infUnidTranspVazia_aquav_id = fields.Many2one(
-        comodel_name="mdfe.30.aquav", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.aquav",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_idUnidTranspVazia = fields.Char(
         string="Identificação da unidades",
