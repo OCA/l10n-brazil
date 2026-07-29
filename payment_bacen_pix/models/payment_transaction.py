@@ -13,6 +13,7 @@ from odoo.exceptions import ValidationError
 from odoo.addons.payment import utils as payment_utils
 
 from ..const import DEFAULT_EXPIRATION, PAYMENT_STATUS_MAPPING
+from ..utils import redact_personal_data
 
 _logger = logging.getLogger(__name__)
 
@@ -101,7 +102,7 @@ class PaymentTransaction(models.Model):
         _logger.info(
             "charge creation response for transaction with reference %s:\n%s",
             self.reference,
-            pprint.pformat(response_content),
+            pprint.pformat(redact_personal_data(response_content)),
         )
 
         qr_code = response_content.get("pixCopiaECola")
@@ -178,7 +179,7 @@ class PaymentTransaction(models.Model):
         _logger.info(
             "charge query response for transaction with reference %s:\n%s",
             self.reference,
-            pprint.pformat(response_content),
+            pprint.pformat(redact_personal_data(response_content)),
         )
         self._handle_notification_data("bacenpix", {"response": response_content})
 

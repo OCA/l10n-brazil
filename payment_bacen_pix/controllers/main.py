@@ -10,6 +10,8 @@ from odoo.http import request
 
 from odoo.addons.payment import utils as payment_utils
 
+from ..utils import redact_personal_data
+
 _logger = logging.getLogger(__name__)
 
 
@@ -69,7 +71,8 @@ class BacenPixController(http.Controller):
         """
         notification_data = request.get_json_data()
         _logger.info(
-            "notification received from Pix:\n%s", pprint.pformat(notification_data)
+            "notification received from Pix:\n%s",
+            pprint.pformat(redact_personal_data(notification_data)),
         )
 
         payments = (notification_data or {}).get("pix") or []
