@@ -97,7 +97,10 @@ class Balsa(models.AbstractModel):
     _binding_type = "Aquav.Balsa"
 
     cte40_balsa_aquav_id = fields.Many2one(
-        comodel_name="cte.40.aquav", xsd_implicit=True, ondelete="cascade"
+        comodel_name="cte.40.aquav",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     cte40_xBalsa = fields.Char(string="Identificador da Balsa", xsd_required=True)
 
@@ -112,7 +115,10 @@ class DetCont(models.AbstractModel):
     _binding_type = "Aquav.DetCont"
 
     cte40_detCont_aquav_id = fields.Many2one(
-        comodel_name="cte.40.aquav", xsd_implicit=True, ondelete="cascade"
+        comodel_name="cte.40.aquav",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     cte40_nCont = fields.Char(
         string="Identificação do Container", xsd_required=True, xsd_type="TContainer"
@@ -141,7 +147,10 @@ class Lacre(models.AbstractModel):
     _binding_type = "Aquav.DetCont.Lacre"
 
     cte40_lacre_detCont_id = fields.Many2one(
-        comodel_name="cte.40.detcont", xsd_implicit=True, ondelete="cascade"
+        comodel_name="cte.40.detcont",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     cte40_nLacre = fields.Char(string="Lacre", xsd_required=True)
 
@@ -180,7 +189,10 @@ class AquavInfNf(models.AbstractModel):
     _binding_type = "Aquav.DetCont.InfDoc.InfNf"
 
     cte40_infNF_infDoc_id = fields.Many2one(
-        comodel_name="cte.40.aquav_infdoc", xsd_implicit=True, ondelete="cascade"
+        comodel_name="cte.40.aquav_infdoc",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     cte40_serie = fields.Char(string="Série", xsd_required=True)
 
@@ -203,7 +215,10 @@ class AquavInfNfe(models.AbstractModel):
     _binding_type = "Aquav.DetCont.InfDoc.InfNfe"
 
     cte40_infNFe_infDoc_id = fields.Many2one(
-        comodel_name="cte.40.aquav_infdoc", xsd_implicit=True, ondelete="cascade"
+        comodel_name="cte.40.aquav_infdoc",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     cte40_chave = fields.Char(
         string="Chave de acesso da NF-e", xsd_required=True, xsd_type="TChDFe"
