@@ -20,6 +20,7 @@ from ..const import (
     PSP_CONFIG,
     SUPPORTED_CURRENCIES,
 )
+from ..utils import redact_personal_data
 
 _logger = logging.getLogger(__name__)
 
@@ -290,10 +291,10 @@ class PaymentProvider(models.Model):
                 response.raise_for_status()
             except requests.exceptions.HTTPError:
                 _logger.exception(
-                    "invalid API request at %s with data:\n%s\nresponse:\n%s",
+                    "invalid API request at %s with data:\n%s\nHTTP status: %s",
                     url,
-                    pprint.pformat(payload),
-                    response.text,
+                    pprint.pformat(redact_personal_data(payload)),
+                    response.status_code,
                 )
                 raise ValidationError(
                     _(
@@ -315,7 +316,8 @@ class PaymentProvider(models.Model):
             return response.json()
         except ValueError:
             _logger.exception(
-                "the API answered with a non-JSON body:\n%s", response.text
+                "the API answered with a non-JSON body, HTTP status: %s",
+                response.status_code,
             )
             raise ValidationError(
                 _("Pix: The API answered with an unexpected response.")

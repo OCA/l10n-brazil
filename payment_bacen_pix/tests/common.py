@@ -1,10 +1,57 @@
 # Copyright 2023 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import logging
 from contextlib import contextmanager
 from unittest.mock import patch
 
 from odoo.addons.payment.tests.common import PaymentCommon
+
+PROVIDER_PATH = "odoo.addons.payment_bacen_pix.models.payment_provider"
+TRANSACTION_PATH = "odoo.addons.payment_bacen_pix.models.payment_transaction"
+
+
+class ApiResponse:
+    """A response of the Pix API, as `requests` hands it over."""
+
+    def __init__(self, content=None, status_code=200, body=None, raises=None):
+        self._content = content
+        self.status_code = status_code
+        self.text = body if body is not None else str(content or "")
+        self.content = self.text.encode()
+        self._raises = raises
+
+    def json(self):
+        if self._content is None:
+            raise ValueError("no JSON object could be decoded")
+        return self._content
+
+    def raise_for_status(self):
+        if self._raises:
+            raise self._raises
+
+
+@contextmanager
+def collect_logs(*logger_names):
+    """Yield the messages emitted by the given loggers."""
+    records = []
+
+    class _Collector(logging.Handler):
+        def emit(self, record):
+            records.append(record.getMessage())
+
+    handler = _Collector()
+    loggers = [logging.getLogger(name) for name in logger_names]
+    previous_levels = [logger.level for logger in loggers]
+    for logger in loggers:
+        logger.addHandler(handler)
+        logger.setLevel(logging.INFO)
+    try:
+        yield records
+    finally:
+        for logger, level in zip(loggers, previous_levels, strict=True):
+            logger.removeHandler(handler)
+            logger.setLevel(level)
 
 
 class BacenPixCommon(PaymentCommon):
