@@ -590,11 +590,17 @@ class Tax(models.Model):
 
     @api.model
     def _compute_icmsst(self, tax, taxes_dict, **kwargs):
+        operation_line = kwargs.get("operation_line")
+        fiscal_operation_type = operation_line.fiscal_operation_type or FISCAL_OUT
         tax_dict = taxes_dict.get(tax.tax_domain)
 
         # Get Computed IPI Tax
         tax_dict_ipi = taxes_dict.get("ipi", {})
         tax_dict["add_to_base"] += tax_dict_ipi.get("tax_value", 0.00)
+
+        # Get Computed ICMS Tax to Update CST
+        tax_dict_icms = taxes_dict.get("icms", {})
+        tax_dict_icms["cst_id"] = tax.cst_from_tax(fiscal_operation_type)
 
         if taxes_dict.get(tax.tax_domain):
             taxes_dict[tax.tax_domain]["icmsst_mva_percent"] = tax.icmsst_mva_percent
