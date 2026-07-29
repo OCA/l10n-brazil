@@ -9,22 +9,7 @@ from odoo.tests import tagged
 
 from odoo.addons.payment_bacen_pix.const import PSP_CONFIG
 
-from .common import BacenPixCommon
-
-
-class _ResponseStub:
-    status_code = 200
-
-    def __init__(self, content, ok=True):
-        self._content = content
-        self.ok = ok
-        self.text = str(content)
-
-    def json(self):
-        return self._content
-
-    def raise_for_status(self):
-        return None
+from .common import ApiResponse, BacenPixCommon
 
 
 @tagged("post_install", "-at_install")
@@ -71,7 +56,7 @@ class TestBacenPixProvider(BacenPixCommon):
         self.bacenpix.bacenpix_psp = "bb"
         with patch(
             "odoo.addons.payment_bacen_pix.models.payment_provider.requests.post",
-            return_value=_ResponseStub({"access_token": "tok", "expires_in": 600}),
+            return_value=ApiResponse({"access_token": "tok", "expires_in": 600}),
         ) as post_mock:
             token = self.bacenpix._bacenpix_get_token()
 
@@ -96,7 +81,7 @@ class TestBacenPixProvider(BacenPixCommon):
         )
         with patch(
             "odoo.addons.payment_bacen_pix.models.payment_provider.requests.post",
-            return_value=_ResponseStub({"access_token": "tok", "expires_in": 600}),
+            return_value=ApiResponse({"access_token": "tok", "expires_in": 600}),
         ) as post_mock:
             self.bacenpix._bacenpix_get_token()
 
@@ -110,7 +95,7 @@ class TestBacenPixProvider(BacenPixCommon):
         """The token endpoint is not called again while the token is valid."""
         with patch(
             "odoo.addons.payment_bacen_pix.models.payment_provider.requests.post",
-            return_value=_ResponseStub({"access_token": "tok", "expires_in": 600}),
+            return_value=ApiResponse({"access_token": "tok", "expires_in": 600}),
         ) as post_mock:
             self.bacenpix._bacenpix_get_token()
             self.bacenpix._bacenpix_get_token()
@@ -129,9 +114,7 @@ class TestBacenPixProvider(BacenPixCommon):
         )
         with patch(
             "odoo.addons.payment_bacen_pix.models.payment_provider.requests.post",
-            return_value=_ResponseStub(
-                {"access_token": "new-token", "expires_in": 600}
-            ),
+            return_value=ApiResponse({"access_token": "new-token", "expires_in": 600}),
         ):
             self.assertEqual(self.bacenpix._bacenpix_get_token(), "new-token")
 
@@ -172,7 +155,7 @@ class TestBacenPixProvider(BacenPixCommon):
 
     def test_error_message_of_a_failed_request(self):
         """The problem details returned by the API are reported to the user."""
-        response = _ResponseStub(
+        response = ApiResponse(
             {
                 "title": "Cobrança inválida",
                 "detail": "A requisição está fora do padrão.",
@@ -184,6 +167,22 @@ class TestBacenPixProvider(BacenPixCommon):
         message = self.env["payment.provider"]._bacenpix_get_error_message(response)
         self.assertIn("Cobrança inválida", message)
         self.assertIn("[chave: chave não encontrada]", message)
+
+    def test_error_message_of_a_non_json_response(self):
+        """The body is the only information left when it is not a problem detail."""
+        response = ApiResponse(body="502 Bad Gateway")
+        self.assertEqual(
+            self.env["payment.provider"]._bacenpix_get_error_message(response),
+            "502 Bad Gateway",
+        )
+
+    def test_error_message_of_a_json_list(self):
+        """The API of a PSP may answer a list instead of a problem detail."""
+        response = ApiResponse(["erro"])
+        self.assertEqual(
+            self.env["payment.provider"]._bacenpix_get_error_message(response),
+            "['erro']",
+        )
 
     def test_unknown_psp_is_rejected(self):
         """A provider without a PSP cannot reach any API."""
