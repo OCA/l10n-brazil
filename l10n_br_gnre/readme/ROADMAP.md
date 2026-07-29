@@ -12,3 +12,9 @@ Fora do escopo por decisão consciente:
   acontecer por extração de mixin quando existir um segundo consumidor real;
 - cadastro completo dos códigos de receita das 27 UFs, que é dado e entra por
   contribuição.
+
+A serialização do lote usa lxml em vez de `spec_driven_model` sobre os mixins
+`gnre20_`. É provisório: o `_build_binding` precisa dos bindings da GNRE na
+nfelib, que ainda não foram publicados (akretion/nfelib#157). Quando entrarem,
+o `l10n_br_gnre.xml` dá lugar ao `StackedModel`, e os XSD de
+`tests/data/` saem daqui, porque o lugar deles é a nfelib.
