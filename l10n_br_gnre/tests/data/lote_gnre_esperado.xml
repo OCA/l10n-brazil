@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Referencia montada a partir do xs:sequence de dados_gnre_v2.00.xsd e das
+     descricoes de campo do Manual de Integracao do Contribuinte v2.15.
+     Guia consolidada de ICMS ST para SP, uma nota de origem, com FCP. -->
+<TLote_GNRE xmlns="http://www.gnre.pe.gov.br" versao="2.00">
+  <guias>
+    <TDadosGNRE versao="2.00">
+      <ufFavorecida>SP</ufFavorecida>
+      <tipoGnre>0</tipoGnre>
+      <contribuinteEmitente>
+        <identificacao>
+          <CNPJ>23130935000198</CNPJ>
+          <IE>633606428115</IE>
+        </identificacao>
+        <razaoSocial>Empresa Emitente de Testes LTDA</razaoSocial>
+      </contribuinteEmitente>
+      <itensGNRE>
+        <item>
+          <receita>100099</receita>
+          <documentoOrigem tipo="10">35260723130935000198550010000010001000010007</documentoOrigem>
+          <referencia>
+            <periodo>0</periodo>
+            <mes>07</mes>
+            <ano>2026</ano>
+          </referencia>
+          <dataVencimento>2026-08-10</dataVencimento>
+          <valor tipo="11">150.00</valor>
+          <valor tipo="12">20.00</valor>
+          <convenio>CONV 001/26</convenio>
+        </item>
+      </itensGNRE>
+      <valorGNRE>170.00</valorGNRE>
+    </TDadosGNRE>
+  </guias>
+</TLote_GNRE>

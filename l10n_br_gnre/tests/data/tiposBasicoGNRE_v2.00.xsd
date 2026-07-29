@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema 
+	attributeFormDefault="unqualified" 
+	elementFormDefault="qualified" 
+	targetNamespace="http://www.gnre.pe.gov.br" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:Q1="http://www.gnre.pe.gov.br">
+	<xs:include xmlns="http://www.gnre.pe.gov.br" schemaLocation="tiposBasicoGNRE_v1.00.xsd"/>
+	<xs:simpleType name="TDocOrigem">
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="preserve" />
+			<xs:pattern value="\d{6}[A-Z0-9]{12}\d{26}|\d{2}BR\d{11}|\d{1,18}"/>
+		</xs:restriction>
+ 	</xs:simpleType>
+ 	<xs:complexType name="TIdentificacao2">
+		<xs:sequence>
+			<xs:element name="CNPJ" type="Q1:TCnpj" minOccurs="0"
+				maxOccurs="1">
+			</xs:element>
+			<xs:element name="CPF" type="Q1:TCpf" minOccurs="0"
+				maxOccurs="1">
+			</xs:element>
+			<xs:element name="IE" type="Q1:TIe" minOccurs="0"
+				maxOccurs="1">
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+  	<xs:simpleType name="TCamposGNRE2">
+	  	<xs:annotation>
+	  		<xs:documentation>
+	  			Campos da GNRE
+	  		</xs:documentation>
+	  	</xs:annotation>
+	  	<xs:restriction base="xs:string">
+	  		<xs:whiteSpace value="preserve" />
+	  		<xs:enumeration value="ufFavorecida" />
+	  		<xs:enumeration value="contribuinteEmitente" />
+	  		<xs:enumeration value="contribuinteEmitente_identificacao" />
+	  		<xs:enumeration value="contribuinteEmitente_identificacao_CNPJ" />	  		
+			<xs:enumeration value="contribuinteEmitente_identificacao_CPF" />
+			<xs:enumeration value="contribuinteEmitente_identificacao_IE" />
+			<xs:enumeration value="contribuinteEmitente_razaoSocial" />
+			<xs:enumeration value="contribuinteEmitente_endereco" />
+			<xs:enumeration value="contribuinteEmitente_municipio" />
+			<xs:enumeration value="contribuinteEmitente_uf" />
+			<xs:enumeration value="contribuinteEmitente_cep" />
+			<xs:enumeration value="contribuinteEmitente_telefone" />
+			<xs:enumeration value="itensGNRE" />
+			<xs:enumeration value="item" />
+			<xs:enumeration value="item_receita" />
+			<xs:enumeration value="item_detalhamentoReceita" />
+			<xs:enumeration value="item_documentoOrigem" />
+			<xs:enumeration value="item_produto" />
+			<xs:enumeration value="item_referencia" />
+			<xs:enumeration value="item_referencia_periodo" />
+			<xs:enumeration value="item_referencia_mes" />
+			<xs:enumeration value="item_referencia_ano" />
+			<xs:enumeration value="item_referencia_parcela" />
+			<xs:enumeration value="item_dataVencimento" />
+			<xs:enumeration value="item_valorPrincipal" />
+			<xs:enumeration value="item_valorPrincipalFecp" />
+			<xs:enumeration value="item_valorAtualizacaoMonetaria" />
+			<xs:enumeration value="item_valorAtualizacaoMonetariaFecp" />
+			<xs:enumeration value="item_valorJuros" />
+			<xs:enumeration value="item_valorJurosFecp" />
+			<xs:enumeration value="item_valorMulta" />
+			<xs:enumeration value="item_valorMultaFecp" />
+			<xs:enumeration value="item_valorTotal" />
+			<xs:enumeration value="item_valorTotalFecp" />
+			<xs:enumeration value="valor" />
+			<xs:enumeration value="item_convenio" />
+			<xs:enumeration value="item_contribuinteDestinatario" />			
+			<xs:enumeration value="item_contribuinteDestinatario_identificacao" />
+			<xs:enumeration value="item_contribuinteDestinatario_identificacao_CNPJ" />
+			<xs:enumeration value="item_contribuinteDestinatario_identificacao_CPF" />
+			<xs:enumeration value="item_contribuinteDestinatario_identificacao_IE" />
+			<xs:enumeration value="item_contribuinteDestinatario_razaoSocial" />
+			<xs:enumeration value="item_contribuinteDestinatario_municipio" />			
+			<xs:enumeration value="item_camposExtras" />
+			<xs:enumeration value="item_camposExtras_campoExtra" />
+			<xs:enumeration value="item_camposExtras_campoExtra_codigo" />
+			<xs:enumeration value="item_camposExtras_campoExtra_valor" />
+			<xs:enumeration value="valorGNRE" />
+			<xs:enumeration value="dataPagamento" />
+			<xs:enumeration value="identificadorGuia" />
+	  		<xs:enumeration value="dataLimitePagamento" />
+	  		<xs:enumeration value="informacoesComplementares" />
+	  		<xs:enumeration value="informacoesComplementares_informacao" />
+	  		<xs:enumeration value="nossoNumero" />
+	  		<xs:enumeration value="dadosPagamento" />
+	  		<xs:enumeration value="dadosPagamento_data" />
+	  		<xs:enumeration value="dadosPagamento_autenticacao" />
+	  		<xs:enumeration value="dadosPagamento_banco" />
+	  		<xs:enumeration value="dadosPagamento_agencia" />
+	  		<xs:enumeration value="linhaDigitavel" />	  		
+	  	</xs:restriction>
+  	</xs:simpleType>
+
+  	<xs:simpleType name="TSimNaoOpcional">
+  		<xs:restriction base="xs:string">
+  			<xs:enumeration value="S"></xs:enumeration>
+  			<xs:enumeration value="N"></xs:enumeration>
+  			<xs:enumeration value="O"></xs:enumeration>
+  		</xs:restriction>  	
+  	</xs:simpleType>  	
+</xs:schema>
