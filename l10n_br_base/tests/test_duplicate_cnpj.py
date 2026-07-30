@@ -146,3 +146,30 @@ class DuplicateCnpjTest(TransactionCase):
         # the old code the empty domain matched any record with an empty stored
         # value, so the error was raised for the wrong partner.
         self.assertIn(original.name, capture.exception.args[0])
+
+    def test_tax_exempt_partners_are_not_duplicates(self):
+        """Two partners "not subject to tax" are not duplicates of each other.
+
+        ``base`` documents ``vat = "/"`` as "the partner is not subject to
+        tax", and ``_compute_cnpj_cpf_stripped`` only keeps alphanumeric
+        characters, so the stored document is legitimately an empty string --
+        with the compute perfectly in sync, no raw SQL write involved. Without
+        the guard the clause degrades to ("cnpj_cpf_stripped", "=", "") and
+        every other tax-exempt partner matches.
+
+        Note this is a distinct state from a partner with no ``vat`` at all,
+        which stores NULL and is therefore never matched by that clause.
+        """
+        # is_company=False: for a document that is not a valid CNPJ, the check
+        # only reports duplicates on individuals (the CPF/RG branch).
+        exempt_vals = {
+            "is_company": False,
+            "country_id": self.env.ref("base.us").id,
+            "vat": "/",
+        }
+        self.partner_model.create(dict(exempt_vals, name="Tax exempt 1"))
+        second = self.partner_model.create(dict(exempt_vals, name="Tax exempt 2"))
+
+        # Must not raise, neither on the create above nor on an explicit
+        # re-check.
+        second._check_cnpj_l10n_br_ie_code()

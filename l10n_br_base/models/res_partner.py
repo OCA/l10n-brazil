@@ -143,6 +143,14 @@ class Partner(models.Model):
             # out of sync. An empty value would turn the clause below into
             # ("cnpj_cpf_stripped", "=", False) and match every *other*
             # out-of-sync record, reporting an unrelated partner as a duplicate.
+            #
+            # An empty normalized document is not only an out-of-sync value:
+            # `base` documents `vat = "/"` as "this partner is not subject to
+            # tax", and no character of it is alphanumeric, so the compute
+            # legitimately stores an empty string. The clause would then read
+            # ("cnpj_cpf_stripped", "=", "") and match every *other* tax-exempt
+            # partner, reporting two of them as duplicates of each other. Skip
+            # the record instead of searching for an empty document.
             # NOTE for the v19 migration: once `vat` is stored unformatted and
             # `cnpj_cpf_stripped` is retired, comparing by `vat` directly here is
             # enough.
