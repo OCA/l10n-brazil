@@ -26,5 +26,6 @@
     ],
     "data": [
         "views/res_company_view.xml",
+        "views/document_view.xml",
     ],
 }

@@ -2,6 +2,7 @@
 #   Gabriel Cardoso de Faria <gabriel.cardoso@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+import io
 import logging
 import os
 from datetime import datetime
@@ -78,6 +79,38 @@ class TestFiscalDocumentNFSePaulistana(TestFiscalDocumentNFSeCommon):
         self.assertTrue(hasattr(serialized, "Cabecalho"))
         self.assertTrue(hasattr(serialized, "RPS"))
         self.assertEqual(len(serialized.RPS), 1)
+
+    def test_serialize_nfse_paulistana_v03(self):
+        """Test serialization with the tax reform layout (nfselib v03)."""
+        self.nfse_same_state.rps_number = "50"
+        self.nfse_same_state.document_number = "50"
+
+        for line in self.nfse_same_state.fiscal_line_ids:
+            line._onchange_fiscal_taxes()
+
+        self.nfse_same_state.action_document_confirm()
+
+        serialized = self.nfse_same_state.serialize_nfse_paulistana(
+            nfse_version="v03"
+        )
+        self.assertEqual(
+            type(serialized).__module__, "nfselib.paulistana.v03.PedidoEnvioLoteRPS"
+        )
+        self.assertEqual(serialized.Cabecalho.Versao, 2)
+        self.assertEqual(len(serialized.RPS), 1)
+        rps = serialized.RPS[0]
+        # The v03 bindings apply b64encode when exporting Assinatura: the
+        # value must be bytes, otherwise the export raises TypeError.
+        self.assertIsInstance(rps.Assinatura, bytes)
+        # Required fields that only exist in the tax reform layout.
+        self.assertIsNotNone(rps.ValorFinalCobrado)
+        self.assertIsNotNone(rps.IBSCBS)
+
+        buf = io.StringIO()
+        serialized.export(buf, 0, pretty_print=True)
+        xml = buf.getvalue()
+        self.assertIn('Versao="2"', xml)
+        self.assertIn("<Discriminacao>", xml)
 
     def test_map_taxation_rps(self):
         """Test mapping of taxation RPS."""

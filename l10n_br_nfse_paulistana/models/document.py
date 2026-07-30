@@ -1,21 +1,23 @@
 # Copyright 2019 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import logging
+import re
 import xml.etree.ElementTree as ET
 from datetime import datetime
 
 from erpbrasil.base import misc
+from nfselib.paulistana.v02 import PedidoEnvioLoteRPS as lote_rps_v02
 from nfselib.paulistana.v02.PedidoEnvioLoteRPS import (
     CabecalhoType,
-    PedidoEnvioLoteRPS,
-    tpChaveRPS,
     tpCPFCNPJ,
     tpEndereco,
     tpRPS,
 )
+from nfselib.paulistana.v03 import PedidoEnvioLoteRPS as lote_rps_v03
 from unidecode import unidecode
 
-from odoo import _, models
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -29,6 +31,15 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 )
 
 from ..constants.paulistana import CONSULTA_LOTE, ENVIO_LOTE_RPS
+
+_logger = logging.getLogger(__name__)
+
+# Legacy layout (taxable event until 2025-12-31) = nfselib v02 bindings,
+# Versao=1. Tax reform layout (IBS/CBS) = nfselib v03 bindings, Versao=2.
+PAULISTANA_BINDINGS = {
+    "v02": {"module": lote_rps_v02, "versao": 1},
+    "v03": {"module": lote_rps_v03, "versao": 2},
+}
 
 
 def filter_oca_nfse(record):
@@ -47,6 +58,17 @@ def filter_paulistana(record):
 
 class Document(models.Model):
     _inherit = "l10n_br_fiscal.document"
+
+    nfse_document_key = fields.Char(
+        string="NFS-e National Key",
+        copy=False,
+        index=True,
+        help=(
+            "National access key of the NFS-e (tax reform, "
+            "ChaveNotaNacional). It has 50 digits, unlike document_key, which "
+            "is the 44 digit key of NF-e/NFC-e/CT-e validated by _check_key."
+        ),
+    )
 
     def convert_type_nfselib(self, class_object, object_filed, value):
         if value is None:
@@ -83,21 +105,40 @@ class Document(models.Model):
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)
         for record in self.filtered(filter_oca_nfse).filtered(filter_paulistana):
-            edocs.append(record.serialize_nfse_paulistana())
+            nfse_version = record.company_id.nfse_paulistana_schema or "v02"
+            edocs.append(record.serialize_nfse_paulistana(nfse_version=nfse_version))
         return edocs
 
-    def serialize_nfse_paulistana(self):
+    def _processador_erpbrasil_nfse(self, **kwargs):
+        # Forward the schema version configured on the company to the
+        # erpbrasil.edoc provider, so that the query and cancellation envelopes
+        # use the same layout as the RPS (Versao 1 legacy / Versao 2 tax
+        # reform). l10n_br_nfse drops the parameter, with a warning in the log,
+        # while the installed library version does not accept it - see ROADMAP.
+        if self.company_id.provedor_nfse == "paulistana":
+            kwargs.setdefault(
+                "versao_schema", self.company_id.nfse_paulistana_schema or "v02"
+            )
+        return super()._processador_erpbrasil_nfse(**kwargs)
+
+    def serialize_nfse_paulistana(self, nfse_version="v02"):
+        binding = PAULISTANA_BINDINGS[nfse_version]
         dados_lote_rps = self._prepare_lote_rps()
         dados_servico = self._prepare_dados_servico()
-        lote_rps = PedidoEnvioLoteRPS(
-            Cabecalho=self._serialize_cabecalho(dados_lote_rps),
-            RPS=[self._serialize_lote_rps(dados_lote_rps, dados_servico)],
+        lote_rps = binding["module"].PedidoEnvioLoteRPS(
+            Cabecalho=self._serialize_cabecalho(dados_lote_rps, binding),
+            RPS=[self._serialize_lote_rps(dados_lote_rps, dados_servico, binding)],
         )
         return lote_rps
 
-    def _serialize_cabecalho(self, dados_lote_rps):
+    def _serialize_cabecalho(self, dados_lote_rps, binding=None):
+        binding = binding or PAULISTANA_BINDINGS["v02"]
+        CabecalhoType = binding["module"].CabecalhoType
+        tpCPFCNPJ = binding["module"].tpCPFCNPJ
         return CabecalhoType(
-            Versao=self.convert_type_nfselib(CabecalhoType, "Versao", 1),
+            Versao=self.convert_type_nfselib(
+                CabecalhoType, "Versao", binding["versao"]
+            ),
             CPFCNPJRemetente=tpCPFCNPJ(
                 CNPJ=self.convert_type_nfselib(
                     CabecalhoType, "tpCPFCNPJ", dados_lote_rps["cnpj"]
@@ -121,12 +162,24 @@ class Document(models.Model):
             ),
         )
 
-    def _serialize_lote_rps(self, dados_lote_rps, dados_servico):
+    def _serialize_lote_rps(self, dados_lote_rps, dados_servico, binding=None):
+        binding = binding or PAULISTANA_BINDINGS["v02"]
+        tpRPS = binding["module"].tpRPS
+        tpChaveRPS = binding["module"].tpChaveRPS
+        tpCPFCNPJ = binding["module"].tpCPFCNPJ
+        tpEndereco = binding["module"].tpEndereco
         dados_tomador = self._prepare_dados_tomador()
-        return tpRPS(
-            Assinatura=self.assinatura_rps(
-                dados_lote_rps, dados_servico, dados_tomador
-            ),
+        assinatura = self.assinatura_rps(
+            dados_lote_rps, dados_servico, dados_tomador, binding
+        )
+        if binding["versao"] >= 2:
+            # Both schemas declare Assinatura as xs:base64Binary, but the v02
+            # bindings write the raw value (they expect str, the base64 is done
+            # by erpbrasil.edoc) while the v03 ones apply b64encode on export,
+            # which requires bytes.
+            assinatura = assinatura.encode("ascii")
+        rps = tpRPS(
+            Assinatura=assinatura,
             ChaveRPS=tpChaveRPS(
                 InscricaoPrestador=self.convert_type_nfselib(
                     tpChaveRPS,
@@ -254,6 +307,92 @@ class Document(models.Model):
                 ),
             ),
         )
+        if binding["versao"] >= 2:
+            self._fill_rps_v03_required(rps, binding, dados_servico)
+        return rps
+
+    def _fill_rps_v03_required(self, rps, binding, dados_servico):
+        """Fill the required fields that only exist in the tax reform layout.
+
+        None of these elements exists in the v02 bindings - passing them to the
+        legacy tpRPS would raise TypeError -, so they are filled after the RPS
+        is built, and only when the schema is the tax reform one.
+        """
+        valor_servicos = round(float(dados_servico.get("valor_servicos") or 0), 2)
+        # Charged base: the schema defines ValorInicialCobrado XOR
+        # ValorFinalCobrado (xs:choice). São Paulo discontinued
+        # ValorInicialCobrado (error 640); the current rule requires
+        # ValorFinalCobrado.
+        rps.ValorFinalCobrado = valor_servicos
+        rps.ValorIPI = 0.0  # a service does not report IPI
+        # TODO(MOC): map suspended enforceability and advance instalment
+        # payment according to the fiscal scenario (0 = no).
+        rps.ExigibilidadeSuspensa = 0
+        rps.PagamentoParceladoAntecipado = 0
+        # NBS must have 9 digits ([0-9]{9}): use the unmasked code.
+        codigo_nbs = dados_servico.get("codigo_nbs_unmasked") or dados_servico.get(
+            "codigo_nbs"
+        )
+        rps.NBS = re.sub(r"\D", "", codigo_nbs) if codigo_nbs else None
+        # gpPrestacao is xs:choice (cLocPrestacao XOR cPaisPrestacao). Service
+        # rendered in Brazil -> only the city (IBGE code).
+        municipio_prestacao = dados_servico.get(
+            "municipio_prestacao_servico"
+        ) or dados_servico.get("codigo_municipio")
+        rps.cLocPrestacao = int(municipio_prestacao) if municipio_prestacao else None
+        rps.IBSCBS = self._serialize_ibscbs(binding, dados_servico)
+
+    def _serialize_ibscbs(self, binding, dados_servico):
+        """Build the IBSCBS group, required in the tax reform layout RPS.
+
+        The submission carries the tax classification (cClassTrib) and the
+        indicators; the IBS/CBS monetary values are computed and returned by
+        the webservice in the response.
+        """
+        module = binding["module"]
+        tpIBSCBS = module.tpIBSCBS
+        tpValores = module.tpValores
+        tpTrib = module.tpTrib
+        tpGIBSCBS = module.tpGIBSCBS
+
+        # The codes come from the fiscal configuration that already exists,
+        # without asking the user for anything new: cClassTrib comes from the
+        # line tax_classification_id (computed in _compute_fiscal_tax_ids
+        # through map_fiscal_taxes), falling back to the company default;
+        # cIndOp comes from the product operation_indicator_id.
+        cclasstrib = dados_servico.get("ibs_cbs_classificacao_tributaria") or (
+            self.company_id.tax_classification_id.code or None
+        )
+        cindop = dados_servico.get("codigo_indicador_operacao") or None
+        if not cclasstrib or not cindop:
+            # Does not block the issuing, but logs it: without these codes the
+            # tax reform layout rejects the batch (error 1001).
+            _logger.warning(
+                "NFS-e Paulistana %s: incomplete IBSCBS (cClassTrib=%s, "
+                "cIndOp=%s). Set up the Tax Classification (IBS/CBS) and the "
+                "Operation Indicator to avoid the batch being rejected.",
+                self.document_number or self.id,
+                cclasstrib,
+                cindop,
+            )
+        try:
+            ind_final = int(self.ind_final) if self.ind_final else 0
+        except (TypeError, ValueError):
+            ind_final = 0
+
+        return tpIBSCBS(
+            finNFSe=0,  # 0 = regular NFS-e (only value the schema accepts)
+            indFinal=ind_final,
+            cIndOp=cindop,
+            # 0 = the recipient is the customer itself (default case, with no
+            # distinct recipient). 1 would require the <dest> group.
+            indDest=0,
+            valores=tpValores(
+                trib=tpTrib(
+                    gIBSCBS=tpGIBSCBS(cClassTrib=cclasstrib),
+                ),
+            ),
+        )
 
     def _percentual_carga_tributaria(self, dados_lote_rps, dados_servico):
         """Percentage (fraction) of the IBPT estimated tax burden.
@@ -326,10 +465,17 @@ class Document(models.Model):
             or None,
         )
 
-    def assinatura_rps(self, dados_lote_rps, dados_servico, dados_tomador):
+    def assinatura_rps(
+        self, dados_lote_rps, dados_servico, dados_tomador, binding=None
+    ):
         assinatura = ""
 
-        assinatura += dados_lote_rps["inscricao_municipal"].zfill(8)
+        # Provider municipal registration: the legacy layout uses 8 positions,
+        # the tax reform one uses 12. São Paulo rebuilds the same string to
+        # verify the RSA signature, so a wrong width causes error 1206.
+        versao = binding["versao"] if binding else PAULISTANA_BINDINGS["v02"]["versao"]
+        inscr_width = 12 if versao >= 2 else 8
+        assinatura += dados_lote_rps["inscricao_municipal"].zfill(inscr_width)
         assinatura += dados_lote_rps["serie"].ljust(5, " ")
         assinatura += dados_lote_rps["numero"].zfill(12)
         assinatura += datetime.strptime(
@@ -465,13 +611,20 @@ class Document(models.Model):
                 # "YYYY-MM-DD HH:MM:SS". fromisoformat accepts both separators
                 # and returns a datetime that Odoo stores directly.
                 data_emissao = datetime.fromisoformat(consulta["data_emissao"])
-                record.write(
-                    {
-                        "verify_code": consulta["codigo_verificacao"],
-                        "document_number": consulta["numero"],
-                        "authorization_date": data_emissao,
-                    }
-                )
+                vals = {
+                    "verify_code": consulta["codigo_verificacao"],
+                    "document_number": consulta["numero"],
+                    "authorization_date": data_emissao,
+                }
+                # The ChaveNotaNacional (50 digits) comes in the tax reform
+                # layout response. It does not fit in document_key, which is
+                # validated as an NF-e key (44 digits): we store it in
+                # nfse_document_key. In the legacy layout the element does not
+                # exist, findtext returns None and the field is left untouched.
+                chave = retorno_xml.findtext(".//ChaveNotaNacional")
+                if chave:
+                    vals["nfse_document_key"] = chave
+                record.write(vals)
                 # StatusNFe: "N" = normal/authorized, "C" = cancelled. When the
                 # city hall has already cancelled it, Odoo may have been left
                 # authorized (e.g. a previous cancellation was rolled back).
