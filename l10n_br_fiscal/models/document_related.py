@@ -85,7 +85,8 @@ class DocumentRelated(models.Model):
     @api.constrains("cnpj_cpf")
     def _check_cnpj_cpf(self):
         for record in self:
-            check_cnpj_cpf(record.env, record.vat, self.env.ref("base.br"))
+            if record.vat:
+                check_cnpj_cpf(record.env, record.vat, self.env.ref("base.br"))
 
     @api.constrains("l10n_br_ie_code", "state_id")
     def _check_ie(self):
@@ -144,4 +145,5 @@ class DocumentRelated(models.Model):
 
     @api.onchange("cnpj_cpf", "cpfcnpj_type")
     def _onchange_mask_cnpj_cpf(self):
-        self.vat = cnpj_cpf.formata(str(self.vat))
+        if self.vat:
+            self.vat = cnpj_cpf.formata(self.vat)
