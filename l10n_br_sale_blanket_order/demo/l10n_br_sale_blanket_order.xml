@@ -4,6 +4,14 @@
 <odoo noupdate="1">
 
 
+   <!-- Since Odoo 17.0 there is no more a `product.list0` default pricelist
+        xml id: a default pricelist is created for each company instead. -->
+   <record id="sale_blanket_order_pricelist_demo" model="product.pricelist">
+      <field name="name">l10n_br_sale_blanket_order demo pricelist</field>
+      <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+      <field name="currency_id" ref="base.BRL" />
+   </record>
+
    <!-- SALE BLANKET ORDER DEMO -->
    <record id="sale_blanket_order_demo_1" model="sale.blanket.order">
       <field name="name">l10n_br_sale_blanket_order demo</field>
@@ -11,7 +19,7 @@
       <field name="payment_term_id" ref="account.account_payment_term_immediate" />
       <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
       <field name="validity_date" eval="DateTime.now().date() + timedelta(days=2)" />
-      <field name="pricelist_id" ref="product.list0" />
+      <field name="pricelist_id" ref="sale_blanket_order_pricelist_demo" />
       <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
    </record>
 

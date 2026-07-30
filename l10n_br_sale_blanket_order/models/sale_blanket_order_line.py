@@ -143,7 +143,7 @@ class SaleBlanketOrderLine(models.Model):
                     line.order_id.validity_date,
                     "sale",
                     fiscal_position=line.order_id.fiscal_position_id,
-                    product_price_unit=line._get_display_price(line.product_id),
+                    product_price_unit=line._get_display_price(),
                     product_currency=line.order_id.currency_id,
                 )
             elif line.fiscal_operation_id.default_price_unit == "cost_price":
