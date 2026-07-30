@@ -150,6 +150,27 @@
           <vICMS>18.00</vICMS>
         </ICMS00>
       </ICMS>
+      <IBSCBS>
+        <CST>000</CST>
+        <cClassTrib>000001</cClassTrib>
+        <gIBSCBS>
+          <vBC>78.35</vBC>
+          <gIBSUF>
+            <pIBSUF>0.1000</pIBSUF>
+            <vIBSUF>0.08</vIBSUF>
+          </gIBSUF>
+          <gIBSMun>
+            <pIBSMun>0.0000</pIBSMun>
+            <vIBSMun>0.00</vIBSMun>
+          </gIBSMun>
+          <vIBS>0.08</vIBS>
+          <gCBS>
+            <pCBS>0.9000</pCBS>
+            <vCBS>0.71</vCBS>
+          </gCBS>
+        </gIBSCBS>
+      </IBSCBS>
+      <vTotDFe>100.00</vTotDFe>
     </imp>
     <infCTeNorm>
       <infCarga>

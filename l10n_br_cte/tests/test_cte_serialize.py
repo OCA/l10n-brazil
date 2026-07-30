@@ -64,6 +64,7 @@ class TestCTeSerialize(TransactionCase):
     def prepare_modal_rodoviario_data(cls, cte):
         cte.cte40_RNTRC = "12345678"
         cte.cte40_occ = [
+            Command.clear(),
             Command.create(
                 {
                     "cte40_serie": "01",
@@ -95,6 +96,7 @@ class TestCTeSerialize(TransactionCase):
 
         # Lista de produtos perigosos
         cte.cte40_peri = [
+            Command.clear(),
             Command.create(
                 {
                     "cte40_nONU": "1234",  # Número ONU do produto perigoso
@@ -128,6 +130,7 @@ class TestCTeSerialize(TransactionCase):
 
         # Informações das balsas transportadas
         cte.cte40_balsa = [
+            Command.clear(),
             Command.create(
                 {
                     "cte40_xBalsa": "Balsa A",  # Identificador da primeira balsa
