@@ -158,8 +158,19 @@ class Partner(models.Model):
             if not stripped_vat:
                 continue
 
+            # Match the raw `vat` as well: normalizing from `vat` only fixes
+            # this side of the comparison, and the searched column is still the
+            # stored `cnpj_cpf_stripped`. A *counterpart* left out of sync by a
+            # raw SQL write would otherwise be invisible here, so a real
+            # duplicate would go through. `vat` is indexed in `base`, and both
+            # spellings are needed because the counterpart may hold the
+            # document either as typed or already unmasked. A counterpart
+            # out of sync *and* holding a different mask is only reachable
+            # through raw SQL, and is what the 16.0.6.6.0 migration repairs.
             domain += [
+                "|",
                 ("cnpj_cpf_stripped", "=", stripped_vat),
+                ("vat", "in", [record.vat, stripped_vat]),
                 ("id", "!=", record.id),
                 ("parent_id", "!=", record.id),
             ]

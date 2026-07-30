@@ -147,6 +147,23 @@ class DuplicateCnpjTest(TransactionCase):
         # value, so the error was raised for the wrong partner.
         self.assertIn(original.name, capture.exception.args[0])
 
+    def test_out_of_sync_counterpart_still_detects_duplicate(self):
+        """A real duplicate is still caught when the *counterpart* -- the
+        record already stored -- is the one out of sync.
+
+        Normalizing from ``vat`` only fixes the side being validated: the
+        searched column remains the stored ``cnpj_cpf_stripped``, which is
+        empty on the counterpart, so the duplicate would go through unnoticed.
+        The domain matches the raw ``vat`` as well to cover it.
+        """
+        original = self._create_partner("Google 1", self.google_cnpj)
+        self._desync_stripped(original)
+
+        with self.assertRaises(ValidationError) as capture:
+            self._create_partner("Google 2", self.google_cnpj)
+
+        self.assertIn(original.name, capture.exception.args[0])
+
     def test_tax_exempt_partners_are_not_duplicates(self):
         """Two partners "not subject to tax" are not duplicates of each other.
 
