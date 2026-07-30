@@ -308,7 +308,6 @@ class TestFiscalDocumentGeneric(SavepointCase):
             line.with_company(
                 empresa_lucro_presumido.id
             )._onchange_commercial_quantity()
-            line.with_company(empresa_lucro_presumido.id)._onchange_ncm_id()
             line.with_company(
                 empresa_lucro_presumido.id
             )._onchange_fiscal_operation_id()
@@ -350,7 +349,6 @@ class TestFiscalDocumentGeneric(SavepointCase):
             line.with_company(
                 empresa_lucro_presumido.id
             )._onchange_commercial_quantity()
-            line.with_company(empresa_lucro_presumido.id)._onchange_ncm_id()
             line.with_company(
                 empresa_lucro_presumido.id
             )._onchange_fiscal_operation_id()
