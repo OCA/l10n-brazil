@@ -24,9 +24,14 @@ class TestGnreXml(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.company = cls.env.company
+        # CNPJ inventado com digito verificador valido, e conferido para nao
+        # colidir com nenhum parceiro de dados demo do repo: a suite completa
+        # do CI instala todos os modulos com demo junto, e reusar um CNPJ real
+        # (por exemplo o da KMEE em l10n_br_base_demo.xml) estoura a
+        # constraint de unicidade de vat.
         cls.company.partner_id.write(
             {
-                "cnpj_cpf": "23.130.935/0001-98",
+                "cnpj_cpf": "99.001.100/2200-51",
                 "inscr_est": "633.606.428.115",
                 "legal_name": "Empresa Emitente de Testes LTDA",
             }
