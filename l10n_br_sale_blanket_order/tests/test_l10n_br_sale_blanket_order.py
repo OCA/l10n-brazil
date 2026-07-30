@@ -20,7 +20,15 @@ class L10nBrSaleBLanketOrderTest(TransactionCase):
         cls.partner = cls.env.ref("base.res_partner_1")
         cls.payment_term = cls.env.ref("account.account_payment_term_immediate")
         cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
-        cls.pricelist = cls.env.ref("product.list0")
+        # Since Odoo 17.0 there is no more a `product.list0` default pricelist
+        # xml id: a default pricelist is created for each company instead.
+        cls.pricelist = cls.env["product.pricelist"].create(
+            {
+                "name": "Test Blanket Order Pricelist",
+                "company_id": cls.company.id,
+                "currency_id": cls.company.currency_id.id,
+            }
+        )
         cls.validity_date = date.today() + timedelta(days=2)
         cls.cnae_secondary = cls.env.ref("l10n_br_fiscal.cnae_31021")
 

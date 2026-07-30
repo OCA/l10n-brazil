@@ -36,18 +36,22 @@
                     domain here that is checked before the dynamic fiscal
                     placeholders kick in.
                 -->
-                <field name="fiscal_operation_type" invisible="1" />
-                <field name="cfop_id" invisible="1" />
-                <field name="tax_framework" invisible="1" />
-                <field name="fiscal_operation_id" invisible="1" />
-                <field name="freight_value" invisible="1" />
-                <field name="insurance_value" invisible="1" />
-                <field name="other_value" invisible="1" />
+                <field name="fiscal_operation_type" column_invisible="1" />
+                <field name="cfop_id" column_invisible="1" />
+                <field name="tax_framework" column_invisible="1" />
+                <field name="fiscal_operation_id" column_invisible="1" />
+                <field name="freight_value" column_invisible="1" />
+                <field name="insurance_value" column_invisible="1" />
+                <field name="other_value" column_invisible="1" />
             </xpath>
             <field name="validity_date" position="after">
-                <field name="fiscal_operation_id" required="True" />
-                <field name="ind_final" required="True" />
-                <field name="ind_pres" required="True" />
+                <field
+                    name="fiscal_operation_id"
+                    required="1"
+                    readonly="state != 'draft'"
+                />
+                <field name="ind_final" required="1" />
+                <field name="ind_pres" required="1" readonly="state != 'draft'" />
             </field>
             <field name="note" position="replace">
                 <group>
@@ -111,7 +115,7 @@
                 expr="//field[@name='line_ids']/tree/field[@name='price_subtotal']"
                 position="after"
             >
-                <field name="price_total" invisible="1" />
+                <field name="price_total" column_invisible="1" />
             </xpath>
         </field>
     </record>
