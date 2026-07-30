@@ -24,4 +24,7 @@
     "depends": [
         "l10n_br_nfse",
     ],
+    "data": [
+        "views/res_company_view.xml",
+    ],
 }
