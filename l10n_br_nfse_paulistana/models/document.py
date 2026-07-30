@@ -41,6 +41,11 @@ PAULISTANA_BINDINGS = {
     "v03": {"module": lote_rps_v03, "versao": 2},
 }
 
+# Schema types with fractionDigits=4. The remaining decimals are monetary
+# (tpValor, fractionDigits=2); rounding a rate to 2 places would corrupt the
+# value (e.g. 0.029 -> 0.03).
+DECIMAL_4_TYPES = ("tpAliquota", "tpPercentualCargaTributaria")
+
 
 def filter_oca_nfse(record):
     if record.processador_edoc == PROCESSADOR_OCA and record.document_type_id.code in [
@@ -83,19 +88,14 @@ class Document(models.Model):
                 # ['tpAliquota', 'xs:decimal']; the first item is the named
                 # type, which is what defines fractionDigits.
                 data_type = getattr(field, "data_type", None)
-                if isinstance(data_type, (list, tuple)) and data_type:
+                if isinstance(data_type, list | tuple) and data_type:
                     restriction_type = data_type[0]
                 break
 
         if value_type in ("int", "long", "byte", "nonNegativeInteger"):
             return int(value)
         elif value_type == "decimal":
-            # tpValor tem fractionDigits=2 (valores monetários), mas tpAliquota
-            # e tpPercentualCargaTributaria têm fractionDigits=4: arredondar
-            # para 2 casas corromperia o valor (ex.: 0.029 -> 0.03).
-            decimals = (
-                4 if restriction_type in ("tpAliquota", "tpPercentualCargaTributaria") else 2
-            )
+            decimals = 4 if restriction_type in DECIMAL_4_TYPES else 2
             return round(float(value), decimals)
         elif value_type == "string":
             return str(value)
@@ -243,7 +243,7 @@ class Document(models.Model):
                 dados_tomador["inscricao_municipal"],
             )
             if dados_tomador["codigo_municipio"]
-            == int("%s" % (self.company_id.partner_id.city_id.ibge_code))
+            == int(self.company_id.partner_id.city_id.ibge_code)
             else None,
             InscricaoEstadualTomador=self.convert_type_nfselib(
                 tpRPS, "InscricaoEstadualTomador", dados_tomador["inscricao_estadual"]
@@ -279,7 +279,7 @@ class Document(models.Model):
                 unidecode(
                     dados_servico["discriminacao"]
                     + (
-                        "|%s|" % self.fiscal_additional_data.replace("\n", "|")
+                        "|{}|".format(self.fiscal_additional_data.replace("\n", "|"))
                         if self.fiscal_additional_data
                         else ""
                     )
@@ -484,12 +484,12 @@ class Document(models.Model):
         assinatura += self._map_taxation_rps(dados_lote_rps["natureza_operacao"])
         assinatura += "N"  # Corrigir - Verificar status do RPS
         assinatura += "S" if dados_servico["iss_retido"] == "1" else "N"
-        assinatura += (
-            ("%.2f" % dados_servico["valor_servicos"]).replace(".", "").zfill(15)
+        assinatura += f"{dados_servico['valor_servicos']:.2f}".replace(".", "").zfill(
+            15
         )
-        assinatura += (
-            ("%.2f" % dados_lote_rps["carga_tributaria"]).replace(".", "").zfill(15)
-        )
+        assinatura += f"{dados_lote_rps['carga_tributaria']:.2f}".replace(
+            ".", ""
+        ).zfill(15)
         assinatura += dados_servico["codigo_tributacao_municipio"].zfill(5)
         assinatura += "2" if dados_tomador["cnpj"] else "1"
         assinatura += (dados_tomador["cnpj"] or dados_tomador["cpf"]).zfill(14)

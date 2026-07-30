@@ -57,10 +57,10 @@ class TestFiscalDocumentNFSePaulistana(TestFiscalDocumentNFSeCommon):
             self.cr.dbname,
             self.nfse_same_state.send_file_id.store_fname,
         )
-        _logger.info("XML file saved at %s" % (output,))
+        _logger.info("XML file saved at %s", output)
 
         diff = main.diff_files(xml_path, output)
-        _logger.info("Diff with expected XML (if any): %s" % (diff,))
+        _logger.info("Diff with expected XML (if any): %s", diff)
 
         assert len(diff) == 0
 
@@ -90,9 +90,7 @@ class TestFiscalDocumentNFSePaulistana(TestFiscalDocumentNFSeCommon):
 
         self.nfse_same_state.action_document_confirm()
 
-        serialized = self.nfse_same_state.serialize_nfse_paulistana(
-            nfse_version="v03"
-        )
+        serialized = self.nfse_same_state.serialize_nfse_paulistana(nfse_version="v03")
         self.assertEqual(
             type(serialized).__module__, "nfselib.paulistana.v03.PedidoEnvioLoteRPS"
         )
