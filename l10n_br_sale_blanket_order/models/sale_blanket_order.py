@@ -1,0 +1,103 @@
+# Copyright 2023 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+
+from odoo import api, fields, models
+
+
+class SaleBlanketOrder(models.Model):
+    _name = "sale.blanket.order"
+    _inherit = [_name, "l10n_br_fiscal.document.mixin"]
+
+    @api.model
+    def _default_fiscal_operation(self):
+        return self.env.company.sale_fiscal_operation_id
+
+    @api.model
+    def _default_copy_note(self):
+        return self.env.company.copy_note
+
+    @api.model
+    def _fiscal_operation_domain(self):
+        domain = [("state", "=", "approved")]
+        return domain
+
+    fiscal_operation_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.operation",
+        readonly=True,
+        default=_default_fiscal_operation,
+        domain=lambda self: self._fiscal_operation_domain(),
+    )
+
+    ind_pres = fields.Selection(
+        readonly=True,
+    )
+
+    copy_note = fields.Boolean(
+        string="Copy Sale note on invoice",
+        default=_default_copy_note,
+    )
+
+    cnpj_cpf = fields.Char(
+        string="CNPJ/CPF",
+        related="partner_id.vat",
+    )
+
+    legal_name = fields.Char(
+        string="Legal Name",
+        related="partner_id.legal_name",
+    )
+
+    l10n_br_ie_code = fields.Char(
+        string="State Tax Number/RG",
+        related="partner_id.l10n_br_ie_code",
+    )
+
+    comment_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.comment",
+        relation="sale_blanket_order_comment_rel",
+        column1="sale_blanket_order_id",
+        column2="comment_id",
+        string="Comments",
+    )
+
+    operation_name = fields.Char(
+        copy=False,
+    )
+
+    @api.model
+    def _get_fiscal_lines_field_name(self):
+        return "line_ids"
+
+    def _get_amount_lines(self):
+        """Get object lines instaces used to compute fields"""
+        return self.mapped("line_ids")
+
+    @api.depends("line_ids")
+    def _compute_amount(self):
+        return super()._compute_amount_all()
+
+    @api.depends("line_ids.price_total")
+    def _amount_all(self):
+        """Compute the total amounts of the Sale Blanket Order"""
+        for order in self:
+            order._compute_amount()
+
+    @api.model
+    def _get_view(self, view_id=None, view_type="form", **options):
+        arch, view = super()._get_view(view_id, view_type, **options)
+        if self.env.company.country_id.code != "BR":
+            return arch, view
+        if view_type == "form" and self.env.company.country_id.code == "BR":
+            arch = self.env["sale.blanket.order.line"].inject_fiscal_fields(arch)
+        if view_type == "form" and (
+            self.user_has_groups("l10n_br_sale.group_line_fiscal_detail")
+            or self.env.context.get("force_line_fiscal_detail_edition")
+        ):
+            for sub_tree_node in arch.xpath("//field[@name='line_ids']/tree"):
+                sub_tree_node.attrib["editable"] = ""
+
+        return arch, view
+
+    @api.onchange("fiscal_operation_id")
+    def _onchange_fiscal_operation_id(self):
+        self.fiscal_position_id = self.fiscal_operation_id.fiscal_position_id
