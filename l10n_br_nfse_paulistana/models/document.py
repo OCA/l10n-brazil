@@ -359,7 +359,12 @@ class Document(models.Model):
                             continue
 
                         if processo.webservice in ENVIO_LOTE_RPS:
-                            if retorno:
+                            # An Element with no children is falsy: with
+                            # "if retorno" the whole handling (including the
+                            # error one, which builds edoc_error_message) was
+                            # silently skipped when the root came with no
+                            # child elements.
+                            if retorno is not None:
                                 if processo.resposta.Cabecalho.Sucesso:
                                     record._change_state(SITUACAO_EDOC_AUTORIZADA)
                                     vals["status_name"] = _("Procesado com Sucesso")
@@ -390,10 +395,10 @@ class Document(models.Model):
                 numero_rps=record.rps_number,
                 serie_rps=record.document_serie,
                 insc_prest=misc.punctuation_rm(
-                    record.company_id.partner_id.inscr_mun or ""
+                    record.company_id.partner_id.l10n_br_im_code or ""
                 )
                 or None,
-                cnpj_prest=misc.punctuation_rm(record.company_id.partner_id.cnpj_cpf),
+                cnpj_prest=misc.punctuation_rm(record.company_id.partner_id.vat),
             )
 
             consulta = processador.analisa_retorno_consulta(processo)
@@ -430,6 +435,7 @@ class Document(models.Model):
                 "codigo_verificacao": record.verify_code,
             }
 
+        status = True
         for record in self.filtered(filter_oca_nfse).filtered(filter_paulistana):
             processador = record._processador_erpbrasil_nfse()
             processo = processador.cancela_documento(doc_numero=doc_dict(record))
@@ -451,8 +457,15 @@ class Document(models.Model):
                 document_id=record,
             )
 
-            return status
+        return status
 
     def _exec_before_SITUACAO_EDOC_CANCELADA(self, old_state, new_state):
-        super()._exec_before_SITUACAO_EDOC_CANCELADA(old_state, new_state)
+        result = super()._exec_before_SITUACAO_EDOC_CANCELADA(old_state, new_state)
+        # The return value of this hook decides, in the l10n_br_fiscal_edi
+        # _change_state, whether the state transition happens. Returning the
+        # super() result when the document is not a Paulistana one keeps merely
+        # installing this module from making the cancellation of
+        # NF-e/CT-e/MDF-e fail silently.
+        if not self.filtered(filter_oca_nfse).filtered(filter_paulistana):
+            return result
         return self.cancel_document_paulistana()
