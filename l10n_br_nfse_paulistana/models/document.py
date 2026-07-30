@@ -52,15 +52,28 @@ class Document(models.Model):
             return value
 
         value_type = ""
+        restriction_type = ""
         for field in class_object().member_data_items_:
             if field.name == object_filed:
                 value_type = field.child_attrs.get("type", "").replace("xs:", "")
+                # data_type is the schema restriction chain, e.g.
+                # ['tpAliquota', 'xs:decimal']; the first item is the named
+                # type, which is what defines fractionDigits.
+                data_type = getattr(field, "data_type", None)
+                if isinstance(data_type, (list, tuple)) and data_type:
+                    restriction_type = data_type[0]
                 break
 
         if value_type in ("int", "long", "byte", "nonNegativeInteger"):
             return int(value)
         elif value_type == "decimal":
-            return round(float(value), 2)
+            # tpValor tem fractionDigits=2 (valores monetários), mas tpAliquota
+            # e tpPercentualCargaTributaria têm fractionDigits=4: arredondar
+            # para 2 casas corromperia o valor (ex.: 0.029 -> 0.03).
+            decimals = (
+                4 if restriction_type in ("tpAliquota", "tpPercentualCargaTributaria") else 2
+            )
+            return round(float(value), decimals)
         elif value_type == "string":
             return str(value)
         else:
@@ -223,8 +236,13 @@ class Document(models.Model):
                 "ValorCargaTributaria",
                 dados_lote_rps["carga_tributaria_estimada"],
             ),
+            PercentualCargaTributaria=self.convert_type_nfselib(
+                tpRPS,
+                "PercentualCargaTributaria",
+                self._percentual_carga_tributaria(dados_lote_rps, dados_servico),
+            ),
             FonteCargaTributaria=self.convert_type_nfselib(
-                tpRPS, "FonteCargaTributaria", "IBPT"
+                tpRPS, "FonteCargaTributaria", self._fonte_carga_tributaria()
             ),
             MunicipioPrestacao=self.convert_type_nfselib(
                 CabecalhoType,
@@ -235,6 +253,45 @@ class Document(models.Model):
                 ),
             ),
         )
+
+    def _percentual_carga_tributaria(self, dados_lote_rps, dados_servico):
+        """Percentage (fraction) of the IBPT estimated tax burden.
+
+        Derived from the estimated value / service value ratio so that it is
+        always consistent with the ValorCargaTributaria that is sent (e.g.
+        183.12 / 8758.72 -> 0.0209). The tpPercentualCargaTributaria type
+        accepts 4 decimal places.
+        """
+        valor = float(dados_servico.get("valor_servicos") or 0)
+        if not valor:
+            return 0.0
+        carga = float(dados_lote_rps.get("carga_tributaria_estimada") or 0)
+        return carga / valor
+
+    def _fonte_carga_tributaria(self):
+        """Source/version of the estimated tax burden (e.g. 'IBPT26.1.L').
+
+        Derived from the `version` field of the latest IBPT record
+        (l10n_br_fiscal.tax.estimate) for the NBS + company - the same origin
+        as the estimated value -, which only carries the version ('26.1.L'); we
+        prefix it with 'IBPT' to build the source São Paulo expects. Falls back
+        to 'IBPT' when there is no version. Limited to 10 characters
+        (tpFonteCargaTributaria).
+        """
+        fonte = "IBPT"
+        nbs = self.fiscal_line_ids[:1].nbs_id
+        if nbs:
+            estimate = self.env["l10n_br_fiscal.tax.estimate"].search(
+                [
+                    ("nbs_id", "=", nbs.id),
+                    ("company_id", "=", self.company_id.id),
+                ],
+                order="create_date DESC",
+                limit=1,
+            )
+            if estimate.version:
+                fonte = "IBPT" + estimate.version
+        return fonte[:10]
 
     def _serialize_rps(self, dados):
         return tpRPS(
