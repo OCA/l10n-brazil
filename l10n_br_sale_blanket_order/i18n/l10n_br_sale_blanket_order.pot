@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -149,14 +149,6 @@ msgstr ""
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__cfop_destination
 msgid "CFOP Destination"
-msgstr ""
-
-#. module: l10n_br_sale_blanket_order
-#: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order_line__partner_cfop_id
-msgid ""
-"CFOP as declared by the counterparty in the imported document. It is "
-"preserved as-is for fiscal bookkeeping / SPED (e.g. C197), while cfop_id "
-"reflects the company's own operation after the de-para."
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
@@ -1379,11 +1371,6 @@ msgid "Partner"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__partner_cfop_id
-msgid "Partner CFOP"
-msgstr ""
-
-#. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__partner_order
 msgid "Partner Order (xPed)"
 msgstr ""
@@ -1719,4 +1706,9 @@ msgstr ""
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__ipi_devol_value
 msgid "Valor do IPI devolvido"
+msgstr ""
+
+#. module: l10n_br_sale_blanket_order
+#: model:product.pricelist,name:l10n_br_sale_blanket_order.sale_blanket_order_pricelist_demo
+msgid "l10n_br_sale_blanket_order demo pricelist"
 msgstr ""
