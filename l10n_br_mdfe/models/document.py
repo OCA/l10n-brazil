@@ -760,6 +760,20 @@ class MDFe(spec_models.StackedModel):
         comodel_name="l10n_br_fiscal.document.supplement",
     )
 
+    ##########################
+    # Other fields
+    ##########################
+
+    closure_event_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.event",
+        string="Closure Event",
+        copy=False,
+    )
+
+    closure_state_id = fields.Many2one(comodel_name="res.country.state")
+
+    closure_city_id = fields.Many2one(comodel_name="res.city")
+
     ################################
     # Framework Spec model's methods
     ################################
@@ -1056,6 +1070,67 @@ class MDFe(spec_models.StackedModel):
         erros = Mdfe.schema_validation(xml_file)
         erros = "\n".join(erros)
         self.write({"xml_error_message": erros or False})
+    def _document_closure(self):
+        self.ensure_one()
+        processador = self._edoc_processor()
+
+        if not self.authorization_protocol:
+            raise UserError(_("Authorization Protocol Not Found!"))
+
+        processo = processador.encerra_documento(
+            chave=self.document_key,
+            protocolo_autorizacao=self.authorization_protocol,
+            estado=self.closure_state_id.ibge_code,
+            municipio=self.closure_city_id.ibge_code,
+        )
+
+        self.closure_event_id = self.event_ids.create_event_save_xml(
+            company_id=self.company_id,
+            environment=(
+                EVENT_ENV_PROD if self.mdfe_environment == "1" else EVENT_ENV_HML
+            ),
+            event_type="15",
+            xml_file=etree.tostring(
+                processo.envio_xml, pretty_print=True, encoding="utf-8"
+            ).decode("utf-8"),
+            document_id=self,
+        )
+
+        infEvento = processo.resposta.infEvento
+        if infEvento.cStat not in ENCERRADO:
+            mensagem = "Erro no encerramento"
+            mensagem += "\nCódigo: " + infEvento.cStat
+            mensagem += "\nMotivo: " + infEvento.xMotivo
+            raise UserError(mensagem)
+
+        self.state_edoc = SITUACAO_EDOC_ENCERRADA
+        self.closure_event_id.set_done(
+            status_code=infEvento.cStat,
+            response=infEvento.xMotivo,
+            protocol_date=fields.Datetime.to_string(
+                datetime.fromisoformat(infEvento.dhRegEvento)
+            ),
+            protocol_number=infEvento.nProt,
+            file_response_xml=processo.retorno.content.decode("utf-8"),
+        )
+
+    def action_document_closure(self):
+        self.ensure_one()
+
+        if self.document_type_id.code not in [MODELO_FISCAL_MDFE]:
+            raise ValidationError(
+                _(
+                    "The selected document type is not valid for this operation. "
+                    "Please verify your input and try again."
+                )
+            )
+        if self.state_edoc != SITUACAO_EDOC_AUTORIZADA:
+            raise UserError(_("You cannot close the document if it's not authorized."))
+
+        return self.env["ir.actions.act_window"]._for_xml_id(
+            "l10n_br_mdfe.document_closure_wizard_action"
+        )
+
 
     def make_pdf(self):
         if not self.filtered(filtered_processador_edoc_mdfe):
