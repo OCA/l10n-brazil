@@ -2,33 +2,35 @@
 <!-- Copyright 2023 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
-<record id="inherit_sale_blanket_order_line_form_fiscal_tabs" model="ir.ui.view">
-    <field name="name">sale.blanket.order.line.form.fiscal.inherit</field>
-    <field name="model">sale.blanket.order.line</field>
-    <field name="inherit_id" ref="sale_blanket_order.sale_blanket_order_line_form" />
-    <field name="priority">99</field>
-    <field name="arch" type="xml">
-        <xpath expr="//h1" position="replace">
-        </xpath>
-        <xpath expr="//field[@name='product_id']" position="attributes">
-            <attribute name="readonly">0</attribute>
-        </xpath>
+    <record id="inherit_sale_blanket_order_line_form_fiscal_tabs" model="ir.ui.view">
+        <field name="name">sale.blanket.order.line.form.fiscal.inherit</field>
+        <field name="model">sale.blanket.order.line</field>
+        <field
+            name="inherit_id"
+            ref="sale_blanket_order.sale_blanket_order_line_form"
+        />
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <xpath expr="//h1" position="replace" />
+            <xpath expr="//field[@name='product_id']" position="attributes">
+                <attribute name="readonly">0</attribute>
+            </xpath>
 
-        <xpath expr="//field[@name='price_unit']" position="attributes">
-            <attribute name="readonly">0</attribute>
-        </xpath>
+            <xpath expr="//field[@name='price_unit']" position="attributes">
+                <attribute name="readonly">0</attribute>
+            </xpath>
 
-        <xpath expr="//field[@name='date_schedule']" position="attributes">
-            <attribute name="readonly">0</attribute>
-        </xpath>
+            <xpath expr="//field[@name='date_schedule']" position="attributes">
+                <attribute name="readonly">0</attribute>
+            </xpath>
 
-        <xpath expr="//field[@name='partner_id']" position="attributes">
-            <attribute name="invisible">1</attribute>
-        </xpath>
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
 
-        <xpath expr="//field[@name='company_id']" position="attributes">
-            <attribute name="invisible">1</attribute>
-        </xpath>
+            <xpath expr="//field[@name='company_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
 
             <xpath expr="//field[@name='product_id']/.." position="after">
                 <group name="fiscal_fields" invisible="1">
@@ -86,33 +88,33 @@
                 />
             </xpath>
 
-        <xpath expr="//page[@name='sale_lines']" position="before">
-            <field name="country_id" invisible="1" />
-            <field name="product_uom" invisible="1" force_save="1" />
-            <page name="fiscal_taxes" string="Taxes" />
+            <xpath expr="//page[@name='sale_lines']" position="before">
+                <field name="country_id" invisible="1" />
+                <field name="product_uom" invisible="1" force_save="1" />
+                <page name="fiscal_taxes" string="Taxes" />
 
-            <page name="amounts" string="Amounts">
-                <group>
+                <page name="amounts" string="Amounts">
                     <group>
-                        <field name="fiscal_amount_untaxed" />
-                        <field name="amount_fiscal" />
-                        <field name="fiscal_amount_tax" />
-                        <field name="estimate_tax" readonly="1" />
+                        <group>
+                            <field name="fiscal_amount_untaxed" />
+                            <field name="amount_fiscal" />
+                            <field name="fiscal_amount_tax" />
+                            <field name="estimate_tax" readonly="1" />
+                        </group>
+                        <group>
+                            <field name="fiscal_amount_total" />
+                            <field name="amount_tax_withholding" readonly="1" />
+                            <field name="amount_taxed" />
+                        </group>
                     </group>
+                </page>
+
+                <page name="fiscal_line_extra_info" string="Extra Info" />
+
+                <page name="accounting" string="Accounting">
                     <group>
-                        <field name="fiscal_amount_total" />
-                        <field name="amount_tax_withholding" readonly="1" />
-                        <field name="amount_taxed" />
-                    </group>
-                </group>
-            </page>
-
-            <page name="fiscal_line_extra_info" string="Extra Info" />
-
-            <page name="accounting" string="Accounting">
-                <group>
-                    <field name="invoiced_uom_qty" invisible="1" />
-                    <field
+                        <field name="invoiced_uom_qty" invisible="1" />
+                        <field
                             name="taxes_id"
                             widget="many2many_tags"
                             options="{'no_create': True}"
@@ -120,9 +122,9 @@
                             domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]"
                             readonly="invoiced_uom_qty &gt; 0"
                         />
-                </group>
-            </page>
-        </xpath>
-    </field>
-</record>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
 </odoo>
