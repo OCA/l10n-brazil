@@ -97,12 +97,34 @@
                     attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
                 />
             </xpath>
+
+            <xpath expr="//page[@name='others']" position="inside">
+                 <separator
+                    colspan="4"
+                    string="Authorized to Download XML"
+                    attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
+                />
+                <field
+                    name="mdfe30_autXML"
+                    widget="many2many"
+                    attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
+                />
+            </xpath>
             <xpath expr="//field[@name='document_serie_id']" position="attributes">
                 <attribute name="readonly">0</attribute>
             </xpath>
         </field>
     </record>
 
+    <record id="document_related_tree_inherit" model="ir.ui.view">
+        <field name="name">l10n_br_mdfe.document.related.tree.inherit</field>
+        <field name="model">l10n_br_fiscal.document.related</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_related_tree" />
+        <field name="arch" type="xml">
+            <field name="document_number" position="after">
+                <field name="partner_name" string="Partner" optional="show" />
+                <field name="partner_city_id" string="City" optional="show" />
+            </field>
         </field>
     </record>
 
@@ -117,44 +139,21 @@
                     string="Related Documents"
                     attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
                 >
-                    <field name="mdfe30_infMunDescarga" nolabel="1">
-                        <tree>
-                            <field name="state_id" />
-                            <field name="city_id" />
-                            <field name="document_type" />
-                        </tree>
-                        <form>
-                            <sheet>
-                                <group>
-                                    <field name="state_id" />
-                                    <field name="city_id" />
-                                    <field name="document_type" />
-                                </group>
-                                <notebook>
-                                    <page string="Documents">
-                                        <field
-                                            name="nfe_ids"
-                                            nolabel="1"
-                                            attrs="{'invisible': [('document_type', '!=', 'nfe')]}"
-                                            domain="[('document_type_code', '=', '55')]"
-                                        />
-                                        <field
-                                            name="cte_ids"
-                                            nolabel="1"
-                                            attrs="{'invisible': [('document_type', '!=', 'cte')]}"
-                                            domain="[('document_type_code', '=', '59')]"
-                                        />
-                                        <field
-                                            name="mdfe_ids"
-                                            nolabel="1"
-                                            attrs="{'invisible': [('document_type', '!=', 'mdfe')]}"
-                                            domain="[('document_type_code', '=', '58')]"
-                                        />
-                                    </page>
-                                </notebook>
-                            </sheet>
-                        </form>
-                    </field>
+                    <group>
+                        <field
+                            name="mdfe_document_ids"
+                            widget="many2many"
+                            options="{'no_create': True}"
+                        >
+                            <tree>
+                                <field name="document_number" string="Number" />
+                                <field name="document_serie" string="Serie" />
+                                <field name="document_key" string="Key" />
+                                <field name="partner_city_id" string="City" />
+                                <field name="document_type" string="Type" />
+                            </tree>
+                        </field>
+                    </group>
                 </page>
                 <page
                     string="Modal"

@@ -7,7 +7,6 @@ import pkg_resources
 from nfelib.mdfe.bindings.v3_0.mdfe_tipos_basico_v3_00 import Tmdfe
 
 from odoo import SUPERUSER_ID, api
-from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -33,5 +32,5 @@ def post_init_hook(cr, registry):
             env["l10n_br_fiscal.document"].import_binding_mdfe(
                 binding, edoc_type="in", dry_run=False
             )
-        except ValidationError:
-            _logger.info(f"MDF-e already {document_number} imported by hooks")
+        except Exception as e:
+            _logger.info(f"MDF-e {document_number} import by hooks ignored: {e}")

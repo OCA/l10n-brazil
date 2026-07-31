@@ -45,6 +45,11 @@ class MDFeMunicipioDescarga(spec_models.SpecModel):
         required=True,
     )
 
+    country_id = fields.Many2one(
+        comodel_name="res.country",
+        string="Country",
+    )
+
     nfe_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.document.related",
         relation="mdfe_related_nfe_carregamento_rel",
@@ -83,7 +88,15 @@ class MDFeMunicipioDescarga(spec_models.SpecModel):
                     for mdfe in record.mdfe_ids
                 ]
 
-    @api.depends("city_id")
+    @api.depends("city_id.state_id")
     def _compute_state_id(self):
         for record in self:
-            record.state_id = record.city_id.state_id if record.city_id else False
+            record.state_id = record.city_id.state_id
+
+    @api.onchange("nfe_ids", "cte_ids", "mdfe_ids")
+    def _onchange_document_ids(self):
+        docs = self.nfe_ids or self.cte_ids or self.mdfe_ids
+        if docs and not self.city_id:
+            partner = docs[0].document_related_id.partner_id
+            if partner and partner.city_id:
+                self.city_id = partner.city_id

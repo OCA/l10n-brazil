@@ -677,6 +677,29 @@ class MDFe(spec_models.StackedModel):
         comodel_name="l10n_br_mdfe.municipio.descarga", inverse_name="document_id"
     )
 
+    mdfe_document_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.document",
+        relation="mdfe_m2m_document_rel",
+        column1="mdfe_document_id",
+        column2="related_document_id",
+        string="Related Documents",
+    )
+
+    mdfe_nfe_ids = fields.Many2many(
+        related="mdfe_document_ids",
+        string="Related Documents (legacy)",
+    )
+
+    mdfe_cte_ids = fields.Many2many(
+        related="mdfe_document_ids",
+        string="Related Documents (legacy)",
+    )
+
+    mdfe_mdfe_ids = fields.Many2many(
+        related="mdfe_document_ids",
+        string="Related Documents (legacy)",
+    )
+
     ##########################
     # MDF-e tag: infRespTec
     ##########################
@@ -769,6 +792,92 @@ class MDFe(spec_models.StackedModel):
     )
 
     mdfe30_cUnid = fields.Selection(default="01")
+
+    partner_city_id = fields.Many2one(
+        comodel_name="res.city",
+        string="Partner City",
+        compute="_compute_partner_city_id",
+        store=True,
+    )
+
+    @api.depends("partner_id.city_id")
+    def _compute_partner_city_id(self):
+        for record in self:
+            record.partner_city_id = record.partner_id.city_id
+
+    @api.model
+    def create(self, vals):
+        rec = super().create(vals)
+        if any(f in vals for f in ["mdfe_document_ids"]):
+            rec._sync_mdfe_documents()
+        return rec
+
+    def write(self, vals):
+        res = super().write(vals)
+        if "mdfe_document_ids" in vals:
+            self._sync_mdfe_documents()
+        return res
+
+    def _sync_mdfe_documents(self):
+        doc_type_map = {"55": "nfe", "59": "cte", "58": "mdfe"}
+        for record in self.filtered(filtered_processador_edoc_mdfe):
+            all_cities = {}
+            for doc in record.mdfe_document_ids:
+                doc_type = doc_type_map.get(doc.document_type, "nfe")
+                partner = doc.partner_id
+                city = partner.city_id if partner else False
+                city_key = (city.id, doc_type) if city else (0, doc_type)
+                if city_key not in all_cities:
+                    all_cities[city_key] = {"city": city, "type": doc_type, "docs": []}
+                all_cities[city_key]["docs"].append(doc)
+
+            unlink_ids = record.mdfe30_infMunDescarga.ids
+            doc_rel_model = self.env["l10n_br_fiscal.document.related"]
+            for (city_id, doc_type), info in all_cities.items():
+                existing = record.mdfe30_infMunDescarga.filtered(
+                    lambda r, c=city_id, t=doc_type: (
+                        r.city_id.id == c if c else not r.city_id
+                    )
+                    and r.document_type == t
+                )
+                if existing:
+                    munic = existing[0]
+                    if munic.id in unlink_ids:
+                        unlink_ids.remove(munic.id)
+                else:
+                    munic = record.mdfe30_infMunDescarga.create(
+                        {
+                            "document_id": record.id,
+                            "city_id": city_id or False,
+                            "document_type": doc_type,
+                        }
+                    )
+
+                related_ids = []
+                for doc in info["docs"]:
+                    related = doc_rel_model.search(
+                        [
+                            ("document_related_id", "=", doc.id),
+                        ],
+                        limit=1,
+                    )
+                    if not related:
+                        related = doc_rel_model.create(
+                            {
+                                "document_related_id": doc.id,
+                                "document_type_id": doc.document_type_id.id,
+                                "document_key": doc.document_key,
+                                "document_serie": doc.document_serie,
+                                "document_number": doc.document_number,
+                                "document_total_amount": doc.fiscal_amount_total,
+                                "document_total_weight": doc.total_weight,
+                            }
+                        )
+                    related_ids.append(related.id)
+                munic.write({f"{doc_type}_ids": [(6, 0, related_ids)]})
+
+            if unlink_ids:
+                record.mdfe30_infMunDescarga.browse(unlink_ids).unlink()
 
     ##########################
     # MDF-e tag: tot
