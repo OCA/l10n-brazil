@@ -15,6 +15,7 @@ from . import product_product
 from . import document_supplement
 from . import document_type
 from . import vehicle
+from . import operation
 
 spec_schema = "mdfe"
 spec_version = "30"

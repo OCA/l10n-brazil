@@ -20,6 +20,7 @@
     "data": [
         # Data
         "data/ir_config_parameter.xml",
+        "data/mdfe_data.xml",
         # Security
         "security/ir.model.access.csv",
         # Views

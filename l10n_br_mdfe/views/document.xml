@@ -97,6 +97,12 @@
                     attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
                 />
             </xpath>
+            <xpath expr="//field[@name='document_serie_id']" position="attributes">
+                <attribute name="readonly">0</attribute>
+            </xpath>
+        </field>
+    </record>
+
         </field>
     </record>
 

@@ -339,12 +339,21 @@ class MDFe(spec_models.StackedModel):
                 record.mdfe_loading_city_ids = [Command.set(city_ids.ids)]
 
     def _inverse_mdfe30_initial_final_state(self):
+        country_id = self.env["res.country"].search([("code", "=", "BR")])
         for record in self:
             initial_state_id = self.env["res.country.state"].search(
-                [("code", "=", record.mdfe30_UFIni)], limit=1
+                [
+                    ("code", "=", record.mdfe30_UFIni),
+                    ("country_id", "=", country_id.id),
+                ],
+                limit=1,
             )
             final_state_id = self.env["res.country.state"].search(
-                [("code", "=", record.mdfe30_UFFim)], limit=1
+                [
+                    ("code", "=", record.mdfe30_UFFim),
+                    ("country_id", "=", country_id.id),
+                ],
+                limit=1,
             )
 
             if initial_state_id:
@@ -354,9 +363,11 @@ class MDFe(spec_models.StackedModel):
                 record.mdfe_final_state_id = final_state_id
 
     def _inverse_mdfe30_uf(self):
+        country_id = self.env["res.country"].search([("code", "=", "BR")])
         for record in self:
             state_id = self.env["res.country.state"].search(
-                [("code", "=", record.mdfe30_cUF)], limit=1
+                [("code", "=", record.mdfe30_cUF), ("country_id", "=", country_id.id)],
+                limit=1,
             )
             if state_id:
                 record.company_id.partner_id.state_id = state_id
@@ -365,6 +376,8 @@ class MDFe(spec_models.StackedModel):
     def _compute_mdfe30_inf_percurso(self):
         for record in self:
             record.mdfe30_infPercurso = [Command.clear()]
+            origin = record.mdfe_initial_state_id
+            destination = record.mdfe_final_state_id
             record.mdfe30_infPercurso = [
                 Command.create(
                     {
@@ -372,6 +385,7 @@ class MDFe(spec_models.StackedModel):
                     },
                 )
                 for state in record.mdfe_route_state_ids
+                if state != origin and state != destination
             ]
 
     ##########################
@@ -810,13 +824,46 @@ class MDFe(spec_models.StackedModel):
     ################################
 
     @api.model
-    def _prepare_import_dict(
-        self, values, model=None, parent_dict=None, defaults_model=None
-    ):
-        return {
-            **super()._prepare_import_dict(values, model, parent_dict, defaults_model),
-            "imported_document": True,
-        }
+    def default_get(self, fields):
+        res = super().default_get(fields)
+        doc_type_id = res.get("document_type_id") or self._context.get(
+            "default_document_type_id"
+        )
+        if doc_type_id:
+            doc_type = self.env["l10n_br_fiscal.document.type"].browse(doc_type_id)
+            if doc_type.code == MODELO_FISCAL_MDFE:
+                company = self.env.company
+                if not res.get("company_id"):
+                    res["company_id"] = company.id
+                if not res.get("user_id"):
+                    res["user_id"] = self.env.user.id
+                if company.partner_id.state_id and not res.get("mdfe_initial_state_id"):
+                    res["mdfe_initial_state_id"] = company.partner_id.state_id.id
+                if not res.get("mdfe_vehicle_id"):
+                    first_vehicle = self.env["l10n_br_mdfe.vehicle"].search(
+                        [
+                            ("partner_id", "child_of", company.partner_id.id),
+                            ("active", "=", True),
+                        ],
+                        limit=1,
+                    )
+                    if first_vehicle:
+                        res["mdfe_vehicle_id"] = first_vehicle.id
+                if not res.get("document_serie_id"):
+                    serie = doc_type.get_document_serie(company, None)
+                    if serie:
+                        res["document_serie_id"] = serie.id
+                if not res.get("partner_id"):
+                    if company.partner_id:
+                        res["partner_id"] = company.partner_id.id
+                if "mdfe_loading_city_ids" in fields and not res.get(
+                    "mdfe_loading_city_ids"
+                ):
+                    if company.city_id:
+                        res["mdfe_loading_city_ids"] = [
+                            Command.set([company.city_id.id])
+                        ]
+        return res
 
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
         if field_name == "mdfe30_prodPred":
