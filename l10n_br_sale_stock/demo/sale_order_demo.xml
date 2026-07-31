@@ -15,7 +15,7 @@
         />
     </record>
 
-    <!-- Main Company Simples Nacional -->
+    <!-- Empresa Simples Nacional -->
     <record id="main_company-sale_order_1" model="sale.order">
         <field
             name="name"
@@ -32,7 +32,7 @@
         <!-- Necessario para corrigir o campo ind_final, por padrão vem com o
          valor Sim, o que está errado, porque deve ser Não -->
         <field name="ind_final">0</field>
-        <field name="company_id" ref="base.main_company" />
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
         <field name="copy_note">True</field>
         <field name="note">TESTE - TERMOS E CONDIÇÕES 1</field>
         <field
@@ -128,7 +128,7 @@
         <!-- Necessario para corrigir o campo ind_final, por padrão vem com o
          valor Sim, o que está errado, porque deve ser Não -->
         <field name="ind_final">0</field>
-        <field name="company_id" ref="base.main_company" />
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
         <field name="copy_note">True</field>
         <field name="note">TESTE de criação de duas Notas de Serviço e Produto</field>
         <field
@@ -205,7 +205,7 @@
         <!-- Necessario para corrigir o campo ind_final, por padrão vem com o
          valor Sim, o que está errado, porque deve ser Não -->
         <field name="ind_final">0</field>
-        <field name="company_id" ref="base.main_company" />
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
         <field name="copy_note">True</field>
         <field name="note">TESTE - TERMOS E CONDIÇÕES 3</field>
         <field
@@ -300,7 +300,7 @@
         <!-- Necessario para corrigir o campo ind_final, por padrão vem com o
          valor Sim, o que está errado, porque deve ser Não -->
         <field name="ind_final">0</field>
-        <field name="company_id" ref="base.main_company" />
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
         <field name="copy_note">True</field>
         <field name="note">TESTE - TERMOS E CONDIÇÕES 4</field>
         <field
