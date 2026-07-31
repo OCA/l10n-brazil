@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="mdfe_vehicle_form_view" model="ir.ui.view">
+        <field name="name">mdfe.vehicle.form.view</field>
+        <field name="model">l10n_br_mdfe.vehicle</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" />
+                            <field name="partner_id" readonly="1" />
+                            <field name="mdfe30_placa" />
+                            <field name="mdfe30_cInt" />
+                            <field name="mdfe30_RENAVAM" />
+                            <field name="mdfe30_tpRod" />
+                            <field name="mdfe30_tpCar" />
+                        </group>
+                        <group>
+                            <field
+                                name="rodo_vehicle_state_id"
+                                domain="[('country_id.code', '=', 'BR')]"
+                            />
+                            <field name="mdfe30_tara" />
+                            <field name="mdfe30_capKG" />
+                            <field name="mdfe30_capM3" />
+                            <field name="active" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mdfe_vehicle_tree_view" model="ir.ui.view">
+        <field name="name">mdfe.vehicle.tree.view</field>
+        <field name="model">l10n_br_mdfe.vehicle</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="mdfe30_placa" />
+                <field name="mdfe30_cInt" />
+                <field name="partner_id" />
+                <field name="rodo_vehicle_state_id" />
+                <field name="active" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="mdfe_vehicle_action" model="ir.actions.act_window">
+        <field name="name">MDF-e Vehicles</field>
+        <field name="res_model">l10n_br_mdfe.vehicle</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

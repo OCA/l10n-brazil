@@ -29,6 +29,7 @@
         "views/res_company.xml",
         "views/transporte.xml",
         "views/res_partner.xml",
+        "views/vehicle_view.xml",
         "views/product_product.xml",
         "views/modal/modal_aquaviario.xml",
         "views/modal/modal_rodoviario.xml",
