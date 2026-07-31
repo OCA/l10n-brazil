@@ -75,7 +75,7 @@ class L10nBRP7ModelInventoryReportWizard(models.TransientModel):
         company = self.env.company
         header = {
             "company_name": company.name,
-            "cnpj": company.cnpj_cpf,
+            "cnpj": company.partner_id.cnpj_cpf,
             "l10n_br_ie_code": company.l10n_br_ie_code,
             "date": to_date_with_tz.strftime("%d/%m/%Y"),
         }
