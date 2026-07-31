@@ -5180,6 +5180,11 @@ msgid "If your company is industry or ......"
 msgstr "Se sua empresa é da indústria ou......"
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_line_form
+msgid "Import Declaration"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_import_wizard_form
 msgid "Import Document"
 msgstr "Documento de Importação"
