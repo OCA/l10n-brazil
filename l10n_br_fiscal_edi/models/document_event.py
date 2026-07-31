@@ -30,6 +30,7 @@ FILE_SUFIX_EVENT = {
     "12": "dist-dfe",
     "13": "man",
     "14": "cce",
+    "15": "enc-mdfe",
 }
 
 
@@ -84,6 +85,7 @@ class Event(models.Model):
             ("12", "Distribuição DFe"),
             ("13", "Manifestação"),
             ("14", "Carta de Correção"),
+            ("15", "Encerramento de MDFe"),
         ],
         string="Service",
     )
