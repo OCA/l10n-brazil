@@ -39,8 +39,10 @@ class Operation(models.Model):
         company_dependent=True,
     )
 
-    def _line_domain(self, company, partner, product):
-        domain = super()._line_domain(company=company, partner=partner, product=product)
+    def _line_domain(self, company, partner, product, ind_final=None):
+        domain = super()._line_domain(
+            company=company, partner=partner, product=product, ind_final=ind_final
+        )
 
         domain += [
             "|",
