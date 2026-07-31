@@ -6,6 +6,7 @@ from odoo.exceptions import UserError
 
 from ..constants.fiscal import (
     CFOP_DESTINATION_EXPORT,
+    FINAL_CUSTOMER,
     FISCAL_COMMENT_LINE,
     FISCAL_IN,
     NFE_IND_IE_DEST,
@@ -106,6 +107,14 @@ class OperationLine(models.Model):
     ind_ie_dest = fields.Selection(
         selection=NFE_IND_IE_DEST,
         string="ICMS Taxpayer",
+    )
+
+    ind_final = fields.Selection(
+        selection=FINAL_CUSTOMER,
+        string="Final Consumption Operation",
+        help="Restricts this operation line to documents whose final consumer "
+        "indicator matches the selected value. When empty the line applies to "
+        "any operation.",
     )
 
     product_type = fields.Selection(

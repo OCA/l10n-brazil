@@ -291,7 +291,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             return {f"default_{k}": vals[k] for k in vals.keys()}
         return vals
 
-    @api.depends("fiscal_operation_id", "partner_id", "product_id")
+    @api.depends("fiscal_operation_id", "partner_id", "product_id", "ind_final")
     def _compute_fiscal_operation_line_id(self):
         for line in self:
             if line.fiscal_operation_id:
@@ -300,6 +300,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                         company=line.company_id,
                         partner=line.partner_id,
                         product=line.product_id,
+                        ind_final=line.ind_final,
                     )
                 )
 
