@@ -90,10 +90,10 @@ class SaleBlanketOrder(models.Model):
         if view_type == "form" and self.env.company.country_id.code == "BR":
             arch = self.env["sale.blanket.order.line"].inject_fiscal_fields(arch)
         if view_type == "form" and (
-            self.user_has_groups("l10n_br_sale.group_line_fiscal_detail")
+            self.env.user.has_group("l10n_br_sale.group_line_fiscal_detail")
             or self.env.context.get("force_line_fiscal_detail_edition")
         ):
-            for sub_tree_node in arch.xpath("//field[@name='line_ids']/tree"):
+            for sub_tree_node in arch.xpath("//field[@name='line_ids']/list"):
                 sub_tree_node.attrib["editable"] = ""
 
         return arch, view

@@ -309,7 +309,7 @@ class L10nBrSaleBLanketOrderTest(TransactionCase):
                     any(
                         sub_tree.get("editable") == ""
                         for sub_tree in arch_non_br.xpath(
-                            "//field[@name='line_ids']/tree"
+                            "//field[@name='line_ids']/list"
                         )
                     ),
                     "Error: line_ids tree should not be editable for non-BR company.",
@@ -322,7 +322,7 @@ class L10nBrSaleBLanketOrderTest(TransactionCase):
                     all(
                         sub_tree.get("editable", "NOT_SET") == ""
                         for sub_tree in arch_group.xpath(
-                            "//field[@name='line_ids']/tree"
+                            "//field[@name='line_ids']/list"
                         )
                     ),
                     "Error: line_ids tree should be editable for fiscal detail group.",
@@ -335,7 +335,7 @@ class L10nBrSaleBLanketOrderTest(TransactionCase):
             self.assertTrue(
                 all(
                     sub_tree.get("editable", "NOT_SET") == ""
-                    for sub_tree in arch_ctx.xpath("//field[@name='line_ids']/tree")
+                    for sub_tree in arch_ctx.xpath("//field[@name='line_ids']/list")
                 ),
                 "Error: line_ids tree editable with force_line_fiscal_detail_edition.",
             )

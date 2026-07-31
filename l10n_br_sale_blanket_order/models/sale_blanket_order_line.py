@@ -64,7 +64,10 @@ class SaleBlanketOrderLine(models.Model):
 
     # Add Fields in model sale.blanket.order.line
     price_gross = fields.Monetary(
-        compute="_compute_amount", string="Gross Amount", compute_sudo=True
+        compute="_compute_amount",
+        string="Gross Amount",
+        compute_sudo=True,
+        store=True,
     )
 
     comment_ids = fields.Many2many(
