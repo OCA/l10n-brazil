@@ -1,12 +1,12 @@
 # Copyright (C) 2023 KMEE Informatica LTDA
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 
+import gzip
 import logging
 import re
+from io import BytesIO
 
-from erpbrasil.transmissao import TransmissaoSOAP
-from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
-from requests import Session
+from nfelib.nfe.client.v4_0.dfe import DfeClient
 
 from odoo import _, api, fields, models
 
@@ -53,14 +53,13 @@ class DFe(models.Model):
 
     @api.model
     def _get_processor(self):
-        certificado = self.env.company._get_br_ecertificate()
-        session = Session()
-        session.verify = False
-        return edoc_nfe(
-            TransmissaoSOAP(certificado, session),
-            self.company_id.state_id.ibge_code,
-            versao=self.version,
+        return DfeClient(
             ambiente=self.environment,
+            uf=self.company_id.state_id.ibge_code,
+            pkcs12_data=self.company_id.certificate.file,
+            fake_certificate=self.company_id.certificate.file,
+            pkcs12_password=self.company_id.certificate.password,
+            wrap_response=True,
         )
 
     @api.model
@@ -123,13 +122,28 @@ class DFe(models.Model):
 
     @api.model
     def _parse_xml_document(self, document):
-        schema_type = document.schema.split("_")[0]
-        method = "parse_%s" % schema_type
-        if not hasattr(self, method):
-            return
+        """
+        Parse the content of a DocZip object returned by the nfelib client.
+        'document' is an xsdata dataclass object.
+        """
 
-        xml = utils.parse_gzip_xml(document.valueOf_)
-        return getattr(self, method)(xml)
+        # The xsdata binding for docZip has 'schema_value' and 'value' attributes.
+        schema_type = document.schema_value.split("_")[0]
+        method_name = f"parse_{schema_type}"
+
+        try:
+            # Get the parsing method (e.g., parse_procNFe from l10n_br_nfe)
+            parse_method = getattr(self, method_name)
+        except AttributeError:
+            _logger.info(
+                f"DF-e parsing method '{method_name}' not found. Skipping document."
+            )
+            return None
+
+        # The 'value' attribute contains the RAW gzipped bytes, not base64.
+        # We decompress it directly here.
+        xml_stream = gzip.GzipFile(fileobj=BytesIO(document.value))
+        return parse_method(xml_stream)
 
     @api.model
     def _download_document(self, nfe_key):

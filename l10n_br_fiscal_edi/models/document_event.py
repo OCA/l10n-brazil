@@ -5,6 +5,7 @@
 import base64
 import logging
 import os
+from datetime import datetime
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
@@ -230,6 +231,9 @@ class Event(models.Model):
         elif self.invalidate_number_id:
             ano = self.invalidate_number_id.date.strftime("%Y")
             mes = self.invalidate_number_id.date.strftime("%m")
+        else:
+            ano = str(datetime.now().year)
+            mes = datetime.now().strftime("%m")
 
         save_dir = build_edoc_path(
             ambiente=self.environment,
@@ -244,7 +248,15 @@ class Event(models.Model):
         try:
             if not os.path.exists(save_dir):
                 os.makedirs(save_dir)
-            f = open(file_path, "w")
+
+            # Always open in binary write mode
+            with open(file_path, "wb") as f:
+                if isinstance(arquivo, str):
+                    # If we receive a string, encode it to bytes before writing
+                    f.write(arquivo.encode("utf-8"))
+                else:
+                    # If it's already bytes (or None), write it directly
+                    f.write(arquivo or b"")
         except OSError as e:
             raise UserError(
                 _("Erro!"),
@@ -254,10 +266,9 @@ class Event(models.Model):
                     e o caminho da pasta"""
                 ),
             ) from e
-        else:
-            f.write(arquivo)
-            f.close()
-        return save_dir
+
+        # Ensure the correct value is returned
+        return file_path
 
     def _compute_file_name(self):
         self.ensure_one()
@@ -298,12 +309,13 @@ class Event(models.Model):
             file_path = self._save_event_2disk(file, file_name)
             self.file_path = file_path
 
+        file_bytes = file if isinstance(file, bytes) else file.encode("utf-8")
         attachment_id = self.env["ir.attachment"].create(
             {
                 "name": file_name,
                 "res_model": self._name,
                 "res_id": self.id,
-                "datas": base64.b64encode(file.encode("utf-8")),
+                "datas": base64.b64encode(file_bytes),
                 "mimetype": "application/" + file_extension,
                 "type": "binary",
             }

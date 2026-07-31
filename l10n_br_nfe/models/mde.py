@@ -2,12 +2,10 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 
 import base64
-import logging
 import re
 
-from erpbrasil.transmissao import TransmissaoSOAP
-from nfelib.nfe.ws.edoc_legacy import MDeAdapter as edoc_mde
-from requests import Session
+from nfelib.nfe.client.v4_0.mde import MdeClient
+from requests.exceptions import RequestException
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
@@ -23,8 +21,6 @@ from ..constants.mde import (
     SITUACAO_MANIFESTACAO,
     SITUACAO_NFE,
 )
-
-_logger = logging.getLogger(__name__)
 
 
 class MDe(models.Model):
@@ -118,14 +114,13 @@ class MDe(models.Model):
         ]
 
     def _get_processor(self):
-        certificado = self.env.company._get_br_ecertificate()
-        session = Session()
-        session.verify = False
-
-        return edoc_mde(
-            TransmissaoSOAP(certificado, session),
-            self.company_id.state_id.ibge_code,
-            ambiente=self.dfe_id.environment,
+        return MdeClient(
+            ambiente=self.company_id.nfe_environment,
+            uf=self.company_id.state_id.ibge_code,
+            pkcs12_data=self.company_id.certificate.file,
+            fake_certificate=self.company_id.certificate.file,
+            pkcs12_password=self.company_id.certificate.password,
+            wrap_response=True,
         )
 
     @api.model
@@ -176,18 +171,23 @@ class MDe(models.Model):
         ):
             rec.import_document()
 
-    def _send_event(self, method, valid_codes):
+    def _send_event(self, method, valid_codes, **kwargs):
         processor = self._get_processor()
         cnpj_partner = re.sub("[^0-9]", "", self.company_id.cnpj_cpf)
 
         if hasattr(processor, method):
-            result = getattr(processor, method)(self.key, cnpj_partner)
-            self.validate_event_response(result, valid_codes)
+            try:
+                result = getattr(processor, method)(self.key, cnpj_partner, **kwargs)
+                self.validate_event_response(result, valid_codes)
+            except RequestException as e:
+                raise ValidationError(
+                    _("Error communicating with SEFAZ: %s") % str(e)
+                ) from e
 
-    def action_send_event(self, operation, valid_codes, new_state):
+    def action_send_event(self, operation, valid_codes, new_state, **kwargs):
         for record in self:
             try:
-                record._send_event(operation, valid_codes)
+                record._send_event(operation, valid_codes, **kwargs)
                 record.state = new_state
             except Exception as e:
                 raise e
@@ -208,8 +208,14 @@ class MDe(models.Model):
         )
 
     def action_negar_operacao(self):
+        # The new nfelib client requires a justification for this operation.
+        # We can create a wizard for this in the future, for now, we use a default text.
+        justificativa = "Operação não realizada conforme manifestação do destinatário."
         return self.action_send_event(
-            "operacao_nao_realizada", ["135"], SIT_MANIF_NAO_REALIZADO[0]
+            "operacao_nao_realizada",
+            ["135"],
+            SIT_MANIF_NAO_REALIZADO[0],
+            justificativa=justificativa,
         )
 
     def create_xml_attachment(self, xml):
