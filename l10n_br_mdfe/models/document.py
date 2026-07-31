@@ -1037,22 +1037,99 @@ class MDFe(spec_models.StackedModel):
         if self.document_type_id.code not in [MODELO_FISCAL_MDFE]:
             return super()._generate_key()
 
-        for record in self.filtered(filtered_processador_edoc_mdfe):
+        for record in self:
+            cnpj_cpf = record.company_id.cnpj_cpf or record.company_id.vat
+            if not cnpj_cpf:
+                raise ValidationError(
+                    _(
+                        "To Generate EDoc Key, you need to fill the CNPJ/CPF "
+                        "field on company %s."
+                    )
+                    % record.company_id.display_name
+                )
+            if not record.company_id.state_id:
+                raise ValidationError(
+                    _(
+                        "To Generate EDoc Key, you need to fill the State "
+                        "on company %s."
+                    )
+                    % record.company_id.display_name
+                )
+            if not record.document_type_id:
+                raise ValidationError(_("Document Type is not defined."))
+            if not record.document_number:
+                if record.document_serie_id:
+                    record.document_number = record.document_serie_id.next_seq_number()
+                if not record.document_number:
+                    raise ValidationError(
+                        _(
+                            "To Generate EDoc Key, you need to fill the "
+                            "Document Number."
+                        )
+                    )
+            if not record.document_serie:
+                if record.document_serie_id:
+                    record.document_serie = record.document_serie_id.code
+                if not record.document_serie:
+                    raise ValidationError(
+                        _(
+                            "To Generate EDoc Key, you need to fill the "
+                            "Document Serie."
+                        )
+                    )
+
             date = fields.Datetime.context_timestamp(record, record.document_date)
-            chave_edoc = ChaveEdoc(
-                ano_mes=date.strftime("%y%m").zfill(4),
-                cnpj_cpf_emitente=record.company_id.vat,
-                codigo_uf=(
-                    record.company_id.state_id
-                    and record.company_id.state_id.ibge_code
-                    or ""
-                ),
-                forma_emissao=int(self.mdfe_transmission),
-                modelo_documento=record.document_type_id.code or "",
-                numero_documento=record.document_number or "",
-                numero_serie=record.document_serie or "",
-                validar=False,
-            )
+
+            if filtered_processador_edoc_mdfe(record):
+                if not record.mdfe_transmission:
+                    raise ValidationError(
+                        _(
+                            "To Generate EDoc Key, you need to fill the "
+                            "MDFe Transmission field."
+                        )
+                    )
+                forma_emissao = int(punctuation_rm(str(record.mdfe_transmission)))
+                fields_to_validate = {
+                    "CNPJ/CPF": cnpj_cpf,
+                    "UF": record.company_id.state_id.ibge_code,
+                    "Document Type": record.document_type_id.code,
+                    "Document Number": record.document_number,
+                    "Document Serie": record.document_serie,
+                    "MDFe Transmission": record.mdfe_transmission,
+                }
+                cleaned_fields = {}
+                for label, value in fields_to_validate.items():
+                    cleaned = punctuation_rm(str(value or ""))
+                    if cleaned and not cleaned.isdigit():
+                        raise ValidationError(
+                            _(
+                                "The field %(label)s must contain only numbers. "
+                                "Found: '%(value)s'"
+                            )
+                            % {"label": label, "value": value}
+                        )
+                    cleaned_fields[label] = cleaned
+                chave_kw = {
+                    "ano_mes": date.strftime("%y%m").zfill(4),
+                    "cnpj_cpf_emitente": cleaned_fields["CNPJ/CPF"],
+                    "codigo_uf": cleaned_fields["UF"],
+                    "forma_emissao": forma_emissao,
+                    "modelo_documento": cleaned_fields["Document Type"],
+                    "numero_documento": cleaned_fields["Document Number"],
+                    "numero_serie": cleaned_fields["Document Serie"],
+                }
+            else:
+                chave_kw = {
+                    "ano_mes": date.strftime("%y%m").zfill(4),
+                    "cnpj_cpf_emitente": punctuation_rm(str(cnpj_cpf or "")),
+                    "codigo_uf": record.company_id.state_id.ibge_code,
+                    "forma_emissao": 1,
+                    "modelo_documento": record.document_type_id.code,
+                    "numero_documento": record.document_number,
+                    "numero_serie": record.document_serie,
+                }
+
+            chave_edoc = ChaveEdoc(validar=False, **chave_kw)
             record.key_random_code = chave_edoc.codigo_aleatorio
             record.key_check_digit = chave_edoc.digito_verificador
             record.document_key = chave_edoc.chave
