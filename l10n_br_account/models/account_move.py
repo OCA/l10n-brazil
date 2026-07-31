@@ -524,6 +524,11 @@ class AccountMove(models.Model):
             move.ensure_one_doc()
             return move.fiscal_document_id.action_document_correction()
 
+    def action_document_closure(self):
+        for move in self.filtered(lambda d: d.document_type_id):
+            move.ensure_one_doc()
+            return move.fiscal_document_id.action_document_closure()
+
     def action_document_invalidate(self):
         for move in self.filtered(lambda d: d.document_type_id):
             move.ensure_one_doc()
