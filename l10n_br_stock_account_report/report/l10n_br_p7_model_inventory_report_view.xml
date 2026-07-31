@@ -5,7 +5,6 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
-
     <!-- Main template -->
     <template id="main_l10n_br_p7_model_inventory_report_view">
         <t t-call="web.html_container">
@@ -18,9 +17,7 @@
 
     <template id="l10n_br_p7_model_inventory_report_view">
         <t t-call="web.html_container">
-
             <t t-call="web.report_layout">
-
                 <div class="page">
                     <table class="table table-condensed">
                         <thead>
@@ -51,7 +48,6 @@
                                     <strong>P7 Model</strong>
                                 </td>
                             </tbody>
-
                         </thead>
                     </table>
 
@@ -65,21 +61,20 @@
                             </tr>
                             <tbody>
                                 <td>
-                                    <strong>Company Name: </strong><t
-                                        t-esc="header['company_name']"
-                                    />
+                                    <strong>Company Name: </strong>
+                                    <t t-esc="header['company_name']" />
                                 </td>
                                 <td width="230" />
                                 <td width="100" />
                                 <td>
-                                    <strong>CNPJ: </strong> <t t-esc="header['cnpj']" />
+                                    <strong>CNPJ: </strong>
+                                    <t t-esc="header['cnpj']" />
                                 </td>
                             </tbody>
                             <tbody>
                                 <td>
-                                    <strong>State Registration: </strong> <t
-                                        t-esc="header['l10n_br_ie_code']"
-                                    />
+                                    <strong>State Registration: </strong>
+                                    <t t-esc="header['l10n_br_ie_code']" />
                                 </td>
                                 <td width="230" />
                                 <td width="150" />
@@ -87,7 +82,6 @@
                                     <strong>Existing Stocks at: </strong>
                                     <t t-esc="header['date']" />
                                 </td>
-
                             </tbody>
                         </thead>
                     </table>
@@ -370,7 +364,6 @@
                                             valign="center"
                                             t-esc="l['total_value_ncm']"
                                         />
-
                                     </tbody>
                                 </t>
                             </t>
@@ -387,7 +380,6 @@
                                 <th />
                             </tr>
                             <tbody>
-
                                 <td
                                     style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; padding: 0px 8px 0px 8px;"
                                     height="30"
@@ -408,7 +400,6 @@
                                 >
                                     <t t-esc="total['total']" />
                                 </td>
-
                             </tbody>
 
                             <tbody>
@@ -419,7 +410,6 @@
                             </tbody>
 
                             <tbody>
-
                                 <td
                                     style="border-bottom: 1px solid #000000"
                                     height="30"
@@ -428,23 +418,24 @@
                                 <td style="border-bottom: 1px solid #000000" />
                                 <td style="border-bottom: 1px solid #000000" />
                                 <td style="border-bottom: 1px solid #000000" />
-
                             </tbody>
 
                             <t t-foreach="total_product_types" t-as="product_type">
                                 <br />
                                 <br />
                                 <tbody>
-
                                     <td align="left" height="30">
                                         <t t-esc="product_type['name']" />
                                     </td>
-                                    <td width="200" align="left"><br /></td>
-                                    <td width="200" align="left"><br /></td>
+                                    <td width="200" align="left">
+                                        <br />
+                                    </td>
+                                    <td width="200" align="left">
+                                        <br />
+                                    </td>
                                     <td align="right">
                                         <t t-esc="product_type['value']" />
                                     </td>
-
                                 </tbody>
                             </t>
                             <tbody>
@@ -452,21 +443,28 @@
                                     style="border-bottom: 1px solid #000000"
                                     height="30"
                                     align="left"
-                                ><br /></td>
+                                >
+                                    <br />
+                                </td>
                                 <td
                                     style="border-bottom: 1px solid #000000"
                                     align="left"
-                                ><br /></td>
+                                >
+                                    <br />
+                                </td>
                                 <td
                                     style="border-bottom: 1px solid #000000"
                                     align="left"
-                                ><br /></td>
+                                >
+                                    <br />
+                                </td>
                                 <td
                                     style="border-bottom: 1px solid #000000"
                                     align="left"
-                                ><br /></td>
+                                >
+                                    <br />
+                                </td>
                             </tbody>
-
                         </thead>
                     </table>
 
@@ -480,11 +478,8 @@
                             </span>
                         </div>
                     </div>
-
                 </div>
-
             </t>
         </t>
     </template>
-
 </odoo>
