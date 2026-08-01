@@ -60,6 +60,33 @@ class PartnerCnpjSearchWizard(models.TransientModel):
         column1="parent_id",
         column2="wizard_id",
     )
+    registration_status = fields.Selection(
+        selection=[
+            ("nula", "Nula"),
+            ("ativa", "Ativa"),
+            ("suspensa", "Suspensa"),
+            ("inapta", "Inapta"),
+            ("baixada", "Baixada"),
+        ],
+    )
+    registration_status_reason = fields.Char()
+    registration_status_date = fields.Date()
+    company_start_date = fields.Date()
+    company_size = fields.Selection(
+        selection=[
+            ("nao_informado", "Não informado"),
+            ("me", "Microempresa (ME)"),
+            ("epp", "Empresa de Pequeno Porte (EPP)"),
+            ("demais", "Demais"),
+        ],
+    )
+    matrix_branch = fields.Selection(
+        selection=[
+            ("matriz", "Matriz"),
+            ("filial", "Filial"),
+        ],
+    )
+    legal_representative_qualification = fields.Char()
 
     @api.onchange("zip")
     def _onchange_zip(self):
@@ -126,6 +153,15 @@ class PartnerCnpjSearchWizard(models.TransientModel):
             "equity_capital": self.equity_capital,
             "cnae_main_id": self.cnae_main_id,
             "cnae_secondary_ids": self.cnae_secondary_ids,
+            "registration_status": self.registration_status,
+            "registration_status_reason": self.registration_status_reason,
+            "registration_status_date": self.registration_status_date,
+            "company_start_date": self.company_start_date,
+            "company_size": self.company_size,
+            "matrix_branch": self.matrix_branch,
+            "legal_representative_qualification": (
+                self.legal_representative_qualification
+            ),
             "company_type": "company",
         }
         if self.child_ids:

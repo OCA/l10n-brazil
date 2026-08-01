@@ -332,6 +332,86 @@ class TestCnpjCommon(TransactionCase):
             },
         }
 
+        cls.mocked_response_opencnpj_1 = {
+            "cnpj": "19131243000197",
+            "razao_social": "OPEN KNOWLEDGE BRASIL",
+            "nome_fantasia": "REDE PELO CONHECIMENTO LIVRE",
+            "situacao_cadastral": "Ativa",
+            "data_situacao_cadastral": "2013-10-03",
+            "motivo_situacao_cadastral": {"codigo": "00", "descricao": "SEM MOTIVO"},
+            "matriz_filial": "Matriz",
+            "data_inicio_atividade": "2013-10-03",
+            "porte_empresa": "Demais",
+            "qualificacao_responsavel": {"codigo": "16", "descricao": "Presidente"},
+            "email": None,
+            "logradouro": "PAULISTA",
+            "numero": "37",
+            "complemento": "ANDAR 4",
+            "bairro": "BELA VISTA",
+            "municipio": "SAO PAULO",
+            "uf": "SP",
+            "cep": "01311902",
+            "telefones": [
+                {"ddd": "11", "numero": "23851939", "is_fax": False},
+            ],
+            "capital_social": "0,00",
+            "natureza_juridica": "Associação Privada",
+            "cnae_principal": "9430800",
+            "cnaes_secundarios": ["6204000"],
+            "QSA": [
+                {
+                    "nome_socio": "HAYDEE SVAB",
+                    "cnpj_cpf_socio": "***112108**",
+                    "qualificacao_socio": "Presidente",
+                    "identificador_socio": "Pessoa Física",
+                },
+            ],
+        }
+
+        cls.mocked_response_opencnpj_2 = {
+            "cnpj": "92666056000106",
+            "razao_social": "ISLA SEMENTES LTDA.",
+            "nome_fantasia": "",
+            "situacao_cadastral": "Baixada",
+            "data_situacao_cadastral": "2023-01-10",
+            "motivo_situacao_cadastral": {
+                "codigo": "01",
+                "descricao": "EXTINCAO POR ENCERRAMENTO LIQUIDACAO VOLUNTARIA",
+            },
+            "matriz_filial": "Filial",
+            "data_inicio_atividade": "1998-04-22",
+            "porte_empresa": "Microempresa (ME)",
+            "qualificacao_responsavel": {
+                "codigo": "49",
+                "descricao": "SOCIO-ADMINISTRADOR",
+            },
+            "email": "contabilidade@isla.com.br",
+            "logradouro": "SEVERO DULLIUS",
+            "numero": "124",
+            "complemento": "BLOCO E;APT 302",
+            "bairro": "ANCHIETA",
+            "municipio": "PORTO ALEGRE",
+            "uf": "RS",
+            "cep": "90200310",
+            "telefones": [
+                {"ddd": "51", "numero": "98529561", "is_fax": False},
+                {"ddd": "51", "numero": "21366600", "is_fax": False},
+                {"ddd": "51", "numero": "99999999", "is_fax": True},
+            ],
+            "capital_social": "10606804,00",
+            "natureza_juridica": "Sociedade Empresária Limitada",
+            "cnae_principal": "4689399",
+            "cnaes_secundarios": [],
+            "QSA": [
+                {
+                    "nome_socio": "ISLA SEMENTES HOLDING LTDA",
+                    "cnpj_cpf_socio": "11222333000181",
+                    "qualificacao_socio": "Sócio Pessoa Jurídica",
+                    "identificador_socio": "Pessoa Jurídica",
+                },
+            ],
+        }
+
     @classmethod
     def set_param(cls, param_name, param_value):
         (

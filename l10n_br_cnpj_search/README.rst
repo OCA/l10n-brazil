@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ==================================
 Brazilian Localization CNPJ Search
 ==================================
@@ -17,7 +13,7 @@ Brazilian Localization CNPJ Search
 .. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
@@ -74,9 +70,11 @@ Configuration
 
 Esta busca de informações a partir do cnpj é realizada com base no
 provedor configurado na aba de configurações, vale ressaltar que o
-provedor receitaws permite a realização de três consultas por minuto,
-enquanto que o SERPRO é pago e permite consultas ilimitadas em seus
-planos.
+provedor receitaws permite a realização de três consultas por minuto, o
+OpenCNPJ é gratuito e não exige autenticação, servindo os dados a partir
+de um snapshot público da Receita publicado periodicamente (não é uma
+consulta em tempo real), enquanto que o SERPRO é pago e permite
+consultas ilimitadas em seus planos.
 
 Usage
 =====

@@ -10,6 +10,7 @@ class ResConfigSettings(models.TransientModel):
     cnpj_provider = fields.Selection(
         selection=[
             ("receitaws", "ReceitaWS"),
+            ("opencnpj", "OpenCNPJ"),
             ("serpro", "SERPRO"),
         ],
         string="CNPJ Search Provider",

@@ -26,6 +26,40 @@ class PartyMixin(models.AbstractModel):
         readonly=True,
     )
 
+    registration_status = fields.Selection(
+        selection=[
+            ("nula", "Nula"),
+            ("ativa", "Ativa"),
+            ("suspensa", "Suspensa"),
+            ("inapta", "Inapta"),
+            ("baixada", "Baixada"),
+        ],
+    )
+
+    registration_status_reason = fields.Char()
+
+    registration_status_date = fields.Date()
+
+    company_start_date = fields.Date()
+
+    company_size = fields.Selection(
+        selection=[
+            ("nao_informado", "Não informado"),
+            ("me", "Microempresa (ME)"),
+            ("epp", "Empresa de Pequeno Porte (EPP)"),
+            ("demais", "Demais"),
+        ],
+    )
+
+    matrix_branch = fields.Selection(
+        selection=[
+            ("matriz", "Matriz"),
+            ("filial", "Filial"),
+        ],
+    )
+
+    legal_representative_qualification = fields.Char()
+
     def action_open_cnpj_search_wizard(self):
         if not self.vat:
             raise UserError(self.env._("Please enter your CNPJ"))
