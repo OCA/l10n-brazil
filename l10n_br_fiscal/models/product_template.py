@@ -22,6 +22,13 @@ class ProductTemplate(models.Model):
         if fiscal_type == PRODUCT_FISCAL_TYPE_SERVICE:
             return self.env.ref(NCM_FOR_SERVICE_REF)
 
+    def copy_data(self, default=None):
+        vals_list = super().copy_data(default=default)
+        for template, vals in zip(self, vals_list, strict=False):
+            # company_dependent fields are not copied by default by the ORM
+            vals.setdefault("fiscal_type", template.fiscal_type)
+        return vals_list
+
     fiscal_type = fields.Selection(
         selection=PRODUCT_FISCAL_TYPE,
         company_dependent=True,
