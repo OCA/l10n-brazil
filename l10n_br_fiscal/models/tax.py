@@ -696,7 +696,8 @@ class Tax(models.Model):
         tax_dict_pis = taxes_dict.get("pis", {})
         tax_dict_cofins = taxes_dict.get("cofins", {})
         if (
-            cfop.destination == CFOP_DESTINATION_EXPORT
+            cfop
+            and cfop.destination == CFOP_DESTINATION_EXPORT
             and fiscal_operation_type == FISCAL_IN
         ):
             tax_dict["add_to_base"] += (
@@ -729,7 +730,8 @@ class Tax(models.Model):
         tax_dict_pis = taxes_dict.get("pis", {})
         tax_dict_cofins = taxes_dict.get("cofins", {})
         if (
-            cfop.destination == CFOP_DESTINATION_EXPORT
+            cfop
+            and cfop.destination == CFOP_DESTINATION_EXPORT
             and fiscal_operation_type == FISCAL_IN
         ):
             tax_dict["add_to_base"] += (
@@ -760,7 +762,8 @@ class Tax(models.Model):
         tax_dict_pis = taxes_dict.get("pis", {})
         tax_dict_cofins = taxes_dict.get("cofins", {})
         if (
-            cfop.destination == CFOP_DESTINATION_EXPORT
+            cfop
+            and cfop.destination == CFOP_DESTINATION_EXPORT
             and fiscal_operation_type == FISCAL_IN
         ):
             tax_dict["add_to_base"] += tax_dict_ii.get("tax_value", 0.00) + kwargs.get(
