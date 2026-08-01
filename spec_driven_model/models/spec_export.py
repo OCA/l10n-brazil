@@ -121,12 +121,7 @@ class SpecMixinExport(models.AbstractModel):
                     # stacked nested tags are skipped if empty
                     continue
             elif not self[xsd_field] and not field_data:
-                # skip optional fields with no value (required fields are handled above)
-                field_required = (
-                    field_spec.metadata.get("required", False) if field_spec else False
-                )
-                if not field_required or field_data is False:
-                    continue
+                continue
 
             export_dict[field_spec_name] = field_data
 
@@ -168,12 +163,6 @@ class SpecMixinExport(models.AbstractModel):
             )
         elif isinstance(self[xsd_field], str):
             return self[xsd_field].strip()
-        elif (
-            self._fields[xsd_field].type == "char"
-            and xsd_required
-            and not self[xsd_field]
-        ):
-            return ""
         else:
             return self[xsd_field]
 
@@ -254,12 +243,9 @@ class SpecMixinExport(models.AbstractModel):
         kwargs = {}
         binding_class = self._get_binding_class(class_obj)
         self._export_fields(xsd_fields, class_obj, export_dict=kwargs)
-        sliced_kwargs = {}
-        for key in binding_class.__dataclass_fields__.keys():
-            if kwargs.get(key) is not None:
-                sliced_kwargs[key] = kwargs.get(key)
-            elif binding_class.__dataclass_fields__[key].metadata.get(
-                "required", False
-            ):
-                sliced_kwargs[key] = kwargs.get(key)
+        sliced_kwargs = {
+            key: kwargs.get(key)
+            for key in binding_class.__dataclass_fields__.keys()
+            if kwargs.get(key) is not None
+        }
         return binding_class(**sliced_kwargs)
