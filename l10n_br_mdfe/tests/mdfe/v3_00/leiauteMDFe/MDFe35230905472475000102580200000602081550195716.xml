@@ -5,11 +5,11 @@
       <cUF>35</cUF>
       <tpAmb>2</tpAmb>
       <tpEmit>2</tpEmit>
-      <tpTransp>1</tpTransp>
       <mod>58</mod>
       <serie>1</serie>
       <nMDF>4</nMDF>
       <cMDF>20801844</cMDF>
+      <cDV>6</cDV>
       <modal>2</modal>
       <dhEmi>2020-01-01T12:00:00+01:00</dhEmi>
       <tpEmis>1</tpEmis>
@@ -71,8 +71,4 @@
       <infAdFisco>Documento emitido por: Marc Demo</infAdFisco>
     </infAdic>
   </infMDFe>
-    <infMDFeSupl>
-        <qrCodMDFe
-        >https://dfe-portal.svrs.rs.gov.br/mdfe/qrCode?chMDFe=35230905472475000102580200000602081550195716&amp;tpAmb=2</qrCodMDFe>
-    </infMDFeSupl>
 </MDFe>
