@@ -29,6 +29,8 @@
         <field name="document_number">2</field>
         <field name="document_serie">1</field>
         <field name="document_key">35230905472475000102580200000602011208018449</field>
+        <field name="key_random_code">20801844</field>
+        <field name="key_check_digit">9</field>
         <field name="mdfe_environment">2</field>
         <field name="processador_edoc">oca</field>
         <field name="user_id" ref="base.user_demo" />
@@ -91,6 +93,8 @@
         <field name="document_number">3</field>
         <field name="document_serie">1</field>
         <field name="document_key">35230905472475000102580200000602071611554500</field>
+        <field name="key_random_code">20801844</field>
+        <field name="key_check_digit">0</field>
         <field name="mdfe_environment">2</field>
         <field name="processador_edoc">oca</field>
         <field name="user_id" ref="base.user_demo" />
@@ -150,6 +154,8 @@
         <field name="document_number">4</field>
         <field name="document_serie">1</field>
         <field name="document_key">35230905472475000102580200000602081550195716</field>
+        <field name="key_random_code">20801844</field>
+        <field name="key_check_digit">6</field>
         <field name="mdfe_environment">2</field>
         <field name="processador_edoc">oca</field>
         <field name="user_id" ref="base.user_demo" />
@@ -206,6 +212,8 @@
         <field name="document_number">5</field>
         <field name="document_serie">1</field>
         <field name="document_key">35231005472475000102580200000602161434590525</field>
+        <field name="key_random_code">20801844</field>
+        <field name="key_check_digit">5</field>
         <field name="mdfe_environment">2</field>
         <field name="processador_edoc">oca</field>
         <field name="user_id" ref="base.user_demo" />

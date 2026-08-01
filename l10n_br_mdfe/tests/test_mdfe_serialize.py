@@ -37,12 +37,6 @@ class TestMDFeSerialize(TransactionCase):
         if mdfe.state != "em_digitacao":  # 2nd test run
             mdfe.action_document_back2draft()
 
-        mdfe.action_document_confirm()
-        mdfe.document_date = datetime.strptime(
-            "2020-01-01T11:00:00", "%Y-%m-%dT%H:%M:%S"
-        )
-        mdfe.mdfe30_cMDF = "20801844"
-
         if mdfe.mdfe_modal == "1":
             cls.prepare_modal_rodoviario_data(mdfe)
         elif mdfe.mdfe_modal == "2":
@@ -51,6 +45,12 @@ class TestMDFeSerialize(TransactionCase):
             cls.prepare_modal_aquaviario_data(mdfe)
         elif mdfe.mdfe_modal == "4":
             cls.prepare_modal_ferroviario_data(mdfe)
+
+        mdfe.action_document_confirm()
+        mdfe.document_date = datetime.strptime(
+            "2020-01-01T11:00:00", "%Y-%m-%dT%H:%M:%S"
+        )
+        mdfe.mdfe30_cMDF = "20801844"
 
         mdfe._document_export()
 
@@ -84,7 +84,7 @@ class TestMDFeSerialize(TransactionCase):
         mdfe.mdfe30_infPag = [
             Command.create(
                 {
-                    "partner_id": cls.env.ref("l10n_br_base.res_partner_intel").id,
+                    "partner_id": mdfe.env.ref("l10n_br_base.res_partner_intel").id,
                     "mdfe30_vContrato": 5,
                     "mdfe30_indPag": "0",
                     "payment_type": "pix",
@@ -113,7 +113,7 @@ class TestMDFeSerialize(TransactionCase):
         mdfe.mdfe30_capM3 = 300
         mdfe.mdfe30_tpRod = "03"
         mdfe.mdfe30_tpCar = "00"
-        mdfe.rodo_vehicle_state_id = cls.env.ref("base.state_br_ac").id
+        mdfe.rodo_vehicle_state_id = mdfe.env.ref("base.state_br_ac").id
         mdfe.mdfe30_condutor = [
             Command.create(
                 {

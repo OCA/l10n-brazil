@@ -20,11 +20,20 @@ class MDFeDocumentTest(TransactionCase):
         cls.acre_state = cls.env.ref("base.state_br_ac")
         cls.mdfe_document_type_id = cls.env.ref("l10n_br_fiscal.document_58")
         cls.sn_company_id = cls.env.ref("l10n_br_base.empresa_simples_nacional")
+        cls.sn_document_serie_id = cls.env["l10n_br_fiscal.document.serie"].create(
+            {
+                "code": "030",
+                "name": "Série 030",
+                "document_type_id": cls.mdfe_document_type_id.id,
+                "company_id": cls.sn_company_id.id,
+            }
+        )
         cls.mdfe_id = FiscalDocument.create(
             {
                 "document_type_id": cls.mdfe_document_type_id.id,
                 "company_id": cls.sn_company_id.id,
                 "document_number": "70000",
+                "document_serie_id": cls.sn_document_serie_id.id,
                 "document_serie": "30",
                 "document_date": datetime.now(),
             }
