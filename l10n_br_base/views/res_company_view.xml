@@ -66,7 +66,12 @@
         <field name="inherit_id" ref="base.view_company_tree" />
         <field name="arch" type="xml">
             <field name="name" position="after">
-                <field name="vat" />
+                <field
+                    name="vat_formatted_cnpj"
+                    string="CNPJ"
+                    invisible="not show_br_vat_format"
+                />
+                <field name="vat" string="VAT" invisible="show_br_vat_format" />
             </field>
         </field>
     </record>
