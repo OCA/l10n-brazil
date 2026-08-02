@@ -5,11 +5,9 @@
 # @author Felipe Motter Pereira <felipe@engenere.one>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from datetime import date
-
 from dateutil.relativedelta import relativedelta
 
-from odoo import Command
+from odoo import Command, fields
 from odoo.tests import Form, TransactionCase, tagged
 
 
@@ -70,7 +68,12 @@ class TestL10nBrSalesCommission(TransactionCase):
     def _get_settlements_invoice(self):
         # Cria o Settlements
         with Form(self.env["commission.make.settle"]) as wiz_form:
-            wiz_form.date_to = date.today() + relativedelta(months=1)
+            # A data precisa vir do mesmo fuso usado pelo action_post ao gravar
+            # a invoice_date, senao na virada do mes a fatura nasce no mes
+            # seguinte e fica fora do periodo apurado pelo assistente.
+            wiz_form.date_to = fields.Date.context_today(self.env.user) + relativedelta(
+                months=1
+            )
             wiz_form.settlement_type = "sale_invoice"
             wiz = wiz_form.save()
             wiz.action_settle()
