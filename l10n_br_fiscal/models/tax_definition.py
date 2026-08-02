@@ -52,7 +52,11 @@ class TaxDefinition(models.Model):
     """
 
     _name = "l10n_br_fiscal.tax.definition"
-    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _inherit = [
+        "l10n_br_fiscal.data.editable.mixin",
+        "mail.thread",
+        "mail.activity.mixin",
+    ]
     _description = "Tax Definition"
 
     def _get_complete_name(self):
@@ -609,10 +613,7 @@ class TaxDefinition(models.Model):
                 domain = self._get_search_domain(record)
                 if record.env["l10n_br_fiscal.tax.definition"].search_count(domain):
                     raise ValidationError(
-                        _(
-                            "Tax Definition already exists "
-                            "for this ICMS and Tax Group !"
-                        )
+                        _("Tax Definition already exists for this ICMS and Tax Group !")
                     )
 
     @api.constrains("company_id")
@@ -647,10 +648,7 @@ class TaxDefinition(models.Model):
 
                 if record.env["l10n_br_fiscal.tax.definition"].search_count(domain):
                     raise ValidationError(
-                        _(
-                            "Tax Definition already exists "
-                            "for this CFOP and Tax Group !"
-                        )
+                        _("Tax Definition already exists for this CFOP and Tax Group !")
                     )
 
     @api.constrains("is_benefit", "code", "benefit_type", "state_from_id")
@@ -667,3 +665,101 @@ class TaxDefinition(models.Model):
                         raise ValidationError(
                             _("Tax benefit code must be start with state code!")
                         )
+
+    def _get_xml_id_name(self):
+        self.ensure_one()
+        # This method is used by l10n_br_fiscal.data.editable.mixin to enforce
+        # the xml_id name for manually created records.
+        # It tries to match the patterns found in
+        # l10n_br_fiscal/data/l10n_br_fiscal_icms_tax_definition_data.xml
+
+        if not self.tax_id:
+            return None
+
+        # 1. Try to find existing XML ID for the linked tax
+        # This is important because standard taxes (loaded via data files) have specific
+        # naming conventions (e.g. tax_icms_nt, tax_icmsst_47) that might differ
+        # from the mixin's calculated name based purely on values.
+        domain = [("model", "=", "l10n_br_fiscal.tax"), ("res_id", "=", self.tax_id.id)]
+        # Prefer module 'l10n_br_fiscal'
+        imd = self.env["ir.model.data"].search(
+            domain + [("module", "=", "l10n_br_fiscal")], limit=1
+        )
+        if not imd:
+            imd = self.env["ir.model.data"].search(domain, limit=1)
+
+        if imd:
+            tax_xml_id = imd.name
+        else:
+            # 2. Fallback to mixin calculation or name normalization
+            tax_xml_id = self.tax_id._get_xml_id_name()
+            if not tax_xml_id:
+                tax_xml_id = "tax_" + self.tax_id.name.lower().replace(" ", "_")
+
+        # Remove module prefix if present in tax_xml_id
+        # (e.g. l10n_br_fiscal.tax_icms_12)
+        if "." in tax_xml_id:
+            tax_xml_id = tax_xml_id.split(".")[-1]
+
+        state_from = self.state_from_id.code.lower() if self.state_from_id else "br"
+
+        # Check if Internal Operation (Single destination state same as origin)
+        is_internal = False
+        state_to_suffix = ""
+        if (
+            len(self.state_to_ids) == 1
+            and self.state_to_ids.id == self.state_from_id.id
+        ):
+            state_to_suffix = self.state_to_ids.code.lower()
+            is_internal = True
+
+        # 1. ICMS Normal (Tax Domain 'icms')
+        if self.tax_domain == "icms":
+            if is_internal:
+                # Pattern: tax_icms_regulation_{from}_{from}_{suffix}
+                # Suffix heuristics based on existing data:
+                # tax_icms_12 ->12
+                # tax_icms_nt ->nt
+                # tax_icms_suspensao ->icms_suspensao (Exception keeps icms_ prefix)
+                # tax_icms_diferimento ->icms_diferimento (Exception keeps icms_ prefix)
+
+                suffix = tax_xml_id.replace("tax_icms_", "")
+
+                # Handle exceptions where icms_ prefix is kept in data file
+                if "suspensao" in tax_xml_id or "diferimento" in tax_xml_id:
+                    suffix = tax_xml_id.replace("tax_", "")
+
+                # Handle the "_default" case for approved/numeric taxes
+                # Logic: if state is approved and it looks like a standard numeric rate
+                if self.state == "approved" and suffix.replace("_", "").isdigit():
+                    suffix += "_default"
+
+                return f"tax_icms_regulation_{state_from}_{state_from}_{suffix}"
+
+            else:
+                # Interstate Operation
+                # Pattern: tax_icms_regulation_{from}_{suffix}
+                # Suffix: tax_icms_12 -> icms_12 (strips 'tax_')
+                suffix = tax_xml_id.replace("tax_", "")
+                return f"tax_icms_regulation_{state_from}_{suffix}"
+
+        # 2. FCP (Tax Domain 'icmsfcp')
+        elif self.tax_domain == "icmsfcp":
+            # Pattern: {tax_xml_id}_regulation_{from}_{to}
+            # Note: FCP definitions seem to follow tax_xml_id prefix
+            if not state_to_suffix:
+                # Fallback if multiple destinations or none (though usually specific)
+                # Trying to match patterns like tax_icmsfcp_nt_regulation_pa_pa
+                state_to_suffix = state_from  # assumption based on data
+
+            return f"{tax_xml_id}_regulation_{state_from}_{state_to_suffix}"
+
+        # 3. ICMS ST (Tax Domain 'icmsst')
+        elif self.tax_domain == "icmsst":
+            # Pattern: tax_icmsst_definition_{from}_mva_{suffix}
+            # tax_icmsst_47 -> 47
+            suffix = tax_xml_id.replace("tax_icmsst_", "")
+            return f"tax_icmsst_definition_{state_from}_mva_{suffix}"
+
+        # Fallback for other domains/unmatched patterns
+        return None

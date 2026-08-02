@@ -14,8 +14,12 @@ from ..constants.fiscal import (
 
 class TaxPisCofins(models.Model):
     _name = "l10n_br_fiscal.tax.pis.cofins"
-    _inherit = "l10n_br_fiscal.data.abstract"
     _description = "Tax PIS/COFINS"
+    # NOTE: l10n_br_fiscal.data.abstract now inherits
+    # l10n_br_fiscal.data.editable.mixin, so we get the mixin
+    # behavior through it while keeping code_unmasked,
+    # date_start/date_end and sped_table.
+    _inherit = "l10n_br_fiscal.data.abstract"
 
     code = fields.Char(required=True)
 
@@ -96,3 +100,50 @@ class TaxPisCofins(models.Model):
 
             if domain:
                 r.ncm_ids = ncm.search(domain)
+
+    def _get_xml_id_name(self):
+        self.ensure_one()
+
+        clean_code = self.code.strip()
+        name_lower = self.name.lower()
+
+        if "monofásico" in name_lower or "monofasico" in name_lower:
+            return f"tax_piscofins_monofasico_{clean_code}"
+
+        if "substituição tributária" in name_lower or " st " in name_lower:
+            return f"tax_pis_cofins_st_{clean_code}"
+
+        if "isenção" in name_lower or "isento" in name_lower:
+            return f"tax_pis_cofins_isento_{clean_code}"
+
+        if "suspensão" in name_lower:
+            return f"tax_pis_cofins_susp_{clean_code}"
+
+        if "sem incidência" in name_lower:
+            return f"tax_pis_cofins_seminc_{clean_code}"
+
+        is_zero = False
+        if (
+            self.tax_pis_id
+            and self.tax_pis_id.percent_amount == 0
+            and self.tax_cofins_id
+            and self.tax_cofins_id.percent_amount == 0
+        ):
+            is_zero = True
+
+        if is_zero and "monofásico" not in name_lower:
+            return f"tax_pis_cofins_0_{clean_code}"
+
+        if "r$" in name_lower:
+            return f"tax_pis_cofins_value_{clean_code}"
+
+        if "cumulativo" in name_lower and "não" not in name_lower:
+            return "tax_pis_cofins_columativo"
+        if "não cumulativo" in name_lower:
+            return "tax_pis_cofins_nao_columativo"
+        if "simples nacional" in name_lower:
+            return "tax_pis_cofins_simples_nacional"
+        if "diferenciada" in name_lower:
+            return "tax_pis_cofins_diferenciado"
+
+        return f"tax_pis_cofins_{clean_code}"
