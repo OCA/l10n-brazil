@@ -204,12 +204,18 @@ class OperationLine(models.Model):
             cfop = self.cfop_export_id
         return cfop
 
-    def _get_tax_classification(self, company):
-        if self.tax_classification_id:
-            return self.tax_classification_id
-        elif company.tax_classification_id:
-            return company.tax_classification_id
-        return self.env["l10n_br_fiscal.tax.classification"]
+    def _get_tax_classification(self, company, ncm=None, nbs=None):
+        """Determine the tax classification (IBS/CBS) to be used,
+        following the priority order: NCM/NBS > fiscal operation
+        line > company.
+        """
+        return (
+            (ncm and ncm.tax_classification_id)
+            or (nbs and nbs.tax_classification_id)
+            or self.tax_classification_id
+            or company.tax_classification_id
+            or self.env["l10n_br_fiscal.tax.classification"]
+        )
 
     def _build_mapping_result_ipi(self, mapping_result, tax_definition):
         if tax_definition and tax_definition.ipi_guideline_id:
@@ -331,9 +337,14 @@ class OperationLine(models.Model):
         # Define CFOP
         mapping_result["cfop"] = self._get_cfop(company, partner)
 
+        if not ncm and product:
+            ncm = product.ncm_id
+        if not nbs and product:
+            nbs = product.nbs_id
+
         # Define Tax Classification
         mapping_result["tax_classification"] = (
-            tax_classification or self._get_tax_classification(company)
+            tax_classification or self._get_tax_classification(company, ncm, nbs)
         )
 
         # 1 Get Tax Defs from Company
@@ -366,9 +377,6 @@ class OperationLine(models.Model):
         self._map_icmssn_tax_without_credit(mapping_result, partner)
 
         # 2 From NCM
-        if not ncm and product:
-            ncm = product.ncm_id
-
         if company.tax_framework == TAX_FRAMEWORK_NORMAL:
             tax_ipi = ncm.tax_ipi_id
             tax_ii = ncm.tax_ii_id
