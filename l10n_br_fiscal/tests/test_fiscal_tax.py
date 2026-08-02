@@ -1,6 +1,8 @@
 # Copyright 2020 Akretion - Renato Lima <renato.lima@akretion.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from unittest.mock import patch
+
 from odoo.tests import TransactionCase
 from odoo.tools import float_compare
 
@@ -374,3 +376,62 @@ class TestFiscalTax(TransactionCase):
         )
 
         self.assertEqual(compute_result["taxes"]["icms"]["cst_id"].code, "10")
+    def test_compute_taxes_without_cfop(self):
+        """Linha sem CFOP não pode cair no cálculo genérico.
+
+        É o caso da linha de serviço tributada pelo ISSQN: o l10n_br_account
+        chama o motor com ``cfop=None``. O IBS e a CBS precisam continuar
+        removendo ICMS, PIS e COFINS da própria base, que é o ajuste feito pelo
+        método específico e não pelo genérico.
+        """
+        kwargs = self._create_compute_taxes_kwargs()
+        kwargs["cfop"] = None
+        kwargs["operation_line"] = False
+        currency = kwargs["company"].currency_id
+
+        fiscal_taxes = self.env["l10n_br_fiscal.tax"]
+        fiscal_taxes |= (
+            self.env.ref("l10n_br_fiscal.tax_icms_7")
+            + self.env.ref("l10n_br_fiscal.tax_pis_0_65")
+            + self.env.ref("l10n_br_fiscal.tax_cofins_3")
+            + self.env.ref("l10n_br_fiscal.tax_ibs_0_1")
+            + self.env.ref("l10n_br_fiscal.tax_cbs_0_9")
+        )
+
+        taxes = fiscal_taxes.compute_taxes(**kwargs)["taxes"]
+
+        gross_base = currency.round(kwargs["fiscal_price"] * kwargs["fiscal_quantity"])
+        removed = (
+            taxes["icms"]["tax_value"]
+            + taxes["pis"]["tax_value"]
+            + taxes["cofins"]["tax_value"]
+        )
+        for tax_domain in ("ibs", "cbs"):
+            self.assertEqual(
+                float_compare(
+                    taxes[tax_domain]["base"],
+                    gross_base - removed,
+                    precision_rounding=currency.rounding,
+                ),
+                0,
+                f"{tax_domain}: a base deveria excluir ICMS, PIS e COFINS, "
+                f"got {taxes[tax_domain]['base']}",
+            )
+
+    def test_compute_taxes_error_is_not_swallowed(self):
+        """Erro dentro de um _compute_<domínio> não pode virar cálculo genérico.
+
+        O dispatch resolve o método específico com um default em vez de
+        capturar AttributeError em volta da chamada; sem isso, qualquer falha
+        dentro do método específico é trocada em silêncio pelo cálculo
+        genérico, com o imposto saindo errado e nenhum erro em lugar nenhum.
+        """
+        kwargs = self._create_compute_taxes_kwargs()
+        fiscal_taxes = self.env.ref("l10n_br_fiscal.tax_icms_7")
+
+        def _raise_attribute_error(*args, **kwargs):
+            raise AttributeError("computo especifico falhou")
+
+        with patch.object(type(fiscal_taxes), "_compute_icms", _raise_attribute_error):
+            with self.assertRaises(AttributeError):
+                fiscal_taxes.compute_taxes(**kwargs)
