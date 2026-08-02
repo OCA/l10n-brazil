@@ -27,6 +27,12 @@ class PartyMixin(models.AbstractModel):
         help="CNPJ or CPF formatted with proper punctuation and special characters",
     )
 
+    show_br_vat_format = fields.Boolean(
+        compute="_compute_show_br_vat_format",
+        help="Whether to display VAT with Brazilian formatting (true when the"
+        " current user's company is Brazilian).",
+    )
+
     l10n_br_ie_code = fields.Char(
         string="State Tax Number",
         size=17,
@@ -149,6 +155,12 @@ class PartyMixin(models.AbstractModel):
             if record.vat and record.country_id and record.country_id.code == "BR":
                 vat_formatted_cnpj = cnpj_cpf.formata(record.vat)
             record.vat_formatted_cnpj = vat_formatted_cnpj
+
+    @api.depends_context("company")
+    def _compute_show_br_vat_format(self):
+        br_company = self.env.company.country_id.code == "BR"
+        for record in self:
+            record.show_br_vat_format = br_company
 
     @api.onchange("zip")
     def _onchange_zip(self):

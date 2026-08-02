@@ -9,6 +9,12 @@
         <field name="model">res.company</field>
         <field name="inherit_id" ref="base.view_company_form" />
         <field name="arch" type="xml">
+            <field name="vat" position="attributes">
+                <attribute name="invisible">show_l10n_br</attribute>
+            </field>
+            <field name="vat" position="after">
+                <field name="vat_formatted_cnpj" invisible="not show_l10n_br" />
+            </field>
             <field name="company_registry" position="after">
                 <field
                     name="legal_name"

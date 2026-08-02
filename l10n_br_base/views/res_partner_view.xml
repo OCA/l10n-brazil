@@ -67,7 +67,12 @@
                         invisible="not is_company"
                     />
                 </div>
-                <field name="vat" nolabel="1" />
+                <field name="vat" nolabel="1" invisible="show_l10n_br" />
+                <field
+                    name="vat_formatted_cnpj"
+                    nolabel="1"
+                    invisible="not show_l10n_br"
+                />
                 <div invisible="not show_l10n_br">
                     <label for="l10n_br_rg_code" string="RG" invisible="is_company" />
                 </div>
