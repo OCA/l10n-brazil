@@ -7,7 +7,6 @@ import os
 from datetime import datetime
 from types import SimpleNamespace
 from unittest import mock
-from xml.etree import ElementTree as ET
 
 from lxml import etree
 
@@ -15,24 +14,21 @@ from odoo import Command
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests import TransactionCase
 
-from odoo.addons.l10n_br_mdfe import hooks as mdfe_hooks
-
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     AUTORIZADO,
     CANCELADO_DENTRO_PRAZO,
     CANCELADO_FORA_PRAZO,
     DENEGADO,
     ENCERRADO,
-    MODELO_FISCAL_MDFE,
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_DENEGADA,
-    SITUACAO_EDOC_EM_DIGITACAO,
     SITUACAO_EDOC_ENCERRADA,
     SITUACAO_EDOC_REJEITADA,
     SITUACAO_FISCAL_CANCELADO,
     SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
 )
+from odoo.addons.l10n_br_mdfe import hooks as mdfe_hooks
 
 MDFE_NS = "http://www.portalfiscal.inf.br/mdfe"
 
@@ -138,9 +134,11 @@ class MDFeDocumentFlowTest(TransactionCase):
         self.assertEqual(vehicle_empty.display_name, "Novo Veículo")
 
     def test_vehicle_default_get_partner(self):
-        vehicle = self.env["l10n_br_mdfe.vehicle"].with_company(
-            self.company
-        ).create({"mdfe30_placa": "QWE1234"})
+        vehicle = (
+            self.env["l10n_br_mdfe.vehicle"]
+            .with_company(self.company)
+            .create({"mdfe30_placa": "QWE1234"})
+        )
         self.assertEqual(vehicle.partner_id, self.company.partner_id)
 
     def test_sync_mdfe_documents(self):
@@ -168,9 +166,7 @@ class MDFeDocumentFlowTest(TransactionCase):
         # removing the document removes the unloading city
         self.mdfe.mdfe_document_ids = [Command.set([])]
         self.assertFalse(
-            self.mdfe.mdfe30_infMunDescarga.filtered(
-                lambda r: r.document_type == "nfe"
-            )
+            self.mdfe.mdfe30_infMunDescarga.filtered(lambda r: r.document_type == "nfe")
         )
 
     def test_document_number_assigns_serie(self):
@@ -236,9 +232,7 @@ class MDFeDocumentFlowTest(TransactionCase):
         # complete driver data must not raise driver errors
         self.partner.rntrc_code = "12345678"
         self.mdfe.mdfe30_condutor = [
-            Command.create(
-                {"mdfe30_xNome": "Motorista", "mdfe30_CPF": "99999999999"}
-            )
+            Command.create({"mdfe30_xNome": "Motorista", "mdfe30_CPF": "99999999999"})
         ]
         missing_fields = []
         self.mdfe._check_mdfe_road_required_fields(missing_fields)
@@ -254,9 +248,7 @@ class MDFeDocumentFlowTest(TransactionCase):
 
         self.mdfe.state_edoc = SITUACAO_EDOC_AUTORIZADA
         action = self.mdfe.action_document_closure()
-        self.assertEqual(
-            action["res_model"], "l10n_br_fiscal.document.closure.wizard"
-        )
+        self.assertEqual(action["res_model"], "l10n_br_fiscal.document.closure.wizard")
 
     def test_document_cancel_justification(self):
         with self.assertRaises(ValidationError):
@@ -386,9 +378,7 @@ class MDFeDocumentFlowTest(TransactionCase):
             processor.cancela_documento.return_value = processo
             mocked.return_value = processor
             self.mdfe._mdfe_cancel()
-        self.assertEqual(
-            self.mdfe.state_fiscal, SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO
-        )
+        self.assertEqual(self.mdfe.state_fiscal, SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO)
 
     def test_mdfe_cancel_error(self):
         self.mdfe.authorization_event_id = self._create_event(
@@ -499,8 +489,7 @@ class MDFeDocumentFlowTest(TransactionCase):
         self.mdfe.send_file_id = attachment
 
         prot_element = etree.fromstring(
-            '<mdfe:protMDFe xmlns:mdfe="%s"><mdfe:infProt/></mdfe:protMDFe>'
-            % MDFE_NS
+            '<mdfe:protMDFe xmlns:mdfe="%s"><mdfe:infProt/></mdfe:protMDFe>' % MDFE_NS
         )
         with mock.patch.object(type(self.mdfe), "_edoc_processor") as mocked:
             processor = mock.Mock()
@@ -517,9 +506,7 @@ class MDFeDocumentFlowTest(TransactionCase):
             "<mdfe:infProt/></mdfe:protMDFe></soap:Body></soap:Envelope>" % MDFE_NS
         )
         process = SimpleNamespace(retorno=SimpleNamespace(content=xml_soap.encode()))
-        with mock.patch.object(
-            type(self.mdfe), "_mdfe_create_proc", return_value=None
-        ):
+        with mock.patch.object(type(self.mdfe), "_mdfe_create_proc", return_value=None):
             self.mdfe._mdfe_response_add_proc(process)
 
     def test_eletronic_document_send(self):
@@ -549,18 +536,14 @@ class MDFeDocumentFlowTest(TransactionCase):
                 SimpleNamespace(
                     webservice="mdfeRecepcao",
                     protocolo=authorized_process.protocolo,
-                    resposta=SimpleNamespace(
-                        cStat="100", xMotivo="Autorizado"
-                    ),
+                    resposta=SimpleNamespace(cStat="100", xMotivo="Autorizado"),
                     processo_xml=b"<retorno/>",
                 )
             ]
             mocked.return_value = processor
             with mock.patch.object(type(self.mdfe), "_document_qrcode"):
                 with mock.patch.object(type(self.mdfe), "_document_export"):
-                    with mock.patch.object(
-                        type(self.mdfe), "_mdfe_response_add_proc"
-                    ):
+                    with mock.patch.object(type(self.mdfe), "_mdfe_response_add_proc"):
                         with mock.patch.object(
                             type(self.mdfe), "serialize", return_value=[object()]
                         ):
@@ -660,9 +643,7 @@ class MDFeDocumentFlowTest(TransactionCase):
         self.assertEqual(descarga.city_id, self.partner.city_id)
 
     def test_condutor_onchange_partner(self):
-        condutor = self.env[
-            "l10n_br_mdfe.modal.rodoviario.veiculo.condutor"
-        ].create(
+        condutor = self.env["l10n_br_mdfe.modal.rodoviario.veiculo.condutor"].create(
             {
                 "document_id": self.mdfe.id,
                 "mdfe30_xNome": "Antigo",
@@ -811,14 +792,10 @@ class MDFeDocumentFlowTest(TransactionCase):
         # not installed in this DB, so provide DB defaults for the insert
         cr = self.env.cr
         for column in ("po_lead", "security_lead"):
-            cr.execute(
-                "ALTER TABLE res_company ALTER COLUMN %s SET DEFAULT 0" % column
-            )
+            cr.execute("ALTER TABLE res_company ALTER COLUMN %s SET DEFAULT 0" % column)
         company = self.env["res.company"].create({"name": name})
         for column in ("po_lead", "security_lead"):
-            cr.execute(
-                "ALTER TABLE res_company ALTER COLUMN %s DROP DEFAULT" % column
-            )
+            cr.execute("ALTER TABLE res_company ALTER COLUMN %s DROP DEFAULT" % column)
         return company
 
     def test_generate_key_company_without_cnpj(self):
@@ -1053,9 +1030,7 @@ class MDFeDocumentFlowTest(TransactionCase):
         self.assertEqual(self.mdfe.status_code, c_stat)
 
     def test_eletronic_document_send_denied(self):
-        self._eletronic_document_send_result(
-            DENEGADO[0], SITUACAO_EDOC_DENEGADA
-        )
+        self._eletronic_document_send_result(DENEGADO[0], SITUACAO_EDOC_DENEGADA)
 
     def test_eletronic_document_send_rejected(self):
         self._eletronic_document_send_result("999", SITUACAO_EDOC_REJEITADA)
@@ -1078,9 +1053,7 @@ class MDFeDocumentFlowTest(TransactionCase):
         self.assertEqual(process.processo_xml, proc_xml)
 
     def test_inflotacao_local_choice(self):
-        local = self.env["l10n_br_mdfe.inflotacao.local"].create(
-            {"local_type": "CEP"}
-        )
+        local = self.env["l10n_br_mdfe.inflotacao.local"].create({"local_type": "CEP"})
         self.assertEqual(local.mdfe30_choice_tlocal, "mdfe30_CEP")
         local.local_type = "coord"
         self.assertEqual(local.mdfe30_choice_tlocal, "mdfe30_latitude")
