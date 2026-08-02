@@ -47,6 +47,11 @@
                         <group string="Product Information">
                             <field name="product_type" />
                             <field name="tax_icms_or_issqn" />
+                            <field
+                                name="fiscal_product_tag_ids"
+                                widget="many2many_tags"
+                                options="{'no_create_edit': False}"
+                            />
                             <field name="icms_origin" />
                         </group>
                     </group>

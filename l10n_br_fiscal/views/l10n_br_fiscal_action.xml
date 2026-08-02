@@ -590,4 +590,23 @@
         </field>
     </record>
 
+    <!-- Product Tag -->
+    <record id="product_tag_action" model="ir.actions.act_window">
+        <field name="name">Fiscal Product Tag</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.product.tag</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="product_tag_tree" />
+        <field name="search_view_id" ref="product_tag_search" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Fiscal Product Tag
+            </p><p>
+                Fiscal Product Tags group products that require their own fiscal
+                operation line, such as goods under tax substitution needing a
+                specific CFOP.
+            </p>
+        </field>
+    </record>
+
 </odoo>

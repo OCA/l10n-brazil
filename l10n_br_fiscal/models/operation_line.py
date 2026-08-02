@@ -112,6 +112,16 @@ class OperationLine(models.Model):
         selection=PRODUCT_FISCAL_TYPE, string="Product Fiscal Type"
     )
 
+    fiscal_product_tag_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.product.tag",
+        string="Fiscal Product Tags",
+        help="Restricts this line to products carrying at least one of these "
+        "fiscal tags. Leave empty for a generic line, eligible for any product. "
+        "A tagged line wins over a generic one when both match, so use it for "
+        "cases the other criteria cannot tell apart, such as goods under tax "
+        "substitution needing their own CFOP.",
+    )
+
     company_tax_framework = fields.Selection(selection=TAX_FRAMEWORK)
 
     add_to_amount = fields.Boolean(string="Add to Document Amount?", default=True)

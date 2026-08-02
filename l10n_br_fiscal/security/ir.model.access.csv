@@ -105,3 +105,6 @@
 "l10n_br_fiscal_document_status_wizard_user",l10n_br_fiscal_document_status_wizard,model_l10n_br_fiscal_document_status_wizard,base.group_user,1,1,1,1
 "l10n_br_fiscal_document_import_wizard_user",l10n_br_fiscal_document_import_wizard_user,model_l10n_br_fiscal_document_import_wizard,base.group_user,1,1,1,1
 "l10n_br_fiscal_document_import_wizard_line_user",l10n_br_fiscal_document_import_wizard_line_user,model_l10n_br_fiscal_document_import_wizard_line,l10n_br_fiscal.group_user,1,1,1,1
+"l10n_br_fiscal_product_tag_user","Fiscal Product Tag for User","model_l10n_br_fiscal_product_tag","l10n_br_fiscal.group_user",1,0,0,0
+"l10n_br_fiscal_product_tag_manager","Fiscal Product Tag for Manager","model_l10n_br_fiscal_product_tag","l10n_br_fiscal.group_manager",1,1,1,1
+"l10n_br_fiscal_product_tag_maintenance","Fiscal Product Tag for Maintenance","model_l10n_br_fiscal_product_tag","l10n_br_fiscal.group_data_maintenance",1,1,1,1
