@@ -45,6 +45,7 @@ class MDFeDocumentFlowTest(TransactionCase):
         cls.state_ac = cls.env.ref("base.state_br_ac")
         cls.doc_type_mdfe = cls.env.ref("l10n_br_fiscal.document_58")
         cls.doc_type_nfe = cls.env.ref("l10n_br_fiscal.document_55")
+        cls.doc_type_cte = cls.env.ref("l10n_br_fiscal.document_57")
         cls.serie_mdfe = cls.env["l10n_br_fiscal.document.serie"].create(
             {
                 "code": "901",
@@ -58,6 +59,14 @@ class MDFeDocumentFlowTest(TransactionCase):
                 "code": "902",
                 "name": "Serie 902",
                 "document_type_id": cls.doc_type_nfe.id,
+                "company_id": cls.company.id,
+            }
+        )
+        cls.serie_cte = cls.env["l10n_br_fiscal.document.serie"].create(
+            {
+                "code": "903",
+                "name": "Serie 903",
+                "document_type_id": cls.doc_type_cte.id,
                 "company_id": cls.company.id,
             }
         )
@@ -168,6 +177,50 @@ class MDFeDocumentFlowTest(TransactionCase):
         self.assertFalse(
             self.mdfe.mdfe30_infMunDescarga.filtered(lambda r: r.document_type == "nfe")
         )
+
+    def test_sync_mdfe_documents_groups_by_city(self):
+        # NF-e and CT-e for the same city must share a single unloading city
+        # record (infMunDescarga holds infNFe and infCTe together).
+        self.cte = self._create_document(self.doc_type_cte, self.serie_cte, "90103")
+        self.cte.fiscal_amount_total = 200.0
+        self.cte.total_weight = 20.0
+        self.mdfe.mdfe_document_ids = [Command.set([self.nfe.id, self.cte.id])]
+
+        descargas = self.mdfe.mdfe30_infMunDescarga
+        self.assertEqual(len(descargas), 1)
+        descarga = descargas[0]
+        self.assertEqual(descarga.city_id, self.city)
+        self.assertEqual(descarga.nfe_ids.document_related_id, self.nfe)
+        self.assertEqual(descarga.cte_ids.document_related_id, self.cte)
+        self.assertFalse(descarga.mdfe_ids)
+
+        # tot sums both document types
+        self.assertEqual(self.mdfe.mdfe30_qNFe, 1)
+        self.assertEqual(self.mdfe.mdfe30_qCTe, 1)
+        self.assertEqual(self.mdfe.mdfe30_vCarga, 300.0)
+        self.assertEqual(self.mdfe.mdfe30_qCarga, 30.0)
+
+        # serialization keeps both document types in the same infMunDescarga
+        inf_mdfe = self.mdfe._build_binding("mdfe", "30")
+        self.assertEqual(len(inf_mdfe.infDoc.infMunDescarga), 1)
+        inf_mun = inf_mdfe.infDoc.infMunDescarga[0]
+        self.assertEqual(len(inf_mun.infNFe), 1)
+        self.assertEqual(len(inf_mun.infCTe), 1)
+
+    def test_sync_mdfe_documents_updates_weight_after_sync(self):
+        self.mdfe.mdfe_document_ids = [Command.set([self.nfe.id])]
+        self.assertEqual(self.mdfe.mdfe30_qCarga, 10.0)
+
+        # changing the weight of the related document must be reflected in tot
+        self.nfe.total_weight = 20.0
+        self.assertEqual(self.mdfe.mdfe30_qCarga, 20.0)
+
+        # a new sync keeps the related weight in sync as well
+        self.nfe.total_weight = 30.0
+        self.mdfe.mdfe_document_ids = [Command.set([self.nfe.id])]
+        descarga = self.mdfe.mdfe30_infMunDescarga[0]
+        self.assertEqual(descarga.nfe_ids.document_total_weight, 30.0)
+        self.assertEqual(self.mdfe.mdfe30_qCarga, 30.0)
 
     def test_document_number_assigns_serie(self):
         document = self.env["l10n_br_fiscal.document"].create(
@@ -920,6 +973,62 @@ class MDFeDocumentFlowTest(TransactionCase):
         with self.assertRaises(ValidationError) as cm:
             document._generate_key()
         self.assertIn("must contain only numbers", str(cm.exception))
+
+    def test_generate_key_number_too_long(self):
+        document = self.env["l10n_br_fiscal.document"].create(
+            {
+                "document_type_id": self.doc_type_mdfe.id,
+                "company_id": self.company.id,
+                "issuer": "company",
+                "document_number": "9020400000",
+                "document_date": datetime.now(),
+            }
+        )
+        with self.assertRaises(ValidationError) as cm:
+            document._generate_key()
+        self.assertIn("must contain at most 9 numbers", str(cm.exception))
+
+    def test_generate_key_serie_too_long(self):
+        document = self.env["l10n_br_fiscal.document"].create(
+            {
+                "document_type_id": self.doc_type_mdfe.id,
+                "company_id": self.company.id,
+                "issuer": "company",
+                "document_number": "90206",
+                "document_date": datetime.now(),
+            }
+        )
+        self.env.cr.execute(
+            "UPDATE l10n_br_fiscal_document SET document_serie = '9001' "
+            "WHERE id = %s",
+            (document.id,),
+        )
+        document.invalidate_recordset(["document_serie"])
+        with self.assertRaises(ValidationError) as cm:
+            document._generate_key()
+        self.assertIn("must contain at most 3 numbers", str(cm.exception))
+
+    def test_generate_key_invalid_chave_length(self):
+        document = self.env["l10n_br_fiscal.document"].create(
+            {
+                "document_type_id": self.doc_type_mdfe.id,
+                "company_id": self.company.id,
+                "issuer": "company",
+                "document_number": "90207",
+                "document_date": datetime.now(),
+            }
+        )
+        fake_chave = mock.Mock()
+        fake_chave.chave = "12345"
+        fake_chave.codigo_aleatorio = "00000001"
+        fake_chave.digito_verificador = "1"
+        with mock.patch(
+            "odoo.addons.l10n_br_mdfe.models.document.ChaveEdoc",
+            return_value=fake_chave,
+        ):
+            with self.assertRaises(ValidationError) as cm:
+                document._generate_key()
+        self.assertIn("must contain exactly 44 digits", str(cm.exception))
 
     def test_generate_key_other_processor(self):
         document = self.env["l10n_br_fiscal.document"].create(

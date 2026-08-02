@@ -819,26 +819,26 @@ class MDFe(spec_models.StackedModel):
         return res
 
     def _sync_mdfe_documents(self):
-        doc_type_map = {"55": "nfe", "59": "cte", "58": "mdfe"}
+        # One unloading city record per city, holding all document types
+        # (NF-e, CT-e and MDF-e) together, as required by the MDF-e schema
+        # (infMunDescarga contains infNFe, infCTe and infMDFeTransp).
+        doc_type_map = {"55": "nfe", "57": "cte", "58": "mdfe"}
         for record in self.filtered(filtered_processador_edoc_mdfe):
             all_cities = {}
             for doc in record.mdfe_document_ids:
                 doc_type = doc_type_map.get(doc.document_type, "nfe")
                 partner = doc.partner_id
                 city = partner.city_id if partner else False
-                city_key = (city.id, doc_type) if city else (0, doc_type)
+                city_key = city.id if city else 0
                 if city_key not in all_cities:
-                    all_cities[city_key] = {"city": city, "type": doc_type, "docs": []}
-                all_cities[city_key]["docs"].append(doc)
+                    all_cities[city_key] = {"city": city, "docs": []}
+                all_cities[city_key]["docs"].append((doc, doc_type))
 
             unlink_ids = record.mdfe30_infMunDescarga.ids
             doc_rel_model = self.env["l10n_br_fiscal.document.related"]
-            for (city_id, doc_type), info in all_cities.items():
+            for city_id, info in all_cities.items():
                 existing = record.mdfe30_infMunDescarga.filtered(
-                    lambda r, c=city_id, t=doc_type: (
-                        r.city_id.id == c if c else not r.city_id
-                    )
-                    and r.document_type == t
+                    lambda r, c=city_id: r.city_id.id == c if c else not r.city_id
                 )
                 if existing:
                     munic = existing[0]
@@ -849,12 +849,12 @@ class MDFe(spec_models.StackedModel):
                         {
                             "document_id": record.id,
                             "city_id": city_id or False,
-                            "document_type": doc_type,
+                            "document_type": info["docs"][0][1],
                         }
                     )
 
-                related_ids = []
-                for doc in info["docs"]:
+                related_by_type = {"nfe": [], "cte": [], "mdfe": []}
+                for doc, doc_type in info["docs"]:
                     related = doc_rel_model.search(
                         [
                             ("document_related_id", "=", doc.id),
@@ -873,8 +873,24 @@ class MDFe(spec_models.StackedModel):
                                 "document_total_weight": doc.total_weight,
                             }
                         )
-                    related_ids.append(related.id)
-                munic.write({f"{doc_type}_ids": [(6, 0, related_ids)]})
+                    else:
+                        # Keep the weight and amount in sync with the related
+                        # fiscal document, so tot is always computed from the
+                        # current values.
+                        related.write(
+                            {
+                                "document_total_amount": doc.fiscal_amount_total,
+                                "document_total_weight": doc.total_weight,
+                            }
+                        )
+                    related_by_type[doc_type].append(related.id)
+                munic.write(
+                    {
+                        "nfe_ids": [(6, 0, related_by_type["nfe"])],
+                        "cte_ids": [(6, 0, related_by_type["cte"])],
+                        "mdfe_ids": [(6, 0, related_by_type["mdfe"])],
+                    }
+                )
 
             if unlink_ids:
                 record.mdfe30_infMunDescarga.browse(unlink_ids).unlink()
@@ -888,6 +904,15 @@ class MDFe(spec_models.StackedModel):
         "mdfe30_infMunDescarga.cte_ids",
         "mdfe30_infMunDescarga.nfe_ids",
         "mdfe30_infMunDescarga.mdfe_ids",
+        "mdfe30_infMunDescarga.cte_ids.document_total_weight",
+        "mdfe30_infMunDescarga.nfe_ids.document_total_weight",
+        "mdfe30_infMunDescarga.mdfe_ids.document_total_weight",
+        "mdfe30_infMunDescarga.cte_ids.document_total_amount",
+        "mdfe30_infMunDescarga.nfe_ids.document_total_amount",
+        "mdfe30_infMunDescarga.mdfe_ids.document_total_amount",
+        "mdfe30_infMunDescarga.cte_ids.document_related_id.total_weight",
+        "mdfe30_infMunDescarga.nfe_ids.document_related_id.total_weight",
+        "mdfe30_infMunDescarga.mdfe_ids.document_related_id.total_weight",
     )
     def _compute_mdfe30_tot(self):
         for record in self.filtered(filtered_processador_edoc_mdfe):
@@ -903,8 +928,18 @@ class MDFe(spec_models.StackedModel):
             record.mdfe30_qMDFe = mdfe_ids and len(mdfe_ids) or False
 
             all_documents = cte_ids + nfe_ids + mdfe_ids
-            record.mdfe30_qCarga = sum(all_documents.mapped("document_total_weight"))
-            record.mdfe30_vCarga = sum(all_documents.mapped("document_total_amount"))
+            record.mdfe30_qCarga = sum(
+                related.document_related_id.total_weight
+                if related.document_related_id
+                else related.document_total_weight
+                for related in all_documents
+            )
+            record.mdfe30_vCarga = sum(
+                related.document_related_id.fiscal_amount_total
+                if related.document_related_id
+                else related.document_total_amount
+                for related in all_documents
+            )
 
     ##########################
     # NF-e tag: infMDFeSupl
@@ -1189,6 +1224,48 @@ class MDFe(spec_models.StackedModel):
         }
         return edoc_mdfe(**params)
 
+    def _validate_key_fields(self, fields_to_validate):
+        """Clean and validate the fields that compose the MDF-e access key.
+
+        Each field must be numeric and must not exceed the maximum length
+        allowed in the 44-digit access key, otherwise the XML ``Id`` would
+        be rejected by the SEFAZ (rejection 227).
+        """
+        max_lengths = {
+            "CNPJ/CPF": 14,
+            "UF": 2,
+            "Document Type": 2,
+            "Document Number": 9,
+            "Document Serie": 3,
+            "MDFe Transmission": 1,
+        }
+        cleaned_fields = {}
+        for label, value in fields_to_validate.items():
+            cleaned = punctuation_rm(str(value or ""))
+            if cleaned and not cleaned.isdigit():
+                raise ValidationError(
+                    _(
+                        "The field %(label)s must contain only numbers. "
+                        "Found: '%(value)s'"
+                    )
+                    % {"label": label, "value": value}
+                )
+            if cleaned and len(cleaned) > max_lengths[label]:
+                raise ValidationError(
+                    _(
+                        "The field %(label)s must contain at most "
+                        "%(size)s numbers to compose a valid 44-digit "
+                        "MDF-e access key. Found: '%(value)s'"
+                    )
+                    % {
+                        "label": label,
+                        "size": max_lengths[label],
+                        "value": value,
+                    }
+                )
+            cleaned_fields[label] = cleaned
+        return cleaned_fields
+
     def _generate_key(self):
         if self.document_type_id.code not in [MODELO_FISCAL_MDFE]:
             return super()._generate_key()
@@ -1253,18 +1330,7 @@ class MDFe(spec_models.StackedModel):
                     "Document Serie": record.document_serie,
                     "MDFe Transmission": record.mdfe_transmission,
                 }
-                cleaned_fields = {}
-                for label, value in fields_to_validate.items():
-                    cleaned = punctuation_rm(str(value or ""))
-                    if cleaned and not cleaned.isdigit():
-                        raise ValidationError(
-                            _(
-                                "The field %(label)s must contain only numbers. "
-                                "Found: '%(value)s'"
-                            )
-                            % {"label": label, "value": value}
-                        )
-                    cleaned_fields[label] = cleaned
+                cleaned_fields = self._validate_key_fields(fields_to_validate)
                 chave_kw = {
                     "ano_mes": date.strftime("%y%m").zfill(4),
                     "cnpj_cpf_emitente": cleaned_fields["CNPJ/CPF"],
@@ -1286,6 +1352,15 @@ class MDFe(spec_models.StackedModel):
                 }
 
             chave_edoc = ChaveEdoc(validar=False, **chave_kw)
+            if len(chave_edoc.chave) != 44 or not chave_edoc.chave.isdigit():
+                raise ValidationError(
+                    _(
+                        "The generated MDF-e access key must contain exactly "
+                        "44 digits. Found: '%s'. Check the document number, "
+                        "serie, company CNPJ/CPF and emission fields."
+                    )
+                    % chave_edoc.chave
+                )
             record.key_random_code = chave_edoc.codigo_aleatorio
             record.key_check_digit = chave_edoc.digito_verificador
             record.document_key = chave_edoc.chave
@@ -1350,21 +1425,13 @@ class MDFe(spec_models.StackedModel):
         for descarga in self.mdfe30_infMunDescarga:
             label = descarga.city_id.display_name or _("Unloading City")
             check(descarga.city_id, _("MDF-e Unloading City"))
-            if descarga.document_type == "nfe":
-                check(
-                    descarga.nfe_ids, _("NF-e documents for unloading city %s") % label
-                )
-            elif descarga.document_type == "cte":
-                check(
-                    descarga.cte_ids, _("CT-e documents for unloading city %s") % label
-                )
-            elif descarga.document_type == "mdfe":
-                check(
-                    descarga.mdfe_ids,
-                    _("MDF-e transport documents for unloading city %s") % label,
-                )
+            documents = descarga.nfe_ids + descarga.cte_ids + descarga.mdfe_ids
+            check(
+                documents,
+                _("Documents for unloading city %s") % label,
+            )
 
-            for document in descarga.nfe_ids + descarga.cte_ids + descarga.mdfe_ids:
+            for document in documents:
                 check(document.document_key, _("Document Key for %s") % label)
 
         if self.mdfe_modal == "1":

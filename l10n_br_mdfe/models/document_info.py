@@ -65,28 +65,21 @@ class MDFeMunicipioDescarga(spec_models.SpecModel):
         relation="mdfe_related_mdfe_carregamento_rel",
     )
 
-    @api.depends("document_type", "nfe_ids", "cte_ids")
+    @api.depends("nfe_ids", "cte_ids", "mdfe_ids")
     def _compute_document_data(self):
         for record in self:
-            record.mdfe30_infCTe = [Command.clear()]
-            record.mdfe30_infNFe = [Command.clear()]
-            record.mdfe30_infMDFeTransp = [Command.clear()]
-
-            if record.document_type == "nfe":
-                record.mdfe30_infNFe = [
-                    Command.create({"mdfe30_chNFe": nfe.mdfe30_chNFe})
-                    for nfe in record.nfe_ids
-                ]
-            elif record.document_type == "cte":
-                record.mdfe30_infCTe = [
-                    Command.create({"mdfe30_chCTe": cte.mdfe30_chCTe})
-                    for cte in record.cte_ids
-                ]
-            else:
-                record.mdfe30_infMDFeTransp = [
-                    Command.create({"mdfe30_chMDFe": mdfe.mdfe30_chMDFe})
-                    for mdfe in record.mdfe_ids
-                ]
+            record.mdfe30_infCTe = [
+                Command.create({"mdfe30_chCTe": cte.mdfe30_chCTe})
+                for cte in record.cte_ids
+            ] or [Command.clear()]
+            record.mdfe30_infNFe = [
+                Command.create({"mdfe30_chNFe": nfe.mdfe30_chNFe})
+                for nfe in record.nfe_ids
+            ] or [Command.clear()]
+            record.mdfe30_infMDFeTransp = [
+                Command.create({"mdfe30_chMDFe": mdfe.mdfe30_chMDFe})
+                for mdfe in record.mdfe_ids
+            ] or [Command.clear()]
 
     @api.depends("city_id.state_id")
     def _compute_state_id(self):
