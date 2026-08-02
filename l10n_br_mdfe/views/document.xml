@@ -434,7 +434,7 @@
                     type="object"
                     string="Encerrar"
                     groups="l10n_br_fiscal.group_user"
-                    attrs="{'invisible': [('state_edoc', '!=', 'autorizada')]}"
+                    attrs="{'invisible': [('state_edoc', '!=', 'autorizada'), ('document_type', 'not in', ['58'])]}"
                 />
             </xpath>
 
