@@ -15,18 +15,27 @@
         </field>
     </record>
 
-    <!--record id="l10n_br_base_res_partner_tree" model="ir.ui.view">
+    <record id="l10n_br_base_res_partner_tree" model="ir.ui.view">
         <field name="name">l10n_br_base.res.partner.tree</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_tree" />
         <field name="arch" type="xml">
             <field name="display_name" position="after">
-                <field name="legal_name" />
-                <field name="vat" />
-                <field name="l10n_br_ie_code" />
+                <field
+                    name="vat_formatted_cnpj"
+                    string="CNPJ/CPF"
+                    optional="show"
+                    invisible="not show_br_vat_format"
+                />
+                <field
+                    name="vat"
+                    string="VAT"
+                    optional="hide"
+                    invisible="show_br_vat_format"
+                />
             </field>
         </field>
-    </record-->
+    </record>
 
     <record id="l10n_br_base_partner_form" model="ir.ui.view">
         <field name="name">l10n_br_base.res.partner.form</field>
@@ -59,7 +68,11 @@
                     />
                 </div>
                 <field name="vat" nolabel="1" invisible="show_l10n_br" />
-                <field name="vat_formatted_cnpj" nolabel="1" invisible="not show_l10n_br" />
+                <field
+                    name="vat_formatted_cnpj"
+                    nolabel="1"
+                    invisible="not show_l10n_br"
+                />
                 <div invisible="not show_l10n_br">
                     <label for="l10n_br_rg_code" string="RG" invisible="is_company" />
                 </div>
