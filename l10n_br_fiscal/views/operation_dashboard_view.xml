@@ -93,6 +93,21 @@
                                                         /> Autorizados</a>
                                                 </div>
                                             </div>
+                                            <div
+                                                class="row"
+                                                t-if="dashboard.show_number_to_close"
+                                            >
+                                                <div class="col-10">
+                                                    <a
+                                                        type="object"
+                                                        name="open_action"
+                                                        context="{'search_default_authorized':1}"
+                                                    >
+                                                    <t
+                                                            t-esc="dashboard.number_to_close"
+                                                        /> A encerrar</a>
+                                                </div>
+                                            </div>
                                             <div class="row">
                                                 <div class="col-10">
                                                     <a

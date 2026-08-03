@@ -637,6 +637,40 @@ class MDFeDocumentFlowTest(TransactionCase):
         self.assertEqual(serie.document_type_id, self.doc_type_mdfe)
         self.assertEqual(serie.company_id, self.company)
 
+    def test_operation_dashboard_manifesto(self):
+        operation = self.env.ref("l10n_br_fiscal.fo_manifesto")
+        operation.document_type_ids = [
+            Command.create(
+                {
+                    "document_type_id": self.doc_type_mdfe.id,
+                    "company_id": self.company.id,
+                }
+            )
+        ]
+        self.mdfe.fiscal_operation_id = operation.id
+        self.mdfe.state_edoc = SITUACAO_EDOC_AUTORIZADA
+
+        dashboard = operation.get_operation_dashboard_data()
+        self.assertTrue(dashboard["show_number_to_close"])
+        self.assertEqual(dashboard["number_to_close"], 1)
+
+        self.mdfe.state_edoc = SITUACAO_EDOC_ENCERRADA
+        dashboard = operation.get_operation_dashboard_data()
+        self.assertEqual(dashboard["number_to_close"], 0)
+
+        sale_operation = self.env.ref("l10n_br_fiscal.fo_venda")
+        sale_operation.document_type_ids = [
+            Command.create(
+                {
+                    "document_type_id": self.doc_type_nfe.id,
+                    "company_id": self.company.id,
+                }
+            )
+        ]
+        dashboard = sale_operation.get_operation_dashboard_data()
+        self.assertFalse(dashboard["show_number_to_close"])
+        self.assertEqual(dashboard["number_to_close"], 0)
+
     def test_partner_rntrc_inverse(self):
         self.partner.mdfe30_RNTRC = "12345678"
         self.assertEqual(self.partner.rntrc_code, "12345678")
