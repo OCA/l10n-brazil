@@ -106,3 +106,30 @@ class TestNfseLifecycle(TransactionCase):
         self.assertTrue(self.doc.cancel_event_id)
         self.assertEqual(self.doc.cancel_event_id.state, "done")
         self.assertEqual(self.doc.cancel_event_id.type, "2")
+
+    def test_check_status_detects_oficio_cancellation(self):
+        self.doc.nfse_key = "5" * 50
+        self.doc.state_edoc = "autorizada"
+        event_body = {"eventoXmlGZipB64": ""}
+        responses = {
+            "101101": mock_response({}, 404),
+            "305101": mock_response(event_body, 200),
+        }
+
+        def fake_get(url, timeout=None):
+            tipo = "101101" if "/101101/" in url else "305101"
+            return responses[tipo]
+
+        with mock.patch("requests.Session.get", side_effect=fake_get):
+            self.doc.action_adn_check_status()
+        self.assertEqual(self.doc.state_edoc, "cancelada")
+        self.assertTrue(self.doc.cancel_event_id)
+        self.assertEqual(self.doc.cancel_event_id.state, "done")
+
+    def test_check_status_no_cancellation_found(self):
+        self.doc.nfse_key = "5" * 50
+        self.doc.state_edoc = "autorizada"
+        with mock.patch("requests.Session.get", return_value=mock_response({}, 404)):
+            self.doc.action_adn_check_status()
+        self.assertEqual(self.doc.state_edoc, "autorizada")
+        self.assertFalse(self.doc.cancel_event_id)

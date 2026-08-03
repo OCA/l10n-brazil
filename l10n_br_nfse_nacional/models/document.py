@@ -23,11 +23,16 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     EVENT_ENV_PROD,
     MODELO_FISCAL_NFSE,
     SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_REJEITADA,
 )
 from odoo.addons.spec_driven_model.models import spec_models
 
-from ..constants.nfse_nacional import ADN_BASE_URL, NFSE_NACIONAL_CANCEL_EVENT
+from ..constants.nfse_nacional import (
+    ADN_BASE_URL,
+    NFSE_NACIONAL_CANCEL_EVENT,
+    NFSE_NACIONAL_CANCEL_OFICIO_EVENT,
+)
 from ..transport.adn_rest import AdnRestClient
 
 BRAZIL_TZ = pytz.timezone("America/Sao_Paulo")
@@ -417,3 +422,51 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
             file_response_xml=self._adn_decode_nfse(body) or signed_xml,
         )
         return True
+
+    def action_adn_check_status(self):
+        for record in self.filtered(filter_nfse_nacional):
+            record._adn_check_cancellation_status()
+
+    def _adn_check_cancellation_status(self):
+        self.ensure_one()
+        if self.state_edoc != SITUACAO_EDOC_AUTORIZADA:
+            return
+        for event_type in (
+            NFSE_NACIONAL_CANCEL_EVENT,
+            NFSE_NACIONAL_CANCEL_OFICIO_EVENT,
+        ):
+            response = self._adn_post(
+                lambda client, et=event_type: client.get_event(self.nfse_key, et, "1")
+            )
+            if response.status_code in (200, 201):
+                self._adn_register_external_cancellation(event_type, response)
+                return
+
+    def _adn_register_external_cancellation(self, event_type, response):
+        self.ensure_one()
+        body = response.body or {}
+        raw = body.get("eventoXmlGZipB64")
+        xml = gzip.decompress(base64.b64decode(raw)).decode("utf-8") if raw else ""
+        event = self.event_ids.create_event_save_xml(
+            company_id=self.company_id,
+            environment=self._nfse_nacional_event_env(),
+            event_type="2",
+            xml_file=xml,
+            document_id=self,
+        )
+        self.cancel_event_id = event
+        event.set_done(
+            status_code=event_type,
+            response=_("Cancelled at the ADN by another means (event %s)") % event_type,
+            protocol_date=fields.Datetime.now(),
+            protocol_number=False,
+            file_response_xml=xml,
+        )
+        self.message_post(
+            body=_(
+                "NFS-e was cancelled directly at the ADN (event %s), "
+                "detected via status check."
+            )
+            % event_type
+        )
+        self._change_state(SITUACAO_EDOC_CANCELADA)
