@@ -12,6 +12,7 @@ ADN_BASE_URL = {
 }
 
 NFSE_NACIONAL_CANCEL_EVENT = "101101"
+NFSE_NACIONAL_CANCEL_OFICIO_EVENT = "305101"
 NFSE_NACIONAL_CANCEL_MOTIVES = [
     ("1", "Erro na emissão"),
     ("2", "Serviço não prestado"),
