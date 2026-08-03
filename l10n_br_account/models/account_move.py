@@ -46,6 +46,10 @@ class AccountMove(models.Model):
 
     _order = "date DESC, name DESC"
 
+    _popup_button_xpaths = [
+        ("//field[@name='invoice_line_ids']/list/field[@name='product_id']", "before"),
+    ]
+
     document_electronic = fields.Boolean(
         related="document_type_id.electronic",
         string="Electronic?",
@@ -214,20 +218,20 @@ class AccountMove(models.Model):
         arch, view = super()._get_view(view_id, view_type, **options)
         if self.env.company.country_id.code != "BR" or view_type != "form":
             return arch, view
-        if view_type == "form" and self.env.company.country_id.code == "BR":
+        if view_type == "form":
             arch = self.env["l10n_br_fiscal.document.line"].inject_fiscal_fields(arch)
-
-        for tax_totals_node in arch.xpath(
-            "//field[@name='tax_totals'][@widget='account-tax-totals-field']"
-        ):
-            tax_totals_node.set("attrs", "{'invisible': True}")
-
-        if view_type == "form" and (
-            self.env.user.has_group("l10n_br_account.group_line_fiscal_detail")
-            or self.env.context.get("force_line_fiscal_detail")
-        ):
-            for sub_tree_node in arch.xpath("//field[@name='invoice_line_ids']/list"):
-                sub_tree_node.attrib["editable"] = ""
+            if self.env.user.has_group(
+                "l10n_br_account.group_line_fiscal_detail"
+            ) or self.env.context.get("force_line_fiscal_detail"):
+                for sub_tree_node in arch.xpath(
+                    "//field[@name='invoice_line_ids']/list"
+                ):
+                    sub_tree_node.attrib["editable"] = ""
+            elif "web_list_record_popup.mixin" in self.env:
+                arch = self.env["web_list_record_popup.mixin"]._inject_popup_buttons(
+                    arch,
+                    self._popup_button_xpaths,
+                )
 
         return arch, view
 
