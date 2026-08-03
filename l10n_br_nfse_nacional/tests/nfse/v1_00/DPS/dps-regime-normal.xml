@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <DPS xmlns="http://www.sped.fazenda.gov.br/nfse" versao="1.00">
-  <infDPS Id="DPS420240420000000000000000007000000000000002">
+  <infDPS Id="DPS42024042000000000000000000700000000000002">
     <tpAmb>2</tpAmb>
     <dhEmi>2023-09-09T09:42:06-03:00</dhEmi>
     <verAplic>20220719</verAplic>
@@ -8,23 +8,33 @@
     <nDPS>2</nDPS>
     <dCompet>2023-09-09</dCompet>
     <tpEmit>1</tpEmit>
-    <cLocEmi>4202404</cLocEmi>
+    <cLocEmi>3550308</cLocEmi>
     <prest>
-      <CNPJ>00000000000000</CNPJ>
-      <IM>152422</IM>
+      <CNPJ>81583054000129</CNPJ>
+      <xNome>Empresa Lucro Presumido Ltda</xNome>
+      <end>
+        <endNac>
+          <cMun>3550308</cMun>
+          <CEP>01311000</CEP>
+        </endNac>
+        <xLgr>Avenida Paulista</xLgr>
+        <nro>1</nro>
+        <xBairro>Bela Vista</xBairro>
+      </end>
+      <fone>551199999999</fone>
+      <email>info@suaempresa.com.br</email>
       <regTrib>
-        <opSimpNac>2</opSimpNac>
+        <opSimpNac>1</opSimpNac>
         <regEspTrib>0</regEspTrib>
       </regTrib>
     </prest>
     <toma>
-      <CNPJ>00000000000000</CNPJ>
-      <IM>00000</IM>
-      <xNome>XXXXXXX XXXXXXXXXXX LTDA ME</xNome>
+      <CNPJ>12345678000195</CNPJ>
+      <IM>987654</IM>
       <end>
-        <xLgr>ARY XXXXXXX XXXXX</xLgr>
+        <endNac />
         <nro>79</nro>
-        <xBairro>XXXXXXXX XXXXX</xBairro>
+        <xBairro>Centro</xBairro>
       </end>
     </toma>
     <serv>
@@ -41,15 +51,18 @@
       <vServPrest>
         <vServ>20.00</vServ>
       </vServPrest>
+      <vDescCondIncond />
       <trib>
         <tribMun>
           <tribISSQN>1</tribISSQN>
           <tpRetISSQN>1</tpRetISSQN>
         </tribMun>
         <tribFed>
+          <piscofins>
+            <CST>00</CST>
+            <tpRetPisCofins>2</tpRetPisCofins>
+          </piscofins>
           <vRetCP>0.40</vRetCP>
-          <vRetIRRF>0.00</vRetIRRF>
-          <vRetCSLL>0.00</vRetCSLL>
         </tribFed>
         <totTrib>
           <indTotTrib>0</indTotTrib>
