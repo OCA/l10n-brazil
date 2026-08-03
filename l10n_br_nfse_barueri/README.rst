@@ -1,3 +1,7 @@
+.. image:: https://odoo-community.org/readme-banner-image
+   :target: https://odoo-community.org/get-involved?utm_source=readme
+   :alt: Odoo Community Association
+
 ===============
 NFS-e (Barueri)
 ===============
@@ -13,7 +17,7 @@ NFS-e (Barueri)
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
@@ -75,7 +79,14 @@ Authors
 Contributors
 ~~~~~~~~~~~~
 
-* André Marcos Ferreira <andre@kmee.com.br>
+* `KMEE <https://www.kmee.com.br>`_:
+
+  * André Marcos <andre.marcos@kmee.com.br>
+
+* `Escodoo <https://www.escodoo.com.br>`_:
+
+  * Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+  * Cristiano Mafra Junior <cristiano.mafra@escodoo.com.br>
 
 Maintainers
 ~~~~~~~~~~~
@@ -99,10 +110,16 @@ promote its widespread use.
 .. |maintainer-ygcarvalh| image:: https://github.com/ygcarvalh.png?size=40px
     :target: https://github.com/ygcarvalh
     :alt: ygcarvalh
+.. |maintainer-CristianoMafraJunior| image:: https://github.com/CristianoMafraJunior.png?size=40px
+    :target: https://github.com/CristianoMafraJunior
+    :alt: CristianoMafraJunior
+.. |maintainer-marcelsavegnago| image:: https://github.com/marcelsavegnago.png?size=40px
+    :target: https://github.com/marcelsavegnago
+    :alt: marcelsavegnago
 
 Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
 
-|maintainer-AndreMarcos| |maintainer-mileo| |maintainer-ygcarvalh| 
+|maintainer-AndreMarcos| |maintainer-mileo| |maintainer-ygcarvalh| |maintainer-CristianoMafraJunior| |maintainer-marcelsavegnago| 
 
 This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_nfse_barueri>`_ project on GitHub.
 
