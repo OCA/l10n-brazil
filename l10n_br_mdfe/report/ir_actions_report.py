@@ -65,7 +65,11 @@ class IrActionsReport(models.Model):
             "qCTe": mdfe.mdfe30_qCTe or 0,
             "qMDFe": mdfe.mdfe30_qMDFe or 0,
             "vCarga": f"{mdfe.mdfe30_vCarga:.2f}",
-            "qCarga": f"{mdfe.mdfe30_qCarga:.4f}",
+            # The library prints the qCarga text as-is, so format the
+            # weight with a comma decimal separator and 2 digits.
+            "qCarga": f"{mdfe.mdfe30_qCarga or 0:,.2f}".replace(",", "X")
+            .replace(".", ",")
+            .replace("X", "."),
         }
         for tag, value in values.items():
             element = tot.find(f"{{{MDFE_NS}}}{tag}")

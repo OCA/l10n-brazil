@@ -1191,7 +1191,7 @@ class MDFeDocumentFlowTest(TransactionCase):
         updated = report._update_damdfe_tot(self.mdfe, old_xml)
         updated_root = etree.fromstring(updated)
         tot = updated_root.find(f".//{{{MDFE_NS}}}tot")
-        self.assertEqual(tot.find(f"{{{MDFE_NS}}}qCarga").text, "100.0000")
+        self.assertEqual(tot.find(f"{{{MDFE_NS}}}qCarga").text, "100,00")
         self.assertEqual(tot.find(f"{{{MDFE_NS}}}vCarga").text, "500.00")
         self.assertEqual(tot.find(f"{{{MDFE_NS}}}qNFe").text, "0")
 
