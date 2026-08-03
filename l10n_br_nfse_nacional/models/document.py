@@ -470,3 +470,26 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
             % event_type
         )
         self._change_state(SITUACAO_EDOC_CANCELADA)
+
+    def make_pdf(self):
+        nacional_docs = self.filtered(filter_nfse_nacional)
+        if not nacional_docs:
+            return super().make_pdf()
+        report = self.env.ref("l10n_br_nfse_nacional.report_danfse_nacional")
+        for record in nacional_docs:
+            pdf = report._render_qweb_pdf(report.id, record.ids)[0]
+            vals = {
+                "name": f"DANFSe-{record.document_number or record.id}.pdf",
+                "res_model": record._name,
+                "res_id": record.id,
+                "datas": base64.b64encode(pdf),
+                "mimetype": "application/pdf",
+                "type": "binary",
+            }
+            if record.file_report_id:
+                record.file_report_id.write(vals)
+            else:
+                record.file_report_id = self.env["ir.attachment"].create(vals)
+        remaining = self - nacional_docs
+        if remaining:
+            return super(L10nBrFiscalDocument, remaining).make_pdf()
