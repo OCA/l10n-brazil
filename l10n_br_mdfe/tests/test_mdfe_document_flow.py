@@ -368,6 +368,10 @@ class MDFeDocumentFlowTest(TransactionCase):
                 active_model="l10n_br_fiscal.document", active_id=self.mdfe.id
             )
         ) as form:
+            # the first city from the related documents must be pre-loaded
+            self.assertEqual(form.closure_city_id, self.city)
+            self.assertEqual(form.state_id, self.city.state_id)
+            self.assertEqual(form.city_id, self.city)
             self.assertIn(self.city, form.related_city_ids)
             # selecting a listed city fills the manual fields and must NOT
             # warn the user about an unlisted city (the webclient onchange

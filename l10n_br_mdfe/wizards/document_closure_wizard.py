@@ -50,6 +50,14 @@ class DocumentClosurenWizard(models.TransientModel):
             document = self.env["l10n_br_fiscal.document"].browse(res["document_id"])
             cities = document.mdfe_document_ids.partner_id.mapped("city_id")
             res["related_city_ids"] = [Command.set(cities.ids)]
+            if cities:
+                first_city = cities[0]
+                if "closure_city_id" in fields_list:
+                    res["closure_city_id"] = first_city.id
+                if "state_id" in fields_list:
+                    res["state_id"] = first_city.state_id.id
+                if "city_id" in fields_list:
+                    res["city_id"] = first_city.id
         return res
 
     @api.depends(
