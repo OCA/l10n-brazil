@@ -23,6 +23,7 @@
     "data": [
         "wizards/document_cancel_wizard.xml",
         "views/document_view.xml",
+        "report/danfse_nacional.xml",
     ],
     "demo": [
         "demo/fiscal_document_demo.xml",
