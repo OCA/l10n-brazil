@@ -75,3 +75,25 @@ class TestAdnTransport(TransactionCase):
             client.get_nfse("5" * 50)
         got.assert_called_once()
         self.assertTrue(got.call_args.args[0].endswith("/nfse/" + "5" * 50))
+
+    def test_get_event_found(self):
+        client = self._client()
+        with mock.patch.object(
+            client._session, "get", return_value=_fake_response(200, {"ok": True})
+        ) as got:
+            resp = client.get_event("5" * 50, "101101", "1")
+        got.assert_called_once()
+        self.assertTrue(
+            got.call_args.args[0].endswith("/nfse/" + "5" * 50 + "/eventos/101101/1")
+        )
+        self.assertEqual(resp.status_code, 200)
+
+    def test_get_event_not_found(self):
+        client = self._client()
+        with mock.patch.object(
+            client._session,
+            "get",
+            return_value=_fake_response(404, payload=None, content=b"not found"),
+        ):
+            resp = client.get_event("5" * 50, "305101", "1")
+        self.assertEqual(resp.status_code, 404)
