@@ -3,12 +3,16 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
+import os
 
 from nfelib.nfse.bindings.v1_0.tipos_complexos_v1_00 import TcinfDps
+from xmldiff import main
 from xsdata.formats.dataclass.serializers import XmlSerializer
 from xsdata.formats.dataclass.serializers.config import SerializerConfig
 
 from odoo.tests.common import TransactionCase
+
+from odoo.addons import l10n_br_nfse_nacional
 
 _logger = logging.getLogger(__name__)
 
@@ -44,4 +48,12 @@ class TestNfseSerialize(TransactionCase):
         with open(output_path, "w") as f:
             f.write(xml_output)
 
-        return []
+        expected_path = os.path.join(
+            l10n_br_nfse_nacional.__path__[0],
+            "tests",
+            "nfse",
+            "v1_00",
+            "DPS",
+            nfse_data["xml_file"],
+        )
+        return main.diff_files(output_path, expected_path)
