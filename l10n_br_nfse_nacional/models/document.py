@@ -143,7 +143,8 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
         standard validation.
         """
         nfse_nacional_docs = self.filtered(
-            lambda r: r.document_type_id and r.document_type_id.code == "SE"
+            lambda r: r.document_type_id
+            and r.document_type_id.code == MODELO_FISCAL_NFSE
         )
         other_docs = self - nfse_nacional_docs
 
