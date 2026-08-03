@@ -277,7 +277,16 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             else:
                 line.allow_csll_irpj = False  # No tax charges expected
 
-    def _prepare_br_fiscal_dict(self, default=False):
+    def _prepare_br_fiscal_dict(self, default=False, quantity=None):
+        """Return the fiscal fields of this record as a write dict.
+
+        When `quantity` is given and differs from the record quantity, the
+        stored compute fields depending on it (tax bases and values,
+        fiscal_quantity...) are recomputed for that quantity. Otherwise they
+        would be copied frozen and, since they are readonly=False, the ORM
+        would accept them as explicit values at create() and skip the compute
+        even though `quantity` is in their `depends`.
+        """
         self.ensure_one()
         fields = self.env["l10n_br_fiscal.document.line.mixin"]._fields.keys()
 
@@ -286,6 +295,22 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
         # remove id field to avoid conflicts
         vals.pop("id", None)
+
+        if quantity is not None and quantity != vals.get("quantity"):
+            # Simulate the quantity change on a virtual record: the depends
+            # fire and every stored compute field is recomputed by the ORM
+            # itself, the same way it would happen if the quantity was edited
+            # in a form. This makes the recompute independent from knowing
+            # which field is populated by which compute method.
+            # Read-back goes through the cache (convert_to_write per field) to
+            # avoid the ACL check that read() would trigger on the virtual
+            # record.
+            virtual = self.env["l10n_br_fiscal.document.line"].new(vals)
+            virtual.quantity = quantity
+            vals = {
+                fname: virtual._fields[fname].convert_to_write(virtual[fname], virtual)
+                for fname in vals
+            }
 
         if default:  # in case you want to use new rather than write later
             return {f"default_{k}": vals[k] for k in vals.keys()}
