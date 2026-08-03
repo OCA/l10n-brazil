@@ -1131,6 +1131,35 @@ class MDFeDocumentFlowTest(TransactionCase):
         with self.assertRaises(UserError):
             self.mdfe._validate_xml("<invalid/>")
 
+    def test_damdfe_tot_updated_from_document(self):
+        # The DAmDFE is rendered from the stored XML, which may have been
+        # generated before the weight sync: the tot/qCarga must be
+        # refreshed from the document so "PESO TOTAL" renders correctly.
+        self.mdfe.total_weight = 100.0
+        self.mdfe.fiscal_amount_total = 500.0
+        self.assertEqual(self.mdfe.mdfe30_qCarga, 100.0)
+        self.assertEqual(self.mdfe.mdfe30_vCarga, 500.0)
+
+        report = self.env["ir.actions.report"]
+        old_xml = (
+            f'<mdfe:MDFe xmlns:mdfe="{MDFE_NS}">'
+            f"<mdfe:infMDFe>"
+            f"<mdfe:tot>"
+            f"<mdfe:qNFe>0</mdfe:qNFe>"
+            f"<mdfe:vCarga>0.00</mdfe:vCarga>"
+            f"<mdfe:cUnid>01</mdfe:cUnid>"
+            f"<mdfe:qCarga>0.0000</mdfe:qCarga>"
+            f"</mdfe:tot>"
+            f"</mdfe:infMDFe>"
+            f"</mdfe:MDFe>"
+        ).encode()
+        updated = report._update_damdfe_tot(self.mdfe, old_xml)
+        updated_root = etree.fromstring(updated)
+        tot = updated_root.find(f".//{{{MDFE_NS}}}tot")
+        self.assertEqual(tot.find(f"{{{MDFE_NS}}}qCarga").text, "100.0000")
+        self.assertEqual(tot.find(f"{{{MDFE_NS}}}vCarga").text, "500.00")
+        self.assertEqual(tot.find(f"{{{MDFE_NS}}}qNFe").text, "0")
+
     def test_update_status_mdfe_dh_recibo_string(self):
         self.mdfe.authorization_event_id = self._create_event()
         process = self._fake_process(AUTORIZADO[0])

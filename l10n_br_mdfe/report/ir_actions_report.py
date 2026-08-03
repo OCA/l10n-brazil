@@ -5,9 +5,12 @@ import base64
 from io import BytesIO
 
 from brazilfiscalreport.damdfe import Damdfe, DamdfeConfig, Margins
+from lxml import etree
 
 from odoo import _, api, models
 from odoo.exceptions import UserError
+
+MDFE_NS = "http://www.portalfiscal.inf.br/mdfe"
 
 
 class IrActionsReport(models.Model):
@@ -39,7 +42,41 @@ class IrActionsReport(models.Model):
         if not mdfe_xml:
             raise UserError(_("No xml file was found."))
 
+        mdfe_xml = self._update_damdfe_tot(mdfe, mdfe_xml)
+
         return self.render_damdfe_brazilfiscalreport(mdfe, mdfe_xml)
+
+    def _update_damdfe_tot(self, mdfe, mdfe_xml):
+        """Update the ``tot`` values of the stored XML with the current
+        document values before rendering the DAmDFE.
+
+        The stored XML may have been generated before the weight/amount
+        sync, so the ``qCarga``/``vCarga`` totals must be refreshed from
+        the document to render the correct "PESO TOTAL" and
+        "VALOR TOTAL" on the DAmDFE.
+        """
+        root = etree.fromstring(mdfe_xml)
+        tot = root.find(f".//{{{MDFE_NS}}}tot")
+        if tot is None:
+            return mdfe_xml
+
+        values = {
+            "qNFe": mdfe.mdfe30_qNFe or 0,
+            "qCTe": mdfe.mdfe30_qCTe or 0,
+            "qMDFe": mdfe.mdfe30_qMDFe or 0,
+            "vCarga": f"{mdfe.mdfe30_vCarga:.2f}",
+            "qCarga": f"{mdfe.mdfe30_qCarga:.4f}",
+        }
+        for tag, value in values.items():
+            element = tot.find(f"{{{MDFE_NS}}}{tag}")
+            if element is not None:
+                if element.text != str(value):
+                    element.text = str(value)
+            elif tag in ("vCarga", "qCarga"):
+                # mandatory tot fields missing on old XMLs: append them
+                etree.SubElement(tot, f"{{{MDFE_NS}}}{tag}").text = str(value)
+
+        return etree.tostring(root, encoding="UTF-8")
 
     def render_damdfe_brazilfiscalreport(self, mdfe, mdfe_xml):
         logo = False
