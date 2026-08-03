@@ -269,6 +269,15 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation_line__company_tax_framework__4
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation_line__partner_tax_framework__4
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_partner_profile__tax_framework__4
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_company__tax_framework__4
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_partner__tax_framework__4
+msgid "4 - Simples Nacional - Microempreendedor Individual (MEI)"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_classification__rate_type__4
 msgid "4 - Uniforme Nacional"
 msgstr ""
