@@ -71,7 +71,7 @@ class DocumentClosurenWizard(models.TransientModel):
 
     @api.onchange("city_id")
     def _onchange_city_id(self):
-        if self.city_id and self.city_id not in self.related_city_ids:
+        if self.city_id and self.city_id.id not in self.related_city_ids.ids:
             return {
                 "warning": {
                     "title": _("Confirmação"),

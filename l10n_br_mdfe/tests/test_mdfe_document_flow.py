@@ -3,6 +3,7 @@
 
 import base64
 import importlib.util
+import logging
 import os
 from datetime import datetime
 from types import SimpleNamespace
@@ -368,9 +369,41 @@ class MDFeDocumentFlowTest(TransactionCase):
             )
         ) as form:
             self.assertIn(self.city, form.related_city_ids)
-            form.closure_city_id = self.city
+            # selecting a listed city fills the manual fields and must NOT
+            # warn the user about an unlisted city (the webclient onchange
+            # uses virtual NewId records in related_city_ids).
+            onchange_logger = logging.getLogger("odoo.tests.common.onchange")
+            warnings = []
+
+            class _Handler(logging.Handler):
+                def emit(self, record):
+                    warnings.append(record.getMessage())
+
+            handler = _Handler()
+            onchange_logger.addHandler(handler)
+            try:
+                form.closure_city_id = self.city
+            finally:
+                onchange_logger.removeHandler(handler)
             self.assertEqual(form.state_id, self.city.state_id)
             self.assertEqual(form.city_id, self.city)
+            self.assertFalse(warnings, "listed city must not warn the user")
+
+            # selecting a city outside the listed ones must warn the user
+            other_city = self.env["res.city"].create(
+                {
+                    "name": "Outra Cidade",
+                    "state_id": self.state_ac.id,
+                    "country_id": self.state_ac.country_id.id,
+                }
+            )
+            onchange_logger.addHandler(handler)
+            try:
+                form.city_id = other_city
+            finally:
+                onchange_logger.removeHandler(handler)
+            self.assertTrue(warnings)
+            self.assertIn("diferente da listada", warnings[-1])
 
     def test_document_cancel_justification(self):
         with self.assertRaises(ValidationError):
