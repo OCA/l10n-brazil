@@ -913,6 +913,8 @@ class MDFe(spec_models.StackedModel):
         "mdfe30_infMunDescarga.cte_ids.document_related_id.total_weight",
         "mdfe30_infMunDescarga.nfe_ids.document_related_id.total_weight",
         "mdfe30_infMunDescarga.mdfe_ids.document_related_id.total_weight",
+        "total_weight",
+        "fiscal_amount_total",
     )
     def _compute_mdfe30_tot(self):
         for record in self.filtered(filtered_processador_edoc_mdfe):
@@ -928,17 +930,23 @@ class MDFe(spec_models.StackedModel):
             record.mdfe30_qMDFe = mdfe_ids and len(mdfe_ids) or False
 
             all_documents = cte_ids + nfe_ids + mdfe_ids
-            record.mdfe30_qCarga = sum(
-                related.document_related_id.total_weight
-                if related.document_related_id
-                else related.document_total_weight
-                for related in all_documents
+            record.mdfe30_qCarga = (
+                sum(
+                    related.document_related_id.total_weight
+                    if related.document_related_id
+                    else related.document_total_weight
+                    for related in all_documents
+                )
+                or record.total_weight
             )
-            record.mdfe30_vCarga = sum(
-                related.document_related_id.fiscal_amount_total
-                if related.document_related_id
-                else related.document_total_amount
-                for related in all_documents
+            record.mdfe30_vCarga = (
+                sum(
+                    related.document_related_id.fiscal_amount_total
+                    if related.document_related_id
+                    else related.document_total_amount
+                    for related in all_documents
+                )
+                or record.fiscal_amount_total
             )
 
     ##########################

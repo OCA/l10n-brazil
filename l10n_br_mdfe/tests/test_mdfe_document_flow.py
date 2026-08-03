@@ -222,6 +222,23 @@ class MDFeDocumentFlowTest(TransactionCase):
         self.assertEqual(descarga.nfe_ids.document_total_weight, 30.0)
         self.assertEqual(self.mdfe.mdfe30_qCarga, 30.0)
 
+    def test_tot_uses_manual_weight_when_no_related_documents(self):
+        # MDF-e without related documents must use the weight and amount
+        # informed manually on the document itself (tot/qCarga drives the
+        # "PESO TOTAL" field rendered on the DAmDFE).
+        self.mdfe.total_weight = 100.0
+        self.mdfe.fiscal_amount_total = 500.0
+        self.assertEqual(self.mdfe.mdfe30_qCarga, 100.0)
+        self.assertEqual(self.mdfe.mdfe30_vCarga, 500.0)
+
+        # removing the last related document must fall back to the manual
+        # values instead of zeroing the totals
+        self.mdfe.mdfe_document_ids = [Command.set([self.nfe.id])]
+        self.assertEqual(self.mdfe.mdfe30_qCarga, 10.0)
+        self.mdfe.mdfe_document_ids = [Command.set([])]
+        self.assertEqual(self.mdfe.mdfe30_qCarga, 100.0)
+        self.assertEqual(self.mdfe.mdfe30_vCarga, 500.0)
+
     def test_document_number_assigns_serie(self):
         document = self.env["l10n_br_fiscal.document"].create(
             {
