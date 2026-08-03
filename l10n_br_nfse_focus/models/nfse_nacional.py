@@ -232,9 +232,12 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
         if situacao_tributaria_pis_cofins == "99":
             situacao_tributaria_pis_cofins = "00"
 
+        pis_data = self._prepare_pis_cofins_tax_nacional(service_info, "pis")
+        cofins_data = self._prepare_pis_cofins_tax_nacional(service_info, "cofins")
+
         # PIS/COFINS calculation base
-        base_calculo_pis = service_info.get("base_calculo_pis", 0)
-        base_calculo_cofins = service_info.get("base_calculo_cofins", 0)
+        base_calculo_pis = pis_data["base"]
+        base_calculo_cofins = cofins_data["base"]
         base_calculo_pis_cofins = round(
             base_calculo_pis if base_calculo_pis else base_calculo_cofins, 2
         )
@@ -246,18 +249,20 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
                 if not base_calculo_pis_cofins or base_calculo_pis_cofins == 0:
                     base_calculo_pis_cofins = round(valor_servico, 2)
 
-        valor_pis = round(service_info.get("valor_pis", 0), 2)
-        valor_cofins = round(service_info.get("valor_cofins", 0), 2)
+        aliquota_pis_raw = pis_data["percent"]
+        aliquota_cofins_raw = cofins_data["percent"]
+        valor_pis = pis_data["value"]
+        valor_cofins = cofins_data["value"]
 
-        # aliquota must match valor / base_calculo or the DPS nacional rejects it
-        if base_calculo_pis_cofins:
-            aliquota_pis = f"{round(valor_pis / base_calculo_pis_cofins * 100, 2):.2f}"
-            aliquota_cofins = (
-                f"{round(valor_cofins / base_calculo_pis_cofins * 100, 2):.2f}"
-            )
-        else:
-            aliquota_pis = "0.00"
-            aliquota_cofins = "0.00"
+        if situacao_tributaria_pis_cofins in {"00", "08", "09"}:
+            base_calculo_pis_cofins = 0.0
+            aliquota_pis_raw = 0.0
+            aliquota_cofins_raw = 0.0
+            valor_pis = 0.0
+            valor_cofins = 0.0
+
+        aliquota_pis = f"{aliquota_pis_raw:.2f}"
+        aliquota_cofins = f"{aliquota_cofins_raw:.2f}"
 
         return {
             **(
@@ -277,6 +282,30 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
             "valor_irrf": round(service_info.get("valor_ir_retido", 0), 2),
             "valor_csll": round(service_info.get("valor_csll_retido", 0), 2),
             "valor_iss": round(service_info.get("valor_iss", 0), 2),
+        }
+
+    def _prepare_pis_cofins_tax_nacional(self, service_info, tax_name):
+        """Select a consistent nominal or withholding tax trio.
+
+        The generic NFSe serializer uses the nominal value and falls back to the
+        withholding value when the former is zero.  The national payload must use
+        the base, rate and value from that same source instead of deriving a rate
+        from the value.
+        """
+        withholding_data = {
+            "base": round(service_info.get(f"base_calculo_{tax_name}_retido", 0), 2),
+            "percent": round(service_info.get(f"aliquota_{tax_name}_retido", 0), 2),
+            "value": round(service_info.get(f"valor_{tax_name}_retido", 0), 2),
+        }
+        if str(service_info.get("tipo_retencao_pis_cofins")) == "1" and any(
+            withholding_data.values()
+        ):
+            return withholding_data
+
+        return {
+            "base": round(service_info.get(f"base_calculo_{tax_name}", 0), 2),
+            "percent": round(service_info.get(f"aliquota_{tax_name}", 0), 2),
+            "value": round(service_info.get(f"valor_{tax_name}", 0), 2),
         }
 
     def _prepare_payload_nacional(self, edoc, company):

@@ -50,6 +50,31 @@ class Document(models.Model):
 
     _inherit = "l10n_br_fiscal.document"
 
+    def _prepare_dados_servico(self):
+        """Add withholding bases and rates needed by the NFSe Nacional payload."""
+        service_data = super()._prepare_dados_servico()
+        if self.company_id.focusnfe_nfse_type != "nfse_nacional":
+            return service_data
+
+        lines = self.fiscal_line_ids.filtered(lambda line: line.product_id)
+        if not lines:
+            return service_data
+
+        last_line = lines[-1]
+        for tax_name in ("pis", "cofins"):
+            service_data.update(
+                {
+                    f"base_calculo_{tax_name}_retido": round(
+                        sum(lines.mapped(f"{tax_name}_wh_base")), 2
+                    ),
+                    f"aliquota_{tax_name}_retido": round(
+                        last_line[f"{tax_name}_wh_percent"], 2
+                    ),
+                }
+            )
+
+        return service_data
+
     def make_focus_nfse_pdf(self, content):
         """Generate a PDF for a NFSe document using Focus NFSe service.
 
