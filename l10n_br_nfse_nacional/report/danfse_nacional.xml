@@ -17,7 +17,9 @@
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
                 <div
-                    class="page"
+                    class="page article"
+                    data-oe-model="l10n_br_fiscal.document"
+                    t-att-data-oe-id="doc.id"
                     style="font-size:7pt; font-family: 'Microsoft Sans Serif', Arial, sans-serif;"
                 >
                     <style type="text/css">
