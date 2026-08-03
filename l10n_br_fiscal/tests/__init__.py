@@ -16,4 +16,5 @@ from . import (
     test_partner_profile,
     test_service_type,
     test_operation,
+    test_tax_framework,
 )
