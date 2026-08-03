@@ -328,7 +328,9 @@ class MDFeDocumentFlowTest(TransactionCase):
 
         wizard = (
             self.env["l10n_br_fiscal.document.closure.wizard"]
-            .with_context(active_model="l10n_br_fiscal.document", active_id=self.mdfe.id)
+            .with_context(
+                active_model="l10n_br_fiscal.document", active_id=self.mdfe.id
+            )
             .create({})
         )
         self.assertIn(self.city, wizard.related_city_ids)
@@ -342,7 +344,11 @@ class MDFeDocumentFlowTest(TransactionCase):
 
         # selecting a city outside the listed ones must warn the user
         other_city = self.env["res.city"].create(
-            {"name": "Outra Cidade", "state_id": self.state_ac.id}
+            {
+                "name": "Outra Cidade",
+                "state_id": self.state_ac.id,
+                "country_id": self.state_ac.country_id.id,
+            }
         )
         other_wizard = wizard.new({"city_id": other_city.id})
         result = other_wizard._onchange_city_id()

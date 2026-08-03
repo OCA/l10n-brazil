@@ -1,7 +1,7 @@
 # Copyright 2023 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import Command, _, api, fields, models
 
 
 class DocumentClosurenWizard(models.TransientModel):
@@ -43,12 +43,14 @@ class DocumentClosurenWizard(models.TransientModel):
         domain="[('state_id', '=', state_id)]",
     )
 
-    @api.depends("document_id")
+    @api.depends(
+        "document_id",
+        "document_id.mdfe_document_ids",
+        "document_id.mdfe_document_ids.partner_id.city_id",
+    )
     def _compute_related_cities(self):
         for wizard in self:
-            cities = wizard.document_id.mdfe_document_ids.partner_id.mapped(
-                "city_id"
-            )
+            cities = wizard.document_id.mdfe_document_ids.partner_id.mapped("city_id")
             wizard.related_city_ids = [Command.set(cities.ids)]
 
     @api.onchange("closure_city_id")
