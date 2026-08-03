@@ -80,10 +80,11 @@ class AdnRestClient:
         )
         return self._wrap(resp)
 
-    def get_events(self, chave):
-        """GET /nfse/{chave}/eventos — list the events of an NFS-e (reconcile)."""
+    def get_event(self, chave, tipo_evento, num_seq):
+        """GET /nfse/{chave}/eventos/{tipoEvento}/{numSeqEvento} — fetch one event."""
         resp = self._session.get(
-            f"{self._base_url}/nfse/{chave}/eventos", timeout=self._timeout
+            f"{self._base_url}/nfse/{chave}/eventos/{tipo_evento}/{num_seq}",
+            timeout=self._timeout,
         )
         return self._wrap(resp)
 
