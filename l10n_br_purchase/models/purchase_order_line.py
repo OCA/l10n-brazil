@@ -125,12 +125,12 @@ class PurchaseOrderLine(models.Model):
             )
             if line.fiscal_operation_id:
                 # O caso Brasil se caracteriza por ter a Operação Fiscal
-                fiscal_values = line._prepare_br_fiscal_dict()
-                # fiscal_quantity must not be copied from PO line because
-                # the invoice quantity may differ (e.g. partial receipt).
-                # Let _compute_fiscal_quantity recompute it from the
-                # invoice line quantity, same approach as l10n_br_sale.
-                fiscal_values.pop("fiscal_quantity", None)
+                # The invoiced quantity may differ from the ordered one
+                # (partial receipt, partial invoicing), so the tax fields must
+                # be recomputed for it instead of copied from the PO line.
+                fiscal_values = line._prepare_br_fiscal_dict(
+                    quantity=values.get("quantity")
+                )
                 fiscal_values.update(values)
                 values.update(fiscal_values)
 

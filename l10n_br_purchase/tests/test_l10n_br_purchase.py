@@ -299,14 +299,17 @@ class L10nBrPurchaseBaseTest(TransactionCase):
 
         self.po_products.with_context(tracking_disable=True).button_confirm()
 
-        # 1) _prepare_account_move_line must NOT contain fiscal_quantity
+        # 1) _prepare_account_move_line must carry a fiscal_quantity matching
+        #    the quantity being invoiced, not the ordered one
         for po_line in self.po_products.order_line:
             vals = po_line._prepare_account_move_line(False)
-            self.assertNotIn(
-                "fiscal_quantity",
-                vals,
-                "fiscal_quantity should not be in the prepared invoice line "
-                "values — it must be recomputed from the invoice quantity.",
+            uot_factor = po_line.product_id.uot_factor or 1.0
+            self.assertAlmostEqual(
+                vals["fiscal_quantity"],
+                vals["quantity"] * uot_factor,
+                2,
+                "fiscal_quantity in the prepared invoice line values must "
+                "follow the invoiced quantity, not the PO line quantity.",
             )
 
         # 2) Create the invoice the same way the existing helper does
