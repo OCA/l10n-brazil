@@ -12,6 +12,15 @@
                     name="attrs"
                 >{'invisible': ['|', ('document_type', '=', 'SE'), ('state_edoc', 'in', ('em_digitacao', 'autorizada', 'cancelada', 'denegada'))]}</attribute>
             </button>
+            <button name="action_document_cancel" position="after">
+                <button
+                    name="action_adn_check_status"
+                    type="object"
+                    string="Consultar Status"
+                    groups="l10n_br_fiscal.group_user"
+                    attrs="{'invisible': ['|', ('document_type', '!=', 'SE'), ('state_edoc', '!=', 'autorizada')]}"
+                />
+            </button>
         </field>
     </record>
 </odoo>
