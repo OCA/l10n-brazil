@@ -4,6 +4,7 @@ import os
 import re
 import tempfile
 
+import pytz
 from nfelib import CommonMixin
 from nfelib.nfse.bindings.v1_0.dps_v1_00 import Dps
 from nfelib.nfse.bindings.v1_0.ped_reg_evento_v1_00 import PedRegEvento
@@ -28,6 +29,8 @@ from odoo.addons.spec_driven_model.models import spec_models
 
 from ..constants.nfse_nacional import ADN_BASE_URL, NFSE_NACIONAL_CANCEL_EVENT
 from ..transport.adn_rest import AdnRestClient
+
+BRAZIL_TZ = pytz.timezone("America/Sao_Paulo")
 
 
 def filter_nfse_nacional(record):
@@ -98,8 +101,8 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
     def _compute_nfse10_dates(self):
         for rec in self:
             if rec.document_date:
-                # Timezone offset applied for standard spec mapping
-                rec.nfse10_dhEmi = rec.document_date.strftime("%Y-%m-%dT%H:%M:%S-03:00")
+                local_dt = pytz.utc.localize(rec.document_date).astimezone(BRAZIL_TZ)
+                rec.nfse10_dhEmi = local_dt.isoformat(timespec="seconds")
                 rec.nfse10_dCompet = rec.document_date.strftime("%Y-%m-%d")
             else:
                 rec.nfse10_dhEmi = False
@@ -358,8 +361,10 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
         self.ensure_one()
         company = self.company_id
         cnpj = re.sub(r"\D", "", company.partner_id.cnpj_cpf or "")
-        dt = fields.Datetime.context_timestamp(self, fields.Datetime.now()).strftime(
-            "%Y-%m-%dT%H:%M:%S-03:00"
+        dt = (
+            pytz.utc.localize(fields.Datetime.now())
+            .astimezone(BRAZIL_TZ)
+            .isoformat(timespec="seconds")
         )
         inf = TcinfPedReg(
             tpAmb=company.nfse_environment,
