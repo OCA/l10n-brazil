@@ -452,6 +452,92 @@ class L10nBrPurchaseStockBase(TestBrPickingInvoicingCommon):
             "The Invoice Partner and Partner to Shipping should be the same.",
         )
 
+    def _receive_half(self, purchase):
+        """Confirm the order and receive half of every line."""
+        purchase.button_confirm()
+        picking = purchase.picking_ids
+        picking.set_to_be_invoiced()
+        self._run_picking_onchanges(picking)
+        picking.action_confirm()
+        picking.action_assign()
+        for move in picking.move_ids_without_package:
+            self._run_line_onchanges(move)
+            move.quantity_done = move.product_uom_qty / 2.0
+        self.create_backorder_wizard(picking)
+        self.assertEqual(picking.state, "done")
+        return picking
+
+    def test_partial_receipt_invoice_from_picking(self):
+        """Invoice a partial receipt: taxes must follow the received quantity.
+
+        The stock.move has its tax values recomputed on the quantity left
+        after the backorder split, but the PO line ones stay on the ordered
+        quantity. Taking them from the PO line left the fiscal amounts and the
+        journal entry tax lines calculated on different quantities, so the
+        entry did not balance.
+        """
+        self._change_user_company(self.env.ref("l10n_br_base.empresa_lucro_presumido"))
+        purchase = self.env.ref(
+            "l10n_br_purchase_stock.lucro_presumido_po_only_products_1"
+        )
+        picking = self._receive_half(purchase)
+
+        invoice = self.create_invoice_wizard(picking)
+        invoice_lines = invoice.invoice_line_ids.filtered(
+            lambda line: line.display_type == "product"
+        )
+        self.assertTrue(invoice_lines, "Invoice must have product lines")
+        for invoice_line in invoice_lines:
+            self.assertLess(
+                invoice_line.quantity,
+                invoice_line.purchase_line_id.product_qty,
+                "The invoice must hold the received quantity, not the ordered one.",
+            )
+        self._assert_tax_fields_match_recompute(invoice_lines)
+        self.assertAlmostEqual(
+            sum(invoice.line_ids.mapped("balance")),
+            0.0,
+            2,
+            "The journal entry must be balanced.",
+        )
+
+        if hasattr(invoice, "document_serie"):
+            invoice.document_serie = "1"
+            invoice.document_number = "4321"
+        invoice.action_post()
+        self.assertEqual(invoice.state, "posted", "Invoice should be in state Posted")
+
+    def test_partial_receipt_bill_from_purchase_order(self):
+        """Bill on received quantities: taxes must follow the received one."""
+        self._change_user_company(self.env.ref("l10n_br_base.empresa_lucro_presumido"))
+        purchase = self.env.ref(
+            "l10n_br_purchase_stock.lucro_presumido_po_only_products_1"
+        )
+        purchase.order_line.product_id.purchase_method = "receive"
+        self._receive_half(purchase)
+
+        order_lines = purchase.order_line.filtered(lambda line: not line.display_type)
+        for order_line in order_lines:
+            self.assertLess(
+                order_line.qty_to_invoice,
+                order_line.product_qty,
+                "Only the received quantity should be pending invoicing.",
+            )
+
+        purchase.action_create_invoice()
+        invoice = purchase.invoice_ids
+        invoice_lines = invoice.invoice_line_ids.filtered(
+            lambda line: line.display_type == "product"
+        )
+        self.assertTrue(invoice_lines, "Bill must have product lines")
+        self._assert_tax_fields_match_recompute(invoice_lines)
+        self.assertAlmostEqual(
+            sum(invoice.line_ids.mapped("balance")),
+            0.0,
+            2,
+            "The journal entry must be balanced.",
+        )
+
     def test_form_stock_picking(self):
         """Test Stock Picking with Form"""
         purchase = self.env.ref("l10n_br_purchase_stock.main_po_only_products_1")

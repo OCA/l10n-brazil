@@ -154,6 +154,16 @@ class StockInvoiceOnshipping(models.TransientModel):
                     "display_name",
                 }
 
+                # The quantity and the price of the invoice line come from the
+                # moves, and l10n_br_stock_account already fills the tax fields
+                # from the stock.move for them. The PO line ones are frozen on
+                # the ordered quantity, so they must not win here: mixing the
+                # two sources would leave the stored tax values and the inputs
+                # _compute_all_tax uses on different bases.
+                vals_to_remove |= set(
+                    self.env["l10n_br_fiscal.document.line"]._build_null_mask_dict()
+                ) | {"fiscal_quantity", "fiscal_price"}
+
                 purchase_line_values_rm = {
                     k: purchase_line_values[k]
                     for k in set(purchase_line_values) - vals_to_remove
