@@ -320,6 +320,35 @@ class MDFeDocumentFlowTest(TransactionCase):
         action = self.mdfe.action_document_closure()
         self.assertEqual(action["res_model"], "l10n_br_fiscal.document.closure.wizard")
 
+    def test_closure_wizard_related_cities(self):
+        # Cities listed must come from the related documents (NF-e/CT-e).
+        self.cte = self._create_document(self.doc_type_cte, self.serie_cte, "90103")
+        self.cte.partner_id = self.env.ref("l10n_br_base.res_partner_intel")
+        self.mdfe.mdfe_document_ids = [Command.set([self.nfe.id, self.cte.id])]
+
+        wizard = (
+            self.env["l10n_br_fiscal.document.closure.wizard"]
+            .with_context(active_model="l10n_br_fiscal.document", active_id=self.mdfe.id)
+            .create({})
+        )
+        self.assertIn(self.city, wizard.related_city_ids)
+
+        # selecting a listed city fills the manual state/city fields
+        listed_wizard = wizard.new({"closure_city_id": self.city.id})
+        result = listed_wizard._onchange_closure_city_id()
+        self.assertEqual(listed_wizard.state_id, self.city.state_id)
+        self.assertEqual(listed_wizard.city_id, self.city)
+        self.assertFalse(result)
+
+        # selecting a city outside the listed ones must warn the user
+        other_city = self.env["res.city"].create(
+            {"name": "Outra Cidade", "state_id": self.state_ac.id}
+        )
+        other_wizard = wizard.new({"city_id": other_city.id})
+        result = other_wizard._onchange_city_id()
+        self.assertTrue(result.get("warning"))
+        self.assertIn("diferente da listada", result["warning"]["message"])
+
     def test_document_cancel_justification(self):
         with self.assertRaises(ValidationError):
             self.mdfe._document_cancel("short")
