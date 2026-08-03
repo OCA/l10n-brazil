@@ -12,7 +12,7 @@ from lxml import etree
 
 from odoo import Command
 from odoo.exceptions import UserError, ValidationError
-from odoo.tests import TransactionCase
+from odoo.tests import Form, TransactionCase
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     AUTORIZADO,
@@ -354,6 +354,23 @@ class MDFeDocumentFlowTest(TransactionCase):
         result = other_wizard._onchange_city_id()
         self.assertTrue(result.get("warning"))
         self.assertIn("diferente da listada", result["warning"]["message"])
+
+    def test_closure_wizard_related_cities_webclient(self):
+        # The webclient flow (defaults + onchange via Form) must also load
+        # the cities from the related documents into the wizard.
+        self.cte = self._create_document(self.doc_type_cte, self.serie_cte, "90103")
+        self.cte.partner_id = self.env.ref("l10n_br_base.res_partner_intel")
+        self.mdfe.mdfe_document_ids = [Command.set([self.nfe.id, self.cte.id])]
+
+        with Form(
+            self.env["l10n_br_fiscal.document.closure.wizard"].with_context(
+                active_model="l10n_br_fiscal.document", active_id=self.mdfe.id
+            )
+        ) as form:
+            self.assertIn(self.city, form.related_city_ids)
+            form.closure_city_id = self.city
+            self.assertEqual(form.state_id, self.city.state_id)
+            self.assertEqual(form.city_id, self.city)
 
     def test_document_cancel_justification(self):
         with self.assertRaises(ValidationError):
