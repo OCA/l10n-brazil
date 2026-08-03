@@ -23,3 +23,7 @@ class TestNfseExportLC(TestNfseSerialize):
             nfse_data["nfse"].document_number = "2"
             diff = self.serialize_xml(nfse_data)
             self.assertEqual(len(diff), 0)
+
+    def test_dhemi_matches_local_timezone(self):
+        nfse = self.nfse_list[0]["nfse"]
+        self.assertEqual(nfse.nfse10_dhEmi, "2023-09-09T09:42:06-03:00")
