@@ -149,7 +149,10 @@ class StockInvoiceOnshipping(models.TransientModel):
             # Caso Brasileiro se caracteriza pela Operação Fiscal
             return values
 
-        fiscal_values = move._prepare_br_fiscal_dict()
+        # A quantidade da linha da fatura é a soma das stock.move agrupadas e
+        # pode ser diferente da quantidade da move usada aqui, por isso os
+        # valores fiscais são recalculados para ela.
+        fiscal_values = move._prepare_br_fiscal_dict(quantity=values["quantity"])
 
         # A Fatura não pode ser criada com os campos price_unit e fiscal_price
         # negativos, o metodo _prepare_br_fiscal_dict retorna o price_unit
@@ -159,15 +162,9 @@ class StockInvoiceOnshipping(models.TransientModel):
         del fiscal_values["price_unit"]
         fiscal_values["fiscal_price"] = abs(fiscal_values.get("fiscal_price"))
 
-        # Como é usada apenas uma move para chamar o _prepare_br_fiscal_dict
-        # a quantidade/quantity do dicionario traz a quantidade referente a
-        # apenas a essa linha por isso é removido aqui.
+        # A quantidade da linha da fatura já vem do super, calculada com as
+        # moves agrupadas.
         del fiscal_values["quantity"]
-
-        # Mesmo a quantidade estando errada por ser chamada apenas por uma move
-        # no caso das stock.move agrupadas e os valores fiscais e de totais
-        # retornados poderem estar errados ao criar o documento fiscal isso
-        # será recalculado já com a quantidade correta.
 
         values.update(fiscal_values)
 
