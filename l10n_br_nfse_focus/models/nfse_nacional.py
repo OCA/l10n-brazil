@@ -370,7 +370,11 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
             "percentual_total_tributos_municipais": service_basic[
                 "percentual_total_tributos_municipais"
             ],
-            "indicador_total_tributacao": 0,
+            **(
+                {"indicador_total_tributacao": 0}
+                if provider_data["codigo_opcao_simples_nacional"] != 2
+                else {}
+            ),
             "informacoes_complementares": (
                 rps_info.get("customer_additional_data", False)[:2000]
                 if rps_info.get("customer_additional_data")
