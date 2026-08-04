@@ -17,6 +17,8 @@ from ..constants.fiscal import (
     TAX_BASE_TYPE,
     TAX_BASE_TYPE_PERCENT,
     TAX_BASE_TYPE_VALUE,
+    TAX_DOMAIN_ICMS,
+    TAX_DOMAIN_ICMS_ST,
 )
 from ..constants.icms import (
     ICMS_BASE_TYPE,
@@ -187,16 +189,23 @@ class Tax(models.Model):
         store=True,
     )
 
+    cst_tax_domain = fields.Char(
+        compute="_compute_cst_tax_domain",
+        string="CST Tax Domain",
+    )
+
     cst_in_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST In",
-        domain="[('cst_type', 'in', ('in', 'all')), ('tax_domain', '=', tax_domain)]",
+        domain="[('cst_type', 'in', ('in', 'all')), "
+        "('tax_domain', '=', cst_tax_domain)]",
     )
 
     cst_out_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST Out",
-        domain="[('cst_type', 'in', ('out', 'all')), ('tax_domain', '=', tax_domain)]",
+        domain="[('cst_type', 'in', ('out', 'all')), "
+        "('tax_domain', '=', cst_tax_domain)]",
     )
 
     # ICMS Fields
@@ -227,6 +236,15 @@ class Tax(models.Model):
         "unique (name)",
         "Tax already exists with this name!",
     )
+
+    @api.depends("tax_domain")
+    def _compute_cst_tax_domain(self):
+        # ICMS ST doesn't have its own CST records, it reuses the ICMS ones.
+        for tax in self:
+            if tax.tax_domain == TAX_DOMAIN_ICMS_ST:
+                tax.cst_tax_domain = TAX_DOMAIN_ICMS
+            else:
+                tax.cst_tax_domain = tax.tax_domain
 
     @api.model
     def cst_from_tax(self, fiscal_operation_type=FISCAL_OUT):
