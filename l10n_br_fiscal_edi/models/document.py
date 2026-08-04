@@ -309,28 +309,36 @@ class Document(models.Model):
                     "after": "_after_document_deny",
                 },
                 # Cancel: Authorized -> Cancel
+                # SENDING (enviada) is NOT a valid source: a document with
+                # a lot in flight at SEFAZ must not be cancelled locally
+                # without a cancel event.  REJECTED is NOT a valid source:
+                # a rejection doesn't consume numbering so there is nothing
+                # to cancel (use back2draft or invalidate instead).
                 {
                     "trigger": "action_cancel_fsm",
                     "source": [
                         DOCUMENT_STATE_AUTHORIZED,
                         DOCUMENT_STATE_OPEN,  # Allow canceling if manual/not sent
-                        DOCUMENT_STATE_REJECTED,
                         DOCUMENT_STATE_DRAFT,
-                        DOCUMENT_STATE_SENDING,
                     ],
                     "dest": DOCUMENT_STATE_CANCEL,
                     "before": "_before_document_cancel",
                 },
                 # Back to Draft
+                # SENDING (enviada) is NOT a valid source: a doc being
+                # processed by SEFAZ could be edited and re-sent with the
+                # same key while the batch is in flight.  DENIED (denegada)
+                # is NOT a valid source: denial is definitive and consumes
+                # the numbering.  The SPED guard in the before callback
+                # provides an additional safety net.
+                # DRAFT self-loop is handled by an early return in
+                # action_document_back2draft for idempotency.
                 {
                     "trigger": "action_draft_fsm",
                     "source": [
                         DOCUMENT_STATE_OPEN,
-                        DOCUMENT_STATE_SENDING,
                         DOCUMENT_STATE_REJECTED,
                         DOCUMENT_STATE_CANCEL,
-                        DOCUMENT_STATE_DENIED,
-                        DOCUMENT_STATE_DRAFT,
                     ],
                     "dest": DOCUMENT_STATE_DRAFT,
                     "before": "_before_document_back2draft",
@@ -653,6 +661,8 @@ class Document(models.Model):
     def action_document_back2draft(self):
         """Override base button"""
         if self.document_electronic and self.issuer == DOCUMENT_ISSUER_COMPANY:
+            if self.state_edoc == DOCUMENT_STATE_DRAFT:
+                return True  # idempotent: already in draft
             return self._trigger_fsm("action_draft_fsm")
         else:
             return super().action_document_back2draft()
