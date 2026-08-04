@@ -89,7 +89,7 @@
                         <field
                             name="cst_id"
                             force_save="1"
-                            attrs="{'invisible': ['|', ('custom_tax', '=', False), ('tax_domain', 'not in', ('icmssn', 'icms', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst'))], 'required': [('custom_tax', '=', True), ('tax_domain', 'in', ('icms', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst'))]}"
+                            attrs="{'invisible': ['|', ('custom_tax', '=', False), ('tax_domain', 'not in', ('icms','icmssn', 'icmsst', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst', 'ibs', 'cbs', 'is'))], 'required': [('custom_tax', '=', True), ('tax_domain', 'in', ('icms','icmssn', 'icmsst', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst', 'ibs', 'cbs', 'is'))]}"
                             options="{'no_create': True, 'no_create_edit': True}"
                         />
                         <field
