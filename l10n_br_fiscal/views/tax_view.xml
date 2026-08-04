@@ -42,6 +42,7 @@
         <field name="arch" type="xml">
             <form string="Tax">
                 <field name="tax_domain" invisible="1" />
+                <field name="cst_tax_domain" invisible="1" />
                 <field name="sequence" invisible="1" />
                 <sheet>
                     <group>
@@ -93,12 +94,12 @@
                         />
                         <field
                             name="cst_in_id"
-                            invisible="tax_domain not in ['icms', 'icmssn', 'ipi', 'pis', 'cofins', 'ibs', 'cbs']"
+                            invisible="tax_domain not in ['icms', 'icmssn', 'icmsst', 'ipi', 'pis', 'cofins', 'ibs', 'cbs']"
                             options="{'no_create': True, 'no_create_edit': True}"
                         />
                         <field
                             name="cst_out_id"
-                            invisible="tax_domain not in ['icms', 'icmssn', 'ipi', 'pis', 'cofins', 'ibs', 'cbs']"
+                            invisible="tax_domain not in ['icms', 'icmssn', 'icmsst', 'ipi', 'pis', 'cofins', 'ibs', 'cbs']"
                             options="{'no_create': True, 'no_create_edit': True}"
                         />
                     </group>
