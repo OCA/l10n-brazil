@@ -308,18 +308,22 @@ class Document(models.Model):
                     "dest": DOCUMENT_STATE_DENIED,
                     "after": "_after_document_deny",
                 },
-                # Cancel: Authorized -> Cancel
-                # SENDING (enviada) is NOT a valid source: a document with
-                # a lot in flight at SEFAZ must not be cancelled locally
-                # without a cancel event.  REJECTED is NOT a valid source:
-                # a rejection doesn't consume numbering so there is nothing
-                # to cancel (use back2draft or invalidate instead).
+                # Cancel: Authorized/Open/Draft/Sending -> Cancel
+                # SENDING (enviada) is a valid source because the NFSe
+                # Focus status sync reports municipal cancellations while
+                # the document is still awaiting authorization.  The
+                # municipal webservice is the authoritative source for
+                # NFSe cancellation.  For NFe, the cancel wizard handles
+                # the SEFAZ cancel event before _document_cancel is called.
+                # REJECTED is NOT a valid source: a rejection doesn't
+                # consume numbering so there is nothing to cancel.
                 {
                     "trigger": "action_cancel_fsm",
                     "source": [
                         DOCUMENT_STATE_AUTHORIZED,
                         DOCUMENT_STATE_OPEN,  # Allow canceling if manual/not sent
                         DOCUMENT_STATE_DRAFT,
+                        DOCUMENT_STATE_SENDING,
                     ],
                     "dest": DOCUMENT_STATE_CANCEL,
                     "before": "_before_document_cancel",
