@@ -388,7 +388,13 @@ class Document(models.Model):
         self._copy_operation_comments()
         self._document_comment()
         self._document_check()
-        self._document_export()  # Legacy hook, might be empty
+        if self.issuer == DOCUMENT_ISSUER_COMPANY:
+            # Only company-issued documents export XML and create the
+            # authorization event. Partner-issued documents (imported
+            # supplier NF-e) are already authorized externally and may
+            # not have a document_serie_id, which the event creation
+            # requires.
+            self._document_export()
 
     def _before_document_send(self):
         # Placeholder for pre-send checks
