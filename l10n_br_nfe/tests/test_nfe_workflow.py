@@ -581,14 +581,15 @@ class TestNFeWorkflowBack2Draft(TestNFeExport):
         self.assertFalse(self.nfe.file_report_id)
 
     def test_back2draft_when_already_em_digitacao(self):
-        """The FSM idempotently allows back2draft from draft, clearing
-        xml_error_message even on re-entry (FSM runs the before callback)."""
+        """The FSM returns early when already in draft, preserving fields."""
         self.nfe.action_document_back2draft()
         self.assertEqual(self.nfe.state_edoc, SITUACAO_EDOC_EM_DIGITACAO)
+        self.nfe.xml_error_message = "previous schema error"
 
         self.nfe.action_document_back2draft()
-        # FSM _before_document_back2draft clears error fields every time.
-        self.assertFalse(self.nfe.xml_error_message)
+
+        # Early return: no FSM callback runs, so xml_error_message is preserved.
+        self.assertEqual(self.nfe.xml_error_message, "previous schema error")
 
     def test_back2draft_with_sped_cancelled_fiscal_state(self):
         """The SPED guard blocks back2draft on a SPED-cancelled document.
