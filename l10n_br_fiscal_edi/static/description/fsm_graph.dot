@@ -34,6 +34,7 @@ digraph FSM {
     authorized -> cancel [label="Cancel", color="black"];
     open -> cancel [label="Cancel", color="black"];
     draft -> cancel [label="Cancel", color="black"];
+    sending -> cancel [label="Cancel\n(NFSe status sync)", color="black", style="dotted"];
 
     # Back to Draft
     open -> draft [label="Set to Draft", color="gray"];
