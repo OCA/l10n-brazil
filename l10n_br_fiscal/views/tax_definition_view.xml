@@ -96,8 +96,8 @@
                         <field
                             name="cst_id"
                             force_save="1"
-                            invisible="not custom_tax or tax_domain not in ('icmssn', 'icms', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst')"
-                            required="custom_tax and tax_domain in ('icms', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst')"
+                            invisible="not custom_tax or tax_domain not in ('icms','icmssn', 'icmsst', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst', 'ibs', 'cbs', 'is')"
+                            required="custom_tax and tax_domain in ('icms','icmssn', 'icmsst', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst', 'ibs', 'cbs', 'is')"
                             options="{'no_create': True, 'no_create_edit': True}"
                             readonly="state != 'draft'"
                         />
