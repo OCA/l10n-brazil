@@ -61,7 +61,7 @@
                         <page
                             name="csts"
                             string="CSTs"
-                            invisible="tax_domain not in ('icms', 'ipi', 'pis', 'cofins')"
+                            invisible="tax_domain not in ('icms', 'ipi', 'pis', 'cofins', 'ibs', 'cbs', 'is')"
                         >
                             <field name="cst_ids" nolabel="1" />
                         </page>
