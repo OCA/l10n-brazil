@@ -265,11 +265,25 @@ class Document(models.Model):
                     "before": "_before_document_send",
                     "after": "_after_document_send",
                 },
-                # Authorize: Sending -> Authorized
+                # Authorize after send: Sending/Open -> Authorized
                 {
                     "trigger": "action_authorize",
-                    "source": [DOCUMENT_STATE_SENDING, DOCUMENT_STATE_OPEN],
+                    "source": [
+                        DOCUMENT_STATE_SENDING,
+                        DOCUMENT_STATE_OPEN,
+                    ],
                     "dest": DOCUMENT_STATE_AUTHORIZED,
+                    "after": "_after_document_authorize",
+                },
+                # Direct authorize: Draft -> Authorized
+                # Used by non-electronic company docs and partner-issued docs
+                # (imported supplier NF-e already authorized externally).
+                # Runs _before_document_validate for numbering/date/comments.
+                {
+                    "trigger": "action_confirm_authorized",
+                    "source": DOCUMENT_STATE_DRAFT,
+                    "dest": DOCUMENT_STATE_AUTHORIZED,
+                    "before": "_before_document_validate",
                     "after": "_after_document_authorize",
                 },
                 # Reject: Sending -> Rejected
@@ -586,22 +600,31 @@ class Document(models.Model):
 
         This method must be idempotent because account.move._post() may call it
         again for already confirmed documents.
+
+        - Electronic company-issued docs: draft -> open (action_validate),
+          then optionally send if _direct_draft_send().
+        - Non-electronic company docs: draft -> authorized (action_authorize),
+          skipping the sending step since there is nothing to transmit.
+        - Partner-issued docs (imported supplier NF-e): draft -> authorized
+          (action_authorize), since they are already authorized externally.
+
+        All paths go through _before_document_validate (numbering, date,
+        operation comments) to avoid the regression where non-electronic
+        and partner docs were confirmed without numbering.
         """
-        electronic_company = self.filtered(
-            lambda d: d.document_electronic and d.issuer == DOCUMENT_ISSUER_COMPANY
-        )
-        to_validate = electronic_company.filtered(
-            lambda d: d.state_edoc == DOCUMENT_STATE_DRAFT
-        )
-        if to_validate:
-            to_validate._trigger_fsm("action_validate")
-            for doc in to_validate.filtered(lambda d: d._direct_draft_send()):
-                doc.action_document_send()
-
-        others = self - electronic_company
-        if others:
-            return super(Document, others).action_document_confirm()
-
+        for doc in self:
+            if doc.state_edoc != DOCUMENT_STATE_DRAFT:
+                continue  # idempotent: already confirmed
+            if doc.document_electronic and doc.issuer == DOCUMENT_ISSUER_COMPANY:
+                doc._trigger_fsm("action_validate")
+                if doc._direct_draft_send():
+                    doc.action_document_send()
+            else:
+                # Non-electronic or partner-issued: confirm straight to
+                # authorized. The action_confirm_authorized transition runs
+                # _before_document_validate for numbering/date, then
+                # _after_document_authorize for any post-auth hook.
+                doc._trigger_fsm("action_confirm_authorized")
         return True
 
     def action_document_send(self):
