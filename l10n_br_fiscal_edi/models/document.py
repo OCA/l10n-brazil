@@ -652,6 +652,26 @@ class Document(models.Model):
             )
         )
 
+    def action_document_invalidate(self):
+        """Open the number invalidation wizard for company-issued documents
+        that are in a state where the number was consumed but the document
+        can still be invalidated (rejected/denied).
+        """
+        self.ensure_one()
+        if self.issuer == DOCUMENT_ISSUER_COMPANY and self.state_edoc in (
+            DOCUMENT_STATE_REJECTED,
+            DOCUMENT_STATE_DENIED,
+        ):
+            return self.env["ir.actions.act_window"]._for_xml_id(
+                "l10n_br_fiscal_edi.invalidate_number_wizard_action"
+            )
+        raise UserError(
+            _(
+                "You can only invalidate the numbering of rejected or denied "
+                "documents issued by your company."
+            )
+        )
+
     def _after_document_deny(self):
         """Hook called after document denial. Override in account module."""
         pass
