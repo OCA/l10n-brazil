@@ -11,7 +11,7 @@ odoo.define("l10n_br_portal.l10n_br_portal", function (require) {
     }
 
     if ($(".input-vat").length) {
-        new Cleave(".input-vat", {
+        var vat_cleave = new Cleave(".input-vat", {
             blocks: [2, 3, 3, 4, 2],
             delimiters: [".", ".", "-"],
             numericOnly: true,
@@ -29,7 +29,7 @@ odoo.define("l10n_br_portal.l10n_br_portal", function (require) {
 
     if ($(".input-zipcode").length) {
         // Apply ZIP code mask only when the field exists.
-        new Cleave(".input-zipcode", {
+        var zipcode_cleave = new Cleave(".input-zipcode", {
             blocks: [5, 3],
             delimiter: "-",
             numericOnly: true,
