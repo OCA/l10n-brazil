@@ -750,3 +750,68 @@ class Document(models.Model):
         if not self.file_report_id:
             raise UserError(_("No PDF file generated!"))
         return self._target_new_tab(self.file_report_id)
+
+    # -------------------------------------------------------------------------
+    # Deprecated legacy workflow API — these method names existed in the old
+    # document_workflow.py mixin and are kept as tripwires: any third-party
+    # module that overrides one will get a clear error at call time telling
+    # the developer exactly which FSM callback replaces it.
+    #
+    # They do NOT re-dispatch to the FSM (no dual-write risk). The FSM
+    # callbacks (_before_document_send, _after_document_authorize, etc.) are
+    # the single source of truth for business logic.
+    # -------------------------------------------------------------------------
+
+    _LEGACY_HOOK_MAP = {
+        "_exec_before_SITUACAO_EDOC_EM_DIGITACAO": "_before_document_validate",
+        "_exec_before_SITUACAO_EDOC_A_ENVIAR": "_before_document_validate",
+        "_exec_before_SITUACAO_EDOC_ENVIADA": "_before_document_send",
+        "_exec_before_SITUACAO_EDOC_REJEITADA": "action_reject transition",
+        "_exec_before_SITUACAO_EDOC_AUTORIZADA": "_after_document_authorize",
+        "_exec_before_SITUACAO_EDOC_CANCELADA": "_before_document_cancel",
+        "_exec_before_SITUACAO_EDOC_DENEGADA": "action_deny transition",
+        "_exec_before_SITUACAO_EDOC_INUTILIZADA": "action_document_invalidate",
+        "_exec_after_SITUACAO_EDOC_EM_DIGITACAO": "_before_document_back2draft",
+        "_exec_after_SITUACAO_EDOC_A_ENVIAR": "_direct_draft_send",
+        "_exec_after_SITUACAO_EDOC_ENVIADA": "_after_document_send",
+        "_exec_after_SITUACAO_EDOC_REJEITADA": "action_reject transition",
+        "_exec_after_SITUACAO_EDOC_AUTORIZADA": "_after_document_authorize",
+        "_exec_after_SITUACAO_EDOC_CANCELADA": "action_cancel_fsm transition",
+        "_exec_after_SITUACAO_EDOC_DENEGADA": "_after_document_deny",
+        "_exec_after_SITUACAO_EDOC_INUTILIZADA": "action_document_invalidate",
+        "exec_after_SITUACAO_EDOC_DENEGADA": "_after_document_deny",
+    }
+
+    @classmethod
+    def __init_subclass__(cls, **kwargs):
+        """Ensure every subclass inherits the deprecation tripwires."""
+        result = super().__init_subclass__(**kwargs)
+        for legacy_name, new_hint in cls._LEGACY_HOOK_MAP.items():
+            if legacy_name not in cls.__dict__:
+
+                def _make_stub(name, hint):
+                    def _deprecated_stub(self, *args, **kwargs):
+                        raise UserError(
+                            _(
+                                "The method '%(old)s' has been removed "
+                                "in the EDI FSM refactor.  Your module "
+                                "overrides it without being adapted.\n\n"
+                                "Old API:  %(old)s(old_state, new_state)\n"
+                                "New API:  %(new)s\n\n"
+                                "Please migrate your override to the new "
+                                "FSM callback.  See the ROADMAP in "
+                                "l10n_br_fiscal_edi for the full migration "
+                                "table and the OCA PR #4629 discussion.",
+                                old=name,
+                                new=hint,
+                            )
+                        )
+
+                    return _deprecated_stub
+
+                setattr(
+                    cls,
+                    legacy_name,
+                    _make_stub(legacy_name, new_hint),
+                )
+        return result
