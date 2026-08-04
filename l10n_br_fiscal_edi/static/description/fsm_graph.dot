@@ -11,31 +11,33 @@ digraph FSM {
     denied [fillcolor="#ff6347", label="Denied"];
     cancel [fillcolor="#d3d3d3", label="Cancelled"];
 
-    # Transitions
-    draft -> open [label="Confirm", color="blue"];
+    # Confirm
+    draft -> open [label="Confirm (Electronic)", color="blue"];
+    draft -> authorized [label="Confirm\n(Non-electronic / Partner)", color="blue", style="bold"];
 
+    # Send / Re-send
     open -> sending [label="Send", color="blue"];
     rejected -> sending [label="Send (Retry)", color="blue"];
+    sending -> sending [label="Re-send /\nConsult Receipt", color="blue", style="dotted"];
 
-    sending -> authorized [label="Authorize", style="dashed"];
-    open -> authorized [label="Authorize", style="dashed"];
+    # Authorization
+    sending -> authorized [label="Authorize", style="dashed", color="green"];
+    open -> authorized [label="Authorize", style="dashed", color="green"];
 
+    # Rejection / Denial
     sending -> rejected [label="Reject", style="dashed", color="red"];
     open -> rejected [label="Reject", style="dashed", color="red"];
-
     sending -> denied [label="Deny", style="dashed", color="red"];
     open -> denied [label="Deny", style="dashed", color="red"];
 
+    # Cancel
     authorized -> cancel [label="Cancel", color="black"];
     open -> cancel [label="Cancel", color="black"];
-    rejected -> cancel [label="Cancel", color="black"];
     draft -> cancel [label="Cancel", color="black"];
-    sending -> cancel [label="Cancel", color="black"];
 
+    # Back to Draft
     open -> draft [label="Set to Draft", color="gray"];
-    sending -> draft [label="Set to Draft", color="gray"];
     rejected -> draft [label="Set to Draft", color="gray"];
     cancel -> draft [label="Set to Draft", color="gray"];
-    denied -> draft [label="Set to Draft", color="gray"];
-    draft -> draft [label="Set to Draft (Idempotent)", style="dotted", color="gray"];
+    draft -> draft [label="Set to Draft\n(Idempotent)", style="dotted", color="gray"];
 }
