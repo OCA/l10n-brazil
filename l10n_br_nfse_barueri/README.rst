@@ -79,7 +79,14 @@ Authors
 Contributors
 ~~~~~~~~~~~~
 
-* André Marcos Ferreira <andre@kmee.com.br>
+* `KMEE <https://www.kmee.com.br>`_:
+
+  * André Marcos <andre.marcos@kmee.com.br>
+
+* `Escodoo <https://www.escodoo.com.br>`_:
+
+  * Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+  * Cristiano Mafra Junior <cristiano.mafra@escodoo.com.br>
 
 Maintainers
 ~~~~~~~~~~~
@@ -103,10 +110,16 @@ promote its widespread use.
 .. |maintainer-ygcarvalh| image:: https://github.com/ygcarvalh.png?size=40px
     :target: https://github.com/ygcarvalh
     :alt: ygcarvalh
+.. |maintainer-CristianoMafraJunior| image:: https://github.com/CristianoMafraJunior.png?size=40px
+    :target: https://github.com/CristianoMafraJunior
+    :alt: CristianoMafraJunior
+.. |maintainer-marcelsavegnago| image:: https://github.com/marcelsavegnago.png?size=40px
+    :target: https://github.com/marcelsavegnago
+    :alt: marcelsavegnago
 
 Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
 
-|maintainer-AndreMarcos| |maintainer-mileo| |maintainer-ygcarvalh| 
+|maintainer-AndreMarcos| |maintainer-mileo| |maintainer-ygcarvalh| |maintainer-CristianoMafraJunior| |maintainer-marcelsavegnago| 
 
 This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_nfse_barueri>`_ project on GitHub.
 
