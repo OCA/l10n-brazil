@@ -98,6 +98,12 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
             )
         )
 
+    def test_fix_camel_case(self):
+        partner = self.env["res.partner"]
+        self.assertEqual(partner.fix_camel_case(""), "")
+        self.assertEqual(partner.fix_camel_case("PedRegEvento"), "PedRegEvento")
+        self.assertEqual(partner.fix_camel_case("TcinfDPS"), "TcinfDps")
+
     def test_stacked_model(self):
         po_fields_or_stacking = set(self.env["fake.purchase.order"]._fields.keys())
         po_fields_or_stacking.update(
