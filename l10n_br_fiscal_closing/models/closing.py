@@ -29,11 +29,11 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFE,
     MODELO_FISCAL_NFSE,
     MODELO_FISCAL_RL,
+    SITUACAO_EDOC_INUTILIZADA,
 )
 from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import (
     DOCUMENT_STATE_AUTHORIZED,
     DOCUMENT_STATE_DENIED,
-    DOCUMENT_STATE_REJECTED,
 )
 
 _logger = logging.getLogger(__name__)
@@ -52,7 +52,7 @@ SITUACAO_EDOC = [
     DOCUMENT_STATE_AUTHORIZED,
     DOCUMENT_STATE_CANCEL,
     DOCUMENT_STATE_DENIED,
-    DOCUMENT_STATE_REJECTED,
+    SITUACAO_EDOC_INUTILIZADA,
 ]
 
 
