@@ -490,6 +490,13 @@ class Document(models.Model):
         """Cancel the fiscal document, changing its state to 'cancel'"""
         self.write({"state_edoc": DOCUMENT_STATE_CANCEL})
 
+    def action_document_invalidate(self):
+        """Placeholder to be overridden by l10n_br_fiscal_edi. Defined here
+        so that l10n_br_account (which does not depend on l10n_br_fiscal_edi)
+        can call it without crashing.
+        """
+        pass
+
     @api.depends("fiscal_operation_id")
     def _compute_edoc_purpose(self):
         for record in self:

@@ -108,6 +108,13 @@
                         groups="l10n_br_fiscal.group_user"
                         attrs="{'invisible': [('state_edoc', '=', 'cancelada')]}"
                     />
+                    <button
+                        name="action_document_invalidate"
+                        type="object"
+                        string="Invalidar Numeração"
+                        groups="l10n_br_fiscal.group_user"
+                        attrs="{'invisible': [('state_edoc', 'in', ('em_digitacao', 'a_enviar', 'enviada', 'autorizada', 'cancelada', 'inutilizada'))]}"
+                    />
                     <field
                         name="state_edoc"
                         widget="statusbar"
