@@ -589,6 +589,10 @@ class Tax(models.Model):
 
     @api.model
     def _compute_icmsst(self, tax, taxes_dict, **kwargs):
+        company = kwargs.get("company")
+        currency = kwargs.get("currency", company.currency_id)
+        operation_line = kwargs.get("operation_line")
+        fiscal_operation_type = operation_line.fiscal_operation_type or FISCAL_OUT
         tax_dict = taxes_dict.get(tax.tax_domain)
 
         # Get Computed IPI Tax
@@ -597,6 +601,9 @@ class Tax(models.Model):
 
         if taxes_dict.get(tax.tax_domain):
             taxes_dict[tax.tax_domain]["icmsst_mva_percent"] = tax.icmsst_mva_percent
+            taxes_dict[tax.tax_domain][
+                "percent_debit_credit"
+            ] = tax.percent_debit_credit
 
         taxes_dict[tax.tax_domain].update(
             self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
@@ -604,7 +611,17 @@ class Tax(models.Model):
 
         tax_dict = self._compute_tax(tax, taxes_dict, **kwargs)
         if tax_dict.get("icmsst_mva_percent"):
-            tax_dict["tax_value"] -= taxes_dict.get("icms", {}).get("tax_value", 0.0)
+            if tax_dict_icms.get("tax_value", 0.0) > tax_dict["tax_value"]:
+                if tax_dict.get("percent_debit_credit"):
+                    icms_value_limited = currency.round(
+                        tax_dict_icms.get("base", 0.0)
+                        * (tax_dict["percent_debit_credit"] / 100)
+                    )
+                    tax_dict["tax_value"] -= icms_value_limited
+                else:
+                    tax_dict["tax_value"] = 0.0
+            else:
+                tax_dict["tax_value"] -= tax_dict_icms.get("tax_value", 0.0)
 
         return tax_dict
 
