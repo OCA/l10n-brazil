@@ -28,11 +28,18 @@ msgid "Batch not yet processed"
 msgstr "Lote ainda não processado"
 
 #. module: l10n_br_nfse_barueri
+#: code:addons/l10n_br_nfse_barueri/models/document.py:0
+#, python-format
+msgid "Cancel batch not yet processed"
+msgstr ""
+
+#. module: l10n_br_nfse_barueri
 #: model:ir.model,name:l10n_br_nfse_barueri.model_res_company
 msgid "Companies"
 msgstr "Empresas"
 
 #. module: l10n_br_nfse_barueri
+#: model:ir.model.fields,field_description:l10n_br_nfse_barueri.field_account_move__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfse_barueri.field_l10n_br_fiscal_document__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfse_barueri.field_res_company__display_name
 msgid "Display Name"
@@ -44,16 +51,35 @@ msgid "Fiscal Document"
 msgstr "Documento Fiscal"
 
 #. module: l10n_br_nfse_barueri
+#: model:ir.model.fields,field_description:l10n_br_nfse_barueri.field_account_move__id
 #: model:ir.model.fields,field_description:l10n_br_nfse_barueri.field_l10n_br_fiscal_document__id
 #: model:ir.model.fields,field_description:l10n_br_nfse_barueri.field_res_company__id
 msgid "ID"
 msgstr "ID"
 
 #. module: l10n_br_nfse_barueri
+#: model:ir.model.fields,field_description:l10n_br_nfse_barueri.field_l10n_br_fiscal_document__is_nfse_barueri
+msgid "Is NFSe Barueri?"
+msgstr ""
+
+#. module: l10n_br_nfse_barueri
+#: model:ir.model,name:l10n_br_nfse_barueri.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_br_nfse_barueri
+#: model:ir.model.fields,field_description:l10n_br_nfse_barueri.field_account_move____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfse_barueri.field_l10n_br_fiscal_document____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfse_barueri.field_res_company____last_update
 msgid "Last Modified on"
 msgstr "Última Modificação em"
+
+#. module: l10n_br_nfse_barueri
+#: model:ir.actions.server,name:l10n_br_nfse_barueri.l10n_br_nfse_barueri_cron_ir_actions_server
+#: model:ir.cron,cron_name:l10n_br_nfse_barueri.l10n_br_nfse_barueri_cron
+#: model:ir.cron,name:l10n_br_nfse_barueri.l10n_br_nfse_barueri_cron
+msgid "NFSe Barueri: Check status and update status of submitted documents."
+msgstr ""
 
 #. module: l10n_br_nfse_barueri
 #: model:ir.model.fields,field_description:l10n_br_nfse_barueri.field_res_company__provedor_nfse
@@ -63,8 +89,8 @@ msgstr "Provedor de NFSe"
 #. module: l10n_br_nfse_barueri
 #: code:addons/l10n_br_nfse_barueri/models/document.py:0
 #, python-format
-msgid "Not received"
-msgstr "Não recebido"
+msgid "Processado com Sucesso"
+msgstr ""
 
 #. module: l10n_br_nfse_barueri
 #: code:addons/l10n_br_nfse_barueri/models/document.py:0
@@ -77,3 +103,35 @@ msgstr "Processado com Erro"
 #, python-format
 msgid "Successfully Processed"
 msgstr "Processado com Sucesso"
+
+#. module: l10n_br_nfse_barueri
+#: model:ir.model.fields,help:l10n_br_nfse_barueri.field_l10n_br_fiscal_document__is_nfse_barueri
+msgid "Technical field to identify if the document is a NFSe Barueri."
+msgstr ""
+
+#. module: l10n_br_nfse_barueri
+#: model:ir.model.fields,field_description:l10n_br_nfse_barueri.field_l10n_br_fiscal_document__url_nfse_barueri
+msgid "URL of NFSe Barueri"
+msgstr ""
+
+#. module: l10n_br_nfse_barueri
+#: model:ir.model.fields,help:l10n_br_nfse_barueri.field_l10n_br_fiscal_document__url_nfse_barueri
+msgid ""
+"URL to access the Nota Fiscal de Serviços Eletrônicos (NFSe)from the São "
+"Paulo City (Barueri)."
+msgstr ""
+
+#. module: l10n_br_nfse_barueri
+#: code:addons/l10n_br_nfse_barueri/models/document.py:0
+#, python-format
+msgid "Validated"
+msgstr ""
+
+#. module: l10n_br_nfse_barueri
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse_barueri.nfse_barueri_direct_print_document_form_inherit
+msgid "Visualizar NFSe Barueri"
+msgstr ""
+
+#, python-format
+#~ msgid "Not received"
+#~ msgstr "Não recebido"
