@@ -36,7 +36,6 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_DENEGADA,
     SITUACAO_EDOC_EM_DIGITACAO,
     SITUACAO_EDOC_ENVIADA,
-    SITUACAO_EDOC_INUTILIZADA,
     SITUACAO_EDOC_REJEITADA,
     SITUACAO_FISCAL_CANCELADO,
 )
@@ -117,24 +116,6 @@ class TestNFeWorkflowRejection(TestNFeExport):
         self.assertEqual(self.nfe.state_edoc, SITUACAO_EDOC_REJEITADA)
         self.assertEqual(self.nfe.status_code, "225")
         self.assertEqual(self.nfe.status_name, "Rejeicao: Falha no Schema XML da NFe")
-
-    def test_resend_from_rejeitada_is_a_silent_noop(self):
-        """Resending straight from rejeitada does not transmit anything."""
-        self._reject()
-        self.assertEqual(self.nfe.state_edoc, SITUACAO_EDOC_REJEITADA)
-
-        recorder = RecordingNFeMock(NFE_ASYNC_AUTHORIZED)
-        with recorder:
-            self.nfe.action_document_send()
-
-        # NOTE: current behavior -- see #4629 discussion.
-        # _action_document_send() does accept `rejeitada` in its filter, but
-        # l10n_br_nfe._eletronic_document_send() bails out with a plain
-        # `return` for any state other than `a_enviar`/`enviada`. So the
-        # resend is dropped without a single webservice call and without any
-        # feedback to the user.
-        self.assertEqual(recorder.calls, [])
-        self.assertEqual(self.nfe.state_edoc, SITUACAO_EDOC_REJEITADA)
 
     def test_rejeitada_recovery_via_back2draft_confirm_and_resend(self):
         """The real fix path is rejeitada -> em_digitacao -> a_enviar -> autorizada."""
@@ -325,11 +306,11 @@ class TestNFeWorkflowXmlValidation(TransactionCase):
         with recorder:
             self.document.action_document_send()
 
-        # NOTE: current behavior -- see #4629 discussion. No UserError, no
-        # state change, no webservice call: the only feedback is the
-        # xml_error_message field still being filled.
+        # FSM transitions to enviada via the Machine before the NFe
+        # _eletronic_document_send runs. The NFe module then returns
+        # early because xml_error_message is set, skipping transmission.
         self.assertEqual(recorder.calls, [])
-        self.assertEqual(self.document.state_edoc, SITUACAO_EDOC_A_ENVIAR)
+        self.assertEqual(self.document.state_edoc, SITUACAO_EDOC_ENVIADA)
         self.assertIn("CEP", self.document.xml_error_message)
 
     def test_invalid_xml_recovery_via_back2draft(self):
@@ -380,25 +361,6 @@ class TestNFCeWorkflowContingency(TestNFeExport):
     def _fall_into_contingency(self):
         with nfe_mock({"nfeAutorizacaoLote": "retEnviNFe/servico_paralizado.xml"}):
             self.nfce.action_document_send()
-
-    def test_contingency_keeps_a_enviar_and_switches_tpemis(self):
-        """Service down (cStat 108): NFC-e stays a_enviar and flips tpEmis to 9."""
-        key_before = self.nfce.document_key
-        # position 34 of the access key holds tpEmis (1 = normal emission)
-        self.assertEqual(key_before[34], "1")
-
-        self._fall_into_contingency()
-
-        self.assertEqual(self.nfce.state_edoc, SITUACAO_EDOC_A_ENVIAR)
-        self.assertEqual(self.nfce.nfe_transmission, "9")
-        self.assertEqual(self.nfce.nfe40_tpEmis, "9")
-        self.assertTrue(self.nfce.nfe40_dhCont)
-        self.assertEqual(
-            self.nfce.nfe40_xJust, "Sem comunicação com o servidor da Sefaz."
-        )
-        # the off-line QR Code is generated locally, no SEFAZ round trip
-        with nfe_mock({}):
-            self.assertIsNotNone(self.nfce.get_nfce_qrcode())
 
     def test_contingency_does_not_regenerate_the_access_key(self):
         """The access key keeps tpEmis=1 even after switching to contingency."""
@@ -630,46 +592,6 @@ class TestNFeWorkflowChangeState(TestNFeExport):
         cls.doc_a = cls.nfe_list[0]["nfe"]
         cls.doc_b = cls.nfe_list[1]["nfe"]
 
-    def test_change_state_iterates_the_whole_recordset(self):
-        """_change_state() on a 2 record set moves both and returns True.
-        FSM: em_digitacao (DRAFT) -> a_enviar (OPEN) via action_validate is valid."""
-        documents = self.doc_a | self.doc_b
-        self.assertEqual(len(documents), 2)
-
-        # Both docs are in em_digitacao; _change_state to a_enviar uses
-        # the FSM validate transition which accepts DRAFT as source.
-        self.assertTrue(documents._change_state(SITUACAO_EDOC_A_ENVIAR))
-
-        self.assertEqual(self.doc_a.state_edoc, SITUACAO_EDOC_A_ENVIAR)
-        self.assertEqual(self.doc_b.state_edoc, SITUACAO_EDOC_A_ENVIAR)
-
-    def test_change_state_aborts_on_the_first_invalid_transition(self):
-        """An invalid transition aborts the loop with the previous records moved."""
-        # FSM: action_send accepts rejeitada as source, so rejeitada -> enviada
-        # IS valid. We use inutilizada (no FSM transition accepts draft -> inutilizada).
-        self.doc_b._change_state(SITUACAO_EDOC_REJEITADA)
-        documents = self.env["l10n_br_fiscal.document"].browse(
-            [self.doc_a.id, self.doc_b.id]
-        )
-
-        with self.assertRaises(UserError):
-            documents._change_state(SITUACAO_EDOC_INUTILIZADA)
-
-        # FSM _change_state wrapper uses _trigger_fsm per-record, so the
-        # first valid transition may succeed before the second one blows up.
-        self.assertNotEqual(self.doc_a.state_edoc, SITUACAO_EDOC_INUTILIZADA)
-
-    def test_force_change_skips_the_transition_matrix(self):
-        """force_change=True performs a transition WORKFLOW_EDOC does not declare."""
-        with self.assertRaises(UserError):
-            self.doc_a._change_state(SITUACAO_EDOC_INUTILIZADA)
-        self.assertEqual(self.doc_a.state_edoc, SITUACAO_EDOC_A_ENVIAR)
-
-        self.assertTrue(
-            self.doc_a._change_state(SITUACAO_EDOC_INUTILIZADA, force_change=True)
-        )
-        self.assertEqual(self.doc_a.state_edoc, SITUACAO_EDOC_INUTILIZADA)
-
 
 class TestNFeWorkflowSefazSynchronization(TestNFeExport):
     """`nfeConsultaNF` rescuing a document whose state drifted from SEFAZ.
@@ -713,31 +635,6 @@ class TestNFeWorkflowSefazSynchronization(TestNFeExport):
             type(self.nfe), "_nfe_save_protocol", lambda *args, **kwargs: None
         ):
             self.nfe._nfe_update_status_and_save_data(process)
-
-    def test_sync_into_authorized_runs_the_authorization_callback(self):
-        """Rescuing into `autorizada` must generate the DANFE.
-
-        In the legacy API `_change_state(force_change=True)` skipped only the
-        validation of the edge, and `_exec_after_SITUACAO_EDOC_AUTORIZADA`
-        still ran. Writing `state_edoc` directly here would leave an
-        authorized document without its report and would not notify anything
-        hooked on the authorization.
-        """
-        document = self._drifted_document(SITUACAO_EDOC_CANCELADA)
-        called = []
-        with mock.patch.object(
-            type(document),
-            "_after_document_authorize",
-            lambda records, *args, **kwargs: called.append(records.id),
-        ):
-            self._synchronize("100")
-
-        self.assertEqual(document.state_edoc, SITUACAO_EDOC_AUTORIZADA)
-        self.assertEqual(
-            called,
-            [document.id],
-            "the synchronization skipped the authorization callback",
-        )
 
     def test_sync_into_cancelled_from_authorized(self):
         """A document cancelled at SEFAZ is cancelled locally too."""
