@@ -94,6 +94,22 @@
                         attrs="{'invisible': [('state_edoc', '!=', 'em_digitacao')]}"
                     />
                     <button
+                        name="action_document_send"
+                        type="object"
+                        string="Enviar"
+                        groups="l10n_br_fiscal.group_user"
+                        class="btn-primary"
+                        attrs="{'invisible': [('state_edoc', '!=', 'a_enviar')]}"
+                    />
+                    <button
+                        name="action_document_send"
+                        type="object"
+                        string="Consultar Recibo"
+                        groups="l10n_br_fiscal.group_user"
+                        class="btn-primary"
+                        attrs="{'invisible': [('state_edoc', '!=', 'enviada')]}"
+                    />
+                    <button
                         name="action_document_back2draft"
                         type="object"
                         string="Set to Draft"
