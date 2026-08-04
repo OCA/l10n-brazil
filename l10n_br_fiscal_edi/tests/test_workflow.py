@@ -34,15 +34,15 @@ class TestWorkflow(TransactionCase):
         )
 
     def test_no_electronic_01_confirm(self):
+        """Non-electronic company docs confirm directly to autorizada
+        (no SEFAZ transmission needed). FSM refactor keeps this path."""
         self.fiscal_document.document_electronic = False
         self.assertEqual(self.fiscal_document.state_edoc, DOCUMENT_STATE_DRAFT)
 
         self.fiscal_document.action_document_confirm()
-        self.assertEqual(self.fiscal_document.state_edoc, DOCUMENT_STATE_OPEN)
-
-        # For non-electronic, send should move to authorized (simulated completion)
-        # Assuming the logic in _document_send_logic handles this
-        self.fiscal_document.action_document_send()
+        # Non-electronic docs go straight to autorizada via
+        # action_confirm_authorized (runs _before_document_validate
+        # for numbering/date/comments).
         self.assertEqual(self.fiscal_document.state_edoc, DOCUMENT_STATE_AUTHORIZED)
 
     def test_electronic_01_confirm(self):
@@ -119,8 +119,10 @@ class TestWorkflow(TransactionCase):
         action_document_confirm() would fail on the second call because
         the document was already in a confirmed state.
 
-        With the FSM refactor, partner-issued docs go to OPEN (a_enviar)
-        via the base class write(), and calling again is a safe no-op.
+        With the FSM refactor, partner-issued docs go directly to AUTHORIZED
+        (the supplier already authorized the document, no SEFAZ transmission
+        needed), and calling confirm again is a safe no-op because the FSM
+        detects the document is already confirmed.
         """
         self.fiscal_document.document_electronic = True
         self.fiscal_document.issuer = "partner"
@@ -130,18 +132,20 @@ class TestWorkflow(TransactionCase):
             DOCUMENT_STATE_DRAFT,
         )
 
-        # First confirm - partner-issued docs go to OPEN
+        # First confirm - partner-issued docs go directly to AUTHORIZED
+        # (the document was already authorized by the supplier, no SEFAZ
+        # transmission needed from the company's side)
         self.fiscal_document.action_document_confirm()
         self.assertEqual(
             self.fiscal_document.state_edoc,
-            DOCUMENT_STATE_OPEN,
+            DOCUMENT_STATE_AUTHORIZED,
         )
 
         # Second confirm - must NOT raise an error (idempotent)
         self.fiscal_document.action_document_confirm()
         self.assertEqual(
             self.fiscal_document.state_edoc,
-            DOCUMENT_STATE_OPEN,
+            DOCUMENT_STATE_AUTHORIZED,
         )
 
     def test_correction_wizard(self):
