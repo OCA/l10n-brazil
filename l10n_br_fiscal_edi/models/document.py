@@ -257,10 +257,18 @@ class Document(models.Model):
                     "dest": DOCUMENT_STATE_OPEN,
                     "before": "_before_document_validate",
                 },
-                # Send: Open -> Sending
+                # Send: Open/Rejected/Sending -> Sending
+                # SENDING is included as a source so that documents stuck in
+                # 'enviada' (e.g. after an async receipt consult is needed)
+                # can be re-sent. The NFe module uses this to consult the
+                # receipt of an async batch or retransmit.
                 {
                     "trigger": "action_send",
-                    "source": [DOCUMENT_STATE_OPEN, DOCUMENT_STATE_REJECTED],
+                    "source": [
+                        DOCUMENT_STATE_OPEN,
+                        DOCUMENT_STATE_REJECTED,
+                        DOCUMENT_STATE_SENDING,
+                    ],
                     "dest": DOCUMENT_STATE_SENDING,
                     "before": "_before_document_send",
                     "after": "_after_document_send",
