@@ -70,6 +70,18 @@ class OperationLine(models.Model):
         "('destination', '=', '3')]",
     )
 
+    is_icmsst = fields.Boolean(
+        string="ICMS ST?",
+        compute="_compute_is_icmsst",
+        store=True,
+        help="Indicates that this Operation Line is meant to be used for "
+        "products/operations subject to ICMS Tax Substitution "
+        "(Substituição Tributária), based on the CFOPs assigned to it. "
+        "Used to automatically select the right Operation Line when a "
+        "Fiscal Operation has separate lines for regular and ICMS ST "
+        "scenarios.",
+    )
+
     fiscal_operation_type = fields.Selection(
         related="fiscal_operation_id.fiscal_operation_type",
         string="Fiscal Operation Type",
@@ -151,6 +163,19 @@ class OperationLine(models.Model):
             _("Fiscal Operation Line already exists with this name !"),
         )
     ]
+
+    @api.depends(
+        "cfop_internal_id.is_icmsst",
+        "cfop_external_id.is_icmsst",
+        "cfop_export_id.is_icmsst",
+    )
+    def _compute_is_icmsst(self):
+        for line in self:
+            line.is_icmsst = bool(
+                line.cfop_internal_id.is_icmsst
+                or line.cfop_external_id.is_icmsst
+                or line.cfop_export_id.is_icmsst
+            )
 
     def get_document_type(self, company):
         self.ensure_one()
