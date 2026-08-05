@@ -48,6 +48,11 @@ def migrate(env, version):
     # ele, a definição some do arquivo mas continua viva na base.
     ipi_ef = _ref(env, "tax_ipi_definition_entrega_futura")
     if ipi_ef:
+        # A definição precisa estar em rascunho: o unlink do modelo recusa
+        # registros aprovados (UserError). Numa base ja em uso o registro
+        # costuma estar 'approved', e sem este passo a migracao inteira aborta
+        # e o registry nao carrega (issue #4857).
+        ipi_ef.action_draft()
         ipi_ef.unlink()  # IPI passa a destacar pelo default (remessa de produção)
 
     # --- Entrada de reparo: IPI 00->49; PIS/COFINS 99->98 ---
