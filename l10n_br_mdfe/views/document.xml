@@ -39,18 +39,18 @@
                 <attribute name="invisible">document_type == '58'</attribute>
             </xpath>
             <xpath expr="//field[@name='fiscal_operation_id']" position="after">
-                <field name="mdfe_emit_type" invisible="document_type != '58'" />
+                <field name="mdfe_emit_type" attrs="{'required': [('document_type', '=', '58')], 'invisible': [('document_type', 'not in', ['58'])]}" />
                 <field name="mdfe_transp_type" invisible="document_type != '58'" />
             </xpath>
             <xpath expr="//page[@name='delivery']" position="inside">
                 <group>
                     <field
                         name="mdfe_initial_state_id"
-                        invisible="document_type != '58'"
+                        invisible="{'required': [('document_type', '=', '58')], 'invisible': [('document_type', 'not in', ['58'])]}"
                     />
                     <field
                         name="mdfe_final_state_id"
-                        invisible="document_type != '58'"
+                        invisible="{'required': [('document_type', '=', '58')], 'invisible': [('document_type', 'not in', ['58'])]}"
                     />
                 </group>
                 <separator
@@ -58,7 +58,7 @@
                     string="Loading Cities"
                     invisible="document_type != '58'"
                 />
-                <field name="mdfe_loading_city_ids" invisible="document_type != '58'" />
+                <field name="mdfe_loading_city_ids" attrs="{'required': [('document_type', '=', '58')], 'invisible': [('document_type', 'not in', ['58'])]}" />
                 <separator
                     colspan="4"
                     string="Route States"
@@ -121,7 +121,11 @@
                 </page>
                 <page string="Modal" invisible="document_type != '58'">
                     <group>
-                        <field name="mdfe_modal" widget="radio" />
+                        <field
+                            name="mdfe_modal"
+                            widget="radio"
+                            attrs="{'required': [('document_type', '=', '58')], 'invisible': [('document_type', 'not in', ['58'])]}"
+                        />
                     </group>
                     <group invisible="mdfe_modal != '1'" colspan="4">
                         <group>
@@ -163,7 +167,11 @@
                                     </group>
                                 </group>
                                 <separator string="Conductors" />
-                                <field name="mdfe30_condutor" nolabel="1" />
+                                <field
+                                    name="mdfe30_condutor"
+                                    nolabel="1"
+                                    attrs="{'required': [('mdfe_modal', '=', '1'), ('document_type', '=', '58')]}"
+                                />
                             </page>
                             <page string="CIOT">
                                 <field name="mdfe30_infCIOT" nolabel="1" />
