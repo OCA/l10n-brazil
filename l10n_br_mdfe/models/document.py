@@ -18,6 +18,7 @@ from odoo import Command, _, api, fields
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    DOCUMENT_ISSUER_COMPANY,
     EVENT_ENV_HML,
     EVENT_ENV_PROD,
     MODELO_FISCAL_MDFE,
@@ -989,6 +990,140 @@ class MDFe(spec_models.StackedModel):
             record.key_random_code = chave_edoc.codigo_aleatorio
             record.key_check_digit = chave_edoc.digito_verificador
             record.document_key = chave_edoc.chave
+
+    def _document_number(self):
+        if (
+            self.document_type == MODELO_FISCAL_MDFE
+            and self.issuer == DOCUMENT_ISSUER_COMPANY
+            and not self.document_serie_id
+            and self.document_type_id
+        ):
+            serie = self.document_type_id.get_document_serie(
+                self.company_id, self.fiscal_operation_id
+            )
+            if serie:
+                self.document_serie_id = serie
+        return super()._document_number()
+
+    def _document_check(self):
+        result = super()._document_check()
+        for record in self.filtered(filtered_processador_edoc_mdfe):
+            record._check_mdfe_required_fields()
+        return result
+
+    def _check_mdfe_required_fields(self):
+        self.ensure_one()
+
+        missing_fields = []
+
+        def check(value, label):
+            if not value:
+                missing_fields.append(label)
+
+        company = self.company_id
+        certificate = (
+            company.sudo().certificate_nfe_id or company.sudo().certificate_ecnpj_id
+        )
+
+        check(company, _("Company"))
+        check(company.vat, _("Company CNPJ/CPF"))
+        check(company.state_id, _("Company State"))
+        check(certificate, _("Digital Certificate"))
+        if certificate:
+            check(certificate.file, _("Digital Certificate File"))
+            check(certificate.password, _("Digital Certificate Password"))
+
+        check(self.document_type_id, _("Document Type"))
+        check(self.document_serie, _("Document Serie"))
+        check(self.document_number, _("Document Number"))
+        check(self.document_date, _("Document Date"))
+        check(self.mdfe_version, _("MDF-e Version"))
+        check(self.mdfe_environment, _("MDF-e Environment"))
+        check(self.mdfe_emit_type, _("MDF-e Emit Type"))
+        # mdfe_transp_type is only required when a third-party owner is set.
+        # It is validated together with mdfe30_prop in _check_mdfe_road_required_fields.
+        check(self.mdfe_modal, _("MDF-e Modal"))
+        check(self.mdfe_transmission, _("MDF-e Transmission"))
+        check(self.mdfe_initial_state_id, _("MDF-e Initial State"))
+        check(self.mdfe_final_state_id, _("MDF-e Final State"))
+        check(self.mdfe_loading_city_ids, _("MDF-e Loading City"))
+        check(self.mdfe30_infMunDescarga, _("MDF-e Unloading City"))
+
+        for descarga in self.mdfe30_infMunDescarga:
+            label = descarga.city_id.display_name or _("Unloading City")
+            check(descarga.city_id, _("MDF-e Unloading City"))
+            if descarga.document_type == "nfe":
+                check(
+                    descarga.nfe_ids, _("NF-e documents for unloading city %s") % label
+                )
+            elif descarga.document_type == "cte":
+                check(
+                    descarga.cte_ids, _("CT-e documents for unloading city %s") % label
+                )
+            elif descarga.document_type == "mdfe":
+                check(
+                    descarga.mdfe_ids,
+                    _("MDF-e transport documents for unloading city %s") % label,
+                )
+
+            for document in descarga.nfe_ids + descarga.cte_ids + descarga.mdfe_ids:
+                check(document.document_key, _("Document Key for %s") % label)
+
+        if self.mdfe_modal == "1":
+            self._check_mdfe_road_required_fields(missing_fields)
+
+        if missing_fields:
+            raise UserError(
+                _("Fill in the required MDF-e fields before sending:\n- %s")
+                % "\n- ".join(missing_fields)
+            )
+
+    def _check_mdfe_road_required_fields(self, missing_fields):
+        def check(value, label):
+            if not value:
+                missing_fields.append(label)
+
+        check(self.mdfe30_placa, _("Vehicle Plate"))
+        check(self.mdfe30_tara, _("Vehicle Tare in KG"))
+        check(self.mdfe30_tpRod, _("Vehicle Wheel Type"))
+        check(self.mdfe30_tpCar, _("Vehicle Body Type"))
+        check(self.mdfe30_condutor, _("Vehicle Driver"))
+
+        if self.mdfe30_prop:
+            if self.mdfe30_prop == self.company_id.partner_id:
+                missing_fields.append(
+                    _(
+                        "Vehicle Owner must be different from the MDF-e issuer. "
+                        "If the vehicle belongs to your company, clear the "
+                        "Transport Type field instead of filling an owner."
+                    )
+                )
+            elif not self.mdfe_transp_type:
+                missing_fields.append(
+                    _(
+                        "Transport Type must be informed when a third-party "
+                        "vehicle owner is specified."
+                    )
+                )
+        elif self.mdfe_transp_type:
+            missing_fields.append(
+                _(
+                    "Vehicle Owner is required when Transport Type is informed. "
+                    "If the vehicle belongs to your company, clear the "
+                    "Transport Type field."
+                )
+            )
+
+        if self.mdfe30_prop:
+            owner_rntrc = self.mdfe30_prop.rntrc_code
+            if not owner_rntrc:
+                missing_fields.append(_("Vehicle Owner RNTRC"))
+            elif not owner_rntrc.isdigit() or len(owner_rntrc) != 8:
+                missing_fields.append(_("Owner RNTRC must contain exactly 8 digits."))
+
+        for condutor in self.mdfe30_condutor:
+            check(condutor.mdfe30_xNome, _("Driver Name"))
+            check(condutor.mdfe30_CPF, _("Driver CPF"))
 
     def _document_export(self, pretty_print=True):
         result = super()._document_export()
