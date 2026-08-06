@@ -5,3 +5,4 @@ from . import test_mdfe_import
 from . import test_mdfe_structure
 from . import test_mdfe_res_partner
 from . import test_mdfe_damdfe
+from . import test_mdfe_document
