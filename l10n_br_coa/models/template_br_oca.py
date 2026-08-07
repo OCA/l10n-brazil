@@ -281,7 +281,9 @@ class AccountChartTemplate(models.AbstractModel):
             refund_account = (
                 created_accounts_refs.get(ref_rep_acc_key) if ref_rep_acc_key else False
             )
-            company_tax._update_repartition_lines(invoice_account.id, refund_account.id)
+            company_tax.sudo()._update_repartition_lines(
+                invoice_account.id, refund_account.id
+            )
 
         # Void default company sale/purchase taxes:
         company.account_sale_tax_id = None
