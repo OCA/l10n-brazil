@@ -62,11 +62,6 @@ class SaleBlanketOrderLine(models.Model):
         string="Partner",
     )
 
-    # Add Fields in model sale.blanket.order.line
-    price_gross = fields.Monetary(
-        compute="_compute_amount", string="Gross Amount", compute_sudo=True
-    )
-
     comment_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.comment",
         relation="sale_blanket_order_line_comment_rel",
@@ -210,11 +205,11 @@ class SaleBlanketOrderLine(models.Model):
         """Compute the amounts of the Sale Blanket Order line."""
         result = super()._compute_amount()
         for line in self:
+            # Mirror l10n_br_sale: map commercial totals from fiscal amounts.
             line.update(
                 {
                     "price_subtotal": line.fiscal_amount_untaxed,
                     "price_tax": line.fiscal_amount_tax,
-                    "price_gross": line.fiscal_amount_untaxed,
                     "price_total": line.fiscal_amount_total,
                 }
             )
