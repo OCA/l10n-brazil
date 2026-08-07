@@ -3,6 +3,8 @@
 
 from odoo import api, fields, models
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import FISCAL_TAX_ID_FIELDS
+
 
 class SaleBlanketOrderLine(models.Model):
     _name = "sale.blanket.order.line"
@@ -111,6 +113,26 @@ class SaleBlanketOrderLine(models.Model):
             "fiscal_operation_id",
             "fiscal_operation_line_id",
         ]
+
+    def _needs_fiscal_tax_recompute(self, vals):
+        return "fiscal_tax_ids" in vals or any(
+            fname in vals for fname in FISCAL_TAX_ID_FIELDS
+        )
+
+    def _recompute_fiscal_tax_fields(self):
+        # _compute_tax_fields writes tax outputs; skip re-entry via write().
+        self.with_context(skip_fiscal_tax_recompute=True)._compute_tax_fields()
+
+    def write(self, vals):
+        res = super().write(vals)
+        if self.env.context.get("skip_fiscal_tax_recompute"):
+            return res
+        # Same race as create: writing inss_wh_tax_id together with
+        # fiscal_tax_ids can make _compute_tax_fields run on stale taxes
+        # and persist amount_tax_withholding=0 after an onchange showed 11.
+        if self._needs_fiscal_tax_recompute(vals):
+            self._recompute_fiscal_tax_fields()
+        return res
 
     @api.depends(
         "quantity",
