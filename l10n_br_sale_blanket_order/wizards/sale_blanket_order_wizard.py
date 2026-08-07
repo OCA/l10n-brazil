@@ -26,6 +26,24 @@ class SaleBlanketOrderWizard(models.TransientModel):
 
         vals = super()._prepare_so_line_vals(line=line)
         vals.update(fiscal_vals)
+
+        # OCA copies tax_id from blanket taxes_id, which may still be empty when
+        # the wizard related field is read before the compute flushes. Force the
+        # account taxes from the fiscal taxes so l10n_br_sale gets a correct SO.
+        blanket_line = line.blanket_line_id
+        if blanket_line.fiscal_operation_line_id:
+            company = blanket_line.company_id or self.blanket_order_id.company_id
+            vals["tax_id"] = [
+                (
+                    6,
+                    0,
+                    blanket_line.fiscal_tax_ids.account_taxes(
+                        user_type="sale",
+                        fiscal_operation=blanket_line.fiscal_operation_id,
+                        company=company,
+                    ).ids,
+                )
+            ]
         return vals
 
     def _simulate_onchange_price_subtotal(self, values):
