@@ -333,6 +333,48 @@ class L10nBrPurchaseBlanketOrderTest(TransactionCase):
         line._onchange_fiscal_tax_ids()
         self.assertEqual(line.taxes_id, expected)
 
+    def test_withholding_tax_keeps_fiscal_totals(self):
+        """Adding a withholding tax must keep totals after form save.
+
+        The line form onchange computes amount_tax_withholding correctly, but
+        saving sends fiscal_tax_ids together with *_tax_id. That write used to
+        recompute taxes on stale values and persist withholding=0.
+        """
+        blanket_order = self._create_blanket_order()
+        blanket_order._onchange_fiscal_operation_id()
+        line = blanket_order.line_ids[0]
+        line.write({"original_uom_qty": 1.0, "price_unit": 100.0})
+
+        inss_wh = self.env["l10n_br_fiscal.tax"].search(
+            [("tax_domain", "=", "inss_wh")], limit=1
+        )
+        if not inss_wh:
+            self.skipTest("No inss_wh fiscal tax found in demo data.")
+
+        # Reproduce UI save: both fiscal_tax_ids and the specific tax field.
+        taxes = line.fiscal_tax_ids | inss_wh
+        line.write(
+            {
+                "inss_wh_tax_id": inss_wh.id,
+                "fiscal_tax_ids": [Command.set(taxes.ids)],
+            }
+        )
+        line.invalidate_recordset()
+
+        # Gross stays on the mixin (qty * price_unit), not rebound to untaxed.
+        self.assertAlmostEqual(line.price_gross, 100.0, places=2)
+        self.assertTrue(
+            line.amount_tax_withholding,
+            "amount_tax_withholding must persist after saving fiscal taxes.",
+        )
+        self.assertAlmostEqual(
+            line.fiscal_amount_total,
+            line.fiscal_amount_untaxed
+            + line.fiscal_amount_tax
+            - line.amount_tax_withholding,
+            places=2,
+        )
+
     def test_cnae_domain(self):
         domain = self.env["purchase.blanket.order.line"]._cnae_domain()
         expected_domain = [
