@@ -48,6 +48,18 @@
                             widget="many2many_tags"
                             string="Secundary CNAE"
                         />
+                        <field name="registration_status" />
+                        <field name="registration_status_reason" />
+                        <field name="registration_status_date" />
+                        <field name="company_start_date" />
+                        <field name="company_size" />
+                        <field name="matrix_branch" />
+                        <field name="legal_representative_qualification" />
+                        <field
+                            name="child_ids"
+                            widget="many2many_tags"
+                            string="Partners (QSA)"
+                        />
                         <field name="currency_id" invisible="1" />
                     </group>
                 </group>

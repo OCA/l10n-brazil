@@ -14,6 +14,8 @@ _logger = logging.getLogger(__name__)
 
 RECEITAWS_URL = "https://www.receitaws.com.br/v1/cnpj/"
 
+OPENCNPJ_URL = "https://api.opencnpj.org/"
+
 SERPRO_URL = "https://gateway.apiserpro.serpro.gov.br"
 QUALIFICACAO_CSV = dirname(__file__) + "/../data/serpro_qualificacao.csv"
 
@@ -143,6 +145,19 @@ class CNPJWebservice(models.AbstractModel):
 
         return cnae_id
 
+    @api.model
+    def _format_phone(self, ddd, number):
+        if not ddd or not number:
+            return False
+        split = -4 if len(number) <= 8 else -5
+        return f"({ddd}) {number[:split]}-{number[split:]}"
+
+    @api.model
+    def _match_selection(self, value, mapping):
+        if not value:
+            return False
+        return mapping.get(value.strip().lower(), False)
+
     #
     # RECEITA WS
     #
@@ -265,6 +280,160 @@ class CNPJWebservice(models.AbstractModel):
                 cnae_secondary.append(self._get_cnae(formatted))
 
         return [Command.set(cnae_secondary)]
+
+    #
+    # OPEN CNPJ
+    #
+
+    @api.model
+    def opencnpj_get_api_url(self, cnpj):
+        return OPENCNPJ_URL + cnpj
+
+    @api.model
+    def opencnpj_get_headers(self):
+        return {"Accept": "application/json"}
+
+    @api.model
+    def opencnpj_validate(self, response):
+        if response.status_code in (400, 404):
+            message = response.json().get("error")
+            raise ValidationError(self.env._(message))
+        self._validate(response)
+
+        return response.json()
+
+    @api.model
+    def _opencnpj_import_data(self, data):
+        legal_name = self.get_data(data, "razao_social", title=True)
+        fantasy_name = self.get_data(data, "nome_fantasia", title=True)
+        phone, mobile = self._opencnpj_get_phones(data)
+        state_id, city_id = self._get_state_city(data)
+
+        res = {
+            "legal_name": legal_name,
+            "name": fantasy_name if fantasy_name else legal_name,
+            "email": self.get_data(data, "email", lower=True),
+            "street_name": self.get_data(data, "logradouro", title=True),
+            "street2": self.get_data(data, "complemento", title=True),
+            "district": self.get_data(data, "bairro", title=True),
+            "street_number": self.get_data(data, "numero"),
+            "zip": self.get_data(data, "cep"),
+            "legal_nature_id": self._opencnpj_get_legal_nature(data),
+            "phone": phone,
+            "mobile": mobile,
+            "state_id": state_id,
+            "city_id": city_id,
+            "equity_capital": self._opencnpj_get_equity_capital(data),
+            "cnae_main_id": self._opencnpj_get_cnae(data),
+            "cnae_secondary_ids": self._opencnpj_get_secondary_cnae(data),
+            "registration_status": self._match_selection(
+                data.get("situacao_cadastral"),
+                {
+                    "nula": "nula",
+                    "ativa": "ativa",
+                    "suspensa": "suspensa",
+                    "inapta": "inapta",
+                    "baixada": "baixada",
+                },
+            ),
+            "registration_status_reason": self.get_data(
+                data.get("motivo_situacao_cadastral") or {}, "descricao", title=True
+            ),
+            "registration_status_date": self.get_data(data, "data_situacao_cadastral"),
+            "company_start_date": self.get_data(data, "data_inicio_atividade"),
+            "company_size": self._match_selection(
+                data.get("porte_empresa"),
+                {
+                    "não informado": "nao_informado",
+                    "microempresa (me)": "me",
+                    "empresa de pequeno porte (epp)": "epp",
+                    "demais": "demais",
+                },
+            ),
+            "matrix_branch": self._match_selection(
+                data.get("matriz_filial"),
+                {"matriz": "matriz", "filial": "filial"},
+            ),
+            "legal_representative_qualification": self.get_data(
+                data.get("qualificacao_responsavel") or {}, "descricao", title=True
+            ),
+            "child_ids": self._opencnpj_get_qsa(data),
+        }
+
+        return res
+
+    @api.model
+    def _opencnpj_get_phones(self, data):
+        """Get phones from data, skipping fax numbers.
+        OpenCNPJ returns "telefones" as a list of {ddd, numero, is_fax}."""
+        numbers = [
+            self._format_phone(telefone.get("ddd"), telefone.get("numero"))
+            for telefone in data.get("telefones") or []
+            if not telefone.get("is_fax")
+        ]
+        numbers = [number for number in numbers if number]
+
+        phone = numbers[0] if numbers else False
+        mobile = numbers[1] if len(numbers) > 1 else False
+
+        return [phone, mobile]
+
+    @api.model
+    def _opencnpj_get_legal_nature(self, data):
+        # OpenCNPJ doesn't expose the legal nature code, only its description
+        legal_nature_name = data.get("natureza_juridica")
+        if legal_nature_name:
+            return (
+                self.env["l10n_br_fiscal.legal.nature"]
+                .search([("name", "=ilike", legal_nature_name)], limit=1)
+                .id
+            )
+        return False
+
+    @api.model
+    def _opencnpj_get_equity_capital(self, data):
+        # OpenCNPJ returns capital_social as a pt-BR formatted string (e.g. "3000,00")
+        capital_social = data.get("capital_social")
+        if capital_social:
+            return capital_social.replace(",", ".")
+        return False
+
+    @api.model
+    def _opencnpj_get_cnae(self, data):
+        cnae_code = data.get("cnae_principal")
+        if cnae_code:
+            return self._get_cnae(cnae_code)
+        return False
+
+    @api.model
+    def _opencnpj_get_secondary_cnae(self, data):
+        cnae_secondary = []
+        for code in data.get("cnaes_secundarios") or []:
+            cnae_id = self._get_cnae(code)
+            if cnae_id:
+                cnae_secondary.append(cnae_id)
+
+        return [Command.set(cnae_secondary)]
+
+    @api.model
+    def _opencnpj_get_qsa(self, data):
+        child_ids = []
+        for socio in data.get("QSA") or []:
+            values = {
+                "name": self.get_data(socio, "nome_socio", title=True),
+                "function": self.get_data(socio, "qualificacao_socio"),
+                "company_type": (
+                    "company"
+                    if socio.get("identificador_socio") == "Pessoa Jurídica"
+                    else "person"
+                ),
+            }
+            document = socio.get("cnpj_cpf_socio")
+            if document and "*" not in document:
+                values["vat"] = document
+            child_ids.append(self.env["res.partner"].create(values).id)
+
+        return [Command.set(child_ids)]
 
     #
     # SERPRO
