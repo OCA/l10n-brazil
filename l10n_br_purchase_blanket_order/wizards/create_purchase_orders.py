@@ -21,7 +21,7 @@ class PurchaseBlanketOrderWizard(models.TransientModel):
         fiscal_vals = self._simulate_onchange_price_subtotal(fiscal_vals)
 
         date_planned = line.blanket_line_id.date_schedule
-        return {
+        vals = {
             "product_id": line.product_id.id,
             "name": line.product_id.name,
             "date_planned": date_planned
@@ -51,7 +51,6 @@ class PurchaseBlanketOrderWizard(models.TransientModel):
                 )
             ]
         return vals
-
     def _simulate_onchange_price_subtotal(self, values):
         line = self.env["account.move.line"].new(values.copy())
         new_values = line._convert_to_write(line._cache)
