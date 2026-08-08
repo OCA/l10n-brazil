@@ -24,6 +24,7 @@ class L10nBrPurchaseBlanketOrderTest(TransactionCase):
 
         cls.product = cls.env.ref("product.product_product_27")
         cls.product_uom = cls.env.ref("uom.product_uom_unit")
+        cls.fiscal_operation = cls.env.ref("l10n_br_fiscal.fo_compras")
 
         cls.company.cnae_secondary_ids = [(6, 0, [cls.cnae_secondary.id])]
         cls.env.company = cls.company
@@ -35,18 +36,23 @@ class L10nBrPurchaseBlanketOrderTest(TransactionCase):
             "date_schedule": self.date_schedule,
             "original_uom_qty": 20.0,
             "price_unit": 25.0,
+            "fiscal_operation_id": self.fiscal_operation.id,
         }
         if line_values:
             line_vals.update(line_values)
 
         values = {
             "partner_id": self.partner.id,
+            "company_id": self.company.id,
             "validity_date": self.validity_date,
             "payment_term_id": self.payment_term.id,
+            "fiscal_operation_id": self.fiscal_operation.id,
             "line_ids": [Command.create(line_vals)],
         }
         values.update(extra_values)
-        blanket_order = self.env["purchase.blanket.order"].create(values)
+        blanket_order = (
+            self.env["purchase.blanket.order"].with_company(self.company).create(values)
+        )
         blanket_order.sudo().onchange_partner_id()
         return blanket_order
 
@@ -108,6 +114,25 @@ class L10nBrPurchaseBlanketOrderTest(TransactionCase):
             [("order_id", "=", blanket_order.id)]
         )
         self.assertEqual(len(blanket_lines), 1)
+        bo_line = blanket_lines[0]
+        self.assertTrue(
+            bo_line.fiscal_operation_line_id,
+            "Error: Blanket Order line has no fiscal operation line.",
+        )
+        self.assertTrue(
+            bo_line.fiscal_tax_ids,
+            "Error: Blanket Order line has no fiscal taxes.",
+        )
+        expected_account_taxes = bo_line.fiscal_tax_ids.account_taxes(
+            user_type="purchase",
+            fiscal_operation=bo_line.fiscal_operation_id,
+            company=bo_line.company_id,
+        )
+        self.assertTrue(
+            bo_line.taxes_id,
+            "Error: Blanket Order line taxes_id was not filled from fiscal taxes.",
+        )
+        self.assertEqual(bo_line.taxes_id, expected_account_taxes)
 
         wizard = self._create_wizard(blanket_order)
         result = wizard.create_purchase_order()
@@ -128,10 +153,11 @@ class L10nBrPurchaseBlanketOrderTest(TransactionCase):
         )
 
         for order_line in purchase_order.order_line:
-            order_line.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras")
-            order_line.fiscal_operation_line_id = self.env.ref(
-                "l10n_br_fiscal.fo_compras_compras"
+            self.assertTrue(
+                order_line.taxes_id,
+                "Error: Purchase Order line taxes_id was not filled from blanket.",
             )
+            self.assertEqual(order_line.taxes_id, expected_account_taxes)
 
         purchase_order.button_confirm()
 
@@ -158,14 +184,7 @@ class L10nBrPurchaseBlanketOrderTest(TransactionCase):
 
         bo_line = blanket_order.line_ids[0]
         self.assertEqual(bo_line.quantity, 20.0)
-        bo_line.write(
-            {
-                "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_compras").id,
-                "fiscal_operation_line_id": self.env.ref(
-                    "l10n_br_fiscal.fo_compras_compras"
-                ).id,
-            }
-        )
+        self.assertTrue(bo_line.taxes_id)
 
         full_price_subtotal = bo_line.price_subtotal
         self.assertTrue(full_price_subtotal)
@@ -289,6 +308,30 @@ class L10nBrPurchaseBlanketOrderTest(TransactionCase):
         blanket_line.fiscal_operation_id = False
         blanket_line._compute_price_unit_fiscal()
         self.assertEqual(blanket_line.price_unit, 0.0)
+
+    def test_onchange_product_keeps_taxes_id_from_fiscal(self):
+        """Inline tree product onchange must not leave taxes_id empty on BR CoA.
+
+        OCA onchange_product sets taxes_id from supplier_taxes_id (usually empty);
+        the BR override re-syncs from fiscal_tax_ids afterwards.
+        """
+        blanket_order = self._create_blanket_order()
+        blanket_order._onchange_fiscal_operation_id()
+        line = blanket_order.line_ids[0]
+        self.assertTrue(line.fiscal_tax_ids)
+
+        line.taxes_id = False
+        line.onchange_product()
+        expected = line.fiscal_tax_ids.account_taxes(
+            user_type="purchase",
+            fiscal_operation=line.fiscal_operation_id,
+            company=line.company_id or line.order_id.company_id,
+        )
+        self.assertTrue(line.taxes_id)
+        self.assertEqual(line.taxes_id, expected)
+
+        line._onchange_fiscal_tax_ids()
+        self.assertEqual(line.taxes_id, expected)
 
     def test_cnae_domain(self):
         domain = self.env["purchase.blanket.order.line"]._cnae_domain()
