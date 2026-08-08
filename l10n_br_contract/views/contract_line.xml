@@ -12,11 +12,13 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='discount']/.." position="after">
                 <group name="fiscal_fields" invisible="1">
+                    <!-- Dynamic fiscal fields placeholder (replaced by inject) -->
                     <field name="fiscal_operation_type" invisible="1" readonly="1" />
                     <field name="fiscal_genre_code" invisible="1" />
                     <field name="tax_framework" invisible="1" />
-                    <field name="tax_icms_or_issqn" invisible="1" />
                 </group>
+                <!-- Kept outside fiscal_fields so attrs still work after inject -->
+                <field name="tax_icms_or_issqn" invisible="1" />
                 <group
                     name="fiscal"
                     invisible="display_type == 'line_section' or (display_type == 'line_note' and note_invoicing_mode != False)"
