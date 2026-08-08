@@ -49,12 +49,7 @@ class PurchaseBlanketOrderLine(models.Model):
         related="order_id.partner_id",
         string="Partner",
     )
-    price_gross = fields.Monetary(
-        compute="_compute_amount",
-        string="Gross Amount",
-        compute_sudo=True,
-        store=True,
-    )
+
     comment_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.comment",
         relation="purchase_blanket_order_line_comment_rel",
@@ -186,11 +181,13 @@ class PurchaseBlanketOrderLine(models.Model):
     def _compute_amount(self):
         result = super()._compute_amount()
         for line in self:
+            # Mirror l10n_br_purchase: map commercial totals from fiscal amounts.
+            # Keep price_gross on the mixin (price_unit * quantity); rebinding it
+            # here creates a circular dependency when withholdings are present.
             line.update(
                 {
                     "price_subtotal": line.fiscal_amount_untaxed,
                     "price_tax": line.fiscal_amount_tax,
-                    "price_gross": line.fiscal_amount_untaxed,
                     "price_total": line.fiscal_amount_total,
                 }
             )
