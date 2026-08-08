@@ -44,6 +44,29 @@ class ContractLine(models.Model):
         self.ensure_one()
         return self.contract_id
 
+    def _setup_complete(self):
+        # Same approach as l10n_br_purchase: mixin fields use precompute=True but
+        # contract lines do not have all dependencies ready at create time.
+        res = super()._setup_complete()
+        mixin = self.env["l10n_br_fiscal.document.line.mixin"]
+        mixin_fields = mixin._fields
+        for name, field in self._fields.items():
+            mixin_field = mixin_fields.get(name)
+            if not mixin_field:
+                continue
+            if mixin_field.compute in (
+                "_compute_price_unit_fiscal",
+                "_compute_product_fiscal_fields",
+                "_compute_fiscal_quantity",
+                "_compute_fiscal_price",
+                "_compute_fiscal_tax_ids",
+                "_compute_tax_fields",
+                "_compute_fiscal_operation_line_id",
+                "_compute_comment_ids",
+            ) and getattr(mixin_field, "precompute", False):
+                field.precompute = False
+        return res
+
     def _prepare_invoice_line(self):
         self.ensure_one()
 
