@@ -6,6 +6,7 @@ from contextlib import contextmanager
 from lxml import etree
 
 from odoo.exceptions import UserError
+from odoo.fields import Command
 from odoo.tests import tagged
 from odoo.tests.common import Form, TransactionCase
 
@@ -285,6 +286,97 @@ class TestL10nBrContract(TransactionCase):
         self.assertEqual(
             self.env["contract.contract"]._get_fiscal_lines_field_name(),
             "contract_line_ids",
+        )
+
+    def test_withholding_tax_keeps_fiscal_totals(self):
+        """Adding a withholding tax must keep totals after form save.
+
+        The line form onchange computes amount_tax_withholding correctly, but
+        saving sends fiscal_tax_ids together with *_tax_id. That write used to
+        recompute taxes on stale values and persist withholding=0.
+        """
+        contract = self._create_contract_with_line(
+            self.product_service,
+            price_unit=100.0,
+            fiscal_operation=self.fo_venda,
+        )
+        line = contract.contract_line_ids
+        line.write({"quantity": 1.0, "price_unit": 100.0})
+
+        inss_wh = self.env["l10n_br_fiscal.tax"].search(
+            [("tax_domain", "=", "inss_wh")], limit=1
+        )
+        if not inss_wh:
+            self.skipTest("No inss_wh fiscal tax found in demo data.")
+
+        # Reproduce UI save: both fiscal_tax_ids and the specific tax field.
+        taxes = line.fiscal_tax_ids | inss_wh
+        line.write(
+            {
+                "inss_wh_tax_id": inss_wh.id,
+                "fiscal_tax_ids": [Command.set(taxes.ids)],
+            }
+        )
+        line.invalidate_recordset()
+
+        self.assertAlmostEqual(line.price_gross, 100.0, places=2)
+        self.assertTrue(
+            line.amount_tax_withholding,
+            "amount_tax_withholding must persist after saving fiscal taxes.",
+        )
+        self.assertAlmostEqual(
+            line.fiscal_amount_total,
+            line.fiscal_amount_untaxed
+            + line.fiscal_amount_tax
+            - line.amount_tax_withholding,
+            places=2,
+        )
+
+    def test_withholding_tax_persists_on_create(self):
+        """Creating a line with fiscal_tax_ids + *_tax_id must keep withholding."""
+        inss_wh = self.env["l10n_br_fiscal.tax"].search(
+            [("tax_domain", "=", "inss_wh")], limit=1
+        )
+        if not inss_wh:
+            self.skipTest("No inss_wh fiscal tax found in demo data.")
+
+        contract = self._create_contract_with_line(
+            self.product_service,
+            price_unit=100.0,
+            fiscal_operation=self.fo_venda,
+        )
+        template = contract.contract_line_ids
+        taxes = template.fiscal_tax_ids | inss_wh
+
+        line = self.env["contract.line"].create(
+            {
+                "contract_id": contract.id,
+                "product_id": self.product_service.id,
+                "name": self.product_service.display_name,
+                "quantity": 1.0,
+                "price_unit": 100.0,
+                "uom_id": self.product_service.uom_id.id,
+                "date_start": "2024-01-01",
+                "recurring_next_date": "2024-01-01",
+                "fiscal_operation_id": self.fo_venda.id,
+                "fiscal_operation_line_id": template.fiscal_operation_line_id.id,
+                "fiscal_tax_ids": [Command.set(taxes.ids)],
+                "inss_wh_tax_id": inss_wh.id,
+            }
+        )
+        line.invalidate_recordset()
+
+        self.assertAlmostEqual(line.price_gross, 100.0, places=2)
+        self.assertTrue(
+            line.amount_tax_withholding,
+            "amount_tax_withholding must persist after create with fiscal taxes.",
+        )
+        self.assertAlmostEqual(
+            line.fiscal_amount_total,
+            line.fiscal_amount_untaxed
+            + line.fiscal_amount_tax
+            - line.amount_tax_withholding,
+            places=2,
         )
 
     def test_user_error_missing_fiscal_operation(self):
