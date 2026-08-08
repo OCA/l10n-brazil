@@ -6,6 +6,7 @@ from datetime import date, timedelta
 
 from lxml import etree
 
+from odoo.exceptions import UserError
 from odoo.fields import Command
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
@@ -392,6 +393,155 @@ class L10nBrSaleBLanketOrderTest(TransactionCase):
             ("id", "=", self.company.cnae_main_id.id),
         ]
         self.assertEqual(domain, expected_domain)
+
+    def test_cnae_domain_without_secondary_cnae(self):
+        secondary_cnae_ids = self.company.cnae_secondary_ids.ids
+        try:
+            self.company.cnae_secondary_ids = [Command.clear()]
+            domain = self.env["sale.blanket.order.line"]._cnae_domain()
+            self.assertEqual(domain, [])
+        finally:
+            self.company.cnae_secondary_ids = [Command.set(secondary_cnae_ids)]
+
+    def test_compute_price_unit_fiscal(self):
+        blanket_order = self._create_blanket_order()
+        blanket_line = blanket_order.line_ids
+
+        # sale_price uses pricelist / tax-included unit price.
+        self.assertEqual(
+            blanket_line.fiscal_operation_id.default_price_unit, "sale_price"
+        )
+        expected_sale_price = self.product._get_tax_included_unit_price(
+            blanket_line.company_id,
+            blanket_order.currency_id,
+            blanket_order.validity_date,
+            "sale",
+            fiscal_position=blanket_order.fiscal_position_id,
+            product_price_unit=blanket_line._get_display_price(blanket_line.product_id),
+            product_currency=blanket_order.currency_id,
+        )
+        blanket_line._compute_price_unit_fiscal()
+        self.assertEqual(blanket_line.price_unit, expected_sale_price)
+
+        # cost_price falls back to standard_price.
+        fo_compras = self.env.ref("l10n_br_fiscal.fo_compras")
+        self.assertEqual(fo_compras.default_price_unit, "cost_price")
+        blanket_line.fiscal_operation_id = fo_compras
+        blanket_line._compute_price_unit_fiscal()
+        self.assertEqual(blanket_line.price_unit, self.product.standard_price)
+
+        # Unknown / empty default_price_unit zeroes the unit price.
+        blanket_line.fiscal_operation_id = False
+        blanket_line._compute_price_unit_fiscal()
+        self.assertEqual(blanket_line.price_unit, 0.0)
+
+    def test_prepare_so_vals_rejects_different_fiscal_operations(self):
+        blanket_order = self._create_blanket_order()
+        wizard = self._create_wizard(blanket_order)
+        blanket_line = blanket_order.line_ids
+        customer = self.partner.id
+        order_lines_by_customer = {
+            customer: [
+                (
+                    0,
+                    0,
+                    {
+                        "fiscal_operation_id": self.fiscal_operation.id,
+                        "blanket_order_line": blanket_line.id,
+                    },
+                ),
+                (
+                    0,
+                    0,
+                    {
+                        "fiscal_operation_id": self.env.ref(
+                            "l10n_br_fiscal.fo_compras"
+                        ).id,
+                        "blanket_order_line": blanket_line.id,
+                    },
+                ),
+            ]
+        }
+
+        with self.assertRaises(UserError):
+            wizard._prepare_so_vals(
+                customer=customer,
+                user_id=self.env.user.id,
+                currency_id=blanket_order.currency_id.id,
+                pricelist_id=blanket_order.pricelist_id.id,
+                payment_term_id=blanket_order.payment_term_id.id,
+                client_order_ref=False,
+                tag_ids=False,
+                order_lines_by_customer=order_lines_by_customer,
+            )
+
+    def test_prepare_so_line_forces_tax_id_from_fiscal(self):
+        """Wizard must fill SO tax_id even when blanket taxes_id is empty."""
+        blanket_order = self._create_blanket_order()
+        blanket_order._onchange_fiscal_operation_id()
+        blanket_order.sudo().action_confirm()
+        bo_line = blanket_order.line_ids[0]
+        self.assertTrue(bo_line.fiscal_tax_ids)
+
+        # Simulate stale/empty commercial taxes on the blanket line.
+        bo_line.taxes_id = False
+        expected = bo_line.fiscal_tax_ids.account_taxes(
+            user_type="sale",
+            fiscal_operation=bo_line.fiscal_operation_id,
+            company=bo_line.company_id or blanket_order.company_id,
+        )
+        self.assertTrue(expected)
+
+        wizard = self._create_wizard(blanket_order)
+        vals = wizard._prepare_so_line_vals(wizard.line_ids)
+        self.assertEqual(vals["tax_id"], [(6, 0, expected.ids)])
+        self.assertEqual(vals["company_id"], blanket_order.company_id.id)
+
+    def test_withholding_tax_persists_on_create(self):
+        """Creating a line with fiscal_tax_ids + *_tax_id must keep withholding."""
+        inss_wh = self.env["l10n_br_fiscal.tax"].search(
+            [("tax_domain", "=", "inss_wh")], limit=1
+        )
+        if not inss_wh:
+            self.skipTest("No inss_wh fiscal tax found in demo data.")
+
+        blanket_order = self._create_blanket_order()
+        blanket_order._onchange_fiscal_operation_id()
+        template = blanket_order.line_ids[0]
+        taxes = template.fiscal_tax_ids | inss_wh
+
+        line = self.env["sale.blanket.order.line"].create(
+            {
+                "order_id": blanket_order.id,
+                "product_id": self.product.id,
+                "product_uom": self.product_uom.id,
+                "original_uom_qty": 1.0,
+                "price_unit": 100.0,
+                "fiscal_operation_id": self.fiscal_operation.id,
+                "fiscal_operation_line_id": template.fiscal_operation_line_id.id,
+                "fiscal_tax_ids": [Command.set(taxes.ids)],
+                "inss_wh_tax_id": inss_wh.id,
+            }
+        )
+        line.invalidate_recordset()
+
+        self.assertAlmostEqual(line.price_gross, 100.0, places=2)
+        self.assertTrue(
+            line.amount_tax_withholding,
+            "amount_tax_withholding must persist after create with fiscal taxes.",
+        )
+        self.assertAlmostEqual(
+            line.fiscal_amount_total,
+            line.fiscal_amount_untaxed
+            + line.fiscal_amount_tax
+            - line.amount_tax_withholding,
+            places=2,
+        )
+
+    def test_get_document(self):
+        blanket_order = self._create_blanket_order()
+        line = blanket_order.line_ids[0]
+        self.assertEqual(line._get_document(), blanket_order)
 
     def test_get_view(self):
         """Covers all _get_view branches for sale.blanket.order."""
