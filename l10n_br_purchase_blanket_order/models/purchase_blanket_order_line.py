@@ -3,6 +3,8 @@
 
 from odoo import api, fields, models
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import FISCAL_TAX_ID_FIELDS
+
 
 class PurchaseBlanketOrderLine(models.Model):
     _name = "purchase.blanket.order.line"
@@ -106,6 +108,15 @@ class PurchaseBlanketOrderLine(models.Model):
                 field.precompute = False
         return res
 
+    def _needs_fiscal_tax_recompute(self, vals):
+        return "fiscal_tax_ids" in vals or any(
+            fname in vals for fname in FISCAL_TAX_ID_FIELDS
+        )
+
+    def _recompute_fiscal_tax_fields(self):
+        # _compute_tax_fields writes tax outputs; skip re-entry via write().
+        self.with_context(skip_fiscal_tax_recompute=True)._compute_tax_fields()
+
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
@@ -120,7 +131,23 @@ class PurchaseBlanketOrderLine(models.Model):
         lines = super().create(vals_list)
         for line in lines.filtered("fiscal_operation_line_id"):
             line._onchange_fiscal_tax_ids()
+        # Form save often creates with fiscal_tax_ids + *_tax_id together;
+        # the mixin compute can run before both values settle and leave
+        # amount_tax_withholding at 0. Force a final recompute.
+        if any(self._needs_fiscal_tax_recompute(vals) for vals in vals_list):
+            lines._recompute_fiscal_tax_fields()
         return lines
+
+    def write(self, vals):
+        res = super().write(vals)
+        if self.env.context.get("skip_fiscal_tax_recompute"):
+            return res
+        # Same race as create: writing inss_wh_tax_id together with
+        # fiscal_tax_ids can make _compute_tax_fields run on stale taxes
+        # and persist amount_tax_withholding=0 after an onchange showed 11.
+        if self._needs_fiscal_tax_recompute(vals):
+            self._recompute_fiscal_tax_fields()
+        return res
 
     def _get_protected_fields(self):
         protected_fields = super()._get_protected_fields()
