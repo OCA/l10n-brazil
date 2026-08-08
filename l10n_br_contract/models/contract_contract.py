@@ -87,9 +87,7 @@ class ContractContract(models.Model):
     @api.model
     def _get_view(self, view_id=None, view_type="form", **options):
         arch, view = super()._get_view(view_id, view_type, **options)
-        if self.env.company.country_id.code != "BR":
-            return arch, view
-        if view_type == "form":
+        if view_type == "form" and self.env.company.country_id.code == "BR":
             arch = self.env["contract.line"].inject_fiscal_fields(arch)
         return arch, view
 
