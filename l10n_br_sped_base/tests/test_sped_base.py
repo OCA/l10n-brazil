@@ -162,58 +162,85 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
         )
 
     def test_format_field_value(self):
-        """
-        Test the _format_field_value method from SpedMixin,
-        focusing on Float and Monetary types.
+        """Formatacao dos campos numericos do arquivo SPED.
+
+        Regras (com lastro no arquivo de referencia da ECD e no PVA da ECF):
+        decimal com virgula e sem separador de milhar; monetario com 2 casas;
+        zero escriturado "0" quando o campo e obrigatorio e em branco quando
+        opcional.
         """
         mixin_instance = self.env["l10n_br_sped.fake.9.0000"]
 
-        # --- Test Float field formatting ---
+        # --- Float ---
         mock_float_field = mock.Mock()
         mock_float_field.type = "float"
-        mock_float_field.sped_decimals = 2  # Simulate the attribute you might add
+        mock_float_field.required = True
 
-        # Test float with 2 decimals
         self.assertEqual(
             mixin_instance._format_field_value(mock_float_field, 1234.567),
             "1234,567",
         )
-        # Test float that results in integer after rounding
         self.assertEqual(
             mixin_instance._format_field_value(mock_float_field, 1234.001),
             "1234,001",
         )
-        # Test zero float
+        # float inteiro apos arredondar sai sem casa decimal
+        self.assertEqual(
+            mixin_instance._format_field_value(mock_float_field, 1234.0),
+            "1234",
+        )
+        # zero: obrigatorio escritura "0", opcional fica em branco
         self.assertEqual(
             mixin_instance._format_field_value(mock_float_field, 0.0),
             "0",
         )
+        mock_float_field.required = False
+        self.assertEqual(
+            mixin_instance._format_field_value(mock_float_field, 0.0),
+            "",
+        )
 
-        # --- Test Monetary field formatting ---
+        # --- Monetary: sempre 2 casas, virgula ---
         mock_monetary_field = mock.Mock()
         mock_monetary_field.type = "monetary"
+        mock_monetary_field.required = True
 
         self.assertEqual(
             mixin_instance._format_field_value(mock_monetary_field, 789.123),
-            "789.123",
+            "789,12",
         )
         self.assertEqual(
             mixin_instance._format_field_value(mock_monetary_field, 789.00),
-            "789",
+            "789,00",
         )
-        # Test zero monetary
+        # negativo preserva o sinal
+        self.assertEqual(
+            mixin_instance._format_field_value(mock_monetary_field, -15.5),
+            "-15,50",
+        )
         self.assertEqual(
             mixin_instance._format_field_value(mock_monetary_field, 0.0),
-            "",  # Your current logic returns "" for zero
+            "0",
+        )
+        mock_monetary_field.required = False
+        self.assertEqual(
+            mixin_instance._format_field_value(mock_monetary_field, 0.0),
+            "",
         )
 
-        # --- Test Integer field formatting ---
+        # --- Integer ---
         mock_integer_field = mock.Mock()
         mock_integer_field.type = "integer"
+        mock_integer_field.required = True
         self.assertEqual(
             mixin_instance._format_field_value(mock_integer_field, 123),
             "123",
         )
+        self.assertEqual(
+            mixin_instance._format_field_value(mock_integer_field, 0),
+            "0",
+        )
+        mock_integer_field.required = False
         self.assertEqual(
             mixin_instance._format_field_value(mock_integer_field, 0),
             "",
