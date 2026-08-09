@@ -22,6 +22,7 @@
         "data/account.tax.group.csv",
         "data/account.tax.template.csv",
         # Views
+        "views/account_account.xml",
         "views/account_tax_template.xml",
         "views/account_tax.xml",
     ],
