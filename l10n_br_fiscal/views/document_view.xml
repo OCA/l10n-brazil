@@ -133,6 +133,13 @@
                         groups="l10n_br_fiscal.group_user"
                         attrs="{'invisible': [('state_edoc', 'in', ('em_digitacao', 'a_enviar', 'enviada', 'autorizada', 'cancelada', 'inutilizada'))]}"
                     />
+                    <button
+                        name="action_create_return"
+                        type="object"
+                        string="Devolver"
+                        groups="l10n_br_fiscal.group_user"
+                        attrs="{'invisible': [('state_edoc', '!=', 'autorizada')]}"
+                    />
                     <field
                         name="state_edoc"
                         widget="statusbar"
