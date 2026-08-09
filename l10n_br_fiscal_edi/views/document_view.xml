@@ -52,19 +52,11 @@
         <field name="arch" type="xml">
             <button name="action_document_confirm" position="after">
                 <button
-                    name="action_document_send"
-                    type="object"
-                    string="Send"
-                    groups="l10n_br_fiscal.group_user"
-                    class="btn-primary"
-                    attrs="{'invisible': [('state_edoc','!=','a_enviar')]}"
-                />
-                <button
                     name="action_document_correction"
                     type="object"
                     string="Carta de Correção"
                     groups="l10n_br_fiscal.group_user"
-                    attrs="{'invisible': [('state_edoc','!=','autorizada')]}"
+                    invisible="state_edoc != 'autorizada'"
                 />
             </button>
             <button name="action_document_back2draft" position="before">
@@ -74,7 +66,7 @@
                     string="View PDF"
                     groups="l10n_br_fiscal.group_user"
                     class="btn-primary"
-                    attrs="{'invisible': [('state_edoc', 'in', ('em_digitacao', 'a_enviar'))]}"
+                    invisible="state_edoc in ('em_digitacao', 'a_enviar')"
                 />
                 <button
                     name="view_xml"
@@ -82,7 +74,7 @@
                     string="View XML"
                     groups="l10n_br_fiscal.group_user"
                     class="btn-primary"
-                    attrs="{'invisible': [('state_edoc', 'in', ('em_digitacao', 'a_enviar'))]}"
+                    invisible="state_edoc in ('em_digitacao', 'a_enviar')"
                 />
             </button>
             <field name="state_edoc" position="attributes">
