@@ -40,5 +40,4 @@ digraph FSM {
     open -> draft [label="Set to Draft", color="gray"];
     rejected -> draft [label="Set to Draft", color="gray"];
     cancel -> draft [label="Set to Draft", color="gray"];
-    draft -> draft [label="Set to Draft\n(Idempotent)", style="dotted", color="gray"];
 }
