@@ -1018,8 +1018,6 @@ class CTe(spec_models.StackedModel):
 
     cte40_modal = fields.Selection(related="transport_modal")
 
-    cte_modal = fields.Selection(related="transport_modal")
-
     cte40_versaoModal = fields.Char(default=CTE_MODAL_VERSION_DEFAULT)
 
     # Campos do Modal Aereo

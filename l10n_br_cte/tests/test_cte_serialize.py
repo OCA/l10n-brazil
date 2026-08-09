@@ -47,15 +47,15 @@ class TestCTeSerialize(TransactionCase):
         )
         cte.cte40_cCT = "57000111"
 
-        if cte.cte_modal == "01":
+        if cte.cte40_modal == "01":
             self.prepare_modal_rodoviario_data(cte)
-        elif cte.cte_modal == "02":
+        elif cte.cte40_modal == "02":
             self.prepare_modal_aereo_data(cte)
-        elif cte.cte_modal == "03":
+        elif cte.cte40_modal == "03":
             self.prepare_modal_aquaviario_data(cte)
-        elif cte.cte_modal == "04":
+        elif cte.cte40_modal == "04":
             self.prepare_modal_ferroviario_data(cte)
-        elif cte.cte_modal == "05":
+        elif cte.cte40_modal == "05":
             self.prepare_modal_dutoviario_data(cte)
 
         cte._document_export()
