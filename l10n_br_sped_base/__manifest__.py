@@ -13,6 +13,7 @@
     "maintainers": ["rvalyi"],
     "development_status": "Alpha",
     "data": [
+        "security/ir.model.access.csv",
         "views/sped_base.xml",
         "views/res_partner_view.xml",
     ],
