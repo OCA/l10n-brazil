@@ -10,7 +10,7 @@ from lxml.builder import E
 
 from odoo import _, api, fields, models
 
-from .sped_mixin import LAYOUT_VERSIONS
+from .sped_mixin import LAYOUT_VERSIONS, SPED_ENCODING
 
 _logger = logging.getLogger(__name__)
 
@@ -236,7 +236,11 @@ class SpedDeclaration(models.AbstractModel):
             "name": file_name,
             "res_model": self._name,
             "res_id": self.id,
-            "datas": base64.b64encode(text.encode()),
+            # SPED files are ISO-8859-1, not the utf-8 of the default
+            # encode(); errors="replace" keeps a character outside Latin-1
+            # pasted in some journal item label from aborting the whole
+            # file generation
+            "datas": base64.b64encode(text.encode(SPED_ENCODING, errors="replace")),
             "mimetype": "application/txt",
             "type": "binary",
         }

@@ -17,6 +17,7 @@ from odoo.exceptions import UserError
 from odoo.tests import TransactionCase
 
 from odoo.addons import l10n_br_sped_base
+from odoo.addons.l10n_br_sped_base.models.sped_mixin import SPED_ENCODING
 
 
 class TestSpedBase(TransactionCase, FakeModelLoader):
@@ -202,7 +203,7 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
 
     def test_generate_sped(self):
         sped = self.declaration._generate_sped_text()
-        with open(self.file_path) as f:
+        with open(self.file_path, encoding=SPED_ENCODING) as f:
             target_content = f.read()
             # print(sped)
             self.assertEqual(sped.strip(), target_content.strip())
@@ -832,3 +833,41 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
             "res.partner,0",
             "Reference string not computed as expected for res_id=0.",
         )
+
+    def test_attachment_is_encoded_in_latin1(self):
+        """The SPED attachment is ISO-8859-1, not utf-8.
+
+        The layout mandates Latin-1. With utf-8 every accented character
+        takes two bytes and the government validator reads the text as
+        mojibake: the ECF PVA shows "DISCRIMINA\u00c7\u00c3O" as
+        "DISCRIMINA\u00c3\u0083O" and flags the whole line.
+        """
+        text = "|P200|1|DISCRIMINA\u00c7\u00c3O DA RECEITA BRUTA||\n"
+        vals = self.declaration._create_sped_attachment(text)
+        stored = base64.b64decode(vals["datas"])
+        self.assertEqual(stored, text.encode("iso-8859-1"))
+        # one byte per accented character, no utf-8 marker in the Latin range
+        self.assertEqual(len(stored), len(text))
+        self.assertNotIn(b"\xc3\x87", stored)
+
+    def test_character_outside_latin1_does_not_abort(self):
+        """A symbol pasted in some label cannot block the whole file."""
+        text = "|I250|Taxa \u20ac de servico|\n"
+        vals = self.declaration._create_sped_attachment(text)
+        stored = base64.b64decode(vals["datas"])
+        self.assertEqual(len(stored), len(text))
+        self.assertIn(b"?", stored)
+
+    def test_import_reads_latin1(self):
+        """Files received from third parties come in Latin-1 and must open."""
+        import tempfile
+
+        with tempfile.NamedTemporaryFile(
+            mode="wb", suffix=".txt", delete=False
+        ) as handle:
+            with open(self.file_path, encoding="iso-8859-1") as original:
+                content = original.read()
+            handle.write(content.encode("iso-8859-1"))
+            path = handle.name
+        declaration = self.env["l10n_br_sped.mixin"]._import_file(path, "fake")
+        self.assertTrue(declaration)

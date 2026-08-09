@@ -14,6 +14,12 @@ from odoo.tools import float_is_zero
 
 _logger = logging.getLogger(__name__)
 
+# SPED files are written and read in ISO-8859-1 (Latin-1), as the layout
+# mandates; the utf-8 that Python defaults to would write two bytes per
+# accented character and the government validator would read the text as
+# mojibake.
+SPED_ENCODING = "iso-8859-1"
+
 LAYOUT_VERSIONS = {
     "ecd": "9",
     "ecf": "9",
@@ -365,7 +371,7 @@ class SpedMixin(models.AbstractModel):
         """
         if version is None:
             version = LAYOUT_VERSIONS[kind]
-        with open(filename) as spedfile:
+        with open(filename, encoding=SPED_ENCODING) as spedfile:
             last_level = 0
             previous_register = None
             parent = None
