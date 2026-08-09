@@ -620,25 +620,27 @@ class Document(models.Model):
         state_to_action = self._get_state_to_action_map()
 
         trigger = state_to_action.get(state)
-        if trigger:
-            # If we are already in the target state, do nothing unless forced?
-            if self.state_edoc == state and not force_change:
-                return
+        for record in self:
+            if trigger:
+                # If we are already in the target state, do nothing unless
+                # forced?
+                if record.state_edoc == state and not force_change:
+                    continue
 
-            # Try to trigger the transition
-            try:
-                self._trigger_fsm(trigger)
-            except UserError as e:
-                # If transition fails (e.g. invalid source state), we might force it
-                # if the legacy code demands it (e.g. synchronization with SEFAZ).
-                # In legacy code, _change_state often just wrote to the field.
-                if force_change:
-                    self.write({"state_edoc": state})
-                else:
-                    raise e
-        else:
-            # If no transition defined, fallback to write (e.g. custom states?)
-            self.write({"state_edoc": state})
+                # Try to trigger the transition
+                try:
+                    record._trigger_fsm(trigger)
+                except UserError as e:
+                    # If transition fails (e.g. invalid source state), we might
+                    # force it if the legacy code demands it (e.g. SEFAZ sync).
+                    # In legacy code, _change_state often just wrote the field.
+                    if force_change:
+                        record.write({"state_edoc": state})
+                    else:
+                        raise e
+            else:
+                # If no transition defined, fallback to write
+                record.write({"state_edoc": state})
 
     # -------------------------------------------------------------------------
     # Actions / Buttons
