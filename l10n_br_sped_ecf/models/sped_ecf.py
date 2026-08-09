@@ -17,6 +17,7 @@ from odoo.addons.l10n_br_sped_base.models.sped_mixin import LAYOUT_VERSIONS
 
 from .account_account import LINHA_CSLL_POR_LINHA_IRPJ
 from .apuracao_presumido import PERCENTUAL_IRPJ, ApuracaoPresumido
+from .sped_mixin_ecf import format_zero
 
 # Natureza da conta na tabela do Sped, por grupo contabil do Odoo.
 COD_NAT_POR_GRUPO = {
@@ -52,6 +53,13 @@ class Registro0000(models.Model):
         ],
         string="Indicador de situação do inicio do período",
     )
+
+    def _format_field_value(self, field, value):
+        # the 0000 is the declaration and does not inherit the ECF mixin
+        zero = format_zero(field, value)
+        if zero is not None:
+            return zero
+        return super()._format_field_value(field, value)
 
     def _skip_empty_blocks(self):
         # a ECF nao aceita bloco sem dados: o PVA recusa o arquivo apontando
