@@ -52,14 +52,6 @@
         <field name="arch" type="xml">
             <button name="action_document_confirm" position="after">
                 <button
-                    name="action_document_send"
-                    type="object"
-                    string="Send"
-                    groups="l10n_br_fiscal.group_user"
-                    class="btn-primary"
-                    attrs="{'invisible': [('state_edoc','!=','a_enviar')]}"
-                />
-                <button
                     name="action_document_correction"
                     type="object"
                     string="Carta de Correção"
