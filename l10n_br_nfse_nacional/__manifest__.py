@@ -10,6 +10,7 @@
     "external_dependencies": {
         "python": [
             "nfelib",
+            "brazilfiscalreport",
             "erpbrasil.assinatura",
             "requests",
             "cryptography",
