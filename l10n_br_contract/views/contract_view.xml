@@ -39,6 +39,21 @@
                     name="context"
                 >{'default_fiscal_operation_id': fiscal_operation_id, 'default_partner_id': partner_id, 'default_company_id': company_id}</attribute>
             </xpath>
+            <!-- Fixed lines tree: fiscal placeholders for onchanges -->
+            <xpath
+                expr="//field[@name='contract_line_fixed_ids']/tree"
+                position="inside"
+            >
+                <control name="fiscal_fields" invisible="1" />
+                <control name="fiscal_taxes_fields" string="Taxes" invisible="1" />
+                <!-- Repeated for Form tests / domains before inject kicks in -->
+                <field name="fiscal_operation_type" invisible="1" />
+                <field name="tax_framework" invisible="1" />
+                <field name="tax_icms_or_issqn" invisible="1" />
+                <field name="fiscal_operation_id" invisible="1" />
+                <field name="fiscal_operation_line_id" invisible="1" />
+                <field name="cfop_id" invisible="1" />
+            </xpath>
             <xpath
                 expr="//field[@name='contract_line_fixed_ids']/tree/field[@name='product_id']"
                 position="before"
@@ -49,10 +64,6 @@
                     title="Edit in Form"
                     class="btn-sm btn-link p-0 edit-line-popup"
                 />
-                <control name="fiscal_fields" invisible="1" />
-                <control name="fiscal_taxes_fields" string="Taxes" invisible="1" />
-                <field name="tax_framework" invisible="1" />
-                <field name="fiscal_operation_id" invisible="1" />
             </xpath>
             <xpath
                 expr="//field[@name='contract_line_fixed_ids']/tree/field[@name='last_date_invoiced']"
@@ -66,6 +77,17 @@
                     optional="hide"
                     attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
                 />
+            </xpath>
+            <!-- Recurring lines tree: same fiscal placeholders -->
+            <xpath expr="//field[@name='contract_line_ids']/tree" position="inside">
+                <control name="fiscal_fields" invisible="1" />
+                <control name="fiscal_taxes_fields" string="Taxes" invisible="1" />
+                <field name="fiscal_operation_type" invisible="1" />
+                <field name="tax_framework" invisible="1" />
+                <field name="tax_icms_or_issqn" invisible="1" />
+                <field name="fiscal_operation_id" invisible="1" />
+                <field name="fiscal_operation_line_id" invisible="1" />
+                <field name="cfop_id" invisible="1" />
             </xpath>
             <xpath
                 expr="//field[@name='contract_line_ids']/tree/button"

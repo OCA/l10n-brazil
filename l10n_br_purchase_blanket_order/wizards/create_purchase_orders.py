@@ -5,6 +5,7 @@ from collections import defaultdict
 
 from odoo import _, models
 from odoo.exceptions import UserError
+from odoo.fields import Command
 
 
 class PurchaseBlanketOrderWizard(models.TransientModel):
@@ -30,7 +31,7 @@ class PurchaseBlanketOrderWizard(models.TransientModel):
         fiscal_vals = self._simulate_onchange_price_subtotal(fiscal_vals)
 
         date_planned = line.blanket_line_id.date_schedule
-        return {
+        vals = {
             "product_id": line.product_id.id,
             "name": line.product_id.name,
             "date_planned": date_planned
@@ -41,9 +42,25 @@ class PurchaseBlanketOrderWizard(models.TransientModel):
             "price_unit": line.blanket_line_id.price_unit,
             "blanket_order_line": line.blanket_line_id.id,
             "product_qty": line.qty,
-            "taxes_id": [(6, 0, line.taxes_id.ids)],
+            "taxes_id": [Command.set(line.taxes_id.ids)],
             **fiscal_vals,
         }
+        # OCA copies taxes_id from the wizard related field (blanket taxes_id),
+        # which may still be empty on BR CoA. Force account taxes from fiscal
+        # after fiscal_vals so it is not overwritten.
+        blanket_line = line.blanket_line_id
+        if blanket_line.fiscal_operation_line_id:
+            company = blanket_line.company_id or self.blanket_order_id.company_id
+            vals["taxes_id"] = [
+                Command.set(
+                    blanket_line.fiscal_tax_ids.account_taxes(
+                        user_type="purchase",
+                        fiscal_operation=blanket_line.fiscal_operation_id,
+                        company=company,
+                    ).ids
+                )
+            ]
+        return vals
 
     def _simulate_onchange_price_subtotal(self, values):
         line = self.env["account.move.line"].new(values.copy())
