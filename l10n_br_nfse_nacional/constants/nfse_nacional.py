@@ -1,10 +1,7 @@
 # Copyright 2026 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-NFSE_NACIONAL_ENVIRONMENTS = [
-    ("1", "Produção"),
-    ("2", "Produção Restrita"),
-]
+PROVEDOR_NFSE_NACIONAL = "nacional"
 
 ADN_BASE_URL = {
     "1": "https://sefin.nfse.gov.br/SefinNacional",
