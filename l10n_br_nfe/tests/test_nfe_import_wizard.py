@@ -87,7 +87,10 @@ class NFeImportWizardTest(TransactionCase):
         )
         self.assertEqual(self.wizard.document_number, "5")
         self.assertEqual(self.wizard.document_serie, "1")
-        self.assertEqual(self.wizard.issuer_partner_id.vat, "81.583.054/0001-29")
+        self.assertEqual(self.wizard.issuer_partner_id.vat, "81583054000129")
+        self.assertEqual(
+            self.wizard.issuer_partner_id.vat_formatted_cnpj, "81.583.054/0001-29"
+        )
         self.assertEqual(self.wizard.issuer_partner_id.name, "Empresa Lucro Presumido")
         self.assertEqual(
             self.wizard.partner_id,

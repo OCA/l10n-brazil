@@ -212,7 +212,7 @@ row {
                             CNPJ/CPF
                         </div>
                         <div class="col-2 linha centro bl bb ">
-                            <span t-field="doc.company_id.vat" />
+                            <span t-field="doc.company_id.vat_formatted_cnpj" />
                         </div>
                         <div class="col-2 rotulo bl bb">
                             Insc. Municipal
@@ -283,7 +283,7 @@ row {
                     CNPJ/CPF
                 </div>
                 <div class="col-2 linha esquerda br">
-                    <span t-field="doc.partner_id.vat" />
+                    <span t-field="doc.partner_id.vat_formatted_cnpj" />
                 </div>
                 <div class="col-2 rotulo br">
                     Insc. Municipal

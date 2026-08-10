@@ -1,7 +1,6 @@
 # Copyright 2019 Akretion (Raphaël Valyi <raphael.valyi@akretion.com>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.misc import format_zipcode, punctuation_rm
 
 from odoo import api, fields
@@ -257,7 +256,7 @@ class ResPartner(spec_models.SpecModel):
                 rec.nfe40_choice_dest = "nfe40_CPF"
                 rec.nfe40_choice_autxml = "nfe40_CPF"
                 rec.nfe40_choice_transporta = "nfe40_CPF"
-                rec.vat = cnpj_cpf.formata(str(rec.nfe40_CNPJ))
+                rec.vat = punctuation_rm(str(rec.nfe40_CNPJ))
 
     def _inverse_nfe40_CPF(self):
         for rec in self:
@@ -271,7 +270,7 @@ class ResPartner(spec_models.SpecModel):
                     rec.nfe40_choice_dest = "nfe40_CPF"
                 rec.nfe40_choice_autxml = "nfe40_CNPJ"
                 rec.nfe40_choice_transporta = "nfe40_CNPJ"
-                rec.vat = cnpj_cpf.formata(str(rec.nfe40_CPF))
+                rec.vat = punctuation_rm(str(rec.nfe40_CPF))
 
     def _inverse_nfe40_IE(self):
         for rec in self:
@@ -301,10 +300,11 @@ class ResPartner(spec_models.SpecModel):
             rec_dict["cnpj_cpf"] = rec_dict["nfe40_CNPJ"]
 
         if rec_dict.get("cnpj_cpf", False):
+            cnpj_cpf_stripped = punctuation_rm(str(rec_dict["cnpj_cpf"]))
             domain_cnpj = [
                 "|",
-                ("cnpj_cpf_stripped", "=", rec_dict["cnpj_cpf"]),
-                ("vat", "=", cnpj_cpf.formata(rec_dict["cnpj_cpf"])),
+                ("cnpj_cpf_stripped", "=", cnpj_cpf_stripped),
+                ("vat", "=", cnpj_cpf_stripped),
             ]
             match = self.search(domain_cnpj, limit=1)
             if match:
@@ -354,7 +354,7 @@ class ResPartner(spec_models.SpecModel):
                 return "EX"
 
             if xsd_field == "nfe40_idEstrangeiro":
-                return self.vat or self.vat or self.l10n_br_rg_code or "EXTERIOR"
+                return self.vat or self.l10n_br_rg_code or "EXTERIOR"
 
         return super()._export_field(xsd_field, class_obj, member_spec, export_value)
 
@@ -379,11 +379,15 @@ class ResPartner(spec_models.SpecModel):
                 rec.nfe40_nro = rec.street_number
                 rec.nfe40_xCpl = rec.street2
                 rec.nfe40_xBairro = rec.district
-                rec.nfe40_cMun = rec.city_id.ibge_code
-                rec.nfe40_xMun = rec.city_id.name
-                rec.nfe40_UF = rec.state_id.code
-                rec.nfe40_cPais = rec.country_id.bc_code
-                rec.nfe40_xPais = rec.country_id.name.replace("Brazil", "Brasil")
+                rec.nfe40_cMun = rec.city_id.ibge_code if rec.city_id else None
+                rec.nfe40_xMun = rec.city_id.name if rec.city_id else None
+                rec.nfe40_UF = rec.state_id.code if rec.state_id else None
+                rec.nfe40_cPais = rec.country_id.bc_code if rec.country_id else None
+                rec.nfe40_xPais = (
+                    rec.country_id.name.replace("Brazil", "Brasil")
+                    if rec.country_id
+                    else None
+                )
             else:
                 rec.nfe40_xLgr = None
                 rec.nfe40_nro = None
