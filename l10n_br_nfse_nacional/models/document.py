@@ -31,6 +31,7 @@ from odoo.addons.spec_driven_model.models import spec_models
 
 from ..constants.nfse_nacional import (
     ADN_BASE_URL,
+    DANFSE_NACIONAL_TEMPLATE,
     NFSE_NACIONAL_CANCEL_EVENT,
     NFSE_NACIONAL_CANCEL_OFICIO_EVENT,
     PROVEDOR_NFSE_NACIONAL,
@@ -494,9 +495,9 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
         nacional_docs = self.filtered(filter_nfse_nacional)
         if not nacional_docs:
             return super().make_pdf()
-        report = self.env.ref("l10n_br_nfse_nacional.report_danfse_nacional")
+        report = self.env["ir.actions.report"]
         for record in nacional_docs:
-            pdf = report._render_qweb_pdf(report.id, record.ids)[0]
+            pdf = report._render_qweb_pdf(DANFSE_NACIONAL_TEMPLATE, record.ids)[0]
             vals = {
                 "name": f"DANFSe-{record.document_number or record.id}.pdf",
                 "res_model": record._name,
