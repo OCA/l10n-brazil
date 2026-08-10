@@ -10,3 +10,13 @@
   entregue pela pessoa jurídica, centralizada na matriz. Somar as
   apurações de PIS e COFINS das filiais (companies) numa apuração
   central é um épico próprio; esta versão apura por company.
+- Reforma tributária (CBS/IBS, LC 214/2025): a mecânica desta apuração
+  (débito e crédito por período, regime no grupo de imposto, saldo
+  credor transportado, encerramento contábil) é a mesma da CBS e do
+  IBS, e apurar os tributos novos é configurar grupos próprios. As
+  evoluções previstas são linhas de natureza nova: recolhimento via
+  split payment abatendo o valor a recolher, e baixa do saldo credor
+  por pedido de ressarcimento (no IBS/CBS ele é devolvível, não só
+  transportável). Com a apuração assistida, esta memória de cálculo
+  vira o instrumento de conciliação entre o número do fisco e a
+  contabilidade.
