@@ -120,6 +120,13 @@ class Registro0000(models.Model):
         default="0",
     )
 
+    dt_vcto_obrigacao = fields.Date(
+        string="Vencimento da obrigação",
+        help="Data de vencimento do ICMS apurado, usada no E116. O prazo varia "
+        "por UF e por regime, então não é derivado: quem sabe o prazo é o "
+        "contribuinte.",
+    )
+
     ind_tp_leiaute = fields.Selection(
         [
             ("0", "Leiaute Simplificado"),
@@ -164,6 +171,7 @@ class Registro0000(models.Model):
             E.field(name="cod_obrigacao", required="1", attrs=EDITABLE_ON_DRAFT)
         )
         group.append(E.field(name="cod_receita", required="1", attrs=EDITABLE_ON_DRAFT))
+        group.append(E.field(name="dt_vcto_obrigacao", attrs=EDITABLE_ON_DRAFT))
         group.append(E.field(name="ind_apur", required="1", attrs=EDITABLE_ON_DRAFT))
         group.append(
             E.field(name="CLAS_ESTAB_IND", required="1", attrs=EDITABLE_ON_DRAFT)
@@ -3869,46 +3877,109 @@ class RegistroE100(models.Model):
 
 
 class RegistroE110(models.Model):
-    """Apuração do ICMS."""
+    """ICMS assessment.
+
+    This record computes nothing: it SERIALIZES the period ICMS assessment
+    (`l10n_br_tax.assessment`), which already publishes the totals in the same
+    order as the E110 fields. Recomputing here would produce a file that
+    matches neither the accounting nor the payment slip, which is exactly the
+    defect the assessment layer exists to prevent.
+
+    Cardinality is 1:1 within E100: when there is no closed ICMS assessment for
+    the period no record is generated and the structural validator reports the
+    gap. That is the intended behaviour: a structure error is better than a
+    block E filled with zeros.
+    """
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e110"
     _inherit = "l10n_br_sped.efd_icms_ipi.20.e110"
+    _odoo_model = "l10n_br_tax.assessment"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "VL_TOT_DEBITOS": 0,  # Valor total dos débitos por "Saídas e prestaç...
-    #         "VL_AJ_DEBITOS": 0,  # Valor total dos ajustes a débito decorrentes d...
-    #         "VL_TOT_AJ_DEBITOS": 0,  # Valor total de "Ajustes a débito"
-    #         "VL_ESTORNOS_CRED": 0,  # Valor total de Ajustes “Estornos de crédito...
-    #         "VL_TOT_CREDITOS": 0,  # Valor total dos créditos por "Entradas e aqu...
-    #         "VL_AJ_CREDITOS": 0,  # Valor total dos ajustes a crédito decorrentes...
-    #         "VL_TOT_AJ_CREDITOS": 0,  # Valor total de "Ajustes a crédito"
-    #         "VL_ESTORNOS_DEB": 0,  # Valor total de Ajustes “Estornos de Débitos”
-    #         "VL_SLD_CREDOR_ANT": 0,  # Valor total de "Saldo credor do período an...
-    #         "VL_SLD_APURADO": 0,  # Valor do saldo devedor apurado
-    #         "VL_TOT_DED": 0,  # Valor total de "Deduções"
-    #         "VL_ICMS_RECOLHER": 0,  # Valor total de "ICMS a recolher (11-12)
-    #         "VL_SLD_CREDOR_TRANSPORTAR": 0,  # Valor total de "Saldo credor a tra...
-    #         "DEB_ESP": 0,  # Valores recolhidos ou a recolher, extra-apuração
-    #     }
+    # The Guia Pratico requires EVERY E110 field, and a zero amount has to be
+    # written as "0" rather than left blank. The generated spec does not carry
+    # that mandatoriness, so it is declared here: without it the PVA rejects the
+    # tax book with "mandatory field" on each field left at zero.
+    VL_TOT_DEBITOS = fields.Monetary(required=True, currency_field="brl_currency_id")
+    VL_AJ_DEBITOS = fields.Monetary(required=True, currency_field="brl_currency_id")
+    VL_TOT_AJ_DEBITOS = fields.Monetary(required=True, currency_field="brl_currency_id")
+    VL_ESTORNOS_CRED = fields.Monetary(required=True, currency_field="brl_currency_id")
+    VL_TOT_CREDITOS = fields.Monetary(required=True, currency_field="brl_currency_id")
+    VL_AJ_CREDITOS = fields.Monetary(required=True, currency_field="brl_currency_id")
+    VL_TOT_AJ_CREDITOS = fields.Monetary(
+        required=True, currency_field="brl_currency_id"
+    )
+    VL_ESTORNOS_DEB = fields.Monetary(required=True, currency_field="brl_currency_id")
+    VL_SLD_CREDOR_ANT = fields.Monetary(required=True, currency_field="brl_currency_id")
+    VL_SLD_APURADO = fields.Monetary(required=True, currency_field="brl_currency_id")
+    VL_TOT_DED = fields.Monetary(required=True, currency_field="brl_currency_id")
+    VL_ICMS_RECOLHER = fields.Monetary(required=True, currency_field="brl_currency_id")
+    VL_SLD_CREDOR_TRANSPORTAR = fields.Monetary(
+        required=True, currency_field="brl_currency_id"
+    )
+    DEB_ESP = fields.Float(required=True)
+
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        return [
+            ("company_id", "=", declaration.company_id.id),
+            ("tax_domain", "=", "icms"),
+            ("date_from", ">=", declaration.DT_INI),
+            ("date_to", "<=", declaration.DT_FIN),
+            ("state", "in", ("computed", "posted")),
+        ]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            "VL_TOT_DEBITOS": record.debit_total,
+            # Debit adjustments coming from the fiscal document itself
+            # (C197/D197) are not written yet: once they are, they belong here
+            # rather than in field 04, which is the assessment adjustment.
+            "VL_AJ_DEBITOS": 0.0,
+            "VL_TOT_AJ_DEBITOS": record.adjustment_debit_total,
+            "VL_ESTORNOS_CRED": record.credit_reversal_total,
+            "VL_TOT_CREDITOS": record.credit_total,
+            "VL_AJ_CREDITOS": 0.0,
+            "VL_TOT_AJ_CREDITOS": record.adjustment_credit_total,
+            "VL_ESTORNOS_DEB": record.debit_reversal_total,
+            "VL_SLD_CREDOR_ANT": record.previous_balance,
+            "VL_SLD_APURADO": record.assessed_balance,
+            "VL_TOT_DED": record.deduction_total,
+            "VL_ICMS_RECOLHER": record.amount_payable,
+            "VL_SLD_CREDOR_TRANSPORTAR": record.amount_carried_forward,
+            "DEB_ESP": record.special_debit_total,
+        }
 
 
 class RegistroE111(models.Model):
-    """Ajuste/Benefício/Incentivo da Apuração do ICMS."""
+    """ICMS assessment adjustment, benefit or incentive.
+
+    One record per MANUAL adjustment of the assessment. A line assessed from
+    move lines does not become an E111: it is already added into E110 fields 02
+    and 06, and repeating it here would double the amount.
+    """
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e111"
     _inherit = "l10n_br_sped.efd_icms_ipi.20.e111"
+    _odoo_model = "l10n_br_tax.assessment.line"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "COD_AJ_APUR": 0,  # Código do ajuste da apuração e dedução, conforme...
-    #         "DESCR_COMPL_AJ": 0,  # Descrição complementar do ajuste da apuração
-    #         "VL_AJ_APUR": 0,  # Valor do ajuste da apuração
-    #     }
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        return [
+            ("assessment_id", "=", parent_record.id),
+            ("source", "=", "manual"),
+            ("adjustment_code", "!=", False),
+        ]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            "COD_AJ_APUR": record.adjustment_code,
+            "DESCR_COMPL_AJ": record.description,
+            "VL_AJ_APUR": record.tax_amount,
+        }
 
 
 class RegistroE112(models.Model):
@@ -3968,25 +4039,35 @@ class RegistroE115(models.Model):
 
 
 class RegistroE116(models.Model):
-    """Obrigações do ICMS Recolhido ou a Recolher."""
+    """ICMS obligations to collect, own operations.
+
+    Comes from the same assessment as E110: the amount payable is E110 field
+    13, and this record only breaks it down into obligations. The PVA checks
+    that the sum of the E116 records equals E110, so generating one without the
+    other fails.
+    """
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e116"
     _inherit = "l10n_br_sped.efd_icms_ipi.20.e116"
+    _odoo_model = "l10n_br_tax.assessment"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "COD_OR": 0,  # Código da obrigação a recolher, conforme a tabela 5.4
-    #         "VL_OR": 0,  # Valor da obrigação a recolher
-    #         "DT_VCTO": 0,  # Data de vencimento da obrigação
-    #         "COD_REC": 0,  # Código de receita referente à obrigação, próprio da ...
-    #         "NUM_PROC": 0,  # Número do processo ou auto de infração ao qual a ob...
-    #         "IND_PROC": 0,  # Indicador da origem do processo: 0- Sefaz; 1- Justi...
-    #         "PROC": 0,  # Descrição resumida do processo que embasou o lançamento
-    #         "TXT_COMPL": 0,  # Descrição complementar das obrigações a recolher
-    #         "MES_REF": 0,  # Informe o mês de referência no formato “mmaaaa”
-    #     }
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        # There is only an obligation to collect when the assessment closes
+        # with tax due; a period with a credit balance generates no E116, and
+        # E110 reports zero as well.
+        return [("id", "=", parent_record.id), ("amount_payable", ">", 0)]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            "COD_OR": declaration.cod_obrigacao,
+            "VL_OR": record.amount_payable,
+            "DT_VCTO": declaration.dt_vcto_obrigacao,
+            "COD_REC": declaration.cod_receita,
+            "MES_REF": record.date_from.strftime("%m%Y"),
+        }
 
 
 class RegistroE200(models.Model):
