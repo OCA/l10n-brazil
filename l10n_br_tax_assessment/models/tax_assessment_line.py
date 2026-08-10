@@ -31,9 +31,9 @@ ADJUSTMENT_KIND_BY_DIGIT = {
 # why neither can be treated as "just another adjustment".
 KIND_BY_ADJUSTMENT_KIND = {
     "other_debit": "debit",
-    "credit_reversal": "debit",
+    "credit_reversal": "credit_reversal",
     "other_credit": "credit",
-    "debit_reversal": "credit",
+    "debit_reversal": "debit_reversal",
     "deduction": "deduction",
     "special_debit": "special_debit",
 }
@@ -76,6 +76,8 @@ class TaxAssessmentLine(models.Model):
         selection=[
             ("debit", "Débito (saídas)"),
             ("credit", "Crédito (entradas)"),
+            ("credit_reversal", "Estorno de crédito (devolução de compra)"),
+            ("debit_reversal", "Estorno de débito (devolução de venda)"),
             ("deduction", "Dedução"),
             ("withholding", "Retenção na fonte"),
             ("special_debit", "Débito especial (extra-apuração)"),
