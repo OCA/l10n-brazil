@@ -19,7 +19,7 @@
         <field name="name">Comércio de Alimentos Aurora Ltda ME</field>
         <field name="legal_name">Comércio de Alimentos Aurora Ltda ME</field>
         <field name="is_company" eval="True" />
-        <field name="cnpj_cpf">12.345.678/0001-95</field>
+        <field name="vat">12.345.678/0001-95</field>
         <field name="l10n_br_im_code">987654</field>
         <field name="street_name">Rua das Acácias</field>
         <field name="street_number">79</field>

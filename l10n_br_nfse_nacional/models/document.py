@@ -178,7 +178,7 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
 
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)
-        for record in self.with_context(lang="pt_BR").filtered(filter_nfse_nacional):
+        for record in self.filtered(filter_nfse_nacional):
             inf_dps = record._build_binding("nfse", "10")
             nfse = Dps(infDPS=inf_dps, versao="1.00", signature=None)
             edocs.append(nfse)
@@ -247,7 +247,7 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
         self.ensure_one()
         partner = self.company_id.partner_id
         city_code = (partner.city_id.ibge_code or "").zfill(7)
-        cnpj_cpf = re.sub(r"\D", "", partner.cnpj_cpf or "")
+        cnpj_cpf = partner.cnpj_cpf_stripped or ""
         issuer_type = "2" if len(cnpj_cpf) == 14 else "1"
         series = (self.document_serie or "").zfill(5)
         number = str(self.document_number or "").zfill(15)
@@ -448,8 +448,7 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
 
     def _build_cancel_pedreg(self, justificative, motive):
         self.ensure_one()
-        company = self.company_id
-        cnpj = re.sub(r"\D", "", company.partner_id.cnpj_cpf or "")
+        cnpj = self.company_id.partner_id.cnpj_cpf_stripped or ""
         dt = (
             pytz.utc.localize(fields.Datetime.now())
             .astimezone(BRAZIL_TZ)
