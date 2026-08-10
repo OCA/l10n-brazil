@@ -355,6 +355,10 @@ class SpedDeclaration(models.AbstractModel):
         group.append(E.field(name="debug"))
         group.append(E.separator(colspan="4"))
 
+    def _skip_empty_blocks(self):
+        """Return True to omit blocks with no records (ECF rejects them)."""
+        return False
+
     def _generate_sped_text(self, version=None):
         """Generate SPED text from Odoo declaration records."""
         self.ensure_one()
@@ -363,47 +367,45 @@ class SpedDeclaration(models.AbstractModel):
             version = LAYOUT_VERSIONS[kind]
         top_register_classes = self._get_top_registers(kind)
         sped = StringIO()
-        last_bloco = None
         line_total = 0
         # mutable register line_count https://stackoverflow.com/a/15148557
         line_count = [0]
         count_by_register = defaultdict(int)
-        count_by_bloco = defaultdict(int)
         self._generate_register_text(sped, version, line_count, count_by_register)
-        count_by_register["0990"] = 1  # for some reason it is needed
+
+        # group the top registers by block, keeping the order
+        blocks = []
+        for register_class in top_register_classes:
+            bloco = register_class._name[-4:][0].upper()
+            if not blocks or blocks[-1][0] != bloco:
+                blocks.append((bloco, []))
+            blocks[-1][1].append(register_class)
 
         domain = [("declaration_id", "=", self.id)]
-        for register_class in top_register_classes:
-            bloco = register_class._name[-4:][0].upper()
-            # Contar com o dominio da declaracao, e nao `[]`: sem ele o
-            # indicador de movimento do bloco enxerga os registros de TODAS as
-            # escrituracoes da base e abre como "com dados" um bloco que nesta
-            # declaracao esta vazio. O PVA recusa a importacao com "registro de
-            # abertura do bloco informa que o bloco tem movimento, no entanto
-            # nenhum registro foi informado no bloco".
-            count_by_bloco[bloco] += register_class.search_count(domain)
-        for register_class in top_register_classes:
-            bloco = register_class._name[-4:][0].upper()
-            registers = register_class.search(domain)
-            if bloco != last_bloco:
-                if last_bloco:
-                    sped.write(f"\n|{last_bloco}990|{line_count[0] + 1}|")
-                    count_by_register[f"{bloco}990"] = 1
-                    line_total += line_count[0] + 1
-                    line_count = [0]
-
-                sped.write(f"\n|{bloco}001|{0 if count_by_bloco[bloco] > 0 else 1}|")
-                count_by_register[f"{bloco}001"] = 1
-                line_count[0] += 1
-            registers._generate_register_text(
-                sped, version, line_count, count_by_register
-            )
-            last_bloco = bloco
-
-        # close the last register:
-        # closing_register = "099" if kind == "ecf" else "990"
-        # sped.write(f"\n|{bloco}{closing_register}|{line_count[0] + 1}|")
-        sped.write(f"\n|{bloco}990|{line_count[0] + 1}|")
+        skip_empty = self._skip_empty_blocks()
+        first = True
+        for bloco, register_classes in blocks:
+            # search by this declaration only: other declarations' records
+            # would open an empty block as "with data"
+            records = [
+                register_class.search(domain) for register_class in register_classes
+            ]
+            has_data = any(records)
+            if skip_empty and not has_data and bloco != "0":
+                continue
+            if not first:
+                line_count = [0]
+            sped.write(f"\n|{bloco}001|{0 if has_data else 1}|")
+            count_by_register[f"{bloco}001"] = 1
+            line_count[0] += 1
+            for record in records:
+                record._generate_register_text(
+                    sped, version, line_count, count_by_register
+                )
+            sped.write(f"\n|{bloco}990|{line_count[0] + 1}|")
+            count_by_register[f"{bloco}990"] = 1
+            line_total += line_count[0] + 1
+            first = False
 
         # totals:
         sped.write("\n|9001|0|")
@@ -418,8 +420,9 @@ class SpedDeclaration(models.AbstractModel):
             code = item[0]
             num = item[1]
             sped.write(f"\n|9900|{code}|{num}|")
-        sped.write(f"\n|9990|{len(count_by_register.keys()) + 3}|")
+        block_9_lines = len(count_by_register.keys()) + 3
+        sped.write(f"\n|9990|{block_9_lines}|")
 
-        line_total += line_count[0] + len(count_by_register.keys()) + 4
+        line_total += block_9_lines
         sped.write(f"\n|9999|{line_total}|")
         return sped.getvalue()

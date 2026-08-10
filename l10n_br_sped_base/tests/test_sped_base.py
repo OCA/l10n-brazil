@@ -172,6 +172,35 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
                 f"with no movement",
             )
 
+    def test_skip_empty_blocks(self):
+        """With the hook on, a block with no records is left out of the file."""
+        source = self.declaration
+        other = self.env["l10n_br_sped.fake.0000"].create(
+            {
+                "company_id": source.company_id.id,
+                "DT_INI": "2022-01-01",
+                "DT_FIN": "2022-12-31",
+                "LECD": source.LECD,
+                "NOME": source.NOME,
+                "CNPJ": source.CNPJ,
+                "UF": source.UF,
+                "IND_SIT_INI_PER": source.IND_SIT_INI_PER,
+                "IND_NIRE": source.IND_NIRE,
+                "IND_FIN_ESC": source.IND_FIN_ESC,
+                "IND_GRANDE_PORTE": source.IND_GRANDE_PORTE,
+                "TIP_ECD": source.TIP_ECD,
+                "IDENT_MF": source.IDENT_MF,
+                "IND_ESC_CONS": source.IND_ESC_CONS,
+                "IND_CENTRALIZADA": source.IND_CENTRALIZADA,
+                "IND_MUDANC_PC": source.IND_MUDANC_PC,
+            }
+        )
+        with patch.object(type(other), "_skip_empty_blocks", return_value=True):
+            lines = other._generate_sped_text().splitlines()
+        self.assertFalse([ln for ln in lines if ln.startswith(("|I", "|J"))])
+        self.assertNotIn("|9900|I001|1|", lines)
+        self.assertEqual(lines[-1], f"|9999|{len(lines)}|")
+
     def test_register_line_uses_the_concrete_field(self):
         """Field attributes come from the concrete model, not from the spec.
 
