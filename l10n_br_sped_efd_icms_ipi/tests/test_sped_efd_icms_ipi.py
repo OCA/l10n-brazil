@@ -6,6 +6,7 @@ from os import path
 from odoo.tests import common
 
 from odoo.addons import l10n_br_sped_efd_icms_ipi
+from odoo.addons.l10n_br_sped_base.models.sped_mixin import SPED_ENCODING
 
 
 class SpedTest(common.TransactionCase):
@@ -20,7 +21,7 @@ class SpedTest(common.TransactionCase):
         sped_mixin = self.env["l10n_br_sped.mixin"]
         declaration = sped_mixin._import_file(file_path, "efd_icms_ipi")
         sped = declaration._generate_sped_text()
-        with open(file_path) as f:
+        with open(file_path, encoding=SPED_ENCODING) as f:
             target_content = f.read()
             # print(sped)
             self.assertEqual(sped.strip(), target_content.strip())
