@@ -3,7 +3,9 @@ Implemented:
 - DPS document and field mapping (`SpecModel` over `nfse.10.tcdps`/`tcinfdps`),
   with `prest`/`toma`/`serv`/`valores` mapped by comodel (res.company /
   res.partner / document.line) and regime-aware `regTrib` (MEI / Simples
-  Nacional / normal). Filtered by `document_type_id.code == "SE"`.
+  Nacional / normal). Applies to service documents (`SE`) whose company picked
+  the provider Sefin Nacional (ADN), so municipal and gateway modules keep their
+  own documents.
 - REST/mTLS transport client (`transport/adn_rest.py`): `verify=True`, GET-only
   retry, gzip+base64 packing, no payload/key logging.
 - Issuance following the NF-e pattern: `_serialize` (`_build_binding` → `Dps`),
