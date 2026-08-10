@@ -68,7 +68,9 @@ class Registro0010(models.Model):
             "FORMA_APUR": "A" if real else "T",
             "COD_QUALIF_PJ": "01",
             "TIP_ESC_PRE": "C",
-            "IND_REC_RECEITA": "1",
+            # na tabela do leiaute, 1 e o regime de CAIXA e 2 o de
+            # competencia; a apuracao deste modulo e por competencia
+            "IND_REC_RECEITA": "2",
         }
 
 

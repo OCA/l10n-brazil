@@ -7,7 +7,7 @@
         Arquivo ECF do SPED""",
     "version": "16.0.1.0.0",
     "license": "AGPL-3",
-    "author": "Akretion, Odoo Community Association (OCA)",
+    "author": "Akretion, KMEE, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Alpha",
     "maintainers": ["rvalyi", "renatonlima"],
