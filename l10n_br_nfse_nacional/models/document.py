@@ -22,6 +22,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     EVENT_ENV_HML,
     EVENT_ENV_PROD,
     MODELO_FISCAL_NFSE,
+    PROCESSADOR_OCA,
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_REJEITADA,
@@ -32,6 +33,7 @@ from ..constants.nfse_nacional import (
     ADN_BASE_URL,
     NFSE_NACIONAL_CANCEL_EVENT,
     NFSE_NACIONAL_CANCEL_OFICIO_EVENT,
+    PROVEDOR_NFSE_NACIONAL,
 )
 from ..transport.adn_rest import AdnRestClient
 
@@ -40,7 +42,9 @@ BRAZIL_TZ = pytz.timezone("America/Sao_Paulo")
 
 def filter_nfse_nacional(record):
     return (
-        record.document_type_id and record.document_type_id.code == MODELO_FISCAL_NFSE
+        record.processador_edoc == PROCESSADOR_OCA
+        and record.document_type_id.code == MODELO_FISCAL_NFSE
+        and record.company_id.provedor_nfse == PROVEDOR_NFSE_NACIONAL
     )
 
 
@@ -66,7 +70,7 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
     )
 
     nfse10_Id = fields.Char(compute="_compute_nfse10_id")
-    nfse10_tpAmb = fields.Selection(related="company_id.nfse_environment")
+    nfse10_tpAmb = fields.Selection(related="nfse_environment")
     nfse10_dhEmi = fields.Char(compute="_compute_nfse10_dates")
     nfse10_verAplic = fields.Char(default="Odoo OCA")
     nfse10_serie = fields.Char(related="document_serie")
@@ -154,10 +158,7 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
         DPS uses 42 digits and NFS-e uses 50 digits, which breaks the
         standard validation.
         """
-        nfse_nacional_docs = self.filtered(
-            lambda r: r.document_type_id
-            and r.document_type_id.code == MODELO_FISCAL_NFSE
-        )
+        nfse_nacional_docs = self.filtered(filter_nfse_nacional)
         other_docs = self - nfse_nacional_docs
 
         # Only call the strict l10n_br_fiscal validation on NFe/CTe/MDFe
@@ -173,8 +174,9 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
         return edocs
 
     def _document_export(self, pretty_print=True):
-        result = super()._document_export()
-        for record in self.filtered(filter_nfse_nacional):
+        nacional_docs = self.filtered(filter_nfse_nacional)
+        result = super(L10nBrFiscalDocument, self - nacional_docs)._document_export()
+        for record in nacional_docs:
             edoc = record.serialize()[0]
             xml_file = edoc.to_xml()
             if (
@@ -206,7 +208,7 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
 
     def _nfse_nacional_event_env(self):
         self.ensure_one()
-        if self.company_id.nfse_environment == "1":
+        if self.nfse_environment == "1":
             return EVENT_ENV_PROD
         return EVENT_ENV_HML
 
@@ -236,7 +238,7 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
     def _adn_post(self, call):
         """Run ``call(client)`` against the ADN over mTLS with a temp 0600 PEM."""
         self.ensure_one()
-        base_url = ADN_BASE_URL[self.company_id.nfse_environment]
+        base_url = ADN_BASE_URL[self.nfse_environment]
         pem = self._adn_mtls_pem()
         tmp = tempfile.NamedTemporaryFile("wb", suffix=".pem", delete=False)
         try:
@@ -391,7 +393,7 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
             .isoformat(timespec="seconds")
         )
         inf = TcinfPedReg(
-            tpAmb=self.company_id.nfse_environment,
+            tpAmb=self.nfse_environment,
             verAplic="Odoo OCA",
             dhEvento=dt,
             CNPJAutor=cnpj,

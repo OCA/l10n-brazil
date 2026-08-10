@@ -7,7 +7,8 @@ and stores the authorized NFS-e and its 50-digit access key.
 It builds on `l10n_br_nfse` for the NFS-e provider and environment settings, but
 maps the DPS straight onto `l10n_br_fiscal.document`: all service and tax fields
 already live in the fiscal core, so nothing of the municipal / ABRASF flow is
-reused.
+reused. Pick the provider **Sefin Nacional (ADN)** on the company to route its
+service documents here instead of to a municipal or gateway module.
 
 The DPS data structure comes from `l10n_br_nfse_spec` (xsdata-odoo mixins over
 the official v1.00 schemas), mapped onto the document via `spec_driven_model`.
