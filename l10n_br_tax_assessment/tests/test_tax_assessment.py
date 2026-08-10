@@ -134,9 +134,9 @@ class TestTaxAssessment(AccountTestInvoicingCommon):
         """
         a = self._new_assessment()
         self._add_line(a, "debit", 100.0, code="SP000001")
-        self._add_line(a, "debit", 40.0, code="SP010001")
+        self._add_line(a, "credit_reversal", 40.0, code="SP010001")
         self._add_line(a, "credit", 30.0, code="SP020001")
-        self._add_line(a, "credit", 25.0, code="SP030001")
+        self._add_line(a, "debit_reversal", 25.0, code="SP030001")
 
         self.assertEqual(a.adjustment_debit_total, 100.0)
         self.assertEqual(a.credit_reversal_total, 40.0)
@@ -292,8 +292,16 @@ class TestTaxAssessment(AccountTestInvoicingCommon):
     # closing
     # ------------------------------------------------------------------
 
-    def test_closing_move_is_balanced_and_uses_group_accounts(self):
-        """The entry balances and uses the accounts the core already models."""
+    def test_closing_move_consumes_the_smaller_side(self):
+        """The entry moves the CONSUMED side, never the net balance.
+
+        Sales credited 1000 into payable and purchases debited 250 into
+        recoverable. Closing consumes the 250: payable is left with the 750
+        of the payment slip and recoverable is left at zero. Moving the net
+        750, as a first version did, left recoverable with a NEGATIVE asset
+        of 500 and payable with 250, and a test that only checked that the
+        entry balances protected the defect.
+        """
         self._configure_group()
         a = self._new_assessment()
         a.action_compute()
@@ -304,20 +312,49 @@ class TestTaxAssessment(AccountTestInvoicingCommon):
         self.assertEqual(a.state, "posted")
         move = a.move_id
         self.assertTrue(move)
-        self.assertAlmostEqual(
-            sum(move.line_ids.mapped("debit")),
-            sum(move.line_ids.mapped("credit")),
-            places=2,
-            msg="the closing entry has to balance",
-        )
-        contas = move.line_ids.mapped("account_id")
-        self.assertIn(self.account_payable, contas)
-        self.assertIn(self.account_receivable, contas)
-        # 750 due: credit the recoverable account, debit the payable one
         linha_pagar = move.line_ids.filtered(
             lambda line: line.account_id == self.account_payable
         )
-        self.assertAlmostEqual(linha_pagar.debit, 750.0, places=2)
+        linha_recuperar = move.line_ids.filtered(
+            lambda line: line.account_id == self.account_receivable
+        )
+        # consumes the credit side (250), leaving 750 due in payable
+        self.assertAlmostEqual(linha_pagar.debit, 250.0, places=2)
+        self.assertAlmostEqual(linha_recuperar.credit, 250.0, places=2)
+        # resulting balances of the pair: payable keeps the slip, recoverable
+        # zeroes out (1000 credit - 250 debit consumed = 750 credit due)
+        self.assertAlmostEqual(1000.0 - linha_pagar.debit, a.amount_payable, places=2)
+
+    def test_closing_without_credit_creates_no_move(self):
+        """Only debits: nothing to consume, the accounts are already right.
+
+        The payable account already holds the full amount due from the
+        invoices; an entry here would only move value to the wrong place.
+        """
+        self._configure_group()
+        a = self._new_assessment()
+        a.action_compute()
+        self._add_line(a, "debit", 1000.0)
+        a.action_post()
+        self.assertEqual(a.state, "posted")
+        self.assertFalse(a.move_id)
+        self.assertEqual(a.amount_payable, 1000.0)
+
+    def test_closing_with_credit_balance_consumes_the_debit_side(self):
+        """More credit than debit: consume the debit, the rest carries over."""
+        self._configure_group()
+        a = self._new_assessment()
+        a.action_compute()
+        self._add_line(a, "debit", 200.0)
+        self._add_line(a, "credit", 500.0)
+        a.action_post()
+        move = a.move_id
+        self.assertTrue(move)
+        linha_pagar = move.line_ids.filtered(
+            lambda line: line.account_id == self.account_payable
+        )
+        self.assertAlmostEqual(linha_pagar.debit, 200.0, places=2)
+        self.assertAlmostEqual(a.amount_carried_forward, 300.0, places=2)
 
     def test_period_without_movement_closes_without_move(self):
         """A period with no movement closes without an entry, but it closes.
@@ -365,11 +402,153 @@ class TestTaxAssessment(AccountTestInvoicingCommon):
         a = self._new_assessment()
         a.action_compute()
         self._add_line(a, "debit", 500.0)
+        self._add_line(a, "credit", 120.0)
         a.action_post()
         self.assertTrue(a.move_id)
         a.action_draft()
         self.assertEqual(a.state, "draft")
         self.assertFalse(a.move_id)
+
+
+@tagged("post_install", "-at_install")
+class TestTaxAssessmentCompute(AccountTestInvoicingCommon):
+    """`action_compute` against REAL invoices, refunds included.
+
+    The council found that the whole suite exercised the compute only against
+    empty tax groups: the bridge to the accounting, which is the module's
+    reason to exist, had zero coverage. These tests are that bridge.
+    """
+
+    @classmethod
+    def setUpClass(cls, chart_template_ref=None):
+        super().setUpClass(chart_template_ref=chart_template_ref)
+        cls.company = cls.company_data["company"]
+        cls.group = cls.env["account.tax.group"].create({"name": "ICMS (compute)"})
+        cls.sale_tax = cls.env["account.tax"].create(
+            {
+                "name": "ICMS 18% saida (teste)",
+                "amount": 18.0,
+                "type_tax_use": "sale",
+                "tax_group_id": cls.group.id,
+                "company_id": cls.company.id,
+            }
+        )
+        cls.purchase_tax = cls.env["account.tax"].create(
+            {
+                "name": "ICMS 18% entrada (teste)",
+                "amount": 18.0,
+                "type_tax_use": "purchase",
+                "tax_group_id": cls.group.id,
+                "company_id": cls.company.id,
+            }
+        )
+
+    def _assessment(self):
+        return self.env["l10n_br_tax.assessment"].create(
+            {
+                "company_id": self.company.id,
+                "tax_group_id": self.group.id,
+                "date_from": "2026-07-01",
+                "date_to": "2026-07-31",
+            }
+        )
+
+    def test_compute_reads_posted_invoices(self):
+        """The assessed line carries the tax of the posted invoices."""
+        self.init_invoice(
+            "out_invoice",
+            invoice_date="2026-07-10",
+            amounts=[1000.0],
+            taxes=self.sale_tax,
+            post=True,
+        )
+        a = self._assessment()
+        a.action_compute()
+        debit = a.line_ids.filtered(lambda line: line.kind == "debit")
+        self.assertEqual(len(debit), 1)
+        self.assertAlmostEqual(debit.tax_amount, 180.0, places=2)
+        self.assertAlmostEqual(debit.base_amount, 1000.0, places=2)
+        self.assertAlmostEqual(a.debit_total, 180.0, places=2)
+        self.assertAlmostEqual(a.amount_payable, 180.0, places=2)
+
+    def test_sale_refund_becomes_a_debit_reversal(self):
+        """A sale refund is E110 field 09, never netted into field 02.
+
+        Netting closes on the right total with the wrong breakdown, which is
+        exactly the defect the council named F3: the file looks right until a
+        period has a return, which is routine, not exotic.
+        """
+        self.init_invoice(
+            "out_invoice",
+            invoice_date="2026-07-10",
+            amounts=[1000.0],
+            taxes=self.sale_tax,
+            post=True,
+        )
+        self.init_invoice(
+            "out_refund",
+            invoice_date="2026-07-20",
+            amounts=[200.0],
+            taxes=self.sale_tax,
+            post=True,
+        )
+        a = self._assessment()
+        a.action_compute()
+        # gross stays gross, the reversal gets its own bucket
+        self.assertAlmostEqual(a.debit_total, 180.0, places=2)
+        self.assertAlmostEqual(a.debit_reversal_total, 36.0, places=2)
+        # and the offsetting still closes on the net
+        self.assertAlmostEqual(a.balance, 144.0, places=2)
+        reversal = a.line_ids.filtered(lambda line: line.kind == "debit_reversal")
+        self.assertEqual(reversal.source, "computed")
+        self.assertAlmostEqual(reversal.base_amount, 200.0, places=2)
+
+    def test_purchase_refund_becomes_a_credit_reversal(self):
+        """A purchase refund is E110 field 05, apart from the gross credit."""
+        self.init_invoice(
+            "in_invoice",
+            invoice_date="2026-07-05",
+            amounts=[500.0],
+            taxes=self.purchase_tax,
+            post=True,
+        )
+        self.init_invoice(
+            "in_refund",
+            invoice_date="2026-07-25",
+            amounts=[100.0],
+            taxes=self.purchase_tax,
+            post=True,
+        )
+        a = self._assessment()
+        a.action_compute()
+        self.assertAlmostEqual(a.credit_total, 90.0, places=2)
+        self.assertAlmostEqual(a.credit_reversal_total, 18.0, places=2)
+        # credit side 90, debit side 18 (the reversal adds to the debit side)
+        self.assertAlmostEqual(a.balance, -72.0, places=2)
+        self.assertAlmostEqual(a.amount_carried_forward, 72.0, places=2)
+
+    def test_recompute_rebuilds_the_reversals(self):
+        """Reassessing does not duplicate computed reversals."""
+        self.init_invoice(
+            "out_invoice",
+            invoice_date="2026-07-10",
+            amounts=[1000.0],
+            taxes=self.sale_tax,
+            post=True,
+        )
+        self.init_invoice(
+            "out_refund",
+            invoice_date="2026-07-20",
+            amounts=[200.0],
+            taxes=self.sale_tax,
+            post=True,
+        )
+        a = self._assessment()
+        a.action_compute()
+        a.action_compute()
+        self.assertEqual(
+            len(a.line_ids.filtered(lambda line: line.kind == "debit_reversal")), 1
+        )
 
 
 @tagged("post_install", "-at_install")
