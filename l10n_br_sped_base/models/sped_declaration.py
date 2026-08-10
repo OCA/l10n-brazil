@@ -34,7 +34,6 @@ class SpedDeclaration(models.AbstractModel):
         comodel_name="res.company",
         string="Company",
         required=True,
-        states={"done": [("readonly", True)]},
         default=lambda self: self.env.company,
     )
     state = fields.Selection(
@@ -268,7 +267,7 @@ class SpedDeclaration(models.AbstractModel):
             E.button(
                 name="button_populate_sped_from_odoo",
                 type="object",
-                states="draft",
+                invisible="state != 'draft'",
                 string="Pull Registers from Odoo",
                 #            class="oe_highlight",
                 groups="l10n_br_fiscal.group_manager",
@@ -278,7 +277,7 @@ class SpedDeclaration(models.AbstractModel):
             E.button(
                 name="button_flush_registers",
                 type="object",
-                states="draft",
+                invisible="state != 'draft'",
                 string="Flush Registers",
                 #            class="oe_highlight",
                 groups="l10n_br_fiscal.group_manager",
@@ -288,7 +287,7 @@ class SpedDeclaration(models.AbstractModel):
             E.button(
                 name="button_done",
                 type="object",
-                states="draft",
+                invisible="state != 'draft'",
                 string="Set to Done",
                 #            class="oe_highlight",
                 groups="l10n_br_fiscal.group_manager",
@@ -298,7 +297,7 @@ class SpedDeclaration(models.AbstractModel):
             E.button(
                 name="button_draft",
                 type="object",
-                states="done",
+                invisible="state != 'done'",
                 string="Reset to Draft",
                 #            class="oe_highlight",
                 groups="l10n_br_fiscal.group_manager",
@@ -308,7 +307,7 @@ class SpedDeclaration(models.AbstractModel):
             E.button(
                 name="button_create_sped_files",
                 type="object",
-                states="done",
+                invisible="state != 'done'",
                 string="Generate SPED File",
                 #            class="oe_highlight",
                 groups="l10n_br_fiscal.group_manager",
@@ -337,6 +336,17 @@ class SpedDeclaration(models.AbstractModel):
         group.append(E.field(name="debug"))
         group.append(E.separator(colspan="4"))
 
+    def _skip_empty_blocks(self):
+        """O bloco sem nenhum registro entra no arquivo, ou e omitido?
+
+        A ECD escritura o bloco vazio com o indicador "1" (bloco sem dados);
+        a ECF nao aceita: o PVA recusa o arquivo com "Organizacao hierarquica
+        dos blocos/registros do arquivo esta fora dos padroes estabelecidos"
+        e aponta como esperado o primeiro registro do proximo bloco com dados.
+        Cada escrituracao responde por si.
+        """
+        return False
+
     def _generate_sped_text(self, version=None):
         """Generate SPED text from Odoo declaration records."""
         self.ensure_one()
@@ -345,49 +355,50 @@ class SpedDeclaration(models.AbstractModel):
             version = LAYOUT_VERSIONS[kind]
         top_register_classes = self._get_top_registers(kind)
         sped = StringIO()
-        last_bloco = None
         line_total = 0
         # mutable register line_count https://stackoverflow.com/a/15148557
         line_count = [0]
         count_by_register = defaultdict(int)
-        count_by_bloco = defaultdict(int)
         self._generate_register_text(sped, version, line_count, count_by_register)
-        count_by_register["0990"] = 1  # for some reason it is needed
+
+        # agrupa os registros de topo por bloco, preservando a ordem
+        blocos = []
+        for register_class in top_register_classes:
+            bloco = register_class._name[-4:][0].upper()
+            if not blocos or blocos[-1][0] != bloco:
+                blocos.append((bloco, []))
+            blocos[-1][1].append(register_class)
 
         domain = [("declaration_id", "=", self.id)]
-        for register_class in top_register_classes:
-            bloco = register_class._name[-4:][0].upper()
-            # Contar com o dominio da declaracao, e nao `[]`: sem ele o
-            # indicador de movimento do bloco enxerga os registros de TODAS as
-            # escrituracoes da base e abre como "com dados" um bloco que nesta
-            # declaracao esta vazio. O PVA recusa a importacao com "registro de
-            # abertura do bloco informa que o bloco tem movimento, no entanto
-            # nenhum registro foi informado no bloco".
-            count_by_bloco[bloco] += register_class.search_count(domain)
-        for register_class in top_register_classes:
-            bloco = register_class._name[-4:][0].upper()
-            registers = register_class.search(domain)
-            if bloco != last_bloco:
-                if last_bloco:
-                    sped.write(f"\n|{last_bloco}990|{line_count[0] + 1}|")
-                    count_by_register[f"{bloco}990"] = 1
-                    line_total += line_count[0] + 1
-                    line_count = [0]
+        pular_vazios = self._skip_empty_blocks()
+        primeiro = True
+        for bloco, register_classes in blocos:
+            # a busca leva o dominio da declaracao: o indicador de
+            # movimento do bloco enxerga so ESTA escrituracao (sem o
+            # dominio, registros de outras declaracoes da base abririam
+            # como "com dados" um bloco vazio aqui, e o PVA recusa a
+            # importacao)
+            registros = [
+                register_class.search(domain) for register_class in register_classes
+            ]
+            tem_dados = any(registros)
+            if pular_vazios and not tem_dados and bloco != "0":
+                continue
+            if not primeiro:
+                line_count = [0]
+            sped.write(f"\n|{bloco}001|{0 if tem_dados else 1}|")
+            count_by_register[f"{bloco}001"] = 1
+            line_count[0] += 1
+            for registro in registros:
+                registro._generate_register_text(
+                    sped, version, line_count, count_by_register
+                )
+            sped.write(f"\n|{bloco}990|{line_count[0] + 1}|")
+            count_by_register[f"{bloco}990"] = 1
+            line_total += line_count[0] + 1
+            primeiro = False
 
-                sped.write(f"\n|{bloco}001|{0 if count_by_bloco[bloco] > 0 else 1}|")
-                count_by_register[f"{bloco}001"] = 1
-                line_count[0] += 1
-            registers._generate_register_text(
-                sped, version, line_count, count_by_register
-            )
-            last_bloco = bloco
-
-        # close the last register:
-        # closing_register = "099" if kind == "ecf" else "990"
-        # sped.write(f"\n|{bloco}{closing_register}|{line_count[0] + 1}|")
-        sped.write(f"\n|{bloco}990|{line_count[0] + 1}|")
-
-        # totals:
+        # totais:
         sped.write("\n|9001|0|")
         count_by_register["9001"] = 1
         count_by_register["9990"] = 1
@@ -400,8 +411,9 @@ class SpedDeclaration(models.AbstractModel):
             code = item[0]
             num = item[1]
             sped.write(f"\n|9900|{code}|{num}|")
-        sped.write(f"\n|9990|{len(count_by_register.keys()) + 3}|")
+        linhas_bloco_9 = len(count_by_register.keys()) + 3
+        sped.write(f"\n|9990|{linhas_bloco_9}|")
 
-        line_total += line_count[0] + len(count_by_register.keys()) + 4
+        line_total += linhas_bloco_9
         sped.write(f"\n|9999|{line_total}|")
         return sped.getvalue()
