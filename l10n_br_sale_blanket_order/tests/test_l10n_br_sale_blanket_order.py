@@ -494,7 +494,7 @@ class L10nBrSaleBLanketOrderTest(TransactionCase):
 
         wizard = self._create_wizard(blanket_order)
         vals = wizard._prepare_so_line_vals(wizard.line_ids)
-        self.assertEqual(vals["tax_id"], [(6, 0, expected.ids)])
+        self.assertEqual(vals["tax_id"], [Command.set(expected.ids)])
         self.assertEqual(vals["company_id"], blanket_order.company_id.id)
 
     def test_withholding_tax_persists_on_create(self):
