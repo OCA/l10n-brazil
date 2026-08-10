@@ -21,7 +21,8 @@ Implemented:
   hidden for NFS-e (SE) documents (no national service for it).
 - Cancellation registered outside Odoo is picked up by the check-status button
   (`GET /nfse/{chave}/eventos/{tipoEvento}/1` for `101101` and `305101`).
-- DANFSe generated locally from the document, with no call to any portal.
+- DANFSe rendered from the authorized NFS-e XML by `brazilfiscalreport`, in the
+  v2.0 layout of NT 008/2026, with no call to any portal.
 
 Not yet implemented (next iteration):
 
