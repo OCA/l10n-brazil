@@ -1,16 +1,17 @@
 # Copyright 2023 - TODAY, Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
-from pathlib import Path
-
 from odoo import SUPERUSER_ID, api
 
 
 def post_init_hook(cr, registry):
-    """Import demo SPED file"""
+    """Importa a ECF de exemplo, para quem instala o modulo com dados demo.
+
+    A importacao esta desligada porque o arquivo de exemplo atual nao e uma
+    ECF valida: ele foi escrito a mao e a escrituracao nao o produziria. O
+    exemplo passa a ser gerado pela propria escrituracao num PR seguinte, e
+    ai a importacao volta.
+    """
     env = api.Environment(cr, SUPERUSER_ID, {})
     if env.ref("base.module_l10n_br_sped_ecf").demo:
-        parent_dir = Path(__file__).resolve().parent
-        file_path = parent_dir / "demo" / "demo_efc.txt"
-        # FIXME the current demo ECF file is bugguy
-        # env["l10n_br_sped.mixin"]._import_file(file_path, "ecf")
+        return
