@@ -194,12 +194,18 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
                 "1" if (rec.pis_wh_value or rec.cofins_wh_value) else "2"
             )
 
-    @api.depends("company_id.tax_framework")
+    @api.depends(
+        "company_id.tax_framework",
+        "company_id.simplified_tax_range_id.total_tax_percent",
+    )
     def _compute_nfse10_tot_trib(self):
         for rec in self:
+            percent = 0.0
             if rec.company_id.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
+                percent = rec.company_id.simplified_tax_range_id.total_tax_percent
+            if percent:
                 rec.nfse10_indTotTrib = False
-                rec.nfse10_pTotTribSN = "0.01"
+                rec.nfse10_pTotTribSN = f"{percent:.2f}"
             else:
                 rec.nfse10_indTotTrib = "0"
                 rec.nfse10_pTotTribSN = False
