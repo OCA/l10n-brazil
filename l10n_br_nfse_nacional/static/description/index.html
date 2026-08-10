@@ -376,10 +376,12 @@ gateway. From a confirmed <tt class="docutils literal">l10n_br_fiscal.document</
 <strong>DPS</strong>, signs it with the company ICP-Brasil A1 certificate, transmits
 it to the ADN over <strong>REST/mTLS</strong> and stores the authorized NFS-e and its
 50-digit access key.</p>
-<p>It inherits <tt class="docutils literal">l10n_br_fiscal.document</tt> directly and does <strong>not</strong> depend
-on <tt class="docutils literal">l10n_br_nfse</tt> (the municipal / ABRASF flow): all service and tax
-fields already live in the fiscal core. See the project ADRs for the
-rationale.</p>
+<p>It builds on <tt class="docutils literal">l10n_br_nfse</tt> for the NFS-e provider and environment
+settings, but maps the DPS straight onto <tt class="docutils literal">l10n_br_fiscal.document</tt>:
+all service and tax fields already live in the fiscal core, so nothing
+of the municipal / ABRASF flow is reused. Pick the provider <strong>Sefin
+Nacional (ADN)</strong> on the company to route its service documents here
+instead of to a municipal or gateway module.</p>
 <p>The DPS data structure comes from <tt class="docutils literal">l10n_br_nfse_spec</tt> (xsdata-odoo
 mixins over the official v1.00 schemas), mapped onto the document via
 <tt class="docutils literal">spec_driven_model</tt>.</p>
@@ -410,10 +412,12 @@ Only for development or testing purpose, do not use in production.
 <ul class="simple">
 <li>the ICP-Brasil <strong>A1 certificate</strong> (module
 <tt class="docutils literal">l10n_br_fiscal_certificate</tt>);</li>
-<li><strong>NFS-e Nacional Environment</strong> = Produção or Produção Restrita;</li>
-<li>the e-doc processor to <strong>OCA</strong> (<tt class="docutils literal">processador_edoc = oca</tt>) and the
-<strong>NFSe Provider</strong> to <strong>Sefin Nacional (ADN)</strong>
-(<tt class="docutils literal">provedor_nfse = nacional</tt>).</li>
+<li><strong>E-doc Processor</strong> = Odoo Community (<tt class="docutils literal">processador_edoc = oca</tt>);</li>
+<li><strong>NFSe Provider</strong> = Sefin Nacional (ADN)
+(<tt class="docutils literal">provedor_nfse = nacional</tt>);</li>
+<li><strong>NFSe Environment</strong> = Produção or Homologação, which the ADN calls
+produção restrita. The document copies it on creation and you can
+override it there.</li>
 </ul>
 </div>
 <div class="section" id="usage">
@@ -431,8 +435,9 @@ NFS-e XML, its 50-digit access key and protocol, and renders the DANFSe.</p>
 <tt class="docutils literal">nfse.10.tcdps</tt>/<tt class="docutils literal">tcinfdps</tt>), with
 <tt class="docutils literal">prest</tt>/<tt class="docutils literal">toma</tt>/<tt class="docutils literal">serv</tt>/<tt class="docutils literal">valores</tt> mapped by comodel (res.company
 / res.partner / document.line) and regime-aware <tt class="docutils literal">regTrib</tt> (MEI /
-Simples Nacional / normal). Filtered by
-<tt class="docutils literal">document_type_id.code == &quot;SE&quot;</tt>.</li>
+Simples Nacional / normal). Applies to service documents (<tt class="docutils literal">SE</tt>)
+whose company picked the provider Sefin Nacional (ADN), so municipal
+and gateway modules keep their own documents.</li>
 <li>REST/mTLS transport client (<tt class="docutils literal">transport/adn_rest.py</tt>):
 <tt class="docutils literal">verify=True</tt>, GET-only retry, gzip+base64 packing, no payload/key
 logging.</li>

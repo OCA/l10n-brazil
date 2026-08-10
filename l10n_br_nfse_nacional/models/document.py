@@ -72,7 +72,7 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
     )
 
     nfse10_Id = fields.Char(compute="_compute_nfse10_id")
-    nfse10_tpAmb = fields.Selection(related="company_id.nfse_environment")
+    nfse10_tpAmb = fields.Selection(related="nfse_environment")
     nfse10_dhEmi = fields.Char(compute="_compute_nfse10_dates")
     nfse10_verAplic = fields.Char(default="Odoo OCA")
     nfse10_serie = fields.Char(related="document_serie")
@@ -218,7 +218,7 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
 
     def _nfse_nacional_event_env(self):
         self.ensure_one()
-        if self.company_id.nfse_environment == "1":
+        if self.nfse_environment == "1":
             return EVENT_ENV_PROD
         return EVENT_ENV_HML
 
@@ -300,7 +300,7 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
     def _adn_post(self, call):
         """Run ``call(client)`` against the ADN over mTLS with a temp 0600 PEM."""
         self.ensure_one()
-        base_url = ADN_BASE_URL[self.company_id.nfse_environment]
+        base_url = ADN_BASE_URL[self.nfse_environment]
         pem = self._adn_mtls_pem()
         tmp = tempfile.NamedTemporaryFile("wb", suffix=".pem", delete=False)
         try:
@@ -456,7 +456,7 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
             .isoformat(timespec="seconds")
         )
         inf = TcinfPedReg(
-            tpAmb=company.nfse_environment,
+            tpAmb=self.nfse_environment,
             verAplic="Odoo OCA",
             dhEvento=dt,
             CNPJAutor=cnpj,

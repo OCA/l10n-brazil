@@ -3,11 +3,6 @@
 
 PROVEDOR_NFSE_NACIONAL = "nacional"
 
-NFSE_NACIONAL_ENVIRONMENTS = [
-    ("1", "Produção"),
-    ("2", "Produção Restrita"),
-]
-
 DANFSE_NACIONAL_TEMPLATE = "main_template_danfse_nacional"
 
 ADN_BASE_URL = {
