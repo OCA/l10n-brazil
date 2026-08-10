@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Copyright (C) 2026 Luis Felipe Mileo - KMEE <mileo@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record id="view_account_form" model="ir.ui.view">
+        <field name="name">account.account.form.l10n.br.coa</field>
+        <field name="model">account.account</field>
+        <field name="inherit_id" ref="account.view_account_form" />
+        <field name="arch" type="xml">
+            <field name="group_id" position="after">
+                <field name="l10n_br_sped_referential_code" />
+            </field>
+        </field>
+    </record>
+
+    <record id="view_account_list" model="ir.ui.view">
+        <field name="name">account.account.list.l10n.br.coa</field>
+        <field name="model">account.account</field>
+        <field name="inherit_id" ref="account.view_account_list" />
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="inside">
+                <field name="l10n_br_sped_referential_code" optional="hide" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
