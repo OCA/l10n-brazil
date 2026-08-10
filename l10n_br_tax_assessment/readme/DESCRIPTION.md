@@ -18,3 +18,11 @@ a contabilidade.
 
 Os totais são publicados na mesma estrutura do registro E110, campo a
 campo, de modo que a escrituração apenas leia.
+
+Escopo de estabelecimento: a apuração pertence a uma company, e cada
+company representa um estabelecimento (um CNPJ). Para ICMS e IPI isso
+espelha a legislação, que apura por estabelecimento. Para PIS e COFINS,
+que a pessoa jurídica apura de forma centralizada, esta versão atende a
+PJ cujo movimento está numa única company; consolidar apurações de
+múltiplos estabelecimentos numa apuração central da matriz está fora do
+escopo desta versão (ver o roadmap).

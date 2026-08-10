@@ -6,3 +6,7 @@
   módulo da EFD Contribuições não está mesclado na série.
 - A classificação de débito e crédito usa `type_tax_use` do imposto.
   Imposto usado nos dois sentidos precisaria de um critério mais fino.
+- Consolidação de PJ multi-estabelecimento: a EFD Contribuições é
+  entregue pela pessoa jurídica, centralizada na matriz. Somar as
+  apurações de PIS e COFINS das filiais (companies) numa apuração
+  central é um épico próprio; esta versão apura por company.
