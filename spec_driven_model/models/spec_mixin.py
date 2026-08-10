@@ -104,8 +104,6 @@ class SpecMixin(models.AbstractModel):
             return
         setattr(self.env.registry, load_key, True)
 
-        access_data = []
-        access_fields = []
         field_prefix = f"{spec_schema}{spec_version}"
         relation_prefix = f"{spec_schema}.{spec_version}.%"
         self.env.cr.execute(
@@ -128,6 +126,46 @@ class SpecMixin(models.AbstractModel):
         # concrete classes we build below, tracked so we can drop them
         # from module_to_models at the end of this method
         concrete_models = []
+        try:
+            self._build_remaining_schema_models(
+                remaining_models,
+                spec_module,
+                odoo_module,
+                spec_schema,
+                spec_version,
+                field_prefix,
+                concrete_models,
+            )
+        finally:
+            # The concrete classes we built above are rebuilt from scratch every
+            # time this hook runs, but Odoo's MetaModel registered them in
+            # module_to_models, which persists across registry rebuilds. Leaving
+            # them there would make the next Registry.new() -- triggered by any
+            # module install/update -- rebuild these *stale* classes as extra
+            # bases of their model; being subclasses of the downstream classes
+            # that extend the model via _inherit, they break the C3
+            # linearization and crash setup_models() with an inconsistent MRO
+            # (#4668). This runs in a finally block because an exception raised
+            # anywhere above -- init_models recomputing a broken field, for
+            # instance -- would otherwise leak the classes and poison every
+            # later registry build in the process.
+            registered = models.MetaModel.module_to_models[odoo_module]
+            models.MetaModel.module_to_models[odoo_module] = [
+                cls for cls in registered if cls not in concrete_models
+            ]
+
+    def _build_remaining_schema_models(
+        self,
+        remaining_models,
+        spec_module,
+        odoo_module,
+        spec_schema,
+        spec_version,
+        field_prefix,
+        concrete_models,
+    ):
+        access_data = []
+        access_fields = []
         for name in remaining_models:
             spec_class = StackedModel._odoo_name_to_class(name, spec_module)
             if spec_class is None:
