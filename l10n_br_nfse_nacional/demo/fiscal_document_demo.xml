@@ -1,5 +1,31 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
+    <record id="l10n_br_base.empresa_lucro_presumido" model="res.company">
+        <field name="processador_edoc">oca</field>
+        <field name="provedor_nfse">nacional</field>
+        <field name="nfse_environment">2</field>
+    </record>
+
+    <record id="l10n_br_base.empresa_simples_nacional" model="res.company">
+        <field name="processador_edoc">oca</field>
+        <field name="provedor_nfse">nacional</field>
+        <field name="nfse_environment">2</field>
+    </record>
+
+    <record id="document_serie_lc" model="l10n_br_fiscal.document.serie">
+        <field name="name">NFS-e Nacional</field>
+        <field name="code">00007</field>
+        <field name="document_type_id" search="[('code', '=', 'SE')]" />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+    </record>
+
+    <record id="document_serie_sn" model="l10n_br_fiscal.document.serie">
+        <field name="name">NFS-e Nacional</field>
+        <field name="code">900</field>
+        <field name="document_type_id" search="[('code', '=', 'SE')]" />
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+    </record>
+
     <!-- 1. NATIONAL TAXATION CODES -->
     <record id="nat_tax_code_010101" model="l10n_br_fiscal.national.taxation.code">
         <field name="name">01.01.01</field>
@@ -38,7 +64,7 @@
         <field name="document_type_id" search="[('code', '=', 'SE')]" />
 
         <field name="document_number">2</field>
-        <field name="document_serie">00007</field>
+        <field name="document_serie_id" ref="document_serie_lc" />
         <field name="document_key">420240420000000000000000007000000000000002</field>
         <field name="document_date">2023-09-09 12:42:06</field>
         <field name="date_in_out">2023-09-09 12:42:06</field>
@@ -78,7 +104,7 @@
         <field name="document_type_id" search="[('code', '=', 'SE')]" />
 
         <field name="document_number">6</field>
-        <field name="document_serie">900</field>
+        <field name="document_serie_id" ref="document_serie_sn" />
         <field name="document_key">140015920176113500013200900000000000000006</field>
         <field name="document_date">2022-09-28 16:50:29</field>
         <field name="date_in_out">2022-09-28 16:50:29</field>

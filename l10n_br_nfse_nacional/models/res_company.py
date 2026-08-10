@@ -6,7 +6,10 @@ from odoo import api, fields
 
 from odoo.addons.spec_driven_model.models import spec_models
 
-from ..constants.nfse_nacional import PRESTADOR_SELF_EMITTED_EXCLUDED
+from ..constants.nfse_nacional import (
+    PRESTADOR_SELF_EMITTED_EXCLUDED,
+    PROVEDOR_NFSE_NACIONAL,
+)
 
 
 class ResCompany(spec_models.SpecModel):
@@ -18,6 +21,10 @@ class ResCompany(spec_models.SpecModel):
     ]
 
     _nfse10_binding_type = "TcinfoPrestador"
+
+    provedor_nfse = fields.Selection(
+        selection_add=[(PROVEDOR_NFSE_NACIONAL, "Sefin Nacional (ADN)")],
+    )
 
     nfse10_CNPJ = fields.Char(related="partner_id.nfse10_CNPJ")
     nfse10_CPF = fields.Char(related="partner_id.nfse10_CPF")
