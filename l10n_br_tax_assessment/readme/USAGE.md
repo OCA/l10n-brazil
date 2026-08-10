@@ -4,7 +4,8 @@ imposto a pagar e a conta de imposto a recuperar. Sem elas a apuração
 não encerra.
 
 1.  Vá em Contabilidade \> Lançamentos \> Apuração de Impostos e crie
-    uma apuração informando grupo de imposto, regime e período.
+    uma apuração informando grupo de imposto e período (o regime vem do
+   grupo; contribuinte misto usa um grupo por regime).
 2.  Clique em **Apurar**. As linhas de origem `Apurado das move lines`
     são montadas a partir dos lançamentos postados do período.
 3.  Acrescente os ajustes manuais que não saem da contabilidade,

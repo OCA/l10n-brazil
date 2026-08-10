@@ -3,21 +3,21 @@
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
 <odoo>
     <!--
-      Apuração provisória do ICMS do mês corrente.
+      Draft ICMS assessment for the current month.
 
-      O período é relativo à instalação (primeiro e último dia do mês) porque
-      o dado demo da localização lança no mês em que foi instalada: período
-      fixo daria uma apuração vazia em qualquer instalação futura.
+      The period is relative to the install date (first and last day of the
+      month) because the localization demo data posts in the month it was
+      installed: a fixed period would yield an empty assessment on any future
+      install.
 
-      A empresa é a `empresa_lucro_presumido` do demo da localização, e não a
-      main_company: é ela que tem os impostos brasileiros instalados. O grupo é
-      o `l10n_br_coa.tax_group_icms`, o MESMO dos impostos dessa empresa, para
-      a apuração ler os lançamentos que existirem no período.
+      The company is the localization demo `empresa_lucro_presumido`, not
+      main_company: that is the one carrying the Brazilian taxes. The group is
+      `l10n_br_coa.tax_group_icms`, the SAME one those taxes use, so that the
+      assessment reads whatever journal items exist in the period.
     -->
     <record id="demo_assessment_icms" model="l10n_br_tax.assessment">
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
         <field name="tax_group_id" ref="l10n_br_coa.tax_group_icms" />
-        <field name="regime">not_applicable</field>
         <field
             name="date_from"
             eval="(DateTime.today() + relativedelta(day=1)).strftime('%Y-%m-%d')"
@@ -29,8 +29,8 @@
     </record>
 
     <!--
-      Apurar de verdade, em vez de escrever linhas à mão: é o que faz a
-      demonstração bater com os lançamentos que estão na base.
+      Actually assess instead of writing lines by hand: that is what makes the
+      demo match the journal items present in the database.
     -->
     <function
         model="l10n_br_tax.assessment"
@@ -39,16 +39,21 @@
     />
 
     <!--
-      Um ajuste manual com código da tabela 5.1.1, para a demonstração mostrar
-      o E111 e a classificação pelo quarto dígito do código. Fica junto das
-      linhas apuradas, que o recálculo refaz e este ajuste não.
+      A manual adjustment carrying a REAL code from Sao Paulo's table 5.1.1
+      (SP000207, rate differential), so the demo shows E111 and the
+      classification by the fourth digit. A made-up code would be rejected by
+      the PVA, which checks the code against the state's official table. It
+      sits alongside the assessed lines, which a reassessment rebuilds and this
+      adjustment survives.
     -->
     <record id="demo_assessment_icms_adjustment" model="l10n_br_tax.assessment.line">
         <field name="assessment_id" ref="demo_assessment_icms" />
         <field name="kind">debit</field>
         <field name="source">manual</field>
-        <field name="adjustment_code">SP000001</field>
-        <field name="description">Ajuste de demonstração: outros débitos</field>
+        <field name="adjustment_code">SP000207</field>
+        <field
+            name="description"
+        >Diferencial de alíquota de entrada interestadual</field>
         <field name="tax_amount">100.00</field>
     </record>
 </odoo>

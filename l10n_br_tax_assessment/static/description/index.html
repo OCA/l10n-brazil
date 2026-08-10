@@ -371,9 +371,12 @@ ul.auto-toc {
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_tax_assessment"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-l10n_br_tax_assessment"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=16.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
 <p>Apuração de imposto sobre consumo por período: ICMS, IPI, PIS e COFINS.</p>
-<p>Uma apuração é um lote por período, por grupo de imposto e por regime.
-Ela lê os saldos das move lines (via <tt class="docutils literal">account_tax_balance</tt>), aceita os
-ajustes que não saem da contabilidade, confronta débitos com créditos,
+<p>Uma apuração é um lote por período e por grupo de imposto; o regime de
+apuração (cumulativo ou não cumulativo) mora no grupo, e contribuinte
+com receita mista configura um grupo por regime. Assim uma apuração
+nunca mistura regimes nem conta a mesma linha duas vezes. Ela lê os
+saldos das move lines (via <tt class="docutils literal">account_tax_balance</tt>), aceita os ajustes
+que não saem da contabilidade, confronta débitos com créditos,
 transporta o saldo credor de um período para o seguinte e gera o
 lançamento de encerramento usando as contas que o <tt class="docutils literal">account.tax.group</tt>
 do core já modela.</p>
@@ -407,7 +410,8 @@ imposto a pagar e a conta de imposto a recuperar. Sem elas a apuração
 não encerra.</p>
 <ol class="arabic simple">
 <li>Vá em Contabilidade &gt; Lançamentos &gt; Apuração de Impostos e crie uma
-apuração informando grupo de imposto, regime e período.</li>
+apuração informando grupo de imposto e período (o regime vem do
+grupo; contribuinte misto usa um grupo por regime).</li>
 <li>Clique em <strong>Apurar</strong>. As linhas de origem <tt class="docutils literal">Apurado das move lines</tt>
 são montadas a partir dos lançamentos postados do período.</li>
 <li>Acrescente os ajustes manuais que não saem da contabilidade,

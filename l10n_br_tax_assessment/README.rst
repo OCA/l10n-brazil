@@ -30,9 +30,12 @@ Apuração de Impostos sobre Consumo (Brasil)
 
 Apuração de imposto sobre consumo por período: ICMS, IPI, PIS e COFINS.
 
-Uma apuração é um lote por período, por grupo de imposto e por regime.
-Ela lê os saldos das move lines (via ``account_tax_balance``), aceita os
-ajustes que não saem da contabilidade, confronta débitos com créditos,
+Uma apuração é um lote por período e por grupo de imposto; o regime de
+apuração (cumulativo ou não cumulativo) mora no grupo, e contribuinte
+com receita mista configura um grupo por regime. Assim uma apuração
+nunca mistura regimes nem conta a mesma linha duas vezes. Ela lê os
+saldos das move lines (via ``account_tax_balance``), aceita os ajustes
+que não saem da contabilidade, confronta débitos com créditos,
 transporta o saldo credor de um período para o seguinte e gera o
 lançamento de encerramento usando as contas que o ``account.tax.group``
 do core já modela.
@@ -60,7 +63,8 @@ imposto a pagar e a conta de imposto a recuperar. Sem elas a apuração
 não encerra.
 
 1. Vá em Contabilidade > Lançamentos > Apuração de Impostos e crie uma
-   apuração informando grupo de imposto, regime e período.
+   apuração informando grupo de imposto e período (o regime vem do
+   grupo; contribuinte misto usa um grupo por regime).
 2. Clique em **Apurar**. As linhas de origem ``Apurado das move lines``
    são montadas a partir dos lançamentos postados do período.
 3. Acrescente os ajustes manuais que não saem da contabilidade,
