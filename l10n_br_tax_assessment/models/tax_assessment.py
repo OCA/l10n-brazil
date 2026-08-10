@@ -11,6 +11,8 @@ from odoo.exceptions import UserError
 # purchases.
 KIND_DEBIT = "debit"
 KIND_CREDIT = "credit"
+KIND_CREDIT_REVERSAL = "credit_reversal"
+KIND_DEBIT_REVERSAL = "debit_reversal"
 KIND_DEDUCTION = "deduction"
 KIND_WITHHOLDING = "withholding"
 KIND_SPECIAL_DEBIT = "special_debit"
@@ -314,20 +316,23 @@ class TaxAssessment(models.Model):
     def _total_key_for_line(self, line):
         """Which E110 total the line adds to.
 
-        An assessed line always lands in the plain total (fields 02 and 06). A
-        manual line lands in the matching adjustment field, and the table 5.1.1
-        code refines between a plain adjustment and a reversal.
+        Reversals, deductions, withholding and special debits carry their
+        bucket in the KIND itself, whether they were assessed from move lines
+        (a refund) or typed as an adjustment (the table 5.1.1 code enforces
+        the kind). What is left is the plain debit/credit: assessed lines land
+        in the plain totals (fields 02 and 06) and manual ones in the matching
+        adjustment field (04 and 08).
         """
-        if line.kind in (KIND_DEDUCTION, KIND_WITHHOLDING):
+        if line.kind in (
+            KIND_CREDIT_REVERSAL,
+            KIND_DEBIT_REVERSAL,
+            KIND_DEDUCTION,
+            KIND_WITHHOLDING,
+            KIND_SPECIAL_DEBIT,
+        ):
             return line.kind
-        if line.kind == KIND_SPECIAL_DEBIT:
-            return "special_debit"
         if line.source != "manual":
             return line.kind
-        if line.adjustment_kind == "credit_reversal":
-            return "credit_reversal"
-        if line.adjustment_kind == "debit_reversal":
-            return "debit_reversal"
         return "adjustment_debit" if line.kind == KIND_DEBIT else "adjustment_credit"
 
     # ------------------------------------------------------------------
@@ -397,22 +402,54 @@ class TaxAssessment(models.Model):
                 # positive sign, so the classification is ours to make.
                 if tax.type_tax_use == "sale":
                     kind = KIND_DEBIT
+                    reversal_kind = KIND_DEBIT_REVERSAL
+                    sign = 1.0
                 elif tax.type_tax_use == "purchase":
                     kind = KIND_CREDIT
+                    reversal_kind = KIND_CREDIT_REVERSAL
+                    # `account_tax_balance` flips the accounting sign ONCE, so
+                    # a sale tax comes out positive and a purchase tax comes
+                    # out NEGATIVE. Without this second flip the credit lines
+                    # would land negative and the offsetting would read the
+                    # recoverable tax as MORE tax due. Caught by the first
+                    # test that ran the compute against a real posted invoice.
+                    sign = -1.0
                 else:
                     continue
-                if not tax.balance and not tax.base_balance:
-                    continue
-                vals_list.append(
-                    {
-                        "assessment_id": record.id,
-                        "tax_id": tax.id,
-                        "kind": kind,
-                        "base_amount": tax.base_balance,
-                        "tax_amount": tax.balance,
-                        "source": "computed",
-                    }
-                )
+                # Refunds must NOT be netted into the plain totals: the layout
+                # wants a sale refund as a debit reversal (E110 field 09) and
+                # a purchase refund as a credit reversal (field 05), each
+                # apart from the gross of fields 02/06. `account_tax_balance`
+                # already splits regular from refund; netting them, as a
+                # first version did, closed on the right total with the wrong
+                # breakdown in every period with a return.
+                regular = sign * tax.balance_regular
+                regular_base = sign * tax.base_balance_regular
+                # the refund comes sign-opposed to the regular movement
+                reversal = -sign * tax.balance_refund
+                reversal_base = -sign * tax.base_balance_refund
+                if regular or regular_base:
+                    vals_list.append(
+                        {
+                            "assessment_id": record.id,
+                            "tax_id": tax.id,
+                            "kind": kind,
+                            "base_amount": regular_base,
+                            "tax_amount": regular,
+                            "source": "computed",
+                        }
+                    )
+                if reversal or reversal_base:
+                    vals_list.append(
+                        {
+                            "assessment_id": record.id,
+                            "tax_id": tax.id,
+                            "kind": reversal_kind,
+                            "base_amount": reversal_base,
+                            "tax_amount": reversal,
+                            "source": "computed",
+                        }
+                    )
             if vals_list:
                 self.env["l10n_br_tax.assessment.line"].create(vals_list)
             record.state = "computed"
@@ -445,15 +482,41 @@ class TaxAssessment(models.Model):
             )
         return group
 
+    def _closing_offset(self):
+        """The amount the closing entry moves: the CONSUMED side.
+
+        The accounts already hold each side of the offsetting (the invoices
+        credited the payable account and debited the recoverable one, and the
+        previous credit balance stayed in the recoverable account). Closing
+        consumes the smaller side, so what remains is exactly what each
+        account must show: the payment slip amount in payable, or the credit
+        to carry over in recoverable. Moving the NET between them, as a first
+        version did, left the recoverable account with a negative asset.
+        """
+        self.ensure_one()
+        debit_side = (
+            self.debit_total + self.adjustment_debit_total + self.credit_reversal_total
+        )
+        credit_side = (
+            self.credit_total
+            + self.adjustment_credit_total
+            + self.debit_reversal_total
+            + self.previous_balance
+        )
+        return min(debit_side, credit_side)
+
     def action_post(self):
         """Create the closing journal entry and close the assessment."""
         for record in self:
             if record.state != "computed":
                 raise UserError(_("Apure antes de encerrar."))
             group = record._check_accounts_configured()
-            if record.company_id.currency_id.is_zero(record.balance):
-                # A period with no movement creates no entry but still closes:
-                # that is what keeps the credit balance chain without a gap.
+            if record.company_id.currency_id.is_zero(record._closing_offset()):
+                # Nothing was consumed (a period with only debits, only
+                # credits, or no movement): the accounts already show the
+                # right balances and an entry would only move value between
+                # the wrong places. The assessment still closes, which is
+                # what keeps the credit balance chain without a gap.
                 record.state = "posted"
                 continue
             record.move_id = record._create_closing_move(group)
@@ -474,52 +537,31 @@ class TaxAssessment(models.Model):
         return journal
 
     def _prepare_closing_move_lines(self, group):
-        """Two entries: move the period balance between the group accounts.
+        """Debit payable and credit recoverable by the consumed side.
 
-        The entry closes the OFFSETTING (debits against credits). Deductions,
-        withholding and special debits are left out on purpose: each has its own
-        counterpart account, which the core tax group does not model, and making
-        one up here would silently produce a wrong entry.
+        One shape for every case: the entry always debits the payable account
+        (consuming the credit the sale invoices posted there) and credits the
+        recoverable account (consuming the debit the purchases and the carried
+        balance posted there), by `_closing_offset()`. Whatever is due stays
+        in payable; whatever carries over stays in recoverable.
+
+        Deductions, withholding and special debits are left out on purpose:
+        each has its own counterpart account, which the core tax group does
+        not model, and making one up here would silently produce a wrong
+        entry. Manual adjustment lines share the same limitation: they carry
+        no journal items of their own.
         """
         self.ensure_one()
-        payable = group.property_tax_payable_account_id
-        receivable = group.property_tax_receivable_account_id
-        balance = self.balance
+        offset = self._closing_offset()
         label = _("Apuração %s") % self.name
-
-        if balance > 0:
-            # tax due: move the net amount to the tax payable account
-            return [
-                (
-                    0,
-                    0,
-                    {
-                        "name": label,
-                        "account_id": receivable.id,
-                        "debit": 0.0,
-                        "credit": balance,
-                    },
-                ),
-                (
-                    0,
-                    0,
-                    {
-                        "name": label,
-                        "account_id": payable.id,
-                        "debit": balance,
-                        "credit": 0.0,
-                    },
-                ),
-            ]
-        # credit balance: the amount stays as recoverable tax
         return [
             (
                 0,
                 0,
                 {
                     "name": label,
-                    "account_id": receivable.id,
-                    "debit": -balance,
+                    "account_id": group.property_tax_payable_account_id.id,
+                    "debit": offset,
                     "credit": 0.0,
                 },
             ),
@@ -528,9 +570,9 @@ class TaxAssessment(models.Model):
                 0,
                 {
                     "name": label,
-                    "account_id": payable.id,
+                    "account_id": group.property_tax_receivable_account_id.id,
                     "debit": 0.0,
-                    "credit": -balance,
+                    "credit": offset,
                 },
             ),
         ]
