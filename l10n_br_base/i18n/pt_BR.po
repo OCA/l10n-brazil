@@ -3897,12 +3897,22 @@ msgid "Bálsamo"
 msgstr "Bálsamo"
 
 #. module: l10n_br_base
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_company_tree
+msgid "CNPJ"
+msgstr "CNPJ"
+
+#. module: l10n_br_base
 #: model:ir.model.fields,help:l10n_br_base.field_l10n_br_base_party_mixin__vat_formatted_cnpj
 #: model:ir.model.fields,help:l10n_br_base.field_res_company__vat_formatted_cnpj
 #: model:ir.model.fields,help:l10n_br_base.field_res_partner__vat_formatted_cnpj
 #: model:ir.model.fields,help:l10n_br_base.field_res_users__vat_formatted_cnpj
 msgid "CNPJ or CPF formatted with proper punctuation and special characters"
 msgstr ""
+
+#. module: l10n_br_base
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_tree
+msgid "CNPJ/CPF"
+msgstr "CNPJ/CPF"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__cnpj_cpf_stripped
@@ -23086,6 +23096,14 @@ msgid "Should display Brazilian localization fields?"
 msgstr ""
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__show_br_vat_format
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__show_br_vat_format
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__show_br_vat_format
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__show_br_vat_format
+msgid "Show Br Vat Format"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__show_l10n_br
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__show_l10n_br
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__show_l10n_br
@@ -26696,6 +26714,12 @@ msgid "Utinga"
 msgstr "Utinga"
 
 #. module: l10n_br_base
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_company_tree
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_tree
+msgid "VAT"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__vat_formatted_cnpj
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__vat_formatted_cnpj
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__vat_formatted_cnpj
@@ -27371,6 +27395,16 @@ msgid "Westfália"
 msgstr "Westfália"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,help:l10n_br_base.field_l10n_br_base_party_mixin__show_br_vat_format
+#: model:ir.model.fields,help:l10n_br_base.field_res_company__show_br_vat_format
+#: model:ir.model.fields,help:l10n_br_base.field_res_partner__show_br_vat_format
+#: model:ir.model.fields,help:l10n_br_base.field_res_users__show_br_vat_format
+msgid ""
+"Whether to display VAT with Brazilian formatting (true when the current "
+"user's company is Brazilian)."
+msgstr ""
+
+#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4219408
 msgid "Witmarsum"
 msgstr "Witmarsum"
@@ -27634,9 +27668,6 @@ msgstr "Óbidos"
 msgid "Óleo"
 msgstr "Óleo"
 
-#~ msgid "CNPJ/CPF"
-#~ msgstr "CNPJ/CPF"
-
 #~ msgid "State Tax Number already used {}"
 #~ msgstr "Insc. Estadual já utilizada {}"
 
@@ -27846,9 +27877,6 @@ msgstr "Óleo"
 
 #~ msgid "Westfalia"
 #~ msgstr "Westfalia"
-
-#~ msgid "CNPJ"
-#~ msgstr "CNPJ"
 
 #~ msgid ""
 #~ "Dear Sir/Madam,\n"
