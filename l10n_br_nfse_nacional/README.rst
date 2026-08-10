@@ -101,12 +101,17 @@ Implemented:
   the cancel reason code (cMotivo) collected by the extended cancel
   wizard. Number invalidation is hidden for NFS-e (SE) documents (no
   national service for it).
+- Cancellation registered outside Odoo is picked up by the check-status
+  button (``GET /nfse/{chave}/eventos/{tipoEvento}/1`` for ``101101``
+  and ``305101``).
+- DANFSe rendered from the authorized NFS-e XML by
+  ``brazilfiscalreport``, in the v2.0 layout of NT 008/2026, with no
+  call to any portal.
 
 Not yet implemented (next iteration):
 
 - Lost-response reconciliation (``GET /nfse/{chave}`` /
-  ``GET /dps/{id}`` before any re-``POST``) and the DANFSe rendering
-  (``make_pdf`` via ``nfelib.to_pdf``).
+  ``GET /dps/{id}`` before any re-``POST``).
 - Substitution events (e105xxx) and the remaining event types.
 
 Out of scope here: IBS/CBS (RTC), inbound distribution, contingency,

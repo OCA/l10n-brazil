@@ -449,12 +449,17 @@ readable reason on the chatter/event + <tt class="docutils literal">SITUACAO_EDO
 the cancel reason code (cMotivo) collected by the extended cancel
 wizard. Number invalidation is hidden for NFS-e (SE) documents (no
 national service for it).</li>
+<li>Cancellation registered outside Odoo is picked up by the check-status
+button (<tt class="docutils literal">GET <span class="pre">/nfse/{chave}/eventos/{tipoEvento}/1</span></tt> for <tt class="docutils literal">101101</tt>
+and <tt class="docutils literal">305101</tt>).</li>
+<li>DANFSe rendered from the authorized NFS-e XML by
+<tt class="docutils literal">brazilfiscalreport</tt>, in the v2.0 layout of NT 008/2026, with no
+call to any portal.</li>
 </ul>
 <p>Not yet implemented (next iteration):</p>
 <ul class="simple">
 <li>Lost-response reconciliation (<tt class="docutils literal">GET <span class="pre">/nfse/{chave}</span></tt> /
-<tt class="docutils literal">GET <span class="pre">/dps/{id}</span></tt> before any re-<tt class="docutils literal">POST</tt>) and the DANFSe rendering
-(<tt class="docutils literal">make_pdf</tt> via <tt class="docutils literal">nfelib.to_pdf</tt>).</li>
+<tt class="docutils literal">GET <span class="pre">/dps/{id}</span></tt> before any re-<tt class="docutils literal">POST</tt>).</li>
 <li>Substitution events (e105xxx) and the remaining event types.</li>
 </ul>
 <p>Out of scope here: IBS/CBS (RTC), inbound distribution, contingency,
