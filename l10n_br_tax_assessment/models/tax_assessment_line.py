@@ -195,6 +195,49 @@ class TaxAssessmentLine(models.Model):
                     }
                 )
 
+    # Which tax domains have a field for each special bucket. Withholding is
+    # M200/M600 territory (VL_RET_NC/VL_RET_CUM); the E110 has no withholding
+    # field, so a withholding line in an ICMS assessment would break the
+    # equality field 13 = field 11 - field 12 that the PVA validates. The
+    # special debit is the opposite: E110 field 15 (DEB_ESP) exists, the M200
+    # has nothing like it and the amount would vanish from the file.
+    _WITHHOLDING_DOMAINS = ("pis", "cofins", "pisst", "cofinsst")
+    _SPECIAL_DEBIT_DOMAINS = ("icms", "ipi", "icmsst", "icmssn")
+
+    @api.constrains("kind", "assessment_id")
+    def _check_kind_has_a_field_in_the_layout(self):
+        """Refuse a bucket the assessed tax book cannot express.
+
+        Only fires when the tax domain is known (the fiscal group is linked):
+        an unconfigured group blocks nothing, because there is no layout to
+        contradict yet.
+        """
+        for line in self:
+            domain = line.assessment_id.tax_domain
+            if not domain:
+                continue
+            if line.kind == "withholding" and domain not in self._WITHHOLDING_DOMAINS:
+                raise ValidationError(
+                    _(
+                        "Retenção na fonte não existe na apuração de %s: o "
+                        "E110 não tem campo para ela, e o valor quebraria a "
+                        "igualdade que o PVA valida (campo 13 = 11 - 12)."
+                    )
+                    % domain
+                )
+            if (
+                line.kind == "special_debit"
+                and domain not in self._SPECIAL_DEBIT_DOMAINS
+            ):
+                raise ValidationError(
+                    _(
+                        "Débito especial não existe na apuração de %s: o "
+                        "bloco M não tem campo para ele e o valor sumiria "
+                        "do arquivo em silêncio."
+                    )
+                    % domain
+                )
+
     @api.constrains("source", "description")
     def _check_manual_has_description(self):
         for line in self:

@@ -258,6 +258,72 @@ class TestTaxAssessment(AccountTestInvoicingCommon):
         self.assertEqual(jul.previous_balance, 0.0)
 
     # ------------------------------------------------------------------
+    # buckets that only exist in some layouts (F4)
+    # ------------------------------------------------------------------
+
+    def _domain_group(self, fiscal_ref, name):
+        return self.env["account.tax.group"].create(
+            {
+                "name": name,
+                "fiscal_tax_group_id": self.env.ref(fiscal_ref).id,
+            }
+        )
+
+    def test_withholding_is_refused_in_an_icms_assessment(self):
+        """The E110 has no withholding field.
+
+        A withholding line in an ICMS assessment breaks the equality
+        field 13 = field 11 - field 12, which the PVA validates.
+        """
+        group = self._domain_group("l10n_br_fiscal.tax_group_icms", "ICMS dom")
+        a = self._new_assessment(group=group)
+        with self.assertRaises(ValidationError):
+            self._add_line(a, "withholding", 50.0)
+
+    def test_special_debit_is_refused_in_a_pis_assessment(self):
+        """The M200 has no special debit field: the amount would vanish."""
+        group = self._domain_group("l10n_br_fiscal.tax_group_pis", "PIS dom")
+        a = self._new_assessment(group=group)
+        with self.assertRaises(ValidationError):
+            self._add_line(a, "special_debit", 50.0, code="SP050001")
+
+    def test_unknown_domain_blocks_nothing(self):
+        """Without a fiscal group there is no layout to contradict yet."""
+        a = self._new_assessment()
+        self._add_line(a, "withholding", 50.0)
+        self._add_line(a, "special_debit", 20.0, code="SP050001")
+        self.assertEqual(a.withholding_total, 50.0)
+
+    # ------------------------------------------------------------------
+    # stale carried balance (F6)
+    # ------------------------------------------------------------------
+
+    def test_posting_on_a_stale_previous_balance_is_refused(self):
+        """Closing must not chain a carried balance the previous period no
+        longer transports: reassess first, then close."""
+        self._configure_group()
+        jun = self._new_assessment("2026-06-01", "2026-06-30")
+        self._add_line(jun, "credit", 400.0)
+        jun.state = "computed"
+
+        jul = self._new_assessment()
+        jul.action_compute()
+        self.assertEqual(jul.previous_balance, 400.0)
+
+        # june changes AFTER july was assessed
+        self._add_line(jun, "credit", 100.0)
+        self.assertEqual(jun.amount_carried_forward, 500.0)
+
+        with self.assertRaises(UserError):
+            jul.action_post()
+
+        # reassessing refreshes the snapshot and unlocks the closing
+        jul.action_compute()
+        self.assertEqual(jul.previous_balance, 500.0)
+        jul.action_post()
+        self.assertEqual(jul.state, "posted")
+
+    # ------------------------------------------------------------------
     # validation
     # ------------------------------------------------------------------
 
@@ -471,6 +537,26 @@ class TestTaxAssessmentCompute(AccountTestInvoicingCommon):
         self.assertAlmostEqual(a.debit_total, 180.0, places=2)
         self.assertAlmostEqual(a.amount_payable, 180.0, places=2)
 
+    def test_unclassifiable_tax_is_logged_not_dropped(self):
+        """A tax outside sale/purchase leaves a trail in the chatter.
+
+        Vanishing in silence was the defect: a misconfigured withholding tax
+        simply disappeared from the assessment with nothing to flag it.
+        """
+        self.env["account.tax"].create(
+            {
+                "name": "Retencao mal configurada (teste)",
+                "amount": 1.0,
+                "type_tax_use": "none",
+                "tax_group_id": self.group.id,
+                "company_id": self.company.id,
+            }
+        )
+        a = self._assessment()
+        a.action_compute()
+        bodies = " ".join(a.message_ids.mapped("body"))
+        self.assertIn("Retencao mal configurada (teste)", bodies)
+
     def test_sale_refund_becomes_a_debit_reversal(self):
         """A sale refund is E110 field 09, never netted into field 02.
 
@@ -572,7 +658,9 @@ class TestTaxAssessmentDemo(AccountTestInvoicingCommon):
         # into a multi-company test.
         assessment = assessment.sudo()
         today = fields.Date.context_today(assessment)
-        self.assertEqual(assessment.state, "computed")
+        # computed at install time; posted is even stronger (a user or a
+        # validation run may have closed it since)
+        self.assertIn(assessment.state, ("computed", "posted"))
         self.assertEqual(assessment.tax_domain, "icms")
         self.assertEqual(assessment.date_from, today.replace(day=1))
         self.assertEqual(assessment.date_to.month, today.month)

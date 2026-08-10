@@ -394,6 +394,7 @@ class TaxAssessment(models.Model):
             record.previous_balance = previous.amount_carried_forward
 
             taxes = record._get_taxes().with_context(**record._get_period_context())
+            discarded = self.env["account.tax"]
             vals_list = []
             for tax in taxes:
                 # `type_tax_use` decides the side of the running account: a
@@ -415,6 +416,7 @@ class TaxAssessment(models.Model):
                     # test that ran the compute against a real posted invoice.
                     sign = -1.0
                 else:
+                    discarded |= tax
                     continue
                 # Refunds must NOT be netted into the plain totals: the layout
                 # wants a sale refund as a debit reversal (E110 field 09) and
@@ -452,6 +454,18 @@ class TaxAssessment(models.Model):
                     )
             if vals_list:
                 self.env["l10n_br_tax.assessment.line"].create(vals_list)
+            if discarded:
+                # A tax outside sale/purchase cannot be classified into the
+                # running account. Vanishing in silence was the defect: the
+                # trail in the chatter is what lets someone notice a
+                # misconfigured withholding tax before the file goes out.
+                record.message_post(
+                    body=_(
+                        "Impostos ignorados na apuração por não serem de "
+                        "venda nem de compra (type_tax_use): %s"
+                    )
+                    % ", ".join(discarded.mapped("name"))
+                )
             record.state = "computed"
         return True
 
@@ -510,6 +524,27 @@ class TaxAssessment(models.Model):
         for record in self:
             if record.state != "computed":
                 raise UserError(_("Apure antes de encerrar."))
+            previous = record.previous_assessment_id
+            if previous and record.currency_id.compare_amounts(
+                record.previous_balance, previous.amount_carried_forward
+            ):
+                # The carried balance is a snapshot taken at compute time. If
+                # the previous period changed since (a correction, a late
+                # document), closing on the stale value would chain the error
+                # forward with nothing to flag it: reassess first.
+                raise UserError(
+                    _(
+                        "A apuração anterior (%(name)s) mudou depois desta ser "
+                        "apurada: o saldo credor transportado está em "
+                        "%(stale).2f, mas ela transporta %(fresh).2f. Reapure "
+                        "antes de encerrar."
+                    )
+                    % {
+                        "name": previous.name,
+                        "stale": record.previous_balance,
+                        "fresh": previous.amount_carried_forward,
+                    }
+                )
             group = record._check_accounts_configured()
             if record.company_id.currency_id.is_zero(record._closing_offset()):
                 # Nothing was consumed (a period with only debits, only
