@@ -58,17 +58,17 @@ class TestBlocoE(common.TransactionCase):
                 "kind": "debit",
                 "tax_amount": 50.0,
                 "source": "manual",
-                "adjustment_code": "SP100001",
+                "adjustment_code": "SP000001",
                 "description": "outros débitos",
             }
         )
         Line.create(
             {
                 "assessment_id": cls.assessment.id,
-                "kind": "debit",
+                "kind": "credit_reversal",
                 "tax_amount": 20.0,
                 "source": "manual",
-                "adjustment_code": "SP110001",
+                "adjustment_code": "SP010001",
                 "description": "estorno de crédito",
             }
         )
@@ -78,7 +78,7 @@ class TestBlocoE(common.TransactionCase):
                 "kind": "deduction",
                 "tax_amount": 70.0,
                 "source": "manual",
-                "adjustment_code": "SP140001",
+                "adjustment_code": "SP040001",
                 "description": "dedução",
             }
         )
@@ -139,9 +139,9 @@ class TestBlocoE(common.TransactionCase):
         self.assertEqual(len(e111), 3)
         self.assertEqual(
             sorted(e111.mapped("COD_AJ_APUR")),
-            ["SP100001", "SP110001", "SP140001"],
+            ["SP000001", "SP010001", "SP040001"],
         )
-        estorno = e111.filtered(lambda r: r.COD_AJ_APUR == "SP110001")
+        estorno = e111.filtered(lambda r: r.COD_AJ_APUR == "SP010001")
         self.assertAlmostEqual(estorno.VL_AJ_APUR, 20.0, places=2)
         self.assertEqual(estorno.DESCR_COMPL_AJ, "estorno de crédito")
 
