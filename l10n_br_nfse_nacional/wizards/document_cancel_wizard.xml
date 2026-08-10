@@ -11,7 +11,8 @@
                 <field name="document_type_code" invisible="1" />
                 <field
                     name="nfse_nacional_motive"
-                    attrs="{'invisible': [('document_type_code', '!=', 'SE')], 'required': [('document_type_code', '=', 'SE')]}"
+                    invisible="document_type_code != 'SE'"
+                    required="document_type_code == 'SE'"
                 />
             </field>
         </field>

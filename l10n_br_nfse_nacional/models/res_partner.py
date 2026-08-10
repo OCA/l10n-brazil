@@ -48,17 +48,16 @@ class ResPartner(spec_models.SpecModel):
     nfse10_endNac = fields.Many2one("res.partner", compute="_compute_nfse10_end")
     nfse10_cNaoNIF = fields.Selection(compute="_compute_nfse10_cNaoNIF")
 
-    @api.depends("is_company", "cnpj_cpf", "zip", "phone")
+    @api.depends("is_company", "cnpj_cpf_stripped", "zip", "phone")
     def _compute_nfse10_data(self):
         for rec in self:
-            cnpj_cpf_stripped = punctuation_rm(rec.cnpj_cpf)
-            if cnpj_cpf_stripped:
+            if rec.cnpj_cpf_stripped:
                 if rec.is_company:
-                    rec.nfse10_CNPJ = cnpj_cpf_stripped
+                    rec.nfse10_CNPJ = rec.cnpj_cpf_stripped
                     rec.nfse10_CPF = False
                 else:
                     rec.nfse10_CNPJ = False
-                    rec.nfse10_CPF = cnpj_cpf_stripped
+                    rec.nfse10_CPF = rec.cnpj_cpf_stripped
             else:
                 rec.nfse10_CNPJ = False
                 rec.nfse10_CPF = False
@@ -76,10 +75,14 @@ class ResPartner(spec_models.SpecModel):
             rec.nfse10_end = rec.id
             rec.nfse10_endNac = rec.id
 
-    @api.depends("country_id", "cnpj_cpf")
+    @api.depends("country_id", "cnpj_cpf_stripped")
     def _compute_nfse10_cNaoNIF(self):
         for rec in self:
-            if rec.cnpj_cpf or not rec.country_id or rec.country_id.code == "BR":
+            if (
+                rec.cnpj_cpf_stripped
+                or not rec.country_id
+                or rec.country_id.code == "BR"
+            ):
                 rec.nfse10_cNaoNIF = False
             else:
                 rec.nfse10_cNaoNIF = "1"  # 1 - Dispensado do NIF
