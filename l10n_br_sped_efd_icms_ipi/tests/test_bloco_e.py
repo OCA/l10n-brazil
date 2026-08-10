@@ -82,7 +82,7 @@ class TestBlocoE(common.TransactionCase):
                 "description": "dedução",
             }
         )
-        cls.assessment.state = "computed"
+        cls.assessment.state = "posted"
 
         cls.declaration = cls.env["l10n_br_sped.efd_icms_ipi.0000"].create(
             {
@@ -145,7 +145,14 @@ class TestBlocoE(common.TransactionCase):
         self.assertAlmostEqual(estorno.VL_AJ_APUR, 20.0, places=2)
         self.assertEqual(estorno.DESCR_COMPL_AJ, "estorno de crédito")
 
-    def test_draft_assessment_is_not_serialized(self):
-        """Escriturar apuração em rascunho seria escriturar número não conferido."""
-        self.assessment.state = "draft"
-        self.assertFalse(self._pull_bloco_e().reg_E110_ids)
+    def test_only_a_posted_assessment_is_serialized(self):
+        """Rascunho e apuração não encerrada ficam fora do arquivo entregue."""
+        for state in ("draft", "computed"):
+            self.assessment.state = state
+            self.assertFalse(
+                self._pull_bloco_e().reg_E110_ids,
+                "apuração %s não pode entrar no arquivo" % state,
+            )
+            self.env["l10n_br_sped.efd_icms_ipi.e100"].search(
+                [("declaration_id", "=", self.declaration.id)]
+            ).unlink()

@@ -3926,7 +3926,9 @@ class RegistroE110(models.Model):
             ("tax_domain", "=", "icms"),
             ("date_from", ">=", declaration.DT_INI),
             ("date_to", "<=", declaration.DT_FIN),
-            ("state", "in", ("computed", "posted")),
+            # only a CLOSED assessment enters a delivered file: a computed
+            # draft is a number nobody reviewed (council F9)
+            ("state", "=", "posted"),
         ]
 
     @api.model
