@@ -3,6 +3,7 @@
 
 from odoo import _, models
 from odoo.exceptions import UserError
+from odoo.fields import Command
 
 
 class SaleBlanketOrderWizard(models.TransientModel):
@@ -34,14 +35,12 @@ class SaleBlanketOrderWizard(models.TransientModel):
         if blanket_line.fiscal_operation_line_id:
             company = blanket_line.company_id or self.blanket_order_id.company_id
             vals["tax_id"] = [
-                (
-                    6,
-                    0,
+                Command.set(
                     blanket_line.fiscal_tax_ids.account_taxes(
                         user_type="sale",
                         fiscal_operation=blanket_line.fiscal_operation_id,
                         company=company,
-                    ).ids,
+                    ).ids
                 )
             ]
         return vals
