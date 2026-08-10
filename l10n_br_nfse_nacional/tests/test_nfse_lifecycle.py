@@ -9,6 +9,10 @@ import requests
 
 from odoo.tests.common import TransactionCase, tagged
 
+from odoo.addons.l10n_br_nfse_nacional.constants.nfse_nacional import (
+    PROVEDOR_NFSE_NACIONAL,
+)
+
 SIGN_XML = "nfelib.CommonMixin.sign_xml"
 SCHEMA_VALIDATION = (
     "odoo.addons.l10n_br_nfse_nacional.models.document.Dps.schema_validation"
@@ -50,7 +54,7 @@ class TestNfseLifecycle(TransactionCase):
         company.write(
             {
                 "processador_edoc": "oca",
-                "provedor_nfse": False,
+                "provedor_nfse": PROVEDOR_NFSE_NACIONAL,
                 "nfse_environment": "2",
             }
         )
