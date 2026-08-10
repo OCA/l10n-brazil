@@ -4,34 +4,36 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
-# Sinal da memoria de calculo. O `account_tax_balance` da OCA ja devolve o
-# saldo com o sinal invertido (`-balance`), de modo que imposto de saida
-# (credito contabil) sai POSITIVO. Mantemos essa convencao: debito da conta
-# grafica = imposto devido pelas saidas; credito = imposto a recuperar das
-# entradas.
+# Sign convention of the breakdown. OCA's `account_tax_balance` already returns
+# the balance with the sign flipped (`-balance`), so an outbound tax (an
+# accounting credit) comes out POSITIVE. We keep that convention: a debit in the
+# running account is tax owed on sales, a credit is tax recoverable on
+# purchases.
 KIND_DEBIT = "debit"
 KIND_CREDIT = "credit"
+KIND_CREDIT_REVERSAL = "credit_reversal"
+KIND_DEBIT_REVERSAL = "debit_reversal"
 KIND_DEDUCTION = "deduction"
 KIND_WITHHOLDING = "withholding"
 KIND_SPECIAL_DEBIT = "special_debit"
 
 
 class TaxAssessment(models.Model):
-    """Apuracao de imposto sobre consumo em um periodo.
+    """Consumption tax assessment for a period.
 
-    E um LOTE, no mesmo padrao das demais rotinas de periodo da casa: tem
-    estado, memoria de calculo persistida, critica e um artefato final (o
-    lancamento de encerramento).
+    This is a BATCH, following the same pattern as the other period routines:
+    it has a state, a persisted breakdown, validation and a final artefact (the
+    closing journal entry).
 
-    A razao de existir: os blocos E (EFD ICMS/IPI) e M (EFD Contribuicoes) sao
-    SAIDAS de uma apuracao, nao calculos proprios. Sem esta camada, cada
-    escrituracao recalcula do zero e os numeros nao fecham entre si nem com a
-    contabilidade. Com ela, as escrituracoes apenas serializam o que ja foi
-    apurado e conferido.
+    Why it exists: EFD ICMS/IPI block E and EFD Contribuicoes block M are
+    OUTPUTS of an assessment, not computations of their own. Without this layer
+    every tax book recomputes from scratch and the numbers match neither each
+    other nor the accounting. With it, the tax books only serialize what has
+    already been assessed and reviewed.
 
-    Os totais publicados aqui seguem, um a um, a estrutura do E110 da EFD
-    ICMS/IPI, que e o confronto que a legislacao define. Isso e deliberado: e o
-    que permite ao registro apenas ler, sem nenhuma conta propria.
+    The totals published here follow, one by one, the structure of EFD ICMS/IPI
+    record E110, which is the offsetting the law defines. That is deliberate: it
+    is what lets the record merely read, with no arithmetic of its own.
     """
 
     _name = "l10n_br_tax.assessment"
@@ -66,21 +68,17 @@ class TaxAssessment(models.Model):
         "procura pis e cofins.",
     )
     regime = fields.Selection(
-        selection=[
-            ("not_applicable", "Não se aplica"),
-            ("non_cumulative", "Não cumulativo"),
-            ("cumulative", "Cumulativo"),
-        ],
-        default="not_applicable",
-        required=True,
-        states={"draft": [("readonly", False)]},
+        related="tax_group_id.regime",
+        store=True,
         readonly=True,
-        help="Regime apurado. PIS e COFINS têm apuração SEPARADA por regime, "
-        "e é assim que o M200 da EFD Contribuições pede: um conjunto de "
-        "campos para cada. ICMS e IPI usam 'Não se aplica'.\n"
-        "O valor é obrigatório de propósito: um regime nulo faria a chave "
-        "única do período deixar de valer, porque no Postgres NULL nunca é "
-        "igual a NULL.",
+        help="Regime apurado, herdado do grupo de imposto (critério de "
+        "partição: um grupo por regime, então uma apuração nunca mistura "
+        "regimes nem conta a mesma linha duas vezes). PIS e COFINS têm "
+        "apuração separada por regime, como o M200 da EFD Contribuições "
+        "pede; ICMS e IPI usam 'Não se aplica'.\n"
+        "O campo é armazenado porque entra na chave única do período, e o "
+        "grupo o declara obrigatório: um regime nulo faria a chave deixar "
+        "de valer, porque no Postgres NULL nunca é igual a NULL.",
     )
     date_from = fields.Date(
         string="De",
@@ -132,7 +130,7 @@ class TaxAssessment(models.Model):
         "há crédito a aproveitar. É o campo 10 do E110.",
     )
 
-    # Totais na ordem do E110. Ver `_compute_totals` para a formula.
+    # Totals in E110 order. See `_compute_totals` for the formula.
     debit_total = fields.Monetary(
         string="Débitos (saídas)",
         compute="_compute_totals",
@@ -257,12 +255,12 @@ class TaxAssessment(models.Model):
         "previous_balance",
     )
     def _compute_totals(self):
-        """Reproduz o confronto do E110, campo a campo.
+        """Reproduce the E110 offsetting, field by field.
 
-        O que separa um "ajuste a débito" de um "estorno de crédito" e um do
-        outro de um "débito por saída" e apenas a ORIGEM da linha: apurada das
-        move lines, ou ajuste manual com o código da tabela 5.1.1. Os dois
-        somam do mesmo lado, mas o fisco quer ver os dois separados.
+        What separates a "debit adjustment" from a "credit reversal", and both
+        from a "debit on sales", is only the ORIGIN of the line: assessed from
+        move lines, or a manual adjustment carrying a table 5.1.1 code. They add
+        to the same side, but the tax authority wants to see them apart.
         """
         for record in self:
             totals = dict.fromkeys(
@@ -303,12 +301,12 @@ class TaxAssessment(models.Model):
             )
             balance = debit_side - credit_side
             record.balance = balance
-            # Um dos dois e sempre zero: ou ha saldo devedor apurado, ou ha
-            # saldo credor a transportar para o periodo seguinte.
+            # One of the two is always zero: either there is tax due, or there
+            # is a credit balance to carry over to the next period.
             record.assessed_balance = balance if balance > 0 else 0.0
             record.amount_carried_forward = -balance if balance < 0 else 0.0
-            # A deducao so abate o que ja foi apurado como devido: nunca gera
-            # saldo credor nem valor a recolher negativo.
+            # A deduction only offsets what was already assessed as due: it
+            # never creates a credit balance nor a negative amount payable.
             record.amount_payable = max(
                 record.assessed_balance - totals["deduction"] - totals["withholding"],
                 0.0,
@@ -316,22 +314,25 @@ class TaxAssessment(models.Model):
 
     @api.model
     def _total_key_for_line(self, line):
-        """Em qual total do E110 a linha entra.
+        """Which E110 total the line adds to.
 
-        Linha apurada sempre cai no total "puro" (campos 02 e 06). Linha manual
-        cai no campo de ajuste correspondente, e o código da tabela 5.1.1
-        refina entre ajuste comum e estorno.
+        Reversals, deductions, withholding and special debits carry their
+        bucket in the KIND itself, whether they were assessed from move lines
+        (a refund) or typed as an adjustment (the table 5.1.1 code enforces
+        the kind). What is left is the plain debit/credit: assessed lines land
+        in the plain totals (fields 02 and 06) and manual ones in the matching
+        adjustment field (04 and 08).
         """
-        if line.kind in (KIND_DEDUCTION, KIND_WITHHOLDING):
+        if line.kind in (
+            KIND_CREDIT_REVERSAL,
+            KIND_DEBIT_REVERSAL,
+            KIND_DEDUCTION,
+            KIND_WITHHOLDING,
+            KIND_SPECIAL_DEBIT,
+        ):
             return line.kind
-        if line.kind == KIND_SPECIAL_DEBIT:
-            return "special_debit"
         if line.source != "manual":
             return line.kind
-        if line.adjustment_kind == "credit_reversal":
-            return "credit_reversal"
-        if line.adjustment_kind == "debit_reversal":
-            return "debit_reversal"
         return "adjustment_debit" if line.kind == KIND_DEBIT else "adjustment_credit"
 
     # ------------------------------------------------------------------
@@ -339,11 +340,12 @@ class TaxAssessment(models.Model):
     # ------------------------------------------------------------------
 
     def _get_period_context(self):
-        """Contexto que o `account_tax_balance` da OCA espera.
+        """The context OCA's `account_tax_balance` expects.
 
-        Reusar esse modulo e deliberado: ele ja sabe ler saldo e base por
-        imposto num periodo, separando regular de devolucao, direto das move
-        lines. A apuracao LE dali, nao recalcula.
+        Reusing that module is deliberate: it already knows how to read balance
+        and base per tax over a period, telling regular apart from refund,
+        straight from the move lines. The assessment READS from it rather than
+        recomputing.
         """
         self.ensure_one()
         return {
@@ -355,7 +357,7 @@ class TaxAssessment(models.Model):
         }
 
     def _get_taxes(self):
-        """Impostos do grupo apurado, na empresa da apuração."""
+        """Taxes of the assessed group, within the assessment company."""
         self.ensure_one()
         return self.env["account.tax"].search(
             [
@@ -379,7 +381,7 @@ class TaxAssessment(models.Model):
         )
 
     def action_compute(self):
-        """Monta a memória de cálculo do período a partir das move lines."""
+        """Build the period breakdown from the move lines."""
         for record in self:
             if record.state not in ("draft", "computed"):
                 raise UserError(
@@ -392,32 +394,78 @@ class TaxAssessment(models.Model):
             record.previous_balance = previous.amount_carried_forward
 
             taxes = record._get_taxes().with_context(**record._get_period_context())
+            discarded = self.env["account.tax"]
             vals_list = []
             for tax in taxes:
-                # `type_tax_use` decide o lado da conta grafica: imposto de
-                # venda gera debito (devido), imposto de compra gera credito
-                # (a recuperar). O `account_tax_balance` ja devolve os dois
-                # com sinal positivo, por isso a classificacao e nossa.
+                # `type_tax_use` decides the side of the running account: a
+                # sale tax is a debit (owed) and a purchase tax is a credit
+                # (recoverable). `account_tax_balance` returns both with a
+                # positive sign, so the classification is ours to make.
                 if tax.type_tax_use == "sale":
                     kind = KIND_DEBIT
+                    reversal_kind = KIND_DEBIT_REVERSAL
+                    sign = 1.0
                 elif tax.type_tax_use == "purchase":
                     kind = KIND_CREDIT
+                    reversal_kind = KIND_CREDIT_REVERSAL
+                    # `account_tax_balance` flips the accounting sign ONCE, so
+                    # a sale tax comes out positive and a purchase tax comes
+                    # out NEGATIVE. Without this second flip the credit lines
+                    # would land negative and the offsetting would read the
+                    # recoverable tax as MORE tax due. Caught by the first
+                    # test that ran the compute against a real posted invoice.
+                    sign = -1.0
                 else:
+                    discarded |= tax
                     continue
-                if not tax.balance and not tax.base_balance:
-                    continue
-                vals_list.append(
-                    {
-                        "assessment_id": record.id,
-                        "tax_id": tax.id,
-                        "kind": kind,
-                        "base_amount": tax.base_balance,
-                        "tax_amount": tax.balance,
-                        "source": "computed",
-                    }
-                )
+                # Refunds must NOT be netted into the plain totals: the layout
+                # wants a sale refund as a debit reversal (E110 field 09) and
+                # a purchase refund as a credit reversal (field 05), each
+                # apart from the gross of fields 02/06. `account_tax_balance`
+                # already splits regular from refund; netting them, as a
+                # first version did, closed on the right total with the wrong
+                # breakdown in every period with a return.
+                regular = sign * tax.balance_regular
+                regular_base = sign * tax.base_balance_regular
+                # the refund comes sign-opposed to the regular movement
+                reversal = -sign * tax.balance_refund
+                reversal_base = -sign * tax.base_balance_refund
+                if regular or regular_base:
+                    vals_list.append(
+                        {
+                            "assessment_id": record.id,
+                            "tax_id": tax.id,
+                            "kind": kind,
+                            "base_amount": regular_base,
+                            "tax_amount": regular,
+                            "source": "computed",
+                        }
+                    )
+                if reversal or reversal_base:
+                    vals_list.append(
+                        {
+                            "assessment_id": record.id,
+                            "tax_id": tax.id,
+                            "kind": reversal_kind,
+                            "base_amount": reversal_base,
+                            "tax_amount": reversal,
+                            "source": "computed",
+                        }
+                    )
             if vals_list:
                 self.env["l10n_br_tax.assessment.line"].create(vals_list)
+            if discarded:
+                # A tax outside sale/purchase cannot be classified into the
+                # running account. Vanishing in silence was the defect: the
+                # trail in the chatter is what lets someone notice a
+                # misconfigured withholding tax before the file goes out.
+                record.message_post(
+                    body=_(
+                        "Impostos ignorados na apuração por não serem de "
+                        "venda nem de compra (type_tax_use): %s"
+                    )
+                    % ", ".join(discarded.mapped("name"))
+                )
             record.state = "computed"
         return True
 
@@ -426,7 +474,7 @@ class TaxAssessment(models.Model):
     # ------------------------------------------------------------------
 
     def _check_accounts_configured(self):
-        """As contas do encerramento vêm do grupo de imposto, do core."""
+        """The closing accounts come from the core tax group."""
         self.ensure_one()
         group = self.tax_group_id.with_company(self.company_id)
         missing = []
@@ -448,15 +496,62 @@ class TaxAssessment(models.Model):
             )
         return group
 
+    def _closing_offset(self):
+        """The amount the closing entry moves: the CONSUMED side.
+
+        The accounts already hold each side of the offsetting (the invoices
+        credited the payable account and debited the recoverable one, and the
+        previous credit balance stayed in the recoverable account). Closing
+        consumes the smaller side, so what remains is exactly what each
+        account must show: the payment slip amount in payable, or the credit
+        to carry over in recoverable. Moving the NET between them, as a first
+        version did, left the recoverable account with a negative asset.
+        """
+        self.ensure_one()
+        debit_side = (
+            self.debit_total + self.adjustment_debit_total + self.credit_reversal_total
+        )
+        credit_side = (
+            self.credit_total
+            + self.adjustment_credit_total
+            + self.debit_reversal_total
+            + self.previous_balance
+        )
+        return min(debit_side, credit_side)
+
     def action_post(self):
-        """Gera o lançamento de encerramento e fecha a apuração."""
+        """Create the closing journal entry and close the assessment."""
         for record in self:
             if record.state != "computed":
                 raise UserError(_("Apure antes de encerrar."))
+            previous = record.previous_assessment_id
+            if previous and record.currency_id.compare_amounts(
+                record.previous_balance, previous.amount_carried_forward
+            ):
+                # The carried balance is a snapshot taken at compute time. If
+                # the previous period changed since (a correction, a late
+                # document), closing on the stale value would chain the error
+                # forward with nothing to flag it: reassess first.
+                raise UserError(
+                    _(
+                        "A apuração anterior (%(name)s) mudou depois desta ser "
+                        "apurada: o saldo credor transportado está em "
+                        "%(stale).2f, mas ela transporta %(fresh).2f. Reapure "
+                        "antes de encerrar."
+                    )
+                    % {
+                        "name": previous.name,
+                        "stale": record.previous_balance,
+                        "fresh": previous.amount_carried_forward,
+                    }
+                )
             group = record._check_accounts_configured()
-            if record.company_id.currency_id.is_zero(record.balance):
-                # Periodo sem movimento nao gera lancamento, mas fecha: e o
-                # que mantem a cadeia de saldo credor sem buraco.
+            if record.company_id.currency_id.is_zero(record._closing_offset()):
+                # Nothing was consumed (a period with only debits, only
+                # credits, or no movement): the accounts already show the
+                # right balances and an entry would only move value between
+                # the wrong places. The assessment still closes, which is
+                # what keeps the credit balance chain without a gap.
                 record.state = "posted"
                 continue
             record.move_id = record._create_closing_move(group)
@@ -477,53 +572,31 @@ class TaxAssessment(models.Model):
         return journal
 
     def _prepare_closing_move_lines(self, group):
-        """Duas partidas: transfere o saldo do período entre as contas do grupo.
+        """Debit payable and credit recoverable by the consumed side.
 
-        O lançamento fecha o CONFRONTO (débitos contra créditos). Dedução,
-        retenção na fonte e débito especial ficam de fora de propósito: a
-        contrapartida de cada um é uma conta própria, que o grupo de imposto
-        do core não modela, e inventar uma aqui produziria lançamento errado
-        em silêncio.
+        One shape for every case: the entry always debits the payable account
+        (consuming the credit the sale invoices posted there) and credits the
+        recoverable account (consuming the debit the purchases and the carried
+        balance posted there), by `_closing_offset()`. Whatever is due stays
+        in payable; whatever carries over stays in recoverable.
+
+        Deductions, withholding and special debits are left out on purpose:
+        each has its own counterpart account, which the core tax group does
+        not model, and making one up here would silently produce a wrong
+        entry. Manual adjustment lines share the same limitation: they carry
+        no journal items of their own.
         """
         self.ensure_one()
-        payable = group.property_tax_payable_account_id
-        receivable = group.property_tax_receivable_account_id
-        balance = self.balance
+        offset = self._closing_offset()
         label = _("Apuração %s") % self.name
-
-        if balance > 0:
-            # devedor: transfere o liquido para a conta de imposto a pagar
-            return [
-                (
-                    0,
-                    0,
-                    {
-                        "name": label,
-                        "account_id": receivable.id,
-                        "debit": 0.0,
-                        "credit": balance,
-                    },
-                ),
-                (
-                    0,
-                    0,
-                    {
-                        "name": label,
-                        "account_id": payable.id,
-                        "debit": balance,
-                        "credit": 0.0,
-                    },
-                ),
-            ]
-        # credor: o saldo permanece como imposto a recuperar
         return [
             (
                 0,
                 0,
                 {
                     "name": label,
-                    "account_id": receivable.id,
-                    "debit": -balance,
+                    "account_id": group.property_tax_payable_account_id.id,
+                    "debit": offset,
                     "credit": 0.0,
                 },
             ),
@@ -532,9 +605,9 @@ class TaxAssessment(models.Model):
                 0,
                 {
                     "name": label,
-                    "account_id": payable.id,
+                    "account_id": group.property_tax_receivable_account_id.id,
                     "debit": 0.0,
-                    "credit": -balance,
+                    "credit": offset,
                 },
             ),
         ]

@@ -4,10 +4,19 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
-# Quarto digito do COD_AJ_APUR (tabela 5.1.1 da EFD ICMS/IPI, publicada por UF).
-# O codigo tem 8 posicoes: 1-2 a UF, 3 o tipo de apuracao, 4 o TIPO DO AJUSTE e
-# 5-8 o sequencial. E o digito 4 que decide em qual campo do E110 o valor entra,
-# e por isso ele e lido aqui em vez de o usuario escolher de novo a mao.
+# Fourth digit of COD_AJ_APUR (EFD ICMS/IPI table 5.1.1, published per state).
+# The code has 8 positions: 1-2 the state, 3 the assessment kind, 4 the
+# ADJUSTMENT KIND and 5-8 a sequence. Digit 4 is what decides which E110 field
+# the amount lands in, so it is read from the code instead of asking the user
+# to classify it a second time.
+#
+# Digit 3 tells which assessment the adjustment belongs to: "0" the company's
+# own tax (E111) and "1" tax substitution (E220). Confirmed against PVA 6.1.1,
+# which rejects E111 with "the 3rd character of this code must be Zero", and
+# against the official table for SP, where every own-assessment code is
+# SP0xnnnn.
+APURACAO_PROPRIA, APURACAO_ST = "0", "1"
+
 ADJUSTMENT_KIND_BY_DIGIT = {
     "0": "other_debit",
     "1": "credit_reversal",
@@ -17,29 +26,30 @@ ADJUSTMENT_KIND_BY_DIGIT = {
     "5": "special_debit",
 }
 
-# Para onde cada tipo de ajuste vai na conta grafica. Estorno de credito soma do
-# lado devedor e estorno de debito soma do lado credor: e a razao de os dois nao
-# poderem ser tratados como "mais um ajuste".
+# Where each adjustment kind lands in the running account. A credit reversal
+# adds to the debit side and a debit reversal adds to the credit side, which is
+# why neither can be treated as "just another adjustment".
 KIND_BY_ADJUSTMENT_KIND = {
     "other_debit": "debit",
-    "credit_reversal": "debit",
+    "credit_reversal": "credit_reversal",
     "other_credit": "credit",
-    "debit_reversal": "credit",
+    "debit_reversal": "debit_reversal",
     "deduction": "deduction",
     "special_debit": "special_debit",
 }
 
 
 class TaxAssessmentLine(models.Model):
-    """Memória de cálculo da apuração, uma linha por imposto ou por ajuste.
+    """Assessment breakdown, one line per tax or per adjustment.
 
-    É esta tabela que as escriturações serializam. O E110 da EFD ICMS/IPI e o
-    M200 da EFD Contribuições leem daqui em vez de recalcular: é o que garante
-    que a escrituração, a contabilidade e a guia falem o mesmo número.
+    This is the table the tax books serialize. EFD ICMS/IPI record E110 and EFD
+    Contribuicoes record M200 read from here instead of recomputing, which is
+    what keeps the tax book, the accounting and the payment slip on the same
+    number.
 
-    Linhas com `source=manual` existem para os ajustes que não saem das move
-    lines (o E111 da EFD é exatamente isso: estorno de débito, outros créditos,
-    ajustes por decisão judicial).
+    Lines with `source=manual` cover the adjustments that do not come from move
+    lines. EFD record E111 is exactly that: debit reversals, other credits and
+    court-ordered adjustments.
     """
 
     _name = "l10n_br_tax.assessment.line"
@@ -66,6 +76,8 @@ class TaxAssessmentLine(models.Model):
         selection=[
             ("debit", "Débito (saídas)"),
             ("credit", "Crédito (entradas)"),
+            ("credit_reversal", "Estorno de crédito (devolução de compra)"),
+            ("debit_reversal", "Estorno de débito (devolução de venda)"),
             ("deduction", "Dedução"),
             ("withholding", "Retenção na fonte"),
             ("special_debit", "Débito especial (extra-apuração)"),
@@ -137,6 +149,16 @@ class TaxAssessmentLine(models.Model):
                     )
                     % code
                 )
+            if code[2] not in (APURACAO_PROPRIA, APURACAO_ST):
+                raise ValidationError(
+                    _(
+                        "O código de ajuste %s tem um terceiro dígito "
+                        "inválido: ele diz de qual apuração é o ajuste, e só "
+                        "aceita 0 (imposto próprio) ou 1 (substituição "
+                        "tributária)."
+                    )
+                    % code
+                )
             if not line.adjustment_kind:
                 raise ValidationError(
                     _(
@@ -148,11 +170,11 @@ class TaxAssessmentLine(models.Model):
 
     @api.constrains("adjustment_code", "kind")
     def _check_kind_matches_adjustment(self):
-        """O código de ajuste manda: ele é quem o fisco lê.
+        """The adjustment code wins: it is what the tax authority reads.
 
-        Deixar o usuário classificar de novo abriria a porta para um estorno de
-        crédito lançado como crédito, que inverte o sinal do imposto a recolher
-        sem que nada acuse.
+        Letting the user classify it again would allow a credit reversal to be
+        booked as a credit, flipping the sign of the tax due with nothing to
+        flag it.
         """
         for line in self:
             if not line.adjustment_kind:
@@ -171,6 +193,49 @@ class TaxAssessmentLine(models.Model):
                         "expected": expected,
                         "got": line.kind,
                     }
+                )
+
+    # Which tax domains have a field for each special bucket. Withholding is
+    # M200/M600 territory (VL_RET_NC/VL_RET_CUM); the E110 has no withholding
+    # field, so a withholding line in an ICMS assessment would break the
+    # equality field 13 = field 11 - field 12 that the PVA validates. The
+    # special debit is the opposite: E110 field 15 (DEB_ESP) exists, the M200
+    # has nothing like it and the amount would vanish from the file.
+    _WITHHOLDING_DOMAINS = ("pis", "cofins", "pisst", "cofinsst")
+    _SPECIAL_DEBIT_DOMAINS = ("icms", "ipi", "icmsst", "icmssn")
+
+    @api.constrains("kind", "assessment_id")
+    def _check_kind_has_a_field_in_the_layout(self):
+        """Refuse a bucket the assessed tax book cannot express.
+
+        Only fires when the tax domain is known (the fiscal group is linked):
+        an unconfigured group blocks nothing, because there is no layout to
+        contradict yet.
+        """
+        for line in self:
+            domain = line.assessment_id.tax_domain
+            if not domain:
+                continue
+            if line.kind == "withholding" and domain not in self._WITHHOLDING_DOMAINS:
+                raise ValidationError(
+                    _(
+                        "Retenção na fonte não existe na apuração de %s: o "
+                        "E110 não tem campo para ela, e o valor quebraria a "
+                        "igualdade que o PVA valida (campo 13 = 11 - 12)."
+                    )
+                    % domain
+                )
+            if (
+                line.kind == "special_debit"
+                and domain not in self._SPECIAL_DEBIT_DOMAINS
+            ):
+                raise ValidationError(
+                    _(
+                        "Débito especial não existe na apuração de %s: o "
+                        "bloco M não tem campo para ele e o valor sumiria "
+                        "do arquivo em silêncio."
+                    )
+                    % domain
                 )
 
     @api.constrains("source", "description")
