@@ -354,11 +354,16 @@ class SpedDeclaration(models.AbstractModel):
         self._generate_register_text(sped, version, line_count, count_by_register)
         count_by_register["0990"] = 1  # for some reason it is needed
 
+        domain = [("declaration_id", "=", self.id)]
         for register_class in top_register_classes:
             bloco = register_class._name[-4:][0].upper()
-            count_by_bloco[bloco] += register_class.search_count([])
-
-        domain = [("declaration_id", "=", self.id)]
+            # Contar com o dominio da declaracao, e nao `[]`: sem ele o
+            # indicador de movimento do bloco enxerga os registros de TODAS as
+            # escrituracoes da base e abre como "com dados" um bloco que nesta
+            # declaracao esta vazio. O PVA recusa a importacao com "registro de
+            # abertura do bloco informa que o bloco tem movimento, no entanto
+            # nenhum registro foi informado no bloco".
+            count_by_bloco[bloco] += register_class.search_count(domain)
         for register_class in top_register_classes:
             bloco = register_class._name[-4:][0].upper()
             registers = register_class.search(domain)

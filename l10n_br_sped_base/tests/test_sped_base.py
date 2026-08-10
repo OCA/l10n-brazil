@@ -120,6 +120,55 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
         cls.loader.restore_registry()
         super().tearDownClass()
 
+    def test_block_movement_counts_only_this_declaration(self):
+        """The block movement indicator looks at this declaration alone.
+
+        With `search_count([])` a second, empty declaration opened its blocks
+        as "has data" because the count saw the registers of the first one, and
+        the PVA rejects the import in that case with "the block opening record
+        states the block has movement, however no record was reported in the
+        block".
+        """
+        source = self.declaration
+        other = self.env["l10n_br_sped.fake.0000"].create(
+            {
+                "company_id": source.company_id.id,
+                "DT_INI": "2022-01-01",
+                "DT_FIN": "2022-12-31",
+                "LECD": source.LECD,
+                "NOME": source.NOME,
+                "CNPJ": source.CNPJ,
+                "UF": source.UF,
+                "IND_SIT_INI_PER": source.IND_SIT_INI_PER,
+                "IND_NIRE": source.IND_NIRE,
+                "IND_FIN_ESC": source.IND_FIN_ESC,
+                "IND_GRANDE_PORTE": source.IND_GRANDE_PORTE,
+                "TIP_ECD": source.TIP_ECD,
+                "IDENT_MF": source.IDENT_MF,
+                "IND_ESC_CONS": source.IND_ESC_CONS,
+                "IND_CENTRALIZADA": source.IND_CENTRALIZADA,
+                "IND_MUDANC_PC": source.IND_MUDANC_PC,
+            }
+        )
+        # the guard that makes this test meaningful: without a register of
+        # block I somewhere else in the database, a naive count would also
+        # report "no movement" and the test would pass either way
+        self.assertTrue(
+            self.env["l10n_br_sped.fake.i010"].search_count([]),
+            "the fixture must have block I registers for this test to mean " "anything",
+        )
+        sped = other._generate_sped_text()
+
+        # the fixture declaration does have I and J registers, so a count
+        # without the declaration domain would open both blocks here
+        for bloco in ("I", "J"):
+            self.assertIn(
+                f"|{bloco}001|1|",
+                sped,
+                f"block {bloco} is empty in this declaration and must open "
+                f"with no movement",
+            )
+
     def test_generate_sped(self):
         sped = self.declaration._generate_sped_text()
         with open(self.file_path, encoding=SPED_ENCODING) as f:
