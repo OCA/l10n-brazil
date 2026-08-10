@@ -8,6 +8,8 @@ NFSE_NACIONAL_ENVIRONMENTS = [
     ("2", "Produção Restrita"),
 ]
 
+DANFSE_NACIONAL_TEMPLATE = "main_template_danfse_nacional"
+
 ADN_BASE_URL = {
     "1": "https://sefin.nfse.gov.br/SefinNacional",
     "2": "https://sefin.producaorestrita.nfse.gov.br/SefinNacional",
