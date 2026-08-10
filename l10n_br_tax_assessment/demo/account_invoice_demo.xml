@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<!--
+    Loaded from the post_init_hook with the demo company active: an invoice
+    takes its journal and accounts from the current company. They are needed
+    because `action_compute` reads posted journal items, which the fiscal demo
+    documents do not produce.
+-->
+<odoo>
+
+    <!-- Input tax is only recoverable when the fiscal operation says so
+         (company dependent, so it only reaches the active demo company). -->
+    <record id="l10n_br_fiscal.fo_compras" model="l10n_br_fiscal.operation">
+        <field name="deductible_taxes" eval="True" />
+    </record>
+
+    <!-- Inbound: raw material for industrialization (CFOP 1101/2101), credit. -->
+    <record id="demo_in_invoice_insumo" model="account.move">
+        <field name="move_type">in_invoice</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="invoice_date" eval="time.strftime('%Y-%m')+'-04'" />
+        <field name="date" eval="time.strftime('%Y-%m')+'-04'" />
+        <field name="ref">NF de entrada - insumo para industrialização</field>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
+        <field name="document_serie">1</field>
+        <field name="document_number">100001</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="invoice_line_ids"
+            eval="[
+                Command.create({
+                    'product_id': ref('product.product_product_3'),
+                    'quantity': 20,
+                    'price_unit': 50.0,
+                    'name': 'Insumo para industrialização',
+                    'fiscal_operation_id': ref('l10n_br_fiscal.fo_compras'),
+                    'fiscal_operation_line_id': ref('l10n_br_fiscal.fo_compras_compras'),
+                }),
+            ]"
+        />
+    </record>
+
+    <!-- Outbound: sale of own production (CFOP 5101/6101), debit. Larger than
+         the purchase, so the period closes with tax to pay. -->
+    <record id="demo_out_invoice_producao" model="account.move">
+        <field name="move_type">out_invoice</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="invoice_date" eval="time.strftime('%Y-%m')+'-05'" />
+        <field name="date" eval="time.strftime('%Y-%m')+'-05'" />
+        <field name="ref">NF de saída - venda de produção do estabelecimento</field>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
+        <field
+            name="document_serie_id"
+            ref="l10n_br_fiscal.empresa_lc_document_55_serie_1"
+        />
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field
+            name="invoice_line_ids"
+            eval="[
+                Command.create({
+                    'product_id': ref('product.product_product_3'),
+                    'quantity': 10,
+                    'price_unit': 180.0,
+                    'name': 'Venda de produção do estabelecimento',
+                    'fiscal_operation_id': ref('l10n_br_fiscal.fo_venda'),
+                    'fiscal_operation_line_id': ref('l10n_br_fiscal.fo_venda_venda'),
+                }),
+            ]"
+        />
+    </record>
+
+    <!-- A draft invoice produces no journal item. -->
+    <function model="account.move" name="action_post">
+        <value
+            eval="[ref('demo_in_invoice_insumo'), ref('demo_out_invoice_producao')]"
+        />
+    </function>
+
+</odoo>
