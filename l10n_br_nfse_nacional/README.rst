@@ -35,10 +35,12 @@ gateway. From a confirmed ``l10n_br_fiscal.document`` it builds the
 it to the ADN over **REST/mTLS** and stores the authorized NFS-e and its
 50-digit access key.
 
-It inherits ``l10n_br_fiscal.document`` directly and does **not** depend
-on ``l10n_br_nfse`` (the municipal / ABRASF flow): all service and tax
-fields already live in the fiscal core. See the project ADRs for the
-rationale.
+It builds on ``l10n_br_nfse`` for the NFS-e provider and environment
+settings, but maps the DPS straight onto ``l10n_br_fiscal.document``:
+all service and tax fields already live in the fiscal core, so nothing
+of the municipal / ABRASF flow is reused. Pick the provider **Sefin
+Nacional (ADN)** on the company to route its service documents here
+instead of to a municipal or gateway module.
 
 The DPS data structure comes from ``l10n_br_nfse_spec`` (xsdata-odoo
 mixins over the official v1.00 schemas), mapped onto the document via
@@ -61,10 +63,12 @@ On the company, set:
 
 - the ICP-Brasil **A1 certificate** (module
   ``l10n_br_fiscal_certificate``);
-- **NFS-e Nacional Environment** = Produção or Produção Restrita;
-- the e-doc processor to **OCA** (``processador_edoc = oca``) and the
-  **NFSe Provider** to **Sefin Nacional (ADN)**
-  (``provedor_nfse = nacional``).
+- **E-doc Processor** = Odoo Community (``processador_edoc = oca``);
+- **NFSe Provider** = Sefin Nacional (ADN)
+  (``provedor_nfse = nacional``);
+- **NFSe Environment** = Produção or Homologação, which the ADN calls
+  produção restrita. The document copies it on creation and you can
+  override it there.
 
 Usage
 =====
@@ -83,8 +87,9 @@ Implemented:
   ``nfse.10.tcdps``/``tcinfdps``), with
   ``prest``/``toma``/``serv``/``valores`` mapped by comodel (res.company
   / res.partner / document.line) and regime-aware ``regTrib`` (MEI /
-  Simples Nacional / normal). Filtered by
-  ``document_type_id.code == "SE"``.
+  Simples Nacional / normal). Applies to service documents (``SE``)
+  whose company picked the provider Sefin Nacional (ADN), so municipal
+  and gateway modules keep their own documents.
 - REST/mTLS transport client (``transport/adn_rest.py``):
   ``verify=True``, GET-only retry, gzip+base64 packing, no payload/key
   logging.
