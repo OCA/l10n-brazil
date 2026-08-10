@@ -133,7 +133,7 @@ msgstr ""
 
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_nfe_40_detpag__nfe40_indPag
-msgid "Forma de Pagamento"
+msgid "Forma de Pagamento (nfe_indPag)"
 msgstr ""
 
 #. module: l10n_br_account_nfe
