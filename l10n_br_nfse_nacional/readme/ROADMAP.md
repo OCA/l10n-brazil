@@ -17,13 +17,16 @@ Implemented:
   `PedRegEvento` → sign → `POST /nfse/{chave}/eventos`), with the cancel reason
   code (cMotivo) collected by the extended cancel wizard. Number invalidation is
   hidden for NFS-e (SE) documents (no national service for it).
+- Cancellation registered outside Odoo is picked up by the check-status button
+  (`GET /nfse/{chave}/eventos/{tipoEvento}/1` for `101101` and `305101`).
+- DANFSe generated locally from the document, with no call to any portal.
 
 Not yet implemented (next iteration):
 
-- Lost-response reconciliation (`GET /nfse/{chave}` / `GET /dps/{id}` before any
-  re-`POST`) and the DANFSe rendering (`make_pdf` via `nfelib.to_pdf`).
+- Lost-response reconciliation: `GET /nfse/{chave}` and `GET /dps/{id}` are
+  already in the transport client, but nothing calls them before a re-`POST`.
 - Substitution events (e105xxx) and the remaining event types.
 
-Out of scope here: IBS/CBS (RTC), inbound distribution, contingency,
-async / queue_job — see the project specs. Number inutilização against a service
-does not exist for the national NFS-e (free DPS numbering).
+Out of scope here: IBS/CBS (RTC), inbound distribution, contingency, async and
+`queue_job`. Number inutilização against a service does not exist for the
+national NFS-e (free DPS numbering).

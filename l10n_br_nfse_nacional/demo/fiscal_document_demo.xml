@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
-
     <!-- 1. NATIONAL TAXATION CODES -->
     <record id="nat_tax_code_010101" model="l10n_br_fiscal.national.taxation.code">
         <field name="name">01.01.01</field>
@@ -15,13 +14,12 @@
 
     <!-- DEMO 1: REGIME NORMAL (MEI - LC) -->
 
-
     <!-- Tomador (Customer) -->
     <record id="partner_toma_lc" model="res.partner">
         <field name="name">Comércio de Alimentos Aurora Ltda ME</field>
         <field name="legal_name">Comércio de Alimentos Aurora Ltda ME</field>
         <field name="is_company" eval="True" />
-        <field name="cnpj_cpf">12.345.678/0001-95</field>
+        <field name="vat">12.345.678/0001-95</field>
         <field name="l10n_br_im_code">987654</field>
         <field name="street_name">Rua das Acácias</field>
         <field name="street_number">79</field>
@@ -67,7 +65,6 @@
 
     <!-- DEMO 2: SIMPLES NACIONAL (SN) -->
 
-
     <!-- Tomador (Anonymous Customer - No <toma> tag expected) -->
     <record id="partner_toma_sn" model="res.partner">
         <field name="name">Consumidor Não Identificado</field>
@@ -101,5 +98,4 @@
         <field name="issqn_desc_cond_amount">9.99</field>
         <field name="tax_icms_or_issqn">issqn</field>
     </record>
-
 </odoo>

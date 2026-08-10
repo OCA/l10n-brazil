@@ -4,6 +4,7 @@
 
 import logging
 import os
+import tempfile
 
 from nfelib.nfse.bindings.v1_0.tipos_complexos_v1_00 import TcinfDps
 from xmldiff import main
@@ -43,11 +44,6 @@ class TestNfseSerialize(TransactionCase):
             obj=binding, ns_map={None: "http://www.sped.fazenda.gov.br/nfse"}
         )
 
-        # Save to a temporary file
-        output_path = "/tmp/test_dps_output.xml"
-        with open(output_path, "w") as f:
-            f.write(xml_output)
-
         expected_path = os.path.join(
             l10n_br_nfse_nacional.__path__[0],
             "tests",
@@ -56,4 +52,8 @@ class TestNfseSerialize(TransactionCase):
             "DPS",
             nfse_data["xml_file"],
         )
-        return main.diff_files(output_path, expected_path)
+        with tempfile.NamedTemporaryFile("w", suffix=".xml") as output:
+            output.write(xml_output)
+            output.flush()
+            _logger.info("DPS serialized to %s", output.name)
+            return main.diff_files(output.name, expected_path)
