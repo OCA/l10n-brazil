@@ -250,6 +250,42 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
                 f"with no movement",
             )
 
+    def test_register_line_uses_the_concrete_field(self):
+        """Field attributes come from the concrete model, not from the spec.
+
+        The field ORDER must keep coming from the spec, which is the layout,
+        but the attributes must not: the generated spec does not carry the
+        mandatoriness the Guia Pratico defines, so the mapping layer declares
+        it. While the writer read the spec, a field declared `required=True`
+        in the mapping was ignored and every zeroed amount came out blank,
+        which the PVA rejects with "mandatory field".
+        """
+        register = self.declaration
+        spec = self.env["l10n_br_sped.fake.9.0000"]
+        seen = []
+        original = type(register)._format_field_value
+
+        def spy(self_, field, value):
+            seen.append(field)
+            return original(self_, field, value)
+
+        with mock.patch.object(
+            type(register), "_format_field_value", autospec=True, side_effect=spy
+        ):
+            register._generate_register_text(StringIO(), "9", [0], defaultdict(int))
+
+        self.assertTrue(seen, "no field was written")
+        for field in seen:
+            name = field.name
+            self.assertIs(
+                field,
+                register._fields[name],
+                f"{name} was taken from the spec instead of the concrete model",
+            )
+            # the spec holds a different Field instance for the same name, so
+            # the assertion above really distinguishes the two
+            self.assertIsNot(field, spec._fields[name])
+
     def test_generate_sped(self):
         sped = self.declaration._generate_sped_text()
         with open(self.file_path, encoding=SPED_ENCODING) as f:
