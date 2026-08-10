@@ -5,6 +5,7 @@ from collections import defaultdict
 
 from odoo import _, models
 from odoo.exceptions import UserError
+from odoo.fields import Command
 
 
 class PurchaseBlanketOrderWizard(models.TransientModel):
@@ -41,7 +42,7 @@ class PurchaseBlanketOrderWizard(models.TransientModel):
             "price_unit": line.blanket_line_id.price_unit,
             "blanket_order_line": line.blanket_line_id.id,
             "product_qty": line.qty,
-            "taxes_id": [(6, 0, line.taxes_id.ids)],
+            "taxes_id": [Command.set(line.taxes_id.ids)],
             **fiscal_vals,
         }
         # OCA copies taxes_id from the wizard related field (blanket taxes_id),
@@ -51,14 +52,12 @@ class PurchaseBlanketOrderWizard(models.TransientModel):
         if blanket_line.fiscal_operation_line_id:
             company = blanket_line.company_id or self.blanket_order_id.company_id
             vals["taxes_id"] = [
-                (
-                    6,
-                    0,
+                Command.set(
                     blanket_line.fiscal_tax_ids.account_taxes(
                         user_type="purchase",
                         fiscal_operation=blanket_line.fiscal_operation_id,
                         company=company,
-                    ).ids,
+                    ).ids
                 )
             ]
         return vals
