@@ -42,7 +42,11 @@ class SpedMixin(models.AbstractModel):
 
     brl_currency_id = fields.Many2one(
         comodel_name="res.currency",
-        string="Moeda",
+        # nao pode se chamar so "Moeda": varios registros do leiaute tem um
+        # campo proprio com esse rotulo (o TIP_MOEDA do X320 da ECF, por
+        # exemplo), e dois campos homonimos no mesmo modelo geram WARNING na
+        # carga, que o checklog da OCA reprova
+        string="Moeda da escrituração",
         compute="_compute_currency_id",
         default=lambda self: self.env.ref("base.BRL").id,
     )
@@ -568,23 +572,24 @@ class SpedMixin(models.AbstractModel):
             return value.strftime("%d%m%Y") if value else ""
         elif field.type == "char" or field.type == "selection":
             return str(value) if value else ""
-        elif field.type == "integer":
-            return "" if value == 0 else str(value)
-        elif field.type == "float":
+        elif field.type in ("integer", "float", "monetary"):
+            # zero: o campo obrigatorio e escriturado "0" e o opcional fica em
+            # branco. As duas pontas tem lastro: os registros I550 do arquivo
+            # de referencia da ECD escrituram "0" nos valores obrigatorios, e
+            # o PVA da ECF recusa o arquivo quando um campo condicional nao
+            # aplicavel vem preenchido ("Campo nao pode ser preenchido se a
+            # situacao especial for diferente de 6", sobre o 0000.PAT_REMAN_CIS)
+            if not value:
+                return "0" if field.required else ""
+            if field.type == "integer":
+                return str(value)
+            if field.type == "monetary":
+                # o Sped escreve o valor com virgula decimal e duas casas
+                return f"{value:.2f}".replace(".", ",")
             return (
                 str(int(value))
                 if float_is_zero(value % 1, 6)
                 else str(round(value, 6)).replace(".", ",")
-            )
-        elif field.type == "monetary":  # TODO is is usefull? (not used now)
-            return (
-                ""
-                if float_is_zero(value, precision_digits=8)
-                else (
-                    str(int(value))
-                    if float_is_zero(value % 1, precision_digits=8)
-                    else str(value)
-                )
             )
         else:
             return str(value)

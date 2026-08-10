@@ -113,7 +113,28 @@
             <vCOFINS>2.82</vCOFINS>
           </COFINSAliq>
         </COFINS>
+        <IBSCBS>
+          <CST>000</CST>
+          <cClassTrib>000001</cClassTrib>
+          <gIBSCBS>
+            <vBC>86.81</vBC>
+            <gIBSUF>
+              <pIBSUF>0.1000</pIBSUF>
+              <vIBSUF>0.09</vIBSUF>
+            </gIBSUF>
+            <gIBSMun>
+              <pIBSMun>0.0000</pIBSMun>
+              <vIBSMun>0.00</vIBSMun>
+            </gIBSMun>
+            <vIBS>0.09</vIBS>
+            <gCBS>
+              <pCBS>0.9000</pCBS>
+              <vCBS>0.78</vCBS>
+            </gCBS>
+            </gIBSCBS>
+        </IBSCBS>
       </imposto>
+      <vItem>94.00</vItem>
     </det>
     <total>
       <ICMSTot>
@@ -137,6 +158,32 @@
         <vOutro>0.00</vOutro>
         <vNF>94.00</vNF>
       </ICMSTot>
+      <IBSCBSTot>
+        <vBCIBSCBS>86.81</vBCIBSCBS>
+        <gIBS>
+          <gIBSUF>
+            <vDif>0.00</vDif>
+            <vDevTrib>0.00</vDevTrib>
+            <vIBSUF>0.09</vIBSUF>
+          </gIBSUF>
+          <gIBSMun>
+            <vDif>0.00</vDif>
+            <vDevTrib>0.00</vDevTrib>
+            <vIBSMun>0.00</vIBSMun>
+          </gIBSMun>
+          <vIBS>0.09</vIBS>
+          <vCredPres>0.00</vCredPres>
+          <vCredPresCondSus>0.00</vCredPresCondSus>
+        </gIBS>
+        <gCBS>
+          <vDif>0.00</vDif>
+          <vDevTrib>0.00</vDevTrib>
+          <vCBS>0.78</vCBS>
+          <vCredPres>0.00</vCredPres>
+          <vCredPresCondSus>0.00</vCredPresCondSus>
+        </gCBS>
+      </IBSCBSTot>
+      <vNFTot>94.00</vNFTot>
     </total>
     <transp>
       <modFrete>9</modFrete>

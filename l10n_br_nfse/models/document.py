@@ -263,13 +263,14 @@ class Document(models.Model):
             or None,
             "valor_desconto_incondicionado": valor_desconto_incondicionado,
             "codigo_nbs": self.fiscal_line_ids[0].nbs_id.code,
+            "codigo_nbs_unmasked": self.fiscal_line_ids[0].nbs_id.code_unmasked,
             "codigo_indicador_operacao": self.fiscal_line_ids[
                 0
             ].operation_indicator_id.code,
-            "codigo_classificacao_tributaria": self.fiscal_line_ids[
+            "ibs_cbs_classificacao_tributaria": self.fiscal_line_ids[
                 0
             ].tax_classification_id.code,
-            "codigo_situacao_tributaria": self.fiscal_line_ids[0].cbs_cst_code,
+            "ibs_cbs_situacao_tributaria": self.fiscal_line_ids[0].cbs_cst_code,
             "ibs_cbs_base_calculo": ibs_cbs_base_calculo,
             "ibs_uf_aliquota": ibs_uf_aliquota if ibs_uf_aliquota else None,
             "ibs_mun_aliquota": 0.0,
@@ -327,6 +328,11 @@ class Document(models.Model):
             ).strftime("%Y-%m-%dT%H:%M:%S"),
             "natureza_operacao": self.operation_nature,
             "regime_especial_tributacao": self.taxation_special_regime,
+            "finalidade_emissao": "0",
+            "indicador_destinatario": "1"
+            if (self.partner_id.is_company and self.partner_id.l10n_br_ie_code)
+            else "9",
+            "operacao_onerosa": bool(self.fiscal_line_ids[0].operation_indicator_id),
             "optante_simples_nacional": "1"
             if self.company_id.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL
             else "2",

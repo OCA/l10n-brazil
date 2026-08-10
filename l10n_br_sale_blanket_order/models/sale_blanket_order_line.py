@@ -75,12 +75,15 @@ class SaleBlanketOrderLine(models.Model):
         string="Comments",
     )
 
-    ind_final = fields.Selection(related="order_id.ind_final")
-
     # Fields compute need parameter compute_sudo
     price_subtotal = fields.Monetary(compute_sudo=True)
     price_tax = fields.Monetary(compute_sudo=True)
     price_total = fields.Monetary(compute_sudo=True)
+
+    # adapted for _compute_find_final:
+    def _get_document(self):
+        self.ensure_one()
+        return self.order_id
 
     @api.model
     def _cnae_domain(self):

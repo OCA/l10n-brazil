@@ -338,3 +338,32 @@ class FiscalDocument(models.Model):
         ):
             self._document_deny()
         return super().exec_after_SITUACAO_EDOC_DENEGADA(old_state, new_state)
+
+    def _check_document_import(self):
+        """Ensure an imported fiscal document has the minimum data required
+        to generate a valid account move (and a sound SPED basis).
+
+        Raises a single UserError listing every problem found so the user
+        can fix the de-para in one pass instead of one error at a time.
+        """
+        self.ensure_one()
+        errors = []
+        for line in self.fiscal_line_ids:
+            label = line.name or line.product_id.display_name or _("Unknown")
+            if not line.product_id:
+                errors.append(_("- %s: no product matched.") % label)
+            if not line.uom_id:
+                errors.append(_("- %s: no unit of measure.") % label)
+            if not line.quantity:
+                errors.append(_("- %s: no quantity.") % label)
+            if not line.price_unit and line.fiscal_amount_total:
+                # A zero unit price with a zero line total is a legitimate
+                # free line (bonificação / amostra grátis declared with
+                # vUnCom=0). Only flag the inconsistent case where amounts
+                # exist but the unit price was not resolved.
+                errors.append(_("- %s: no unit price.") % label)
+        if errors:
+            raise UserError(
+                _("The document cannot be imported due to incomplete lines:\n%s")
+                % "\n".join(errors)
+            )

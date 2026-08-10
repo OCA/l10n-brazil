@@ -4,6 +4,7 @@
 from importlib import import_module
 
 from odoo import api, models
+from odoo.models import is_definition_class
 from odoo.tools import mute_logger
 
 from .spec_models import SPEC_MIXIN_MAPPINGS, SpecModel, StackedModel
@@ -124,11 +125,32 @@ class SpecMixin(models.AbstractModel):
             odoo_module = spec_module.split("_spec.")[0].split(".")[-1]
         else:  # for tests:
             odoo_module = "spec_driven_model"
+        # concrete classes we build below, tracked so we can drop them
+        # from module_to_models at the end of this method
+        concrete_models = []
         for name in remaining_models:
             spec_class = StackedModel._odoo_name_to_class(name, spec_module)
             if spec_class is None:
                 continue
-            fields = self.env[spec_class._name]._fields
+            # By the time this hook runs, all modules extending this spec
+            # mixin via _inherit (e.g. custom fields added by a downstream
+            # *_nfe module) have already been merged by Odoo into the
+            # registry class for `name`. spec_class only reflects the single
+            # class literally defined in spec_module though, so using it
+            # alone as the base below would silently drop those extra
+            # fields. Pull in every genuine definition class that
+            # contributed to the merged registry class (skipping registry
+            # ("NewClass") wrappers themselves, which cannot safely be reused
+            # as a base for another _build_model() call).
+            merged_class = self.env.registry[name]
+            # accessed via getattr to avoid Python's name mangling of the
+            # double-underscore "__base_classes" attribute set by Odoo's
+            # BaseModel._build_model()
+            merged_base_classes = merged_class._BaseModel__base_classes
+            definition_bases = tuple(
+                base for base in merged_base_classes if is_definition_class(base)
+            )
+            fields = merged_class._fields
             rec_name = next(
                 filter(
                     lambda x: (x.startswith(field_prefix) and "_choice" not in x),
@@ -138,7 +160,7 @@ class SpecMixin(models.AbstractModel):
             )
             model_type = type(
                 name,
-                (SpecModel, spec_class),
+                (SpecModel,) + definition_bases,
                 {
                     "_name": name,
                     "_inherit": spec_class._inherit,
@@ -152,6 +174,7 @@ class SpecMixin(models.AbstractModel):
             model_type._spec_schema = spec_schema
             model_type._spec_version = spec_version
             models.MetaModel.module_to_models[odoo_module] += [model_type]
+            concrete_models.append(model_type)
 
             # now we init these models properly
             # a bit like odoo.modules.loading#load_module_graph would do
@@ -195,6 +218,20 @@ class SpecMixin(models.AbstractModel):
         )
         with mute_logger("odoo.models"):
             imd_recs.unlink()
+
+        # The concrete classes we built above are rebuilt from scratch every
+        # time this hook runs, but Odoo's MetaModel registered them in
+        # module_to_models, which persists across registry rebuilds. Leaving
+        # them there would make the next Registry.new() -- triggered by any
+        # module install/update -- rebuild these *stale* classes as extra bases
+        # of their model; being subclasses of the downstream classes that extend
+        # the model via _inherit, they break the C3 linearization and crash
+        # setup_models() with an inconsistent MRO (#4668). Drop exactly the ones
+        # we just built; the hook recreates them on every registry (re)load.
+        registered = models.MetaModel.module_to_models[odoo_module]
+        models.MetaModel.module_to_models[odoo_module] = [
+            cls for cls in registered if cls not in concrete_models
+        ]
 
     @classmethod
     def _auto_fill_access_data(cls, env, module_name: str, access_data: list):

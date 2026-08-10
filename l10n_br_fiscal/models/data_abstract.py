@@ -43,6 +43,18 @@ class DataAbstract(models.AbstractModel):
 
     active = fields.Boolean(default=True)
 
+    date_start = fields.Date(string="Start Date")
+
+    date_end = fields.Date(string="End Date")
+
+    _sql_constraints = [
+        (
+            "dt_end_greater_dt_start",
+            "check (date_end >= date_start)",
+            "The end date must be greater than or equal to the start date.",
+        )
+    ]
+
     def action_archive(self):
         if not self.env.user.has_group("l10n_br_fiscal.group_manager"):
             raise AccessError(_("You don't have permission to archive records."))

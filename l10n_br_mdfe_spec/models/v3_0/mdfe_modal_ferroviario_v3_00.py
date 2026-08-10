@@ -70,7 +70,10 @@ class Vag(models.AbstractModel):
     _binding_type = "Ferrov.Vag"
 
     mdfe30_vag_ferrov_id = fields.Many2one(
-        comodel_name="mdfe.30.ferrov", xsd_implicit=True, ondelete="cascade"
+        comodel_name="mdfe.30.ferrov",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     mdfe30_pesoBC = fields.Float(
         string="Peso Base de Cálculo de Frete",

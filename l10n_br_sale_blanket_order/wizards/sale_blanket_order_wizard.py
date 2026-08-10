@@ -11,9 +11,13 @@ class SaleBlanketOrderWizard(models.TransientModel):
     def _prepare_so_line_vals(self, line):
         fiscal_vals = line.blanket_line_id._prepare_br_fiscal_dict()
 
-        # change quantity
-        fiscal_vals["quantity"] = line.qty
-        fiscal_vals["fiscal_quantity"] = line.qty
+        if line.qty != fiscal_vals["quantity"]:
+            virtual = self.env["l10n_br_fiscal.document.line"].new(fiscal_vals)
+            virtual.quantity = line.qty
+            fiscal_vals = {
+                fname: virtual._fields[fname].convert_to_write(virtual[fname], virtual)
+                for fname in fiscal_vals
+            }
 
         # set company
         fiscal_vals["company_id"] = self.blanket_order_id.company_id.id

@@ -14,10 +14,12 @@
                 <field
                     name="focusnfe_production_token"
                     attrs="{'invisible': ['|',('provedor_nfse','!=', 'focusnfe'),('nfse_environment', '!=', '1')]}"
+                    password="True"
                 />
                 <field
                     name="focusnfe_homologation_token"
                     attrs="{'invisible': ['|',('provedor_nfse','!=', 'focusnfe'),('nfse_environment', '!=', '2')]}"
+                    password="True"
                 />
                 <field
                     name="focusnfe_nfse_service_type_value"
@@ -42,6 +44,10 @@
                 <field
                     name="focusnfe_nfse_type"
                     attrs="{'invisible': [('provedor_nfse','!=', 'focusnfe')]}"
+                />
+                <field
+                    name="focusnfe_nfse_nacional_send_im_prestador"
+                    attrs="{'invisible': ['|',('provedor_nfse','!=', 'focusnfe'),('focusnfe_nfse_type', '!=', 'nfse_nacional')]}"
                 />
             </field>
             <xpath expr="//field[@name='nfse_ssl_verify']" position="attributes">

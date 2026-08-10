@@ -390,7 +390,11 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             fiscal_taxes = line.fiscal_tax_ids.filtered(
                 lambda ft, taxes_groups=taxes_groups: ft.tax_domain not in taxes_groups
             )
-            line.fiscal_tax_ids = fiscal_taxes + taxes
+            new_fiscal_tax_ids = fiscal_taxes + taxes
+            # fiscal_tax_ids está nos depends de _compute_tax_fields; só
+            # reatribui (e re-dispara o compute) quando o conjunto muda de fato.
+            if new_fiscal_tax_ids != line.fiscal_tax_ids:
+                line.fiscal_tax_ids = new_fiscal_tax_ids
 
     @api.onchange(*FISCAL_TAX_ID_FIELDS)
     def _onchange_fiscal_taxes(self):
@@ -1051,7 +1055,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
 
     fiscal_operation_type = fields.Selection(
-        string="Operation Type",
+        string="Fiscal Operation Type",
         related="fiscal_operation_id.fiscal_operation_type",
     )
 
@@ -1084,6 +1088,14 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     cfop_destination = fields.Selection(
         related="cfop_id.destination",
         string="CFOP Destination",
+    )
+
+    partner_cfop_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.cfop",
+        string="Partner CFOP",
+        help="CFOP as declared by the counterparty in the imported document. "
+        "It is preserved as-is for fiscal bookkeeping / SPED (e.g. C197), "
+        "while cfop_id reflects the company's own operation after the de-para.",
     )
 
     fiscal_price = fields.Float(

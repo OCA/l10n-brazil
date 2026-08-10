@@ -31,6 +31,34 @@ msgid "(Discount)"
 msgstr ""
 
 #. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/document.py:0
+#, python-format
+msgid "- %s: no product matched."
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/document.py:0
+#, python-format
+msgid "- %s: no quantity."
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/document.py:0
+#, python-format
+msgid "- %s: no unit of measure."
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/document.py:0
+#, python-format
+msgid "- %s: no unit price."
+msgstr ""
+
+#. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
 msgid "<span>Fiscal Details</span>"
 msgstr ""
@@ -454,6 +482,14 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cfop_destination
 msgid "CFOP Destination"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__partner_cfop_id
+msgid ""
+"CFOP as declared by the counterparty in the imported document. It is "
+"preserved as-is for fiscal bookkeeping / SPED (e.g. C197), while cfop_id "
+"reflects the company's own operation after the de-para."
 msgstr ""
 
 #. module: l10n_br_account
@@ -2480,6 +2516,7 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_operation_type
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_operation_type
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_operation_type
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_operation_type
 msgid "Fiscal Operation Type"
 msgstr ""
@@ -5224,11 +5261,6 @@ msgid "Operation Nature"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_operation_type
-msgid "Operation Type"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_occ
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_occ
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_occ
@@ -5451,6 +5483,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__proxy_partner_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__proxy_partner_id
 msgid "Partner (proxy)"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__partner_cfop_id
+msgid "Partner CFOP"
 msgstr ""
 
 #. module: l10n_br_account
@@ -6401,6 +6438,15 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/document.py:0
+#, python-format
+msgid ""
+"The document cannot be imported due to incomplete lines:\n"
+"%s"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__insurance_endorsement
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__insurance_endorsement
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__insurance_endorsement
@@ -6914,6 +6960,13 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__product_uom_id
 msgid "Unit of Measure"
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/document.py:0
+#, python-format
+msgid "Unknown"
 msgstr ""
 
 #. module: l10n_br_account

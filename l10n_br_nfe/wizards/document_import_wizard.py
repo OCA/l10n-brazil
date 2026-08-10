@@ -2,9 +2,11 @@
 # Copyright (C) 2022  Renan Hiroki Bastos - Kmee
 # Copyright (C) 2023  Luiz Felipe do Divino - Kmee
 # Copyright (C) 2023  Felipe Zago Rodrigues - Kmee
+# Copyright (C) 2026  Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import base64
+from collections import Counter
 
 from erpbrasil.base.fiscal.cnpj_cpf import formata
 
@@ -17,12 +19,6 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import MODELO_FISCAL_NFE
 
 class DocumentImportWizard(models.TransientModel):
     _inherit = "l10n_br_fiscal.document.import.wizard"
-
-    imported_products_ids = fields.One2many(
-        string="Imported Products",
-        comodel_name="l10n_br_nfe.import_xml.products",
-        inverse_name="import_xml_id",
-    )
 
     nat_op = fields.Char(string="Natureza da Operação")
 
@@ -44,10 +40,25 @@ class DocumentImportWizard(models.TransientModel):
             infNFe = binding.infNFe
             self.nat_op = infNFe.ide.natOp
             self.fiscal_operation_id = self._find_fiscal_operation(
-                infNFe.det[0].prod.CFOP, self.nat_op, self.fiscal_operation_type
+                self._most_common_cfop(infNFe),
+                self.nat_op,
+                self.fiscal_operation_type,
             )
             self._create_imported_products_by_xml(binding)
         return res
+
+    @api.model
+    def _most_common_cfop(self, infNFe):
+        """Return the CFOP shared by most of the NFe lines.
+
+        A single NFe can mix CFOPs (e.g. a freight or one-off line), so
+        picking the first line's CFOP is unreliable. The majority CFOP
+        better represents the document's fiscal operation.
+        """
+        cfops = [det.prod.CFOP for det in infNFe.det if det.prod.CFOP]
+        if not cfops:
+            return False
+        return Counter(cfops).most_common(1)[0][0]
 
     def _destination_partner_from_binding(self, binding):
         if self.document_type == MODELO_FISCAL_NFE:
@@ -84,7 +95,7 @@ class DocumentImportWizard(models.TransientModel):
         product_ids = []
         for product in binding.infNFe.det:
             product_ids.append(
-                self.env["l10n_br_nfe.import_xml.products"]
+                self.env["l10n_br_fiscal.document.import.wizard.line"]
                 .create(self._prepare_imported_product_values(product))
                 .id
             )
@@ -95,29 +106,7 @@ class DocumentImportWizard(models.TransientModel):
         taxes = self._get_taxes_from_xml_product(product)
         supplier_id = self._search_product_supplier_by_product_code(product.prod.cProd)
         product_id = self._match_product(product.prod)
-        # if self.fiscal_operation_type == "in"
-        # and product_id and product_id.purchase_ok:
-        if False:  # seems former test is always true after you
-            # imported the product once -> it screws the UOM.
-            uom_id = product_id.uom_po_id
-        else:
-            uom_id = self.env["uom.uom"].search(
-                [
-                    "|",
-                    ("code", "=", product.prod.uCom),
-                    ("code", "=", product.prod.uTrib),
-                ],
-                limit=1,
-            )
-            if not uom_id:  # search for alias
-                uom_id = self.env["uom.uom"].search(
-                    [
-                        "|",
-                        ("name", "=", product.prod.uCom),
-                        ("name", "=", product.prod.uTrib),
-                    ],
-                    limit=1,
-                )
+        uom_id = self._match_uom_by_code(product.prod.uCom, product.prod.uTrib)
 
         return {
             "product_name": product.prod.xProd,
@@ -163,6 +152,10 @@ class DocumentImportWizard(models.TransientModel):
         return variant_ids[0]
 
     def _match_product(self, xml_product):
+        product_id = self._match_product_by_purchase(xml_product)
+        if product_id:
+            return product_id
+
         product_id = self._get_product_by_supplier(xml_product.cProd)
         if product_id:
             return product_id
@@ -178,6 +171,74 @@ class DocumentImportWizard(models.TransientModel):
         if domain:
             rec_id = self.env["product.product"].search(domain, limit=1)
         return rec_id
+
+    def _match_product_by_purchase(self, xml_product):
+        """Priority match from the referenced purchase order.
+
+        When ``l10n_br_purchase`` is installed and the XML line references the
+        buyer's purchase order (xPed / nItemPed), take the product from the
+        matching purchase order line first: it is the most authoritative match
+        since the buyer already stated which product was ordered.
+
+        Soft dependency: no-op unless l10n_br_purchase is installed (it adds
+        the partner_order / partner_order_line fields to purchase.order.line;
+        core ``purchase`` alone does not provide them).
+        """
+        pol_model = self.env.get("purchase.order.line")
+        if pol_model is None or "partner_order" not in pol_model._fields:
+            return False
+        xped = (getattr(xml_product, "xPed", "") or "").strip()
+        if not xped:
+            return False
+
+        partner = self.partner_id.id
+        pol = pol_model.sudo()
+        nitemped = (getattr(xml_product, "nItemPed", "") or "").strip()
+
+        # 1) exact agreed reference: xPed + nItemPed on the purchase order line
+        if nitemped:
+            line = pol.search(
+                [
+                    ("order_id.partner_id", "=", partner),
+                    ("partner_order", "=", xped),
+                    ("partner_order_line", "=", nitemped),
+                ],
+                limit=1,
+            )
+            if line:
+                return line.product_id
+
+        # 2) heuristic: narrow to the referenced order (partner_order on the
+        # line, else the buyer PO name / vendor reference), then disambiguate
+        # the line by the XML product code / barcode.
+        lines = pol.search(
+            [("order_id.partner_id", "=", partner), ("partner_order", "=", xped)]
+        )
+        if not lines:
+            order = (
+                self.env["purchase.order"]
+                .sudo()
+                .search(
+                    [
+                        ("partner_id", "=", partner),
+                        "|",
+                        ("partner_ref", "=", xped),
+                        ("name", "=", xped),
+                    ],
+                    limit=1,
+                )
+            )
+            lines = order.order_line
+        if len(lines) == 1:
+            return lines.product_id
+        cprod = getattr(xml_product, "cProd", None)
+        ean = getattr(xml_product, "cEANTrib", None)
+        for line in lines:
+            if cprod and line.product_id.default_code == cprod:
+                return line.product_id
+            if ean and ean != "SEM GTIN" and line.product_id.barcode == ean:
+                return line.product_id
+        return False
 
     def _get_taxes_from_xml_product(self, product):
         vICMS = 0
@@ -211,7 +272,13 @@ class DocumentImportWizard(models.TransientModel):
             edoc.document_type_id = self.env.ref("l10n_br_fiscal.document_55").id
             edoc.fiscal_operation_id = self.fiscal_operation_id
             for line in edoc.fiscal_line_ids:
+                # Preserve the XML price_unit because setting
+                # fiscal_operation_id triggers _compute_price_unit_fiscal
+                # which would overwrite it with the product's list/cost price
+                # (which is 0 when the product is created during import).
+                price_unit = line.price_unit
                 line.fiscal_operation_id = self.fiscal_operation_id
+                line.price_unit = price_unit
                 line.uom_id = line.uot_id
 
             if not self.partner_id:
@@ -252,64 +319,21 @@ class DocumentImportWizard(models.TransientModel):
         return parsed_xml
 
 
-# TODO transform that into a generic l10n_br_fiscal.document.line.import.wizard
-# as proposed https://github.com/OCA/l10n-brazil/pull/3546
-# https://github.com/kmee/l10n-brazil/blob/14.0-refactor-import-edoc
-# /l10n_br_nfe/wizards/document_line_import_wizard.py
-class NfeImportProducts(models.TransientModel):
-    _name = "l10n_br_nfe.import_xml.products"
-    _description = "Import XML NFe Products"
+class DocumentImportWizardLine(models.TransientModel):
+    """NFe specialization of the generic fiscal import wizard line.
 
-    product_name = fields.Char()
+    It only adds the NFe specific data: the commercial/tax unit split and
+    the ICMS/IPI taxes read from the XML. It also injects the partner UoM
+    de-para into the generated ``product.supplierinfo``.
+    """
 
-    uom_com = fields.Char(string="UOM Comercial")
-
-    quantity_com = fields.Float(string="Comercial Quantity")
-
-    price_unit_com = fields.Float(string="Comercial Price Unit")
+    _inherit = "l10n_br_fiscal.document.import.wizard.line"
 
     uom_trib = fields.Char(string="UOM Fiscal")
 
     quantity_trib = fields.Float()
 
     price_unit_trib = fields.Float(string="Fiscal Price Unit")
-
-    total = fields.Float()
-
-    import_xml_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document.import.wizard"
-    )
-
-    product_code = fields.Char(string="XML Product Code")
-
-    product_id = fields.Many2one(
-        comodel_name="product.product",
-        string="Product Internal Reference",
-    )
-
-    product_supplier_id = fields.Many2one(
-        comodel_name="product.supplierinfo",
-        string="Product Supplier",
-    )
-
-    uom_internal = fields.Many2one(
-        comodel_name="uom.uom",
-        help="Internal UoM, equivalent to the comercial one in the document",
-    )
-
-    ncm_xml = fields.Char(string="XML NCM Code")
-
-    ncm_internal = fields.Char(
-        related="product_id.ncm_id.code",
-        string="Internal NCM Code",
-    )
-
-    cfop_xml = fields.Char(string="XML CFOP")
-
-    new_cfop_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.cfop",
-        string="Change CFOP",
-    )
 
     icms_percent = fields.Char(string="Alíquota ICMS")
 
@@ -319,53 +343,12 @@ class NfeImportProducts(models.TransientModel):
 
     ipi_value = fields.Char(string="IPI Value")
 
-    imported_partner_id = fields.Many2one(related="import_xml_id.partner_id")
-
-    uom_conversion_factor = fields.Float(string="UOM Conversion Factor", default=1)
-
-    def _find_or_create_product_supplierinfo(self):
-        for product in self:
-            if not product.product_id:
-                continue
-
-            if not product.product_supplier_id:
-                product._create_product_supplier()
-            else:
-                product._update_product_supplier()
-
-    def _create_product_supplier(self):
-        if self.uom_internal:
-            price = self.uom_internal._compute_price(
-                self.price_unit_com, self.product_id.uom_id
-            )
-        else:
-            price = self.product_id.lst_price
-
-        self.product_supplier_id = self.env["product.supplierinfo"].create(
+    def _prepare_supplierinfo_vals(self):
+        vals = super()._prepare_supplierinfo_vals()
+        vals.update(
             {
-                "product_id": self.product_id.id,
-                "product_name": self.product_name,
-                "product_code": self.product_code,
-                "price": price,
-                "partner_id": self.imported_partner_id.id,
                 "partner_uom_id": self.uom_internal.id,
                 "partner_uom_factor": self.uom_conversion_factor,
             }
         )
-        self.product_id.write(
-            {"seller_ids": [Command.link(self.product_supplier_id.id)]}
-        )
-
-    def _update_product_supplier(self):
-        self.product_supplier_id.write(
-            {
-                "product_id": self.product_id.id,
-                "product_name": self.product_name,
-                "product_code": self.product_code,
-                "price": self.uom_internal._compute_price(
-                    self.price_unit_com, self.product_id.uom_id
-                ),
-                "partner_uom_id": self.uom_internal.id,
-                "partner_uom_factor": self.uom_conversion_factor,
-            }
-        )
+        return vals

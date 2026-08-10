@@ -26,3 +26,10 @@ para a empresa desejada:
     > - **Formato Taxa:** Selecione o formato da taxa (Decimal ou Percentage)
     > - **Incluir Documentos Autorizados na Verificação de Status:** Se marcado, documentos autorizados serão incluídos na verificação de status
     > - **Forçar DANFSE Odoo:** Se marcado, o sistema sempre usará o DANFSE do Odoo ao invés do DANFSE da FocusNFE
+    > - **Enviar Inscrição Municipal do Prestador (NFSe Nacional):** Visível
+    >   quando Tipo FocusNFe NFSe = NFSe Nacional. Por padrão a Inscrição
+    >   Municipal cadastrada na empresa é enviada na DPS. Alguns municípios
+    >   (ex.: Porto Alegre/RS) não possuem a Inscrição Municipal do
+    >   prestador registrada no CNC NFS-e nacional; nesses casos, desmarque
+    >   esta opção para que o campo seja omitido e evitar a rejeição da
+    >   DPS.

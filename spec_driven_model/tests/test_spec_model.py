@@ -40,6 +40,10 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
             PurchaseOrderLine as SpecPurchaseOrderLine,
         )
 
+        # a downstream _inherit extension of the remaining model poxsd.10.comment
+        # (mirrors l10n_br_account_nfe extending nfe.40.detpag, see issue #4668)
+        from .fake_comment_extension import CommentExtension
+
         cls.loader.update_registry(
             (
                 PoXsdMixin,
@@ -47,6 +51,7 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
                 Item,
                 Usaddress,
                 Comment,
+                CommentExtension,
                 PurchaseOrderType,
                 ResPartner,
                 FakePurchaseOrder,
@@ -92,6 +97,12 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
                 set(self.env["poxsd.10.item"]._fields.keys())
             )
         )
+
+    def test_fix_camel_case(self):
+        partner = self.env["res.partner"]
+        self.assertEqual(partner.fix_camel_case(""), "")
+        self.assertEqual(partner.fix_camel_case("PedRegEvento"), "PedRegEvento")
+        self.assertEqual(partner.fix_camel_case("TcinfDPS"), "TcinfDps")
 
     def test_stacked_model(self):
         po_fields_or_stacking = set(self.env["fake.purchase.order"]._fields.keys())
@@ -240,3 +251,86 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
 
         assert actual_calls == expected_model_suffixes
         assert mock_get_concrete_model.call_count == len(expected_model_suffixes)
+
+    def test_registry_reload_with_extended_remaining_model(self):
+        """Regression test for issue #4668.
+
+        _register_remaining_schema_models_hook turns *remaining* spec models
+        (those not injected into a concrete Odoo model, e.g. poxsd.10.comment
+        or nfe.40.detpag) into concrete models by building a class
+        ``type(name, (SpecModel, *definition_bases))``. A real server rebuilds
+        the whole registry (``Registry.new``) on every module install/update.
+        If that concrete class lingers in ``MetaModel.module_to_models``, that
+        rebuild re-consumes it as a stale base of the model; being a subclass of
+        the very classes that extend the model via ``_inherit`` (here
+        CommentExtension, like l10n_br_account_nfe for nfe.40.detpag), Odoo
+        accumulates it after the extension and ``setup_models`` crashes with
+        "Cannot create a consistent method resolution order".
+        """
+        from unittest import mock
+
+        from odoo_test_helper.fake_model_loader import FakePackage
+
+        from odoo.models import MetaModel, is_definition_class
+
+        from odoo.addons.spec_driven_model.models.spec_models import SpecModel
+
+        from .fake_comment_extension import CommentExtension
+        from .fake_mixin import PoXsdMixin
+        from .spec_poxsd import Comment
+
+        registry = self.env.registry
+        cr = self.env.cr
+        module_to_models = MetaModel.module_to_models
+
+        def concrete_classes_left():
+            # the concrete class the hook builds for poxsd.10.comment is a
+            # SpecModel subclass named after the model (the genuine definition
+            # classes -- Comment, CommentExtension -- are plain AbstractModels)
+            return [
+                cls
+                for cls in module_to_models["spec_driven_model"]
+                if is_definition_class(cls)
+                and issubclass(cls, SpecModel)
+                and cls._name == "poxsd.10.comment"
+            ]
+
+        def clear_hook_guard():
+            # a fresh Registry.new() has no per-schema guard, so the hook runs
+            registry.__dict__.pop("_poxsd_register_hook_loaded", None)
+
+        ready = registry.ready
+        saved_module_classes = list(module_to_models["spec_driven_model"])
+        try:
+            # build #1: rebuild the remaining model and its downstream _inherit
+            # extension as abstract mixins, then run setup_models() so the hook
+            # builds the concrete poxsd.10.comment (setup_models only runs
+            # the registry hooks when the registry is ready, as after a real
+            # module load). On a real server this concrete class stays
+            # registered in module_to_models across registry rebuilds; the fix
+            # must not leave it there.
+            clear_hook_guard()
+            self.loader.update_registry((PoXsdMixin, Comment, CommentExtension))
+            registry.ready = True
+            registry.setup_models(cr)
+
+            self.assertEqual(
+                concrete_classes_left(),
+                [],
+                "the hook left a concrete class in module_to_models; "
+                "the next Registry.new() would rebuild it as a stale base and "
+                "crash with an inconsistent MRO (#4668)",
+            )
+
+            # build #2: mimic the next Registry.new() -- re-consume
+            # module_to_models and re-run setup_models() without scrubbing it
+            # first (as a real server does). Were a stale concrete class
+            # present, Odoo would rebuild it as a base of poxsd.10.comment and
+            # raise "Cannot create a consistent method resolution order".
+            clear_hook_guard()
+            with mock.patch.object(cr, "commit"):
+                registry.load(cr, FakePackage("spec_driven_model"))
+                registry.setup_models(cr)
+        finally:
+            module_to_models["spec_driven_model"] = saved_module_classes
+            registry.ready = ready

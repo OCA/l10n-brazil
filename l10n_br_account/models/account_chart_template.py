@@ -57,8 +57,8 @@ class AccountChartTemplate(models.Model):
                 )
 
                 for tax in taxes:
-                    if tax.get_external_id():
-                        tax_ref = tax.get_external_id().get(tax.id)
+                    tax_ref = tax.get_external_id().get(tax.id)
+                    if tax_ref:
                         ref_module, ref_name = tax_ref.split(".")
                         ref_name = ref_name.replace(str(company.id) + "_", "")
                         template_source_ref = ".".join(["l10n_br_coa", ref_name])

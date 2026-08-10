@@ -1,6 +1,8 @@
 # Copyright 2025
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from decimal import Decimal
+
 from odoo.tests import TransactionCase, tagged
 
 
@@ -575,3 +577,194 @@ class TestNFeIBSCBS(TransactionCase):
         # IBS Municipal should be zero
         self.assertEqual(result.gIBSCBS.gIBSMun.vIBSMun, "0.00")
         self.assertEqual(result.gIBSCBS.gIBSMun.pIBSMun, "0.0000")
+
+
+@tagged("post_install", "-at_install")
+class TestNFeVItemVNFTot(TransactionCase):
+    """Test vItem and vNFTot export in NFe documents (NT 2025.002)"""
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+
+        cls.company = cls.env.ref("base.main_company")
+        cls.icms_cst_00 = cls.env.ref("l10n_br_fiscal.cst_icms_00")
+
+        cls.partner = cls.env["res.partner"].create(
+            {
+                "name": "Test Partner",
+                "is_company": True,
+                "cnpj_cpf": "65910976000147",
+            }
+        )
+
+        cls.product = cls.env["product.product"].create(
+            {
+                "name": "Test Product",
+                "default_code": "TEST001",
+                "list_price": 100.0,
+            }
+        )
+
+        # Document with a real fiscal operation so that the document
+        # fiscal totals are computed (see l10n_br_fiscal.document.mixin)
+        cls.document = cls.env["l10n_br_fiscal.document"].create(
+            {
+                "company_id": cls.company.id,
+                "partner_id": cls.partner.id,
+                "fiscal_operation_type": "out",
+                "fiscal_operation_id": cls.env.ref("l10n_br_fiscal.fo_venda").id,
+                "document_type_id": cls.env.ref("l10n_br_fiscal.document_55").id,
+            }
+        )
+
+    def _build_det_binding(self, line):
+        """Build the real det binding for a document line"""
+        return line._build_binding(
+            spec_schema="nfe", spec_version="40", class_name="nfe.40.det"
+        )
+
+    def _build_total_binding(self):
+        """Build the real total binding for the document"""
+        return self.document._build_binding(
+            spec_schema="nfe", spec_version="40", class_name="nfe.40.total"
+        )
+
+    def test_export_det_binding_vitem_with_ibs_cbs(self):
+        """Test det binding exports vItem when the document has IBS/CBS"""
+        line = self.env["l10n_br_fiscal.document.line"].create(
+            {
+                "document_id": self.document.id,
+                "product_id": self.product.id,
+                "icms_cst_id": self.icms_cst_00.id,
+                "quantity": 1.0,
+                "price_unit": 100.0,
+            }
+        )
+        line.write({"ibs_value": 0.1, "ibs_base": 100.0, "cbs_value": 0.9})
+
+        self.assertGreater(line.fiscal_amount_total, 0.0)
+        det = self._build_det_binding(line)
+        self.assertEqual(det.vItem, f"{line.fiscal_amount_total:.2f}")
+
+    def test_export_det_binding_vitem_mixed_lines(self):
+        """Test all lines export vItem when only one line has IBS/CBS"""
+        line_with = self.env["l10n_br_fiscal.document.line"].create(
+            {
+                "document_id": self.document.id,
+                "product_id": self.product.id,
+                "icms_cst_id": self.icms_cst_00.id,
+                "quantity": 1.0,
+                "price_unit": 100.0,
+            }
+        )
+        line_without = self.env["l10n_br_fiscal.document.line"].create(
+            {
+                "document_id": self.document.id,
+                "product_id": self.product.id,
+                "icms_cst_id": self.icms_cst_00.id,
+                "quantity": 1.0,
+                "price_unit": 50.0,
+            }
+        )
+        line_with.write({"ibs_value": 0.1, "ibs_base": 100.0, "cbs_value": 0.9})
+
+        self.assertGreater(self.document.fiscal_amount_total, 0.0)
+        det_with = self._build_det_binding(line_with)
+        det_without = self._build_det_binding(line_without)
+        total = self._build_total_binding()
+
+        self.assertIsNotNone(det_with.vItem)
+        self.assertIsNotNone(det_without.vItem)
+        self.assertEqual(
+            Decimal(det_with.vItem) + Decimal(det_without.vItem),
+            Decimal(total.vNFTot),
+        )
+        self.assertEqual(
+            Decimal(total.vNFTot),
+            Decimal(total.ICMSTot.vNF),
+        )
+        self.assertEqual(
+            Decimal(total.vNFTot),
+            Decimal(f"{self.document.fiscal_amount_total:.2f}"),
+        )
+
+    def test_export_det_binding_vitem_with_discount(self):
+        """Test vItem uses the fiscal total instead of the gross price"""
+        line = self.env["l10n_br_fiscal.document.line"].create(
+            {
+                "document_id": self.document.id,
+                "product_id": self.product.id,
+                "icms_cst_id": self.icms_cst_00.id,
+                "quantity": 1.0,
+                "price_unit": 100.0,
+            }
+        )
+        line.write({"discount_value": 10.0, "ibs_value": 0.1, "ibs_base": 90.0})
+
+        self.assertNotEqual(line.price_gross, line.fiscal_amount_total)
+        det = self._build_det_binding(line)
+        self.assertEqual(det.vItem, f"{line.fiscal_amount_total:.2f}")
+
+    def test_export_total_binding_with_vnftot(self):
+        """Test total binding exports vNFTot along with IBSCBSTot"""
+        line = self.env["l10n_br_fiscal.document.line"].create(
+            {
+                "document_id": self.document.id,
+                "product_id": self.product.id,
+                "icms_cst_id": self.icms_cst_00.id,
+                "quantity": 1.0,
+                "price_unit": 100.0,
+            }
+        )
+        line.write({"ibs_value": 0.1, "ibs_base": 100.0, "cbs_value": 0.9})
+
+        self.assertGreater(self.document.fiscal_amount_total, 0.0)
+        total = self._build_total_binding()
+        self.assertIsNotNone(total.IBSCBSTot)
+        self.assertEqual(total.vNFTot, f"{self.document.fiscal_amount_total:.2f}")
+
+    def test_export_bindings_absent_without_ibs_cbs(self):
+        """Test vItem and vNFTot are absent when there is no IBS/CBS"""
+        # Regression guard for the legacy behavior: it must stay green
+        # before and after the fix (it is not red-green evidence)
+        line = self.env["l10n_br_fiscal.document.line"].create(
+            {
+                "document_id": self.document.id,
+                "product_id": self.product.id,
+                "icms_cst_id": self.icms_cst_00.id,
+                "quantity": 1.0,
+                "price_unit": 100.0,
+            }
+        )
+
+        det = self._build_det_binding(line)
+        total = self._build_total_binding()
+        self.assertIsNone(det.vItem)
+        self.assertIsNone(total.vNFTot)
+        self.assertIsNone(total.IBSCBSTot)
+
+    def test_export_field_vitem_and_vnftot_direct(self):
+        """Test direct _export_field calls for vItem and vNFTot"""
+        line = self.env["l10n_br_fiscal.document.line"].create(
+            {
+                "document_id": self.document.id,
+                "product_id": self.product.id,
+                "icms_cst_id": self.icms_cst_00.id,
+                "quantity": 1.0,
+                "price_unit": 100.0,
+            }
+        )
+        self.assertFalse(line._export_field("nfe40_vItem", None, None))
+        self.assertFalse(self.document._export_field("nfe40_vNFTot", None, None))
+
+        line.write({"ibs_value": 0.1, "ibs_base": 100.0})
+        self.assertEqual(
+            line._export_field("nfe40_vItem", None, None),
+            f"{line.fiscal_amount_total:.2f}",
+        )
+        self.assertEqual(
+            self.document._export_field("nfe40_vNFTot", None, None),
+            f"{self.document.fiscal_amount_total:.2f}",
+        )

@@ -26,13 +26,21 @@ class PartyMixin(models.AbstractModel):
         help="CNPJ/CPF without special characters",
         compute="_compute_cnpj_cpf_stripped",
         store=True,
-        index=True,
+        # trigram GIN index to speed up the leading-wildcard ilike issued by
+        # name_search (see _rec_names_search on res.partner). unaccent=False
+        # keeps both the index and the query on the raw column (the value is
+        # alphanumeric and never accented), so the index is always used.
+        index="trigram",
+        unaccent=False,
     )
 
     l10n_br_ie_code = fields.Char(
         string="State Tax Number",
         size=17,
+        # unaccent=False + trigram: alphanumeric value, index and query stay on
+        # the raw column so the GIN index accelerates the ilike unconditionally.
         unaccent=False,
+        index="trigram",
     )
 
     # compat with legacy code:
@@ -66,6 +74,15 @@ class PartyMixin(models.AbstractModel):
     legal_name = fields.Char(
         size=128,
         help="Used in fiscal documents",
+        # trigram GIN index to speed up the name_search ilike on legal_name.
+        # legal_name keeps the default unaccent=True (names carry accents and
+        # must match accent-insensitively), so this index is only effective
+        # when the database `unaccent` function is IMMUTABLE (INDEXABLE): only
+        # then does Odoo build the index on unaccent(legal_name), matching the
+        # unaccent(col) like unaccent(%s) query. On a stock PostgreSQL the
+        # contrib unaccent is STABLE, not immutable, so the index is built on
+        # the raw column and the planner cannot use it. See the PR body.
+        index="trigram",
     )
 
     city_id = fields.Many2one(
@@ -95,7 +112,10 @@ class PartyMixin(models.AbstractModel):
 
     def _inverse_cnpj_cpf(self):
         for partner in self:
-            partner.vat = cnpj_cpf.formata(str(self.cnpj_cpf))
+            if partner.cnpj_cpf:
+                partner.vat = cnpj_cpf.formata(str(partner.cnpj_cpf))
+            else:
+                partner.vat = False
 
     @api.model
     def search(self, domain, offset=0, limit=None, order=None, count=False):
