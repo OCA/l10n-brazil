@@ -531,7 +531,13 @@ class SpedMixin(models.AbstractModel):
             if not fname.isupper():
                 continue
 
-            val = self._format_field_value(register_spec._fields[fname], value)
+            # A ORDEM dos campos vem do spec, que e o leiaute; os ATRIBUTOS
+            # vem do modelo concreto, que herda tudo do spec e pode refinar.
+            # E o que permite a camada de mapping declarar a obrigatoriedade
+            # que o spec gerado nao carrega, e sem a qual o campo zerado sai
+            # em branco e o PVA recusa o registro.
+            field = self._fields.get(fname) or register_spec._fields[fname]
+            val = self._format_field_value(field, value)
             sped.write(f"{val}|")
 
     def _format_field_value(self, field, value):
