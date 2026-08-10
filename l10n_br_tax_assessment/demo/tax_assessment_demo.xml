@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!--
+      Apuração provisória do ICMS do mês corrente.
+
+      O período é relativo à instalação (primeiro e último dia do mês) porque
+      o dado demo da localização lança no mês em que foi instalada: período
+      fixo daria uma apuração vazia em qualquer instalação futura.
+
+      A empresa é a `empresa_lucro_presumido` do demo da localização, e não a
+      main_company: é ela que tem os impostos brasileiros instalados. O grupo é
+      o `l10n_br_coa.tax_group_icms`, o MESMO dos impostos dessa empresa, para
+      a apuração ler os lançamentos que existirem no período.
+    -->
+    <record id="demo_assessment_icms" model="l10n_br_tax.assessment">
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="tax_group_id" ref="l10n_br_coa.tax_group_icms" />
+        <field name="regime">not_applicable</field>
+        <field
+            name="date_from"
+            eval="(DateTime.today() + relativedelta(day=1)).strftime('%Y-%m-%d')"
+        />
+        <field
+            name="date_to"
+            eval="(DateTime.today() + relativedelta(day=31)).strftime('%Y-%m-%d')"
+        />
+    </record>
+
+    <!--
+      Apurar de verdade, em vez de escrever linhas à mão: é o que faz a
+      demonstração bater com os lançamentos que estão na base.
+    -->
+    <function
+        model="l10n_br_tax.assessment"
+        name="action_compute"
+        eval="[[ref('demo_assessment_icms')]]"
+    />
+
+    <!--
+      Um ajuste manual com código da tabela 5.1.1, para a demonstração mostrar
+      o E111 e a classificação pelo quarto dígito do código. Fica junto das
+      linhas apuradas, que o recálculo refaz e este ajuste não.
+    -->
+    <record id="demo_assessment_icms_adjustment" model="l10n_br_tax.assessment.line">
+        <field name="assessment_id" ref="demo_assessment_icms" />
+        <field name="kind">debit</field>
+        <field name="source">manual</field>
+        <field name="adjustment_code">SP000001</field>
+        <field name="description">Ajuste de demonstração: outros débitos</field>
+        <field name="tax_amount">100.00</field>
+    </record>
+</odoo>
