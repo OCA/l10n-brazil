@@ -54,6 +54,7 @@ msgid "Básica"
 msgstr ""
 
 #. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__vat
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.l10n_br_cnpj_search_fiscal_company_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
 msgid "CNPJ"
@@ -103,11 +104,6 @@ msgstr ""
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__cnae_secondary_ids
 msgid "Cnae Secondary"
-msgstr ""
-
-#. module: l10n_br_cnpj_search
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__cnpj_cpf
-msgid "Cnpj Cpf"
 msgstr ""
 
 #. module: l10n_br_cnpj_search
