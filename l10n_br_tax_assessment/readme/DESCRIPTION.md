@@ -1,6 +1,9 @@
 Apuração de imposto sobre consumo por período: ICMS, IPI, PIS e COFINS.
 
-Uma apuração é um lote por período, por grupo de imposto e por regime.
+Uma apuração é um lote por período e por grupo de imposto; o regime de
+apuração (cumulativo ou não cumulativo) mora no grupo, e contribuinte com
+receita mista configura um grupo por regime. Assim uma apuração nunca mistura
+regimes nem conta a mesma linha duas vezes.
 Ela lê os saldos das move lines (via `account_tax_balance`), aceita os
 ajustes que não saem da contabilidade, confronta débitos com créditos,
 transporta o saldo credor de um período para o seguinte e gera o
