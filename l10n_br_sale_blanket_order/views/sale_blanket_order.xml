@@ -87,10 +87,16 @@
                 expr="//field[@name='line_ids']/tree/field[@name='analytic_distribution']"
                 position="replace"
             />
+            <!-- Keep taxes_id in the list datapoint but hide the column: in tree,
+                 invisible="1" becomes modifiers.column_invisible (column_invisible
+                 XML attr alone is ignored). Visible only on the line form
+                 Accounting tab; fiscal_tax_ids stays visible in the tree. -->
             <xpath
                 expr="//field[@name='line_ids']/tree/field[@name='taxes_id']"
                 position="replace"
-            />
+            >
+                <field name="taxes_id" invisible="1" force_save="1" />
+            </xpath>
             <xpath
                 expr="//field[@name='line_ids']/tree/field[@name='price_unit']"
                 position="after"

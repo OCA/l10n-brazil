@@ -614,7 +614,7 @@ msgstr ""
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__price_gross
-msgid "Gross Amount"
+msgid "Gross Product/Service Amount"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
