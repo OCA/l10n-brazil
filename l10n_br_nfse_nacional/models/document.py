@@ -166,7 +166,7 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
 
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)
-        for record in self.with_context(lang="pt_BR").filtered(filter_nfse_nacional):
+        for record in self.filtered(filter_nfse_nacional):
             inf_dps = record._build_binding("nfse", "10")
             nfse = Dps(infDPS=inf_dps, versao="1.00", signature=None)
             edocs.append(nfse)
@@ -384,15 +384,14 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
 
     def _build_cancel_pedreg(self, justificative, motive):
         self.ensure_one()
-        company = self.company_id
-        cnpj = re.sub(r"\D", "", company.partner_id.cnpj_cpf or "")
+        cnpj = self.company_id.partner_id.cnpj_cpf_stripped or ""
         dt = (
             pytz.utc.localize(fields.Datetime.now())
             .astimezone(BRAZIL_TZ)
             .isoformat(timespec="seconds")
         )
         inf = TcinfPedReg(
-            tpAmb=company.nfse_environment,
+            tpAmb=self.company_id.nfse_environment,
             verAplic="Odoo OCA",
             dhEvento=dt,
             CNPJAutor=cnpj,
