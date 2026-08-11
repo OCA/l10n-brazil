@@ -15,14 +15,6 @@
 
     <!-- DEMO 1: REGIME NORMAL (MEI - LC) -->
 
-    <!-- Prestador (Company) -->
-    <record id="partner_company_lc" model="res.partner">
-        <field name="name">Empresa Regime Normal</field>
-        <field name="is_company" eval="True" />
-        <field name="cnpj_cpf">00.000.000/0000-00</field>
-        <field name="l10n_br_im_code">152422</field>
-        <field name="city_id" ref="l10n_br_base.city_4202404" />
-    </record>
 
     <!-- Tomador (Customer) -->
     <record id="partner_toma_lc" model="res.partner">
@@ -44,7 +36,7 @@
 
         <field name="document_number">2</field>
         <field name="document_serie">00007</field>
-        <field name="document_key">42024042000000000000000000700000000000002</field>
+        <field name="document_key">420240420000000000000000007000000000000002</field>
         <field name="document_date">2023-09-09 12:42:06</field>
         <field name="date_in_out">2023-09-09 12:42:06</field>
         <field name="processador_edoc">oca</field>
@@ -70,14 +62,6 @@
 
     <!-- DEMO 2: SIMPLES NACIONAL (SN) -->
 
-    <!-- Prestador (Company) -->
-    <record id="partner_company_sn" model="res.partner">
-        <field name="name">Empresa Simples Nacional</field>
-        <field name="is_company" eval="True" />
-        <field name="cnpj_cpf">01.761.135/0001-32</field>
-        <field name="l10n_br_im_code">01761135000132</field>
-        <field name="city_id" ref="l10n_br_base.city_1400159" />
-    </record>
 
     <!-- Tomador (Anonymous Customer - No <toma> tag expected) -->
     <record id="partner_toma_sn" model="res.partner">
