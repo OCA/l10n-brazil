@@ -11,18 +11,6 @@
     <cLocEmi>3550308</cLocEmi>
     <prest>
       <CNPJ>81583054000129</CNPJ>
-      <xNome>Empresa Lucro Presumido Ltda</xNome>
-      <end>
-        <endNac>
-          <cMun>3550308</cMun>
-          <CEP>01311000</CEP>
-        </endNac>
-        <xLgr>Avenida Paulista</xLgr>
-        <nro>1</nro>
-        <xBairro>Bela Vista</xBairro>
-      </end>
-      <fone>551199999999</fone>
-      <email>info@suaempresa.com.br</email>
       <regTrib>
         <opSimpNac>1</opSimpNac>
         <regEspTrib>0</regEspTrib>
@@ -31,8 +19,13 @@
     <toma>
       <CNPJ>12345678000195</CNPJ>
       <IM>987654</IM>
+      <xNome>Comércio de Alimentos Aurora Ltda ME</xNome>
       <end>
-        <endNac />
+        <endNac>
+          <cMun>4202404</cMun>
+          <CEP>89010000</CEP>
+        </endNac>
+        <xLgr>Rua das Acácias</xLgr>
         <nro>79</nro>
         <xBairro>Centro</xBairro>
       </end>

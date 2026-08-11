@@ -27,7 +27,7 @@ class ResPartner(spec_models.SpecModel):
     nfse10_CPF = fields.Char(
         compute="_compute_nfse10_data", store=True, compute_sudo=True
     )
-    nfse10_xNome = fields.Char(related="legal_name")
+    nfse10_xNome = fields.Char(compute="_compute_nfse10_xNome")
     nfse10_IM = fields.Char(related="l10n_br_im_code")
     nfse10_email = fields.Char(related="email")
     nfse10_fone = fields.Char(
@@ -65,6 +65,11 @@ class ResPartner(spec_models.SpecModel):
 
             rec.nfse10_CEP = punctuation_rm(rec.zip)
             rec.nfse10_fone = punctuation_rm(rec.phone or "").replace(" ", "")
+
+    @api.depends("legal_name", "name")
+    def _compute_nfse10_xNome(self):
+        for rec in self:
+            rec.nfse10_xNome = rec.legal_name or rec.name
 
     def _compute_nfse10_end(self):
         for rec in self:
