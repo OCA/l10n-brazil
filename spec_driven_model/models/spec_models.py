@@ -4,6 +4,7 @@
 import logging
 import sys
 from collections import OrderedDict, defaultdict
+from functools import wraps
 from importlib import import_module
 from inspect import getmembers, isclass
 
@@ -103,12 +104,10 @@ class SpecModel(models.Model):
                 cls._map_concrete(cr.dbname, parent, cls._name)
             return super()._build_model(pool, cr)
 
-    @api.model
     def _setup_base(self):
         with SelectionMuteLogger("odoo.fields"):  # mute spurious warnings
             return super()._setup_base()
 
-    @api.model
     def _setup_fields(self):
         """
         SpecModel models inherit their fields from XSD generated mixins.
@@ -174,7 +173,8 @@ class SpecModel(models.Model):
                             f.args["original_comodel_name"] = f.args["comodel_name"]
                             f.args["comodel_name"] = self._name
 
-        return super()._setup_fields()
+        result = super()._setup_fields()
+        return result
 
     @classmethod
     def _map_concrete(cls, dbname, key, target, quiet=False):
