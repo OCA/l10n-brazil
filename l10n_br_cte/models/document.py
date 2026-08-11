@@ -212,8 +212,8 @@ class CTe(spec_models.StackedModel):
                 and record.document_type_id.prefix
                 and record.document_key
             ):
-                record.cte40_Id = "{}{}".format(
-                    record.document_type_id.prefix, record.document_key
+                record.cte40_Id = (
+                    f"{record.document_type_id.prefix}{record.document_key}"
                 )
 
     ##########################
@@ -709,14 +709,14 @@ class CTe(spec_models.StackedModel):
             icms["vICMSSTRet"] += line.icmsst_wh_value
 
         # Formatar os valores acumulados
-        icms["vBC"] = str("%.02f" % icms["vBC"])
-        icms["vICMS"] = str("%.02f" % icms["vICMS"])
-        icms["vICMSSubstituto"] = str("%.02f" % icms["vICMSSubstituto"])
-        icms["vBCSTRet"] = str("%.02f" % icms["vBCSTRet"])
-        icms["vICMSSTRet"] = str("%.02f" % icms["vICMSSTRet"])
-        icms["pRedBC"] = str("%.04f" % icms["pRedBC"])
-        icms["pICMS"] = str("%.02f" % icms["pICMS"])
-        icms["pICMSSTRet"] = str("%.02f" % icms["pICMSSTRet"])
+        icms["vBC"] = f"{icms['vBC']:.02f}"
+        icms["vICMS"] = f"{icms['vICMS']:.02f}"
+        icms["vICMSSubstituto"] = f"{icms['vICMSSubstituto']:.02f}"
+        icms["vBCSTRet"] = f"{icms['vBCSTRet']:.02f}"
+        icms["vICMSSTRet"] = f"{icms['vICMSSTRet']:.02f}"
+        icms["pRedBC"] = f"{icms['pRedBC']:.04f}"
+        icms["pICMS"] = f"{icms['pICMS']:.02f}"
+        icms["pICMSSTRet"] = f"{icms['pICMSSTRet']:.02f}"
 
         return icms
 
@@ -1017,8 +1017,6 @@ class CTe(spec_models.StackedModel):
     ##########################
 
     cte40_modal = fields.Selection(related="transport_modal")
-
-    cte_modal = fields.Selection(related="transport_modal")
 
     cte40_versaoModal = fields.Char(default=CTE_MODAL_VERSION_DEFAULT)
 
@@ -1601,7 +1599,7 @@ class CTe(spec_models.StackedModel):
         else:
             state = SITUACAO_EDOC_REJEITADA
         if self.authorization_event_id and infProt.nProt:
-            if type(infProt.dhRecbto) == datetime:
+            if isinstance(infProt.dhRecbto, datetime):
                 protocol_date = fields.Datetime.to_string(infProt.dhRecbto)
             else:
                 protocol_date = fields.Datetime.to_string(
