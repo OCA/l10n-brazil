@@ -76,7 +76,7 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
     nfse10_cLocEmi = fields.Char(related="company_id.partner_id.city_id.ibge_code")
 
     nfse10_prest = fields.Many2one("res.company", related="company_id")
-    nfse10_toma = fields.Many2one("res.partner", related="partner_id")
+    nfse10_toma = fields.Many2one("res.partner", compute="_compute_nfse10_toma")
     nfse10_interm = fields.Many2one("res.partner")
 
     nfse10_serv = fields.Many2one(
@@ -96,6 +96,13 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
     def _compute_nfse10_self(self):
         for rec in self:
             rec.nfse10_infDPS = rec.id
+
+    @api.depends("partner_id.cnpj_cpf_stripped", "partner_id.nfse10_cNaoNIF")
+    def _compute_nfse10_toma(self):
+        for rec in self:
+            partner = rec.partner_id
+            identified = partner.cnpj_cpf_stripped or partner.nfse10_cNaoNIF
+            rec.nfse10_toma = partner.id if identified else False
 
     @api.depends("document_key")
     def _compute_nfse10_id(self):
@@ -275,11 +282,16 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
             body.get("chaveAcesso")
         )
         if authorized:
+            nfse_xml = self._adn_decode_nfse(body)
             self.write(
                 {
                     "nfse_key": body.get("chaveAcesso"),
-                    "nfse_number": body.get("nNFSe") or body.get("numeroNfse"),
-                    "nfse_protocol": body.get("protocolo") or body.get("nProt"),
+                    "nfse_number": body.get("nNFSe")
+                    or body.get("numeroNfse")
+                    or self._adn_xml_tag(nfse_xml, "nNFSe"),
+                    "nfse_protocol": body.get("protocolo")
+                    or body.get("nProt")
+                    or self._adn_xml_tag(nfse_xml, "nDFSe"),
                     "status_code": str(body.get("status") or "100"),
                     "status_name": body.get("motivo") or _("Authorized"),
                     "edoc_error_message": False,
@@ -290,7 +302,7 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
                 response=self.status_name,
                 protocol_date=fields.Datetime.now(),
                 protocol_number=self.nfse_protocol,
-                file_response_xml=self._adn_decode_nfse(body),
+                file_response_xml=nfse_xml,
             )
             self._change_state(SITUACAO_EDOC_AUTORIZADA)
         else:
@@ -329,6 +341,13 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
         )
 
     @staticmethod
+    def _adn_xml_tag(xml, tag):
+        if not xml:
+            return False
+        match = re.search(rf"<{tag}>([^<]+)</{tag}>", xml)
+        return match.group(1) if match else False
+
+    @staticmethod
     def _adn_decode_nfse(body):
         raw = body.get("nfseXmlGZipB64")
         if raw:
@@ -361,7 +380,7 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
 
     def _cancel_event_id(self):
         self.ensure_one()
-        return f"PRE{self.nfse_key}{NFSE_NACIONAL_CANCEL_EVENT}001"
+        return f"PRE{self.nfse_key}{NFSE_NACIONAL_CANCEL_EVENT}"
 
     def _build_cancel_pedreg(self, justificative, motive):
         self.ensure_one()
@@ -378,7 +397,6 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
             dhEvento=dt,
             CNPJAutor=cnpj,
             chNFSe=self.nfse_key,
-            nPedRegEvento="1",
             e101101=Te101101(
                 xDesc=Te101101XDesc.CANCELAMENTO_DE_NFS_E,
                 cMotivo=motive,
