@@ -86,7 +86,7 @@ class NFeLine(spec_models.StackedModel):
 
     # When dynamic stacking is applied, the NFe line has the following structure:
     DET_TREE = """
-    > <det>
+> <det>
     > <prod>
         ≡ <gCred>
         ≡ <DI>
