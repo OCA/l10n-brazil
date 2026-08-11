@@ -5,9 +5,7 @@
 # Copyright (C) 2026  Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import base64
 from collections import Counter
-
 from erpbrasil.base.fiscal.cnpj_cpf import formata
 
 from odoo import Command, _, api, fields, models
@@ -303,7 +301,7 @@ class DocumentImportWizard(models.TransientModel):
         return self.env["ir.attachment"].create(
             {
                 "name": f"NFe-Importada-{edoc.document_key}.xml",
-                "datas": base64.b64decode(self.file),
+                "datas": self.file,
                 "description": "XML NFe - Importada por XML",
                 "res_model": "l10n_br_fiscal.document",
                 "res_id": edoc.id,
