@@ -724,7 +724,9 @@ class Document(models.Model):
         Returns:
             The result of the cancellation process.
         """
-        super()._exec_before_SITUACAO_EDOC_CANCELADA(old_state, new_state)
+        result = super()._exec_before_SITUACAO_EDOC_CANCELADA(old_state, new_state)
+        if not self.filtered(filter_processador_edoc_nfse).filtered(filter_focusnfe):
+            return result
         return self.cancel_document_focus()
 
     @api.model
