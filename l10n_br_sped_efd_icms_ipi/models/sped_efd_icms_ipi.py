@@ -1685,6 +1685,17 @@ class RegistroC190(models.Model):
     _name = "l10n_br_sped.efd_icms_ipi.c190"
     _inherit = "l10n_br_sped.efd_icms_ipi.20.c190"
 
+    # The descriptor marks fields 5 to 11 obrigatorio=1: a zero must be
+    # written "0", never blank, or the PVA refuses the record with "campo
+    # obrigatorio". Declared at the mapping layer, as everywhere else.
+    VL_OPR = fields.Monetary(required=True, currency_field="brl_currency_id")
+    VL_BC_ICMS = fields.Monetary(required=True, currency_field="brl_currency_id")
+    VL_ICMS = fields.Monetary(required=True, currency_field="brl_currency_id")
+    VL_BC_ICMS_ST = fields.Monetary(required=True, currency_field="brl_currency_id")
+    VL_ICMS_ST = fields.Monetary(required=True, currency_field="brl_currency_id")
+    VL_RED_BC = fields.Monetary(required=True, currency_field="brl_currency_id")
+    VL_IPI = fields.Monetary(required=True, currency_field="brl_currency_id")
+
     @api.model
     def _odoo_query(self, parent_record, declaration):
         # SPED requires grouping by CST, CFOP, and ICMS Aliquot
