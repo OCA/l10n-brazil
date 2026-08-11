@@ -4,6 +4,7 @@
 
 from odoo import api, fields
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK_SIMPLES_ALL
 from odoo.addons.spec_driven_model.models import spec_models
 
 
@@ -115,7 +116,7 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
     nfse10_vCofins = fields.Char(compute="_compute_nfse10_pis_cofins")
     nfse10_tpRetPisCofins = fields.Selection(compute="_compute_nfse10_pis_cofins")
 
-    nfse10_indTotTrib = fields.Selection(default="0")
+    nfse10_indTotTrib = fields.Selection(compute="_compute_nfse10_tot_trib")
     nfse10_pTotTribSN = fields.Char(compute="_compute_nfse10_tot_trib")
 
     def _compute_nfse10_self(self):
@@ -193,11 +194,14 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
                 "1" if (rec.pis_wh_value or rec.cofins_wh_value) else "2"
             )
 
+    @api.depends("company_id.tax_framework")
     def _compute_nfse10_tot_trib(self):
         for rec in self:
-            if rec.company_id.tax_framework in ["1", "2"]:
+            if rec.company_id.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
+                rec.nfse10_indTotTrib = False
                 rec.nfse10_pTotTribSN = "0.01"
             else:
+                rec.nfse10_indTotTrib = "0"
                 rec.nfse10_pTotTribSN = False
 
     def _export_many2one(self, field_name, xsd_required, class_obj=None):

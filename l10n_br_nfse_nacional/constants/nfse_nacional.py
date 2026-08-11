@@ -11,6 +11,14 @@ ADN_BASE_URL = {
     "2": "https://sefin.producaorestrita.nfse.gov.br/SefinNacional",
 }
 
+PRESTADOR_SELF_EMITTED_EXCLUDED = (
+    "nfse10_IM",
+    "nfse10_xNome",
+    "nfse10_end",
+    "nfse10_fone",
+    "nfse10_email",
+)
+
 NFSE_NACIONAL_CANCEL_EVENT = "101101"
 NFSE_NACIONAL_CANCEL_OFICIO_EVENT = "305101"
 NFSE_NACIONAL_CANCEL_MOTIVES = [
