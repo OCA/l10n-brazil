@@ -58,8 +58,8 @@ msgstr ""
 #. module: l10n_br_nfse_focus
 #. odoo-python
 #: code:addons/l10n_br_nfse_focus/models/base.py:0
-msgid "Error communicating with %(service)s service: %(error)s"
-msgstr "\"Erro na comunicação com o serviço %(service)s: %(error)s\""
+msgid "Error communicating with %(service)s service: %(error)s%(detail)s"
+msgstr ""
 
 #. module: l10n_br_nfse_focus
 #: model:ir.model,name:l10n_br_nfse_focus.model_l10n_br_fiscal_document
@@ -208,6 +208,9 @@ msgstr ""
 #: code:addons/l10n_br_nfse_focus/models/document.py:0
 msgid "status"
 msgstr "situação"
+
+#~ msgid "Error communicating with %(service)s service: %(error)s"
+#~ msgstr "\"Erro na comunicação com o serviço %(service)s: %(error)s\""
 
 #, python-format
 #~ msgid "Error communicating with NFSe service: %s"
