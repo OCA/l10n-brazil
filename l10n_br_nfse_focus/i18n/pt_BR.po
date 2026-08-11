@@ -63,7 +63,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_nfse_focus/models/base.py:0
 #, python-format
-msgid "Error communicating with %(service)s service: %(error)s"
+msgid "Error communicating with %(service)s service: %(error)s%(detail)s"
 msgstr ""
 
 #. module: l10n_br_nfse_focus
