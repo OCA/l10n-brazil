@@ -22,6 +22,7 @@
         # "data/template/account.tax.csv",
         #        "data/account.tax.template.csv",
         # Views
+        "views/account_account.xml",
         "views/account_tax.xml",
     ],
     "development_status": "Production/Stable",
