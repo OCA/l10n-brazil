@@ -11,29 +11,12 @@
     <cLocEmi>3501152</cLocEmi>
     <prest>
       <CNPJ>59594315000157</CNPJ>
-      <xNome>Empresa Simples Nacional</xNome>
-      <end>
-        <endNac>
-          <cMun>3501152</cMun>
-          <CEP>18125000</CEP>
-        </endNac>
-        <xLgr>Rua Paulo Dias</xLgr>
-        <nro>586</nro>
-        <xBairro>Vila Santa Luzia</xBairro>
-      </end>
-      <fone>2130109965</fone>
-      <email>info@simplesnacional.example.com</email>
       <regTrib>
         <opSimpNac>3</opSimpNac>
         <regApTribSN>1</regApTribSN>
         <regEspTrib>0</regEspTrib>
       </regTrib>
     </prest>
-    <toma>
-      <end>
-        <endNac />
-      </end>
-    </toma>
     <serv>
       <locPrest>
         <cLocPrestacao>1400159</cLocPrestacao>
@@ -63,7 +46,6 @@
           </piscofins>
         </tribFed>
         <totTrib>
-          <indTotTrib>0</indTotTrib>
           <pTotTribSN>0.01</pTotTribSN>
         </totTrib>
       </trib>
