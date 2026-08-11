@@ -142,8 +142,8 @@ msgstr "Documento Fiscal"
 
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_nfe_40_detpag__nfe40_indPag
-msgid "Forma de Pagamento"
-msgstr "Forma de Pagamento"
+msgid "Forma de Pagamento (nfe_indPag)"
+msgstr ""
 
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_bank_statement_line__nfe40_detPag
@@ -235,6 +235,9 @@ msgstr "Condição de pagamento: 30/60/90"
 #: model:ir.model,name:l10n_br_account_nfe.model_ir_actions_report
 msgid "Report Action"
 msgstr "Relatar ação"
+
+#~ msgid "Forma de Pagamento"
+#~ msgstr "Forma de Pagamento"
 
 #~ msgid "30/60/90"
 #~ msgstr "30/60/90"
