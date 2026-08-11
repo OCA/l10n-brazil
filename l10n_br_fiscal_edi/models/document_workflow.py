@@ -311,11 +311,13 @@ class DocumentWorkflow(models.AbstractModel):
 
     def _action_document_send(self):
         to_send = self.filtered(
-            lambda d: d.state_edoc
-            in (
-                SITUACAO_EDOC_A_ENVIAR,
-                SITUACAO_EDOC_ENVIADA,
-                SITUACAO_EDOC_REJEITADA,
+            lambda d: (
+                d.state_edoc
+                in (
+                    SITUACAO_EDOC_A_ENVIAR,
+                    SITUACAO_EDOC_ENVIADA,
+                    SITUACAO_EDOC_REJEITADA,
+                )
             )
         )
         if to_send:
