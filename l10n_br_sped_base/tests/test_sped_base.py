@@ -739,14 +739,14 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
             mock_map_i010.assert_any_call(partner1, None, declaration, index=0)
             mock_map_i010.assert_any_call(partner2, None, declaration, index=1)
 
-            # Check calls to create
-            self.assertEqual(mock_create_i010.call_count, 2)
-            created_vals_1 = mock_create_i010.call_args_list[0][0][
-                0
-            ]  # First call, first arg, vals dict
-            created_vals_2 = mock_create_i010.call_args_list[1][0][
-                0
-            ]  # Second call, first arg, vals dict
+            # Check calls to create: the whole level is written in a single
+            # batched call, so `create` receives one list with the vals of
+            # every record, in the same order as the source records.
+            self.assertEqual(mock_create_i010.call_count, 1)
+            batch_vals = mock_create_i010.call_args_list[0][0][0]
+            self.assertIsInstance(batch_vals, list)
+            self.assertEqual(len(batch_vals), 2)
+            created_vals_1, created_vals_2 = batch_vals
 
             self.assertEqual(created_vals_1.get("IND_ESC"), "G")
             self.assertEqual(created_vals_1.get("res_model"), "res.partner")
