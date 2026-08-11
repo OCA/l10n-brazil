@@ -197,6 +197,28 @@ class TestTaxAssessment(AccountTestInvoicingCommon):
             # the third digit tells the assessment: only 0 (own) or 1 (ST)
             self._add_line(a, "debit", 10.0, code="SP900001")
 
+    def test_ipi_adjustment_code_is_3_positions(self):
+        """IPI adjustments come from table 4.5.4, not from the ICMS 5.1.1.
+
+        The 8-position shape (state, assessment, kind, sequence) only exists
+        in the ICMS table; forcing it on an IPI assessment would make every
+        legitimate E530 adjustment impossible to book.
+        """
+        group = self.env["account.tax.group"].create(
+            {
+                "name": "IPI (teste)",
+                "fiscal_tax_group_id": self.env.ref(
+                    "l10n_br_fiscal.tax_group_ipi"
+                ).id,
+            }
+        )
+        a = self._new_assessment(group=group)
+        line = self._add_line(a, "debit", 10.0, code="199")
+        # the fourth digit means nothing outside table 5.1.1
+        self.assertFalse(line.adjustment_kind)
+        with self.assertRaises(ValidationError):
+            self._add_line(a, "debit", 10.0, code="SP000001")
+
     def test_manual_line_requires_description(self):
         """An adjustment with no reason has nothing to write into E111."""
         a = self._new_assessment()

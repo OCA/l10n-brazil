@@ -126,19 +126,44 @@ class TaxAssessmentLine(models.Model):
         help="Lido do quarto dígito do código do ajuste.",
     )
 
-    @api.depends("adjustment_code")
+    @api.depends("adjustment_code", "assessment_id.tax_domain")
     def _compute_adjustment_kind(self):
         for line in self:
             code = (line.adjustment_code or "").strip()
+            domain = line.assessment_id.tax_domain
+            # the fourth digit classifies the adjustment only in the ICMS
+            # table 5.1.1; reading it out of another table would classify
+            # (and constrain the kind of) the line from a random character
+            if domain and domain not in self._ICMS_ADJUSTMENT_DOMAINS:
+                line.adjustment_kind = False
+                continue
             line.adjustment_kind = (
                 ADJUSTMENT_KIND_BY_DIGIT.get(code[3]) if len(code) >= 4 else False
             )
+
+    # The 8-position table 5.1.1 codes belong to the ICMS family; the IPI
+    # adjustments use the 3-position table 4.5.4 (E530), and the EFD
+    # Contribuicoes tables have their own shapes, validated by their mappings.
+    _ICMS_ADJUSTMENT_DOMAINS = ("icms", "icmsst", "icmssn")
 
     @api.constrains("adjustment_code")
     def _check_adjustment_code(self):
         for line in self:
             code = (line.adjustment_code or "").strip()
             if not code:
+                continue
+            domain = line.assessment_id.tax_domain
+            if domain == "ipi":
+                if len(code) != 3 or not code.isalnum():
+                    raise ValidationError(
+                        _(
+                            "O código de ajuste %s não tem as 3 posições da "
+                            "tabela 4.5.4 (ajustes da apuração do IPI)."
+                        )
+                        % code
+                    )
+                continue
+            if domain and domain not in self._ICMS_ADJUSTMENT_DOMAINS:
                 continue
             if len(code) != 8 or not code.isalnum():
                 raise ValidationError(
