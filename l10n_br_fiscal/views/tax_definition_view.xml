@@ -119,6 +119,11 @@
                             name="benefit_type"
                             attrs="{'required': [('is_benefit', '!=', False)]}"
                         />
+                        <field
+                            name="icms_relief_id"
+                            options="{'no_create': True, 'no_create_edit': True}"
+                        />
+                        <field name="icms_relief_type" />
                     </group>
                     <group name="state" string="State">
                         <field

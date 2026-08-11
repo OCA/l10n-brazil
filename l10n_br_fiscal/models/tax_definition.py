@@ -300,6 +300,18 @@ class TaxDefinition(models.Model):
         states={"draft": [("readonly", False)]},
     )
 
+    icms_relief_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.icms.relief", string="ICMS Relief"
+    )
+
+    icms_relief_type = fields.Selection(
+        selection=[
+            ("0", "0 - Do not deduct the ICMS Relief"),
+            ("1", "1 -  Deduct ICMS Relief from Product Amount"),
+        ],
+        default="0",
+    )
+
     def _get_search_domain(self, tax_definition):
         """Create domain to be used in contraints methods"""
         domain = [
