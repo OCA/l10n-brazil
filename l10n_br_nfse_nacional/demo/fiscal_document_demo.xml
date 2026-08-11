@@ -19,12 +19,17 @@
     <!-- Tomador (Customer) -->
     <record id="partner_toma_lc" model="res.partner">
         <field name="name">Comércio de Alimentos Aurora Ltda ME</field>
+        <field name="legal_name">Comércio de Alimentos Aurora Ltda ME</field>
         <field name="is_company" eval="True" />
         <field name="cnpj_cpf">12.345.678/0001-95</field>
         <field name="l10n_br_im_code">987654</field>
-        <field name="street">Rua das Acácias</field>
+        <field name="street_name">Rua das Acácias</field>
         <field name="street_number">79</field>
         <field name="district">Centro</field>
+        <field name="city_id" ref="l10n_br_base.city_4202404" />
+        <field name="state_id" ref="base.state_br_sc" />
+        <field name="country_id" ref="base.br" />
+        <field name="zip">89010-000</field>
     </record>
 
     <!-- Documento LC -->

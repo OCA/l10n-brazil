@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import json
+import re
 from unittest import mock
 
 import requests
@@ -98,6 +99,19 @@ class TestNfseLifecycle(TransactionCase):
         self.assertEqual(self.doc.state_edoc, "rejeitada")
         self.assertIn("E0001", self.doc.edoc_error_message or "")
         self.assertFalse(self.doc.nfse_key)
+
+    def test_cancel_event_id_layout(self):
+        self.doc.nfse_key = "5" * 50
+        event_id = self.doc._cancel_event_id()
+        self.assertEqual(len(event_id), 59)
+        self.assertTrue(re.fullmatch(r"PRE[0-9]{56}", event_id))
+        self.assertEqual(event_id, "PRE" + "5" * 50 + "101101")
+
+    def test_cancel_pedreg_omits_npedregevento(self):
+        self.doc.nfse_key = "5" * 50
+        ped = self.doc._build_cancel_pedreg("Erro na emissao do documento.", "1")
+        self.assertFalse(ped.infPedReg.nPedRegEvento)
+        self.assertNotIn("nPedRegEvento", self.doc._serialize_pedreg(ped))
 
     def test_cancellation(self):
         self.doc.nfse_key = "5" * 50
