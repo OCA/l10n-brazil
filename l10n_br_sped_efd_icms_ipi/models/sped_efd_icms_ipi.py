@@ -4311,14 +4311,30 @@ class RegistroE500(models.Model):
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e500"
     _inherit = "l10n_br_sped.efd_icms_ipi.20.e500"
+    _odoo_model = "l10n_br_tax.assessment"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "IND_APUR": 0,  # Indicador de período de apuração do IPI: 0 - Mensal...
-    #         "DT_INI": 0,  # Data inicial a que a apuração se refere
-    #         "DT_FIN": 0,  # Data final a que a apuração se refere
-    #     }
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        # One IPI period per closed IPI assessment: a company that is not an
+        # IPI taxpayer has no assessment and the whole E500 tree stays out of
+        # the file, which is what the layout expects.
+        return [
+            ("company_id", "=", declaration.company_id.id),
+            ("tax_domain", "=", "ipi"),
+            ("date_from", ">=", declaration.DT_INI),
+            ("date_to", "<=", declaration.DT_FIN),
+            ("state", "=", "posted"),
+        ]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            # Monthly assessment; the ten-day period (decendial) only applies
+            # to specific products (beverages, cigarettes) and is not modeled.
+            "IND_APUR": "0",
+            "DT_INI": record.date_from,
+            "DT_FIN": record.date_to,
+        }
 
 
 class RegistroE510(models.Model):
@@ -4328,15 +4344,37 @@ class RegistroE510(models.Model):
     _name = "l10n_br_sped.efd_icms_ipi.e510"
     _inherit = "l10n_br_sped.efd_icms_ipi.20.e510"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "CFOP": 0,  # Código Fiscal de Operação e Prestação do agrupamento de...
-    #         "CST_IPI": 0,  # Código da Situação Tributária referente ao IPI, conf...
-    #         "VL_CONT_IPI": 0,  # Parcela correspondente ao "Valor Contábil" refer...
-    #         "VL_BC_IPI": 0,  # Parcela correspondente ao "Valor da base de cálcul...
-    #         "VL_IPI": 0,  # Parcela correspondente ao "Valor do IPI" referente ao...
-    #     }
+    @api.model
+    def _odoo_query(self, parent_record, declaration):
+        # Consolidation of the period documents by CFOP and CST_IPI. It reads
+        # the same lines and amounts as the C190 family, because the PVA cross
+        # checks this record against the documents: any line with an IPI tax
+        # situation belongs here, taxed or not.
+        query = """
+            SELECT
+                cfop.code AS cfop,
+                cst.code AS cst_ipi,
+                SUM(fdl.amount_tax_not_included) AS vl_cont_ipi,
+                SUM(fdl.ipi_base) AS vl_bc_ipi,
+                SUM(fdl.ipi_value) AS vl_ipi
+            FROM l10n_br_fiscal_document_line fdl
+            JOIN l10n_br_fiscal_cst cst ON cst.id = fdl.ipi_cst_id
+            LEFT JOIN l10n_br_fiscal_cfop cfop ON cfop.id = fdl.cfop_id
+            WHERE fdl.document_id IN %s
+            GROUP BY cfop.code, cst.code
+            ORDER BY cfop.code, cst.code
+        """
+        return query, [tuple(declaration.fiscal_document_ids.ids) or (0,)]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            "CFOP": record.get("cfop") or "",
+            "CST_IPI": record.get("cst_ipi") or "",
+            "VL_CONT_IPI": record.get("vl_cont_ipi") or 0.0,
+            "VL_BC_IPI": record.get("vl_bc_ipi") or 0.0,
+            "VL_IPI": record.get("vl_ipi") or 0.0,
+        }
 
 
 class RegistroE520(models.Model):
@@ -4345,18 +4383,44 @@ class RegistroE520(models.Model):
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e520"
     _inherit = "l10n_br_sped.efd_icms_ipi.20.e520"
+    _odoo_model = "l10n_br_tax.assessment"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "VL_SD_ANT_IPI": 0,  # Saldo credor do IPI transferido do período ant...
-    #         "VL_DEB_IPI": 0,  # Valor total dos débitos por "Saídas com débito do...
-    #         "VL_CRED_IPI": 0,  # Valor total dos créditos por "Entradas e aquisiç...
-    #         "VL_OD_IPI": 0,  # Valor de "Outros débitos" do IPI (inclusive estorn...
-    #         "VL_OC_IPI": 0,  # Valor de "Outros créditos" do IPI (inclusive estor...
-    #         "VL_SC_IPI": 0,  # Valor do saldo credor do IPI a transportar para o ...
-    #         "VL_SD_IPI": 0,  # Valor do saldo devedor do IPI a recolher
-    #     }
+    # Like the E110, every E520 field is mandatory and a zero must be written
+    # "0": the mandatoriness is declared at the mapping layer because the
+    # generated spec cannot carry Odoo required.
+    VL_SD_ANT_IPI = fields.Monetary(required=True, currency_field="brl_currency_id")
+    VL_DEB_IPI = fields.Monetary(required=True, currency_field="brl_currency_id")
+    VL_CRED_IPI = fields.Monetary(required=True, currency_field="brl_currency_id")
+    VL_OD_IPI = fields.Monetary(required=True, currency_field="brl_currency_id")
+    VL_OC_IPI = fields.Monetary(required=True, currency_field="brl_currency_id")
+    VL_SC_IPI = fields.Monetary(required=True, currency_field="brl_currency_id")
+    VL_SD_IPI = fields.Monetary(required=True, currency_field="brl_currency_id")
+
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        # parent_record is the IPI assessment the E500 was generated from
+        return [("id", "=", parent_record.id)]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        """IPI assessment.
+
+        Serializes the period IPI assessment the same way E110 serializes the
+        ICMS one. The layout folds the reversals into "other debits/credits"
+        (fields 05 and 06 say "inclusive estornos"), so both assessment
+        buckets are added together here.
+        """
+        return {
+            "VL_SD_ANT_IPI": record.previous_balance,
+            "VL_DEB_IPI": record.debit_total,
+            "VL_CRED_IPI": record.credit_total,
+            "VL_OD_IPI": record.adjustment_debit_total
+            + record.credit_reversal_total,
+            "VL_OC_IPI": record.adjustment_credit_total
+            + record.debit_reversal_total,
+            "VL_SC_IPI": record.amount_carried_forward,
+            "VL_SD_IPI": record.amount_payable,
+        }
 
 
 class RegistroE530(models.Model):
@@ -4365,17 +4429,29 @@ class RegistroE530(models.Model):
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e530"
     _inherit = "l10n_br_sped.efd_icms_ipi.20.e530"
+    _odoo_model = "l10n_br_tax.assessment.line"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "IND_AJ": 0,  # Indicador do tipo de ajuste: 0- Ajuste a débito 1- Aj...
-    #         "VL_AJ": 0,  # 9 Indicador da origem do documento vinculado ao ajuste...
-    #         "COD_AJ": 0,  # Código do ajuste da apuração, conforme a tabela indic...
-    #         "IND_DOC": 0,  # Indicador da origem do documento vinculado ao ajuste...
-    #         "NUM_DOC": 0,  # Número do documento / processo / declaração ao qual ...
-    #         "DESCR_AJ": 0,  # Descrição resumida do ajuste
-    #     }
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        # Manual adjustments of the IPI assessment, exactly as E111 does for
+        # ICMS: an assessed line is already inside the E520 totals.
+        return [
+            ("assessment_id", "=", parent_record.id),
+            ("source", "=", "manual"),
+            ("adjustment_code", "!=", False),
+        ]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        debit_side = record.kind in ("debit", "credit_reversal", "special_debit")
+        return {
+            "IND_AJ": "0" if debit_side else "1",
+            "VL_AJ": record.tax_amount,
+            "COD_AJ": record.adjustment_code,
+            # "9 - Outros" until the adjustment line links a fiscal document
+            "IND_DOC": "9",
+            "DESCR_AJ": record.description,
+        }
 
 
 class RegistroE531(models.Model):

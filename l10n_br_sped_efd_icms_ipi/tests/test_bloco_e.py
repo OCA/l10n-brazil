@@ -156,3 +156,111 @@ class TestBlocoE(common.TransactionCase):
             self.env["l10n_br_sped.efd_icms_ipi.e100"].search(
                 [("declaration_id", "=", self.declaration.id)]
             ).unlink()
+
+
+@tagged("post_install", "-at_install")
+class TestBlocoE5(common.TransactionCase):
+    """O bloco E5xx (IPI) serializa a apuração de IPI, como o E110 faz no ICMS.
+
+    Sem apuração de IPI encerrada, a árvore E500 inteira fica fora do
+    arquivo: é o layout de um contribuinte que não é do IPI.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.company = cls.env.company
+        cls.group = cls.env["account.tax.group"].create(
+            {
+                "name": "IPI (bloco E5)",
+                "fiscal_tax_group_id": cls.env.ref("l10n_br_fiscal.tax_group_ipi").id,
+            }
+        )
+        cls.assessment = cls.env["l10n_br_tax.assessment"].create(
+            {
+                "company_id": cls.company.id,
+                "tax_group_id": cls.group.id,
+                "date_from": "2026-07-01",
+                "date_to": "2026-07-31",
+            }
+        )
+        Line = cls.env["l10n_br_tax.assessment.line"]
+        Line.create(
+            {
+                "assessment_id": cls.assessment.id,
+                "kind": "debit",
+                "tax_amount": 500.0,
+                "source": "computed",
+            }
+        )
+        Line.create(
+            {
+                "assessment_id": cls.assessment.id,
+                "kind": "credit",
+                "tax_amount": 200.0,
+                "source": "computed",
+            }
+        )
+        # ajuste manual a débito: vira E530 e entra no campo 05 do E520
+        Line.create(
+            {
+                "assessment_id": cls.assessment.id,
+                "kind": "debit",
+                "tax_amount": 30.0,
+                "source": "manual",
+                "adjustment_code": "199",
+                "description": "outros débitos de IPI",
+            }
+        )
+        cls.assessment.state = "posted"
+
+        cls.declaration = cls.env["l10n_br_sped.efd_icms_ipi.0000"].create(
+            {
+                "company_id": cls.company.id,
+                "DT_INI": "2026-07-01",
+                "DT_FIN": "2026-07-31",
+            }
+        )
+
+    def _pull_bloco_e5(self):
+        model = self.env["l10n_br_sped.efd_icms_ipi.e500"].with_context(
+            company_id=self.company.id,
+            declaration=self.declaration,
+            default_declaration_id=self.declaration.id,
+        )
+        model._pull_records_from_odoo("efd_icms_ipi", 2, log_msg=StringIO())
+        return self.env["l10n_br_sped.efd_icms_ipi.e500"].search(
+            [("declaration_id", "=", self.declaration.id)]
+        )
+
+    def test_e520_serializes_the_ipi_assessment(self):
+        e500 = self._pull_bloco_e5()
+        self.assertEqual(len(e500), 1)
+        self.assertEqual(e500.IND_APUR, "0")
+        e520 = e500.reg_E520_ids
+        self.assertEqual(len(e520), 1, "E520 é 1:1 dentro do E500")
+
+        self.assertAlmostEqual(e520.VL_DEB_IPI, 500.0, places=2)
+        self.assertAlmostEqual(e520.VL_CRED_IPI, 200.0, places=2)
+        # o leiaute dobra estornos dentro de "outros débitos/créditos"
+        self.assertAlmostEqual(e520.VL_OD_IPI, 30.0, places=2)
+        self.assertAlmostEqual(e520.VL_OC_IPI, 0.0, places=2)
+        # 500 + 30 - 200 = 330 a recolher
+        self.assertAlmostEqual(e520.VL_SD_IPI, 330.0, places=2)
+        self.assertAlmostEqual(e520.VL_SC_IPI, 0.0, places=2)
+        self.assertAlmostEqual(
+            e520.VL_SD_IPI, self.assessment.amount_payable, places=2
+        )
+
+    def test_e530_only_carries_manual_adjustments(self):
+        e530 = self._pull_bloco_e5().reg_E520_ids.reg_E530_ids
+        self.assertEqual(len(e530), 1, "linha apurada não vira E530")
+        self.assertEqual(e530.IND_AJ, "0")
+        self.assertEqual(e530.COD_AJ, "199")
+        self.assertAlmostEqual(e530.VL_AJ, 30.0, places=2)
+        self.assertEqual(e530.DESCR_AJ, "outros débitos de IPI")
+
+    def test_no_ipi_assessment_no_e500(self):
+        """Quem não é contribuinte do IPI não tem árvore E500 no arquivo."""
+        self.assessment.state = "draft"
+        self.assertFalse(self._pull_bloco_e5())
