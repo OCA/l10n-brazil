@@ -595,7 +595,7 @@ class TestNFeVItemVNFTot(TransactionCase):
             {
                 "name": "Test Partner",
                 "is_company": True,
-                "cnpj_cpf": "65910976000147",
+                "vat": "65910976000147",
             }
         )
 
