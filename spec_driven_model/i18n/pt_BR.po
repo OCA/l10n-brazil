@@ -22,42 +22,61 @@ msgstr ""
 msgid ""
 "\n"
 "    A recursive Odoo object builder that works along with the\n"
-"    GenerateDS object builder from the parsed XML.\n"
+"    xsdata object builder from the parsed XML.\n"
 "    Here we take into account the concrete Odoo objects where the schema\n"
 "    mixins where injected and possible matcher or builder overrides.\n"
 "    "
 msgstr ""
-"\n"
-"    Um construtor de objetos Odoo recursivo que funciona junto com o\n"
-"    Construtor de objetos GenerateDS a partir do XML analisado.\n"
-"    Aqui levamos em consideração os objetos Odoo concretos onde o esquema\n"
-"    mixins onde injetados e possíveis substituições de matcher ou "
-"construtor.\n"
-"    "
+
+#. module: spec_driven_model
+#: model:ir.model,name:spec_driven_model.model_spec_mixin_export
+msgid "A mixin providing serialization features."
+msgstr ""
+
+#. module: spec_driven_model
+#: model:ir.model,name:spec_driven_model.model_ir_model_fields
+msgid "Fields"
+msgstr ""
 
 #. module: spec_driven_model
 #. odoo-python
 #: code:addons/spec_driven_model/models/spec_models.py:0
 #, python-format
-msgid "Abrir..."
-msgstr "Abrir..."
-
-#. module: spec_driven_model
-#: model:ir.model,name:spec_driven_model.model_spec_mixin_export
-msgid "a mixin providing serialization features"
-msgstr "um mixin que fornece recursos de serialização"
+msgid "Open..."
+msgstr ""
 
 #. module: spec_driven_model
 #: model:ir.model,name:spec_driven_model.model_spec_mixin
 msgid "root abstract model meant for xsd generated fiscal models"
 msgstr "modelo abstrato raiz destinado a modelos fiscais gerados por xsd"
 
-#. module: spec_driven_model
-#. odoo-python
-#: code:addons/spec_driven_model/tests/test_spec_model.py:0
+#~ msgid ""
+#~ "\n"
+#~ "    A recursive Odoo object builder that works along with the\n"
+#~ "    GenerateDS object builder from the parsed XML.\n"
+#~ "    Here we take into account the concrete Odoo objects where the schema\n"
+#~ "    mixins where injected and possible matcher or builder overrides.\n"
+#~ "    "
+#~ msgstr ""
+#~ "\n"
+#~ "    Um construtor de objetos Odoo recursivo que funciona junto com o\n"
+#~ "    Construtor de objetos GenerateDS a partir do XML analisado.\n"
+#~ "    Aqui levamos em consideração os objetos Odoo concretos onde o "
+#~ "esquema\n"
+#~ "    mixins onde injetados e possíveis substituições de matcher ou "
+#~ "construtor.\n"
+#~ "    "
+
 #, python-format
-msgid "xsdata Python lib not installed, skipping XML test!"
-msgstr "Biblioteca Python xsdata não instalada, pulando teste XML!"
+#~ msgid "Abrir..."
+#~ msgstr "Abrir..."
+
+#~ msgid "a mixin providing serialization features"
+#~ msgstr "um mixin que fornece recursos de serialização"
+
+#, python-format
+#~ msgid "xsdata Python lib not installed, skipping XML test!"
+#~ msgstr "Biblioteca Python xsdata não instalada, pulando teste XML!"
 
 #~ msgid "Display Name"
 #~ msgstr "Nome Exibido"
