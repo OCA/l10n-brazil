@@ -18,7 +18,9 @@ class TestNfseExportLC(TestNfseSerialize):
 
     def test_serialize_xml(self):
         for nfse_data in self.nfse_list:
-            nfse_data["nfse"].document_key = "42024042000000000000000000700000000000002"
+            nfse_data[
+                "nfse"
+            ].document_key = "420240420000000000000000007000000000000002"
             nfse_data["nfse"].document_serie = "00007"
             nfse_data["nfse"].document_number = "2"
             diff = self.serialize_xml(nfse_data)
