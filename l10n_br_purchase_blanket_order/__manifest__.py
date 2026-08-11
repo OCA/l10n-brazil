@@ -8,7 +8,7 @@
     "version": "18.0.1.0.0",
     "license": "AGPL-3",
     "author": "Escodoo, Odoo Community Association (OCA)",
-    "maintainers": ["WesleyOlivera98", "marcelsavegnago"],
+    "maintainers": ["WesleyOliveira98", "marcelsavegnago"],
     "website": "https://github.com/OCA/l10n-brazil",
     "depends": ["purchase_blanket_order", "l10n_br_purchase"],
     "data": [
