@@ -56,4 +56,42 @@
         >Diferencial de alíquota de entrada interestadual</field>
         <field name="tax_amount">100.00</field>
     </record>
+
+    <!--
+      IPI assessment for the same period: the industry profile. It reads the
+      same journal items through the IPI group and feeds the E500 tree of the
+      EFD ICMS/IPI (E520 mirrors it, exactly as E110 mirrors the ICMS one).
+    -->
+    <record id="demo_assessment_ipi" model="l10n_br_tax.assessment">
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="tax_group_id" ref="l10n_br_coa.tax_group_ipi" />
+        <field
+            name="date_from"
+            eval="(DateTime.today() + relativedelta(day=1)).strftime('%Y-%m-%d')"
+        />
+        <field
+            name="date_to"
+            eval="(DateTime.today() + relativedelta(day=31)).strftime('%Y-%m-%d')"
+        />
+    </record>
+
+    <function
+        model="l10n_br_tax.assessment"
+        name="action_compute"
+        eval="[[ref('demo_assessment_ipi')]]"
+    />
+
+    <!--
+      A manual IPI adjustment with a code from table 4.5.4 (three positions,
+      unlike the ICMS 5.1.1): it becomes an E530 under the E520 and shows the
+      per-domain shape of the adjustment code.
+    -->
+    <record id="demo_assessment_ipi_adjustment" model="l10n_br_tax.assessment.line">
+        <field name="assessment_id" ref="demo_assessment_ipi" />
+        <field name="kind">debit</field>
+        <field name="source">manual</field>
+        <field name="adjustment_code">199</field>
+        <field name="description">Outros débitos de IPI</field>
+        <field name="tax_amount">30.00</field>
+    </record>
 </odoo>
