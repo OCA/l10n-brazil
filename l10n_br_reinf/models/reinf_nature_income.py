@@ -4,7 +4,11 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
-from ..constants import REINF_TAX_WITHHOLDING_FLAG
+from ..constants import (
+    ADMITTED_TAX_NAMES,
+    REINF_AGGREGATABLE_TAXES,
+    REINF_TAX_WITHHOLDING_FLAG,
+)
 
 
 class ReinfNatureIncome(models.Model):
@@ -75,6 +79,36 @@ class ReinfNatureIncome(models.Model):
         store=True,
         help="The nature is subject to the withholding of PIS/PASEP.",
     )
+
+    def _admitted_taxes(self):
+        """The set of taxes of the module this nature admits."""
+        self.ensure_one()
+        names = {
+            item.strip().upper() for item in (self.admitted_taxes or "").split(",")
+        }
+        return {
+            ADMITTED_TAX_NAMES[name] for name in names if name in ADMITTED_TAX_NAMES
+        }
+
+    def _admits_aggregate(self):
+        """Whether the aggregated withholding is allowed for this nature.
+
+        The answer is data, from the Tabela 01, and never a guess by the range
+        of the code: 15048 and 15050 are 15xxx and do NOT admit the aggregate.
+        """
+        self.ensure_one()
+        return "aggregated" in self._admitted_taxes()
+
+    def _aggregate_components(self):
+        """Which withholdings the aggregate of this nature carries.
+
+        For most natures it is the three of the 4,65%. For a cooperative of
+        work it is PIS/PASEP and COFINS only, because the art. 32 I of the Law
+        10.833 does not require the CSLL: that is a dispensation of the nature
+        itself, structural, and it does not stop the aggregate.
+        """
+        self.ensure_one()
+        return self._admitted_taxes() & set(REINF_AGGREGATABLE_TAXES)
 
     def _tax_mapping(self, tax, date=None, event_type="R-4020", foreign=False):
         """The line of the official table that answers a tax for this nature.

@@ -177,6 +177,53 @@ REINF_TAX_DOMAIN_MAP = {
     "pis_wh": "pis_pasep",
 }
 
+# The three withholdings collectible as a single aggregated value. The rate
+# lives on l10n_br_reinf.revenue.code, with validity, because the LC 214/2025
+# changes it.
+REINF_AGGREGATABLE_TAXES = ("pis_pasep", "cofins", "csll")
+
+# Why a beneficiary may not suffer the withholding the nature prescribes. The
+# distinction is fiscal, not cosmetic: a dispensation of the NATURE keeps the
+# aggregated code, an exemption or a zero rate OF THE BENEFICIARY does not.
+REINF_BENEFICIARY_PROFILES = [
+    ("normal", "Normal"),
+    ("work_cooperative", "Cooperative of work"),
+    ("consumer_cooperative", "Cooperative of consumption"),
+    ("exempt", "Exempt"),
+    ("zero_rate", "Zero rate"),
+    ("judicial", "Suspended by a judicial measure"),
+]
+
+# Names of the column Tributo of the Tabela 01 to the vocabulary of the module.
+ADMITTED_TAX_NAMES = {
+    "IR": "irpj",
+    "CSLL": "csll",
+    "COFINS": "cofins",
+    "PP": "pis_pasep",
+    "AGREGADO": "aggregated",
+}
+
+# Tolerance of the difference between the aggregated value and the sum of the
+# three rounded components. Below it the difference is only shown; above it the
+# competence gets an exception.
+REINF_AGGREGATE_TOLERANCE = 0.02
+
+# Art. 68 of the Law 9.430/1996: a DARF below this is carried to the next
+# competence under the same revenue code. Minimum of COLLECTION, not the
+# minimum of WITHHOLDING per payment of the art. 31 par. 3 of the Law
+# 10.833/2003.
+REINF_DARF_MINIMUM = 10.0
+
+# Second ten-day period of the month after the competence.
+REINF_DARF_DUE_DAY = 20
+
+REINF_DARF_STATES = [
+    ("draft", "Draft"),
+    ("carried", "Carried to the next competence"),
+    ("confirmed", "Confirmed"),
+    ("reconciled", "Reconciled"),
+]
+
 REINF_CALCULATION_STATES = [
     ("draft", "Draft"),
     ("computed", "Computed"),
@@ -206,7 +253,12 @@ REINF_EXCEPTION_REASONS = [
     ("payment_without_invoice", "Payment without an invoice"),
     ("simples_beneficiary", "Beneficiary under the Simples Nacional"),
     ("cooperative_csll_only", "Cooperative: CSLL is waived"),
+    ("below_minimum", "Withholding below the minimum to collect"),
     ("judicial_suspension", "Withholding suspended by a judicial decision"),
+    ("aggregate_divergence", "Aggregated withholding diverges from its parts"),
+    ("aggregate_rate_missing", "Aggregated revenue code without a rate to check"),
+    ("aggregate_partial_not_structural", "Aggregate refused: partial withholding"),
+    ("cooperative_csll_withheld", "CSLL withheld from a cooperative of work"),
 ]
 
 # The ind_classif column of the Annex I.

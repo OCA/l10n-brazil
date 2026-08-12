@@ -3,16 +3,19 @@
 
 import calendar
 import logging
+from collections import defaultdict
 from datetime import date
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
 from ..constants import (
+    REINF_AGGREGATABLE_TAXES,
     REINF_CALCULATION_STATES,
     REINF_TAX_DOMAIN_MAP,
     REINF_TAXES_ON_CREDIT,
     REINF_WITHHOLDING_SOURCES,
+    REINF_WITHHOLDING_TAXES,
 )
 from .reinf_event import PERIOD_RE
 
@@ -88,6 +91,13 @@ class ReinfCalculation(models.Model):
         comodel_name="l10n_br_reinf.calculation.exception",
         inverse_name="calculation_id",
         string="Exceptions",
+    )
+
+    darf_ids = fields.One2many(
+        comodel_name="l10n_br_reinf.darf",
+        inverse_name="calculation_id",
+        string="DARFs",
+        readonly=True,
     )
 
     event_ids = fields.One2many(
@@ -475,6 +485,169 @@ class ReinfCalculation(models.Model):
                         )
                     )
 
+    def _collapse_aggregate(self):
+        """Turn the withholdings of PIS/PASEP, COFINS and CSLL into one value.
+
+        The rule has two legs, and neither is a guess:
+
+        1. **the nature admits the aggregate**, which is data: the column
+           Tributo of the Tabela 01 says so, and it also says WHICH components
+           the aggregate carries. It is not always the three: the cooperatives
+           of work of the nature 15001 admit "IR, COFINS, PP, AGREGADO", with no
+           CSLL, because the art. 32 I of the Law 10.833 does not require it.
+           So an aggregate of 3,65% is legitimate, and refusing it would be the
+           error. Reading the range of the code instead of this column breaks
+           exactly there: 15048 and 15050 are also 15xxx and admit no aggregate;
+        2. **the partiality has to be structural**. Missing a component that
+           the nature does admit is not a dispensation of the nature: it comes
+           from the beneficiary being exempt or at zero rate (IN RFB 459/2004,
+           art. 2 par. 2, which asks for the legal ground of the exemption) or
+           from a judicial measure (art. 10), and both demand their own revenue
+           codes instead of the aggregate.
+
+        The declared value is the SUM of what was actually withheld, never the
+        rate applied to the base: the aggregate field of the layout carries the
+        amount withheld, the tax authority does not recompute it, and the only
+        rule over it is being greater than zero. The rate stays as a
+        CONFERENCE: the expected value is compared to the sum, and the
+        difference shows up on the line.
+
+        The lines are replaced by one, and their composition goes to the note of
+        the aggregated line: the conference screen has to show where the value
+        came from without a second table.
+        """
+        self.ensure_one()
+        tolerance = self.company_id.reinf_aggregate_tolerance or 0.0
+        exceptions = []
+        groups = defaultdict(lambda: self.env["l10n_br_reinf.calculation.line"])
+        for line in self.line_ids:
+            if line.tax not in REINF_AGGREGATABLE_TAXES or line.manually_verified:
+                continue
+            groups[(line.partner_id, line.nature_income_id, line.fg_date)] |= line
+
+        for (partner, nature, fg_date), lines in groups.items():
+            if not nature or not nature._admits_aggregate():
+                continue
+            mapping = nature._tax_mapping("aggregated", fg_date)
+            if not mapping:
+                continue
+            components = nature._aggregate_components()
+            withheld_taxes = set(lines.mapped("tax"))
+            if partner.reinf_beneficiary_profile in ("exempt", "zero_rate", "judicial"):
+                # The beneficiary, and not the nature, is why a component is
+                # missing. That does not aggregate: it goes under the specific
+                # revenue codes, and the judicial case still needs the process
+                # declared in a R-1070.
+                exceptions.append(
+                    self._prepare_exception(
+                        "judicial_suspension"
+                        if partner.reinf_beneficiary_profile == "judicial"
+                        else "aggregate_partial_not_structural",
+                        partner_id=partner.id,
+                        note=partner.reinf_exemption_legal_basis or "",
+                    )
+                )
+                continue
+            if withheld_taxes - components:
+                # Withheld something the nature does not admit in the aggregate.
+                # The accounting and the table disagree, and that is for a
+                # person to look at, not for this method to average out.
+                exceptions.append(
+                    self._prepare_exception(
+                        "aggregate_partial_not_structural",
+                        partner_id=partner.id,
+                        note=", ".join(sorted(withheld_taxes - components)),
+                    )
+                )
+                continue
+            if withheld_taxes != components:
+                # A component the nature admits is missing: the partiality is
+                # not structural, so the aggregate does not apply.
+                exceptions.append(
+                    self._prepare_exception(
+                        "aggregate_partial_not_structural",
+                        partner_id=partner.id,
+                        note=", ".join(sorted(components - withheld_taxes)),
+                    )
+                )
+                continue
+            if (
+                partner.reinf_beneficiary_profile == "work_cooperative"
+                and "csll" in withheld_taxes
+            ):
+                # The art. 32 I does not require the CSLL of a cooperative of
+                # work. It was withheld anyway, so somebody has to decide: the
+                # line is NOT deleted here, because it is backed by accounting.
+                exceptions.append(
+                    self._prepare_exception(
+                        "cooperative_csll_withheld",
+                        partner_id=partner.id,
+                        amount=sum(
+                            lines.filtered(lambda line: line.tax == "csll").mapped(
+                                "wh_amount"
+                            )
+                        ),
+                    )
+                )
+            base = max(lines.mapped("base_amount"))
+            aggregated = round(sum(line.wh_amount for line in lines), 2)
+            divergence = 0.0
+            revenue_code = self.env["l10n_br_reinf.revenue.code"]._valid_at(
+                mapping.revenue_code, fg_date
+            )
+            if revenue_code and revenue_code.rate:
+                # The rate is a conference, not the value: it only makes sense
+                # when the aggregate carries the full set of components, since
+                # the expected rate of a partial aggregate is not published as
+                # a rate of its own.
+                if components == set(REINF_AGGREGATABLE_TAXES):
+                    expected = round(base * revenue_code.rate / 100.0, 2)
+                    divergence = round(expected - aggregated, 2)
+            else:
+                exceptions.append(
+                    self._prepare_exception(
+                        "aggregate_rate_missing",
+                        partner_id=partner.id,
+                        note=mapping.revenue_code,
+                    )
+                )
+            composition = ", ".join(
+                f"{dict(REINF_WITHHOLDING_TAXES)[line.tax]} "
+                f"{line.wh_amount:.2f}".replace(".", ",")
+                for line in lines.sorted("tax")
+            )
+            self.env["l10n_br_reinf.calculation.line"].create(
+                {
+                    "calculation_id": self.id,
+                    "partner_id": partner.id,
+                    "nature_income_id": nature.id,
+                    "revenue_code": mapping.revenue_code,
+                    "tax": "aggregated",
+                    "fg_date": fg_date,
+                    "base_amount": base,
+                    "wh_amount": aggregated,
+                    "divergence_amount": divergence,
+                    "state": "divergent" if abs(divergence) > tolerance else "ok",
+                    "source_move_id": lines[0].source_move_id.id,
+                    "source_move_line_id": lines[0].source_move_line_id.id,
+                    "source_payment_id": lines[0].source_payment_id.id,
+                    "note": composition,
+                }
+            )
+            lines.unlink()
+            if abs(divergence) > tolerance:
+                exceptions.append(
+                    self._prepare_exception(
+                        "aggregate_divergence",
+                        partner_id=partner.id,
+                        amount=divergence,
+                        note=composition,
+                    )
+                )
+        if exceptions:
+            self.env["l10n_br_reinf.calculation.exception"].create(exceptions)
+        return True
+
     def action_compute(self):
         """Rebuild the lines of the competence out of the accounting.
 
@@ -499,6 +672,8 @@ class ReinfCalculation(models.Model):
             record._collect_payments(lines, exceptions)
             self.env["l10n_br_reinf.calculation.line"].create(lines)
             self.env["l10n_br_reinf.calculation.exception"].create(exceptions)
+            record._collapse_aggregate()
+            record.action_generate_darfs()
             record.state = "computed"
             record.message_post(
                 body=_(
@@ -512,12 +687,118 @@ class ReinfCalculation(models.Model):
             )
         return True
 
+    def _previous_period(self):
+        """The competence right before this one, as AAAA-MM."""
+        self.ensure_one()
+        year, month = (int(part) for part in self.period.split("-"))
+        month -= 1
+        if month < 1:
+            month, year = 12, year - 1
+        return f"{year:04d}-{month:02d}"
+
+    def _carried_darf(self, revenue_code):
+        """The DARF of the previous competence whose balance travels here."""
+        self.ensure_one()
+        return self.env["l10n_br_reinf.darf"].search(
+            [
+                ("company_id", "=", self.company_id.id),
+                ("period", "=", self._previous_period()),
+                ("revenue_code", "=", revenue_code),
+                ("state", "=", "carried"),
+            ],
+            limit=1,
+        )
+
+    def action_generate_darfs(self):
+        """Group the withholdings of the competence by revenue code.
+
+        The mirror is rebuilt from the lines every time, except for what was
+        already confirmed or reconciled, which is history and does not move.
+        """
+        darf_model = self.env["l10n_br_reinf.darf"]
+        for record in self:
+            record.darf_ids.filtered(
+                lambda darf: darf.state in ("draft", "carried")
+            ).unlink()
+            groups = defaultdict(lambda: self.env["l10n_br_reinf.calculation.line"])
+            for line in record.line_ids:
+                if line.state == "excluded" or not line.revenue_code:
+                    continue
+                if not line.wh_amount:
+                    continue
+                groups[line.revenue_code] |= line
+
+            exceptions = []
+            for revenue_code, lines in groups.items():
+                carried = record._carried_darf(revenue_code)
+                darf = darf_model.create(
+                    {
+                        "calculation_id": record.id,
+                        "revenue_code": revenue_code,
+                        "amount": round(sum(lines.mapped("wh_amount")), 2),
+                        "carried_amount": carried.total_amount if carried else 0.0,
+                        "carried_from_id": carried.id if carried else False,
+                        "due_date": darf_model._due_date_of(
+                            record.period, record.company_id
+                        ),
+                    }
+                )
+                lines.write({"darf_id": darf.id})
+                if darf._is_below_minimum():
+                    # Not collected in this competence: the balance travels to
+                    # the next one under the same revenue code, and the income
+                    # is still declared, with the withholding in blank.
+                    darf.state = "carried"
+                    exceptions.append(
+                        record._prepare_exception(
+                            "below_minimum",
+                            amount=darf.total_amount,
+                            note=revenue_code,
+                        )
+                    )
+            if exceptions:
+                self.env["l10n_br_reinf.calculation.exception"].create(exceptions)
+        return True
+
     def action_verify(self):
         """Mark the competence as checked by a person."""
         for record in self:
             if record.state != "computed":
                 raise UserError(_("Only a computed competence can be verified."))
             record.state = "verified"
+        return True
+
+    def action_close(self):
+        """Close the competence and generate its events.
+
+        A critical exception blocks it, and that is the point of the list: the
+        competence does not close over a beneficiary with no CNPJ or a payment
+        with no nature of income, because those become a rejected event.
+        Closing generates the R-4020; it never transmits.
+        """
+        for record in self:
+            if record.state not in ("computed", "verified"):
+                raise UserError(
+                    _("Only a computed or verified competence can be closed.")
+                )
+            if record.critical_exception_count:
+                raise UserError(
+                    _(
+                        "The competence %(period)s has %(count)s critical "
+                        "exceptions. Solve them, or ignore them with a reason, "
+                        "before closing.",
+                        period=record.period,
+                        count=record.critical_exception_count,
+                    )
+                )
+            events = record._generate_r4020()
+            record.state = "closed"
+            record.message_post(
+                body=_(
+                    "Competence closed: %(events)s R-4020 events generated.",
+                    events=len(events),
+                )
+            )
         return True
 
     def action_set_draft(self):

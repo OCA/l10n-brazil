@@ -38,6 +38,14 @@ As fases seguintes, na ordem em que dependem uma da outra:
 
 Limitações conhecidas desta fase:
 
+- O colapso do agregado segue o parecer fiscal: a natureza autoriza pela coluna
+  Tributo da Tabela 01, que também diz quais componentes o agregado carrega (a
+  15001, cooperativas de trabalho, agrega sem CSLL, em 3,65%), e a parcialidade
+  só mantém o agregado quando é da NATUREZA. Parcialidade por isenção ou
+  alíquota zero do beneficiário (IN RFB 459/2004, art. 2) e por medida judicial
+  (art. 10) vão nos códigos específicos. O que ainda **não** está implementado é
+  o grupo `infoProcRet` do caso judicial, que depende do R-1070.
+
 - **A tabela de códigos de receita com a denominação oficial não está no manual
   da EFD-Reinf.** O Anexo I é "natureza de rendimento x código de receita": dá o
   código, nunca o nome dele. A denominação vive na Tabela de Códigos de Receita
@@ -76,6 +84,9 @@ Limitações conhecidas desta fase:
 
 - Exportação XLSX da conferência usa a exportação padrão de lista do Odoo. A
   planilha formatada depende do `report_xlsx` do reporting-engine.
+
+- `infoProcRet` (retenção suspensa por decisão judicial) gera exceção e não o
+  grupo no XML: depende do R-1070, que é da fase seguinte.
 
 - A apuração cobre a série R-4000 de pessoa jurídica. IRPF e RRA não têm campo
   próprio na localização e entram com o R-4010.

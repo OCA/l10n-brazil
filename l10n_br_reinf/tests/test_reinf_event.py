@@ -28,11 +28,8 @@ class TestReinfEvent(TransactionCase):
         if not cls.company.cnpj_cpf:
             cls.company.cnpj_cpf = "97.231.608/0001-69"
         cls.company.reinf_environment = "2"
-        # The inscription of the event id is read from the company instead of
-        # being hardcoded, so the test does not depend on which company the
-        # database was built with. The alphanumeric CNPJ of the NT 03/2026 is
-        # covered by the unit tests of the identifier, which do not need a
-        # database.
+        # Read from the company, not hardcoded: the alphanumeric CNPJ of the NT
+        # 03/2026 is covered by the unit tests of the identifier.
         cls.inscription_type, cls.inscription = cls.company._reinf_inscription()
         cls.event_model = cls.env["l10n_br_reinf.event"]
 
