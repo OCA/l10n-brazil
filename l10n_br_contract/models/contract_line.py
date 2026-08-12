@@ -83,11 +83,16 @@ class ContractLine(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         lines = super().create(vals_list)
-        # Form save often creates with fiscal_tax_ids + *_tax_id together;
-        # the mixin compute can run before both values settle and leave
-        # amount_tax_withholding at 0. Force a final recompute.
         if any(self._needs_fiscal_tax_recompute(vals) for vals in vals_list):
-            lines._recompute_fiscal_tax_fields()
+            lines.flush_recordset()
+            for line, vals in zip(lines, vals_list, strict=True):
+                restore_vals = {
+                    fname: vals[fname]
+                    for fname in ("fiscal_tax_ids", *FISCAL_TAX_ID_FIELDS)
+                    if fname in vals
+                }
+                if restore_vals:
+                    line.write(restore_vals)
         return lines
 
     def write(self, vals):
