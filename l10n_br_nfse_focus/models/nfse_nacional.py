@@ -200,7 +200,9 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
             "codigo_municipio_prestacao": int(codigo_municipio_prestacao),
             "codigo_tributacao_nacional": codigo_tributacao_nacional,
             "codigo_tributacao_municipio": codigo_tributacao_municipio,
-            "codigo_nbs": service_info.get("codigo_nbs", ""),
+            "codigo_nbs_unmasked": ""
+            if self.env.company.city_id.ibge_code == "3516200"
+            else service_info.get("codigo_nbs_unmasked", ""),
             "descricao": service_info.get("discriminacao", ""),
             "valor": round(service_info.get("valor_servicos", 0), 2),
             "tributacao_iss": int(tributacao_iss),
@@ -382,7 +384,7 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
             "codigo_tributacao_municipal_iss": service_basic[
                 "codigo_tributacao_municipio"
             ],
-            "codigo_nbs": service_basic["codigo_nbs"],
+            "codigo_nbs": service_basic["codigo_nbs_unmasked"],
             "descricao_servico": service_basic["descricao"],
             "valor_servico": service_basic["valor"],
             "tributacao_iss": service_basic["tributacao_iss"],
