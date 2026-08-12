@@ -34,6 +34,7 @@
         "views/reinf_nature_income_view.xml",
         "views/reinf_revenue_code_view.xml",
         "views/reinf_occurrence_view.xml",
+        "views/reinf_calculation_view.xml",
         "views/reinf_r1000_view.xml",
         "views/reinf_event_view.xml",
         "views/reinf_batch_view.xml",

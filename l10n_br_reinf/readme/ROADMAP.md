@@ -50,11 +50,35 @@ Limitações conhecidas desta fase:
   a descrição oficial numa coluna, e o script avisa quando isso acontece: é
   divergência da fonte, não do módulo.
 
+- **Os campos `*_wh_value` da linha fiscal não podem ser preenchidos à mão.**
+  Eles pertencem ao motor de imposto do `l10n_br_fiscal`, que os re-deriva de
+  `fiscal_tax_ids` a cada escrita na linha: verificado em runtime escrevendo
+  antes do post, depois do post e direto na `l10n_br_fiscal.document.line`, e
+  nos três casos o banco fica com 0,00 (o cache ainda mostra o valor até a
+  invalidação, o que engana). Por isso a apuração lê a retenção em duas fontes:
+  os campos fiscais quando o documento foi precificado pelo motor, e as linhas
+  de imposto postadas cujo grupo fiscal é de retenção em todo o resto. Na
+  mesma linha, valor gravado em campo da linha fiscal de uma nota **sem
+  operação fiscal** não sobrevive ao post, e é por isso que a natureza de
+  rendimento se resolve em cascata (linha, tipo de serviço, parceiro) em vez de
+  depender só do campo da linha.
+
 - A tabela `l10n_br_reinf.revenue.code` só tem o código agregado 595207, que é o
   que o colapso precisa (é o único cujo nome tem lastro: art. 31 da Lei
   10.833/2003). Os outros 89 códigos que o Anexo I usa entram quando a
   tabela oficial de códigos de DARF estiver transcrita, com nome e vigência: o
   mapeamento das naturezas já traz o código, e é dele que a apuração lê.
+
+- O rateio da retenção entre várias linhas de base é proporcional ao subtotal.
+  A base declarada vem do `tax_base_amount` do imposto (correta com redução de
+  base), mas quando **um mesmo imposto cobre linhas com reduções diferentes** a
+  divisão entre elas fica aproximada.
+
+- Exportação XLSX da conferência usa a exportação padrão de lista do Odoo. A
+  planilha formatada depende do `report_xlsx` do reporting-engine.
+
+- A apuração cobre a série R-4000 de pessoa jurídica. IRPF e RRA não têm campo
+  próprio na localização e entram com o R-4010.
 
 - `classTrib` é `Char` de 2 posições na empresa, e não uma seleção com os
   valores oficiais da tabela de classificações do manual, que ainda não foi
