@@ -17,7 +17,6 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFSE,
     PROCESSADOR_OCA,
     SITUACAO_EDOC_A_ENVIAR,
-    SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_ENVIADA,
     SITUACAO_EDOC_REJEITADA,
@@ -616,9 +615,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         record = self.nfse_demo
         record.company_id.provedor_nfse = False
 
-        result = record._exec_before_SITUACAO_EDOC_CANCELADA(
-            SITUACAO_EDOC_AUTORIZADA, SITUACAO_EDOC_CANCELADA
-        )
+        result = record._before_document_cancel()
 
         mock_cancel_document_focus.assert_not_called()
         self.assertTrue(result)
