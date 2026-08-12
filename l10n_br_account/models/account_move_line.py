@@ -105,7 +105,7 @@ class AccountMoveLine(models.Model):
                 line.quantity * line.price_unit or 1
             )
 
-    @api.depends("product_id", "payment_term_number")
+    @api.depends("product_id", "payment_term_number", "move_id.document_number")
     def _compute_name(self):
         """
         Override to set 'name' with 'document_number/payment_term_number' for
