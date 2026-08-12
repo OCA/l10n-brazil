@@ -117,10 +117,29 @@ class AccountChartTemplate(models.AbstractModel):
                 if existing_tax:
                     continue
                 existing_tax = self.env["account.tax"].search(
-                    [("name", "=", value["name"])], limit=1
+                    [
+                        ("name", "=", value["name"]),
+                        ("company_id", "=", company.id),
+                    ],
+                    limit=1,
                 )
                 if existing_tax:
-                    pass  # adjust ir.model.data ?
+                    # Ensure the XML ID mapping exists for this company/tax
+                    self.env["ir.model.data"].create(
+                        {
+                            "name": id_key,
+                            "module": "l10n_br_coa",
+                            "model": "account.tax",
+                            "res_id": existing_tax.id,
+                            "noupdate": True,
+                        }
+                    )
+                    _logger.debug(
+                        "Tax %s for company %s already exists; XML ID %s created",
+                        value["name"],
+                        company.name,
+                        id_key,
+                    )
                 else:
                     tax_vals = {
                         "name": value["name"],
