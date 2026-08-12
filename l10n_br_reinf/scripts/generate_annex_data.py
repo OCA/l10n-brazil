@@ -102,11 +102,9 @@ def read_natures(source):
         # that matters for the declaration is the one of the mapping, which
         # carries the revenue code.
         name = clean(row[2])
-        # Column "Tributo" of the Tabela 01: which taxes the nature admits. It
-        # is the authorization of the aggregated withholding and it says which
-        # components the aggregate carries, which is NOT always the three:
-        # 15001, cooperatives of work, admits "IR, COFINS, PP, AGREGADO" with no
-        # CSLL, because the art. 32 I of the Law 10.833 does not require it.
+        # Column "Tributo" of the Tabela 01: it authorizes the aggregate and says
+        # which components it carries, not always the three (15001 admits it with no
+        # CSLL, art. 32 I of the Law 10.833).
         admitted = clean(row[11]).upper()
         date_start, date_end = iso_date(row[12]), iso_date(row[13])
         if code in natures:

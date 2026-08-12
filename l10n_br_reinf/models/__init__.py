@@ -11,4 +11,6 @@ from . import reinf_batch
 from . import reinf_calculation
 from . import reinf_calculation_line
 from . import reinf_calculation_exception
+from . import reinf_darf
+from . import reinf_r4020
 from . import events

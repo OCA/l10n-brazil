@@ -37,11 +37,8 @@ class ReinfCalculationCommon(AccountMoveBRCommon):
             }
         )
         cls.calculation_model = cls.env["l10n_br_reinf.calculation"]
-        # Real withholding taxes, because the *_wh_value fields of the fiscal
-        # line cannot be written by hand: the fiscal tax engine re-derives them
-        # from fiscal_tax_ids on every write to the line, so a value set by the
-        # fixture never survives the posting. The withholding has to exist in
-        # the accounting, and here it exists as the tax lines of the invoice.
+        # Real taxes: the *_wh_value fields are re-derived from fiscal_tax_ids on
+        # every write, so a value set by the fixture never survives the posting.
         cls.tax_irpj = cls._wh_tax("l10n_br_fiscal.tax_group_irpj_wh", 1.5)
         cls.tax_pis = cls._wh_tax("l10n_br_fiscal.tax_group_pis_wh", 0.65)
         cls.tax_cofins = cls._wh_tax("l10n_br_fiscal.tax_group_cofins_wh", 3.0)

@@ -26,6 +26,33 @@ fases seguintes, listadas no `ROADMAP`.
   apuração é a tela de conferência: linhas com divergência, exceções
   enumeradas com o registro de origem e o que fazer, DARFs espelho e eventos
   gerados.
+- **Colapso do agregado (DARF 5952)**: as três retenções de PIS/PASEP, COFINS e
+  CSLL viram um valor único quando a natureza admite, com o código de receita
+  lido do Anexo I, tolerância configurável para os centavos do arredondamento, e
+  as regras que evitam declarar o que ninguém retirou (cooperativa não agrega;
+  retenção parcial não agrega).
+Três decisões de desenho deste módulo respondem a como a apuração do DARF 5952
+realmente funciona, e vale dizer por quê, porque cada uma delas é fácil de errar
+na direção oposta:
+
+- na série R-4000 **não se informa código de receita**, informa-se a natureza de
+  rendimento. Por isso o código nunca é constante no código-fonte: ele é
+  derivado do mapeamento da natureza, que é dado com vigência;
+- a **consolidação no DARF 5952 acontece na DCTFWeb**, não aqui. Por isso o
+  `l10n_br_reinf.darf` é espelho de conferência e provisão, e nunca emissor de
+  guia: guia avulsa cria pagamento sem débito;
+- o **fato gerador é a data do efetivo pagamento ou crédito**, não a emissão da
+  nota. Por isso a apuração nasce do pagamento e do crédito, com `dtFG` por
+  tributo, e não da nota fiscal.
+
+- **DARF espelho** (`l10n_br_reinf.darf`): quanto é devido por código de receita,
+  confronto com o número e o valor que a DCTFWeb devolveu, e o mínimo do art. 68
+  da Lei 9.430/1996, com o saldo viajando para a competência seguinte no mesmo
+  código.
+- **R-4020**: um evento por beneficiário, montado direto nos bindings a partir
+  das linhas da apuração, com split automático nos limites do leiaute (100
+  idePgto, 999 infoPgto) usando `ideEvtAdic`, e XML conferido contra o XSD antes
+  de ser gravado.
 - **Naturezas de rendimento e códigos de receita, das tabelas oficiais**: 297
   naturezas e 1576 linhas de mapeamento (evento, tributo, código de receita,
   periodicidade, residência fiscal no exterior, classificação tributária 85),

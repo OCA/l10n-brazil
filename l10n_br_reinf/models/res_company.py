@@ -5,6 +5,7 @@ from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 from ..constants import (
+    REINF_AGGREGATE_TOLERANCE,
     REINF_ENVIRONMENTS,
     REINF_INSCRIPTION_CNPJ,
     REINF_INSCRIPTION_CPF,
@@ -51,6 +52,16 @@ class ResCompany(models.Model):
         string="International Agreement on Fines",
         help="indAcordoIsenMulta of the R-1000: whether an international "
         "agreement exempts the taxpayer from fines.",
+    )
+
+    reinf_aggregate_tolerance = fields.Float(
+        string="EFD-Reinf Aggregate Tolerance",
+        default=REINF_AGGREGATE_TOLERANCE,
+        digits=(16, 2),
+        help="How many cents of difference between the aggregated withholding "
+        "and the sum of its three rounded components are accepted before the "
+        "competence raises an exception. Rounding three values and rounding "
+        "their sum are not the same operation, and the difference is cents.",
     )
 
     reinf_contact_id = fields.Many2one(

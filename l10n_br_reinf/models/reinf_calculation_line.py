@@ -123,6 +123,26 @@ class ReinfCalculationLine(models.Model):
         ondelete="set null",
     )
 
+    event_id = fields.Many2one(
+        comodel_name="l10n_br_reinf.event",
+        string="Event",
+        readonly=True,
+        index=True,
+        ondelete="set null",
+        help="Event that declares this line. A competence split by the limits "
+        "of the layout has more than one event per beneficiary, and this is "
+        "what says which slice each line went to.",
+    )
+
+    darf_id = fields.Many2one(
+        comodel_name="l10n_br_reinf.darf",
+        string="DARF",
+        readonly=True,
+        index=True,
+        ondelete="set null",
+        help="Mirror of the DARF this withholding was grouped into.",
+    )
+
     state = fields.Selection(
         selection=REINF_CALCULATION_LINE_STATES,
         default="ok",

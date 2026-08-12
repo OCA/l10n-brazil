@@ -45,11 +45,9 @@ class ReinfR1000(spec_models.StackedModel):
         "nfelib.reinf.bindings.v2_01_02.r_1000_evt_info_contribuinte_v2_01_02"
     )
     _reinf21_stacking_mixin = "reinf.21.evtinfocontri"
-    # alteracao and exclusao are the other two branches of the choice of
-    # infoContri, and each one repeats the whole idePeriodo / infoCadastro
-    # structure. Stacking the three of them would make the branches share the
-    # same columns and would make the export emit all of them at once, which
-    # the choice of the XSD forbids. This phase declares the inclusao only.
+    # inclusao only: alteracao and exclusao are the other branches of the same
+    # choice, and stacking the three would emit all of them at once, which the
+    # XSD forbids.
     _reinf21_stacking_skip_paths = ("reinf21_alteracao", "reinf21_exclusao")
 
     event_id = fields.Many2one(

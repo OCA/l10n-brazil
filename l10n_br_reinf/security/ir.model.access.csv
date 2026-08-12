@@ -19,3 +19,5 @@
 "reinf_calculation_line_manager","EFD-Reinf Calculation Line for Manager",model_l10n_br_reinf_calculation_line,l10n_br_fiscal.group_manager,1,1,1,1
 "reinf_calculation_exception_user","EFD-Reinf Calculation Exception for User",model_l10n_br_reinf_calculation_exception,l10n_br_fiscal.group_user,1,0,0,0
 "reinf_calculation_exception_manager","EFD-Reinf Calculation Exception for Manager",model_l10n_br_reinf_calculation_exception,l10n_br_fiscal.group_manager,1,1,1,1
+"reinf_darf_user","EFD-Reinf DARF Mirror for User",model_l10n_br_reinf_darf,l10n_br_fiscal.group_user,1,0,0,0
+"reinf_darf_manager","EFD-Reinf DARF Mirror for Manager",model_l10n_br_reinf_darf,l10n_br_fiscal.group_manager,1,1,1,1

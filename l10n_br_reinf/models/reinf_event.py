@@ -125,11 +125,9 @@ class ReinfEvent(models.Model):
         help="nrInsc used to build the event id.",
     )
 
-    # Polymorphic origin. A Reinf event does not descend from a fiscal
-    # document: it can be born from an account.move, from an
-    # account.move.line, from a closing or from res.company itself. Instead of
-    # one many2one per possible source, the source is kept as a model plus an
-    # id, the way ir.attachment and mail.message do.
+    # Polymorphic origin: an event can be born from an account.move, a line, a
+    # closing or res.company, so the source is a model plus an id, the way
+    # ir.attachment does.
     origin_model = fields.Char(
         string="Source Model",
         readonly=True,
@@ -263,6 +261,21 @@ class ReinfEvent(models.Model):
         comodel_name="l10n_br_reinf.occurrence",
         inverse_name="event_id",
         string="Occurrences",
+        readonly=True,
+    )
+
+    additional_event = fields.Char(
+        readonly=True,
+        copy=False,
+        help="ideEvtAdic: which slice of a beneficiary this event declares, "
+        "when the competence had to be split because of the limits of the "
+        "layout.",
+    )
+
+    calculation_line_ids = fields.One2many(
+        comodel_name="l10n_br_reinf.calculation.line",
+        inverse_name="event_id",
+        string="Calculation Lines",
         readonly=True,
     )
 
@@ -416,6 +429,15 @@ class ReinfEvent(models.Model):
                 _("The event %s has no R-1000 detail record.", self.display_name)
             )
         return self.r1000_id._build_event_xml()
+
+    def _serialize_r4020(self):
+        """The R-4020 is built from the calculation, with no intermediate copy."""
+        self.ensure_one()
+        if not self.calculation_id:
+            raise NotImplementedError(
+                _("The event %s has no calculation to declare.", self.display_name)
+            )
+        return self.calculation_id._build_r4020_xml(self)
 
     def _serialize(self):
         """Return the XML of the event, unsigned.
