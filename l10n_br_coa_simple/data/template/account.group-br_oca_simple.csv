@@ -1,0 +1,98 @@
+id,code_prefix_start,name,parent_id
+coa_simple_1,1,Ativo,
+coa_simple_11,1.1,Ativo Circulante,coa_simple_1
+coa_simple_111,1.1.1,Disponibilidades,coa_simple_11
+coa_simple_11101,1.1.1.01,Caixa,coa_simple_111
+coa_simple_11102,1.1.1.02,Depósitos Bancários à Vista,coa_simple_111
+coa_simple_11103,1.1.1.03,Aplicações Financeiras,coa_simple_111
+coa_simple_112,1.1.2,Créditos,coa_simple_11
+coa_simple_11201,1.1.2.01,Recebíveis de clientes,coa_simple_112
+coa_simple_11202,1.1.2.02,Créditos de Colaboradores,coa_simple_112
+coa_simple_11203,1.1.2.03,Créditos de Fornecedores,coa_simple_112
+coa_simple_11204,1.1.2.04,Tributos Retidos na Fonte,coa_simple_112
+coa_simple_11205,1.1.2.05,Tributos a Recuperar,coa_simple_112
+coa_simple_11206,1.1.2.06,Tributos a Compensar,coa_simple_112
+coa_simple_113,1.1.3,Estoques,coa_simple_11
+coa_simple_11301,1.1.3.01,Estoques de Mercadorias,coa_simple_113
+coa_simple_11302,1.1.3.02,Estoques de Produtos,coa_simple_113
+coa_simple_11303,1.1.3.03,Outros Estoques,coa_simple_113
+coa_simple_114,1.1.4,Despesas Pagas Antecipadamente,coa_simple_11
+coa_simple_11401,1.1.4.01,Despesas do Exercício Seguinte,coa_simple_114
+coa_simple_12,1.2,Ativo Não Circulante,coa_simple_1
+coa_simple_121,1.2.1,Realizável a Longo Prazo,coa_simple_12
+coa_simple_12101,1.2.1.01,Créditos de Longo Prazo,coa_simple_121
+coa_simple_12102,1.2.1.02,Ativos Fiscais Diferidos,coa_simple_121
+coa_simple_122,1.2.2,Investimentos,coa_simple_12
+coa_simple_12201,1.2.2.01,Investimentos Societários,coa_simple_122
+coa_simple_123,1.2.3,Imobilizado,coa_simple_12
+coa_simple_12301,1.2.3.01,Imobilizado - Aquisição,coa_simple_123
+coa_simple_12302,1.2.3.02,Imobilizado - Depreciação Acumulada,coa_simple_123
+coa_simple_124,1.2.4,Intangível,coa_simple_12
+coa_simple_12401,1.2.4.01,Intangível - Aquisição,coa_simple_124
+coa_simple_12402,1.2.4.02,Intangível - Amortização,coa_simple_124
+coa_simple_2,2,Passivo,
+coa_simple_21,2.1,Passivo Circulante,coa_simple_2
+coa_simple_211,2.1.1,Obrigações Trabalhistas,coa_simple_21
+coa_simple_21101,2.1.1.01,Obrigações com Pessoal,coa_simple_211
+coa_simple_212,2.1.2,Obrigações com Terceiros,coa_simple_21
+coa_simple_21201,2.1.2.01,Fornecedores,coa_simple_212
+coa_simple_21202,2.1.2.02,Contas a Pagar,coa_simple_212
+coa_simple_213,2.1.3,Empréstimos e Financiamentos (CP),coa_simple_21
+coa_simple_21301,2.1.3.01,Empréstimos de Terceiros,coa_simple_213
+coa_simple_214,2.1.4,Obrigações Fiscais,coa_simple_21
+coa_simple_21401,2.1.4.01,Retenções a Recolher,coa_simple_214
+coa_simple_21402,2.1.4.02,Impostos a Pagar,coa_simple_214
+coa_simple_21403,2.1.4.03,Parcelamentos Fiscais,coa_simple_214
+coa_simple_215,2.1.5,Provisões,coa_simple_21
+coa_simple_21501,2.1.5.01,Provisões Tributárias,coa_simple_215
+coa_simple_216,2.1.6,Outras Obrigações,coa_simple_21
+coa_simple_21601,2.1.6.01,Obrigações com Sócios,coa_simple_216
+coa_simple_22,2.2,Passivo Não Circulante,coa_simple_2
+coa_simple_221,2.2.1,Obrigações com Terceiros LP,coa_simple_22
+coa_simple_22101,2.2.1.01,Fornecedores LP,coa_simple_221
+coa_simple_22102,2.2.1.02,Empréstimos e Financiamentos LP,coa_simple_221
+coa_simple_222,2.2.2,Obrigações Fiscais (LP),coa_simple_22
+coa_simple_22201,2.2.2.01,Parcelamentos Fiscais (LP),coa_simple_222
+coa_simple_22202,2.2.2.02,Tributos Diferidos,coa_simple_222
+coa_simple_223,2.2.3,Outras Obrigações de LP,coa_simple_22
+coa_simple_22301,2.2.3.01,Obrigações com Partes Relacionadas,coa_simple_223
+coa_simple_23,2.3,Patrimônio Líquido,coa_simple_2
+coa_simple_231,2.3.1,Capital Social Integralizado,coa_simple_23
+coa_simple_23101,2.3.1.01,Capital Social Subscrito,coa_simple_231
+coa_simple_28102,2.8.1.02,Capital Social a Integralizar,coa_simple_2
+coa_simple_282,2.8.2,Reservas de Capital,coa_simple_2
+coa_simple_28201,2.8.2.01,Adiantamento de Capital,coa_simple_282
+coa_simple_283,2.8.3,Reservas de Lucro,coa_simple_2
+coa_simple_28301,2.8.3.01,Lucros a Distribuir,coa_simple_283
+coa_simple_288,2.8.8,Resultados Acumulados,coa_simple_2
+coa_simple_28801,2.8.8.01,Lucros Acumulados,coa_simple_288
+coa_simple_28802,2.8.8.02,Prejuízos Acumulados,coa_simple_288
+coa_simple_3,3,Resultado,
+coa_simple_31,3.1,RECEITAS,coa_simple_3
+coa_simple_311,3.1.1,RECEITA BRUTA,coa_simple_31
+coa_simple_31101,3.1.1.01,RECEITA BRUTA OPERACIONAL,coa_simple_311
+coa_simple_312,3.1.2,DEDUÇÕES DA RECEITA BRUTA,coa_simple_31
+coa_simple_31201,3.1.2.01,IMPOSTOS S/ FATURAMENTO,coa_simple_312
+coa_simple_31202,3.1.2.02,OUTRAS DEDUÇÕES DA RECEITA BRUTA,coa_simple_312
+coa_simple_32,3.2,Custos,coa_simple_3
+coa_simple_321,3.2.1,Custos dos bens e serviços,coa_simple_32
+coa_simple_32101,3.2.1.01,Custos dos bens e serviços vendidos,coa_simple_321
+coa_simple_33,3.3,Despesas Operacionais,coa_simple_3
+coa_simple_331,3.3.1,Despesas com Vendas,coa_simple_33
+coa_simple_33101,3.3.1.01,Despesas com Pessoal,coa_simple_331
+coa_simple_33102,3.3.1.02,Outras Despesas com Vendas,coa_simple_331
+coa_simple_332,3.3.2,Despesas Administrativas,coa_simple_33
+coa_simple_33201,3.3.2.01,Despesas com Pessoal,coa_simple_332
+coa_simple_33202,3.3.2.02,Despesas Gerais,coa_simple_332
+coa_simple_33203,3.3.2.03,Tributos e Contribuições,coa_simple_332
+coa_simple_339,3.3.9,Outros Resultados Operacionais,coa_simple_33
+coa_simple_33901,3.3.9.01,Ganhos e Perdas de Capital,coa_simple_339
+coa_simple_33902,3.3.9.02,Perdas,coa_simple_339
+coa_simple_33903,3.3.9.03,Resultado de Participação em Outras Sociedades,coa_simple_339
+coa_simple_34,3.4,Resultado Financeiro,coa_simple_3
+coa_simple_341,3.4.1,Encargos Financeiros Líquidos,coa_simple_34
+coa_simple_34101,3.4.1.01,Despesas Financeiras,coa_simple_341
+coa_simple_34102,3.4.1.02,Receitas Financeiras,coa_simple_341
+coa_simple_38,3.8,Provisão de Impostos,coa_simple_3
+coa_simple_381,3.8.1,Tributos sobre Lucro,coa_simple_38
+coa_simple_38101,3.8.1.01,Impostos,coa_simple_381
