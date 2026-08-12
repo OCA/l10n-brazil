@@ -20,6 +20,12 @@ fases seguintes, listadas no `ROADMAP`.
   campos em `res.company`: a empresa guarda a configuração, e cada evento copia
   o que valia no momento em que foi montado, para o XML de um evento passado
   continuar reproduzível.
+- **Apuração da competência** (`l10n_br_reinf.calculation`): a declaração nasce
+  do pagamento e do crédito, e o fato gerador é por tributo, então a mesma nota
+  alimenta duas competências (IR pelo crédito, PCC pelo pagamento). A tela da
+  apuração é a tela de conferência: linhas com divergência, exceções
+  enumeradas com o registro de origem e o que fazer, DARFs espelho e eventos
+  gerados.
 - **Naturezas de rendimento e códigos de receita, das tabelas oficiais**: 297
   naturezas e 1576 linhas de mapeamento (evento, tributo, código de receita,
   periodicidade, residência fiscal no exterior, classificação tributária 85),

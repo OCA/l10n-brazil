@@ -266,6 +266,16 @@ class ReinfEvent(models.Model):
         readonly=True,
     )
 
+    calculation_id = fields.Many2one(
+        comodel_name="l10n_br_reinf.calculation",
+        string="Calculation",
+        readonly=True,
+        copy=False,
+        index=True,
+        ondelete="cascade",
+        help="Competence this event was generated from.",
+    )
+
     # The R-1000 is the one event that is persisted as a record of its own,
     # because it is a versioned declaration. The others are serialized straight
     # from what generated them, by _serialize_<code>.

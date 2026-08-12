@@ -20,6 +20,14 @@
     />
 
     <menuitem
+        id="reinf_calculation_menu"
+        name="Calculations"
+        action="reinf_calculation_action"
+        parent="reinf_menu"
+        sequence="5"
+    />
+
+    <menuitem
         id="reinf_batch_menu"
         name="Batches"
         action="reinf_batch_action"

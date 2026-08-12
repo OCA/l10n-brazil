@@ -76,6 +76,34 @@ class ReinfNatureIncome(models.Model):
         help="The nature is subject to the withholding of PIS/PASEP.",
     )
 
+    def _tax_mapping(self, tax, date=None, event_type="R-4020", foreign=False):
+        """The line of the official table that answers a tax for this nature.
+
+        It is what carries the revenue code, and the code is NEVER a constant
+        in the source: it is read from here, so a change of the table is a
+        change of data.
+
+        The validity is filtered on purpose: the published tables replace a
+        revenue code without the nature changing, and declaring a competence
+        with the code of another period is a rejection.
+        """
+        self.ensure_one()
+
+        def is_valid(mapping):
+            if mapping.tax_type != tax or mapping.event_type != event_type:
+                return False
+            if mapping.foreign_taxation != foreign:
+                return False
+            if not date:
+                return True
+            if mapping.date_start and mapping.date_start > date:
+                return False
+            if mapping.date_end and mapping.date_end < date:
+                return False
+            return True
+
+        return self.tax_ids.filtered(is_valid)[:1]
+
     @api.depends("tax_ids.tax_type")
     def _compute_withholding_flags(self):
         flags = set(REINF_TAX_WITHHOLDING_FLAG.values())

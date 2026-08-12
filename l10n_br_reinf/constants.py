@@ -151,6 +151,64 @@ REINF_TAX_WITHHOLDING_FLAG = {
     "pis_pasep": "ret_pp",
 }
 
+# The triggering fact differs per tax, which is why the date is per line: the
+# income tax on the credit when it precedes the payment, the PCC on the payment.
+# A July invoice paid in August splits into two competences.
+REINF_TAXES_ON_CREDIT = ("irpf", "irpj", "rra")
+REINF_TAXES_ON_PAYMENT = ("csll", "cofins", "pis_pasep", "aggregated")
+
+# Where each withholding of the localization is read from on a move line, and
+# which tax of the EFD-Reinf it feeds. The value fields come from
+# l10n_br_fiscal.document.line.mixin, which account.move.line delegates to.
+REINF_WITHHOLDING_SOURCES = {
+    "irpj": ("irpj_wh_value", "irpj_wh_base"),
+    "csll": ("csll_wh_value", "csll_wh_base"),
+    "cofins": ("cofins_wh_value", "cofins_wh_base"),
+    "pis_pasep": ("pis_wh_value", "pis_wh_base"),
+}
+
+# Fallback source: the posted tax lines, by fiscal tax group. The *_wh_value
+# fields are re-derived by the tax engine on every write, so a document not
+# priced by it has them at zero even with the tax accounted.
+REINF_TAX_DOMAIN_MAP = {
+    "irpj_wh": "irpj",
+    "csll_wh": "csll",
+    "cofins_wh": "cofins",
+    "pis_wh": "pis_pasep",
+}
+
+REINF_CALCULATION_STATES = [
+    ("draft", "Draft"),
+    ("computed", "Computed"),
+    ("verified", "Verified"),
+    ("closed", "Closed"),
+    ("transmitted", "Transmitted"),
+]
+
+REINF_CALCULATION_LINE_STATES = [
+    ("ok", "Ok"),
+    ("divergent", "Divergent"),
+    ("excluded", "Excluded"),
+]
+
+# The enumerated reasons a payment does not become a plain declaration line.
+# The point of the list is that the conference screen never says "something is
+# wrong": it says what is wrong and what to do about it.
+REINF_EXCEPTION_CRITICAL = ("partner_without_cnpj", "nature_missing")
+
+REINF_EXCEPTION_REASONS = [
+    ("partner_without_cnpj", "Beneficiary without CNPJ"),
+    ("nature_missing", "Nature of income not set"),
+    ("partial_payment", "Partial payment"),
+    ("advance_payment", "Advance payment"),
+    ("cancelled_after_payment", "Invoice cancelled after the payment"),
+    ("prior_period_invoice", "Invoice of a prior period paid in this one"),
+    ("payment_without_invoice", "Payment without an invoice"),
+    ("simples_beneficiary", "Beneficiary under the Simples Nacional"),
+    ("cooperative_csll_only", "Cooperative: CSLL is waived"),
+    ("judicial_suspension", "Withholding suspended by a judicial decision"),
+]
+
 # The ind_classif column of the Annex I.
 REINF_CLASSIFICATION_INDICATORS = [
     ("yes", "Yes"),
