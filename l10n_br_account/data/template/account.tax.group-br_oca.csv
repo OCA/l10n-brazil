@@ -22,3 +22,5 @@
 "tax_group_inss_wh","l10n_br_fiscal.tax_group_inss_wh"
 "tax_group_simples","l10n_br_fiscal.tax_group_simples"
 "tax_group_others","l10n_br_fiscal.tax_group_others"
+"tax_group_ibs","l10n_br_fiscal.tax_group_ibs"
+"tax_group_cbs","l10n_br_fiscal.tax_group_cbs"
