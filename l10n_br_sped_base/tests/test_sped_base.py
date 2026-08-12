@@ -2,6 +2,7 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
 import base64
+from collections import defaultdict
 from datetime import date
 from io import StringIO
 from os import path
@@ -16,6 +17,7 @@ from odoo.exceptions import UserError
 from odoo.tests import TransactionCase
 
 from odoo.addons import l10n_br_sped_base
+from odoo.addons.l10n_br_sped_base.models.sped_mixin import SPED_ENCODING
 
 
 class TestSpedBase(TransactionCase, FakeModelLoader):
@@ -119,9 +121,94 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
         cls.loader.restore_registry()
         super().tearDownClass()
 
+    def test_block_movement_counts_only_this_declaration(self):
+        """The block movement indicator looks at this declaration alone.
+
+        With `search_count([])` a second, empty declaration opened its blocks
+        as "has data" because the count saw the registers of the first one, and
+        the PVA rejects the import in that case with "the block opening record
+        states the block has movement, however no record was reported in the
+        block".
+        """
+        source = self.declaration
+        other = self.env["l10n_br_sped.fake.0000"].create(
+            {
+                "company_id": source.company_id.id,
+                "DT_INI": "2022-01-01",
+                "DT_FIN": "2022-12-31",
+                "LECD": source.LECD,
+                "NOME": source.NOME,
+                "CNPJ": source.CNPJ,
+                "UF": source.UF,
+                "IND_SIT_INI_PER": source.IND_SIT_INI_PER,
+                "IND_NIRE": source.IND_NIRE,
+                "IND_FIN_ESC": source.IND_FIN_ESC,
+                "IND_GRANDE_PORTE": source.IND_GRANDE_PORTE,
+                "TIP_ECD": source.TIP_ECD,
+                "IDENT_MF": source.IDENT_MF,
+                "IND_ESC_CONS": source.IND_ESC_CONS,
+                "IND_CENTRALIZADA": source.IND_CENTRALIZADA,
+                "IND_MUDANC_PC": source.IND_MUDANC_PC,
+            }
+        )
+        # the guard that makes this test meaningful: without a register of
+        # block I somewhere else in the database, a naive count would also
+        # report "no movement" and the test would pass either way
+        self.assertTrue(
+            self.env["l10n_br_sped.fake.i010"].search_count([]),
+            "the fixture must have block I registers for this test to mean " "anything",
+        )
+        sped = other._generate_sped_text()
+
+        # the fixture declaration does have I and J registers, so a count
+        # without the declaration domain would open both blocks here
+        for bloco in ("I", "J"):
+            self.assertIn(
+                f"|{bloco}001|1|",
+                sped,
+                f"block {bloco} is empty in this declaration and must open "
+                f"with no movement",
+            )
+
+    def test_register_line_uses_the_concrete_field(self):
+        """Field attributes come from the concrete model, not from the spec.
+
+        The field ORDER must keep coming from the spec, which is the layout,
+        but the attributes must not: the generated spec does not carry the
+        mandatoriness the Guia Pratico defines, so the mapping layer declares
+        it. While the writer read the spec, a field declared `required=True`
+        in the mapping was ignored and every zeroed amount came out blank,
+        which the PVA rejects with "mandatory field".
+        """
+        register = self.declaration
+        spec = self.env["l10n_br_sped.fake.9.0000"]
+        seen = []
+        original = type(register)._format_field_value
+
+        def spy(self_, field, value):
+            seen.append(field)
+            return original(self_, field, value)
+
+        with mock.patch.object(
+            type(register), "_format_field_value", autospec=True, side_effect=spy
+        ):
+            register._generate_register_text(StringIO(), "9", [0], defaultdict(int))
+
+        self.assertTrue(seen, "no field was written")
+        for field in seen:
+            name = field.name
+            self.assertIs(
+                field,
+                register._fields[name],
+                f"{name} was taken from the spec instead of the concrete model",
+            )
+            # the spec holds a different Field instance for the same name, so
+            # the assertion above really distinguishes the two
+            self.assertIsNot(field, spec._fields[name])
+
     def test_generate_sped(self):
         sped = self.declaration._generate_sped_text()
-        with open(self.file_path) as f:
+        with open(self.file_path, encoding=SPED_ENCODING) as f:
             target_content = f.read()
             # print(sped)
             self.assertEqual(sped.strip(), target_content.strip())
@@ -751,3 +838,41 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
             "res.partner,0",
             "Reference string not computed as expected for res_id=0.",
         )
+
+    def test_attachment_is_encoded_in_latin1(self):
+        """The SPED attachment is ISO-8859-1, not utf-8.
+
+        The layout mandates Latin-1. With utf-8 every accented character
+        takes two bytes and the government validator reads the text as
+        mojibake: the ECF PVA shows "DISCRIMINA\u00c7\u00c3O" as
+        "DISCRIMINA\u00c3\u0083O" and flags the whole line.
+        """
+        text = "|P200|1|DISCRIMINA\u00c7\u00c3O DA RECEITA BRUTA||\n"
+        vals = self.declaration._create_sped_attachment(text)
+        stored = base64.b64decode(vals["datas"])
+        self.assertEqual(stored, text.encode("iso-8859-1"))
+        # one byte per accented character, no utf-8 marker in the Latin range
+        self.assertEqual(len(stored), len(text))
+        self.assertNotIn(b"\xc3\x87", stored)
+
+    def test_character_outside_latin1_does_not_abort(self):
+        """A symbol pasted in some label cannot block the whole file."""
+        text = "|I250|Taxa \u20ac de servico|\n"
+        vals = self.declaration._create_sped_attachment(text)
+        stored = base64.b64decode(vals["datas"])
+        self.assertEqual(len(stored), len(text))
+        self.assertIn(b"?", stored)
+
+    def test_import_reads_latin1(self):
+        """Files received from third parties come in Latin-1 and must open."""
+        import tempfile
+
+        with tempfile.NamedTemporaryFile(
+            mode="wb", suffix=".txt", delete=False
+        ) as handle:
+            with open(self.file_path, encoding="iso-8859-1") as original:
+                content = original.read()
+            handle.write(content.encode("iso-8859-1"))
+            path = handle.name
+        declaration = self.env["l10n_br_sped.mixin"]._import_file(path, "fake")
+        self.assertTrue(declaration)

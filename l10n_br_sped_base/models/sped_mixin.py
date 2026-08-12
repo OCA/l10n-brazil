@@ -14,6 +14,12 @@ from odoo.tools import float_is_zero
 
 _logger = logging.getLogger(__name__)
 
+# SPED files are written and read in ISO-8859-1 (Latin-1), as the layout
+# mandates; the utf-8 that Python defaults to would write two bytes per
+# accented character and the government validator would read the text as
+# mojibake.
+SPED_ENCODING = "iso-8859-1"
+
 LAYOUT_VERSIONS = {
     "ecd": "9",
     "ecf": "9",
@@ -365,7 +371,7 @@ class SpedMixin(models.AbstractModel):
         """
         if version is None:
             version = LAYOUT_VERSIONS[kind]
-        with open(filename) as spedfile:
+        with open(filename, encoding=SPED_ENCODING) as spedfile:
             last_level = 0
             previous_register = None
             parent = None
@@ -531,7 +537,13 @@ class SpedMixin(models.AbstractModel):
             if not fname.isupper():
                 continue
 
-            val = self._format_field_value(register_spec._fields[fname], value)
+            # A ORDEM dos campos vem do spec, que e o leiaute; os ATRIBUTOS
+            # vem do modelo concreto, que herda tudo do spec e pode refinar.
+            # E o que permite a camada de mapping declarar a obrigatoriedade
+            # que o spec gerado nao carrega, e sem a qual o campo zerado sai
+            # em branco e o PVA recusa o registro.
+            field = self._fields.get(fname) or register_spec._fields[fname]
+            val = self._format_field_value(field, value)
             sped.write(f"{val}|")
 
     def _format_field_value(self, field, value):
