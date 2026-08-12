@@ -433,6 +433,10 @@ class Document(models.Model):
             # AFTER the wizard logic.
             # If triggered directly, ensure we have a reason if required.
             pass
+        # Return True to match the legacy _exec_before_SITUACAO_EDOC_CANCELADA
+        # contract: providers that override this hook chain the super() result
+        # and rely on it being truthy when they have nothing to do.
+        return True
 
     def _before_document_back2draft(self):
         self.ensure_one()
