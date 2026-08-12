@@ -1,6 +1,6 @@
 {
     "name": "MDF-e abstract models",
-    "version": "17.0.1.0.0",
+    "version": "17.0.1.0.1",
     "author": "Akretion, Odoo Community Association (OCA)",
     "license": "LGPL-3",
     "category": "Accounting",
