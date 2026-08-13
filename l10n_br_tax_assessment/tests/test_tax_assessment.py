@@ -207,9 +207,7 @@ class TestTaxAssessment(AccountTestInvoicingCommon):
         group = self.env["account.tax.group"].create(
             {
                 "name": "IPI (teste)",
-                "fiscal_tax_group_id": self.env.ref(
-                    "l10n_br_fiscal.tax_group_ipi"
-                ).id,
+                "fiscal_tax_group_id": self.env.ref("l10n_br_fiscal.tax_group_ipi").id,
             }
         )
         a = self._new_assessment(group=group)
@@ -701,3 +699,173 @@ class TestTaxAssessmentDemo(AccountTestInvoicingCommon):
         line = line.sudo()
         self.assertEqual(line.adjustment_kind, "other_debit")
         self.assertEqual(line.kind, "debit")
+
+
+@tagged("post_install", "-at_install")
+class TestTaxAssessmentClosingBook(AccountTestInvoicingCommon):
+    """Closing against the ACCOUNTS the invoices actually posted to.
+
+    Every other closing test builds the running account with synthetic lines
+    and checks the arithmetic of the entry. None of them post real invoices
+    and read the resulting BOOK balance, so the bridge between the escrituracao
+    and the closing entry had no coverage: the point where the sign convention
+    of a return could diverge from how it was booked.
+
+    Here the taxes post to the same payable/receivable accounts the group
+    closes into, so after posting the closing entry the accounts must show the
+    payment slip on one side and zero (never a negative asset) on the other.
+    """
+
+    @classmethod
+    def setUpClass(cls, chart_template_ref=None):
+        super().setUpClass(chart_template_ref=chart_template_ref)
+        cls.company = cls.company_data["company"]
+        cls.payable = cls.env["account.account"].create(
+            {
+                "name": "ICMS a recolher",
+                "code": "TAXPAY",
+                "account_type": "liability_current",
+                "company_id": cls.company.id,
+            }
+        )
+        cls.receivable = cls.env["account.account"].create(
+            {
+                "name": "ICMS a recuperar",
+                "code": "TAXREC",
+                "account_type": "asset_current",
+                "company_id": cls.company.id,
+            }
+        )
+        cls.group = cls.env["account.tax.group"].create({"name": "ICMS (encerramento)"})
+        cls.group.with_company(cls.company).write(
+            {
+                "property_tax_payable_account_id": cls.payable.id,
+                "property_tax_receivable_account_id": cls.receivable.id,
+            }
+        )
+        # A sale tax books its amount into the payable account (the invoices
+        # credit it) and a purchase tax into the recoverable one (they debit
+        # it). Pinning the repartition account is what makes the invoices land
+        # on the very accounts the closing entry then consumes.
+        cls.sale_tax = cls._tax("ICMS 18% saida", "sale", cls.payable)
+        cls.purchase_tax = cls._tax("ICMS 18% entrada", "purchase", cls.receivable)
+
+    @classmethod
+    def _tax(cls, name, type_tax_use, account):
+        return cls.env["account.tax"].create(
+            {
+                "name": "%s (teste)" % name,
+                "amount": 18.0,
+                "type_tax_use": type_tax_use,
+                "tax_group_id": cls.group.id,
+                "company_id": cls.company.id,
+                "invoice_repartition_line_ids": [
+                    (0, 0, {"repartition_type": "base", "factor_percent": 100.0}),
+                    (
+                        0,
+                        0,
+                        {
+                            "repartition_type": "tax",
+                            "factor_percent": 100.0,
+                            "account_id": account.id,
+                        },
+                    ),
+                ],
+                "refund_repartition_line_ids": [
+                    (0, 0, {"repartition_type": "base", "factor_percent": 100.0}),
+                    (
+                        0,
+                        0,
+                        {
+                            "repartition_type": "tax",
+                            "factor_percent": 100.0,
+                            "account_id": account.id,
+                        },
+                    ),
+                ],
+            }
+        )
+
+    def _book_balance(self, account):
+        """Signed balance of the account over the posted entries (debit - credit)."""
+        self.env["account.move.line"].flush_model()
+        lines = self.env["account.move.line"].search(
+            [
+                ("account_id", "=", account.id),
+                ("parent_state", "=", "posted"),
+                ("company_id", "=", self.company.id),
+            ]
+        )
+        return sum(lines.mapped("balance"))
+
+    def _assessment(self):
+        return self.env["l10n_br_tax.assessment"].create(
+            {
+                "company_id": self.company.id,
+                "tax_group_id": self.group.id,
+                "date_from": "2026-07-01",
+                "date_to": "2026-07-31",
+            }
+        )
+
+    def test_closing_leaves_the_accounts_on_the_slip_with_a_purchase_return(self):
+        """Sale 1000, purchase 500, purchase return 100, all at ICMS 18%.
+
+        Booked balances before closing:
+          payable    = 180 credit (the sale)
+          recoverable =  90 debit (the purchase) - 18 (the return) = 72 debit
+
+        The E110 balance due is 180 - (90 - 18) = 108. Closing must consume the
+        72 the recoverable account actually holds, leaving 108 due in payable
+        and ZERO in recoverable. Consuming the fiscal credit side (90) instead
+        would credit more than the account holds and leave the asset negative.
+        """
+        self.init_invoice(
+            "out_invoice",
+            invoice_date="2026-07-10",
+            amounts=[1000.0],
+            taxes=self.sale_tax,
+            post=True,
+        )
+        self.init_invoice(
+            "in_invoice",
+            invoice_date="2026-07-05",
+            amounts=[500.0],
+            taxes=self.purchase_tax,
+            post=True,
+        )
+        self.init_invoice(
+            "in_refund",
+            invoice_date="2026-07-25",
+            amounts=[100.0],
+            taxes=self.purchase_tax,
+            post=True,
+        )
+
+        # sanity: the invoices booked where we expect, before any closing
+        self.assertAlmostEqual(self._book_balance(self.payable), -180.0, places=2)
+        self.assertAlmostEqual(self._book_balance(self.receivable), 72.0, places=2)
+
+        assessment = self._assessment()
+        assessment.action_compute()
+        self.assertAlmostEqual(assessment.debit_total, 180.0, places=2)
+        self.assertAlmostEqual(assessment.credit_total, 90.0, places=2)
+        self.assertAlmostEqual(assessment.credit_reversal_total, 18.0, places=2)
+        self.assertAlmostEqual(assessment.assessed_balance, 108.0, places=2)
+        self.assertAlmostEqual(assessment.amount_payable, 108.0, places=2)
+
+        assessment.action_post()
+        if assessment.move_id and assessment.move_id.state != "posted":
+            assessment.move_id.action_post()
+
+        # the recoverable account must NOT be driven negative by the closing
+        self.assertGreaterEqual(
+            self._book_balance(self.receivable),
+            0.0,
+            "closing drove the recoverable ICMS account into a negative asset",
+        )
+        # and the two accounts together must still show the slip: 108 to pay
+        payable_balance = self._book_balance(self.payable)
+        receivable_balance = self._book_balance(self.receivable)
+        self.assertAlmostEqual(receivable_balance, 0.0, places=2)
+        self.assertAlmostEqual(payable_balance, -108.0, places=2)
