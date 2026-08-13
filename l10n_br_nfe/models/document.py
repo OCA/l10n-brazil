@@ -105,7 +105,7 @@ class NFe(spec_models.StackedModel):
 
     # When dynamic stacking is applied the NFe structure is:
     INFNFE_TREE = """
-    > <infnfe>
+> <infnfe>
     > <ide>
         ≡ <NFref> l10n_br_fiscal.document.related
         - <gPagAntecipado>
@@ -1031,6 +1031,12 @@ class NFe(spec_models.StackedModel):
             if company_vat != emit_vat:
                 vals["issuer"] = "partner"
             new_value["vat"] = emit_vat
+            # Capture the emitente's tax regime (CRT) into the supplier
+            # partner's tax_framework (Simples Nacional vs Regime Normal),
+            # which drives the tax mapping and SPED reporting.
+            crt = getattr(value, "CRT", None)
+            if crt is not None:
+                new_value["tax_framework"] = str(getattr(crt, "value", crt))
             super()._build_many2one(
                 self.env["res.partner"], vals, new_value, "partner_id", value, path
             )
