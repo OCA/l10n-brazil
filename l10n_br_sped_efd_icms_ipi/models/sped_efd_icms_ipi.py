@@ -1783,12 +1783,16 @@ class RegistroC197(models.Model):
             SELECT
                 fdl.id AS line_id,
                 COALESCE(
+                    benef.sped_cod_aj,
+                    rel.sped_cod_aj,
                     fdl.partner_icms_tax_benefit_code,
                     fdl.icms_tax_benefit_code,
                     rel.code,
                     ''
                 ) AS cod_aj,
                 COALESCE(
+                    benef.name,
+                    rel.name,
                     fdl.partner_icms_tax_benefit_code,
                     fdl.icms_tax_benefit_code,
                     rel.code,
@@ -1801,6 +1805,8 @@ class RegistroC197(models.Model):
                 fdl.icms_relief_value AS vl_outros
             FROM l10n_br_fiscal_document_line fdl
             LEFT JOIN l10n_br_fiscal_icms_relief rel ON rel.id = fdl.icms_relief_id
+            LEFT JOIN l10n_br_fiscal_tax_definition benef
+                ON benef.id = fdl.icms_tax_benefit_id
             LEFT JOIN product_product pp ON pp.id = fdl.product_id
             LEFT JOIN product_template pt ON pt.id = pp.product_tmpl_id
             WHERE fdl.document_id = %s

@@ -63,3 +63,34 @@ class SpedTest(common.TransactionCase):
         )
         self.assertTrue(c197, "No C197 register generated for the adjustment")
         self.assertIn("SP12345678", c197.mapped("COD_AJ"))
+
+    def test_c197_uses_sped_cod_aj(self):
+        """When the accountant sets a Tabela 5.3 code on the relief, C197 must
+        use it as COD_AJ instead of the declared cBenef."""
+        demo = self.env.ref("l10n_br_fiscal.demo_nfe_same_state")
+        # C197 is a child of C195, so the document needs an observation for
+        # the parent register to exist (see also the "generic C195" gap).
+        demo.manual_fiscal_additional_data = "Observacao fiscal de teste C195"
+        line = demo.fiscal_line_ids[0]
+        relief = self.env["l10n_br_fiscal.icms.relief"].create(
+            {
+                "code": "RJ000001",
+                "name": "Desoneracao de teste",
+                "sped_cod_aj": "RJ999999",
+            }
+        )
+        line.icms_relief_id = relief
+        line.icms_relief_value = 12.34
+        line.partner_icms_tax_benefit_code = "SP12345678"
+
+        declaration = self.env["l10n_br_sped.efd_icms_ipi.0000"].create(
+            {"company_id": demo.company_id.id, "debug": True}
+        )
+        declaration.button_populate_sped_from_odoo()
+
+        c197 = self.env["l10n_br_sped.efd_icms_ipi.c197"].search(
+            [("declaration_id", "=", declaration.id)]
+        )
+        self.assertTrue(c197, "No C197 register generated for the adjustment")
+        self.assertIn("RJ999999", c197.mapped("COD_AJ"))
+        self.assertNotIn("SP12345678", c197.mapped("COD_AJ"))
