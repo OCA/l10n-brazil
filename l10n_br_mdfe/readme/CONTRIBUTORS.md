@@ -7,3 +7,5 @@
   - Raphaël Valyi \<<raphael.valyi@akretion.com.br>\>
 - [Engenere](https://engenere.one):
   - Antônio S. Pereira Neto \<<neto@engenere.one>\>
+- [MadooIT](https://madooit.com):
+  - Rodrigo A. Madureira \<<rodrigo@madooit.com>\>
