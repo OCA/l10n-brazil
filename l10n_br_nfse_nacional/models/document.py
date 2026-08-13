@@ -259,7 +259,19 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
         result = super()._eletronic_document_send()
         for record in self.filtered(filter_nfse_nacional):
             if record.xml_error_message:
-                continue
+                # Skipping in silence leaves the user pressing Send with nothing
+                # happening: no state change, no message, no error.
+                raise UserError(
+                    _(
+                        "The XML of %(document)s did not pass schema validation, "
+                        "so nothing was sent:\n\n%(errors)s\n\nSet the document "
+                        "back to draft and confirm it again to rebuild the XML."
+                    )
+                    % {
+                        "document": record.display_name,
+                        "errors": record.xml_error_message,
+                    }
+                )
             # l10n_br_fiscal_edi calls this hook from _after_document_send,
             # when the state machine already left "a_enviar" for "enviada",
             # so guarding on "a_enviar" would skip every transmission. Only
