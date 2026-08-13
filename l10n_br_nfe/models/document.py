@@ -22,7 +22,7 @@ from requests import Session
 from xsdata.formats.dataclass.parsers import XmlParser
 from xsdata.models.datatype import XmlDateTime
 
-from odoo import _, api, fields
+from odoo import Command, _, api, fields
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
@@ -105,7 +105,7 @@ class NFe(spec_models.StackedModel):
 
     # When dynamic stacking is applied the NFe structure is:
     INFNFE_TREE = """
-> <infnfe>
+    > <infnfe>
     > <ide>
         ≡ <NFref> l10n_br_fiscal.document.related
         - <gPagAntecipado>
@@ -979,6 +979,27 @@ class NFe(spec_models.StackedModel):
         key = f"nfe40_{attr[1].metadata.get('name', attr[0])}"
         if key == "nfe40_IBSCBSTot":
             # IBSCBSTot fields are computed from lines, skip importing
+            return
+        if attr[0] == "autXML":
+            # <autXML> is imported as a one2many of res.partner "contato
+            # CNPJ/CPF X" records. Deduplicate them by CNPJ/CPF through the
+            # res.partner match_or_create_m2o override instead of always
+            # creating a fresh partner, otherwise importing two NF-e sharing
+            # the same autXML CNPJ/CPF (e.g. the supplier's accountant) raises
+            # the l10n_br_fiscal CNPJ/CPF uniqueness constraint.
+            value = getattr(node, attr[0])
+            if value is None or value == []:
+                return
+            partner_model = self.env["res.partner"]
+            partner_ids = []
+            for autxml_line in value:
+                if autxml_line is None:
+                    continue
+                line_vals = partner_model.build_attrs(
+                    autxml_line, path=f"{path}.{key}", defaults_model=partner_model
+                )
+                partner_ids.append(partner_model.match_or_create_m2o(line_vals, vals))
+            vals[key] = [Command.set(partner_ids)]
             return
         return super()._build_attr(node, fields, vals, path, attr)
 
