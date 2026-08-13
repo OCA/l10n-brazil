@@ -1354,6 +1354,12 @@ class NFeLine(spec_models.StackedModel):
         if key in ["nfe40_CST", "nfe40_modBC", "nfe40_CSOSN"]:
             return  # (dealt with in _build_many2one)
 
+        if key == "nfe40_IS":
+            # Imposto Seletivo (2026 reform): not imported yet, skip it instead
+            # of instantiating the nfe.40.tis concrete model (no table). Scalar
+            # is_* fields can mirror _import_ibscbs_attrs when SPED needs it.
+            return
+
         if key == "nfe40_IBSCBS":
             self._import_ibscbs_attrs(value, vals)
             return
