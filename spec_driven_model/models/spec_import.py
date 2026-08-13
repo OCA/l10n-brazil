@@ -10,7 +10,8 @@ from datetime import datetime
 from enum import Enum
 from typing import ForwardRef
 
-from odoo import Command, api, models
+from odoo import Command, _, api, models
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -330,6 +331,99 @@ class SpecMixinImport(models.AbstractModel):
         return keys
 
     @api.model
+    def _spec_import_can_create(self, model=None):
+        """
+        Check the import create policy to decide whether a new record of the
+        given model may be created when no existing match is found.
+
+        The policy is driven by context keys set by the import caller:
+
+        * ``spec_create_allowed_models``: if set (a list/tuple of model names),
+          ONLY those models can be created; everything else is forbidden.
+          This is convenient for go-live imports where you intentionally want
+          to create products, partners or even companies.
+        * ``spec_create_forbidden_models``: a list/tuple of model names that may
+          NEVER be created, or a dict mapping model name -> action where the
+          action is ``'skip'`` (leave the m2o unset, historical behaviour) or
+          ``'raise'`` (raise a UserError). Convenient for supplier NFe imports
+          where you don't want to accidentally create products, countries,
+          UoMs etc.
+
+        If neither key is set, the policy defaults to allowing creation (the
+        historical behaviour), so the feature is fully backward compatible.
+        """
+        if model is None:
+            model = self
+        whitelist = self.env.context.get("spec_create_allowed_models")
+        if whitelist is not None:
+            return model._name in whitelist
+        blacklist = self.env.context.get("spec_create_forbidden_models")
+        if blacklist and model._name in blacklist:
+            return False
+        return True
+
+    @api.model
+    def _spec_import_forbidden_action(self, model):
+        """Resolve the action to take for a forbidden model.
+
+        ``spec_create_forbidden_models`` may be a dict {model: action} to give
+        a per-model action, or a plain list where the global
+        ``spec_create_forbidden_action`` context key (default ``'skip'``)
+        applies to every entry.
+        """
+        blacklist = self.env.context.get("spec_create_forbidden_models")
+        if isinstance(blacklist, dict):
+            return blacklist.get(model._name, "skip")
+        return self.env.context.get("spec_create_forbidden_action", "skip")
+
+    @api.model
+    def _spec_import_forbidden(self, model, rec_dict):
+        """
+        Decide what to do when creation is forbidden and no existing match was
+        found. The action is resolved via :meth:`_spec_import_forbidden_action`:
+
+        * ``'raise'``: raise a UserError (useful for strict integrations).
+        * any other value (default): leave the many2one unset (return False),
+          exactly as the historical ``return False`` overrides did.
+        """
+        action = self._spec_import_forbidden_action(model)
+        if action == "raise":
+            # Build a diagnostic message explaining what was searched so the
+            # user knows which record to create/map manually.
+            search_info = self._spec_import_search_info(model, rec_dict)
+            raise UserError(
+                _(
+                    "Import policy forbids creating %(model)s records."
+                    " No existing match found.\n"
+                    "Searched using: %(search)s\n"
+                    "XML values received: %(values)s"
+                )
+                % {
+                    "model": model._description or model._name,
+                    "search": search_info,
+                    "values": rec_dict,
+                }
+            )
+        return False
+
+    @api.model
+    def _spec_import_search_info(self, model, rec_dict):
+        """Describe the search that was attempted (keys + extra domain)."""
+        parts = []
+        spec_schema = self._context.get("spec_schema")
+        if spec_schema:
+            search_keys_attr = f"_{spec_schema}_search_keys"
+            if hasattr(model, search_keys_attr):
+                keys = getattr(model, search_keys_attr)
+                parts.append(_("keys=%s") % (list(keys) + [model._rec_name or "name"]))
+        extra_domain_attr = f"_{spec_schema}_extra_domain"
+        if hasattr(model, extra_domain_attr):
+            parts.append(_("extra_domain=%s") % getattr(model, extra_domain_attr))
+        if not parts:
+            parts.append(_("key=%s") % (model._rec_name or "name"))
+        return ", ".join(parts)
+
+    @api.model
     def match_or_create_m2o(self, rec_dict, parent_dict, model=None):
         """
         Often the parent_dict can be used to refine the search.
@@ -344,6 +438,8 @@ class SpecMixinImport(models.AbstractModel):
         else:
             rec_id = self.match_record(rec_dict, parent_dict, model)
         if not rec_id:
+            if not self._spec_import_can_create(model):
+                return self._spec_import_forbidden(model, rec_dict)
             vals = self._prepare_import_dict(
                 rec_dict, model=model, parent_dict=parent_dict, defaults_model=model
             )
