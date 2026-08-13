@@ -1,7 +1,7 @@
 # Copyright 2025 Akretion (Raphaël Valyi <raphael.valyi@akretion.com>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, models
+from odoo import models
 
 
 class ResCountryState(models.Model):
@@ -9,12 +9,5 @@ class ResCountryState(models.Model):
     _mdfe_search_keys = ["ibge_code", "code"]
     _mdfe_extra_domain = [("ibge_code", "!=", False)]
 
-    @api.model
-    def match_or_create_m2o(self, rec_dict, parent_dict, model=None):
-        """If state not found, break hard, don't create it"""
-        if rec_dict.get("ibge_code"):
-            domain = [("ibge_code", "=", rec_dict.get("ibge_code"))]
-            match = self.search(domain, limit=1)
-            if match:
-                return match.id
-        return False
+    # Creation during MDFe import is prevented via the
+    # spec_create_forbidden_models context key set by the import caller.
