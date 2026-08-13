@@ -391,7 +391,7 @@
           <vPIS>68.51</vPIS>
           <vCOFINS>316.17</vCOFINS>
           <vOutro>0.00</vOutro>
-          <vNF>12227.86</vNF>
+          <vNF>12108.10</vNF>
         </ICMSTot>
         <IBSCBSTot>
           <vBCIBSCBS>11975.96</vBCIBSCBS>
@@ -418,7 +418,7 @@
             <vCredPresCondSus>0.00</vCredPresCondSus>
           </gCBS>
         </IBSCBSTot>
-        <vNFTot>12227.86</vNFTot>
+        <vNFTot>12108.10</vNFTot>
       </total>
       <transp>
         <modFrete>1</modFrete>
@@ -441,30 +441,30 @@
       <cobr>
         <fat>
           <nFat>66106</nFat>
-          <vOrig>12227.86</vOrig>
+          <vOrig>12108.10</vOrig>
           <vDesc>0.00</vDesc>
-          <vLiq>12227.86</vLiq>
+          <vLiq>12108.10</vLiq>
         </fat>
         <dup>
           <nDup>001</nDup>
           <dVenc>2026-12-09</dVenc>
-          <vDup>4075.95</vDup>
+          <vDup>4035.63</vDup>
         </dup>
         <dup>
           <nDup>002</nDup>
           <dVenc>2026-12-24</dVenc>
-          <vDup>4075.95</vDup>
+          <vDup>4035.63</vDup>
         </dup>
         <dup>
           <nDup>003</nDup>
           <dVenc>2027-01-08</dVenc>
-          <vDup>4075.96</vDup>
+          <vDup>4036.84</vDup>
         </dup>
       </cobr>
       <pag>
         <detPag>
           <tPag>01</tPag>
-          <vPag>12227.86</vPag>
+          <vPag>12108.10</vPag>
         </detPag>
       </pag>
       <infAdic>
