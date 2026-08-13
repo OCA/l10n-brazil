@@ -499,22 +499,31 @@ class TaxAssessment(models.Model):
     def _closing_offset(self):
         """The amount the closing entry moves: the CONSUMED side.
 
-        The accounts already hold each side of the offsetting (the invoices
+        Each side is the balance its account ACTUALLY holds. The invoices
         credited the payable account and debited the recoverable one, and the
-        previous credit balance stayed in the recoverable account). Closing
-        consumes the smaller side, so what remains is exactly what each
-        account must show: the payment slip amount in payable, or the credit
-        to carry over in recoverable. Moving the NET between them, as a first
-        version did, left the recoverable account with a negative asset.
+        previous credit balance stayed in the recoverable account. Closing
+        consumes the smaller side, so what remains is exactly what each account
+        must show: the payment slip in payable, or the credit to carry over in
+        recoverable. Moving the NET between them, as a first version did, left
+        the recoverable account with a negative asset.
+
+        A return is booked BACK into the account it came from: a sale return
+        debits the payable account and a purchase return credits the
+        recoverable one. So a reversal SUBTRACTS from its own side, it does not
+        cross to the other side the way the E110 offsetting moves it (that is a
+        fiscal presentation, not where the journal item landed). Crossing it
+        made the offset consume more than the recoverable account held and left
+        it a negative asset on any period with a purchase return, which the
+        closed-book test catches with a real invoice.
         """
         self.ensure_one()
         debit_side = (
-            self.debit_total + self.adjustment_debit_total + self.credit_reversal_total
+            self.debit_total + self.adjustment_debit_total - self.debit_reversal_total
         )
         credit_side = (
             self.credit_total
             + self.adjustment_credit_total
-            + self.debit_reversal_total
+            - self.credit_reversal_total
             + self.previous_balance
         )
         return min(debit_side, credit_side)
