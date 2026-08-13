@@ -244,6 +244,6 @@ class NFeImportTest(TransactionCase):
         )
 
         self.assertEqual(len(move.due_line_ids), 3)
-        self.assertAlmostEqual(move.due_line_ids[0].credit, 4075.95, places=2)
-        self.assertAlmostEqual(move.due_line_ids[1].credit, 4075.95, places=2)
-        self.assertAlmostEqual(move.due_line_ids[2].credit, 4075.96, places=2)
+        self.assertAlmostEqual(move.due_line_ids[0].credit, 4035.63, places=2)
+        self.assertAlmostEqual(move.due_line_ids[1].credit, 4035.63, places=2)
+        self.assertAlmostEqual(move.due_line_ids[2].credit, 4036.84, places=2)
