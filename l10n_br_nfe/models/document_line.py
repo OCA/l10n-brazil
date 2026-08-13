@@ -1514,10 +1514,12 @@ class NFeLine(spec_models.StackedModel):
         """
         tax_binding = value
         kind = key.split("_")[1].lower()
+        found_tag = key
         if sub_tags:
             for tag in sub_tags:
                 if getattr(value, tag) is not None:
                     tax_binding = getattr(value, tag)
+                    found_tag = f"nfe40_{tag}"
 
         def map_binding_attr(attr, odoo_attr=None):
             """
@@ -1534,10 +1536,12 @@ class NFeLine(spec_models.StackedModel):
                     odoo_attrs[odoo_attr] = casted_value
                 return casted_value
 
-        # common attributes CST, VBC, p*, v*:
-        cst = map_binding_attr("CST")
+        # common attributes CST (or CSOSN for Simples Nacional), VBC, p*, v*:
+        is_icmssn = "ICMSSN" in found_tag
+        cst_kind = "icmssn" if is_icmssn else kind
+        cst = map_binding_attr("CSOSN" if is_icmssn else "CST")
         if cst:
-            cst_id = self.env.ref(f"l10n_br_fiscal.cst_{kind}_{cst}").id
+            cst_id = self.env.ref(f"l10n_br_fiscal.cst_{cst_kind}_{cst}").id
             odoo_attrs[f"{kind}_cst_id"] = cst_id
         else:
             cst_id = None
@@ -1554,7 +1558,7 @@ class NFeLine(spec_models.StackedModel):
             map_binding_attr("modBC", f"{kind}_base_type")
             icms_percent_red = None
 
-        if "ICMSSN" in key:
+        if is_icmssn:
             tax_group_kind = "icmssn"
         elif "ICMSST" in key:
             tax_group_kind = "icmsst"
@@ -1661,13 +1665,8 @@ class NFeLine(spec_models.StackedModel):
             map_binding_attr("vICMSUFRemet", "icms_origin_value")
             map_binding_attr("vICMSUFDest", "icms_destination_value")
 
-            # ICMS Simples Nacional Fields
-            # TODO map icmssn_tax_id using CSOSN
-            csosn = map_binding_attr("CSOSN")
-            if csosn:
-                odoo_attrs["icms_cst_id"] = self.env.ref(
-                    f"l10n_br_fiscal.cst_icmssn_{csosn}"
-                ).id
+            # ICMS Simples Nacional Fields (CSOSN is already mapped to
+            # icms_cst_id above via the icmssn tax group)
             map_binding_attr("pCredSN", "icmssn_percent")
             map_binding_attr("vCredICMSSN", "icmssn_credit_value")
 
