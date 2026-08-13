@@ -3,6 +3,7 @@ import os
 import re
 from unittest.mock import MagicMock, patch
 
+from odoo import fields
 from odoo.tests import TransactionCase
 
 from odoo.addons import l10n_br_nfe
@@ -204,26 +205,47 @@ class NFeImportWizardTest(TransactionCase):
         self.assertFalse(prod_id)
 
     def test_match_product_by_purchase(self):
-        """The purchase-order priority match is a soft dependency on
-        l10n_br_purchase (which adds partner_order/partner_order_line to
-        purchase.order.line). It must be a no-op when those fields are absent,
+        """xPed/nItemPed map to the buyer's purchase.order.name and
+        purchase.order.line.sequence. When purchase is absent it must no-op,
         so _match_product falls back to supplierinfo/default_code/barcode."""
         self._prepare_wizard(self.xml_1)
-        pol = self.env.get("purchase.order.line")
-        has_fields = pol is not None and "partner_order" in pol._fields
+        pol_model = self.env.get("purchase.order.line")
+
         mock = MagicMock()
         mock.xPed = "NONEXISTENT-PO-REF"
         mock.nItemPed = "999"
-        # No PO references this xPed (and/or l10n_br_purchase absent) -> no
-        # match, and crucially no crash on a missing field.
+        # No PO references this xPed (and/or purchase absent) -> no match,
+        # and crucially no crash on a missing model.
         self.assertFalse(self.wizard._match_product_by_purchase(mock))
-        if not has_fields:
+
+        if pol_model is None:
             # guard short-circuits before any purchase.order.line search
             self.assertFalse(
                 self.wizard._match_product_by_purchase(
                     self.wizard._parse_file().infNFe.det[0].prod
                 )
             )
+            return
+
+        # xPed = purchase.order.name, nItemPed = line sequence.
+        partner = self.env["res.partner"].create({"name": "Vendor PO"})
+        product = self.env["product.product"].create({"name": "PO Product"})
+        order = self.env["purchase.order"].create({"partner_id": partner.id})
+        line = self.env["purchase.order.line"].create(
+            {
+                "order_id": order.id,
+                "product_id": product.id,
+                "name": "PO Product",
+                "product_qty": 1.0,
+                "price_unit": 10.0,
+                "date_planned": fields.Datetime.now(),
+            }
+        )
+        self.wizard.partner_id = partner
+        mock = MagicMock()
+        mock.xPed = order.name
+        mock.nItemPed = str(line.sequence)
+        self.assertEqual(self.wizard._match_product_by_purchase(mock), product)
 
     def test__parse_xml(self):
         self._prepare_wizard(self.xml_1)
