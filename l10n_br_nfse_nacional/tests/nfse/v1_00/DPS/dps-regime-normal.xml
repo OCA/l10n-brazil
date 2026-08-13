@@ -58,7 +58,11 @@
                     <vRetCP>0.40</vRetCP>
                 </tribFed>
                 <totTrib>
-                    <indTotTrib>0</indTotTrib>
+                    <pTotTrib>
+                        <pTotTribFed>0.00</pTotTribFed>
+                        <pTotTribEst>0.00</pTotTribEst>
+                        <pTotTribMun>0.00</pTotTribMun>
+                    </pTotTrib>
                 </totTrib>
             </trib>
         </valores>

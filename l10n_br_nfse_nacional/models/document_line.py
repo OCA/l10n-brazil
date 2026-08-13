@@ -25,6 +25,7 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
         "nfse.10.tctribnacional",
         "nfse.10.tctriboutrospiscofins",
         "nfse.10.tctribtotal",
+        "nfse.10.tctribtotalpercent",
     ]
 
     _nfse10_odoo_module = (
@@ -42,6 +43,7 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
     _nfse10_binding_type_tribMun = "TctribMunicipal"
     _nfse10_binding_type_tribFed = "TctribNacional"
     _nfse10_binding_type_totTrib = "TctribTotal"
+    _nfse10_binding_type_pTotTrib = "TctribTotalPercent"
 
     nfse10_locPrest = fields.Many2one(
         "l10n_br_fiscal.document.line",
@@ -118,6 +120,14 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
 
     nfse10_indTotTrib = fields.Selection(compute="_compute_nfse10_tot_trib")
     nfse10_pTotTribSN = fields.Char(compute="_compute_nfse10_tot_trib")
+    nfse10_pTotTrib = fields.Many2one(
+        "l10n_br_fiscal.document.line",
+        compute="_compute_nfse10_tot_trib",
+        string="Percentual Total de Tributos",
+    )
+    nfse10_pTotTribFed = fields.Char(compute="_compute_nfse10_tot_trib")
+    nfse10_pTotTribEst = fields.Char(compute="_compute_nfse10_tot_trib")
+    nfse10_pTotTribMun = fields.Char(compute="_compute_nfse10_tot_trib")
 
     def _compute_nfse10_self(self):
         for rec in self:
@@ -144,11 +154,15 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
                 else False
             )
 
-    @api.depends("issqn_percent", "issqn_wh_percent", "issqn_value", "issqn_wh_value")
+    @api.depends("issqn_wh_value")
     def _compute_nfse10_trib_mun(self):
+        # O binding do nfelib nasce do esquema v1.00, que ordena o pAliq antes do
+        # tpRetISSQN. O esquema v1.01, que o ambiente nacional aplica, espera ele
+        # depois, e rejeita com E1235. O campo e opcional nos dois esquemas e a
+        # aliquota do ISSQN vem do cadastro do municipio na propria ADN, entao
+        # nao informar e o unico caminho valido para as duas versoes.
         for rec in self:
-            aliquota = rec.issqn_percent or rec.issqn_wh_percent or 0.0
-            rec.nfse10_pAliq = f"{aliquota:.2f}" if aliquota > 0 else False
+            rec.nfse10_pAliq = False
             rec.nfse10_tpRetISSQN = "2" if rec.issqn_wh_value > 0 else "1"
 
     @api.depends("inss_wh_value", "irpj_wh_value", "csll_wh_value")
@@ -197,18 +211,37 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
     @api.depends(
         "company_id.tax_framework",
         "company_id.simplified_tax_range_id.total_tax_percent",
+        "pis_percent",
+        "cofins_percent",
+        "issqn_percent",
     )
     def _compute_nfse10_tot_trib(self):
+        # O grupo totTrib e um xs:choice obrigatorio entre vTotTrib, pTotTrib,
+        # indTotTrib e pTotTribSN. A rejeicao E0713 do ambiente nacional proibe
+        # indTotTrib e pTotTribSN para quem nao e optante do Simples Nacional,
+        # que por isso informa a carga aproximada em pTotTrib.
         for rec in self:
-            percent = 0.0
-            if rec.company_id.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
-                percent = rec.company_id.simplified_tax_range_id.total_tax_percent
-            if percent:
-                rec.nfse10_indTotTrib = False
-                rec.nfse10_pTotTribSN = f"{percent:.2f}"
+            simples = rec.company_id.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL
+            percent = (
+                rec.company_id.simplified_tax_range_id.total_tax_percent
+                if simples
+                else 0.0
+            )
+            if simples:
+                rec.nfse10_indTotTrib = False if percent else "0"
+                rec.nfse10_pTotTribSN = f"{percent:.2f}" if percent else False
+                rec.nfse10_pTotTrib = False
+                rec.nfse10_pTotTribFed = False
+                rec.nfse10_pTotTribEst = False
+                rec.nfse10_pTotTribMun = False
             else:
-                rec.nfse10_indTotTrib = "0"
+                rec.nfse10_indTotTrib = False
                 rec.nfse10_pTotTribSN = False
+                rec.nfse10_pTotTrib = rec.id
+                federal = (rec.pis_percent or 0.0) + (rec.cofins_percent or 0.0)
+                rec.nfse10_pTotTribFed = f"{federal:.2f}"
+                rec.nfse10_pTotTribEst = "0.00"
+                rec.nfse10_pTotTribMun = f"{rec.issqn_percent or 0.0:.2f}"
 
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
         internal_stack_mappings = [
@@ -221,6 +254,7 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
             "nfse10_tribFed",
             "nfse10_piscofins",
             "nfse10_totTrib",
+            "nfse10_pTotTrib",
         ]
         if field_name in internal_stack_mappings:
             return self._build_binding(

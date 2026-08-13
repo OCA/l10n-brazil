@@ -22,6 +22,6 @@ class TestNfseExportSN(TestNfseSerialize):
                 "nfse"
             ].document_key = "140015920176113500013200900000000000000006"
             nfse_data["nfse"].document_serie = "900"
-            nfse_data["nfse"].document_number = "6"
+            nfse_data["nfse"].rps_number = "6"
             diff = self.serialize_xml(nfse_data)
             self.assertEqual(len(diff), 0)

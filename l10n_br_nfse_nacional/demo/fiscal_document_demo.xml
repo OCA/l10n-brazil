@@ -63,6 +63,7 @@
 
         <field name="document_type_id" search="[('code', '=', 'SE')]" />
 
+        <field name="rps_number">2</field>
         <field name="document_number">2</field>
         <field name="document_serie_id" ref="document_serie_lc" />
         <field name="document_key">420240420000000000000000007000000000000002</field>
@@ -103,6 +104,7 @@
 
         <field name="document_type_id" search="[('code', '=', 'SE')]" />
 
+        <field name="rps_number">6</field>
         <field name="document_number">6</field>
         <field name="document_serie_id" ref="document_serie_sn" />
         <field name="document_key">140015920176113500013200900000000000000006</field>
