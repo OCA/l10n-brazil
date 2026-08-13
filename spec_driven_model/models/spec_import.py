@@ -308,14 +308,13 @@ class SpecMixinImport(models.AbstractModel):
         else:
             keys = [model._rec_name or "name"]
         keys = self._get_aditional_keys(model, rec_dict, keys)
+        extra_domain_attr = "_%s_extra_domain" % (self._context["spec_schema"])
+        extra_domain = getattr(model, extra_domain_attr, [])
         for key in keys:
             if rec_dict.get(key):
                 # TODO enable to build criteria using parent_dict
                 # such as state_id when searching for a city
-                if hasattr(model, "_nfe_extra_domain"):  # FIXME make generic
-                    domain = model._nfe_extra_domain + [(key, "=", rec_dict.get(key))]
-                else:
-                    domain = [(key, "=", rec_dict.get(key))]
+                domain = extra_domain + [(key, "=", rec_dict.get(key))]
                 match_ids = model.search(domain)
                 if match_ids:
                     if len(match_ids) > 1:
