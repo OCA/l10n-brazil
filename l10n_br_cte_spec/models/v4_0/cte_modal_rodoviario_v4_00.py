@@ -44,7 +44,10 @@ class Occ(models.AbstractModel):
     _binding_type = "Rodo.Occ"
 
     cte40_occ_rodo_id = fields.Many2one(
-        comodel_name="cte.40.rodo", xsd_implicit=True, ondelete="cascade"
+        comodel_name="cte.40.rodo",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
     )
     cte40_serie = fields.Char(string="Série da OCC")
 

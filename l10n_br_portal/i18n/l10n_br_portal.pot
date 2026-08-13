@@ -186,6 +186,11 @@ msgid "Should display Brazilian localization fields?"
 msgstr ""
 
 #. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__show_br_vat_format
+msgid "Show Br Vat Format"
+msgstr ""
+
+#. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__show_l10n_br
 msgid "Show L10N Br"
 msgstr ""
@@ -223,6 +228,13 @@ msgstr ""
 #. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__vat_formatted_cnpj
 msgid "VAT Formatted (Brazil)"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,help:l10n_br_portal.field_res_partner__show_br_vat_format
+msgid ""
+"Whether to display VAT with Brazilian formatting (true when the current "
+"user's company is Brazilian)."
 msgstr ""
 
 #. module: l10n_br_portal

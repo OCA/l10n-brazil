@@ -22,14 +22,14 @@ msgid "BR Company Currency"
 msgstr ""
 
 #. module: l10n_br_crm
-#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cnpj
-msgid "CNPJ"
-msgstr "CNPJ"
-
-#. module: l10n_br_crm
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__vat_formatted_cnpj
 msgid "CNPJ or CPF formatted with proper punctuation and special characters"
 msgstr ""
+
+#. module: l10n_br_crm
+#: model_terms:ir.ui.view,arch_db:l10n_br_crm.l10n_br_crm_leads_form
+msgid "CNPJ/CPF"
+msgstr "CNPJ/CPF"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cnpj_cpf_stripped
@@ -40,11 +40,6 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__cnpj_cpf_stripped
 msgid "CNPJ/CPF without special characters"
 msgstr ""
-
-#. module: l10n_br_crm
-#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cpf
-msgid "CPF"
-msgstr "CPF"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__city_id
@@ -131,6 +126,11 @@ msgid "RG"
 msgstr "RG"
 
 #. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__show_br_vat_format
+msgid "Show Br Vat Format"
+msgstr ""
+
+#. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__show_l10n_br
 msgid "Show L10N Br"
 msgstr ""
@@ -170,8 +170,18 @@ msgstr ""
 msgid "Vat"
 msgstr ""
 
-#~ msgid "CNPJ/CPF"
-#~ msgstr "CNPJ/CPF"
+#. module: l10n_br_crm
+#: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__show_br_vat_format
+msgid ""
+"Whether to display VAT with Brazilian formatting (true when the current "
+"user's company is Brazilian)."
+msgstr ""
+
+#~ msgid "CNPJ"
+#~ msgstr "CNPJ"
+
+#~ msgid "CPF"
+#~ msgstr "CPF"
 
 #, python-format
 #~ msgid "Invalid CNPJ!"

@@ -43,8 +43,13 @@ class CNPJAlfanumericoTest(TransactionCase):
         self.assertTrue(company.id, "Company with alphanumeric CNPJ was not created")
         self.assertEqual(
             company.vat,
+            "A87HBZHB000161",
+            "Unformatted alphanumeric CNPJ should be preserved",
+        )
+        self.assertEqual(
+            company.vat_formatted_cnpj,
             "A8.7HB.ZHB/0001-61",
-            "Formatted alphanumeric CNPJ should be preserved",
+            "Formatted alphanumeric CNPJ should be available",
         )
         self.assertEqual(
             company.cnpj_cpf_stripped,

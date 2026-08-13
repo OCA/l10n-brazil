@@ -14,7 +14,7 @@ class PartnerCnpjSearchWizard(models.TransientModel):
             if "currency_id" in res:
                 lead_model = self.env["crm.lead"]
                 lead = lead_model.browse(lead_id)
-                cnpj_cpf = punctuation_rm(lead.cnpj)
+                cnpj_cpf = punctuation_rm(lead.vat)
                 values = self._get_partner_values(cnpj_cpf)
                 res.update(values)
         return res
@@ -25,7 +25,7 @@ class PartnerCnpjSearchWizard(models.TransientModel):
         if active_model == "crm.lead":
             lead_model = self.env["crm.lead"]
             lead_id = lead_model.browse(lead_id)
-            lead_id.partner_id.vat = lead_id.cnpj
+            lead_id.partner_id.vat = lead_id.vat
             values_to_update = {
                 "partner_name": self.name,
                 "legal_name": self.legal_name,

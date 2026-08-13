@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Pedido de Venda com o Endereço de Entrega(partner_shipping_id)
+     diferente do Endereço de Faturamento( partner_invoice_id ), no Brasil
+     isso só é permitido se os dois endereços estiverem no mesmo Estado,
+     no exemplo SP
+     -->
+
+    <!-- Testar quando o Cliente possui o Termo de Pagamento diferente do Pedido de Venda -->
+    <record id="l10n_br_base.res_partner_akretion" model="res.partner">
+        <field
+            name="property_payment_term_id"
+            ref="account.account_payment_term_15days"
+        />
+    </record>
+
+    <!-- Main Company Simples Nacional -->
+    <record id="main_company-sale_order_1" model="sale.order">
+        <field
+            name="name"
+        >l10n_br_sale_stock - Endereço de Entrega e Faturamento diferentes</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_address_ak3" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="pricelist_id" ref="sale_stock_picking_invoicing.demo_pricelist" />
+        <field name="payment_term_id" ref="account.account_payment_term_advance" />
+        <field name="team_id" ref="sales_team.crm_team_1" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <!-- Necessario para corrigir o campo ind_final, por padrão vem com o
+         valor Sim, o que está errado, porque deve ser Não -->
+        <field name="ind_final">0</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="copy_note">True</field>
+        <field name="note">TESTE - TERMOS E CONDIÇÕES 1</field>
+        <field
+            name="manual_customer_additional_data"
+        >TESTE - CUSTOMER ADDITIONAL DATA 1</field>
+        <field
+            name="manual_fiscal_additional_data"
+        >TESTE - FISCAL ADDITIONAL DATA 1</field>
+        <field name="client_order_ref">Cliente Ref Test 1</field>
+        <field name="campaign_id" ref="utm.utm_campaign_christmas_special" />
+        <field name="medium_id" ref="utm.utm_medium_banner" />
+        <field name="source_id" ref="utm.utm_source_monster" />
+        <field name="incoterm" ref="account.incoterm_FOB" />
+        <field name="tag_ids" eval="[Command.link(ref('sales_team.categ_oppor1'))]" />
+    </record>
+
+    <record id="main_company-sale_order_line_1_1" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_1" />
+        <field
+            name="name"
+            model="sale.order.line"
+            eval="obj().env.ref('product.product_product_16').get_product_multiline_description_sale()"
+        />
+        <field name="product_id" ref="product.product_product_16" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+    <record id="main_company-sale_order_line_1_2" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_1" />
+        <field
+            name="name"
+            model="sale.order.line"
+            eval="obj().env.ref('product.product_product_12').get_product_multiline_description_sale()"
+        />
+
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+    <record id="main_company-sale_order_line_1_3" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_1" />
+        <field name="name">This is a Note 1</field>
+        <field name="display_type">line_note</field>
+    </record>
+
+    <record id="main_company-sale_order_line_1_4" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_1" />
+        <field name="name">This is a Section 1</field>
+        <field name="display_type">line_section</field>
+    </record>
+
+    <record id="main_company-sale_order_line_1_5" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_1" />
+        <field
+            name="name"
+            model="sale.order.line"
+            eval="obj().env.ref('product.product_product_12').get_product_multiline_description_sale()"
+        />
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_uom_qty">1</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">50</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_bonificacao" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_bonificacao_bonificacao"
+        />
+    </record>
+
+    <!-- Pedido de Venda com Produto e Serviço -->
+    <record id="main_company-sale_order_2" model="sale.order">
+        <field name="name">l10n_br_sale_stock - Produto e Serviço</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_address_ak3" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="pricelist_id" ref="sale_stock_picking_invoicing.demo_pricelist" />
+        <field name="payment_term_id" ref="account.account_payment_term_advance" />
+        <field name="team_id" ref="sales_team.crm_team_1" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <!-- Necessario para corrigir o campo ind_final, por padrão vem com o
+         valor Sim, o que está errado, porque deve ser Não -->
+        <field name="ind_final">0</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="copy_note">True</field>
+        <field name="note">TESTE de criação de duas Notas de Serviço e Produto</field>
+        <field
+            name="manual_customer_additional_data"
+        >TESTE - CUSTOMER ADDITIONAL DATA 2</field>
+        <field
+            name="manual_fiscal_additional_data"
+        >TESTE - FISCAL ADDITIONAL DATA 2</field>
+        <field name="client_order_ref">Customer Ref Test 2</field>
+        <field name="campaign_id" ref="utm.utm_campaign_christmas_special" />
+        <field name="medium_id" ref="utm.utm_medium_banner" />
+        <field name="source_id" ref="utm.utm_source_monster" />
+        <field name="incoterm" ref="account.incoterm_FOB" />
+        <field
+            name="tag_ids"
+            eval="[Command.link(ref('sales_team.categ_oppor1')), Command.link(ref('sales_team.categ_oppor3'))]"
+        />
+    </record>
+
+    <record id="main_company-sale_order_line_2_1" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_2" />
+        <field
+            name="name"
+            model="sale.order.line"
+            eval="obj().env.ref('product.product_product_16').get_product_multiline_description_sale()"
+        />
+        <field name="product_id" ref="product.product_product_16" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+    <record id="main_company-sale_order_line_2_2" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_2" />
+        <field name="name">This is a Note 2</field>
+        <field name="display_type">line_note</field>
+    </record>
+
+    <record id="main_company-sale_order_line_2_3" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_2" />
+        <field name="name">This is a Section 2</field>
+        <field name="display_type">line_section</field>
+    </record>
+
+    <record id="main_company-sale_order_line_2_4" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_2" />
+        <field
+            name="name"
+            model="sale.order.line"
+            eval="obj().env.ref('l10n_br_fiscal.customized_development_sale').get_product_multiline_description_sale()"
+        />
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
+        <field name="product_uom_qty">10</field>
+        <field name="product_uom" ref="uom.product_uom_hour" />
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
+    </record>
+
+    <!-- Teste de Agrupamento -->
+    <record id="main_company-sale_order_3" model="sale.order">
+        <field name="name">l10n_br_sale_stock - Agrupamento dos Pickings</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="pricelist_id" ref="sale_stock_picking_invoicing.demo_pricelist" />
+        <field name="payment_term_id" ref="account.account_payment_term_advance" />
+        <field name="team_id" ref="sales_team.crm_team_1" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <!-- Necessario para corrigir o campo ind_final, por padrão vem com o
+         valor Sim, o que está errado, porque deve ser Não -->
+        <field name="ind_final">0</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="copy_note">True</field>
+        <field name="note">TESTE - TERMOS E CONDIÇÕES 3</field>
+        <field
+            name="manual_customer_additional_data"
+        >TESTE - CUSTOMER ADDITIONAL DATA 3</field>
+        <field
+            name="manual_fiscal_additional_data"
+        >TESTE - FISCAL ADDITIONAL DATA 3</field>
+        <field name="client_order_ref">Cliente Ref Test 3</field>
+        <field name="campaign_id" ref="utm.utm_campaign_christmas_special" />
+        <field name="medium_id" ref="utm.utm_medium_banner" />
+        <field name="source_id" ref="utm.utm_source_monster" />
+        <field name="incoterm" ref="account.incoterm_FOB" />
+        <field name="tag_ids" eval="[Command.link(ref('sales_team.categ_oppor1'))]" />
+    </record>
+
+    <record id="main_company-sale_order_line_3_1" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_3" />
+        <field
+            name="name"
+            model="sale.order.line"
+            eval="obj().env.ref('product.product_product_16').get_product_multiline_description_sale()"
+        />
+        <field name="product_id" ref="product.product_product_16" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+    <record id="main_company-sale_order_line_3_2" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_3" />
+        <field
+            name="name"
+            model="sale.order.line"
+            eval="obj().env.ref('product.product_product_12').get_product_multiline_description_sale()"
+        />
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+    <record id="main_company-sale_order_line_3_3" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_3" />
+        <field name="name">This is a Note 3</field>
+        <field name="display_type">line_note</field>
+    </record>
+
+    <record id="main_company-sale_order_line_3_4" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_3" />
+        <field name="name">This is a Section 3</field>
+        <field name="display_type">line_section</field>
+    </record>
+
+    <record id="main_company-sale_order_line_3_5" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_3" />
+        <field
+            name="name"
+            model="sale.order.line"
+            eval="obj().env.ref('product.product_product_12').get_product_multiline_description_sale()"
+        />
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_uom_qty">1</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">50</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_bonificacao" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_bonificacao_bonificacao"
+        />
+    </record>
+
+    <!-- Teste de Agrupamento -->
+    <record id="main_company-sale_order_4" model="sale.order">
+        <field name="name">l10n_br_sale_stock - Agrupamento dos Pickings</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="pricelist_id" ref="sale_stock_picking_invoicing.demo_pricelist" />
+        <field name="payment_term_id" ref="account.account_payment_term_advance" />
+        <field name="team_id" ref="sales_team.crm_team_1" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <!-- Necessario para corrigir o campo ind_final, por padrão vem com o
+         valor Sim, o que está errado, porque deve ser Não -->
+        <field name="ind_final">0</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="copy_note">True</field>
+        <field name="note">TESTE - TERMOS E CONDIÇÕES 4</field>
+        <field
+            name="manual_customer_additional_data"
+        >TESTE - CUSTOMER ADDITIONAL DATA 4</field>
+        <field
+            name="manual_fiscal_additional_data"
+        >TESTE - FISCAL ADDITIONAL DATA 4</field>
+        <field name="client_order_ref">Cliente Ref Test 4</field>
+        <field name="campaign_id" ref="utm.utm_campaign_christmas_special" />
+        <field name="medium_id" ref="utm.utm_medium_banner" />
+        <field name="source_id" ref="utm.utm_source_monster" />
+        <field name="incoterm" ref="account.incoterm_FOB" />
+        <field name="tag_ids" eval="[Command.link(ref('sales_team.categ_oppor1'))]" />
+    </record>
+
+    <record id="main_company-sale_order_line_4_1" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_4" />
+        <field
+            name="name"
+            model="sale.order.line"
+            eval="obj().env.ref('product.product_product_16').get_product_multiline_description_sale()"
+        />
+        <field name="product_id" ref="product.product_product_16" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+    <record id="main_company-sale_order_line_4_2" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_4" />
+        <field
+            name="name"
+            model="sale.order.line"
+            eval="obj().env.ref('product.product_product_12').get_product_multiline_description_sale()"
+        />
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+    <record id="main_company-sale_order_line_4_3" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_4" />
+        <field name="name">This is a Note 4</field>
+        <field name="display_type">line_note</field>
+    </record>
+
+    <record id="main_company-sale_order_line_4_4" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_4" />
+        <field name="name">This is a Section 4</field>
+        <field name="display_type">line_section</field>
+    </record>
+
+    <record id="main_company-sale_order_line_4_5" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_4" />
+        <field
+            name="name"
+            model="sale.order.line"
+            eval="obj().env.ref('product.product_product_12').get_product_multiline_description_sale()"
+        />
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_uom_qty">1</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">50</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_bonificacao" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_bonificacao_bonificacao"
+        />
+    </record>
+
+    <!-- Empresa Lucro Presumido -->
+    <!-- Sale Order with only products test -->
+    <record id="lucro_presumido-sale_order_1" model="sale.order">
+        <field name="name">LC l10n_br_sale - Produtos</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="user_id" ref="l10n_br_base.user_demo_presumido" />
+        <field name="team_id" ref="sales_team.crm_team_1" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <!-- Necessario para corrigir o campo ind_final, por padrão vem com o
+         valor Sim, o que está errado, porque deve ser Não -->
+        <field name="ind_final">0</field>
+        <field name="copy_note">True</field>
+        <field name="note">TESTE - TERMOS E CONDIÇÕES 1</field>
+        <field
+            name="manual_customer_additional_data"
+        >TESTE - CUSTOMER ADDITIONAL DATA 1</field>
+        <field
+            name="manual_fiscal_additional_data"
+        >TESTE - FISCAL ADDITIONAL DATA 1</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="client_order_ref">Customer Ref Test 1</field>
+        <field name="campaign_id" ref="utm.utm_campaign_christmas_special" />
+        <field name="medium_id" ref="utm.utm_medium_banner" />
+        <field name="source_id" ref="utm.utm_source_monster" />
+        <field name="incoterm" ref="account.incoterm_FOB" />
+        <field name="tag_ids" eval="[Command.link(ref('sales_team.categ_oppor1'))]" />
+    </record>
+
+    <record id="lucro_presumido-sale_order_line_1_1" model="sale.order.line">
+        <field name="order_id" ref="lucro_presumido-sale_order_1" />
+        <field
+            name="name"
+            model="sale.order.line"
+            eval="obj().env.ref('product.product_product_12').get_product_multiline_description_sale()"
+        />
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+    <record id="lucro_presumido-sale_order_line_1_2" model="sale.order.line">
+        <field name="order_id" ref="lucro_presumido-sale_order_1" />
+        <field name="name">This is a Note 1</field>
+        <field name="display_type">line_note</field>
+    </record>
+
+    <record id="lucro_presumido-sale_order_line_1_3" model="sale.order.line">
+        <field name="order_id" ref="lucro_presumido-sale_order_1" />
+        <field name="name">This is a Section 1</field>
+        <field name="display_type">line_section</field>
+    </record>
+
+    <record id="lucro_presumido-sale_order_line_1_4" model="sale.order.line">
+        <field name="order_id" ref="lucro_presumido-sale_order_1" />
+        <field
+            name="name"
+            model="sale.order.line"
+            eval="obj().env.ref('product.product_product_12').get_product_multiline_description_sale()"
+        />
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_bonificacao" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_bonificacao_bonificacao"
+        />
+    </record>
+</odoo>

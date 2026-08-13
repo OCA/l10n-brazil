@@ -17,7 +17,7 @@ class CrmLeadTest(TransactionCase):
             {
                 "name": "Test Company Lead",
                 "legal_name": "Teste Empresa",
-                "cnpj": "56.647.352/0001-98",
+                "vat": "56.647.352/0001-98",
                 "stage_id": cls.env.ref("crm.stage_lead1").id,
                 "partner_name": "Test Partner",
                 "l10n_br_ie_code": "079.798.013.363",
@@ -29,7 +29,7 @@ class CrmLeadTest(TransactionCase):
         cls.crm_lead_contact = cls.env["crm.lead"].create(
             {
                 "name": "Test Contact",
-                "cpf": "70531160505",
+                "vat": "705.311.605-05",
                 "l10n_br_rg_code": "99.888.777-1",
                 "stage_id": cls.env.ref("crm.stage_lead1").id,
                 "contact_name": "Test Contact",
@@ -41,7 +41,7 @@ class CrmLeadTest(TransactionCase):
             {
                 "name": "Test Company Lead IE",
                 "legal_name": "Teste Empresa 1",
-                "cnpj": "57.240.310/0001-09",
+                "vat": "57.240.310/0001-09",
                 "stage_id": cls.env.ref("crm.stage_lead1").id,
                 "partner_name": "Test Partner 1",
                 "l10n_br_ie_code": "041.092.540.590",
@@ -64,6 +64,7 @@ class CrmLeadTest(TransactionCase):
                 "district": "centro",
                 "city_id": cls.env.ref("l10n_br_base.city_4205407").id,
                 "is_company": True,
+                "country_id": cls.env.ref("base.br").id,
             }
         )
 
@@ -116,6 +117,11 @@ class CrmLeadTest(TransactionCase):
             self.obj_partner.legal_name, "The field Razão Social not was filled."
         )
         self.assertTrue(self.obj_partner.vat, "The field CNPJ not was filled.")
+        self.assertEqual(
+            self.obj_partner.vat,
+            "56647352000198",
+            "The partner vat should be stored unformatted.",
+        )
         self.assertTrue(
             self.obj_partner.l10n_br_ie_code,
             "The field Inscrição Estadual not was filled",
@@ -171,7 +177,12 @@ class CrmLeadTest(TransactionCase):
         self.obj_partner = self.env["res.partner"].browse(self.partner_id.id)
 
         self.assertTrue(self.obj_partner.name, "The field Name was not filled.")
-        self.assertTrue(self.obj_partner.vat, "The field CNPJ was not filled.")
+        self.assertTrue(self.obj_partner.vat, "The field CPF was not filled.")
+        self.assertEqual(
+            self.obj_partner.vat,
+            "70531160505",
+            "The partner vat should be stored unformatted.",
+        )
         self.assertTrue(self.obj_partner.l10n_br_ie_code, "The field RG was not filled")
 
     def test_lead_won_contact(self):
@@ -196,6 +207,11 @@ class CrmLeadTest(TransactionCase):
             self.obj_partner.legal_name, "The field Razão Social not was filled."
         )
         self.assertTrue(self.obj_partner.vat, "The field CNPJ not was filled.")
+        self.assertEqual(
+            self.obj_partner.vat,
+            "57240310000109",
+            "The partner vat should be stored unformatted.",
+        )
         self.assertTrue(
             self.obj_partner.l10n_br_ie_code,
             "The field Inscrição Estadual not was filled",
@@ -223,10 +239,17 @@ class CrmLeadTest(TransactionCase):
         )
 
         self.assertEqual(
-            self.crm_lead_company_1.cnpj,
+            self.crm_lead_company_1.vat,
+            "22898817000161",
+            "In the change of the partner \
+                         the field vat was not automatically filled.",
+        )
+
+        self.assertEqual(
+            self.crm_lead_company_1.vat_formatted_cnpj,
             "22.898.817/0001-61",
             "In the change of the partner \
-                         the field cpf was not automatically filled.",
+                         the field vat_formatted_cnpj was not automatically filled.",
         )
 
         self.assertEqual(
