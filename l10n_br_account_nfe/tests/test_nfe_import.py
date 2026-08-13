@@ -71,6 +71,11 @@ class NFeImportTest(TransactionCase):
             del line["product_id"]
             del line["ncm_internal"]
             del line["cfop_warning"]
+            # C195/C197 review columns added to the wizard line tree:
+            line.pop("inf_ad_prod", None)
+            line.pop("cbenef", None)
+            line.pop("pred_bc", None)
+            line.pop("vicms_deson", None)
         self.assertEqual(len(lines), 4)
         self.assertDictEqual(
             lines[0],
@@ -244,6 +249,48 @@ class NFeImportTest(TransactionCase):
         self.assertAlmostEqual(move.due_line_ids[0].credit, 4075.95, places=2)
         self.assertAlmostEqual(move.due_line_ids[1].credit, 4075.95, places=2)
         self.assertAlmostEqual(move.due_line_ids[2].credit, 4075.96, places=2)
+
+    def test_import_captures_infadic_observation(self):
+        """The XML <infAdic> observations must survive the import so they can
+        be exported back to the SPED C195/0460 registers."""
+        file_path = os.path.join(
+            l10n_br_account_nfe.__path__[0],
+            "tests",
+            "nfe",
+            "35231149647316000169550010000661061151600085-nfe.xml",
+        )
+        with open(file_path, encoding="utf-8") as file:
+            raw = file.read()
+
+        # Inject a fiscal observation into the existing <infAdic> block.
+        injected = raw.replace(
+            "<infAdic>",
+            "<infAdic><infAdFisco>Observacao fiscal de teste C195</infAdFisco>",
+            1,
+        )
+        data = base64.b64encode(injected.encode("utf-8"))
+
+        wizard = self.env["l10n_br_fiscal.document.import.wizard"].create({})
+        with Form(wizard) as import_form:
+            import_form.file = data
+            import_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras")
+            if "allow_product_creation" in wizard._fields:
+                # allow_product_creation exists only when the akretion
+                # spec-import create policy (16.0-better-spec-import) is
+                # merged; without it product creation is allowed by default.
+                import_form.allow_product_creation = True
+        action = wizard.action_import_and_open_move()
+        move = self.env["account.move"].browse(action["res_id"])
+        doc = move.fiscal_document_id
+
+        self.assertEqual(
+            doc.manual_fiscal_additional_data,
+            "Observacao fiscal de teste C195",
+        )
+        self.assertIn(
+            "Prazo para reclamacoes",
+            doc.manual_customer_additional_data or "",
+        )
 
     def test_import_incomplete_document_is_blocked(self):
         """A document with a line missing its product/uom/qty/price must not
