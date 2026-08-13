@@ -958,8 +958,8 @@ class NFe(spec_models.StackedModel):
     @api.model
     def _build_attr(self, node, fields, vals, path, attr):
         key = f"nfe40_{attr[1].metadata.get('name', attr[0])}"
-        if key == "nfe40_IBSCBSTot":
-            # IBSCBSTot fields are computed from lines, skip importing
+        if key in ("nfe40_IBSCBSTot", "nfe40_ISTot"):
+            # IBSCBSTot/ISTot totals are computed from lines, skip importing
             return
         return super()._build_attr(node, fields, vals, path, attr)
 
