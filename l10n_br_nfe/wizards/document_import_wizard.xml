@@ -12,6 +12,14 @@
             </xpath>
             <xpath expr="//group[@id='document_info']" position="after">
                 <group
+                    id="xml_observations"
+                    string="XML Observations (SPED C195)"
+                    attrs="{'invisible': [('file', '=', False)]}"
+                >
+                    <field name="fiscal_observation" />
+                    <field name="customer_observation" />
+                </group>
+                <group
                     id="existing_document"
                     attrs="{'invisible': [('document_id', '=', False)]}"
                 >
@@ -60,6 +68,10 @@
                 />
                 <field name="icms_percent" readonly="1" />
                 <field name="icms_value" readonly="1" />
+                <field name="pred_bc" readonly="1" />
+                <field name="vicms_deson" readonly="1" />
+                <field name="cbenef" readonly="1" />
+                <field name="inf_ad_prod" readonly="1" />
                 <field name="ipi_percent" readonly="1" />
                 <field name="ipi_value" readonly="1" />
                 <field name="quantity_com" readonly="1" />
