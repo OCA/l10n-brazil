@@ -75,7 +75,7 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
     nfse10_dhEmi = fields.Char(compute="_compute_nfse10_dates")
     nfse10_verAplic = fields.Char(default="Odoo OCA")
     nfse10_serie = fields.Char(related="document_serie")
-    nfse10_nDPS = fields.Char(related="document_number")
+    nfse10_nDPS = fields.Char(related="rps_number")
     nfse10_dCompet = fields.Char(compute="_compute_nfse10_dates")
     nfse10_tpEmit = fields.Selection(default="1")
     nfse10_cLocEmi = fields.Char(related="company_id.partner_id.city_id.ibge_code")
@@ -166,9 +166,36 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
         if other_docs:
             return super(L10nBrFiscalDocument, other_docs)._check_key()
 
+    def _ensure_dps_key(self):
+        """Compose the DPS key, which the ``Id`` of ``infDPS`` is built from.
+
+        The 42 digits are the municipality IBGE code (7), the type of taxpayer
+        registration (1), the registration number (14), the series (5) and the
+        DPS number (15). The key generator of l10n_br_fiscal only knows the
+        44-digit layout of the NF-e, so the national NFS-e composes its own.
+
+        Composed from the very fields that go into the XML, otherwise the
+        ``Id`` would not match their concatenation. Only filled when empty, so
+        that a key already granted by the ADN is never rewritten.
+        """
+        self.ensure_one()
+        if self.document_key:
+            return
+        cnpj_cpf = self.company_id.partner_id.cnpj_cpf_stripped or ""
+        self.document_key = "".join(
+            (
+                (self.nfse10_cLocEmi or "").zfill(7),
+                "2" if len(cnpj_cpf) == 14 else "1",
+                cnpj_cpf.zfill(14),
+                (self.nfse10_serie or "").zfill(5),
+                (self.nfse10_nDPS or "").zfill(15),
+            )
+        )
+
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)
         for record in self.filtered(filter_nfse_nacional):
+            record._ensure_dps_key()
             inf_dps = record._build_binding("nfse", "10")
             nfse = Dps(infDPS=inf_dps, versao="1.00", signature=None)
             edocs.append(nfse)
@@ -217,7 +244,19 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
         result = super()._eletronic_document_send()
         for record in self.filtered(filter_nfse_nacional):
             if record.xml_error_message:
-                continue
+                # Skipping in silence leaves the user pressing Send with nothing
+                # happening: no state change, no message, no error.
+                raise UserError(
+                    _(
+                        "The XML of %(document)s did not pass schema validation, "
+                        "so nothing was sent:\n\n%(errors)s\n\nSet the document "
+                        "back to draft and confirm it again to rebuild the XML."
+                    )
+                    % {
+                        "document": record.display_name,
+                        "errors": record.xml_error_message,
+                    }
+                )
             if record.state_edoc != "a_enviar":
                 continue
             record._adn_send_for_authorization()
