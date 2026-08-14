@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
+    <!--
+      DESCONTINUADO. Substituído pelo Balanço e pela DRE únicos, que
+      selecionam as contas pela classificação contábil e valem para qualquer
+      plano. Este modelo seleciona por prefixo de código e, por isso, só
+      funciona no plano para o qual foi escrito.
+
+      Ele continua aqui para que a atualização do módulo não apague os
+      relatórios que já foram montados sobre ele. Não recebe correção: os
+      defeitos conhecidos (falta a linha de resultado do exercício, então o
+      balanço não fecha; contas de Lucros Acumulados e de IRPJ e CSLL
+      apontando para prefixos inexistentes) estão corrigidos apenas nos
+      modelos novos.
+    -->
     <record id="balanco_patrimonial_simple" model="mis.report">
-        <field name="name">BP (l10n_br_coa_simple)</field>
+        <field name="name">BP (l10n_br_coa_simple) (descontinuado)</field>
         <field name="description">Balanço Patrimonial</field>
         <field name="move_lines_source" ref="account.model_account_move_line" />
     </record>
