@@ -568,6 +568,26 @@ msgid "Batch Trailer Type ID"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
+#: model:account.payment.mode,name:l10n_br_cnab_structure.payment_mode_sispag_boleto_bb
+msgid "Boleto - SISPAG Banco do Brasil"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:account.payment.mode,name:l10n_br_cnab_structure.payment_mode_sispag_boleto_itau
+msgid "Boleto - SISPAG Itaú"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:account.payment.mode,name:l10n_br_cnab_structure.payment_mode_sispag_boleto_santander
+msgid "Boleto - SISPAG Santander"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:account.payment.mode,name:l10n_br_cnab_structure.payment_mode_sispag_boleto_sicoob
+msgid "Boleto - SISPAG Sicoob"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
 #: model:ir.ui.menu,name:l10n_br_cnab_structure.cnab_payables
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_preview_wizard_form
 msgid "CNAB"
@@ -2671,6 +2691,46 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_transfer_type__type_domain
 msgid "Transfer Type"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:account.payment.mode,name:l10n_br_cnab_structure.payment_mode_sispag_tributo_gnre_bb
+msgid "Tributo c/ Código de Barras (GNRE) - SISPAG Banco do Brasil"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:account.payment.mode,name:l10n_br_cnab_structure.payment_mode_sispag_tributo_gnre_itau
+msgid "Tributo c/ Código de Barras (GNRE) - SISPAG Itaú"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:account.payment.mode,name:l10n_br_cnab_structure.payment_mode_sispag_tributo_gnre_santander
+msgid "Tributo c/ Código de Barras (GNRE) - SISPAG Santander"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:account.payment.mode,name:l10n_br_cnab_structure.payment_mode_sispag_tributo_gnre_sicoob
+msgid "Tributo c/ Código de Barras (GNRE) - SISPAG Sicoob"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:account.payment.mode,name:l10n_br_cnab_structure.payment_mode_sispag_tributo_gps_bb
+msgid "Tributo s/ Código de Barras (GPS) - SISPAG Banco do Brasil"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:account.payment.mode,name:l10n_br_cnab_structure.payment_mode_sispag_tributo_gps_itau
+msgid "Tributo s/ Código de Barras (GPS) - SISPAG Itaú"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:account.payment.mode,name:l10n_br_cnab_structure.payment_mode_sispag_tributo_gps_santander
+msgid "Tributo s/ Código de Barras (GPS) - SISPAG Santander"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:account.payment.mode,name:l10n_br_cnab_structure.payment_mode_sispag_tributo_gps_sicoob
+msgid "Tributo s/ Código de Barras (GPS) - SISPAG Sicoob"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
