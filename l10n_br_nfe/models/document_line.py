@@ -398,6 +398,28 @@ class NFeLine(spec_models.StackedModel):
 
         return super()._export_many2one(field_name, xsd_required, class_obj)
 
+    def _get_partner_product_code(self):
+        self.ensure_one()
+        return self.nfe40_cProd
+
+    def _get_partner_product_name(self):
+        self.ensure_one()
+        return self.nfe40_xProd
+
+    # NOTE: no _get_partner_product_barcode override: nfe40_cEANTrib is a
+    # related to the internal product barcode, the supplier EAN is already
+    # consumed by the product matching during the binding build.
+
+    def _prepare_supplierinfo_vals(self):
+        vals = super()._prepare_supplierinfo_vals()
+        vals.update(
+            {
+                "partner_uom_id": self.import_uom_id.id,
+                "partner_uom_factor": self.import_uom_factor,
+            }
+        )
+        return vals
+
     def _export_fields_nfe_40_prod(self, xsd_fields, class_obj, export_dict):
         nfe40_cProd = self.product_id.default_code or self.nfe40_cProd or ""
         export_dict["cProd"] = nfe40_cProd
@@ -1388,6 +1410,13 @@ class NFeLine(spec_models.StackedModel):
                 .search([("code", "=", value)], limit=1)
                 .id
             )
+
+        if key == "nfe40_uCom" and value:
+            # Preserve the commercial unit declared by the counterparty.
+            # nfe40_uCom is a related of the INTERNAL unit, so once the line
+            # is converted by the de-para (or when uCom matches no internal
+            # unit at all) the declared code would be lost.
+            vals["partner_uom_code"] = value
 
         if key == "nfe40_qCom":
             vals["quantity"] = float(value)
