@@ -48,6 +48,55 @@ class NFeImportTest(TransactionCase):
         assert isinstance(nfe.id, int)
         self._check_nfe(nfe)
 
+    def test_import_nfe_autxml_dedup(self):
+        """autXML "contato" partners are deduplicated by CNPJ.
+
+        An inbound NFe carrying the same CNPJ in both ``<autXML>`` and
+        ``<infRespTec>`` (typical: the software house is both the authorized
+        XML downloader and the technical responsible) must import a single
+        partner instead of raising the l10n_br_base CNPJ uniqueness
+        constraint.
+
+        Regression test: the ``_build_attr`` autXML shortcut MUST return
+        after setting the deduplicated ``Command.set`` values, otherwise the
+        generic o2m path overwrites them with ``Command.create`` entries and
+        the same partners are created a second time at document create (a
+        merge resolution once dropped that return and broke supplier NFe
+        imports carrying an autXML section).
+        """
+        res_items = (
+            "nfe",
+            "samples",
+            "v4_0",
+            "leiauteNFe",
+            "35180834128745000152550010000474281920007498-nfe.xml",
+        )
+        resource_path = "/".join(res_items)
+        nfe_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
+        xml = nfe_stream.read().decode()
+
+        # the sample has <infRespTec> with Akretion's CNPJ; use the same
+        # fresh CNPJ for both <infRespTec> and a new <autXML> entry
+        cnpj = "12345678000195"
+        assert "<autXML>" not in xml
+        xml = xml.replace("<CNPJ>11034414000158</CNPJ>", f"<CNPJ>{cnpj}</CNPJ>")
+        xml = xml.replace("</infNFe>", f"<autXML><CNPJ>{cnpj}</CNPJ></autXML></infNFe>")
+        binding = TnfeProc.from_xml(xml)
+
+        before = self.env["res.partner"].search_count(
+            [("cnpj_cpf_stripped", "=", cnpj)]
+        )
+        nfe = (
+            self.env["l10n_br_fiscal.document"]
+            .with_context(allow_product_creation=True)
+            .import_binding_nfe(binding, edoc_type="in", dry_run=False)
+        )
+        after = self.env["res.partner"].search_count([("cnpj_cpf_stripped", "=", cnpj)])
+
+        # exactly one "contato" partner for the autXML/infRespTec CNPJ
+        self.assertEqual(after - before, 1)
+        self.assertEqual(len(nfe.nfe40_autXML), 1)
+
     def _check_nfe(self, nfe):
         self.assertEqual(type(nfe)._name, "l10n_br_fiscal.document")
         self.assertEqual(
