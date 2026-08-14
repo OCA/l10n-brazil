@@ -30,6 +30,16 @@ class CST(models.Model):
         store=True,
     )
 
+    default_creditable_tax = fields.Boolean(
+        string="Creditable Tax Default?",
+        default=False,
+        help="Whether this CST allows an input tax credit by its own nature.\n\n"
+        "Defaults to False so a tax rule fails closed: a CST created later, or"
+        " one whose meaning is residual, does not silently take a credit and"
+        " leave the tax out of the stock acquisition cost. The CSTs that do"
+        " grant a credit state it in the data file.",
+    )
+
     _sql_constraints = [
         (
             "l10n_br_fiscal_cst_code_tax_group_id_uniq",
