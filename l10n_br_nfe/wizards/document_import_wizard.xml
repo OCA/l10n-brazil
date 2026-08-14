@@ -39,7 +39,7 @@
         <field name="name">l10n_br_fiscal.document.import.wizard.line.tree</field>
         <field name="model">l10n_br_fiscal.document.import.wizard.line</field>
         <field name="arch" type="xml">
-            <tree editable="top">
+            <tree editable="top" decoration-warning="not product_id">
                 <field
                     name="product_id"
                     options="{'no_quick_create': True, 'no_create': True}"
