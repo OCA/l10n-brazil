@@ -1660,6 +1660,13 @@ class NFe(spec_models.StackedModel):
             document.fiscal_operation_type = "in"
             document.issuer = "partner"
 
+        if not dry_run:
+            # every importer lands in the same review queue: the per-line
+            # states are initialized here, at the single point where a
+            # document is materialized from a binding, so the DF-e capture
+            # and the zip batch get it without going through the wizard
+            document._init_import_states()
+
         return document
 
     def _document_cancel(self, justificative):

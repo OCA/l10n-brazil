@@ -282,7 +282,7 @@ class DocumentImportWizard(models.TransientModel):
             edoc._attach_imported_xml(
                 self.file, f"NFe-Importada-{edoc.document_key}.xml"
             )
-            edoc._init_import_states()
+            # the review states are initialized by import_binding_nfe itself
             self._apply_wizard_depara(edoc)
 
             return binding, edoc
