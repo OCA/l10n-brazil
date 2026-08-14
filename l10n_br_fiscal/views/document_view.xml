@@ -173,6 +173,13 @@
                     <field name="imported_document" invisible="1" />
                     <field name="import_state" invisible="1" />
                     <field name="import_review_message" readonly="1" nolabel="1" />
+                    <button
+                        name="action_confirm_matched_lines"
+                        type="object"
+                        class="btn btn-link"
+                        string="Confirm all suggested lines"
+                        title="Resolve every line whose automatic suggestion was not touched"
+                    />
                 </div>
                 <div
                     class="alert alert-danger"
@@ -300,9 +307,21 @@
                                     />
                                     <field name="fiscal_amount_total" sum="Total" />
                                     <field name="partner_cfop_id" optional="hide" />
-                                    <field name="cfop_warning" optional="hide" />
-                                    <field name="import_uom_id" optional="hide" />
-                                    <field name="import_uom_factor" optional="hide" />
+                                    <field
+                                        name="cfop_warning"
+                                        optional="show"
+                                        attrs="{'column_invisible': [('parent.imported_document', '=', False)]}"
+                                    />
+                                    <field
+                                        name="import_uom_id"
+                                        optional="show"
+                                        attrs="{'column_invisible': [('parent.imported_document', '=', False)]}"
+                                    />
+                                    <field
+                                        name="import_uom_factor"
+                                        optional="show"
+                                        attrs="{'column_invisible': [('parent.imported_document', '=', False)]}"
+                                    />
                                     <field
                                         name="import_state"
                                         widget="badge"
@@ -313,11 +332,12 @@
                                         attrs="{'column_invisible': [('parent.imported_document', '=', False)]}"
                                     />
                                     <button
-                                        name="action_resolve_line"
+                                        name="action_open_resolve_wizard"
                                         type="object"
-                                        icon="fa-check"
-                                        title="Apply the mapping and resolve the line"
-                                        attrs="{'invisible': ['|', ('import_state', 'in', [False, 'resolved']), ('product_id', '=', False)]}"
+                                        string="Resolve"
+                                        class="btn-link"
+                                        title="Open the focused resolution dialog of the line"
+                                        attrs="{'invisible': [('import_state', 'in', [False, 'resolved'])]}"
                                     />
                                 </tree>
                             </field>

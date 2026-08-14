@@ -1,6 +1,8 @@
 # Copyright (C) 2026  Luis Felipe Mileo - KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from unittest import mock
+
 from odoo.exceptions import UserError
 from odoo.tests import TransactionCase
 
@@ -409,3 +411,156 @@ class TestDocumentImportLine(TransactionCase):
         self.partner.country_id = self.env.ref("base.us")
         self.partner.state_id = False
         self.assertFalse(self.line._get_cfop_warning())
+
+    def test_supplierinfo_is_adopted_not_duplicated(self):
+        """Resolving a line whose partner+code already has a supplier info
+        must adopt it: a second record would silently pollute the seller
+        list of the product with duplicates."""
+        existing = self.env["product.supplierinfo"].create(
+            {
+                "partner_id": self.partner.id,
+                "product_tmpl_id": self.product.product_tmpl_id.id,
+                "product_code": "FT-25",
+                "price": 90.0,
+            }
+        )
+        with mock.patch.object(
+            type(self.line), "_get_partner_product_code", return_value="FT-25"
+        ):
+            self.line._apply_import_depara(product=self.product)
+        self.assertEqual(self.line.import_supplierinfo_id, existing)
+        self.assertEqual(
+            self.env["product.supplierinfo"].search_count(
+                [
+                    ("partner_id", "=", self.partner.id),
+                    ("product_code", "=", "FT-25"),
+                ]
+            ),
+            1,
+        )
+
+    def test_init_states_wires_the_suggestion(self):
+        """A line without a product gets the learned de-para as a MATCHED
+        suggestion on init; a line nobody knows stays pending."""
+        self.env["product.supplierinfo"].create(
+            {
+                "partner_id": self.partner.id,
+                "product_tmpl_id": self.product.product_tmpl_id.id,
+                "product_code": "FT-25",
+            }
+        )
+        with mock.patch.object(
+            type(self.line), "_get_partner_product_code", return_value="FT-25"
+        ):
+            self.document._init_import_states()
+        self.assertEqual(self.line.product_id, self.product)
+        self.assertEqual(self.line.import_state, "matched")
+
+    def test_confirm_matched_lines_is_batch_and_spares_pending(self):
+        """The mass action resolves every untouched suggestion and never
+        touches a pending line (the ones needing a human decision)."""
+        matched = self.env["l10n_br_fiscal.document.line"].create(
+            {
+                "document_id": self.document.id,
+                "name": "JA SUGERIDA",
+                "product_id": self.product.id,
+                "quantity": 1.0,
+                "price_unit": 10.0,
+                "uom_id": self.uom_kg.id,
+            }
+        )
+        self.document._init_import_states()
+        self.assertEqual(matched.import_state, "matched")
+        self.assertEqual(self.line.import_state, "pending")
+        self.document.action_confirm_matched_lines()
+        self.assertEqual(matched.import_state, "resolved")
+        self.assertEqual(self.line.import_state, "pending")
+
+    def test_create_product_from_line_is_supervised(self):
+        """The product born from a pending line carries what the supplier
+        declared (name, unit, seed price) and resolves the line through the
+        regular de-para path."""
+        self.document._init_import_states()
+        with mock.patch.object(
+            type(self.line), "_get_partner_product_name", return_value="Farinha SC"
+        ):
+            action = self.line.action_create_product_from_line()
+        product = self.env["product.product"].browse(action["res_id"])
+        self.assertEqual(product.name, "Farinha SC")
+        self.assertEqual(product.uom_id, self.uom_unit)
+        # the product is seeded with what the supplier charged (100 per unit)
+        self.assertAlmostEqual(product.standard_price, 100.0, places=2)
+        self.assertEqual(self.line.product_id, product)
+        self.assertEqual(self.line.import_state, "resolved")
+        with self.assertRaises(UserError):
+            self.line.action_create_product_from_line()
+
+    def test_create_product_requires_internal_uom(self):
+        """When the supplier unit never matched an internal one, the line has
+        no uom to create the product with: creating must ask for it, not
+        crash on the product's mandatory uom_id."""
+        line = self.env["l10n_br_fiscal.document.line"].create(
+            {
+                "document_id": self.document.id,
+                "name": "PAINEL MDF SC",
+                "quantity": 2.0,
+                "price_unit": 100.0,
+                "partner_cfop_id": self.env.ref("l10n_br_fiscal.cfop_6102").id,
+            }
+        )
+        line.uom_id = False
+        line.import_uom_id = False
+        self.document._init_import_states()
+        with self.assertRaises(UserError):
+            line.action_create_product_from_line()
+        # once the reviewer sets the internal unit and factor, it works
+        line.import_uom_id = self.uom_kg
+        line.import_uom_factor = 25.0
+        action = line.action_create_product_from_line()
+        product = self.env["product.product"].browse(action["res_id"])
+        self.assertEqual(product.uom_id, self.uom_kg)
+
+    def test_resolve_wizard_link_and_convert(self):
+        """The focused resolve wizard: link an existing product, set the
+        internal unit and factor, and the preview keeps the total; resolving
+        applies the de-para and moves the line to resolved."""
+        self.document._init_import_states()
+        action = self.line.action_open_resolve_wizard()
+        wizard = self.env[action["res_model"]].browse(action["res_id"])
+        wizard.mode = "link"
+        wizard.product_id = self.product
+        wizard.import_uom_id = self.uom_kg
+        wizard.import_uom_factor = 25.0
+        wizard._compute_preview()
+        # supplier 2 bags x R$100; internal 50 kg x R$4 = same R$200 total
+        self.assertAlmostEqual(wizard.internal_quantity, 50.0, places=2)
+        self.assertAlmostEqual(wizard.internal_price_unit, 4.0, places=2)
+        self.assertAlmostEqual(wizard.total_check, 200.0, places=2)
+        wizard.action_resolve()
+        self.assertEqual(self.line.product_id, self.product)
+        self.assertEqual(self.line.import_state, "resolved")
+        self.assertEqual(self.line.import_uom_id, self.uom_kg)
+
+    def test_resolve_wizard_price_warning(self):
+        """A conversion factor that keeps the total but throws the unit price
+        far from the last supplier price must warn (the total can never catch
+        a wrong factor)."""
+        self.env["product.supplierinfo"].create(
+            {
+                "partner_id": self.partner.id,
+                "product_tmpl_id": self.product.product_tmpl_id.id,
+                "product_code": "FT-25",
+                "price": 4.0,
+            }
+        )
+        self.document._init_import_states()
+        with mock.patch.object(
+            type(self.line), "_get_partner_product_code", return_value="FT-25"
+        ):
+            action = self.line.action_open_resolve_wizard()
+            wizard = self.env[action["res_model"]].browse(action["res_id"])
+            wizard.product_id = self.product
+            wizard.import_uom_factor = 2.5  # wrong: should be 25
+            wizard._compute_preview()
+        # internal price = 100 / 2.5 = 40, vs last 4.0 -> warns
+        self.assertTrue(wizard.price_warning)

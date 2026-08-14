@@ -238,6 +238,56 @@ class DocumentLine(models.Model):
                 )
             line._apply_import_depara()
 
+    def action_open_resolve_wizard(self):
+        """Open the focused resolution dialog of the line: one place with the
+        supplier data on one side, the internal de-para on the other, a live
+        preview of the conversion and a single primary action. It replaces
+        hunting for fields across the line form and the tree buttons."""
+        self.ensure_one()
+        suggested = self._suggest_fiscal_operation_in()
+        wizard = self.env["l10n_br_fiscal.document.line.resolve.wizard"].create(
+            {
+                "line_id": self.id,
+                "mode": "link" if self.product_id else "create",
+                "partner_name": self._get_partner_product_name() or self.name,
+                "partner_product_code": self._get_partner_product_code(),
+                "partner_uom_code": self.partner_uom_code or self.uom_id.name,
+                "partner_quantity": self.partner_quantity or self.quantity,
+                "partner_price_unit": self.partner_price_unit or self.price_unit,
+                "partner_ncm_code": self._get_partner_product_ncm(),
+                "partner_cfop_id": self.partner_cfop_id.id,
+                "cfop_warning": self.cfop_warning,
+                "product_id": self.product_id.id,
+                "import_uom_id": (self.import_uom_id or self.uom_id).id,
+                "import_uom_factor": self.import_uom_factor or 1.0,
+                "fiscal_operation_id": (self.fiscal_operation_id or suggested).id,
+                "fiscal_operation_suggested": bool(
+                    suggested and not self.fiscal_operation_id
+                ),
+                "currency_id": self.currency_id.id,
+            }
+        )
+        return {
+            "type": "ir.actions.act_window",
+            "name": _("Resolve Imported Line"),
+            "res_model": "l10n_br_fiscal.document.line.resolve.wizard",
+            "res_id": wizard.id,
+            "view_mode": "form",
+            "target": "new",
+        }
+
+    def _open_next_pending_resolve_wizard(self):
+        """After resolving, jump straight to the next pending line of the same
+        document, so a reviewer works a run of lines without going back to the
+        tree between each. Scoped to THIS document (never a global search)."""
+        self.ensure_one()
+        pending = self.document_id.fiscal_line_ids.filtered(
+            lambda line: line.import_state == "pending" and line.id != self.id
+        ).sorted("id")
+        if not pending:
+            return {"type": "ir.actions.act_window_close"}
+        return pending[0].action_open_resolve_wizard()
+
     def _apply_import_depara(
         self, product=None, uom=None, factor=None, fiscal_operation=None
     ):
@@ -322,6 +372,137 @@ class DocumentLine(models.Model):
         """
         self.ensure_one()
         return False
+
+    def _get_partner_product_barcode(self):
+        self.ensure_one()
+        return False
+
+    def _get_partner_product_ncm(self):
+        self.ensure_one()
+        return False
+
+    def _prepare_product_vals(self):
+        """Values of a product created from an imported line.
+
+        Everything comes from what the supplier declared (the snapshot
+        hooks), so the human reviewing the creation starts from the file
+        instead of from a blank form: name, unit, seed price in the internal
+        unit, barcode when it is a real GTIN and the NCM declared in the
+        file.
+        """
+        self.ensure_one()
+        # the internal unit the product is created in: the one the reviewer
+        # chose (import_uom_id), else the unit the file already matched
+        # (uom_id). When the supplier unit did not match any internal one
+        # (e.g. a bag "SC" the company keeps in kg), neither is set and there
+        # is nothing to guess: the reviewer must pick the internal unit first,
+        # which is the supervised decision this whole flow is about.
+        uom = self.import_uom_id or self.uom_id
+        if not uom:
+            raise UserError(
+                _(
+                    "Set the internal unit of measure on the line %(line)s "
+                    "before creating the product: the supplier unit "
+                    "(%(unit)s) does not match any internal unit, so the "
+                    "conversion is a decision only a human can make."
+                )
+                % {
+                    "line": self.name or self.id,
+                    "unit": self.partner_uom_code or self.uom_id.name,
+                }
+            )
+        # seed price comes from the supplier snapshot (the product does not
+        # exist yet, so _get_supplierinfo_price has no product UoM to convert
+        # against): the price the supplier charged, divided by the de-para
+        # factor to reach the internal unit
+        seed_price = self.partner_price_unit or self.price_unit
+        if self.import_uom_factor:
+            seed_price = seed_price / self.import_uom_factor
+        vals = {
+            "name": self._get_partner_product_name() or self.name,
+            "uom_id": uom.id,
+            "uom_po_id": uom.id,
+            "standard_price": seed_price,
+            "list_price": seed_price,
+        }
+        barcode = self._get_partner_product_barcode()
+        if barcode and barcode != "SEM GTIN":
+            in_use = self.env["product.product"].search_count(
+                [("barcode", "=", barcode)]
+            )
+            if not in_use:
+                vals["barcode"] = barcode
+        ncm_code = self._get_partner_product_ncm()
+        if ncm_code:
+            ncm = self.env["l10n_br_fiscal.ncm"].search(
+                [("code_unmasked", "=", ncm_code)], limit=1
+            )
+            if ncm:
+                vals["ncm_id"] = ncm.id
+        return vals
+
+    def action_create_product_from_line(self):
+        """Create the internal product from a pending imported line.
+
+        Product creation is a SUPERVISED action: the user clicks, reviews
+        the values seeded from the file and keeps ownership of the catalog.
+        The created product resolves the line through the regular de-para
+        path, which also learns the supplier info.
+        """
+        self.ensure_one()
+        if self.product_id:
+            raise UserError(
+                _("The line %s already has an internal product.")
+                % (self.name or self.id)
+            )
+        product = self.env["product.product"].create(self._prepare_product_vals())
+        self._apply_import_depara(product=product)
+        self.document_id.message_post(
+            body=_("Product %(product)s created from imported line %(line)s.")
+            % {"product": product.display_name, "line": self.name or self.id}
+        )
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "product.product",
+            "res_id": product.id,
+            "view_mode": "form",
+            "target": "current",
+        }
+
+    def _suggest_product(self):
+        """Suggest an internal product for an imported line.
+
+        Priority: the supplier info de-para already learned for this partner
+        and supplier code, then the internal reference, then the barcode.
+        """
+        self.ensure_one()
+        product_model = self.env["product.product"]
+        code = self._get_partner_product_code()
+        partner = self.document_id.partner_id
+        if code and partner:
+            supplierinfo = self.env["product.supplierinfo"].search(
+                [
+                    ("partner_id", "=", partner.id),
+                    ("product_code", "=", code),
+                ],
+                limit=1,
+            )
+            product = (
+                supplierinfo.product_id
+                or supplierinfo.product_tmpl_id.product_variant_id
+            )
+            if product:
+                return product
+        if code:
+            product = product_model.search([("default_code", "=", code)], limit=1)
+            if product:
+                return product
+        barcode = self._get_partner_product_barcode()
+        if barcode and barcode != "SEM GTIN":
+            product = product_model.search([("barcode", "=", barcode)], limit=1)
+            if product:
+                return product
+        return product_model
 
     def _suggest_fiscal_operation_in(self):
         """Suggest the inbound fiscal operation of the line from the CFOP

@@ -40,6 +40,16 @@ class DocumentImportWizard(models.TransientModel):
 
     file = fields.Binary(string="File to Import")
 
+    allow_product_creation = fields.Boolean(
+        string="Create unmapped products",
+        default=False,
+        help="If enabled, products that do not match an existing record are "
+        "created during the import. If disabled (default), the unmatched "
+        "line lands in the review queue, where it is either linked to an "
+        "existing product or used to create one: a catalog entry is never a "
+        "side effect of an import.",
+    )
+
     date_in_out = fields.Datetime(
         default=fields.Datetime.now,
         help="Effective incoming/outgoing date of the goods (DT_E_S in the "
