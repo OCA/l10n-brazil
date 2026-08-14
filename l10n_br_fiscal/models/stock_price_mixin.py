@@ -273,6 +273,21 @@ class StockPriceMixin(models.AbstractModel):
                 creditable = record._resolve_tax_creditability(domain)
                 record[f"{domain}_tax_is_creditable"] = creditable
 
+    def _get_stock_cost_tax_map(self):
+        """Which taxes of this line are a credit and which stay in the cost.
+
+        :return: {tax_domain: 'credit' | 'cost'}; an undetermined line
+            reports everything as cost, as it is valued.
+        """
+        self.ensure_one()
+        undetermined = self.creditability_origin == "undetermined"
+        return {
+            domain: "cost"
+            if undetermined or not self[f"{domain}_tax_is_creditable"]
+            else "credit"
+            for domain in CREDITABLE_TAX_DOMAINS
+        }
+
     def _get_cost_unit_qty(self):
         """The quantity the net cost is divided by."""
         self.ensure_one()
