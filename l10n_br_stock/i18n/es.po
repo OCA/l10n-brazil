@@ -17,18 +17,15 @@ msgstr ""
 "X-Generator: Weblate 4.17\n"
 
 #. module: l10n_br_stock
-#: model:ir.model.fields,field_description:l10n_br_stock.field_stock_picking__cnpj_cpf
-msgid "CNPJ/CPF"
-msgstr "CNPJ/CPF"
-
-#. module: l10n_br_stock
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_presumido_picking_type_out
+#: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_real_picking_type_out
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_simples_nacional_picking_type_out
 msgid "Delivery Orders"
 msgstr "Órdenes de entrega"
 
 #. module: l10n_br_stock
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_presumido_picking_type_internal
+#: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_real_picking_type_internal
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_simples_nacional_picking_type_internal
 msgid "Internal Transfers"
 msgstr "Transferencias internas"
@@ -39,29 +36,30 @@ msgid "Legal Name"
 msgstr "Nombre Legal"
 
 #. module: l10n_br_stock
-#. odoo-python
-#: code:addons/l10n_br_stock/hooks.py:0
-#, python-format
-msgid "Loading l10n_br_stock warehouse external ids..."
-msgstr "Cargando l10n_br_stock warehouse external ids..."
-
-#. module: l10n_br_stock
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_presumido_pack_type_internal
+#: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_real_pack_type_internal
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_simples_nacional_pack_type_internal
 msgid "Pack"
 msgstr "Paquete"
 
 #. module: l10n_br_stock
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_presumido_pick_type_internal
+#: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_real_pick_type_internal
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_simples_nacional_pick_type_internal
 msgid "Pick"
 msgstr "Recoge"
 
 #. module: l10n_br_stock
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_presumido_picking_type_in
+#: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_real_picking_type_in
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_simples_nacional_picking_type_in
 msgid "Receipts"
 msgstr "Recibos"
+
+#. module: l10n_br_stock
+#: model:ir.model.fields,help:l10n_br_stock.field_stock_picking__l10n_br_ie_code
+msgid "State Tax Identification Number. Should contain 9-14 digits."
+msgstr ""
 
 #. module: l10n_br_stock
 #: model:ir.model.fields,field_description:l10n_br_stock.field_stock_picking__l10n_br_ie_code
@@ -77,3 +75,10 @@ msgstr "Transferencia"
 #: model:ir.model.fields,help:l10n_br_stock.field_stock_picking__legal_name
 msgid "Used in fiscal documents"
 msgstr "Utilizado en documentos fiscales"
+
+#~ msgid "CNPJ/CPF"
+#~ msgstr "CNPJ/CPF"
+
+#, python-format
+#~ msgid "Loading l10n_br_stock warehouse external ids..."
+#~ msgstr "Cargando l10n_br_stock warehouse external ids..."
