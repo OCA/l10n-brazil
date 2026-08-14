@@ -57,6 +57,8 @@ from ..constants.nfe import (
     NFCE_DANFE_LAYOUTS,
     NFE_DANFE_LAYOUTS,
     NFE_ENVIRONMENTS,
+    NFE_PAYMENT_INDICATOR_CASH,
+    NFE_PAYMENT_TYPE_NO_PAYMENT,
     NFE_TRANSMISSIONS,
     NFE_VERSIONS,
 )
@@ -89,6 +91,7 @@ class NFe(spec_models.StackedModel):
         "infnfe.exporta",
         "infnfe.cobr",
         "infnfe.cobr.fat",
+        "infnfe.pag",
     )
     _nfe_search_keys = ["nfe40_Id"]
 
@@ -1206,6 +1209,7 @@ class NFe(spec_models.StackedModel):
     def _document_export(self, pretty_print=True):
         result = super()._document_export()
         for record in self.filtered(filter_processador_edoc_nfe):
+            record._prepare_payments_for_nfe()
             edoc = record.serialize()[0]
             xml_file = edoc.to_xml()
             # Delete previous authorization events in draft
@@ -1792,6 +1796,22 @@ class NFe(spec_models.StackedModel):
             rec.nfe40_detPag.filtered(lambda p: p.nfe40_tPag == "99").write(
                 {"nfe40_xPag": "Outros"}
             )
+
+    def _prepare_payments_for_nfe(self):
+        for rec in self.filtered(
+            lambda d: d.document_type == MODELO_FISCAL_NFE and not d.nfe40_detPag
+        ):
+            payment_type = (
+                rec.fiscal_operation_id.nfe_payment_type
+                or rec.company_id.nfe_default_payment_type
+            )
+            values = {"nfe40_tPag": payment_type}
+            if payment_type == NFE_PAYMENT_TYPE_NO_PAYMENT:
+                values["nfe40_vPag"] = 0.0
+            else:
+                values["nfe40_indPag"] = NFE_PAYMENT_INDICATOR_CASH
+                values["nfe40_vPag"] = rec.amount_financial_total
+            rec.sudo().nfe40_detPag = [(0, 0, values)]
 
     def action_danfe_nfce_report(self):
         return (

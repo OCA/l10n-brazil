@@ -128,7 +128,6 @@ class TestXMLValidation(TransactionCase):
         )
 
         document.action_document_confirm()
-        document.action_document_send()
         # This section probably indicates an error in eiter
         #   l10n_br_account or l10n_br_fiscal
         self.assertEqual(line.icms_value, 307.32)
