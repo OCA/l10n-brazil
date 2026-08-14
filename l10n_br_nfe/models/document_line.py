@@ -406,6 +406,10 @@ class NFeLine(spec_models.StackedModel):
         self.ensure_one()
         return self.nfe40_xProd
 
+    def _get_partner_product_ncm(self):
+        self.ensure_one()
+        return self.nfe40_NCM
+
     # NOTE: no _get_partner_product_barcode override: nfe40_cEANTrib is a
     # related to the internal product barcode, the supplier EAN is already
     # consumed by the product matching during the binding build.

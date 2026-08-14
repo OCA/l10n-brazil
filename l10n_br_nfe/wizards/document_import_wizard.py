@@ -269,9 +269,15 @@ class DocumentImportWizard(models.TransientModel):
             # wizard grid is then applied on the persisted lines, which is
             # the single write path (_apply_import_depara).
             binding = self._parse_file()
-            edoc = self.env["l10n_br_fiscal.document"].import_binding_nfe(
-                binding,
-                edoc_type=self.fiscal_operation_type,
+            edoc = (
+                self.env["l10n_br_fiscal.document"]
+                # product creation is a SUPERVISED action: unless the user
+                # ticks the box, an unmatched item lands as a pending line in
+                # the review queue, where it is either linked to an existing
+                # product or used to create one. A catalog entry must never
+                # be a side effect of an import.
+                .with_context(allow_product_creation=self.allow_product_creation)
+                .import_binding_nfe(binding, edoc_type=self.fiscal_operation_type)
             )
             edoc.document_type_id = self.env.ref("l10n_br_fiscal.document_55").id
             edoc.fiscal_operation_id = self.fiscal_operation_id
