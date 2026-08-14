@@ -326,17 +326,107 @@ class RegistroI050(models.Model):
     _name = "l10n_br_sped.ecd.i050"
     _inherit = "l10n_br_sped.ecd.9.i050"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "DT_ALT": 0,  # Data da inclusão/alteração.
-    #         "COD_NAT": 0,  # Código da natureza da conta/grupo de contas, conform...
-    #         "IND_CTA": 0,  # Indicador do tipo de conta: S - Sintética (grupo de ...
-    #         "NIVEL": 0,  # Nível da conta analítica/grupo de contas.
-    #         "COD_CTA": 0,  # Código da conta analítica/grupo de contas.
-    #         "COD_CTA_SUP": 0,  # Código da conta sintética /grupo de contas de ní...
-    #         "CTA": 0,  # Nome da conta analítica/grupo de contas.
-    #     }
+    # Natureza da conta (tabela 4.2.1 do leiaute), derivada do grupo interno.
+    _COD_NAT_BY_GROUP = {
+        "asset": "01",
+        "liability": "02",
+        "equity": "03",
+        "income": "04",
+        "expense": "04",
+        "off_balance": "05",
+    }
+
+    @api.model
+    def _pull_records_from_odoo(
+        self, kind, level, parent_register=None, parent_record=None, log_msg=None
+    ):
+        """Declara as contas sintéticas (account.group) e analíticas (account.account).
+
+        Ordenado pelo código: o PVA exige a conta superior antes da filha.
+        """
+        declaration = self._context["declaration"]
+        company = declaration.company_id
+        i051 = self.env["l10n_br_sped.ecd.i051"]
+
+        groups = (
+            self.env["account.group"]
+            .with_company(company)
+            .search([("company_id", "=", company.id)])
+        )
+        accounts = (
+            self.env["account.account"]
+            .with_company(company)
+            .search([("company_id", "=", company.id)])
+        )
+
+        # o grupo herda a natureza das contas que reúne
+        nat_by_group = {}
+        for account in accounts:
+            group = account.group_id
+            nat = self._COD_NAT_BY_GROUP.get(account.internal_group, "09")
+            while group:
+                nat_by_group.setdefault(group.id, nat)
+                group = group.parent_id
+
+        def depth(group):
+            level_, parent = 1, group.parent_id
+            while parent:
+                level_, parent = level_ + 1, parent.parent_id
+            return level_
+
+        items = [
+            (group.code_prefix_start, "S", group)
+            for group in groups
+            if group.code_prefix_start
+        ]
+        items += [(account.code, "A", account) for account in accounts if account.code]
+        items.sort(key=lambda item: item[0])
+
+        registers = self.browse()
+        for _code, ind_cta, record in items:
+            if ind_cta == "S":
+                vals = {
+                    "COD_NAT": nat_by_group.get(record.id, "09"),
+                    "IND_CTA": "S",
+                    "NIVEL": depth(record),
+                    "COD_CTA": record.code_prefix_start,
+                    "COD_CTA_SUP": record.parent_id.code_prefix_start or "",
+                    "CTA": record.name,
+                    "res_model": "account.group",
+                    "res_id": record.id,
+                }
+            else:
+                group = record.group_id
+                vals = {
+                    "COD_NAT": self._COD_NAT_BY_GROUP.get(record.internal_group, "09"),
+                    "IND_CTA": "A",
+                    "NIVEL": (depth(group) + 1) if group else 1,
+                    "COD_CTA": record.code,
+                    "COD_CTA_SUP": group.code_prefix_start if group else "",
+                    "CTA": record.name,
+                    "res_model": "account.account",
+                    "res_id": record.id,
+                }
+            vals["DT_ALT"] = declaration.DT_INI
+            vals["declaration_id"] = declaration.id
+            if parent_register:
+                vals["reg_I050_ids_RegistroI010_id"] = parent_register.id
+            register = self.create(vals)
+            registers |= register
+
+            # I051 é o de-para com o plano referencial, só das contas mapeadas
+            if ind_cta == "A" and record.l10n_br_sped_referential_code:
+                i051.create(
+                    {
+                        "COD_CCUS": "",
+                        "COD_CTA_REF": record.l10n_br_sped_referential_code,
+                        "declaration_id": declaration.id,
+                        "reg_I051_ids_RegistroI050_id": register.id,
+                    }
+                )
+
+        if log_msg is not None:
+            self._log_chatter_sped_item(log_msg, level, registers)
 
 
 class RegistroI051(models.Model):
@@ -423,12 +513,28 @@ class RegistroI150(models.Model):
     _name = "l10n_br_sped.ecd.i150"
     _inherit = "l10n_br_sped.ecd.9.i150"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "DT_INI": 0,  # Data de início do período.
-    #         "DT_FIN": 0,  # Data de fim do período.
-    #     }
+    @api.model
+    def _odoo_query(self, parent_record, declaration):
+        """Um período por mês, gerado do calendário para não abrir buraco."""
+        query = """
+            SELECT GREATEST(mes::date, %(ini)s::date) AS dt_ini,
+                   LEAST(
+                       (mes + INTERVAL '1 month' - INTERVAL '1 day')::date,
+                       %(fim)s::date
+                   ) AS dt_fin
+            FROM generate_series(
+                date_trunc('month', %(ini)s::date), %(fim)s::date, INTERVAL '1 month'
+            ) AS mes
+            ORDER BY 1
+        """
+        return query, {"ini": declaration.DT_INI, "fim": declaration.DT_FIN}
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            "DT_INI": record["dt_ini"],
+            "DT_FIN": record["dt_fin"],
+        }
 
 
 class RegistroI155(models.Model):
@@ -438,24 +544,72 @@ class RegistroI155(models.Model):
     _name = "l10n_br_sped.ecd.i155"
     _inherit = "l10n_br_sped.ecd.9.i155"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "COD_CTA": 0,  # Código da conta analítica.
-    #         "COD_CCUS": 0,  # Código do centro de custos.
-    #         "VL_SLD_INI": 0,  # Valor do saldo inicial do período.
-    #         "IND_DC_INI": 0,  # Indicador da situação do saldo inicial: D - Deved...
-    #         "VL_DEB": 0,  # Valor total dos débitos do período.
-    #         "VL_CRED": 0,  # Valor total dos créditos do período.
-    #         "VL_SLD_FIN": 0,  # Valor do saldo final do período.
-    #         "IND_DC_FIN": 0,  # Indicador da situação do saldo final: D - Devedor...
-    #         "VL_SLD_INI_MF": 0,  # Valor do saldo inicial do período em moeda fun...
-    #         "IND_DC_INI_MF": 0,  # Indicador da situação do saldo inicial em moed...
-    #         "VL_DEB_MF": 0,  # Valor total dos débitos do período em moeda funcio...
-    #         "VL_CRED_MF": 0,  # Valor total dos créditos do período em moeda func...
-    #         "VL_SLD_FIN_MF": 0,  # Valor do saldo final do período em moeda funci...
-    #         "IND_DC_FIN_MF": 0,  # Indicador da situação do saldo final em moeda ...
-    #     }
+    @api.model
+    def _odoo_query(self, parent_record, declaration):
+        """Saldo inicial, movimento e saldo final por conta, no período do pai.
+
+        Agregado no banco, que percorre todas as partidas do exercício. O saldo
+        inicial soma tudo o que veio antes do período (ver o ROADMAP do módulo).
+        Só entra conta com movimento ou saldo.
+        """
+        query = """
+            SELECT a.code AS cod_cta,
+                   COALESCE(SUM(
+                       CASE WHEN l.date < %(ini)s THEN l.balance ELSE 0 END
+                   ), 0) AS vl_sld_ini,
+                   COALESCE(SUM(
+                       CASE WHEN l.date BETWEEN %(ini)s AND %(fim)s
+                            THEN l.debit ELSE 0 END
+                   ), 0) AS vl_deb,
+                   COALESCE(SUM(
+                       CASE WHEN l.date BETWEEN %(ini)s AND %(fim)s
+                            THEN l.credit ELSE 0 END
+                   ), 0) AS vl_cred,
+                   COALESCE(SUM(
+                       CASE WHEN l.date <= %(fim)s THEN l.balance ELSE 0 END
+                   ), 0) AS vl_sld_fin
+            FROM account_move_line l
+            JOIN account_account a ON a.id = l.account_id
+            JOIN account_move m ON m.id = l.move_id
+            WHERE l.company_id = %(company)s
+              AND m.state = 'posted'
+              AND l.date <= %(fim)s
+            GROUP BY a.code
+            HAVING COALESCE(SUM(
+                       CASE WHEN l.date <= %(fim)s THEN l.balance ELSE 0 END
+                   ), 0) <> 0
+                OR COALESCE(SUM(
+                       CASE WHEN l.date BETWEEN %(ini)s AND %(fim)s
+                            THEN l.debit ELSE 0 END
+                   ), 0) <> 0
+                OR COALESCE(SUM(
+                       CASE WHEN l.date BETWEEN %(ini)s AND %(fim)s
+                            THEN l.credit ELSE 0 END
+                   ), 0) <> 0
+            ORDER BY a.code
+        """
+        params = {
+            "ini": parent_record["dt_ini"],
+            "fim": parent_record["dt_fin"],
+            "company": declaration.company_id.id,
+        }
+        return query, params
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        # valor em módulo, com a natureza no indicador: devedor "D", credor "C"
+        sld_ini = record["vl_sld_ini"]
+        sld_fin = record["vl_sld_fin"]
+        return {
+            "COD_CTA": record["cod_cta"],
+            "COD_CCUS": "",
+            "VL_SLD_INI": abs(sld_ini),
+            "IND_DC_INI": "C" if sld_ini < 0 else "D",
+            "VL_DEB": record["vl_deb"],
+            "VL_CRED": record["vl_cred"],
+            "VL_SLD_FIN": abs(sld_fin),
+            "IND_DC_FIN": "C" if sld_fin < 0 else "D",
+        }
 
 
 class RegistroI157(models.Model):
@@ -492,21 +646,23 @@ class RegistroI200(models.Model):
         else:
             return [
                 ("company_id", "=", declaration.company_id.id),
-                ("state", "=", "open"),
-                ("date", ">", declaration.DT_INI),
-                ("date", "<", declaration.DT_FIN),
+                ("state", "=", "posted"),
+                ("date", ">=", declaration.DT_INI),
+                ("date", "<=", declaration.DT_FIN),
             ]
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        # total dos débitos: o fiscal_amount_total é zero fora de documento fiscal
+        amount = sum(record.line_ids.mapped("debit"))
         return {
             "NUM_LCTO": record.name,  # Número ou Código de identificação
-            "DT_LCTO": record.create_date,  # Data do lançamento.
-            "VL_LCTO": record.fiscal_amount_total,  # Valor do lançamento.
+            "DT_LCTO": record.date,
+            "VL_LCTO": amount,  # Valor do lançamento.
             "IND_LCTO": "N",
             "DT_LCTO_EXT": record.date,  # O Data de ocorrência dos fatos
             # Valor do lançamento em moeda funcional
-            "VL_LCTO_MF": record.fiscal_amount_total,
+            "VL_LCTO_MF": amount,
         }
 
 
@@ -524,9 +680,8 @@ class RegistroI250(models.Model):
             ("company_id", "=", declaration.company_id.id),
             ("parent_state", "=", "posted"),
             ("move_id", "=", parent_record.id),
-            ("display_type", "=", False),
-            # ("date", ">", date_start),
-            # ("date", "<", date_end),
+            # só ficam de fora as linhas de seção e de nota
+            ("display_type", "not in", ("line_section", "line_note")),
         ]
 
     @api.model
@@ -534,15 +689,17 @@ class RegistroI250(models.Model):
         return {
             "COD_CTA": record.account_id.code,
             # "COD_CCUS": 0,  # Código do centro de custos.
-            "VL_DC": record.amount_currency,  # Valor da partida.
+            # valor positivo, a natureza vai no IND_DC (amount_currency é zero em BRL)
+            "VL_DC": abs(record.debit or record.credit),  # Valor da partida.
             "IND_DC": record.debit > 0
             and "D"
             or "C",  # Indicador da natureza da partida: D - Débito; C - Cré...
             # "NUM_ARQ": 0,  # Número, Código ou caminho de localização dos documen...
             # "COD_HIST_PAD": 0,  # Código do histórico padronizado, conforme tabel...
             # "HIST": 0,  # O Histórico completo da partida ou histórico complement...
-            "COD_PART": record.partner_id.id,  # ?,  # Código identificação participante
-            "VL_DC_MF": record.amount_currency,  # Valor da partida em moeda funcional
+            # o 0150 identifica o participante pelo id do parceiro
+            "COD_PART": record.partner_id.id or "",
+            "VL_DC_MF": abs(record.debit or record.credit),
             # "IND_DC_MF": 0,  # Indicador da natureza da partida em moeda funciona...
         }
 
