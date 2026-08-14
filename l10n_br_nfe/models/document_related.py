@@ -115,7 +115,7 @@ class NFeRelated(spec_models.StackedModel):
             if record.nfe40_refCTe:
                 record.document_key = record.nfe40_refCTe
 
-    def _export_fields(self, xsd_fields, class_obj, export_dict):
+    def _export_fields(self, xsd_fields, class_obj, export_dict, field_name=None):
         if class_obj._name == "nfe.40.nfref":
             xsd_fields = [
                 f
@@ -123,4 +123,6 @@ class NFeRelated(spec_models.StackedModel):
                 if f not in [i[0] for i in self._fields["nfe40_choice_nfref"].selection]
             ]
             xsd_fields += [self.nfe40_choice_nfref]
-        return super()._export_fields(xsd_fields, class_obj, export_dict)
+        return super()._export_fields(
+            xsd_fields, class_obj, export_dict, field_name=field_name
+        )
