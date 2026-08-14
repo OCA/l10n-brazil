@@ -96,4 +96,68 @@
         <field name="offset">0</field>
         <field name="duration">1</field>
     </record>
+
+    <record id="instance_dra" model="mis.report.instance">
+        <field name="name">DRA - exercício atual e anterior</field>
+        <field name="report_id" ref="dra" />
+        <field name="sequence">80</field>
+        <field name="company_id" eval="False" />
+        <field name="target_move">posted</field>
+        <field name="comparison_mode" eval="True" />
+        <field name="display_columns_description" eval="True" />
+    </record>
+
+    <record id="instance_dra_ant" model="mis.report.instance.period">
+        <field name="name">Exercício anterior</field>
+        <field name="report_instance_id" ref="instance_dra" />
+        <field name="source">actuals</field>
+        <field name="mode">relative</field>
+        <field name="sequence">10</field>
+        <field name="type">y</field>
+        <field name="offset">-1</field>
+        <field name="duration">1</field>
+    </record>
+
+    <record id="instance_dra_atual" model="mis.report.instance.period">
+        <field name="name">Exercício atual</field>
+        <field name="report_instance_id" ref="instance_dra" />
+        <field name="source">actuals</field>
+        <field name="mode">relative</field>
+        <field name="sequence">20</field>
+        <field name="type">y</field>
+        <field name="offset">0</field>
+        <field name="duration">1</field>
+    </record>
+
+    <record id="instance_dva" model="mis.report.instance">
+        <field name="name">DVA - exercício atual e anterior</field>
+        <field name="report_id" ref="dva" />
+        <field name="sequence">90</field>
+        <field name="company_id" eval="False" />
+        <field name="target_move">posted</field>
+        <field name="comparison_mode" eval="True" />
+        <field name="display_columns_description" eval="True" />
+    </record>
+
+    <record id="instance_dva_ant" model="mis.report.instance.period">
+        <field name="name">Exercício anterior</field>
+        <field name="report_instance_id" ref="instance_dva" />
+        <field name="source">actuals</field>
+        <field name="mode">relative</field>
+        <field name="sequence">10</field>
+        <field name="type">y</field>
+        <field name="offset">-1</field>
+        <field name="duration">1</field>
+    </record>
+
+    <record id="instance_dva_atual" model="mis.report.instance.period">
+        <field name="name">Exercício atual</field>
+        <field name="report_instance_id" ref="instance_dva" />
+        <field name="source">actuals</field>
+        <field name="mode">relative</field>
+        <field name="sequence">20</field>
+        <field name="type">y</field>
+        <field name="offset">0</field>
+        <field name="duration">1</field>
+    </record>
 </odoo>
