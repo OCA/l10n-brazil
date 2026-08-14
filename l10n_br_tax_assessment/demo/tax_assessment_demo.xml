@@ -94,4 +94,79 @@
         <field name="description">Outros débitos de IPI</field>
         <field name="tax_amount">30.00</field>
     </record>
+
+    <!--
+      PIS and COFINS close the set of four consumption taxes the localization
+      assesses. They are what feeds block M of EFD Contribuicoes, the way ICMS
+      and IPI feed block E of EFD ICMS/IPI, so a demo without them shows only
+      half of what the tax books need.
+
+      The regime is declared on the GROUP, not on the assessment: the demo
+      company assesses under the cumulative regime (its `piscofins_id` is the
+      cumulative one, PIS 0,65% and COFINS 3%), and M200 wants each regime
+      apart. Saying it here keeps the demo honest about which regime produced
+      those numbers instead of leaving them under "not applicable".
+    -->
+    <record id="l10n_br_coa.tax_group_pis" model="account.tax.group">
+        <field name="regime">cumulative</field>
+    </record>
+
+    <record id="l10n_br_coa.tax_group_cofins" model="account.tax.group">
+        <field name="regime">cumulative</field>
+    </record>
+
+    <record id="demo_assessment_pis" model="l10n_br_tax.assessment">
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="tax_group_id" ref="l10n_br_coa.tax_group_pis" />
+        <field
+            name="date_from"
+            eval="(DateTime.today() + relativedelta(day=1)).strftime('%Y-%m-%d')"
+        />
+        <field
+            name="date_to"
+            eval="(DateTime.today() + relativedelta(day=31)).strftime('%Y-%m-%d')"
+        />
+    </record>
+
+    <function
+        model="l10n_br_tax.assessment"
+        name="action_compute"
+        eval="[[ref('demo_assessment_pis')]]"
+    />
+
+    <record id="demo_assessment_cofins" model="l10n_br_tax.assessment">
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="tax_group_id" ref="l10n_br_coa.tax_group_cofins" />
+        <field
+            name="date_from"
+            eval="(DateTime.today() + relativedelta(day=1)).strftime('%Y-%m-%d')"
+        />
+        <field
+            name="date_to"
+            eval="(DateTime.today() + relativedelta(day=31)).strftime('%Y-%m-%d')"
+        />
+    </record>
+
+    <function
+        model="l10n_br_tax.assessment"
+        name="action_compute"
+        eval="[[ref('demo_assessment_cofins')]]"
+    />
+
+    <!--
+      Withholding on the COFINS assessment: it reduces what is due without
+      being part of the debit/credit offsetting, and M200 carries it in a field
+      of its own (VL_RET_CUM here, VL_RET_NC for the non cumulative regime).
+      This is the case that separates a deduction from a withholding, which the
+      ICMS assessment above cannot show because the E110 has no field for it.
+    -->
+    <record id="demo_assessment_cofins_withholding" model="l10n_br_tax.assessment.line">
+        <field name="assessment_id" ref="demo_assessment_cofins" />
+        <field name="kind">withholding</field>
+        <field name="source">manual</field>
+        <field
+            name="description"
+        >COFINS retida na fonte por órgão público no período</field>
+        <field name="tax_amount">15.00</field>
+    </record>
 </odoo>
