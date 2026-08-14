@@ -41,6 +41,12 @@ Como as demais demonstrações do guarda-chuva, as contas são selecionadas
 pela classificação contábil, então o mesmo relatório serve qualquer
 plano de contas.
 
+Nesta versão, além da DFC: a **Demonstração das Mutações do Patrimônio
+Líquido** (CPC 26 R1) e a **Demonstração dos Lucros ou Prejuízos
+Acumulados** (art. 186 da Lei 6.404/76). Publicar a DMPL dispensa a
+DLPA, por força do art. 186, § 2º, e por isso as duas vêm juntas: quem
+publica a segunda não precisa da primeira.
+
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
    Only for development or testing purpose, do not use in production.
