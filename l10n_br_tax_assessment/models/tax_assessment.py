@@ -357,13 +357,38 @@ class TaxAssessment(models.Model):
         }
 
     def _get_taxes(self):
-        """Taxes of the assessed group, within the assessment company."""
+        """Taxes of the assessed group, within the assessment company.
+
+        Counterpart taxes are left out. A creditable input posts a PAIR:
+        "ICMS Entrada" debits the recoverable account, and "ICMS Entrada
+        Dedutivel" credits the cost by the very same amount, so the tax leaves
+        the cost of the goods. Both belong to the group and both are of type
+        purchase, so reading both adds a value and its negative: the input
+        credit cancels itself out and the assessment reports zero credit for a
+        period full of creditable purchases, with nothing to signal it.
+
+        The counterpart is the one whose tax repartition is NEGATIVE, which is
+        what makes it a mirror rather than a movement of its own. The
+        `deductible` flag looks like the same thing and is not: it defaults to
+        True, so it also catches every tax created without an explicit value.
+        """
         self.ensure_one()
-        return self.env["account.tax"].search(
+        taxes = self.env["account.tax"].search(
             [
                 ("tax_group_id", "=", self.tax_group_id.id),
                 ("company_id", "=", self.company_id.id),
             ]
+        )
+        return taxes.filtered(lambda tax: not self._is_counterpart_tax(tax))
+
+    @api.model
+    def _is_counterpart_tax(self, tax):
+        """Whether the tax only mirrors another one of the same group."""
+        repartition = tax.invoice_repartition_line_ids.filtered(
+            lambda line: line.repartition_type == "tax"
+        )
+        return bool(repartition) and all(
+            line.factor_percent < 0 for line in repartition
         )
 
     def _find_previous_assessment(self):
