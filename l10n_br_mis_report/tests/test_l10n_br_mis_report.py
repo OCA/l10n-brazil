@@ -56,6 +56,20 @@ class TestL10nBrMisReport(AccountTestInvoicingCommon):
         cls.acc_capital = account(
             "TSTCP", "Capital Social", "equity", "account_tag_equity_capital"
         )
+        cls.acc_financeira = account(
+            "TSTDF",
+            "Despesas Financeiras",
+            "expense",
+            "account_tag_expenses_financial",
+            result=True,
+        )
+        cls.acc_irpj = account(
+            "TSTIR",
+            "Provisao para IRPJ",
+            "expense",
+            "account_tag_expense_irpj",
+            result=True,
+        )
 
         cls.journal = cls.company_data["default_journal_misc"]
         # the closed financial year the tests work on
@@ -134,6 +148,35 @@ class TestL10nBrMisReport(AccountTestInvoicingCommon):
         r = self._evaluate(self.dre)
         self.assertAlmostEqual(r["despesas_administrativas"], 400.0, places=2)
         self.assertAlmostEqual(r["resultado_liquido"], -400.0, places=2)
+
+    def test_result_of_the_year_matches_the_income_statement(self):
+        """The sheet and the income statement agree on the year result.
+
+        They are two paths to the same number: the balance sheet adds up the
+        accounts carrying the umbrella tag, while the income statement walks
+        down the cascade of its lines. They agree as long as the
+        classification is complete, and drift apart in silence the moment a
+        result account gets one tag and not the other. This test is what turns
+        that drift into a failure.
+
+        The entries deliberately touch four different lines of the cascade
+        (revenue, administrative expense, financial expense and income tax),
+        so the sum of the parts is a real check and not a tautology.
+        """
+        self._post([(self.acc_caixa, 2000.0, 0.0), (self.acc_receita, 0.0, 2000.0)])
+        self._post([(self.acc_despesa, 300.0, 0.0), (self.acc_caixa, 0.0, 300.0)])
+        self._post([(self.acc_financeira, 120.0, 0.0), (self.acc_caixa, 0.0, 120.0)])
+        self._post([(self.acc_irpj, 80.0, 0.0), (self.acc_caixa, 0.0, 80.0)])
+
+        bp = self._evaluate(self.bp)
+        dre = self._evaluate(self.dre)
+        # 2000 - 300 - 120 - 80
+        self.assertAlmostEqual(dre["resultado_liquido"], 1500.0, places=2)
+        self.assertAlmostEqual(
+            bp["resultado_exercicio"], dre["resultado_liquido"], places=2
+        )
+        # and the sheet still closes with that result inside equity
+        self.assertAlmostEqual(bp["total_ativo"], bp["total_passivo"], places=2)
 
 
 @tagged("post_install", "-at_install")
