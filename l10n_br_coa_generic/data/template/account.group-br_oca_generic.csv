@@ -126,6 +126,8 @@
 "coa_generic_512","5.1.2","DESPESAS NÃO OPERACIONAIS","coa_generic_51"
 "coa_generic_5121","5.1.2.1","DESPESAS DIVERSAS INDEDUTÍVEIS","coa_generic_512"
 "coa_generic_5122","5.1.2.2","VALOR RESIDUAL DO ATIVO PERMANENTE","coa_generic_512"
+"coa_generic_513","5.1.3","TRIBUTOS SOBRE O LUCRO","coa_generic_51"
+"coa_generic_5131","5.1.3.1","PROVISÕES PARA TRIBUTOS SOBRE O LUCRO","coa_generic_513"
 "coa_generic_6","6","RECEITAS",""
 "coa_generic_61","6.1","RECEITAS DIVERSAS","coa_generic_6"
 "coa_generic_611","6.1.1","RECEITAS OPERACIONAIS","coa_generic_61"
