@@ -1,11 +1,17 @@
-Esses relatórios são estruturados inicialmente com base no **prefixo das contas**. Se você estiver utilizando um plano de contas customizado, é importante revisar o campo **prefixo da conta** no cadastro do plano de contas para garantir que está alinhado com o que foi configurado no modelo de relatório.
+Os relatórios selecionam as contas pela **classificação contábil brasileira**
+(as etiquetas de conta do `l10n_br_coa`), não pelo código da conta. Quem usa os
+planos `l10n_br_coa_generic` ou `l10n_br_coa_simple` não precisa configurar
+nada: eles já vêm classificados.
 
-No entanto, essa configuração pode ser ajustada para utilizar **outros métodos de identificação** oferecidos pela ferramenta **SIG** (Sistema de Informação Gerencial), equivalente ao **MIS** (Management Information System) em inglês, implementada pelo módulo **mis_builder**.
+Num **plano de contas próprio**, classifique as contas para que elas apareçam:
+vá em **Faturamento > Configuração > Plano de Contas**, abra a conta e preencha
+**Etiquetas** com a linha de relatório correspondente (por exemplo "Ativo /
+Circulante / Estoques" ou "Resultado / (-) Despesas Administrativas").
 
-Para alterar um modelo, siga os passos abaixo:
+Toda conta de resultado leva **duas** etiquetas: a da sua linha na DRE e a
+etiqueta guarda-chuva "Resultado / Contas de Resultado (todas)". É essa segunda
+que alimenta a linha "Resultado do Exercício" do Balanço, que é o que faz o
+ativo fechar com o passivo mais o patrimônio líquido.
 
-1. Acesse **Faturamento \> Configuração \> Relatórios SIG \> Modelos do Relatório SIG**.
-2. Selecione o modelo que deseja editar e ajuste os critérios de identificação, incluindo o **prefixo das contas** ou outro método de identificação disponível.
-3. Certifique-se de que os **prefixos configurados** no modelo do relatório estejam **alinhados** com os prefixos do seu plano de contas.
-
-Para mais detalhes sobre como configurar, consulte a documentação do **mis_builder**.
+Conta sem etiqueta simplesmente não entra nos relatórios legais, que é o
+comportamento desejado para contas de controle interno.
