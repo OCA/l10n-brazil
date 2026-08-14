@@ -3,7 +3,7 @@
 # Copyright 2025 Akretion - Raphaël Valyi <raphael.valyi@akretion.com>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import Command, api, fields, models
+from odoo import api, fields, models
 
 from ..tools import cfop_geography_warning
 
@@ -100,45 +100,3 @@ class DocumentImportWizardLine(models.TransientModel):
             wizard.issuer_partner_id,
             wizard.company_id,
         )
-
-    def _find_or_create_product_supplierinfo(self):
-        for line in self:
-            if not line.product_id:
-                continue
-
-            if not line.product_supplier_id:
-                line._create_product_supplier()
-            else:
-                line._update_product_supplier()
-
-    def _get_supplierinfo_price(self):
-        """Price of the supplierinfo expressed in the product main UoM."""
-        if self.uom_internal:
-            return self.uom_internal._compute_price(
-                self.price_unit_com, self.product_id.uom_id
-            )
-        return self.product_id.lst_price
-
-    def _prepare_supplierinfo_vals(self):
-        """Common supplierinfo values.
-
-        Overriden by specialized document types (e.g. NFe) to add the
-        partner UoM de-para values.
-        """
-        return {
-            "product_id": self.product_id.id,
-            "product_name": self.product_name,
-            "product_code": self.product_code,
-            "price": self._get_supplierinfo_price(),
-        }
-
-    def _create_product_supplier(self):
-        vals = self._prepare_supplierinfo_vals()
-        vals["partner_id"] = self.imported_partner_id.id
-        self.product_supplier_id = self.env["product.supplierinfo"].create(vals)
-        self.product_id.write(
-            {"seller_ids": [Command.link(self.product_supplier_id.id)]}
-        )
-
-    def _update_product_supplier(self):
-        self.product_supplier_id.write(self._prepare_supplierinfo_vals())

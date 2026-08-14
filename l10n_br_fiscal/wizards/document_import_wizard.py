@@ -2,7 +2,9 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import base64
+import io
 import logging
+import zipfile
 
 from erpbrasil.base.fiscal.cnpj_cpf import validar_cnpj, validar_cpf
 from erpbrasil.base.fiscal.edoc import detectar_chave_edoc
@@ -112,17 +114,24 @@ class DocumentImportWizard(models.TransientModel):
         Raises:
             UserError: If neither CNPJ nor legal name/name is provided.
         """
+        domain = []
         if cnpj:
             if validar_cnpj(cnpj):
                 domain = [("is_company", "=", True)]
             elif validar_cpf(cnpj):
                 domain = [("is_company", "=", False)]
             domain.append(("cnpj_cpf_stripped", "=", punctuation_rm(cnpj)))
-        elif legal_name or name:
-            domain = [("is_company", "=", True)]
-            domain.append(
-                ["|", ("legal_name", "ilike", legal_name), ("name", "ilike", name)]
-            )
+        elif legal_name and name:
+            domain = [
+                ("is_company", "=", True),
+                "|",
+                ("legal_name", "ilike", legal_name),
+                ("name", "ilike", name),
+            ]
+        elif legal_name:
+            domain = [("is_company", "=", True), ("legal_name", "ilike", legal_name)]
+        elif name:
+            domain = [("is_company", "=", True), ("name", "ilike", name)]
         else:
             raise UserError(_("No CNPJ or Legal Name to search for a partner!"))
         return self.env["res.partner"].search(domain, limit=1)
@@ -137,9 +146,53 @@ class DocumentImportWizard(models.TransientModel):
             self.document_id.date_in_out = self.date_in_out
         return binding, self.document_id
 
-    def action_import_and_open_document(self):  # TODO used?
+    def action_import_and_open_document(self):
+        if self._file_is_zip():
+            documents = self._import_edoc_batch()
+            if len(documents) == 1:
+                self.document_id = documents
+                return self.action_open_document()
+            return {
+                "type": "ir.actions.act_window",
+                "name": _("Imported Documents"),
+                "res_model": "l10n_br_fiscal.document",
+                "view_mode": "tree,form",
+                "domain": [("id", "in", documents.ids)],
+            }
         self._import_edoc()
         return self.action_open_document()
+
+    def _import_edoc_batch(self):
+        """Import every fiscal file of the uploaded zip archive: each entry
+        is processed by the regular single-file path and lands as a
+        persisted document waiting for review."""
+        self.ensure_one()
+        documents = self.env["l10n_br_fiscal.document"]
+        errors = []
+        archive = zipfile.ZipFile(io.BytesIO(base64.b64decode(self.file)))
+        for name in archive.namelist():
+            if not name.lower().endswith(".xml"):
+                continue
+            entry = self.copy({"file": base64.b64encode(archive.read(name)).decode()})
+            try:
+                # each entry runs inside its own savepoint: without it, an
+                # entry that violates a database constraint (a duplicate
+                # document key, say) poisons the transaction and every file
+                # after it fails with "current transaction is aborted",
+                # reported as a per-file error that hides the real cause
+                with self.env.cr.savepoint():
+                    entry._onchange_file()
+                    entry._import_edoc()
+                    documents |= entry.document_id
+            except Exception as error:  # noqa: BLE001 - report per entry
+                errors.append(f"{name}: {error}")
+        if errors and not documents:
+            raise UserError(
+                _("No file of the archive could be imported:\n%s") % "\n".join(errors)
+            )
+        if errors:
+            _logger.warning("Zip import: %s file(s) skipped: %s", len(errors), errors)
+        return documents
 
     def _destination_partner_from_binding(self, binding):
         pass
@@ -161,8 +214,17 @@ class DocumentImportWizard(models.TransientModel):
 
     @api.onchange("file")
     def _onchange_file(self):
-        if self.file:
+        if self.file and not self._file_is_zip():
             self._fill_wizard_from_binding()
+
+    def _file_is_zip(self):
+        """A zip archive with several fiscal files can be imported at once:
+        each entry lands as a document waiting for review."""
+        if not self.file:
+            return False
+        # only the prefix is decoded: the whole payload may be a large
+        # archive and this runs on every onchange of the file
+        return base64.b64decode(self.file[:8])[:4] == b"PK\x03\x04"
 
     def _fill_wizard_from_binding(self):
         binding = self._parse_file()
