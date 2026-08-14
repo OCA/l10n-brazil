@@ -1,6 +1,7 @@
 # Copyright (C) 2026  Luis Felipe Mileo - KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from odoo.exceptions import UserError
 from odoo.tests import TransactionCase
 
 
@@ -333,6 +334,65 @@ class TestDocumentImportLine(TransactionCase):
             wizard._find_fiscal_operation("6102", "Compra para revenda (teste)", "in"),
             operation,
         )
+
+    def test_header_operation_never_cascades_by_itself(self):
+        """Writing the fiscal operation on the header must NOT reach the
+        lines: the account move delegates its fiscal fields to this very
+        document, so a cascade in write() would rewrite the lines of a
+        posted vendor bill. The propagation is an explicit action."""
+        line2 = self.env["l10n_br_fiscal.document.line"].create(
+            {
+                "document_id": self.document.id,
+                "name": "Segunda linha",
+                "quantity": 1.0,
+                "price_unit": 10.0,
+                "uom_id": self.uom_kg.id,
+            }
+        )
+        new_operation = self.env["l10n_br_fiscal.operation"].create(
+            {
+                "code": "TST-NOVA",
+                "name": "Operacao nova (teste)",
+                "fiscal_operation_type": "in",
+                "fiscal_type": "purchase",
+                "state": "approved",
+            }
+        )
+        previous = self.document.fiscal_operation_id
+        self.line.fiscal_operation_id = previous
+        line2.fiscal_operation_id = previous
+
+        self.document.fiscal_operation_id = new_operation
+        self.assertEqual(self.line.fiscal_operation_id, previous)
+        self.assertEqual(line2.fiscal_operation_id, previous)
+
+        # the user is told the action exists...
+        warning = self.document._onchange_fiscal_operation_id_imported()
+        self.assertIn("warning", warning)
+
+        # ...and it does propagate, without touching quantities or prices
+        quantity, price_unit = self.line.quantity, self.line.price_unit
+        self.document.action_apply_operation_to_lines()
+        self.assertEqual(self.line.fiscal_operation_id, new_operation)
+        self.assertEqual(line2.fiscal_operation_id, new_operation)
+        self.assertEqual(self.line.quantity, quantity)
+        self.assertEqual(self.line.price_unit, price_unit)
+
+    def test_apply_operation_to_lines_only_on_a_draft(self):
+        """The propagation rewrites the fiscal mapping of every line: it is
+        refused once the document left the draft state."""
+        self.document.state_edoc = "autorizada"
+        with self.assertRaises(UserError):
+            self.document.action_apply_operation_to_lines()
+
+    def test_import_review_message(self):
+        """The review banner is a whole sentence in a computed field, so it
+        can be translated as one."""
+        self.document._init_import_states()
+        self.assertIn("1", self.document.import_review_message)
+        self.line.product_id = self.product
+        self.line._apply_import_depara()
+        self.assertFalse(self.document.import_review_message)
 
     def test_cfop_warning_on_line(self):
         """The declared CFOP is checked against the real geography."""
