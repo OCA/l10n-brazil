@@ -76,6 +76,37 @@ class TestNetCostSurvivesInvoice(TransactionCase):
         )
         cls.company.stock_valuation_via_stock_price = True
 
+    def _make_order(self, qty=1.0, price_unit=800.0):
+        return (
+            self.env["purchase.order"]
+            .with_company(self.company)
+            .create(
+                {
+                    "partner_id": self.supplier.id,
+                    "company_id": self.company.id,
+                    "fiscal_operation_id": self.fiscal_operation.id,
+                    "order_line": [
+                        (
+                            0,
+                            0,
+                            {
+                                "product_id": self.product.id,
+                                "product_qty": qty,
+                                "price_unit": price_unit,
+                                "product_uom": self.product.uom_id.id,
+                                "name": self.product.name,
+                                "date_planned": fields.Datetime.now(),
+                                "fiscal_operation_id": self.fiscal_operation.id,
+                                "fiscal_operation_line_id": (
+                                    self.fiscal_operation_line.id
+                                ),
+                            },
+                        )
+                    ],
+                }
+            )
+        )
+
     def test_net_cost_survives_the_vendor_bill(self):
         order = (
             self.env["purchase.order"]
@@ -141,3 +172,33 @@ class TestNetCostSurvivesInvoice(TransactionCase):
             len(layers), 1, "the vendor bill must not add a correction layer"
         )
         self.assertAlmostEqual(sum(layers.mapped("value")), value_on_receipt, places=2)
+
+    def test_net_cost_visible_on_the_purchase_order_line(self):
+        """The buyer sees the net cost before approving the order.
+
+        The receipt is where the goods arrive, not where the decision is
+        taken. Exposing the cost only there, and only when the company
+        invoices from the picking, left the default flow with no view of the
+        number that values the stock.
+        """
+        order = self._make_order()
+        line = order.order_line[0]
+
+        self.assertGreater(line.icms_value, 0)
+        self.assertAlmostEqual(line.cost_unit, line.price_unit - line.icms_value, 2)
+        self.assertLess(line.cost_unit, line.price_unit)
+        self.assertEqual(line.creditability_origin, "derived")
+
+    def test_net_cost_per_unit_on_a_multi_quantity_line(self):
+        """The cost is per unit, so it divides by the ordered quantity.
+
+        A purchase order line counts its quantity in `product_qty`, not in
+        the `product_uom_qty` a stock move uses, and dividing by the wrong
+        one would multiply the unit cost by the quantity.
+        """
+        order = self._make_order(qty=4.0)
+        line = order.order_line[0]
+
+        self.assertAlmostEqual(
+            line.cost_unit, line.price_unit - line.icms_value / 4.0, 2
+        )
