@@ -324,6 +324,28 @@ class StockPriceMixin(models.AbstractModel):
                 creditable = record._resolve_tax_creditability(domain)
                 record[f"{domain}_tax_is_creditable"] = creditable
 
+    def _get_stock_cost_tax_map(self):
+        """Which taxes of this line are a credit and which are cost.
+
+        The accounting side of the net cost needs the same answer the
+        valuation uses, per tax, so the vendor bill can post the credit to
+        the recoverable account and leave the rest inside the product line.
+        Returning it from here is what keeps a single source of truth: the
+        ledger and the stock layer cannot disagree, because both read this.
+
+        :return: {tax_domain: 'credit' | 'cost'} for the domains whose
+            creditability is derived. An undetermined line reports
+            everything as cost, matching how it is valued.
+        """
+        self.ensure_one()
+        undetermined = self.creditability_origin == "undetermined"
+        return {
+            domain: "cost"
+            if undetermined or not self[f"{domain}_tax_is_creditable"]
+            else "credit"
+            for domain in CREDITABLE_TAX_DOMAINS
+        }
+
     def _get_cost_unit_qty(self):
         """The quantity the net cost is divided by.
 
