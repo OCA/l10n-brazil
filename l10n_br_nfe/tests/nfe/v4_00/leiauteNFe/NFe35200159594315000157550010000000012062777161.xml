@@ -110,7 +110,28 @@
                         <vCOFINS>0.00</vCOFINS>
                     </COFINSOutr>
                 </COFINS>
+                <IBSCBS>
+                    <CST>000</CST>
+                    <cClassTrib>000001</cClassTrib>
+                    <gIBSCBS>
+                        <vBC>140.00</vBC>
+                        <gIBSUF>
+                            <pIBSUF>0.1000</pIBSUF>
+                            <vIBSUF>0.14</vIBSUF>
+                        </gIBSUF>
+                        <gIBSMun>
+                            <pIBSMun>0.0000</pIBSMun>
+                            <vIBSMun>0.00</vIBSMun>
+                        </gIBSMun>
+                        <vIBS>0.14</vIBS>
+                        <gCBS>
+                            <pCBS>0.9000</pCBS>
+                            <vCBS>1.26</vCBS>
+                        </gCBS>
+                    </gIBSCBS>
+                </IBSCBS>
             </imposto>
+            <vItem>140.00</vItem>
         </det>
         <total>
             <ICMSTot>
@@ -134,6 +155,32 @@
                 <vOutro>0.00</vOutro>
                 <vNF>140.00</vNF>
             </ICMSTot>
+            <IBSCBSTot>
+                <vBCIBSCBS>140.00</vBCIBSCBS>
+                <gIBS>
+                    <gIBSUF>
+                        <vDif>0.00</vDif>
+                        <vDevTrib>0.00</vDevTrib>
+                        <vIBSUF>0.14</vIBSUF>
+                    </gIBSUF>
+                    <gIBSMun>
+                        <vDif>0.00</vDif>
+                        <vDevTrib>0.00</vDevTrib>
+                        <vIBSMun>0.00</vIBSMun>
+                    </gIBSMun>
+                    <vIBS>0.14</vIBS>
+                    <vCredPres>0.00</vCredPres>
+                    <vCredPresCondSus>0.00</vCredPresCondSus>
+                </gIBS>
+                <gCBS>
+                    <vDif>0.00</vDif>
+                    <vDevTrib>0.00</vDevTrib>
+                    <vCBS>1.26</vCBS>
+                    <vCredPres>0.00</vCredPres>
+                    <vCredPresCondSus>0.00</vCredPresCondSus>
+                </gCBS>
+            </IBSCBSTot>
+            <vNFTot>140.00</vNFTot>
         </total>
         <transp>
             <modFrete>9</modFrete>

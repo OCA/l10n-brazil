@@ -14,6 +14,10 @@
         <field name="legal_nature_id" ref="l10n_br_fiscal.legal_nature_2062" />
         <field name="cnae_main_id" ref="l10n_br_fiscal.cnae_3101200" />
         <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
+        <field
+            name="tax_classification_id"
+            ref="l10n_br_fiscal.tax_classification_000001"
+        />
     </record>
 
     <record id="icms_tax_definition_main_company" model="l10n_br_fiscal.tax.definition">
@@ -24,6 +28,28 @@
         <field name="custom_tax">True</field>
         <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_com_credito" />
         <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_101" />
+        <field name="state">draft</field>
+    </record>
+
+    <record id="ibs_tax_definition_main_company" model="l10n_br_fiscal.tax.definition">
+        <field name="company_id" ref="base.main_company" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ibs" />
+        <field name="is_taxed">True</field>
+        <field name="is_debit_credit">True</field>
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ibs_0_1" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ibs_000" />
+        <field name="state">draft</field>
+    </record>
+
+    <record id="cbs_tax_definition_main_company" model="l10n_br_fiscal.tax.definition">
+        <field name="company_id" ref="base.main_company" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cbs" />
+        <field name="is_taxed">True</field>
+        <field name="is_debit_credit">True</field>
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cbs_0_9" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cbs_000" />
         <field name="state">draft</field>
     </record>
 
@@ -87,6 +113,10 @@
         <field name="cnae_main_id" ref="l10n_br_fiscal.cnae_3101200" />
         <field name="piscofins_id" ref="l10n_br_fiscal.tax_pis_cofins_columativo" />
         <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
+        <field
+            name="tax_classification_id"
+            ref="l10n_br_fiscal.tax_classification_000001"
+        />
     </record>
 
     <record
@@ -128,6 +158,34 @@
         <field name="custom_tax">True</field>
         <field name="tax_id" ref="l10n_br_fiscal.tax_issqn_5" />
         <field name="state">approved</field>
+    </record>
+
+    <record
+        id="ibs_tax_definition_empresa_lucro_presumido"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ibs" />
+        <field name="is_taxed">True</field>
+        <field name="is_debit_credit">True</field>
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ibs_0_1" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ibs_000" />
+        <field name="state">draft</field>
+    </record>
+
+    <record
+        id="cbs_tax_definition_empresa_lucro_presumido"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cbs" />
+        <field name="is_taxed">True</field>
+        <field name="is_debit_credit">True</field>
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cbs_0_9" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cbs_000" />
+        <field name="state">draft</field>
     </record>
 
     <record id="empresa_lc_document_55_serie_1" model="l10n_br_fiscal.document.serie">
@@ -263,6 +321,10 @@
         <field name="cnae_main_id" ref="l10n_br_fiscal.cnae_3101200" />
         <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
         <field name="annual_revenue">815000.00</field>
+        <field
+            name="tax_classification_id"
+            ref="l10n_br_fiscal.tax_classification_000001"
+        />
     </record>
 
     <record id="empresa_sn_document_55_serie_1" model="l10n_br_fiscal.document.serie">
@@ -355,6 +417,34 @@
         <field name="custom_tax">True</field>
         <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_outros" />
         <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_99" />
+        <field name="state">draft</field>
+    </record>
+
+    <record
+        id="ibs_tax_definition_simples_nacional"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ibs" />
+        <field name="is_taxed">True</field>
+        <field name="is_debit_credit">True</field>
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ibs_0_1" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ibs_000" />
+        <field name="state">draft</field>
+    </record>
+
+    <record
+        id="cbs_tax_definition_simples_nacional"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cbs" />
+        <field name="is_taxed">True</field>
+        <field name="is_debit_credit">True</field>
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cbs_0_9" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cbs_000" />
         <field name="state">draft</field>
     </record>
 </odoo>
