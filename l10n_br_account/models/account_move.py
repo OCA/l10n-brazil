@@ -259,7 +259,7 @@ class AccountMove(models.Model):
                 # fiscal documents for instance. It should be used
                 # exceptionnaly as it breaks the dependency chain and
                 # can leave fields such as payment_state inconsistent.
-                move._compute_fiscal_amount()
+                move.fiscal_document_id._compute_fiscal_amount()
 
         result = super()._compute_amount()
         for move in self.filtered(lambda m: m.fiscal_operation_id):
