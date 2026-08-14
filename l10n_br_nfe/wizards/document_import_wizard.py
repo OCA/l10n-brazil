@@ -334,6 +334,46 @@ class DocumentImportWizardLine(models.TransientModel):
 
     ipi_value = fields.Char(string="IPI Value")
 
+    product_domain = fields.Json(
+        compute="_compute_product_domain",
+        help="Domain applied to the product_id picker (Json so the web "
+        "client evaluates it as an array, not as a Char string).",
+    )
+
+    @api.depends("imported_partner_id", "product_id")
+    def _compute_product_domain(self):
+        """Restrict the selectable products to those ordered from this supplier.
+
+        When a product cannot be auto-matched, the user picks it from the
+        many2one; with the purchase module installed (soft-dependency, like
+        ``_match_product_by_purchase``), propose only the products that have a
+        purchase order line from the NFe supplier with quantity still to be
+        billed — mirroring the legacy akretion importer. The picker stays
+        bounded: core sets ``qty_to_invoice`` to 0 on draft/cancelled orders
+        and on fully billed lines, so only the "open supply pipeline"
+        (confirmed POs awaiting/partially billed) is offered instead of the
+        whole supplier product history. When there is no candidate (no
+        purchase module / no open PO line), fall back to the plain
+        purchasable-products domain so the user is never stuck.
+        """
+        purchase_line_model = self.env.get("purchase.order.line")
+        candidates_by_partner = {}
+        if purchase_line_model is not None:
+            for partner in self.mapped("imported_partner_id"):
+                lines = purchase_line_model.sudo().search(
+                    [
+                        ("order_id.partner_id", "=", partner.id),
+                        ("qty_to_invoice", ">", 0),
+                    ]
+                )
+                candidates_by_partner[partner.id] = lines.product_id.ids
+        for line in self:
+            domain = [("purchase_ok", "=", True)]
+            product_ids = candidates_by_partner.get(line.imported_partner_id.id)
+            if product_ids and not line.product_id:
+                domain.append(("id", "in", product_ids))
+            line.product_domain = domain
+
     def _prepare_supplierinfo_vals(self):
         vals = super()._prepare_supplierinfo_vals()
         vals.update(

@@ -43,8 +43,9 @@
                 <field
                     name="product_id"
                     options="{'no_quick_create': True, 'no_create': True}"
-                    domain="[('purchase_ok', '=', True)]"
+                    domain="product_domain"
                 />
+                <field name="product_domain" invisible="1" />
                 <field name="product_name" readonly="1" />
                 <field name="product_code" readonly="1" />
                 <field name="uom_internal" />
