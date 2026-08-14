@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2019 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="1">
+    <!--
+      Balanço Patrimonial na ordem do art. 178 da Lei 6.404/76.
+
+      As linhas selecionam as contas pela CLASSIFICAÇÃO (as etiquetas do
+      `l10n_br_coa`), não pelo prefixo do código, então este balanço é único e
+      vale para qualquer plano de contas, inclusive customizado.
+
+      A linha "Resultado do Exercício" é o que faz o balanço FECHAR. O Odoo
+      não escritura o resultado do período no patrimônio líquido: ele mantém
+      uma conta de resultado não destinado (`equity_unaffected`, criada com o
+      código 999999, fora da numeração brasileira) e calcula o resultado
+      corrente na hora de apresentar. Um balanço montado só com prefixos de
+      ativo e de passivo deixa o lucro do exercício de fora e apresenta ativo
+      maior que passivo mais patrimônio líquido, pela diferença exata do
+      resultado.
+
+      Por isso o resultado é lido aqui das contas de resultado (`bal`, o
+      movimento do período) e não do saldo de uma conta. A consequência é que
+      a coluna do balanço precisa cobrir o exercício: ou um exercício social
+      inteiro, ou um acumulado desde 1º de janeiro. É exatamente o desenho
+      dos períodos entregues em `date_range_type.xml` e das colunas dos
+      relatórios prontos. Numa coluna de mês isolado, o resultado exibido
+      seria só o do mês.
+
+      Convenção de sinal: as duas colunas são exibidas positivas. Ativo nasce
+      devedor e entra direto; passivo e patrimônio líquido nascem credores e
+      entram com sinal invertido.
+    -->
+    <record id="bp" model="mis.report">
+        <field name="name">BP - Balanço Patrimonial</field>
+        <field name="description">Balanço Patrimonial</field>
+        <field name="move_lines_source" ref="account.model_account_move_line" />
+    </record>
+
+    <record id="bp_header_ativo" model="mis.report.kpi">
+        <field name="sequence">1000</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">ATIVO</field>
+        <field name="name">header_ativo</field>
+        <field name="type">str</field>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="bp_header_circulante" model="mis.report.kpi">
+        <field name="sequence">1010</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">CIRCULANTE</field>
+        <field name="name">header_circulante</field>
+        <field name="type">str</field>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="bp_caixa" model="mis.report.kpi">
+        <field name="sequence">1020</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">Caixa e Equivalentes de Caixa</field>
+        <field name="name">caixa</field>
+        <field
+            name="expression"
+        >+bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_current_assets_cash').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+    </record>
+
+    <record id="bp_contas_a_receber" model="mis.report.kpi">
+        <field name="sequence">1030</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">Contas a Receber</field>
+        <field name="name">contas_a_receber</field>
+        <field
+            name="expression"
+        >+bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_current_assets_receivable').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+    </record>
+
+    <record id="bp_perdas_estimadas" model="mis.report.kpi">
+        <field name="sequence">1040</field>
+        <field name="report_id" ref="bp" />
+        <field
+            name="description"
+        >(-) Perdas Estimadas com Créditos de Liquidação Duvidosa</field>
+        <field name="name">perdas_estimadas</field>
+        <field
+            name="expression"
+        >+bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_current_assets_receivable_loss').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+    </record>
+
+    <record id="bp_estoques" model="mis.report.kpi">
+        <field name="sequence">1050</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">Estoques</field>
+        <field name="name">estoques</field>
+        <field
+            name="expression"
+        >+bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_current_assets_stock').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+    </record>
+
+    <record id="bp_outros_creditos" model="mis.report.kpi">
+        <field name="sequence">1060</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">Outros Créditos</field>
+        <field name="name">outros_creditos</field>
+        <field
+            name="expression"
+        >+bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_current_assets_other_credits').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+    </record>
+
+    <record id="bp_ativo_circulante" model="mis.report.kpi">
+        <field name="sequence">1070</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">= TOTAL DO ATIVO CIRCULANTE</field>
+        <field name="name">ativo_circulante</field>
+        <field
+            name="expression"
+        >caixa+contas_a_receber+perdas_estimadas+estoques+outros_creditos</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="bp_header_nao_circulante" model="mis.report.kpi">
+        <field name="sequence">1100</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">NÃO CIRCULANTE</field>
+        <field name="name">header_nao_circulante</field>
+        <field name="type">str</field>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="bp_realizavel_longo_prazo" model="mis.report.kpi">
+        <field name="sequence">1110</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">Realizável a Longo Prazo</field>
+        <field name="name">realizavel_longo_prazo</field>
+        <field
+            name="expression"
+        >+bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_non_current_assets_receivable').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+    </record>
+
+    <record id="bp_investimentos" model="mis.report.kpi">
+        <field name="sequence">1120</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">Investimentos</field>
+        <field name="name">investimentos</field>
+        <field
+            name="expression"
+        >+bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_non_current_investments').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+    </record>
+
+    <record id="bp_imobilizado" model="mis.report.kpi">
+        <field name="sequence">1130</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">Imobilizado</field>
+        <field name="name">imobilizado</field>
+        <field
+            name="expression"
+        >+bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_fixed_assets').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+    </record>
+
+    <record id="bp_depreciacao" model="mis.report.kpi">
+        <field name="sequence">1140</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">(-) Depreciação Acumulada</field>
+        <field name="name">depreciacao</field>
+        <field
+            name="expression"
+        >+bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_fixed_assets_depreciation').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+    </record>
+
+    <record id="bp_intangivel" model="mis.report.kpi">
+        <field name="sequence">1150</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">Intangível</field>
+        <field name="name">intangivel</field>
+        <field
+            name="expression"
+        >+bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_intangible_assets').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+    </record>
+
+    <record id="bp_amortizacao" model="mis.report.kpi">
+        <field name="sequence">1160</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">(-) Amortização Acumulada</field>
+        <field name="name">amortizacao</field>
+        <field
+            name="expression"
+        >+bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_intangible_assets_amortization').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+    </record>
+
+    <record id="bp_ativo_nao_circulante" model="mis.report.kpi">
+        <field name="sequence">1170</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">= TOTAL DO ATIVO NÃO CIRCULANTE</field>
+        <field name="name">ativo_nao_circulante</field>
+        <field
+            name="expression"
+        >realizavel_longo_prazo+investimentos+imobilizado+depreciacao+intangivel+amortizacao</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="bp_total_ativo" model="mis.report.kpi">
+        <field name="sequence">1999</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">TOTAL DO ATIVO</field>
+        <field name="name">total_ativo</field>
+        <field name="expression">ativo_circulante+ativo_nao_circulante</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="bp_header_passivo" model="mis.report.kpi">
+        <field name="sequence">2000</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">PASSIVO E PATRIMÔNIO LÍQUIDO</field>
+        <field name="name">header_passivo</field>
+        <field name="type">str</field>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="bp_header_passivo_circulante" model="mis.report.kpi">
+        <field name="sequence">2010</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">CIRCULANTE</field>
+        <field name="name">header_passivo_circulante</field>
+        <field name="type">str</field>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="bp_fornecedores" model="mis.report.kpi">
+        <field name="sequence">2020</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">Fornecedores</field>
+        <field name="name">fornecedores</field>
+        <field
+            name="expression"
+        >-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_current_liabilities_suppliers').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+    </record>
+
+    <record id="bp_emprestimos" model="mis.report.kpi">
+        <field name="sequence">2030</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">Empréstimos e Financiamentos</field>
+        <field name="name">emprestimos</field>
+        <field
+            name="expression"
+        >-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_current_liabilities_financial').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+    </record>
+
+    <record id="bp_obrigacoes_fiscais" model="mis.report.kpi">
+        <field name="sequence">2040</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">Obrigações Fiscais</field>
+        <field name="name">obrigacoes_fiscais</field>
+        <field
+            name="expression"
+        >-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_current_liabilities_fiscal').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+    </record>
+
+    <record id="bp_obrigacoes_trabalhistas" model="mis.report.kpi">
+        <field name="sequence">2050</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">Obrigações Trabalhistas</field>
+        <field name="name">obrigacoes_trabalhistas</field>
+        <field
+            name="expression"
+        >-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_current_liabilities_labor').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+    </record>
+
+    <record id="bp_contas_a_pagar" model="mis.report.kpi">
+        <field name="sequence">2060</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">Contas a Pagar</field>
+        <field name="name">contas_a_pagar</field>
+        <field
+            name="expression"
+        >-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_current_liabilities_payable').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+    </record>
+
+    <record id="bp_provisoes" model="mis.report.kpi">
+        <field name="sequence">2070</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">Provisões</field>
+        <field name="name">provisoes</field>
+        <field
+            name="expression"
+        >-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_current_liabilities_reserve').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+    </record>
+
+    <record id="bp_passivo_circulante" model="mis.report.kpi">
+        <field name="sequence">2080</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">= TOTAL DO PASSIVO CIRCULANTE</field>
+        <field name="name">passivo_circulante</field>
+        <field
+            name="expression"
+        >fornecedores+emprestimos+obrigacoes_fiscais+obrigacoes_trabalhistas+contas_a_pagar+provisoes</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="bp_header_passivo_nao_circulante" model="mis.report.kpi">
+        <field name="sequence">2100</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">NÃO CIRCULANTE</field>
+        <field name="name">header_passivo_nao_circulante</field>
+        <field name="type">str</field>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="bp_contas_a_pagar_lp" model="mis.report.kpi">
+        <field name="sequence">2110</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">Contas a Pagar a Longo Prazo</field>
+        <field name="name">contas_a_pagar_lp</field>
+        <field
+            name="expression"
+        >-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_non_current_liabilities').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+    </record>
+
+    <record id="bp_financiamentos_lp" model="mis.report.kpi">
+        <field name="sequence">2120</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">Financiamentos a Longo Prazo</field>
+        <field name="name">financiamentos_lp</field>
+        <field
+            name="expression"
+        >-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_non_current_liabilities_loan').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+    </record>
+
+    <record id="bp_passivo_nao_circulante" model="mis.report.kpi">
+        <field name="sequence">2130</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">= TOTAL DO PASSIVO NÃO CIRCULANTE</field>
+        <field name="name">passivo_nao_circulante</field>
+        <field name="expression">contas_a_pagar_lp+financiamentos_lp</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="bp_header_pl" model="mis.report.kpi">
+        <field name="sequence">2150</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">PATRIMÔNIO LÍQUIDO</field>
+        <field name="name">header_pl</field>
+        <field name="type">str</field>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="bp_capital_social" model="mis.report.kpi">
+        <field name="sequence">2160</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">Capital Social</field>
+        <field name="name">capital_social</field>
+        <field
+            name="expression"
+        >-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_capital').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+    </record>
+
+    <record id="bp_reservas_capital" model="mis.report.kpi">
+        <field name="sequence">2170</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">Reservas de Capital</field>
+        <field name="name">reservas_capital</field>
+        <field
+            name="expression"
+        >-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_capital_reserve').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+    </record>
+
+    <record id="bp_reservas_lucros" model="mis.report.kpi">
+        <field name="sequence">2180</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">Reservas de Lucros</field>
+        <field name="name">reservas_lucros</field>
+        <field
+            name="expression"
+        >-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_profit_reserve').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+    </record>
+
+    <record id="bp_lucros_acumulados" model="mis.report.kpi">
+        <field name="sequence">2190</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">Lucros Acumulados</field>
+        <field name="name">lucros_acumulados</field>
+        <field
+            name="expression"
+        >-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_accumulated_profits').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+    </record>
+
+    <record id="bp_prejuizos_acumulados" model="mis.report.kpi">
+        <field name="sequence">2200</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">(-) Prejuízos Acumulados</field>
+        <field name="name">prejuizos_acumulados</field>
+        <field
+            name="expression"
+        >-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_accumulated_losses').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+    </record>
+
+    <record id="bp_resultado_anteriores" model="mis.report.kpi">
+        <field name="sequence">2210</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">Resultado de Exercícios Anteriores a Destinar</field>
+        <field name="name">resultado_anteriores</field>
+        <field
+            name="expression"
+        >-bale[('account_type', '=', 'equity_unaffected')]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+    </record>
+
+    <record id="bp_resultado_exercicio" model="mis.report.kpi">
+        <field name="sequence">2220</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">Resultado do Exercício</field>
+        <field name="name">resultado_exercicio</field>
+        <field
+            name="expression"
+        >-bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_result').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="bp_patrimonio_liquido" model="mis.report.kpi">
+        <field name="sequence">2230</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">= TOTAL DO PATRIMÔNIO LÍQUIDO</field>
+        <field name="name">patrimonio_liquido</field>
+        <field
+            name="expression"
+        >capital_social+reservas_capital+reservas_lucros+lucros_acumulados+prejuizos_acumulados+resultado_anteriores+resultado_exercicio</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="bp_total_passivo" model="mis.report.kpi">
+        <field name="sequence">2999</field>
+        <field name="report_id" ref="bp" />
+        <field name="description">TOTAL DO PASSIVO E DO PATRIMÔNIO LÍQUIDO</field>
+        <field name="name">total_passivo</field>
+        <field
+            name="expression"
+        >passivo_circulante+passivo_nao_circulante+patrimonio_liquido</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+</odoo>
