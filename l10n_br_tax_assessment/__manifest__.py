@@ -22,5 +22,8 @@
     "demo": [
         "demo/tax_assessment_demo.xml",
     ],
+    # The invoices the demo assessment computes from are loaded by the hook,
+    # not from here: they need the demo company active and its chart loaded.
+    "post_init_hook": "post_init_hook",
     "installable": True,
 }
