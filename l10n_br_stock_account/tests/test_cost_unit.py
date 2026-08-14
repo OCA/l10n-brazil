@@ -443,3 +443,29 @@ class TestCostUnit(TransactionCase):
             self.env["l10n_br_fiscal.creditability.reason"].create(
                 {"code": "TEST-NOBASIS", "name": "No basis", "kind": "other"}
             )
+
+    def test_cost_tax_map_matches_the_valuation(self):
+        """The ledger and the stock layer read the same answer.
+
+        The accounting side posts the credit to the recoverable account and
+        leaves the rest inside the product line. It asks this map, and the
+        valuation subtracts the same taxes, so the two cannot disagree.
+        """
+        move = self._make_in_move(self.company_presumido)
+        tax_map = move._get_stock_cost_tax_map()
+
+        self.assertEqual(tax_map["icms"], "credit")
+        self.assertEqual(tax_map["ipi"], "credit")
+        # Cumulative regime: PIS and COFINS stay in the cost.
+        self.assertEqual(tax_map["pis"], "cost")
+        self.assertEqual(tax_map["cofins"], "cost")
+
+    def test_cost_tax_map_of_an_undetermined_line(self):
+        """An undetermined line reports every tax as cost, as it is valued."""
+        move = self._make_in_move(self.company_presumido)
+        move.creditability_origin = "undetermined"
+
+        self.assertEqual(
+            set(move._get_stock_cost_tax_map().values()),
+            {"cost"},
+        )
