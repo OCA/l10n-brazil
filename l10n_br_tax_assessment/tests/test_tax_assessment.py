@@ -323,7 +323,7 @@ class TestTaxAssessment(AccountTestInvoicingCommon):
         longer transports: reassess first, then close."""
         self._configure_group()
         jun = self._new_assessment("2026-06-01", "2026-06-30")
-        self._add_line(jun, "credit", 400.0)
+        self._add_line(jun, "credit", 400.0, source="computed")
         jun.state = "computed"
 
         jul = self._new_assessment()
@@ -331,7 +331,7 @@ class TestTaxAssessment(AccountTestInvoicingCommon):
         self.assertEqual(jul.previous_balance, 400.0)
 
         # june changes AFTER july was assessed
-        self._add_line(jun, "credit", 100.0)
+        self._add_line(jun, "credit", 100.0, source="computed")
         self.assertEqual(jun.amount_carried_forward, 500.0)
 
         with self.assertRaises(UserError):
@@ -391,8 +391,8 @@ class TestTaxAssessment(AccountTestInvoicingCommon):
         self._configure_group()
         a = self._new_assessment()
         a.action_compute()
-        self._add_line(a, "debit", 1000.0)
-        self._add_line(a, "credit", 250.0)
+        self._add_line(a, "debit", 1000.0, source="computed")
+        self._add_line(a, "credit", 250.0, source="computed")
         a.action_post()
 
         self.assertEqual(a.state, "posted")
@@ -420,7 +420,7 @@ class TestTaxAssessment(AccountTestInvoicingCommon):
         self._configure_group()
         a = self._new_assessment()
         a.action_compute()
-        self._add_line(a, "debit", 1000.0)
+        self._add_line(a, "debit", 1000.0, source="computed")
         a.action_post()
         self.assertEqual(a.state, "posted")
         self.assertFalse(a.move_id)
@@ -431,8 +431,8 @@ class TestTaxAssessment(AccountTestInvoicingCommon):
         self._configure_group()
         a = self._new_assessment()
         a.action_compute()
-        self._add_line(a, "debit", 200.0)
-        self._add_line(a, "credit", 500.0)
+        self._add_line(a, "debit", 200.0, source="computed")
+        self._add_line(a, "credit", 500.0, source="computed")
         a.action_post()
         move = a.move_id
         self.assertTrue(move)
@@ -487,13 +487,44 @@ class TestTaxAssessment(AccountTestInvoicingCommon):
         self._configure_group()
         a = self._new_assessment()
         a.action_compute()
-        self._add_line(a, "debit", 500.0)
-        self._add_line(a, "credit", 120.0)
+        self._add_line(a, "debit", 500.0, source="computed")
+        self._add_line(a, "credit", 120.0, source="computed")
         a.action_post()
         self.assertTrue(a.move_id)
         a.action_draft()
         self.assertEqual(a.state, "draft")
         self.assertFalse(a.move_id)
+
+    def test_closing_never_consumes_more_than_the_account_holds(self):
+        """A manual adjustment must not drive an account negative.
+
+        An adjustment carries no journal item of its own: it is a number the
+        tax authority wants declared, not a movement in the books. It still
+        takes part in the offsetting, so it can make one side of the assessment
+        larger than the balance its account actually holds. Consuming that side
+        credits the recoverable account by more than was ever debited into it,
+        and the asset goes negative, which is the same defect a purchase return
+        used to cause.
+
+        Sale 100 into payable, purchase 10 into recoverable, and a manual
+        credit adjustment of 500 that exists only in the assessment. Whatever
+        the closing entry moves, it cannot exceed the 10 the recoverable
+        account holds.
+        """
+        self._configure_group()
+        assessment = self._new_assessment()
+        assessment.action_compute()
+        self._add_line(assessment, "debit", 100.0, source="computed")
+        self._add_line(assessment, "credit", 10.0, source="computed")
+        self._add_line(assessment, "credit", 500.0, code="SP020001")
+
+        booked_credit_side = 10.0
+        self.assertLessEqual(
+            assessment._closing_offset(),
+            booked_credit_side,
+            "the closing consumes more than the recoverable account holds, "
+            "which leaves it a negative asset",
+        )
 
 
 @tagged("post_install", "-at_install")
