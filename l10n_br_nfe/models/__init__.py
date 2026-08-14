@@ -19,6 +19,7 @@ from . import nfe_di
 from . import res_city
 from . import res_config_settings
 from . import cfop
+from . import operation
 from . import invalidate_number
 from . import nfe_md_event
 
