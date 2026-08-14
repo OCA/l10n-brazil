@@ -45,6 +45,21 @@
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
     </record>
 
+    <!-- Account Journal for Lucro Real -->
+    <record id="simples_remessa_journal_lucro_real" model="account.journal">
+        <field name="name">Diário Simples Remessa</field>
+        <field name="code">DSR</field>
+        <field name="type">sale</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_real" />
+    </record>
+
+    <record id="entrada_remessa_journal_lucro_real" model="account.journal">
+        <field name="name">Diário Entrada Remessa</field>
+        <field name="code">DER</field>
+        <field name="type">purchase</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_real" />
+    </record>
+
     <!-- Account Journal for Simples Nacional -->
     <record id="simples_remessa_journal_simples_nacional" model="account.journal">
         <field name="name">Diário Simples Remessa</field>

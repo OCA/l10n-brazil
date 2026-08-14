@@ -51,4 +51,26 @@
         />
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
     </record>
+
+    <!-- Lucro Real -->
+
+    <record id="stock_location_lr_shelf_1" model="stock.location">
+        <field name="name">Shelf 1</field>
+        <field name="posx">0</field>
+        <field
+            name="location_id"
+            ref="l10n_br_stock.wh_empresa_lucro_real_loc_stock_id"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_real" />
+    </record>
+
+    <record id="stock_location_lr_shelf_2" model="stock.location">
+        <field name="name">Shelf 2</field>
+        <field name="posx">0</field>
+        <field
+            name="location_id"
+            ref="l10n_br_stock.wh_empresa_lucro_real_loc_stock_id"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_real" />
+    </record>
 </odoo>
