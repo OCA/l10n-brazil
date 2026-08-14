@@ -1240,6 +1240,15 @@ msgid "CFOP already exists with this code!"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_cfop_id
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__partner_cfop_id
+msgid ""
+"CFOP as declared by the counterparty in the imported document. It is "
+"preserved as-is for fiscal bookkeeping / SPED (e.g. C197), while cfop_id "
+"reflects the company's own operation after the de-para."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_CONJUNTO
 msgid "CJ"
 msgstr ""
@@ -6878,6 +6887,12 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__stock_picking__issuer__partner
 #: model:ir.ui.menu,name:l10n_br_fiscal.partner_menu
 msgid "Partner"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_cfop_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__partner_cfop_id
+msgid "Partner CFOP"
 msgstr ""
 
 #. module: l10n_br_fiscal
