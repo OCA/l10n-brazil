@@ -266,6 +266,11 @@ class NFeImportWizardTest(TransactionCase):
         billed = self.env["product.product"].create(
             {"name": "Billed Product", "purchase_ok": True}
         )
+        # Bill on ordered quantities so an unreceived line still has
+        # qty_to_invoice > 0 (the Odoo 16 default is 'receive', where
+        # qty_to_invoice = qty_received - qty_invoiced = 0 before receipt).
+        for product in (ordered, other, billed):
+            product.purchase_method = "purchase"
 
         # confirmed PO with an outstanding line -> candidate
         order = self.env["purchase.order"].create({"partner_id": supplier.id})
@@ -295,9 +300,7 @@ class NFeImportWizardTest(TransactionCase):
         billed_line.write({"qty_to_invoice": 0.0})
 
         # draft PO line -> not a candidate either (core zeroes qty_to_invoice)
-        draft_order = self.env["purchase.order"].create(
-            {"partner_id": supplier.id}
-        )
+        draft_order = self.env["purchase.order"].create({"partner_id": supplier.id})
         self.env["purchase.order.line"].create(
             {
                 "order_id": draft_order.id,
@@ -321,9 +324,7 @@ class NFeImportWizardTest(TransactionCase):
 
         # unmatched product -> restricted to the open PO-line product only
         domain = line.product_domain
-        candidate_ids = [
-            pid for leaf in domain if leaf[0] == "id" for pid in leaf[2]
-        ]
+        candidate_ids = [pid for leaf in domain if leaf[0] == "id" for pid in leaf[2]]
         self.assertEqual(candidate_ids, [ordered.id])
         self.assertNotIn(billed.id, candidate_ids)
         self.assertNotIn(other.id, candidate_ids)
