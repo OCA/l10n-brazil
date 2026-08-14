@@ -1117,6 +1117,13 @@ msgid "CT-e"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "CT-e documents for unloading city %s"
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_cPrtDest__br035
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_cPrtEmb__br035
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_mdfe_modal_aquaviario_carregamento__loading_harbor__br035
@@ -1257,6 +1264,27 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model:ir.model,name:l10n_br_mdfe.model_res_company
 msgid "Companies"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "Company"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "Company CNPJ/CPF"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "Company State"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -1834,6 +1862,27 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "Digital Certificate"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "Digital Certificate File"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "Digital Certificate Password"
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_cDV
 msgid "Digito verificador da chave de acesso"
 msgstr ""
@@ -1902,18 +1951,63 @@ msgid "Document"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "Document Date"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "Document Key for %s"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "Document Number"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "Document Serie"
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model,name:l10n_br_mdfe.model_l10n_br_fiscal_document_supplement
 msgid "Document Supplement Data"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_municipio_descarga__document_type
+#, python-format
 msgid "Document Type"
 msgstr ""
 
 #. module: l10n_br_mdfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_mdfe.nfe_document_edi_form_inherit
 msgid "Documents"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "Driver CPF"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "Driver Name"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -2128,6 +2222,15 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe_modal__4
 msgid "Ferroviário"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid ""
+"Fill in the required MDF-e fields before sending:\n"
+"- %s"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -3453,8 +3556,46 @@ msgid "MDF-e Default Settings"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "MDF-e Emit Type"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_config_settings__mdfe_environment
+#, python-format
 msgid "MDF-e Environment"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "MDF-e Final State"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "MDF-e Initial State"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "MDF-e Loading City"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "MDF-e Modal"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -3463,14 +3604,35 @@ msgid "MDF-e Proc Version"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_config_settings__mdfe_transmission
+#, python-format
 msgid "MDF-e Transmission"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "MDF-e Unloading City"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_version
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_config_settings__mdfe_version
+#, python-format
 msgid "MDF-e Version"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "MDF-e transport documents for unloading city %s"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -4101,6 +4263,13 @@ msgid "NF-e"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "NF-e documents for unloading city %s"
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_cPrtDest__br067
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_cPrtEmb__br067
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_mdfe_modal_aquaviario_carregamento__loading_harbor__br067
@@ -4532,6 +4701,13 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_tpRod__06
 msgid "Outros."
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "Owner RNTRC must contain exactly 8 digits."
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -6337,6 +6513,15 @@ msgid "Transport Modal"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid ""
+"Transport Type must be informed when a third-party vehicle owner is "
+"specified."
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe_transp_type__2
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__res_company__mdfe_transp_type__2
 msgid "Transportador Autônomo de Cargas – TAC"
@@ -6445,6 +6630,13 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_tpEmb__45
 msgid "UT 750"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "Unloading City"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -6562,6 +6754,67 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_mdfe.nfe_document_edi_form_inherit
 msgid "Vehicle"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "Vehicle Body Type"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "Vehicle Driver"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "Vehicle Owner RNTRC"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid ""
+"Vehicle Owner is required when Transport Type is informed. If the vehicle "
+"belongs to your company, clear the Transport Type field."
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid ""
+"Vehicle Owner must be different from the MDF-e issuer. If the vehicle "
+"belongs to your company, clear the Transport Type field instead of filling "
+"an owner."
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "Vehicle Plate"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "Vehicle Tare in KG"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "Vehicle Wheel Type"
 msgstr ""
 
 #. module: l10n_br_mdfe
