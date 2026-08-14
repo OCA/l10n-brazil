@@ -320,13 +320,16 @@ class OperationLine(models.Model):
             tax_ii = ncm.tax_ii_id
             mapping_result["taxes"][TAX_DOMAIN_IPI] = tax_ipi
 
-            if len(ncm.piscofins_ids) == 1:
-                mapping_result["taxes"][ncm.piscofins_ids[0].tax_pis_id.tax_domain] = (
-                    ncm.piscofins_ids[0].tax_pis_id
+            piscofins = ncm.piscofins_ids
+            if len(piscofins) != 1:
+                piscofins = company.piscofins_id
+            if piscofins:
+                mapping_result["taxes"][piscofins.tax_pis_id.tax_domain] = (
+                    piscofins.tax_pis_id
                 )
-                mapping_result["taxes"][
-                    ncm.piscofins_ids[0].tax_cofins_id.tax_domain
-                ] = ncm.piscofins_ids[0].tax_cofins_id
+                mapping_result["taxes"][piscofins.tax_cofins_id.tax_domain] = (
+                    piscofins.tax_cofins_id
+                )
 
             if (
                 mapping_result["cfop"].destination == CFOP_DESTINATION_EXPORT
