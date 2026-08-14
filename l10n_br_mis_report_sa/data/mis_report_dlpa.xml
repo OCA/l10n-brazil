@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="1">
+    <!--
+      Demonstração dos Lucros ou Prejuízos Acumulados, na forma do art. 186 da
+      Lei 6.404/76. Ela é a coluna de lucros acumulados da DMPL apresentada em
+      lista, e o art. 186, § 2º dispensa quem publica a DMPL de publicá-la.
+      Existe aqui para quem opta por não publicar a demonstração das mutações.
+
+      A separação entre transferência para reservas e dividendo é inferida do
+      movimento das reservas, e não da contrapartida do lançamento: o que
+      entrou nas reservas de lucros no período saiu daqui. O que sobra do
+      débito é destinação aos sócios. As duas linhas somadas reproduzem a
+      variação da conta de lucros acumulados, então o total fecha mesmo quando
+      a inferência erra a divisão entre as duas.
+    -->
+    <record id="dlpa" model="mis.report">
+        <field
+            name="name"
+        >DLPA - Demonstração dos Lucros ou Prejuízos Acumulados</field>
+        <field
+            name="description"
+        >Demonstração dos Lucros ou Prejuízos Acumulados</field>
+        <field name="move_lines_source" ref="account.model_account_move_line" />
+    </record>
+
+    <record id="dlpa_subreport_dre" model="mis.report.subreport">
+        <field name="name">dre</field>
+        <field name="report_id" ref="dlpa" />
+        <field name="subreport_id" ref="l10n_br_mis_report.dre" />
+    </record>
+
+    <record id="dlpa_saldo_inicial" model="mis.report.kpi">
+        <field name="sequence">10</field>
+        <field name="report_id" ref="dlpa" />
+        <field name="description">Saldo no início do período</field>
+        <field name="name">saldo_inicial</field>
+        <field name="expression">-bali[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_accumulated_profits').id)] - bali[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_accumulated_losses').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="style_id"
+            ref="l10n_br_mis_report.mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="dlpa_resultado" model="mis.report.kpi">
+        <field name="sequence">20</field>
+        <field name="report_id" ref="dlpa" />
+        <field name="description">(+/-) Resultado do exercício</field>
+        <field name="name">resultado</field>
+        <field name="expression">dre.resultado_liquido</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="dlpa_disposicao" model="mis.report.kpi">
+        <field name="sequence">30</field>
+        <field name="report_id" ref="dlpa" />
+        <field name="description">= Saldo à disposição</field>
+        <field name="name">disposicao</field>
+        <field name="expression">saldo_inicial+resultado</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="style_id"
+            ref="l10n_br_mis_report.mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="dlpa_reservas" model="mis.report.kpi">
+        <field name="sequence">40</field>
+        <field name="report_id" ref="dlpa" />
+        <field name="description">(-) Transferências para reservas</field>
+        <field name="name">reservas</field>
+        <field name="expression">+bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_profit_reserve').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="dlpa_dividendos" model="mis.report.kpi">
+        <field name="sequence">50</field>
+        <field name="report_id" ref="dlpa" />
+        <field name="description">(-) Dividendos, juros sobre capital próprio e demais destinações</field>
+        <field name="name">dividendos</field>
+        <field name="expression">-deb[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_accumulated_profits').id)] + crd[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_accumulated_profits').id)] - bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_profit_reserve').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="dlpa_saldo_final" model="mis.report.kpi">
+        <field name="sequence">60</field>
+        <field name="report_id" ref="dlpa" />
+        <field name="description">= Saldo no fim do período</field>
+        <field name="name">saldo_final</field>
+        <field name="expression">disposicao+reservas+dividendos</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="style_id"
+            ref="l10n_br_mis_report.mis_report_style_l10n_br_negrito" />
+    </record>
+
+</odoo>
