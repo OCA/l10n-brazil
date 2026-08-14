@@ -389,3 +389,24 @@ class TestCostUnit(TransactionCase):
             self.env["l10n_br_fiscal.creditability.reason"].create(
                 {"code": "TEST-NOBASIS", "name": "No basis", "kind": "other"}
             )
+
+    def test_cost_tax_map_matches_the_valuation(self):
+        """The map agrees with what the valuation subtracts."""
+        move = self._make_in_move(self.company_presumido)
+        tax_map = move._get_stock_cost_tax_map()
+
+        self.assertEqual(tax_map["icms"], "credit")
+        self.assertEqual(tax_map["ipi"], "credit")
+        # Cumulative regime: PIS and COFINS stay in the cost.
+        self.assertEqual(tax_map["pis"], "cost")
+        self.assertEqual(tax_map["cofins"], "cost")
+
+    def test_cost_tax_map_of_an_undetermined_line(self):
+        """An undetermined line reports every tax as cost, as it is valued."""
+        move = self._make_in_move(self.company_presumido)
+        move.creditability_origin = "undetermined"
+
+        self.assertEqual(
+            set(move._get_stock_cost_tax_map().values()),
+            {"cost"},
+        )
