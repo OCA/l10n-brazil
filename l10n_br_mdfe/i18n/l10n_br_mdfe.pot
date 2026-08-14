@@ -1227,6 +1227,7 @@ msgid "Chave de acesso do MDF-e"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model,name:l10n_br_mdfe.model_res_city
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_municipio_descarga__city_id
 msgid "City"
 msgstr ""
