@@ -1992,6 +1992,13 @@ msgid "Document Type"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "Document Type is not defined."
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_mdfe.nfe_document_edi_form_inherit
 msgid "Documents"
 msgstr ""
@@ -6176,6 +6183,13 @@ msgid "Texto com o QR-Code para consulta do MDF-e"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "The field %(label)s must contain only numbers. Found: '%(value)s'"
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model,name:l10n_br_mdfe.model_mdfe_30_tmdfe
 msgid "Tipo Manifesto de Documentos Fiscais Eletrônicos"
 msgstr ""
@@ -6458,6 +6472,42 @@ msgstr ""
 msgid ""
 "Tipo do Vale Pedagio\n"
 "01 - TAG; 04 - Leitura de placa (pela placa de identificação veicular)"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid ""
+"To Generate EDoc Key, you need to fill the CNPJ/CPF field on company %s."
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "To Generate EDoc Key, you need to fill the Document Number."
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "To Generate EDoc Key, you need to fill the Document Serie."
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "To Generate EDoc Key, you need to fill the MDFe Transmission field."
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid "To Generate EDoc Key, you need to fill the State on company %s."
 msgstr ""
 
 #. module: l10n_br_mdfe
