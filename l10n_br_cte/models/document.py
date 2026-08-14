@@ -257,9 +257,11 @@ class CTe(spec_models.StackedModel):
 
     cte40_verProc = fields.Char(
         copy=False,
-        default=lambda s: s.env["ir.config_parameter"]
-        .sudo()
-        .get_param("l10n_br_cte.version.name", default="Odoo Brasil OCA"),
+        default=lambda s: (
+            s.env["ir.config_parameter"]
+            .sudo()
+            .get_param("l10n_br_cte.version.name", default="Odoo Brasil OCA")
+        ),
     )
 
     cte40_cMunEnv = fields.Char(
@@ -1435,6 +1437,14 @@ class CTe(spec_models.StackedModel):
             )
         return res
 
+    @api.model
+    def _build_attr(self, node, fields, vals, path, attr):
+        key = f"cte40_{attr[1].metadata.get('name', attr[0])}"
+        if key == "cte40_IBSCBS":
+            # IBSCBS values are extracted manually in import_binding_cte
+            return
+        return super()._build_attr(node, fields, vals, path, attr)
+
     def _build_many2one(self, comodel, vals, new_value, key, value, path):
         if key in ("cte40_infNFe", "cte40_autXML"):
             return  # TODO fix these imports eventually
@@ -1851,6 +1861,18 @@ class CTe(spec_models.StackedModel):
 
         return proc_xml
 
+    def _add_ibscbs_line_attrs(self, binding, line_attrs):
+        """Extract IBS/CBS values from the binding and update line_attrs."""
+        ibscbs = getattr(binding.infCte.imp, "IBSCBS", None)
+        tax_ids = self.env["l10n_br_fiscal.document.line"]._add_imported_ibscbs_vals(
+            ibscbs, line_attrs
+        )
+        if tax_ids:
+            # line_attrs feed a Command.create(), so m2m needs commands
+            fiscal_tax_ids = line_attrs.get("fiscal_tax_ids", [])
+            fiscal_tax_ids += [Command.link(tax_id) for tax_id in tax_ids]
+            line_attrs["fiscal_tax_ids"] = fiscal_tax_ids
+
     def import_binding_cte(self, binding, edoc_type="in", dry_run=False):
         if hasattr(binding, "CTe"):
             binding = binding.CTe
@@ -1907,6 +1929,9 @@ class CTe(spec_models.StackedModel):
                         .search([("code", "=", binding.infCte.ide.CFOP)], limit=1)
                         .id
                     )
+
+                # Extract IBSCBS values if present
+                self._add_ibscbs_line_attrs(binding, line_attrs)
 
                 for comp in binding.infCte.vPrest.comp or [None]:
                     if comp is not None:

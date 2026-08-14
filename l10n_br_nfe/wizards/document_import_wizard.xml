@@ -29,8 +29,8 @@
     </record>
 
     <record id="l10n_br_nfe_import_xml_products_tree" model="ir.ui.view">
-        <field name="name">l10n_br_nfe.import_xml.products.tree</field>
-        <field name="model">l10n_br_nfe.import_xml.products</field>
+        <field name="name">l10n_br_fiscal.document.import.wizard.line.tree</field>
+        <field name="model">l10n_br_fiscal.document.import.wizard.line</field>
         <field name="arch" type="xml">
             <tree editable="top">
                 <field
@@ -46,6 +46,11 @@
                 <field name="ncm_internal" readonly="1" />
                 <field name="cfop_xml" readonly="1" />
                 <field name="new_cfop_id" />
+                <field
+                    name="cfop_warning"
+                    readonly="1"
+                    decoration-warning="cfop_warning != False"
+                />
                 <field name="icms_percent" readonly="1" />
                 <field name="icms_value" readonly="1" />
                 <field name="ipi_percent" readonly="1" />

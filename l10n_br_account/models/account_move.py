@@ -124,6 +124,19 @@ class AccountMove(models.Model):
             self._onchange_ind_final()
         return res
 
+    def _inverse_tax_totals(self):
+        # Never let the tax_totals widget override the exact tax values
+        # of an imported fiscal document.
+        if self.env.context.get("force_fiscal_amount_recompute"):
+            # Import flow: the move is still being assembled and
+            # imported_document may not be written yet, so skip the
+            # inverse for the whole batch.
+            return
+        # Regular (UI) flow: run the standard inverse only for the moves
+        # that are not the mirror of an imported fiscal document.
+        moves = self.filtered(lambda move: not move.imported_document)
+        return super(AccountMove, moves)._inverse_tax_totals()
+
     @api.onchange("company_id")
     def _onchange_company_id_br(self):
         if self.fiscal_document_id:
@@ -254,20 +267,14 @@ class AccountMove(models.Model):
         "fiscal_line_ids.fiscal_amount_tax",
     )
     def _compute_amount(self):
-        if "force_fiscal_amount_recompute" in self._context:
-            for move in self.filtered(lambda m: m.fiscal_operation_id):
-                # this is a ugly hack required for importing composite
-                # fiscal documents for instance. It should be used
-                # exceptionnaly as it breaks the dependency chain and
-                # can leave fields such as payment_state inconsistent.
-                move._compute_fiscal_amount()
-
         result = super()._compute_amount()
         for move in self.filtered(lambda m: m.fiscal_operation_id):
             sign = -move.direction_sign
             inv_line_ids = move.line_ids.filtered(
-                lambda line: line.display_type == "product"
-                and (not line.cfop_id or line.cfop_id.finance_move)
+                lambda line: (
+                    line.display_type == "product"
+                    and (not line.cfop_id or line.cfop_id.finance_move)
+                )
             )
             move.amount_untaxed = sum(inv_line_ids.mapped("fiscal_amount_untaxed"))
             move.amount_tax = sum(inv_line_ids.mapped("fiscal_amount_tax"))
@@ -379,6 +386,7 @@ class AccountMove(models.Model):
                                 "amount_currency"
                             ]
                 if not invoice.needed_terms:
+                    invoice.needed_terms = {}
                     invoice.needed_terms[
                         frozendict(
                             {
@@ -462,8 +470,9 @@ class AccountMove(models.Model):
     @api.depends("move_type", "fiscal_operation_id")
     def _compute_journal_id(self):
         fisc_operation_driven = self.filtered(
-            lambda move: move.fiscal_operation_id
-            and move.fiscal_operation_id.journal_id
+            lambda move: (
+                move.fiscal_operation_id and move.fiscal_operation_id.journal_id
+            )
         )
         for move in fisc_operation_driven:
             move.journal_id = self.fiscal_operation_id.journal_id
@@ -738,13 +747,17 @@ class AccountMove(models.Model):
             move = self.env["account.move"].browse(move_id)
         else:
             move = self.env["account.move"]
+
         move_form = Form(
-            move.with_context(
+            move.sudo().with_context(
                 default_move_type=move_type,
                 account_predictive_bills_disable_prediction=True,
                 force_fiscal_amount_recompute=True,
+                check_move_validity=False,
+                # Prevent early unbalance crashes during saving
             )
         )
+
         if not move_id or not move.fiscal_document_id:
             move_form.partner_id = fiscal_document.partner_id
             move_form.invoice_date = fiscal_document.document_date
@@ -754,22 +767,91 @@ class AccountMove(models.Model):
             move_form.fiscal_operation_id = fiscal_document.fiscal_operation_id
             move_form.document_serie = fiscal_document.document_serie
 
-        unit_and_prices = []  # save units to force them later
+        unit_and_prices = []
         for line in fiscal_document.fiscal_line_ids:
             with move_form.invoice_line_ids.new() as line_form:
-                line_form.cfop_id = (
-                    line.cfop_id
-                )  # required if we disable some fiscal tax updates
-                line_form.fiscal_operation_id = self.fiscal_operation_id
+                line_form.cfop_id = line.cfop_id
+                line_form.fiscal_operation_id = (
+                    line.fiscal_operation_id or fiscal_document.fiscal_operation_id
+                )
+                line_form.product_id = line.product_id
+                line_form.quantity = line.quantity
                 line_form.fiscal_document_line_id = line
-                # for some reason trying to set the product_uom_id
-                # here results in strange bugs like unbalanced move
-                # so we will force product_uom_id later
-                # we also save price_unit to reset unit factor effect
-                unit_and_prices.append((line.uot_id.id, line.price_unit))
+
+                # SEFAZ Standard: What is included in vProd?
+                amt_inc = (
+                    (line.icms_value or 0.0)
+                    + (line.pis_value or 0.0)
+                    + (line.cofins_value or 0.0)
+                    + (line.issqn_value or 0.0)
+                    + (line.icmsfcp_value or 0.0)
+                )
+                amt_not_inc = (
+                    (line.icmsst_value or 0.0)
+                    + (line.ipi_value or 0.0)
+                    + (line.ii_value or 0.0)
+                    + (line.icmsfcpst_value or 0.0)
+                    + (line.ibs_value or 0.0)
+                    + (line.cbs_value or 0.0)
+                )
+
+                unit_and_prices.append(
+                    {
+                        "uot_id": line.uot_id.id if line.uot_id else False,
+                        "price_unit": line.price_unit,
+                        "fiscal_line_id": line.id,
+                        "amt_inc": amt_inc,
+                        "amt_not_inc": amt_not_inc,
+                    }
+                )
+
         move_form.save()
         move = self.env["account.move"].browse(move_form.id)
+
+        invoice_line_write_vals = []
+        dummy_lines_to_unlink = self.env["l10n_br_fiscal.document.line"]
+
         for index, item in enumerate(unit_and_prices):
-            move.invoice_line_ids[index].product_uom_id = item[0]
-            move.invoice_line_ids[index].price_unit = item[1]
+            if index < len(move.invoice_line_ids):
+                aml = move.invoice_line_ids[index]
+                dummy_fiscal_line = aml.fiscal_document_line_id
+
+                if dummy_fiscal_line and dummy_fiscal_line.id != item["fiscal_line_id"]:
+                    dummy_lines_to_unlink |= dummy_fiscal_line
+
+                # Pre-populate exact tax values into the fiscal line
+                # directly to bypass Form stripping
+                self.env["l10n_br_fiscal.document.line"].browse(
+                    item["fiscal_line_id"]
+                ).write(
+                    {
+                        "amount_tax_included": item["amt_inc"],
+                        "amount_tax_not_included": item["amt_not_inc"],
+                    }
+                )
+
+                # amount_tax_(not_)included are NOT repeated here: they are
+                # delegated to the fiscal line through _inherits and writing
+                # them along with a new fiscal_document_line_id in the same
+                # vals would be ambiguous (old or new parent record?).
+                invoice_line_write_vals.append(
+                    (
+                        1,
+                        aml.id,
+                        {
+                            "product_uom_id": item["uot_id"],
+                            "price_unit": item["price_unit"],
+                            "fiscal_document_line_id": item["fiscal_line_id"],
+                        },
+                    )
+                )
+
+        # Write safely bypassing strict validity checks mid-loop
+        move.sudo().with_context(check_move_validity=False).write(
+            {"invoice_line_ids": invoice_line_write_vals}
+        )
+
+        if dummy_lines_to_unlink:
+            dummy_lines_to_unlink.sudo().unlink()
+
         return move_form

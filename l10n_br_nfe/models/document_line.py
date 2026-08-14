@@ -2,12 +2,13 @@
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import logging
 import sys
 from enum import Enum
 
 from nfelib.nfe.bindings.v4_0.dfe_tipos_basicos_v1_00 import Tcibs, TtribNfe
 
-from odoo import api, fields
+from odoo import _, api, fields
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     CFOP_DESTINATION_EXTERNAL,
@@ -18,6 +19,8 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 from odoo.addons.l10n_br_fiscal.constants.icms import ICMS_CST, ICMS_SN_CST
 from odoo.addons.l10n_br_fiscal.tools import remove_non_ascii_characters
 from odoo.addons.spec_driven_model.models import spec_models
+
+_logger = logging.getLogger(__name__)
 
 ICMSSN_CST_CODES_USE_102 = ("102", "103", "300", "400")
 ICMSSN_CST_CODES_USE_202 = ("202", "203")
@@ -222,6 +225,19 @@ class NFeLine(spec_models.StackedModel):
 
     def _export_field(self, xsd_field, class_obj, member_spec, export_value=None):
         """Override to handle IBSCBS field export"""
+        if xsd_field == "nfe40_vItem":
+            # NT 2025.002 (rules VB01/W60): vItem must be present in every
+            # det when the document exports the IBS/CBS totals, and the sum
+            # of all vItem must match vNFTot. This mirrors the line's
+            # fiscal_amount_total, which already honors each tax group's
+            # "tax_include" flag; in the 2026 transition IBS/CBS/IS are
+            # included in the price, so vItem is the line share of the
+            # current vNF (switching the groups to "outside" makes them
+            # compose vItem automatically, keeping sum(vItem) == vNFTot).
+            if not self.document_id._nfe_export_ibscbs_totals():
+                return False
+            return f"{self.fiscal_amount_total:.2f}"
+
         if xsd_field == "nfe40_IBSCBS":
             if not self.ibs_value and not self.cbs_value:
                 return False
@@ -1338,6 +1354,10 @@ class NFeLine(spec_models.StackedModel):
         if key in ["nfe40_CST", "nfe40_modBC", "nfe40_CSOSN"]:
             return  # (dealt with in _build_many2one)
 
+        if key == "nfe40_IBSCBS":
+            self._import_ibscbs_attrs(value, vals)
+            return
+
         if key.startswith("nfe40_ICMS") and key not in [
             "nfe40_ICMS",
             "nfe40_ICMSTot",
@@ -1359,6 +1379,16 @@ class NFeLine(spec_models.StackedModel):
                 .search([("code_unmasked", "=", value)], limit=1)
                 .id
             )
+        if key == "nfe40_CFOP" and value:
+            # Preserve the CFOP declared by the counterparty. cfop_id itself is
+            # recomputed by the de-para; partner_cfop_id keeps the original for
+            # bookkeeping / SPED (C197).
+            vals["partner_cfop_id"] = (
+                self.env["l10n_br_fiscal.cfop"]
+                .search([("code", "=", value)], limit=1)
+                .id
+            )
+
         if key == "nfe40_qCom":
             vals["quantity"] = float(value)
         if key == "nfe40_qTrib":
@@ -1446,6 +1476,17 @@ class NFeLine(spec_models.StackedModel):
                 value,
                 new_value,
             )
+
+        elif key == "nfe40_IBSCBS":
+            self._import_ibscbs_attrs(value, new_value)
+            if (
+                self._name == "account.invoice.line"
+                and comodel._name == "l10n_br_fiscal.document.line"
+            ):
+                # TODO do not hardcode!!
+                # stacked m2o
+                vals.update(new_value)
+            return
 
         if (
             self._name == "account.invoice.line"
@@ -1535,6 +1576,13 @@ class NFeLine(spec_models.StackedModel):
                 tax_domain_with_red,
                 limit=1,
             )
+            # If no fiscal tax with this base reduction exists yet, create it
+            # instead of falling back to a plain (no-reduction) tax, which
+            # would compute a wrong ICMS credit and diverge from the NFe/SPED.
+            if not fiscal_tax_id and percent:
+                fiscal_tax_id = self._create_reduced_fiscal_tax(
+                    tax_group_id, percent, cst_id, icms_percent_red
+                )
 
         if not fiscal_tax_id:
             if tax_domain_with_cst:
@@ -1633,6 +1681,57 @@ class NFeLine(spec_models.StackedModel):
         # elif kind == "cofins":  # (will also apply to cofinsst)
         #     pass
         #     # TODO  qBCProd, vAliqProd
+
+    def _create_reduced_fiscal_tax(
+        self, tax_group_id, percent, cst_id, percent_reduction
+    ):
+        """Create an ICMS fiscal tax with a base reduction when the company
+        has none configured for this rate/reduction combination.
+
+        Without this, an imported NFe line that declares an ICMS base
+        reduction (redução de base de cálculo) would fall back to a plain
+        no-reduction tax, computing a higher ICMS credit than the supplier
+        actually charged and diverging from the NFe / SPED. The created tax
+        carries the proper percent_reduction so it is reused on the next
+        import (idempotent via the earlier search on percent_reduction).
+        """
+        cst_field = "cst_{}_id".format(self.env.context.get("edoc_type", "in"))
+        vals = {
+            "name": _("ICMS %(percent)s%% Com Red. %(red)s%%")
+            % {"percent": percent, "red": percent_reduction},
+            "tax_group_id": tax_group_id,
+            "percent_amount": percent,
+            "percent_reduction": percent_reduction,
+            "percent_debit_credit": 0,
+            "value_amount": 0,
+            "icmsst_mva_percent": 0,
+            "icmsst_value": 0,
+            cst_field: cst_id,
+        }
+        tax = self.env["l10n_br_fiscal.tax"].create(vals)
+        # Master data created as an import side effect must leave a trail
+        # so the fiscal responsible can review it afterwards.
+        _logger.info(
+            "NFe import created fiscal tax '%s' (id %s) for company %s "
+            "(no existing ICMS tax with rate %s%% and base reduction %s%%)",
+            tax.name,
+            tax.id,
+            self.env.company.display_name,
+            percent,
+            percent_reduction,
+        )
+        return tax
+
+    def _import_ibscbs_attrs(self, value, odoo_attrs):
+        """Import IBSCBS tax attributes from NFe binding."""
+        tax_ids = self.env["l10n_br_fiscal.document.line"]._add_imported_ibscbs_vals(
+            value, odoo_attrs
+        )
+        if tax_ids:
+            # the NFe import framework links m2m fields with raw ids
+            if not odoo_attrs.get("fiscal_tax_ids"):
+                odoo_attrs["fiscal_tax_ids"] = []
+            odoo_attrs["fiscal_tax_ids"].extend(tax_ids)
 
     def _verify_related_many2ones(self, related_many2ones):
         if (

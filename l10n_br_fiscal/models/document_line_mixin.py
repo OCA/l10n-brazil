@@ -1094,6 +1094,14 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         string="CFOP Destination",
     )
 
+    partner_cfop_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.cfop",
+        string="Partner CFOP",
+        help="CFOP as declared by the counterparty in the imported document. "
+        "It is preserved as-is for fiscal bookkeeping / SPED (e.g. C197), "
+        "while cfop_id reflects the company's own operation after the de-para.",
+    )
+
     fiscal_price = fields.Float(
         digits="Product Price",
         compute="_compute_fiscal_price",
