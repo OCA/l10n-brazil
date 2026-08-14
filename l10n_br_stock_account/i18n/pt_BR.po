@@ -21,14 +21,8 @@ msgstr "Diário de Conta a parir da Operação Fiscal"
 
 #. module: l10n_br_stock_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
 msgid "Accounting"
 msgstr "Contabilidade"
-
-#. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__additional_data
-msgid "Additional Data"
-msgstr "Dados Adicionais"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__manual_additional_data
@@ -72,12 +66,6 @@ msgid "Amount Gross"
 msgstr "Total Bruto"
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__amount_tax
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_tax
-msgid "Amount Tax"
-msgstr "Total de Imposto"
-
-#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__amount_tax_included
 msgid "Amount Tax Included"
 msgstr "Total Impostos Inclusos"
@@ -93,31 +81,46 @@ msgid "Amount Taxed"
 msgstr "Total Tributado"
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__amount_total
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_total
-msgid "Amount Total"
-msgstr "Valor Total"
-
-#. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__amount_untaxed
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_untaxed
-msgid "Amount Untaxed"
-msgstr "Total sem Impostos"
-
-#. module: l10n_br_stock_account
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_picking__amount_price_gross
 msgid "Amount without discount."
 msgstr "Total sem desconto."
 
 #. module: l10n_br_stock_account
-#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
-msgid "Amounts"
-msgstr "Totais"
-
-#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__ind_pres
 msgid "Buyer Presence"
 msgstr "Presença do Comprador"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cbs_percent
+msgid "CBS %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cbs_reduction
+msgid "CBS % Reduction"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cbs_base
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_cbs_base
+msgid "CBS Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cbs_base_type
+msgid "CBS Base Type"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cbs_cst_code
+msgid "CBS CST Code"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cbs_value
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_cbs_value
+msgid "CBS Value"
+msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cest_id
@@ -301,6 +304,11 @@ msgid "CSLL Value"
 msgstr "Valor CSLL"
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cbs_cst_id
+msgid "CST CBS"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofins_cst_id
 msgid "CST COFINS"
 msgstr "CST COFINS"
@@ -309,6 +317,11 @@ msgstr "CST COFINS"
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofinsst_cst_id
 msgid "CST COFINS ST"
 msgstr "CST COFINS ST"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ibs_cst_id
+msgid "CST IBS"
+msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_cst_id
@@ -343,6 +356,13 @@ msgid "City Taxation Code"
 msgstr "Código de Tributação da Cidade"
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__city_taxation_code_id
+msgid ""
+"City Taxation Code for Municipal NFS-e or ISS Municipal Taxation Code for "
+"National NFS-e."
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__comment_ids
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__comment_ids
 msgid "Comments"
@@ -354,6 +374,7 @@ msgid "Companies"
 msgstr "Empresas"
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__company_id
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__company_id
 msgid "Company"
 msgstr "Empresa"
@@ -364,20 +385,25 @@ msgid "Company Type"
 msgstr "Tipo de Empresa"
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ind_final
+msgid "Consumidor final"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__partner_id
 msgid "Contact"
 msgstr "Contato"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cst_code_prefix_like
+msgid "Cst Code Prefix Like"
+msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__currency_id
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__currency_id
 msgid "Currency"
 msgstr "Moeda"
-
-#. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__customer_additional_data
-msgid "Customer Additional Data"
-msgstr "Dados Adicionais do Cliente"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_picking__manual_customer_additional_data
@@ -412,11 +438,6 @@ msgid "Delivery Costs"
 msgstr "Custos de Entrega"
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__quantity
-msgid "Demand"
-msgstr "Demanda"
-
-#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ii_customhouse_charges
 msgid "Despesas Aduaneiras"
 msgstr "Despesas Aduaneiras"
@@ -432,9 +453,40 @@ msgid "Discount Value"
 msgstr "Valor do Desconto"
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_number
-msgid "Document Number"
-msgstr "Número do Documento"
+#: model:account.journal,name:l10n_br_stock_account.devolucao_compras_journal_main_company
+msgid "Diário Devolução de Compras"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:account.journal,name:l10n_br_stock_account.entrada_remessa_journal_lucro_presumido
+#: model:account.journal,name:l10n_br_stock_account.entrada_remessa_journal_lucro_real
+#: model:account.journal,name:l10n_br_stock_account.entrada_remessa_journal_main_company
+#: model:account.journal,name:l10n_br_stock_account.entrada_remessa_journal_simples_nacional
+msgid "Diário Entrada Remessa"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:account.journal,name:l10n_br_stock_account.simples_remessa_journal_lucro_presumido
+#: model:account.journal,name:l10n_br_stock_account.simples_remessa_journal_lucro_real
+#: model:account.journal,name:l10n_br_stock_account.simples_remessa_journal_main_company
+#: model:account.journal,name:l10n_br_stock_account.simples_remessa_journal_simples_nacional
+msgid "Diário Simples Remessa"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:account.journal,name:l10n_br_stock_account.devolucao_vendas_journal_main_company
+msgid "Diário de Devolução de Vendas"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__key_check_digit
+msgid "Document Key Check Digit"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__key_random_code
+msgid "Document Key Random Code"
+msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_serie_id
@@ -442,9 +494,9 @@ msgid "Document Serie"
 msgstr "Série do Documento"
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_type_id
-msgid "Document Type"
-msgstr "Tipo do Documento"
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
+msgid "Edit in Form"
+msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__estimate_tax
@@ -458,7 +510,6 @@ msgstr "Estoque"
 
 #. module: l10n_br_stock_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
 msgid "Extra Info"
 msgstr "Informação Extra"
 
@@ -478,7 +529,6 @@ msgid "FCP WH Base"
 msgstr "Base para FCP WH"
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ind_final
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__ind_final
 msgid "Final Consumption Operation"
 msgstr "Operação de Consumo Final"
@@ -495,25 +545,53 @@ msgid "Financial Gross Amount"
 msgstr "Valor Bruto Financeiro"
 
 #. module: l10n_br_stock_account
-#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
-msgid "Fiscal"
-msgstr "Fiscal"
-
-#. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__fiscal_additional_data
-msgid "Fiscal Additional Data"
-msgstr "Dados Adicionais Fiscais"
-
-#. module: l10n_br_stock_account
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_picking__manual_fiscal_additional_data
 msgid "Fiscal Additional data manually entered by user"
 msgstr "Dados adicionais fiscais inseridos manualmente pelo usuário"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_amount_tax
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__fiscal_amount_tax
+msgid "Fiscal Amount Tax"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_amount_total
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__fiscal_amount_total
+msgid "Fiscal Amount Total"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_amount_untaxed
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__fiscal_amount_untaxed
+msgid "Fiscal Amount Untaxed"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
+msgid "Fiscal Document"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_number
+msgid "Fiscal Document Number"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_type_id
+msgid "Fiscal Document Type"
+msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_rule__fiscal_operation_id
 #: model:ir.model.fields.selection,name:l10n_br_stock_account.selection__stock_invoice_onshipping__group__fiscal_operation
 msgid "Fiscal Operation"
 msgstr "Operação Fiscal"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_operation_type
+msgid "Fiscal Operation Type"
+msgstr "Tipo de Operação Fiscal"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_price
@@ -533,7 +611,6 @@ msgstr "Código do Gênero Fiscal do Produto"
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_quantity
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
 msgid "Fiscal Quantity"
 msgstr "Quantidade Fiscal"
 
@@ -587,6 +664,43 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_invoice_onshipping__has_fiscal_operation
 msgid "Has Fiscal Operation"
 msgstr "Possui Operação Fiscal"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__cst_code_prefix_like
+msgid "Helper field to filter taxes by CST code prefix (3 chars) using LIKE."
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ibs_percent
+msgid "IBS %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ibs_reduction
+msgid "IBS % Reduction"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ibs_base
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_ibs_base
+msgid "IBS Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ibs_base_type
+msgid "IBS Base Type"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ibs_cst_code
+msgid "IBS CST Code"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ibs_value
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_ibs_value
+msgid "IBS Value"
+msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_percent
@@ -970,6 +1084,11 @@ msgid "IRPJ Value"
 msgstr "Valor do IRPJ"
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__national_taxation_code_id
+msgid "ISS National Taxation Code"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__issqn_percent
 msgid "ISSQN %"
 msgstr "% ISSQN"
@@ -1088,7 +1207,6 @@ msgstr "Valor do Seguro"
 #. module: l10n_br_stock_account
 #. odoo-python
 #: code:addons/l10n_br_stock_account/wizards/stock_invoice_onshipping.py:0
-#, python-format
 msgid ""
 "Invalid Journal! There is not journal defined for this company: %(company)s "
 "in fiscal operation: %(operation)s!"
@@ -1118,9 +1236,9 @@ msgstr ""
 "Não Aplicável: sem faturas para criar"
 
 #. module: l10n_br_stock_account
-#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
-msgid "Invoicing"
-msgstr "Faturamento"
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__issuer
+msgid "Issuer"
+msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_key
@@ -1168,23 +1286,40 @@ msgid "National Simple Taxes without ICMS"
 msgstr "Impostos do Simples Nacional sem ICMS"
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__national_taxation_code_id
+msgid "National Taxation Code for the ISS tax (National NFS-e)"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields.selection,name:l10n_br_stock_account.selection__stock_picking_type__pre_generate_fiscal_document_number__none
 msgid "None"
 msgstr "Nenhum"
 
 #. module: l10n_br_stock_account
-#. odoo-python
-#: code:addons/l10n_br_stock_account/models/stock_rule.py:0
 #: model:ir.model.fields.selection,name:l10n_br_stock_account.selection__stock_rule__invoice_state__none
-#, python-format
 msgid "Not Applicable"
 msgstr "Não Aplicável"
+
+#. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
+msgid "Number"
+msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_operation_id
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__fiscal_operation_id
 msgid "Operation"
 msgstr "Operação"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__operation_fiscal_type
+msgid "Operation Fiscal Type"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__operation_indicator_id
+msgid "Operation Indicator"
+msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_operation_line_id
@@ -1195,11 +1330,6 @@ msgstr "Linha de Operação"
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__operation_name
 msgid "Operation Name"
 msgstr "Nome da Operação"
-
-#. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_operation_type
-msgid "Operation Type"
-msgstr "Tipo de Operação"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__partner_id
@@ -1222,7 +1352,6 @@ msgstr "Outros Valores"
 
 #. module: l10n_br_stock_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
 msgid "Others"
 msgstr "Outros"
 
@@ -1351,14 +1480,19 @@ msgid "Partner Order Line (nItemPed)"
 msgstr "Linha de Pedido do Parceiro (nItemPed)"
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__p_devol
+msgid "Percentual de mercadoria devolvida"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model,name:l10n_br_stock_account.model_stock_picking_type
 msgid "Picking Type"
 msgstr "Tipo de Separação"
 
 #. module: l10n_br_stock_account
-#: model:ir.model,name:l10n_br_stock_account.model_procurement_group
-msgid "Procurement Group"
-msgstr "Grupo de Aquisições"
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking_type__pre_generate_fiscal_document_number
+msgid "Pre-generate Fiscal Document Number"
+msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__product_id
@@ -1366,19 +1500,24 @@ msgid "Product"
 msgstr "Produto"
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking_type__pre_generate_fiscal_document_number
-msgid "Pré generate Fiscal Document Number"
-msgstr "Pré-gerar Número de Documento Fiscal"
-
-#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__partner_is_public_entity
 msgid "Public Entity"
 msgstr "Entidade Pública"
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__quantity
+msgid "Quantity"
+msgstr "Quantidade"
+
+#. module: l10n_br_stock_account
 #: model:ir.model,name:l10n_br_stock_account.model_stock_return_picking
 msgid "Return Picking"
 msgstr "Separação de Retorno"
+
+#. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
+msgid "Serie"
+msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_serie
@@ -1436,6 +1575,11 @@ msgid "Tax Benefit Code"
 msgstr "Código do Benefício Fiscal"
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cbs_tax_id
+msgid "Tax CBS"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofins_tax_id
 msgid "Tax COFINS"
 msgstr "Imposto COFINS"
@@ -1461,9 +1605,19 @@ msgid "Tax CSLL RET"
 msgstr "Imposto CSLL RET"
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__tax_classification_id
+msgid "Tax Classification"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__tax_framework
 msgid "Tax Framework"
 msgstr "Estrutura Tributária"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ibs_tax_id
+msgid "Tax IBS"
+msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_tax_id
@@ -1571,35 +1725,19 @@ msgstr "Impostos que incidem sobre o valor base"
 #. module: l10n_br_stock_account
 #. odoo-python
 #: code:addons/l10n_br_stock_account/wizards/stock_return_picking.py:0
-#, python-format
 msgid "This Fiscal Operation has no Fiscal Operation for Returns defined!"
 msgstr ""
 "Esta Operação Fiscal não possui Operação Fiscal para Devoluções definida!"
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__quantity
-msgid ""
-"This is the quantity of products from an inventory point of view. For moves "
-"in the state 'done', this is the quantity of products that were actually "
-"moved. For other moves, this is the quantity of product that is planned to "
-"be moved. Lowering this quantity does not generate a backorder. Changing "
-"this quantity on assigned moves affects the product reservation, and should "
-"be done with care."
-msgstr ""
-"Esta é a quantidade de produtos do ponto de vista do estoque. Para "
-"movimentos no estado 'concluído', é a quantidade de produtos que realmente "
-"foram movidos. Para outras movimentações, esta é a quantidade de produto "
-"planejada para movimentação. A redução dessa quantidade não gera um pedido "
-"em espera. Alterar essa quantidade em movimentos atribuídos afeta a reserva "
-"do produto e deve ser feito com cuidado."
-
-#. module: l10n_br_stock_account
-#. odoo-python
-#: code:addons/l10n_br_stock_account/models/stock_rule.py:0
 #: model:ir.model.fields.selection,name:l10n_br_stock_account.selection__stock_rule__invoice_state__2binvoiced
-#, python-format
 msgid "To Be Invoiced"
 msgstr "Para ser Faturado"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__total_weight
+msgid "Total Weight"
+msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__financial_total_gross
@@ -1622,6 +1760,7 @@ msgstr "Transferir"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__fiscal_operation_type
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
 msgid "Type"
 msgstr "Tipo"
 
@@ -1645,8 +1784,70 @@ msgstr "Validar"
 msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
 msgstr "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
 
-#~ msgid "Fiscal Operation Type"
-#~ msgstr "Tipo de Operação Fiscal"
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ipi_devol_value
+msgid "Valor do IPI devolvido"
+msgstr ""
+
+#~ msgid "Additional Data"
+#~ msgstr "Dados Adicionais"
+
+#~ msgid "Amount Tax"
+#~ msgstr "Total de Imposto"
+
+#~ msgid "Amount Total"
+#~ msgstr "Valor Total"
+
+#~ msgid "Amount Untaxed"
+#~ msgstr "Total sem Impostos"
+
+#~ msgid "Amounts"
+#~ msgstr "Totais"
+
+#~ msgid "Customer Additional Data"
+#~ msgstr "Dados Adicionais do Cliente"
+
+#~ msgid "Demand"
+#~ msgstr "Demanda"
+
+#~ msgid "Document Number"
+#~ msgstr "Número do Documento"
+
+#~ msgid "Document Type"
+#~ msgstr "Tipo do Documento"
+
+#~ msgid "Fiscal"
+#~ msgstr "Fiscal"
+
+#~ msgid "Fiscal Additional Data"
+#~ msgstr "Dados Adicionais Fiscais"
+
+#~ msgid "Invoicing"
+#~ msgstr "Faturamento"
+
+#~ msgid "Operation Type"
+#~ msgstr "Tipo de Operação"
+
+#~ msgid "Procurement Group"
+#~ msgstr "Grupo de Aquisições"
+
+#~ msgid "Pré generate Fiscal Document Number"
+#~ msgstr "Pré-gerar Número de Documento Fiscal"
+
+#~ msgid ""
+#~ "This is the quantity of products from an inventory point of view. For "
+#~ "moves in the state 'done', this is the quantity of products that were "
+#~ "actually moved. For other moves, this is the quantity of product that is "
+#~ "planned to be moved. Lowering this quantity does not generate a "
+#~ "backorder. Changing this quantity on assigned moves affects the product "
+#~ "reservation, and should be done with care."
+#~ msgstr ""
+#~ "Esta é a quantidade de produtos do ponto de vista do estoque. Para "
+#~ "movimentos no estado 'concluído', é a quantidade de produtos que "
+#~ "realmente foram movidos. Para outras movimentações, esta é a quantidade "
+#~ "de produto planejada para movimentação. A redução dessa quantidade não "
+#~ "gera um pedido em espera. Alterar essa quantidade em movimentos "
+#~ "atribuídos afeta a reserva do produto e deve ser feito com cuidado."
 
 #~ msgid "Display Name"
 #~ msgstr "Nome Exibido"
@@ -1678,9 +1879,6 @@ msgstr "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
 #~ msgstr ""
 #~ "Diário Inválido! Não há diário definido para esta empresa: %s na operação "
 #~ "fiscal: %s !"
-
-#~ msgid "Quantity"
-#~ msgstr "Quantidade"
 
 #~ msgid "<span class=\"o_stat_text\">Documents</span>"
 #~ msgstr "<span class=\"o_stat_text\">Documentos</span>"
