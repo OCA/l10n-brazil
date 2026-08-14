@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 =========================
 Base dos Planos de Contas
 =========================
@@ -17,7 +13,7 @@ Base dos Planos de Contas
 .. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
@@ -95,6 +91,24 @@ Template
 
 Foi ainda necessário sobrescrever a função que instancia um plano de
 contas a partir de um template para propagar essas informações.
+
+Impostos por esfera na DVA
+--------------------------
+
+O modelo do CPC 09 divide os impostos distribuídos (item 8.2) em
+federais, estaduais e municipais. Toda conta classificada como imposto
+na DVA declara exatamente uma esfera, para que as três linhas somem o
+total.
+
+Na reforma tributária, a CBS e o IS são federais. O IBS é um tributo só,
+mas tem uma alíquota estadual e uma municipal, cada uma fixada pelo seu
+ente, e a NF-e traz as duas parcelas separadas (grupos ``gIBSUF`` e
+``gIBSMun``). Como a DVA mostra para qual governo foi a riqueza, o IBS é
+distribuído pela parcela de cada ente, com uma conta de IBS estadual e
+outra de IBS municipal (no ``l10n_br_coa_simple``). Enquanto a
+localização lançar o IBS como um tributo único, ele cai na conta
+estadual, e quem publica a DVA reclassifica a parcela municipal para a
+conta própria.
 
 **Table of contents**
 

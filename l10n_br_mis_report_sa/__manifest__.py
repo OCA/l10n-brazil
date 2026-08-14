@@ -19,6 +19,8 @@
         "data/mis_report_dfc.xml",
         "data/mis_report_dmpl.xml",
         "data/mis_report_dlpa.xml",
+        "data/mis_report_dra.xml",
+        "data/mis_report_dva.xml",
         "data/mis_report_instance.xml",
     ],
 }

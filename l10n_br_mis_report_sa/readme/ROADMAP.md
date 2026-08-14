@@ -7,3 +7,8 @@
 - Provisões, equivalência patrimonial e resultado na baixa de ativo não são
   somados de volta ao resultado, porque não têm contrapartida identificável só
   pelo saldo da conta.
+- Na DVA, as devoluções de venda estão classificadas junto com os tributos
+  sobre o faturamento, porque o plano as agrupa. O CPC 09 pede a devolução
+  reduzindo a receita. O total a distribuir não muda, mas as linhas de receitas
+  e de impostos ficam distorcidas para quem tem devolução. Separar exige contas
+  próprias no plano.

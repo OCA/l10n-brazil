@@ -37,9 +37,12 @@ CPC exigem além do Balanço Patrimonial e da DRE, que o
 - **Demonstração das Mutações do Patrimônio Líquido** (CPC 26 R1);
 - **Demonstração dos Lucros ou Prejuízos Acumulados** (art. 186 da Lei
   6.404/76). Publicar a DMPL dispensa a DLPA, por força do art. 186, §
-  2º.
+  2º;
+- **Demonstração do Resultado Abrangente** (CPC 26 R1);
+- **Demonstração do Valor Adicionado** (CPC 09).
 
-Em preparação, na ordem: DRA e DVA.
+Com elas, somadas ao Balanço e à DRE, o conjunto do art. 176 da Lei
+6.404/76 e o que o CPC 26 acrescenta ficam cobertos.
 
 Como as demais demonstrações do guarda-chuva, as contas são selecionadas
 pela classificação contábil, então o mesmo relatório serve qualquer
@@ -110,6 +113,11 @@ Known issues / Roadmap
 - Provisões, equivalência patrimonial e resultado na baixa de ativo não
   são somados de volta ao resultado, porque não têm contrapartida
   identificável só pelo saldo da conta.
+- Na DVA, as devoluções de venda estão classificadas junto com os
+  tributos sobre o faturamento, porque o plano as agrupa. O CPC 09 pede
+  a devolução reduzindo a receita. O total a distribuir não muda, mas as
+  linhas de receitas e de impostos ficam distorcidas para quem tem
+  devolução. Separar exige contas próprias no plano.
 
 Bug Tracker
 ===========
