@@ -540,16 +540,28 @@ class TaxAssessment(models.Model):
         made the offset consume more than the recoverable account held and left
         it a negative asset on any period with a purchase return, which the
         closed-book test catches with a real invoice.
+
+        Only the ASSESSED lines count here, for the same reason. An adjustment
+        is a number the tax authority wants declared, not a movement in the
+        books: it carries no journal item, so nothing of it ever reached either
+        account. Letting it into the offsetting made the closing consume a side
+        that was never booked, and the account went negative again, this time
+        without a return in sight. The previous credit balance is the one
+        addition that belongs here, because the closing of the period before
+        physically left it in the recoverable account.
         """
         self.ensure_one()
-        debit_side = (
-            self.debit_total + self.adjustment_debit_total - self.debit_reversal_total
-        )
+        assessed = self.line_ids.filtered(lambda line: line.source == "computed")
+
+        def total(kind):
+            return sum(
+                line.tax_amount
+                for line in assessed.filtered(lambda ln: ln.kind == kind)
+            )
+
+        debit_side = total(KIND_DEBIT) - total(KIND_DEBIT_REVERSAL)
         credit_side = (
-            self.credit_total
-            + self.adjustment_credit_total
-            - self.credit_reversal_total
-            + self.previous_balance
+            total(KIND_CREDIT) - total(KIND_CREDIT_REVERSAL) + self.previous_balance
         )
         return min(debit_side, credit_side)
 
