@@ -369,7 +369,28 @@ class Document(models.Model):
         """
         for document in self.filtered("imported_document"):
             for line in document.fiscal_line_ids:
+                if not line.product_id:
+                    # the de-para already learned (supplier info, internal
+                    # reference, barcode) fills the suggestion; the line
+                    # stays a suggestion to CONFIRM, never auto-resolved
+                    suggestion = line._suggest_product()
+                    if suggestion:
+                        line.product_id = suggestion
                 line.import_state = "matched" if line.product_id else "pending"
+
+    def action_confirm_matched_lines(self):
+        """Confirm every line whose automatic suggestion was not touched.
+
+        On a supplier the company buys from every week, most lines arrive
+        already matched by the learned de-para: confirming them one by one
+        would be one click per line. This is the batch counterpart of
+        ``action_resolve_line``, and it only touches ``matched`` lines,
+        never the ``pending`` ones that need a human decision.
+        """
+        for document in self:
+            document.fiscal_line_ids.filtered(
+                lambda line: line.import_state == "matched" and line.product_id
+            ).action_resolve_line()
 
     def _suggest_fiscal_operation(self):
         """Suggest the document fiscal operation from the operation most
