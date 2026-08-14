@@ -179,7 +179,7 @@ class NFeImportWizardTest(TransactionCase):
         self.assertEqual(line.import_supplierinfo_id.product_code, line.nfe40_cProd)
 
     def test_import_binding_without_product_creation(self):
-        """With create_missing_products=False an unmatched product line is
+        """With allow_product_creation=False an unmatched product line is
         left empty (pending review) instead of created as a side effect."""
         xml = self.xml_1.decode()
         xml = xml.replace("E-COM11", "NAOEXISTE1").replace(
@@ -187,8 +187,10 @@ class NFeImportWizardTest(TransactionCase):
         )
         binding = XmlParser().from_bytes(xml.encode())
         products_before = self.env["product.product"].search_count([])
-        document = self.env["l10n_br_fiscal.document"].import_binding_nfe(
-            binding, edoc_type="in", create_missing_products=False
+        document = (
+            self.env["l10n_br_fiscal.document"]
+            .with_context(allow_product_creation=False)
+            .import_binding_nfe(binding, edoc_type="in")
         )
         self.assertEqual(self.env["product.product"].search_count([]), products_before)
         self.assertFalse(document.fiscal_line_ids[0].product_id)
