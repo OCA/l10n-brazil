@@ -1879,6 +1879,11 @@ msgid "Diário de Banco - Lucro Presumido"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.lucro_real_bank_journal
+msgid "Diário de Banco - Lucro Real"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:account.journal,name:l10n_br_account_payment_order.simples_nacional_bank_journal
 msgid "Diário de Banco - Simples Nacional"
 msgstr ""
