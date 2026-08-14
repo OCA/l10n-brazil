@@ -14,3 +14,7 @@ Nesta versão, além da DFC: a **Demonstração das Mutações do Patrimônio L�
 (CPC 26 R1) e a **Demonstração dos Lucros ou Prejuízos Acumulados** (art. 186 da
 Lei 6.404/76). Publicar a DMPL dispensa a DLPA, por força do art. 186, § 2º, e
 por isso as duas vêm juntas: quem publica a segunda não precisa da primeira.
+
+Com a DRA e a DVA, o módulo completa o conjunto: **DFC, DMPL, DLPA, DRA e DVA**,
+que somadas ao Balanço e à DRE do `l10n_br_mis_report` cobrem as demonstrações
+do art. 176 da Lei 6.404/76 e as que o CPC 26 acrescenta.
