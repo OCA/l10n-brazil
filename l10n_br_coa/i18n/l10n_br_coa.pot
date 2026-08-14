@@ -35,9 +35,58 @@ msgid "Basic Chart of Accounts"
 msgstr ""
 
 #. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.1_tax_group_cbs
+msgid "CBS"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_in_cbs
+#: model:account.tax,name:l10n_br_coa.4_tax_template_in_cbs
+#: model:account.tax,name:l10n_br_coa.5_tax_template_in_cbs
+#: model:account.tax,name:l10n_br_coa.6_tax_template_in_cbs
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_in_cbs
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_cbs
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_cbs
+msgid "CBS Entrada"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_out_cbs
+#: model:account.tax,name:l10n_br_coa.4_tax_template_out_cbs
+#: model:account.tax,name:l10n_br_coa.5_tax_template_out_cbs
+#: model:account.tax,name:l10n_br_coa.6_tax_template_out_cbs
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_out_cbs
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_cbs
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_cbs
+msgid "CBS Saída"
+msgstr ""
+
+#. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_cofins
 #: model:account.tax.group,name:l10n_br_coa.1_tax_group_cofins
 msgid "COFINS"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_in_cofins
+#: model:account.tax,name:l10n_br_coa.4_tax_template_in_cofins
+#: model:account.tax,name:l10n_br_coa.5_tax_template_in_cofins
+#: model:account.tax,name:l10n_br_coa.6_tax_template_in_cofins
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_in_cofins
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_cofins
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_cofins
+msgid "COFINS Entrada"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_cofins_in_deductible
+#: model:account.tax,name:l10n_br_coa.4_tax_template_cofins_in_deductible
+#: model:account.tax,name:l10n_br_coa.5_tax_template_cofins_in_deductible
+#: model:account.tax,name:l10n_br_coa.6_tax_template_cofins_in_deductible
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_cofins_in_deductible
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_cofins_in_deductible
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_cofins_in_deductible
+msgid "COFINS Entrada Dedutível"
 msgstr ""
 
 #. module: l10n_br_coa
@@ -47,21 +96,153 @@ msgid "COFINS ST"
 msgstr ""
 
 #. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_in_cofinsst
+#: model:account.tax,name:l10n_br_coa.4_tax_template_in_cofinsst
+#: model:account.tax,name:l10n_br_coa.5_tax_template_in_cofinsst
+#: model:account.tax,name:l10n_br_coa.6_tax_template_in_cofinsst
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_in_cofinsst
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_cofinsst
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_cofinsst
+msgid "COFINS ST Entrada"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_out_cofinsst
+#: model:account.tax,name:l10n_br_coa.4_tax_template_out_cofinsst
+#: model:account.tax,name:l10n_br_coa.5_tax_template_out_cofinsst
+#: model:account.tax,name:l10n_br_coa.6_tax_template_out_cofinsst
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_out_cofinsst
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_cofinsst
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_cofinsst
+msgid "COFINS ST Saída"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_out_cofins
+#: model:account.tax,name:l10n_br_coa.4_tax_template_out_cofins
+#: model:account.tax,name:l10n_br_coa.5_tax_template_out_cofins
+#: model:account.tax,name:l10n_br_coa.6_tax_template_out_cofins
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_out_cofins
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_cofins
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_cofins
+msgid "COFINS Saída"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_cofins_out_deductible
+#: model:account.tax,name:l10n_br_coa.4_tax_template_cofins_out_deductible
+#: model:account.tax,name:l10n_br_coa.5_tax_template_cofins_out_deductible
+#: model:account.tax,name:l10n_br_coa.6_tax_template_cofins_out_deductible
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_cofins_out_deductible
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_cofins_out_deductible
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_cofins_out_deductible
+msgid "COFINS Saída Dedutível"
+msgstr ""
+
+#. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_cofins_wh
 #: model:account.tax.group,name:l10n_br_coa.1_tax_group_cofins_wh
 msgid "COFINS WH"
 msgstr ""
 
 #. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_in_cofins_wh
+#: model:account.tax,name:l10n_br_coa.4_tax_template_in_cofins_wh
+#: model:account.tax,name:l10n_br_coa.5_tax_template_in_cofins_wh
+#: model:account.tax,name:l10n_br_coa.6_tax_template_in_cofins_wh
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_in_cofins_wh
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_cofins_wh
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_cofins_wh
+msgid "COFINS WH Entrada"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_out_cofins_wh
+#: model:account.tax,name:l10n_br_coa.4_tax_template_out_cofins_wh
+#: model:account.tax,name:l10n_br_coa.5_tax_template_out_cofins_wh
+#: model:account.tax,name:l10n_br_coa.6_tax_template_out_cofins_wh
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_out_cofins_wh
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_cofins_wh
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_cofins_wh
+msgid "COFINS WH Saída"
+msgstr ""
+
+#. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_csll
 #: model:account.tax.group,name:l10n_br_coa.1_tax_group_csll
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_in_csll
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_out_csll
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_csll
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_csll
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_csll
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_csll
 msgid "CSLL"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_in_csll
+#: model:account.tax,name:l10n_br_coa.4_tax_template_in_csll
+#: model:account.tax,name:l10n_br_coa.5_tax_template_in_csll
+#: model:account.tax,name:l10n_br_coa.6_tax_template_in_csll
+msgid "CSLL Entrada"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_in_csll_deductible
+#: model:account.tax,name:l10n_br_coa.4_tax_template_in_csll_deductible
+#: model:account.tax,name:l10n_br_coa.5_tax_template_in_csll_deductible
+#: model:account.tax,name:l10n_br_coa.6_tax_template_in_csll_deductible
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_in_csll_deductible
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_csll_deductible
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_csll_deductible
+msgid "CSLL Entrada Dedutível"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_out_csll
+#: model:account.tax,name:l10n_br_coa.4_tax_template_out_csll
+#: model:account.tax,name:l10n_br_coa.5_tax_template_out_csll
+#: model:account.tax,name:l10n_br_coa.6_tax_template_out_csll
+msgid "CSLL Saída"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_out_csll_deductible
+#: model:account.tax,name:l10n_br_coa.4_tax_template_out_csll_deductible
+#: model:account.tax,name:l10n_br_coa.5_tax_template_out_csll_deductible
+#: model:account.tax,name:l10n_br_coa.6_tax_template_out_csll_deductible
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_out_csll_deductible
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_csll_deductible
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_csll_deductible
+msgid "CSLL Saída Dedutível"
 msgstr ""
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_csll_wh
 #: model:account.tax.group,name:l10n_br_coa.1_tax_group_csll_wh
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_in_csll_wh
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_out_csll_wh
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_csll_wh
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_csll_wh
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_csll_wh
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_csll_wh
 msgid "CSLL WH"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_in_csll_wh
+#: model:account.tax,name:l10n_br_coa.4_tax_template_in_csll_wh
+#: model:account.tax,name:l10n_br_coa.5_tax_template_in_csll_wh
+#: model:account.tax,name:l10n_br_coa.6_tax_template_in_csll_wh
+msgid "CSLL WH Entrada"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_out_csll_wh
+#: model:account.tax,name:l10n_br_coa.4_tax_template_out_csll_wh
+#: model:account.tax,name:l10n_br_coa.5_tax_template_out_csll_wh
+#: model:account.tax,name:l10n_br_coa.6_tax_template_out_csll_wh
+msgid "CSLL WH Saída"
 msgstr ""
 
 #. module: l10n_br_coa
@@ -92,9 +273,91 @@ msgid "Deductible Tax?"
 msgstr ""
 
 #. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.1_tax_group_ibs
+msgid "IBS"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_in_ibs
+#: model:account.tax,name:l10n_br_coa.4_tax_template_in_ibs
+#: model:account.tax,name:l10n_br_coa.5_tax_template_in_ibs
+#: model:account.tax,name:l10n_br_coa.6_tax_template_in_ibs
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_in_ibs
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_ibs
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_ibs
+msgid "IBS Entrada"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_out_ibs
+#: model:account.tax,name:l10n_br_coa.4_tax_template_out_ibs
+#: model:account.tax,name:l10n_br_coa.5_tax_template_out_ibs
+#: model:account.tax,name:l10n_br_coa.6_tax_template_out_ibs
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_out_ibs
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_ibs
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_ibs
+msgid "IBS Saída"
+msgstr ""
+
+#. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_icms
 #: model:account.tax.group,name:l10n_br_coa.1_tax_group_icms
 msgid "ICMS"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_in_icms
+#: model:account.tax,name:l10n_br_coa.4_tax_template_in_icms
+#: model:account.tax,name:l10n_br_coa.5_tax_template_in_icms
+#: model:account.tax,name:l10n_br_coa.6_tax_template_in_icms
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_in_icms
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_icms
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_icms
+msgid "ICMS Entrada"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_icms_in_deductible
+#: model:account.tax,name:l10n_br_coa.4_tax_template_icms_in_deductible
+#: model:account.tax,name:l10n_br_coa.5_tax_template_icms_in_deductible
+#: model:account.tax,name:l10n_br_coa.6_tax_template_icms_in_deductible
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_icms_in_deductible
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_icms_in_deductible
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_icms_in_deductible
+msgid "ICMS Entrada Dedutível"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_in_icmsfcp
+#: model:account.tax,name:l10n_br_coa.4_tax_template_in_icmsfcp
+#: model:account.tax,name:l10n_br_coa.5_tax_template_in_icmsfcp
+#: model:account.tax,name:l10n_br_coa.6_tax_template_in_icmsfcp
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_in_icmsfcp
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_icmsfcp
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_icmsfcp
+msgid "ICMS Entrada FCP"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_in_icmsfcp_st
+#: model:account.tax,name:l10n_br_coa.4_tax_template_in_icmsfcp_st
+#: model:account.tax,name:l10n_br_coa.5_tax_template_in_icmsfcp_st
+#: model:account.tax,name:l10n_br_coa.6_tax_template_in_icmsfcp_st
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_in_icmsfcp_st
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_icmsfcp_st
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_icmsfcp_st
+msgid "ICMS Entrada FCP ST"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_in_icms_subist
+#: model:account.tax,name:l10n_br_coa.4_tax_template_in_icms_subist
+#: model:account.tax,name:l10n_br_coa.5_tax_template_in_icms_subist
+#: model:account.tax,name:l10n_br_coa.6_tax_template_in_icms_subist
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_in_icms_subist
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_icms_subist
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_icms_subist
+msgid "ICMS Entrada Subist"
 msgstr ""
 
 #. module: l10n_br_coa
@@ -116,9 +379,86 @@ msgid "ICMS SN"
 msgstr ""
 
 #. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_in_icmssn
+#: model:account.tax,name:l10n_br_coa.4_tax_template_in_icmssn
+#: model:account.tax,name:l10n_br_coa.5_tax_template_in_icmssn
+#: model:account.tax,name:l10n_br_coa.6_tax_template_in_icmssn
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_in_icmssn
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_icmssn
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_icmssn
+msgid "ICMS SN Entrada"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_out_icmssn
+#: model:account.tax,name:l10n_br_coa.4_tax_template_out_icmssn
+#: model:account.tax,name:l10n_br_coa.5_tax_template_out_icmssn
+#: model:account.tax,name:l10n_br_coa.6_tax_template_out_icmssn
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_out_icmssn
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_icmssn
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_icmssn
+msgid "ICMS SN Saída"
+msgstr ""
+
+#. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_icmsst
 #: model:account.tax.group,name:l10n_br_coa.1_tax_group_icmsst
 msgid "ICMS ST"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_out_icms
+#: model:account.tax,name:l10n_br_coa.4_tax_template_out_icms
+#: model:account.tax,name:l10n_br_coa.5_tax_template_out_icms
+#: model:account.tax,name:l10n_br_coa.6_tax_template_out_icms
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_out_icms
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_icms
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_icms
+msgid "ICMS Saída"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_icms_out_deductible
+#: model:account.tax,name:l10n_br_coa.4_tax_template_icms_out_deductible
+#: model:account.tax,name:l10n_br_coa.5_tax_template_icms_out_deductible
+#: model:account.tax,name:l10n_br_coa.6_tax_template_icms_out_deductible
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_icms_out_deductible
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_icms_out_deductible
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_icms_out_deductible
+msgid "ICMS Saída Dedutível"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_out_icmsfcp
+#: model:account.tax,name:l10n_br_coa.4_tax_template_out_icmsfcp
+#: model:account.tax,name:l10n_br_coa.5_tax_template_out_icmsfcp
+#: model:account.tax,name:l10n_br_coa.6_tax_template_out_icmsfcp
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_out_icmsfcp
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_icmsfcp
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_icmsfcp
+msgid "ICMS Saída FCP"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_out_icmsfcp_st
+#: model:account.tax,name:l10n_br_coa.4_tax_template_out_icmsfcp_st
+#: model:account.tax,name:l10n_br_coa.5_tax_template_out_icmsfcp_st
+#: model:account.tax,name:l10n_br_coa.6_tax_template_out_icmsfcp_st
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_out_icmsfcp_st
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_icmsfcp_st
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_icmsfcp_st
+msgid "ICMS Saída FCP ST"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_out_icms_subist
+#: model:account.tax,name:l10n_br_coa.4_tax_template_out_icms_subist
+#: model:account.tax,name:l10n_br_coa.5_tax_template_out_icms_subist
+#: model:account.tax,name:l10n_br_coa.6_tax_template_out_icms_subist
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_out_icms_subist
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_icms_subist
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_icms_subist
+msgid "ICMS Saída Subist"
 msgstr ""
 
 #. module: l10n_br_coa
@@ -128,9 +468,75 @@ msgid "II"
 msgstr ""
 
 #. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_in_ii
+#: model:account.tax,name:l10n_br_coa.4_tax_template_in_ii
+#: model:account.tax,name:l10n_br_coa.5_tax_template_in_ii
+#: model:account.tax,name:l10n_br_coa.6_tax_template_in_ii
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_in_ii
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_ii
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_ii
+msgid "II Entrada"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_ii_in_deductible
+#: model:account.tax,name:l10n_br_coa.4_tax_template_ii_in_deductible
+#: model:account.tax,name:l10n_br_coa.5_tax_template_ii_in_deductible
+#: model:account.tax,name:l10n_br_coa.6_tax_template_ii_in_deductible
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_ii_in_deductible
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_ii_in_deductible
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_ii_in_deductible
+msgid "II Entrada Dedutível"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_out_ii
+#: model:account.tax,name:l10n_br_coa.4_tax_template_out_ii
+#: model:account.tax,name:l10n_br_coa.5_tax_template_out_ii
+#: model:account.tax,name:l10n_br_coa.6_tax_template_out_ii
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_out_ii
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_ii
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_ii
+msgid "II Saída"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_ii_out_deductible
+#: model:account.tax,name:l10n_br_coa.4_tax_template_ii_out_deductible
+#: model:account.tax,name:l10n_br_coa.5_tax_template_ii_out_deductible
+#: model:account.tax,name:l10n_br_coa.6_tax_template_ii_out_deductible
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_ii_out_deductible
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_ii_out_deductible
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_ii_out_deductible
+msgid "II Saída Dedutível"
+msgstr ""
+
+#. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_inss
 #: model:account.tax.group,name:l10n_br_coa.1_tax_group_inss
 msgid "INSS"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_in_inss
+#: model:account.tax,name:l10n_br_coa.4_tax_template_in_inss
+#: model:account.tax,name:l10n_br_coa.5_tax_template_in_inss
+#: model:account.tax,name:l10n_br_coa.6_tax_template_in_inss
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_in_inss
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_inss
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_inss
+msgid "INSS Entrada"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_out_inss
+#: model:account.tax,name:l10n_br_coa.4_tax_template_out_inss
+#: model:account.tax,name:l10n_br_coa.5_tax_template_out_inss
+#: model:account.tax,name:l10n_br_coa.6_tax_template_out_inss
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_out_inss
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_inss
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_inss
+msgid "INSS Saída"
 msgstr ""
 
 #. module: l10n_br_coa
@@ -140,9 +546,75 @@ msgid "INSS WH"
 msgstr ""
 
 #. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_in_inss_wh
+#: model:account.tax,name:l10n_br_coa.4_tax_template_in_inss_wh
+#: model:account.tax,name:l10n_br_coa.5_tax_template_in_inss_wh
+#: model:account.tax,name:l10n_br_coa.6_tax_template_in_inss_wh
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_in_inss_wh
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_inss_wh
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_inss_wh
+msgid "INSS WH Entrada"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_out_inss_wh
+#: model:account.tax,name:l10n_br_coa.4_tax_template_out_inss_wh
+#: model:account.tax,name:l10n_br_coa.5_tax_template_out_inss_wh
+#: model:account.tax,name:l10n_br_coa.6_tax_template_out_inss_wh
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_out_inss_wh
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_inss_wh
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_inss_wh
+msgid "INSS WH Saída"
+msgstr ""
+
+#. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_ipi
 #: model:account.tax.group,name:l10n_br_coa.1_tax_group_ipi
 msgid "IPI"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_in_ipi
+#: model:account.tax,name:l10n_br_coa.4_tax_template_in_ipi
+#: model:account.tax,name:l10n_br_coa.5_tax_template_in_ipi
+#: model:account.tax,name:l10n_br_coa.6_tax_template_in_ipi
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_in_ipi
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_ipi
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_ipi
+msgid "IPI Entrada"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_in_ipi_deductible
+#: model:account.tax,name:l10n_br_coa.4_tax_template_in_ipi_deductible
+#: model:account.tax,name:l10n_br_coa.5_tax_template_in_ipi_deductible
+#: model:account.tax,name:l10n_br_coa.6_tax_template_in_ipi_deductible
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_in_ipi_deductible
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_ipi_deductible
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_ipi_deductible
+msgid "IPI Entrada Dedutível"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_out_ipi
+#: model:account.tax,name:l10n_br_coa.4_tax_template_out_ipi
+#: model:account.tax,name:l10n_br_coa.5_tax_template_out_ipi
+#: model:account.tax,name:l10n_br_coa.6_tax_template_out_ipi
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_out_ipi
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_ipi
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_ipi
+msgid "IPI Saída"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_out_ipi_deductible
+#: model:account.tax,name:l10n_br_coa.4_tax_template_out_ipi_deductible
+#: model:account.tax,name:l10n_br_coa.5_tax_template_out_ipi_deductible
+#: model:account.tax,name:l10n_br_coa.6_tax_template_out_ipi_deductible
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_out_ipi_deductible
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_ipi_deductible
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_ipi_deductible
+msgid "IPI Saída Dedutível"
 msgstr ""
 
 #. module: l10n_br_coa
@@ -154,13 +626,79 @@ msgstr ""
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_irpj
 #: model:account.tax.group,name:l10n_br_coa.1_tax_group_irpj
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_in_irpj
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_out_irpj
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_irpj
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_irpj
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_irpj
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_irpj
 msgid "IRPJ"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_in_irpj
+#: model:account.tax,name:l10n_br_coa.4_tax_template_in_irpj
+#: model:account.tax,name:l10n_br_coa.5_tax_template_in_irpj
+#: model:account.tax,name:l10n_br_coa.6_tax_template_in_irpj
+msgid "IRPJ Entrada"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_in_irpj_deductible
+#: model:account.tax,name:l10n_br_coa.4_tax_template_in_irpj_deductible
+#: model:account.tax,name:l10n_br_coa.5_tax_template_in_irpj_deductible
+#: model:account.tax,name:l10n_br_coa.6_tax_template_in_irpj_deductible
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_in_irpj_deductible
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_irpj_deductible
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_irpj_deductible
+msgid "IRPJ Entrada Dedutível"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_out_irpj
+#: model:account.tax,name:l10n_br_coa.4_tax_template_out_irpj
+#: model:account.tax,name:l10n_br_coa.5_tax_template_out_irpj
+#: model:account.tax,name:l10n_br_coa.6_tax_template_out_irpj
+msgid "IRPJ Saída"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_out_irpj_deductible
+#: model:account.tax,name:l10n_br_coa.4_tax_template_out_irpj_deductible
+#: model:account.tax,name:l10n_br_coa.5_tax_template_out_irpj_deductible
+#: model:account.tax,name:l10n_br_coa.6_tax_template_out_irpj_deductible
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_out_irpj_deductible
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_irpj_deductible
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_irpj_deductible
+msgid "IRPJ Saída Dedutível"
 msgstr ""
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_irpj_wh
 #: model:account.tax.group,name:l10n_br_coa.1_tax_group_irpj_wh
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_in_irpj_wh
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_out_irpj_wh
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_irpj_wh
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_irpj_wh
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_irpj_wh
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_irpj_wh
 msgid "IRPJ WH"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_in_irpj_wh
+#: model:account.tax,name:l10n_br_coa.4_tax_template_in_irpj_wh
+#: model:account.tax,name:l10n_br_coa.5_tax_template_in_irpj_wh
+#: model:account.tax,name:l10n_br_coa.6_tax_template_in_irpj_wh
+msgid "IRPJ WH Entrada"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_out_irpj_wh
+#: model:account.tax,name:l10n_br_coa.4_tax_template_out_irpj_wh
+#: model:account.tax,name:l10n_br_coa.5_tax_template_out_irpj_wh
+#: model:account.tax,name:l10n_br_coa.6_tax_template_out_irpj_wh
+msgid "IRPJ WH Saída"
 msgstr ""
 
 #. module: l10n_br_coa
@@ -170,14 +708,87 @@ msgid "ISSQN"
 msgstr ""
 
 #. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_in_issqn
+#: model:account.tax,name:l10n_br_coa.4_tax_template_in_issqn
+#: model:account.tax,name:l10n_br_coa.5_tax_template_in_issqn
+#: model:account.tax,name:l10n_br_coa.6_tax_template_in_issqn
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_in_issqn
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_issqn
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_issqn
+msgid "ISSQN Entrada"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_in_issqn_deductible
+#: model:account.tax,name:l10n_br_coa.4_tax_template_in_issqn_deductible
+#: model:account.tax,name:l10n_br_coa.5_tax_template_in_issqn_deductible
+#: model:account.tax,name:l10n_br_coa.6_tax_template_in_issqn_deductible
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_in_issqn_deductible
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_issqn_deductible
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_issqn_deductible
+msgid "ISSQN Entrada Dedutível"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_out_issqn
+#: model:account.tax,name:l10n_br_coa.4_tax_template_out_issqn
+#: model:account.tax,name:l10n_br_coa.5_tax_template_out_issqn
+#: model:account.tax,name:l10n_br_coa.6_tax_template_out_issqn
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_out_issqn
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_issqn
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_issqn
+msgid "ISSQN Saída"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_out_issqn_deductible
+#: model:account.tax,name:l10n_br_coa.4_tax_template_out_issqn_deductible
+#: model:account.tax,name:l10n_br_coa.5_tax_template_out_issqn_deductible
+#: model:account.tax,name:l10n_br_coa.6_tax_template_out_issqn_deductible
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_out_issqn_deductible
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_issqn_deductible
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_issqn_deductible
+msgid "ISSQN Saída Dedutível"
+msgstr ""
+
+#. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_issqn_wh
 #: model:account.tax.group,name:l10n_br_coa.1_tax_group_issqn_wh
 msgid "ISSQN WH"
 msgstr ""
 
 #. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_in_issqn_wh
+#: model:account.tax,name:l10n_br_coa.4_tax_template_in_issqn_wh
+#: model:account.tax,name:l10n_br_coa.5_tax_template_in_issqn_wh
+#: model:account.tax,name:l10n_br_coa.6_tax_template_in_issqn_wh
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_in_issqn_wh
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_issqn_wh
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_issqn_wh
+msgid "ISSQN WH Entrada"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_out_issqn_wh
+#: model:account.tax,name:l10n_br_coa.4_tax_template_out_issqn_wh
+#: model:account.tax,name:l10n_br_coa.5_tax_template_out_issqn_wh
+#: model:account.tax,name:l10n_br_coa.6_tax_template_out_issqn_wh
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_out_issqn_wh
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_issqn_wh
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_issqn_wh
+msgid "ISSQN WH Saída"
+msgstr ""
+
+#. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_others
+#: model:account.tax,name:l10n_br_coa.1_tax_template_others
+#: model:account.tax,name:l10n_br_coa.4_tax_template_others
+#: model:account.tax,name:l10n_br_coa.5_tax_template_others
+#: model:account.tax,name:l10n_br_coa.6_tax_template_others
 #: model:account.tax.group,name:l10n_br_coa.1_tax_group_others
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_others
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_others
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_others
 msgid "Others"
 msgstr ""
 
@@ -188,9 +799,75 @@ msgid "PIS"
 msgstr ""
 
 #. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_in_pis
+#: model:account.tax,name:l10n_br_coa.4_tax_template_in_pis
+#: model:account.tax,name:l10n_br_coa.5_tax_template_in_pis
+#: model:account.tax,name:l10n_br_coa.6_tax_template_in_pis
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_in_pis
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_pis
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_pis
+msgid "PIS Entrada"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_in_pis_deductible
+#: model:account.tax,name:l10n_br_coa.4_tax_template_in_pis_deductible
+#: model:account.tax,name:l10n_br_coa.5_tax_template_in_pis_deductible
+#: model:account.tax,name:l10n_br_coa.6_tax_template_in_pis_deductible
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_in_pis_deductible
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_pis_deductible
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_pis_deductible
+msgid "PIS Entrada Dedutível"
+msgstr ""
+
+#. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_pisst
 #: model:account.tax.group,name:l10n_br_coa.1_tax_group_pisst
 msgid "PIS ST"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_in_pisst
+#: model:account.tax,name:l10n_br_coa.4_tax_template_in_pisst
+#: model:account.tax,name:l10n_br_coa.5_tax_template_in_pisst
+#: model:account.tax,name:l10n_br_coa.6_tax_template_in_pisst
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_in_pisst
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_pisst
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_pisst
+msgid "PIS ST Entrada"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_out_pisst
+#: model:account.tax,name:l10n_br_coa.4_tax_template_out_pisst
+#: model:account.tax,name:l10n_br_coa.5_tax_template_out_pisst
+#: model:account.tax,name:l10n_br_coa.6_tax_template_out_pisst
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_out_pisst
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_pisst
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_pisst
+msgid "PIS ST Saída"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_out_pis
+#: model:account.tax,name:l10n_br_coa.4_tax_template_out_pis
+#: model:account.tax,name:l10n_br_coa.5_tax_template_out_pis
+#: model:account.tax,name:l10n_br_coa.6_tax_template_out_pis
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_out_pis
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_pis
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_pis
+msgid "PIS Saída"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_out_pis_deductible
+#: model:account.tax,name:l10n_br_coa.4_tax_template_out_pis_deductible
+#: model:account.tax,name:l10n_br_coa.5_tax_template_out_pis_deductible
+#: model:account.tax,name:l10n_br_coa.6_tax_template_out_pis_deductible
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_out_pis_deductible
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_pis_deductible
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_pis_deductible
+msgid "PIS Saída Dedutível"
 msgstr ""
 
 #. module: l10n_br_coa
@@ -200,8 +877,37 @@ msgid "PIS WH"
 msgstr ""
 
 #. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_in_pis_wh
+#: model:account.tax,name:l10n_br_coa.4_tax_template_in_pis_wh
+#: model:account.tax,name:l10n_br_coa.5_tax_template_in_pis_wh
+#: model:account.tax,name:l10n_br_coa.6_tax_template_in_pis_wh
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_in_pis_wh
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_pis_wh
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_pis_wh
+msgid "PIS WH Entrada"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.tax,name:l10n_br_coa.1_tax_template_out_pis_wh
+#: model:account.tax,name:l10n_br_coa.4_tax_template_out_pis_wh
+#: model:account.tax,name:l10n_br_coa.5_tax_template_out_pis_wh
+#: model:account.tax,name:l10n_br_coa.6_tax_template_out_pis_wh
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_out_pis_wh
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_pis_wh
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_pis_wh
+msgid "PIS WH Saída"
+msgstr ""
+
+#. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_simples
+#: model:account.tax,name:l10n_br_coa.1_tax_template_simples
+#: model:account.tax,name:l10n_br_coa.4_tax_template_simples
+#: model:account.tax,name:l10n_br_coa.5_tax_template_simples
+#: model:account.tax,name:l10n_br_coa.6_tax_template_simples
 #: model:account.tax.group,name:l10n_br_coa.1_tax_group_simples
+#: model_terms:account.tax,description:l10n_br_coa.4_tax_template_simples
+#: model_terms:account.tax,description:l10n_br_coa.5_tax_template_simples
+#: model_terms:account.tax,description:l10n_br_coa.6_tax_template_simples
 msgid "Simples Nacional"
 msgstr ""
 
