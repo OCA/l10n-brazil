@@ -319,6 +319,17 @@ class StockPriceMixin(models.AbstractModel):
                 creditable = record._resolve_tax_creditability(domain)
                 record[f"{domain}_tax_is_creditable"] = creditable
 
+    def _get_cost_unit_qty(self):
+        """The quantity the net cost is divided by.
+
+        Each model naming its own quantity field overrides this: a stock
+        move counts ``product_uom_qty``, a purchase order line counts
+        ``product_qty``. Returning zero means this record cannot state a
+        unit cost, and the compute leaves it at zero.
+        """
+        self.ensure_one()
+        return self.product_uom_qty if hasattr(self, "product_uom_qty") else 0.0
+
     @api.depends(
         "fiscal_amount_total",
         "fiscal_tax_ids",
@@ -336,16 +347,17 @@ class StockPriceMixin(models.AbstractModel):
         "amount_tax_withholding",
         "cfop_id",
         "creditability_origin",
+        # `quantity` is the fiscal mixin field each model relates to its own
+        # quantity, which is what _get_cost_unit_qty divides by.
+        "quantity",
     )
     def _compute_cost_unit(self):
         """Subtract creditable taxes from the unit cost."""
         for record in self:
             record.cost_unit = 0
+            quantity = record._get_cost_unit_qty()
 
-            if not hasattr(record, "product_uom_qty"):
-                continue
-
-            if record.fiscal_operation_line_id and record.product_uom_qty:
+            if record.fiscal_operation_line_id and quantity:
                 # TODO: the import IOF (ii_iof_value) stays out of the cost,
                 # because _add_fields_to_amount of the document line mixin
                 # does not add it to fiscal_amount_total. Fix it there.
@@ -400,5 +412,5 @@ class StockPriceMixin(models.AbstractModel):
                     "Product Price"
                 )
                 record.cost_unit = float_round(
-                    (price / record.product_uom_qty), precision_digits=price_precision
+                    (price / quantity), precision_digits=price_precision
                 )
