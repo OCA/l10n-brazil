@@ -167,6 +167,31 @@ class TestStockValuationNetCost(TransactionCase):
         self.assertAlmostEqual(line_val.debit, svl.value, places=2)
         self.assertAlmostEqual(line_in.credit, svl.value, places=2)
 
+    def test_manual_creditability_survives_validation(self):
+        """A decision taken by the user is not derived again on validation."""
+        reason = self.env["l10n_br_fiscal.creditability.reason"].create(
+            {
+                "code": "TEST-VALIDATION",
+                "name": "Benefit conditioned on waiving the credit",
+                "kind": "benefit",
+                "legal_basis": "Decreto estadual de exemplo, art. 1",
+            }
+        )
+        self._set_valuation("fifo")
+        picking, move = self._make_incoming(self.supplier_normal)
+        move.write(
+            {
+                "creditability_origin": "manual",
+                "creditability_reason_id": reason.id,
+                "icms_tax_is_creditable": False,
+            }
+        )
+        self._receive(picking)
+
+        self.assertAlmostEqual(
+            move.stock_valuation_layer_ids.unit_cost, move.price_unit, places=2
+        )
+
     def test_avco_incoming_net_cost(self):
         """AVCO: the average cost of the product becomes the net one."""
         self._set_valuation("average")

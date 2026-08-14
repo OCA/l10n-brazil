@@ -1,7 +1,11 @@
 # Copyright (C) 2026 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from psycopg2 import IntegrityError
+
+from odoo.exceptions import ValidationError
 from odoo.tests import TransactionCase
+from odoo.tools import mute_logger
 
 
 class TestCostUnit(TransactionCase):
@@ -314,3 +318,74 @@ class TestCostUnit(TransactionCase):
         self.assertTrue(ref("l10n_br_fiscal.cst_pis_50").default_creditable_tax)
         self.assertFalse(ref("l10n_br_fiscal.cst_pis_70").default_creditable_tax)
         self.assertFalse(ref("l10n_br_fiscal.cst_cofins_75").default_creditable_tax)
+
+    # ------------------------------------------------------------------
+    # Who decided the creditability
+    # ------------------------------------------------------------------
+
+    def test_manual_decision_survives_recompute(self):
+        """A decision taken by the user is not overwritten by the rules."""
+        reason = self.env["l10n_br_fiscal.creditability.reason"].create(
+            {
+                "code": "TEST-BENEFIT",
+                "name": "Benefit conditioned on waiving the credit",
+                "kind": "benefit",
+                "legal_basis": "Decreto estadual de exemplo, art. 1",
+            }
+        )
+        move = self._make_in_move(self.company_presumido)
+        self.assertTrue(move.icms_tax_is_creditable)
+
+        move.write(
+            {
+                "creditability_origin": "manual",
+                "creditability_reason_id": reason.id,
+                "icms_tax_is_creditable": False,
+            }
+        )
+        cost_with_icms = move.cost_unit
+
+        move.cfop_id = self.env.ref("l10n_br_fiscal.cfop_1102")
+
+        self.assertFalse(move.icms_tax_is_creditable)
+        self.assertAlmostEqual(move.cost_unit, cost_with_icms, places=2)
+
+    def test_manual_decision_requires_a_reason(self):
+        """A manual decision without a reason is refused."""
+        move = self._make_in_move(self.company_presumido)
+        with self.assertRaises(ValidationError):
+            move.creditability_origin = "manual"
+
+    def test_reason_only_on_a_manual_decision(self):
+        """A reason on a derived line is refused."""
+        reason = self.env["l10n_br_fiscal.creditability.reason"].create(
+            {
+                "code": "TEST-COURT",
+                "name": "Court decision",
+                "kind": "court_decision",
+                "legal_basis": "Processo de exemplo 0000000-00",
+            }
+        )
+        move = self._make_in_move(self.company_presumido)
+        with self.assertRaises(ValidationError):
+            move.creditability_reason_id = reason.id
+
+    def test_undetermined_is_valued_gross(self):
+        """An undetermined line takes no credit."""
+        move = self._make_in_move(self.company_presumido)
+        self.assertLess(move.cost_unit, move.fiscal_amount_total)
+
+        move.creditability_origin = "undetermined"
+
+        self.assertAlmostEqual(
+            move.cost_unit,
+            move.fiscal_amount_total / move.product_uom_qty,
+            places=2,
+        )
+
+    def test_reason_legal_basis_is_required(self):
+        """A reason without a legal basis is refused."""
+        with self.assertRaises(IntegrityError), mute_logger("odoo.sql_db"):
+            self.env["l10n_br_fiscal.creditability.reason"].create(
+                {"code": "TEST-NOBASIS", "name": "No basis", "kind": "other"}
+            )
