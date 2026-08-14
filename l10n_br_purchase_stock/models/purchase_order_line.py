@@ -6,7 +6,13 @@ from odoo import api, models
 
 
 class PurchaseOrderLine(models.Model):
-    _inherit = "purchase.order.line"
+    _name = "purchase.order.line"
+    _inherit = [_name, "l10n_br_fiscal.stock.price.mixin"]
+
+    def _get_cost_unit_qty(self):
+        """A purchase order line counts its quantity in ``product_qty``."""
+        self.ensure_one()
+        return self.product_qty
 
     def _prepare_stock_moves(self, picking):
         """Prepare the stock moves data for one order line.
