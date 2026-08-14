@@ -2,7 +2,8 @@
 # Copyright (C) 2026 KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 from odoo.tools.float_utils import float_round
 
 from ..constants.fiscal import TAX_FRAMEWORK_SIMPLES_ALL
@@ -14,6 +15,15 @@ RESTRICTED_DESTINATIONS = ("purchase_ownuse", "purchase_asset")
 
 # LC 123/2006, art. 23, par. 1: the CSOSN credit is for resale and industry.
 CSOSN_CREDIT_DESTINATIONS = ("purchase_industry", "purchase_commerce")
+
+# Where the creditability of a line came from. It answers "who decided
+# this", which is what makes the number auditable later.
+CREDITABILITY_ORIGIN = [
+    ("derived", "Derived from the tax rules"),
+    ("manual", "Decided by the user"),
+    ("document", "Taken from the incoming document"),
+    ("undetermined", "Undetermined"),
+]
 
 
 class StockPriceMixin(models.AbstractModel):
@@ -79,6 +89,23 @@ class StockPriceMixin(models.AbstractModel):
         readonly=False,
     )
 
+    creditability_origin = fields.Selection(
+        selection=CREDITABILITY_ORIGIN,
+        default="derived",
+        required=True,
+        help="Who decided the creditable taxes of this line.\n\n"
+        "    * Derived: the tax rules, recomputed when the line changes.\n"
+        "    * Decided by the user: kept as is, a reason is required.\n"
+        "    * Taken from the incoming document.\n"
+        "    * Undetermined: valued gross, which never understates inventory.",
+    )
+
+    creditability_reason_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.creditability.reason",
+        ondelete="restrict",
+        help="Why this line departs from the derived creditability.",
+    )
+
     valuation_via_stock_price = fields.Boolean(
         compute="_compute_valuation_via_stock_price",
         store=True,
@@ -96,6 +123,26 @@ class StockPriceMixin(models.AbstractModel):
         help="Net acquisition cost per unit: line total minus recoverable"
         " taxes (art. 301 RIR/2018, CPC 16).",
     )
+
+    @api.constrains("creditability_origin", "creditability_reason_id")
+    def _check_creditability_reason(self):
+        """A manual decision states why, and only a manual one may."""
+        for record in self:
+            if record.creditability_origin == "manual":
+                if not record.creditability_reason_id:
+                    raise ValidationError(
+                        _(
+                            "Deciding the creditable taxes by hand requires a"
+                            " reason with its legal basis."
+                        )
+                    )
+            elif record.creditability_reason_id:
+                raise ValidationError(
+                    _(
+                        "A creditability reason only applies to a line decided"
+                        " by the user."
+                    )
+                )
 
     def _is_non_cumulative(self):
         """Whether the company is under the non-cumulative PIS/COFINS regime.
@@ -209,14 +256,19 @@ class StockPriceMixin(models.AbstractModel):
         "company_id.profit_calculation",
         "company_id.is_industry",
         "company_id.ripi",
+        "creditability_origin",
     )
     def _compute_taxes_creditable(self):
         """Derive the creditable flags from the three creditability gates.
 
-        ``readonly=False`` keeps the flags editable line by line. The company
-        fields are listed one by one because the regime gates read them.
+        ``readonly=False`` keeps the flags editable line by line, and only a
+        line whose origin is still ``derived`` is rewritten, so a decision
+        taken by the user survives. The company fields are listed one by one
+        because the regime gates read them.
         """
         for record in self:
+            if record.creditability_origin != "derived":
+                continue
             for domain in CREDITABLE_TAX_DOMAINS:
                 creditable = record._resolve_tax_creditability(domain)
                 record[f"{domain}_tax_is_creditable"] = creditable
@@ -243,6 +295,7 @@ class StockPriceMixin(models.AbstractModel):
         "amount_tax_withholding",
         "cfop_id",
         "quantity",
+        "creditability_origin",
     )
     def _compute_cost_unit(self):
         """Subtract creditable taxes from the unit cost."""
@@ -266,17 +319,21 @@ class StockPriceMixin(models.AbstractModel):
                 if not record.other_value_to_stock:
                     price -= record.other_value
 
-                for tax in record.fiscal_tax_ids:
-                    creditable = getattr(
-                        record, f"{tax.tax_domain}_tax_is_creditable", False
-                    )
-                    if creditable:
-                        price -= getattr(record, f"{tax.tax_domain}_value", 0.0)
+                # An undetermined line is valued gross, which never understates
+                # the inventory.
+                if record.creditability_origin != "undetermined":
+                    for tax in record.fiscal_tax_ids:
+                        creditable = getattr(
+                            record, f"{tax.tax_domain}_tax_is_creditable", False
+                        )
+                        if creditable:
+                            price -= getattr(record, f"{tax.tax_domain}_value", 0.0)
 
                 # Transferable CSOSN 101/201 credit (LC 123/2006, art. 23):
                 # a highlighted credit, not part of the invoice total.
                 if (
                     record.icmssn_credit_value
+                    and record.creditability_origin != "undetermined"
                     and record.company_id.tax_framework not in TAX_FRAMEWORK_SIMPLES_ALL
                     and record.cfop_id.type_move in CSOSN_CREDIT_DESTINATIONS
                 ):
