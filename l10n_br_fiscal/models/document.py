@@ -7,7 +7,7 @@ from ast import literal_eval
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
 
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
 
 from ..constants.fiscal import (
     COMMENT_TYPE_COMMERCIAL,
@@ -223,6 +223,12 @@ class Document(models.Model):
         compute="_compute_import_pending_count",
     )
 
+    import_review_message = fields.Char(
+        compute="_compute_import_review_message",
+        help="Banner of the review queue: whole sentence, so it can be "
+        "translated as one.",
+    )
+
     @api.depends("imported_document", "fiscal_line_ids.import_state")
     def _compute_import_state(self):
         for document in self:
@@ -245,6 +251,96 @@ class Document(models.Model):
                     lambda line: line.import_state in ("pending", "matched")
                 )
             )
+
+    @api.depends("import_state", "import_pending_count")
+    def _compute_import_review_message(self):
+        for document in self:
+            if document.import_state in ("pending", "in_progress"):
+                document.import_review_message = _(
+                    "Imported document awaiting review: %s line(s) still "
+                    "waiting for the product and fiscal operation mapping."
+                ) % (document.import_pending_count,)
+            else:
+                document.import_review_message = False
+
+    @api.onchange("fiscal_operation_id")
+    def _onchange_fiscal_operation_id_imported(self):
+        """Warn that the header operation does not reach the lines by
+        itself.
+
+        Cascading it silently from write() would reach the lines of any
+        document sharing this record, a posted vendor bill included (the
+        account move delegates its fiscal fields here). The propagation is
+        an explicit action instead, and this onchange only tells the user
+        it is available.
+        """
+        if not self.imported_document or not self.fiscal_operation_id:
+            return
+        if not self.fiscal_line_ids:
+            return
+        return {
+            "warning": {
+                "title": _("Fiscal operation of the lines"),
+                "message": _(
+                    "The lines of an imported document keep their own fiscal "
+                    "operation. Use 'Apply Operation To Lines' to propagate "
+                    "%(operation)s to every line of this document."
+                )
+                % {"operation": self.fiscal_operation_id.display_name},
+            }
+        }
+
+    def _check_import_cascade_allowed(self):
+        """Guard of the operation propagation: it rewrites the fiscal
+        mapping of every line, so it is only allowed while the document is
+        still a draft under review.
+
+        l10n_br_account extends it with the account move check.
+        """
+        self.ensure_one()
+        if not self.imported_document:
+            raise UserError(
+                _(
+                    "Only a document imported from a fiscal file can propagate "
+                    "its fiscal operation to the lines."
+                )
+            )
+        if self.state_edoc != SITUACAO_EDOC_EM_DIGITACAO:
+            raise UserError(
+                _(
+                    "The fiscal operation can only be propagated to the lines "
+                    "while the document %s is a draft."
+                )
+                % self.display_name
+            )
+
+    def action_apply_operation_to_lines(self):
+        """Propagate the header fiscal operation to every imported line.
+
+        Re-resolves the operation line, the CFOP remap and everything
+        derived from them. It is deliberately a button (confirmed in the
+        view) and not a side effect of the header: quantities and prices
+        are never touched here, the unit de-para is applied only by
+        _apply_import_depara.
+        """
+        for document in self:
+            document._check_import_cascade_allowed()
+            if not document.fiscal_operation_id:
+                raise UserError(
+                    _("Set the fiscal operation of the document %s first.")
+                    % document.display_name
+                )
+            lines = document.fiscal_line_ids.filtered(
+                lambda line, document=document: line.fiscal_operation_id
+                != document.fiscal_operation_id
+            )
+            if lines:
+                # one batched write per document: a per-line assignment
+                # would trigger the full fiscal recompute once per line,
+                # which on a 1000-line industrial NF-e means a thousand
+                # synchronous remaps
+                lines.write({"fiscal_operation_id": document.fiscal_operation_id.id})
+        return True
 
     def _attach_imported_xml(self, file_content, filename=None):
         """Attach the original imported file to the document.
