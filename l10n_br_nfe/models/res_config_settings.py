@@ -30,6 +30,12 @@ class ResConfigSettings(models.TransientModel):
         readonly=False,
     )
 
+    nfe_default_payment_type = fields.Selection(
+        string="NFe Default Payment Type",
+        related="company_id.nfe_default_payment_type",
+        readonly=False,
+    )
+
     nfe_danfe_layout = fields.Selection(
         string="NFe Layout",
         related="company_id.nfe_danfe_layout",
