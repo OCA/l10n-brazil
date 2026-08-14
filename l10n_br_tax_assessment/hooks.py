@@ -65,7 +65,63 @@ def load_posted_invoice_demo(env):
         # one; leaving another company active breaks their own demo.
         env.user.company_id = previous_company
 
+    _configure_demo_closing_accounts(env, company)
     _recompute_demo_assessments(env)
+
+
+def _configure_demo_closing_accounts(env, company):
+    """Point each assessed group at the accounts its own taxes already use.
+
+    Closing needs to know where the tax sits: `property_tax_payable_account_id`
+    for what is owed and `property_tax_receivable_account_id` for what is
+    recoverable. The chart never fills them, so `action_post` stops on a demo
+    database asking for configuration, and the closing entry, which is the
+    final artefact of the whole routine, cannot be shown at all.
+
+    The accounts are read from the tax repartition instead of being named here.
+    A sale tax posts into the account the tax is owed in and a purchase tax
+    into the recoverable one, so the chart already answers the question; naming
+    the codes in this file would only be a second, silent copy of that answer,
+    wrong the day a chart changes.
+    """
+    groups = env["account.tax.group"].search([])
+    for group in groups:
+        group_in_company = group.with_company(company)
+        if (
+            group_in_company.property_tax_payable_account_id
+            and group_in_company.property_tax_receivable_account_id
+        ):
+            continue
+        taxes = env["account.tax"].search(
+            [("tax_group_id", "=", group.id), ("company_id", "=", company.id)]
+        )
+        vals = {}
+        payable = _repartition_account(taxes, "sale")
+        receivable = _repartition_account(taxes, "purchase")
+        if payable:
+            vals["property_tax_payable_account_id"] = payable.id
+        if receivable:
+            vals["property_tax_receivable_account_id"] = receivable.id
+        if len(vals) == 2:
+            group_in_company.write(vals)
+
+
+def _repartition_account(taxes, type_tax_use):
+    """The account the tax of this kind posts to, ignoring counterparts.
+
+    The counterpart of a creditable input carries a negative repartition and
+    posts to the cost account, not to the recoverable one, so reading it would
+    point the closing entry at an expense account.
+    """
+    for tax in taxes.filtered(lambda t: t.type_tax_use == type_tax_use):
+        for line in tax.invoice_repartition_line_ids:
+            if (
+                line.repartition_type == "tax"
+                and line.factor_percent > 0
+                and line.account_id
+            ):
+                return line.account_id
+    return None
 
 
 def _recompute_demo_assessments(env):
