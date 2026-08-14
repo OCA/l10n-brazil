@@ -1,0 +1,11 @@
+id,code,name,is_company,default,ind_ie_dest,tax_framework,is_public_entity
+partner_fiscal_profile_snc,SNC,"Contribuinte Simples Nacional",True,True,1,1,
+partner_fiscal_profile_snn,SNN,"Simples Nacional Não Contribuinte",True,False,9,1,
+partner_fiscal_profile_sni,SNI,"Simples Nacional Isento",True,False,2,1,
+partner_fiscal_profile_cnt,CNT,Contribuinte,True,False,1,3,
+partner_fiscal_profile_ncn,NCN,"Não Contribuinte",True,False,9,3,
+partner_fiscal_profile_int,INT,Isento,True,False,2,3,
+partner_fiscal_profile_pfc,PFC,Contribuinte,False,False,1,,
+partner_fiscal_profile_pfnc,PFNC,"Não Contribuinte",False,True,9,,
+partner_fiscal_profile_isent,ISENT,Isento,False,False,9,,
+partner_fiscal_profile_estatal,ESTCONT,"Empresa Estatal Contribuinte",True,False,1,3,True

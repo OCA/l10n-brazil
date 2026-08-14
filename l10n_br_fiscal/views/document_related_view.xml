@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="document_related_tree" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.document.related.tree</field>
+        <field name="model">l10n_br_fiscal.document.related</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="document_type_id" />
+                <field name="document_key" />
+                <field name="document_serie" />
+                <field name="document_number" />
+            </list>
+        </field>
+    </record>
+
+    <record id="document_related_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.document.related.form</field>
+        <field name="model">l10n_br_fiscal.document.related</field>
+        <field name="arch" type="xml">
+            <form string="Fiscal Document Related">
+                <field name="document_type_code" invisible="1" />
+                <group>
+                    <field
+                        name="document_related_id"
+                        context="{'fiscal_document_complete_name': True}"
+                    />
+                </group>
+                <group>
+                    <field name="document_type_id" />
+                </group>
+                <group
+                    string="NF-e/CT-e"
+                    invisible="document_type_code not in ('55', '57')"
+                >
+                    <field name="document_key" />
+                </group>
+                <group
+                    string="Nota Fiscal/Produtor/Cupom Fiscal"
+                    invisible="document_type_code not in ('01', '04')"
+                >
+                    <field
+                        name="document_serie"
+                        required="document_type_code in ('01', '04', '07')"
+                    />
+                    <field
+                        name="document_number"
+                        required="document_type_code in ('01', '04', '07')"
+                    />
+                    <field
+                        name="state_id"
+                        invisible="document_type_code == '07'"
+                        required="document_type_code in ('01', '04')"
+                    />
+                    <field
+                        name="document_date"
+                        invisible="document_type_code == '07'"
+                        required="document_type_code in ('01', '04')"
+                    />
+                    <field
+                        name="cpfcnpj_type"
+                        invisible="document_type_code != '04'"
+                        required="document_type_code in '04'"
+                    />
+                    <field
+                        name="cnpj_cpf"
+                        invisible="document_type_code == '07'"
+                        required="document_type_code in ('01', '04')"
+                    />
+                    <field
+                        name="l10n_br_ie_code"
+                        invisible="document_type_code != '04'"
+                    />
+                </group>
+                <group
+                    string="Totais"
+                    invisible="document_type_code not in ('55', '57', '58')"
+                >
+                    <field name="document_total_weight" />
+                    <field
+                        name="document_total_amount"
+                        invisible="document_related_id"
+                    />
+                </group>
+            </form>
+        </field>
+    </record>
+</odoo>

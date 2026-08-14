@@ -62,26 +62,18 @@ enable=anomalous-backslash-in-string,
     bad-builtin-groupby,
     category-allowed,
     deprecated-name-get,
-    deprecated-odoo-model-method,
-    inheritable-method-lambda,
     inheritable-method-string,
     invalid-email,
     manifest-behind-migrations,
     manifest-data-duplicated,
     missing-odoo-file,
-    no-raise-unlink,
-    no-search-all,
     no-wizard-in-models,
     prohibited-method-override,
-    prefer-env-translation,
-    translation-format-interpolation,
     translation-format-truncated,
     translation-fstring-interpolation,
-    translation-not-lazy,
     translation-too-few-args,
     translation-too-many-args,
-    translation-unsupported-format,
-    no-write-in-compute
+    translation-unsupported-format
 
 [REPORTS]
 msg-template={path}:{line}: [{msg_id}({symbol}), {obj}] {msg}
