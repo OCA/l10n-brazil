@@ -170,3 +170,22 @@ class TestNetCostSurvivesInvoice(TransactionCase):
             move.cost_unit + net_difference,
             places=2,
         )
+
+    def test_net_cost_visible_on_the_purchase_order_line(self):
+        """The buyer sees the net cost before approving the order."""
+        order = self._make_order()
+        line = order.order_line[0]
+
+        self.assertGreater(line.icms_value, 0)
+        self.assertAlmostEqual(line.cost_unit, line.price_unit - line.icms_value, 2)
+        self.assertLess(line.cost_unit, line.price_unit)
+        self.assertEqual(line.creditability_origin, "derived")
+
+    def test_net_cost_per_unit_on_a_multi_quantity_line(self):
+        """The cost is per unit, so it divides by the ordered quantity."""
+        order = self._make_order(qty=4.0)
+        line = order.order_line[0]
+
+        self.assertAlmostEqual(
+            line.cost_unit, line.price_unit - line.icms_value / 4.0, 2
+        )

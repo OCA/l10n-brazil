@@ -21,6 +21,15 @@
             >
                 <attribute name="invisible">button_create_invoice_invisible</attribute>
             </xpath>
+            <xpath expr="//field[@name='order_line']/list" position="inside">
+                <field name="creditability_origin" optional="hide" readonly="1" />
+                <field
+                    name="cost_unit"
+                    optional="show"
+                    readonly="1"
+                    string="Net Cost"
+                />
+            </xpath>
         </field>
     </record>
 </odoo>
