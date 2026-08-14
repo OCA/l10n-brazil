@@ -11,9 +11,11 @@ from odoo.exceptions import UserError
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
     DOCUMENT_ISSUER_PARTNER,
+    DOCUMENT_STATE_CANCEL,
     DOCUMENT_STATE_DRAFT,
     MODELO_FISCAL_CTE,
     MODELO_FISCAL_NFE,
+    SITUACAO_EDOC_DENEGADA,
 )
 
 
@@ -354,6 +356,81 @@ class FiscalDocument(models.Model):
 
         return action
 
+    def _check_import_cascade_allowed(self):
+        """A document that already has an account move must not have the
+        fiscal mapping of its lines rewritten: the move delegates its
+        fiscal fields to these very lines."""
+        result = super()._check_import_cascade_allowed()
+        if self.move_ids:
+            raise UserError(
+                _(
+                    "The document %s already has an account move: changing "
+                    "the fiscal operation of its lines would rewrite the "
+                    "accounting entry. Reset the move first."
+                )
+                % self.display_name
+            )
+        return result
+
+    def action_generate_account_move(self):
+        """Generate the vendor bill / invoice from a resolved imported
+        document, without going through the import wizard.
+
+        This closes the review flow of the draft-first import: documents
+        materialized by any importer (manual upload, zip batch, DF-e
+        capture) reach the account move from the document itself.
+        """
+        self.ensure_one()
+        if self.move_ids:
+            raise UserError(
+                _(
+                    "The document %s already generated an account move. Open "
+                    "the existing one instead of creating a second entry for "
+                    "the same fiscal document."
+                )
+                % self.display_name
+            )
+        if self.state_edoc in (DOCUMENT_STATE_CANCEL, SITUACAO_EDOC_DENEGADA):
+            raise UserError(
+                _(
+                    "The document %s is cancelled or denied: it must not "
+                    "become an accounting entry."
+                )
+                % self.display_name
+            )
+        if not self.fiscal_operation_type:
+            raise UserError(
+                _(
+                    "The fiscal operation of the document %s is not set, so "
+                    "the kind of invoice to generate is unknown."
+                )
+                % self.display_name
+            )
+        if self.import_state != "resolved":
+            raise UserError(
+                _(
+                    "The document %s still has lines awaiting review. Every "
+                    "line must be resolved (a matched suggestion is not a "
+                    "confirmed one) before generating the invoice."
+                )
+                % self.display_name
+            )
+        self._check_document_import()
+        move = (
+            self.env["account.move"]
+            .with_company(self.company_id)
+            .import_fiscal_document(
+                self,
+                move_type=f"{self.fiscal_operation_type}_invoice",
+            )
+        )
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "account.move",
+            "view_mode": "form",
+            "res_id": move.id,
+        }
+
     def _check_document_import(self):
         """Ensure an imported fiscal document has the minimum data required
         to generate a valid account move (and a sound SPED basis).
@@ -371,6 +448,11 @@ class FiscalDocument(models.Model):
                 errors.append(_("- %s: no unit of measure.") % label)
             if not line.quantity:
                 errors.append(_("- %s: no quantity.") % label)
+            if not line.ncm_id and not line.nbs_id:
+                # without a fiscal classification (NCM for goods, NBS for
+                # services) the taxes cannot be mapped and the SPED books
+                # would carry an unclassified item
+                errors.append(_("- %s: no NCM.") % label)
             if not line.price_unit and line.fiscal_amount_total:
                 # A zero unit price with a zero line total is a legitimate
                 # free line (bonificação / amostra grátis declared with
