@@ -384,10 +384,13 @@ class DocumentLine(models.Model):
             partner = line.document_id.partner_id
             if not line.product_id or not partner:
                 continue
-            supplierinfo_model = line.env["product.supplierinfo"].with_company(
-                line.company_id
+            # The de-para memory is a by-product of the import: the fiscal
+            # profile that runs it has no purchase (product.supplierinfo)
+            # access rights.
+            supplierinfo_model = (
+                line.env["product.supplierinfo"].sudo().with_company(line.company_id)
             )
-            supplierinfo = line.import_supplierinfo_id
+            supplierinfo = line.import_supplierinfo_id.sudo()
             if not supplierinfo:
                 # Adopt the de-para already learned for this partner, supplier
                 # code and product (possibly by an earlier document): creating
@@ -416,7 +419,7 @@ class DocumentLine(models.Model):
                 vals = line._prepare_supplierinfo_vals()
                 vals["partner_id"] = partner.id
                 line.import_supplierinfo_id = supplierinfo_model.create(vals)
-                line.product_id.product_tmpl_id.seller_ids = [
+                line.product_id.product_tmpl_id.sudo().seller_ids = [
                     fields.Command.link(line.import_supplierinfo_id.id)
                 ]
 
