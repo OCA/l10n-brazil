@@ -246,6 +246,24 @@ class Document(models.Model):
                 )
             )
 
+    def _attach_imported_xml(self, file_content, filename=None):
+        """Attach the original imported file to the document.
+
+        The imported file is the single source of the supplier data and
+        must stay untouched: the de-para is persisted on the lines, never
+        rewritten into the file.
+        """
+        self.ensure_one()
+        return self.env["ir.attachment"].create(
+            {
+                "name": filename or "%s-imported.xml" % (self.document_key or self.id),
+                "datas": file_content,
+                "description": "Imported fiscal document file",
+                "res_model": "l10n_br_fiscal.document",
+                "res_id": self.id,
+            }
+        )
+
     def _init_import_states(self):
         """Initialize the per-line review states of an imported document.
 
