@@ -178,6 +178,14 @@ msgid "CFOP Destination"
 msgstr "CFOP Destino"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__partner_cfop_id
+msgid ""
+"CFOP as declared by the counterparty in the imported document. It is "
+"preserved as-is for fiscal bookkeeping / SPED (e.g. C197), while cfop_id "
+"reflects the company's own operation after the de-para."
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cnae_id
 msgid "CNAE Code"
 msgstr "Código CNAE"
@@ -1533,6 +1541,11 @@ msgstr "Tipo da Base do PIS WH"
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__partner_id
 msgid "Partner"
 msgstr "Parceiro"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__partner_cfop_id
+msgid "Partner CFOP"
+msgstr ""
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__partner_order
