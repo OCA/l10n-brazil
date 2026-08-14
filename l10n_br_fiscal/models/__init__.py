@@ -9,6 +9,7 @@ from . import invalidate_number
 from . import comment
 from . import ibpt
 from . import cfop
+from . import creditability_reason
 from . import stock_price_mixin
 from . import cst
 from . import legal_nature
