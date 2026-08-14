@@ -566,6 +566,13 @@ class SpedMixin(models.AbstractModel):
             # em branco e o PVA recusa o registro.
             field = self._fields.get(fname) or register_spec._fields[fname]
             val = self._format_field_value(field, value)
+            if isinstance(val, str) and ("\n" in val or "\r" in val):
+                # SPED is a pipe-delimited flat file with one register per
+                # line: a line break inside a field would split the register
+                # line and corrupt the file (the PVA rejects it). This can
+                # happen with texts imported from the NFe (observations,
+                # product descriptions) that contain line breaks.
+                val = val.replace("\r\n", " ").replace("\n", " ").replace("\r", " ")
             sped.write(f"{val}|")
 
     def _format_field_value(self, field, value):
