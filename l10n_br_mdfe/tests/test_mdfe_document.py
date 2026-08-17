@@ -173,3 +173,21 @@ class MDFeDocumentTest(TransactionCase):
         ):
             document._generate_key()
         self.assertTrue(document.document_key)
+
+    def test_mdfe_transp_type_default_from_company(self):
+        self.env.company.mdfe_transp_type = "2"
+        defaults = self.env["l10n_br_fiscal.document"].default_get(["mdfe_transp_type"])
+        self.assertEqual(defaults["mdfe_transp_type"], "2")
+
+    def test_mdfe30_rntrc_default_from_company(self):
+        self.env.company.partner_id.rntrc_code = "12345678"
+        defaults = self.env["l10n_br_fiscal.document"].default_get(["mdfe30_RNTRC"])
+        self.assertEqual(defaults["mdfe30_RNTRC"], "12345678")
+
+    def test_mdfe30_rntrc_does_not_write_company_partner(self):
+        """The document RNTRC may differ from the issuer, e.g. on import."""
+        partner = self.sn_company_id.partner_id
+        partner.rntrc_code = "12345678"
+        self.mdfe_id.mdfe30_RNTRC = "87654321"
+        self.assertEqual(self.mdfe_id.mdfe30_RNTRC, "87654321")
+        self.assertEqual(partner.rntrc_code, "12345678")

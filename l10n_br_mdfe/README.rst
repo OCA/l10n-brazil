@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ====
 MDFe
 ====
@@ -17,7 +13,7 @@ MDFe
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
@@ -110,6 +106,19 @@ financeiro.
 Seguindo esses passos, o módulo l10n_br_mdfe funcionará corretamente em
 conjunto com o l10n_br_account, permitindo a emissão de MDF-e sem
 valores financeiros associados.
+
+**Dados do proprietário e dos condutores**
+
+- O RNTRC do transportador, no modal rodoviário, é lido do campo
+  **Código ANTT** do parceiro da empresa emissora.
+- No proprietário do veículo (``mdfe30_prop``) o RNTRC é preenchido a
+  partir do campo **Código ANTT** do parceiro, validando que ele tenha
+  exatamente 8 dígitos.
+- Os condutores podem ser selecionados a partir de um parceiro, que
+  preenche automaticamente o nome e o CPF.
+
+Para preencher os dados do veículo a partir do cadastro de veículos da
+transportadora, instale o módulo **l10n_br_delivery_mdfe**.
 
 Known issues / Roadmap
 ======================

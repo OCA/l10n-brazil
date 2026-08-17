@@ -8,7 +8,8 @@ Brasil. Em especial ele:
 >   responsabilidade do frete, volume e peso bruto.
 > - acrescenta na Transportadora o código ANTT e a lista de veículos.
 > - cria um modelo simples de veículo com os campos fiscais (placa,
->   código ANTT, modelo, ano de fabricação...)
+>   RENAVAM, código do veículo, tara, capacidade em KG e M3, tipo de
+>   rodado e de carroceria, modelo, ano de fabricação...)
 > - desativa o método *\_add_delivery_cost_to_so* da Expedição, pois o
 >   frete já esta corretamente informado no pedido.
 > - vale a pena notar que o rateamento do frete, seguro e outros custos

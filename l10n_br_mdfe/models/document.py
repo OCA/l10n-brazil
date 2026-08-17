@@ -477,7 +477,11 @@ class MDFe(spec_models.StackedModel):
         inverse_name="document_id",
     )
 
-    mdfe30_RNTRC = fields.Char(size=8, string="RNTRC")
+    mdfe30_RNTRC = fields.Char(
+        size=8,
+        string="RNTRC",
+        default=lambda self: self.env.company.partner_id.rntrc_code,
+    )
 
     mdfe30_infPag = fields.One2many(
         comodel_name="l10n_br_mdfe.modal.rodoviario.pagamento",
