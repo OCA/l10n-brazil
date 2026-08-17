@@ -21,11 +21,6 @@
                     name="attrs"
                 >{'invisible': [('document_type', 'in', ['58'])]}</attribute>
             </xpath>
-            <xpath expr="//group[@name='partner_info']" position="attributes">
-                <attribute
-                    name="attrs"
-                >{'invisible': [('document_type', 'in', ['58'])]}</attribute>
-            </xpath>
             <xpath expr="//page[@name='products']" position="attributes">
                 <attribute
                     name="attrs"
@@ -178,6 +173,11 @@
                             <page string="Vehicle">
                                 <group>
                                     <group>
+                                        <field
+                                            name="vehicle_id"
+                                            domain="[('active', '=', True)]"
+                                            options="{'no_create': True}"
+                                        />
                                         <field name="mdfe30_cInt" />
                                         <field
                                             name="mdfe30_placa"
@@ -196,7 +196,6 @@
                                         <field
                                             name="mdfe30_prop"
                                             context="{ 'form_view_ref': 'l10n_br_mdfe.res_partner_prop_form_view', }"
-                                            domain="[ ('vat', '!=', False), ('mdfe30_RNTRC', '!=', False), ]"
                                         />
                                     </group>
                                     <group>

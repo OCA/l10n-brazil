@@ -42,6 +42,7 @@ from ..constants.mdfe import (
     MDFE_ENVIRONMENTS,
     MDFE_TRANSMISSIONS,
     MDFE_TRANSP_TYPE,
+    MDFE_TRANSP_TYPE_DEFAULT,
 )
 from ..constants.modal import (
     MDFE_MODAL_DEFAULT,
@@ -186,7 +187,7 @@ class MDFe(spec_models.StackedModel):
         selection=MDFE_TRANSP_TYPE,
         string="Transp Type",
         copy=False,
-        default=lambda self: self.env.company.mdfe_transp_type,
+        default=MDFE_TRANSP_TYPE_DEFAULT,
     )
 
     mdfe30_mod = fields.Char(related="document_type_id.code")
@@ -474,7 +475,9 @@ class MDFe(spec_models.StackedModel):
         inverse_name="document_id",
     )
 
-    mdfe30_RNTRC = fields.Char(size=8, string="RNTRC")
+    mdfe30_RNTRC = fields.Char(
+        related="company_id.partner_id.rntrc_code", string="RNTRC"
+    )
 
     mdfe30_infPag = fields.One2many(
         comodel_name="l10n_br_mdfe.modal.rodoviario.pagamento",
@@ -491,6 +494,11 @@ class MDFe(spec_models.StackedModel):
     )
 
     mdfe30_cInt = fields.Char(size=10, string="Código do Veículo")
+
+    vehicle_id = fields.Many2one(
+        comodel_name="l10n_br_delivery.carrier.vehicle",
+        string="Veículo",
+    )
 
     mdfe30_RENAVAM = fields.Char(size=11, string="RENAVAM")
 
@@ -535,6 +543,20 @@ class MDFe(spec_models.StackedModel):
     def _compute_mdfe30_rodo_uf(self):
         for record in self.filtered(filtered_processador_edoc_mdfe):
             record.mdfe30_UF = record.rodo_vehicle_state_id.code
+
+    @api.onchange("vehicle_id")
+    def _onchange_vehicle_id(self):
+        if self.vehicle_id:
+            vehicle = self.vehicle_id
+            self.mdfe30_cInt = vehicle.vehicle_code
+            self.mdfe30_placa = vehicle.plate
+            self.mdfe30_RENAVAM = vehicle.renavam
+            self.mdfe30_tara = vehicle.tara
+            self.mdfe30_capKG = vehicle.capacity_kg
+            self.mdfe30_capM3 = vehicle.capacity_m3
+            self.mdfe30_tpRod = vehicle.wheel_type
+            self.mdfe30_tpCar = vehicle.body_type
+            self.rodo_vehicle_state_id = vehicle.state_id
 
     def _export_fields_mdfe_30_infmodal(self, xsd_fields, class_obj, export_dict):
         if self.mdfe_modal == "1":
