@@ -235,10 +235,6 @@ class Partner(models.Model):
         fields that are synced from the parent."""
         return super()._address_fields() + ["district"]
 
-    @api.onchange("city_id")
-    def _onchange_city_id(self):
-        self.city = self.city_id.name
-
     def create_company(self):
         self.ensure_one()
         res = super(
