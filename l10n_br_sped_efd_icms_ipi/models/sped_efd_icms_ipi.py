@@ -328,7 +328,7 @@ class Registro0150(models.Model):
             "COD_PAIS": record.country_id.bc_code,
             "IE": misc.punctuation_rm(record.inscr_est),
             "SUFRAMA": record.l10n_br_isuf_code or "",
-            "END": record.street_name[:60],
+            "END": record.street_name[:60] if record.street_name else "",
             "NUM": misc.punctuation_rm(record.street_number),
             "COMPL": record.street2,
             "BAIRRO": record.district,
