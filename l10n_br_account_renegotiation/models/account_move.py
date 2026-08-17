@@ -90,15 +90,6 @@ class AccountMove(models.Model):
         }
 
     def _get_installment_renegotiation_message(self, old_lines_data, new_lines_data):
-        """
-        Generate a formatted message for the chatter describing the renegotiation.
-
-        :param old_lines_data: list of dicts with original line data
-        :param new_lines_data: list of dicts with new line data
-        :return: HTML formatted message
-        """
-
-    def _get_installment_renegotiation_message(self, old_lines_data, new_lines_data):
         self.ensure_one()
         currency = self.currency_id
 
