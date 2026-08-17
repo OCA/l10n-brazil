@@ -1,3 +1,7 @@
+## 16.0.4.1.0 (2026-08-13)
+
+- Add vehicle data fields (owner, RENAVAM, tara, capacities, wheel/body type).
+
 ## 14.0.1.0.0 (2022-09-29)
 
 - Migration.

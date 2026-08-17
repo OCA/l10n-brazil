@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Madooit
+     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html -->
+<odoo>
+    <record id="mdfe_res_partner_form_view" model="ir.ui.view">
+        <field name="name">mdfe.res.partner.form (in l10n_br_delivery_mdfe)</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="l10n_br_mdfe.mdfe_res_partner_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='mdfe']" position="inside">
+                <group string="Veículos Cadastrados" colspan="4">
+                    <field name="vehicle_ids" nolabel="1">
+                        <tree>
+                            <field name="name" />
+                            <field name="plate" />
+                            <field name="model_year" />
+                            <field name="tara" />
+                            <field name="capacity_kg" />
+                            <field name="capacity_m3" />
+                            <field name="wheel_type" />
+                            <field name="body_type" />
+                        </tree>
+                    </field>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
