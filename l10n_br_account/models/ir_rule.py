@@ -1,8 +1,7 @@
 # Copyright (C) 2026 - TODAY Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, models, tools
-from odoo.tools import config
+from odoo import api, models
 
 
 class IrRule(models.Model):
@@ -12,16 +11,6 @@ class IrRule(models.Model):
         return super()._compute_domain_keys() + ["allow_fiscal_access"]
 
     @api.model
-    @tools.conditional(
-        "xml" not in config["dev_mode"],
-        tools.ormcache(
-            "self.env.uid",
-            "self.env.su",
-            "model_name",
-            "mode",
-            "tuple(self._compute_domain_context_values())",
-        ),
-    )
     def _compute_domain(self, model_name, mode="read"):
         if model_name in ("account.move", "account.move.line"):
             return super(
