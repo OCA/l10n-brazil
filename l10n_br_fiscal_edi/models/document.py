@@ -40,20 +40,30 @@ def filter_processador(record):
     return False
 
 
-class FiscalDocumentWrapper:
-    def __init__(self, document):
-        self._document = document
+class FiscalDocumentStateMachine(Machine):
+    """A ``transitions`` Machine bound to an Odoo fiscal document.
 
-    def __getattr__(self, name):
-        return getattr(self._document, name)
+    Odoo recordsets are slotted (``__slots__ = env/_ids/_prefetch_ids``), so
+    the machine cannot be attached to the record itself the way ``transitions``
+    normally expects (it sets trigger methods on its model).  Instead the
+    machine keeps its own state (its model is itself) and writes every state
+    change back to the document synchronously in ``set_state()``, which
+    ``transitions`` calls *before* running the transition ``after`` callbacks.
+    Nested ``_trigger_fsm()`` calls made from those callbacks (e.g. the
+    send -> authorize chain) therefore always read the up-to-date state_edoc.
+    The initial ``set_state()`` done at machine construction is a no-op write
+    thanks to the value comparison.
+    """
 
-    @property
-    def state_edoc(self):
-        return self._document.state_edoc
+    def __init__(self, document, *args, **kwargs):
+        self.document = document
+        super().__init__(*args, **kwargs)
 
-    @state_edoc.setter
-    def state_edoc(self, value):
-        self._document.write({"state_edoc": value})
+    def set_state(self, state, model=None):
+        result = super().set_state(state, model)
+        if self.state != self.document.state_edoc:
+            self.document.write({"state_edoc": self.state})
+        return result
 
 
 class Document(models.Model):
@@ -363,20 +373,38 @@ class Document(models.Model):
             "initial": self.state_edoc,
         }
 
+    def _resolve_fsm_transition(self, transition):
+        """Bind the string callbacks of a transition definition to this record.
+
+        The machine's model is the machine itself (Odoo recordsets are
+        slotted and cannot carry trigger methods), so callback names such as
+        "_before_document_validate" are resolved to bound methods here,
+        keeping get_state_machine_config() a declarative, string-based API
+        that submodules can extend with super().
+        """
+        resolved = dict(transition)
+        for key in ("before", "after", "conditions"):
+            if key in resolved:
+                callbacks = resolved[key]
+                if isinstance(callbacks, str):
+                    callbacks = [callbacks]
+                resolved[key] = [getattr(self, cb) for cb in callbacks]
+        return resolved
+
     def _trigger_fsm(self, trigger):
         for doc in self:
             try:
-                wrapper = FiscalDocumentWrapper(doc)
                 config = doc.get_state_machine_config()
-                Machine(
-                    model=wrapper,
+                machine = FiscalDocumentStateMachine(
+                    doc,
                     states=config["states"],
-                    transitions=config["transitions"],
+                    transitions=[
+                        doc._resolve_fsm_transition(t) for t in config["transitions"]
+                    ],
                     initial=config["initial"],
-                    model_attribute="state_edoc",  # Bind to state_edoc
                     ignore_invalid_triggers=False,
                 )
-                getattr(wrapper, trigger)()
+                getattr(machine, trigger)()
             except MachineError as e:
                 raise UserError(
                     _("State transition failed for action '%(action)s': %(error)s")
