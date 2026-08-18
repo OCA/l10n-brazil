@@ -84,6 +84,11 @@
                     attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d)]}"
                     options="{'no_create': True}"
                 />
+                <field
+                    name="nbs_id"
+                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d)]}"
+                    options="{'no_create': True}"
+                />
             </xpath>
 
         <xpath expr="//page[@name='sale_lines']" position="before">
