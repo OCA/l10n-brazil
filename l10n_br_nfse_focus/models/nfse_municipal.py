@@ -288,9 +288,13 @@ class FocusnfeNfse(FocusnfeNfseBase):
             "cbs_valor": round(service.get("cbs_valor", 0), 2)
             if service.get("cbs_valor")
             else None,
-            "ibs_uf_percentual_diferimento": 0.0,
+            "ibs_uf_percentual_diferimento": round(
+                service.get("ibs_uf_percentual_diferimento", 0) or 0, 2
+            ),
             "ibs_mun_percentual_diferimento": 0.0,
-            "cbs_percentual_diferimento": 0.0,
+            "cbs_percentual_diferimento": round(
+                service.get("cbs_percentual_diferimento", 0) or 0, 2
+            ),
         }
 
     def _prepare_recipient_data(self, recipient, identification, company):
