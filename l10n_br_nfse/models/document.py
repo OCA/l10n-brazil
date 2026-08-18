@@ -170,6 +170,8 @@ class Document(models.Model):
         cbs_aliquota = 0
         ibs_uf_valor = 0
         cbs_valor = 0
+        ibs_uf_percentual_diferimento = 0
+        cbs_percentual_diferimento = 0
         base_calculo_pis = 0
         base_calculo_cofins = 0
         base_calculo_csll = 0
@@ -204,6 +206,12 @@ class Document(models.Model):
             cbs_aliquota += result_line.get("cbs_aliquota") or 0
             ibs_uf_valor += result_line.get("ibs_uf_valor") or 0
             cbs_valor += result_line.get("cbs_valor") or 0
+            ibs_uf_percentual_diferimento += (
+                result_line.get("ibs_uf_percentual_diferimento") or 0
+            )
+            cbs_percentual_diferimento += (
+                result_line.get("cbs_percentual_diferimento") or 0
+            )
             situacao_tributaria_pis = result_line.get("situacao_tributaria_pis")
             situacao_tributaria_cofins = result_line.get("situacao_tributaria_cofins")
             base_calculo_pis += result_line.get("base_calculo_pis", 0)
@@ -292,6 +300,8 @@ class Document(models.Model):
             "ibs_uf_valor": ibs_uf_valor if ibs_uf_valor else None,
             "ibs_mun_valor": 0.0,
             "cbs_valor": cbs_valor if cbs_valor else None,
+            "ibs_uf_percentual_diferimento": ibs_uf_percentual_diferimento,
+            "cbs_percentual_diferimento": cbs_percentual_diferimento,
             "situacao_tributaria_pis": situacao_tributaria_pis,
             "situacao_tributaria_cofins": situacao_tributaria_cofins,
             "base_calculo_pis": round(base_calculo_pis, 2),

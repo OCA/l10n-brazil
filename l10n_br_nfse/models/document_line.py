@@ -96,8 +96,7 @@ class DocumentLine(models.Model):
             "ibs_cbs_classificacao_tributaria": self.tax_classification_id.code
             or "000000",
             "ibs_cbs_situacao_tributaria": self.ibs_cst_code or "000",
-            "ibs_cbs_base_calculo": round(self.issqn_base, 2)
-            or round(self.issqn_wh_base, 2),
+            "ibs_cbs_base_calculo": round(self.cbs_base, 2) or round(self.ibs_base, 2),
             "valor_desconto_incondicionado": round(self.discount_value, 2),
             "ibs_uf_aliquota": round(self.ibs_percent, 2) if self.ibs_percent else None,
             "ibs_mun_aliquota": 0.0,
@@ -105,6 +104,8 @@ class DocumentLine(models.Model):
             "ibs_uf_valor": round(self.ibs_value, 2) if self.ibs_value else None,
             "ibs_mun_valor": 0.0,
             "cbs_valor": round(self.cbs_value, 2) if self.cbs_value else None,
+            "ibs_uf_percentual_diferimento": round(self.ibs_reduction, 2),
+            "cbs_percentual_diferimento": round(self.cbs_reduction, 2),
             "situacao_tributaria_pis": self.pis_cst_code or "",
             "situacao_tributaria_cofins": self.cofins_cst_code or "",
             "base_calculo_pis": round(self.pis_base, 2) or round(self.pis_wh_base, 2),
