@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Copyright (C) 2026  Renato Lima - Akretion <renato.lima@akretion.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<templates>
+
+    <t t-name="l10n_br_fiscal_fci.FCIFileUploader" owl="1">
+        <FileUploader
+            acceptedFileExtensions="'.txt,.zip'"
+            fileUploadClass="'fci_file_uploader'"
+            onUploaded.bind="onFileUploaded"
+        >
+            <t t-set-slot="toggler">
+                <button type="button" class="btn btn-secondary o_button_upload_fci">
+                    Upload
+                </button>
+            </t>
+        </FileUploader>
+    </t>
+
+    <t
+        t-name="l10n_br_fiscal_fci.ListView.Buttons"
+        t-inherit="web.ListView.Buttons"
+        t-inherit-mode="primary"
+        owl="1"
+    >
+        <xpath expr="//*[@class='btn btn-primary o_list_button_add']" position="after">
+            <FCIFileUploader />
+        </xpath>
+    </t>
+
+</templates>
