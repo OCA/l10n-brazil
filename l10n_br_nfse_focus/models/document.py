@@ -311,7 +311,23 @@ class Document(models.Model):
     def _process_error_status(self, record, json_data):
         """Process error authorization status."""
         erros = json_data.get("erros", [])
-        error_msg = erros[0]["mensagem"] if erros else _("Authorization error")
+        error_blocks = []
+        for erro in erros:
+            mensagem = erro.get("mensagem")
+            if not mensagem:
+                continue
+            codigo = erro.get("codigo")
+            correcao = erro.get("correcao")
+            lines = []
+            if codigo:
+                lines.append(_("Código: %s") % codigo)
+            if correcao:
+                lines.append(_("Correção: %s") % correcao)
+            lines.append(_("Mensagem: %s") % mensagem)
+            error_blocks.append("\n".join(lines))
+        error_msg = (
+            "\n\n".join(error_blocks) if error_blocks else _("Authorization error")
+        )
         record.write(
             {
                 "edoc_error_message": error_msg,
@@ -372,12 +388,7 @@ class Document(models.Model):
                 ):
                     self._process_authorized_status_municipal(record, json)
                 elif json["status"] == STATUS_ERRO_AUTORIZACAO:
-                    record.write(
-                        {
-                            "edoc_error_message": json["erros"][0]["mensagem"],
-                        }
-                    )
-                    record._change_state(SITUACAO_EDOC_REJEITADA)
+                    self._process_error_status(record, json)
                 elif json["status"] == STATUS_CANCELADO:
                     if record.state_edoc != SITUACAO_EDOC_CANCELADA:
                         record._document_cancel(record.cancel_reason)

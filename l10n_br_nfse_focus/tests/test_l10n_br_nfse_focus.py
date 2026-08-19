@@ -1175,7 +1175,48 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         ) as mock_change_state:
             document._process_error_status(document, json_data)
 
-            self.assertEqual(document.edoc_error_message, "Error message")
+            self.assertEqual(document.edoc_error_message, "Mensagem: Error message")
+            mock_change_state.assert_called_once()
+
+    def test_process_error_status_multiple_errors(self):
+        """Tests that all errors are captured with codigo, correcao and mensagem."""
+        document = self.nfse_demo
+        json_data = {
+            "erros": [
+                {
+                    "codigo": "Erro",
+                    "mensagem": (
+                        "PROTOCOLO [69418A4FEE659A3C09B7] RPS [35] "
+                        "SERIE [1] STATUS [Rejeitado]"
+                    ),
+                },
+                {
+                    "codigo": "2",
+                    "correcao": "Verifique o CTN cadastrado no serviço.",
+                    "mensagem": (
+                        "Rps [35]. CTN 07.10.01.000 (07.10) Difere do "
+                        "Serviço (07.02) da Nota. Verifique com a Prefeitura!"
+                    ),
+                },
+            ]
+        }
+
+        with patch(
+            "odoo.addons.l10n_br_fiscal_edi.models.document_workflow.DocumentWorkflow._change_state"
+        ) as mock_change_state:
+            document._process_error_status(document, json_data)
+
+            expected = (
+                "Código: Erro\n"
+                "Mensagem: PROTOCOLO [69418A4FEE659A3C09B7] RPS [35] "
+                "SERIE [1] STATUS [Rejeitado]"
+                "\n\n"
+                "Código: 2\n"
+                "Correção: Verifique o CTN cadastrado no serviço.\n"
+                "Mensagem: Rps [35]. CTN 07.10.01.000 (07.10) Difere do "
+                "Serviço (07.02) da Nota. Verifique com a Prefeitura!"
+            )
+            self.assertEqual(document.edoc_error_message, expected)
             mock_change_state.assert_called_once()
 
     def test_process_error_status_no_errors(self):
