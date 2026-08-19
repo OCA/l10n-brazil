@@ -61,28 +61,28 @@
                 <field
                     name="cfop_id"
                     options="{'no_create': True}"
-                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'issqn'), ('country_id', '!=', %(base.br)d)]}"
+                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'issqn'), ('parent.fiscal_operation_id', '=', False)]}"
                 />
                 <field name="price_total" invisible="1" />
                 <field name="price_subtotal" invisible="1" />
                 <field
                     name="service_type_id"
                     options="{'no_create': True}"
-                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d)]}"
+                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('parent.fiscal_operation_id', '=', False)]}"
                 />
                 <field
                     name="city_taxation_code_id"
-                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d)]}"
+                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('parent.fiscal_operation_id', '=', False)]}"
                     options="{'no_create': True}"
                 />
                 <field
                     name="national_taxation_code_id"
-                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d)]}"
+                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('parent.fiscal_operation_id', '=', False)]}"
                     options="{'no_create': True}"
                 />
                 <field
                     name="cnae_id"
-                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d)]}"
+                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('parent.fiscal_operation_id', '=', False)]}"
                     options="{'no_create': True}"
                 />
             </xpath>
