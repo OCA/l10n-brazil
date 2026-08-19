@@ -251,8 +251,8 @@ class FocusnfeNfse(FocusnfeNfseBase):
             "codigo_cnae": service.get(company.focusnfe_nfse_cnae_code_value),
             "valor_iss": round(service.get("valor_iss", 0), 2),
             "valor_iss_retido": round(service.get("valor_iss_retido", 0), 2),
-            "valor_pis": round(service.get("valor_pis_retido", 0), 2),
-            "valor_cofins": round(service.get("valor_cofins_retido", 0), 2),
+            "valor_pis": round(service.get("valor_pis", 0), 2),
+            "valor_cofins": round(service.get("valor_cofins", 0), 2),
             "valor_inss": round(service.get("valor_inss_retido", 0), 2),
             "valor_ir": round(service.get("valor_ir_retido", 0), 2),
             "valor_csll": round(service.get("valor_csll_retido", 0), 2),
@@ -273,28 +273,6 @@ class FocusnfeNfse(FocusnfeNfseBase):
             ),
             "ibs_cbs_situacao_tributaria": service.get("ibs_cbs_situacao_tributaria"),
             "codigo_tributacao_nacional_iss": service.get("codigo_tributacao_nacional"),
-            "ibs_cbs_base_calculo": service.get("ibs_cbs_base_calculo"),
-            "ibs_uf_aliquota": round(service.get("ibs_uf_aliquota", 0), 2)
-            if service.get("ibs_uf_aliquota")
-            else None,
-            "ibs_mun_aliquota": 0.0,
-            "cbs_aliquota": round(service.get("cbs_aliquota", 0), 2)
-            if service.get("cbs_aliquota")
-            else None,
-            "ibs_uf_valor": round(service.get("ibs_uf_valor", 0), 2)
-            if service.get("ibs_uf_valor")
-            else None,
-            "ibs_mun_valor": 0.0,
-            "cbs_valor": round(service.get("cbs_valor", 0), 2)
-            if service.get("cbs_valor")
-            else None,
-            "ibs_uf_percentual_diferimento": round(
-                service.get("ibs_uf_percentual_diferimento", 0) or 0, 2
-            ),
-            "ibs_mun_percentual_diferimento": 0.0,
-            "cbs_percentual_diferimento": round(
-                service.get("cbs_percentual_diferimento", 0) or 0, 2
-            ),
         }
 
     def _prepare_recipient_data(self, recipient, identification, company):
