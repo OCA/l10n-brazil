@@ -67,6 +67,17 @@
                     widget="many2many_tags"
                 />
             </xpath>
+            <xpath
+                expr="//field[@name='order_line']/list/field[@name='discount']"
+                position="after"
+            >
+                <field
+                    name="discount_value"
+                    widget="monetary"
+                    options="{'currency_field': 'currency_id'}"
+                    optional="hide"
+                />
+            </xpath>
             <!-- Edit order_line Form view -->
             <xpath expr="//field[@name='order_line']/form" position="inside">
                 <group name="fiscal_fields" invisible="1">
