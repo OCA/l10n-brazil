@@ -433,17 +433,14 @@
                 <field
                     name="city_taxation_code_id"
                     invisible="not document_type_id or tax_icms_or_issqn == 'icms'"
-                    required="document_type_id and tax_icms_or_issqn == 'issqn' and fiscal_operation_type == 'out'"
                 />
                 <field
                     name="national_taxation_code_id"
                     invisible="not document_type_id or tax_icms_or_issqn == 'icms'"
-                    required="document_type_id and tax_icms_or_issqn == 'issqn' and fiscal_operation_type == 'out'"
                 />
                 <field
                     name="service_type_id"
                     invisible="not document_type_id or tax_icms_or_issqn == 'icms'"
-                    required="document_type_id and tax_icms_or_issqn == 'issqn' and fiscal_operation_type == 'out'"
                 />
                 <field
                     name="cnae_id"
