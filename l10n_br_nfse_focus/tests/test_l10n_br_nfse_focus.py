@@ -17,6 +17,8 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFSE,
     PROCESSADOR_OCA,
     SITUACAO_EDOC_A_ENVIAR,
+    SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_EM_DIGITACAO,
     SITUACAO_EDOC_ENVIADA,
     SITUACAO_EDOC_REJEITADA,
@@ -595,6 +597,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
     def test_exec_before_SITUACAO_EDOC_CANCELADA(self, mock_cancel_document_focus):
         """Tests execution before setting document status to cancelled."""
         record = self.nfse_demo
+        record.processador_edoc = PROCESSADOR_OCA
         mock_cancel_document_focus.return_value = (
             True  # Simulating successful cancellation
         )
@@ -606,6 +609,20 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         self.assertEqual(
             result, mock_cancel_document_focus.return_value
         )  # Asserting expected result
+
+    @patch(
+        "odoo.addons.l10n_br_nfse_focus.models.document.Document.cancel_document_focus"
+    )
+    def test_exec_before_cancelada_other_provider(self, mock_cancel_document_focus):
+        record = self.nfse_demo
+        record.company_id.provedor_nfse = False
+
+        result = record._exec_before_SITUACAO_EDOC_CANCELADA(
+            SITUACAO_EDOC_AUTORIZADA, SITUACAO_EDOC_CANCELADA
+        )
+
+        mock_cancel_document_focus.assert_not_called()
+        self.assertTrue(result)
 
     def test_filter_focusnfe_nacional(self):
         """Tests filtering of NFSe Nacional documents."""
