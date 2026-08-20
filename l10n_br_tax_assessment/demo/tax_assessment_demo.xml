@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!--
+      Draft ICMS assessment for the current month.
+
+      The period is relative to the install date (first and last day of the
+      month) because the localization demo data posts in the month it was
+      installed: a fixed period would yield an empty assessment on any future
+      install.
+
+      The company is the localization demo `empresa_lucro_presumido`, not
+      main_company: that is the one carrying the Brazilian taxes. The group is
+      `l10n_br_coa.tax_group_icms`, the SAME one those taxes use, so that the
+      assessment reads whatever journal items exist in the period.
+    -->
+    <record id="demo_assessment_icms" model="l10n_br_tax.assessment">
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="tax_group_id" ref="l10n_br_coa.tax_group_icms" />
+        <field
+            name="date_from"
+            eval="(DateTime.today() + relativedelta(day=1)).strftime('%Y-%m-%d')"
+        />
+        <field
+            name="date_to"
+            eval="(DateTime.today() + relativedelta(day=31)).strftime('%Y-%m-%d')"
+        />
+    </record>
+
+    <!--
+      Actually assess instead of writing lines by hand: that is what makes the
+      demo match the journal items present in the database.
+    -->
+    <function
+        model="l10n_br_tax.assessment"
+        name="action_compute"
+        eval="[[ref('demo_assessment_icms')]]"
+    />
+
+    <!--
+      A manual adjustment carrying a REAL code from Sao Paulo's table 5.1.1
+      (SP000207, rate differential), so the demo shows E111 and the
+      classification by the fourth digit. A made-up code would be rejected by
+      the PVA, which checks the code against the state's official table. It
+      sits alongside the assessed lines, which a reassessment rebuilds and this
+      adjustment survives.
+    -->
+    <record id="demo_assessment_icms_adjustment" model="l10n_br_tax.assessment.line">
+        <field name="assessment_id" ref="demo_assessment_icms" />
+        <field name="kind">debit</field>
+        <field name="source">manual</field>
+        <field name="adjustment_code">SP000207</field>
+        <field
+            name="description"
+        >Diferencial de alíquota de entrada interestadual</field>
+        <field name="tax_amount">100.00</field>
+    </record>
+</odoo>
