@@ -74,7 +74,16 @@ class AccountChartTemplate(models.Model):
                     "l10n_br_coa.account.tax.group.account.template"
                 ].search(domain)
                 if group_tax_account_template:
-                    if tax.deductible:
+                    if tax.deductible and tax.type_tax_use == "purchase":
+                        # Na entrada o imposto dedutível não é dedução de
+                        # receita: ele sai do custo da própria linha. Sem conta
+                        # na linha de repartição o core cai na conta da linha
+                        # base (estoque, conta ponte ou despesa), que é o
+                        # comportamento já usado por IBS/CBS/IS e a mesma
+                        # convenção do `total_void` do core.
+                        account = False
+                        refund_account = False
+                    elif tax.deductible:
                         account = group_tax_account_template.ded_account_id
                         refund_account = (
                             group_tax_account_template.ded_refund_account_id
