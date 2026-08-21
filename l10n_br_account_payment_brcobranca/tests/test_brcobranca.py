@@ -2,11 +2,21 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import base64
 import os
+from datetime import date, timedelta
+from unittest.mock import patch
 
+from erpbrasil.base import misc
+
+from odoo import fields
 from odoo.exceptions import UserError
 from odoo.tests import tagged
 
+from odoo.addons.l10n_br_account_payment_brcobranca.constants.br_cobranca import (
+    get_brcobranca_bank,
+    modulo11,
+)
 from odoo.addons.l10n_br_account_payment_brcobranca.tests.common import (
     TestBRCobrancaCommon,
 )
@@ -33,6 +43,165 @@ class TestPaymentOrder(TestBRCobrancaCommon):
     def test_banco_sicred_cnab_240(self):
         """Teste Boleto e Remessa Banco SICREDI - CNAB 240"""
         self._run_invoice_and_order_brcobranca(self.invoice_sicredi_240)
+
+    def test_banco_sicred_cnab_240_file_name(self):
+        """Teste da nomenclatura do arquivo de remessa SICREDI - CNAB 240.
+
+        Manual Sicredi CNAB 240 - item 6.1 (Nomenclatura dos arquivos):
+        arquivo de remessa no formato CCCCCMDD.XXX, onde CCCCC = Código do
+        beneficiário, MDD = Código do mês e nº do dia da data de geração e
+        XXX = extensão de uso livre (sugestão do manual: 001, 002, etc).
+        """
+        self.invoice_sicredi_240.action_post()
+        payment_order = self._get_draft_payment_order(self.invoice_sicredi_240)
+        payment_order.file_number = 1
+
+        bank_account_id = payment_order.journal_id.bank_account_id
+        context_today = fields.Date.context_today(payment_order)
+        month_code = str(context_today.month)
+        if context_today.month == 10:
+            month_code = "O"
+        elif context_today.month == 11:
+            month_code = "N"
+        elif context_today.month == 12:
+            month_code = "D"
+
+        expected_file_name = (
+            misc.punctuation_rm(bank_account_id.acc_number).zfill(5)
+            + month_code
+            + context_today.strftime("%d")
+            + ".001"
+        )
+        self.assertEqual(payment_order.get_file_name("240"), expected_file_name)
+        self.assertRegex(
+            payment_order.get_file_name("240"), r"^\d{5}[1-9OND]\d{2}\.\d{3}$"
+        )
+
+    def test_banco_sicred_cnab_240_file_name_update_header(self):
+        """Alterar o nome do arquivo deve regenerar o header do CNAB.
+
+        Mantém o comportamento anterior em que, ao alterar o nome do arquivo
+        (nº sequencial / file_number), o header do arquivo CNAB e o anexo
+        são regenerados com o novo número.
+        """
+        self.invoice_sicredi_240.action_post()
+        payment_order = self._get_draft_payment_order(self.invoice_sicredi_240)
+
+        def _fake_remessa(bank_brcobranca, remessa_values, cnab_type):
+            return str(remessa_values["sequencial_remessa"]).zfill(6).encode()
+
+        with patch.object(
+            type(payment_order),
+            "_get_brcobranca_remessa",
+            side_effect=_fake_remessa,
+        ):
+            payment_order.draft2open()
+            payment_order.with_context(
+                test_not_create_file=False
+            ).open2generated()
+            self.assertEqual(payment_order.state, "generated")
+            # A sequência é consumida apenas na confirmação de envio,
+            # permitindo que o usuário edite o número antes de confirmar.
+            self.assertEqual(payment_order.file_number, 0)
+
+            # Ao alterar o nome do arquivo (file_number) o header do
+            # CNAB e o anexo são regenerados com o novo número.
+            payment_order.file_number = 7
+
+            self.assertEqual(
+                payment_order.cnab_file, base64.b64encode(b"000007")
+            )
+            self.assertTrue(payment_order.cnab_filename.endswith(".007"))
+            self.assertRegex(
+                payment_order.cnab_filename, r"^\d{5}[1-9OND]\d{2}\.\d{3}$"
+            )
+
+    def test_banco_sicred_cnab_240_header_date(self):
+        """A data de geração do header do CNAB 240 deve usar a data do usuário.
+
+        A API BRCobranca grava a data de geração usando o fuso do servidor
+        onde ela roda, que pode ser diferente do fuso do usuário do Odoo,
+        fazendo o header não conferir com o nome do arquivo e a data de
+        processamento (Manual Sicredi CNAB 240 - itens 6.1 e 6.4).
+        """
+        self.invoice_sicredi_240.action_post()
+        payment_order = self._get_draft_payment_order(self.invoice_sicredi_240)
+        context_today = fields.Date.context_today(payment_order)
+
+        # Simula a data gerada pela API BRCobranca no fuso do servidor,
+        # um dia à frente da data do usuário.
+        wrong_date = (context_today + timedelta(days=1)).strftime("%d%m%Y")
+        header = b"X" * 143 + wrong_date.encode() + b"Y" * 89
+        fake_remessa = header + b"\r\n"
+
+        fixed = payment_order._fix_remessa_header_date(fake_remessa, "240")
+        expected = (
+            fake_remessa[:143]
+            + context_today.strftime("%d%m%Y").encode()
+            + fake_remessa[151:]
+        )
+        self.assertEqual(fixed, expected)
+
+        # A data corrigida deve ser a data do usuário (posições 144-151).
+        self.assertEqual(fixed[143:151], context_today.strftime("%d%m%Y").encode())
+
+        # CNAB 400 não deve ser alterado.
+        self.assertEqual(
+            payment_order._fix_remessa_header_date(fake_remessa, "400"),
+            fake_remessa,
+        )
+
+    def test_banco_sicred_cnab_240_prepare_payment_line(self):
+        """Teste da preparação das linhas de pagamento SICREDI - CNAB 240.
+
+        Não depende da API externa do BRCobranca.
+        """
+        self.invoice_sicredi_240.action_post()
+        self.assertEqual(self.invoice_sicredi_240.state, "posted")
+        payment_order = self._get_draft_payment_order(self.invoice_sicredi_240)
+        self.assertTrue(payment_order.payment_line_ids)
+
+        bank_account_id = payment_order.journal_id.bank_account_id
+        bank_brcobranca = get_brcobranca_bank(bank_account_id, "240")
+
+        for line in payment_order.payment_line_ids:
+            # O campo date é preenchido no fluxo draft2open, necessário
+            # para o _prepare_boleto_line_vals da base.
+            if not line.date:
+                line.date = fields.Date.context_today(line)
+            prepared = line.prepare_bank_payment_line(bank_brcobranca)
+            cnab_config = line.order_id.payment_mode_id.cnab_config_id
+            sequencial = "".join(
+                ch for ch in str(line.own_number) if ch.isdigit()
+            ).zfill(5)[-5:]
+            # Base do DV: agência + posto + beneficiário + ano + byte + sequencial
+            # (5 dígitos, com zeros à esquerda - Manual Sicredi item 4.5)
+            base_dv = (
+                bank_account_id.bra_number
+                + str(cnab_config.boleto_post).zfill(2)
+                + misc.punctuation_rm(bank_account_id.acc_number).zfill(5)
+                + str(date.today().year)[2:]
+                + str(cnab_config.boleto_byte_idt)
+                + sequencial
+            )
+            expected_nosso_numero = (
+                str(date.today().year)[2:]
+                + str(cnab_config.boleto_byte_idt)
+                + sequencial
+                + str(modulo11(base_dv, 9, 0))
+            )
+            # Nosso Número no formato AA/BXXXXX-D (Manual Sicredi itens 4.4 e 4.5),
+            # sem os separadores "/" e "-" que são apenas de apresentação.
+            self.assertEqual(prepared["nosso_numero"], expected_nosso_numero)
+            self.assertRegex(prepared["nosso_numero"], r"^\d{9}$")
+            # Multa nunca deve ser preenchida como 0 no Sicredi
+            self.assertNotEqual(prepared.get("codigo_multa"), "0")
+            # A configuração padrão define boleto_discount_perc, portanto a
+            # linha possui desconto e o código enviado é o esperado (1 = Valor Fixo).
+            self.assertEqual(prepared.get("cod_desconto"), "1")
+            # Segmento Q: posições 114-128 são CNAB (Manual Sicredi item 8.5),
+            # o bairro do pagador deve ser enviado em branco
+            self.assertEqual(prepared.get("bairro_sacado"), "")
 
     def test_banco_santander_cnab_400(self):
         """Teste Boleto e Remessa Banco Santander - CNAB 400"""

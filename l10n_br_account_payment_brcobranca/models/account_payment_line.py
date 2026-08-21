@@ -5,6 +5,9 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
+from datetime import date
+
+from erpbrasil.base import misc
 
 from odoo import models
 
@@ -76,6 +79,45 @@ class AccountPaymentLine(models.Model):
             if self.discount_value:
                 linhas_pagamentos["data_desconto"] = self.date.strftime("%Y/%m/%d")
                 linhas_pagamentos["valor_desconto"] = self.discount_value
+
+    def _prepare_bank_line_sicredi(self, cnab_config, linhas_pagamentos):
+        # Manual Sicredi CNAB 240 - itens 4.4 e 4.5.
+        # Nosso Número no formato AA/BXXXXX-D, onde:
+        # AA = Ano, B = Byte de geração, XXXXX = Sequencial e D = DV.
+        # O DV (módulo 11) é calculado sobre a base agência + posto + beneficiário
+        # + ano + byte + sequencial (5 dígitos, com zeros à esquerda).
+        bank_account_id = self.order_id.journal_id.bank_account_id
+        # XXXXX = Número livre de 00000 a 99999, portanto o sequencial deve
+        # ter exatamente 5 dígitos (zeros à esquerda).
+        sequencial = "".join(
+            ch for ch in str(self.own_number) if ch.isdigit()
+        ).zfill(5)[-5:]
+        ano = str(date.today().year)[2:]
+        byte_idt = str(cnab_config.boleto_byte_idt)
+        agencia = bank_account_id.bra_number
+        posto = str(cnab_config.boleto_post).zfill(2)
+        beneficiario = misc.punctuation_rm(bank_account_id.acc_number).zfill(5)
+
+        base_dv = agencia + posto + beneficiario + ano + byte_idt + sequencial
+        dv = modulo11(base_dv, 9, 0)
+        linhas_pagamentos["nosso_numero"] = (
+            ano + byte_idt + sequencial + str(dv)
+        )
+
+        # Manual Sicredi CNAB 240 - item 8.5 (Segmento Q).
+        # As posições 114-128 são CNAB (Sem preenchimento), mas o BRCobranca
+        # escreve o bairro do pagador nesse campo seguindo o layout FEBRABAN.
+        # Para o Sicredi o bairro deve ser enviado em branco.
+        linhas_pagamentos["bairro_sacado"] = ""
+
+        # Multa - obrigatório no Segmento R do Sicredi:
+        # 1 = valor fixo | 2 = percentual, nunca deve ser preenchido como 0.
+        if cnab_config.boleto_fee_code_id:
+            linhas_pagamentos["codigo_multa"] = cnab_config.boleto_fee_code_id.code
+        elif cnab_config.boleto_fee_perc:
+            linhas_pagamentos["codigo_multa"] = "2"
+        if cnab_config.boleto_fee_perc:
+            linhas_pagamentos["percentual_multa"] = cnab_config.boleto_fee_perc
 
     def prepare_bank_payment_line(self, bank_name_brcobranca):
         cnab_config = self.order_id.payment_mode_id.cnab_config_id
@@ -157,7 +199,7 @@ class AccountPaymentLine(models.Model):
                 if cnab_config.boleto_discount_code_id:
                     discount_code = cnab_config.boleto_discount_code_id.code
             else:
-                if cnab_config.bank_code_bc in ("085", "104", "033", "136") or (
+                if cnab_config.bank_code_bc in ("085", "104", "033", "136", "748") or (
                     cnab_config.bank_code_bc == "001"
                     and cnab_config.payment_method_id.code == "240"
                 ):

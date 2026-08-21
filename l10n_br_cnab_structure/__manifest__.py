@@ -29,6 +29,7 @@
         "data/sicredi/l10n_br_cnab.line.field.csv",
         "data/cnab.line.group.field.condition.csv",
         "data/cnab.occurrence.csv",
+        "data/sicredi/cnab.occurrence.csv",
         "data/cnab.pix.key.type.csv",
         "data/sicredi/cnab.pix.key.type.csv",
         "data/cnab.pix.transfer.type.csv",
