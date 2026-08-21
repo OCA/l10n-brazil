@@ -260,9 +260,9 @@ class PaymentOrder(models.Model):
             file_number = self._get_file_number()
             month_code = DICT_SICREDI_MONTH_CODE[context_today.month]
             day = context_today.strftime("%d")
-            codigo_beneficiario = misc.punctuation_rm(
-                bank_account_id.acc_number
-            ).zfill(5)
+            codigo_beneficiario = misc.punctuation_rm(bank_account_id.acc_number).zfill(
+                5
+            )
             return f"{codigo_beneficiario}{month_code}{day}.{file_number:03d}"
         return super().get_file_name(cnab_type)
 

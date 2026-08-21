@@ -96,9 +96,7 @@ class TestPaymentOrder(TestBRCobrancaCommon):
             side_effect=_fake_remessa,
         ):
             payment_order.draft2open()
-            payment_order.with_context(
-                test_not_create_file=False
-            ).open2generated()
+            payment_order.with_context(test_not_create_file=False).open2generated()
             self.assertEqual(payment_order.state, "generated")
             # A sequência é consumida apenas na confirmação de envio,
             # permitindo que o usuário edite o número antes de confirmar.
@@ -108,9 +106,7 @@ class TestPaymentOrder(TestBRCobrancaCommon):
             # CNAB e o anexo são regenerados com o novo número.
             payment_order.file_number = 7
 
-            self.assertEqual(
-                payment_order.cnab_file, base64.b64encode(b"000007")
-            )
+            self.assertEqual(payment_order.cnab_file, base64.b64encode(b"000007"))
             self.assertTrue(payment_order.cnab_filename.endswith(".007"))
             self.assertRegex(
                 payment_order.cnab_filename, r"^\d{5}[1-9OND]\d{2}\.\d{3}$"

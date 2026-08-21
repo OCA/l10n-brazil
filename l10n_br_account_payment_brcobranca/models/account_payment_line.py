@@ -89,9 +89,9 @@ class AccountPaymentLine(models.Model):
         bank_account_id = self.order_id.journal_id.bank_account_id
         # XXXXX = Número livre de 00000 a 99999, portanto o sequencial deve
         # ter exatamente 5 dígitos (zeros à esquerda).
-        sequencial = "".join(
-            ch for ch in str(self.own_number) if ch.isdigit()
-        ).zfill(5)[-5:]
+        sequencial = "".join(ch for ch in str(self.own_number) if ch.isdigit()).zfill(
+            5
+        )[-5:]
         ano = str(date.today().year)[2:]
         byte_idt = str(cnab_config.boleto_byte_idt)
         agencia = bank_account_id.bra_number
@@ -100,9 +100,7 @@ class AccountPaymentLine(models.Model):
 
         base_dv = agencia + posto + beneficiario + ano + byte_idt + sequencial
         dv = modulo11(base_dv, 9, 0)
-        linhas_pagamentos["nosso_numero"] = (
-            ano + byte_idt + sequencial + str(dv)
-        )
+        linhas_pagamentos["nosso_numero"] = ano + byte_idt + sequencial + str(dv)
 
         # Manual Sicredi CNAB 240 - item 8.5 (Segmento Q).
         # As posições 114-128 são CNAB (Sem preenchimento), mas o BRCobranca
