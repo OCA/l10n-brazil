@@ -299,7 +299,9 @@ class DocumentWorkflow(models.AbstractModel):
             self._change_state(SITUACAO_EDOC_AUTORIZADA)
 
     def _document_confirm_to_send(self):
-        to_confirm = self.filtered(lambda inv: inv.state_edoc != SITUACAO_EDOC_A_ENVIAR)
+        to_confirm = self.filtered(
+            lambda inv: inv.state_edoc == SITUACAO_EDOC_EM_DIGITACAO
+        )
         if to_confirm:
             to_confirm._document_confirm()
 

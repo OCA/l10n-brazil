@@ -117,3 +117,35 @@ class TestWorkflow(TransactionCase):
         assert (
             self.fiscal_document.state_edoc == SITUACAO_EDOC_EM_DIGITACAO
         ), "Error with document workflow, state 'SITUACAO_EDOC_A_ENVIAR' "
+
+    def test_partner_issuer_confirm_idempotent(self):
+        """
+        Test that confirming a document with issuer='partner' multiple times
+        does not raise an error. This is a regression test for a bug where
+        action_document_confirm() would fail on the second call because
+        the document was already in 'autorizada' state.
+
+        The fix ensures _document_confirm_to_send() only processes documents
+        in 'em_digitacao' state, making it safe to call multiple times.
+        """
+        self.fiscal_document.document_electronic = True
+        self.fiscal_document.issuer = "partner"
+
+        assert (
+            self.fiscal_document.state_edoc == SITUACAO_EDOC_EM_DIGITACAO
+        ), "Document should start in em_digitacao"
+
+        # First confirm - should go directly to autorizada (issuer=partner)
+        self.fiscal_document.action_document_confirm()
+        assert (
+            self.fiscal_document.state_edoc == SITUACAO_EDOC_AUTORIZADA
+        ), "Document should be autorizada after first confirm"
+
+        # Second confirm - should NOT raise error (idempotent behavior)
+        # Before the fix, this would raise:
+        # "Não é possível realizar esta operação, esta transição não é permitida:
+        # De: autorizada Para: autorizada"
+        self.fiscal_document.action_document_confirm()
+        assert (
+            self.fiscal_document.state_edoc == SITUACAO_EDOC_AUTORIZADA
+        ), "Document should still be autorizada after second confirm"
