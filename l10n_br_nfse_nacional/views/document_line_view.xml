@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="nfse_nacional_document_line_form_inherit" model="ir.ui.view">
+        <field name="name">l10n_br_nfse_nacional.document.line.form.inherit</field>
+        <field name="model">l10n_br_fiscal.document.line</field>
+        <field name="inherit_id" ref="l10n_br_nfse.document_line_form" />
+        <field name="arch" type="xml">
+            <field name="fiscal_deductions_value" position="after">
+                <field name="nfse_nacional_operation_indicator" />
+                <field name="nfse_nacional_tax_regime_code" />
+            </field>
+        </field>
+    </record>
+</odoo>
