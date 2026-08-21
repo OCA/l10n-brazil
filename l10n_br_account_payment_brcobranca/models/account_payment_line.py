@@ -86,9 +86,9 @@ class AccountPaymentLine(models.Model):
         bank_account_id = self.order_id.journal_id.bank_account_id
         # XXXXX = Número livre de 00000 a 99999, portanto o sequencial deve
         # ter exatamente 5 dígitos (zeros à esquerda).
-        sequencial = "".join(
-            ch for ch in str(self.own_number) if ch.isdigit()
-        ).zfill(5)[-5:]
+        sequencial = "".join(ch for ch in str(self.own_number) if ch.isdigit()).zfill(
+            5
+        )[-5:]
         # A data de referência deve ser a da fatura, não a atual, para evitar
         # divergência de ano na virada do ano (Manual Sicredi item 4.5).
         ano = self.move_line_id.move_id.invoice_date.strftime("%y")
