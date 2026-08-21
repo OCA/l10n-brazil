@@ -1,6 +1,7 @@
 # Copyright 2019-TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
+import logging
 from importlib import import_module
 
 from odoo import api, models
@@ -8,6 +9,8 @@ from odoo.models import is_definition_class
 from odoo.tools import mute_logger
 
 from .spec_models import SPEC_MIXIN_MAPPINGS, SpecModel, StackedModel
+
+_logger = logging.getLogger(__name__)
 
 
 class SpecMixin(models.AbstractModel):
@@ -72,7 +75,7 @@ class SpecMixin(models.AbstractModel):
                     return spec_schema, spec_version
                 return f"{spec_schema}{spec_version}"
 
-        return None, None if split else None
+        return (None, None) if split else None
 
     def _get_spec_property(self, spec_property="", fallback=None):
         """
@@ -99,6 +102,17 @@ class SpecMixin(models.AbstractModel):
         if not spec_schema:
             return
 
+        # read before the load key below, which is claimed once per schema
+        spec_module = self._get_spec_property("odoo_module")
+        if not spec_module:
+            _logger.debug(
+                "%s: no spec module for the %s schema, "
+                "skipping the remaining schema models hook",
+                self._name,
+                spec_schema,
+            )
+            return
+
         load_key = f"_{spec_schema}_register_hook_loaded"
         if hasattr(self.env.registry, load_key):  # hook already called for registry
             return
@@ -118,7 +132,6 @@ class SpecMixin(models.AbstractModel):
             if self.env.registry.get(i[0])
             and not SPEC_MIXIN_MAPPINGS[self.env.cr.dbname].get(i[0])
         }
-        spec_module = self._get_spec_property("odoo_module")
         if "_spec." in spec_module:
             odoo_module = spec_module.split("_spec.")[0].split(".")[-1]
         else:  # for tests:
