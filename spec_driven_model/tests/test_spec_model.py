@@ -398,3 +398,24 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         finally:
             module_to_models["spec_driven_model"] = saved_module_classes
             registry.ready = ready
+
+    def test_spec_prefix_without_schema_answers_a_single_value(self):
+        """`_spec_prefix()` answers one value when asked for one."""
+        model = self.env["spec.mixin"].with_context(
+            spec_schema=False, spec_version=False
+        )
+        self.assertIsNone(model._spec_prefix())
+        self.assertEqual(model._spec_prefix(split=True), (None, None))
+
+    def test_model_without_odoo_module_does_not_break_the_registry(self):
+        """A prefix that resolves without a spec module must not abort the load."""
+        model = self.env["spec.mixin"].with_context(
+            spec_schema="nosuch", spec_version="10"
+        )
+        self.assertEqual(model._spec_prefix(), "nosuch10")
+        self.assertIsNone(model._get_spec_property("odoo_module"))
+        self.assertIsNone(model._register_remaining_schema_models_hook())
+        self.assertFalse(
+            hasattr(self.env.registry, "_nosuch_register_hook_loaded"),
+            "the model with no spec module consumed the load key of the schema",
+        )
