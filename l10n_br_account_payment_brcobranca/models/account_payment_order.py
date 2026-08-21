@@ -24,6 +24,7 @@ from ..constants.br_cobranca import (
 
 _logger = logging.getLogger(__name__)
 
+
 class PaymentOrder(models.Model):
     _inherit = "account.payment.order"
 
