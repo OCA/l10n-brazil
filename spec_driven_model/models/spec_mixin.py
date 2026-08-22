@@ -7,6 +7,7 @@ from importlib import import_module
 from odoo import api, models
 from odoo.models import is_definition_class
 from odoo.tools import mute_logger
+from odoo.tools.func import lazy_property
 from odoo.tools.sql import existing_tables
 
 from .spec_models import SPEC_MIXIN_MAPPINGS, SpecModel, StackedModel
@@ -167,6 +168,22 @@ class SpecMixin(models.AbstractModel):
             models.MetaModel.module_to_models[odoo_module] = [
                 cls for cls in registered if cls not in concrete_models
             ]
+            # Rebuilt classes carry fresh field objects while identity-keyed
+            # registry caches (field_computed, field_depends...) may hold the
+            # old ones, making computed fields KeyError (v14 brl_currency_id
+            # FIXME). Reset them like setup_models does, refreshing
+            # field_depends for the rebuilt models only.
+            registry = self.env.registry
+            lazy_property.reset_all(registry)
+            registry._field_trigger_trees.clear()
+            for model_name in remaining_models:
+                model = self.env.get(model_name)
+                if model is None:
+                    continue
+                for field in model._fields.values():
+                    depends, depends_context = field.get_depends(model)
+                    registry.field_depends[field] = tuple(depends)
+                    registry.field_depends_context[field] = tuple(depends_context)
 
     def _build_remaining_schema_models(
         self,
@@ -210,7 +227,7 @@ class SpecMixin(models.AbstractModel):
             fields = merged_class._fields
             rec_name = next(
                 filter(
-                    lambda x: (x.startswith(field_prefix) and "_choice" not in x),
+                    lambda x: x.startswith(field_prefix) and "_choice" not in x,
                     fields,
                 ),
                 None,
