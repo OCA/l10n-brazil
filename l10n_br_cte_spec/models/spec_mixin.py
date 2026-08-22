@@ -16,9 +16,14 @@ class CteSpecMixin(models.AbstractModel):
     brl_currency_id = fields.Many2one(
         comodel_name="res.currency",
         string="Moeda",
-        # FIXME compute method is better, but not working in v14.
+        compute="_compute_brl_currency_id",
         default=lambda self: self.env.ref("base.BRL"),
     )
+
+    def _compute_brl_currency_id(self):
+        # batch assignment: same value for every record, avoids a Python
+        # loop and a per-record cache write
+        self.brl_currency_id = self.env.ref("base.BRL")
 
     def _valid_field_parameter(self, field, name):
         if name in (
