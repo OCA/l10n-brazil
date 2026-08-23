@@ -12,6 +12,7 @@ from lxml.builder import E
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.osv import expression
 from odoo.tools.misc import format_date
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -185,7 +186,8 @@ class Registro0000(models.Model):
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
         return {
-            "COD_VER": LAYOUT_VERSIONS["efd_icms_ipi"],
+            # COD_VER has three positions ("020"), LAYOUT_VERSIONS holds "20"
+            "COD_VER": LAYOUT_VERSIONS["efd_icms_ipi"].zfill(3),
             # "COD_FIN": (will use declaration field directly),
             # "DT_INI": (will use declaration field directly),
             # "DT_FIN": (will use declaration field directly),
@@ -209,6 +211,14 @@ class Registro0002(models.Model):
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0002"
     _inherit = "l10n_br_sped.efd_icms_ipi.20.0002"
+    _odoo_model = "res.company"
+
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        """Only for industry or equivalent (IND_ATIV = "0")."""
+        if declaration.IND_ATIV != "0":
+            return expression.FALSE_DOMAIN
+        return [("id", "=", declaration.company_id.id)]
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -231,10 +241,10 @@ class Registro0005(models.Model):
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        # TODO melhorar isso
-        phone = record.phone.split(",")[0].strip()
+        phone = (record.phone or "").split(",")[0].strip()
         phone = misc.punctuation_rm(phone).replace(" ", "")
-        if len(phone) == 13:
+        # the layout has 11 positions: drop Brazil's 55 when it does not fit
+        if len(phone) > 11 and phone.startswith("55"):
             phone = phone[2:]
         return {
             "FANTASIA": record.name,
@@ -4530,6 +4540,17 @@ class RegistroK010(models.Model):
     _inherit = "l10n_br_sped.efd_icms_ipi.20.k010"
 
     @api.model
+    def _pull_records_from_odoo(
+        self, kind, level, parent_register=None, parent_record=None, log_msg=None
+    ):
+        """Block K only for industry or equivalent (IND_ATIV = "0")."""
+        if self._context["declaration"].IND_ATIV != "0":
+            return
+        return super()._pull_records_from_odoo(
+            kind, level, parent_register, parent_record, log_msg
+        )
+
+    @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
         return {
             "IND_TP_LEIAUTE": declaration.ind_tp_leiaute or "2",
@@ -4542,6 +4563,17 @@ class RegistroK100(models.Model):
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k100"
     _inherit = "l10n_br_sped.efd_icms_ipi.20.k100"
+
+    @api.model
+    def _pull_records_from_odoo(
+        self, kind, level, parent_register=None, parent_record=None, log_msg=None
+    ):
+        """Block K only for industry or equivalent (IND_ATIV = "0")."""
+        if self._context["declaration"].IND_ATIV != "0":
+            return
+        return super()._pull_records_from_odoo(
+            kind, level, parent_register, parent_record, log_msg
+        )
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4911,6 +4943,25 @@ class Registro1010(models.Model):
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1010"
     _inherit = "l10n_br_sped.efd_icms_ipi.20.1010"
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        """Required even without movement; no block 1 record is written yet."""
+        return {
+            "IND_EXP": "N",
+            "IND_CCRF": "N",
+            "IND_COMB": "N",
+            "IND_USINA": "N",
+            "IND_VA": "N",
+            "IND_EE": "N",
+            "IND_CART": "N",
+            "IND_FORM": "N",
+            "IND_AER": "N",
+            "IND_GIAF1": "N",
+            "IND_GIAF3": "N",
+            "IND_GIAF4": "N",
+            "IND_REST_RESSARC_COMPL_ICMS": "N",
+        }
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
