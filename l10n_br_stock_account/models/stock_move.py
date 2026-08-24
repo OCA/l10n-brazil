@@ -71,8 +71,6 @@ class StockMove(models.Model):
     # A Fatura é criada com os dois valores positivos.
     fiscal_price = fields.Float(compute="_compute_fiscal_price")
 
-    ind_final = fields.Selection(related="picking_id.ind_final")
-
     # Usado para tornar Somente Leitura os campos totais dos custos
     # de entrega quando a definição for por Linha
     delivery_costs = fields.Selection(
@@ -87,6 +85,11 @@ class StockMove(models.Model):
         compute="_compute_tax_ids",
         store=True,
     )
+
+    # adapted for _compute_find_final:
+    def _get_document(self):
+        self.ensure_one()
+        return self.picking_id
 
     @api.depends("fiscal_tax_ids", "fiscal_operation_line_id")
     def _compute_tax_ids(self):

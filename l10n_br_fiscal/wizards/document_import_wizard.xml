@@ -13,6 +13,10 @@
                         name="document_key"
                         attrs="{'invisible': [('file', '=', False)]}"
                     />
+                    <field
+                        name="date_in_out"
+                        attrs="{'invisible': [('file', '=', False)]}"
+                    />
                 </group>
                 <separator
                     string="Preview Data"

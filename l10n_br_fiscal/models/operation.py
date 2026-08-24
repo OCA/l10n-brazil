@@ -277,12 +277,36 @@ class Operation(models.Model):
 
         return domain
 
+    def _has_icmsst(self, company, partner, product):
+        if not company.icms_regulation_id or not product:
+            return False
+
+        return bool(
+            company.icms_regulation_id._map_tax_def_icmsst(
+                company,
+                partner,
+                product,
+                ncm=product.ncm_id,
+                nbm=product.nbm_id,
+                cest=product.cest_id,
+            )
+        )
+
     def line_definition(self, company, partner, product):
         self.ensure_one()
         if not company:
             company = self.env.company
 
         lines = self.line_ids.search(self._line_domain(company, partner, product))
+
+        if lines.filtered("is_icmsst"):
+            # Only distinguish Operation Lines by ICMS ST when this Fiscal
+            # Operation actually has a dedicated ICMS ST line configured
+            # (e.g. "Sale" vs "Sale ICMS ST"). Otherwise, keep the
+            # historical behavior of not distinguishing lines by ICMS ST,
+            # so existing setups that don't use this feature are unaffected.
+            is_icmsst = self._has_icmsst(company, partner, product)
+            lines = lines.filtered(lambda line: line.is_icmsst == is_icmsst)
 
         return self._select_best_line(lines)
 

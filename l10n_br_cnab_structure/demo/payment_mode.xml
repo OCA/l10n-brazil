@@ -228,4 +228,297 @@
             eval="[(Command.link(ref('cnab_sicoob_240_pay_way_45')))]"
         />
     </record>
+
+    <!-- SISPAG Sicoob - Boleto - FIXED -->
+    <record id="payment_mode_sispag_boleto_sicoob" model="account.payment.mode">
+        <field name="name">Boleto - SISPAG Sicoob</field>
+        <field name="company_id" ref="base.main_company" />
+        <field
+            name="payment_method_id"
+            ref="l10n_br_account_payment_order.payment_mode_type_cnab240_out"
+        />
+        <field name="bank_account_link">fixed</field>
+        <field
+            name="fixed_journal_id"
+            ref="l10n_br_account_payment_order.sicoob_journal"
+        />
+        <field name="payment_mode_domain">boleto</field>
+        <field name="payment_order_ok">True</field>
+        <field name="default_date_prefered">due</field>
+        <field name="group_lines">True</field>
+        <field name="cnab_structure_ok">True</field>
+        <field name="cnab_processor">oca_processor</field>
+        <field name="cnab_structure_id" ref="cnab_sicoob_240" />
+        <field
+            name="cnab_payment_way_ids"
+            eval="[(Command.link(ref('cnab_sicoob_240_pay_way_31')))]"
+        />
+    </record>
+
+    <!-- SISPAG Sicoob - Tributo com Código de Barras (GNRE) - FIXED -->
+    <record id="payment_mode_sispag_tributo_gnre_sicoob" model="account.payment.mode">
+        <field name="name">Tributo c/ Código de Barras (GNRE) - SISPAG Sicoob</field>
+        <field name="company_id" ref="base.main_company" />
+        <field
+            name="payment_method_id"
+            ref="l10n_br_account_payment_order.payment_mode_type_cnab240_out"
+        />
+        <field name="bank_account_link">fixed</field>
+        <field
+            name="fixed_journal_id"
+            ref="l10n_br_account_payment_order.sicoob_journal"
+        />
+        <field name="payment_order_ok">True</field>
+        <field name="default_date_prefered">due</field>
+        <field name="group_lines">True</field>
+        <field name="cnab_structure_ok">True</field>
+        <field name="cnab_processor">oca_processor</field>
+        <field name="cnab_structure_id" ref="cnab_sicoob_240" />
+        <field
+            name="cnab_payment_way_ids"
+            eval="[(Command.link(ref('cnab_sicoob_240_pay_way_91')))]"
+        />
+    </record>
+
+    <!-- SISPAG Sicoob - Tributo sem Código de Barras (GPS) - FIXED -->
+    <record id="payment_mode_sispag_tributo_gps_sicoob" model="account.payment.mode">
+        <field name="name">Tributo s/ Código de Barras (GPS) - SISPAG Sicoob</field>
+        <field name="company_id" ref="base.main_company" />
+        <field
+            name="payment_method_id"
+            ref="l10n_br_account_payment_order.payment_mode_type_cnab240_out"
+        />
+        <field name="bank_account_link">fixed</field>
+        <field
+            name="fixed_journal_id"
+            ref="l10n_br_account_payment_order.sicoob_journal"
+        />
+        <field name="payment_order_ok">True</field>
+        <field name="default_date_prefered">due</field>
+        <field name="group_lines">True</field>
+        <field name="cnab_structure_ok">True</field>
+        <field name="cnab_processor">oca_processor</field>
+        <field name="cnab_structure_id" ref="cnab_sicoob_240" />
+        <field
+            name="cnab_payment_way_ids"
+            eval="[(Command.link(ref('cnab_sicoob_240_pay_way_17')))]"
+        />
+    </record>
+
+    <!-- SISPAG Itaú - Boleto - FIXED -->
+    <record id="payment_mode_sispag_boleto_itau" model="account.payment.mode">
+        <field name="name">Boleto - SISPAG Itaú</field>
+        <field name="company_id" ref="base.main_company" />
+        <field
+            name="payment_method_id"
+            ref="l10n_br_account_payment_order.payment_mode_type_cnab240_out"
+        />
+        <field name="bank_account_link">fixed</field>
+        <field
+            name="fixed_journal_id"
+            ref="l10n_br_account_payment_order.itau_journal"
+        />
+        <field name="payment_mode_domain">boleto</field>
+        <field name="payment_order_ok">True</field>
+        <field name="default_date_prefered">due</field>
+        <field name="group_lines">True</field>
+        <field name="cnab_structure_ok">True</field>
+        <field name="cnab_processor">oca_processor</field>
+        <field name="cnab_structure_id" ref="cnab_itau_240" />
+        <field
+            name="cnab_payment_way_ids"
+            eval="[(Command.link(ref('cnab_itau_240_pay_way_31')))]"
+        />
+    </record>
+
+    <!-- SISPAG Itaú - Tributo c/ Código de Barras (GNRE) - FIXED -->
+    <record id="payment_mode_sispag_tributo_gnre_itau" model="account.payment.mode">
+        <field name="name">Tributo c/ Código de Barras (GNRE) - SISPAG Itaú</field>
+        <field name="company_id" ref="base.main_company" />
+        <field
+            name="payment_method_id"
+            ref="l10n_br_account_payment_order.payment_mode_type_cnab240_out"
+        />
+        <field name="bank_account_link">fixed</field>
+        <field
+            name="fixed_journal_id"
+            ref="l10n_br_account_payment_order.itau_journal"
+        />
+        <field name="payment_order_ok">True</field>
+        <field name="default_date_prefered">due</field>
+        <field name="group_lines">True</field>
+        <field name="cnab_structure_ok">True</field>
+        <field name="cnab_processor">oca_processor</field>
+        <field name="cnab_structure_id" ref="cnab_itau_240" />
+        <field
+            name="cnab_payment_way_ids"
+            eval="[(Command.link(ref('cnab_itau_240_pay_way_91')))]"
+        />
+    </record>
+
+    <!-- SISPAG Itaú - Tributo sem Código de Barras (GPS) - FIXED -->
+    <record id="payment_mode_sispag_tributo_gps_itau" model="account.payment.mode">
+        <field name="name">Tributo s/ Código de Barras (GPS) - SISPAG Itaú</field>
+        <field name="company_id" ref="base.main_company" />
+        <field
+            name="payment_method_id"
+            ref="l10n_br_account_payment_order.payment_mode_type_cnab240_out"
+        />
+        <field name="bank_account_link">fixed</field>
+        <field
+            name="fixed_journal_id"
+            ref="l10n_br_account_payment_order.itau_journal"
+        />
+        <field name="payment_order_ok">True</field>
+        <field name="default_date_prefered">due</field>
+        <field name="group_lines">True</field>
+        <field name="cnab_structure_ok">True</field>
+        <field name="cnab_processor">oca_processor</field>
+        <field name="cnab_structure_id" ref="cnab_itau_240" />
+        <field
+            name="cnab_payment_way_ids"
+            eval="[(Command.link(ref('cnab_itau_240_pay_way_17')))]"
+        />
+    </record>
+
+    <!-- SISPAG Banco do Brasil - Boleto - FIXED -->
+    <record id="payment_mode_sispag_boleto_bb" model="account.payment.mode">
+        <field name="name">Boleto - SISPAG Banco do Brasil</field>
+        <field name="company_id" ref="base.main_company" />
+        <field
+            name="payment_method_id"
+            ref="l10n_br_account_payment_order.payment_mode_type_cnab240_out"
+        />
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="l10n_br_account_payment_order.bb_journal" />
+        <field name="payment_mode_domain">boleto</field>
+        <field name="payment_order_ok">True</field>
+        <field name="default_date_prefered">due</field>
+        <field name="group_lines">True</field>
+        <field name="cnab_structure_ok">True</field>
+        <field name="cnab_processor">oca_processor</field>
+        <field name="cnab_structure_id" ref="cnab_bb_240" />
+        <field
+            name="cnab_payment_way_ids"
+            eval="[(Command.link(ref('cnab_bb_240_pay_way_31')))]"
+        />
+    </record>
+
+    <!-- SISPAG Banco do Brasil - Tributo c/ Código de Barras (GNRE) - FIXED -->
+    <record id="payment_mode_sispag_tributo_gnre_bb" model="account.payment.mode">
+        <field
+            name="name"
+        >Tributo c/ Código de Barras (GNRE) - SISPAG Banco do Brasil</field>
+        <field name="company_id" ref="base.main_company" />
+        <field
+            name="payment_method_id"
+            ref="l10n_br_account_payment_order.payment_mode_type_cnab240_out"
+        />
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="l10n_br_account_payment_order.bb_journal" />
+        <field name="payment_order_ok">True</field>
+        <field name="default_date_prefered">due</field>
+        <field name="group_lines">True</field>
+        <field name="cnab_structure_ok">True</field>
+        <field name="cnab_processor">oca_processor</field>
+        <field name="cnab_structure_id" ref="cnab_bb_240" />
+        <field
+            name="cnab_payment_way_ids"
+            eval="[(Command.link(ref('cnab_bb_240_pay_way_91')))]"
+        />
+    </record>
+
+    <!-- SISPAG Banco do Brasil - Tributo sem Código de Barras (GPS) - FIXED -->
+    <record id="payment_mode_sispag_tributo_gps_bb" model="account.payment.mode">
+        <field
+            name="name"
+        >Tributo s/ Código de Barras (GPS) - SISPAG Banco do Brasil</field>
+        <field name="company_id" ref="base.main_company" />
+        <field
+            name="payment_method_id"
+            ref="l10n_br_account_payment_order.payment_mode_type_cnab240_out"
+        />
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="l10n_br_account_payment_order.bb_journal" />
+        <field name="payment_order_ok">True</field>
+        <field name="default_date_prefered">due</field>
+        <field name="group_lines">True</field>
+        <field name="cnab_structure_ok">True</field>
+        <field name="cnab_processor">oca_processor</field>
+        <field name="cnab_structure_id" ref="cnab_bb_240" />
+        <field
+            name="cnab_payment_way_ids"
+            eval="[(Command.link(ref('cnab_bb_240_pay_way_17')))]"
+        />
+    </record>
+
+    <!-- SISPAG Santander - Boleto - FIXED -->
+    <record id="payment_mode_sispag_boleto_santander" model="account.payment.mode">
+        <field name="name">Boleto - SISPAG Santander</field>
+        <field name="company_id" ref="base.main_company" />
+        <field
+            name="payment_method_id"
+            ref="l10n_br_account_payment_order.payment_mode_type_cnab240_out"
+        />
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="santander_journal" />
+        <field name="payment_mode_domain">boleto</field>
+        <field name="payment_order_ok">True</field>
+        <field name="default_date_prefered">due</field>
+        <field name="group_lines">True</field>
+        <field name="cnab_structure_ok">True</field>
+        <field name="cnab_processor">oca_processor</field>
+        <field name="cnab_structure_id" ref="cnab_santander_240" />
+        <field
+            name="cnab_payment_way_ids"
+            eval="[(Command.link(ref('cnab_santander_240_pay_way_31')))]"
+        />
+    </record>
+
+    <!-- SISPAG Santander - Tributo c/ Código de Barras (GNRE) - FIXED -->
+    <record
+        id="payment_mode_sispag_tributo_gnre_santander"
+        model="account.payment.mode"
+    >
+        <field name="name">Tributo c/ Código de Barras (GNRE) - SISPAG Santander</field>
+        <field name="company_id" ref="base.main_company" />
+        <field
+            name="payment_method_id"
+            ref="l10n_br_account_payment_order.payment_mode_type_cnab240_out"
+        />
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="santander_journal" />
+        <field name="payment_order_ok">True</field>
+        <field name="default_date_prefered">due</field>
+        <field name="group_lines">True</field>
+        <field name="cnab_structure_ok">True</field>
+        <field name="cnab_processor">oca_processor</field>
+        <field name="cnab_structure_id" ref="cnab_santander_240" />
+        <field
+            name="cnab_payment_way_ids"
+            eval="[(Command.link(ref('cnab_santander_240_pay_way_91')))]"
+        />
+    </record>
+
+    <!-- SISPAG Santander - Tributo sem Código de Barras (GPS) - FIXED -->
+    <record id="payment_mode_sispag_tributo_gps_santander" model="account.payment.mode">
+        <field name="name">Tributo s/ Código de Barras (GPS) - SISPAG Santander</field>
+        <field name="company_id" ref="base.main_company" />
+        <field
+            name="payment_method_id"
+            ref="l10n_br_account_payment_order.payment_mode_type_cnab240_out"
+        />
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="santander_journal" />
+        <field name="payment_order_ok">True</field>
+        <field name="default_date_prefered">due</field>
+        <field name="group_lines">True</field>
+        <field name="cnab_structure_ok">True</field>
+        <field name="cnab_processor">oca_processor</field>
+        <field name="cnab_structure_id" ref="cnab_santander_240" />
+        <field
+            name="cnab_payment_way_ids"
+            eval="[(Command.link(ref('cnab_santander_240_pay_way_17')))]"
+        />
+    </record>
 </odoo>

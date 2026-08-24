@@ -8,10 +8,10 @@ Copyright (C) 2016-Today KMEE (https://kmee.com.br)
  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 */
 
-import {validate_cnpj_cpf} from "@l10n_br_pos/js/util.esm";
-import {_t} from "@web/core/l10n/translation";
 import PaymentScreen from "point_of_sale.PaymentScreen";
 import Registries from "point_of_sale.Registries";
+import {_t} from "@web/core/l10n/translation";
+import {validate_cnpj_cpf} from "@l10n_br_pos/js/util.esm";
 
 const L10nBrPosPaymentScreen = (OriginalPaymentScreen) =>
     class extends OriginalPaymentScreen {

@@ -112,12 +112,14 @@ class TestFiscalTax(TransactionCase):
             + self.env.ref("l10n_br_fiscal.tax_ipi_15")
             + self.env.ref("l10n_br_fiscal.tax_pis_0_65")
             + self.env.ref("l10n_br_fiscal.tax_cofins_3")
+            + self.env.ref("l10n_br_fiscal.tax_ibs_0_1")
+            + self.env.ref("l10n_br_fiscal.tax_cbs_0_9")
         )
 
         compute_result = fiscal_taxes.compute_taxes(**kwargs)
 
         test_result = {
-            "amount_included": 4.04,
+            "amount_included": 4.34,
             "amount_not_included": 5.19,
             "amount_withholding": 0.0,
             "estimate_tax": 0.0,
@@ -154,6 +156,22 @@ class TestFiscalTax(TransactionCase):
                     "percent_reduction": 0.0,
                     "value_amount": 0.0,
                     "tax_value": 1.04,
+                },
+                "ibs": {
+                    "base": 30.54,
+                    "base_reduction": 0.0,
+                    "percent_amount": 0.10,
+                    "percent_reduction": 0.0,
+                    "value_amount": 0.0,
+                    "tax_value": 0.03,
+                },
+                "cbs": {
+                    "base": 30.54,
+                    "base_reduction": 0.0,
+                    "percent_amount": 0.90,
+                    "percent_reduction": 0.0,
+                    "value_amount": 0.0,
+                    "tax_value": 0.27,
                 },
             },
         }
@@ -303,3 +321,56 @@ class TestFiscalTax(TransactionCase):
         }
 
         self._check_compute_taxes_result(test_result, compute_result, currency)
+
+    def test_icmsst_forces_icms_cst_10(self):
+        """When ICMS ST also applies to the line, the ICMS tax CST must be
+        forced to "10" (Tributada e com cobrança do ICMS por substituição
+        tributária), instead of the ICMS tax's own default CST.
+
+        Uses "Empresa Lucro Presumido" because ``map_fiscal_taxes`` only
+        consults the ICMS Regulation when ``company.tax_framework`` is the
+        "normal" framework (Simples Nacional companies never reach that
+        step) - this demo company already has both the normal framework
+        and an ICMS Regulation configured.
+        """
+        company = self.env.ref("l10n_br_base.empresa_lucro_presumido")
+        partner = self.env.ref("l10n_br_base.res_partner_cliente1_sp")
+        product = self.env.ref("product.product_product_1")
+        line = self.env.ref("l10n_br_fiscal.fo_venda_revendast")
+
+        product.tax_icms_or_issqn = "icms"
+        product.fiscal_type = "00"
+        product.ncm_id = self.env.ref("l10n_br_fiscal.ncm_48191000")
+        product.cest_id = self.env.ref("l10n_br_fiscal.cest_2112300")
+
+        mapping_result = line.map_fiscal_taxes(
+            company=company,
+            partner=partner,
+            product=product,
+            nbm=self.env["l10n_br_fiscal.nbm"],
+            nbs=self.env["l10n_br_fiscal.nbs"],
+            city_taxation_code=self.env["l10n_br_fiscal.city.taxation.code"],
+            national_taxation_code=self.env["l10n_br_fiscal.national.taxation.code"],
+            service_type=self.env["l10n_br_fiscal.service.type"],
+        )
+        self.assertIn("icmsst", mapping_result["taxes"])
+
+        fiscal_taxes = self.env["l10n_br_fiscal.tax"]
+        for tax in mapping_result["taxes"].values():
+            fiscal_taxes |= tax
+
+        compute_result = fiscal_taxes.compute_taxes(
+            company=company,
+            partner=partner,
+            product=product,
+            price_unit=100.00,
+            quantity=1.00,
+            fiscal_price=100.00,
+            fiscal_quantity=1.00,
+            operation_line=line,
+            cfop=mapping_result["cfop"],
+            ncm=product.ncm_id,
+            cest=product.cest_id,
+        )
+
+        self.assertEqual(compute_result["taxes"]["icms"]["cst_id"].code, "10")

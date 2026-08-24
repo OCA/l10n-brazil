@@ -63,7 +63,7 @@
                         <page
                             name="csts"
                             string="CSTs"
-                            attrs="{'invisible': [('tax_domain', 'not in', ('icms', 'ipi', 'pis', 'cofins'))]}"
+                            attrs="{'invisible': [('tax_domain', 'not in', ('icms', 'ipi', 'pis', 'cofins', 'ibs', 'cbs', 'is'))]}"
                         >
                             <field name="cst_ids" nolabel="1" />
                         </page>

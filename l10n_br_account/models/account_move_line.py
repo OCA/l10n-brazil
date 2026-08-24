@@ -24,6 +24,7 @@ class AccountMoveLine(models.Model):
         string="Fiscal Document Line",
         copy=False,
         ondelete="cascade",
+        index="btree_not_null",
     )
 
     document_type_id = fields.Many2one(
@@ -95,17 +96,19 @@ class AccountMoveLine(models.Model):
                 line.quantity * line.price_unit or 1
             )
 
-    @api.depends("product_id", "payment_term_number")
+    @api.depends("product_id", "payment_term_number", "move_id.document_number")
     def _compute_name(self):
         """
         Override to set 'name' with 'document_number/payment_term_number' for
         payment term lines. For other lines, it calls the superclass method.
         """
         payment_term_lines = self.filtered(
-            lambda line: line.display_type == "payment_term"
-            and line.document_type_id
-            and line.move_id.document_number
-            and line.payment_term_number
+            lambda line: (
+                line.display_type == "payment_term"
+                and line.document_type_id
+                and line.move_id.document_number
+                and line.payment_term_number
+            )
         )
         for line in payment_term_lines:
             # set label for payment term lines. Ex: '0001/1-3'
@@ -191,7 +194,6 @@ class AccountMoveLine(models.Model):
                 unlink_fiscal_lines |= inv_line.fiscal_document_line_id
         result = super().unlink()
         unlink_fiscal_lines.unlink()
-        self.clear_caches()
         return result
 
     @contextmanager
@@ -233,14 +235,22 @@ class AccountMoveLine(models.Model):
                 and not self.env.is_protected(self._fields["amount_currency"], line)
                 and (not changed("amount_currency") or line not in before)
             ):
-                if not line.move_id.fiscal_operation_id:
+                # `deductible_taxes` is company dependent, so reading it off the
+                # operation as it comes answers for whatever company sits in the
+                # environment. The answer has to follow the company of the move:
+                # otherwise the same line takes the deductible taxes out of its
+                # base or not depending on which company the user has selected.
+                fiscal_operation = line.move_id.fiscal_operation_id.with_company(
+                    line.company_id
+                )
+                if not fiscal_operation:
                     unsigned_amount_currency = line.currency_id.round(
                         line.price_subtotal
                     )
                 else:  # BRAZIL CASE:
                     if line.cfop_id and not line.cfop_id.finance_move:
                         unsigned_amount_currency = 0
-                        if not line.move_id.fiscal_operation_id.deductible_taxes:
+                        if not fiscal_operation.deductible_taxes:
                             # When there is no financial amount but there are non
                             # dectutible taxes, then we should take the total tax
                             # amount into account here to keep the move balanced.
@@ -251,7 +261,7 @@ class AccountMoveLine(models.Model):
                                 - line.amount_tax_withholding
                             )
                     else:
-                        if line.move_id.fiscal_operation_id.deductible_taxes:
+                        if fiscal_operation.deductible_taxes:
                             unsigned_amount_currency = (
                                 line.fiscal_amount_total + line.amount_tax_withholding
                             )
@@ -344,6 +354,11 @@ class AccountMoveLine(models.Model):
 
             # Compute 'price_total'.
             if line.tax_ids:
+                # line.fiscal_tax_ids (delegated via _inherits) can still read
+                # empty here even though it was just set on creation: reading
+                # through fiscal_document_line_id avoids that stale cache and
+                # keeps the embedded-tax split (e.g. IBS/CBS) from silently
+                # computing as 0.
                 taxes_res = line.tax_ids._origin.with_context().compute_all(
                     line_discount_price_unit,
                     currency=line.currency_id,
@@ -352,7 +367,7 @@ class AccountMoveLine(models.Model):
                     partner=line.partner_id,
                     is_refund=line.move_type in ("out_refund", "in_refund"),
                     handle_price_include=True,  # sure?
-                    fiscal_taxes=line.fiscal_tax_ids,
+                    fiscal_taxes=line.fiscal_document_line_id.fiscal_tax_ids,
                     operation_line=line.fiscal_operation_line_id,
                     cfop=line.cfop_id or None,
                     ncm=line.ncm_id,
@@ -386,6 +401,52 @@ class AccountMoveLine(models.Model):
                 subtotal = line.quantity * line_discount_price_unit
                 line.price_total = line.price_subtotal = subtotal
 
+    # tax_domain -> (fiscal_value_field, fiscal_base_field)
+    _IMPORTED_TAX_FIELD_MAP = {
+        "icmsst": ("icmsst_value", "icmsst_base"),
+        "icms": ("icms_value", "icms_base"),
+        "ipi": ("ipi_value", "ipi_base"),
+        "pis": ("pis_value", "pis_base"),
+        "cofins": ("cofins_value", "cofins_base"),
+        "issqn": ("issqn_value", "issqn_base"),
+        "ii": ("ii_value", "ii_base"),
+        "ibs": ("ibs_value", "ibs_base"),
+        "cbs": ("cbs_value", "cbs_base"),
+    }
+
+    def _override_taxes_from_import(self, taxes, fiscal_line, sign):
+        """Override compute_all tax amounts with the imported fiscal values.
+
+        The account.tax -> Brazilian tax mapping comes from the fiscal
+        tax group (``tax_group_id.fiscal_tax_group_id.tax_domain``), the
+        same canonical link already used by the account.tax compute_all
+        override.
+        """
+        for tax in taxes:
+            repartition_line = self.env["account.tax.repartition.line"].browse(
+                tax.get("tax_repartition_line_id") or []
+            )
+            acc_tax = (
+                self.env["account.tax"].browse(tax.get("id") or [])
+                or repartition_line.tax_id
+            )
+            fiscal_group = acc_tax.tax_group_id.fiscal_tax_group_id
+            if fiscal_group.tax_withholding:
+                # Clear withholding taxes: XML doesn't bring WH item per item
+                tax["amount"] = 0.0
+                tax["base"] = 0.0
+                continue
+            field_names = self._IMPORTED_TAX_FIELD_MAP.get(fiscal_group.tax_domain)
+            if field_names:
+                # compute_all returns one entry per tax repartition line:
+                # each entry must carry only its share (factor) of the
+                # imported tax value, otherwise taxes with more than one
+                # repartition line would be counted multiple times.
+                factor = repartition_line.factor if repartition_line else 1.0
+                fiscal_value = getattr(fiscal_line, field_names[0]) or 0.0
+                tax["amount"] = sign * fiscal_value * factor
+                tax["base"] = sign * (getattr(fiscal_line, field_names[1]) or 0.0)
+
     @api.depends(
         "tax_ids",
         "currency_id",
@@ -413,6 +474,8 @@ class AccountMoveLine(models.Model):
         "icmssn_range_id",
         "icms_origin",
         "ind_final",
+        "fiscal_document_line_id",
+        "fiscal_document_line_id.document_id.imported_document",
     )
     def _compute_all_tax(self):
         """
@@ -436,6 +499,7 @@ class AccountMoveLine(models.Model):
                 amount_currency = line.amount_currency
                 handle_price_include = False
                 quantity = 1
+
             compute_all_currency = line.tax_ids.compute_all(
                 amount_currency,
                 currency=line.currency_id,
@@ -446,7 +510,10 @@ class AccountMoveLine(models.Model):
                 handle_price_include=handle_price_include,
                 include_caba_tags=line.move_id.always_tax_exigible,
                 fixed_multiplicator=sign,
-                fiscal_taxes=line.fiscal_tax_ids,
+                # see the note in _compute_totals: read through
+                # fiscal_document_line_id to avoid a stale fiscal_tax_ids,
+                # otherwise every dynamic tax line silently computes as 0.
+                fiscal_taxes=line.fiscal_document_line_id.fiscal_tax_ids,
                 operation_line=line.fiscal_operation_line_id,
                 cfop=line.cfop_id or None,
                 ncm=line.ncm_id,
@@ -471,6 +538,17 @@ class AccountMoveLine(models.Model):
                 else 1
             )
             line.compute_all_tax_dirty = True
+
+            if (
+                line.fiscal_document_line_id
+                and line.fiscal_document_line_id.document_id.imported_document
+            ):
+                self._override_taxes_from_import(
+                    compute_all_currency["taxes"],
+                    line.fiscal_document_line_id,
+                    sign,
+                )
+
             line.compute_all_tax = {
                 frozendict(
                     {

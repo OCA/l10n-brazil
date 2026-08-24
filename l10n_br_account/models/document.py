@@ -11,9 +11,9 @@ from odoo.exceptions import UserError
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
     DOCUMENT_ISSUER_PARTNER,
+    DOCUMENT_STATE_DRAFT,
     MODELO_FISCAL_CTE,
     MODELO_FISCAL_NFE,
-    SITUACAO_EDOC_EM_DIGITACAO,
 )
 
 
@@ -204,7 +204,7 @@ class FiscalDocument(models.Model):
 
     def unlink(self):
         non_draft_documents = self.filtered(
-            lambda d: d.state != SITUACAO_EDOC_EM_DIGITACAO
+            lambda d: d.state_edoc != DOCUMENT_STATE_DRAFT
         )
 
         if non_draft_documents:
@@ -271,12 +271,28 @@ class FiscalDocument(models.Model):
                 move.message_post(**kwargs)
         return res
 
-    def cancel_move_ids(self):
+    def _check_cancel_move_ids_allowed(self):
+        """Fail fast on closed period before the irreversible SEFAZ call."""
         for record in self:
-            if record.move_ids:
-                self.move_ids.button_cancel()
+            moves = record.move_ids.filtered(lambda m: m.state == "posted")
+            if moves:
+                moves._check_fiscalyear_lock_date()
+                moves.line_ids._check_tax_lock_date()
+
+    def cancel_move_ids(self):
+        # Replicate the core button_draft cleanup (analytic + reconcile)
+        # without invoking the override that blocks documents already
+        # cancelled at SEFAZ.
+        for record in self:
+            moves = record.move_ids
+            if not moves:
+                continue
+            moves.mapped("line_ids.analytic_line_ids").unlink()
+            moves.mapped("line_ids").remove_move_reconcile()
+            moves.button_cancel()
 
     def _document_cancel(self, justificative):
+        self._check_cancel_move_ids_allowed()
         result = super()._document_cancel(justificative)
         msg = f"Cancelamento: {justificative}"
         self.cancel_move_ids()
@@ -296,6 +312,15 @@ class FiscalDocument(models.Model):
         )
         self.cancel_move_ids()
         self.message_post(body=msg)
+
+    def _after_document_deny(self):
+        """Cancel linked account moves when NFe/CTe is denied."""
+        models_cancel_on_deny = [MODELO_FISCAL_NFE, MODELO_FISCAL_CTE]
+        if (
+            self.document_type_id.code in models_cancel_on_deny
+            and self.issuer == DOCUMENT_ISSUER_COMPANY
+        ):
+            self._document_deny()
 
     def action_document_confirm(self):
         result = super().action_document_confirm()
@@ -329,12 +354,31 @@ class FiscalDocument(models.Model):
 
         return action
 
-    def exec_after_SITUACAO_EDOC_DENEGADA(self, old_state, new_state):
+    def _check_document_import(self):
+        """Ensure an imported fiscal document has the minimum data required
+        to generate a valid account move (and a sound SPED basis).
+
+        Raises a single UserError listing every problem found so the user
+        can fix the de-para in one pass instead of one error at a time.
+        """
         self.ensure_one()
-        models_cancel_on_deny = [MODELO_FISCAL_NFE, MODELO_FISCAL_CTE]
-        if (
-            self.document_type_id.code in models_cancel_on_deny
-            and self.issuer == DOCUMENT_ISSUER_COMPANY
-        ):
-            self._document_deny()
-        return super().exec_after_SITUACAO_EDOC_DENEGADA(old_state, new_state)
+        errors = []
+        for line in self.fiscal_line_ids:
+            label = line.name or line.product_id.display_name or _("Unknown")
+            if not line.product_id:
+                errors.append(_("- %s: no product matched.") % label)
+            if not line.uom_id:
+                errors.append(_("- %s: no unit of measure.") % label)
+            if not line.quantity:
+                errors.append(_("- %s: no quantity.") % label)
+            if not line.price_unit and line.fiscal_amount_total:
+                # A zero unit price with a zero line total is a legitimate
+                # free line (bonificação / amostra grátis declared with
+                # vUnCom=0). Only flag the inconsistent case where amounts
+                # exist but the unit price was not resolved.
+                errors.append(_("- %s: no unit price.") % label)
+        if errors:
+            raise UserError(
+                _("The document cannot be imported due to incomplete lines:\n%s")
+                % "\n".join(errors)
+            )

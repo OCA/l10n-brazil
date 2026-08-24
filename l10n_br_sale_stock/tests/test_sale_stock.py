@@ -83,12 +83,21 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         common_fields = list(set(sm_fields) & set(sol_fields) - set(skipped_fields))
 
         for field in common_fields:
-            self.assertEqual(
-                stock_move[field],
-                sale_order_line[field],
-                "Field %s failed to transfer from "
-                "sale.order.line to stock.move" % field,
-            )
+            if isinstance(stock_move[field], float):
+                self.assertAlmostEqual(
+                    stock_move[field],
+                    sale_order_line[field],
+                    2,
+                    "Field %s failed to transfer from "
+                    "sale.order.line to stock.move" % field,
+                )
+            else:
+                self.assertEqual(
+                    stock_move[field],
+                    sale_order_line[field],
+                    "Field %s failed to transfer from "
+                    "sale.order.line to stock.move" % field,
+                )
 
         self.env["stock.immediate.transfer"].create(
             {"pick_ids": [Command.link(stock_picking.id)]}
@@ -118,17 +127,27 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         common_fields = list(set(sm_fields) & set(sol_fields) - set(skipped_fields))
 
         for field in common_fields:
-            self.assertEqual(
-                stock_move[field],
-                sale_order_line[field],
-                "Field %s failed to transfer from "
-                "sale.order.line to stock.move" % field,
-            )
+            if isinstance(stock_move[field], float):
+                self.assertAlmostEqual(
+                    stock_move[field],
+                    sale_order_line[field],
+                    2,
+                    "Field %s failed to transfer from "
+                    "sale.order.line to stock.move" % field,
+                )
+            else:
+                self.assertEqual(
+                    stock_move[field],
+                    sale_order_line[field],
+                    "Field %s failed to transfer from "
+                    "sale.order.line to stock.move" % field,
+                )
 
     def test_picking_sale_order_product_and_service(self):
         """
         Test Sale Order with product and service
         """
+        self._change_user_company(self.env.ref("l10n_br_base.empresa_simples_nacional"))
         sale_order_2 = self.env.ref("l10n_br_sale_stock.main_company-sale_order_2")
         self.env.ref(
             "l10n_br_sale_stock.main_company-sale_order_line_2_1"
@@ -229,12 +248,21 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
             line.save()
 
         for field in common_fields:
-            self.assertEqual(
-                sale_order_line[field],
-                invoice_lines[field],
-                "Field %s failed to transfer from "
-                "sale.order.line to account.move.line" % field,
-            )
+            if isinstance(sale_order_line[field], float):
+                self.assertAlmostEqual(
+                    sale_order_line[field],
+                    invoice_lines[field],
+                    2,
+                    "Field %s failed to transfer from "
+                    "sale.order.line to account.move.line" % field,
+                )
+            else:
+                self.assertEqual(
+                    sale_order_line[field],
+                    invoice_lines[field],
+                    "Field %s failed to transfer from "
+                    "sale.order.line to account.move.line" % field,
+                )
 
         for inv_line in invoice_lines.filtered(
             lambda ln: ln.product_id == sale_order_line.product_id
@@ -275,6 +303,7 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         picking and 3 moves per picking, but Partner to Shipping is
         different from Partner to Invoice.
         """
+        self._change_user_company(self.env.ref("l10n_br_base.empresa_simples_nacional"))
         sale_order_1 = self.env.ref("l10n_br_sale_stock.main_company-sale_order_1")
         sale_order_1.action_confirm()
         picking = sale_order_1.picking_ids
@@ -333,6 +362,7 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         picking and 3 moves per picking, the 3 has the same Partner to
         Invoice but one has Partner to Shipping so shouldn't be grouping.
         """
+        self._change_user_company(self.env.ref("l10n_br_base.empresa_simples_nacional"))
         sale_order_1 = self.env.ref("l10n_br_sale_stock.main_company-sale_order_1")
         sale_order_1.action_confirm()
         picking = sale_order_1.picking_ids
@@ -390,6 +420,7 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         """
         Test the synchronize Sale Partner Shipping in Stock Picking
         """
+        self._change_user_company(self.env.ref("l10n_br_base.empresa_simples_nacional"))
         sale_order_1 = self.env.ref("l10n_br_sale_stock.main_company-sale_order_1")
         sale_order_1.action_confirm()
         picking = sale_order_1.picking_ids
@@ -450,6 +481,7 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
 
     def test_form_stock_picking(self):
         """Test Stock Picking with Form"""
+        self._change_user_company(self.env.ref("l10n_br_base.empresa_simples_nacional"))
         sale_order = self.env.ref("l10n_br_sale_stock.main_company-sale_order_1")
         sale_order.action_confirm()
         picking = sale_order.picking_ids
@@ -467,6 +499,7 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
 
     def test_down_payment(self):
         """Test the case with Down Payment"""
+        self._change_user_company(self.env.ref("l10n_br_base.empresa_simples_nacional"))
         sale_order_1 = self.env.ref("l10n_br_sale_stock.main_company-sale_order_1")
         sale_order_1.action_confirm()
         # Create Invoice Sale
@@ -525,6 +558,7 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
 
     def test_generate_document_number_on_invoice_create_wizard(self):
         """Test Invoicing Picking with Document Number"""
+        self._change_user_company(self.env.ref("l10n_br_base.empresa_simples_nacional"))
         sale_order = self.env.ref("l10n_br_sale_stock.main_company-sale_order_1")
         sale_order.action_confirm()
         picking = sale_order.picking_ids

@@ -3,7 +3,7 @@ import logging
 from odoo.tests.common import TransactionCase
 from odoo.tools import float_compare
 
-from odoo.addons.l10n_br_fiscal.constants.fiscal import SITUACAO_EDOC_A_ENVIAR
+from odoo.addons.l10n_br_fiscal.constants.fiscal import SITUACAO_EDOC_ENVIADA
 
 _logger = logging.getLogger(__name__)
 
@@ -43,7 +43,7 @@ class TestXMLValidation(TransactionCase):
             f"(Test Result) XML Validation Message: {document.xml_error_message}"
         )
         self.assertTrue("CEP" in document.xml_error_message)
-        self.assertEqual(document.state_edoc, SITUACAO_EDOC_A_ENVIAR)
+        self.assertEqual(document.state_edoc, SITUACAO_EDOC_ENVIADA)
 
     def test_xml_nfe_taxes(self):
         """This method tests multiple tax fields for NFe lines and NFe totals.
@@ -84,7 +84,7 @@ class TestXMLValidation(TransactionCase):
                 "fiscal_quantity": 22,
             }
         )
-        self.assertEqual(len(line.fiscal_tax_ids), 4)
+        self.assertEqual(len(line.fiscal_tax_ids), 6)
         line.write(
             {
                 "icms_tax_id": self.env.ref("l10n_br_fiscal.tax_icms_12_st").id,

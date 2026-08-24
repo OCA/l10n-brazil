@@ -1,12 +1,16 @@
 # Copyright 2019-TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
+import logging
 from importlib import import_module
 
 from odoo import api, models
+from odoo.models import is_definition_class
 from odoo.tools import mute_logger
 
 from .spec_models import SPEC_MIXIN_MAPPINGS, SpecModel, StackedModel
+
+_logger = logging.getLogger(__name__)
 
 
 class SpecMixin(models.AbstractModel):
@@ -71,7 +75,7 @@ class SpecMixin(models.AbstractModel):
                     return spec_schema, spec_version
                 return f"{spec_schema}{spec_version}"
 
-        return None, None if split else None
+        return (None, None) if split else None
 
     def _get_spec_property(self, spec_property="", fallback=None):
         """
@@ -98,13 +102,22 @@ class SpecMixin(models.AbstractModel):
         if not spec_schema:
             return
 
+        # read before the load key below, which is claimed once per schema
+        spec_module = self._get_spec_property("odoo_module")
+        if not spec_module:
+            _logger.debug(
+                "%s: no spec module for the %s schema, "
+                "skipping the remaining schema models hook",
+                self._name,
+                spec_schema,
+            )
+            return
+
         load_key = f"_{spec_schema}_register_hook_loaded"
         if hasattr(self.env.registry, load_key):  # hook already called for registry
             return
         setattr(self.env.registry, load_key, True)
 
-        access_data = []
-        access_fields = []
         field_prefix = f"{spec_schema}{spec_version}"
         relation_prefix = f"{spec_schema}.{spec_version}.%"
         self.env.cr.execute(
@@ -119,16 +132,76 @@ class SpecMixin(models.AbstractModel):
             if self.env.registry.get(i[0])
             and not SPEC_MIXIN_MAPPINGS[self.env.cr.dbname].get(i[0])
         }
-        spec_module = self._get_spec_property("odoo_module")
         if "_spec." in spec_module:
             odoo_module = spec_module.split("_spec.")[0].split(".")[-1]
         else:  # for tests:
             odoo_module = "spec_driven_model"
+        # concrete classes we build below, tracked so we can drop them
+        # from module_to_models at the end of this method
+        concrete_models = []
+        try:
+            self._build_remaining_schema_models(
+                remaining_models,
+                spec_module,
+                odoo_module,
+                spec_schema,
+                spec_version,
+                field_prefix,
+                concrete_models,
+            )
+        finally:
+            # The concrete classes we built above are rebuilt from scratch every
+            # time this hook runs, but Odoo's MetaModel registered them in
+            # module_to_models, which persists across registry rebuilds. Leaving
+            # them there would make the next Registry.new() -- triggered by any
+            # module install/update -- rebuild these *stale* classes as extra
+            # bases of their model; being subclasses of the downstream classes
+            # that extend the model via _inherit, they break the C3
+            # linearization and crash setup_models() with an inconsistent MRO
+            # (#4668). This runs in a finally block because an exception raised
+            # anywhere above -- init_models recomputing a broken field, for
+            # instance -- would otherwise leak the classes and poison every
+            # later registry build in the process.
+            registered = models.MetaModel.module_to_models[odoo_module]
+            models.MetaModel.module_to_models[odoo_module] = [
+                cls for cls in registered if cls not in concrete_models
+            ]
+
+    def _build_remaining_schema_models(
+        self,
+        remaining_models,
+        spec_module,
+        odoo_module,
+        spec_schema,
+        spec_version,
+        field_prefix,
+        concrete_models,
+    ):
+        access_data = []
+        access_fields = []
         for name in remaining_models:
             spec_class = StackedModel._odoo_name_to_class(name, spec_module)
             if spec_class is None:
                 continue
-            fields = self.env[spec_class._name]._fields
+            # By the time this hook runs, all modules extending this spec
+            # mixin via _inherit (e.g. custom fields added by a downstream
+            # *_nfe module) have already been merged by Odoo into the
+            # registry class for `name`. spec_class only reflects the single
+            # class literally defined in spec_module though, so using it
+            # alone as the base below would silently drop those extra
+            # fields. Pull in every genuine definition class that
+            # contributed to the merged registry class (skipping registry
+            # ("NewClass") wrappers themselves, which cannot safely be reused
+            # as a base for another _build_model() call).
+            merged_class = self.env.registry[name]
+            # accessed via getattr to avoid Python's name mangling of the
+            # double-underscore "__base_classes" attribute set by Odoo's
+            # BaseModel._build_model()
+            merged_base_classes = merged_class._BaseModel__base_classes
+            definition_bases = tuple(
+                base for base in merged_base_classes if is_definition_class(base)
+            )
+            fields = merged_class._fields
             rec_name = next(
                 filter(
                     lambda x: (x.startswith(field_prefix) and "_choice" not in x),
@@ -138,7 +211,7 @@ class SpecMixin(models.AbstractModel):
             )
             model_type = type(
                 name,
-                (SpecModel, spec_class),
+                (SpecModel,) + definition_bases,
                 {
                     "_name": name,
                     "_inherit": spec_class._inherit,
@@ -152,6 +225,7 @@ class SpecMixin(models.AbstractModel):
             model_type._spec_schema = spec_schema
             model_type._spec_version = spec_version
             models.MetaModel.module_to_models[odoo_module] += [model_type]
+            concrete_models.append(model_type)
 
             # now we init these models properly
             # a bit like odoo.modules.loading#load_module_graph would do
@@ -195,6 +269,20 @@ class SpecMixin(models.AbstractModel):
         )
         with mute_logger("odoo.models"):
             imd_recs.unlink()
+
+        # The concrete classes we built above are rebuilt from scratch every
+        # time this hook runs, but Odoo's MetaModel registered them in
+        # module_to_models, which persists across registry rebuilds. Leaving
+        # them there would make the next Registry.new() -- triggered by any
+        # module install/update -- rebuild these *stale* classes as extra bases
+        # of their model; being subclasses of the downstream classes that extend
+        # the model via _inherit, they break the C3 linearization and crash
+        # setup_models() with an inconsistent MRO (#4668). Drop exactly the ones
+        # we just built; the hook recreates them on every registry (re)load.
+        registered = models.MetaModel.module_to_models[odoo_module]
+        models.MetaModel.module_to_models[odoo_module] = [
+            cls for cls in registered if cls not in concrete_models
+        ]
 
     @classmethod
     def _auto_fill_access_data(cls, env, module_name: str, access_data: list):

@@ -4,7 +4,7 @@
 {
     "name": "Brazilian Account Installment Renegotiation",
     "summary": "Allows renegotiating payment installments on posted invoices in Brazil",
-    "version": "16.0.1.0.0",
+    "version": "16.0.1.0.1",
     "category": "Localization",
     "license": "AGPL-3",
     "author": "Akretion, Odoo Community Association (OCA)",

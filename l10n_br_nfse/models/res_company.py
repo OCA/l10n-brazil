@@ -32,6 +32,10 @@ class ResCompany(models.Model):
         string="NFSe SSL Verify",
         default=False,
     )
+    nfse_use_city_pdf = fields.Boolean(
+        string="Use City NFSe PDF",
+        default=False,
+    )
 
     def _prepare_company_service(self):
         return {

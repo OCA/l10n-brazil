@@ -122,3 +122,37 @@ def sale_set_journal_in_fiscal_operation(cr):
                     },
                 ],
             )
+
+        company_lr = env.ref(
+            "l10n_br_base.empresa_lucro_real", raise_if_not_found=False
+        )
+
+        # COA Generic Fiscal Operation properties
+        if company_lr and env["ir.module.module"].search_count(
+            [
+                ("name", "=", "l10n_br_coa_generic"),
+                ("state", "=", "installed"),
+            ]
+        ):
+            set_journal_in_fiscal_operation(
+                cr,
+                company_lr,
+                [
+                    {
+                        "fiscal_operation": "l10n_br_fiscal.fo_venda",
+                        "journal": "l10n_br_coa_generic.sale_journal_empresa_lr",
+                    },
+                    {
+                        "fiscal_operation": "l10n_br_fiscal.fo_bonificacao",
+                        "journal": "l10n_br_coa_generic.sale_journal_empresa_lr",
+                    },
+                    {
+                        "fiscal_operation": "l10n_br_fiscal.fo_devolucao_venda",
+                        "journal": "l10n_br_coa_generic.sale_journal_empresa_lr",
+                    },
+                    {
+                        "fiscal_operation": "l10n_br_fiscal.fo_simples_remessa",
+                        "journal": "l10n_br_coa_generic.sale_journal_empresa_lr",
+                    },
+                ],
+            )

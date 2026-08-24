@@ -5,7 +5,7 @@
     "name": "SPED - ECD",
     "summary": """
         Arquivo ECD do SPED""",
-    "version": "16.0.4.1.0",
+    "version": "16.0.4.2.0",
     "license": "AGPL-3",
     "author": "Akretion, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",

@@ -7,6 +7,8 @@ from odoo.exceptions import ValidationError
 from odoo.tests import TransactionCase
 from odoo.tools import mute_logger
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import DOCUMENT_STATE_CANCEL
+
 
 class TestFiscalDocumentSerie(TransactionCase):
     @classmethod
@@ -36,7 +38,7 @@ class TestFiscalDocumentSerie(TransactionCase):
                 "document_type_id": cls.document_type_nfe.id,
                 "document_serie_id": cls.document_serie_nfe_5.id,
                 "partner_id": cls.env.ref("l10n_br_base.res_partner_cliente1_sp").id,
-                "state_edoc": "cancelada",
+                "state_edoc": DOCUMENT_STATE_CANCEL,
             }
         )
 

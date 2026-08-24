@@ -11,7 +11,7 @@
     "maintainers": ["rvalyi", "renatonlima"],
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Beta",
-    "version": "16.0.12.0.0",
+    "version": "16.0.14.0.0",
     "depends": [
         "l10n_br_fiscal_edi",
         "l10n_br_fiscal_certificate",
@@ -28,6 +28,8 @@
         # Views
         "views/res_company_view.xml",
         "views/nfe_document_view.xml",
+        "views/nfe_document_line_view.xml",
+        "views/nfe_di_view.xml",
         "views/res_config_settings_view.xml",
         "views/mde/mde_views.xml",
         "views/dfe/dfe_views.xml",

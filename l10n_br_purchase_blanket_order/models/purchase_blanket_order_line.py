@@ -3,6 +3,8 @@
 
 from odoo import api, fields, models
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import FISCAL_TAX_ID_FIELDS
+
 
 class PurchaseBlanketOrderLine(models.Model):
     _name = "purchase.blanket.order.line"
@@ -47,9 +49,6 @@ class PurchaseBlanketOrderLine(models.Model):
         related="order_id.partner_id",
         string="Partner",
     )
-    price_gross = fields.Monetary(
-        compute="_compute_amount", string="Gross Amount", compute_sudo=True
-    )
     comment_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.comment",
         relation="purchase_blanket_order_line_comment_rel",
@@ -57,10 +56,14 @@ class PurchaseBlanketOrderLine(models.Model):
         column2="comment_id",
         string="Comments",
     )
-    ind_final = fields.Selection(related="order_id.ind_final")
     price_subtotal = fields.Monetary(compute_sudo=True)
     price_tax = fields.Monetary(compute_sudo=True)
     price_total = fields.Monetary(compute_sudo=True)
+
+    # adapted for _compute_find_final:
+    def _get_document(self):
+        self.ensure_one()
+        return self.order_id
 
     @api.model
     def _cnae_domain(self):
@@ -82,6 +85,38 @@ class PurchaseBlanketOrderLine(models.Model):
         domain=lambda self: self._cnae_domain(),
     )
 
+    def _setup_complete(self):
+        # Same approach as l10n_br_purchase: mixin fields use precompute=True but
+        # blanket lines do not have all dependencies ready at create time.
+        res = super()._setup_complete()
+        mixin = self.env["l10n_br_fiscal.document.line.mixin"]
+        mixin_fields = mixin._fields
+        for name, field in self._fields.items():
+            mixin_field = mixin_fields.get(name)
+            if not mixin_field:
+                continue
+            if mixin_field.compute in (
+                "_compute_price_unit_fiscal",
+                "_compute_product_fiscal_fields",
+                "_compute_fiscal_quantity",
+                "_compute_fiscal_price",
+                "_compute_fiscal_tax_ids",
+                "_compute_tax_fields",
+                "_compute_fiscal_operation_line_id",
+                "_compute_comment_ids",
+            ) and getattr(mixin_field, "precompute", False):
+                field.precompute = False
+        return res
+
+    def _needs_fiscal_tax_recompute(self, vals):
+        return "fiscal_tax_ids" in vals or any(
+            fname in vals for fname in FISCAL_TAX_ID_FIELDS
+        )
+
+    def _recompute_fiscal_tax_fields(self):
+        # _compute_tax_fields writes tax outputs; skip re-entry via write().
+        self.with_context(skip_fiscal_tax_recompute=True)._compute_tax_fields()
+
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
@@ -91,7 +126,28 @@ class PurchaseBlanketOrderLine(models.Model):
                 vals["product_uom"] = product.uom_po_id.id or product.uom_id.id
                 vals["uom_id"] = vals["product_uom"]
                 vals["uot_id"] = vals["product_uom"]
-        return super().create(vals_list)
+        # Like l10n_br_purchase / sale blanket: ensure taxes_id after create when
+        # onchange path did not run (e.g. Command.create from parent).
+        lines = super().create(vals_list)
+        for line in lines.filtered("fiscal_operation_line_id"):
+            line._onchange_fiscal_tax_ids()
+        # Form save often creates with fiscal_tax_ids + *_tax_id together;
+        # the mixin compute can run before both values settle and leave
+        # amount_tax_withholding at 0. Force a final recompute.
+        if any(self._needs_fiscal_tax_recompute(vals) for vals in vals_list):
+            lines._recompute_fiscal_tax_fields()
+        return lines
+
+    def write(self, vals):
+        res = super().write(vals)
+        if self.env.context.get("skip_fiscal_tax_recompute"):
+            return res
+        # Same race as create: writing inss_wh_tax_id together with
+        # fiscal_tax_ids can make _compute_tax_fields run on stale taxes
+        # and persist amount_tax_withholding=0 after an onchange showed 11.
+        if self._needs_fiscal_tax_recompute(vals):
+            self._recompute_fiscal_tax_fields()
+        return res
 
     def _get_protected_fields(self):
         protected_fields = super()._get_protected_fields()
@@ -137,6 +193,26 @@ class PurchaseBlanketOrderLine(models.Model):
             line.currency_id = line.order_id.currency_id
         return super()._compute_tax_fields()
 
+    @api.onchange("product_id", "original_uom_qty")
+    def onchange_product(self):
+        """OCA onchange_product sets taxes_id from supplier_taxes_id (empty on BR).
+
+        Re-sync like l10n_br_purchase after the OCA onchange.
+        """
+        res = super().onchange_product()
+        self._onchange_fiscal_tax_ids()
+        return res
+
+    @api.onchange("fiscal_tax_ids")
+    def _onchange_fiscal_tax_ids(self):
+        # Same hook used by l10n_br_purchase / purchase_request / requisition.
+        if self.fiscal_operation_line_id:
+            self.taxes_id = self.fiscal_tax_ids.account_taxes(
+                user_type="purchase",
+                fiscal_operation=self.fiscal_operation_id,
+                company=self.company_id or self.order_id.company_id,
+            )
+
     @api.depends(
         "quantity",
         "price_unit",
@@ -147,11 +223,13 @@ class PurchaseBlanketOrderLine(models.Model):
     def _compute_amount(self):
         result = super()._compute_amount()
         for line in self:
+            # Mirror l10n_br_purchase: map commercial totals from fiscal amounts.
+            # Keep price_gross on the mixin (price_unit * quantity); rebinding it
+            # here creates a circular dependency when withholdings are present.
             line.update(
                 {
                     "price_subtotal": line.fiscal_amount_untaxed,
                     "price_tax": line.fiscal_amount_tax,
-                    "price_gross": line.fiscal_amount_untaxed,
                     "price_total": line.fiscal_amount_total,
                 }
             )

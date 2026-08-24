@@ -14,8 +14,8 @@ from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from erpbrasil.transmissao import TransmissaoSOAP
 from lxml import etree
 from nfelib.nfe.bindings.v4_0.dfe_tipos_basicos_v1_00 import TibscbsmonoTot
-from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
 from nfelib.nfe.bindings.v4_0.nfe_v4_00 import Nfe
+from nfelib.nfe.bindings.v4_0.proc_nfe_v4_00 import NfeProc
 from nfelib.nfe.ws.edoc_legacy import NFCeAdapter as edoc_nfce
 from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
 from requests import Session
@@ -33,6 +33,9 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     CANCELADO_FORA_PRAZO,
     DENEGADO,
     DOCUMENT_ISSUER_COMPANY,
+    DOCUMENT_STATE_CANCEL,
+    DOCUMENT_STATE_DRAFT,
+    DOCUMENT_STATE_OPEN,
     EVENT_ENV_HML,
     EVENT_ENV_PROD,
     EVENTO_RECEBIDO,
@@ -41,16 +44,16 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFE,
     PROCESSADOR_OCA,
     SERVICO_PARALIZADO,
-    SITUACAO_EDOC_A_ENVIAR,
-    SITUACAO_EDOC_AUTORIZADA,
-    SITUACAO_EDOC_CANCELADA,
-    SITUACAO_EDOC_DENEGADA,
-    SITUACAO_EDOC_EM_DIGITACAO,
-    SITUACAO_EDOC_REJEITADA,
     SITUACAO_FISCAL_CANCELADO,
     SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
 )
 from odoo.addons.l10n_br_fiscal.tools import remove_non_ascii_characters
+from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import (
+    DOCUMENT_STATE_AUTHORIZED,
+    DOCUMENT_STATE_DENIED,
+    DOCUMENT_STATE_REJECTED,
+    DOCUMENT_STATE_SENDING,
+)
 from odoo.addons.spec_driven_model.models import spec_models
 
 from ..constants.nfe import (
@@ -61,6 +64,13 @@ from ..constants.nfe import (
     NFE_TRANSMISSIONS,
     NFE_VERSIONS,
 )
+
+SITUACAO_EDOC_CANCELADA = DOCUMENT_STATE_CANCEL
+SITUACAO_EDOC_EM_DIGITACAO = DOCUMENT_STATE_DRAFT
+SITUACAO_EDOC_REJEITADA = DOCUMENT_STATE_REJECTED
+SITUACAO_EDOC_AUTORIZADA = DOCUMENT_STATE_AUTHORIZED
+SITUACAO_EDOC_DENEGADA = DOCUMENT_STATE_DENIED
+SITUACAO_EDOC_A_ENVIAR = DOCUMENT_STATE_OPEN
 
 PRODUCT_CODE_FISCAL_DOCUMENT_TYPES = ["55", "01"]
 NFE_XML_NAMESPACE = {"nfe": "http://www.portalfiscal.inf.br/nfe"}
@@ -279,9 +289,11 @@ class NFe(spec_models.StackedModel):
 
     nfe40_verProc = fields.Char(
         copy=False,
-        default=lambda s: s.env["ir.config_parameter"]
-        .sudo()
-        .get_param("l10n_br_nfe.version.name", default="Odoo Brasil OCA v14"),
+        default=lambda s: (
+            s.env["ir.config_parameter"]
+            .sudo()
+            .get_param("l10n_br_nfe.version.name", default="Odoo Brasil OCA v14")
+        ),
     )
 
     ##########################
@@ -810,6 +822,14 @@ class NFe(spec_models.StackedModel):
     # Framework Spec model's methods
     ################################
 
+    def _nfe_export_ibscbs_totals(self):
+        """Return True when the document has IBS/CBS values to export"""
+        self.ensure_one()
+        return bool(
+            sum(self.fiscal_line_ids.mapped("ibs_value"))
+            or sum(self.fiscal_line_ids.mapped("cbs_value"))
+        )
+
     def _export_field(self, xsd_field, class_obj, member_spec, export_value=None):
         if xsd_field == "nfe40_tpAmb":
             self.env.context = dict(self.env.context)
@@ -818,11 +838,21 @@ class NFe(spec_models.StackedModel):
                 xsd_field, class_obj, member_spec, export_value
             )
 
-        if xsd_field == "nfe40_IBSCBSTot":
-            total_ibs = sum(self.fiscal_line_ids.mapped("ibs_value"))
-            total_cbs = sum(self.fiscal_line_ids.mapped("cbs_value"))
+        if xsd_field == "nfe40_vNFTot":
+            # NT 2025.002 (rule W60): total of the NF-e considering the
+            # IBS/CBS/IS taxes. This mirrors fiscal_amount_total, which
+            # already honors each tax group's "tax_include" flag: taxes
+            # flagged as included in the price do not add to the total,
+            # taxes flagged as "outside" do. In the 2026 transition the
+            # IBS/CBS/IS groups are set as included, so vNFTot equals vNF;
+            # switching those groups to "outside" makes them compose the
+            # total automatically, with no code change.
+            if not self._nfe_export_ibscbs_totals():
+                return False
+            return f"{self.fiscal_amount_total:.2f}"
 
-            if not total_ibs and not total_cbs:
+        if xsd_field == "nfe40_IBSCBSTot":
+            if not self._nfe_export_ibscbs_totals():
                 return False
 
             # Build gIBSUF
@@ -944,6 +974,14 @@ class NFe(spec_models.StackedModel):
             )
         return res
 
+    @api.model
+    def _build_attr(self, node, fields, vals, path, attr):
+        key = f"nfe40_{attr[1].metadata.get('name', attr[0])}"
+        if key == "nfe40_IBSCBSTot":
+            # IBSCBSTot fields are computed from lines, skip importing
+            return
+        return super()._build_attr(node, fields, vals, path, attr)
+
     def _build_many2one(self, comodel, vals, new_value, key, value, path):
         if key == "nfe40_entrega" and self.env.context.get("edoc_type") == "in":
             enderEntreg_value = self.env["res.partner"].build_attrs(value, path=path)
@@ -959,8 +997,17 @@ class NFe(spec_models.StackedModel):
                 "company_type": "person",
             }
             new_value.update(new_vals)
+            # Store the delivery address on the stored partner_shipping_id
+            # field (like emit/dest write to partner_id). nfe40_entrega is a
+            # non-stored computed field, so writing to it would silently drop
+            # the imported delivery address.
             super()._build_many2one(
-                self.env["res.partner"], vals, new_value, key, value, path
+                self.env["res.partner"],
+                vals,
+                new_value,
+                "partner_shipping_id",
+                value,
+                path,
             )
         elif key == "nfe40_emit" and self.env.context.get("edoc_type") == "in":
             enderEmit_value = self.env["res.partner"].build_attrs(
@@ -1047,7 +1094,7 @@ class NFe(spec_models.StackedModel):
         for rec in self.filtered(filter_processador_edoc_nfe):
             if (
                 rec.document_type in PRODUCT_CODE_FISCAL_DOCUMENT_TYPES
-                and rec.state_edoc == "a_enviar"
+                and rec.state_edoc == DOCUMENT_STATE_OPEN
             ):
                 for line in rec.fiscal_line_ids:
                     if not line.product_id.default_code and not line.nfe40_cProd:
@@ -1073,7 +1120,10 @@ class NFe(spec_models.StackedModel):
                     rec, rec.document_date
                 )
 
-                if rec.state_edoc in ["a_enviar", "autorizada"] and (
+                if rec.state_edoc in [
+                    DOCUMENT_STATE_OPEN,
+                    DOCUMENT_STATE_AUTHORIZED,
+                ] and (
                     key_date.year != document_date.year
                     or key_date.month != document_date.month
                 ):
@@ -1275,7 +1325,7 @@ class NFe(spec_models.StackedModel):
         erros = "\n".join(erros)
         self.write({"xml_error_message": erros or False})
 
-    def _exec_after_SITUACAO_EDOC_AUTORIZADA(self, old_state, new_state):
+    def _after_document_authorize(self):
         self.ensure_one()
         if (
             self.document_type_id.code in [MODELO_FISCAL_NFE]
@@ -1290,7 +1340,7 @@ class NFe(spec_models.StackedModel):
                 # Se der problema que apareça quando
                 # o usuário clicar no gerar PDF novamente.
                 _logger.error(f"DANFE Error \n {e}")
-        return super()._exec_after_SITUACAO_EDOC_AUTORIZADA(old_state, new_state)
+        return super()._after_document_authorize()
 
     def _generate_key(self):
         if self.document_type_id.code not in [
@@ -1357,7 +1407,7 @@ class NFe(spec_models.StackedModel):
         if proc_nfe_xml:
             # it is not always possible to create nfeProc.
             parser = XmlParser()
-            nfe_proc = parser.from_string(proc_nfe_xml.decode(), TnfeProc)
+            nfe_proc = parser.from_string(proc_nfe_xml.decode(), NfeProc)
             ws_response_process.processo = nfe_proc
             ws_response_process.processo_xml = proc_nfe_xml
 
@@ -1456,13 +1506,22 @@ class NFe(spec_models.StackedModel):
         for record in self.filtered(filter_processador_edoc_nfe):
             if record.xml_error_message:
                 return  # Skip
-            if record.state_edoc not in ["enviada", "a_enviar"]:
+
+            # Allow processing if state is sending or if we are forcing retry
+            if record.state_edoc not in [DOCUMENT_STATE_SENDING, DOCUMENT_STATE_OPEN]:
                 return  # Skip
+
             if record.document_type == MODELO_FISCAL_NFCE:
                 record._prepare_nfce_send()
-            if record.state_edoc == "enviada":
+
+            # If we have a receipt number, we are checking status (ASYNC)
+            if (
+                record.authorization_event_id
+                and record.authorization_event_id.lot_receipt_number
+            ):
                 record._nfe_consult_receipt()
-            if record.state_edoc == "a_enviar":
+            else:
+                # Otherwise we send
                 record._nfe_send_for_authorization()
 
     def _nfe_send_for_authorization(self):
@@ -1515,7 +1574,7 @@ class NFe(spec_models.StackedModel):
         self.authorization_event_id.lot_receipt_number = (
             send_process.resposta.infRec.nRec
         )
-        self.state_edoc = "enviada"
+        self.state_edoc = DOCUMENT_STATE_SENDING
 
     def _nfe_process_authorization(self, authorization_process):
         """

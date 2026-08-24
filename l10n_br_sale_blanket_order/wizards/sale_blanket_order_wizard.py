@@ -3,6 +3,7 @@
 
 from odoo import _, models
 from odoo.exceptions import UserError
+from odoo.fields import Command
 
 
 class SaleBlanketOrderWizard(models.TransientModel):
@@ -11,9 +12,13 @@ class SaleBlanketOrderWizard(models.TransientModel):
     def _prepare_so_line_vals(self, line):
         fiscal_vals = line.blanket_line_id._prepare_br_fiscal_dict()
 
-        # change quantity
-        fiscal_vals["quantity"] = line.qty
-        fiscal_vals["fiscal_quantity"] = line.qty
+        if line.qty != fiscal_vals["quantity"]:
+            virtual = self.env["l10n_br_fiscal.document.line"].new(fiscal_vals)
+            virtual.quantity = line.qty
+            fiscal_vals = {
+                fname: virtual._fields[fname].convert_to_write(virtual[fname], virtual)
+                for fname in fiscal_vals
+            }
 
         # set company
         fiscal_vals["company_id"] = self.blanket_order_id.company_id.id
@@ -22,6 +27,22 @@ class SaleBlanketOrderWizard(models.TransientModel):
 
         vals = super()._prepare_so_line_vals(line=line)
         vals.update(fiscal_vals)
+
+        # OCA copies tax_id from blanket taxes_id, which may still be empty when
+        # the wizard related field is read before the compute flushes. Force the
+        # account taxes from the fiscal taxes so l10n_br_sale gets a correct SO.
+        blanket_line = line.blanket_line_id
+        if blanket_line.fiscal_operation_line_id:
+            company = blanket_line.company_id or self.blanket_order_id.company_id
+            vals["tax_id"] = [
+                Command.set(
+                    blanket_line.fiscal_tax_ids.account_taxes(
+                        user_type="sale",
+                        fiscal_operation=blanket_line.fiscal_operation_id,
+                        company=company,
+                    ).ids
+                )
+            ]
         return vals
 
     def _simulate_onchange_price_subtotal(self, values):

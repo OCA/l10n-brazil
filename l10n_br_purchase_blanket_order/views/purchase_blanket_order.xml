@@ -27,6 +27,25 @@
                     options="{'currency_field': 'currency_id'}"
                 />
             </field>
+             <xpath expr="//field[@name='line_ids']/tree" position="inside">
+                <control name="fiscal_fields" invisible="1" />
+                <!-- this is a dynamic fiscal fields placeholder-->
+                <control name="fiscal_taxes_fields" string="Taxes" invisible="1" />
+                <!-- this is a dynamic fiscal fields placeholder-->
+                <!-- the fields below would be injected by the placeholders
+                    above, but we need to repeat them here to please the
+                    Form test framework or because they are used in some
+                    domain here that is checked before the dynamic fiscal
+                    placeholders kick in.
+                -->
+                <field name="fiscal_operation_type" invisible="1" />
+                <field name="cfop_id" invisible="1" />
+                <field name="tax_framework" invisible="1" />
+                <field name="fiscal_operation_id" invisible="1" />
+                <field name="freight_value" invisible="1" />
+                <field name="insurance_value" invisible="1" />
+                <field name="other_value" invisible="1" />
+            </xpath>
             <field name="validity_date" position="after">
                 <field name="fiscal_operation_id" required="True" />
                 <field name="ind_final" required="True" />
@@ -65,10 +84,16 @@
                     name="context"
                 >{'default_fiscal_operation_id': fiscal_operation_id, 'default_partner_id': partner_id, 'default_company_id': company_id}</attribute>
             </xpath>
+            <!-- Keep taxes_id in the list datapoint but hide the column: in tree,
+                 invisible="1" becomes modifiers.column_invisible (column_invisible
+                 XML attr alone is ignored). Visible only on the line form
+                 Accounting tab; fiscal_tax_ids stays visible in the tree. -->
             <xpath
                 expr="//field[@name='line_ids']/tree/field[@name='taxes_id']"
                 position="replace"
-            />
+            >
+                <field name="taxes_id" invisible="1" force_save="1" />
+            </xpath>
             <xpath
                 expr="//field[@name='line_ids']/tree/field[@name='price_unit']"
                 position="after"

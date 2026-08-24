@@ -14,10 +14,16 @@ from odoo.tools import float_is_zero
 
 _logger = logging.getLogger(__name__)
 
+# SPED files are written and read in ISO-8859-1 (Latin-1), as the layout
+# mandates; the utf-8 that Python defaults to would write two bytes per
+# accented character and the government validator would read the text as
+# mojibake.
+SPED_ENCODING = "iso-8859-1"
+
 LAYOUT_VERSIONS = {
     "ecd": "9",
     "ecf": "9",
-    "efd_icms_ipi": "17",
+    "efd_icms_ipi": "20",
     "efd_pis_cofins": "6",
     "fake": "9",  # tests; similar to ecd
 }
@@ -42,7 +48,12 @@ class SpedMixin(models.AbstractModel):
 
     brl_currency_id = fields.Many2one(
         comodel_name="res.currency",
-        string="Moeda",
+        # It cannot be labeled just "Currency": several layout records carry
+        # a field of their own with that label (TIP_MOEDA of the X320 of the
+        # ECF, for instance), and two fields with the same label on the same
+        # model raise a WARNING on load, which the OCA checklog turns into a
+        # failure.
+        string="Bookkeeping Currency",
         compute="_compute_currency_id",
         default=lambda self: self.env.ref("base.BRL").id,
     )
@@ -214,10 +225,27 @@ class SpedMixin(models.AbstractModel):
         if view_type != "form":
             return arch, view
 
-        group = E.group(col="4")
-        self._append_top_view_elements(group)
-        group.append(E.field(name="state", invisible="1"))
+        group = E.group()
+        top_group = E.group()
+        left_group = E.group()
+        right_group = E.group()
 
+        group.append(left_group)
+        group.append(right_group)
+
+        self._append_top_view_elements(top_group)
+        top_group.append(E.field(name="state", invisible="1"))
+
+        toggle = True
+        for child in top_group:
+            target = left_group if toggle else right_group
+            target.append(child)
+            toggle = not toggle
+
+        # Wide fields (o2m, m2m, text, html) go into the sheet directly, not a group
+        wide_fields = []
+
+        toggle = True  # alternate left/right for scalar fields
         for fname, field in self._ordered_fields():
             if field.automatic:
                 continue
@@ -231,10 +259,8 @@ class SpedMixin(models.AbstractModel):
             ):
                 continue
             elif field.type in ("one2many", "many2many", "text", "html"):
-                group.append(E.newline())
                 field_tag = E.field(
                     name=fname,
-                    colspan="4",
                     attrs=EDITABLE_ON_DRAFT,
                     context="{'default_declaration_id': declaration_id}",
                 )
@@ -286,16 +312,23 @@ class SpedMixin(models.AbstractModel):
                         field_tag.append(field_tree)
                         field_form = self.env[
                             field.comodel_name
-                        ]._get_default_form_view()  # inline=True)
+                        ]._get_default_form_view()
                         field_tag.append(field_form)
-                group.append(field_tag)
-                group.append(E.newline())
+                wide_fields.append(E.separator(string=field.string))
+                wide_fields.append(field_tag)
             elif fname.isupper():
-                group.append(E.field(name=fname, attrs=EDITABLE_ON_DRAFT))
-        group.append(E.separator())
+                # alternate between left and right inner groups
+                target = left_group if toggle else right_group
+                target.append(E.field(name=fname, attrs=EDITABLE_ON_DRAFT))
+                toggle = not toggle
+
+        # Assemble the sheet: header group first, then wide fields below
+        sheet_children = [group, E.separator()]
+        sheet_children.extend(wide_fields)
+
         form = E.form()
         self._append_view_header(form)
-        form.append(E.sheet(group, string=self._description))
+        form.append(E.sheet(*sheet_children, string=self._description))
         self._append_view_footer(form)
         return form, view
 
@@ -365,7 +398,7 @@ class SpedMixin(models.AbstractModel):
         """
         if version is None:
             version = LAYOUT_VERSIONS[kind]
-        with open(filename) as spedfile:
+        with open(filename, encoding=SPED_ENCODING) as spedfile:
             last_level = 0
             previous_register = None
             parent = None
@@ -531,7 +564,20 @@ class SpedMixin(models.AbstractModel):
             if not fname.isupper():
                 continue
 
-            val = self._format_field_value(register_spec._fields[fname], value)
+            # A ORDEM dos campos vem do spec, que e o leiaute; os ATRIBUTOS
+            # vem do modelo concreto, que herda tudo do spec e pode refinar.
+            # E o que permite a camada de mapping declarar a obrigatoriedade
+            # que o spec gerado nao carrega, e sem a qual o campo zerado sai
+            # em branco e o PVA recusa o registro.
+            field = self._fields.get(fname) or register_spec._fields[fname]
+            val = self._format_field_value(field, value)
+            if isinstance(val, str) and ("\n" in val or "\r" in val):
+                # SPED is a pipe-delimited flat file with one register per
+                # line: a line break inside a field would split the register
+                # line and corrupt the file (the PVA rejects it). This can
+                # happen with texts imported from the NFe (observations,
+                # product descriptions) that contain line breaks.
+                val = val.replace("\r\n", " ").replace("\n", " ").replace("\r", " ")
             sped.write(f"{val}|")
 
     def _format_field_value(self, field, value):
@@ -548,21 +594,19 @@ class SpedMixin(models.AbstractModel):
             return str(value) if value else ""
         elif field.type == "integer":
             return "" if value == 0 else str(value)
+        elif field.type == "monetary":
+            # only monetary: a quantity is Float with digits=(16, 5) and two
+            # decimals would round it (0,125 as "0,13")
+            return (
+                ""
+                if float_is_zero(value, precision_digits=8)
+                else (f"{value:.2f}".replace(".", ","))
+            )
         elif field.type == "float":
             return (
                 str(int(value))
                 if float_is_zero(value % 1, 6)
                 else str(round(value, 6)).replace(".", ",")
-            )
-        elif field.type == "monetary":  # TODO is is usefull? (not used now)
-            return (
-                ""
-                if float_is_zero(value, precision_digits=8)
-                else (
-                    str(int(value))
-                    if float_is_zero(value % 1, precision_digits=8)
-                    else str(value)
-                )
             )
         else:
             return str(value)
@@ -607,25 +651,36 @@ class SpedMixin(models.AbstractModel):
         """
         declaration = self._context["declaration"]
 
+        # `self._fields` em vez de `fields_get()`: o resultado destas duas
+        # listas depende apenas do MODELO, nunca do registro em processamento,
+        # mas este metodo e recursivo (uma vez por registro pai), entao o
+        # `fields_get()` era refeito a cada documento e a cada item. Medido em
+        # 400 documentos: 71% do tempo total de `button_populate_sped_from_odoo`
+        # estava ai. `_fields` ja esta em memoria e da a mesma informacao
+        # (`comodel_name` e o `relation` do `fields_get`). E o mesmo padrao que
+        # `_generate_register_text` ja usava.
         children = [
-            v["relation"]
-            for k, v in self.fields_get().items()
-            if v["type"] == "one2many" and k.startswith("reg_")
+            f.comodel_name
+            for name, f in self._fields.items()
+            if f.type == "one2many" and name.startswith("reg_")
         ]
         parent_field = None
         if parent_register:
-            parent_field = [
-                k
-                for k, v in self.fields_get().items()
-                if v["type"] == "many2one"
-                and k.startswith("reg_")
-                and k.endswith("_id")
-            ][0]
+            parent_field = next(
+                name
+                for name, f in self._fields.items()
+                if f.type == "many2one"
+                and name.startswith("reg_")
+                and name.endswith("_id")
+            )
 
         if self._odoo_model and hasattr(self, "_odoo_domain"):
-            records = self.env[self._odoo_model].search(
-                self._odoo_domain(parent_record, declaration)
-            )
+            if self._odoo_model in self.env:
+                records = self.env[self._odoo_model].search(
+                    self._odoo_domain(parent_record, declaration)
+                )
+            else:  # mapping might be for a module that is uninstalled
+                records = []
 
         elif hasattr(self, "_odoo_query"):
             self._cr.execute(*self._odoo_query(parent_record, declaration))
@@ -655,6 +710,11 @@ class SpedMixin(models.AbstractModel):
 
         self._log_chatter_sped_item(log_msg, level, records)
 
+        # Um unico `create()` para todo o nivel, em vez de um por registro.
+        # `_map_from_odoo` continua sendo chamado registro a registro, entao o
+        # contrato que cada leiaute implementa nao muda. So a escrita e que
+        # passa a ser em lote, que e o que o ORM sabe otimizar.
+        vals_list = []
         for index, record in enumerate(records):
             # TODO find a way/mode to skip pulling existing records
             # may be search for existing register with res_model/res_id
@@ -667,8 +727,13 @@ class SpedMixin(models.AbstractModel):
                 register_vals["res_id"] = record.id
             if parent_register:
                 register_vals[parent_field] = parent_register.id
-            register = self.create(register_vals)
+            vals_list.append(register_vals)
 
+        # `create` com lista devolve os registros na mesma ordem da lista,
+        # entao o zip abaixo casa cada registro criado com a sua origem.
+        registers = self.create(vals_list) if vals_list else self.browse()
+
+        for register, record in zip(registers, records, strict=True):
             for child in children:
                 self.env[child]._pull_records_from_odoo(
                     kind,

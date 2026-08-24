@@ -149,6 +149,14 @@ msgid "CFOP Destination"
 msgstr ""
 
 #. module: l10n_br_purchase_blanket_order
+#: model:ir.model.fields,help:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__partner_cfop_id
+msgid ""
+"CFOP as declared by the counterparty in the imported document. It is "
+"preserved as-is for fiscal bookkeeping / SPED (e.g. C197), while cfop_id "
+"reflects the company's own operation after the de-para."
+msgstr ""
+
+#. module: l10n_br_purchase_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__cnae_id
 msgid "CNAE Code"
 msgstr ""
@@ -554,6 +562,11 @@ msgid "Fiscal Amount Untaxed"
 msgstr ""
 
 #. module: l10n_br_purchase_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__fiscal_operation_type
+msgid "Fiscal Operation Type"
+msgstr ""
+
+#. module: l10n_br_purchase_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__fiscal_price
 msgid "Fiscal Price"
 msgstr ""
@@ -597,7 +610,7 @@ msgstr ""
 
 #. module: l10n_br_purchase_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__price_gross
-msgid "Gross Amount"
+msgid "Gross Product/Service Amount"
 msgstr ""
 
 #. module: l10n_br_purchase_blanket_order
@@ -1237,11 +1250,6 @@ msgid "Operation Name"
 msgstr ""
 
 #. module: l10n_br_purchase_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__fiscal_operation_type
-msgid "Operation Type"
-msgstr ""
-
-#. module: l10n_br_purchase_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order__amount_other_value
 msgid "Other Costs"
 msgstr ""
@@ -1363,6 +1371,11 @@ msgstr ""
 #. module: l10n_br_purchase_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__partner_id
 msgid "Partner"
+msgstr ""
+
+#. module: l10n_br_purchase_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__partner_cfop_id
+msgid "Partner CFOP"
 msgstr ""
 
 #. module: l10n_br_purchase_blanket_order
@@ -1610,6 +1623,7 @@ msgstr ""
 
 #. module: l10n_br_purchase_blanket_order
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase_blanket_order.inherit_purchase_blanket_order_line_form_fiscal_tabs
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_blanket_order.view_purchase_blanket_order_form_inherit
 msgid "Taxes"
 msgstr ""
 

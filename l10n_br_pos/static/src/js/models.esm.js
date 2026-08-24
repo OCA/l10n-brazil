@@ -10,11 +10,11 @@ Copyright (C) 2016-Today KMEE (https://kmee.com.br)
 */
 
 import {Order, Orderline, Paymentline, PosGlobalState} from "point_of_sale.models";
-import {validate_cnpj_cpf} from "@l10n_br_pos/js/util.esm";
-import {_t} from "@web/core/l10n/translation";
-import {patch} from "@web/core/utils/patch";
 import {Gui} from "point_of_sale.Gui";
 import Registries from "point_of_sale.Registries";
+import {_t} from "@web/core/l10n/translation";
+import {patch} from "@web/core/utils/patch";
+import {validate_cnpj_cpf} from "@l10n_br_pos/js/util.esm";
 
 const SITUACAO_EDOC = {
     em_digitacao: "Em digitação",
@@ -47,7 +47,7 @@ if (PosGlobalState) {
 }
 
 const L10nBrOrder = (BaseOrder) =>
-    class L10nBrOrder extends BaseOrder {
+    class extends BaseOrder {
         setup(_default_attributes, options) {
             super.setup(...arguments);
             this.state_edoc = this.state_edoc || "em_digitacao";
@@ -143,7 +143,7 @@ if (Order) {
 }
 
 const L10nBrOrderline = (BaseOrderline) =>
-    class L10nBrOrderline extends BaseOrderline {
+    class extends BaseOrderline {
         export_as_JSON() {
             const json = super.export_as_JSON(...arguments);
             const product = this.get_product();
@@ -171,7 +171,7 @@ if (Orderline) {
 }
 
 const L10nBrPaymentline = (BasePaymentline) =>
-    class L10nBrPaymentline extends BasePaymentline {
+    class extends BasePaymentline {
         export_as_JSON() {
             const json = super.export_as_JSON(...arguments);
             json.payment_status = this.payment_status;
