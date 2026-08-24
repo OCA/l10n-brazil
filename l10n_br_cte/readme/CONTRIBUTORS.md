@@ -1,0 +1,9 @@
+- [KMEE](https://kmee.com.br):
+  - Luis Felipe Mileo \<<mileo@kmee.com.br>\>
+  - Ygor Carvalho \<<ygor.carvalho@kmee.com.br>\>
+- [ESCODOO](https://escodoo.com.br):
+  - Marcel Savegnago \<<marcel.savegnago@escodoo.com.br>\>
+- [AKRETION](https://akretion.com/pt-BR/):
+  - Raphaël Valyi \<<raphael.valyi@akretion.com.br>\>
+- [Engenere](https://engenere.one):
+  - Antônio S. Pereira Neto \<<neto@engenere.one>\>
