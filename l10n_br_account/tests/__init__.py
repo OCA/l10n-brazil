@@ -1,6 +1,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from . import test_tax_computation
+from . import test_tax_totals_summary
 from . import test_account_move_sn
 from . import test_account_move_lc
 from . import test_move_edition
