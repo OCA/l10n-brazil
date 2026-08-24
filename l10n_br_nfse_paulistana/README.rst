@@ -87,6 +87,7 @@ Contributors
 - Luis Felipe Mileo <mileo@kmee.com.br>
 - Gabriel Cardoso de Faria <gabriel.cardoso@kmee.com.br>
 - Luis Otavio Malta Conceição <luis.malta@kmee.com.br>
+- Cristiano Mafra Junior <cristiano.mafra@escodoo.com.br>
 
 Maintainers
 -----------
@@ -110,10 +111,13 @@ promote its widespread use.
 .. |maintainer-luismalta| image:: https://github.com/luismalta.png?size=40px
     :target: https://github.com/luismalta
     :alt: luismalta
+.. |maintainer-CristianoMafraJunior| image:: https://github.com/CristianoMafraJunior.png?size=40px
+    :target: https://github.com/CristianoMafraJunior
+    :alt: CristianoMafraJunior
 
 Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
 
-|maintainer-gabrielcardoso21| |maintainer-mileo| |maintainer-luismalta| 
+|maintainer-gabrielcardoso21| |maintainer-mileo| |maintainer-luismalta| |maintainer-CristianoMafraJunior| 
 
 This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_nfse_paulistana>`_ project on GitHub.
 

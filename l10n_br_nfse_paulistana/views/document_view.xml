@@ -15,7 +15,7 @@
                 <attribute name="attrs">
                     {'invisible': [
                         '|',
-                        ('state_edoc', 'not in', ('autorizada', 'cancelada')),
+                        ('state_edoc', 'in', ('em_digitacao', 'a_enviar')),
                         ('is_nfse_paulistana', '=', True)
                     ]}
                 </attribute>
