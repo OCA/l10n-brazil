@@ -197,3 +197,31 @@ class NFeImportTest(TransactionCase):
 
     def test_import_out_nfe(self):
         "(can be useful after an ERP migration)"
+
+    def test_import_in_nfe_ipi_reaches_the_totals(self):
+        res_items = (
+            "nfe",
+            "samples",
+            "v4_0",
+            "leiauteNFe",
+            "35180834128745000152550010000474281920007498-nfe.xml",
+        )
+        resource_path = "/".join(res_items)
+        nfe_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
+        xml = nfe_stream.read().decode()
+        ipi = (
+            "<IPI><cEnq>999</cEnq><IPITrib>"
+            "<CST>50</CST><vBC>50.60</vBC><pIPI>6.50</pIPI><vIPI>3.29</vIPI>"
+            "</IPITrib></IPI>"
+        )
+        xml = re.sub(r"<IPI>.*?</IPI>", ipi, xml, count=1, flags=re.S)
+
+        binding = TnfeProc.from_xml(xml)
+        nfe = self.env["l10n_br_fiscal.document"].import_binding_nfe(
+            binding, edoc_type="in", dry_run=False
+        )
+        line = nfe.fiscal_line_ids[0]
+        self.assertEqual(line.ipi_value, 3.29)
+        self.assertEqual(line.amount_tax_not_included, 3.29)
+        self.assertEqual(line.fiscal_amount_tax, 3.29)
+        self.assertEqual(line.amount_tax_included, 7.64)
