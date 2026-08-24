@@ -5,7 +5,7 @@
     "name": "NFS-e (Barueri)",
     "summary": """
         NFS-e (Barueri)""",
-    "version": "14.0.1.3.0",
+    "version": "16.0.1.0.0",
     "license": "AGPL-3",
     "author": "KMEE, Odoo Community Association (OCA)",
     "maintainers": [
