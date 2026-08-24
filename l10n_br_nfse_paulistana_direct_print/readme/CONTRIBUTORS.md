@@ -1,0 +1,4 @@
+- Antônio S. P. Neto \<<neto@engene.one>\>
+- Marcel Savegnago \<<marcel.savegnago@escodoo.com.br>\>
+- Cristiano Mafra Junior \<<cristiano.mafra@escodoo.com.br>\>
+- Diego Paradeda \<<diego.paradeda@kmee.com.br>\>

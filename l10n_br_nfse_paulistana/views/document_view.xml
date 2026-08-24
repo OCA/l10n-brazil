@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="nfse_paulistana_document_form_inherit" model="ir.ui.view">
+        <field name="name">l10n_br_nfse_paulistana.document.form.inherit</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="inherit_id" ref="l10n_br_nfse.nfse_document_form_inherit" />
+        <field name="arch" type="xml">
+            <field name="verify_code" position="after">
+                <field
+                    name="nfse_document_key"
+                    invisible="document_type != 'SE' or not nfse_document_key"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>
