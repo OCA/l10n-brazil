@@ -117,7 +117,7 @@
                             <field
                                 name="line_ids"
                                 readonly="state != 'draft'"
-                                context="{'default_fiscal_operation_id': id, 'default_fiscal_type': fiscal_type, 'default_fiscal_operation_type': fiscal_operation_type, 'form_view_ref': 'l10n_br_fiscal.operation_line_form' , 'show_code_only': 1}"
+                                context="{'default_fiscal_operation_id': id, 'default_fiscal_type': fiscal_type, 'default_fiscal_operation_type': fiscal_operation_type, 'form_view_ref': 'l10n_br_fiscal.operation_line_form'}"
                             />
                         </page>
                         <page name="operation_document_type" string="Fiscal Documents">
