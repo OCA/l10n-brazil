@@ -165,7 +165,7 @@ class Document(models.Model):
         # Registro tipo 1 - Cabeçalho do arquivo RPS
         registro_tipo1 = RegistroTipo1()
         registro_tipo1.TipoRegistro = 1
-        registro_tipo1.InscricaoContribuinte = self.company_inscr_mun
+        registro_tipo1.InscricaoContribuinte = self.company_id.inscr_mun
         registro_tipo1.VersaoLayout = "PMB004"
         if cancel:
             data_base = datetime.now()
@@ -395,23 +395,23 @@ class Document(models.Model):
 
     def serialize_nfse_barueri(self, cancel=False):
         lote_rps = NFeLoteEnviarArquivo(
-            InscricaoMunicipal=self.convert_type_nfselib(
-                NFeLoteEnviarArquivo, "InscricaoMunicipal", self.company_inscr_mun
+            InscricaoMunicipal=self._convert_binding_value_to_odoo(
+                NFeLoteEnviarArquivo, "InscricaoMunicipal", self.company_id.inscr_mun
             ),
-            CPFCNPJContrib=self.convert_type_nfselib(
+            CPFCNPJContrib=self._convert_binding_value_to_odoo(
                 NFeLoteEnviarArquivo,
                 "CPFCNPJContrib",
-                "".join([char for char in self.company_cnpj_cpf if char.isdigit()]),
+                "".join(char for char in self.company_id.cnpj_cpf if char.isdigit()),
             ),
-            NomeArquivoRPS=self.convert_type_nfselib(
+            NomeArquivoRPS=self._convert_binding_value_to_odoo(
                 NFeLoteEnviarArquivo,
                 "NomeArquivoRPS",
                 "{}{}".format(self.display_name, ".txt"),
             ),
-            ApenasValidaArq=self.convert_type_nfselib(
+            ApenasValidaArq=self._convert_binding_value_to_odoo(
                 NFeLoteEnviarArquivo, "ApenasValidaArq", False
             ),
-            ArquivoRPSBase64=self.convert_type_nfselib(
+            ArquivoRPSBase64=self._convert_binding_value_to_odoo(
                 NFeLoteEnviarArquivo,
                 "ArquivoRPSBase64",
                 self._serialize_barueri_lote_rps(cancel=cancel),
@@ -496,9 +496,10 @@ class Document(models.Model):
                                     + "\n"
                                 )
                         vals["edoc_error_message"] = mensagem_completa
+                        vals["status_code"] = 3
                         record._change_state(SITUACAO_EDOC_REJEITADA)
                         record.write(vals)
-                        return
+                        return vals, None
                     protocolo = processo.resposta.ProtocoloRemessa
 
                 if processo.webservice in CONSULTAR_SITUACAO_LOTE_RPS:
@@ -746,13 +747,12 @@ class Document(models.Model):
                 return True
             return False
 
-    def _exec_before_SITUACAO_EDOC_CANCELADA(self, old_state, new_state):
-        super()._exec_before_SITUACAO_EDOC_CANCELADA(old_state, new_state)
-        return (
-            self.filtered(filter_oca_nfse)
-            .filtered(filter_barueri)
-            ._cancel_document_barueri()
-        )
+    def _before_document_cancel(self):
+        result = super()._before_document_cancel()
+        matched = self.filtered(filter_oca_nfse).filtered(filter_barueri)
+        if not matched:
+            return result
+        return matched._cancel_document_barueri()
 
     @api.model
     def _cron_document_status_barueri(self):

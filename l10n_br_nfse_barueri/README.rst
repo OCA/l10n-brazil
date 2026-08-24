@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ===============
 NFS-e (Barueri)
 ===============
@@ -17,22 +13,24 @@ NFS-e (Barueri)
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_nfse_barueri
+    :target: https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_nfse_barueri
     :alt: OCA/l10n-brazil
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-brazil-14-0/l10n-brazil-14-0-l10n_br_nfse_barueri
+    :target: https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-l10n_br_nfse_barueri
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=14.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=16.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Esse módulo completa o documento criado pelo l10n_br_nfse para permite a criação e transmissão de Notas Fiscais de Serviço Eletrônicas (NFS-e) pela prefeitura de Barueri.
+Esse módulo completa o documento criado pelo l10n_br_nfse para permite a
+criação e transmissão de Notas Fiscais de Serviço Eletrônicas (NFS-e)
+pela prefeitura de Barueri.
 
 **Table of contents**
 
@@ -42,11 +40,11 @@ Esse módulo completa o documento criado pelo l10n_br_nfse para permite a criaç
 Installation
 ============
 
-* Este módulo tem uma depedencia do pacote python erpbrasil.edoc
-* Este módulo tem uma depedencia do pacote python erpbrasil.assinatura
-* Este módulo tem uma depedencia do pacote python erpbrasil.transmissao
-* Este módulo tem uma depedencia do pacote python erpbrasil.base
-* Este módulo tem uma depedencia do pacote python nfselib.barueri
+- Este módulo tem uma depedencia do pacote python erpbrasil.edoc
+- Este módulo tem uma depedencia do pacote python erpbrasil.assinatura
+- Este módulo tem uma depedencia do pacote python erpbrasil.transmissao
+- Este módulo tem uma depedencia do pacote python erpbrasil.base
+- Este módulo tem uma depedencia do pacote python nfselib.barueri
 
 Configuration
 =============
@@ -56,7 +54,13 @@ Configuration
 Usage
 =====
 
-Após ser criado uma Nota Fiscal de Serviço Eletrônicas (NFS-e) é possível confirmá-la e transmiti-la.
+Após ser criado uma Nota Fiscal de Serviço Eletrônicas (NFS-e) é
+possível confirmá-la e transmiti-la.
+
+Known issues / Roadmap
+======================
+
+
 
 Bug Tracker
 ===========
@@ -64,7 +68,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-brazil/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_nfse_barueri%0Aversion:%2014.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_nfse_barueri%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -72,24 +76,24 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * KMEE
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `KMEE <https://www.kmee.com.br>`_:
+- `KMEE <https://www.kmee.com.br>`__:
 
-  * André Marcos <andre.marcos@kmee.com.br>
+  - André Marcos <andre.marcos@kmee.com.br>
 
-* `Escodoo <https://www.escodoo.com.br>`_:
+- `Escodoo <https://www.escodoo.com.br>`__:
 
-  * Marcel Savegnago <marcel.savegnago@escodoo.com.br>
-  * Cristiano Mafra Junior <cristiano.mafra@escodoo.com.br>
+  - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+  - Cristiano Mafra Junior <cristiano.mafra@escodoo.com.br>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
@@ -121,6 +125,6 @@ Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-AndreMarcos| |maintainer-mileo| |maintainer-ygcarvalh| |maintainer-CristianoMafraJunior| |maintainer-marcelsavegnago| 
 
-This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_nfse_barueri>`_ project on GitHub.
+This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_nfse_barueri>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
