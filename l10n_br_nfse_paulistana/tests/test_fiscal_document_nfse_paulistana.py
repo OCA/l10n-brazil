@@ -215,6 +215,12 @@ class TestFiscalDocumentNFSePaulistana(TestFiscalDocumentNFSeCommon):
         document = self.nfse_same_state
         document.authorization_event_id = False
 
+        with patch(
+            "odoo.addons.l10n_br_nfse.models.document.Document.make_pdf",
+            return_value=None,
+        ):
+            document.action_document_confirm()
+
         document.document_date = datetime.strptime(
             "2020-06-04T11:58:46", "%Y-%m-%dT%H:%M:%S"
         )
@@ -234,6 +240,11 @@ class TestFiscalDocumentNFSePaulistana(TestFiscalDocumentNFSeCommon):
 
     def test_document_status_consulta_sucesso(self):
         document = self.nfse_same_state
+        with patch(
+            "odoo.addons.l10n_br_nfse.models.document.Document.make_pdf",
+            return_value=None,
+        ):
+            document.action_document_confirm()
 
         event = document.event_ids.create_event_save_xml(
             company_id=document.company_id,
@@ -291,7 +302,7 @@ class TestFiscalDocumentNFSePaulistana(TestFiscalDocumentNFSeCommon):
             with self.assertRaises(UserError):
                 document.cancel_document_paulistana()
 
-    def test_exec_before_situacao_edoc_cancelada_chama_cancelamento(self):
+    def test_before_document_cancel_chama_cancelamento(self):
         document = self.nfse_same_state
 
         with patch.object(
@@ -299,6 +310,20 @@ class TestFiscalDocumentNFSePaulistana(TestFiscalDocumentNFSeCommon):
             "cancel_document_paulistana",
             autospec=True,
         ) as mock_cancel:
-            document._exec_before_SITUACAO_EDOC_CANCELADA("old", "new")
+            document._before_document_cancel()
 
         mock_cancel.assert_called_once_with(document)
+
+    def test_before_document_cancel_documento_nao_paulistana(self):
+        document = self.nfse_same_state
+        document.company_id.provedor_nfse = False
+
+        with patch.object(
+            type(document),
+            "cancel_document_paulistana",
+            autospec=True,
+        ) as mock_cancel:
+            result = document._before_document_cancel()
+
+        mock_cancel.assert_not_called()
+        self.assertTrue(result)
