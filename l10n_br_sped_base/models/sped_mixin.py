@@ -48,7 +48,12 @@ class SpedMixin(models.AbstractModel):
 
     brl_currency_id = fields.Many2one(
         comodel_name="res.currency",
-        string="Moeda",
+        # It cannot be labeled just "Currency": several layout records carry
+        # a field of their own with that label (TIP_MOEDA of the X320 of the
+        # ECF, for instance), and two fields with the same label on the same
+        # model raise a WARNING on load, which the OCA checklog turns into a
+        # failure.
+        string="Bookkeeping Currency",
         compute="_compute_currency_id",
         default=lambda self: self.env.ref("base.BRL").id,
     )
@@ -589,21 +594,19 @@ class SpedMixin(models.AbstractModel):
             return str(value) if value else ""
         elif field.type == "integer":
             return "" if value == 0 else str(value)
+        elif field.type == "monetary":
+            # only monetary: a quantity is Float with digits=(16, 5) and two
+            # decimals would round it (0,125 as "0,13")
+            return (
+                ""
+                if float_is_zero(value, precision_digits=8)
+                else (f"{value:.2f}".replace(".", ","))
+            )
         elif field.type == "float":
             return (
                 str(int(value))
                 if float_is_zero(value % 1, 6)
                 else str(round(value, 6)).replace(".", ",")
-            )
-        elif field.type == "monetary":  # TODO is is usefull? (not used now)
-            return (
-                ""
-                if float_is_zero(value, precision_digits=8)
-                else (
-                    str(int(value))
-                    if float_is_zero(value % 1, precision_digits=8)
-                    else str(value)
-                )
             )
         else:
             return str(value)
