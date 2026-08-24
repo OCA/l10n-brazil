@@ -4399,6 +4399,13 @@ msgid "Irin do navio sempre deverá ser informado"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__is_nfse_paulistana
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__is_nfse_paulistana
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__is_nfse_paulistana
+msgid "Is NFSe Paulistana?"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__is_edoc_printed
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__is_edoc_printed
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__is_edoc_printed
@@ -6467,6 +6474,13 @@ msgid "Technical Field."
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__is_nfse_paulistana
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__is_nfse_paulistana
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__is_nfse_paulistana
+msgid "Technical field to identify if the document is a NFSe Paulistana."
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_move_line__proxy_price_unit
 #: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document_line__proxy_price_unit
 msgid "Technical mirror."
@@ -7019,6 +7033,22 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__uom_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__uom_id
 msgid "UOM"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__url_nfse_paulistana
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__url_nfse_paulistana
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__url_nfse_paulistana
+msgid "URL of NFSe Paulistana"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__url_nfse_paulistana
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__url_nfse_paulistana
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__url_nfse_paulistana
+msgid ""
+"URL to access the Nota Fiscal de Serviços Eletrônicos (NFSe)from the São "
+"Paulo City (Paulistana)."
 msgstr ""
 
 #. module: l10n_br_account
