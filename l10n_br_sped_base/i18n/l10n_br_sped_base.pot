@@ -44,6 +44,12 @@ msgid "Attachment Count"
 msgstr ""
 
 #. module: l10n_br_sped_base
+#: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_mixin__brl_currency_id
+msgid "Bookkeeping Currency"
+msgstr ""
+
+#. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_res_partner__crc_code
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_res_users__crc_code
 msgid "CRC Code"
@@ -218,12 +224,6 @@ msgstr ""
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__message_ids
 msgid "Messages"
-msgstr ""
-
-#. module: l10n_br_sped_base
-#: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__brl_currency_id
-#: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_mixin__brl_currency_id
-msgid "Moeda"
 msgstr ""
 
 #. module: l10n_br_sped_base
