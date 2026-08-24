@@ -6,27 +6,10 @@ import json
 from odoo import _, fields, models
 
 from ..constants.fiscal import (
-    SITUACAO_EDOC_A_ENVIAR,
-    SITUACAO_EDOC_AUTORIZADA,
-    SITUACAO_EDOC_CANCELADA,
-    SITUACAO_EDOC_DENEGADA,
-    SITUACAO_EDOC_EM_DIGITACAO,
-    SITUACAO_EDOC_ENVIADA,
-    SITUACAO_EDOC_INUTILIZADA,
-    SITUACAO_EDOC_REJEITADA,
-)
-
-EDOC_2_CONFIRM = (
-    SITUACAO_EDOC_EM_DIGITACAO,
-    SITUACAO_EDOC_ENVIADA,
-    SITUACAO_EDOC_A_ENVIAR,
-    SITUACAO_EDOC_REJEITADA,
-)
-
-EDOC_CANCELED = (
-    SITUACAO_EDOC_CANCELADA,
-    SITUACAO_EDOC_DENEGADA,
-    SITUACAO_EDOC_INUTILIZADA,
+    DOCUMENT_STATE_CANCEL,
+    DOCUMENT_STATE_DRAFT,
+    DOCUMENT_STATE_INVALIDATED,
+    DOCUMENT_STATE_OPEN,
 )
 
 
@@ -47,6 +30,25 @@ class Operation(models.Model):
     kanban_dashboard = fields.Text(compute="_compute_kanban_dashboard")
 
     color = fields.Integer(string="Color Index", default=0)
+
+    def _dashboard_2confirm_states(self):
+        """state_edoc values counted in the dashboard 'to confirm' bucket.
+
+        Modules extending state_edoc (e.g. l10n_br_fiscal_edi) override
+        these hooks to place their own states in the right buckets.
+        """
+        return [DOCUMENT_STATE_DRAFT]
+
+    def _dashboard_authorized_states(self):
+        """state_edoc values counted in the dashboard 'authorized' bucket.
+
+        Without an EDI module, 'open' is the final good state.
+        """
+        return [DOCUMENT_STATE_OPEN]
+
+    def _dashboard_cancelled_states(self):
+        """state_edoc values counted in the dashboard 'cancelled' bucket."""
+        return [DOCUMENT_STATE_CANCEL, DOCUMENT_STATE_INVALIDATED]
 
     def get_operation_dashboard_data(self):
         self.ensure_one()
@@ -77,7 +79,7 @@ class Operation(models.Model):
             [
                 ("fiscal_operation_id.fiscal_type", "=", self.fiscal_type),
                 ("fiscal_operation_id", "=", self.id),
-                ("state_edoc", "in", EDOC_2_CONFIRM),
+                ("state_edoc", "in", self._dashboard_2confirm_states()),
             ]
         )
 
@@ -86,7 +88,7 @@ class Operation(models.Model):
             [
                 ("fiscal_operation_id.fiscal_type", "=", self.fiscal_type),
                 ("fiscal_operation_id", "=", self.id),
-                ("state_edoc", "=", SITUACAO_EDOC_AUTORIZADA),
+                ("state_edoc", "in", self._dashboard_authorized_states()),
             ]
         )
 
@@ -95,7 +97,7 @@ class Operation(models.Model):
             [
                 ("fiscal_operation_id.fiscal_type", "=", self.fiscal_type),
                 ("fiscal_operation_id", "=", self.id),
-                ("state_edoc", "in", EDOC_CANCELED),
+                ("state_edoc", "in", self._dashboard_cancelled_states()),
             ]
         )
 
@@ -166,9 +168,15 @@ class Operation(models.Model):
             ("fiscal_operation_id", "=", self.id),
         ]
         if ctx.get("search_default_cancel"):
-            action["domain"] += [("state_edoc", "in", EDOC_CANCELED)]
+            action["domain"] += [
+                ("state_edoc", "in", self._dashboard_cancelled_states())
+            ]
         elif ctx.get("search_default_authorized"):
-            action["domain"] += [("state_edoc", "=", SITUACAO_EDOC_AUTORIZADA)]
+            action["domain"] += [
+                ("state_edoc", "in", self._dashboard_authorized_states())
+            ]
         elif ctx.get("search_default_2confirm"):
-            action["domain"] += [("state_edoc", "in", EDOC_2_CONFIRM)]
+            action["domain"] += [
+                ("state_edoc", "in", self._dashboard_2confirm_states())
+            ]
         return action

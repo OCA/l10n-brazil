@@ -4,14 +4,15 @@
         <field name="model">l10n_br_fiscal.document</field>
         <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
         <field name="arch" type="xml">
-            <button name="action_create_return" position="after">/&gt;
-            <button
+            <button name="action_document_cancel" position="after">
+                <button
                     name="action_send_email"
                     type="object"
                     string="Send Email"
                     groups="l10n_br_fiscal.group_user"
                     attrs="{'invisible': [('state_edoc', 'not in', ('autorizada', 'cancelada', 'denegada'))]}"
-                /></button>
+                />
+            </button>
         </field>
     </record>
 </odoo>

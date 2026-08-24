@@ -15,6 +15,10 @@ from ..constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
     DOCUMENT_ISSUER_DICT,
     DOCUMENT_ISSUER_PARTNER,
+    DOCUMENT_STATE_CANCEL,
+    DOCUMENT_STATE_DRAFT,
+    DOCUMENT_STATE_OPEN,
+    DOCUMENT_STATES,
     EDOC_PURPOSE,
     EDOC_PURPOSE_NORMAL,
     EDOC_REFUND_CREDIT_TYPE,
@@ -25,11 +29,8 @@ from ..constants.fiscal import (
     MODELO_FISCAL_NFE,
     MODELO_FISCAL_NFSE,
     PUBLIC_ENTIRY_TYPE,
-    SITUACAO_EDOC,
     SITUACAO_EDOC_AUTORIZADA,
-    SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_DENEGADA,
-    SITUACAO_EDOC_EM_DIGITACAO,
     SITUACAO_EDOC_INUTILIZADA,
     SITUACAO_FISCAL,
 )
@@ -78,9 +79,9 @@ class Document(models.Model):
     )
 
     state_edoc = fields.Selection(
-        selection=SITUACAO_EDOC,
+        selection=DOCUMENT_STATES,
         string="Situação e-doc",
-        default=SITUACAO_EDOC_EM_DIGITACAO,
+        default=DOCUMENT_STATE_DRAFT,
         copy=False,
         required=True,
         readonly=True,
@@ -413,8 +414,9 @@ class Document(models.Model):
 
     def unlink(self):
         forbidden_states_unlink = [
+            DOCUMENT_STATE_OPEN,
             SITUACAO_EDOC_AUTORIZADA,
-            SITUACAO_EDOC_CANCELADA,
+            DOCUMENT_STATE_CANCEL,
             SITUACAO_EDOC_DENEGADA,
             SITUACAO_EDOC_INUTILIZADA,
         ]
@@ -468,35 +470,52 @@ class Document(models.Model):
 
         return action
 
+    def _document_export(self, **kwargs):
+        """Placeholder for modules to implement their own export logic."""
+        pass
+
     # the following actions are meant to be implemented in other modules such as
     # l10n_br_fiscal_edi. They are defined here so they can be overriden in modules
     # that don't depend on l10n_br_fiscal_edi (such as l10n_br_account).
-    def view_pdf(self):
-        pass
-
-    def view_xml(self):
-        pass
 
     def action_document_confirm(self):
-        pass
-
-    def action_document_send(self):
-        pass
+        """Open the fiscal document, changing its state to 'open'"""
+        self.write({"state_edoc": DOCUMENT_STATE_OPEN})
 
     def action_document_back2draft(self):
-        pass
+        """Reset the fiscal document to draft, changing its state to 'draft'"""
+        self.write({"state_edoc": DOCUMENT_STATE_DRAFT})
 
     def action_document_cancel(self):
+        """Cancel the fiscal document, changing its state to 'cancel'"""
+        self.write({"state_edoc": DOCUMENT_STATE_CANCEL})
+
+    def action_document_send(self):
+        """Placeholder to be overridden by l10n_br_fiscal_edi. Defined here
+        so that l10n_br_account (which does not depend on l10n_br_fiscal_edi)
+        can call it without crashing.
+        """
         pass
 
     def action_document_invalidate(self):
+        """Placeholder to be overridden by l10n_br_fiscal_edi. Defined here
+        so that l10n_br_account (which does not depend on l10n_br_fiscal_edi)
+        can call it without crashing.
+        """
         pass
 
-    def action_document_correction(self):
+    def view_xml(self):
+        """Placeholder to be overridden by l10n_br_fiscal_edi. Defined here
+        so that l10n_br_account (which does not depend on l10n_br_fiscal_edi)
+        can call it without crashing.
+        """
         pass
 
-    def exec_after_SITUACAO_EDOC_DENEGADA(self, old_state, new_state):
-        # see https://github.com/OCA/l10n-brazil/pull/3272
+    def view_pdf(self):
+        """Placeholder to be overridden by l10n_br_fiscal_edi. Defined here
+        so that l10n_br_account (which does not depend on l10n_br_fiscal_edi)
+        can call it without crashing.
+        """
         pass
 
     @api.depends("fiscal_operation_id")
