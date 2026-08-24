@@ -405,7 +405,7 @@ class Document(models.Model):
                             continue
 
                         if processo.webservice in ENVIO_LOTE_RPS:
-                            if retorno:
+                            if retorno is not None:
                                 if processo.resposta.Cabecalho.Sucesso:
                                     record._change_state(SITUACAO_EDOC_AUTORIZADA)
                                     vals["status_name"] = _("Procesado com Sucesso")
@@ -476,6 +476,7 @@ class Document(models.Model):
                 "codigo_verificacao": record.verify_code,
             }
 
+        status = True
         for record in self.filtered(filter_oca_nfse).filtered(filter_paulistana):
             processador = record._processador_erpbrasil_nfse()
             processo = processador.cancela_documento(doc_numero=doc_dict(record))
@@ -497,8 +498,10 @@ class Document(models.Model):
                 document_id=record,
             )
 
-            return status
+        return status
 
-    def _exec_before_SITUACAO_EDOC_CANCELADA(self, old_state, new_state):
-        super()._exec_before_SITUACAO_EDOC_CANCELADA(old_state, new_state)
+    def _before_document_cancel(self):
+        result = super()._before_document_cancel()
+        if not self.filtered(filter_oca_nfse).filtered(filter_paulistana):
+            return result
         return self.cancel_document_paulistana()
