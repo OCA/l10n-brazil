@@ -43,7 +43,7 @@
     "external_dependencies": {
         "python": [
             "num2words",
-            "erpbrasil.base",
+            "erpbrasil-base>=2.4.2",
             "phonenumbers",
             "email-validator",
         ]
