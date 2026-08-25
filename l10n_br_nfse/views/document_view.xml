@@ -7,6 +7,16 @@
         <field name="model">l10n_br_fiscal.document</field>
         <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
         <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <div
+                    class="alert alert-danger"
+                    role="alert"
+                    attrs="{'invisible': ['|', ('state_edoc', '!=', 'rejeitada'), ('edoc_error_message', '=', False)]}"
+                >
+                    <strong>Rejection reason:</strong>
+                    <field name="edoc_error_message" readonly="1" />
+                </div>
+            </xpath>
             <field name="status_description" position="after">
                 <field name="edoc_error_message" />
             </field>
