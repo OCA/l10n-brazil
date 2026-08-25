@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 =====================================
 Brazilian Localization WMS Accounting
 =====================================
@@ -17,7 +13,7 @@ Brazilian Localization WMS Accounting
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
@@ -44,10 +40,10 @@ Installation
 
 This module depends on:
 
-- stock_account
-- stock_picking_invoicing
-- l10n_br_stock
-- l10n_br_account
+-  stock_account
+-  stock_picking_invoicing
+-  l10n_br_stock
+-  l10n_br_account
 
 Configuration
 =============
@@ -76,12 +72,12 @@ Changelog
 
 **Bugfixes**
 
-   - Fixes picking creation with kits products.
+   -  Fixes picking creation with kits products.
 
 13.0.1.0.0 (2022-01-19)
 -----------------------
 
-- Module migration.
+-  Module migration.
 
 Bug Tracker
 ===========
@@ -104,13 +100,13 @@ Authors
 Contributors
 ------------
 
-- `Akretion <https://akretion.com/pt-BR>`__:
+-  `Akretion <https://akretion.com/pt-BR>`__:
 
-  - Renato Lima <renato.lima@akretion.com.br>
+   -  Renato Lima <renato.lima@akretion.com.br>
 
-- `Kmee <https://www.kmee.com.br>`__:
+-  `Kmee <https://www.kmee.com.br>`__:
 
-  - Gabriel Cardoso de Faria <gabriel.cardoso@kmee.com.br>
+   -  Gabriel Cardoso de Faria <gabriel.cardoso@kmee.com.br>
 
 Other credits
 -------------
