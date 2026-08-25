@@ -799,6 +799,68 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         self.assertEqual(result["aliquota_pis"], "1.50")
         self.assertEqual(result["aliquota_cofins"], "3.00")
 
+    def test_compute_tipo_retencao_pis_cofins_nt007_codes(self):
+        """Tests the NT 007 tpRetPisCofins code for every retention combination.
+
+        Legacy codes "1" and "2" must never be returned; only "0" and
+        "3"-"9" are valid for NFSe Nacional after NT 007.
+        """
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        compute = nfse_nacional._compute_tipo_retencao_pis_cofins
+
+        self.assertEqual(compute(False, False, False), "0")
+        self.assertEqual(compute(True, False, False), "5")
+        self.assertEqual(compute(False, True, False), "6")
+        self.assertEqual(compute(False, False, True), "8")
+        self.assertEqual(compute(True, True, False), "4")
+        self.assertEqual(compute(True, False, True), "9")
+        self.assertEqual(compute(False, True, True), "7")
+        self.assertEqual(compute(True, True, True), "3")
+
+    def test_prepare_tax_data_nacional_no_retention_uses_code_zero(self):
+        """Tests that no retention maps to code "0", not the legacy code "2"."""
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        service_info = {
+            "valor_pis": 2.48,
+            "valor_cofins": 11.4,
+            "valor_pis_retido": 0,
+            "valor_cofins_retido": 0,
+            "valor_csll_retido": 0,
+        }
+
+        result = nfse_nacional._prepare_tax_data_nacional(service_info, 150.0)
+
+        self.assertEqual(result["tipo_retencao_pis_cofins"], "0")
+        self.assertEqual(result["valor_csll"], 0.0)
+
+    def test_prepare_tax_data_nacional_full_retention_uses_code_three(self):
+        """Tests that PIS+COFINS+CSLL retention maps to code "3".
+
+        valor_csll must carry the sum of the three retained amounts,
+        as required by NT 007.
+        """
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        service_info = {
+            "valor_pis_retido": 2.60,
+            "valor_cofins_retido": 12.0,
+            "valor_csll_retido": 4.0,
+        }
+
+        result = nfse_nacional._prepare_tax_data_nacional(service_info, 150.0)
+
+        self.assertEqual(result["tipo_retencao_pis_cofins"], "3")
+        self.assertEqual(result["valor_csll"], 18.6)
+
+    def test_prepare_tax_data_nacional_pis_only_retention_uses_code_five(self):
+        """Tests that PIS-only retention maps to code "5"."""
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        service_info = {"valor_pis_retido": 1.0}
+
+        result = nfse_nacional._prepare_tax_data_nacional(service_info, 150.0)
+
+        self.assertEqual(result["tipo_retencao_pis_cofins"], "5")
+        self.assertEqual(result["valor_csll"], 1.0)
+
     @patch(
         "odoo.addons.l10n_br_nfse_focus.models.nfse_nacional.FocusnfeNfseNacional.process_focus_nfse_nacional_document"  # noqa: B950
     )
