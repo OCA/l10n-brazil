@@ -262,6 +262,12 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
         else:
             aliquota_pis = "0.00"
             aliquota_cofins = "0.00"
+        valor_pis_retido = round(service_info.get("valor_pis_retido", 0), 2)
+        valor_cofins_retido = round(service_info.get("valor_cofins_retido", 0), 2)
+        valor_csll_retido = round(service_info.get("valor_csll_retido", 0), 2)
+        tipo_retencao_pis_cofins = self._compute_tipo_retencao_pis_cofins(
+            bool(valor_pis_retido), bool(valor_cofins_retido), bool(valor_csll_retido)
+        )
 
         return {
             **(
@@ -274,14 +280,33 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
             "aliquota_cofins": aliquota_cofins,
             "valor_pis": valor_pis,
             "valor_cofins": valor_cofins,
-            "tipo_retencao_pis_cofins": service_info.get(
-                "tipo_retencao_pis_cofins", "2"
-            ),
+            "tipo_retencao_pis_cofins": tipo_retencao_pis_cofins,
             "valor_cp": round(service_info.get("valor_inss_retido", 0), 2),
             "valor_irrf": round(service_info.get("valor_ir_retido", 0), 2),
-            "valor_csll": round(service_info.get("valor_csll_retido", 0), 2),
+            "valor_csll": round(
+                valor_pis_retido + valor_cofins_retido + valor_csll_retido, 2
+            ),
             "valor_iss": round(service_info.get("valor_iss", 0), 2),
         }
+
+    @staticmethod
+    def _compute_tipo_retencao_pis_cofins(pis_retido, cofins_retido, csll_retido):
+        """Map PIS/COFINS/CSLL retention flags to the NT 007 tpRetPisCofins code.
+
+        Legacy codes "1" and "2" are no longer accepted by NFSe Nacional.
+        Codes "0" and "3"-"9" cover every combination of retained taxes.
+        """
+        tipo_retencao_map = {
+            (False, False, False): "0",
+            (True, True, True): "3",
+            (True, True, False): "4",
+            (True, False, False): "5",
+            (False, True, False): "6",
+            (False, True, True): "7",
+            (False, False, True): "8",
+            (True, False, True): "9",
+        }
+        return tipo_retencao_map[(pis_retido, cofins_retido, csll_retido)]
 
     def _prepare_payload_nacional(self, edoc, company):
         """Construct the NFSe Nacional payload.
