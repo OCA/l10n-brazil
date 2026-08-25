@@ -102,7 +102,14 @@
                 position="attributes"
             >
                 <attribute
-
+                    name="invisible"
+                >state_edoc == 'em_digitacao' or imported_document</attribute>
+            </xpath>
+            <xpath
+                expr="//header/button[@name='action_document_correction']"
+                position="attributes"
+            >
+                <attribute
                     name="invisible"
                 >state_edoc != 'autorizada' or imported_document</attribute>
             </xpath>
@@ -120,7 +127,7 @@
             >
                 <attribute
                     name="invisible"
-                >state_edoc != 'a_enviar' or not document_electronic or imported_document</attribute>
+                >state_edoc == 'cancelada' or imported_document</attribute>
             </xpath>
         </field>
     </record>
