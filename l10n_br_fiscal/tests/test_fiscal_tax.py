@@ -376,6 +376,7 @@ class TestFiscalTax(TransactionCase):
         )
 
         self.assertEqual(compute_result["taxes"]["icms"]["cst_id"].code, "10")
+
     def test_compute_taxes_without_cfop(self):
         """Linha sem CFOP não pode cair no cálculo genérico.
 
@@ -435,3 +436,40 @@ class TestFiscalTax(TransactionCase):
         with patch.object(type(fiscal_taxes), "_compute_icms", _raise_attribute_error):
             with self.assertRaises(AttributeError):
                 fiscal_taxes.compute_taxes(**kwargs)
+
+    def test_icmsfcp_does_not_require_icms_cst_id(self):
+        """O FCP tem de ser calculavel pela entrada contabil.
+
+        `account.tax.compute_all` nao tem `icms_cst_id` na assinatura, entao
+        toda chamada vinda da contabilidade chega ao metodo especifico sem ele.
+        Se `_compute_icmsfcp` exigir o parametro, o motor levanta AttributeError
+        justamente na entrada que nao pode fornece-lo.
+        """
+        kwargs = self._create_compute_taxes_kwargs()
+        kwargs.pop("icms_cst_id", None)
+        fiscal_taxes = self.env.ref("l10n_br_fiscal.tax_icmsfcp_2", False)
+        if not fiscal_taxes:
+            self.skipTest("no icmsfcp tax in this database")
+
+        taxes = fiscal_taxes.compute_taxes(**kwargs)["taxes"]
+        self.assertIn("icmsfcp", taxes)
+
+    def test_icmsfcp_agrees_with_and_without_icms_cst_id(self):
+        """As duas entradas do motor tem de chegar ao mesmo FCP.
+
+        A da linha fiscal passa `icms_cst_id`, a contabil nao. Se o resultado
+        depender disso, o mesmo documento sai com FCP diferente conforme quem
+        chamou.
+        """
+        fiscal_taxes = self.env.ref("l10n_br_fiscal.tax_icmsfcp_2", False)
+        if not fiscal_taxes:
+            self.skipTest("no icmsfcp tax in this database")
+
+        com_cst = self._create_compute_taxes_kwargs()
+        sem_cst = self._create_compute_taxes_kwargs()
+        sem_cst.pop("icms_cst_id", None)
+
+        self.assertEqual(
+            fiscal_taxes.compute_taxes(**com_cst)["taxes"]["icmsfcp"]["tax_value"],
+            fiscal_taxes.compute_taxes(**sem_cst)["taxes"]["icmsfcp"]["tax_value"],
+        )
