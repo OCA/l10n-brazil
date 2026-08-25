@@ -257,6 +257,7 @@ class FocusnfeNfse(FocusnfeNfseBase):
             "valor_ir": round(service.get("valor_ir_retido", 0), 2),
             "valor_csll": round(service.get("valor_csll_retido", 0), 2),
             "valor_deducoes": round(service.get("valor_deducoes", 0), 2),
+            "discriminacao_deducoes": service.get("discriminacao_deducoes") or "",
             "fonte_total_tributos": service.get("fonte_total_tributos", "IBPT"),
             "desconto_incondicionado": round(
                 service.get("valor_desconto_incondicionado", 0), 2
