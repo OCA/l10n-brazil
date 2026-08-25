@@ -36,7 +36,20 @@ class Operation(models.Model):
     )
 
     deductible_taxes = fields.Boolean(
+        string="Detail Deductible Taxes",
         company_dependent=True,
+        help="Marcado: os impostos contábeis marcados como dedutíveis "
+        "(`<Imposto> Entrada Dedutível`) são anexados à linha junto com os não "
+        "dedutíveis. O imposto recuperável aparece em duas linhas explícitas na "
+        "fatura - o crédito em `<Imposto> a Compensar` e a contrapartida saindo "
+        "da conta da linha (estoque, conta ponte ou despesa).\n\n"
+        "Desmarcado: só os impostos não dedutíveis são anexados e a "
+        "contrapartida já vem embutida no valor da própria linha, sem linha de "
+        "imposto adicional.\n\n"
+        "Os dois modos chegam aos mesmos saldos: a diferença é só a "
+        "apresentação dos impostos recuperáveis na fatura. Isso não define se o "
+        "imposto é creditável - quem define é a existência de conta na linha de "
+        "repartição do imposto no plano de contas.",
     )
 
     def _line_domain(self, company, partner, product):

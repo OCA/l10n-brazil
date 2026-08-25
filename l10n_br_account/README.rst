@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ===========================================
 Invoicing and accounting entries for Brazil
 ===========================================
@@ -17,7 +13,7 @@ Invoicing and accounting entries for Brazil
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
@@ -52,8 +48,8 @@ A arquitetura do módulo se baseia no mecanismo de herança por composição
 ``_inherits`` do Odoo para criar uma composição dinâmica entre os
 modelos fiscais e contábeis:
 
-- **account.move** herda de **l10n_br_fiscal.document**
-- **account.move.line** herda de **l10n_br_fiscal.document.line**
+-  **account.move** herda de **l10n_br_fiscal.document**
+-  **account.move.line** herda de **l10n_br_fiscal.document.line**
 
 Esta abordagem, análoga ao *Decorator Pattern*, oferece as seguintes
 vantagens:
@@ -85,10 +81,10 @@ O módulo ``l10n_br_account`` é a peça chave para automatizar a emissão
 de documentos fiscais a partir de qualquer fluxo de negócio que gere uma
 fatura no Odoo, como:
 
-- Ordens de Venda (``sale.order``)
-- Ordens de Compra (``purchase.order``)
-- Movimentações de Estoque (``stock.picking``)
-- Contratos (``contract.contract``), entre outros.
+-  Ordens de Venda (``sale.order``)
+-  Ordens de Compra (``purchase.order``)
+-  Movimentações de Estoque (``stock.picking``)
+-  Contratos (``contract.contract``), entre outros.
 
 A **Operação Fiscal** pré-configurada orquestra o preenchimento
 automático de todos os dados necessários, permitindo a geração de NF-e,
@@ -100,26 +96,26 @@ Uso Avançado: Lançamentos contábeis corretos para as empresas do Regime Norma
 Para empresas no Lucro Real ou Presumido, o ``l10n_br_account`` habilita
 uma gestão contábil e fiscal precisa e aderente à legislação.
 
-- **Lançamentos Contábeis de Impostos**: Conecta os impostos fiscais
-  (``l10n_br_fiscal.tax``) aos contábeis (``account.tax``), garantindo
-  que a validação de uma fatura gere os lançamentos corretos para ICMS,
-  IPI, PIS, COFINS, etc., em suas respectivas contas (custo,
-  recuperável, despesa).
+-  **Lançamentos Contábeis de Impostos**: Conecta os impostos fiscais
+   (``l10n_br_fiscal.tax``) aos contábeis (``account.tax``), garantindo
+   que a validação de uma fatura gere os lançamentos corretos para ICMS,
+   IPI, PIS, COFINS, etc., em suas respectivas contas (custo,
+   recuperável, despesa).
 
-- **Operações Sem Impacto Financeiro**: Suporta operações como "Remessa
-  para Industrialização", permitindo a emissão do documento fiscal
-  obrigatório e o lançamento correto dos impostos, mas sem gerar contas
-  a pagar ou a receber, mantendo a integridade fiscal e contábil.
+-  **Operações Sem Impacto Financeiro**: Suporta operações como "Remessa
+   para Industrialização", permitindo a emissão do documento fiscal
+   obrigatório e o lançamento correto dos impostos, mas sem gerar contas
+   a pagar ou a receber, mantendo a integridade fiscal e contábil.
 
-- **Composição de Valores Financeiros**: Gerencia a correta composição
-  do valor financeiro das faturas. Por exemplo, assegura que o valor do
-  IPI, quando não recuperável, seja somado ao contas a pagar do
-  fornecedor.
+-  **Composição de Valores Financeiros**: Gerencia a correta composição
+   do valor financeiro das faturas. Por exemplo, assegura que o valor do
+   IPI, quando não recuperável, seja somado ao contas a pagar do
+   fornecedor.
 
-- **Importação de Documentos (XML)**: Facilita a importação de
-  documentos de fornecedores, criando simultaneamente o
-  ``l10n_br_fiscal.document`` com os dados fiscais e a fatura de
-  fornecedor (``account.move``) pronta para validação e pagamento.
+-  **Importação de Documentos (XML)**: Facilita a importação de
+   documentos de fornecedores, criando simultaneamente o
+   ``l10n_br_fiscal.document`` com os dados fiscais e a fatura de
+   fornecedor (``account.move``) pronta para validação e pagamento.
 
 Escopo e Delimitação do Módulo
 ==============================
@@ -168,28 +164,28 @@ A arquitetura suporta cenários onde um único lançamento financeiro
 única para pagar vários Conhecimentos de Transporte (CT-e). Esta
 flexibilidade é garantida por três campos-chave:
 
-- **account.move.fiscal_document_id**: O campo ``Many2one`` que
-  implementa o ``_inherits``. Representa o documento fiscal "principal"
-  ou em edição na interface da fatura.
+-  **account.move.fiscal_document_id**: O campo ``Many2one`` que
+   implementa o ``_inherits``. Representa o documento fiscal "principal"
+   ou em edição na interface da fatura.
 
-- **account.move.line.fiscal_document_line_id**: O pilar da arquitetura.
-  Permite que **cada linha** da fatura aponte para uma linha de um
-  documento fiscal distinto. É isso que possibilita agregar múltiplos
-  documentos em um único ``account.move``.
+-  **account.move.line.fiscal_document_line_id**: O pilar da
+   arquitetura. Permite que **cada linha** da fatura aponte para uma
+   linha de um documento fiscal distinto. É isso que possibilita agregar
+   múltiplos documentos em um único ``account.move``.
 
-- **account.move.fiscal_document_ids**: Campo ``One2many`` computado que
-  agrega todos os documentos fiscais vinculados às linhas da fatura,
-  oferecendo uma visão completa e consolidada quando o lançamento tem
-  mais de um documento fiscal.
+-  **account.move.fiscal_document_ids**: Campo ``One2many`` computado
+   que agrega todos os documentos fiscais vinculados às linhas da
+   fatura, oferecendo uma visão completa e consolidada quando o
+   lançamento tem mais de um documento fiscal.
 
 A flexibilidade do design é bidirecional. O sistema também gerencia
 nativamente cenários onde **um lançamento contábil (``account.move``)
 não possui nenhum documento fiscal associado**. Isso é fundamental para
 operações puramente contábeis ou não fiscais, como:
 
-- Lançamentos de folha de pagamento.
-- Operações financeiras ou contábeis em empresas de um grupo
-  multinacional que não operam no Brasil.
+-  Lançamentos de folha de pagamento.
+-  Operações financeiras ou contábeis em empresas de um grupo
+   multinacional que não operam no Brasil.
 
 Além disso, mesmo dentro de uma fatura fiscalizada, a associação é
 granular. Apenas as linhas de produto (``invoice_line_ids`` com
@@ -315,8 +311,8 @@ Installation
 
 Este modulo depende dos módulos:
 
-- l10n_br_coa (que depende do módulo account)
-- l10n_br_fiscal
+-  l10n_br_coa (que depende do módulo account)
+-  l10n_br_fiscal
 
 Configuration
 =============
@@ -358,21 +354,22 @@ com os campos fiscais necessários.
 4. **Preencha os Dados Fiscais do Cabeçalho** Com a instalação do
    módulo, novos campos fiscais aparecerão no cabeçalho da fatura.
 
-   - **Tipo de Documento**: Selecione o modelo do documento fiscal. Para
-     uma NF-e, por exemplo, escolha **``55 - Nota Fiscal Eletrônica``**.
-   - **Operação Fiscal**: Este é um campo chave. Ele define a natureza
-     da transação. Selecione uma operação compatível, como
-     **``Venda de Mercadoria``**.
+   -  **Tipo de Documento**: Selecione o modelo do documento fiscal.
+      Para uma NF-e, por exemplo, escolha
+      **``55 - Nota Fiscal Eletrônica``**.
+   -  **Operação Fiscal**: Este é um campo chave. Ele define a natureza
+      da transação. Selecione uma operação compatível, como
+      **``Venda de Mercadoria``**.
 
 5. **Adicione as Linhas da Fatura** Na aba ``Linhas da Fatura``, clique
    em ``Adicionar uma linha``.
 
-   - Selecione um produto. Usando os dados de demonstração, você pode
-     escolher o produto **``[E-COM08] Storage Box``**.
-   - Observe que, ao selecionar o produto, os campos fiscais da linha,
-     como ``Operação Fiscal da Linha`` e ``Impostos``, são preenchidos
-     automaticamente com base nas regras da Operação Fiscal principal.
-     Os impostos são calculados e exibidos em tempo real.
+   -  Selecione um produto. Usando os dados de demonstração, você pode
+      escolher o produto **``[E-COM08] Storage Box``**.
+   -  Observe que, ao selecionar o produto, os campos fiscais da linha,
+      como ``Operação Fiscal da Linha`` e ``Impostos``, são preenchidos
+      automaticamente com base nas regras da Operação Fiscal principal.
+      Os impostos são calculados e exibidos em tempo real.
 
 Visualizando e Editando os Detalhes Fiscais da Linha
 ----------------------------------------------------
@@ -382,12 +379,12 @@ todos os detalhes fiscais de uma linha ou para editar manualmente algum
 campo (como um NCM ou CST específico para aquela operação), você pode
 usar o modo de edição em pop-up.
 
-- Clique no ícone de **"abrir registro externo" (um quadrado com uma
-  seta)**, localizado à esquerda da linha do produto na grade editável.
-- Uma janela pop-up se abrirá, exibindo o formulário completo da linha.
-  Nele, você encontrará a aba **``Impostos``**, que contém o
-  detalhamento completo dos cálculos para cada tributo (ICMS, IPI, PIS,
-  COFINS, etc.).
+-  Clique no ícone de **"abrir registro externo" (um quadrado com uma
+   seta)**, localizado à esquerda da linha do produto na grade editável.
+-  Uma janela pop-up se abrirá, exibindo o formulário completo da linha.
+   Nele, você encontrará a aba **``Impostos``**, que contém o
+   detalhamento completo dos cálculos para cada tributo (ICMS, IPI, PIS,
+   COFINS, etc.).
 
 Verificando os Lançamentos Contábeis
 ------------------------------------
@@ -457,23 +454,23 @@ Authors
 Contributors
 ------------
 
-- `Akretion <https://akretion.com/pt-BR>`__:
+-  `Akretion <https://akretion.com/pt-BR>`__:
 
-  - Renato Lima <renato.lima@akretion.com.br>
-  - Raphaël Valyi <raphael.valyi@akretion.com.br>
+   -  Renato Lima <renato.lima@akretion.com.br>
+   -  Raphaël Valyi <raphael.valyi@akretion.com.br>
 
-- `KMEE <https://www.kmee.com.br>`__:
+-  `KMEE <https://www.kmee.com.br>`__:
 
-  - Luis Felipe Mileo <mileo@kmee.com.br>
+   -  Luis Felipe Mileo <mileo@kmee.com.br>
 
-- `Escodoo <https://www.escodoo.com.br>`__:
+-  `Escodoo <https://www.escodoo.com.br>`__:
 
-  - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+   -  Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 
-- `Engenere <https://engenere.one>`__:
+-  `Engenere <https://engenere.one>`__:
 
-  - Antônio S. Pereira Neto <neto@engenere.one>
-  - Felipe Motter Pereira <felipe@engenere.one>
+   -  Antônio S. Pereira Neto <neto@engenere.one>
+   -  Felipe Motter Pereira <felipe@engenere.one>
 
 Maintainers
 -----------
