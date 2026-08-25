@@ -16,7 +16,7 @@
             "erpbrasil.edoc",
             "erpbrasil.assinatura",
             "erpbrasil.transmissao",
-            "erpbrasil.base",
+            "erpbrasil-base>=2.4.2",
             "nfselib.paulistana",
             "unidecode",
         ],
