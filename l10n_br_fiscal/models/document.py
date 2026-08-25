@@ -89,6 +89,25 @@ class Document(models.Model):
         index=True,
     )
 
+    edoc_is_locked = fields.Boolean(
+        compute="_compute_edoc_is_locked",
+        help="Technical field: True once the document leaves the draft "
+        "state, used to make identity fields readonly in the views.",
+    )
+
+    @api.depends("state_edoc", "issuer")
+    def _compute_edoc_is_locked(self):
+        for doc in self:
+            if doc.issuer == DOCUMENT_ISSUER_COMPANY:
+                # Company-issued docs lock as soon as they leave draft: the
+                # fiscal identity is committed once validated/sent.
+                doc.edoc_is_locked = doc.state_edoc != DOCUMENT_STATE_DRAFT
+            else:
+                # Partner-issued docs (e.g. supplier bills) are just local
+                # records of a third-party document; keep them editable so
+                # the user can fix data entry, except once cancelled.
+                doc.edoc_is_locked = doc.state_edoc == DOCUMENT_STATE_CANCEL
+
     state_fiscal = fields.Selection(
         selection=SITUACAO_FISCAL,
         string="Situação Fiscal",
