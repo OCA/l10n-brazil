@@ -58,7 +58,7 @@
             "erpbrasil.transmissao",
             "erpbrasil.edoc",
             "erpbrasil.edoc.pdf",
-            "erpbrasil.base",
+            "erpbrasil-base>=2.4.2",
             "brazilfiscalreport",
         ],
     },
