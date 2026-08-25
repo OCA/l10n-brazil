@@ -23,7 +23,7 @@
     "external_dependencies": {
         "python": [
             "brazilcep",
-            "erpbrasil.base",
+            "erpbrasil-base>=2.4.2",
         ]
     },
 }
