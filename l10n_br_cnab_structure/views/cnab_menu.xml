@@ -55,7 +55,6 @@
             action="action_cnab_data_management"
             sequence="70"
         />
-
     </menuitem>
     <!-- TODO Por enquanto não há a implementação para cobrança, então está comentado -->
     <!-- <menuitem

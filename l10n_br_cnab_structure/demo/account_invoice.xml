@@ -97,7 +97,7 @@
         />
     </record>
 
-     <function model="account.move" name="action_post">
+    <function model="account.move" name="action_post">
         <value eval="[ref('demo_bill_bb_ted')]" />
     </function>
     <!-- Add and Confirm Payment Order for this Bill-->

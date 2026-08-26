@@ -18,7 +18,7 @@
         <field name="bank_name">Banco do Brasil</field>
     </record>
 
-     <!-- Bank Account for partner Intel do Brasil -->
+    <!-- Bank Account for partner Intel do Brasil -->
     <record id="intel_bank_account" model="res.partner.bank">
         <field name="acc_number">03409784</field>
         <field name="acc_number_dig">3</field>
