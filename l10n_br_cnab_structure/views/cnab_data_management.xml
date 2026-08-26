@@ -4,7 +4,6 @@
     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 -->
 <odoo>
-
     <record id="cnab_operation_tree" model="ir.ui.view">
         <field name="name">cnab.data.management.tree</field>
         <field name="model">cnab.data.management</field>
@@ -179,17 +178,17 @@
                             </p>
                             <ul class="list-unstyled ml-3">
                                 <li><i
-                                        class="fa fa-caret-right text-primary"
-                                        title="Bullet"
-                                    /> l10n_br_cnab.structure.csv</li>
+                                    class="fa fa-caret-right text-primary"
+                                    title="Bullet"
+                                /> l10n_br_cnab.structure.csv</li>
                                 <li><i
-                                        class="fa fa-caret-right text-primary"
-                                        title="Bullet"
-                                    /> l10n_br_cnab.batch.csv</li>
+                                    class="fa fa-caret-right text-primary"
+                                    title="Bullet"
+                                /> l10n_br_cnab.batch.csv</li>
                                 <li><i
-                                        class="fa fa-caret-right text-primary"
-                                        title="Bullet"
-                                    /> l10n_br_cnab.line.csv</li>
+                                    class="fa fa-caret-right text-primary"
+                                    title="Bullet"
+                                /> l10n_br_cnab.line.csv</li>
                             </ul>
 
                             <p>
@@ -201,13 +200,13 @@
                             </p>
                             <ul class="list-unstyled ml-3">
                                 <li><i
-                                        class="fa fa-caret-right text-primary"
-                                        title="Bullet"
-                                    /> cnab.line.field.group.csv</li>
+                                    class="fa fa-caret-right text-primary"
+                                    title="Bullet"
+                                /> cnab.line.field.group.csv</li>
                                 <li><i
-                                        class="fa fa-caret-right text-primary"
-                                        title="Bullet"
-                                    /> cnab.line.group.field.condition.csv</li>
+                                    class="fa fa-caret-right text-primary"
+                                    title="Bullet"
+                                /> cnab.line.group.field.condition.csv</li>
                             </ul>
 
                             <p>
@@ -219,21 +218,21 @@
                             </p>
                             <ul class="list-unstyled ml-3">
                                 <li><i
-                                        class="fa fa-caret-right text-primary"
-                                        title="Bullet"
-                                    /> cnab.occurrence.csv</li>
+                                    class="fa fa-caret-right text-primary"
+                                    title="Bullet"
+                                /> cnab.occurrence.csv</li>
                                 <li><i
-                                        class="fa fa-caret-right text-primary"
-                                        title="Bullet"
-                                    /> cnab.pix.key.type.csv</li>
+                                    class="fa fa-caret-right text-primary"
+                                    title="Bullet"
+                                /> cnab.pix.key.type.csv</li>
                                 <li><i
-                                        class="fa fa-caret-right text-primary"
-                                        title="Bullet"
-                                    /> cnab.pix.transfer.type.csv</li>
+                                    class="fa fa-caret-right text-primary"
+                                    title="Bullet"
+                                /> cnab.pix.transfer.type.csv</li>
                                 <li><i
-                                        class="fa fa-caret-right text-primary"
-                                        title="Bullet"
-                                    /> cnab.payment.way.csv</li>
+                                    class="fa fa-caret-right text-primary"
+                                    title="Bullet"
+                                /> cnab.payment.way.csv</li>
                             </ul>
                         </div>
                     </group>
@@ -385,9 +384,9 @@
                                             class="btn btn-primary btn-sm"
                                         >
                                             <i
-                                                class="fa fa-play"
-                                                title="Process"
-                                            /> Process </button>
+                                            class="fa fa-play"
+                                            title="Process"
+                                        /> Process </button>
                                     </div>
                                     <div class="col-6 text-right">
                                         <span
@@ -395,8 +394,8 @@
                                             class="badge badge-info"
                                         >
                                             <t
-                                                t-esc="record.records_processed.value"
-                                            /> records </span>
+                                            t-esc="record.records_processed.value"
+                                        /> records </span>
                                     </div>
                                 </div>
 
@@ -449,5 +448,4 @@
             </p>
         </field>
     </record>
-
 </odoo>
