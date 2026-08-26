@@ -749,6 +749,59 @@ class TestL10nBrNfseFocus(common.TransactionCase):
 
         self.assertNotIn("inscricao_municipal_prestador", payload)
 
+    def test_prepare_payload_nacional_sends_aliquota_non_simples_no_special_regime(
+        self,
+    ):
+        """Tests aliquota is sent for a non-Simples provider without special regime.
+
+        Some municipalities require percentual_aliquota_relativa_municipio even
+        for providers that are not optante do Simples Nacional, as long as they
+        have no special municipal taxation regime (regime_especial_tributacao
+        == 0) and ISS is normally taxable.
+        """
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        edoc = {
+            "rps": dict(
+                PAYLOAD[0]["rps"],
+                optante_simples_nacional="2",
+                regime_especial_tributacao="0",
+            ),
+            "service": PAYLOAD[1]["service"],
+            "recipient": PAYLOAD[2]["recipient"],
+        }
+
+        self.company.city_id = self.env.ref("l10n_br_base.city_3550308")
+
+        payload = nfse_nacional._prepare_payload_nacional(edoc, self.company)
+
+        self.assertEqual(payload.get("codigo_opcao_simples_nacional"), 1)
+        self.assertIn("percentual_aliquota_relativa_municipio", payload)
+
+    def test_prepare_payload_nacional_suppresses_aliquota_special_regime(self):
+        """Tests aliquota is omitted for a non-Simples provider with special regime.
+
+        A provider that is neither optante do Simples Nacional nor free of a
+        special municipal taxation regime must not have the aliquota field
+        sent, matching the pre-existing behavior for that combination.
+        """
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        edoc = {
+            "rps": dict(
+                PAYLOAD[0]["rps"],
+                optante_simples_nacional="2",
+                regime_especial_tributacao="1",
+            ),
+            "service": PAYLOAD[1]["service"],
+            "recipient": PAYLOAD[2]["recipient"],
+        }
+
+        self.company.city_id = self.env.ref("l10n_br_base.city_3550308")
+
+        payload = nfse_nacional._prepare_payload_nacional(edoc, self.company)
+
+        self.assertEqual(payload.get("codigo_opcao_simples_nacional"), 1)
+        self.assertNotIn("percentual_aliquota_relativa_municipio", payload)
+
     def test_prepare_service_basic_nacional_tipo_retencao_iss_override(self):
         """Tests that tipo_retencao_iss is forced to '1' for tributacao_iss 2/3/4.
 
