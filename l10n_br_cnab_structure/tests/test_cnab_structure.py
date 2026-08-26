@@ -56,13 +56,12 @@ def replace_chars(string: str, index: int, replacement: str) -> str:
 @tagged("post_install", "-at_install")
 class TestCNABStructure(AccountTestInvoicingCommon):
     @classmethod
-    def setUpClass(
-        cls, chart_template_ref="l10n_br_coa_generic.l10n_br_coa_generic_template"
-    ):
-        super().setUpClass(chart_template_ref=chart_template_ref)
+    def setUpClass(cls):
+        cls.chart_template = "br_oca_generic"
+        super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.company = cls.company_data["company"]
-        cls.company.update({"cnpj_cpf": TEST_CNPJ})
+        cls.company.update({"vat": TEST_CNPJ})
         cls.env.user.company_id = cls.company.id
 
         cls.res_partner_bank_model = cls.env["res.partner.bank"]
@@ -90,7 +89,7 @@ class TestCNABStructure(AccountTestInvoicingCommon):
 
     @classmethod
     def _setup_partner_data(cls):
-        cls.partner_a.update({"cnpj_cpf": TEST_PARTNER_CNPJ})
+        cls.partner_a.update({"vat": TEST_PARTNER_CNPJ})
 
         cls.partner_a_itau_bank = cls.res_partner_bank_model.create(
             {
@@ -403,7 +402,7 @@ class TestCNABStructure(AccountTestInvoicingCommon):
 
         self.assertIsNotNone(preview_wizard.output_yaml)
         self.assertIn(
-            "    103_132_nome_do_banco: 'BANCO ITAU                    '\n",
+            "    103_132_nome_do_banco: 'ITAU UNIBANCO SA              '\n",
             preview_wizard.output_yaml,
         )
 

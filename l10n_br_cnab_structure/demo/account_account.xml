@@ -10,7 +10,7 @@
         <field name="code">511601</field>
         <field name="name">Juros Passivos</field>
         <field name="account_type">expense</field>
-        <field name="company_id" ref="base.main_company" />
+        <field name="company_ids" eval="[Command.link(ref('base.main_company'))]" />
         <field name="reconcile" eval="True" />
     </record>
 
@@ -18,7 +18,7 @@
         <field name="code">616102</field>
         <field name="name">Outras Receitas</field>
         <field name="account_type">income</field>
-        <field name="company_id" ref="base.main_company" />
+        <field name="company_ids" eval="[Command.link(ref('base.main_company'))]" />
         <field name="reconcile" eval="True" />
     </record>
 </odoo>

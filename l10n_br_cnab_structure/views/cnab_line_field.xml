@@ -9,19 +9,19 @@
     <record model="ir.ui.view" id="cnab_line_field_tree_view">
         <field name="model">l10n_br_cnab.line.field</field>
         <field name="arch" type="xml">
-            <tree default_order='cnab_line_id, start_pos ASC' create="false">
-                <field name="state" invisible="True" />
-                <field name="name" />
-                <field name="meaning" />
-                <field name="start_pos" />
-                <field name="end_pos" />
-                <field name="type" />
+            <list default_order='cnab_line_id, start_pos ASC' create="false">
+                <field name="state" column_invisible="True" />
+                <field name="name" readonly="state != 'draft'" />
+                <field name="meaning" readonly="state != 'draft'" />
+                <field name="start_pos" readonly="state != 'draft'" />
+                <field name="end_pos" readonly="state != 'draft'" />
+                <field name="type" readonly="state != 'draft'" />
                 <field name="size" />
-                <field name="default_value" />
-                <field name="notes" />
-                <field name="cnab_line_id" />
-                <field name="cnab_group_id" />
-            </tree>
+                <field name="default_value" readonly="state != 'draft'" />
+                <field name="notes" readonly="state != 'draft'" />
+                <field name="cnab_line_id" readonly="state != 'draft'" />
+                <field name="cnab_group_id" readonly="state != 'draft'" />
+            </list>
         </field>
     </record>
 
@@ -35,18 +35,18 @@
                 <sheet>
                     <group name="field" string="Field Setting">
                         <group>
-                            <field name="name" />
-                            <field name="meaning" />
-                            <field name="start_pos" />
-                            <field name="end_pos" />
-                            <field name="assumed_comma" />
-                            <field name="type" />
+                            <field name="name" readonly="state != 'draft'" />
+                            <field name="meaning" readonly="state != 'draft'" />
+                            <field name="start_pos" readonly="state != 'draft'" />
+                            <field name="end_pos" readonly="state != 'draft'" />
+                            <field name="assumed_comma" readonly="state != 'draft'" />
+                            <field name="type" readonly="state != 'draft'" />
                         </group>
                         <group>
                             <field name="ref_name" />
-                            <field name="cnab_line_id" />
-                            <field name="cnab_group_id" />
-                            <field name="default_value" />
+                            <field name="cnab_line_id" readonly="state != 'draft'" />
+                            <field name="cnab_group_id" readonly="state != 'draft'" />
+                            <field name="default_value" readonly="state != 'draft'" />
                             <field name="size" />
                         </group>
                         <field name="notes" placeholder="Notes.." widget="text" />
@@ -55,7 +55,10 @@
                         <page name="send_mapping" string="Send Mapping">
                             <group col="2" name="content" stirng="Content">
                                 <field name="content_source_model_id" />
-                                <field name="content_source_field" />
+                                <field
+                                    name="content_source_field"
+                                    readonly="state != 'draft'"
+                                />
                                 <label for="action_change_field_sending" />
                                 <button
                                     name="action_change_field_sending"
@@ -76,7 +79,10 @@
                         <page name="return_mapping" string="Return Mapping">
                             <group col="2" name="content" stirng="Content">
                                 <field name="content_dest_model_id" />
-                                <field name="content_dest_field" />
+                                <field
+                                    name="content_dest_field"
+                                    readonly="state != 'draft'"
+                                />
                                 <label for="action_change_field_return" />
                                 <button
                                     name="action_change_field_return"
@@ -104,6 +110,6 @@
         <field name="name">CNAB Fields</field>
         <field name="view_id" ref="cnab_line_field_tree_view" />
         <field name="res_model">l10n_br_cnab.line.field</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 </odoo>

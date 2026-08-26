@@ -20,13 +20,13 @@
     <record model="ir.ui.view" id="cnab_structure_tree_view">
         <field name="model">l10n_br_cnab.structure</field>
         <field name="arch" type="xml">
-            <tree edit="0">
-                <field name="state" invisible="True" />
-                <field name="name" />
-                <field name="payment_method_id" />
-                <field name="cnab_format" invisible="True" />
-                <field name="bank_id" />
-            </tree>
+            <list edit="0">
+                <field name="state" column_invisible="True" />
+                <field name="name" readonly="state != 'draft'" />
+                <field name="payment_method_id" readonly="state != 'draft'" />
+                <field name="cnab_format" column_invisible="True" />
+                <field name="bank_id" readonly="state != 'draft'" />
+            </list>
         </field>
     </record>
 
@@ -40,21 +40,21 @@
                         type="object"
                         string="Review"
                         class="oe_highlight"
-                        states="draft"
+                        invisible="state != 'draft'"
                     />
                     <button
                         name="action_approve"
                         type="object"
                         string="Approve"
                         class="oe_highlight"
-                        states="review"
+                        invisible="state != 'review'"
                     />
                     <button
                         name="action_draft"
                         type="object"
                         string="Reset To Draft"
                         class="oe_highlight"
-                        states="review,approved"
+                        invisible="state not in ('review', 'approved')"
                     />
                     <field name="state" widget="statusbar" />
                 </header>
@@ -71,15 +71,21 @@
                     </div>
                     <group>
                         <group>
-                            <field name="name" />
-                            <field name="bank_id" />
-                            <field name="unique_seq_per_segment" />
+                            <field name="name" readonly="state != 'draft'" />
+                            <field name="bank_id" readonly="state != 'draft'" />
+                            <field
+                                name="unique_seq_per_segment"
+                                readonly="state != 'draft'"
+                            />
                         </group>
                         <group>
-                            <field name="payment_method_id" />
+                            <field
+                                name="payment_method_id"
+                                readonly="state != 'draft'"
+                            />
                             <field name="cnab_format" invisible="True" />
                             <field name="payment_type" invisible="True" />
-                            <field name="batch_ids" />
+                            <field name="batch_ids" readonly="state != 'draft'" />
                             <field name="content_source_model_id" invisible="True" />
                         </group>
                     </group>
@@ -87,22 +93,26 @@
                         <page name="lines" string="Lines">
                             <field
                                 name="line_ids"
-                                mode='tree'
+                                mode='list'
                                 widget='one2many'
                                 context="{'default_cnab_structure_id': id}"
                             >
-                                <tree default_order="sequence">
-                                    <field name="state" invisible="True" />
-                                    <field name="cnab_format" invisible="True" />
+                                <list default_order="sequence">
+                                    <field name="state" column_invisible="True" />
+                                    <field name="cnab_format" column_invisible="True" />
                                     <field name="sequence" widget="handle" />
-                                    <field name="type" />
+                                    <field name="type" readonly="state != 'draft'" />
                                     <field name="name" />
                                     <field
                                         name="batch_id"
-                                        attrs="{'column_invisible': [('parent.cnab_format', '!=', '240')]}"
+                                        column_invisible="parent.cnab_format != '240'"
+                                        readonly="state != 'draft'"
                                     />
-                                    <field name="cnab_structure_id" />
-                                </tree>
+                                    <field
+                                        name="cnab_structure_id"
+                                        readonly="state != 'draft'"
+                                    />
+                                </list>
                             </field>
                         </page>
                         <page name="conf_fields" string="Configuration Fields">
@@ -111,18 +121,23 @@
                                     <label
                                         for="conf_bank_start_pos"
                                         string="Bank"
-                                        attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}"
+                                        required="cnab_format == '240'"
+                                        invisible="cnab_format != '240'"
                                     />
                                     <div>
                                         <field
                                             name="conf_bank_start_pos"
                                             style="width: 50%"
-                                            attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}"
+                                            required="cnab_format == '240'"
+                                            invisible="cnab_format != '240'"
+                                            readonly="state != 'draft'"
                                         />
                                         <field
                                             name="conf_bank_end_pos"
                                             style="width: 50%"
-                                            attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}"
+                                            required="cnab_format == '240'"
+                                            invisible="cnab_format != '240'"
+                                            readonly="state != 'draft'"
                                         />
                                     </div>
                                     <label
@@ -134,79 +149,101 @@
                                             name="conf_record_type_start_pos"
                                             style="width: 50%"
                                             required="1"
+                                            readonly="state != 'draft'"
                                         />
                                         <field
                                             name="conf_record_type_end_pos"
                                             style="width: 50%"
                                             required="1"
+                                            readonly="state != 'draft'"
                                         />
                                     </div>
                                     <label
                                         for="conf_batch_start_pos"
                                         string="Batch"
-                                        attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}"
+                                        required="cnab_format == '240'"
+                                        invisible="cnab_format != '240'"
                                     />
                                     <div>
                                         <field
                                             name="conf_batch_start_pos"
                                             style="width: 50%"
-                                            attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}"
+                                            required="cnab_format == '240'"
+                                            invisible="cnab_format != '240'"
+                                            readonly="state != 'draft'"
                                         />
                                         <field
                                             name="conf_batch_end_pos"
                                             style="width: 50%"
-                                            attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}"
+                                            required="cnab_format == '240'"
+                                            invisible="cnab_format != '240'"
+                                            readonly="state != 'draft'"
                                         />
                                     </div>
                                     <label
                                         for="conf_payment_way_start_pos"
                                         string="Payment Way"
-                                        attrs="{'required': [('cnab_format', '=', '240'),('payment_type', '=', 'outbound')], 'invisible': ['|',('cnab_format', '!=', '240'),('payment_type', '!=', 'outbound')]}"
+                                        required="cnab_format == '240' and payment_type == 'outbound'"
+                                        invisible="cnab_format != '240' or payment_type != 'outbound'"
                                     />
                                     <div>
                                         <field
                                             name="conf_payment_way_start_pos"
                                             style="width: 50%"
-                                            attrs="{'required': [('cnab_format', '=', '240'),('payment_type', '=', 'outbound')], 'invisible': ['|',('cnab_format', '!=', '240'),('payment_type', '!=', 'outbound')]}"
+                                            required="cnab_format == '240' and payment_type == 'outbound'"
+                                            invisible="cnab_format != '240' or payment_type != 'outbound'"
+                                            readonly="state != 'draft'"
                                         />
                                         <field
                                             name="conf_payment_way_end_pos"
                                             style="width: 50%"
-                                            attrs="{'required': [('cnab_format', '=', '240'),('payment_type', '=', 'outbound')], 'invisible': ['|',('cnab_format', '!=', '240'),('payment_type', '!=', 'outbound')]}"
+                                            required="cnab_format == '240' and payment_type == 'outbound'"
+                                            invisible="cnab_format != '240' or payment_type != 'outbound'"
+                                            readonly="state != 'draft'"
                                         />
                                     </div>
                                     <label
                                         for="conf_detail_start_pos"
                                         string="Detail"
-                                        attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}"
+                                        required="cnab_format == '240'"
+                                        invisible="cnab_format != '240'"
                                     />
                                     <div>
                                         <field
                                             name="conf_detail_start_pos"
                                             style="width: 50%"
-                                            attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}"
+                                            required="cnab_format == '240'"
+                                            invisible="cnab_format != '240'"
+                                            readonly="state != 'draft'"
                                         />
                                         <field
                                             name="conf_detail_end_pos"
                                             style="width: 50%"
-                                            attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}"
+                                            required="cnab_format == '240'"
+                                            invisible="cnab_format != '240'"
+                                            readonly="state != 'draft'"
                                         />
                                     </div>
                                     <label
                                         for="conf_segment_start_pos"
                                         string="Segment"
-                                        attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}"
+                                        required="cnab_format == '240'"
+                                        invisible="cnab_format != '240'"
                                     />
                                     <div>
                                         <field
                                             name="conf_segment_start_pos"
                                             style="width: 50%"
-                                            attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}"
+                                            required="cnab_format == '240'"
+                                            invisible="cnab_format != '240'"
+                                            readonly="state != 'draft'"
                                         />
                                         <field
                                             name="conf_segment_end_pos"
                                             style="width: 50%"
-                                            attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}"
+                                            required="cnab_format == '240'"
+                                            invisible="cnab_format != '240'"
+                                            readonly="state != 'draft'"
                                         />
                                     </div>
                                 </group>
@@ -217,79 +254,92 @@
                                     <field
                                         name="record_type_file_header_id"
                                         required="1"
+                                        readonly="state != 'draft'"
                                     />
                                     <field
                                         name="record_type_file_trailer_id"
                                         required="1"
+                                        readonly="state != 'draft'"
                                     />
                                     <field
                                         name="record_type_batch_header_id"
-                                        attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}"
+                                        required="cnab_format == '240'"
+                                        invisible="cnab_format != '240'"
+                                        readonly="state != 'draft'"
                                     />
                                     <field
                                         name="record_type_batch_trailer_id"
-                                        attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}"
+                                        required="cnab_format == '240'"
+                                        invisible="cnab_format != '240'"
+                                        readonly="state != 'draft'"
                                     />
-                                    <field name="record_type_detail_id" required="1" />
+                                    <field
+                                        name="record_type_detail_id"
+                                        required="1"
+                                        readonly="state != 'draft'"
+                                    />
                                 </group>
                             </group>
                         </page>
                         <page
                             name="payements_ways"
                             string="Payments Ways"
-                            attrs="{'invisible': [('payment_type', '!=', 'outbound')]}"
+                            invisible="payment_type != 'outbound'"
                         >
                             <field
                                 name="cnab_payment_way_ids"
-                                mode='tree'
+                                mode='list'
                                 widget='one2many'
                                 context="{'default_cnab_structure_id': id}"
                             >
-                                <tree default_order="code" editable="bottom">
+                                <list default_order="code" editable="bottom">
                                     <field name="code" />
                                     <field name="description" />
                                     <field name="clearinghouse_code" />
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page
                             name="payment_rules"
                             string="Payment Rules"
-                            attrs="{'invisible': [('payment_type', '!=', 'outbound')]}"
+                            invisible="payment_type != 'outbound'"
                         >
                             <field
                                 name="cnab_payment_rule_ids"
-                                mode='tree'
+                                mode='list'
                                 widget='one2many'
                                 context="{'default_cnab_structure_id': id}"
                             >
-                                <tree default_order="sequence" editable="bottom">
-                                    <field name="cnab_structure_id" invisible="1" />
+                                <list default_order="sequence" editable="bottom">
+                                    <field
+                                        name="cnab_structure_id"
+                                        column_invisible="1"
+                                    />
                                     <field name="sequence" widget="handle" />
                                     <field name="match_bank_type" />
                                     <field name="match_partner_type" />
                                     <field name="payment_way_id" />
                                     <field name="service_type" />
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page
                             name="pix_config"
                             string="PIX"
-                            attrs="{'invisible': [('payment_type', '!=', 'outbound')]}"
+                            invisible="payment_type != 'outbound'"
                         >
                             <span class="o_form_label" modifiers="{}">Key Types</span>
                             <field
                                 name="cnab_pix_key_type_ids"
-                                mode='tree'
+                                mode='list'
                                 widget='one2many'
                                 context="{'default_cnab_structure_id': id}"
                             >
-                                <tree default_order="code" editable="bottom">
+                                <list default_order="code" editable="bottom">
                                     <field name="code" />
                                     <field name="description" />
                                     <field name="key_type" />
-                                </tree>
+                                </list>
                             </field>
                             <span
                                 class="o_form_label"
@@ -297,29 +347,29 @@
                             >Transfer Types</span>
                             <field
                                 name="cnab_pix_transfer_type_ids"
-                                mode='tree'
+                                mode='list'
                                 widget='one2many'
                                 context="{'default_cnab_structure_id': id}"
                             >
-                                <tree default_order="code" editable="bottom">
+                                <list default_order="code" editable="bottom">
                                     <field name="code" />
                                     <field name="description" />
                                     <field name="type_domain" />
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page name="occurrences" string="Ocurrences">
                             <field
                                 name="cnab_occurrence_ids"
-                                mode='tree'
+                                mode='list'
                                 widget='one2many'
                                 context="{'default_cnab_structure_id': id}"
                             >
-                                <tree default_order="code" editable="bottom">
+                                <list default_order="code" editable="bottom">
                                     <field name="code" />
                                     <field name="description" />
                                     <field name="gen_liquidation_move" />
-                                </tree>
+                                </list>
                             </field>
                         </page>
                     </notebook>
@@ -332,6 +382,6 @@
         <field name="name">CNAB Structures</field>
         <field name="view_id" ref="cnab_structure_tree_view" />
         <field name="res_model">l10n_br_cnab.structure</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 </odoo>

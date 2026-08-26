@@ -9,14 +9,14 @@
     <record model="ir.ui.view" id="cnab_line_fields_group_condition_tree_view">
         <field name="model">cnab.line.group.field.condition</field>
         <field name="arch" type="xml">
-            <tree default_order="cnab_line_id, cnab_group_id id" create="false">
-                <field name="field_id" />
-                <field name="operator" />
-                <field name="json_value" />
-                <field name="cnab_group_id" />
+            <list default_order="cnab_line_id, cnab_group_id id" create="false">
+                <field name="field_id" readonly="state != 'draft'" />
+                <field name="operator" readonly="state != 'draft'" />
+                <field name="json_value" readonly="state != 'draft'" />
+                <field name="cnab_group_id" readonly="state != 'draft'" />
                 <field name="cnab_line_id" />
-                <field name="state" invisible="True" />
-            </tree>
+                <field name="state" column_invisible="True" />
+            </list>
         </field>
     </record>
 
@@ -30,10 +30,10 @@
                 <sheet>
                     <group>
                         <field name="state" invisible="True" />
-                        <field name="field_id" />
-                        <field name="operator" />
-                        <field name="json_value" />
-                        <field name="cnab_group_id" />
+                        <field name="field_id" readonly="state != 'draft'" />
+                        <field name="operator" readonly="state != 'draft'" />
+                        <field name="json_value" readonly="state != 'draft'" />
+                        <field name="cnab_group_id" readonly="state != 'draft'" />
                         <field name="cnab_line_id" />
                     </group>
                 </sheet>
@@ -44,6 +44,6 @@
     <record model="ir.actions.act_window" id="action_cnab_line_fields_group_condition">
         <field name="name">CNAB Fields Group Condition</field>
         <field name="res_model">cnab.line.group.field.condition</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 </odoo>

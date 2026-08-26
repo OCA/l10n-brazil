@@ -88,25 +88,26 @@ class CNABReturnEvent(models.Model):
             else:
                 record.balance = 0
 
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
         """Override Create Method"""
-        event = super().create(vals)
-        if not event.cnab_return_log_id.cnab_structure_id:
-            # if there is no cnab_structure_id it is because the return file is not
-            # being processed by this module, so there is nothing to do here.
-            return event
-        event.load_description_occurrences()
-        event.load_bank_payment_line()
-        event.check_gen_liquidation_move()
-        event.set_move_line_ids()
-        event.set_occurrence_date()
-        if event.state != "error":
-            if event.gen_liquidation_move or event.tariff_charge > 0:
-                event.state = "ready"
-            else:
-                event.state = "confirmed"
-        return event
+        events = super().create(vals_list)
+        for event in events:
+            if not event.cnab_return_log_id.cnab_structure_id:
+                # if there is no cnab_structure_id it is because the return file is
+                # not being processed by this module, so there is nothing to do here.
+                continue
+            event.load_description_occurrences()
+            event.load_bank_payment_line()
+            event.check_gen_liquidation_move()
+            event.set_move_line_ids()
+            event.set_occurrence_date()
+            if event.state != "error":
+                if event.gen_liquidation_move or event.tariff_charge > 0:
+                    event.state = "ready"
+                else:
+                    event.state = "confirmed"
+        return events
 
     def confirm_event(self):
         if self.state != "ignored":
@@ -214,6 +215,29 @@ class CNABReturnEvent(models.Model):
         }
 
     # TODO We aren't handling multi-currency.
+    def _get_outstanding_account(self, payment_type):
+        """Outstanding payments account, which left res.company in 18.0."""
+        self.ensure_one()
+        company = self.journal_id.company_id
+        account_ref = (
+            "account_journal_payment_debit_account_id"
+            if payment_type == "inbound"
+            else "account_journal_payment_credit_account_id"
+        )
+        chart_template = self.env["account.chart.template"].with_context(
+            allowed_company_ids=company.root_id.ids
+        )
+        account = (
+            chart_template.ref(account_ref, raise_if_not_found=False)
+            or company.transfer_account_id
+        )
+        if not account:
+            raise UserError(
+                _("No outstanding account could be found for journal %s.")
+                % self.journal_id.display_name
+            )
+        return account
+
     def _get_reconciliation_items(self, move_id):
         move_line_obj = self.env["account.move.line"]
         to_reconcile_amls = []
@@ -260,14 +284,10 @@ class CNABReturnEvent(models.Model):
     def _create_counterpart_move_line(self, move_id, partner_id):
         if self.move_line_ids[0].balance < 0:
             debit_or_credit = "credit"
-            account_id = (
-                self.journal_id.company_id.account_journal_payment_credit_account_id
-            )
+            account_id = self._get_outstanding_account("outbound")
         else:
             debit_or_credit = "debit"
-            account_id = (
-                self.journal_id.company_id.account_journal_payment_debit_account_id
-            )
+            account_id = self._get_outstanding_account("inbound")
         move_line_obj = self.env["account.move.line"]
         counterpart_vals = {
             "move_id": move_id.id,
@@ -288,9 +308,7 @@ class CNABReturnEvent(models.Model):
                 {
                     "name": "Bank Tariff: " + self.your_number,
                     "credit": self.tariff_charge,
-                    "account_id": (
-                        self.journal_id.company_id.account_journal_payment_credit_account_id.id
-                    ),
+                    "account_id": (self._get_outstanding_account("outbound").id),
                     "partner_id": self.move_line_ids[0].partner_id.id,
                     "move_id": move_id.id,
                 }
@@ -347,8 +365,7 @@ class CNABReturnEvent(models.Model):
                 "move_id": move_id.id,
             }
             if self.cnab_return_log_id.type == "inbound":
-                company_id = self.journal_id.company_id
-                account_id = company_id.account_journal_payment_credit_account_id
+                account_id = self._get_outstanding_account("outbound")
                 credit_move_line["account_id"] = account_id.id
                 debit_move_line["account_id"] = (
                     self.journal_id.inbound_rebate_account_id.id
@@ -357,9 +374,7 @@ class CNABReturnEvent(models.Model):
                 credit_move_line["account_id"] = (
                     self.journal_id.outbound_rebate_account_id.id
                 )
-                debit_move_line["account_id"] = (
-                    self.journal_id.company_id.account_journal_payment_debit_account_id
-                )
+                debit_move_line["account_id"] = self._get_outstanding_account("inbound")
 
             move_line_obj.with_context(check_move_validity=False).create(
                 [credit_move_line, debit_move_line]
@@ -381,8 +396,7 @@ class CNABReturnEvent(models.Model):
                 "move_id": move_id.id,
             }
             if self.cnab_return_log_id.type == "inbound":
-                company_id = self.journal_id.company_id
-                account_id = company_id.account_journal_payment_credit_account_id
+                account_id = self._get_outstanding_account("outbound")
                 credit_move_line["account_id"] = account_id.id
                 debit_move_line["account_id"] = (
                     self.journal_id.inbound_discount_account_id.id
@@ -391,9 +405,7 @@ class CNABReturnEvent(models.Model):
                 credit_move_line["account_id"] = (
                     self.journal_id.outbound_discount_account_id.id
                 )
-                debit_move_line["account_id"] = (
-                    self.journal_id.company_id.account_journal_payment_debit_account_id
-                )
+                debit_move_line["account_id"] = self._get_outstanding_account("inbound")
 
             move_line_obj.with_context(check_move_validity=False).create(
                 [credit_move_line, debit_move_line]
@@ -420,13 +432,11 @@ class CNABReturnEvent(models.Model):
             credit_move_line["account_id"] = (
                 self.journal_id.inbound_interest_fee_account_id.id
             )
-            debit_move_line["account_id"] = (
-                self.journal_id.company_id.account_journal_payment_debit_account_id
-            )
+            debit_move_line["account_id"] = self._get_outstanding_account("inbound")
         else:
-            credit_move_line["account_id"] = (
-                self.journal_id.company_id.account_journal_payment_credit_account_id.id
-            )
+            credit_move_line["account_id"] = self._get_outstanding_account(
+                "outbound"
+            ).id
             debit_move_line["account_id"] = (
                 self.journal_id.outbound_interest_fee_account_id.id
             )

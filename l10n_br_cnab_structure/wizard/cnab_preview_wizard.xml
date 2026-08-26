@@ -24,7 +24,7 @@
                         string="Download File"
                         type="object"
                         class="btn btn-primary"
-                        attrs="{'invisible':[('payment_order_id','=',False)]}"
+                        invisible="not payment_order_id"
                     />
                     <button
                         string="Cancel"

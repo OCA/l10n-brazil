@@ -10,7 +10,7 @@
         <field name="name">l10n_br_cnab.return.log.tree</field>
         <field name="model">l10n_br_cnab.return.log</field>
         <field name="arch" type="xml">
-            <tree import="false" create="false">
+            <list import="false" create="false">
                 <field name="name" />
                 <field name="filename" />
                 <field name="sequential_file" />
@@ -19,7 +19,7 @@
                 <field name="cnab_date_import" widget="datetime" />
                 <field name="number_lots" />
                 <field name="number_events" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -35,7 +35,7 @@
                         type="object"
                         class="oe_highlight"
                         string="Confirm"
-                        attrs="{'invisible': [('state', '=', 'confirmed')]}"
+                        invisible="state == 'confirmed'"
                         groups="l10n_br_account_payment_order.group_cnab_manager"
                     />
                     <field name="state" widget="statusbar" readonly="1" />
@@ -65,7 +65,7 @@
                     <notebook>
                         <page name="log_tab" string="Events">
                             <field name="event_ids" readonly="1">
-                                <tree
+                                <list
                                     decoration-danger="state=='error'"
                                     decoration-primary="state=='ready'"
                                     decoration-muted="state=='ignored'"
@@ -100,7 +100,7 @@
                                     <field name="balance" optional="hide" />
                                     <field name="state" optional="show" />
                                     <field name="occurrences" optional="show" />
-                                </tree>
+                                </list>
                             </field>
                             <group
                                 class="oe_subtotal_footer oe_left"
@@ -162,11 +162,7 @@
                         </page>
                     </notebook>
                 </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids" />
-                    <field name="activity_ids" />
-                    <field name="message_ids" />
-                </div>
+                <chatter />
             </form>
         </field>
     </record>
@@ -174,7 +170,7 @@
     <record model="ir.actions.act_window" id="l10n_br_inbound_cnab_return_log_action">
         <field name="name">Inbound Payment CNAB Returns</field>
         <field name="res_model">l10n_br_cnab.return.log</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <record
@@ -182,7 +178,7 @@
         id="l10n_br_inbound_cnab_return_log_action_tree"
     >
         <field name="sequence" eval="1" />
-        <field name="view_mode">tree</field>
+        <field name="view_mode">list</field>
         <field name="view_id" ref="l10n_br_cnab_return_log_tree_view_structure" />
         <field name="act_window_id" ref="l10n_br_inbound_cnab_return_log_action" />
     </record>
@@ -200,7 +196,7 @@
     <record model="ir.actions.act_window" id="l10n_br_outbound_cnab_return_log_action">
         <field name="name">Outbound Payment CNAB Returns</field>
         <field name="res_model">l10n_br_cnab.return.log</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <record
@@ -208,7 +204,7 @@
         id="l10n_br_outbound_cnab_return_log_action_tree"
     >
         <field name="sequence" eval="1" />
-        <field name="view_mode">tree</field>
+        <field name="view_mode">list</field>
         <field name="view_id" ref="l10n_br_cnab_return_log_tree_view_structure" />
         <field name="act_window_id" ref="l10n_br_outbound_cnab_return_log_action" />
     </record>
