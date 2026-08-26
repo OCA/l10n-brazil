@@ -427,6 +427,7 @@ class TaxDefinition(models.Model):
         city_taxation_code=None,
         national_taxation_code=None,
         service_type=None,
+        reference_date=None,
     ):
         """
         Filter and return tax definitions that match the given criteria.
@@ -438,6 +439,7 @@ class TaxDefinition(models.Model):
 
         The matching is based on:
         - Current record state (not 'expired').
+        - Date validity (date_start, date_end) against reference_date.
         - Originating state (state_from_id).
         - Destination states (state_to_ids), allowing for no specific destination.
         - NCM, NBM, CEST codes, allowing for no specific code.
@@ -462,12 +464,17 @@ class TaxDefinition(models.Model):
             (l10n_br_fiscal.national.taxation.code).
         :param service_type: Optional Service Type record
             (l10n_br_fiscal.service.type).
+        :param reference_date: Optional datetime used to check date_start/
+            date_end validity; defaults to now() when not provided.
         :return: A recordset of matching
             l10n_br_fiscal.tax.definition.
         """
 
         if not self:
             return self
+
+        if not reference_date:
+            reference_date = fields.Datetime.now()
 
         if not ncm:
             ncm = product.ncm_id
@@ -481,6 +488,12 @@ class TaxDefinition(models.Model):
         domain = [
             ("state", "!=", "expired"),
             ("id", "in", self.ids),
+            "|",
+            ("date_start", "=", False),
+            ("date_start", "<=", reference_date),
+            "|",
+            ("date_end", "=", False),
+            ("date_end", ">=", reference_date),
             "|",
             ("state_to_ids", "=", False),
             ("state_to_ids", "=", partner.state_id.id),

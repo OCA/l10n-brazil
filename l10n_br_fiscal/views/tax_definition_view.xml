@@ -10,6 +10,8 @@
                 <field name="is_taxed" readonly="state != 'draft'" />
                 <field name="tax_id" readonly="state != 'draft'" />
                 <field name="cst_code" readonly="state != 'draft'" />
+                <field name="date_start" optional="hide" readonly="state != 'draft'" />
+                <field name="date_end" optional="hide" readonly="state != 'draft'" />
             </list>
         </field>
     </record>
@@ -146,6 +148,10 @@
                             options="{'no_create': True}"
                             readonly="state != 'draft'"
                         />
+                    </group>
+                    <group name="validity" string="Validity">
+                        <field name="date_start" readonly="state != 'draft'" />
+                        <field name="date_end" readonly="state != 'draft'" />
                     </group>
                     <notebook>
                         <page name="ncms_page" string="NCM">
