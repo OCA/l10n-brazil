@@ -439,18 +439,21 @@ class AccountMove(models.Model):
         self.update_payment_term_number()
 
     def update_payment_term_number(self):
-        payment_term_lines = self.line_ids.filtered(
-            lambda line: line.display_type == "payment_term"
-        )
-        payment_term_lines_sorted = payment_term_lines.sorted(
-            key=lambda line: line.date_maturity
-        )
-        for idx, line in enumerate(payment_term_lines_sorted, start=1):
-            line.with_context(skip_invoice_sync=True).write(
-                {
-                    "payment_term_number": f"{idx}-{len(payment_term_lines_sorted)}",
-                }
-            )
+        for move in self.filtered(
+            lambda m: m.fiscal_operation_id and m.is_invoice(include_receipts=True)
+        ):
+            payment_term_lines_sorted = move.line_ids.filtered(
+                lambda line: line.display_type == "payment_term"
+            ).sorted(key=lambda line: line.date_maturity)
+            total = len(payment_term_lines_sorted)
+            for idx, line in enumerate(payment_term_lines_sorted, start=1):
+                number = f"{idx}-{total}"
+                # payment_term_number feeds the stored _compute_name of the aml;
+                # only write (and re-trigger the rename) when it actually changes.
+                if line.payment_term_number != number:
+                    line.with_context(skip_invoice_sync=True).write(
+                        {"payment_term_number": number}
+                    )
 
     def unlink(self):
         """Allow to delete draft or cancelled invoices"""
@@ -464,7 +467,6 @@ class AccountMove(models.Model):
             unlink_moves |= move
         result = super(AccountMove, unlink_moves).unlink()
         unlink_documents.unlink()
-        self.env.registry.clear_cache()
         return result
 
     @api.depends("move_type", "fiscal_operation_id")

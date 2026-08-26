@@ -390,7 +390,11 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             fiscal_taxes = line.fiscal_tax_ids.filtered(
                 lambda ft, taxes_groups=taxes_groups: ft.tax_domain not in taxes_groups
             )
-            line.fiscal_tax_ids = fiscal_taxes + taxes
+            new_fiscal_tax_ids = fiscal_taxes + taxes
+            # fiscal_tax_ids está nos depends de _compute_tax_fields; só
+            # reatribui (e re-dispara o compute) quando o conjunto muda de fato.
+            if new_fiscal_tax_ids != line.fiscal_tax_ids:
+                line.fiscal_tax_ids = new_fiscal_tax_ids
 
     def _get_company(self):
         self.ensure_one()
