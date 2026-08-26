@@ -31,7 +31,7 @@
                 <page
                     name="cnab_accounts"
                     string="CNAB Accounts"
-                    attrs="{'invisible': [('used_to_import_cnab', '=', False)]}"
+                    invisible="not used_to_import_cnab"
                 >
                     <group>
                         <field name="tariff_charge_account_id" />

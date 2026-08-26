@@ -308,7 +308,7 @@ class CnabDataManagement(models.Model):
         count = 0
         for csv_file_path in UPGRADE_FILES:
             convert_file(
-                self.env.cr,
+                self.env,
                 "l10n_br_cnab_structure",
                 csv_file_path,
                 {},

@@ -29,11 +29,7 @@ class CNABFieldCondition(models.Model):
             res["cnab_group_id"] = self._context.get("default_cnab_group_id")
         return res
 
-    cnab_group_id = fields.Many2one(
-        comodel_name="cnab.line.field.group",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
+    cnab_group_id = fields.Many2one(comodel_name="cnab.line.field.group")
 
     cnab_line_id = fields.Many2one(
         comodel_name="l10n_br_cnab.line", related="cnab_group_id.cnab_line_id"
@@ -41,25 +37,14 @@ class CNABFieldCondition(models.Model):
 
     field_id = fields.Many2one(
         comodel_name="l10n_br_cnab.line.field",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
         domain="[('cnab_line_id', '=', cnab_line_id)]",
     )
 
     operator = fields.Selection(
-        selection=[("in", "in"), ("not in", "not in")],
-        required=True,
-        default="in",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
+        selection=[("in", "in"), ("not in", "not in")], required=True, default="in"
     )
 
-    json_value = fields.Char(
-        string="Value (JSON format)",
-        required=True,
-        readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
+    json_value = fields.Char(string="Value (JSON format)", required=True)
 
     state = fields.Selection(
         readonly=True,
