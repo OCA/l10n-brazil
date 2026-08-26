@@ -19,7 +19,7 @@ class CNABField(models.Model):
     _description = "Fields in CNAB lines."
     _order = "cnab_line_id, start_pos"
 
-    name = fields.Char(readonly=True, states={"draft": [("readonly", False)]})
+    name = fields.Char()
 
     computed_name = fields.Char(string="Field", compute="_compute_name")
 
@@ -32,48 +32,26 @@ class CNABField(models.Model):
         compute="_compute_ref_name",
     )
 
-    meaning = fields.Char(readonly=True, states={"draft": [("readonly", False)]})
+    meaning = fields.Char()
     cnab_line_id = fields.Many2one(
-        "l10n_br_cnab.line",
-        readonly=True,
-        ondelete="cascade",
-        required=True,
-        states={"draft": [("readonly", False)]},
+        "l10n_br_cnab.line", ondelete="cascade", required=True
     )
-    cnab_group_id = fields.Many2one(
-        "cnab.line.field.group",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
-    start_pos = fields.Integer(
-        string="Start Position",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
-    end_pos = fields.Integer(
-        string="End Position",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
+    cnab_group_id = fields.Many2one("cnab.line.field.group")
+    start_pos = fields.Integer(string="Start Position")
+    end_pos = fields.Integer(string="End Position")
     assumed_comma = fields.Integer(
-        help="indicates the position of the comma within a numeric field.",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
+        help="indicates the position of the comma within a numeric field."
     )
     type = fields.Selection(
         [
-            ("alpha", _("Alphanumeric")),
-            ("num", _("Numeric")),
-        ],
-        readonly=True,
-        states={"draft": [("readonly", False)]},
+            ("alpha", "Alphanumeric"),
+            ("num", "Numeric"),
+        ]
     )
 
-    related_field_id = fields.Many2one(
-        "ir.model.fields", readonly=True, states={"draft": [("readonly", False)]}
-    )
-    default_value = fields.Char(readonly=True, states={"draft": [("readonly", False)]})
-    notes = fields.Char(readonly=True, states={"draft": [("readonly", False)]})
+    related_field_id = fields.Many2one("ir.model.fields")
+    default_value = fields.Char()
+    notes = fields.Char()
     size = fields.Integer(compute="_compute_size")
 
     state = fields.Selection(
@@ -86,9 +64,7 @@ class CNABField(models.Model):
     )
     content_source_field = fields.Char(
         help="Inform the field with the origin of the content, expressed with"
-        " dot notation.",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
+        " dot notation."
     )
 
     preview_field = fields.Char(compute="_compute_preview_field")
@@ -111,9 +87,7 @@ class CNABField(models.Model):
         "'qty_records' returns the number of records\n"
         "'batch_detail_lines' returns a list of batch detail records."
         "'segment_code' returns the code of the segment defined in the header"
-        " of the line.",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
+        " of the line."
     )
 
     content_dest_model_id = fields.Many2one(
@@ -123,12 +97,8 @@ class CNABField(models.Model):
         string="Content Destination Field",
         help="Inform the field with the origin of the content, expressed with"
         " dot notation.",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
     )
-    return_dynamic_content = fields.Char(
-        readonly=True, states={"draft": [("readonly", False)]}
-    )
+    return_dynamic_content = fields.Char()
 
     def action_change_field(self):
         """

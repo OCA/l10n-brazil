@@ -21,16 +21,12 @@ class CNABStructure(models.Model):
         "An structure with header, body and trailer that make up the CNAB structure."
     )
 
-    name = fields.Char(readonly=True, states={"draft": [("readonly", False)]})
+    name = fields.Char()
 
-    bank_id = fields.Many2one(
-        comodel_name="res.bank", readonly=True, states={"draft": [("readonly", False)]}
-    )
+    bank_id = fields.Many2one(comodel_name="res.bank")
 
     payment_method_id = fields.Many2one(
-        comodel_name="account.payment.method",
-        states={"draft": [("readonly", False)]},
-        domain=[("code", "in", CNAB_CODES)],
+        comodel_name="account.payment.method", domain=[("code", "in", CNAB_CODES)]
     )
 
     cnab_format = fields.Char(
@@ -42,17 +38,11 @@ class CNABStructure(models.Model):
     )
 
     batch_ids = fields.One2many(
-        comodel_name="l10n_br_cnab.batch",
-        inverse_name="cnab_structure_id",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
+        comodel_name="l10n_br_cnab.batch", inverse_name="cnab_structure_id"
     )
 
     line_ids = fields.One2many(
-        comodel_name="l10n_br_cnab.line",
-        inverse_name="cnab_structure_id",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
+        comodel_name="l10n_br_cnab.line", inverse_name="cnab_structure_id"
     )
 
     state = fields.Selection(
@@ -69,145 +59,85 @@ class CNABStructure(models.Model):
         compute="_compute_content_source_model_id",
     )
 
-    conf_bank_start_pos = fields.Integer(
-        string="Bank Start Position",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
+    conf_bank_start_pos = fields.Integer(string="Bank Start Position")
 
-    conf_bank_end_pos = fields.Integer(
-        string="Bank Last Position",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
+    conf_bank_end_pos = fields.Integer(string="Bank Last Position")
 
-    conf_record_type_start_pos = fields.Integer(
-        string="Record Type Start Position",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
+    conf_record_type_start_pos = fields.Integer(string="Record Type Start Position")
 
-    conf_record_type_end_pos = fields.Integer(
-        string="Record Type Last Position",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
+    conf_record_type_end_pos = fields.Integer(string="Record Type Last Position")
 
-    conf_batch_start_pos = fields.Integer(
-        string="Batch Start Position",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
+    conf_batch_start_pos = fields.Integer(string="Batch Start Position")
 
-    conf_batch_end_pos = fields.Integer(
-        string="Batch Last Position",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
+    conf_batch_end_pos = fields.Integer(string="Batch Last Position")
 
     conf_payment_way_start_pos = fields.Integer(
         help="Payment Way start position in Header Batch Records."
-        " Only for Header Batch Records.",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
+        " Only for Header Batch Records."
     )
 
     conf_payment_way_end_pos = fields.Integer(
         help="Payment Way last position in Header Batch Records."
-        " Only for Header Batch Records.",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
+        " Only for Header Batch Records."
     )
 
     conf_detail_start_pos = fields.Integer(
         help="Position of sequencial identification of Detail Records."
-        " Only for detail records.",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
+        " Only for detail records."
     )
 
     conf_detail_end_pos = fields.Integer(
         help="Last position of sequencial identification of Detail Records."
-        " Only for detail records.",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
+        " Only for detail records."
     )
 
     conf_segment_start_pos = fields.Integer(
         help="Start position of segment of an detail record. Only for detail"
-        " records.",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
+        " records."
     )
 
     conf_segment_end_pos = fields.Integer(
-        help="Last position of segment of an detail record. Only for detail"
-        " records.",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
+        help="Last position of segment of an detail record. Only for detail" " records."
     )
 
     record_type_file_header_id = fields.Integer(
         string="File Header Type ID",
         help="What`s the identification for header of file type?",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
     )
 
     record_type_file_trailer_id = fields.Integer(
         string="File Trailer Type ID",
         help="What`s the identification for trailer of file type?",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
     )
 
     record_type_batch_header_id = fields.Integer(
         string="Batch Header Type ID",
         help="What`s the identification for header of batch type?",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
     )
 
     record_type_batch_trailer_id = fields.Integer(
         string="Batch Trailer Type ID",
         help="What`s the identification for trailer of batch type?",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
     )
 
     record_type_detail_id = fields.Integer(
-        string="Detail Type ID",
-        help="What`s the identification for detail type?",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
+        string="Detail Type ID", help="What`s the identification for detail type?"
     )
 
     cnab_payment_way_ids = fields.One2many(
-        comodel_name="cnab.payment.way",
-        inverse_name="cnab_structure_id",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
+        comodel_name="cnab.payment.way", inverse_name="cnab_structure_id"
     )
 
     cnab_pix_key_type_ids = fields.One2many(
-        comodel_name="cnab.pix.key.type",
-        inverse_name="cnab_structure_id",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
+        comodel_name="cnab.pix.key.type", inverse_name="cnab_structure_id"
     )
 
     cnab_pix_transfer_type_ids = fields.One2many(
-        comodel_name="cnab.pix.transfer.type",
-        inverse_name="cnab_structure_id",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
+        comodel_name="cnab.pix.transfer.type", inverse_name="cnab_structure_id"
     )
 
     cnab_occurrence_ids = fields.One2many(
-        comodel_name="cnab.occurrence",
-        inverse_name="cnab_structure_id",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
+        comodel_name="cnab.occurrence", inverse_name="cnab_structure_id"
     )
 
     unique_seq_per_segment = fields.Boolean(
@@ -219,16 +149,12 @@ class CNABStructure(models.Model):
             "Note: This differs from seq_batch (starts at 0001 per file)."
         ),
         default=False,
-        readonly=True,
-        states={"draft": [("readonly", False)]},
     )
 
     cnab_payment_rule_ids = fields.One2many(
         comodel_name="l10n_br_cnab.payment.rule",
         inverse_name="cnab_structure_id",
         string="Payment Rules",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
     )
 
     @api.onchange("cnab_format", "payment_type")

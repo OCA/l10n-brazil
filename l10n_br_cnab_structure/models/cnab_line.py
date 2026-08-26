@@ -18,19 +18,13 @@ class CNABLine(models.Model):
 
     name = fields.Char(compute="_compute_name", store=True)
 
-    sequence = fields.Integer(readonly=True, states={"draft": [("readonly", False)]})
+    sequence = fields.Integer()
 
     cnab_structure_id = fields.Many2one(
-        comodel_name="l10n_br_cnab.structure",
-        ondelete="cascade",
-        required=True,
-        readonly=True,
-        states={"draft": [("readonly", False)]},
+        comodel_name="l10n_br_cnab.structure", ondelete="cascade", required=True
     )
 
-    segment_code = fields.Char(
-        states={"draft": [("readonly", False)]},
-    )
+    segment_code = fields.Char()
 
     content_source_model_id = fields.Many2one(
         comodel_name="ir.model",
@@ -38,7 +32,6 @@ class CNABLine(models.Model):
         help="Related model that will provide the origin of the contents of CNAB"
         "files.",
         compute="_compute_content_source_model_id",
-        states={"draft": [("readonly", False)]},
     )
 
     content_dest_model_id = fields.Many2one(
@@ -47,59 +40,37 @@ class CNABLine(models.Model):
         help="Related model that will provide the destination"
         " of the contents of return CNAB files.",
         compute="_compute_dest_source_model_id",
-        states={"draft": [("readonly", False)]},
     )
 
-    requerid = fields.Boolean(
-        states={"draft": [("readonly", False)]},
-    )
+    requerid = fields.Boolean()
 
     communication_flow = fields.Selection(
         [("sending", "Sending"), ("return", "Return"), ("both", "Sending and Return")],
         required=True,
-        states={"draft": [("readonly", False)]},
     )
 
     current_view = fields.Selection(
         [("general", "General"), ("sending", "Sending"), ("return", "Return")],
         required=True,
         default="general",
-        states={"draft": [("readonly", False)]},
     )
 
     type = fields.Selection(
-        [("header", "Header"), ("segment", "Segment"), ("trailer", "Trailer")],
-        readonly=True,
-        states={"draft": [("readonly", False)]},
+        [("header", "Header"), ("segment", "Segment"), ("trailer", "Trailer")]
     )
 
     field_ids = fields.One2many(
-        comodel_name="l10n_br_cnab.line.field",
-        inverse_name="cnab_line_id",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
+        comodel_name="l10n_br_cnab.line.field", inverse_name="cnab_line_id"
     )
 
     group_ids = fields.One2many(
-        comodel_name="cnab.line.field.group",
-        inverse_name="cnab_line_id",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
+        comodel_name="cnab.line.field.group", inverse_name="cnab_line_id"
     )
 
-    batch_id = fields.Many2one(
-        comodel_name="l10n_br_cnab.batch",
-        ondelete="cascade",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
+    batch_id = fields.Many2one(comodel_name="l10n_br_cnab.batch", ondelete="cascade")
 
     cnab_structure_id = fields.Many2one(
-        comodel_name="l10n_br_cnab.structure",
-        ondelete="cascade",
-        required=True,
-        readonly=True,
-        states={"draft": [("readonly", False)]},
+        comodel_name="l10n_br_cnab.structure", ondelete="cascade", required=True
     )
 
     @api.model
@@ -110,15 +81,10 @@ class CNABLine(models.Model):
         ]
 
     resource_ref = fields.Reference(
-        string="Reference",
-        selection="_selection_target_model",
-        states={"draft": [("readonly", False)]},
+        string="Reference", selection="_selection_target_model"
     )
 
-    cnab_format = fields.Char(
-        related="cnab_structure_id.cnab_format",
-        states={"draft": [("readonly", False)]},
-    )
+    cnab_format = fields.Char(related="cnab_structure_id.cnab_format")
 
     state = fields.Selection(
         selection=[("draft", "Draft"), ("review", "Review"), ("approved", "Approved")],
@@ -131,8 +97,6 @@ class CNABLine(models.Model):
         string="Payments Ways",
         help="Payment Ways that must use this segment.",
         domain="[('cnab_structure_id', '=', cnab_structure_id)]",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
     )
 
     def is_requerid(self, payment_way):
