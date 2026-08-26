@@ -4,7 +4,7 @@
 
 from datetime import date
 
-from odoo import fields
+from odoo import Command, fields
 from odoo.tests.common import tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
@@ -13,10 +13,10 @@ from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 @tagged("post_install", "-at_install")
 class TestReturnLog(AccountTestInvoicingCommon):
     @classmethod
-    def setUpClass(
-        cls, chart_template_ref="l10n_br_coa_generic.l10n_br_coa_generic_template"
-    ):
-        super().setUpClass(chart_template_ref=chart_template_ref)
+    def setUpClass(cls):
+        cls.chart_template = "br_oca_generic"
+        super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.event_obj = cls.env["l10n_br_cnab.return.event"]
         cls.return_log_obj = cls.env["l10n_br_cnab.return.log"]
         cls.res_partner_obj = cls.env["res.partner.bank"]
@@ -26,7 +26,7 @@ class TestReturnLog(AccountTestInvoicingCommon):
         cls.brl_currency = cls.env.ref("base.BRL")
         cls.rebate_account = cls.env["account.account"].create(
             {
-                "company_id": cls.company.id,
+                "company_ids": [Command.link(cls.company.id)],
                 "code": "TEST1",
                 "name": "Rebate Account",
                 "account_type": "expense",
@@ -35,7 +35,7 @@ class TestReturnLog(AccountTestInvoicingCommon):
         )
         cls.discount_account = cls.env["account.account"].create(
             {
-                "company_id": cls.company.id,
+                "company_ids": [Command.link(cls.company.id)],
                 "code": "TEST2",
                 "name": "Discount Account",
                 "account_type": "expense",
@@ -44,7 +44,7 @@ class TestReturnLog(AccountTestInvoicingCommon):
         )
         cls.tariff_account = cls.env["account.account"].create(
             {
-                "company_id": cls.company.id,
+                "company_ids": [Command.link(cls.company.id)],
                 "code": "TEST3",
                 "name": "Tariff Account",
                 "account_type": "expense",
@@ -123,13 +123,13 @@ class TestReturnLog(AccountTestInvoicingCommon):
         receivable_moves = event.generated_move_id.line_ids.filtered(
             lambda line: line.account_type == "asset_receivable"
         )
+        bank_accounts = (
+            self.bank_journal_itau.default_account_id
+            | event._get_outstanding_account("inbound")
+            | event._get_outstanding_account("outbound")
+        )
         bank_moves = event.generated_move_id.line_ids.filtered(
-            lambda line: line.account_id
-            in (
-                self.bank_journal_itau.default_account_id,
-                self.bank_journal_itau.company_id.account_journal_payment_debit_account_id,
-                self.bank_journal_itau.company_id.account_journal_payment_credit_account_id,
-            )
+            lambda line: line.account_id in bank_accounts
         )
         rebate_moves = event.generated_move_id.line_ids.filtered(
             lambda line: line.account_id == self.rebate_account

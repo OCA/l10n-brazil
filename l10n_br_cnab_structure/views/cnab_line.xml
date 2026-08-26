@@ -20,19 +20,20 @@
     <record model="ir.ui.view" id="cnab_line_tree_view">
         <field name="model">l10n_br_cnab.line</field>
         <field name="arch" type="xml">
-            <tree default_order='cnab_structure_id, sequence ASC' create="false">
-                <field name="state" invisible="True" />
-                <field name="cnab_format" invisible="True" />
-                <field name="sequence" />
+            <list default_order='cnab_structure_id, sequence ASC' create="false">
+                <field name="state" column_invisible="True" />
+                <field name="cnab_format" column_invisible="True" />
+                <field name="sequence" readonly="state != 'draft'" />
                 <field name="name" />
-                <field name="type" />
+                <field name="type" readonly="state != 'draft'" />
                 <field
                     name="batch_id"
-                    attrs="{'invisible': [('cnab_format', '!=', '240')]}"
+                    invisible="cnab_format != '240'"
                     context="{'default_cnab_structure_id': cnab_structure_id}"
+                    readonly="state != 'draft'"
                 />
-                <field name="cnab_structure_id" />
-            </tree>
+                <field name="cnab_structure_id" readonly="state != 'draft'" />
+            </list>
         </field>
     </record>
 
@@ -58,24 +59,27 @@
                 </div>
                 <group>
                     <group>
-                        <field name="type" />
+                        <field name="type" readonly="state != 'draft'" />
                         <field
                             name="segment_code"
-                            attrs="{'invisible': [('type', '!=', 'segment')], 'required': [('type', '=', 'segment')]}"
+                            invisible="type != 'segment'"
+                            required="type == 'segment'"
+                            readonly="state != 'draft'"
                         />
                         <field
                             name="batch_id"
-                            attrs="{'invisible': [('cnab_format', '!=', '240')]}"
+                            invisible="cnab_format != '240'"
                             context="{'default_cnab_structure_id': cnab_structure_id}"
+                            readonly="state != 'draft'"
                         />
                     </group>
                     <group>
-                        <field name="communication_flow" />
-                        <field name="requerid" />
-                        <field name="sequence" />
+                        <field name="communication_flow" readonly="state != 'draft'" />
+                        <field name="requerid" readonly="state != 'draft'" />
+                        <field name="sequence" readonly="state != 'draft'" />
                     </group>
                     <field name="current_view" invisible="True" />
-                    <field name="cnab_structure_id" />
+                    <field name="cnab_structure_id" readonly="state != 'draft'" />
                     <field name="content_source_model_id" invisible="True" />
                     <field name="resource_ref" invisible="True" />
                     <field name="cnab_format" invisible="True" />
@@ -87,73 +91,79 @@
                             type="object"
                             string="Structure"
                             class="oe_highlight mx-1"
-                            attrs="{'invisible': [('current_view', '=', 'general')]}"
+                            invisible="current_view == 'general'"
                         />
                         <button
                             name="action_sending_view"
                             type="object"
                             string="Map Sending"
                             class="oe_highlight mx-1"
-                            attrs="{'invisible': ['|',('current_view', '=', 'sending'),('communication_flow', '=', 'return')]}"
+                            invisible="current_view == 'sending' or communication_flow == 'return'"
                         />
                         <button
                             name="action_return_view"
                             type="object"
                             string="Map Return"
                             class="oe_highlight mx-1"
-                            attrs="{'invisible': ['|',('current_view', '=', 'return'),('communication_flow', '=', 'sending')]}"
+                            invisible="current_view == 'return' or communication_flow == 'sending'"
                         />
                         <separator
                             name="general_infos"
                             string="Structure"
-                            attrs="{'invisible': [('current_view', '!=', 'general')]}"
+                            invisible="current_view != 'general'"
                         />
                         <separator
                             name="sending_infos"
                             string="Map Sending"
-                            attrs="{'invisible': [('current_view', '!=', 'sending')]}"
+                            invisible="current_view != 'sending'"
                         />
                         <separator
                             name="return_infos"
                             string="Map Return"
-                            attrs="{'invisible': [('current_view', '!=', 'return')]}"
+                            invisible="current_view != 'return'"
                         />
                         <field
                             name="field_ids"
-                            mode='tree'
+                            mode='list'
                             widget='one2many'
                             context="{'default_cnab_line_id': id}"
                         >
-                            <tree default_order="start_pos" editable="bottom">
-                                <field name="state" invisible="True" />
-                                <field name="ref_name" invisible="True" />
+                            <list default_order="start_pos" editable="bottom">
+                                <field name="state" column_invisible="True" />
+                                <field name="ref_name" column_invisible="True" />
                                 <field
                                     name="computed_name"
-                                    attrs="{'column_invisible': [('parent.current_view', '=', 'general')]}"
+                                    column_invisible="parent.current_view == 'general'"
                                 />
                                 <field
                                     name="name"
-                                    attrs="{'column_invisible': [('parent.current_view', '!=', 'general')]}"
+                                    column_invisible="parent.current_view != 'general'"
+                                    readonly="state != 'draft'"
                                 />
                                 <field
                                     name="meaning"
-                                    attrs="{'column_invisible': [('parent.current_view', '!=', 'general')]}"
+                                    column_invisible="parent.current_view != 'general'"
+                                    readonly="state != 'draft'"
                                 />
                                 <field
                                     name="start_pos"
-                                    attrs="{'column_invisible': [('parent.current_view', '!=', 'general')]}"
+                                    column_invisible="parent.current_view != 'general'"
+                                    readonly="state != 'draft'"
                                 />
                                 <field
                                     name="end_pos"
-                                    attrs="{'column_invisible': [('parent.current_view', '!=', 'general')]}"
+                                    column_invisible="parent.current_view != 'general'"
+                                    readonly="state != 'draft'"
                                 />
                                 <field
                                     name="assumed_comma"
-                                    attrs="{'column_invisible': [('parent.current_view', '!=', 'general')]}"
+                                    column_invisible="parent.current_view != 'general'"
+                                    readonly="state != 'draft'"
                                 />
                                 <field
                                     name="type"
-                                    attrs="{'column_invisible': [('parent.current_view', '!=', 'general')]}"
+                                    column_invisible="parent.current_view != 'general'"
+                                    readonly="state != 'draft'"
                                 />
                                 <field
                                     name="content_source_model_id"
@@ -161,46 +171,57 @@
                                 />
                                 <field
                                     name="default_value"
-                                    attrs="{'column_invisible': [('parent.current_view', '==', 'return')]}"
+                                    column_invisible="parent.current_view == 'return'"
+                                    readonly="state != 'draft'"
                                 />
                                 <field
                                     name="content_source_field"
-                                    attrs="{'column_invisible': [('parent.current_view', '!=', 'sending')]}"
+                                    column_invisible="parent.current_view != 'sending'"
+                                    readonly="state != 'draft'"
                                 />
                                 <button
                                     name="action_change_field"
                                     type="object"
                                     string="Change Field"
                                     class="oe_highlight oe_edit_only"
-                                    attrs="{'column_invisible': [('parent.current_view', '=', 'general')]}"
+                                    column_invisible="parent.current_view == 'general'"
                                 />
                                 <field
                                     name="sending_dynamic_content"
-                                    attrs="{'column_invisible': [('parent.current_view', '!=', 'sending')]}"
+                                    column_invisible="parent.current_view != 'sending'"
+                                    readonly="state != 'draft'"
                                 />
                                 <field
                                     name="preview_field"
-                                    attrs="{'column_invisible': [('parent.resource_ref', '=', False)]}"
+                                    column_invisible="not parent.resource_ref"
                                 />
                                 <field
                                     name="content_dest_field"
-                                    attrs="{'column_invisible': [('parent.current_view', '!=', 'return')]}"
+                                    column_invisible="parent.current_view != 'return'"
+                                    readonly="state != 'draft'"
                                 />
                                 <field
                                     name="return_dynamic_content"
-                                    attrs="{'column_invisible': [('parent.current_view', '!=', 'return')]}"
+                                    column_invisible="parent.current_view != 'return'"
+                                    readonly="state != 'draft'"
                                 />
-                                <field name="content_dest_model_id" invisible="True" />
-                                <field name="notes" />
-                                <field name="cnab_group_id" />
-                                <field name="cnab_line_id" invisible="True" />
-                            </tree>
+                                <field
+                                    name="content_dest_model_id"
+                                    column_invisible="True"
+                                />
+                                <field name="notes" readonly="state != 'draft'" />
+                                <field
+                                    name="cnab_group_id"
+                                    readonly="state != 'draft'"
+                                />
+                                <field name="cnab_line_id" column_invisible="True" />
+                            </list>
                         </field>
                     </page>
                     <page
                         name="optional_rules"
                         string="Optional Rules"
-                        attrs="{'invisible': [('requerid', '==', True)]}"
+                        invisible="requerid"
                     >
                         <span class="o_form_label" modifiers="{}">Payment Ways</span>
                         <div
@@ -216,16 +237,16 @@
                     <page name="fields_groups" string="Field Groups">
                         <field
                             name="group_ids"
-                            mode='tree'
+                            mode='list'
                             widget='one2many'
                             context="{'default_cnab_line_id': id}"
                         >
-                            <tree>
-                                <field name="state" invisible="True" />
-                                <field name="name" />
-                                <field name="field_ids" />
-                                <field name="cnab_line_id" invisible="True" />
-                            </tree>
+                            <list>
+                                <field name="state" column_invisible="True" />
+                                <field name="name" readonly="state != 'draft'" />
+                                <field name="field_ids" readonly="state != 'draft'" />
+                                <field name="cnab_line_id" column_invisible="True" />
+                            </list>
                         </field>
                     </page>
                 </notebook>
@@ -236,6 +257,6 @@
     <record model="ir.actions.act_window" id="action_cnab_line">
         <field name="name">CNAB Lines</field>
         <field name="res_model">l10n_br_cnab.line</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 </odoo>

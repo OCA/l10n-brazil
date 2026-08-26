@@ -10,10 +10,7 @@
         <field name="name">l10n_br_cnab.return.event.form.view.structure</field>
         <field name="model">l10n_br_cnab.return.event</field>
         <field name="arch" type="xml">
-            <form
-                edit="false"
-                attrs="{'invisible': [('cnab_structure_id', '=', False)]}"
-            >
+            <form edit="false" invisible="not cnab_structure_id">
                 <header>
                     <button
                         name="action_ignore_event"
@@ -22,7 +19,7 @@
                         string="Ignore This Event"
                         confirm="Do you want to ignore this event?"
                         help="Any automatic move this event might generate will be ignored. If so, you will need to handle it manually."
-                        attrs="{'invisible': [('state', '!=', 'error')]}"
+                        invisible="state != 'error'"
                     />
                     <field name="state" widget="statusbar" />
                 </header>

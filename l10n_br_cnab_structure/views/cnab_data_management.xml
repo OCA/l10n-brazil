@@ -8,7 +8,7 @@
         <field name="name">cnab.data.management.tree</field>
         <field name="model">cnab.data.management</field>
         <field name="arch" type="xml">
-            <tree
+            <list
                 decoration-success="operation_status == 'completed'"
                 decoration-danger="operation_status == 'error'"
                 decoration-warning="operation_status == 'processing'"
@@ -29,8 +29,8 @@
                 <field name="detected_model" />
                 <field name="records_processed" />
                 <field name="create_date" />
-                <field name="is_locked" invisible="1" />
-            </tree>
+                <field name="is_locked" column_invisible="1" />
+            </list>
         </field>
     </record>
 
@@ -51,7 +51,7 @@
                         string="Execute Operation"
                         type="object"
                         class="btn-primary"
-                        attrs="{'invisible': [('operation_status', '!=', 'draft')]}"
+                        invisible="operation_status != 'draft'"
                         icon="fa-play"
                     />
 
@@ -60,7 +60,7 @@
                         string="Lock Operation"
                         type="object"
                         class="btn-warning"
-                        attrs="{'invisible': [('operation_status', 'not in', ['completed', 'error'])]}"
+                        invisible="operation_status not in ['completed', 'error']"
                         confirm="Are you sure you want to lock this operation? This action cannot be undone by regular users."
                         icon="fa-lock"
                     />
@@ -70,7 +70,7 @@
                         string="Reset to Draft"
                         type="object"
                         class="btn-secondary"
-                        attrs="{'invisible': [('operation_status', '=', 'draft')]}"
+                        invisible="operation_status == 'draft'"
                         groups="base.group_system"
                         confirm="Are you sure you want to reset this operation to draft? This will clear all processing results."
                         icon="fa-refresh"
@@ -84,64 +84,58 @@
                             <field
                                 name="name"
                                 placeholder="Operation Name..."
-                                attrs="{'readonly': [('is_locked', '=', True)]}"
+                                readonly="is_locked"
                             />
                         </h1>
                     </div>
 
                     <group>
                         <group string="Operation Details">
-                            <field
-                                name="operation_type"
-                                attrs="{'readonly': [('is_locked', '=', True)]}"
-                            />
+                            <field name="operation_type" readonly="is_locked" />
                             <field
                                 name="target_model"
-                                attrs="{'readonly': [('is_locked', '=', True)],
-                                       'invisible': [('operation_type', 'in', ['restore', 'upgrade'])],
-                                       'required': [('operation_type', '=', 'backup')]}"
+                                readonly="is_locked"
+                                invisible="operation_type in ['restore', 'upgrade']"
+                                required="operation_type == 'backup'"
                             />
                             <field
                                 name="detected_model"
-                                attrs="{'invisible': [('detected_model', '=', False)]}"
+                                invisible="not detected_model"
                             />
                             <field name="is_locked" invisible="1" />
                         </group>
                         <group string="Status Information">
                             <field
                                 name="records_processed"
-                                attrs="{'invisible': [('records_processed', '=', 0)]}"
+                                invisible="records_processed == 0"
                             />
                             <field name="create_date" readonly="1" />
                             <field
                                 name="write_date"
                                 readonly="1"
-                                attrs="{'invisible': [('write_date', '=', False)]}"
+                                invisible="not write_date"
                             />
                         </group>
                     </group>
 
                     <group
                         string="CSV File Upload"
-                        attrs="{'invisible': [('operation_type', '!=', 'restore')]}"
+                        invisible="operation_type != 'restore'"
                     >
                         <group col="1">
                             <field
                                 name="csv_file"
                                 filename="csv_filename"
                                 widget="binary"
-                                attrs="{'readonly': ['|', ('is_locked', '=', True), ('operation_status', '=', 'processing')],
-                                       'required': [('operation_type', '=', 'restore')]}"
+                                readonly="is_locked or operation_status == 'processing'"
+                                required="operation_type == 'restore'"
                                 help="Select a CSV file to upload and restore"
                             />
                             <field name="csv_filename" invisible="1" />
                         </group>
                     </group>
 
-                    <group
-                        string="Generated Backup"
-                        attrs="{'invisible': [('backup_file', '=', False)]}"
-                    >
+                    <group string="Generated Backup" invisible="not backup_file">
                         <group col="1">
                             <field
                                 name="backup_file"
@@ -156,7 +150,7 @@
 
                     <group
                         string="Upgrade Operation"
-                        attrs="{'invisible': [('operation_type', '!=', 'upgrade')]}"
+                        invisible="operation_type != 'upgrade'"
                         col="1"
                     >
                         <div class="alert alert-info" role="alert">
@@ -238,11 +232,7 @@
                     </group>
                 </sheet>
 
-                <div class="oe_chatter">
-                    <field name="message_follower_ids" />
-                    <field name="activity_ids" />
-                    <field name="message_ids" />
-                </div>
+                <chatter />
             </form>
         </field>
     </record>
@@ -350,82 +340,40 @@
         <field name="model">cnab.data.management</field>
         <field name="arch" type="xml">
             <kanban default_group_by="operation_status" class="o_kanban_small_column">
-                <field name="name" />
                 <field name="operation_type" />
                 <field name="operation_status" />
                 <field name="csv_filename" />
-                <field name="detected_model" />
                 <field name="records_processed" />
-                <field name="create_date" />
+                <field name="detected_model" />
                 <field name="is_locked" />
-
                 <templates>
-                    <t t-name="kanban-box">
+                    <t t-name="card">
+                        <field name="name" class="fw-bolder fs-5" />
                         <div
-                            t-attf-class="#{kanban_color(record.operation_status.raw_value)} oe_kanban_card oe_kanban_global_click"
+                            class="d-flex justify-content-between align-items-center mt-2"
                         >
-                            <div class="o_kanban_card_header">
-                                <div class="o_kanban_card_header_title">
-                                    <div class="o_primary">
-                                        <strong>
-                                            <t t-esc="record.name.value" />
-                                        </strong>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="container o_kanban_card_content">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <button
-                                            t-if="record.operation_status.raw_value == 'draft'"
-                                            type="object"
-                                            name="action_process_operation"
-                                            class="btn btn-primary btn-sm"
-                                        >
-                                            <i
-                                            class="fa fa-play"
-                                            title="Process"
-                                        /> Process </button>
-                                    </div>
-                                    <div class="col-6 text-right">
-                                        <span
-                                            t-if="record.records_processed.raw_value > 0"
-                                            class="badge badge-info"
-                                        >
-                                            <t
-                                            t-esc="record.records_processed.value"
-                                        /> records </span>
-                                    </div>
-                                </div>
-
-                                <div
-                                    class="row mt-2"
-                                    t-if="record.detected_model.value"
-                                >
-                                    <div class="col-12">
-                                        <small class="text-muted">
-                                            <i
-                                                class="fa fa-database"
-                                                title="Database Model"
-                                            />
-                                            <t t-esc="record.detected_model.value" />
-                                        </small>
-                                    </div>
-                                </div>
-
-                                <div class="row mt-1">
-                                    <div class="col-12">
-                                        <small class="text-muted">
-                                            <i
-                                                class="fa fa-clock-o"
-                                                title="Creation Date"
-                                            />
-                                            <t t-esc="record.create_date.value" />
-                                        </small>
-                                    </div>
-                                </div>
-                            </div>
+                            <button
+                                t-if="record.operation_status.raw_value == 'draft'"
+                                type="object"
+                                name="action_process_operation"
+                                class="btn btn-primary btn-sm"
+                            >
+                                <i class="fa fa-play" title="Process" /> Process
+                            </button>
+                            <span
+                                t-if="record.records_processed.raw_value &gt; 0"
+                                class="badge text-bg-info"
+                            >
+                                <field name="records_processed" /> records
+                            </span>
+                        </div>
+                        <div t-if="record.detected_model.raw_value" class="text-muted">
+                            <i class="fa fa-database" title="Database Model" />
+                            <field name="detected_model" />
+                        </div>
+                        <div class="text-muted">
+                            <i class="fa fa-clock-o" title="Creation Date" />
+                            <field name="create_date" />
                         </div>
                     </t>
                 </templates>
@@ -436,7 +384,7 @@
     <record id="action_cnab_data_management" model="ir.actions.act_window">
         <field name="name">CNAB Data Management</field>
         <field name="res_model">cnab.data.management</field>
-        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_mode">kanban,list,form</field>
         <field name="context">{}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">

@@ -20,16 +20,16 @@
                     <field name="cnab_structure_ok" />
                     <field
                         name="cnab_structure_id"
-                        attrs="{'invisible': ['|',('cnab_structure_ok','!=',True),('bank_account_link','=','variable')]}"
+                        invisible="not cnab_structure_ok or bank_account_link == 'variable'"
                     />
                     <field
                         name="cnab_payment_way_ids"
-                        attrs="{'invisible': [('cnab_structure_ok','!=',True)]}"
+                        invisible="not cnab_structure_ok"
                     >
-                        <tree>
+                        <list>
                             <field name="name" />
                             <field name="cnab_structure_id" />
-                        </tree>
+                        </list>
                     </field>
                 </group>
             </group>
