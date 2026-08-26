@@ -7,6 +7,10 @@ import os
 from odoo.exceptions import UserError
 from odoo.tests import tagged
 
+from odoo.addons.l10n_br_account_payment_brcobranca.constants.br_cobranca import (
+    get_brcobranca_bank,
+    modulo11,
+)
 from odoo.addons.l10n_br_account_payment_brcobranca.tests.common import (
     TestBRCobrancaCommon,
 )
@@ -251,6 +255,15 @@ class TestPaymentOrder(TestBRCobrancaCommon):
             self.assertEqual(self.invoice_ailos_240.payment_state, "paid")
 
     def test_4_sicredi_cnab_240_file_name(self):
+        """
+        Manual Sicredi CNAB 240 - item 6.1 (Nomenclatura dos arquivos):
+        Arquivo de remessa no formato CCCCCMDD.XXX, onde:
+        - CCCCC = Código do beneficiário (5 dígitos)
+        - M = Código do mês (1-9 para Jan-Set, O para Out, N para Nov, D para Dez)
+        - DD = Dia da geração
+        - XXX = Extensão/Sequencial
+        (sugestão: 001, 002 ou .REM na integração brcobranca)
+        """
         self._run_invoice_and_order_brcobranca(self.invoice_sicredi_240)
 
         payment_order = self.invoice_sicredi_240.line_ids.mapped(
@@ -268,7 +281,68 @@ class TestPaymentOrder(TestBRCobrancaCommon):
             )
         )
 
-    def test_5_nordeste_cnab_400(self):
+    def test_5_sicredi_cnab_240_rem_ret(self):
+        """Teste de integração CNAB 240 Sicredi:
+
+        - Validação da preparação dos dados (regras Sicredi)
+        - Geração do arquivo de remessa via BRCobranca
+        - Processamento do arquivo de retorno e liquidação parcial
+        """
+        if self._check_ci_no_brcobranca():
+            return
+
+        # Reiniciando a sequencia de Nosso Numero para o teste
+        self.own_number_seq_sicredi.number_next = 1
+        self._run_invoice_and_order_brcobranca(self.invoice_sicredi_240)
+
+        payment_order = self.invoice_sicredi_240.line_ids.mapped(
+            "payment_line_ids"
+        ).order_id
+
+        bank_account_id = payment_order.journal_id.bank_account_id
+        bank_brcobranca = get_brcobranca_bank(bank_account_id, "240")
+
+        for line in payment_order.payment_line_ids:
+            prepared = line.prepare_bank_payment_line(bank_brcobranca)
+            cnab_config = line.order_id.payment_mode_id.cnab_config_id
+
+            sequencial = "".join(
+                ch for ch in str(line.own_number) if ch.isdigit()
+            ).zfill(5)[-5:]
+
+            ano = self.invoice_sicredi_240.invoice_date.strftime("%y")
+            nosso_numero_with_byte_idt = ano + cnab_config.boleto_byte_idt + sequencial
+
+            nosso_numero_para_calcular_dv = (
+                bank_account_id.bra_number
+                + cnab_config.boleto_post.zfill(2)
+                + cnab_config.cnab_company_bank_code
+                + nosso_numero_with_byte_idt
+            )
+            expected_nosso_numero = nosso_numero_with_byte_idt + str(
+                modulo11(nosso_numero_para_calcular_dv, 9, 0)
+            )
+
+            # Asserções de regras específicas do Sicredi Nosso Numero
+            self.assertEqual(prepared["nosso_numero"], expected_nosso_numero)
+
+        payment_file, filename = payment_order.generate_payment_file()
+        payment_file_content = payment_file.decode("utf-8")
+
+        # Valida presença dos Nossos Números formatados no texto do arquivo
+        self.assertIn("262000017", payment_file_content)
+        self.assertIn("262000025", payment_file_content)
+
+        # Importa retorno e valida efeito contábil
+        moves = self._run_import_return_file(
+            "CNAB240SICREDIRET.RET",
+            self.journal_sicredi,
+        )
+
+        self.assertEqual(self.invoice_sicredi_240.payment_state, "partial")
+        self.assertEqual(moves.date.strftime("%Y-%m-%d"), "2026-08-12")
+
+    def test_6_nordeste_cnab_400(self):
         """
         Test import Nordeste Bank CNAB 400, the case has different 'Return Code'
         for refused 'Instruction Code'.
