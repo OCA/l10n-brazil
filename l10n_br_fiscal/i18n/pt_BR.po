@@ -1633,6 +1633,11 @@ msgid "CST PIS ST"
 msgstr "CST PIS ST"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax__cst_tax_domain
+msgid "CST Tax Domain"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_cst_l10n_br_fiscal_cst_code_tax_group_id_uniq
 msgid "CST already exists with this code!"
 msgstr ""
@@ -2279,6 +2284,11 @@ msgid "Date IN/OUT"
 msgstr "Data de Entrada/Saída"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__date_in_out
+msgid "Date In Out"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_search
 msgid "Date In/Out"
 msgstr ""
@@ -2687,6 +2697,14 @@ msgstr ""
 #: model:uom.uom,name:l10n_br_fiscal.UOM_EMBALAGEM
 msgid "EMBALAGEM"
 msgstr "EMBALAGEM"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__date_in_out
+msgid ""
+"Effective incoming/outgoing date of the goods (DT_E_S in the SPED "
+"bookkeeping). Defaults to today; adjust it when the physical receipt "
+"happened on another date."
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__document_electronic
@@ -4408,6 +4426,7 @@ msgid "ICMS SN Reduction"
 msgstr "Redução do ICMS SN"
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.cfop_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_fiscal_line_mixin_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "ICMS ST"
@@ -4606,6 +4625,12 @@ msgstr "Base do ICMS ST WH"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icmsst_wh_value
 msgid "ICMS ST WH Value"
 msgstr "Valor do ICMS ST WH"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__is_icmsst
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__is_icmsst
+msgid "ICMS ST?"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icms_sharing_percent
@@ -5309,6 +5334,23 @@ msgstr "Documento de Entrada"
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__allow_csll_irpj
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__allow_csll_irpj
 msgid "Indicates potential 'CSLL' and 'IRPJ' tax charges."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_cfop__is_icmsst
+msgid ""
+"Indicates that this CFOP is used in operations subject to ICMS Tax "
+"Substitution (Substituição Tributária)."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__is_icmsst
+msgid ""
+"Indicates that this Operation Line is meant to be used for products/"
+"operations subject to ICMS Tax Substitution (Substituição Tributária), based "
+"on the CFOPs assigned to it. Used to automatically select the right "
+"Operation Line when a Fiscal Operation has separate lines for regular and "
+"ICMS ST scenarios."
 msgstr ""
 
 #. module: l10n_br_fiscal
