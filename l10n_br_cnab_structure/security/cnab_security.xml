@@ -6,7 +6,6 @@
     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 -->
 <odoo noupdate="1">
-
     <record id="group_cnab_constructor" model="res.groups">
         <field name="name">CNAB Constructor</field>
         <field
@@ -25,5 +24,4 @@
             eval="[Command.link(ref('group_cnab_constructor'))]"
         />
     </record>
-
 </odoo>

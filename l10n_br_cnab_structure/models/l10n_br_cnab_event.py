@@ -350,16 +350,16 @@ class CNABReturnEvent(models.Model):
                 company_id = self.journal_id.company_id
                 account_id = company_id.account_journal_payment_credit_account_id
                 credit_move_line["account_id"] = account_id.id
-                debit_move_line[
-                    "account_id"
-                ] = self.journal_id.inbound_rebate_account_id.id
+                debit_move_line["account_id"] = (
+                    self.journal_id.inbound_rebate_account_id.id
+                )
             else:
-                credit_move_line[
-                    "account_id"
-                ] = self.journal_id.outbound_rebate_account_id.id
-                debit_move_line[
-                    "account_id"
-                ] = self.journal_id.company_id.account_journal_payment_debit_account_id
+                credit_move_line["account_id"] = (
+                    self.journal_id.outbound_rebate_account_id.id
+                )
+                debit_move_line["account_id"] = (
+                    self.journal_id.company_id.account_journal_payment_debit_account_id
+                )
 
             move_line_obj.with_context(check_move_validity=False).create(
                 [credit_move_line, debit_move_line]
@@ -384,16 +384,16 @@ class CNABReturnEvent(models.Model):
                 company_id = self.journal_id.company_id
                 account_id = company_id.account_journal_payment_credit_account_id
                 credit_move_line["account_id"] = account_id.id
-                debit_move_line[
-                    "account_id"
-                ] = self.journal_id.inbound_discount_account_id.id
+                debit_move_line["account_id"] = (
+                    self.journal_id.inbound_discount_account_id.id
+                )
             else:
-                credit_move_line[
-                    "account_id"
-                ] = self.journal_id.outbound_discount_account_id.id
-                debit_move_line[
-                    "account_id"
-                ] = self.journal_id.company_id.account_journal_payment_debit_account_id
+                credit_move_line["account_id"] = (
+                    self.journal_id.outbound_discount_account_id.id
+                )
+                debit_move_line["account_id"] = (
+                    self.journal_id.company_id.account_journal_payment_debit_account_id
+                )
 
             move_line_obj.with_context(check_move_validity=False).create(
                 [credit_move_line, debit_move_line]
@@ -417,19 +417,19 @@ class CNABReturnEvent(models.Model):
             "move_id": move_id.id,
         }
         if self.cnab_return_log_id.type == "inbound":
-            credit_move_line[
-                "account_id"
-            ] = self.journal_id.inbound_interest_fee_account_id.id
-            debit_move_line[
-                "account_id"
-            ] = self.journal_id.company_id.account_journal_payment_debit_account_id
+            credit_move_line["account_id"] = (
+                self.journal_id.inbound_interest_fee_account_id.id
+            )
+            debit_move_line["account_id"] = (
+                self.journal_id.company_id.account_journal_payment_debit_account_id
+            )
         else:
-            credit_move_line[
-                "account_id"
-            ] = self.journal_id.company_id.account_journal_payment_credit_account_id.id
-            debit_move_line[
-                "account_id"
-            ] = self.journal_id.outbound_interest_fee_account_id.id
+            credit_move_line["account_id"] = (
+                self.journal_id.company_id.account_journal_payment_credit_account_id.id
+            )
+            debit_move_line["account_id"] = (
+                self.journal_id.outbound_interest_fee_account_id.id
+            )
 
         move_line_obj.with_context(check_move_validity=False).create(
             [credit_move_line, debit_move_line]
