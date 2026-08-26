@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2026 KMEE INFORMATICA LTDA
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
+  CASO 2A - CFOP 1556, compra para uso e consumo, deductible_taxes DESLIGADO.
+
+  Quem compra para consumo proprio e consumidor final: nao havera saida
+  tributada onde abater o credito. O ICMS sobre material de uso e consumo
+  segue vedado ate 2033 (LC 87/96, art. 33, I, na redacao da LC 171/2019).
+  O imposto e custo, e o estoque deveria valer o preco CHEIO.
+-->
+<odoo>
+    <function model="l10n_br.creditability.demo" name="generate_case_2a" />
+</odoo>

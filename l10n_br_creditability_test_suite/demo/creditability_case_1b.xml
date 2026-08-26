@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2026 KMEE INFORMATICA LTDA
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
+  CASO 1B - CFOP 1102, compra para revenda, deductible_taxes LIGADO.
+
+  Mesma operacao do 1A por outro mecanismo: a linha de produto vai cheia para
+  a ponte e uma perna de -100% credita de volta. Os saldos finais deveriam ser
+  identicos aos do 1A.
+-->
+<odoo>
+    <function model="l10n_br.creditability.demo" name="generate_case_1b" />
+</odoo>
