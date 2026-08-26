@@ -347,3 +347,20 @@ TIPO_OPERACAO_CNAB = {
     "R": "Arquivo Remessa",
     "T": "Arquivo Retorno",
 }
+
+# Manual Sicredi CNAB 240 - item 6.2 (Codificação dos meses).
+# Janeiro a Setembro são números, Outubro, Novembro e Dezembro usam letras.
+DICT_SICREDI_MONTH_CODE = {
+    1: "1",
+    2: "2",
+    3: "3",
+    4: "4",
+    5: "5",
+    6: "6",
+    7: "7",
+    8: "8",
+    9: "9",
+    10: "O",
+    11: "N",
+    12: "D",
+}
