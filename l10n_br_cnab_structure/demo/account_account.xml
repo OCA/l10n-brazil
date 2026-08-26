@@ -6,7 +6,6 @@
     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 -->
 <odoo noupdate="True">
-
     <record model="account.account" id="1_account_template_511601_avoid_travis_error">
         <field name="code">511601</field>
         <field name="name">Juros Passivos</field>
@@ -22,5 +21,4 @@
         <field name="company_id" ref="base.main_company" />
         <field name="reconcile" eval="True" />
     </record>
-
 </odoo>
