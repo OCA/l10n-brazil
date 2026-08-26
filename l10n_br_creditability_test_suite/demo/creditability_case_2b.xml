@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2026 KMEE INFORMATICA LTDA
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
+  CASO 2B - CFOP 1556, compra para uso e consumo, deductible_taxes LIGADO.
+
+  Mesma operacao do 2A por outro mecanismo. Os saldos finais deveriam ser
+  identicos aos do 2A - e, como no 2A, o ICMS nao deveria creditar.
+-->
+<odoo>
+    <function model="l10n_br.creditability.demo" name="generate_case_2b" />
+</odoo>
