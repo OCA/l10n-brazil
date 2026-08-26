@@ -12,6 +12,7 @@ from odoo.tests.common import TransactionCase
 from odoo.tools import config
 
 from odoo.addons import l10n_br_cte
+from odoo.addons.l10n_br_fiscal.constants.fiscal import DOCUMENT_STATE_DRAFT
 
 _logger = logging.getLogger(__name__)
 
@@ -33,7 +34,7 @@ class TestCTeSerialize(TransactionCase):
         Performs actions necessary to prepare an CTe of the demo data to
         perform the tests
         """
-        if cte.state != "em_digitacao":  # 2nd test run
+        if cte.state_edoc != DOCUMENT_STATE_DRAFT:  # 2nd test run
             cte.action_document_back2draft()
 
         cte.fiscal_line_ids.name = "Frete"
@@ -47,15 +48,15 @@ class TestCTeSerialize(TransactionCase):
         )
         cte.cte40_cCT = "57000111"
 
-        if cte.cte_modal == "01":
+        if cte.cte40_modal == "01":
             self.prepare_modal_rodoviario_data(cte)
-        elif cte.cte_modal == "02":
+        elif cte.cte40_modal == "02":
             self.prepare_modal_aereo_data(cte)
-        elif cte.cte_modal == "03":
+        elif cte.cte40_modal == "03":
             self.prepare_modal_aquaviario_data(cte)
-        elif cte.cte_modal == "04":
+        elif cte.cte40_modal == "04":
             self.prepare_modal_ferroviario_data(cte)
-        elif cte.cte_modal == "05":
+        elif cte.cte40_modal == "05":
             self.prepare_modal_dutoviario_data(cte)
 
         cte._document_export()

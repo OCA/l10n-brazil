@@ -4,13 +4,14 @@
 #
 
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    DOCUMENT_STATE_CANCEL,
     MODELO_FISCAL_CFE,
     MODELO_FISCAL_CUPOM_FISCAL_ECF,
     MODELO_FISCAL_NFCE,
-    SITUACAO_EDOC_CANCELADA,
 )
 
 SITUACAO_SUBSEQUENTE = (
@@ -122,7 +123,7 @@ class SubsequentDocument(models.Model):
         for subseq in self:
             if not subseq.subsequent_document_id:
                 subseq.operation_performed = False
-            elif subseq.subsequent_document_id.state_edoc == SITUACAO_EDOC_CANCELADA:
+            elif subseq.subsequent_document_id.state_edoc == DOCUMENT_STATE_CANCEL:
                 subseq.operation_performed = False
             else:
                 subseq.operation_performed = True
@@ -152,10 +153,12 @@ class SubsequentDocument(models.Model):
     def unlink(self):
         for subsequent_id in self:
             if subsequent_id.operation_performed:
-                raise UserWarning(
-                    "The document cannot be deleted: the "
-                    "subsequent document has already been "
-                    "generated."
+                raise UserError(
+                    _(
+                        "The document cannot be deleted: the "
+                        "subsequent document has already been "
+                        "generated."
+                    )
                 )
         return super().unlink()
 

@@ -9,6 +9,7 @@ from datetime import datetime
 from xmldiff import main
 
 from odoo import Command
+from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
 from odoo.tools import config
 
@@ -37,12 +38,6 @@ class TestMDFeSerialize(TransactionCase):
         if mdfe.state != "em_digitacao":  # 2nd test run
             mdfe.action_document_back2draft()
 
-        mdfe.action_document_confirm()
-        mdfe.document_date = datetime.strptime(
-            "2020-01-01T11:00:00", "%Y-%m-%dT%H:%M:%S"
-        )
-        mdfe.mdfe30_cMDF = "20801844"
-
         if mdfe.mdfe_modal == "1":
             cls.prepare_modal_rodoviario_data(mdfe)
         elif mdfe.mdfe_modal == "2":
@@ -51,6 +46,12 @@ class TestMDFeSerialize(TransactionCase):
             cls.prepare_modal_aquaviario_data(mdfe)
         elif mdfe.mdfe_modal == "4":
             cls.prepare_modal_ferroviario_data(mdfe)
+
+        mdfe.action_document_confirm()
+        mdfe.document_date = datetime.strptime(
+            "2020-01-01T11:00:00", "%Y-%m-%dT%H:%M:%S"
+        )
+        mdfe.mdfe30_cMDF = "20801844"
 
         mdfe._document_export()
 
@@ -84,7 +85,7 @@ class TestMDFeSerialize(TransactionCase):
         mdfe.mdfe30_infPag = [
             Command.create(
                 {
-                    "partner_id": cls.env.ref("l10n_br_base.res_partner_intel").id,
+                    "partner_id": mdfe.env.ref("l10n_br_base.res_partner_intel").id,
                     "mdfe30_vContrato": 5,
                     "mdfe30_indPag": "0",
                     "payment_type": "pix",
@@ -107,13 +108,18 @@ class TestMDFeSerialize(TransactionCase):
         mdfe.mdfe30_cInt = "1"
         mdfe.mdfe30_RENAVAM = "42423325472"
         mdfe.mdfe30_placa = "AAA1233"
+        # The MDF-e is issued by the company itself, so no transport type /
+        # owner is required. mdfe30_tpTransp may be defined as a related or
+        # as a spec field depending on the model loading order, so clear both
+        # the logical field and the spec field.
+        mdfe.mdfe_transp_type = False
         mdfe.mdfe30_tpTransp = False
         mdfe.mdfe30_tara = 7500
         mdfe.mdfe30_capKG = 42500
         mdfe.mdfe30_capM3 = 300
         mdfe.mdfe30_tpRod = "03"
         mdfe.mdfe30_tpCar = "00"
-        mdfe.rodo_vehicle_state_id = cls.env.ref("base.state_br_ac").id
+        mdfe.rodo_vehicle_state_id = mdfe.env.ref("base.state_br_ac").id
         mdfe.mdfe30_condutor = [
             Command.create(
                 {
@@ -225,3 +231,91 @@ class TestMDFeSerialize(TransactionCase):
         _logger.info(f"XML file saved at {output}")
         diff = main.diff_files(output, xml_path)
         return diff
+
+
+class TestMDFeRequiredFields(TransactionCase):
+    """Negative tests: sending must be blocked when required fields are missing."""
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.mdfe = cls.env.ref("l10n_br_mdfe.demo_mdfe_lc_modal_rodoviario")
+        TestMDFeSerialize.prepare_modal_rodoviario_data(cls.mdfe)
+
+    def test_missing_initial_state(self):
+        self.mdfe.mdfe_initial_state_id = False
+        with self.assertRaises(UserError) as cm:
+            self.mdfe.action_document_confirm()
+        self.assertIn("MDF-e Initial State", str(cm.exception))
+
+    def test_missing_vehicle_plate(self):
+        self.mdfe.mdfe30_placa = False
+        with self.assertRaises(UserError) as cm:
+            self.mdfe.action_document_confirm()
+        self.assertIn("Vehicle Plate", str(cm.exception))
+
+    def test_document_number_assigns_serie(self):
+        self.mdfe.document_serie_id = False
+        self.mdfe.document_serie = False
+        self.mdfe._document_number()
+        self.assertTrue(self.mdfe.document_serie_id)
+
+    def test_check_with_cte_and_mdfe_descarga(self):
+        demo_descarga = self.env.ref("l10n_br_mdfe.demo_mdfe_lc_descarga_rodoviario")
+        self.mdfe.mdfe30_infMunDescarga = [
+            Command.set(self.mdfe.mdfe30_infMunDescarga.ids),
+            Command.create(
+                {
+                    "city_id": demo_descarga.city_id.id,
+                    "document_type": "cte",
+                },
+            ),
+            Command.create(
+                {
+                    "city_id": demo_descarga.city_id.id,
+                    "document_type": "mdfe",
+                },
+            ),
+        ]
+        with self.assertRaises(UserError) as cm:
+            self.mdfe.action_document_confirm()
+        self.assertIn("CT-e documents for unloading city", str(cm.exception))
+        self.assertIn("MDF-e transport documents for unloading city", str(cm.exception))
+
+    def test_owner_equal_issuer(self):
+        self.mdfe.mdfe30_prop = self.mdfe.company_id.partner_id
+        self.mdfe.mdfe_transp_type = "1"
+        with self.assertRaises(UserError) as cm:
+            self.mdfe.action_document_confirm()
+        self.assertIn("Vehicle Owner must be different", str(cm.exception))
+
+    def test_owner_without_transp_type(self):
+        partner = self.env.ref("l10n_br_base.res_partner_intel")
+        partner.rntrc_code = "12345678"
+        self.mdfe.mdfe30_prop = partner
+        self.mdfe.mdfe_transp_type = False
+        with self.assertRaises(UserError) as cm:
+            self.mdfe.action_document_confirm()
+        self.assertIn("Transport Type must be informed", str(cm.exception))
+
+    def test_transp_type_without_owner(self):
+        self.mdfe.mdfe_transp_type = "1"
+        with self.assertRaises(UserError) as cm:
+            self.mdfe.action_document_confirm()
+        self.assertIn("Vehicle Owner is required", str(cm.exception))
+
+    def test_owner_without_rntrc(self):
+        self.mdfe.mdfe30_prop = self.env.ref("l10n_br_base.res_partner_intel")
+        self.mdfe.mdfe_transp_type = "1"
+        with self.assertRaises(UserError) as cm:
+            self.mdfe.action_document_confirm()
+        self.assertIn("Vehicle Owner RNTRC", str(cm.exception))
+
+    def test_owner_invalid_rntrc(self):
+        partner = self.env.ref("l10n_br_base.res_partner_intel")
+        partner.rntrc_code = "123"
+        self.mdfe.mdfe30_prop = partner
+        self.mdfe.mdfe_transp_type = "1"
+        with self.assertRaises(UserError) as cm:
+            self.mdfe.action_document_confirm()
+        self.assertIn("Owner RNTRC must contain exactly 8 digits", str(cm.exception))

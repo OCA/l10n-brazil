@@ -40,6 +40,12 @@ class Cfop(models.Model):
         compute="_compute_is_import",
     )
 
+    is_icmsst = fields.Boolean(
+        string="ICMS ST?",
+        help="Indicates that this CFOP is used in operations subject to "
+        "ICMS Tax Substitution (Substituição Tributária).",
+    )
+
     cfop_inverse_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cfop",
         string="Inverse CFOP",

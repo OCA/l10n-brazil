@@ -8,9 +8,11 @@ erpbrasil.base
 erpbrasil.edoc
 erpbrasil.transmissao
 nfelib
+nfselib.paulistana
 num2words
 phonenumbers
 pyyaml
 requests
+transitions
 unidecode
 workalendar

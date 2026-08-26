@@ -292,4 +292,439 @@
             ]).id"
         />
     </function>
+
+    <!-- Vendor Bill - Sicoob - Boleto -->
+    <record id="demo_bill_sicoob_boleto" model="account.move">
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_intel" />
+        <field name="move_type">in_invoice</field>
+        <field name="invoice_date" eval="time.strftime('%Y-%m')+'-01'" />
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="partner_bank_id" ref="intel_bank_account" />
+        <field name="payment_mode_id" ref="payment_mode_sispag_boleto_sicoob" />
+        <field name="payment_reference">test boleto - Sicoob</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 150, 'quantity': 4})
+        ]"
+        />
+    </record>
+    <function model="account.move" name="action_post">
+        <value eval="[ref('demo_bill_sicoob_boleto')]" />
+    </function>
+    <!-- Add and Confirm Payment Order for this Bill-->
+    <function model="account.move" name="create_account_payment_line">
+        <value eval="[ref('demo_bill_sicoob_boleto')]" />
+    </function>
+    <function model="account.payment.order" name="draft2open">
+        <value
+            model="account.payment.order"
+            eval="obj().search([
+                ('payment_mode_id', '=', ref('payment_mode_sispag_boleto_sicoob')),
+            ]).id"
+        />
+    </function>
+
+    <!-- Vendor Bill - Sicoob - Tributo c/ Código de Barras (GNRE) -->
+    <record id="demo_bill_sicoob_tributo_gnre" model="account.move">
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_amd" />
+        <field name="move_type">in_invoice</field>
+        <field name="invoice_date" eval="time.strftime('%Y-%m')+'-01'" />
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="partner_bank_id" ref="amd_bank_account" />
+        <field name="payment_mode_id" ref="payment_mode_sispag_tributo_gnre_sicoob" />
+        <field name="payment_reference">test tributo GNRE - Sicoob</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 320, 'quantity': 1})
+        ]"
+        />
+    </record>
+    <function model="account.move" name="action_post">
+        <value eval="[ref('demo_bill_sicoob_tributo_gnre')]" />
+    </function>
+    <!-- Add and Confirm Payment Order for this Bill-->
+    <function model="account.move" name="create_account_payment_line">
+        <value eval="[ref('demo_bill_sicoob_tributo_gnre')]" />
+    </function>
+    <function model="account.payment.order" name="draft2open">
+        <value
+            model="account.payment.order"
+            eval="obj().search([
+                ('payment_mode_id', '=', ref('payment_mode_sispag_tributo_gnre_sicoob')),
+            ]).id"
+        />
+    </function>
+
+    <!-- Vendor Bill - Sicoob - Tributo s/ Código de Barras (GPS) -->
+    <record id="demo_bill_sicoob_tributo_gps" model="account.move">
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_amd" />
+        <field name="move_type">in_invoice</field>
+        <field name="invoice_date" eval="time.strftime('%Y-%m')+'-01'" />
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="partner_bank_id" ref="amd_bank_account" />
+        <field name="payment_mode_id" ref="payment_mode_sispag_tributo_gps_sicoob" />
+        <field name="payment_reference">test tributo GPS - Sicoob</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 275, 'quantity': 1})
+        ]"
+        />
+    </record>
+    <function model="account.move" name="action_post">
+        <value eval="[ref('demo_bill_sicoob_tributo_gps')]" />
+    </function>
+    <!-- Add and Confirm Payment Order for this Bill-->
+    <function model="account.move" name="create_account_payment_line">
+        <value eval="[ref('demo_bill_sicoob_tributo_gps')]" />
+    </function>
+    <function model="account.payment.order" name="draft2open">
+        <value
+            model="account.payment.order"
+            eval="obj().search([
+                ('payment_mode_id', '=', ref('payment_mode_sispag_tributo_gps_sicoob')),
+            ]).id"
+        />
+    </function>
+
+    <!-- Vendor Bill - Itaú - Boleto -->
+    <record id="demo_bill_itau_boleto" model="account.move">
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_intel" />
+        <field name="move_type">in_invoice</field>
+        <field name="invoice_date" eval="time.strftime('%Y-%m')+'-01'" />
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="partner_bank_id" ref="intel_bank_account" />
+        <field name="payment_mode_id" ref="payment_mode_sispag_boleto_itau" />
+        <field name="payment_reference">test boleto - Itaú</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 150, 'quantity': 4})
+        ]"
+        />
+    </record>
+    <function model="account.move" name="action_post">
+        <value eval="[ref('demo_bill_itau_boleto')]" />
+    </function>
+    <!-- Add and Confirm Payment Order for this Bill-->
+    <function model="account.move" name="create_account_payment_line">
+        <value eval="[ref('demo_bill_itau_boleto')]" />
+    </function>
+    <function model="account.payment.order" name="draft2open">
+        <value
+            model="account.payment.order"
+            eval="obj().search([
+                ('payment_mode_id', '=', ref('payment_mode_sispag_boleto_itau')),
+            ]).id"
+        />
+    </function>
+
+    <!-- Vendor Bill - Itaú - Tributo c/ Código de Barras (GNRE) -->
+    <record id="demo_bill_itau_tributo_gnre" model="account.move">
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_amd" />
+        <field name="move_type">in_invoice</field>
+        <field name="invoice_date" eval="time.strftime('%Y-%m')+'-01'" />
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="partner_bank_id" ref="amd_bank_account" />
+        <field name="payment_mode_id" ref="payment_mode_sispag_tributo_gnre_itau" />
+        <field name="payment_reference">test tributo GNRE - Itaú</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 320, 'quantity': 1})
+        ]"
+        />
+    </record>
+    <function model="account.move" name="action_post">
+        <value eval="[ref('demo_bill_itau_tributo_gnre')]" />
+    </function>
+    <!-- Add and Confirm Payment Order for this Bill-->
+    <function model="account.move" name="create_account_payment_line">
+        <value eval="[ref('demo_bill_itau_tributo_gnre')]" />
+    </function>
+    <function model="account.payment.order" name="draft2open">
+        <value
+            model="account.payment.order"
+            eval="obj().search([
+                ('payment_mode_id', '=', ref('payment_mode_sispag_tributo_gnre_itau')),
+            ]).id"
+        />
+    </function>
+
+    <!-- Vendor Bill - Itaú - Tributo s/ Código de Barras (GPS) -->
+    <record id="demo_bill_itau_tributo_gps" model="account.move">
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_amd" />
+        <field name="move_type">in_invoice</field>
+        <field name="invoice_date" eval="time.strftime('%Y-%m')+'-01'" />
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="partner_bank_id" ref="amd_bank_account" />
+        <field name="payment_mode_id" ref="payment_mode_sispag_tributo_gps_itau" />
+        <field name="payment_reference">test tributo GPS - Itaú</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 275, 'quantity': 1})
+        ]"
+        />
+    </record>
+    <function model="account.move" name="action_post">
+        <value eval="[ref('demo_bill_itau_tributo_gps')]" />
+    </function>
+    <!-- Add and Confirm Payment Order for this Bill-->
+    <function model="account.move" name="create_account_payment_line">
+        <value eval="[ref('demo_bill_itau_tributo_gps')]" />
+    </function>
+    <function model="account.payment.order" name="draft2open">
+        <value
+            model="account.payment.order"
+            eval="obj().search([
+                ('payment_mode_id', '=', ref('payment_mode_sispag_tributo_gps_itau')),
+            ]).id"
+        />
+    </function>
+
+    <!-- Vendor Bill - Banco do Brasil - Boleto -->
+    <record id="demo_bill_bb_boleto" model="account.move">
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_intel" />
+        <field name="move_type">in_invoice</field>
+        <field name="invoice_date" eval="time.strftime('%Y-%m')+'-01'" />
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="partner_bank_id" ref="intel_bank_account" />
+        <field name="payment_mode_id" ref="payment_mode_sispag_boleto_bb" />
+        <field name="payment_reference">test boleto - Banco do Brasil</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 160, 'quantity': 4})
+        ]"
+        />
+    </record>
+    <function model="account.move" name="action_post">
+        <value eval="[ref('demo_bill_bb_boleto')]" />
+    </function>
+    <!-- Add and Confirm Payment Order for this Bill-->
+    <function model="account.move" name="create_account_payment_line">
+        <value eval="[ref('demo_bill_bb_boleto')]" />
+    </function>
+    <function model="account.payment.order" name="draft2open">
+        <value
+            model="account.payment.order"
+            eval="obj().search([
+                ('payment_mode_id', '=', ref('payment_mode_sispag_boleto_bb')),
+            ]).id"
+        />
+    </function>
+
+    <!-- Vendor Bill - Banco do Brasil - Tributo c/ Código de Barras (GNRE) -->
+    <record id="demo_bill_bb_tributo_gnre" model="account.move">
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_amd" />
+        <field name="move_type">in_invoice</field>
+        <field name="invoice_date" eval="time.strftime('%Y-%m')+'-01'" />
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="partner_bank_id" ref="amd_bank_account" />
+        <field name="payment_mode_id" ref="payment_mode_sispag_tributo_gnre_bb" />
+        <field name="payment_reference">test tributo GNRE - Banco do Brasil</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 330, 'quantity': 1})
+        ]"
+        />
+    </record>
+    <function model="account.move" name="action_post">
+        <value eval="[ref('demo_bill_bb_tributo_gnre')]" />
+    </function>
+    <!-- Add and Confirm Payment Order for this Bill-->
+    <function model="account.move" name="create_account_payment_line">
+        <value eval="[ref('demo_bill_bb_tributo_gnre')]" />
+    </function>
+    <function model="account.payment.order" name="draft2open">
+        <value
+            model="account.payment.order"
+            eval="obj().search([
+                ('payment_mode_id', '=', ref('payment_mode_sispag_tributo_gnre_bb')),
+            ]).id"
+        />
+    </function>
+
+    <!-- Vendor Bill - Banco do Brasil - Tributo s/ Código de Barras (GPS) -->
+    <record id="demo_bill_bb_tributo_gps" model="account.move">
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_amd" />
+        <field name="move_type">in_invoice</field>
+        <field name="invoice_date" eval="time.strftime('%Y-%m')+'-01'" />
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="partner_bank_id" ref="amd_bank_account" />
+        <field name="payment_mode_id" ref="payment_mode_sispag_tributo_gps_bb" />
+        <field name="payment_reference">test tributo GPS - Banco do Brasil</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 285, 'quantity': 1})
+        ]"
+        />
+    </record>
+    <function model="account.move" name="action_post">
+        <value eval="[ref('demo_bill_bb_tributo_gps')]" />
+    </function>
+    <!-- Add and Confirm Payment Order for this Bill-->
+    <function model="account.move" name="create_account_payment_line">
+        <value eval="[ref('demo_bill_bb_tributo_gps')]" />
+    </function>
+    <function model="account.payment.order" name="draft2open">
+        <value
+            model="account.payment.order"
+            eval="obj().search([
+                ('payment_mode_id', '=', ref('payment_mode_sispag_tributo_gps_bb')),
+            ]).id"
+        />
+    </function>
+
+    <!-- Vendor Bill - Santander - Boleto -->
+    <record id="demo_bill_santander_boleto" model="account.move">
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_intel" />
+        <field name="move_type">in_invoice</field>
+        <field name="invoice_date" eval="time.strftime('%Y-%m')+'-01'" />
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="partner_bank_id" ref="intel_bank_account" />
+        <field name="payment_mode_id" ref="payment_mode_sispag_boleto_santander" />
+        <field name="payment_reference">test boleto - Santander</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 170, 'quantity': 4})
+        ]"
+        />
+    </record>
+    <function model="account.move" name="action_post">
+        <value eval="[ref('demo_bill_santander_boleto')]" />
+    </function>
+    <!-- Add and Confirm Payment Order for this Bill-->
+    <function model="account.move" name="create_account_payment_line">
+        <value eval="[ref('demo_bill_santander_boleto')]" />
+    </function>
+    <function model="account.payment.order" name="draft2open">
+        <value
+            model="account.payment.order"
+            eval="obj().search([
+                ('payment_mode_id', '=', ref('payment_mode_sispag_boleto_santander')),
+            ]).id"
+        />
+    </function>
+
+    <!-- Vendor Bill - Santander - Tributo c/ Código de Barras (GNRE) -->
+    <record id="demo_bill_santander_tributo_gnre" model="account.move">
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_amd" />
+        <field name="move_type">in_invoice</field>
+        <field name="invoice_date" eval="time.strftime('%Y-%m')+'-01'" />
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="partner_bank_id" ref="amd_bank_account" />
+        <field
+            name="payment_mode_id"
+            ref="payment_mode_sispag_tributo_gnre_santander"
+        />
+        <field name="payment_reference">test tributo GNRE - Santander</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 340, 'quantity': 1})
+        ]"
+        />
+    </record>
+    <function model="account.move" name="action_post">
+        <value eval="[ref('demo_bill_santander_tributo_gnre')]" />
+    </function>
+    <!-- Add and Confirm Payment Order for this Bill-->
+    <function model="account.move" name="create_account_payment_line">
+        <value eval="[ref('demo_bill_santander_tributo_gnre')]" />
+    </function>
+    <function model="account.payment.order" name="draft2open">
+        <value
+            model="account.payment.order"
+            eval="obj().search([
+                ('payment_mode_id', '=', ref('payment_mode_sispag_tributo_gnre_santander')),
+            ]).id"
+        />
+    </function>
+
+    <!-- Vendor Bill - Santander - Tributo s/ Código de Barras (GPS) -->
+    <record id="demo_bill_santander_tributo_gps" model="account.move">
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_amd" />
+        <field name="move_type">in_invoice</field>
+        <field name="invoice_date" eval="time.strftime('%Y-%m')+'-01'" />
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="partner_bank_id" ref="amd_bank_account" />
+        <field name="payment_mode_id" ref="payment_mode_sispag_tributo_gps_santander" />
+        <field name="payment_reference">test tributo GPS - Santander</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 295, 'quantity': 1})
+        ]"
+        />
+    </record>
+    <function model="account.move" name="action_post">
+        <value eval="[ref('demo_bill_santander_tributo_gps')]" />
+    </function>
+    <!-- Add and Confirm Payment Order for this Bill-->
+    <function model="account.move" name="create_account_payment_line">
+        <value eval="[ref('demo_bill_santander_tributo_gps')]" />
+    </function>
+    <function model="account.payment.order" name="draft2open">
+        <value
+            model="account.payment.order"
+            eval="obj().search([
+                ('payment_mode_id', '=', ref('payment_mode_sispag_tributo_gps_santander')),
+            ]).id"
+        />
+    </function>
 </odoo>

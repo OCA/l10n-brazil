@@ -6,6 +6,7 @@ from os import path
 from odoo.tests import common
 
 from odoo.addons import l10n_br_sped_ecd
+from odoo.addons.l10n_br_sped_base.models.sped_mixin import SPED_ENCODING
 
 
 class SpedTest(common.TransactionCase):
@@ -24,7 +25,7 @@ class SpedTest(common.TransactionCase):
         # IMPORTANT: to complete the test, we also manually tested that the
         # generated SPED file can be imported in the
         # free Java SPED transmissor app.
-        with open(file_path) as f:
+        with open(file_path, encoding=SPED_ENCODING) as f:
             target_content = f.read()
             # print(sped)
             self.assertEqual(sped.strip(), target_content.strip())

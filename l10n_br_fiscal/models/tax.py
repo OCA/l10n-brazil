@@ -17,6 +17,8 @@ from ..constants.fiscal import (
     TAX_BASE_TYPE,
     TAX_BASE_TYPE_PERCENT,
     TAX_BASE_TYPE_VALUE,
+    TAX_DOMAIN_ICMS,
+    TAX_DOMAIN_ICMS_ST,
 )
 from ..constants.icms import (
     ICMS_BASE_TYPE,
@@ -187,18 +189,23 @@ class Tax(models.Model):
         store=True,
     )
 
+    cst_tax_domain = fields.Char(
+        compute="_compute_cst_tax_domain",
+        string="CST Tax Domain",
+    )
+
     cst_in_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST In",
         domain="[('cst_type', 'in', ('in', 'all')), "
-        "('tax_domain', '=', tax_domain)]",
+        "('tax_domain', '=', cst_tax_domain)]",
     )
 
     cst_out_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST Out",
         domain="[('cst_type', 'in', ('out', 'all')), "
-        "('tax_domain', '=', tax_domain)]",
+        "('tax_domain', '=', cst_tax_domain)]",
     )
 
     # ICMS Fields
@@ -228,6 +235,15 @@ class Tax(models.Model):
     _sql_constraints = [
         ("fiscal_tax_code_uniq", "unique (name)", "Tax already exists with this name !")
     ]
+
+    @api.depends("tax_domain")
+    def _compute_cst_tax_domain(self):
+        # ICMS ST doesn't have its own CST records, it reuses the ICMS ones.
+        for tax in self:
+            if tax.tax_domain == TAX_DOMAIN_ICMS_ST:
+                tax.cst_tax_domain = TAX_DOMAIN_ICMS
+            else:
+                tax.cst_tax_domain = tax.tax_domain
 
     @api.model
     def cst_from_tax(self, fiscal_operation_type=FISCAL_OUT):
@@ -590,14 +606,25 @@ class Tax(models.Model):
 
     @api.model
     def _compute_icmsst(self, tax, taxes_dict, **kwargs):
+        company = kwargs.get("company")
+        currency = kwargs.get("currency", company.currency_id)
+        operation_line = kwargs.get("operation_line")
+        fiscal_operation_type = operation_line.fiscal_operation_type or FISCAL_OUT
         tax_dict = taxes_dict.get(tax.tax_domain)
 
         # Get Computed IPI Tax
         tax_dict_ipi = taxes_dict.get("ipi", {})
         tax_dict["add_to_base"] += tax_dict_ipi.get("tax_value", 0.00)
 
+        # Get Computed ICMS Tax to Update CST
+        tax_dict_icms = taxes_dict.get("icms", {})
+        tax_dict_icms["cst_id"] = tax.cst_from_tax(fiscal_operation_type)
+
         if taxes_dict.get(tax.tax_domain):
             taxes_dict[tax.tax_domain]["icmsst_mva_percent"] = tax.icmsst_mva_percent
+            taxes_dict[tax.tax_domain][
+                "percent_debit_credit"
+            ] = tax.percent_debit_credit
 
         taxes_dict[tax.tax_domain].update(
             self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
@@ -605,7 +632,17 @@ class Tax(models.Model):
 
         tax_dict = self._compute_tax(tax, taxes_dict, **kwargs)
         if tax_dict.get("icmsst_mva_percent"):
-            tax_dict["tax_value"] -= taxes_dict.get("icms", {}).get("tax_value", 0.0)
+            if tax_dict_icms.get("tax_value", 0.0) > tax_dict["tax_value"]:
+                if tax_dict.get("percent_debit_credit"):
+                    icms_value_limited = currency.round(
+                        tax_dict_icms.get("base", 0.0)
+                        * (tax_dict["percent_debit_credit"] / 100)
+                    )
+                    tax_dict["tax_value"] -= icms_value_limited
+                else:
+                    tax_dict["tax_value"] = 0.0
+            else:
+                tax_dict["tax_value"] -= tax_dict_icms.get("tax_value", 0.0)
 
         return tax_dict
 

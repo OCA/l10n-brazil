@@ -200,7 +200,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_infcte__cte40_autXML
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_infcte__cte40_autXML
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_infcte__cte40_autXML
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_autXML
 msgid "Autorizados para download do XML do DF-e"
 msgstr ""
 
@@ -215,6 +214,11 @@ msgstr ""
 msgid ""
 "Autorizados para download do XML do DF-e\n"
 "Informar CNPJ ou CPF. Preencher os zeros não significativos."
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_autXML
+msgid "Autorizados para download do XML do DF-e (cte_autXML)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -235,7 +239,7 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_xBairro
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_xBairro
-msgid "Bairro"
+msgid "Bairro (cte_xBairro)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -249,17 +253,17 @@ msgid "CE"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_CEP
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_CEP
-msgid "CEP"
-msgstr ""
-
-#. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_res_partner__cte40_CEP
 #: model:ir.model.fields,help:l10n_br_cte.field_res_users__cte40_CEP
 msgid ""
 "CEP\n"
 "Informar os zeros não significativos"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_CEP
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_CEP
+msgid "CEP (cte_CEP)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -325,7 +329,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_emit__cte40_CNPJ
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_emit__cte40_CNPJ
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_emit__cte40_CNPJ
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte40_CNPJ
 msgid "CNPJ do emitente"
 msgstr ""
 
@@ -340,46 +343,67 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte40_CNPJ
+msgid "CNPJ do emitente (cte_CNPJ)"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_choice_transporta
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_choice_transporta
-msgid "CNPJ or CPF"
+msgid "CNPJ or CPF (cte_choice_transporta)"
 msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte40_choice_emit
-msgid "CNPJ ou CPF?"
+msgid "CNPJ ou CPF? (cte_choice_emit)"
 msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_choice_emit
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_choice_emit
-msgid "CNPJ/CPF do Emitente"
+msgid "CNPJ/CPF do Emitente (cte_choice_emit)"
 msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_choice_tlocal
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_choice_tlocal
-msgid "CNPJ/CPF do Parceiro"
+msgid "CNPJ/CPF do Parceiro (cte_choice_tlocal)"
 msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_choice_autxml
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_choice_autxml
-msgid "CNPJ/CPF do Parceiro Autorizado"
+msgid "CNPJ/CPF do Parceiro Autorizado (cte_choice_autxml)"
 msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_choice_dest
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_choice_exped
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_choice_receb
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_choice_rem
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_choice_toma
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_choice_dest
+msgid "CNPJ/CPF/idEstrangeiro (cte_choice_dest)"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_choice_exped
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_choice_exped
+msgid "CNPJ/CPF/idEstrangeiro (cte_choice_exped)"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_choice_receb
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_choice_receb
+msgid "CNPJ/CPF/idEstrangeiro (cte_choice_receb)"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_choice_rem
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_choice_rem
+msgid "CNPJ/CPF/idEstrangeiro (cte_choice_rem)"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_choice_toma
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_choice_toma
-msgid "CNPJ/CPF/idEstrangeiro"
+msgid "CNPJ/CPF/idEstrangeiro (cte_choice_toma)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -414,7 +438,6 @@ msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_emit__cte40_CPF
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte40_CPF
 msgid "CPF do emitente"
 msgstr ""
 
@@ -426,6 +449,11 @@ msgid ""
 "Informar zeros não significativos.\n"
 "\n"
 "Usar com série específica 920-969 para emitente pessoa física com inscrição estadual"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte40_CPF
+msgid "CPF do emitente (cte_CPF)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -485,6 +513,7 @@ msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte_transmission
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_config_settings__cte_transmission
 msgid "CTe Transmission"
 msgstr ""
 
@@ -507,7 +536,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_compl__cte40_obsCont
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_compl__cte40_obsCont
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_compl__cte40_obsCont
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_obsCont
 msgid "Campo de uso livre do contribuinte"
 msgstr ""
 
@@ -530,6 +558,11 @@ msgstr ""
 msgid ""
 "Campo de uso livre do contribuinte\n"
 "Informar o nome do campo no atributo xCampo e o conteúdo do campo no XTexto"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_obsCont
+msgid "Campo de uso livre do contribuinte (cte_obsCont)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -719,7 +752,7 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_xCpl
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_xCpl
-msgid "Complemento"
+msgid "Complemento (cte_xCpl)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -1381,7 +1414,7 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_cMun
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_cMun
-msgid "Código do município"
+msgid "Código do município (cte_cMun)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -1454,8 +1487,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_ide__cte40_cCT
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_cCT
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_ide__cte40_cCT
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_cCT
 msgid "Código numérico que compõe a Chave"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_cCT
+msgid "Código numérico que compõe a Chave (cte_cCT)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -1569,15 +1606,31 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_rem__cte40_enderReme
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tomaterceiro__cte40_enderToma
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_enderToma
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_enderDest
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_enderExped
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_enderReceb
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_enderReme
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_enderDest
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_enderExped
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_enderReceb
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_enderReme
 msgid "Dados do endereço"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_enderDest
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_enderDest
+msgid "Dados do endereço (cte_enderDest)"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_enderExped
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_enderExped
+msgid "Dados do endereço (cte_enderExped)"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_enderReceb
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_enderReceb
+msgid "Dados do endereço (cte_enderReceb)"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_enderReme
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_enderReme
+msgid "Dados do endereço (cte_enderReme)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -1987,7 +2040,7 @@ msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_dhEmi
-msgid "Document Date"
+msgid "Document Date (cte_dhEmi)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -2062,7 +2115,7 @@ msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_emit
-msgid "Emit"
+msgid "Emit (cte_emit)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -2080,8 +2133,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_emit__cte40_enderEmit
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_emit__cte40_enderEmit
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_emit__cte40_enderEmit
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte40_enderEmit
 msgid "Endereço do emitente"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte40_enderEmit
+msgid "Endereço do emitente (cte_enderEmit)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -2281,8 +2338,12 @@ msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_infcte__cte40_infPAA
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_infPAA
 msgid "Grupo de Informação do Provedor"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_infPAA
+msgid "Grupo de Informação do Provedor (cte_infPAA)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -2341,8 +2402,12 @@ msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_infcte__cte40_infSolicNFF
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_infSolicNFF
 msgid "Grupo de informações do pedido"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_infSolicNFF
+msgid "Grupo de informações do pedido (cte_infSolicNFF)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -2366,7 +2431,7 @@ msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_hashCSRT
-msgid "Hash do token do código de segurança"
+msgid "Hash do token do código de segurança (cte_hashCSRT)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -2495,7 +2560,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_infcte__cte40_Id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_infcte__cte40_Id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_infcte__cte40_Id
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_Id
 msgid "Identificador da tag a ser assinada"
 msgstr ""
 
@@ -2516,8 +2580,13 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_Id
+msgid "Identificador da tag a ser assinada (cte_Id)"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_idCSRT
-msgid "Identificador do código de segurança"
+msgid "Identificador do código de segurança (cte_idCSRT)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3060,8 +3129,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_infcte__cte40_infRespTec
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_infcte__cte40_infRespTec
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_infcte__cte40_infRespTec
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_infRespTec
 msgid "Informações do Responsável Técnico"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_infRespTec
+msgid "Informações do Responsável Técnico (cte_infRespTec)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3212,8 +3285,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tomaterceiro__cte40_IE
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_rodo_occ__cte40_IE
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte40_IEST
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_IE
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_IE
 msgid "Inscrição Estadual"
 msgstr ""
 
@@ -3243,10 +3314,15 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_IE
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_IE
+msgid "Inscrição Estadual (cte_IE)"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_emit__cte40_IE
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_emit__cte40_IE
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_emit__cte40_IE
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte40_IE
 msgid "Inscrição Estadual do Emitente"
 msgstr ""
 
@@ -3256,6 +3332,11 @@ msgstr ""
 msgid ""
 "Inscrição Estadual do Emitente\n"
 "A IE do emitente somente ficará sem informação para o caso do Regime Especial da NFF (tpEmis=3)"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte40_IE
+msgid "Inscrição Estadual do Emitente (cte_IE)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3269,8 +3350,6 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_toma__cte40_ISUF
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_dest__cte40_ISUF
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_ISUF
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_ISUF
 msgid "Inscrição na SUFRAMA"
 msgstr ""
 
@@ -3282,6 +3361,12 @@ msgstr ""
 msgid ""
 "Inscrição na SUFRAMA\n"
 "(Obrigatório nas operações com as áreas com benefícios de incentivos fiscais sob controle da SUFRAMA)"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_ISUF
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_ISUF
+msgid "Inscrição na SUFRAMA (cte_ISUF)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3397,7 +3482,7 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_xLgr
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_xLgr
-msgid "Logradouro"
+msgid "Logradouro (cte_xLgr)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3519,11 +3604,6 @@ msgid ""
 "Preencher com:\n"
 "01-Rodoviário \n"
 "06-Multimodal"
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte_modal
-msgid "Modal de Transporte"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3722,11 +3802,6 @@ msgid "Mútuo"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_config_settings__cte_transmission
-msgid "NFe Transmission"
-msgstr ""
-
-#. module: l10n_br_cte
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__cte40_tpPer__1
 msgid "Na data"
 msgstr ""
@@ -3761,9 +3836,13 @@ msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tomaterceiro__cte40_xFant
+msgid "Nome Fantasia"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_xFant
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_xFant
-msgid "Nome Fantasia"
+msgid "Nome Fantasia (cte_xFant)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3784,17 +3863,17 @@ msgid "Nome da Seguradora"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_xContato
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_xContato
-msgid "Nome da pessoa a ser contatada"
-msgstr ""
-
-#. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_res_partner__cte40_xContato
 #: model:ir.model.fields,help:l10n_br_cte.field_res_users__cte40_xContato
 msgid ""
 "Nome da pessoa a ser contatada\n"
 "Informar o nome da pessoa a ser contatada na empresa desenvolvedora do sistema utilizado na emissão do documento fiscal eletrônico. No caso de pessoa física, informar o respectivo nome."
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_xContato
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_xContato
+msgid "Nome da pessoa a ser contatada (cte_xContato)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3882,12 +3961,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_xMun
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_xMun
-msgid "Nome do município"
-msgstr ""
-
-#. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_res_partner__cte40_xMun
 #: model:ir.model.fields,help:l10n_br_cte.field_res_users__cte40_xMun
 msgid ""
@@ -3896,9 +3969,15 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_xMun
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_xMun
+msgid "Nome do município (cte_xMun)"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_xPais
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_xPais
-msgid "Nome do país"
+msgid "Nome do país (cte_xPais)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3907,8 +3986,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_emit__cte40_xFant
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_emit__cte40_xFant
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_rem__cte40_xFant
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte40_xFant
 msgid "Nome fantasia"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte40_xFant
+msgid "Nome fantasia (cte_xFant)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3937,9 +4020,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_infoutros__cte40_nDoc
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_infnf__cte40_nDoc
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_related__cte40_nDoc
+msgid "Número"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_nro
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_nro
-msgid "Número"
+msgid "Número (cte_nro)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -4006,8 +4093,12 @@ msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aquav__cte40_nViag
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_nViag
 msgid "Número da Viagem"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_nViag
+msgid "Número da Viagem (cte_nViag)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -4330,7 +4421,6 @@ msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_infcarga__cte40_proPred
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_proPred
 msgid "Produto predominante"
 msgstr ""
 
@@ -4340,6 +4430,11 @@ msgstr ""
 msgid ""
 "Produto predominante\n"
 "Informar a descrição do produto predominante"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_proPred
+msgid "Produto predominante (cte_proPred)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -4408,7 +4503,7 @@ msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_RNTRC
-msgid "RNTRC"
+msgid "RNTRC (cte_RNTRC)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -4453,8 +4548,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_emit__cte40_xNome
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_emit__cte40_xNome
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_emit__cte40_xNome
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte40_xNome
 msgid "Razão social ou Nome do emitente"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte40_xNome
+msgid "Razão social ou Nome do emitente (cte_xNome)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -4808,10 +4907,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_rem__cte40_fone
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tomaterceiro__cte40_fone
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_rodo_occ__cte40_fone
+msgid "Telefone"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte40_fone
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_fone
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_fone
-msgid "Telefone"
+msgid "Telefone (cte_fone)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -5008,7 +5111,6 @@ msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aquav__cte40_tpNav
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_tpNav
 msgid "Tipo de Navegação"
 msgstr ""
 
@@ -5020,6 +5122,11 @@ msgid ""
 "Preencher com: \n"
 "\t\t\t\t\t\t0 - Interior;\n"
 "\t\t\t\t\t\t1 - Cabotagem"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_tpNav
+msgid "Tipo de Navegação (cte_tpNav)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -5132,7 +5239,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_ide__cte40_tpAmb
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_tpAmb
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_ide__cte40_tpAmb
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_tpAmb
 msgid "Tipo do Ambiente"
 msgstr ""
 
@@ -5150,6 +5256,11 @@ msgstr ""
 msgid ""
 "Tipo do Ambiente\n"
 "Preencher com:1 - Produção; 2 - Homologação."
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_tpAmb
+msgid "Tipo do Ambiente (cte_tpAmb)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -5297,7 +5408,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_toma__cte40_toma
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_toma__cte40_toma
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tomaterceiro__cte40_toma
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_toma
 msgid "Tomador do Serviço"
 msgstr ""
 
@@ -5334,13 +5444,18 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_toma
+msgid "Tomador do Serviço (cte_toma)"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_res_company__dacte_margin_top
 msgid "Top margin in mm for the DACTE layout."
 msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vBCIBSCBS
-msgid "Total Base de Calculo IBS/CBS"
+msgid "Total Base de Calculo IBS/CBS (cte_vBCIBSCBS)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -5665,7 +5780,7 @@ msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vCBS
-msgid "Valor total da CBS"
+msgid "Valor total da CBS (cte_vCBS)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -5683,17 +5798,17 @@ msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vIBS
-msgid "Valor total do IBS"
+msgid "Valor total do IBS (cte_vIBS)"
 msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vIBSUF
-msgid "Valor total do IBS Estadual"
+msgid "Valor total do IBS Estadual (cte_vIBSUF)"
 msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vIBSMun
-msgid "Valor total do IBS Municipal"
+msgid "Valor total do IBS Municipal (cte_vIBSMun)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -5758,7 +5873,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_infcte__cte40_versao
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_infcte__cte40_versao
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_infcte__cte40_versao
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_versao
 msgid "Versão do leiaute"
 msgstr ""
 
@@ -5773,10 +5887,19 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_versao
+msgid "Versão do leiaute (cte_versao)"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_infmodal__cte40_versaoModal
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_infmodal__cte40_versaoModal
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_versaoModal
 msgid "Versão do leiaute específico"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_versaoModal
+msgid "Versão do leiaute específico (cte_versaoModal)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -5790,7 +5913,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_ide__cte40_verProc
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_verProc
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_ide__cte40_verProc
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_verProc
 msgid "Versão do processo de emissão"
 msgstr ""
 
@@ -5808,6 +5930,11 @@ msgstr ""
 msgid ""
 "Versão do processo de emissão\n"
 "Informar a versão do aplicativo emissor de CT-e."
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_verProc
+msgid "Versão do processo de emissão (cte_verProc)"
 msgstr ""
 
 #. module: l10n_br_cte

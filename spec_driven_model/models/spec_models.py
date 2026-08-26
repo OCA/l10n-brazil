@@ -10,6 +10,8 @@ from inspect import getmembers, isclass
 from odoo import SUPERUSER_ID, _, api, models
 from odoo.tools import mute_logger
 
+from .ir_model import disambiguate_spec_labels
+
 SPEC_MIXIN_MAPPINGS = defaultdict(dict)  # by db
 
 _logger = logging.getLogger(__name__)
@@ -169,7 +171,9 @@ class SpecModel(models.Model):
                             f.args["original_comodel_name"] = f.args["comodel_name"]
                             f.args["comodel_name"] = self._name
 
-        return super()._setup_fields()
+        res = super()._setup_fields()
+        disambiguate_spec_labels(cls)
+        return res
 
     @classmethod
     def _map_concrete(cls, dbname, key, target, quiet=False):

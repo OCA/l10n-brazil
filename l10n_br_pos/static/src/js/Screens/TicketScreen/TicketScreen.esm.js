@@ -6,9 +6,9 @@ Copyright (C) 2026-Today Escodoo (https://www.escodoo.com.br)
 License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 */
 
-import {_t} from "@web/core/l10n/translation";
 import Registries from "point_of_sale.Registries";
 import TicketScreen from "point_of_sale.TicketScreen";
+import {_t} from "@web/core/l10n/translation";
 
 export const TicketScreenPatch = (OriginalTicketScreen) =>
     class extends OriginalTicketScreen {

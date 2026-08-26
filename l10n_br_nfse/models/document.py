@@ -118,6 +118,8 @@ class Document(models.Model):
             if record.company_id.provedor_nfse:
                 edoc = record.serialize()[0]
                 processador = record._processador_erpbrasil_nfse()
+                if not processador:
+                    continue
                 xml_file = processador._generateds_to_string_etree(
                     edoc, pretty_print=pretty_print
                 )[0]

@@ -10,7 +10,7 @@ from lxml.builder import E
 
 from odoo import _, api, fields, models
 
-from .sped_mixin import LAYOUT_VERSIONS
+from .sped_mixin import LAYOUT_VERSIONS, SPED_ENCODING
 
 _logger = logging.getLogger(__name__)
 
@@ -213,7 +213,11 @@ class SpedDeclaration(models.AbstractModel):
         blocos = defaultdict(list)
         current_bloco = None
         for line in sped_txt.splitlines():
-            if line.startswith(("|0", "|9")):
+            # A register line is "|REG|...". Anything else is skipped: block
+            # 0/9 summary lines, and fragments left by a field value that
+            # contained a line break. This also guarantees the split can never
+            # crash on a corrupted line.
+            if not line.startswith("|") or len(line) < 2 or line[1] in "09":
                 continue
             current_bloco = line[1]
             if current_bloco:
@@ -239,7 +243,11 @@ class SpedDeclaration(models.AbstractModel):
             "name": file_name,
             "res_model": self._name,
             "res_id": self.id,
-            "datas": base64.b64encode(text.encode()),
+            # SPED files are ISO-8859-1, not the utf-8 of the default
+            # encode(); errors="replace" keeps a character outside Latin-1
+            # pasted in some journal item label from aborting the whole
+            # file generation
+            "datas": base64.b64encode(text.encode(SPED_ENCODING, errors="replace")),
             "mimetype": "application/txt",
             "type": "binary",
         }
@@ -350,11 +358,16 @@ class SpedDeclaration(models.AbstractModel):
         self._generate_register_text(sped, version, line_count, count_by_register)
         count_by_register["0990"] = 1  # for some reason it is needed
 
+        domain = [("declaration_id", "=", self.id)]
         for register_class in top_register_classes:
             bloco = register_class._name[-4:][0].upper()
-            count_by_bloco[bloco] += register_class.search_count([])
-
-        domain = [("declaration_id", "=", self.id)]
+            # Contar com o dominio da declaracao, e nao `[]`: sem ele o
+            # indicador de movimento do bloco enxerga os registros de TODAS as
+            # escrituracoes da base e abre como "com dados" um bloco que nesta
+            # declaracao esta vazio. O PVA recusa a importacao com "registro de
+            # abertura do bloco informa que o bloco tem movimento, no entanto
+            # nenhum registro foi informado no bloco".
+            count_by_bloco[bloco] += register_class.search_count(domain)
         for register_class in top_register_classes:
             bloco = register_class._name[-4:][0].upper()
             registers = register_class.search(domain)

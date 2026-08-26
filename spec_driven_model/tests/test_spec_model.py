@@ -252,6 +252,70 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         assert actual_calls == expected_model_suffixes
         assert mock_get_concrete_model.call_count == len(expected_model_suffixes)
 
+    def test_remaining_model_cleanup_survives_an_exception(self):
+        """The module_to_models cleanup must run even when the hook raises.
+
+        The cleanup that fixes #4668 sits at the end of
+        _register_remaining_schema_models_hook, after init_models. Any exception
+        raised in that window -- init_models recomputing a field that a
+        downstream module broke, for instance -- used to skip the cleanup and
+        leave the synthesized concrete class in MetaModel.module_to_models. From
+        then on every registry build in the process fed that class back as a
+        base of (SpecModel, ...) and died with an inconsistent MRO, so a single
+        transient error turned into a server that could not rebuild its registry
+        until the process was restarted.
+        """
+        from unittest import mock
+
+        from odoo.models import MetaModel, is_definition_class
+        from odoo.modules.registry import Registry
+
+        from odoo.addons.spec_driven_model.models.spec_models import SpecModel
+
+        from .fake_mixin import PoXsdMixin
+        from .spec_poxsd import Comment
+
+        registry = self.env.registry
+        cr = self.env.cr
+        module_to_models = MetaModel.module_to_models
+
+        def concrete_classes_left():
+            return [
+                cls
+                for cls in module_to_models["spec_driven_model"]
+                if is_definition_class(cls)
+                and issubclass(cls, SpecModel)
+                and cls._name == "poxsd.10.comment"
+            ]
+
+        original_init_models = Registry.init_models
+
+        def failing_init_models(self, cr, model_names, context, install=True):
+            if any(name.startswith("poxsd.10.") for name in model_names):
+                raise AttributeError("simulated failure inside the hook window")
+            return original_init_models(self, cr, model_names, context, install)
+
+        ready = registry.ready
+        saved_module_classes = list(module_to_models["spec_driven_model"])
+        try:
+            registry.__dict__.pop("_poxsd_register_hook_loaded", None)
+            self.loader.update_registry((PoXsdMixin, Comment))
+            registry.ready = True
+            with mock.patch.object(Registry, "init_models", failing_init_models):
+                with self.assertRaises(AttributeError):
+                    registry.setup_models(cr)
+
+            self.assertEqual(
+                concrete_classes_left(),
+                [],
+                "the hook leaked a concrete class after raising; the next "
+                "registry build would crash with an inconsistent MRO (#4668)",
+            )
+        finally:
+            module_to_models["spec_driven_model"] = saved_module_classes
+            registry.ready = ready
+            registry.__dict__.pop("_poxsd_register_hook_loaded", None)
+
     def test_registry_reload_with_extended_remaining_model(self):
         """Regression test for issue #4668.
 
@@ -334,3 +398,24 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         finally:
             module_to_models["spec_driven_model"] = saved_module_classes
             registry.ready = ready
+
+    def test_spec_prefix_without_schema_answers_a_single_value(self):
+        """`_spec_prefix()` answers one value when asked for one."""
+        model = self.env["spec.mixin"].with_context(
+            spec_schema=False, spec_version=False
+        )
+        self.assertIsNone(model._spec_prefix())
+        self.assertEqual(model._spec_prefix(split=True), (None, None))
+
+    def test_model_without_odoo_module_does_not_break_the_registry(self):
+        """A prefix that resolves without a spec module must not abort the load."""
+        model = self.env["spec.mixin"].with_context(
+            spec_schema="nosuch", spec_version="10"
+        )
+        self.assertEqual(model._spec_prefix(), "nosuch10")
+        self.assertIsNone(model._get_spec_property("odoo_module"))
+        self.assertIsNone(model._register_remaining_schema_models_hook())
+        self.assertFalse(
+            hasattr(self.env.registry, "_nosuch_register_hook_loaded"),
+            "the model with no spec module consumed the load key of the schema",
+        )

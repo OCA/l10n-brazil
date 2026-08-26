@@ -14,11 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_fiscal_notification
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_notification.document_form
-msgid "/&gt;"
-msgstr ""
-
-#. module: l10n_br_fiscal_notification
 #: model:mail.template,body_html:l10n_br_fiscal_notification.fiscal_document_change_state_template
 #: model:mail.template,body_html:l10n_br_fiscal_notification.fiscal_document_change_state_template_nfse
 msgid ""
@@ -51,11 +46,6 @@ msgid "Add a new Fiscal Document Email Definition"
 msgstr ""
 
 #. module: l10n_br_fiscal_notification
-#: model:ir.model.fields.selection,name:l10n_br_fiscal_notification.selection__l10n_br_fiscal_document_email__state_edoc__a_enviar
-msgid "Aguardando envio"
-msgstr ""
-
-#. module: l10n_br_fiscal_notification
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_notification.selection__l10n_br_fiscal_document_email__state_edoc__enviada
 msgid "Aguardando processamento"
 msgstr ""
@@ -79,7 +69,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal_notification
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_notification.selection__l10n_br_fiscal_document_email__state_edoc__cancelada
-msgid "Cancelada"
+msgid "Cancelled"
 msgstr ""
 
 #. module: l10n_br_fiscal_notification
@@ -115,7 +105,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal_notification
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_notification.selection__l10n_br_fiscal_document_email__state_edoc__em_digitacao
-msgid "Em digitação"
+msgid "Draft"
 msgstr ""
 
 #. module: l10n_br_fiscal_notification
@@ -196,6 +186,11 @@ msgstr ""
 #. module: l10n_br_fiscal_notification
 #: model:ir.model.fields,field_description:l10n_br_fiscal_notification.field_l10n_br_fiscal_document_email__name
 msgid "Name"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_notification.selection__l10n_br_fiscal_document_email__state_edoc__a_enviar
+msgid "Open"
 msgstr ""
 
 #. module: l10n_br_fiscal_notification

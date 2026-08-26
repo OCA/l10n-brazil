@@ -8,14 +8,6 @@
         <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
         <field name="priority">5</field>
         <field name="arch" type="xml">
-            <xpath
-                expr="//button[@name='action_document_correction']"
-                position="attributes"
-            >
-                <attribute
-                    name="attrs"
-                >{'invisible': [('document_type', 'in', ['58'])]}</attribute>
-            </xpath>
             <xpath expr="//page[@name='document_related']" position="attributes">
                 <attribute
                     name="attrs"
@@ -59,7 +51,7 @@
             <xpath expr="//field[@name='fiscal_operation_id']" position="after">
                 <field
                     name="mdfe_emit_type"
-                    attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
+                    attrs="{'required': [('document_type', '=', '58')], 'invisible': [('document_type', 'not in', ['58'])]}"
                 />
                 <field
                     name="mdfe_transp_type"
@@ -70,11 +62,11 @@
                 <group>
                     <field
                         name="mdfe_initial_state_id"
-                        attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
+                        attrs="{'required': [('document_type', '=', '58')], 'invisible': [('document_type', 'not in', ['58'])]}"
                     />
                     <field
                         name="mdfe_final_state_id"
-                        attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
+                        attrs="{'required': [('document_type', '=', '58')], 'invisible': [('document_type', 'not in', ['58'])]}"
                     />
                 </group>
                 <separator
@@ -84,7 +76,7 @@
                 />
                 <field
                     name="mdfe_loading_city_ids"
-                    attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
+                    attrs="{'required': [('document_type', '=', '58')], 'invisible': [('document_type', 'not in', ['58'])]}"
                 />
                 <separator
                     colspan="4"
@@ -111,6 +103,14 @@
         <field name="priority">5</field>
         <field name="inherit_id" ref="l10n_br_fiscal_edi.document_form" />
         <field name="arch" type="xml">
+            <xpath
+                expr="//button[@name='action_document_correction']"
+                position="attributes"
+            >
+                <attribute
+                    name="attrs"
+                >{'invisible': [('document_type', 'in', ['58'])]}</attribute>
+            </xpath>
             <xpath expr="//page[@name='others']" position="before">
                 <page
                     string="Related Documents"
@@ -160,7 +160,11 @@
                     attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
                 >
                     <group>
-                        <field name="mdfe_modal" widget="radio" />
+                        <field
+                            name="mdfe_modal"
+                            widget="radio"
+                            attrs="{'required': [('document_type', '=', '58')], 'invisible': [('document_type', 'not in', ['58'])]}"
+                        />
                     </group>
                     <group
                         attrs="{'invisible': [('mdfe_modal', '!=', '1')]}"
@@ -205,7 +209,11 @@
                                     </group>
                                 </group>
                                 <separator string="Conductors" />
-                                <field name="mdfe30_condutor" nolabel="1" />
+                                <field
+                                    name="mdfe30_condutor"
+                                    nolabel="1"
+                                    attrs="{'required': [('mdfe_modal', '=', '1'), ('document_type', '=', '58')]}"
+                                />
                             </page>
                             <page string="CIOT">
                                 <field name="mdfe30_infCIOT" nolabel="1" />
