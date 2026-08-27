@@ -11,8 +11,8 @@ class TestResourceCalendar(common.TransactionCase):
         self.env["resource.calendar.leaves"].create(
             {
                 "name": "Christmas",
-                "date_from": date(2023, 12, 25),
-                "date_to": date(2023, 12, 25),
+                "date_from": datetime(2023, 12, 25, 0, 0),
+                "date_to": datetime(2023, 12, 25, 23, 59),
                 "leave_type": "F",
                 "calendar_id": self.calendar.id,
             }
@@ -38,37 +38,52 @@ class TestResourceCalendar(common.TransactionCase):
         self.calendar.is_holiday(False)
 
     def test_is_bank_holiday(self):
-        reference_date = datetime.now()
-        leaves_count = self.env["resource.calendar.leaves"].search_count(
-            [
-                ("date_from", "<=", reference_date),
-                ("date_to", ">=", reference_date),
-                ("leave_type", "in", ["F", "B"]),
-            ]
-        )
-        self.assertEqual(leaves_count, self.calendar.is_bank_holiday(reference_date))
+        """The count is scoped to this calendar and its ancestors, not to the whole
+        database: another municipality's holiday must not close this calendar."""
+        self.assertEqual(self.calendar.is_bank_holiday(datetime(2023, 12, 25)), 1)
+        self.assertEqual(self.calendar.is_bank_holiday(datetime(2023, 12, 24)), 0)
 
-        reference_date = datetime(2023, 4, 21)
-        leaves_count = self.env["resource.calendar.leaves"].search_count(
-            [
-                ("date_from", "<=", reference_date),
-                ("date_to", ">=", reference_date),
-                ("leave_type", "in", ["F", "B"]),
-            ]
+        other_calendar = self.env["resource.calendar"].create({"name": "Other City"})
+        self.env["resource.calendar.leaves"].create(
+            {
+                "name": "Local holiday of another city",
+                "date_from": datetime(2023, 6, 13, 0, 0),
+                "date_to": datetime(2023, 6, 13, 23, 59),
+                "leave_type": "F",
+                "calendar_id": other_calendar.id,
+            }
         )
-        self.assertEqual(leaves_count, self.calendar.is_bank_holiday(reference_date))
-
-        reference_date = datetime(2023, 4, 13)
-        leaves_count = self.env["resource.calendar.leaves"].search_count(
-            [
-                ("date_from", "<=", reference_date),
-                ("date_to", ">=", reference_date),
-                ("leave_type", "in", ["F", "B"]),
-            ]
-        )
-        self.assertEqual(leaves_count, self.calendar.is_bank_holiday(reference_date))
+        self.assertEqual(self.calendar.is_bank_holiday(datetime(2023, 6, 13)), 0)
+        self.assertEqual(other_calendar.is_bank_holiday(datetime(2023, 6, 13)), 1)
         # No date
         self.calendar.is_bank_holiday(False)
+
+    def test_is_bank_holiday_inherits_from_the_parent_calendar(self):
+        """Country holidays live on the country calendar and must reach the city."""
+        city = self.env["resource.calendar"].create(
+            {"name": "City", "parent_id": self.calendar.id}
+        )
+        self.assertEqual(city.is_bank_holiday(datetime(2023, 12, 25)), 1)
+
+    def test_is_bank_holiday_accepts_a_plain_date(self):
+        """A date at midnight would fall before a leave stored at 03:00 UTC and report
+        a holiday as a working day; the date is normalized to midday."""
+        self.assertEqual(self.calendar.is_bank_holiday(date(2023, 12, 25)), 1)
+
+    def test_bank_only_holidays_close_the_banks(self):
+        """Carnival and Corpus Christi are leave_type B: not a public holiday, but no
+        bank settles on them, which is what a tax due date follows."""
+        self.env["resource.calendar.leaves"].create(
+            {
+                "name": "Carnival",
+                "date_from": datetime(2023, 2, 20, 0, 0),
+                "date_to": datetime(2023, 2, 21, 23, 59),
+                "leave_type": "B",
+                "calendar_id": self.calendar.id,
+            }
+        )
+        self.assertEqual(self.calendar.is_bank_holiday(datetime(2023, 2, 20)), 1)
+        self.assertFalse(self.calendar.is_bank_business_day(datetime(2023, 2, 20)))
 
     def test_is_extended_holiday(self):
         reference_date = datetime(2023, 9, 7, 15, 0, 0)

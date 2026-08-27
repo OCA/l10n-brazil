@@ -334,9 +334,20 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         res = holiday.holiday_import()
         self.assertTrue(res)
         date = fields.Datetime.to_datetime("2019-03-05 00:00:00")
-        self.assertTrue(self.nacional_calendar_id.is_bank_holiday(date))
+        national_calendar = holiday.get_calendar_for_country()
+        self.assertTrue(national_calendar.is_bank_holiday(date))
 
     def test_18_is_bank_business_day(self):
+        self.resource_leaves.create(
+            {
+                "name": "Feriado Bancario",
+                "date_from": fields.Datetime.to_datetime("2017-01-13 00:00:00"),
+                "date_to": fields.Datetime.to_datetime("2017-01-13 23:59:59"),
+                "calendar_id": self.nacional_calendar_id.id,
+                "leave_type": "B",
+                "coverage": "N",
+            }
+        )
         date = fields.Datetime.to_datetime("2017-01-16 00:00:00")
         self.assertTrue(self.nacional_calendar_id.is_bank_business_day(date))
         date = fields.Datetime.to_datetime("2017-01-13 00:00:00")
