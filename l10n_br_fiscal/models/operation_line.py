@@ -387,6 +387,7 @@ class OperationLine(models.Model):
                     cest=cest,
                     operation_line=self,
                     ind_final=ind_final,
+                    reference_date=reference_date,
                 )
 
                 for tax_def in icms_tax_defs:
