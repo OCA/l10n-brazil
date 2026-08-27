@@ -7,3 +7,4 @@ num2words
 phonenumbers
 transitions
 workalendar
+xsdata
