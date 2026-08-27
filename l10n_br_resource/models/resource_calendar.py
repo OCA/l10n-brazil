@@ -224,6 +224,40 @@ class ResourceCalendar(models.Model):
                 return reference_date
             reference_date += timedelta(days=1)
 
+    def previous_business_day(self, reference_date):
+        """Return the business day right before reference_date.
+
+        Mirror of :meth:`next_business_day`: strictly before, so a date that already is
+        a business day is not returned. Callers that need "this day or the one before"
+        must check the date first.
+
+        :param datetime reference_date: reference date. If not provided,
+                                        checks yesterday.
+        :return datetime: previous business day from reference_date.
+        """
+        reference_date = self._as_datetime(reference_date)
+        reference_date -= timedelta(days=1)
+        while not self.is_business_day(reference_date):
+            reference_date -= timedelta(days=1)
+        return reference_date
+
+    def previous_bank_business_day(self, reference_date):
+        """Return the bank business day right before reference_date.
+
+        Taxes anticipated to the previous working day follow the banking calendar, not
+        the labour one: a bank holiday is not a payment day even when it is a working
+        day for the company.
+
+        :param datetime reference_date: reference date. If not provided,
+                                        checks yesterday.
+        :return datetime: previous bank business day from reference_date.
+        """
+        reference_date = self._as_datetime(reference_date)
+        reference_date -= timedelta(days=1)
+        while not self.is_bank_business_day(reference_date):
+            reference_date -= timedelta(days=1)
+        return reference_date
+
     def get_base_days(self, date_from, date_to, commercial_month=True):
         """Calculate the number of payable days in a given time interval.
 
@@ -267,9 +301,8 @@ class ResourceCalendar(models.Model):
                                         checks tomorrow.
         :return datetime: next bank business day from reference_date.
         """
-        if not reference_date:
-            reference_date = datetime.now()
+        reference_date = self._as_datetime(reference_date)
         reference_date += timedelta(days=1)
-        if self.is_bank_business_day(reference_date):
-            return reference_date
-        return self.next_bank_business_day(reference_date)
+        while not self.is_bank_business_day(reference_date):
+            reference_date += timedelta(days=1)
+        return reference_date
