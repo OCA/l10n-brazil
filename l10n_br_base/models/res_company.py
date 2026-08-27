@@ -12,7 +12,8 @@ class Company(models.Model):
 
     def _get_company_address_field_names(self):
         partner_fields = super()._get_company_address_field_names()
-        return partner_fields + [
+
+        brazilian_fields = [
             "legal_name",
             "l10n_br_ie_code",
             "l10n_br_im_code",
@@ -23,6 +24,16 @@ class Company(models.Model):
             "street_number",
             "street_name",
         ]
+
+        # Odoo's official l10n_br module defines IE and IM on res.company
+        # as related fields to partner_id. In that case, including them in
+        # _compute_address() breaks the computation of the standard company
+        # address fields on Odoo 19.
+        for field_name in ("l10n_br_ie_code", "l10n_br_im_code"):
+            if self._fields[field_name].related:
+                brazilian_fields.remove(field_name)
+
+        return partner_fields + brazilian_fields
 
     def _inverse_legal_name(self):
         for company in self:

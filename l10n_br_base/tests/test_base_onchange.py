@@ -127,3 +127,41 @@ class L10nBrBaseOnchangeTest(TransactionCase):
             "Avenida Paulista, 807 CJ 2315\nCentro\n01311-915 - São Paulo-SP\nBrazil",
             "The function _display_address with parameter without_company failed.",
         )
+
+    def test_company_address_fields(self):
+        """Address fields should be computed from the company's partner."""
+        company = self.company_01
+        partner = company.partner_id
+        city = self.env.ref("l10n_br_base.city_3205002")
+
+        partner.write(
+            {
+                "street": "Rua Teste, 123",
+                "city": city.name,
+                "zip": "29161-695",
+                "state_id": city.state_id.id,
+                "country_id": city.state_id.country_id.id,
+                "l10n_br_im_code": "692015742119",
+            }
+        )
+
+        company.invalidate_recordset(
+            [
+                "street",
+                "city",
+                "zip",
+                "state_id",
+                "country_id",
+            ]
+        )
+
+        self.assertEqual(company.street, "Rua Teste, 123")
+        self.assertEqual(company.city, city.name)
+        self.assertEqual(company.zip, "29161-695")
+        self.assertEqual(company.state_id, city.state_id)
+        self.assertEqual(company.country_id, city.state_id.country_id)
+
+        self.assertEqual(
+            company.l10n_br_im_code,
+            partner.l10n_br_im_code,
+        )
