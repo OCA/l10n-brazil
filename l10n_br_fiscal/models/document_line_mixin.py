@@ -344,6 +344,15 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                 line.icms_tax_benefit_id = mapping_result["icms_tax_benefit_id"]
 
                 if line._is_imported():
+                    # The taxes of an imported line come from the file, not from
+                    # the fiscal mapping. They are rebuilt from the tax field of
+                    # each domain because leaving fiscal_tax_ids unassigned here
+                    # empties it on every recompute, and everything downstream
+                    # (account taxes, line totals, tax lines) is computed from it.
+                    imported_taxes = line.env["l10n_br_fiscal.tax"]
+                    for fiscal_tax_field in FISCAL_TAX_ID_FIELDS:
+                        imported_taxes |= line[fiscal_tax_field]
+                    line.fiscal_tax_ids = imported_taxes
                     continue
 
                 taxes = line.env["l10n_br_fiscal.tax"]
@@ -556,6 +565,35 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             self.update(to_update)
         else:
             self.write(to_update)
+
+    def _get_imported_tax_values(self):
+        """Return the tax values of the imported file, keyed by tax domain.
+
+        An imported document keeps the amounts the issuer declared, so the
+        fiscal mapping must not replace them. The result is empty when the
+        line does not belong to an imported document.
+        """
+        if not self._is_imported():
+            return {}
+        self.ensure_one()
+        imported_values = {}
+        for tax_field in FISCAL_TAX_ID_FIELDS:
+            tax_domain = tax_field[: -len("_tax_id")]
+            tax_value = self[TAX_VALUE_FIELDS[tax_domain]]
+            if not tax_value:
+                continue
+            tax = self[tax_field]
+            base_field = f"{tax_domain}_base"
+            imported_values[tax_domain] = {
+                "name": tax.name,
+                "tax_domain": tax_domain,
+                "fiscal_tax_id": tax.id,
+                "tax_include": tax.tax_group_id.tax_include,
+                "tax_withholding": tax.tax_group_id.tax_withholding,
+                "base": self[base_field] if base_field in self._fields else 0.0,
+                "tax_value": tax_value,
+            }
+        return imported_values
 
     def _prepare_tax_fields(self, compute_result):
         self.ensure_one()
