@@ -425,6 +425,9 @@ class AccountMoveLine(models.Model):
                     icmssn_range=line.icmssn_range_id,
                     icms_origin=line.icms_origin,
                     ind_final=line.ind_final,
+                    imported_taxes=(
+                        line.fiscal_document_line_id._get_imported_tax_values()
+                    ),
                 )
 
                 line.price_subtotal = taxes_res["total_excluded"]

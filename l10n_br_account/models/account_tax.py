@@ -46,6 +46,7 @@ class AccountTax(models.Model):
         icmssn_range=None,
         icms_origin=None,
         ind_final=FINAL_CUSTOMER_NO,
+        imported_taxes=None,
     ):
         """Returns all information required to apply taxes
             (in self + their children in case of a tax goup).
@@ -123,6 +124,13 @@ class AccountTax(models.Model):
             ind_final=ind_final,
         )
 
+        if imported_taxes:
+            # The document was imported: the amounts of the file replace the
+            # ones the mapping just computed, and only the taxes of the file
+            # take part in the totals.
+            fiscal_taxes_results["taxes"] = dict(imported_taxes)
+            fiscal_taxes_results.update(self._sum_imported_tax_amounts(imported_taxes))
+
         taxes_results["amount_tax_included"] = fiscal_taxes_results["amount_included"]
         taxes_results["amount_tax_not_included"] = fiscal_taxes_results[
             "amount_not_included"
@@ -191,6 +199,29 @@ class AccountTax(models.Model):
                 )
 
         return taxes_results
+
+    @api.model
+    def _sum_imported_tax_amounts(self, imported_taxes):
+        """Split the tax values of an imported file by the kind of tax group.
+
+        Follows the same rule as ``compute_taxes``: a withholding group is
+        withheld, a group flagged as included is already inside the price and
+        the remaining ones are added on top of it.
+        """
+        amount_included = amount_not_included = amount_withholding = 0.0
+        for tax_values in imported_taxes.values():
+            tax_value = tax_values.get("tax_value", 0.0)
+            if tax_values.get("tax_withholding"):
+                amount_withholding += tax_value
+            elif tax_values.get("tax_include"):
+                amount_included += tax_value
+            else:
+                amount_not_included += tax_value
+        return {
+            "amount_included": amount_included,
+            "amount_not_included": amount_not_included,
+            "amount_withholding": amount_withholding,
+        }
 
     def _add_tax_details_in_base_line(self, base_line, company, rounding_method=None):
         """Override to inject Brazilian fiscal tax computation.
@@ -262,6 +293,7 @@ class AccountTax(models.Model):
         if not tax_ids:
             super()._add_tax_details_in_base_line(base_line, company, rounding_method)
             return
+        fiscal_line = getattr(record, "fiscal_document_line_id", False)
         taxes_computation = tax_ids._origin.compute_all(
             price_unit=price_unit_after_discount,
             currency=currency,
@@ -290,6 +322,9 @@ class AccountTax(models.Model):
             icmssn_range=record.icmssn_range_id,
             icms_origin=record.icms_origin,
             ind_final=record.ind_final,
+            imported_taxes=(
+                fiscal_line._get_imported_tax_values() if fiscal_line else {}
+            ),
         )
 
         # Override totals with Brazilian computation
