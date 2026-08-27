@@ -20,6 +20,7 @@ from ..constants.fiscal import (
 _logger = logging.getLogger(__name__)
 
 try:
+    from xsdata.exceptions import ParserError
     from xsdata.formats.dataclass.parsers import XmlParser
 except ImportError:
     _logger.warning("xsdata Python lib not installed!")
@@ -255,5 +256,16 @@ class DocumentImportWizard(models.TransientModel):
 
     @api.model
     def _parse_file_data(self, file_data):
-        # NOTE: no try and a stacktrace does help for debug/support
-        return XmlParser().from_bytes(base64.b64decode(file_data))
+        try:
+            return XmlParser().from_bytes(base64.b64decode(file_data))
+        except ParserError as parser_error:
+            # the stacktrace still reaches the log, it does help for support
+            _logger.warning("Could not parse the imported file", exc_info=True)
+            raise UserError(
+                self.env._(
+                    "This file is not the XML of an electronic fiscal document."
+                    " Upload the XML of the document itself, not its printed"
+                    " representation such as the DANFE in PDF.\n\n%(error)s",
+                    error=parser_error,
+                )
+            ) from parser_error
