@@ -136,6 +136,10 @@
     "external_dependencies": {
         "python": [
             "erpbrasil-base>=2.4.2",
+            # the document import wizard parses the XML with xsdata; on 18.0
+            # the dependency arrives transitively via l10n_br_nfe, which does
+            # not exist on 19.0, so it must be declared here.
+            "xsdata",
         ]
     },
     "post_init_hook": "post_init_hook",
