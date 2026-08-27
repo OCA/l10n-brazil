@@ -85,6 +85,41 @@ class TestResourceCalendar(common.TransactionCase):
         self.assertEqual(self.calendar.is_bank_holiday(datetime(2023, 2, 20)), 1)
         self.assertFalse(self.calendar.is_bank_business_day(datetime(2023, 2, 20)))
 
+    def test_previous_business_day_walks_backwards(self):
+        # 2023-12-25 is a Monday holiday, so the day before is Friday 2023-12-22
+        self.assertEqual(
+            self.calendar.previous_business_day(datetime(2023, 12, 26)).date(),
+            date(2023, 12, 22),
+        )
+
+    def test_previous_business_day_is_strictly_before(self):
+        """Mirror of next_business_day: a working day is not returned as its own
+        previous day, so the caller decides whether to normalize first."""
+        friday = datetime(2023, 12, 22)
+        self.assertLess(self.calendar.previous_business_day(friday), friday)
+
+    def test_previous_bank_business_day_skips_a_bank_only_holiday(self):
+        self.env["resource.calendar.leaves"].create(
+            {
+                "name": "Corpus Christi",
+                "date_from": datetime(2023, 6, 8, 0, 0),
+                "date_to": datetime(2023, 6, 8, 23, 59),
+                "leave_type": "B",
+                "calendar_id": self.calendar.id,
+            }
+        )
+        # Friday 2023-06-09 anticipates over Thursday 08 (bank holiday) to Wednesday 07
+        self.assertEqual(
+            self.calendar.previous_bank_business_day(datetime(2023, 6, 9)).date(),
+            date(2023, 6, 7),
+        )
+
+    def test_previous_business_day_crosses_the_weekend(self):
+        monday = datetime(2023, 4, 17)
+        self.assertEqual(
+            self.calendar.previous_business_day(monday).date(), date(2023, 4, 14)
+        )
+
     def test_is_extended_holiday(self):
         reference_date = datetime(2023, 9, 7, 15, 0, 0)
         expected_result = False
