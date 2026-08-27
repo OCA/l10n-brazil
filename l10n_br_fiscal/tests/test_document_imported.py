@@ -122,3 +122,50 @@ class TestImportedDocumentTaxAmounts(TransactionCase):
             tax_domain = tax_field[: -len("_tax_id")]
             self.assertIn(tax_domain, TAX_VALUE_FIELDS)
             self.assertIn(TAX_VALUE_FIELDS[tax_domain], line_fields)
+
+    def test_recomputing_keeps_the_taxes_of_the_file(self):
+        document = self._create_imported_document(
+            {
+                "ipi_tax_id": self.ipi_tax.id,
+                "ipi_base": 210.0,
+                "ipi_percent": 6.5,
+                "ipi_value": 13.65,
+                "icms_tax_id": self.icms_tax.id,
+                "icms_base": 210.0,
+                "icms_percent": 18.0,
+                "icms_value": 37.8,
+            }
+        )
+        line = document.fiscal_line_ids
+        self.assertEqual(line.fiscal_tax_ids, self.ipi_tax | self.icms_tax)
+
+        line._compute_fiscal_tax_ids()
+
+        self.assertEqual(line.fiscal_tax_ids, self.ipi_tax | self.icms_tax)
+
+    def test_imported_tax_values_come_from_the_file(self):
+        document = self._create_imported_document(
+            {
+                "ipi_tax_id": self.ipi_tax.id,
+                "ipi_base": 210.0,
+                "ipi_percent": 6.5,
+                "ipi_value": 13.65,
+                "icms_tax_id": self.icms_tax.id,
+                "icms_base": 210.0,
+                "icms_percent": 18.0,
+                "icms_value": 37.8,
+            }
+        )
+        imported_values = document.fiscal_line_ids._get_imported_tax_values()
+
+        self.assertEqual(sorted(imported_values), ["icms", "ipi"])
+        self.assertEqual(imported_values["ipi"]["tax_value"], 13.65)
+        self.assertFalse(imported_values["ipi"]["tax_include"])
+        self.assertEqual(imported_values["icms"]["tax_value"], 37.8)
+        self.assertTrue(imported_values["icms"]["tax_include"])
+
+    def test_a_line_that_was_not_imported_has_no_imported_tax_values(self):
+        document = self._create_imported_document({})
+        document.imported_document = False
+
+        self.assertEqual(document.fiscal_line_ids._get_imported_tax_values(), {})
