@@ -38,10 +38,15 @@ class ProductProduct(models.Model):
             rec_dict["default_code"] = parent_dict["nfe40_cProd"]
             domain_default_code = [("default_code", "=", rec_dict.get("default_code"))]
 
-        domain = expression.OR([domain_name, domain_barcode, domain_default_code])
-        match = self.search(domain, limit=1)
-        if match:
-            return match.id
+        informed_domains = [
+            domain
+            for domain in (domain_name, domain_barcode, domain_default_code)
+            if domain
+        ]
+        if informed_domains:
+            match = self.search(expression.OR(informed_domains), limit=1)
+            if match:
+                return match.id
 
         if self._context.get("dry_run"):
             rec_id = self.new(rec_dict).id
