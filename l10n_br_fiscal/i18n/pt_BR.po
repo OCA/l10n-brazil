@@ -410,6 +410,21 @@ msgstr "<span>Novo Documento</span>"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
+msgid "<strong>Authorized</strong>"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
+msgid "<strong>Cancelled</strong>"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
+msgid "<strong>Open</strong>"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "<strong>XML validation errors:</strong>"
 msgstr "<strong>Erros de validação XML:</strong>"
 
@@ -816,16 +831,6 @@ msgid "Advanced Taxes"
 msgstr "Impostos Avançados"
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__state_edoc__a_enviar
-msgid "Aguardando envio"
-msgstr "Aguardando envio"
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__state_edoc__enviada
-msgid "Aguardando processamento"
-msgstr "Aguardando processamento"
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_purpose__3
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__edoc_purpose__3
 msgid "Ajuste"
@@ -1035,11 +1040,6 @@ msgstr "Contagem de Anexos"
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cest__segment__01
 msgid "Autopeças"
 msgstr "Autopeças"
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__state_edoc__autorizada
-msgid "Autorizada"
-msgstr "Autorizado"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_dashboard_kanban
@@ -1719,14 +1719,10 @@ msgid "CX 5UN"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_import_wizard_form
 msgid "Cancel"
 msgstr "Cancelar"
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__state_edoc__cancelada
-msgid "Cancelada"
-msgstr "Cancelada"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__state_fiscal__02
@@ -1744,19 +1740,10 @@ msgid "Cancelados"
 msgstr "Cancelados"
 
 #. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
-msgid "Cancelar"
-msgstr "Cancelar"
-
-#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__state_edoc__cancelada
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_search
 msgid "Cancelled"
 msgstr ""
-
-#. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
-msgid "Carta de correção"
-msgstr "Carta de correção"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cest__segment__03
@@ -2025,6 +2012,10 @@ msgstr "Configuração"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
+msgid "Confirm"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.invalidate_number_form
 msgid "Confirmar"
 msgstr "Confirmar"
@@ -2464,11 +2455,6 @@ msgid "Delivery Costs"
 msgstr "Custos de Entrega"
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__state_edoc__denegada
-msgid "Denegada"
-msgstr "Denegada"
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__state_fiscal__04
 msgid "Denegado"
 msgstr "Denegado"
@@ -2723,6 +2709,7 @@ msgstr "Concluído"
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/invalidate_number.py:0
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__state_edoc__em_digitacao
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_invalidate_number__state__draft
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__state__draft
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation_line__state__draft
@@ -2766,11 +2753,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_document_type__document_electronic
 msgid "Electronic?"
 msgstr "Eletrônico?"
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__state_edoc__em_digitacao
-msgid "Em digitação"
-msgstr "Em digitação"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__contract_line__fiscal_type__02
@@ -6575,6 +6557,11 @@ msgstr ""
 "um parceiro."
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__state_edoc__a_enviar
+msgid "Open"
+msgstr "Aberto"
+
+#. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.operation_action
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__fiscal_operation_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__fiscal_operation_id
@@ -7681,16 +7668,6 @@ msgid "Regular extemporâneo"
 msgstr "Extemporâneo regular"
 
 #. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_search
-msgid "Rejected"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__state_edoc__rejeitada
-msgid "Rejeitada"
-msgstr "Rejeitada"
-
-#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.ncm_form
 msgid "Related CEST"
 msgstr "CEST relacionado"
@@ -8005,6 +7982,11 @@ msgstr "Serviço Municipal"
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__stock_move__fiscal_type__09
 msgid "Serviços"
 msgstr "Serviços"
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
+msgid "Set to Draft"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.config_action
@@ -9062,11 +9044,6 @@ msgid "Tipo de Nota de Débito"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_search
-msgid "To Send"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__state_to_ids
 msgid "To States"
 msgstr "Situações"
@@ -9382,21 +9359,6 @@ msgid "View"
 msgstr "Visão"
 
 #. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
-msgid "Visualizar PDF"
-msgstr "Visualizador PDF"
-
-#. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
-msgid "Visualizar XML"
-msgstr "Visualizador XML"
-
-#. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
-msgid "Voltar p/ Em Digitação"
-msgstr "Voltar p/ Em Digitação"
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__partner_id
 msgid "WH Partner"
 msgstr ""
@@ -9615,25 +9577,6 @@ msgid "init"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
-msgid "is"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
-msgid ""
-"is\n"
-"                <strong>Authorized</strong>"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
-msgid ""
-"is\n"
-"                <strong>Cancelled</strong>"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_group__tax_domain__pis_wh
 msgid "pis_wh"
 msgstr "pis_wh"
@@ -9644,6 +9587,42 @@ msgstr "pis_wh"
 #, python-format
 msgid "{} Tax Estimate Updated"
 msgstr "{} Estimativa de Imposto Atualizada"
+
+#~ msgid "Aguardando envio"
+#~ msgstr "Aguardando envio"
+
+#~ msgid "Aguardando processamento"
+#~ msgstr "Aguardando processamento"
+
+#~ msgid "Autorizada"
+#~ msgstr "Autorizado"
+
+#~ msgid "Cancelada"
+#~ msgstr "Cancelada"
+
+#~ msgid "Cancelar"
+#~ msgstr "Cancelar"
+
+#~ msgid "Carta de correção"
+#~ msgstr "Carta de correção"
+
+#~ msgid "Denegada"
+#~ msgstr "Denegada"
+
+#~ msgid "Em digitação"
+#~ msgstr "Em digitação"
+
+#~ msgid "Rejeitada"
+#~ msgstr "Rejeitada"
+
+#~ msgid "Visualizar PDF"
+#~ msgstr "Visualizador PDF"
+
+#~ msgid "Visualizar XML"
+#~ msgstr "Visualizador XML"
+
+#~ msgid "Voltar p/ Em Digitação"
+#~ msgstr "Voltar p/ Em Digitação"
 
 #~ msgid "Tax PIS COFINS"
 #~ msgstr "Imposto PIS COFINS"
@@ -11040,9 +11019,6 @@ msgstr "{} Estimativa de Imposto Atualizada"
 
 #~ msgid "NFSe Documents"
 #~ msgstr "Documentos NFSe"
-
-#~ msgid "Open"
-#~ msgstr "Aberto"
 
 #~ msgid "Other accountant files"
 #~ msgstr "Outros arquivos de contador"
