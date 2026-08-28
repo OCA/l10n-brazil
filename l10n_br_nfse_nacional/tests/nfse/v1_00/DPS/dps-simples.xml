@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DPS xmlns="http://www.sped.fazenda.gov.br/nfse" versao="1.00">
+    <infDPS Id="DPS140015920176113500013200900000000000000006">
+        <tpAmb>2</tpAmb>
+        <dhEmi>2022-09-28T13:50:29-03:00</dhEmi>
+        <verAplic>EmissorWeb_1.0.0.0</verAplic>
+        <serie>900</serie>
+        <nDPS>6</nDPS>
+        <dCompet>2022-09-28</dCompet>
+        <tpEmit>1</tpEmit>
+        <cLocEmi>3501152</cLocEmi>
+        <prest>
+            <CNPJ>59594315000157</CNPJ>
+            <regTrib>
+                <opSimpNac>3</opSimpNac>
+                <regApTribSN>1</regApTribSN>
+                <regEspTrib>0</regEspTrib>
+            </regTrib>
+        </prest>
+        <serv>
+            <locPrest>
+                <cLocPrestacao>1400159</cLocPrestacao>
+            </locPrest>
+            <cServ>
+                <cTribNac>010101</cTribNac>
+                <xDescServ>Consultoria em tecnologia da informação</xDescServ>
+            </cServ>
+        </serv>
+        <valores>
+            <vServPrest>
+                <vServ>999999999.99</vServ>
+            </vServPrest>
+            <vDescCondIncond>
+                <vDescIncond>9999999.99</vDescIncond>
+                <vDescCond>9.99</vDescCond>
+            </vDescCondIncond>
+            <trib>
+                <tribMun>
+                    <tribISSQN>1</tribISSQN>
+                    <tpRetISSQN>1</tpRetISSQN>
+                </tribMun>
+                <tribFed>
+                    <piscofins>
+                        <CST>00</CST>
+                        <tpRetPisCofins>2</tpRetPisCofins>
+                    </piscofins>
+                </tribFed>
+                <totTrib>
+                    <pTotTribSN>11.20</pTotTribSN>
+                </totTrib>
+            </trib>
+        </valores>
+    </infDPS>
+</DPS>

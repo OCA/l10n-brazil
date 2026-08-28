@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="l10n_br_base.empresa_lucro_presumido" model="res.company">
+        <field name="processador_edoc">oca</field>
+        <field name="provedor_nfse">nacional</field>
+        <field name="nfse_environment">2</field>
+    </record>
+
+    <record id="l10n_br_base.empresa_simples_nacional" model="res.company">
+        <field name="processador_edoc">oca</field>
+        <field name="provedor_nfse">nacional</field>
+        <field name="nfse_environment">2</field>
+    </record>
+
+    <record id="document_serie_lc" model="l10n_br_fiscal.document.serie">
+        <field name="name">NFS-e Nacional</field>
+        <field name="code">00007</field>
+        <field name="document_type_id" search="[('code', '=', 'SE')]" />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+    </record>
+
+    <record id="document_serie_sn" model="l10n_br_fiscal.document.serie">
+        <field name="name">NFS-e Nacional</field>
+        <field name="code">900</field>
+        <field name="document_type_id" search="[('code', '=', 'SE')]" />
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+    </record>
+
+    <!-- 1. NATIONAL TAXATION CODES -->
+    <record id="nat_tax_code_010101" model="l10n_br_fiscal.national.taxation.code">
+        <field name="name">01.01.01</field>
+        <field name="code">010101</field>
+    </record>
+
+    <!-- 2. NBS CODES -->
+    <record id="nbs_111111111" model="l10n_br_fiscal.nbs">
+        <field name="name">111111111</field>
+        <field name="code">111111111</field>
+    </record>
+
+    <!-- DEMO 1: REGIME NORMAL (MEI - LC) -->
+
+    <!-- Tomador (Customer) -->
+    <record id="partner_toma_lc" model="res.partner">
+        <field name="name">Comércio de Alimentos Aurora Ltda ME</field>
+        <field name="legal_name">Comércio de Alimentos Aurora Ltda ME</field>
+        <field name="is_company" eval="True" />
+        <field name="vat">12.345.678/0001-95</field>
+        <field name="l10n_br_im_code">987654</field>
+        <field name="street_name">Rua das Acácias</field>
+        <field name="street_number">79</field>
+        <field name="district">Centro</field>
+        <field name="city_id" ref="l10n_br_base.city_4202404" />
+        <field name="state_id" ref="base.state_br_sc" />
+        <field name="country_id" ref="base.br" />
+        <field name="zip">89010-000</field>
+    </record>
+
+    <!-- Documento LC -->
+    <record id="demo_nfse_lc" model="l10n_br_fiscal.document">
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="partner_id" ref="partner_toma_lc" />
+
+        <field name="document_type_id" search="[('code', '=', 'SE')]" />
+
+        <field name="rps_number">2</field>
+        <field name="document_number">2</field>
+        <field name="document_serie_id" ref="document_serie_lc" />
+        <field name="document_key">420240420000000000000000007000000000000002</field>
+        <field name="document_date">2023-09-09 12:42:06</field>
+        <field name="date_in_out">2023-09-09 12:42:06</field>
+        <field name="processador_edoc">oca</field>
+        <field name="nfse10_verAplic">20220719</field>
+        <field name="fiscal_operation_type">out</field>
+    </record>
+
+    <record id="demo_nfse_lc_line" model="l10n_br_fiscal.document.line">
+        <field name="document_id" ref="demo_nfse_lc" />
+        <field name="name">Teste de NF Nacional com imposto</field>
+        <field name="national_taxation_code_id" ref="nat_tax_code_010101" />
+        <field name="nbs_id" ref="nbs_111111111" />
+        <field name="issqn_fg_city_id" ref="l10n_br_base.city_4202404" />
+        <field name="price_unit">20.00</field>
+        <field name="quantity">1</field>
+        <field name="inss_wh_value">0.40</field>
+        <field name="irpj_wh_value">0.00</field>
+        <field name="csll_wh_value">0.00</field>
+        <field name="issqn_value">0.00</field>
+        <field name="issqn_wh_value">0.00</field>
+        <field name="tax_icms_or_issqn">issqn</field>
+    </record>
+
+    <!-- DEMO 2: SIMPLES NACIONAL (SN) -->
+
+    <!-- Tomador (Anonymous Customer - No <toma> tag expected) -->
+    <record id="partner_toma_sn" model="res.partner">
+        <field name="name">Consumidor Não Identificado</field>
+    </record>
+
+    <!-- Documento SN -->
+    <record id="demo_nfse_sn" model="l10n_br_fiscal.document">
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="partner_id" ref="partner_toma_sn" />
+
+        <field name="document_type_id" search="[('code', '=', 'SE')]" />
+
+        <field name="rps_number">6</field>
+        <field name="document_number">6</field>
+        <field name="document_serie_id" ref="document_serie_sn" />
+        <field name="document_key">140015920176113500013200900000000000000006</field>
+        <field name="document_date">2022-09-28 16:50:29</field>
+        <field name="date_in_out">2022-09-28 16:50:29</field>
+        <field name="processador_edoc">oca</field>
+        <field name="nfse10_verAplic">EmissorWeb_1.0.0.0</field>
+        <field name="fiscal_operation_type">out</field>
+    </record>
+
+    <record id="demo_nfse_sn_line" model="l10n_br_fiscal.document.line">
+        <field name="document_id" ref="demo_nfse_sn" />
+        <field name="name">Consultoria em tecnologia da informação</field>
+        <field name="national_taxation_code_id" ref="nat_tax_code_010101" />
+        <field name="issqn_fg_city_id" ref="l10n_br_base.city_1400159" />
+        <field name="price_unit">999999999.99</field>
+        <field name="quantity">1</field>
+        <field name="discount_value">9999999.99</field>
+        <field name="issqn_desc_cond_amount">9.99</field>
+        <field name="tax_icms_or_issqn">issqn</field>
+    </record>
+</odoo>
