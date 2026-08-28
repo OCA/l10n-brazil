@@ -13,6 +13,7 @@ class TestImportFiscalDocumentAccessRights(AccountMoveBRCommon):
     def setUpClass(cls):
         super().setUpClass()
         cls.env.user.groups_id |= cls.env.ref("account.group_account_invoice")
+        cls._mirror_latam_document_type()
         cls.fiscal_document_to_import = cls.env["l10n_br_fiscal.document"].create(
             {
                 "fiscal_operation_id": cls.env.ref("l10n_br_fiscal.fo_compras").id,
@@ -35,6 +36,28 @@ class TestImportFiscalDocumentAccessRights(AccountMoveBRCommon):
                 "fiscal_operation_line_id": cls.env.ref(
                     "l10n_br_fiscal.fo_compras_compras"
                 ).id,
+            }
+        )
+
+    @classmethod
+    def _mirror_latam_document_type(cls):
+        if "l10n_latam.document.type" not in cls.env:
+            return
+        document_type = cls.env.ref("l10n_br_fiscal.document_55")
+        fiscal_country = cls.company_data["company"].account_fiscal_country_id
+        domain = [
+            ("code", "=", document_type.code),
+            ("country_id", "=", fiscal_country.id),
+        ]
+        if cls.env["l10n_latam.document.type"].search_count(domain):
+            return
+        cls.env["l10n_latam.document.type"].create(
+            {
+                "name": document_type.name,
+                "code": document_type.code,
+                "country_id": fiscal_country.id,
+                "internal_type": "invoice",
+                "doc_code_prefix": "NFe",
             }
         )
 
