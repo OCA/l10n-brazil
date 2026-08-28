@@ -30,6 +30,7 @@
                         <field name="nfe40_tpIntermedio" />
                         <field name="partner_acquirer_id" />
                         <field name="nfe40_CNPJ" invisible="1" />
+                        <field name="nfe40_CPF" invisible="1" />
                         <field name="nfe40_UFTerceiro" invisible="1" />
                         <field name="nfe40_cExportador" />
                         <field name="nfe40_vAFRMM" />
