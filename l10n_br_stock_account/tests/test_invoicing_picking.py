@@ -4,6 +4,11 @@
 
 from odoo.tests import Form
 
+from odoo.addons.stock_picking_invoicing.tests.tools import (
+    create_with_form_inv_onshipping,
+    create_with_form_pck_backorder,
+)
+
 from .common import TestBrPickingInvoicingCommon
 
 
@@ -14,102 +19,24 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
     def setUpClass(cls):
         super().setUpClass()
 
-    def test_invoicing_picking(self):
+    def test_01_invoicing_picking(self):
         """Test Invoicing Picking"""
-        self._change_user_company(self.env.ref("base.main_company"))
-        picking = self.env.ref("l10n_br_stock_account.main_company-picking_1")
-        for line in picking.move_ids:
-            line.price_unit = 100
-
+        picking = self.picking_out_br_1
         # Testa os Impostos Dedutiveis
         picking.fiscal_operation_id.deductible_taxes = True
         nb_invoice_before = self.env["account.move"].search_count([])
         self.picking_move_state(picking)
-        # Verificar os Valores de Preço pois isso é usado na Valorização do
-        # Estoque, o metodo do core é chamado pelo botão Validate
-
-        for line in picking.move_ids:
-            # No Brasil o caso de Ordens de Entrega que não tem ligação com
-            # Pedido de Venda por padrão deve trazer o valor o Preço de Custo
-            # e não o de Venda, ex.: Simples Remessa, Remessa p/
-            # Industrialiazação e etc, mas o valor informado pelo usuário deve
-            # ter prioridade.
-            # Os metodos do stock/core alteram o valor p/
-            # negativo por isso o abs
-
-            self.assertEqual(
-                abs(line.price_unit),
-                line.product_id.with_company(line.company_id).standard_price,
-            )
-            # O Campo fiscal_price precisa ser um espelho do price_unit,
-            # apesar do onchange p/ preenche-lo sem incluir o compute no campo
-            # ele traz o valor do lst_price e falha no teste abaixo
-            # TODO - o fiscal_price aqui tbm deve ter um valor negativo ?
-
-        invoice = self.create_invoice_wizard(picking)
-        self.assertTrue(invoice, "Invoice is not created.")
-        self.assertEqual(picking.invoice_state, "invoiced")
-        self.assertEqual(
-            invoice.partner_id, self.env.ref("l10n_br_base.res_partner_cliente1_sp")
-        )
-        self.assertIn(invoice, picking.invoice_ids)
-        self.assertIn(picking, invoice.picking_ids)
+        invoice = create_with_form_inv_onshipping(self.env, picking)
+        self.check_br_invoice_created(invoice, picking)
         nb_invoice_after = self.env["account.move"].search_count([])
         self.assertEqual(nb_invoice_before, nb_invoice_after - len(invoice))
-        assert invoice.invoice_line_ids, "Error to create invoice line."
-        for line in invoice.picking_ids:
-            self.assertEqual(
-                line.id,
-                picking.id,
-                "Relation between invoice and picking are missing.",
-            )
-        for line in invoice.invoice_line_ids:
-            # TODO: No travis falha o browse aqui
-            #  l10n_br_stock_account/models/stock_invoice_onshipping.py:105
-            #  isso não acontece no caso da empresa de Lucro Presumido
-            #  ou quando é feito o teste apenas instalando os modulos
-            #  l10n_br_account e em seguida o l10n_br_stock_account
-            # self.assertTrue(line.tax_ids, "Taxes in invoice lines are missing.")
-
-            # No Brasil o caso de Ordens de Entrega que não tem ligação com
-            # Pedido de Venda precisam informar o Preço de Custo e não o de
-            # Venda, ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
-            # Aqui o campo não pode ser negativo
-            self.assertEqual(
-                line.price_unit,
-                line.product_id.with_company(line.company_id).standard_price,
-            )
-            # Valida presença dos campos principais para o mapeamento Fiscal
-            self.assertTrue(line.fiscal_operation_id, "Missing Fiscal Operation.")
-            self.assertTrue(
-                line.fiscal_operation_line_id, "Missing Fiscal Operation Line."
-            )
-
-        self.assertTrue(
-            invoice.fiscal_operation_id,
-            "Mapping fiscal operation on wizard to create invoice fail.",
+        picking_devolution = self.run_picking_devolution(picking)
+        invoice_devolution = create_with_form_inv_onshipping(
+            self.env, picking_devolution
         )
-        self.assertTrue(
-            invoice.fiscal_document_id,
-            "Mapping Fiscal Documentation_id on wizard to create invoice fail.",
-        )
+        self.check_br_invoice_created(invoice_devolution, picking_devolution)
 
-        picking_devolution = self.return_picking_wizard(picking)
-        self.assertEqual(picking_devolution.invoice_state, "2binvoiced")
-        self.assertTrue(
-            picking_devolution.fiscal_operation_id, "Missing Fiscal Operation."
-        )
-        for line in picking_devolution.move_ids:
-            self.assertEqual(line.invoice_state, "2binvoiced")
-            # Valida presença dos campos principais para o mapeamento Fiscal
-            self.assertTrue(line.fiscal_operation_id, "Missing Fiscal Operation.")
-            self.assertTrue(
-                line.fiscal_operation_line_id, "Missing Fiscal Operation Line."
-            )
-        self.picking_move_state(picking_devolution)
-        self.assertEqual(picking_devolution.state, "done", "Change state fail.")
-
-    def test_picking_invoicing_by_product2(self):
+    def test_02_picking_invoicing_by_product2(self):
         """
         Test the invoice generation grouped by partner/product with 2
         picking and 3 moves per picking.
@@ -118,60 +45,30 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         :return:
         """
         nb_invoice_before = self.env["account.move"].search_count([])
-        self._change_user_company(self.env.ref("base.main_company"))
         self.env["account.move"].search_count([])
-        self.env.ref("l10n_br_base.res_partner_cliente1_sp").write({"type": "invoice"})
-        picking = self.env.ref("l10n_br_stock_account.main_company-picking_1")
-        self.picking_move_state(picking)
-        picking2 = self.env.ref("l10n_br_stock_account.main_company-picking_2")
-        self.picking_move_state(picking2)
-        self.assertEqual(picking.state, "done")
-        self.assertEqual(picking2.state, "done")
-        pickings = picking | picking2
-        invoice = self.create_invoice_wizard(pickings)
+        picking_1 = self.picking_out_br_1
+        self.picking_move_state(picking_1)
+        picking_2 = self.picking_out_br_2
+        self.picking_move_state(picking_2)
+        self.assertEqual(picking_1.state, "done")
+        self.assertEqual(picking_2.state, "done")
+        invoice = create_with_form_inv_onshipping(self.env, picking_1 | picking_2)
         self.assertEqual(len(invoice), 1)
-        self.assertEqual(picking.invoice_state, "invoiced")
-        self.assertEqual(picking2.invoice_state, "invoiced")
-        self.assertEqual(
-            invoice.partner_id, self.env.ref("l10n_br_base.res_partner_cliente1_sp")
-        )
-        self.assertIn(invoice, picking.invoice_ids)
-        self.assertIn(invoice, picking2.invoice_ids)
-        self.assertIn(picking, invoice.picking_ids)
-        self.assertIn(picking2, invoice.picking_ids)
+        self.check_br_invoice_created(invoice, picking_1 | picking_2)
         for inv_line in invoice.invoice_line_ids:
             # qty = 4 because 2 for each stock.move
             self.assertEqual(inv_line.quantity, 4)
-            # Price Unit e Fiscal Price devem ser positivos
-            price_unit_mv_line = picking.move_ids.filtered(
-                lambda mv, inv_line=inv_line: mv.product_id == inv_line.product_id
-            ).mapped("price_unit")[0]
-            self.assertEqual(
-                inv_line.price_unit,
-                price_unit_mv_line,
-            )
-            self.assertEqual(
-                inv_line.fiscal_price,
-                price_unit_mv_line,
-            )
-
-            # TODO: No travis falha o browse aqui
-            #  l10n_br_stock_account/models/stock_invoice_onshipping.py:105
-            #  isso não acontece no caso da empresa de Lucro Presumido
-            #  ou quando é feito o teste apenas instalando os modulos
-            #  l10n_br_account e em seguida o l10n_br_stock_account
-            # self.assertTrue(inv_line.tax_ids,
-            # "Error to map Sale Tax in invoice.line.")
 
         # Now test behaviour if the invoice is delete
         invoice.unlink()
+        pickings = picking_1 | picking_2
         for picking in pickings:
             self.assertEqual(picking.invoice_state, "2binvoiced")
         nb_invoice_after = self.env["account.move"].search_count([])
         # Should be equals because we delete the invoice
         self.assertEqual(nb_invoice_before, nb_invoice_after)
 
-    def test_picking_invoicing_by_product3(self):
+    def test_03_picking_invoicing_by_product3(self):
         """
         Test the invoice generation grouped by partner/product with 2
         picking and 3 moves per picking, but 1 picking are the one
@@ -179,22 +76,19 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         with 3 lines (and qty 2)
         :return:
         """
-        self._change_user_company(self.env.ref("base.main_company"))
         self.env["account.move"].search_count([])
-        self.env.ref("l10n_br_base.res_partner_cliente1_sp").write({"type": "invoice"})
-        picking = self.env.ref("l10n_br_stock_account.main_company-picking_3")
-        self.picking_move_state(picking)
-        picking2 = self.env.ref("l10n_br_stock_account.main_company-picking_4")
-        self.picking_move_state(picking2)
-        self.assertEqual(picking.state, "done")
-        self.assertEqual(picking2.state, "done")
-        pickings = picking | picking2
-        invoicies = self.create_invoice_wizard(pickings)
+        picking_1 = self.picking_out_br_3
+        self.picking_move_state(picking_1)
+        picking_2 = self.picking_out_br_4
+        self.picking_move_state(picking_2)
+        self.assertEqual(picking_1.state, "done")
+        self.assertEqual(picking_2.state, "done")
+        invoicies = create_with_form_inv_onshipping(self.env, picking_1 | picking_2)
         self.assertEqual(len(invoicies), 2)
-        self.assertEqual(picking.invoice_state, "invoiced")
-        self.assertEqual(picking2.invoice_state, "invoiced")
+        self.assertEqual(picking_1.invoice_state, "invoiced")
+        self.assertEqual(picking_2.invoice_state, "invoiced")
         invoice_pick_1 = invoicies.filtered(
-            lambda t: t.partner_id == picking.partner_id
+            lambda t: t.partner_shipping_id == picking_1.partner_id
         )
         #  Nesse caso está trazendo o mesmo Partner apesar de ser um endereço
         #  de outro principal, isso acontece porque o metodo address_get chamado
@@ -205,16 +99,15 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         #  Person/Pessoa e não Company/Empresa.
         #  TODO: A localização BR deveria sobreescrever o metodo address_get
         #   para ignorar o company_type?
-        self.assertEqual(invoice_pick_1.partner_id, picking.partner_id)
-        self.assertIn(invoice_pick_1, picking.invoice_ids)
-        self.assertIn(picking, invoice_pick_1.picking_ids)
+        self.assertEqual(invoice_pick_1.partner_shipping_id, picking_1.partner_id)
+        self.assertIn(invoice_pick_1, picking_1.invoice_ids)
+        self.assertIn(picking_1, invoice_pick_1.picking_ids)
 
         invoice_pick_2 = invoicies.filtered(
-            lambda t: t.partner_id == picking2.partner_id
+            lambda t: t.partner_shipping_id == picking_2.partner_id
         )
-        self.assertIn(invoice_pick_2, picking2.invoice_ids)
-
-        self.assertIn(picking2, invoice_pick_2.picking_ids)
+        self.assertIn(invoice_pick_2, picking_2.invoice_ids)
+        self.assertIn(picking_2, invoice_pick_2.picking_ids)
 
         # Not grouping products with different Operation Fiscal Line
         self.assertEqual(len(invoice_pick_1.invoice_line_ids), 3)
@@ -228,6 +121,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
 
         invoice_pick_1.unlink()
         invoice_pick_2.unlink()
+        pickings = picking_1 | picking_2
         for picking in pickings:
             self.assertEqual(picking.invoice_state, "2binvoiced")
         # Check that invoices for our pickings were deleted
@@ -257,12 +151,11 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         #  stock_picking_invoicing/wizards/stock_invoice_onshipping.py#L316
         #  é preciso avaliar se deve ser alterado na localização ou mesmo
         #  no modulo stock_picking_invoicing
-        picking_3 = self.env.ref("l10n_br_stock_account.main_company-picking_5")
+        picking_3 = self.picking_out_br_5
         self.picking_move_state(picking_3)
-        picking_4 = self.env.ref("l10n_br_stock_account.main_company-picking_6")
+        picking_4 = self.picking_out_br_6
         self.picking_move_state(picking_4)
-        pickings = picking_3 | picking_4
-        invoices = self.create_invoice_wizard(pickings)
+        invoices = create_with_form_inv_onshipping(self.env, picking_3 | picking_4)
         self.assertEqual(len(invoices), 2)
         self.assertEqual(picking_3.invoice_state, "invoiced")
         self.assertEqual(picking_4.invoice_state, "invoiced")
@@ -271,20 +164,18 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         self.assertIn(picking_3.invoice_ids, invoices)
         self.assertIn(picking_4.invoice_ids, invoices)
 
-    def test_picking_split(self):
+    def test_04_picking_split(self):
         """Test Picking Split created with Fiscal Values."""
-        self._change_user_company(self.env.ref("base.main_company"))
-        picking2 = self.env.ref("l10n_br_stock_account.main_company-picking_2")
+        picking = self.picking_out_br_2
+        picking.action_confirm()
+        picking.action_assign()
 
-        picking2.action_confirm()
-        picking2.action_assign()
-
-        for move in picking2.move_ids_without_package:
+        for move in picking.move_ids_without_package:
             # Force Split
             move.quantity = 1
 
         # Return Wizard
-        backorder = self.create_backorder_wizard(picking2)
+        backorder = create_with_form_pck_backorder(self.env, picking)
         self.assertEqual(backorder.invoice_state, "2binvoiced")
         self.assertTrue(backorder.fiscal_operation_id)
 
@@ -297,11 +188,10 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         self.picking_move_state(backorder)
 
     # Testando o Lucro Presumido
-    def test_invoicing_picking_lucro_presumido(self):
+    def test_05_invoicing_picking_lucro_presumido(self):
         """Test Invoicing Picking - Lucro Presumido"""
-
-        self._change_user_company(self.env.ref("l10n_br_base.empresa_lucro_presumido"))
-        picking = self.env.ref("l10n_br_stock_account.lucro_presumido-picking_1")
+        self._change_user_company(self.company_lp)
+        picking = self.picking_out_br_lp_1
         nb_invoice_before = self.env["account.move"].search_count([])
 
         self.picking_move_state(picking)
@@ -320,93 +210,26 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
             line.product_id.standard_price = 0.0
             line.price_unit = 0.0
 
-        invoice = self.create_invoice_wizard(picking)
-        self.assertTrue(invoice, "Invoice is not created.")
-        self.assertEqual(picking.invoice_state, "invoiced")
-        self.assertEqual(
-            invoice.partner_id, self.env.ref("l10n_br_base.res_partner_cliente1_sp")
-        )
-        # Campo 'Consumidor Final' deve ser igual ao do picking
-        self.assertEqual(invoice.ind_final, picking.ind_final)
-        self.assertIn(invoice, picking.invoice_ids)
-        self.assertIn(picking, invoice.picking_ids)
+        invoice = create_with_form_inv_onshipping(self.env, picking)
+        self.check_br_invoice_created(invoice, picking)
         nb_invoice_after = self.env["account.move"].search_count([])
         self.assertEqual(nb_invoice_before, nb_invoice_after - len(invoice))
-        assert invoice.invoice_line_ids, "Error to create invoice line."
-        for line in invoice.picking_ids:
-            self.assertEqual(
-                line.id,
-                picking.id,
-                "Relation between invoice and picking are missing.",
-            )
-        for line in invoice.invoice_line_ids:
-            # No Brasil o caso de Ordens de Entrega que não tem ligação com
-            # Pedido de Venda precisam informar o Preço de Custo e não o de
-            # Venda, ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
-            # Aqui o campo não pode ser negativo
-            # self.assertEqual(line.price_unit, line.product_id.standard_price)
-            # Valida presença dos campos principais para o mapeamento Fiscal
-            self.assertTrue(line.fiscal_operation_id, "Missing Fiscal Operation.")
-            self.assertTrue(
-                line.fiscal_operation_line_id, "Missing Fiscal Operation Line."
-            )
-            self.assertTrue(
-                line.fiscal_tax_ids, "Error to map fiscal_tax_ids in invoice line."
-            )
-            assert line.ind_final, "Error field ind_final in Invoice Line not None"
-            # Verifica se o campo tax_ids da Fatura esta igual ao da Separação
-            mv_line = picking.move_ids.filtered(
-                lambda ln, line=line: (
-                    ln.product_id == line.product_id
-                    and ln.fiscal_operation_id == line.fiscal_operation_id
-                )
-            )
-            self.assertEqual(
-                line.tax_ids,
-                mv_line.tax_ids,
-                "Taxes in invoice lines are different from move lines.",
-            )
 
-        self.assertTrue(
-            invoice.fiscal_operation_id,
-            "Mapping fiscal operation on wizard to create invoice fail.",
-        )
-        self.assertTrue(
-            invoice.fiscal_document_id,
-            "Mapping Fiscal Documentation_id on wizard to create invoice fail.",
-        )
-
-        picking_devolution = self.return_picking_wizard(picking)
-        self.assertEqual(picking_devolution.invoice_state, "2binvoiced")
-        self.assertTrue(
-            picking_devolution.fiscal_operation_id, "Missing Fiscal Operation."
-        )
-        for line in picking_devolution.move_ids:
-            self.assertEqual(line.invoice_state, "2binvoiced")
-            # Valida presença dos campos principais para o mapeamento Fiscal
-            self.assertTrue(line.fiscal_operation_id, "Missing Fiscal Operation.")
-            self.assertTrue(
-                line.fiscal_operation_line_id, "Missing Fiscal Operation Line."
-            )
-        self.picking_move_state(picking_devolution)
-        self.assertEqual(picking_devolution.state, "done", "Change state fail.")
+        self.run_picking_devolution(picking)
 
         # Now test behaviour if the invoice is delete
         invoice.unlink()
-
         self.assertEqual(picking.invoice_state, "2binvoiced")
         nb_invoice_after = self.env["account.move"].search_count([])
         # Should be equals because we delete the invoice
         self.assertEqual(nb_invoice_before, nb_invoice_after)
 
-    def test_fields_freight_insurance_other_costs(self):
+    def test_06_fields_freight_insurance_other_costs(self):
         """Test fields Freight, Insurance and Other Costs when
         defined or By Line or By Total in Stock Picking.
         """
-
-        self._change_user_company(self.env.ref("base.main_company"))
+        picking = self.picking_out_br_1
         # Por padrão a definição dos campos está por Linha
-        picking = self.env.ref("l10n_br_stock_account.main_company-picking_1")
         picking.company_id.delivery_costs = "line"
         # Teste definindo os valores Por Linha
         for line in picking.move_ids_without_package:
@@ -496,7 +319,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
                 "Unexpected value for the field Other Values in Move line.",
             )
 
-        invoice = self.create_invoice_wizard(picking)
+        invoice = create_with_form_inv_onshipping(self.env, picking)
         # Confirm Invoice
         invoice.action_post()
         self.assertEqual(invoice.state, "posted", "Invoice should be in state Posted")
@@ -505,11 +328,12 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
             "Freight, Insurance and Other Costs case should has Fiscal Document.",
         )
 
-    def test_compatible_with_international_case(self):
+    def test_07_compatible_with_international_case(self):
         """
         Test of compatible with international case, create Invoice but not for Brazil.
         """
-        picking = self.env.ref("stock_picking_invoicing.stock_picking_invoicing_2")
+        picking = self.picking_out_1
+        picking.set_to_be_invoiced()
         picking.fiscal_operation_id = False
         # Force product availability
         for move in picking.move_ids_without_package:
@@ -517,7 +341,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
             move.product_uom_qty = 2
             move.quantity = 1
         # Return Wizard
-        backorder = self.create_backorder_wizard(picking)
+        backorder = create_with_form_pck_backorder(self.env, picking)
         self.assertEqual(backorder.invoice_state, "2binvoiced")
         self.assertFalse(backorder.fiscal_operation_id)
 
@@ -531,7 +355,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         self.assertEqual(picking.state, "done")
         # Switch to picking company for invoice creation
         self._change_user_company(picking.company_id)
-        invoice = self.create_invoice_wizard(picking)
+        invoice = create_with_form_inv_onshipping(self.env, picking)
         # Confirm Invoice
         invoice.action_post()
         self.assertEqual(invoice.state, "posted", "Invoice should be in state Posted")
@@ -545,10 +369,9 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
             "International case should not has Fiscal Document.",
         )
 
-    def test_picking_extra_vals(self):
+    def test_08_picking_extra_vals(self):
         """Test Picking Extra Vals created with Fiscal Values."""
-        self._change_user_company(self.env.ref("base.main_company"))
-        picking = self.env.ref("l10n_br_stock_account.main_company-picking_2")
+        picking = self.picking_out_br_2
 
         for line in picking.move_ids:
             # Force Split
@@ -556,167 +379,36 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
 
         picking.button_validate()
 
-    def test_form_stock_picking(self):
+    def test_09_form_stock_picking(self):
         """Test Stock Picking with Form"""
-
-        picking_form = Form(
-            self.env.ref("l10n_br_stock_account.main_company-picking_2")
-        )
+        picking_form = Form(self.picking_out_br_2)
         picking_form.save()
-        stock_move_form = Form(
-            self.env.ref("l10n_br_stock_account.main_company-move_2_1")
-        )
+        stock_move_form = Form(self.picking_out_br_2.move_ids[0])
         stock_move_form.product_uom_qty = 10
         # Testa o _onchange_product_quantity
         stock_move_form.price_unit = 0.0
         stock_move_form.save()
 
-    def test_simples_nacional(self):
+    def test_10_simples_nacional(self):
         """Test case of Simples Nacional"""
-        company_sn = self.env.ref("l10n_br_base.empresa_simples_nacional")
-        self._change_user_company(company_sn)
-        # Load chart template for Simples Nacional company if not already loaded
-        has_receivable = (
-            self.env["account.account"]
-            .with_company(company_sn)
-            .search_count([("account_type", "=", "asset_receivable")])
-        )
-        if not has_receivable:
-            # Create minimal chart accounts for Simples Nacional company
-            # to avoid depending on l10n_br chart template
-            account_vals = [
-                {
-                    "name": "Receivable",
-                    "code": "1.1.1.01",
-                    "account_type": "asset_receivable",
-                    "company_ids": [(4, company_sn.id)],
-                    "reconcile": True,
-                },
-                {
-                    "name": "Payable",
-                    "code": "2.1.1.01",
-                    "account_type": "liability_payable",
-                    "company_ids": [(4, company_sn.id)],
-                    "reconcile": True,
-                },
-                {
-                    "name": "Income",
-                    "code": "3.1.1.01",
-                    "account_type": "income",
-                    "company_ids": [(4, company_sn.id)],
-                },
-                {
-                    "name": "Expense",
-                    "code": "4.1.1.01",
-                    "account_type": "expense",
-                    "company_ids": [(4, company_sn.id)],
-                },
-            ]
-            accounts = self.env["account.account"].create(account_vals)
-            receivable_account = accounts.filtered(
-                lambda a: a.account_type == "asset_receivable"
-            )
-            payable_account = accounts.filtered(
-                lambda a: a.account_type == "liability_payable"
-            )
-            income_account = accounts.filtered(lambda a: a.account_type == "income")
-            expense_account = accounts.filtered(lambda a: a.account_type == "expense")
-            # Set default company accounts
-            company_sn.account_journal_suspense_account_id = receivable_account.id
-            # Set product category accounts for this company
-            product_category = self.env.ref("product.product_category_all")
-            product_category.with_company(
-                company_sn
-            ).property_account_income_categ_id = income_account
-            product_category.with_company(
-                company_sn
-            ).property_account_expense_categ_id = expense_account
-            # Load fiscal taxes for the company
-            self.env["account.chart.template"].load_fiscal_taxes(companies=[company_sn])
-        # Ensure partner has property accounts for this company
-        partner = self.env.ref("l10n_br_base.res_partner_cliente1_sp")
-        receivable_account = (
-            self.env["account.account"]
-            .with_company(company_sn)
-            .search(
-                [
-                    ("account_type", "=", "asset_receivable"),
-                    ("company_ids", "in", [company_sn.id]),
-                ],
-                limit=1,
-            )
-        )
-        payable_account = (
-            self.env["account.account"]
-            .with_company(company_sn)
-            .search(
-                [
-                    ("account_type", "=", "liability_payable"),
-                    ("company_ids", "in", [company_sn.id]),
-                ],
-                limit=1,
-            )
-        )
-        if receivable_account:
-            partner.with_company(
-                company_sn
-            ).property_account_receivable_id = receivable_account
-        if payable_account:
-            partner.with_company(
-                company_sn
-            ).property_account_payable_id = payable_account
-        picking = self.env.ref("l10n_br_stock_account.simples_nacional-picking_1")
+        self._change_user_company(self.company_sn)
+        picking = self.picking_out_br_sn_1
         for line in picking.move_ids:
             # Testa _get_price_unit
             line.price_unit = 0.0
         self.picking_move_state(picking)
         self.assertEqual(picking.state, "done", "Change state fail.")
-        # Testes falhando apenas no CI, a Operação Fiscal por algum motivo
-        # tem o campo journal_id preenchida com o Diário Miscelanios o que
-        # causa o erro abaixo
-        # File "/opt/odoo/addons/account/models/account_move.py", line 1931,
-        #  in _check_journal_type
-        # raise ValidationError(_("The chosen journal has a type that is
-        # not compatible with your invoice type. Sales operations should go
-        # to 'sale' journals, and purchase operations to 'purchase' ones."))
-        # odoo.exceptions.ValidationError: The chosen journal has a type that
-        # is not compatible with your invoice type. Sales operations should go
-        #  to 'sale' journals, and purchase operations to 'purchase' ones.
-        # TODO: teria alguma forma de corrigir? Por enquanto está sendo
-        # preciso preenche o campo com o Diário correto para evitar o erro
-        journal = self.env.ref(
-            "l10n_br_stock_account.simples_remessa_journal_simples_nacional"
-        )
-        of_simples_remessa = self.env.ref("l10n_br_fiscal.fo_simples_remessa")
-        of_simples_remessa.journal_id = journal
-
-        invoice = self.create_invoice_wizard(picking)
-        # Confirm Invoice
-        # TODO: O método abaixo retorna erro de Permissão de Acesso ao
-        #  'account.move.line', mas não parece ser esse realmente o problema,
-        #  porque os testes, logo abaixo, e o fato do erro não acontecer em
-        #  outras Empresas sugere que existe algum outro erro, por enquanto
-        #  o método esta sendo chamado com o sudo.
-        # invoice.action_post()
-        self.assertTrue(self.env.user.has_group("l10n_br_fiscal.group_manager"))
-        self.assertTrue(self.env.user.has_group("account.group_account_manager"))
-        self.assertEqual(self.env.user, invoice.user_id)
-        for ln in invoice.invoice_line_ids:
-            ln.name = "Teste de Permissão de Acesso no account.move.line"
-
-        invoice.sudo().action_post()
-
+        invoice = create_with_form_inv_onshipping(self.env, picking)
+        invoice.action_post()
         self.assertEqual(invoice.state, "posted", "Invoice should be in state Posted")
         self.assertTrue(
             invoice.fiscal_document_id,
             "Simples Nacional case should has Fiscal Document.",
         )
 
-    def test_generate_document_number_on_packing(self):
+    def test_11_generate_document_number_on_packing(self):
         """Test Invoicing Picking"""
-        self._change_user_company(self.env.ref("base.main_company"))
-        picking = self.env.ref("l10n_br_stock_account.main_company-picking_1")
-        # self._run_fiscal_onchanges(picking)
+        picking = self.picking_out_br_1
         # Testa os Impostos Dedutiveis
         picking.fiscal_operation_id.deductible_taxes = True
         nb_invoice_before = self.env["account.move"].search_count([])
@@ -725,170 +417,61 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         picking.action_assign()
         for move in picking.move_ids_without_package:
             move.quantity = move.product_uom_qty
-        for line in picking.move_ids:
-            line.price_unit = 100
-
         picking.action_put_in_pack()
         picking.button_validate()
         picking.set_to_be_invoiced()
         self.assertTrue(picking.document_number)
 
-        invoice = self.create_invoice_wizard(picking)
-        self.assertTrue(invoice, "Invoice is not created.")
-        self.assertEqual(picking.invoice_state, "invoiced")
-        self.assertEqual(
-            invoice.partner_id, self.env.ref("l10n_br_base.res_partner_cliente1_sp")
-        )
-        self.assertIn(invoice, picking.invoice_ids)
-        self.assertIn(picking, invoice.picking_ids)
+        invoice = create_with_form_inv_onshipping(self.env, picking)
+        self.check_br_invoice_created(invoice, picking)
 
         nb_invoice_after = self.env["account.move"].search_count([])
         self.assertEqual(nb_invoice_before, nb_invoice_after - len(invoice))
-        assert invoice.invoice_line_ids, "Error to create invoice line."
-        for line in invoice.picking_ids:
-            self.assertEqual(
-                line.id,
-                picking.id,
-                "Relation between invoice and picking are missing.",
-            )
-        for line in invoice.invoice_line_ids:
-            self.assertEqual(
-                line.price_unit,
-                line.product_id.with_company(line.company_id).standard_price,
-            )
-            # Valida presença dos campos principais para o mapeamento Fiscal
-            self.assertTrue(line.fiscal_operation_id, "Missing Fiscal Operation.")
-            self.assertTrue(
-                line.fiscal_operation_line_id, "Missing Fiscal Operation Line."
-            )
-
-        self.assertTrue(
-            invoice.fiscal_operation_id,
-            "Mapping fiscal operation on wizard to create invoice fail.",
-        )
-        self.assertTrue(
-            invoice.fiscal_document_id,
-            "Mapping Fiscal Documentation_id on wizard to create invoice fail.",
-        )
 
         self.assertEqual(picking.document_number, invoice.document_number)
         self.assertEqual(
             picking.document_number, invoice.fiscal_document_id.document_number
         )
 
-    def test_generate_document_number_on_validating(self):
+    def test_12_generate_document_number_on_validating(self):
         """Test Invoicing Picking"""
-        self._change_user_company(self.env.ref("base.main_company"))
-        picking = self.env.ref("l10n_br_stock_account.main_company-picking_1")
-        # self._run_fiscal_onchanges(picking)
+        picking = self.picking_out_br_1
         # Testa os Impostos Dedutiveis
         picking.fiscal_operation_id.deductible_taxes = True
         nb_invoice_before = self.env["account.move"].search_count([])
         picking.picking_type_id.pre_generate_fiscal_document_number = "validate"
-        for line in picking.move_ids:
-            line.price_unit = 100
 
         self.picking_move_state(picking)
-
         picking.set_to_be_invoiced()
         self.assertTrue(picking.document_number)
 
-        invoice = self.create_invoice_wizard(picking)
-        self.assertTrue(invoice, "Invoice is not created.")
-        self.assertEqual(picking.invoice_state, "invoiced")
-        self.assertEqual(
-            invoice.partner_id, self.env.ref("l10n_br_base.res_partner_cliente1_sp")
-        )
-        self.assertIn(invoice, picking.invoice_ids)
-        self.assertIn(picking, invoice.picking_ids)
-
+        invoice = create_with_form_inv_onshipping(self.env, picking)
+        self.check_br_invoice_created(invoice, picking)
         nb_invoice_after = self.env["account.move"].search_count([])
         self.assertEqual(nb_invoice_before, nb_invoice_after - len(invoice))
-        assert invoice.invoice_line_ids, "Error to create invoice line."
-        for line in invoice.picking_ids:
-            self.assertEqual(
-                line.id,
-                picking.id,
-                "Relation between invoice and picking are missing.",
-            )
-        for line in invoice.invoice_line_ids:
-            self.assertEqual(
-                line.price_unit,
-                line.product_id.with_company(line.company_id).standard_price,
-            )
-            # Valida presença dos campos principais para o mapeamento Fiscal
-            self.assertTrue(line.fiscal_operation_id, "Missing Fiscal Operation.")
-            self.assertTrue(
-                line.fiscal_operation_line_id, "Missing Fiscal Operation Line."
-            )
-
-        self.assertTrue(
-            invoice.fiscal_operation_id,
-            "Mapping fiscal operation on wizard to create invoice fail.",
-        )
-        self.assertTrue(
-            invoice.fiscal_document_id,
-            "Mapping Fiscal Documentation_id on wizard to create invoice fail.",
-        )
 
         self.assertEqual(picking.document_number, invoice.document_number)
         self.assertEqual(
             picking.document_number, invoice.fiscal_document_id.document_number
         )
 
-    def test_generate_document_number_on_invoice_create_wizard(self):
+    def test_13_generate_document_number_on_invoice_create_wizard(self):
         """Test Invoicing Picking"""
-        self._change_user_company(self.env.ref("base.main_company"))
-        picking = self.env.ref("l10n_br_stock_account.main_company-picking_1")
+        picking = self.picking_out_br_1
         # Testa os Impostos Dedutiveis
         picking.fiscal_operation_id.deductible_taxes = True
         nb_invoice_before = self.env["account.move"].search_count([])
         picking.picking_type_id.pre_generate_fiscal_document_number = "validate"
-        for line in picking.move_ids:
-            line.price_unit = 100
 
         self.picking_move_state(picking)
         picking.set_to_be_invoiced()
         self.assertTrue(picking.document_number)
 
-        invoice = self.create_invoice_wizard(picking)
-        self.assertTrue(invoice, "Invoice is not created.")
-        self.assertEqual(picking.invoice_state, "invoiced")
-        self.assertEqual(
-            invoice.partner_id, self.env.ref("l10n_br_base.res_partner_cliente1_sp")
-        )
-        self.assertIn(invoice, picking.invoice_ids)
-        self.assertIn(picking, invoice.picking_ids)
+        invoice = create_with_form_inv_onshipping(self.env, picking)
+        self.check_br_invoice_created(invoice, picking)
 
         nb_invoice_after = self.env["account.move"].search_count([])
         self.assertEqual(nb_invoice_before, nb_invoice_after - len(invoice))
-        assert invoice.invoice_line_ids, "Error to create invoice line."
-        for line in invoice.picking_ids:
-            self.assertEqual(
-                line.id,
-                picking.id,
-                "Relation between invoice and picking are missing.",
-            )
-        for line in invoice.invoice_line_ids:
-            self.assertEqual(
-                line.price_unit,
-                line.product_id.with_company(line.company_id).standard_price,
-            )
-            # Valida presença dos campos principais para o mapeamento Fiscal
-            self.assertTrue(line.fiscal_operation_id, "Missing Fiscal Operation.")
-            self.assertTrue(
-                line.fiscal_operation_line_id, "Missing Fiscal Operation Line."
-            )
-
-        self.assertTrue(
-            invoice.fiscal_operation_id,
-            "Mapping fiscal operation on wizard to create invoice fail.",
-        )
-        self.assertTrue(
-            invoice.fiscal_document_id,
-            "Mapping Fiscal Documentation_id on wizard to create invoice fail.",
-        )
-
         self.assertEqual(picking.document_number, invoice.document_number)
         self.assertEqual(
             picking.document_number, invoice.fiscal_document_id.document_number
