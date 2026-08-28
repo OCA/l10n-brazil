@@ -7,3 +7,4 @@ from . import test_nfse_serialize_lc
 from . import test_nfse_serialize_sn
 from . import test_nfse_lifecycle
 from . import test_danfse_report
+from . import test_nfse_exported_service
