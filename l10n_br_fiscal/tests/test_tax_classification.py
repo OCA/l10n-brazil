@@ -109,3 +109,36 @@ class TestTaxClassification(TransactionCase):
             self.assertIn(
                 self.classification_company.tax_ibs_id, line_form.fiscal_tax_ids
             )
+
+    def test_map_fiscal_taxes_tax_classification_from_cfop(self):
+        """CFOP tax classification must override the line and the company.
+
+        The same Operation Line answers for the domestic sale and for the
+        export, and only the CFOP tells them apart: the export is immune to
+        IBS and CBS while the domestic sale is fully taxed.
+        """
+        self.company.tax_classification_id = self.classification_company
+        self.operation_line.tax_classification_id = self.classification_line
+        classification_export = self.env.ref("l10n_br_fiscal.tax_classification_410004")
+        self.env.ref(
+            "l10n_br_fiscal.cfop_7101"
+        ).tax_classification_id = classification_export
+
+        kwargs = self._map_kwargs()
+        kwargs["partner"] = self.env.ref("l10n_br_base.res_partner_exterior")
+        result = self.operation_line.map_fiscal_taxes(**kwargs)
+
+        self.assertEqual(result["cfop"].code, "7101")
+        self.assertEqual(result["tax_classification"], classification_export)
+        self.assertEqual(
+            result["taxes"][classification_export.tax_ibs_id.tax_domain],
+            classification_export.tax_ibs_id,
+        )
+        self.assertEqual(
+            result["taxes"][classification_export.tax_cbs_id.tax_domain],
+            classification_export.tax_cbs_id,
+        )
+
+        result = self.operation_line.map_fiscal_taxes(**self._map_kwargs())
+        self.assertEqual(result["cfop"].code, "5101")
+        self.assertEqual(result["tax_classification"], self.classification_line)
