@@ -42,6 +42,8 @@ from ..constants.fiscal import (
     TAX_DOMAIN_PIS_WH,
     TAX_FRAMEWORK_SIMPLES_ALL,
     TAX_ICMS_OR_ISSQN,
+    TAX_VALUE_FIELD_NAMES,
+    TAX_VALUE_FIELDS,
 )
 from ..constants.icms import (
     ICMS_BASE_TYPE,
@@ -342,6 +344,15 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                 line.icms_tax_benefit_id = mapping_result["icms_tax_benefit_id"]
 
                 if line._is_imported():
+                    # The taxes of an imported line come from the file, not from
+                    # the fiscal mapping. They are rebuilt from the tax field of
+                    # each domain because leaving fiscal_tax_ids unassigned here
+                    # empties it on every recompute, and everything downstream
+                    # (account taxes, line totals, tax lines) is computed from it.
+                    imported_taxes = line.env["l10n_br_fiscal.tax"]
+                    for fiscal_tax_field in FISCAL_TAX_ID_FIELDS:
+                        imported_taxes |= line[fiscal_tax_field]
+                    line.fiscal_tax_ids = imported_taxes
                     continue
 
                 taxes = line.env["l10n_br_fiscal.tax"]
@@ -381,6 +392,12 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         if tax_fields_in_vals:
             # Por segurança, sempre recalcula se um campo relevante mudou.
             self._update_fiscal_tax_ids()
+
+        imported = self.filtered(lambda line: line._is_imported())
+        if imported and TAX_VALUE_FIELD_NAMES.intersection(vals):
+            tax_groups = imported._tax_groups_by_domain()
+            for line in imported:
+                line._update_imported_tax_amounts(tax_groups)
 
         return res
 
@@ -445,7 +462,13 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         Compute base, percent, value... tax fields for ICMS, IPI, PIS, COFINS... taxes.
         """
         null_mask = None
-        for line in self.filtered(lambda line: not line._is_imported()):
+        tax_groups = None
+        for line in self:
+            if line._is_imported():
+                if tax_groups is None:
+                    tax_groups = line._tax_groups_by_domain()
+                line._update_imported_tax_amounts(tax_groups)
+                continue
             if null_mask is None:
                 null_mask = self._build_null_mask_dict()
             to_update = null_mask.copy()
@@ -514,6 +537,67 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                 line.update(to_update)
             else:
                 line.write(to_update)
+
+    def _tax_groups_by_domain(self):
+        groups = self.env["l10n_br_fiscal.tax.group"].search([])
+        return {group.tax_domain: group for group in groups}
+
+    def _update_imported_tax_amounts(self, tax_groups):
+        self.ensure_one()
+        empty_group = self.env["l10n_br_fiscal.tax.group"]
+        amount_included = amount_not_included = amount_withholding = 0.0
+        for tax_field in FISCAL_TAX_ID_FIELDS:
+            tax_domain = tax_field[: -len("_tax_id")]
+            tax_value = self[TAX_VALUE_FIELDS[tax_domain]]
+            if not tax_value:
+                continue
+            tax_group = self[tax_field].tax_group_id or tax_groups.get(
+                tax_domain, empty_group
+            )
+            if tax_group.tax_withholding:
+                amount_withholding += tax_value
+            elif tax_group.tax_include:
+                amount_included += tax_value
+            else:
+                amount_not_included += tax_value
+        to_update = {
+            "amount_tax_included": amount_included,
+            "amount_tax_not_included": amount_not_included,
+            "amount_tax_withholding": amount_withholding,
+        }
+        if self != self._origin:
+            self.update(to_update)
+        else:
+            self.write(to_update)
+
+    def _get_imported_tax_values(self):
+        """Return the tax values of the imported file, keyed by tax domain.
+
+        An imported document keeps the amounts the issuer declared, so the
+        fiscal mapping must not replace them. The result is empty when the
+        line does not belong to an imported document.
+        """
+        if not self._is_imported():
+            return {}
+        self.ensure_one()
+        imported_values = {}
+        for tax_field in FISCAL_TAX_ID_FIELDS:
+            tax_domain = tax_field[: -len("_tax_id")]
+            tax_value = self[TAX_VALUE_FIELDS[tax_domain]]
+            if not tax_value:
+                continue
+            tax = self[tax_field]
+            base_field = f"{tax_domain}_base"
+            imported_values[tax_domain] = {
+                "name": tax.name,
+                "tax_domain": tax_domain,
+                "fiscal_tax_id": tax.id,
+                "tax_include": tax.tax_group_id.tax_include,
+                "tax_withholding": tax.tax_group_id.tax_withholding,
+                "base": self[base_field] if base_field in self._fields else 0.0,
+                "tax_value": tax_value,
+            }
+        return imported_values
 
     def _prepare_tax_fields(self, compute_result):
         self.ensure_one()
