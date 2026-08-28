@@ -368,6 +368,7 @@ class OperationLine(models.Model):
             city_taxation_code=city_taxation_code,
             national_taxation_code=national_taxation_code,
             service_type=service_type,
+            cfop=mapping_result["cfop"],
         ):
             self._build_mapping_result(mapping_result, tax_definition)
 
@@ -433,6 +434,7 @@ class OperationLine(models.Model):
             city_taxation_code=city_taxation_code,
             national_taxation_code=national_taxation_code,
             service_type=service_type,
+            cfop=mapping_result["cfop"],
         ):
             self._build_mapping_result(mapping_result, tax_definition)
 
@@ -450,6 +452,7 @@ class OperationLine(models.Model):
             city_taxation_code=city_taxation_code,
             national_taxation_code=national_taxation_code,
             service_type=service_type,
+            cfop=mapping_result["cfop"],
         ):
             self._build_mapping_result(mapping_result, tax_definition)
 
@@ -467,6 +470,7 @@ class OperationLine(models.Model):
             city_taxation_code=city_taxation_code,
             national_taxation_code=national_taxation_code,
             service_type=service_type,
+            cfop=mapping_result["cfop"],
         ):
             self._build_mapping_result(mapping_result, tax_definition)
 
