@@ -14,11 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_fiscal_subsequent_document
-#: model:ir.model.fields.selection,name:l10n_br_fiscal_subsequent_document.selection__l10n_br_fiscal_subsequent_operation__generation_situation__a_enviar
-msgid "Aguardando envio"
-msgstr ""
-
-#. module: l10n_br_fiscal_subsequent_document
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_subsequent_document.selection__l10n_br_fiscal_subsequent_operation__generation_situation__enviada
 msgid "Aguardando processamento"
 msgstr ""
@@ -29,17 +24,17 @@ msgid "Autorizada"
 msgstr ""
 
 #. module: l10n_br_fiscal_subsequent_document
-#: model:ir.model.fields.selection,name:l10n_br_fiscal_subsequent_document.selection__l10n_br_fiscal_subsequent_operation__generation_situation__cancelada
-msgid "Cancelada"
-msgstr ""
-
-#. module: l10n_br_fiscal_subsequent_document
 #. odoo-python
 #: code:addons/l10n_br_fiscal_subsequent_document/models/document.py:0
 #, python-format
 msgid ""
 "Canceling the document is not allowed: one or more associated documents have"
 " already been authorized."
+msgstr ""
+
+#. module: l10n_br_fiscal_subsequent_document
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_subsequent_document.selection__l10n_br_fiscal_subsequent_operation__generation_situation__cancelada
+msgid "Cancelled"
 msgstr ""
 
 #. module: l10n_br_fiscal_subsequent_document
@@ -76,6 +71,9 @@ msgid "Display Name"
 msgstr ""
 
 #. module: l10n_br_fiscal_subsequent_document
+#: model:ir.model.fields,field_description:l10n_br_fiscal_subsequent_document.field_account_bank_statement_line__document_subsequent_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal_subsequent_document.field_account_move__document_subsequent_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal_subsequent_document.field_account_payment__document_subsequent_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal_subsequent_document.field_l10n_br_fiscal_document__document_subsequent_ids
 msgid "Document Subsequent"
 msgstr ""
@@ -87,7 +85,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal_subsequent_document
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_subsequent_document.selection__l10n_br_fiscal_subsequent_operation__generation_situation__em_digitacao
-msgid "Em digitação"
+msgid "Draft"
 msgstr ""
 
 #. module: l10n_br_fiscal_subsequent_document
@@ -146,6 +144,11 @@ msgstr ""
 #. module: l10n_br_fiscal_subsequent_document
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_subsequent_document.selection__l10n_br_fiscal_subsequent_operation__generation_situation__manual
 msgid "Manualmente"
+msgstr ""
+
+#. module: l10n_br_fiscal_subsequent_document
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_subsequent_document.selection__l10n_br_fiscal_subsequent_operation__generation_situation__a_enviar
+msgid "Open"
 msgstr ""
 
 #. module: l10n_br_fiscal_subsequent_document
@@ -222,6 +225,18 @@ msgid "Subsequent Operation"
 msgstr ""
 
 #. module: l10n_br_fiscal_subsequent_document
+#: model:ir.model.fields,field_description:l10n_br_fiscal_subsequent_document.field_account_bank_statement_line__document_subsequent_generated
+#: model:ir.model.fields,field_description:l10n_br_fiscal_subsequent_document.field_account_move__document_subsequent_generated
+#: model:ir.model.fields,field_description:l10n_br_fiscal_subsequent_document.field_account_payment__document_subsequent_generated
 #: model:ir.model.fields,field_description:l10n_br_fiscal_subsequent_document.field_l10n_br_fiscal_document__document_subsequent_generated
 msgid "Subsequent documents generated?"
+msgstr ""
+
+#. module: l10n_br_fiscal_subsequent_document
+#. odoo-python
+#: code:addons/l10n_br_fiscal_subsequent_document/models/subsequent_document.py:0
+#, python-format
+msgid ""
+"The document cannot be deleted: the subsequent document has already been "
+"generated."
 msgstr ""
