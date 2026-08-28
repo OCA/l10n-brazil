@@ -19,6 +19,11 @@ msgid "CNPJ"
 msgstr ""
 
 #. module: l10n_br_crm
+#: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__vat_formatted_cnpj
+msgid "CNPJ or CPF formatted with proper punctuation and special characters"
+msgstr ""
+
+#. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cnpj_cpf_stripped
 msgid "CNPJ/CPF Stripped"
 msgstr ""
@@ -113,6 +118,11 @@ msgid "RG"
 msgstr ""
 
 #. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__show_br_vat_format
+msgid "Show Br Vat Format"
+msgstr ""
+
+#. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__show_l10n_br
 msgid "Show L10N Br"
 msgstr ""
@@ -143,6 +153,18 @@ msgid "Used in fiscal documents"
 msgstr ""
 
 #. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__vat_formatted_cnpj
+msgid "VAT Formatted (Brazil)"
+msgstr ""
+
+#. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__vat
 msgid "Vat"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__show_br_vat_format
+msgid ""
+"Whether to display VAT with Brazilian formatting (true when the current "
+"user's company is Brazilian)."
 msgstr ""
