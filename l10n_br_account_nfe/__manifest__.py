@@ -26,6 +26,9 @@
         "report/danfe_report.xml",
         "wizard/account_move_reversal_view.xml",
     ],
+    "demo": [
+        "demo/account_payment_mode_demo.xml",
+    ],
     "post_init_hook": "post_init_hook",
     "installable": True,
     "auto_install": True,

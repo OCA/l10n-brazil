@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2026 - TODAY Raphaël Valyi - Akretion
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<!--
+    The generic account_payment_mode demo payment modes are assigned to demo
+    partners via ir.default in account_payment_partner. NFe/NFC-e documents
+    require a fiscal payment mode (nfe40_tPag), so fill it here to keep the
+    full demo/CI suite working when l10n_br_account_nfe is installed.
+-->
+<odoo noupdate="1">
+    <record
+        id="account_payment_mode.payment_mode_inbound_ct1"
+        model="account.payment.mode"
+    >
+        <field name="fiscal_payment_mode">18</field>
+    </record>
+    <record
+        id="account_payment_mode.payment_mode_inbound_ct2"
+        model="account.payment.mode"
+    >
+        <field name="fiscal_payment_mode">18</field>
+    </record>
+    <record
+        id="account_payment_mode.payment_mode_inbound_dd1"
+        model="account.payment.mode"
+    >
+        <field name="fiscal_payment_mode">15</field>
+    </record>
+</odoo>
