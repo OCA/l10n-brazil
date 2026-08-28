@@ -280,7 +280,11 @@ class StockMove(models.Model):
         #  Quant deve ser registrado o preço padrão como era feito antes
         #  e continua sendo feito abaixo?
         if self.fiscal_operation_id.fiscal_operation_type == "out":
-            result = self.product_id.with_company(self.company_id).standard_price
+            result = {
+                self.env["stock.lot"]: self.product_id.with_company(
+                    self.company_id
+                ).standard_price
+            }
 
         return result
 
