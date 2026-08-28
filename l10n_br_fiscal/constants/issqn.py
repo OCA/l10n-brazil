@@ -12,7 +12,9 @@ ISSQN_ELIGIBILITY = [
 ]
 
 
-ISSQN_ELIGIBILITY_DEFAULT = "2"
+# "Exigivel" e o caso comum de uma nota de servico: com o default em "2",
+# nao incidencia, toda linha nascia declarando que o ISS nao incide.
+ISSQN_ELIGIBILITY_DEFAULT = "1"
 
 ISSQN_INCENTIVE = [
     ("1", "Sim"),
