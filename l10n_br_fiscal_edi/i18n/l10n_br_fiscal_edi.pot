@@ -65,6 +65,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_edi.selection__l10n_br_fiscal_document__state_edoc__enviada
+msgid "Aguardando processamento"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.document_form
 msgid "Authorization"
 msgstr ""
@@ -102,6 +107,16 @@ msgid "Authorization Protocol Number"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.document_search
+msgid "Authorized"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_edi.selection__l10n_br_fiscal_document__state_edoc__autorizada
+msgid "Autorizada"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_edi.selection__l10n_br_fiscal_event__type__0
 msgid "Autorização de Uso"
 msgstr ""
@@ -135,7 +150,6 @@ msgstr ""
 
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document__cancel_reason
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_workflow__cancel_reason
 msgid "Cancel Reason"
 msgstr ""
 
@@ -159,6 +173,7 @@ msgstr ""
 #: model:ir.actions.act_window,name:l10n_br_fiscal_edi.document_correction_wizard_action
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_edi.selection__l10n_br_fiscal_event__type__14
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.document_correction_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.document_form
 msgid "Carta de Correção"
 msgstr ""
 
@@ -212,7 +227,6 @@ msgstr ""
 
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document__correction_reason
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_workflow__correction_reason
 msgid "Correction Reason"
 msgstr ""
 
@@ -259,6 +273,11 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_edi.selection__l10n_br_fiscal_event__type__7
 msgid "DPEC Recepção"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_edi.selection__l10n_br_fiscal_document__state_edoc__denegada
+msgid "Denegada"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
@@ -424,11 +443,6 @@ msgid "Fiscal Document Type"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
-#: model:ir.model,name:l10n_br_fiscal_edi.model_l10n_br_fiscal_document_workflow
-msgid "Fiscal Document Workflow"
-msgstr ""
-
-#. module: l10n_br_fiscal_edi
 #: model:ir.actions.act_window,name:l10n_br_fiscal_edi.event_action
 #: model:ir.model,name:l10n_br_fiscal_edi.model_l10n_br_fiscal_event
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_base_wizard_mixin__event_id
@@ -439,6 +453,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_invalidate_number_wizard__event_id
 #: model:ir.ui.menu,name:l10n_br_fiscal_edi.event_menu
 msgid "Fiscal Event"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#: model:ir.model,name:l10n_br_fiscal_edi.model_l10n_br_fiscal_operation
+msgid "Fiscal Operation"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
@@ -593,29 +612,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
-#. odoo-python
-#: code:addons/l10n_br_fiscal_edi/models/document_workflow.py:0
-#, python-format
-msgid ""
-"Não é possível realizar esta operação,\n"
-"esta transição não é permitida:\n"
-"\n"
-"De: {old_state}\n"
-"\n"
-" Para: {new_state}"
-msgstr ""
-
-#. module: l10n_br_fiscal_edi
-#. odoo-python
-#: code:addons/l10n_br_fiscal_edi/models/document_workflow.py:0
-#, python-format
-msgid ""
-"Não é possível retornar o documento para em \n"
-"digitação, quando o mesmo esta na situação: \n"
-"%(old_state)s, %(fiscal_state)s"
-msgstr ""
-
-#. module: l10n_br_fiscal_edi
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.document_cancel_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.document_correction_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.invalidate_number_wizard
@@ -664,6 +660,16 @@ msgid "Recepção Evento"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.document_search
+msgid "Rejected"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_edi.selection__l10n_br_fiscal_document__state_edoc__rejeitada
+msgid "Rejeitada"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__response
 msgid "Response Message"
 msgstr ""
@@ -693,6 +699,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_fiscal_edi/models/document_event.py:0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_edi.selection__l10n_br_fiscal_event__state__send
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.document_search
 #, python-format
 msgid "Sending"
 msgstr ""
@@ -708,6 +715,11 @@ msgid "Service"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
+#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document__state_edoc
+msgid "Situação e-doc"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__origin
 msgid "Source Document"
 msgstr ""
@@ -717,6 +729,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_correction_wizard__state
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_invalidate_number_wizard__state
 msgid "State"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
+#, python-format
+msgid "State transition failed for action '%(action)s': %(error)s"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
@@ -756,6 +775,16 @@ msgid "Version"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.document_form
+msgid "View PDF"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.document_form
+msgid "View XML"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
 #. odoo-python
 #: code:addons/l10n_br_fiscal_edi/models/document_event.py:0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_edi.selection__l10n_br_fiscal_event__state__wait
@@ -780,18 +809,30 @@ msgstr ""
 
 #. module: l10n_br_fiscal_edi
 #. odoo-python
-#: code:addons/l10n_br_fiscal_edi/models/document_workflow.py:0
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
 #, python-format
 msgid ""
-"You cannot create a fiscal correction document if this fical document you "
-"are not the document issuer"
+"You can only create a fiscal correction for authorized documents issued by "
+"your company."
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
 #. odoo-python
-#: code:addons/l10n_br_fiscal_edi/models/document_workflow.py:0
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
 #, python-format
-msgid "You cannot invalidate this document"
+msgid ""
+"You can only invalidate the numbering of rejected or denied documents issued"
+" by your company."
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
+#, python-format
+msgid ""
+"You cannot return the document to draft when its fiscal state is "
+"%(fiscal_state)s, as it has already been recorded as cancelled for SPED "
+"purposes."
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
