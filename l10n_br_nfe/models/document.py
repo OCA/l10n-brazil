@@ -67,6 +67,9 @@ NFE_XML_NAMESPACE = {"nfe": "http://www.portalfiscal.inf.br/nfe"}
 _logger = logging.getLogger(__name__)
 
 
+CFOP_WITHOUT_IMPORT_DECLARATION = ("3201", "3202", "3503", "3553")
+
+
 def filter_processador_edoc_nfe(record):
     if record.processador_edoc == PROCESSADOR_OCA and record.document_type_id.code in [
         MODELO_FISCAL_NFE,
@@ -1201,6 +1204,32 @@ class NFe(spec_models.StackedModel):
                     " cannot be different from what is configured "
                     f"in the company: {company_nfe_environment}"
                 )
+            )
+
+    def _document_check(self):
+        for record in self.filtered(filter_processador_edoc_nfe):
+            record._check_import_declaration()
+        return super()._document_check()
+
+    def _check_import_declaration(self):
+        self.ensure_one()
+        lines = self.fiscal_line_ids.filtered(
+            lambda line: line.cfop_id.is_import
+            and line.cfop_id.code not in CFOP_WITHOUT_IMPORT_DECLARATION
+            and not line.nfe40_DI
+        )
+        if lines:
+            raise UserError(
+                _(
+                    "The import declaration is missing on the lines %(lines)s. "
+                    "SEFAZ rejects a NF-e whose CFOP starts with 3 and carries "
+                    "no DI group (rejection 525)."
+                )
+                % {
+                    "lines": ", ".join(
+                        line.name or line.product_id.display_name for line in lines
+                    )
+                }
             )
 
     def _document_export(self, pretty_print=True):

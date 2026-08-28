@@ -939,13 +939,23 @@ class NFeLine(spec_models.StackedModel):
     # Grupo P. Imposto de Importação
     ################################
 
-    # vBC TODO
-
     nfe40_vDespAdu = fields.Monetary(related="ii_customhouse_charges")
 
     nfe40_vII = fields.Monetary(related="ii_value")
 
     nfe40_vIOF = fields.Monetary(related="ii_iof_value", string="vIOF")
+
+    def _export_fields_nfe_40_ii(self, xsd_fields, class_obj, export_dict):
+        export_dict["vBC"] = self.ii_base
+
+    def _ii_percent_from_values(self, tax_binding, odoo_attrs):
+        base = float(getattr(tax_binding, "vBC", 0.0) or 0.0)
+        if not base:
+            return None
+        value = float(getattr(tax_binding, "vII", 0.0) or 0.0)
+        percent = round(value * 100 / base, 2)
+        odoo_attrs["ii_percent"] = percent
+        return percent
 
     ###############
     # NF-e tag: PIS
@@ -1541,6 +1551,8 @@ class NFeLine(spec_models.StackedModel):
         percent = map_binding_attr(
             f"p{kind.upper().replace('ST', '')}", f"{kind}_percent"
         )
+        if kind == "ii" and not percent:
+            percent = self._ii_percent_from_values(tax_binding, odoo_attrs)
         if kind in ("icms", "icmsufdest"):
             map_binding_attr("modBC", "icms_base_type")
             icms_percent_red = map_binding_attr("pRedBC", "icms_reduction")
