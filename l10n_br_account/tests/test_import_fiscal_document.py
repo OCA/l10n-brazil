@@ -176,3 +176,26 @@ class TestImportFiscalDocument(AccountMoveBRCommon):
 
         self.assertEqual(sum(payment_term_lines.mapped("credit")), 4280.25)
         self.assertEqual(document.amount_financial_total, 4280.25)
+
+    def test_the_importer_does_not_read_its_own_recordset(self):
+        """``import_fiscal_document`` is decorated ``@api.model``.
+
+        It used to read ``self.fiscal_operation_id`` to fill the line, and
+        ``self`` is empty on every call from the wizard and has more than one
+        record when ``button_import_fiscal_document`` runs over a recordset.
+        """
+        two_moves = self.env["account.move"].sudo().search([], limit=2)
+        self.assertEqual(len(two_moves), 2, "the test needs two invoices around")
+
+        move_form = two_moves.import_fiscal_document(
+            self.fiscal_document_to_import, move_type="in_invoice"
+        )
+        move = self.env["account.move"].sudo().browse(move_form.id)
+
+        lines = move.invoice_line_ids.filtered("fiscal_document_line_id")
+        self.assertTrue(lines)
+        for line in lines:
+            self.assertEqual(
+                line.fiscal_operation_id,
+                line.fiscal_document_line_id.fiscal_operation_id,
+            )

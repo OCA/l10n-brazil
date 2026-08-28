@@ -972,7 +972,9 @@ class AccountMove(models.Model):
                 line_form.cfop_id = (
                     line.cfop_id
                 )  # required if we disable some fiscal tax updates
-                line_form.fiscal_operation_id = self.fiscal_operation_id
+                line_form.fiscal_operation_id = (
+                    line.fiscal_operation_id or fiscal_document.fiscal_operation_id
+                )
                 line_form.fiscal_document_line_id = line
                 line_form.product_uom_id = line.uot_id
                 line_form.quantity = line.quantity
