@@ -28,6 +28,12 @@ msgid "(-) Tax Withholding"
 msgstr "(-) Retenção de Imposto"
 
 #. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/account_move_line.py:0
+msgid "(Discount)"
+msgstr ""
+
+#. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
 msgid "<span>Fiscal Details</span>"
 msgstr "<span>Detalhes Fiscais</span>"
