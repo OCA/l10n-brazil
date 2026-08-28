@@ -51,6 +51,35 @@ class NFeImportTest(TransactionCase):
         assert isinstance(nfe.id, int)
         self._check_nfe(nfe)
 
+    def test_items_without_gtin_do_not_all_match_the_same_product(self):
+        res_items = (
+            "nfe",
+            "samples",
+            "v4_0",
+            "leiauteNFe",
+            "35180834128745000152550010000474281920007498-nfe.xml",
+        )
+        resource_path = "/".join(res_items)
+        nfe_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
+        xml = nfe_stream.read().decode()
+        xml = re.sub(r"<cEAN>[^<]*</cEAN>", "<cEAN>SEM GTIN</cEAN>", xml)
+        xml = re.sub(
+            r"<cEANTrib>[^<]*</cEANTrib>", "<cEANTrib>SEM GTIN</cEANTrib>", xml
+        )
+
+        binding = TnfeProc.from_xml(xml)
+        nfe = self.env["l10n_br_fiscal.document"].import_binding_nfe(
+            binding, edoc_type="in", dry_run=False
+        )
+
+        codes = [line.nfe40_cProd for line in nfe.fiscal_line_ids]
+        self.assertEqual(len(set(codes)), len(codes))
+        self.assertEqual(
+            [line.product_id.default_code for line in nfe.fiscal_line_ids], codes
+        )
+        products = nfe.fiscal_line_ids.mapped("product_id")
+        self.assertEqual(len(products), len(nfe.fiscal_line_ids))
+
     def _check_nfe(self, nfe):
         self.assertEqual(type(nfe)._name, "l10n_br_fiscal.document")
         self.assertEqual(
