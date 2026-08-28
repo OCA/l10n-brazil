@@ -195,8 +195,45 @@ class NFeImportTest(TransactionCase):
         self.assertEqual(line.icms_tax_id, created)
         self.assertEqual(line.icms_tax_id.percent_reduction, 33.33)
 
+    def _sample_xml(self):
+        res_items = (
+            "nfe",
+            "samples",
+            "v4_0",
+            "leiauteNFe",
+            "35180834128745000152550010000474281920007498-nfe.xml",
+        )
+        resource_path = "/".join(res_items)
+        nfe_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
+        return nfe_stream.read().decode()
+
     def test_import_out_nfe(self):
         "(can be useful after an ERP migration)"
+        binding = TnfeProc.from_xml(self._sample_xml())
+        nfe = self.env["l10n_br_fiscal.document"].import_binding_nfe(
+            binding, edoc_type="out", dry_run=True
+        )
+        self.assertTrue(nfe.partner_id)
+        self.assertEqual(nfe.partner_id.vat, "68161525650")
+
+    def test_import_out_nfe_of_a_recipient_abroad(self):
+        """A recipient abroad carries idEstrangeiro instead of CNPJ or CPF."""
+        xml = self._sample_xml()
+        dest = xml[xml.index("<dest>") : xml.index("</dest>")]
+        dest_abroad = re.sub(
+            r"<(CNPJ|CPF)>[^<]*</(CNPJ|CPF)>",
+            "<idEstrangeiro>EXTERIOR</idEstrangeiro>",
+            dest,
+            count=1,
+        )
+        xml = xml.replace(dest, dest_abroad, 1)
+
+        binding = TnfeProc.from_xml(xml)
+        nfe = self.env["l10n_br_fiscal.document"].import_binding_nfe(
+            binding, edoc_type="out", dry_run=True
+        )
+        self.assertTrue(nfe.partner_id)
+        self.assertFalse(nfe.partner_id.vat)
 
     def test_import_in_nfe_ipi_reaches_the_totals(self):
         res_items = (
