@@ -129,6 +129,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.nfse_document_form_inherit
+msgid "<strong>Rejection reason:</strong>"
+msgstr ""
+
+#. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Avisos"
 msgstr ""
