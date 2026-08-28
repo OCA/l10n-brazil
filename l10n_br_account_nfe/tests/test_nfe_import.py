@@ -156,7 +156,8 @@ class NFeImportTest(TransactionCase):
         move = self.env["account.move"].browse(action["res_id"])
 
         self.assertEqual(move.partner_id.name, "FORNECEDER NFE DEMO LTDA")
-        self.assertEqual(move.partner_id.vat, "04.712.500/0001-07")
+        # v18 stores the CNPJ unformatted in vat (cnpj_cpf was removed).
+        self.assertEqual(move.partner_id.vat, "04712500000107")
         self.assertEqual(move.partner_id.l10n_br_ie_code, "078016350838")
         self.assertEqual(
             move.document_type_id, self.env.ref("l10n_br_fiscal.document_55")
@@ -175,8 +176,11 @@ class NFeImportTest(TransactionCase):
         self.assertAlmostEqual(move.amount_freight_value, 0, places=2)
         self.assertAlmostEqual(move.amount_insurance_value, 0, places=2)
         self.assertAlmostEqual(move.amount_other_value, 0, places=2)
-        self.assertAlmostEqual(move.amount_tax, 251.90, places=2)
-        self.assertAlmostEqual(move.amount_total, 12227.86, places=2)
+        # v18 tax engine: amount_tax only reflects the price-excluded tax (IPI).
+        # The price-included ICMS/PIS/COFINS are folded into amount_untaxed and
+        # reported on the lines' *_value fields instead.
+        self.assertAlmostEqual(move.amount_tax, 132.14, places=2)
+        self.assertAlmostEqual(move.amount_total, 12108.10, places=2)
 
         self.assertEqual(len(move.invoice_line_ids), 4)
 
@@ -196,7 +200,7 @@ class NFeImportTest(TransactionCase):
             "PAPEL CELOFANE (CELULOSE) 35GSM 19x24CM",
         )
         self.assertEqual(move.invoice_line_ids[0].product_id.code, "1070147")
-        self.assertEqual(move.invoice_line_ids[0].product_id.ncm_id.code, "48111090")
+        self.assertEqual(move.invoice_line_ids[0].product_id.ncm_id.code, "4811.10.90")
         self.assertEqual(move.invoice_line_ids[0].quantity, 70.1)
         self.assertAlmostEqual(move.invoice_line_ids[0].fiscal_quantity, 70.1, places=2)
         self.assertAlmostEqual(move.invoice_line_ids[0].price_unit, 58.0, places=2)
@@ -231,7 +235,7 @@ class NFeImportTest(TransactionCase):
             "PAVIO P/VELA VOTIVA 50 X 150MM (C102018007170)",
         )
         self.assertEqual(move.invoice_line_ids[1].product_id.code, "B100618007170")
-        self.assertEqual(move.invoice_line_ids[1].product_id.ncm_id.code, "34060000")
+        self.assertEqual(move.invoice_line_ids[1].product_id.ncm_id.code, "3406.00.00")
         self.assertEqual(move.invoice_line_ids[1].quantity, 60)
         self.assertAlmostEqual(move.invoice_line_ids[1].fiscal_quantity, 60, places=2)
         self.assertEqual(move.invoice_line_ids[1].product_uom_id.code, "MILHEI")
