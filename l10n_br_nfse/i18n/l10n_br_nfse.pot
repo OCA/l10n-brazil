@@ -157,6 +157,11 @@ msgid "City Settings"
 msgstr ""
 
 #. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company__city_taxation_code_id
+msgid "City Taxation Code"
+msgstr ""
+
+#. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_account_bank_statement_line__civil_construction_art
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_account_move__civil_construction_art
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_account_payment__civil_construction_art
@@ -527,6 +532,11 @@ msgstr ""
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Tributos Federais (Lei 12.741/2012)"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company__nfse_use_city_pdf
+msgid "Use City NFSe PDF"
 msgstr ""
 
 #. module: l10n_br_nfse
