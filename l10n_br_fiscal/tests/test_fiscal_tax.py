@@ -5,7 +5,7 @@ from odoo.tests import TransactionCase
 from odoo.tools import float_compare
 
 from ..constants.fiscal import FINAL_CUSTOMER_NO, FINAL_CUSTOMER_YES
-from ..constants.icms import ICMS_ORIGIN_DEFAULT
+from ..constants.icms import ICMS_ORIGIN_DEFAULT, ICMS_ORIGIN_TAX_IMPORTED
 from .tools import load_fiscal_fixture_files
 
 
@@ -380,3 +380,10 @@ class TestFiscalTax(TransactionCase):
         )
 
         self.assertEqual(compute_result["taxes"]["icms"]["cst_id"].code, "10")
+
+    def test_the_foreign_origins_without_similar_use_the_imported_estimate(self):
+        """Origins 6 and 7 are foreign and were missing from the list."""
+        self.assertIn("6", ICMS_ORIGIN_TAX_IMPORTED)
+        self.assertIn("7", ICMS_ORIGIN_TAX_IMPORTED)
+        self.assertNotIn("4", ICMS_ORIGIN_TAX_IMPORTED)
+        self.assertNotIn("5", ICMS_ORIGIN_TAX_IMPORTED)
