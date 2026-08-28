@@ -653,6 +653,53 @@ class TestNFeIBSCBS(TransactionCase):
         self.assertEqual(result.cClassTrib, "410004")
         self.assertIsNone(result.gIBSCBS)
 
+    def test_export_field_ibscbstot_exempt_document(self):
+        line = self._create_exempt_line()
+
+        self.assertEqual(sum(self.document.fiscal_line_ids.mapped("ibs_value")), 0.0)
+        self.assertEqual(sum(self.document.fiscal_line_ids.mapped("cbs_value")), 0.0)
+        self.assertTrue(line._has_nfe40_ibscbs())
+
+        result = self.document._export_field("nfe40_IBSCBSTot", None, None)
+        self.assertIsNot(result, False)
+        self.assertEqual(result.vBCIBSCBS, "0.00")
+        self.assertEqual(result.gIBS.vIBS, "0.00")
+        self.assertEqual(result.gCBS.vCBS, "0.00")
+
+    def test_export_field_ibscbstot_base_only_from_taxed_lines(self):
+        exempt = self._create_exempt_line()
+        taxed = self.env["l10n_br_fiscal.document.line"].create(
+            {
+                "document_id": self.document.id,
+                "product_id": self.product.id,
+                "quantity": 1.0,
+                "price_unit": 200.0,
+            }
+        )
+        taxed.write({"ibs_value": 10.0, "ibs_base": 0.0})
+
+        self.assertFalse(exempt._has_nfe40_ibscbs_amounts())
+        self.assertTrue(taxed._has_nfe40_ibscbs_amounts())
+        self.assertEqual(taxed._build_nfe40_gibscbs().vBC, "200.00")
+
+        result = self.document._export_field("nfe40_IBSCBSTot", None, None)
+        self.assertEqual(result.vBCIBSCBS, "200.00")
+
+    def test_export_field_ibscbstot_without_reform_taxes(self):
+        self.env["l10n_br_fiscal.document.line"].create(
+            {
+                "document_id": self.document.id,
+                "product_id": self.product.id,
+                "quantity": 1.0,
+                "price_unit": 100.0,
+                "tax_classification_id": False,
+                "ibs_cst_id": False,
+                "cbs_cst_id": False,
+            }
+        )
+
+        self.assertFalse(self.document._export_field("nfe40_IBSCBSTot", None, None))
+
 
 @tagged("post_install", "-at_install")
 class TestNFeVItemVNFTot(TransactionCase):
