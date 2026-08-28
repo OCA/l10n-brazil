@@ -5,6 +5,7 @@
 from odoo import api, fields
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK_SIMPLES_ALL
+from odoo.addons.l10n_br_nfse.constants.nfse import ISSQN_TO_TRIBUTACAO_ISS
 from odoo.addons.spec_driven_model.models import spec_models
 
 
@@ -102,7 +103,19 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
     nfse10_vDescIncond = fields.Char(compute="_compute_nfse10_valores")
     nfse10_vDescCond = fields.Char(compute="_compute_nfse10_valores")
 
-    nfse10_tribISSQN = fields.Selection(default="1")
+    nfse10_tribISSQN = fields.Selection(
+        compute="_compute_nfse10_tribISSQN",
+        store=True,
+        readonly=False,
+    )
+
+    @api.depends("issqn_eligibility")
+    def _compute_nfse10_tribISSQN(self):
+        for record in self:
+            record.nfse10_tribISSQN = ISSQN_TO_TRIBUTACAO_ISS.get(
+                record.issqn_eligibility, "1"
+            )
+
     nfse10_tpRetISSQN = fields.Selection(compute="_compute_nfse10_trib_mun")
     nfse10_pAliq = fields.Char(compute="_compute_nfse10_trib_mun")
 
