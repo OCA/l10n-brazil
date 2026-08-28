@@ -813,13 +813,6 @@ msgid "Document Status"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__document_subsequent_ids
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__document_subsequent_ids
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__document_subsequent_ids
-msgid "Document Subsequent"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__document_type_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report__document_type_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__document_type_id
@@ -2416,13 +2409,6 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields.selection,name:l10n_br_account.selection__account_invoice_report__fiscal_type__05
 msgid "Subproduto"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__document_subsequent_generated
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__document_subsequent_generated
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__document_subsequent_generated
-msgid "Subsequent documents generated?"
 msgstr ""
 
 #. module: l10n_br_account
