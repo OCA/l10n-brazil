@@ -68,12 +68,12 @@ def check_cnpj_cpf(env, cnpj_cpf_value, country, force_validation=False):
                 # 765.865.078-12 - CPF
                 # 76586507812 - CPF
                 clean_cnpj_cpf_value = "".join(
-                    char for char in cnpj_cpf_value if char.isdigit()
+                    char for char in cnpj_cpf_value if char.isalnum()
                 )
                 error_msg = False
                 if len(clean_cnpj_cpf_value) not in (11, 14):
                     error_msg = env._(
-                        "The size of CPF must have 11 and the CNPJ 14 digits "
+                        "The size of CPF must have 11 and the CNPJ 14 characters "
                         "without dot, dash and slash; in this case:\n\n"
                         "CPF or CNPJ: %(d_clean_id)s\n"
                         "Size: %(d_size_id)s",

@@ -5,7 +5,6 @@ from erpbrasil.base import misc
 from erpbrasil.base.fiscal import cnpj_cpf
 
 from odoo import api, fields, models
-from odoo.fields import Domain
 
 
 class PartyMixin(models.AbstractModel):
@@ -19,12 +18,30 @@ class PartyMixin(models.AbstractModel):
         help="CNPJ/CPF without special characters",
         compute="_compute_cnpj_cpf_stripped",
         store=True,
-        index=True,
+        # trigram GIN index to speed up the leading-wildcard ilike issued by
+        # name_search (see _rec_names_search on res.partner). The value is
+        # alphanumeric and never accented, so the index is always used.
+        index="trigram",
+    )
+
+    vat_formatted_cnpj = fields.Char(
+        string="VAT Formatted (Brazil)",
+        compute="_compute_vat_formatted_cnpj",
+        help="CNPJ or CPF formatted with proper punctuation and special characters",
+    )
+
+    show_br_vat_format = fields.Boolean(
+        compute="_compute_show_br_vat_format",
+        help="Whether to display VAT with Brazilian formatting (true when the"
+        " current user's company is Brazilian).",
     )
 
     l10n_br_ie_code = fields.Char(
         string="State Tax Number",
         size=17,
+        # trigram: alphanumeric value, index and query stay on the raw column
+        # so the GIN index accelerates the ilike unconditionally.
+        index="trigram",
     )
 
     state_tax_number_ids = fields.One2many(
@@ -46,6 +63,15 @@ class PartyMixin(models.AbstractModel):
     legal_name = fields.Char(
         size=128,
         help="Used in fiscal documents",
+        # trigram GIN index to speed up the name_search ilike on legal_name.
+        # Names carry accents and must match accent-insensitively; the index
+        # is only effective when the database `unaccent` function is
+        # IMMUTABLE (INDEXABLE): only then does Odoo build the index on
+        # unaccent(legal_name), matching the unaccent(col) like unaccent(%s)
+        # query. On a stock PostgreSQL the contrib unaccent is STABLE, not
+        # immutable, so the index is built on the raw column and the planner
+        # cannot use it. See the PR body.
+        index="trigram",
     )
 
     city_id = fields.Many2one(
@@ -63,6 +89,11 @@ class PartyMixin(models.AbstractModel):
         size=32,
     )
 
+    show_l10n_br = fields.Boolean(
+        compute="_compute_show_l10n_br",
+        help="Should display Brazilian localization fields?",
+    )
+
     def _default_country_id(self):
         """Default country set to Brazil if the current company is Brazilian.
         Can be overridden in other modules if needed.
@@ -74,25 +105,53 @@ class PartyMixin(models.AbstractModel):
         )
 
     @api.model
-    def search(self, domain, offset=0, limit=None, order=None, count=False):
-        """in the case of a simple search with only OR terms and a vat ilike condition,
-        inject the possibility to match the cnpj_cpf_stripped field.
+    def _expand_vat_search_domain(self, domain):
+        """Expand simple ``vat ilike`` domain leaves so searching with a
+        formatted CNPJ/CPF (with punctuation) also matches, even though
+        ``vat`` is stored unformatted. The punctuation-stripped term is
+        matched against the indexed ``cnpj_cpf_stripped`` field.
         """
-        if not any(term == "&" for term in domain) and not self.env.context.get(
-            "no_stripped_match"
-        ):
-            for term in domain:
-                if (
-                    isinstance(term, list | tuple)
-                    and len(term) == 3
-                    and term[0] == "vat"
-                    and term[1] == "ilike"
-                ):
-                    domain = Domain(domain) | Domain(
-                        [("cnpj_cpf_stripped", "ilike", term[2])]
-                    )
-                    break
-        return super().search(domain, offset, limit, order)
+        if self.env.context.get("no_stripped_match"):
+            return domain
+        new_domain = []
+        for term in domain:
+            if (
+                isinstance(term, list | tuple)
+                and len(term) == 3
+                and term[0] == "vat"
+                and term[1] in ("ilike", "=ilike")
+                and term[2]
+            ):
+                stripped = "".join(char for char in str(term[2]) if char.isalnum())
+                if stripped and stripped != term[2]:
+                    new_domain += [
+                        "|",
+                        ("vat", term[1], term[2]),
+                        ("cnpj_cpf_stripped", term[1], stripped),
+                    ]
+                    continue
+            new_domain.append(term)
+        return new_domain
+
+    @api.model
+    def _search(
+        self,
+        domain,
+        offset=0,
+        limit=None,
+        order=None,
+        *,
+        active_test=True,
+        bypass_access=False,
+    ):
+        return super()._search(
+            self._expand_vat_search_domain(domain),
+            offset=offset,
+            limit=limit,
+            order=order,
+            active_test=active_test,
+            bypass_access=bypass_access,
+        )
 
     @api.depends("vat")
     def _compute_cnpj_cpf_stripped(self):
@@ -103,6 +162,20 @@ class PartyMixin(models.AbstractModel):
                 )
             else:
                 record.cnpj_cpf_stripped = False
+
+    @api.depends("vat", "country_id")
+    def _compute_vat_formatted_cnpj(self):
+        for record in self:
+            vat_formatted_cnpj = False
+            if record.vat and record.country_id and record.country_id.code == "BR":
+                vat_formatted_cnpj = cnpj_cpf.formata(record.vat)
+            record.vat_formatted_cnpj = vat_formatted_cnpj
+
+    @api.depends_context("company")
+    def _compute_show_br_vat_format(self):
+        br_company = self.env.company.country_id.code == "BR"
+        for record in self:
+            record.show_br_vat_format = br_company
 
     @api.onchange("zip")
     def _onchange_zip(self):
@@ -123,6 +196,51 @@ class PartyMixin(models.AbstractModel):
 
     @api.onchange("vat")
     def _onchange_vat(self):
-        """Format the VAT field (CNPJ/CPF) with proper punctuation."""
+        """Keep VAT unformatted; the formatted value is available via
+        vat_formatted_cnpj.
+        """
         if self.vat:
-            self.vat = cnpj_cpf.formata(str(self.vat))
+            vals = {"vat": self.vat}
+            self._normalize_vat(vals)
+            self.vat = vals["vat"]
+
+    @api.model
+    def _normalize_vat(self, vals):
+        """Strip punctuation from Brazilian VAT values so they are stored
+        unformatted.
+        """
+        if not isinstance(vals, dict):
+            return
+        vat = vals.get("vat")
+        if not vat:
+            return
+        country_id = vals.get("country_id")
+        if country_id:
+            country = self.env["res.country"].browse(country_id)
+        elif self and len(self) == 1:
+            country = self.country_id
+        else:
+            country = self.env.company.country_id
+        if country and country.code == "BR":
+            vals["vat"] = misc.punctuation_rm(str(vat))
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            self._normalize_vat(vals)
+        return super().create(vals_list)
+
+    def write(self, vals):
+        self._normalize_vat(vals)
+        return super().write(vals)
+
+    @api.depends("country_id")
+    def _compute_show_l10n_br(self):
+        """
+        Defines when Brazilian localization fields should be displayed.
+        """
+        for record in self:
+            show_l10n_br = False
+            if record.country_id == record.env.ref("base.br"):
+                show_l10n_br = True
+            record.show_l10n_br = show_l10n_br

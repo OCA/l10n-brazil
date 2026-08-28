@@ -19,8 +19,8 @@ class Partner(models.Model):
     @property
     def _rec_names_search(self):
         names = super()._rec_names_search
-        names += ["cnpj_cpf_stripped", "legal_name", "l10n_br_ie_code"]
-        return names
+        # not "names +=": that would extend the parent class attribute in place
+        return names + ["cnpj_cpf_stripped", "legal_name", "l10n_br_ie_code"]
 
     def _inverse_street_data(self):
         """In Brazil the address format is street_name, street_number
@@ -43,11 +43,6 @@ class Partner(models.Model):
         comodel_name="res.partner.pix",
         inverse_name="partner_id",
         help="Keys for Brazilian instant payment (pix)",
-    )
-
-    show_l10n_br = fields.Boolean(
-        compute="_compute_show_l10n_br",
-        help="Should display Brazilian localization fields?",
     )
 
     is_br_partner = fields.Boolean(
@@ -98,43 +93,42 @@ class Partner(models.Model):
     @api.constrains("vat", "l10n_br_ie_code")
     def _check_cnpj_l10n_br_ie_code(self):
         for record in self:
-            domain = []
-
             if not record.vat:
-                return
+                continue
 
             if self.env.context.get(
                 "disable_allow_cnpj_multi_ie"
             ) or self.env.context.get("allow_vat_duplicate"):
-                return
+                continue
 
-            allow_cnpj_multi_ie = (
+            # allow_cnpj_multi_ie is a res.config.settings boolean: it is stored
+            # as "True" when enabled and removed entirely when disabled
+            # (set_param deletes on a False bool), so a plain bool() reads it
+            # correctly (absent -> strict), matching base_setup.show_effect.
+            allow_cnpj_multi_ie = bool(
                 record.env["ir.config_parameter"]
                 .sudo()
-                .get_param("l10n_br_base.allow_cnpj_multi_ie", default=True)
+                .get_param("l10n_br_base.allow_cnpj_multi_ie")
             )
 
+            domain = []
             if record.parent_id:
                 domain += [
                     ("id", "not in", record.parent_id.ids),
                     ("parent_id", "not in", record.parent_id.ids),
                 ]
 
-            if record.vat:
-                domain += [
-                    ("vat", "=", record.vat),
-                    ("id", "!=", record.id),
-                    ("parent_id", "!=", record.id),
-                ]
-                return
+            domain += [
+                ("vat", "=", record.vat),
+                ("id", "!=", record.id),
+                ("parent_id", "!=", record.id),
+            ]
 
             matches = record.env["res.partner"].search(domain, limit=1)
             if matches:
                 if cnpj_cpf.validar_cnpj(record.vat):
-                    if allow_cnpj_multi_ie == "True":
-                        for partner in record.env["res.partner"].search(
-                            domain, limit=1
-                        ):
+                    if allow_cnpj_multi_ie:
+                        for partner in matches:
                             if (
                                 partner.l10n_br_ie_code == record.l10n_br_ie_code
                                 and record.l10n_br_ie_code
@@ -156,7 +150,7 @@ class Partner(models.Model):
                                 "(ID %(partner_id)s) with this CNPJ %(vat)s!",
                                 name=matches[0].name,
                                 partner_id=matches[0].id,
-                                vat=self.vat,
+                                vat=record.vat,
                             )
                         )
                 elif not record.is_company:
@@ -241,16 +235,6 @@ class Partner(models.Model):
     @api.onchange("city_id")
     def _onchange_city_id(self):
         self.city = self.city_id.name
-
-    def _compute_show_l10n_br(self):
-        """
-        Defines when Brazilian localization fields should be displayed.
-        """
-        for rec in self:
-            if rec.company_id and rec.company_id.country_id != self.env.ref("base.br"):
-                rec.show_l10n_br = False
-            else:
-                rec.show_l10n_br = True
 
     def create_company(self):
         self.ensure_one()

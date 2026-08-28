@@ -9,31 +9,34 @@
         <field name="model">res.company</field>
         <field name="inherit_id" ref="base.view_company_form" />
         <field name="arch" type="xml">
+            <field name="vat" position="attributes">
+                <attribute name="invisible">show_l10n_br</attribute>
+            </field>
+            <field name="vat" position="after">
+                <field name="vat_formatted_cnpj" invisible="not show_l10n_br" />
+            </field>
             <field name="company_registry" position="after">
                 <field
                     name="legal_name"
                     placeholder="Legal Name..."
-                    invisible="country_id != %(base.br)d"
+                    invisible="not show_l10n_br"
                 />
                 <field
                     name="l10n_br_ie_code"
                     placeholder="State Tax Number..."
-                    invisible="country_id != %(base.br)d"
+                    invisible="not show_l10n_br"
                 />
                 <field
                     name="l10n_br_im_code"
                     placeholder="Municipal Tax Number..."
-                    invisible="country_id != %(base.br)d"
+                    invisible="not show_l10n_br"
                 />
                 <field
                     name="l10n_br_isuf_code"
                     placeholder="Suframa"
                     invisible="state_id != %(base.state_br_am)d"
                 />
-                <field
-                    name="state_tax_number_ids"
-                    invisible="country_id != %(base.br)d"
-                >
+                <field name="state_tax_number_ids" invisible="not show_l10n_br">
                     <list editable="bottom">
                         <!-- field name="company_id" column_invisible="1" /-->
                         <field name="l10n_br_ie_code" />
@@ -69,7 +72,12 @@
         <field name="inherit_id" ref="base.view_company_tree" />
         <field name="arch" type="xml">
             <field name="name" position="after">
-                <field name="vat" />
+                <field
+                    name="vat_formatted_cnpj"
+                    string="CNPJ"
+                    invisible="not show_br_vat_format"
+                />
+                <field name="vat" string="VAT" invisible="show_br_vat_format" />
             </field>
         </field>
     </record>

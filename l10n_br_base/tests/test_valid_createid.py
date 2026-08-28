@@ -190,8 +190,13 @@ class ValidCreateIdTest(TransactionCase):
         )
         self.assertEqual(
             partner.vat,
-            self.partner_valid["vat"],
-            "vat should be equal to CPF for a br partner",
+            "73441962206",
+            "vat should be unformatted CPF for a br partner",
+        )
+        self.assertEqual(
+            partner.vat_formatted_cnpj,
+            "734.419.622-06",
+            "vat_formatted_cnpj should be formatted CPF",
         )
 
     def test_vat_computation_without_cnpj(self):
@@ -248,8 +253,13 @@ class ValidCreateIdTest(TransactionCase):
         )
         self.assertEqual(  # FIXME
             partner.vat,
+            "93429799000117",
+            "The VAT must be unformatted as stored by core Odoo",
+        )
+        self.assertEqual(
+            partner.vat_formatted_cnpj,
             "93.429.799/0001-17",
-            "The VAT must be the same as what was registered",
+            "The VAT/CNPJ must be formatted for display",
         )
 
     def test_create_company_in_brazil(self):
@@ -276,7 +286,7 @@ class ValidCreateIdTest(TransactionCase):
         )
         self.assertEqual(
             company.vat,
-            partner.vat,
+            "93429799000117",
             "The company CNPJ_CPF must be the same as the partner VAT",
         )
         self.assertEqual(

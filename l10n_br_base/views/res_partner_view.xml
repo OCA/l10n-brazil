@@ -15,18 +15,27 @@
         </field>
     </record>
 
-    <!--record id="l10n_br_base_res_partner_tree" model="ir.ui.view">
+    <record id="l10n_br_base_res_partner_tree" model="ir.ui.view">
         <field name="name">l10n_br_base.res.partner.tree</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_tree" />
         <field name="arch" type="xml">
             <field name="display_name" position="after">
-                <field name="legal_name" />
-                <field name="vat" />
-                <field name="l10n_br_ie_code" />
+                <field
+                    name="vat_formatted_cnpj"
+                    string="CNPJ/CPF"
+                    optional="show"
+                    invisible="not show_br_vat_format"
+                />
+                <field
+                    name="vat"
+                    string="VAT"
+                    optional="hide"
+                    invisible="show_br_vat_format"
+                />
             </field>
         </field>
-    </record-->
+    </record>
 
     <record id="l10n_br_base_partner_form" model="ir.ui.view">
         <field name="name">l10n_br_base.res.partner.form</field>
@@ -40,7 +49,8 @@
             <xpath expr="//h1" position="after">
                 <field name="city_id" invisible="1" />
                 <!-- Allow inject city_id on context above -->
-                <div>
+                <div invisible="not show_l10n_br">
+                    <field name="show_l10n_br" invisible="1" />
                     <label for="legal_name" string="Full Name" invisible="is_company" />
                     <label
                         for="legal_name"
@@ -48,8 +58,8 @@
                         invisible="not is_company"
                     />
                 </div>
-                <field name="legal_name" nolabel="1" />
-                <div>
+                <field name="legal_name" nolabel="1" invisible="not show_l10n_br" />
+                <div invisible="not show_l10n_br">
                     <label for="vat" string="CPF" invisible="is_company" />
                     <label
                         for="vat"
@@ -57,12 +67,21 @@
                         invisible="not is_company"
                     />
                 </div>
-                <field name="vat" nolabel="1" />
-                <div>
+                <field name="vat" nolabel="1" invisible="show_l10n_br" />
+                <field
+                    name="vat_formatted_cnpj"
+                    nolabel="1"
+                    invisible="not show_l10n_br"
+                />
+                <div invisible="not show_l10n_br">
                     <label for="l10n_br_rg_code" string="RG" invisible="is_company" />
                 </div>
-                <field name="l10n_br_rg_code" nolabel="1" invisible="is_company" />
-                <div name="l10n_br_ie_code">
+                <field
+                    name="l10n_br_rg_code"
+                    nolabel="1"
+                    invisible="is_company and not show_l10n_br"
+                />
+                <div name="l10n_br_ie_code" invisible="not show_l10n_br">
                     <label
                         for="l10n_br_ie_code"
                         string="IE"
@@ -73,11 +92,11 @@
                     colspan="4"
                     name="l10n_br_ie_code"
                     nolabel="1"
-                    invisible="not is_company and parent_id"
+                    invisible="not is_company and parent_id and not show_l10n_br"
                 />
             </xpath>
             <page position="after" name="sales_purchases">
-                <page string="Fiscal" name="fiscal">
+                <page string="Fiscal" name="fiscal" invisible="not show_l10n_br">
                     <group name="fiscal">
                         <group string="Fiscal Infos" name="fiscal_numbers">
                             <field name="l10n_br_im_code" invisible="not is_company" />

@@ -3,7 +3,6 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError
 
 
 class Company(models.Model):
@@ -22,6 +21,7 @@ class Company(models.Model):
             "state_tax_number_ids",
             "street_number",
             "street_name",
+            "street_number2",
         ]
 
     def _inverse_legal_name(self):
@@ -39,6 +39,10 @@ class Company(models.Model):
     def _inverse_street_number(self):
         for company in self:
             company.partner_id.street_number = company.street_number
+
+    def _inverse_street_number2(self):
+        for company in self:
+            company.partner_id.street_number2 = company.street_number2
 
     def _inverse_l10n_br_ie_code(self):
         for company in self:
@@ -91,6 +95,10 @@ class Company(models.Model):
         inverse="_inverse_street_number",
     )
 
+    street_number2 = fields.Char(
+        compute="_compute_address", inverse="_inverse_street_number2"
+    )
+
     city_id = fields.Many2one(
         domain="[('state_id', '=', state_id)]",
         compute="_compute_address",
@@ -128,40 +136,6 @@ class Company(models.Model):
         if view_type == "form":
             arch = self._view_get_address(arch)
         return arch, view
-
-    def write(self, values):
-        """
-        Overriden so we can change the currency_id of base.main_company
-        and specific demo companies even if constraints would normally prevent it.
-        """
-        try:
-            return super().write(values)
-        except UserError as e:
-            brl_currency = self.env.ref("base.BRL", raise_if_not_found=False)
-            usd_currency = self.env.ref("base.USD", raise_if_not_found=False)
-            if (
-                not brl_currency
-                or not usd_currency
-                or values.get("currency_id") not in (brl_currency.id, usd_currency.id)
-            ):
-                raise e
-
-            demo_refs = [
-                "base.main_company",
-                "l10n_br_base.empresa_simples_nacional",
-                "l10n_br_base.empresa_lucro_presumido",
-            ]
-
-            allowed_companies = self.env["res.company"]
-            for ref in demo_refs:
-                company = self.env.ref(ref, raise_if_not_found=False)
-                if company:
-                    allowed_companies |= company
-
-            if allowed_companies and not (self - allowed_companies):
-                return super(models.Model, self).write(values)
-
-            raise e
 
     @api.onchange("state_id")
     def _onchange_state_id(self):
