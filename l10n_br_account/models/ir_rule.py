@@ -8,6 +8,9 @@ from odoo.tools import config
 class IrRule(models.Model):
     _inherit = "ir.rule"
 
+    def _compute_domain_keys(self):
+        return super()._compute_domain_keys() + ["allow_fiscal_access"]
+
     @api.model
     @tools.conditional(
         "xml" not in config["dev_mode"],
