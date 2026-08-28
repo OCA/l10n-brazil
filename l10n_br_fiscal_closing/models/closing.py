@@ -19,6 +19,7 @@ from odoo.exceptions import RedirectWarning
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
+    DOCUMENT_STATE_CANCEL,
     MODELO_FISCAL_CFE,
     MODELO_FISCAL_CTE,
     MODELO_FISCAL_CUPOM_FISCAL_ECF,
@@ -28,10 +29,11 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFE,
     MODELO_FISCAL_NFSE,
     MODELO_FISCAL_RL,
-    SITUACAO_EDOC_AUTORIZADA,
-    SITUACAO_EDOC_CANCELADA,
-    SITUACAO_EDOC_DENEGADA,
     SITUACAO_EDOC_INUTILIZADA,
+)
+from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import (
+    DOCUMENT_STATE_AUTHORIZED,
+    DOCUMENT_STATE_DENIED,
 )
 
 _logger = logging.getLogger(__name__)
@@ -47,9 +49,9 @@ PATH_MODELO = {
 }
 
 SITUACAO_EDOC = [
-    SITUACAO_EDOC_AUTORIZADA,
-    SITUACAO_EDOC_CANCELADA,
-    SITUACAO_EDOC_DENEGADA,
+    DOCUMENT_STATE_AUTHORIZED,
+    DOCUMENT_STATE_CANCEL,
+    DOCUMENT_STATE_DENIED,
     SITUACAO_EDOC_INUTILIZADA,
 ]
 

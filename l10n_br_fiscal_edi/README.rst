@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ==========================
 Common EDI fiscal features
 ==========================
@@ -17,7 +13,7 @@ Common EDI fiscal features
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
@@ -32,12 +28,47 @@ Common EDI fiscal features
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Este módulo estende o módulo ``l10n_br_fiscal`` e cuida da parte de EDI
-(Electronic Data Interchange) que é comum entre os vários documentos
-fiscais no Brasil. Ele introduz os modelos de eventos de transmissão, de
-correções... Alem disso ele cuida das possíveis transições de estado do
-documento fiscal em função dos retornos dos webservices (campo
-``state_edoc``).
+Este módulo fornece a infraestrutura base para o Intercâmbio Eletrônico
+de Dados (EDI) de documentos fiscais brasileiros no Odoo.
+
+Ele implementa uma Máquina de Estados Finitos (FSM - Finite State
+Machine) para gerenciar o ciclo de vida dos documentos fiscais
+eletrônicos (NF-e, NFC-e, NFS-e, CT-e, MDF-e etc.), garantindo
+integridade, consistência e rastreabilidade das transições de estado.
+
+Principais Características
+--------------------------
+
+- **Máquina de Estados (FSM):** controle rigoroso das transições de
+  estado (por exemplo, de ``draft`` para ``open``, depois para
+  ``sending`` e finalmente para ``authorized``, ``rejected`` ou
+  ``denied``), com bloqueio de movimentos inválidos.
+- **Configuração extensível por documento:** a FSM base é definida no
+  método ``get_state_machine_config()`` e pode ser sobrescrita por
+  módulos específicos de documento fiscal para ajustar estados,
+  transições e callbacks.
+- **Gerenciamento de Eventos:** arquitetura para suportar eventos
+  fiscais vinculados ao documento, como Cancelamento, Carta de Correção
+  Eletrônica (CC-e) e Inutilização de Numeração.
+- **Abstração de Protocolo:** separa a lógica de negócios da lógica de
+  comunicação. Módulos específicos (como ``l10n_br_nfe`` ou
+  ``l10n_br_nfse``) herdam deste módulo para implementar a integração
+  com webservices (SEFAZ/Prefeituras), enquanto o ``l10n_br_fiscal_edi``
+  orquestra o fluxo.
+- **Interface Padronizada:** oferece uma experiência consistente com
+  botões e ações uniformes, independentemente do modelo de documento
+  fiscal.
+
+Workflow de Estados
+-------------------
+
+O diagrama abaixo ilustra os estados e transições padrão definidos no
+módulo base (a configuração pode ser estendida/sobrescrita por módulos
+filhos):
+
+|FSM state diagram|
+
+.. |FSM state diagram| image:: https://raw.githubusercontent.com/OCA/l10n-brazil/17.0/l10n_br_fiscal_edi/static/description/fsm_graph.png
 
 **Table of contents**
 
@@ -47,23 +78,87 @@ documento fiscal em função dos retornos dos webservices (campo
 Usage
 =====
 
-Use os botões na barra de header do documento fiscal para alterar o
-estado do documento fiscal, para abrir os wizards e para interagir com a
-fazenda... Quando o módulo ``l10n_br_account`` ou alguns módulos de
-documentos fiscais específicos como ``l10n_br_nfe`` ou ``l10n_br_nfse``
-são instalados, alguns métodos de transição de estado do módulo
-``l10n_br_fiscal_edi`` são chamados automaticamente, por exemplo ao
-confirmar ou cancelar uma nota.
+O fluxo operacional para emissão e gerenciamento de documentos fiscais
+(eletrônicos e não eletrônicos) segue as etapas abaixo.
 
-Known issues / Roadmap
-======================
+1. Validação (``draft`` -> ``open``)
 
-O código deste módulo foi feito antes dos repos ``OCA/edi`` e
-``OCA/edi-framework``. O código do ``document_workflow.py`` por exemplo
-foi uma espécie de tradução em código do "workflow de state machine" que
-tinha sido customizado para a NFe na versão 8.0 mas que teve que ser
-re-escrito quando o engine de workflow foi removido na versão 10.0.
-Nisso o código deste módulo tem bastante possibilidades de melhorias...
+--------------
+
+- O documento inicia no estado **Rascunho** (``draft``).
+- Ao clicar no botão **Confirmar**, o sistema executa validações de
+  integridade, define data, comentário, numeração/sequência (quando
+  aplicável) e demais preparações do documento.
+- O estado muda para **Em Aberto** (``open``), indicando que o documento
+  está apto para o próximo passo.
+
+2. Transmissão (``open`` -> ``sending`` -> resultado)
+
+--------------
+
+- No estado **Em Aberto**, o botão **Enviar** fica disponível.
+
+- Ao enviar, o documento vai para o estado transitório **Enviando**
+  (``sending``), e a camada de integração executa a comunicação com o
+  fisco.
+
+- Possíveis resultados padrão:
+
+  - **Autorizado** (``authorized``): autorização concluída com protocolo
+    e XML de retorno.
+  - **Rejeitado** (``rejected``): erros de validação retornados pelo
+    fisco. O usuário corrige o documento e pode enviar novamente.
+  - **Denegado** (``denied``): irregularidade fiscal. Em geral,
+    representa um estado final para aquela numeração.
+
+- Observação: para documentos não eletrônicos (ou sem processador), o
+  fluxo de envio pode finalizar diretamente em **Autorizado** conforme a
+  implementação.
+
+3. Cancelamento (``*`` -> ``cancel``)
+
+--------------
+
+- O estado **Cancelado** (``cancel``) pode ser atingido a partir de
+  múltiplos estados no fluxo base (``authorized``, ``open``,
+  ``rejected``, ``draft``, ``sending``).
+- Para documentos autorizados eletrônicos emitidos pela empresa, a ação
+  de cancelar abre assistente próprio para coleta/processamento da
+  justificativa.
+- Para documentos ainda não autorizados, o cancelamento pode ocorrer
+  diretamente no fluxo local.
+
+4. Retorno para Rascunho (``*`` -> ``draft``)
+
+--------------
+
+- O fluxo base permite retornar para **Rascunho** (``draft``) a partir
+  de ``open``, ``sending``, ``rejected``, ``cancel``, ``denied`` e
+  também de ``draft`` (idempotente).
+- Essa ação limpa informações transitórias de erro/relatório para
+  permitir nova preparação do documento.
+
+5. Eventos e correções
+
+--------------
+
+- **Carta de Correção (CC-e):** para documentos autorizados que suportam
+  o evento.
+- **Inutilização de Numeração:** para faixas de numeração não
+  utilizadas, conforme regras fiscais aplicáveis.
+
+6. Extensão do workflow por módulo fiscal
+
+--------------
+
+A FSM deste módulo é projetada para extensão. Módulos de tipos fiscais
+específicos podem sobrescrever ``get_state_machine_config()`` e
+callbacks relacionados para:
+
+- incluir estados adicionais;
+- alterar transições válidas;
+- personalizar regras de pré/pós-transição;
+- adaptar o fluxo ao comportamento dos webservices de cada documento.
 
 Bug Tracker
 ===========

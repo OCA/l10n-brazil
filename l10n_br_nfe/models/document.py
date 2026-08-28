@@ -33,6 +33,9 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     CANCELADO_FORA_PRAZO,
     DENEGADO,
     DOCUMENT_ISSUER_COMPANY,
+    DOCUMENT_STATE_CANCEL,
+    DOCUMENT_STATE_DRAFT,
+    DOCUMENT_STATE_OPEN,
     EVENT_ENV_HML,
     EVENT_ENV_PROD,
     EVENTO_RECEBIDO,
@@ -41,16 +44,16 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFE,
     PROCESSADOR_OCA,
     SERVICO_PARALIZADO,
-    SITUACAO_EDOC_A_ENVIAR,
-    SITUACAO_EDOC_AUTORIZADA,
-    SITUACAO_EDOC_CANCELADA,
-    SITUACAO_EDOC_DENEGADA,
-    SITUACAO_EDOC_EM_DIGITACAO,
-    SITUACAO_EDOC_REJEITADA,
     SITUACAO_FISCAL_CANCELADO,
     SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
 )
 from odoo.addons.l10n_br_fiscal.tools import remove_non_ascii_characters
+from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import (
+    DOCUMENT_STATE_AUTHORIZED,
+    DOCUMENT_STATE_DENIED,
+    DOCUMENT_STATE_REJECTED,
+    DOCUMENT_STATE_SENDING,
+)
 from odoo.addons.spec_driven_model.models import spec_models
 
 from ..constants.nfe import (
@@ -61,6 +64,13 @@ from ..constants.nfe import (
     NFE_TRANSMISSIONS,
     NFE_VERSIONS,
 )
+
+SITUACAO_EDOC_CANCELADA = DOCUMENT_STATE_CANCEL
+SITUACAO_EDOC_EM_DIGITACAO = DOCUMENT_STATE_DRAFT
+SITUACAO_EDOC_REJEITADA = DOCUMENT_STATE_REJECTED
+SITUACAO_EDOC_AUTORIZADA = DOCUMENT_STATE_AUTHORIZED
+SITUACAO_EDOC_DENEGADA = DOCUMENT_STATE_DENIED
+SITUACAO_EDOC_A_ENVIAR = DOCUMENT_STATE_OPEN
 
 PRODUCT_CODE_FISCAL_DOCUMENT_TYPES = ["55", "01"]
 NFE_XML_NAMESPACE = {"nfe": "http://www.portalfiscal.inf.br/nfe"}
@@ -171,8 +181,8 @@ class NFe(spec_models.StackedModel):
                 and record.document_type_id.prefix
                 and record.document_key
             ):
-                record.nfe40_Id = "{}{}".format(
-                    record.document_type_id.prefix, record.document_key
+                record.nfe40_Id = (
+                    f"{record.document_type_id.prefix}{record.document_key}"
                 )
             else:
                 record.nfe40_Id = None
@@ -279,9 +289,11 @@ class NFe(spec_models.StackedModel):
 
     nfe40_verProc = fields.Char(
         copy=False,
-        default=lambda s: s.env["ir.config_parameter"]
-        .sudo()
-        .get_param("l10n_br_nfe.version.name", default="Odoo Brasil OCA v14"),
+        default=lambda s: (
+            s.env["ir.config_parameter"]
+            .sudo()
+            .get_param("l10n_br_nfe.version.name", default="Odoo Brasil OCA v14")
+        ),
     )
 
     ##########################
@@ -1082,7 +1094,7 @@ class NFe(spec_models.StackedModel):
         for rec in self.filtered(filter_processador_edoc_nfe):
             if (
                 rec.document_type in PRODUCT_CODE_FISCAL_DOCUMENT_TYPES
-                and rec.state_edoc == "a_enviar"
+                and rec.state_edoc == DOCUMENT_STATE_OPEN
             ):
                 for line in rec.fiscal_line_ids:
                     if not line.product_id.default_code and not line.nfe40_cProd:
@@ -1108,7 +1120,10 @@ class NFe(spec_models.StackedModel):
                     rec, rec.document_date
                 )
 
-                if rec.state_edoc in ["a_enviar", "autorizada"] and (
+                if rec.state_edoc in [
+                    DOCUMENT_STATE_OPEN,
+                    DOCUMENT_STATE_AUTHORIZED,
+                ] and (
                     key_date.year != document_date.year
                     or key_date.month != document_date.month
                 ):
@@ -1310,7 +1325,7 @@ class NFe(spec_models.StackedModel):
         erros = "\n".join(erros)
         self.write({"xml_error_message": erros or False})
 
-    def _exec_after_SITUACAO_EDOC_AUTORIZADA(self, old_state, new_state):
+    def _after_document_authorize(self):
         self.ensure_one()
         if (
             self.document_type_id.code in [MODELO_FISCAL_NFE]
@@ -1325,7 +1340,7 @@ class NFe(spec_models.StackedModel):
                 # Se der problema que apareça quando
                 # o usuário clicar no gerar PDF novamente.
                 _logger.error(f"DANFE Error \n {e}")
-        return super()._exec_after_SITUACAO_EDOC_AUTORIZADA(old_state, new_state)
+        return super()._after_document_authorize()
 
     def _generate_key(self):
         if self.document_type_id.code not in [
@@ -1491,13 +1506,22 @@ class NFe(spec_models.StackedModel):
         for record in self.filtered(filter_processador_edoc_nfe):
             if record.xml_error_message:
                 return  # Skip
-            if record.state_edoc not in ["enviada", "a_enviar"]:
+
+            # Allow processing if state is sending or if we are forcing retry
+            if record.state_edoc not in [DOCUMENT_STATE_SENDING, DOCUMENT_STATE_OPEN]:
                 return  # Skip
+
             if record.document_type == MODELO_FISCAL_NFCE:
                 record._prepare_nfce_send()
-            if record.state_edoc == "enviada":
+
+            # If we have a receipt number, we are checking status (ASYNC)
+            if (
+                record.authorization_event_id
+                and record.authorization_event_id.lot_receipt_number
+            ):
                 record._nfe_consult_receipt()
-            if record.state_edoc == "a_enviar":
+            else:
+                # Otherwise we send
                 record._nfe_send_for_authorization()
 
     def _nfe_send_for_authorization(self):
@@ -1550,7 +1574,7 @@ class NFe(spec_models.StackedModel):
         self.authorization_event_id.lot_receipt_number = (
             send_process.resposta.infRec.nRec
         )
-        self.state_edoc = "enviada"
+        self.state_edoc = DOCUMENT_STATE_SENDING
 
     def _nfe_process_authorization(self, authorization_process):
         """

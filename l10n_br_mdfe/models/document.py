@@ -62,6 +62,7 @@ def filtered_processador_edoc_mdfe(record):
 class MDFe(spec_models.StackedModel):
     _name = "l10n_br_fiscal.document"
     _inherit = ["l10n_br_fiscal.document", "mdfe.30.tmdfe_infmdfe"]
+
     _mdfe30_odoo_module = (
         "odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_tipos_basico_v3_00"
     )
@@ -107,6 +108,13 @@ class MDFe(spec_models.StackedModel):
         readonly=False,
     )
 
+    mdfe_environment = fields.Selection(
+        selection=MDFE_ENVIRONMENTS,
+        string="Environment",
+        copy=False,
+        default=lambda self: self.env.company.mdfe_environment,
+    )
+
     ##########################
     # MDF-e spec related fields
     ##########################
@@ -144,8 +152,8 @@ class MDFe(spec_models.StackedModel):
                 and record.document_type_id.prefix
                 and record.document_key
             ):
-                record.mdfe30_Id = "{}{}".format(
-                    record.document_type_id.prefix, record.document_key
+                record.mdfe30_Id = (
+                    f"{record.document_type_id.prefix}{record.document_key}"
                 )
 
     def _inverse_mdfe30_id_tag(self):
@@ -162,13 +170,6 @@ class MDFe(spec_models.StackedModel):
     )
 
     mdfe30_tpAmb = fields.Selection(related="mdfe_environment")
-
-    mdfe_environment = fields.Selection(
-        selection=MDFE_ENVIRONMENTS,
-        string="Environment",
-        copy=False,
-        default=lambda self: self.env.company.mdfe_environment,
-    )
 
     mdfe30_tpEmit = fields.Selection(related="mdfe_emit_type")
 
@@ -751,6 +752,19 @@ class MDFe(spec_models.StackedModel):
             "imported_document": True,
         }
 
+    def _prepare_import_dict(
+        self, values, model=None, parent_dict=None, defaults_model=None
+    ):
+        res = super()._prepare_import_dict(values, model, parent_dict, defaults_model)
+        res["imported_document"] = True
+        if "mdfe30_mod" in values:
+            res["document_type_id"] = (
+                self.env["l10n_br_fiscal.document.type"]
+                .search([("code", "=", values["mdfe30_mod"])], limit=1)
+                .id
+            )
+        return res
+
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
         if field_name == "mdfe30_prodPred":
             if self.mdfe30_prodPred.mdfe30_infLotacao:
@@ -851,19 +865,6 @@ class MDFe(spec_models.StackedModel):
             )
 
         return super()._export_many2one(field_name, xsd_required, class_obj)
-
-    def _prepare_import_dict(
-        self, values, model=None, parent_dict=None, defaults_model=None
-    ):
-        res = super()._prepare_import_dict(values, model, parent_dict, defaults_model)
-        res["imported_document"] = True
-        if "mdfe30_mod" in values:
-            res["document_type_id"] = (
-                self.env["l10n_br_fiscal.document.type"]
-                .search([("code", "=", values["mdfe30_mod"])], limit=1)
-                .id
-            )
-        return res
 
     def _get_mdfe_modal_to_build(self, module):
         modal_by_binding_module = {

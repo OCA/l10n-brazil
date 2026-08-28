@@ -17,9 +17,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFSE,
     PROCESSADOR_OCA,
     SITUACAO_EDOC_A_ENVIAR,
-    SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
-    SITUACAO_EDOC_EM_DIGITACAO,
     SITUACAO_EDOC_ENVIADA,
     SITUACAO_EDOC_REJEITADA,
 )
@@ -528,13 +526,15 @@ class TestL10nBrNfseFocus(common.TransactionCase):
             "2024-01-01T05:10:12", "%Y-%m-%dT%H:%M:%S"
         )  # Setting date in/out
 
+        document.action_document_confirm()
+
         # Testing logic for response 202
-        document._eletronic_document_send()  # Sending electronic document
+        document.action_document_send()  # Sending electronic document
         # Here you would verify if the document state was correctly updated
         # This depends on how you implemented the state update logic in your method
 
         self.assertEqual(
-            document.state,
+            document.state_edoc,
             SITUACAO_EDOC_ENVIADA,
             "The document state should be updated to sent due to error 422",
         )
@@ -542,15 +542,15 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         # Testing logic for response 422
         document._eletronic_document_send()  # Sending electronic document again
         self.assertEqual(
-            document.state,
+            document.state_edoc,
             SITUACAO_EDOC_REJEITADA,
             "The document state should be 'rejected' after processing with status 422",
         )
 
         # Testing sending of the document with response 500
-        document._eletronic_document_send()  # Sending electronic document once more
+        document.action_document_send()  # Sending electronic document once more
         self.assertEqual(
-            document.state,
+            document.state_edoc,
             SITUACAO_EDOC_REJEITADA,
             "The document state should remain 'rejected' "
             "after processing with status 500",
@@ -567,7 +567,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
     def test_cron_document_status_focus(self):
         """Tests scheduled job for updating document status."""
         record = self.nfse_demo
-        record.state = "enviada"  # Setting document state to 'sent'
+        record.state_edoc = SITUACAO_EDOC_ENVIADA  # Setting document state to 'sent'
 
         with patch(
             "odoo.addons.l10n_br_nfse_focus.models.document.Document.search"
@@ -601,9 +601,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         mock_cancel_document_focus.return_value = (
             True  # Simulating successful cancellation
         )
-        result = record._exec_before_SITUACAO_EDOC_CANCELADA(
-            SITUACAO_EDOC_EM_DIGITACAO, SITUACAO_EDOC_A_ENVIAR
-        )  # Executing before status change
+        result = record._before_document_cancel()  # Executing before status change
         # Asserting cancellation was attempted
         mock_cancel_document_focus.assert_called_once()
         self.assertEqual(
@@ -617,9 +615,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         record = self.nfse_demo
         record.company_id.provedor_nfse = False
 
-        result = record._exec_before_SITUACAO_EDOC_CANCELADA(
-            SITUACAO_EDOC_AUTORIZADA, SITUACAO_EDOC_CANCELADA
-        )
+        result = record._before_document_cancel()
 
         mock_cancel_document_focus.assert_not_called()
         self.assertTrue(result)
@@ -840,9 +836,11 @@ class TestL10nBrNfseFocus(common.TransactionCase):
             "2024-01-01T05:10:12", "%Y-%m-%dT%H:%M:%S"
         )
 
-        document._eletronic_document_send()
+        document.action_document_confirm()
 
-        self.assertEqual(document.state, SITUACAO_EDOC_ENVIADA)
+        document.action_document_send()
+
+        self.assertEqual(document.state_edoc, SITUACAO_EDOC_ENVIADA)
         mock_process.assert_called_once()
 
     @patch(
@@ -865,7 +863,9 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         document.document_type_id.code = MODELO_FISCAL_NFSE
         document.company_id.provedor_nfse = "focusnfe"
         document.company_id.focusnfe_nfse_type = "nfse_nacional"
-        document.state = "enviada"
+        document.state_edoc = SITUACAO_EDOC_ENVIADA
+        document.document_date = datetime.now()
+        document.date_in_out = datetime.now()
 
         with patch(
             "odoo.addons.l10n_br_nfse_focus.models.document.requests.get"
@@ -1055,7 +1055,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         document.company_id.provedor_nfse = "focusnfe"
         document.company_id.focusnfe_nfse_type = "nfse_nacional"
         document.company_id.focusnfe_nfse_force_odoo_danfse = False
-        document.state = "enviada"
+        document.state_edoc = SITUACAO_EDOC_ENVIADA
         document.nfse_environment = "1"
         json_data = {
             "status": "autorizado",
@@ -1080,8 +1080,8 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         document.authorization_event_id = auth_event
 
         with patch(
-            "odoo.addons.l10n_br_fiscal_edi.models.document_workflow.DocumentWorkflow._change_state"
-        ) as mock_change_state:
+            "odoo.addons.l10n_br_fiscal_edi.models.document.Document._trigger_fsm"
+        ) as mock_trigger_fsm:
             with patch(
                 "odoo.addons.l10n_br_nfse_focus.models.document.Document.make_focus_nfse_pdf"
             ) as mock_make_pdf:
@@ -1098,7 +1098,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
                             json_data,
                         )
 
-                    mock_change_state.assert_called_once()
+                    mock_trigger_fsm.assert_called_once_with("action_authorize")
                     mock_make_pdf.assert_called_once()
                     mock_set_done.assert_called_once()
 
@@ -1125,7 +1125,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         document.company_id.provedor_nfse = "focusnfe"
         document.company_id.focusnfe_nfse_type = "nfse"
         document.company_id.focusnfe_nfse_force_odoo_danfse = False
-        document.state = "enviada"
+        document.state_edoc = SITUACAO_EDOC_ENVIADA
         document.nfse_environment = "1"
         json_data = {
             "status": "autorizado",
@@ -1150,8 +1150,8 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         document.authorization_event_id = auth_event
 
         with patch(
-            "odoo.addons.l10n_br_fiscal_edi.models.document_workflow.DocumentWorkflow._change_state"
-        ) as mock_change_state:
+            "odoo.addons.l10n_br_fiscal_edi.models.document.Document._trigger_fsm"
+        ) as mock_trigger_fsm:
             with patch(
                 "odoo.addons.l10n_br_nfse_focus.models.document.Document.make_focus_nfse_pdf"
             ) as mock_make_pdf:
@@ -1161,7 +1161,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
                     mock_get.return_value.content = b"%PDF-test%%EOF"
                     document._process_authorized_status_municipal(document, json_data)
 
-                    mock_change_state.assert_called_once()
+                    mock_trigger_fsm.assert_called_once_with("action_authorize")
                     mock_make_pdf.assert_called_once()
                     mock_set_done.assert_called_once()
 
@@ -1171,12 +1171,12 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         json_data = {"erros": [{"mensagem": "Error message"}]}
 
         with patch(
-            "odoo.addons.l10n_br_fiscal_edi.models.document_workflow.DocumentWorkflow._change_state"
-        ) as mock_change_state:
+            "odoo.addons.l10n_br_fiscal_edi.models.document.Document._trigger_fsm"
+        ) as mock_trigger_fsm:
             document._process_error_status(document, json_data)
 
             self.assertEqual(document.edoc_error_message, "Error message")
-            mock_change_state.assert_called_once()
+            mock_trigger_fsm.assert_called_once_with("action_reject")
 
     def test_process_error_status_no_errors(self):
         """Tests processing error status without errors list."""
@@ -1184,11 +1184,11 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         json_data = {}
 
         with patch(
-            "odoo.addons.l10n_br_fiscal_edi.models.document_workflow.DocumentWorkflow._change_state"
-        ) as mock_change_state:
+            "odoo.addons.l10n_br_fiscal_edi.models.document.Document._trigger_fsm"
+        ) as mock_trigger_fsm:
             document._process_error_status(document, json_data)
 
-            mock_change_state.assert_called_once()
+            mock_trigger_fsm.assert_called_once_with("action_reject")
 
     @patch("odoo.addons.l10n_br_nfse_focus.models.document.requests.get")
     def test_create_cancel_event(self, mock_get):
@@ -1428,14 +1428,14 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         document.document_type_id.code = MODELO_FISCAL_NFSE
         document.company_id.provedor_nfse = "focusnfe"
         document.company_id.focusnfe_nfse_type = "nfse_nacional"
-        document.state = "enviada"
+        document.state_edoc = SITUACAO_EDOC_ENVIADA
 
         with patch(
             "odoo.addons.l10n_br_nfse_focus.models.document.Document._process_authorized_status_nacional"  # noqa: B950
         ) as mock_process:
             with patch("odoo.addons.l10n_br_nfse_focus.models.document.requests.get"):
                 with patch(
-                    "odoo.addons.l10n_br_fiscal_edi.models.document_workflow.DocumentWorkflow._change_state"
+                    "odoo.addons.l10n_br_fiscal_edi.models.document.Document._change_state"
                 ):
                     result = document._process_status_nacional(document)
 
@@ -1460,21 +1460,20 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         document.document_type_id.code = MODELO_FISCAL_NFSE
         document.company_id.provedor_nfse = "focusnfe"
         document.company_id.focusnfe_nfse_type = "nfse_nacional"
-        document.state = "enviada"
+        document.state_edoc = SITUACAO_EDOC_ENVIADA
 
         with patch(
-            "odoo.addons.l10n_br_nfse_focus.models.document.Document._process_error_status"
+            "odoo.addons.l10n_br_nfse_focus.models.document"
+            ".Document._process_error_status"
         ) as mock_process:
-            with patch(
-                "odoo.addons.l10n_br_fiscal_edi.models.document_workflow.DocumentWorkflow._change_state"
-            ):
-                result = document._process_status_nacional(document)
+            result = document._process_status_nacional(document)
 
-                self.assertIn("erro_autorizacao", result)
-                mock_process.assert_called_once()
+            self.assertIn("erro_autorizacao", result)
+            mock_process.assert_called_once()
 
     @patch(
-        "odoo.addons.l10n_br_nfse_focus.models.nfse_nacional.FocusnfeNfseNacional.query_focus_nfse_nacional_by_ref"  # noqa: B950
+        "odoo.addons.l10n_br_nfse_focus.models.nfse_nacional"
+        ".FocusnfeNfseNacional.query_focus_nfse_nacional_by_ref"
     )
     def test_process_status_nacional_cancelado(self, mock_query):
         """Tests process status nacional with cancelado status."""
@@ -1488,19 +1487,26 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         document.document_type_id.code = MODELO_FISCAL_NFSE
         document.company_id.provedor_nfse = "focusnfe"
         document.company_id.focusnfe_nfse_type = "nfse_nacional"
-        document.state = "enviada"
+        document.state_edoc = SITUACAO_EDOC_ENVIADA
         document.cancel_reason = "Teste"
 
+        # Only the provider call is mocked: the document must actually be
+        # cancelled locally (regression: calling action_document_cancel()
+        # here just returned the wizard action and left the state untouched).
         with patch(
-            "odoo.addons.l10n_br_fiscal_edi.models.document_workflow.DocumentWorkflow._document_cancel"
+            "odoo.addons.l10n_br_nfse_focus.models.document.Document"
+            ".cancel_document_focus",
+            return_value=True,
         ) as mock_cancel:
             result = document._process_status_nacional(document)
 
             self.assertIn("cancelado", result)
             mock_cancel.assert_called_once()
+        self.assertEqual(document.state_edoc, SITUACAO_EDOC_CANCELADA)
 
     @patch(
-        "odoo.addons.l10n_br_nfse_focus.models.nfse_municipal.FocusnfeNfse.query_focus_nfse_by_rps"  # noqa: B950
+        "odoo.addons.l10n_br_nfse_focus.models.nfse_municipal"
+        ".FocusnfeNfse.query_focus_nfse_by_rps"
     )
     def test_process_status_municipal_autorizado(self, mock_query):
         """Tests process status municipal with autorizado status."""
@@ -1519,14 +1525,15 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         document.document_type_id.code = MODELO_FISCAL_NFSE
         document.company_id.provedor_nfse = "focusnfe"
         document.company_id.focusnfe_nfse_type = "nfse"
-        document.state = "enviada"
+        document.state_edoc = SITUACAO_EDOC_ENVIADA
 
         with patch(
-            "odoo.addons.l10n_br_nfse_focus.models.document.Document._process_authorized_status_municipal"  # noqa: B950
+            "odoo.addons.l10n_br_nfse_focus.models.document"
+            ".Document._process_authorized_status_municipal"
         ) as mock_process:
             with patch("odoo.addons.l10n_br_nfse_focus.models.document.requests.get"):
                 with patch(
-                    "odoo.addons.l10n_br_fiscal_edi.models.document_workflow.DocumentWorkflow._change_state"
+                    "odoo.addons.l10n_br_fiscal_edi.models.document.Document._change_state"
                 ):
                     result = document._process_status_municipal(document)
 
@@ -1534,7 +1541,8 @@ class TestL10nBrNfseFocus(common.TransactionCase):
                     mock_process.assert_called_once()
 
     @patch(
-        "odoo.addons.l10n_br_nfse_focus.models.nfse_municipal.FocusnfeNfse.query_focus_nfse_by_rps"  # noqa: B950
+        "odoo.addons.l10n_br_nfse_focus.models.nfse_municipal"
+        ".FocusnfeNfse.query_focus_nfse_by_rps"
     )
     def test_process_status_municipal_erro(self, mock_query):
         """Tests process status municipal with erro status."""
@@ -1551,18 +1559,19 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         document.document_type_id.code = MODELO_FISCAL_NFSE
         document.company_id.provedor_nfse = "focusnfe"
         document.company_id.focusnfe_nfse_type = "nfse"
-        document.state = "enviada"
+        document.state_edoc = SITUACAO_EDOC_ENVIADA
 
         with patch(
-            "odoo.addons.l10n_br_fiscal_edi.models.document_workflow.DocumentWorkflow._change_state"
-        ) as mock_change_state:
+            "odoo.addons.l10n_br_fiscal_edi.models.document.Document._trigger_fsm"
+        ) as mock_trigger_fsm:
             result = document._process_status_municipal(document)
 
             self.assertIn("erro_autorizacao", result)
-            mock_change_state.assert_called_once()
+            mock_trigger_fsm.assert_called_once_with("action_reject")
 
     @patch(
-        "odoo.addons.l10n_br_nfse_focus.models.nfse_nacional.FocusnfeNfseNacional.process_focus_nfse_nacional_document"  # noqa: B950
+        "odoo.addons.l10n_br_nfse_focus.models.nfse_nacional"
+        ".FocusnfeNfseNacional.process_focus_nfse_nacional_document"
     )
     def test_process_send_nacional_422_autorizada(self, mock_process):
         """Tests process send nacional with 422 and autorizada code."""
@@ -1576,7 +1585,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         document.document_type_id.code = MODELO_FISCAL_NFSE
         document.company_id.provedor_nfse = "focusnfe"
         document.company_id.focusnfe_nfse_type = "nfse_nacional"
-        document.state = "enviada"
+        document.state_edoc = SITUACAO_EDOC_ENVIADA
         document.document_date = datetime.now()
         document.date_in_out = datetime.now()
 
@@ -1584,14 +1593,15 @@ class TestL10nBrNfseFocus(common.TransactionCase):
             "odoo.addons.l10n_br_nfse_focus.models.document.Document._document_status"
         ) as mock_status:
             with patch(
-                "odoo.addons.l10n_br_fiscal_edi.models.document_workflow.DocumentWorkflow._change_state"
+                "odoo.addons.l10n_br_fiscal_edi.models.document.Document._trigger_fsm"
             ):
                 document._process_send_nacional(document)
 
                 mock_status.assert_called_once()
 
     @patch(
-        "odoo.addons.l10n_br_nfse_focus.models.nfse_municipal.FocusnfeNfse.process_focus_nfse_document"  # noqa: B950
+        "odoo.addons.l10n_br_nfse_focus.models.nfse_municipal"
+        ".FocusnfeNfse.process_focus_nfse_document"
     )
     def test_process_send_municipal_422_autorizada(self, mock_process):
         """Tests process send municipal with 422 and autorizada code."""
@@ -1605,7 +1615,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         document.document_type_id.code = MODELO_FISCAL_NFSE
         document.company_id.provedor_nfse = "focusnfe"
         document.company_id.focusnfe_nfse_type = "nfse"
-        document.state = "enviada"
+        document.state_edoc = SITUACAO_EDOC_ENVIADA
         document.document_date = datetime.now()
         document.date_in_out = datetime.now()
 
@@ -1613,17 +1623,19 @@ class TestL10nBrNfseFocus(common.TransactionCase):
             "odoo.addons.l10n_br_nfse_focus.models.document.Document._document_status"
         ) as mock_status:
             with patch(
-                "odoo.addons.l10n_br_fiscal_edi.models.document_workflow.DocumentWorkflow._change_state"
+                "odoo.addons.l10n_br_fiscal_edi.models.document.Document._trigger_fsm"
             ):
                 document._process_send_municipal(document)
 
                 mock_status.assert_called_once()
 
     @patch(
-        "odoo.addons.l10n_br_nfse_focus.models.nfse_nacional.FocusnfeNfseNacional.query_focus_nfse_nacional_by_ref"  # noqa: B950
+        "odoo.addons.l10n_br_nfse_focus.models.nfse_nacional"
+        ".FocusnfeNfseNacional.query_focus_nfse_nacional_by_ref"
     )
     @patch(
-        "odoo.addons.l10n_br_nfse_focus.models.nfse_nacional.FocusnfeNfseNacional.cancel_focus_nfse_nacional_document"  # noqa: B950
+        "odoo.addons.l10n_br_nfse_focus.models.nfse_nacional"
+        ".FocusnfeNfseNacional.cancel_focus_nfse_nacional_document"
     )
     def test_process_cancel_base_already_cancelled(self, mock_cancel, mock_query):
         """Tests process cancel base when already cancelled."""

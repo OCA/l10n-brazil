@@ -8,10 +8,10 @@
     "author": "KMEE, Odoo Community Association (OCA)",
     "maintainers": ["mileo"],
     "website": "https://github.com/OCA/l10n-brazil",
-    "development_status": "Production/Stable",
+    "development_status": "Beta",
     "version": "17.0.1.0.0",
     "depends": [
-        "l10n_br_fiscal",
+        "l10n_br_fiscal_edi",
     ],
     "data": [
         "security/ir.model.access.csv",
