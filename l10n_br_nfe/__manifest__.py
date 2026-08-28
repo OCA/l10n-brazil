@@ -29,6 +29,7 @@
         "views/nfe_document_view.xml",
         "views/nfe_document_line_view.xml",
         "views/nfe_di_view.xml",
+        "views/nfe_detexport_view.xml",
         "views/res_config_settings_view.xml",
         "views/nfe_md_event_view.xml",
         "views/supplier_info_view.xml",
