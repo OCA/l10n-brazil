@@ -88,6 +88,7 @@
         <field name="issqn_value">0.00</field>
         <field name="issqn_wh_value">0.00</field>
         <field name="tax_icms_or_issqn">issqn</field>
+        <field name="issqn_eligibility">1</field>
     </record>
 
     <!-- DEMO 2: SIMPLES NACIONAL (SN) -->
@@ -125,5 +126,6 @@
         <field name="discount_value">9999999.99</field>
         <field name="issqn_desc_cond_amount">9.99</field>
         <field name="tax_icms_or_issqn">issqn</field>
+        <field name="issqn_eligibility">1</field>
     </record>
 </odoo>
