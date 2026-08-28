@@ -578,6 +578,81 @@ class TestNFeIBSCBS(TransactionCase):
         self.assertEqual(result.gIBSCBS.gIBSMun.vIBSMun, "0.00")
         self.assertEqual(result.gIBSCBS.gIBSMun.pIBSMun, "0.0000")
 
+    def _create_exempt_line(self):
+        return self.env["l10n_br_fiscal.document.line"].create(
+            {
+                "document_id": self.document.id,
+                "product_id": self.product.id,
+                "quantity": 1.0,
+                "price_unit": 100.0,
+                "tax_classification_id": self.env.ref(
+                    "l10n_br_fiscal.tax_classification_400001"
+                ).id,
+                "ibs_cst_id": self.env.ref("l10n_br_fiscal.cst_ibs_400").id,
+            }
+        )
+
+    def test_export_field_ibscbs_exempt_line(self):
+        line = self._create_exempt_line()
+
+        result = line._export_field("nfe40_IBSCBS", None, None)
+        self.assertIsNotNone(result)
+        self.assertEqual(result.CST, "400")
+        self.assertEqual(result.cClassTrib, "400001")
+        self.assertIsNone(result.gIBSCBS)
+
+    def test_export_many2one_ibscbs_exempt_line(self):
+        line = self._create_exempt_line()
+
+        result = line._export_many2one("nfe40_IBSCBS", False)
+        self.assertIsNotNone(result)
+        self.assertEqual(result.CST, "400")
+        self.assertEqual(result.cClassTrib, "400001")
+        self.assertIsNone(result.gIBSCBS)
+
+    def test_export_fields_nfe_40_imposto_exempt_line(self):
+        line = self._create_exempt_line()
+        line.write({"tax_icms_or_issqn": "icms"})
+        line._compute_nfe40_choice_imposto()
+
+        xsd_fields = [
+            "nfe40_ICMS",
+            "nfe40_ISSQN",
+            "nfe40_II",
+            "nfe40_ICMSUFDest",
+            "nfe40_PISST",
+            "nfe40_COFINSST",
+            "nfe40_IPI",
+            "nfe40_IBSCBS",
+        ]
+        export_dict = {}
+        line._export_fields_nfe_40_imposto(xsd_fields, None, export_dict)
+
+        self.assertIn("IBSCBS", export_dict)
+        self.assertEqual(export_dict["IBSCBS"].CST, "400")
+        self.assertEqual(export_dict["IBSCBS"].cClassTrib, "400001")
+        self.assertIn("nfe40_IBSCBS", xsd_fields)
+
+    def test_export_field_ibscbs_cst_from_tax_classification(self):
+        line = self.env["l10n_br_fiscal.document.line"].create(
+            {
+                "document_id": self.document.id,
+                "product_id": self.product.id,
+                "quantity": 1.0,
+                "price_unit": 100.0,
+                "tax_classification_id": self.env.ref(
+                    "l10n_br_fiscal.tax_classification_410004"
+                ).id,
+            }
+        )
+        line.write({"ibs_cst_id": False, "cbs_cst_id": False})
+
+        result = line._export_field("nfe40_IBSCBS", None, None)
+        self.assertIsNotNone(result)
+        self.assertEqual(result.CST, "410")
+        self.assertEqual(result.cClassTrib, "410004")
+        self.assertIsNone(result.gIBSCBS)
+
 
 @tagged("post_install", "-at_install")
 class TestNFeVItemVNFTot(TransactionCase):
