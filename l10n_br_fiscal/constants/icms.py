@@ -48,7 +48,7 @@ ICMS_ORIGIN = [
 ICMS_ORIGIN_DEFAULT = "0"
 
 
-ICMS_ORIGIN_TAX_IMPORTED = ["1", "2", "3", "8"]
+ICMS_ORIGIN_TAX_IMPORTED = ["1", "2", "3", "6", "7", "8"]
 
 
 ICMS_CST = ["00", "10", "20", "30", "40", "41", "50", "51", "60", "70", "90"]
