@@ -10,7 +10,7 @@ from odoo.tools import mute_logger
 
 from odoo_test_helper import FakeModelLoader
 
-from odoo.models import NewId
+from odoo.models import MetaModel, NewId
 from odoo.tests import TransactionCase
 
 _logger = logging.getLogger(__name__)
@@ -408,3 +408,170 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         finally:
             module_to_models["spec_driven_model"] = saved_module_classes
             registry.ready = ready
+
+    def test_spec_prefix_without_schema_answers_a_single_value(self):
+        """`_spec_prefix()` answers one value when asked for one."""
+        model = self.env["spec.mixin"].with_context(
+            spec_schema=False, spec_version=False
+        )
+        self.assertIsNone(model._spec_prefix())
+        self.assertEqual(model._spec_prefix(split=True), (None, None))
+
+    def test_model_without_odoo_module_does_not_break_the_registry(self):
+        """A prefix that resolves without a spec module must not abort the load."""
+        model = self.env["spec.mixin"].with_context(
+            spec_schema="nosuch", spec_version="10"
+        )
+        self.assertEqual(model._spec_prefix(), "nosuch10")
+        self.assertIsNone(model._get_spec_property("odoo_module"))
+        self.assertIsNone(model._register_remaining_schema_models_hook())
+        self.assertFalse(
+            hasattr(self.env.registry, "_nosuch_register_hook_loaded"),
+            "the model with no spec module consumed the load key of the schema",
+        )
+
+    def _clear_poxsd_hook_guard(self):
+        # a fresh Registry.new() has no per-schema guard, so the hook runs;
+        # here we clear it to run the hook again inside a single test process
+        self.env.registry.__dict__.pop("_poxsd_register_hook_loaded", None)
+
+    def test_hook_read_only_on_ordinary_registry_load(self):
+        """hook v2: an ordinary registry load performs zero reflection writes.
+
+        _register_remaining_schema_models_hook runs on every registry load
+        (every ``Registry.new``). It must always rebuild the Python classes of
+        the *remaining* spec models (poxsd.10.comment here, nfe.40.detpag/det/...
+        in l10n_br_nfe) in memory, but reflecting them into the database (via
+        ``registry.init_models``, plus ir.model.access and the ir.model.data
+        magic-field create/unlink cycle) only has to happen on install/update.
+        Once the models are reflected, a subsequent ordinary load (server boot,
+        a fresh worker's own registry, a second ``Registry.new`` for another
+        database on a dbfilter instance) must be read-only: it must NOT call
+        ``init_models`` for the remaining models again -- that is the write
+        churn concurrent workers race on (duplicate key / serialization /
+        deadlock on ir_model_data). This is the write-churn sibling of the
+        class-leak fixes #4664/#4670 and the successor of #3809.
+
+        The hook cannot be invoked twice by hand on a live registry (the second
+        build would consume the concrete class the first one left among the
+        model bases and crash with an inconsistent MRO -- exactly #4668), so we
+        drive it through real registry rebuilds like
+        ``test_registry_reload_with_extended_remaining_model`` does, and spy on
+        ``registry.init_models`` to see whether the hook reflected the remaining
+        models on each rebuild.
+        """
+        from unittest import mock
+
+        from odoo_test_helper.fake_model_loader import FakePackage
+
+        from .fake_comment_extension import CommentExtension
+        from .fake_mixin import PoXsdMixin
+        from .spec_poxsd import Comment
+
+        registry = self.env.registry
+        cr = self.env.cr
+
+        real_init_models = registry.init_models
+        # setup_models() never calls init_models(); within a registry rebuild
+        # the only caller reflecting poxsd.10.comment is our hook, so this spy
+        # captures exactly the hook's reflection.
+        reflected = []
+
+        def spy_init_models(cr_, model_names, context, install=True):
+            if "poxsd.10.comment" in set(model_names):
+                reflected.append(list(model_names))
+            return real_init_models(cr_, model_names, context, install)
+
+        ready = registry.ready
+        saved_updated_modules = registry.updated_modules
+        saved_module_classes = list(MetaModel.module_to_models["spec_driven_model"])
+        try:
+            # rebuild #1 -- install/update in progress: the hook must reflect the
+            # remaining model, whatever how the test db was built
+            registry.updated_modules = ["spec_driven_model"]
+            self._clear_poxsd_hook_guard()
+            self.loader.update_registry((PoXsdMixin, Comment, CommentExtension))
+            registry.ready = True
+            with mock.patch.object(
+                registry, "init_models", side_effect=spy_init_models
+            ):
+                registry.setup_models(cr)
+            self.assertTrue(
+                reflected,
+                "sanity: on an install/update the hook must reflect the "
+                "remaining models (else the read-only assertion below is void)",
+            )
+
+            # rebuild #2 -- an ordinary registry load (nothing installed or
+            # updated): the hook must NOT reflect the remaining models again.
+            reflected.clear()
+            registry.updated_modules = []
+            self._clear_poxsd_hook_guard()
+            with mock.patch.object(
+                registry, "init_models", side_effect=spy_init_models
+            ), mock.patch.object(cr, "commit"):
+                registry.load(cr, FakePackage("spec_driven_model"))
+                registry.setup_models(cr)
+            self.assertEqual(
+                reflected,
+                [],
+                "an ordinary registry load re-reflected the remaining spec "
+                "models (called init_models); it must be read-only once they "
+                "are reflected, or concurrent workers race the same "
+                "ir_model_data writes on a dbfilter instance",
+            )
+        finally:
+            MetaModel.module_to_models["spec_driven_model"] = saved_module_classes
+            registry.updated_modules = saved_updated_modules
+            registry.ready = ready
+            self._clear_poxsd_hook_guard()
+
+    def test_reflection_needed_signals(self):
+        """hook v2 guard: _spec_reflection_needed picks the full (writing) path
+        exactly when it must -- while a module is installing/updating, and (the
+        essential safety net) whenever a concrete remaining model is not yet
+        backed by its SQL table -- and only then. This is what keeps
+        install/update (and the pre-STEP-9 post_init_hook load, where a CT-e
+        import builds cte.40.infoutros before its table exists) on the full path
+        while letting the ordinary boot skip it.
+        """
+        registry = self.env.registry
+        hook_model = self.env["spec.mixin.poxsd"]
+        # a table that certainly exists, and one that certainly does not
+        existing_table = self.env["ir.model"]._table  # "ir_model"
+        missing_table = "poxsd_10_does_not_exist"
+
+        saved_updated_modules = registry.updated_modules
+        try:
+            # a module install/update in progress always forces the full path,
+            # even when every concrete table is already present
+            registry.updated_modules = ["spec_driven_model"]
+            self.assertTrue(
+                hook_model._spec_reflection_needed([existing_table]),
+                "an install/update in progress must take the full "
+                "reflection path",
+            )
+
+            # ordinary load with a concrete table still missing -> full path. This is
+            # the CI #4718 case: l10n_br_cte's post_init_hook runs the hook before
+            # STEP 9, and reflecting is mandatory or the import INSERT fails
+            registry.updated_modules = []
+            self.assertTrue(
+                hook_model._spec_reflection_needed([existing_table, missing_table]),
+                "a concrete remaining model without its SQL table must fall "
+                "back to the full reflection path",
+            )
+
+            # ordinary load with every concrete table present -> read-only
+            self.assertFalse(
+                hook_model._spec_reflection_needed([existing_table]),
+                "with every concrete table present the load must be read-only",
+            )
+
+            # ordinary load with no concrete tables at all -> nothing to reflect
+            self.assertFalse(
+                hook_model._spec_reflection_needed([]),
+                "with no concrete remaining models there is nothing to reflect",
+            )
+        finally:
+            registry.updated_modules = saved_updated_modules
