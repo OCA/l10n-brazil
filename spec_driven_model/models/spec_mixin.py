@@ -1,13 +1,17 @@
 # Copyright 2019-TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
+import logging
 from importlib import import_module
 
 from odoo import api, models
 from odoo.models import is_definition_class
 from odoo.tools import mute_logger
+from odoo.tools.sql import existing_tables
 
 from .spec_models import SPEC_MIXIN_MAPPINGS, SpecModel, StackedModel
+
+_logger = logging.getLogger(__name__)
 
 
 class SpecMixin(models.AbstractModel):
@@ -72,7 +76,7 @@ class SpecMixin(models.AbstractModel):
                     return spec_schema, spec_version
                 return f"{spec_schema}{spec_version}"
 
-        return None, None if split else None
+        return (None, None) if split else None
 
     def _get_spec_property(self, spec_property="", fallback=None):
         """
@@ -99,6 +103,17 @@ class SpecMixin(models.AbstractModel):
         if not spec_schema:
             return
 
+        # read before the load key below, which is claimed once per schema
+        spec_module = self._get_spec_property("odoo_module")
+        if not spec_module:
+            _logger.debug(
+                "%s: no spec module for the %s schema, "
+                "skipping the remaining schema models hook",
+                self._name,
+                spec_schema,
+            )
+            return
+
         load_key = f"_{spec_schema}_register_hook_loaded"
         if hasattr(self.env.registry, load_key):  # hook already called for registry
             return
@@ -118,7 +133,6 @@ class SpecMixin(models.AbstractModel):
             if self.env.registry.get(i[0])
             and not SPEC_MIXIN_MAPPINGS[self.env.cr.dbname].get(i[0])
         }
-        spec_module = self._get_spec_property("odoo_module")
         if "_spec." in spec_module:
             odoo_module = spec_module.split("_spec.")[0].split(".")[-1]
         else:  # for tests:
@@ -166,6 +180,11 @@ class SpecMixin(models.AbstractModel):
     ):
         access_data = []
         access_fields = []
+        # names of every remaining model we build, and the SQL tables of the
+        # concrete (non-abstract) ones, used to decide whether the DB
+        # reflection is already in place (see _spec_reflection_needed)
+        built_model_names = []
+        concrete_tables = []
         for name in remaining_models:
             spec_class = StackedModel._odoo_name_to_class(name, spec_module)
             if spec_class is None:
@@ -223,6 +242,18 @@ class SpecMixin(models.AbstractModel):
             self.env[name]._setup_fields()
             self.env[name]._setup_complete()
 
+            built_model_names.append(name)
+            built_model = self.env[name]
+            # only concrete (non-abstract) models get an SQL table; the abstract
+            # remaining models (event and IBS/CBS reform nodes, only serialized
+            # to XML) never do, so they must not force the reflection below
+            if built_model._auto and not built_model._abstract:
+                concrete_tables.append(built_model._table)
+
+        # Now that the classes exist we know exactly which tables the reflection
+        # would create, so we can tell an ordinary (read-only) load from one that
+        # must reflect. On the read-only path we skip everything that writes.
+        if self._spec_reflection_needed(concrete_tables):
             access_fields = [
                 "id",
                 "name",
@@ -233,29 +264,31 @@ class SpecMixin(models.AbstractModel):
                 "perm_create",
                 "perm_unlink",
             ]
-            model._auto_fill_access_data(self.env, odoo_module, access_data)
-
-        self.env["ir.model.access"].load(access_fields, access_data)
-        self.env.registry.init_models(
-            self.env.cr, remaining_models, {"module": odoo_module}
-        )
-
-        # init_models just created ir.model.data records for the "MAGIC FIELDS"
-        # of the remaining_models. If we let these fields, next Odoo update
-        # will decide that these MAGIC FIELDS do not match the fields of the
-        # abstract schema mixins and would take a long time to delete these records
-        # and the fields. This is not what we want, so we just remove these records:
-        imd_magic_field_names = []
-        for model in remaining_models:
-            for field in models.MAGIC_COLUMNS + ["display_name", "__last_update"]:
-                imd_magic_field_names.append(
-                    f"field_{model.replace('.', '_')}__{field}"
+            for name in built_model_names:
+                self.env[name]._auto_fill_access_data(
+                    self.env, odoo_module, access_data
                 )
-        imd_recs = self.env["ir.model.data"].search(
-            [("name", "in", imd_magic_field_names)]
-        )
-        with mute_logger("odoo.models"):
-            imd_recs.unlink()
+            self.env["ir.model.access"].load(access_fields, access_data)
+            self.env.registry.init_models(
+                self.env.cr, remaining_models, {"module": odoo_module}
+            )
+
+            # init_models just created ir.model.data records for the "MAGIC FIELDS"
+            # of the remaining_models. If we let these fields, next Odoo update
+            # will decide that these MAGIC FIELDS do not match the fields of the
+            # abstract schema mixins and would take a long time to delete these records
+            # and the fields. This is not what we want, so we just remove these records:
+            imd_magic_field_names = []
+            for model in remaining_models:
+                for field in models.MAGIC_COLUMNS + ["display_name", "__last_update"]:
+                    imd_magic_field_names.append(
+                        f"field_{model.replace('.', '_')}__{field}"
+                    )
+            imd_recs = self.env["ir.model.data"].search(
+                [("name", "in", imd_magic_field_names)]
+            )
+            with mute_logger("odoo.models"):
+                imd_recs.unlink()
 
         # The concrete classes we built above are rebuilt from scratch every
         # time this hook runs, but Odoo's MetaModel registered them in
@@ -270,6 +303,24 @@ class SpecMixin(models.AbstractModel):
         models.MetaModel.module_to_models[odoo_module] = [
             cls for cls in registered if cls not in concrete_models
         ]
+
+    def _spec_reflection_needed(self, concrete_tables):
+        """Whether this hook run must reflect the remaining spec models into the
+        database instead of staying read-only.
+
+        True while a module install/update is in progress (``registry.updated_modules``
+        set), or when a concrete table is still missing -- e.g. a post_init_hook
+        (l10n_br_cte importing a CT-e) can exercise the ORM and run this hook before
+        STEP 8, while ``updated_modules`` is still empty. We check the SQL table, not
+        ``ir.model``, because remaining models already have an ``ir.model`` row as
+        abstract mixins long before they get a table here.
+        """
+        if self.env.registry.updated_modules:
+            return True
+        if not concrete_tables:
+            return False
+        existing = set(existing_tables(self.env.cr, list(concrete_tables)))
+        return not set(concrete_tables).issubset(existing)
 
     @classmethod
     def _auto_fill_access_data(cls, env, module_name: str, access_data: list):
