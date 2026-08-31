@@ -11,6 +11,7 @@
                     <field name="file" required="1" />
                     <field name="document_key" invisible="file == False" />
                     <field name="date_in_out" invisible="file == False" />
+                    <field name="allow_product_creation" invisible="file == False" />
                 </group>
                 <separator string="Preview Data" invisible="not file" />
                 <group id="document_info" invisible="not file">
