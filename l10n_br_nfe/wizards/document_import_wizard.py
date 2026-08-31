@@ -265,9 +265,13 @@ class DocumentImportWizard(models.TransientModel):
     def _create_edoc_from_file(self):
         if self.document_type == MODELO_FISCAL_NFE:
             binding = self._parse_file()
-            edoc = self.env["l10n_br_fiscal.document"].import_binding_nfe(
-                binding,
-                edoc_type=self.fiscal_operation_type,
+            edoc = (
+                self.env["l10n_br_fiscal.document"]
+                .with_context(allow_product_creation=self.allow_product_creation)
+                .import_binding_nfe(
+                    binding,
+                    edoc_type=self.fiscal_operation_type,
+                )
             )
             edoc.document_type_id = self.env.ref("l10n_br_fiscal.document_55").id
             edoc.fiscal_operation_id = self.fiscal_operation_id
