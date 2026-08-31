@@ -249,7 +249,14 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
         for record in self.filtered(filter_nfse_nacional):
             if record.xml_error_message:
                 continue
-            if record.state_edoc != "a_enviar":
+            # l10n_br_fiscal_edi calls this hook from _after_document_send,
+            # when the state machine already left "a_enviar" for "enviada",
+            # so guarding on "a_enviar" would skip every transmission. Only
+            # a document that already reached a final state is skipped.
+            if record.state_edoc in (
+                SITUACAO_EDOC_AUTORIZADA,
+                SITUACAO_EDOC_CANCELADA,
+            ):
                 continue
             record._adn_send_for_authorization()
         return result
