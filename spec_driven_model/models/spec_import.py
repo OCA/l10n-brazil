@@ -301,15 +301,29 @@ class SpecMixinImport(models.AbstractModel):
         """
         if model is None:
             model = self
+        spec_schema = self._context["spec_schema"]
+        spec_mixin = self.env.get(f"spec.mixin.{spec_schema}")
         default_key = [model._rec_name or "name"]
-        search_keys = "_%s_search_keys" % (self._context["spec_schema"])
-        if hasattr(model, search_keys):
+        search_keys = f"_{spec_schema}_search_keys"
+        m2o_search_keys = f"_{spec_schema}_m2o_search_keys"
+        # search keys declared by the schema module on its schema mixin
+        # (spec.mixin.<schema>, e.g. spec.mixin.nfe in l10n_br_nfe_spec), so
+        # per-comodel override files (res_city.py, ...) are not needed
+        declared = getattr(spec_mixin, m2o_search_keys, {}).get(model._name)
+        if declared:
+            keys = declared + default_key
+        elif hasattr(model, search_keys):
             keys = getattr(model, search_keys) + default_key
         else:
             keys = [model._rec_name or "name"]
         keys = self._get_aditional_keys(model, rec_dict, keys)
-        extra_domain_attr = "_%s_extra_domain" % (self._context["spec_schema"])
-        extra_domain = getattr(model, extra_domain_attr, [])
+        extra_domain_attr = f"_{spec_schema}_extra_domain"
+        m2o_extra_domain = f"_{spec_schema}_m2o_extra_domain"
+        declared_domain = getattr(spec_mixin, m2o_extra_domain, {}).get(model._name)
+        if declared_domain is not None:
+            extra_domain = declared_domain
+        else:
+            extra_domain = getattr(model, extra_domain_attr, [])
         for key in keys:
             if rec_dict.get(key):
                 # TODO enable to build criteria using parent_dict
@@ -410,13 +424,26 @@ class SpecMixinImport(models.AbstractModel):
         """Describe the search that was attempted (keys + extra domain)."""
         parts = []
         spec_schema = self._context.get("spec_schema")
+        spec_mixin = self.env.get(f"spec.mixin.{spec_schema}")
         if spec_schema:
             search_keys_attr = f"_{spec_schema}_search_keys"
-            if hasattr(model, search_keys_attr):
+            m2o_search_keys_attr = f"_{spec_schema}_m2o_search_keys"
+            declared = getattr(spec_mixin, m2o_search_keys_attr, {}).get(model._name)
+            if declared:
+                parts.append(
+                    _("keys=%s") % (list(declared) + [model._rec_name or "name"])
+                )
+            elif hasattr(model, search_keys_attr):
                 keys = getattr(model, search_keys_attr)
                 parts.append(_("keys=%s") % (list(keys) + [model._rec_name or "name"]))
         extra_domain_attr = f"_{spec_schema}_extra_domain"
-        if hasattr(model, extra_domain_attr):
+        m2o_extra_domain_attr = f"_{spec_schema}_m2o_extra_domain"
+        declared_domain = getattr(spec_mixin, m2o_extra_domain_attr, {}).get(
+            model._name
+        )
+        if declared_domain is not None:
+            parts.append(_("extra_domain=%s") % declared_domain)
+        elif hasattr(model, extra_domain_attr):
             parts.append(_("extra_domain=%s") % getattr(model, extra_domain_attr))
         if not parts:
             parts.append(_("key=%s") % (model._rec_name or "name"))
