@@ -12,13 +12,9 @@
         <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
         <field name="arch" type="xml">
             <button name="view_pdf" position="attributes">
-                <attribute name="attrs">
-                    {'invisible': [
-                        '|',
-                        ('state_edoc', 'in', ('em_digitacao', 'a_enviar')),
-                        ('is_nfse_paulistana', '=', True)
-                    ]}
-                </attribute>
+                <attribute
+                    name="invisible"
+                >state_edoc in ('em_digitacao', 'a_enviar') or is_nfse_paulistana</attribute>
             </button>
             <button name="view_pdf" position="after">
                 <field name="is_nfse_paulistana" invisible="1" />
@@ -28,7 +24,7 @@
                     type="object"
                     class="btn-primary"
                     icon="fa-file-text"
-                    attrs="{'invisible': ['|', ('is_nfse_paulistana', '=', False), ('state_edoc', 'not in', ('autorizada', 'cancelada'))]}"
+                    invisible="not is_nfse_paulistana or state_edoc not in ('autorizada', 'cancelada')"
                 />
             </button>
         </field>

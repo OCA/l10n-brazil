@@ -7,7 +7,9 @@ erpbrasil.base
 erpbrasil.edoc
 erpbrasil.transmissao
 nfelib
+nfselib.paulistana
 num2words
 phonenumbers
 transitions
+unidecode
 workalendar
