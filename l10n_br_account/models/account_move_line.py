@@ -462,7 +462,8 @@ class AccountMoveLine(models.Model):
         The account.tax -> Brazilian tax mapping comes from the fiscal
         tax group (``tax_group_id.fiscal_tax_group_id.tax_domain``), the
         same canonical link already used by the account.tax compute_all
-        override.
+        override. Taxes whose account.tax carries no fiscal tax group fall
+        back to name matching through ``_resolve_tax_kind``.
         """
         for tax in taxes:
             repartition_line = self.env["account.tax.repartition.line"].browse(
@@ -478,7 +479,8 @@ class AccountMoveLine(models.Model):
                 tax["amount"] = 0.0
                 tax["base"] = 0.0
                 continue
-            field_names = self._IMPORTED_TAX_FIELD_MAP.get(fiscal_group.tax_domain)
+            kind = fiscal_group.tax_domain or self._resolve_tax_kind(tax)
+            field_names = self._IMPORTED_TAX_FIELD_MAP.get(kind)
             if field_names:
                 # compute_all returns one entry per tax repartition line:
                 # each entry must carry only its share (factor) of the
@@ -488,6 +490,14 @@ class AccountMoveLine(models.Model):
                 fiscal_value = getattr(fiscal_line, field_names[0]) or 0.0
                 tax["amount"] = sign * fiscal_value * factor
                 tax["base"] = sign * (getattr(fiscal_line, field_names[1]) or 0.0)
+            elif self._is_withholding_tax_name(tax):
+                # Clear withholding taxes: XML doesn't bring WH item per item
+                tax["amount"] = 0.0
+                tax["base"] = 0.0
+
+    def _is_withholding_tax_name(self, tax_dict):
+        name = (tax_dict.get("name") or "").lower()
+        return "wh" in name or "ret" in name
 
     # Ordered rules to classify an account.tax into a Brazilian tax kind
     # from its domain/name. Each entry is (kind, include_kw, exclude_kw).
@@ -503,19 +513,6 @@ class AccountMoveLine(models.Model):
         ("ibs", ["ibs"], ["wh", "ret"]),
         ("cbs", ["cbs"], ["wh", "ret"]),
     ]
-
-    # kind -> (fiscal_value_field, fiscal_base_field)
-    _IMPORTED_TAX_FIELD_MAP = {
-        "icmsst": ("icmsst_value", "icmsst_base"),
-        "icms": ("icms_value", "icms_base"),
-        "ipi": ("ipi_value", "ipi_base"),
-        "pis": ("pis_value", "pis_base"),
-        "cofins": ("cofins_value", "cofins_base"),
-        "issqn": ("issqn_value", "issqn_base"),
-        "ii": ("ii_value", "ii_base"),
-        "ibs": ("ibs_value", "ibs_base"),
-        "cbs": ("cbs_value", "cbs_base"),
-    }
 
     def _resolve_tax_kind(self, tax_dict):
         """Resolve the Brazilian tax kind from a compute_all tax dict.
@@ -550,22 +547,6 @@ class AccountMoveLine(models.Model):
             ):
                 return kind
         return ""
-
-    def _override_taxes_from_import(self, taxes, fiscal_line, sign):
-        """Override compute_all tax amounts with imported fiscal values."""
-        for tax in taxes:
-            kind = self._resolve_tax_kind(tax)
-            fields = self._IMPORTED_TAX_FIELD_MAP.get(kind)
-            if fields:
-                tax["amount"] = sign * (getattr(fiscal_line, fields[0]) or 0.0)
-                tax["base"] = sign * (getattr(fiscal_line, fields[1]) or 0.0)
-            elif (
-                "wh" in tax.get("name", "").lower()
-                or "ret" in tax.get("name", "").lower()
-            ):
-                # Clear withholding taxes: XML doesn't bring WH item per item
-                tax["amount"] = 0.0
-                tax["base"] = 0.0
 
     @api.depends(
         "tax_ids",
