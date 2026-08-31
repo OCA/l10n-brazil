@@ -340,8 +340,55 @@ class AccountMove(models.Model):
                 move.l10n_latam_document_type_id = latam_doc_type
 
     def _compute_imported_terms(self):
+        """Build the payment terms of an imported document from its file.
+
+        The fiscal document knows the installments the file declares. Without
+        them the compute below falls back to a single term dated by
+        invoice_date_due, and the importation never fills that field, so every
+        imported bill ends up due on the day it was imported.
+
+        The dates come from the file. The amounts are the document total split
+        by the weight of each installment, so the move keeps balancing exactly
+        like the single term fallback does even when the declared installments
+        do not add up to the document total.
+        """
         self.ensure_one()
-        pass  # meant to be overriden
+        installments = self.fiscal_document_id._get_imported_installments()
+        declared = sum(amount for _date, amount in installments)
+        if not installments or not declared:
+            return
+
+        balance_left = self.amount_total_signed
+        amount_left = self.amount_total_in_currency_signed
+        company_currency = self.company_id.currency_id
+        terms = {}
+        for position, (date, amount) in enumerate(installments, start=1):
+            if position == len(installments):
+                balance, amount_currency = balance_left, amount_left
+            else:
+                share = amount / declared
+                balance = company_currency.round(self.amount_total_signed * share)
+                amount_currency = self.currency_id.round(
+                    self.amount_total_in_currency_signed * share
+                )
+                balance_left -= balance
+                amount_left -= amount_currency
+            key = frozendict(
+                {
+                    "move_id": self.id,
+                    "date_maturity": fields.Date.to_date(date),
+                    "discount_date": False,
+                }
+            )
+            if key in terms:
+                terms[key]["balance"] += balance
+                terms[key]["amount_currency"] += amount_currency
+            else:
+                terms[key] = {
+                    "balance": balance,
+                    "amount_currency": amount_currency,
+                }
+        self.needed_terms = terms
 
     @api.depends(
         "invoice_payment_term_id",
