@@ -79,7 +79,7 @@ class MDFe(spec_models.StackedModel):
 
     # When dynamic stacking is applied the MDFe structure is:
     INFMDFE_TREE = """
-    > <tmdfe_infmdfe>
+> <tmdfe_infmdfe>
     > <ide>
         ≡ <infMunCarrega>
         ≡ <infPercurso>
