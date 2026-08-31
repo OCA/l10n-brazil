@@ -2,10 +2,10 @@
 # Engenere LTDA (https://engenere.one).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo.tests import common
+from odoo.addons.base.tests.common import BaseCommon
 
 
-class TestNFSePaulistana(common.TransactionCase):
+class TestNFSePaulistana(BaseCommon):
     def setUp(self):
         super().setUp()
         self.Document = self.env["l10n_br_fiscal.document"]
