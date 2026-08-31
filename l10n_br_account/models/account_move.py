@@ -244,10 +244,15 @@ class AccountMove(models.Model):
         if view_type == "form" and self.env.company.country_id.code == "BR":
             arch = self.env["l10n_br_fiscal.document.line"].inject_fiscal_fields(arch)
 
+        # The Brazilian footer already shows the document totals computed by the
+        # fiscal engine. The native widget recomputes them with its own rules and
+        # adds the price included taxes (ICMS, PIS, COFINS, IBS, CBS) on top of a
+        # subtotal that already carries them, so it must not be displayed.
+        # "attrs" was dropped in Odoo 17.0: the modifier is now a plain attribute.
         for tax_totals_node in arch.xpath(
             "//field[@name='tax_totals'][@widget='account-tax-totals-field']"
         ):
-            tax_totals_node.set("attrs", "{'invisible': True}")
+            tax_totals_node.set("invisible", "1")
 
         if view_type == "form" and (
             self.env.user.has_group("l10n_br_account.group_line_fiscal_detail")
