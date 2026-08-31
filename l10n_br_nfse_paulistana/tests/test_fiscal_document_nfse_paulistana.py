@@ -196,6 +196,7 @@ class TestFiscalDocumentNFSePaulistana(TestFiscalDocumentNFSeCommon):
                 "2020-06-04T11:58:46", "%Y-%m-%dT%H:%M:%S"
             )
 
+            self.env["res.lang"]._activate_lang("pt_BR")
             self.nfse_same_state.with_context(lang="pt_BR")._document_export()
 
         output = os.path.join(

@@ -222,7 +222,7 @@ class Document(models.Model):
                 dados_tomador["inscricao_municipal"],
             )
             if dados_tomador["codigo_municipio"]
-            == int("%s" % (self.company_id.partner_id.city_id.ibge_code))
+            == int(f"{self.company_id.partner_id.city_id.ibge_code}")
             else None,
             InscricaoEstadualTomador=self.convert_type_nfselib(
                 tpRPS, "InscricaoEstadualTomador", dados_tomador["inscricao_estadual"]
@@ -258,7 +258,7 @@ class Document(models.Model):
                 unidecode(
                     dados_servico["discriminacao"]
                     + (
-                        "|%s|" % self.fiscal_additional_data.replace("\n", "|")
+                        "|{}|".format(self.fiscal_additional_data.replace("\n", "|"))
                         if self.fiscal_additional_data
                         else ""
                     )
@@ -327,10 +327,12 @@ class Document(models.Model):
         assinatura += "N"  # Corrigir - Verificar status do RPS
         assinatura += "S" if dados_servico["iss_retido"] == "1" else "N"
         assinatura += (
-            ("%.2f" % dados_servico["valor_servicos"]).replace(".", "").zfill(15)
+            "{:.2f}".format(dados_servico["valor_servicos"]).replace(".", "").zfill(15)
         )
         assinatura += (
-            ("%.2f" % dados_lote_rps["carga_tributaria"]).replace(".", "").zfill(15)
+            "{:.2f}".format(dados_lote_rps["carga_tributaria"])
+            .replace(".", "")
+            .zfill(15)
         )
         assinatura += dados_servico["codigo_tributacao_municipio"].zfill(5)
         assinatura += "2" if dados_tomador["cnpj"] else "1"
@@ -436,10 +438,10 @@ class Document(models.Model):
                 numero_rps=record.rps_number,
                 serie_rps=record.document_serie,
                 insc_prest=misc.punctuation_rm(
-                    record.company_id.partner_id.inscr_mun or ""
+                    record.company_id.partner_id.l10n_br_im_code or ""
                 )
                 or None,
-                cnpj_prest=misc.punctuation_rm(record.company_id.partner_id.cnpj_cpf),
+                cnpj_prest=misc.punctuation_rm(record.company_id.partner_id.vat),
             )
 
             consulta = processador.analisa_retorno_consulta(processo)
