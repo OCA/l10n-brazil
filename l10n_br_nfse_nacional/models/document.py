@@ -19,6 +19,7 @@ from odoo import _, api, fields
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    DOCUMENT_ISSUER_COMPANY,
     EVENT_ENV_HML,
     EVENT_ENV_PROD,
     MODELO_FISCAL_NFSE,
@@ -209,6 +210,39 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
         if self.company_id.nfse_environment == "1":
             return EVENT_ENV_PROD
         return EVENT_ENV_HML
+
+    def _document_number(self):
+        """Assign the DPS number and its access key.
+
+        The shared implementation routes NFS-e numbering to ``rps_number``
+        because municipal NFS-e is issued out of an RPS. NFS-e Nacional has
+        no RPS: the number the issuer assigns is ``nDPS`` itself, and the
+        DPS access key has 42 digits instead of the 44 of an NF-e.
+        """
+        result = super()._document_number()
+        if not filter_nfse_nacional(self):
+            return result
+        if self.issuer != DOCUMENT_ISSUER_COMPANY:
+            return result
+        if not self.document_number and self.rps_number:
+            self.document_number = self.rps_number
+        if self.document_number and not self.document_key:
+            self._nfse_nacional_generate_key()
+        return result
+
+    def _nfse_nacional_generate_key(self):
+        """Build the 42 digit DPS key: city, issuer type, CNPJ/CPF,
+        series and number."""
+        self.ensure_one()
+        partner = self.company_id.partner_id
+        city_code = (partner.city_id.ibge_code or "").zfill(7)
+        cnpj_cpf = re.sub(r"\D", "", partner.cnpj_cpf or "")
+        issuer_type = "2" if len(cnpj_cpf) == 14 else "1"
+        series = (self.document_serie or "").zfill(5)
+        number = str(self.document_number or "").zfill(15)
+        self.document_key = "".join(
+            [city_code, issuer_type, cnpj_cpf.zfill(14), series, number]
+        )
 
     def _eletronic_document_send(self):
         result = super()._eletronic_document_send()
