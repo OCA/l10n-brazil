@@ -18,4 +18,5 @@ from . import (
     test_operation,
     test_company_tax_domain,
     test_comment,
+    test_taxable_unit,
 )
