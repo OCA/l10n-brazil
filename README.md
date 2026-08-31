@@ -11,6 +11,15 @@
 
 Odoo Brazilian localization
 
+## ⚠️ **Aviso Importante sobre a branch 17.0**
+
+A branch `17.0` é uma **transição técnica** entre as versões `16.0` e `18.0` e pode ser utilizada como **contingência** para implantações já realizadas no Odoo 17.0 no Brasil.
+
+- **Se você está migrando da versão 16.0:** recomendamos migrar **diretamente para a 18.0**, que conta com uma base de usuários mais ampla e suporte mais ativo da comunidade.
+- **Se você está iniciando um novo projeto Odoo:** opte por uma versão **superior à 17.0**, evitando começar por uma branch de transição.
+
+💡 **OpenUpgrade:** no processo de migração **versão a versão** com o OpenUpgrade, recomendamos que **ao passar pela 17.0** você **não** inclua o repositório `OCA/l10n-brazil` no seu `addons_path`.
+
 <!-- /!\ do not modify below this line -->
 
 <!-- prettier-ignore-start -->
