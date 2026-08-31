@@ -17,6 +17,10 @@
                         name="date_in_out"
                         attrs="{'invisible': [('file', '=', False)]}"
                     />
+                    <field
+                        name="allow_product_creation"
+                        attrs="{'invisible': [('file', '=', False)]}"
+                    />
                 </group>
                 <separator
                     string="Preview Data"
