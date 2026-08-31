@@ -151,7 +151,13 @@ class Comment(models.Model):
         comments = [manual_comment] if manual_comment else []
         for record in self:
             template = mako_safe_env.from_string(record.comment)
-            comments.append(template.render(vals))
+            # A comment can be conditional on the document, so it renders to
+            # nothing for the documents it does not apply to. Joining an empty
+            # render leaves a dangling separator in the additional data, which
+            # reaches the DANFE.
+            rendered = template.render(vals).strip()
+            if rendered:
+                comments.append(rendered)
         return " - ".join(comments)
 
     def action_test_message(self):
