@@ -296,6 +296,11 @@
                     invisible="tax_icms_or_issqn == 'icms' or not parent.fiscal_operation_id"
                     options="{'no_create': True}"
                 />
+                <field
+                    name="nbs_id"
+                    invisible="tax_icms_or_issqn == 'icms' or not parent.fiscal_operation_id"
+                    options="{'no_create': True}"
+                />
             </xpath>
             <xpath
                 expr="//field[@name='order_line']/form//field[@name='tax_id']"
