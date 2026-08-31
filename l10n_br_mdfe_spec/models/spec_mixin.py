@@ -12,6 +12,15 @@ class MdfeSpecMixin(models.AbstractModel):
     )
     _mdfe30_binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_tipos_basico_v3_00"
 
+    #: Additional m2o search keys (and extra domain) per comodel used when
+    #: matching existing records during MDF-e imports, so per-comodel override
+    #: files (res_city.py, res_country_state.py) are not needed.
+    _mdfe_m2o_search_keys = {
+        "res.city": ["ibge_code"],
+        "res.country.state": ["ibge_code", "code"],
+    }
+    _mdfe_m2o_extra_domain = {"res.country.state": [("ibge_code", "!=", False)]}
+
     brl_currency_id = fields.Many2one(
         comodel_name="res.currency",
         string="Moeda",
