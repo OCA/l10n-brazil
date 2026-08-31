@@ -10,7 +10,11 @@
 
 <!-- /!\ do not modify above this line -->
 
-l10n-brazil
+## ⚠️ **Aviso Importante sobre a branch 19.0**
+
+A branch 19.0 funciona como uma transição técnica entre a versão 18.0 e a futura 20.0, servindo de contingência para implantações já efetuadas no Odoo 19.0 no Brasil. Ela é indicada para projetos que não demandam mais do que os 30 módulos principais da localização, como empresas de serviço ou revendas do Simples Nacional.
+
+Caso esteja iniciando um novo projeto Odoo que apresente maior complexidade, a recomendação é: opte pela versão 18.0 ou aguarde até meados de 2027 para iniciar na versão 20.0, evitando os riscos de uma branch de transição.
 
 <!-- /!\ do not modify below this line -->
 
