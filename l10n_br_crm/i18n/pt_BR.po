@@ -18,6 +18,11 @@ msgstr ""
 "X-Generator: Weblate 5.6.2\n"
 
 #. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__br_currency_id
+msgid "BR Company Currency"
+msgstr ""
+
+#. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cnpj
 msgid "CNPJ"
 msgstr "CNPJ"
@@ -48,6 +53,11 @@ msgid "City of Address"
 msgstr "Cidade do Endereço"
 
 #. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cnae_main_id
+msgid "Cnae Main"
+msgstr "Cnae Principal"
+
+#. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__country_id
 msgid "Country"
 msgstr "País"
@@ -61,6 +71,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__district
 msgid "District"
 msgstr "Bairro"
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__equity_capital
+msgid "Equity Capital"
+msgstr "Capital Próprio"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__id
@@ -89,6 +104,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__legal_name
 msgid "Legal Name"
 msgstr "Razão Social"
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__legal_nature_id
+msgid "Legal Nature"
+msgstr "Natureza jurídica"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__l10n_br_im_code
@@ -173,17 +193,8 @@ msgid ""
 "user's company is Brazilian)."
 msgstr ""
 
-#~ msgid "Cnae Main"
-#~ msgstr "Cnae Principal"
-
-#~ msgid "Equity Capital"
-#~ msgstr "Capital Próprio"
-
 #~ msgid "Lead/Opportunity"
 #~ msgstr "Prospectos/Oportunidades"
-
-#~ msgid "Legal Nature"
-#~ msgstr "Natureza jurídica"
 
 #~ msgid "CNPJ/CPF"
 #~ msgstr "CNPJ/CPF"
