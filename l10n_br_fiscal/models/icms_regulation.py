@@ -1482,7 +1482,7 @@ class ICMSRegulation(models.Model):
         domain=[
             ("state_from_id.code", "in", ("RJ", False)),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
-            ("is_benefit", "=", False),
+            ("is_benefit", "=", True),
         ],
     )
 
@@ -1494,7 +1494,7 @@ class ICMSRegulation(models.Model):
             ("state_from_id.code", "=", "RO"),
             ("state_to_ids.code", "=", "RO"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
-            ("is_benefit", "=", True),
+            ("is_benefit", "=", False),
         ],
     )
 
@@ -1932,12 +1932,16 @@ class ICMSRegulation(models.Model):
         ncm=None,
         nbm=None,
         cest=None,
+        ind_final=None,
     ):
         self.ensure_one()
         domain = [
             ("icms_regulation_id", "=", self.id),
             ("state", "=", "approved"),
             ("tax_group_id", "=", tax_group_icms.id),
+            "|",
+            ("ind_final", "=", ind_final),
+            ("ind_final", "=", False),
         ]
 
         if tax_group_icms.tax_domain in (TAX_DOMAIN_ICMS, TAX_DOMAIN_ICMS_ST):
@@ -1951,8 +1955,14 @@ class ICMSRegulation(models.Model):
                 "|",
                 ("state_to_ids", "=", partner.state_id.id),
                 ("state_to_ids", "=", company.state_id.id),
+                "|",
+                ("ncm_ids", "=", False),
                 ("ncm_ids", "=", ncm.id),
+                "|",
+                ("nbm_ids", "=", False),
                 ("nbm_ids", "=", nbm.id),
+                "|",
+                ("cest_ids", "=", False),
                 ("cest_ids", "=", cest.id),
             ]
 
@@ -1963,8 +1973,14 @@ class ICMSRegulation(models.Model):
             domain += [
                 ("state_from_id", "=", company.state_id.id),
                 ("state_to_ids", "=", partner.state_id.id),
+                "|",
+                ("ncm_ids", "=", False),
                 ("ncm_ids", "=", ncm.id),
+                "|",
+                ("nbm_ids", "=", False),
                 ("nbm_ids", "=", nbm.id),
+                "|",
+                ("cest_ids", "=", False),
                 ("cest_ids", "=", cest.id),
             ]
 
@@ -1979,28 +1995,34 @@ class ICMSRegulation(models.Model):
         else:
             icms_defs_benefit = icms_defs.filtered(
                 lambda d: (
-                    ncm.id in d.ncm_ids.ids
-                    or nbm.id in d.nbm_ids.ids
-                    or cest.id in d.cest_ids.ids
-                    or product.id in d.product_ids.ids
+                    (
+                        ncm.id in d.ncm_ids.ids
+                        or nbm.id in d.nbm_ids.ids
+                        or cest.id in d.cest_ids.ids
+                        or product.id in d.product_ids.ids
+                    )
+                    and d.is_benefit
                 )
-                and d.is_benefit
             )
             icms_defs_specific = icms_defs.filtered(
                 lambda d: (
-                    ncm.id in d.ncm_ids.ids
-                    or nbm.id in d.nbm_ids.ids
-                    or cest.id in d.cest_ids.ids
-                    or product.id in d.product_ids.ids
+                    (
+                        ncm.id in d.ncm_ids.ids
+                        or nbm.id in d.nbm_ids.ids
+                        or cest.id in d.cest_ids.ids
+                        or product.id in d.product_ids.ids
+                    )
+                    and not d.is_benefit
                 )
-                and not d.is_benefit
             )
             icms_defs_generic = icms_defs.filtered(
-                lambda d: not d.ncm_ids.ids
-                and not d.nbm_ids.ids
-                and not d.cest_ids.ids
-                and not d.product_ids.ids
-                and not d.is_benefit
+                lambda d: (
+                    not d.ncm_ids.ids
+                    and not d.nbm_ids.ids
+                    and not d.cest_ids.ids
+                    and not d.product_ids.ids
+                    and not d.is_benefit
+                )
             )
 
             if icms_defs_benefit:
@@ -2050,7 +2072,7 @@ class ICMSRegulation(models.Model):
         else:
             # ICMS
             domain = self._build_map_tax_def_domain(
-                company, partner, tax_group_icms, ncm, nbm, cest
+                company, partner, tax_group_icms, ncm, nbm, cest, ind_final
             )
 
             tax_definitions = self._tax_definition_search(
@@ -2074,7 +2096,7 @@ class ICMSRegulation(models.Model):
 
         # ICMS ST
         domain = self._build_map_tax_def_domain(
-            company, partner, tax_group_icmsst, ncm, nbm, cest
+            company, partner, tax_group_icmsst, ncm, nbm, cest, ind_final
         )
 
         tax_definitions = self._tax_definition_search(
@@ -2105,7 +2127,7 @@ class ICMSRegulation(models.Model):
             and operation_line.fiscal_operation_type == FISCAL_IN
         ):
             domain = self._build_map_tax_def_domain(
-                partner, partner, tax_group_icms, ncm, nbm, cest
+                partner, partner, tax_group_icms, ncm, nbm, cest, ind_final
             )
 
             tax_definitions = self._tax_definition_search(
@@ -2137,7 +2159,7 @@ class ICMSRegulation(models.Model):
             and operation_line.fiscal_operation_type == FISCAL_IN
         ):
             domain = self._build_map_tax_def_domain(
-                partner, partner, tax_group_icmsfcp, ncm, nbm, cest
+                partner, partner, tax_group_icmsfcp, ncm, nbm, cest, ind_final
             )
 
             tax_definitions = self._tax_definition_search(
@@ -2163,7 +2185,7 @@ class ICMSRegulation(models.Model):
 
         # FCP ST
         domain = self._build_map_tax_def_domain(
-            company, partner, tax_group_icmsfcpst, ncm, nbm, cest
+            company, partner, tax_group_icmsfcpst, ncm, nbm, cest, ind_final
         )
 
         tax_definitions = self._tax_definition_search(

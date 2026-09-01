@@ -119,11 +119,13 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             [
                 fname
                 for fname, _field in filter(
-                    lambda item: item[1].compute
-                    in (
-                        "_compute_tax_fields",
-                        "_compute_fiscal_tax_ids",
-                        "_compute_product_fiscal_fields",
+                    lambda item: (
+                        item[1].compute
+                        in (
+                            "_compute_tax_fields",
+                            "_compute_fiscal_tax_ids",
+                            "_compute_product_fiscal_fields",
+                        )
                     ),
                     self.env["l10n_br_fiscal.document.line.mixin"]._fields.items(),
                 )
@@ -297,7 +299,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             if line.fiscal_operation_id:
                 line.fiscal_operation_line_id = (
                     line.fiscal_operation_id.line_definition(
-                        company=line.company_id,
+                        company=line._get_company(),
                         partner=line.partner_id,
                         product=line.product_id,
                     )
@@ -317,10 +319,12 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         "ind_final",
     )
     def _compute_fiscal_tax_ids(self):
+        if self.env.context.get("skip_compute_fiscal_tax_ids"):
+            return
         for line in self:
             if line.fiscal_operation_line_id:
                 mapping_result = line.fiscal_operation_line_id.map_fiscal_taxes(
-                    company=line.company_id,
+                    company=line._get_company(),
                     partner=line._get_fiscal_partner(),
                     product=line.product_id,
                     ncm=line.ncm_id,
@@ -390,7 +394,19 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             fiscal_taxes = line.fiscal_tax_ids.filtered(
                 lambda ft, taxes_groups=taxes_groups: ft.tax_domain not in taxes_groups
             )
-            line.fiscal_tax_ids = fiscal_taxes + taxes
+            new_fiscal_tax_ids = fiscal_taxes + taxes
+            # fiscal_tax_ids está nos depends de _compute_tax_fields; só
+            # reatribui (e re-dispara o compute) quando o conjunto muda de fato.
+            if new_fiscal_tax_ids != line.fiscal_tax_ids:
+                line.fiscal_tax_ids = new_fiscal_tax_ids
+
+    def _get_company(self):
+        self.ensure_one()
+        if self.company_id:
+            return self.company_id
+        if hasattr(self, "account_line_ids") and self.account_line_ids:
+            return self.account_line_ids.move_id.company_id
+        return self.env.company
 
     @api.onchange(*FISCAL_TAX_ID_FIELDS)
     def _onchange_fiscal_taxes(self):
@@ -451,7 +467,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             )
             if line.fiscal_operation_line_id:
                 compute_result = line.fiscal_tax_ids.compute_taxes(
-                    company=line.company_id,
+                    company=line._get_company(),
                     partner=line._get_fiscal_partner(),
                     product=line.product_id,
                     price_unit=line.price_unit,
@@ -579,7 +595,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             if not line.product_id:
                 line.city_taxation_code_id = False
                 continue
-            company_city = line.company_id.city_id
+            company_city = line._get_company().city_id
             city_tax_codes = line.product_id.city_taxation_code_ids
             city_tax_code = city_tax_codes.filtered(
                 lambda r, _city_id=company_city: r.city_id == _city_id
@@ -1051,7 +1067,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
 
     fiscal_operation_type = fields.Selection(
-        string="Operation Type",
+        string="Fiscal Operation Type",
         related="fiscal_operation_id.fiscal_operation_type",
     )
 
@@ -1084,6 +1100,14 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     cfop_destination = fields.Selection(
         related="cfop_id.destination",
         string="CFOP Destination",
+    )
+
+    partner_cfop_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.cfop",
+        string="Partner CFOP",
+        help="CFOP as declared by the counterparty in the imported document. "
+        "It is preserved as-is for fiscal bookkeeping / SPED (e.g. C197), "
+        "while cfop_id reflects the company's own operation after the de-para.",
     )
 
     fiscal_price = fields.Float(
@@ -2750,6 +2774,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     @api.depends("company_id")
     def _compute_currency_id(self):
         for doc_line in self:
-            doc_line.currency_id = doc_line.company_id.currency_id or self.env.ref(
+            doc_line.currency_id = doc_line._get_company().currency_id or self.env.ref(
                 "base.BRL"
             )

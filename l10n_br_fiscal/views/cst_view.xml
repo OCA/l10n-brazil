@@ -3,49 +3,47 @@
     <record id="cst_search" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.cst.search</field>
         <field name="model">l10n_br_fiscal.cst</field>
+        <field name="inherit_id" ref="data_abstract_search" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <search string="CST">
-                <field name="code" />
-                <field name="name" />
+            <field name="name" position="after">
+                <field name="cst_type" />
                 <field name="tax_group_id" />
-                <field name="tax_domain" />
+            </field>
+            <group name="group_by" position="inside">
                 <filter
                     string="Tax Group"
                     name="tax_group_id"
                     domain="[]"
                     context="{'group_by' : 'tax_group_id'}"
                 />
-            </search>
+            </group>
         </field>
     </record>
 
     <record id="cst_tree" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.cst.tree</field>
         <field name="model">l10n_br_fiscal.cst</field>
+        <field name="inherit_id" ref="data_abstract_tree" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <list>
-                <field name="code" />
-                <field name="name" />
+            <field name="name" position="after">
                 <field name="cst_type" />
                 <field name="tax_group_id" />
-            </list>
+            </field>
         </field>
     </record>
 
     <record id="cst_form" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.cst.form</field>
         <field name="model">l10n_br_fiscal.cst</field>
+        <field name="inherit_id" ref="data_abstract_form" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <form string="CST">
-                <sheet>
-                    <group>
-                        <field name="code" />
-                        <field name="name" />
-                        <field name="cst_type" />
-                        <field name="tax_group_id" />
-                    </group>
-                </sheet>
-            </form>
+            <field name="name" position="after">
+                <field name="cst_type" />
+                <field name="tax_group_id" />
+            </field>
         </field>
     </record>
 </odoo>

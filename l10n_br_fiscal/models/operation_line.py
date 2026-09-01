@@ -7,11 +7,15 @@ from odoo.exceptions import UserError
 from ..constants.fiscal import (
     CFOP_DESTINATION_EXPORT,
     FISCAL_COMMENT_LINE,
+    FISCAL_IN,
     NFE_IND_IE_DEST,
     OPERATION_STATE,
     OPERATION_STATE_DEFAULT,
     PRODUCT_FISCAL_TYPE,
+    TAX_DOMAIN_CBS,
+    TAX_DOMAIN_IBS,
     TAX_DOMAIN_ICMS,
+    TAX_DOMAIN_II,
     TAX_DOMAIN_IPI,
     TAX_DOMAIN_ISSQN,
     TAX_FRAMEWORK,
@@ -64,6 +68,18 @@ class OperationLine(models.Model):
         domain="[('type_in_out', '=', fiscal_operation_type), "
         "('type_move', '=ilike', fiscal_type + '%'), "
         "('destination', '=', '3')]",
+    )
+
+    is_icmsst = fields.Boolean(
+        string="ICMS ST?",
+        compute="_compute_is_icmsst",
+        store=True,
+        help="Indicates that this Operation Line is meant to be used for "
+        "products/operations subject to ICMS Tax Substitution "
+        "(Substituição Tributária), based on the CFOPs assigned to it. "
+        "Used to automatically select the right Operation Line when a "
+        "Fiscal Operation has separate lines for regular and ICMS ST "
+        "scenarios.",
     )
 
     fiscal_operation_type = fields.Selection(
@@ -144,6 +160,19 @@ class OperationLine(models.Model):
         "unique (name, fiscal_operation_id)",
         "Fiscal Operation Line already exists with this name!",
     )
+
+    @api.depends(
+        "cfop_internal_id.is_icmsst",
+        "cfop_external_id.is_icmsst",
+        "cfop_export_id.is_icmsst",
+    )
+    def _compute_is_icmsst(self):
+        for line in self:
+            line.is_icmsst = bool(
+                line.cfop_internal_id.is_icmsst
+                or line.cfop_external_id.is_icmsst
+                or line.cfop_export_id.is_icmsst
+            )
 
     def get_document_type(self, company):
         self.ensure_one()
@@ -296,13 +325,13 @@ class OperationLine(models.Model):
 
         # 1_5 From Tax Classification
         if mapping_result["tax_classification"]:
-            mapping_result["taxes"][
-                mapping_result["tax_classification"].tax_cbs_id.tax_domain
-            ] = mapping_result["tax_classification"].tax_cbs_id
+            mapping_result["taxes"][TAX_DOMAIN_CBS] = mapping_result[
+                "tax_classification"
+            ].tax_cbs_id
 
-            mapping_result["taxes"][
-                mapping_result["tax_classification"].tax_ibs_id.tax_domain
-            ] = mapping_result["tax_classification"].tax_ibs_id
+            mapping_result["taxes"][TAX_DOMAIN_IBS] = mapping_result[
+                "tax_classification"
+            ].tax_ibs_id
 
         # 2 From NCM
         if not ncm and product:
@@ -311,10 +340,21 @@ class OperationLine(models.Model):
         if company.tax_framework == TAX_FRAMEWORK_NORMAL:
             tax_ipi = ncm.tax_ipi_id
             tax_ii = ncm.tax_ii_id
-            mapping_result["taxes"][tax_ipi.tax_domain] = tax_ipi
+            mapping_result["taxes"][TAX_DOMAIN_IPI] = tax_ipi
 
-            if mapping_result["cfop"].destination == CFOP_DESTINATION_EXPORT:
-                mapping_result["taxes"][tax_ii.tax_domain] = tax_ii
+            if len(ncm.piscofins_ids) == 1:
+                mapping_result["taxes"][ncm.piscofins_ids[0].tax_pis_id.tax_domain] = (
+                    ncm.piscofins_ids[0].tax_pis_id
+                )
+                mapping_result["taxes"][
+                    ncm.piscofins_ids[0].tax_cofins_id.tax_domain
+                ] = ncm.piscofins_ids[0].tax_cofins_id
+
+            if (
+                mapping_result["cfop"].destination == CFOP_DESTINATION_EXPORT
+                and mapping_result["cfop"].type_in_out == FISCAL_IN
+            ):
+                mapping_result["taxes"][TAX_DOMAIN_II] = tax_ii
 
             # 3 From ICMS Regulation
             if company.icms_regulation_id:
