@@ -180,6 +180,11 @@ msgid "City Settings"
 msgstr "Configurações da Cidade"
 
 #. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company__city_taxation_code_id
+msgid "City Taxation Code"
+msgstr "Código de Tributação da Cidade"
+
+#. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_account_bank_statement_line__civil_construction_art
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_account_move__civil_construction_art
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__civil_construction_art
@@ -546,6 +551,11 @@ msgid "Tributos Federais (Lei 12.741/2012)"
 msgstr "Tributos Federais (Lei 12.741/2012)"
 
 #. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company__nfse_use_city_pdf
+msgid "Use City NFSe PDF"
+msgstr ""
+
+#. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Valor Aproximado dos Tributos R$ / Fonte"
 msgstr "Valor Aproximado dos Tributos R$ / Fonte"
@@ -572,9 +582,6 @@ msgstr "com a utilização do Código de Verificação.<br/>"
 
 #~ msgid "<span>Número da NFS-e</span><br/>"
 #~ msgstr "<span>Número da NFS-e</span><br/>"
-
-#~ msgid "City Taxation Code"
-#~ msgstr "Código de Tributação da Cidade"
 
 #~ msgid "Display Name"
 #~ msgstr "Nome Exibido"
