@@ -39,7 +39,6 @@ class PartnerCnpjSearchWizard(models.TransientModel):
     )
     country_id = fields.Many2one(comodel_name="res.country")
     phone = fields.Char()
-    mobile = fields.Char()
     email = fields.Char()
     legal_nature_id = fields.Many2one(comodel_name="l10n_br_fiscal.legal.nature")
     currency_id = fields.Many2one(
@@ -120,7 +119,6 @@ class PartnerCnpjSearchWizard(models.TransientModel):
             "city": self.city_id.name,
             "country_id": self.country_id.id,
             "phone": self.phone,
-            "mobile": self.mobile,
             "email": self.email,
             "legal_nature_id": self.legal_nature_id,
             "equity_capital": self.equity_capital,
@@ -137,6 +135,13 @@ class PartnerCnpjSearchWizard(models.TransientModel):
             key: value for key, value in values_to_update.items() if value
         }
         if non_empty_values:
-            # Update partner only if there are non-empty values
-            self.partner_id.write(non_empty_values)
+            # Update partner only if there are non-empty values.
+            # _partners_skip_fields_sync (core's own flag, see res.partner)
+            # prevents the commercial fields sync (e.g. vat) from
+            # propagating between the company and the "socios" linked via
+            # child_ids, since that relation is used here to represent
+            # shareholders, not company contacts.
+            self.partner_id.with_context(_partners_skip_fields_sync=True).write(
+                non_empty_values
+            )
         return {"type": "ir.actions.act_window_close"}

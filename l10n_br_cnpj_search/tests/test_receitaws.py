@@ -113,4 +113,3 @@ class TestReceitaWS(TestCnpjCommon):
             wizard.action_update_partner()
         self.assertEqual(isla.name.strip(), "Isla Sementes Ltda.")
         self.assertEqual(isla.phone.strip(), "(51) 9852-9561")
-        self.assertEqual(isla.mobile.strip(), "(51) 2136-6600")

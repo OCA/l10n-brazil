@@ -1,2 +1,4 @@
 - [KMEE](https://www.kmee.com.br):
   - Breno Oliveira Dias \<<breno.dias@kmee.com.br>\>
+- [Escodoo](https://escodoo.com.br/):
+  - Cristiano Mafra Junior \<<cristiano.mafra@escodoo.com.br>\>
