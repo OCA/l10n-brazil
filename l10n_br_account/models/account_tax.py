@@ -342,7 +342,7 @@ class AccountTax(models.Model):
 
         for base_line in base_lines:
             record = base_line.get("record")
-            if record is not None and hasattr(record, "fiscal_operation_line_id"):
+            if record is not None and getattr(record, "fiscal_operation_id", False):
                 amount_total = record._get_total_for_tax_totals()
                 rate = base_line.get("rate") or 1.0
 
