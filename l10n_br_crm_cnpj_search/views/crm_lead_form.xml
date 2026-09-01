@@ -6,9 +6,12 @@
         <field name="inherit_id" ref="l10n_br_crm.l10n_br_crm_leads_form" />
         <field name="priority" eval="100" />
         <field name="arch" type="xml">
-            <field name="vat" position="replace">
+            <xpath
+                expr="//group[@name='lead_partner']/field[@name='vat']"
+                position="replace"
+            >
                 <!--Não encontrei uma maneira que não desformatasse campo do CNPJ, mas mantém um padrão-->
-                <div class="o_row" colspan="2">
+                <div class="o_row" colspan="2" invisible="show_l10n_br == False">
                     <label for='vat'>CNPJ</label>
                     <field name="vat" nolabel="1" />
                     <button
@@ -20,12 +23,12 @@
                         title="Pesquisar CNPJ"
                     />
                 </div>
-            </field>
+            </xpath>
             <xpath
-                expr="//page[@name='lead']/group/group/field[@name='vat']"
+                expr="//page[@name='lead']//field[@name='partner_name']/following-sibling::field[@name='vat']"
                 position="replace"
             >
-                <div class="o_row" colspan="2">
+                <div class="o_row" colspan="2" invisible="show_l10n_br == False">
                     <label for='vat'>CNPJ</label>
                     <field name="vat" nolabel="1" />
                     <button
