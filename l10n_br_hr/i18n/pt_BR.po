@@ -38,6 +38,11 @@ msgid "AB-"
 msgstr "AB-"
 
 #. module: l10n_br_hr
+#: model:hr.department,name:l10n_br_hr.demo_department_administrativo
+msgid "Administrativo"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__alternate_email
 msgid "Alternate Email"
 msgstr "E-mail alternativo"
@@ -46,6 +51,26 @@ msgstr "E-mail alternativo"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__alternate_phone
 msgid "Alternate Phone"
 msgstr "Telefone Alternativo"
+
+#. module: l10n_br_hr
+#: model:hr.job,name:l10n_br_hr.demo_job_analista_admin
+msgid "Analista Administrativo"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:hr.job,name:l10n_br_hr.demo_job_analista_rh
+msgid "Analista de RH"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:hr.job,name:l10n_br_hr.demo_job_analista_sistemas
+msgid "Analista de Sistemas"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:hr.job,name:l10n_br_hr.demo_job_aprendiz_admin
+msgid "Aprendiz Administrativo"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__employee_relationship_type__autonomo
@@ -473,6 +498,16 @@ msgid "Ocupação"
 msgstr "Ocupação"
 
 #. module: l10n_br_hr
+#: model:hr.department,name:l10n_br_hr.demo_department_operacional
+msgid "Operacional"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:hr.job,name:l10n_br_hr.demo_job_operador_industrial
+msgid "Operador Industrial"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__pis_pasep
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
 msgid "PIS/PASEP"
@@ -524,6 +559,11 @@ msgid "Separated"
 msgstr "Separado"
 
 #. module: l10n_br_hr
+#: model:hr.department,name:l10n_br_hr.demo_department_ti
+msgid "Tecnologia da Informação"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__employee_relationship_type__terceirizado
 msgid "Terceirizado"
 msgstr "Terceirizado"
@@ -551,6 +591,11 @@ msgstr "Terceira categoria"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__employee_relationship_type
 msgid "Tipo de Colaborador"
 msgstr "Tipo de Colaborador"
+
+#. module: l10n_br_hr
+#: model:hr.job,name:l10n_br_hr.demo_job_tecnico_seguranca
+msgid "Técnico de Segurança do Trabalho"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_res_partner__union_entity_code
