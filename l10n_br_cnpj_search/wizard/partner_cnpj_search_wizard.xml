@@ -23,7 +23,6 @@
 
                     <group name="Contacts" string="Contacts">
                         <field name="phone" />
-                        <field name="mobile" />
                         <field name="email" />
                     </group>
                 </group>

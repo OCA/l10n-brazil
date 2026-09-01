@@ -10,8 +10,6 @@ class ResCompany(models.Model):
 
     equity_capital = fields.Monetary(related="partner_id.equity_capital")
 
-    mobile = fields.Char(related="partner_id.mobile")
-
     company_currency_id = fields.Many2one(
         "res.currency",
         related="currency_id",

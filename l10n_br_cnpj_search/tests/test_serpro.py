@@ -17,8 +17,7 @@ from .common import MOCK_REQUESTS_GET, TestCnpjCommon
 _logger = logging.getLogger(__name__)
 
 MOCK_GET_CITY_ID = (
-    "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice."
-    "CNPJWebservice._get_city_id"
+    "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice._get_city_id"
 )
 
 
@@ -71,7 +70,6 @@ class TestTestSerPro(TestCnpjCommon):
             self.assertEqual(dummy_basica.zip, "70836900")
             self.assertEqual(dummy_basica.district, "Asa Norte")
             self.assertEqual(dummy_basica.phone, "(61) 22222222")
-            self.assertEqual(dummy_basica.mobile, "(61) 22222222")
             self.assertEqual(dummy_basica.state_id.code, "DF")
             self.assertEqual(dummy_basica.equity_capital, 0)
             self.assertEqual(dummy_basica.cnae_main_id.code, "6204-0/00")

@@ -168,7 +168,7 @@ class CNPJWebservice(models.AbstractModel):
     def _receitaws_import_data(self, data):
         legal_name = self.get_data(data, "nome", title=True)
         fantasy_name = self.get_data(data, "fantasia", title=True)
-        phone, mobile = self._receitaws_get_phones(data)
+        phone = self._receitaws_get_phones(data)
         state_id, city_id = self._get_state_city(data)
 
         res = {
@@ -182,7 +182,6 @@ class CNPJWebservice(models.AbstractModel):
             "zip": self.get_data(data, "cep"),
             "legal_nature_id": self._receitaws_get_legal_nature(data),
             "phone": phone,
-            "mobile": mobile,
             "state_id": state_id,
             "city_id": city_id,
             "equity_capital": self.get_data(data, "capital_social"),
@@ -194,17 +193,13 @@ class CNPJWebservice(models.AbstractModel):
 
     @api.model
     def _receitaws_get_phones(self, data):
-        """Get phones from data.
-        If there is more than one phone, the second is assigned to mobile."""
+        """Get phone from data.
+        If there is more than one phone, only the first one is used."""
         phone = False
-        mobile = False
         if data.get("telefone"):
-            phones = data["telefone"].split("/")
-            phone = phones[0]
-            if len(phones) > 1:
-                mobile = phones[1][1:]  # Remove Empty space separation
+            phone = data["telefone"].split("/")[0]
 
-        return [phone, mobile]
+        return phone
 
     @api.model
     def _get_state_city(self, data):
@@ -300,7 +295,7 @@ class CNPJWebservice(models.AbstractModel):
         legal_name = self.get_data(data, "nomeEmpresarial", title=True)
         fantasy_name = self.get_data(data, "nomeFantasia", title=True)
         name = fantasy_name if fantasy_name else legal_name
-        phone, mobile = self._serpro_get_phones(data)
+        phone = self._serpro_get_phones(data)
         address = data.get("endereco")
         cep = self.get_data(address, "cep")
 
@@ -315,7 +310,6 @@ class CNPJWebservice(models.AbstractModel):
             "legal_nature_id": self._serpro_get_legal_nature(data),
             "zip": cep,
             "phone": phone,
-            "mobile": mobile,
             "state_id": self._get_state_id(address),
             "city_id": self._get_city_id(cep),
             "equity_capital": self.get_data(data, "capitalSocial"),
@@ -372,21 +366,14 @@ class CNPJWebservice(models.AbstractModel):
 
     @api.model
     def _serpro_get_phones(self, data):
-        """Get phones from data.
-        If there is more than one phone, the second is assigned to mobile and the rest
-        is ignored."""
-        phone = False
-        mobile = False
+        """Get phone from data.
+        If there is more than one phone, only the first one is used."""
         phones_data = data.get("telefones")
         ddd = phones_data[0].get("ddd")
         num = phones_data[0].get("numero")
         phone = f"({ddd}) {num}"
-        if len(phones_data) == 2:
-            ddd = phones_data[1].get("ddd")
-            num = phones_data[1].get("numero")
-            mobile = f"({ddd}) {num}"
 
-        return phone, mobile
+        return phone
 
     @api.model
     def _get_state_id(self, address):

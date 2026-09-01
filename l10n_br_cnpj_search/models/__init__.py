@@ -4,3 +4,4 @@ from . import l10n_br_base_party_mixin
 from . import res_config_settings
 from . import cnpj_webservice
 from . import res_company
+from . import res_partner
