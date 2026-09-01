@@ -8,50 +8,30 @@ from odoo.addons.portal.controllers.portal import CustomerPortal
 
 
 class L10nBrPortal(CustomerPortal):
-    def _get_mandatory_fields(self):
-        return list(set(super()._get_mandatory_fields()) - {"street"}) + [
-            "state_id",
-            "city_id",
-            "district",
-            "street_number",
-            "vat",
-            "zipcode",
-            "street_name",
-        ]
-
-    def _get_optional_fields(self):
-        return list(set(super()._get_optional_fields()) - {"state_id"}) + [
-            "legal_name",
-            "l10n_br_ie_code",
-            "l10n_br_im_code",
-            "street2",
-            "mobile",
-            "l10n_br_rg_code",
-        ]
-
-    def _prepare_portal_layout_values(self):
-        values = super()._prepare_portal_layout_values()
-        cities = request.env["res.city"].sudo().search([])
-        values.update(
-            {
-                "cities": cities,
+    def _get_mandatory_address_fields(self, country_sudo):
+        field_names = super()._get_mandatory_address_fields(country_sudo)
+        if country_sudo.code == "BR":
+            field_names = (field_names - {"street", "city"}) | {
+                "street_name",
+                "street_number",
+                "district",
+                "city_id",
+                "state_id",
             }
-        )
+        return field_names
+
+    def _get_mandatory_billing_address_fields(self, country_sudo):
+        field_names = super()._get_mandatory_billing_address_fields(country_sudo)
+        if country_sudo.code == "BR":
+            field_names |= {"vat"}
+        return field_names
+
+    def _prepare_address_form_values(self, *args, **kwargs):
+        values = super()._prepare_address_form_values(*args, **kwargs)
+        values["cities"] = request.env["res.city"].sudo().search([])
         return values
 
-    @http.route(["/my/account"], type="http", auth="user", website=True)
-    def account(self, redirect=None, **post):
-        city_id = None
-        if post and post.get("city_id"):
-            city_id = request.env["res.city"].sudo().browse(int(post["city_id"]))
-            if city_id:
-                post["city"] = city_id.name
-        res = super().account(redirect, **post)
-        if city_id:
-            request.env.user.partner_id.sudo().write({"city_id": city_id.id})
-        return res
-
-    @http.route("/l10n_br/zip_search", type="json", auth="user", website=True)
+    @http.route("/l10n_br/zip_search", type="jsonrpc", auth="user", website=True)
     def zip_search(self, zipcode):
         try:
             return request.env["l10n_br.zip"].sudo()._consultar_cep(zipcode)

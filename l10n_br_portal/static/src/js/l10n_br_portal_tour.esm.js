@@ -5,11 +5,6 @@ registry.category("web_tour.tours").add("l10n_br_portal_tour", {
     test: true,
     steps: () => [
         {
-            content: "Complete name",
-            trigger: "input[name='name']",
-            run: "edit Mileo",
-        },
-        {
             content: "Complete CPF",
             trigger: "input[name='vat']",
             run: function () {
@@ -36,7 +31,7 @@ registry.category("web_tour.tours").add("l10n_br_portal_tour", {
         },
         {
             content: "Complete ZIP",
-            trigger: "input[name='zipcode']",
+            trigger: "input[name='zip']",
             run: "edit 37500015",
         },
         {
@@ -63,7 +58,7 @@ registry.category("web_tour.tours").add("l10n_br_portal_tour", {
             trigger: "select[name='city_id']:has(option:checked:contains('Itajubá'))",
         },
         {
-            trigger: "button[type='submit']",
+            trigger: "#save_address",
             run: "click",
         },
     ],

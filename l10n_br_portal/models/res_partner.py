@@ -14,3 +14,18 @@ class ResPartner(models.Model):
         if not can_edit_vat:
             return can_edit_vat
         return not self.vat
+
+    def _get_frontend_writable_fields(self):
+        frontend_writable_fields = super()._get_frontend_writable_fields()
+        frontend_writable_fields.update(
+            {
+                "legal_name",
+                "l10n_br_ie_code",
+                "l10n_br_im_code",
+                "street_name",
+                "street_number",
+                "district",
+                "city_id",
+            }
+        )
+        return frontend_writable_fields
