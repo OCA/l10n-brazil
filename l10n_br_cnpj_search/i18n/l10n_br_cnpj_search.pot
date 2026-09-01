@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -127,6 +127,11 @@ msgid "Config Settings"
 msgstr ""
 
 #. module: l10n_br_cnpj_search
+#: model:ir.model,name:l10n_br_cnpj_search.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: l10n_br_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
 msgid "Contacts"
 msgstr ""
@@ -152,7 +157,12 @@ msgid "Currency"
 msgstr ""
 
 #. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_l10n_br_base_party_mixin__display_name
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_l10n_br_cnpj_search_webservice_abstract__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__display_name
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -181,7 +191,12 @@ msgid "Equity Capital"
 msgstr ""
 
 #. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_l10n_br_base_party_mixin__id
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_l10n_br_cnpj_search_webservice_abstract__id
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__id
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_config_settings__id
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner__id
 msgid "ID"
 msgstr ""
 
@@ -238,12 +253,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_users__cnae_main_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
 msgid "Main CNAE"
-msgstr ""
-
-#. module: l10n_br_cnpj_search
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__mobile
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__mobile
-msgid "Mobile"
 msgstr ""
 
 #. module: l10n_br_cnpj_search
