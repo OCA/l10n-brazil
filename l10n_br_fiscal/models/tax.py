@@ -333,6 +333,54 @@ class Tax(models.Model):
         return tax_dict
 
     @api.model
+    def _import_tax_in_base(self, taxes_dict, **kwargs):
+        """Import Tax that composes the base of the other taxes of an import.
+
+        The amount that matters is the one the declaration charged: it follows the
+        tariff classification and any tariff exception, which the product file has
+        no way to know. Recomputing it from the rate of the product leaves the base
+        of the IPI and of the ICMS short whenever the two disagree, and the SEFAZ
+        refuses the note with 538 and with 528.
+
+        Falls back to the computed amount when no declaration was informed, which
+        is every operation that is not an import.
+        """
+        declared = kwargs.get("ii_declared_value") or 0.00
+        if declared:
+            return declared
+        return taxes_dict.get("ii", {}).get("tax_value", 0.00)
+
+    @api.model
+    def _compute_ii(self, tax, taxes_dict, **kwargs):
+        """Let the amount charged by the declaration win over the rate.
+
+        The rate follows the amount, so base times rate reproduces what was paid:
+        the SEFAZ recomputes it and refuses the note with 528 when the two do not
+        agree to the cent.
+        """
+        declared = kwargs.get("ii_declared_value") or 0.00
+        if not declared:
+            return self._compute_tax(tax, taxes_dict, **kwargs)
+
+        tax_dict = taxes_dict.get(tax.tax_domain)
+        # Seeding the rate before the base is what makes the base exist at all:
+        # a tax of zero percent and zero amount gets a base of zero, and a
+        # declaration charging over a classification the product file keeps at
+        # zero is precisely the case this method is here for.
+        gross = (kwargs.get("fiscal_price") or 0.00) * (
+            kwargs.get("fiscal_quantity") or 0.00
+        )
+        if gross and not tax_dict.get("percent_amount"):
+            tax_dict["percent_amount"] = declared / gross * 100.0
+
+        tax_dict = self._compute_tax(tax, taxes_dict, **kwargs)
+        base_amount = tax_dict.get("base") or 0.00
+        tax_dict["tax_value"] = declared
+        if base_amount:
+            tax_dict["percent_amount"] = declared / base_amount * 100.0
+        return tax_dict
+
+    @api.model
     def _compute_tax(self, tax, taxes_dict, **kwargs):
         """Generic calculation of Brazilian taxes"""
 
@@ -444,8 +492,7 @@ class Tax(models.Model):
             and cfop.destination == CFOP_DESTINATION_EXPORT
             and fiscal_operation_type == FISCAL_IN
         ):
-            tax_dict_ii = taxes_dict.get("ii", {})
-            tax_dict["add_to_base"] += tax_dict_ii.get("tax_value", 0.00)
+            tax_dict["add_to_base"] += self._import_tax_in_base(taxes_dict, **kwargs)
 
             tax_dict_pis = taxes_dict.get("pis", {})
             tax_dict["add_to_base"] += tax_dict_pis.get("tax_value", 0.00)
@@ -712,8 +759,7 @@ class Tax(models.Model):
             and cfop.destination == CFOP_DESTINATION_EXPORT
             and fiscal_operation_type == FISCAL_IN
         ):
-            tax_dict_ii = taxes_dict.get("ii", {})
-            tax_dict["add_to_base"] += tax_dict_ii.get("tax_value", 0.00)
+            tax_dict["add_to_base"] += self._import_tax_in_base(taxes_dict, **kwargs)
 
         return self._compute_tax(tax, taxes_dict, **kwargs)
 
@@ -726,7 +772,6 @@ class Tax(models.Model):
         operation_line = kwargs.get("operation_line")
         fiscal_operation_type = operation_line.fiscal_operation_type or FISCAL_OUT
         tax_dict = taxes_dict.get(tax.tax_domain)
-        tax_dict_ii = taxes_dict.get("ii", {})
         tax_dict_is = taxes_dict.get("is", {})
         tax_dict_icms = taxes_dict.get("icms", {})
         tax_dict_issqn = taxes_dict.get("issqn", {})
@@ -738,7 +783,7 @@ class Tax(models.Model):
             and fiscal_operation_type == FISCAL_IN
         ):
             tax_dict["add_to_base"] += (
-                tax_dict_ii.get("tax_value", 0.00)
+                self._import_tax_in_base(taxes_dict, **kwargs)
                 + tax_dict_is.get("tax_value", 0.00)
                 + kwargs.get("ii_customhouse_charges", 0.00)
             )
@@ -760,7 +805,6 @@ class Tax(models.Model):
         operation_line = kwargs.get("operation_line")
         fiscal_operation_type = operation_line.fiscal_operation_type or FISCAL_OUT
         tax_dict = taxes_dict.get(tax.tax_domain)
-        tax_dict_ii = taxes_dict.get("ii", {})
         tax_dict_is = taxes_dict.get("is", {})
         tax_dict_icms = taxes_dict.get("icms", {})
         tax_dict_issqn = taxes_dict.get("issqn", {})
@@ -772,7 +816,7 @@ class Tax(models.Model):
             and fiscal_operation_type == FISCAL_IN
         ):
             tax_dict["add_to_base"] += (
-                tax_dict_ii.get("tax_value", 0.00)
+                self._import_tax_in_base(taxes_dict, **kwargs)
                 + tax_dict_is.get("tax_value", 0.00)
                 + kwargs.get("ii_customhouse_charges", 0.00)
             )
@@ -794,7 +838,6 @@ class Tax(models.Model):
         operation_line = kwargs.get("operation_line")
         fiscal_operation_type = operation_line.fiscal_operation_type or FISCAL_OUT
         tax_dict = taxes_dict.get(tax.tax_domain)
-        tax_dict_ii = taxes_dict.get("ii", {})
         tax_dict_icms = taxes_dict.get("icms", {})
         tax_dict_pis = taxes_dict.get("pis", {})
         tax_dict_cofins = taxes_dict.get("cofins", {})
@@ -803,9 +846,9 @@ class Tax(models.Model):
             and cfop.destination == CFOP_DESTINATION_EXPORT
             and fiscal_operation_type == FISCAL_IN
         ):
-            tax_dict["add_to_base"] += tax_dict_ii.get("tax_value", 0.00) + kwargs.get(
-                "ii_customhouse_charges", 0.00
-            )
+            tax_dict["add_to_base"] += self._import_tax_in_base(
+                taxes_dict, **kwargs
+            ) + kwargs.get("ii_customhouse_charges", 0.00)
         else:
             tax_dict["remove_from_base"] += (
                 tax_dict_icms.get("tax_value", 0.00)
@@ -880,6 +923,10 @@ class Tax(models.Model):
         :param ii_customhouse_charges: float, customs house charges for Import Tax
             (II).
         :param ii_iof_value: float, IOF value related to Import Tax (II).
+        :param ii_declared_value: float, Import Tax the declaration charged.
+            When informed it wins over the rate of the product file, and it is
+            what composes the base of the IPI, of the ICMS, of the CBS and of
+            the IS.
         :param ncm: l10n_br_fiscal.ncm record, NCM code for the product.
         :param nbs: l10n_br_fiscal.nbs record, NBS code for the service.
         :param nbm: l10n_br_fiscal.nbm record, NBM code for the product.

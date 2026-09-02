@@ -219,6 +219,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         "icms_value",
         "ii_value",
         "ii_customhouse_charges",
+        "ii_declared_value",
     )
     def _compute_fiscal_amounts(self):
         for record in self:
@@ -426,6 +427,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         "insurance_value",
         "ii_customhouse_charges",
         "ii_iof_value",
+        "ii_declared_value",
         "other_value",
         "freight_value",
         "ncm_id",
@@ -480,6 +482,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                     insurance_value=line.insurance_value,
                     ii_customhouse_charges=line.ii_customhouse_charges,
                     ii_iof_value=line.ii_iof_value,
+                    ii_declared_value=line.ii_declared_value,
                     other_value=line.other_value,
                     freight_value=line.freight_value,
                     ncm=line.ncm_id,
@@ -2080,6 +2083,15 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     ii_iof_value = fields.Monetary(string="IOF Value")
 
     ii_customhouse_charges = fields.Monetary(string="Despesas Aduaneiras")
+
+    ii_declared_value = fields.Monetary(
+        string="II charged by the declaration",
+        help="Import Tax the import declaration actually charged. It follows the "
+        "tariff classification and any tariff exception, so the product file has "
+        "no way to know it. When informed it wins over the rate of the product "
+        "file, and it is what composes the base of the IPI, of the ICMS, of the "
+        "CBS and of the IS.",
+    )
 
     # PIS/COFINS Fields
     # COFINS
