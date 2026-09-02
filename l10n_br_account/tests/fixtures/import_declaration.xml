@@ -1,0 +1,644 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ListaDeclaracoes>
+    <declaracaoImportacao>
+        <adicao>
+            <cideValorAliquotaEspecifica>00000000000</cideValorAliquotaEspecifica>
+            <cideValorDevido>000000000000000</cideValorDevido>
+            <cideValorRecolher>000000000000000</cideValorRecolher>
+            <codigoRelacaoCompradorVendedor>1</codigoRelacaoCompradorVendedor>
+            <codigoVinculoCompradorVendedor>2</codigoVinculoCompradorVendedor>
+            <cofinsAliquotaAdValorem>00965</cofinsAliquotaAdValorem>
+            <cofinsAliquotaEspecificaQuantidadeUnidade
+            >000000000</cofinsAliquotaEspecificaQuantidadeUnidade>
+            <cofinsAliquotaEspecificaValor>0000000000</cofinsAliquotaEspecificaValor>
+            <cofinsAliquotaReduzida>00000</cofinsAliquotaReduzida>
+            <cofinsAliquotaValorDevido>000000000386000</cofinsAliquotaValorDevido>
+            <cofinsAliquotaValorRecolher>000000000386000</cofinsAliquotaValorRecolher>
+            <condicaoVendaIncoterm>FCA</condicaoVendaIncoterm>
+            <condicaoVendaLocal>PUDAHUEL</condicaoVendaLocal>
+            <condicaoVendaMetodoValoracaoCodigo>01</condicaoVendaMetodoValoracaoCodigo>
+            <condicaoVendaMetodoValoracaoNome
+            >METODO 1 - ART. 1 DO ACORDO (DECRETO 92930/86)</condicaoVendaMetodoValoracaoNome>
+            <condicaoVendaMoedaCodigo>220</condicaoVendaMoedaCodigo>
+            <condicaoVendaMoedaNome>DOLAR DOS EUA</condicaoVendaMoedaNome>
+            <condicaoVendaValorMoeda>000000000800000</condicaoVendaValorMoeda>
+            <condicaoVendaValorReais>000000004000000</condicaoVendaValorReais>
+            <dadosCambiaisCoberturaCambialCodigo>1</dadosCambiaisCoberturaCambialCodigo>
+            <dadosCambiaisCoberturaCambialNome
+            >COM COBERTURA CAMBIAL E PAGAMENTO FINAL A PRAZO DE ATE' 180</dadosCambiaisCoberturaCambialNome>
+            <dadosCambiaisInstituicaoFinanciadoraCodigo
+            >00</dadosCambiaisInstituicaoFinanciadoraCodigo>
+            <dadosCambiaisInstituicaoFinanciadoraNome
+            >N/I</dadosCambiaisInstituicaoFinanciadoraNome>
+            <dadosCambiaisMotivoSemCoberturaCodigo
+            >00</dadosCambiaisMotivoSemCoberturaCodigo>
+            <dadosCambiaisMotivoSemCoberturaNome
+            >N/I</dadosCambiaisMotivoSemCoberturaNome>
+            <dadosCambiaisValorRealCambio>000000000000000</dadosCambiaisValorRealCambio>
+            <dadosCargaPaisProcedenciaCodigo>000</dadosCargaPaisProcedenciaCodigo>
+            <dadosCargaUrfEntradaCodigo>0000000</dadosCargaUrfEntradaCodigo>
+            <dadosCargaViaTransporteCodigo>00</dadosCargaViaTransporteCodigo>
+            <dadosMercadoriaAplicacao>CONSUMO</dadosMercadoriaAplicacao>
+            <dadosMercadoriaCodigoNaladiNCCA>0000000</dadosMercadoriaCodigoNaladiNCCA>
+            <dadosMercadoriaCodigoNaladiSH>00000000</dadosMercadoriaCodigoNaladiSH>
+            <dadosMercadoriaCodigoNcm>84149020</dadosMercadoriaCodigoNcm>
+            <dadosMercadoriaCondicao>NOVA</dadosMercadoriaCondicao>
+            <dadosMercadoriaMedidaEstatisticaQuantidade
+            >00000006000000</dadosMercadoriaMedidaEstatisticaQuantidade>
+            <dadosMercadoriaMedidaEstatisticaUnidade
+            >QUILOGRAMA LIQUIDO</dadosMercadoriaMedidaEstatisticaUnidade>
+            <dadosMercadoriaNomeNcm
+            >De ventiladores ou coifas aspirantes</dadosMercadoriaNomeNcm>
+            <dadosMercadoriaPesoLiquido>000000010000000</dadosMercadoriaPesoLiquido>
+            <dcrCoeficienteReducao>00000</dcrCoeficienteReducao>
+            <dcrIdentificacao>00000000</dcrIdentificacao>
+            <dcrValorDevido>000000000000000</dcrValorDevido>
+            <dcrValorDolar>000000000000000</dcrValorDolar>
+            <dcrValorReal>000000000000000</dcrValorReal>
+            <dcrValorRecolher>000000000000000</dcrValorRecolher>
+            <destaqueNcm>
+                <numeroDestaque>999</numeroDestaque>
+            </destaqueNcm>
+            <fornecedorCidade>PUDAHUEL</fornecedorCidade>
+            <fornecedorComplemento>PARQUE IND LO BOZA</fornecedorComplemento>
+            <fornecedorEstado>REGION METROPOLITANA DE S</fornecedorEstado>
+            <fornecedorLogradouro>CAMINO LO BOZA</fornecedorLogradouro>
+            <fornecedorNome>FORNECEDOR DO EXTERIOR</fornecedorNome>
+            <fornecedorNumero>421</fornecedorNumero>
+            <freteMoedaNegociadaCodigo>000</freteMoedaNegociadaCodigo>
+            <freteValorMoedaNegociada>000000000010486</freteValorMoedaNegociada>
+            <freteValorReais>000000000053824</freteValorReais>
+            <iiAcordoTarifarioTipoCodigo>0</iiAcordoTarifarioTipoCodigo>
+            <iiAliquotaAcordo>00000</iiAliquotaAcordo>
+            <iiAliquotaAdValorem>000000000001260</iiAliquotaAdValorem>
+            <iiAliquotaPercentualReducao>00000</iiAliquotaPercentualReducao>
+            <iiAliquotaReduzida>00000</iiAliquotaReduzida>
+            <iiAliquotaValorCalculado>000000000551804</iiAliquotaValorCalculado>
+            <iiAliquotaValorDevido>000000000504000</iiAliquotaValorDevido>
+            <iiAliquotaValorRecolher>000000000504000</iiAliquotaValorRecolher>
+            <iiAliquotaValorReduzido>000000000000000</iiAliquotaValorReduzido>
+            <iiBaseCalculo>000000004000000</iiBaseCalculo>
+            <iiFundamentoLegalCodigo>00</iiFundamentoLegalCodigo>
+            <iiMotivoAdmissaoTemporariaCodigo>00</iiMotivoAdmissaoTemporariaCodigo>
+            <iiRegimeTributacaoCodigo>1</iiRegimeTributacaoCodigo>
+            <iiRegimeTributacaoNome>RECOLHIMENTO INTEGRAL</iiRegimeTributacaoNome>
+            <ipiAliquotaAdValorem>000000000000325</ipiAliquotaAdValorem>
+            <ipiAliquotaEspecificaCapacidadeRecipciente
+            >00000</ipiAliquotaEspecificaCapacidadeRecipciente>
+            <ipiAliquotaEspecificaQuantidadeUnidadeMedida
+            >000000000</ipiAliquotaEspecificaQuantidadeUnidadeMedida>
+            <ipiAliquotaEspecificaTipoRecipienteCodigo
+            >00</ipiAliquotaEspecificaTipoRecipienteCodigo>
+            <ipiAliquotaEspecificaValorUnidadeMedida
+            >0000000000</ipiAliquotaEspecificaValorUnidadeMedida>
+            <ipiAliquotaNotaComplementarTIPI>00</ipiAliquotaNotaComplementarTIPI>
+            <ipiAliquotaReduzida>00000</ipiAliquotaReduzida>
+            <ipiAliquotaValorDevido>000000000146380</ipiAliquotaValorDevido>
+            <ipiAliquotaValorRecolher>000000000146380</ipiAliquotaValorRecolher>
+            <ipiRegimeTributacaoCodigo>4</ipiRegimeTributacaoCodigo>
+            <ipiRegimeTributacaoNome>SEM BENEFICIO</ipiRegimeTributacaoNome>
+            <mercadoria>
+                <descricaoMercadoria>MERCADORIA 1 DA ADICAO 1 cClassTrib=[000001]
+</descricaoMercadoria>
+                <numeroSequencialItem>01</numeroSequencialItem>
+                <quantidade>00000000600000</quantidade>
+                <unidadeMedida>UNIDADE(S)          </unidadeMedida>
+                <valorUnitario>00000000005000000000</valorUnitario>
+            </mercadoria>
+            <mercadoria>
+                <descricaoMercadoria>MERCADORIA 2 DA ADICAO 1 cClassTrib=[000001]
+</descricaoMercadoria>
+                <numeroSequencialItem>02</numeroSequencialItem>
+                <quantidade>00000000200000</quantidade>
+                <unidadeMedida>UNIDADE(S)          </unidadeMedida>
+                <valorUnitario>00000000005000000000</valorUnitario>
+            </mercadoria>
+            <mercadoria>
+                <descricaoMercadoria>MERCADORIA 3 DA ADICAO 1 cClassTrib=[000001]
+</descricaoMercadoria>
+                <numeroSequencialItem>03</numeroSequencialItem>
+                <quantidade>00000000800000</quantidade>
+                <unidadeMedida>UNIDADE(S)          </unidadeMedida>
+                <valorUnitario>00000000005000000000</valorUnitario>
+            </mercadoria>
+            <numeroAdicao>001</numeroAdicao>
+            <numeroDI>2600000001</numeroDI>
+            <numeroLI>0000000000</numeroLI>
+            <paisAquisicaoMercadoriaCodigo>158</paisAquisicaoMercadoriaCodigo>
+            <paisAquisicaoMercadoriaNome>CHILE</paisAquisicaoMercadoriaNome>
+            <paisOrigemMercadoriaCodigo>158</paisOrigemMercadoriaCodigo>
+            <paisOrigemMercadoriaNome>CHILE</paisOrigemMercadoriaNome>
+            <pisCofinsBaseCalculoAliquotaICMS>00000</pisCofinsBaseCalculoAliquotaICMS>
+            <pisCofinsBaseCalculoFundamentoLegalCodigo
+            >00</pisCofinsBaseCalculoFundamentoLegalCodigo>
+            <pisCofinsBaseCalculoPercentualReducao
+            >00000</pisCofinsBaseCalculoPercentualReducao>
+            <pisCofinsBaseCalculoValor>000000004379411</pisCofinsBaseCalculoValor>
+            <pisCofinsFundamentoLegalReducaoCodigo
+            >00</pisCofinsFundamentoLegalReducaoCodigo>
+            <pisCofinsRegimeTributacaoCodigo>1</pisCofinsRegimeTributacaoCodigo>
+            <pisCofinsRegimeTributacaoNome
+            >RECOLHIMENTO INTEGRAL</pisCofinsRegimeTributacaoNome>
+            <pisPasepAliquotaAdValorem>00210</pisPasepAliquotaAdValorem>
+            <pisPasepAliquotaEspecificaQuantidadeUnidade
+            >000000000</pisPasepAliquotaEspecificaQuantidadeUnidade>
+            <pisPasepAliquotaEspecificaValor
+            >0000000000</pisPasepAliquotaEspecificaValor>
+            <pisPasepAliquotaReduzida>00000</pisPasepAliquotaReduzida>
+            <pisPasepAliquotaValorDevido>000000000084000</pisPasepAliquotaValorDevido>
+            <pisPasepAliquotaValorRecolher
+            >000000000084000</pisPasepAliquotaValorRecolher>
+            <relacaoCompradorVendedor
+            >Fabricante é o Exportador</relacaoCompradorVendedor>
+            <seguroMoedaNegociadaCodigo>000</seguroMoedaNegociadaCodigo>
+            <seguroValorMoedaNegociada>000000000000000</seguroValorMoedaNegociada>
+            <seguroValorReais>000000000012937</seguroValorReais>
+            <sequencialRetificacao>00</sequencialRetificacao>
+            <valorMultaARecolher>000000000000000</valorMultaARecolher>
+            <valorMultaARecolherAjustado>000000000000000</valorMultaARecolherAjustado>
+            <valorReaisFreteInternacional>000000000053824</valorReaisFreteInternacional>
+            <valorReaisSeguroInternacional
+            >000000000012937</valorReaisSeguroInternacional>
+            <valorTotalCondicaoVenda>84019709582</valorTotalCondicaoVenda>
+            <vinculoCompradorVendedor
+            >Há vinculação entre comprador e vendedor sem influência no preço da mercadoria.</vinculoCompradorVendedor>
+        </adicao>
+        <adicao>
+            <cideValorAliquotaEspecifica>00000000000</cideValorAliquotaEspecifica>
+            <cideValorDevido>000000000000000</cideValorDevido>
+            <cideValorRecolher>000000000000000</cideValorRecolher>
+            <codigoRelacaoCompradorVendedor>1</codigoRelacaoCompradorVendedor>
+            <codigoVinculoCompradorVendedor>2</codigoVinculoCompradorVendedor>
+            <cofinsAliquotaAdValorem>00965</cofinsAliquotaAdValorem>
+            <cofinsAliquotaEspecificaQuantidadeUnidade
+            >000000000</cofinsAliquotaEspecificaQuantidadeUnidade>
+            <cofinsAliquotaEspecificaValor>0000000000</cofinsAliquotaEspecificaValor>
+            <cofinsAliquotaReduzida>00000</cofinsAliquotaReduzida>
+            <cofinsAliquotaValorDevido>000000007334000</cofinsAliquotaValorDevido>
+            <cofinsAliquotaValorRecolher>000000007334000</cofinsAliquotaValorRecolher>
+            <condicaoVendaIncoterm>FCA</condicaoVendaIncoterm>
+            <condicaoVendaLocal>PUDAHUEL</condicaoVendaLocal>
+            <condicaoVendaMetodoValoracaoCodigo>01</condicaoVendaMetodoValoracaoCodigo>
+            <condicaoVendaMetodoValoracaoNome
+            >METODO 1 - ART. 1 DO ACORDO (DECRETO 92930/86)</condicaoVendaMetodoValoracaoNome>
+            <condicaoVendaMoedaCodigo>220</condicaoVendaMoedaCodigo>
+            <condicaoVendaMoedaNome>DOLAR DOS EUA</condicaoVendaMoedaNome>
+            <condicaoVendaValorMoeda>000000015200000</condicaoVendaValorMoeda>
+            <condicaoVendaValorReais>000000076000000</condicaoVendaValorReais>
+            <dadosCambiaisCoberturaCambialCodigo>1</dadosCambiaisCoberturaCambialCodigo>
+            <dadosCambiaisCoberturaCambialNome
+            >COM COBERTURA CAMBIAL E PAGAMENTO FINAL A PRAZO DE ATE' 180</dadosCambiaisCoberturaCambialNome>
+            <dadosCambiaisInstituicaoFinanciadoraCodigo
+            >00</dadosCambiaisInstituicaoFinanciadoraCodigo>
+            <dadosCambiaisInstituicaoFinanciadoraNome
+            >N/I</dadosCambiaisInstituicaoFinanciadoraNome>
+            <dadosCambiaisMotivoSemCoberturaCodigo
+            >00</dadosCambiaisMotivoSemCoberturaCodigo>
+            <dadosCambiaisMotivoSemCoberturaNome
+            >N/I</dadosCambiaisMotivoSemCoberturaNome>
+            <dadosCambiaisValorRealCambio>000000000000000</dadosCambiaisValorRealCambio>
+            <dadosCargaPaisProcedenciaCodigo>000</dadosCargaPaisProcedenciaCodigo>
+            <dadosCargaUrfEntradaCodigo>0000000</dadosCargaUrfEntradaCodigo>
+            <dadosCargaViaTransporteCodigo>00</dadosCargaViaTransporteCodigo>
+            <dadosMercadoriaAplicacao>CONSUMO</dadosMercadoriaAplicacao>
+            <dadosMercadoriaCodigoNaladiNCCA>0000000</dadosMercadoriaCodigoNaladiNCCA>
+            <dadosMercadoriaCodigoNaladiSH>00000000</dadosMercadoriaCodigoNaladiSH>
+            <dadosMercadoriaCodigoNcm>85371090</dadosMercadoriaCodigoNcm>
+            <dadosMercadoriaCondicao>NOVA</dadosMercadoriaCondicao>
+            <dadosMercadoriaMedidaEstatisticaQuantidade
+            >00000147000000</dadosMercadoriaMedidaEstatisticaQuantidade>
+            <dadosMercadoriaMedidaEstatisticaUnidade
+            >QUILOGRAMA LIQUIDO</dadosMercadoriaMedidaEstatisticaUnidade>
+            <dadosMercadoriaNomeNcm>Outros</dadosMercadoriaNomeNcm>
+            <dadosMercadoriaPesoLiquido>000000010000000</dadosMercadoriaPesoLiquido>
+            <dcrCoeficienteReducao>00000</dcrCoeficienteReducao>
+            <dcrIdentificacao>00000000</dcrIdentificacao>
+            <dcrValorDevido>000000000000000</dcrValorDevido>
+            <dcrValorDolar>000000000000000</dcrValorDolar>
+            <dcrValorReal>000000000000000</dcrValorReal>
+            <dcrValorRecolher>000000000000000</dcrValorRecolher>
+            <destaqueNcm>
+                <numeroDestaque>999</numeroDestaque>
+            </destaqueNcm>
+            <fornecedorCidade>PUDAHUEL</fornecedorCidade>
+            <fornecedorComplemento>PARQUE IND LO BOZA</fornecedorComplemento>
+            <fornecedorEstado>REGION METROPOLITANA DE S</fornecedorEstado>
+            <fornecedorLogradouro>CAMINO LO BOZA</fornecedorLogradouro>
+            <fornecedorNome>FORNECEDOR DO EXTERIOR</fornecedorNome>
+            <fornecedorNumero>421</fornecedorNumero>
+            <freteMoedaNegociadaCodigo>000</freteMoedaNegociadaCodigo>
+            <freteValorMoedaNegociada>000000000256913</freteValorMoedaNegociada>
+            <freteValorReais>000000001318712</freteValorReais>
+            <iiAcordoTarifarioTipoCodigo>0</iiAcordoTarifarioTipoCodigo>
+            <iiAliquotaAcordo>00000</iiAliquotaAcordo>
+            <iiAliquotaAdValorem>000000000001800</iiAliquotaAdValorem>
+            <iiAliquotaPercentualReducao>00000</iiAliquotaPercentualReducao>
+            <iiAliquotaReduzida>00000</iiAliquotaReduzida>
+            <iiAliquotaValorCalculado>000000013704638</iiAliquotaValorCalculado>
+            <iiAliquotaValorDevido>000000013680000</iiAliquotaValorDevido>
+            <iiAliquotaValorRecolher>000000013680000</iiAliquotaValorRecolher>
+            <iiAliquotaValorReduzido>000000000000000</iiAliquotaValorReduzido>
+            <iiBaseCalculo>000000076000000</iiBaseCalculo>
+            <iiFundamentoLegalCodigo>00</iiFundamentoLegalCodigo>
+            <iiMotivoAdmissaoTemporariaCodigo>00</iiMotivoAdmissaoTemporariaCodigo>
+            <iiRegimeTributacaoCodigo>1</iiRegimeTributacaoCodigo>
+            <iiRegimeTributacaoNome>RECOLHIMENTO INTEGRAL</iiRegimeTributacaoNome>
+            <ipiAliquotaAdValorem>000000000000975</ipiAliquotaAdValorem>
+            <ipiAliquotaEspecificaCapacidadeRecipciente
+            >00000</ipiAliquotaEspecificaCapacidadeRecipciente>
+            <ipiAliquotaEspecificaQuantidadeUnidadeMedida
+            >000000000</ipiAliquotaEspecificaQuantidadeUnidadeMedida>
+            <ipiAliquotaEspecificaTipoRecipienteCodigo
+            >00</ipiAliquotaEspecificaTipoRecipienteCodigo>
+            <ipiAliquotaEspecificaValorUnidadeMedida
+            >0000000000</ipiAliquotaEspecificaValorUnidadeMedida>
+            <ipiAliquotaNotaComplementarTIPI>00</ipiAliquotaNotaComplementarTIPI>
+            <ipiAliquotaReduzida>00000</ipiAliquotaReduzida>
+            <ipiAliquotaValorDevido>000000008743800</ipiAliquotaValorDevido>
+            <ipiAliquotaValorRecolher>000000008743800</ipiAliquotaValorRecolher>
+            <ipiRegimeTributacaoCodigo>4</ipiRegimeTributacaoCodigo>
+            <ipiRegimeTributacaoNome>SEM BENEFICIO</ipiRegimeTributacaoNome>
+            <mercadoria>
+                <descricaoMercadoria>MERCADORIA 1 DA ADICAO 2 cClassTrib=[000001]
+</descricaoMercadoria>
+                <numeroSequencialItem>01</numeroSequencialItem>
+                <quantidade>00000000200000</quantidade>
+                <unidadeMedida>UNIDADE(S)          </unidadeMedida>
+                <valorUnitario>00000000108571428571</valorUnitario>
+            </mercadoria>
+            <mercadoria>
+                <descricaoMercadoria>MERCADORIA 2 DA ADICAO 2 cClassTrib=[000001]
+</descricaoMercadoria>
+                <numeroSequencialItem>02</numeroSequencialItem>
+                <quantidade>00000000800000</quantidade>
+                <unidadeMedida>UNIDADE(S)          </unidadeMedida>
+                <valorUnitario>00000000108571428571</valorUnitario>
+            </mercadoria>
+            <mercadoria>
+                <descricaoMercadoria>MERCADORIA 3 DA ADICAO 2 cClassTrib=[000001]
+</descricaoMercadoria>
+                <numeroSequencialItem>03</numeroSequencialItem>
+                <quantidade>00000000100000</quantidade>
+                <unidadeMedida>UNIDADE(S)          </unidadeMedida>
+                <valorUnitario>00000000108571428571</valorUnitario>
+            </mercadoria>
+            <mercadoria>
+                <descricaoMercadoria>MERCADORIA 4 DA ADICAO 2 cClassTrib=[000001]
+</descricaoMercadoria>
+                <numeroSequencialItem>04</numeroSequencialItem>
+                <quantidade>00000000200000</quantidade>
+                <unidadeMedida>UNIDADE(S)          </unidadeMedida>
+                <valorUnitario>00000000108571428571</valorUnitario>
+            </mercadoria>
+            <mercadoria>
+                <descricaoMercadoria>MERCADORIA 5 DA ADICAO 2 cClassTrib=[000001]
+</descricaoMercadoria>
+                <numeroSequencialItem>05</numeroSequencialItem>
+                <quantidade>00000000100000</quantidade>
+                <unidadeMedida>UNIDADE(S)          </unidadeMedida>
+                <valorUnitario>00000000108571428571</valorUnitario>
+            </mercadoria>
+            <numeroAdicao>002</numeroAdicao>
+            <numeroDI>2600000001</numeroDI>
+            <numeroLI>0000000000</numeroLI>
+            <paisAquisicaoMercadoriaCodigo>158</paisAquisicaoMercadoriaCodigo>
+            <paisAquisicaoMercadoriaNome>CHILE</paisAquisicaoMercadoriaNome>
+            <paisOrigemMercadoriaCodigo>158</paisOrigemMercadoriaCodigo>
+            <paisOrigemMercadoriaNome>CHILE</paisOrigemMercadoriaNome>
+            <pisCofinsBaseCalculoAliquotaICMS>00000</pisCofinsBaseCalculoAliquotaICMS>
+            <pisCofinsBaseCalculoFundamentoLegalCodigo
+            >00</pisCofinsBaseCalculoFundamentoLegalCodigo>
+            <pisCofinsBaseCalculoPercentualReducao
+            >00000</pisCofinsBaseCalculoPercentualReducao>
+            <pisCofinsBaseCalculoValor>000000076136896</pisCofinsBaseCalculoValor>
+            <pisCofinsFundamentoLegalReducaoCodigo
+            >00</pisCofinsFundamentoLegalReducaoCodigo>
+            <pisCofinsRegimeTributacaoCodigo>1</pisCofinsRegimeTributacaoCodigo>
+            <pisCofinsRegimeTributacaoNome
+            >RECOLHIMENTO INTEGRAL</pisCofinsRegimeTributacaoNome>
+            <pisPasepAliquotaAdValorem>00210</pisPasepAliquotaAdValorem>
+            <pisPasepAliquotaEspecificaQuantidadeUnidade
+            >000000000</pisPasepAliquotaEspecificaQuantidadeUnidade>
+            <pisPasepAliquotaEspecificaValor
+            >0000000000</pisPasepAliquotaEspecificaValor>
+            <pisPasepAliquotaReduzida>00000</pisPasepAliquotaReduzida>
+            <pisPasepAliquotaValorDevido>000000001596000</pisPasepAliquotaValorDevido>
+            <pisPasepAliquotaValorRecolher
+            >000000001596000</pisPasepAliquotaValorRecolher>
+            <relacaoCompradorVendedor
+            >Fabricante é o Exportador</relacaoCompradorVendedor>
+            <seguroMoedaNegociadaCodigo>000</seguroMoedaNegociadaCodigo>
+            <seguroValorMoedaNegociada>000000000000000</seguroValorMoedaNegociada>
+            <seguroValorReais>000000000223781</seguroValorReais>
+            <sequencialRetificacao>00</sequencialRetificacao>
+            <valorMultaARecolher>000000000000000</valorMultaARecolher>
+            <valorMultaARecolherAjustado>000000000000000</valorMultaARecolherAjustado>
+            <valorReaisFreteInternacional>000000001318712</valorReaisFreteInternacional>
+            <valorReaisSeguroInternacional
+            >000000000223781</valorReaisSeguroInternacional>
+            <valorTotalCondicaoVenda>1453260390500</valorTotalCondicaoVenda>
+            <vinculoCompradorVendedor
+            >Há vinculação entre comprador e vendedor sem influência no preço da mercadoria.</vinculoCompradorVendedor>
+        </adicao>
+        <armazem>
+            <nomeArmazem>ARMAZEM  </nomeArmazem>
+        </armazem>
+        <armazenamentoRecintoAduaneiroCodigo
+        >0603201</armazenamentoRecintoAduaneiroCodigo>
+        <armazenamentoRecintoAduaneiroNome
+        >ARMAZEM DE TESTE</armazenamentoRecintoAduaneiroNome>
+        <armazenamentoSetor>001</armazenamentoSetor>
+        <canalSelecaoParametrizada>001</canalSelecaoParametrizada>
+        <caracterizacaoOperacaoCodigoTipo>1</caracterizacaoOperacaoCodigoTipo>
+        <caracterizacaoOperacaoDescricaoTipo
+        >Importação Própria</caracterizacaoOperacaoDescricaoTipo>
+        <cargaDataChegada>20260708</cargaDataChegada>
+        <cargaNumeroAgente>0000000000</cargaNumeroAgente>
+        <cargaPaisProcedenciaCodigo>158</cargaPaisProcedenciaCodigo>
+        <cargaPaisProcedenciaNome>CHILE</cargaPaisProcedenciaNome>
+        <cargaPesoBruto>000000020000000</cargaPesoBruto>
+        <cargaPesoLiquido>000000018000000</cargaPesoLiquido>
+        <cargaUrfEntradaCodigo>1017500</cargaUrfEntradaCodigo>
+        <cargaUrfEntradaNome>ALF - URUGUAIANA</cargaUrfEntradaNome>
+        <conhecimentoCargaEmbarqueData>20260703</conhecimentoCargaEmbarqueData>
+        <conhecimentoCargaEmbarqueLocal>SANTIAGO</conhecimentoCargaEmbarqueLocal>
+        <conhecimentoCargaId>AAAAAAAAAAAAA</conhecimentoCargaId>
+        <conhecimentoCargaTipoCodigo>13</conhecimentoCargaTipoCodigo>
+        <conhecimentoCargaTipoNome>CRT</conhecimentoCargaTipoNome>
+        <conhecimentoCargaUtilizacao>1</conhecimentoCargaUtilizacao>
+        <conhecimentoCargaUtilizacaoNome>Total</conhecimentoCargaUtilizacaoNome>
+        <dataDesembaraco>20260710</dataDesembaraco>
+        <dataRegistro>20260710</dataRegistro>
+        <documentoChegadaCargaCodigoTipo>4</documentoChegadaCargaCodigoTipo>
+        <documentoChegadaCargaNome>MIC/DTA</documentoChegadaCargaNome>
+        <documentoChegadaCargaNumero>0000000000</documentoChegadaCargaNumero>
+        <documentoInstrucaoDespacho>
+            <codigoTipoDocumentoDespacho>01</codigoTipoDocumentoDespacho>
+            <nomeDocumentoDespacho
+            >FATURA COMERCIAL                                            </nomeDocumentoDespacho>
+            <numeroDocumentoDespacho>717                      </numeroDocumentoDespacho>
+        </documentoInstrucaoDespacho>
+        <documentoInstrucaoDespacho>
+            <codigoTipoDocumentoDespacho>28</codigoTipoDocumentoDespacho>
+            <nomeDocumentoDespacho
+            >CONHECIMENTO DE CARGA                                       </nomeDocumentoDespacho>
+            <numeroDocumentoDespacho>CL.6744.00299            </numeroDocumentoDespacho>
+        </documentoInstrucaoDespacho>
+        <documentoInstrucaoDespacho>
+            <codigoTipoDocumentoDespacho>29</codigoTipoDocumentoDespacho>
+            <nomeDocumentoDespacho
+            >ROMANEIO DE CARGA                                           </nomeDocumentoDespacho>
+            <numeroDocumentoDespacho>50001449/9               </numeroDocumentoDespacho>
+        </documentoInstrucaoDespacho>
+        <embalagem>
+            <codigoTipoEmbalagem>60</codigoTipoEmbalagem>
+            <nomeEmbalagem
+            >PALLETS                                                     </nomeEmbalagem>
+            <quantidadeVolume>00006</quantidadeVolume>
+        </embalagem>
+        <freteCollect>000000000439000</freteCollect>
+        <freteEmTerritorioNacional>000000000171600</freteEmTerritorioNacional>
+        <freteMoedaNegociadaCodigo>220</freteMoedaNegociadaCodigo>
+        <freteMoedaNegociadaNome>DOLAR DOS EUA</freteMoedaNegociadaNome>
+        <fretePrepaid>000000000000000</fretePrepaid>
+        <freteTotalDolares>000000000267400</freteTotalDolares>
+        <freteTotalMoeda>267400</freteTotalMoeda>
+        <freteTotalReais>000000000500000</freteTotalReais>
+        <icms>
+            <agenciaIcms>00037</agenciaIcms>
+            <bancoIcms>341</bancoIcms>
+            <codigoTipoRecolhimentoIcms>2</codigoTipoRecolhimentoIcms>
+            <cpfResponsavelRegistro>00000000000</cpfResponsavelRegistro>
+            <dataPagamentoIcms>20260710</dataPagamentoIcms>
+            <dataRegistro>20260710</dataRegistro>
+            <horaRegistro>000023</horaRegistro>
+            <nomeTipoRecolhimentoIcms
+            >Recolhimento Bancário Mediante Documento de Arrecadação</nomeTipoRecolhimentoIcms>
+            <numeroSequencialIcms>001</numeroSequencialIcms>
+            <ufIcms>SP</ufIcms>
+            <valorTotalIcms>000000020000000</valorTotalIcms>
+        </icms>
+        <importadorCodigoTipo>1</importadorCodigoTipo>
+        <importadorCpfRepresentanteLegal>00000000000</importadorCpfRepresentanteLegal>
+        <importadorEnderecoBairro>CENTRO</importadorEnderecoBairro>
+        <importadorEnderecoCep>01000000</importadorEnderecoCep>
+        <importadorEnderecoLogradouro>RUA DE TESTE</importadorEnderecoLogradouro>
+        <importadorEnderecoMunicipio>SAO PAULO</importadorEnderecoMunicipio>
+        <importadorEnderecoNumero>100</importadorEnderecoNumero>
+        <importadorEnderecoUf>SP</importadorEnderecoUf>
+        <importadorNome>IMPORTADORA DE TESTE LTDA</importadorNome>
+        <importadorNomeRepresentanteLegal
+        >REPRESENTANTE</importadorNomeRepresentanteLegal>
+        <importadorNumero>11222333000181</importadorNumero>
+        <importadorNumeroTelefone>0000000000</importadorNumeroTelefone>
+        <informacaoComplementar>FATURA COMERCIAL: 717
+CONHECIMENTO DE CARGA: CL.6744.00299
+ROMANEIO DE CARGA: 50001449/9
+REFERENCIA UNIDAS: 1079/2026
+REFERENCIA CLIENTE: EXP. TESTE CHILE - FAT. 717
+DATA DE EMBARQUE: 03/07/26
+DATA DE CHEGADA: 08/07/26
+LOCAL DE EMBARQUE: SANTIAGO
+TERMO DE ENTRADA: 26CL778661S
+APLICACAO DA MERCADORIA: Consumo
+=&gt;DESPACHANTES CREDENCIADOS:
+RAQUEL MACHADO BELOUS CPF 936.504.420-00
+JULIANE MILER DA SILVA CPF 003.316.700-11
+==&gt; MIC: 26CL778661S
+=PLACA DO VEICULO: BTU 3984
+-
+DESPACHANTES ADUANEIRO CREDENCIADOS:
+REG. 8D.00.058-CPF: 688.013.438-68 - LUIZ ROBERTO T.R. ARGENTATI
+REG. 8D.06.310-CPF: 285.238.088-92 - FERNANDO MUNIZ DOS SANTOS
+REG. 8D.02.807-CPF: 195.593.528-90 - SIDNEI BRAGA ARAUJO FILHO
+REG. 8D.03.196-CPF: 099.863.058-61 - ANDREA ANTONIA DE CASTRO
+REG. 9D.01.427-CPF: 582.515.029-34 - IVO JOSE DA SILVA
+REG. 9D.02.144-CPF: 520.973.239-87 - ELISABETE DE SOUZA
+REG. 9D.03.660-CPF: 071.003.079-70 - ANA PAULA DA SILVA
+-
+AJUDANTES DE DESPACHANTE CREDENCIADOS:
+REG.8A.02.851 - CPF 143.758.518-30 - NILSON FERNANDES GOMES
+CPF: 158.992.068-61 - EDSON APRIGIO DE OLIVEIRA
+CPF: 162.418.738-22 - MANOEL LUIS FERREIRA SANTOS
+CPF: 268.537.128-11 - SIDNEY MARTINS DOS SANTOS
+CPF: 147.186.388-36 - SHEILA REGINA YAMAZAKI RODRIGUES
+CPF: 439.856.278-86 - VINICIUS TORRECILLAS ARGENTATI
+-
+UNIDAS COMERCIO EXTERIOR LTDA [SAO PAULO]
+CNPJ: 55.658.108/0001-68
+RUA DR OLAVO EGIDIO, 287 - SALA 41 - 4§ ANDAR
+SANTANA - SAO PAULO/SP
+FONE: [11] 3222-0455
+E-MAIL: UNIDAS@UNIDASCOMEX.COM.BR
+-
+UNIDAS COMERCIO EXTERIOR LTDA [PARANAGUA]
+CNPJ: 55.658.108/0005-91
+RUA RODRIGUES ALVES,  800 - OITAVO ANDAR - CONJUNTO 805
+CENTRO HISTORICO - PARANAGUA/PR
+FONE: [41] 3189-0455 - 3189-0456
+E-MAIL: UNIDAS@UNIDASCOMEX.COM.BR
+-
+=================================================================
+=&gt;SOLICITAMOS A ENTREGA DA MERCADORIA PARA A TRANSPORTADORA
+INDICADA NESTA DECLARACAO, OBJETIVANDO SUA REGULARIZACAO NO
+SISTEMA MANTRA PARA EFEITOS ADUANEIROS:
+TRANSPORTADORA UNITRANSPORT LTDA.
+CNPJ: 41.353.048/0001-60
+-
+CPF: 099.863.058-61 - ANDREA ANTONIA DE CASTRO
+CPF: 178.798.518-01 - SOLANGE AP. NASCIMENTO
+CPF: 432.884.098-36 - ALEXANDRE JOSE SENE JUNIOR
+-
+SOLICITAMOS A ENTREGA DA MERCADORIA PARA A TRANSPORTADORA
+INDICADA NESTA DECLARACAO, OBJETIVANDO SUA REGULARIZACAO NO
+SISTEMA MANTRA PARA EFEITOS ADUANEIROS:
+TRANS FERRARI TRANSPORTE E LOGISTICA LTDA.
+CNPJ: 04.601.873/0001-00
+-
+CPF: 285.049.718-56 - RODRIGO NOGUEIRA DA SILVA
+-
+SOLICITAMOS A ENTREGA DA MERCADORIA PARA A TRANSPORTADORA
+INDICADA NESTA DECLARACAO, OBJETIVANDO SUA REGULARIZACAO NO
+SISTEMA MANTRA PARA EFEITOS ADUANEIROS:
+SABUGI LOGISTICA LTDA.
+CNPJ: 44.804.185/0001-62
+-
+CPF: 720.379.382-68 - CLAUDNEI WENZEL FIRMINIO
+CPF: 111.048.858-08 - EDSON PEREIRA
+CPF: 090.643.966-39 - WILLIAN BORGES DE OLIVEIRA
+CPF: 230.033.868-83 - MAURICIO OLIVEIRA GOMES
+CPF: 101.614.156-44 - MAX EMILIANO XISTO
+CPF: 341.729.448-76 - EDVALDO CASTILHO JUSTINIANO DOS SANTOS
+-
+SOLICITAMOS A ENTREGA DA MERCADORIA PARA A TRANSPORTADORA
+INDICADA NESTA DECLARACAO, OBJETIVANDO SUA REGULARIZACAO NO
+SISTEMA MANTRA PARA EFEITOS ADUANEIROS:
+DHL LOGISTICS (BRAZIL) LTDA
+CNPJ: 02.836.056/0001-06
+-
+SOLICITAMOS A ENTREGA DA MERCADORIA PARA A TRANSPORTADORA
+INDICADA NESTA DECLARACAO, OBJETIVANDO SUA REGULARIZACAO NO
+SISTEMA MANTRA PARA EFEITOS ADUANEIROS:
+ARAUJO &amp; SPAOLOZI TRANSPORTES LTDA, CNPJ 20.981.234/0001-74
+=&gt;SOLICITAMOS A ENTREGA DA MERCADORIA PARA A TRANSPORTADORA
+INDICADA NESTA DECLARACAO, OBJETIVANDO SUA REGULARIZACAO NO
+SISTEMA MANTRA PARA EFEITOS ADUANEIROS:
+FEDERAL EXPRESS CORPORATION
+CNPJ: 00.676.486/0008-59
+-
+******** MOEDAS UTILIZADAS ********
+FOB   : 220  DOLAR DOS EUA ESTADOS UNID     5,132900000
+FRETE : 220  DOLAR DOS EUA ESTADOS UNID     5,132900000
+SEGURO: 220  DOLAR DOS EUA ESTADOS UNID     5,132900000
+Taxa de Utilizacao do SISCOMEX ( 7811 )..: R$            192,79
+******** RESUMO DE VALORES TOTAIS DO PROCESSO ********
+FOB......... R$      789.070,50 U S D      153.728,01
+Frete Intl.. R$       13.725,37 U S D        2.674,00
+Seguro...... R$        2.367,19 U S D          461,18
+Vr.Aduaneiro R$      805.163,07 U S D      156.863,19
+******** RESUMO DOS TRIBUTOS RECOLHIDOS ********
+Imposto de Importacao.................R$         142.564,47
+Imposto Prod. Industrializados........R$          89.198,15
+PIS/PASEP.............................R$          16.908,43
+COFINS................................R$          77.698,23
+Taxa de Utilizacao do Siscomex........R$             192,79
+Total.................................R$         326.562,07
+******** RESUMO DO CALCULO DO ICMS ********
+VALOR TOTAL DO ICMS ( RECOLHIDO )........: R$        248.427,47</informacaoComplementar>
+        <localDescargaTotalDolares>000000015686313</localDescargaTotalDolares>
+        <localDescargaTotalReais>000000080516283</localDescargaTotalReais>
+        <localEmbarqueTotalDolares>000000015372797</localEmbarqueTotalDolares>
+        <localEmbarqueTotalReais>000000078907050</localEmbarqueTotalReais>
+        <modalidadeDespachoCodigo>1</modalidadeDespachoCodigo>
+        <modalidadeDespachoNome>Normal</modalidadeDespachoNome>
+        <numeroDI>2600000001</numeroDI>
+        <operacaoFundap>N</operacaoFundap>
+        <pagamento>
+            <agenciaPagamento>0037 </agenciaPagamento>
+            <bancoPagamento>341</bancoPagamento>
+            <codigoReceita>0086</codigoReceita>
+            <codigoTipoPagamento>1</codigoTipoPagamento>
+            <contaPagamento>360732             </contaPagamento>
+            <dataPagamento>20260710</dataPagamento>
+            <nomeTipoPagamento>Débito em Conta</nomeTipoPagamento>
+            <numeroRetificacao>00</numeroRetificacao>
+            <valorJurosEncargos>000000000</valorJurosEncargos>
+            <valorMulta>000000000</valorMulta>
+            <valorReceita>000000014184000</valorReceita>
+        </pagamento>
+        <pagamento>
+            <agenciaPagamento>0037 </agenciaPagamento>
+            <bancoPagamento>341</bancoPagamento>
+            <codigoReceita>1038</codigoReceita>
+            <codigoTipoPagamento>1</codigoTipoPagamento>
+            <contaPagamento>360732             </contaPagamento>
+            <dataPagamento>20260710</dataPagamento>
+            <nomeTipoPagamento>Débito em Conta</nomeTipoPagamento>
+            <numeroRetificacao>00</numeroRetificacao>
+            <valorJurosEncargos>000000000</valorJurosEncargos>
+            <valorMulta>000000000</valorMulta>
+            <valorReceita>000000008890180</valorReceita>
+        </pagamento>
+        <pagamento>
+            <agenciaPagamento>0037 </agenciaPagamento>
+            <bancoPagamento>341</bancoPagamento>
+            <codigoReceita>5602</codigoReceita>
+            <codigoTipoPagamento>1</codigoTipoPagamento>
+            <contaPagamento>360732             </contaPagamento>
+            <dataPagamento>20260710</dataPagamento>
+            <nomeTipoPagamento>Débito em Conta</nomeTipoPagamento>
+            <numeroRetificacao>00</numeroRetificacao>
+            <valorJurosEncargos>000000000</valorJurosEncargos>
+            <valorMulta>000000000</valorMulta>
+            <valorReceita>000000001680000</valorReceita>
+        </pagamento>
+        <pagamento>
+            <agenciaPagamento>0037 </agenciaPagamento>
+            <bancoPagamento>341</bancoPagamento>
+            <codigoReceita>5629</codigoReceita>
+            <codigoTipoPagamento>1</codigoTipoPagamento>
+            <contaPagamento>360732             </contaPagamento>
+            <dataPagamento>20260710</dataPagamento>
+            <nomeTipoPagamento>Débito em Conta</nomeTipoPagamento>
+            <numeroRetificacao>00</numeroRetificacao>
+            <valorJurosEncargos>000000000</valorJurosEncargos>
+            <valorMulta>000000000</valorMulta>
+            <valorReceita>000000007720000</valorReceita>
+        </pagamento>
+        <pagamento>
+            <agenciaPagamento>0037 </agenciaPagamento>
+            <bancoPagamento>341</bancoPagamento>
+            <codigoReceita>7811</codigoReceita>
+            <codigoTipoPagamento>1</codigoTipoPagamento>
+            <contaPagamento>360732             </contaPagamento>
+            <dataPagamento>20260710</dataPagamento>
+            <nomeTipoPagamento>Débito em Conta</nomeTipoPagamento>
+            <numeroRetificacao>00</numeroRetificacao>
+            <valorJurosEncargos>000000000</valorJurosEncargos>
+            <valorMulta>000000000</valorMulta>
+            <valorReceita>000000000015000</valorReceita>
+        </pagamento>
+        <seguroMoedaNegociadaCodigo>220</seguroMoedaNegociadaCodigo>
+        <seguroMoedaNegociadaNome>DOLAR DOS EUA</seguroMoedaNegociadaNome>
+        <seguroTotalDolares>000000000046118</seguroTotalDolares>
+        <seguroTotalMoedaNegociada>000000000046118</seguroTotalMoedaNegociada>
+        <seguroTotalReais>000000000100000</seguroTotalReais>
+        <sequencialRetificacao>00</sequencialRetificacao>
+        <situacaoEntregaCarga
+        >ENTREGA CONDICIONADA A APRESENTACAO E RETENCAO DOS SEGUINTES DOCUMENTOS: DOCUMENTO DE ARRECADACAO DO ICMS</situacaoEntregaCarga>
+        <tipoDeclaracaoCodigo>01</tipoDeclaracaoCodigo>
+        <tipoDeclaracaoNome>CONSUMO</tipoDeclaracaoNome>
+        <totalAdicoes>002</totalAdicoes>
+        <urfDespachoCodigo>1017500</urfDespachoCodigo>
+        <urfDespachoNome>ALF - URUGUAIANA</urfDespachoNome>
+        <valorTotalMultaARecolherAjustado
+        >000000000000000</valorTotalMultaARecolherAjustado>
+        <viaTransporteCodigo>07</viaTransporteCodigo>
+        <viaTransporteMultimodal>N</viaTransporteMultimodal>
+        <viaTransporteNome>RODOVIÁRIA</viaTransporteNome>
+        <viaTransporteNomeTransportador
+        >ARCELOG TRANSPORTES LTDA</viaTransporteNomeTransportador>
+        <viaTransporteNumeroVeiculo>BTU3984</viaTransporteNumeroVeiculo>
+        <viaTransportePaisTransportadorCodigo>000</viaTransportePaisTransportadorCodigo>
+    </declaracaoImportacao>
+</ListaDeclaracoes>

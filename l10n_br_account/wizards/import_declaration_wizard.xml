@@ -7,6 +7,22 @@
             <form string="Import Declaration to Entry NF-e">
                 <field name="company_currency_id" invisible="1" />
                 <field name="document_type_id" invisible="1" />
+                <group string="Declaration XML">
+                    <field name="di_filename" invisible="1" />
+                    <field
+                        name="di_file"
+                        filename="di_filename"
+                        widget="binary"
+                        nolabel="1"
+                    />
+                    <button
+                        name="action_load_declaration"
+                        string="Load the declaration"
+                        type="object"
+                        class="btn-secondary"
+                        invisible="not di_file"
+                    />
+                </group>
                 <group>
                     <group string="Foreign Invoice">
                         <field name="move_id" readonly="1" />
@@ -49,6 +65,22 @@
                         <field name="customhouse_charges" />
                     </group>
                 </group>
+                <field name="addition_ids" invisible="not addition_ids">
+                    <list editable="bottom">
+                        <field name="company_currency_id" column_invisible="True" />
+                        <field name="number" readonly="1" />
+                        <field name="ncm_code" readonly="1" />
+                        <field name="customs_value" readonly="1" />
+                        <field name="ii_rate" readonly="1" />
+                        <field name="ii_value" readonly="1" />
+                        <field name="ipi_value" readonly="1" />
+                        <field name="pis_value" readonly="1" />
+                        <field name="cofins_value" readonly="1" />
+                        <field name="line_ids" widget="many2many_tags" />
+                        <field name="unmatched" readonly="1" optional="show" />
+                    </list>
+                </field>
+                <field name="unclaimed_lines" invisible="not unclaimed_lines" />
                 <footer>
                     <button
                         name="action_generate_document"
