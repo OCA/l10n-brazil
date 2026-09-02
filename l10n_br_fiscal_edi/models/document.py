@@ -809,6 +809,51 @@ class Document(models.Model):
     def make_pdf(self):
         pass
 
+    def action_check_status(self):
+        """Ask the SEFAZ about each selected document and apply what comes back.
+
+        A document issued by someone else only moves at the SEFAZ: the issuer
+        cancels it and nothing on this side knows until somebody asks. The
+        consult by key already answers that, and the state map already turns a
+        homologated cancellation into a cancelled document. What was missing
+        was doing it over a selection and saying out loud what moved, because
+        the point of asking about twenty notes is the two that changed.
+        """
+        changed, kept, without_key = [], [], []
+        for record in self:
+            if not record.document_key:
+                without_key.append(record.display_name)
+                continue
+            before = record.state_edoc
+            record._document_status()
+            record.invalidate_recordset(["state_edoc"])
+            if record.state_edoc == before:
+                kept.append(record.display_name)
+            else:
+                changed.append(
+                    f"{record.display_name}: {before} -> {record.state_edoc}"
+                )
+        return self._notify_status_check(changed, kept, without_key)
+
+    def _notify_status_check(self, changed, kept, without_key):
+        lines = []
+        if changed:
+            lines.append(_("Changed: %s") % "; ".join(changed))
+        if kept:
+            lines.append(_("Unchanged: %s") % len(kept))
+        if without_key:
+            lines.append(_("Without a key to ask about: %s") % "; ".join(without_key))
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("Status checked at the SEFAZ"),
+                "message": "\n".join(lines),
+                "type": "success" if changed else "info",
+                "sticky": bool(changed),
+            },
+        }
+
     def view_pdf(self):
         self.ensure_one()
         if not self.file_report_id or not self.authorization_file_id:
