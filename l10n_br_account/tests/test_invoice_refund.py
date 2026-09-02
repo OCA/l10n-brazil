@@ -50,9 +50,9 @@ class TestInvoiceRefund(AccountMoveBRCommon):
                 name=name,
                 move_type="out_invoice",
                 invoice_payment_term_id=cls.env.ref(
-                    "account.account_payment_term_advance"
+                    "account.account_payment_term_immediate"
                 ).id,
-                partner_id=cls.env.ref("l10n_br_base.res_partner_cliente1_sp").id,
+                partner_id=cls.partner_a.id,
                 journal_id=cls.refund_journal.id,
                 document_type_id=cls.env.ref("l10n_br_fiscal.document_55").id,
                 document_serie_id=cls.empresa_lc_document_55_serie_1.id,
@@ -61,7 +61,7 @@ class TestInvoiceRefund(AccountMoveBRCommon):
                         0,
                         0,
                         {
-                            "product_id": cls.env.ref("product.product_product_6").id,
+                            "product_id": cls.product_a.id,
                             "quantity": 1.0,
                             "price_unit": 100.0,
                             "account_id": cls.env["account.account"]
@@ -128,9 +128,9 @@ class TestInvoiceRefund(AccountMoveBRCommon):
                 name="Test Refund Invoice With Op",
                 move_type="out_invoice",
                 invoice_payment_term_id=self.env.ref(
-                    "account.account_payment_term_advance"
+                    "account.account_payment_term_immediate"
                 ).id,
-                partner_id=self.env.ref("l10n_br_base.res_partner_cliente1_sp").id,
+                partner_id=self.partner_a.id,
                 journal_id=self.refund_journal.id,
                 document_type_id=self.env.ref("l10n_br_fiscal.document_55").id,
                 document_serie_id=self.empresa_lc_document_55_serie_1.id,
@@ -140,7 +140,7 @@ class TestInvoiceRefund(AccountMoveBRCommon):
                         0,
                         0,
                         {
-                            "product_id": self.env.ref("product.product_product_6").id,
+                            "product_id": self.product_a.id,
                             "quantity": 1.0,
                             "price_unit": 100.0,
                             "account_id": self.env["account.account"]
