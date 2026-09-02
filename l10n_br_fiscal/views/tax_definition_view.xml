@@ -22,13 +22,36 @@
                 decoration-info="state in ('draft', 'review')"
                 decoration-muted="state == 'expired'"
             >
-                <field name="state" invisible="1" />
+                <field name="id" optional="hide" />
+                <field name="is_benefit" invisible="1" />
                 <field name="tax_group_id" invisible="1" />
                 <field name="state_from_id" />
-                <field name="state_to_ids" />
+                <field name="state_to_ids" widget="many2many_tags" />
                 <field name="tax_id" />
                 <field name="cst_code" />
+                <field
+                    name="state"
+                    widget="badge"
+                    decoration-success="state == 'approved'"
+                    decoration-info="state == 'draft'"
+                    decoration-warning="state == 'review'"
+                    decoration-danger="state == 'expired'"
+                    optional="show"
+                />
             </tree>
+        </field>
+    </record>
+
+    <record id="tax_definition_icms_benefit_tree" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.tax.definition.icms.benefit.tree</field>
+        <field name="model">l10n_br_fiscal.tax.definition</field>
+        <field name="inherit_id" ref="tax_definition_icms_tree" />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <field name="is_benefit" position="after">
+                <field name="code" />
+                <field name="description" />
+            </field>
         </field>
     </record>
 
