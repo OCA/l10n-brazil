@@ -56,7 +56,7 @@ class MultiLocalizationsInvoice(TestAccountMoveOutInvoiceOnchanges):
         # FIXME the following line should not be required but as for
         # now if we don't add this group, creating a refund will result
         # in an attempt to create a l10n_br_fiscal.subsequent.document record.
-        cls.env.user.groups_id |= cls.env.ref("l10n_br_fiscal.group_manager")
+        cls.env.user.group_ids |= cls.env.ref("l10n_br_fiscal.group_manager")
         return res
 
     # The following tests list is taken with

@@ -60,10 +60,10 @@ class TestMoveEdition(TransactionCase):
                 "name": "Because I am accountman!",
                 "login": "accountman",
                 "password": "accountman",
-                "groups_id": [
+                "group_ids": [
                     # we purposely don't give Fiscal access rights now to ensure
                     # non fiscal operations are still allowed
-                    Command.set(cls.env.user.groups_id.ids),
+                    Command.set(cls.env.user.group_ids.ids),
                     Command.link(cls.env.ref("account.group_account_manager").id),
                     Command.link(cls.env.ref("account.group_account_user").id),
                 ],
@@ -161,13 +161,13 @@ class TestMoveEdition(TransactionCase):
         """
 
         # now user needs to be a Fiscal User:
-        self.user.groups_id += self.env.ref("l10n_br_fiscal.group_user")
-        self.user.groups_id += self.env.ref("uom.group_uom")
+        self.user.group_ids += self.env.ref("l10n_br_fiscal.group_user")
+        self.user.group_ids += self.env.ref("uom.group_uom")
         nfe_user_group = self.env.ref(
             "l10n_br_nfe.group_user", raise_if_not_found=False
         )
         if nfe_user_group:
-            self.user.groups_id += nfe_user_group
+            self.user.group_ids += nfe_user_group
 
         self.product_id.list_price = 150  # we will later test price_unit can be changed
 
@@ -349,6 +349,14 @@ class TestMoveEdition(TransactionCase):
             aml.fiscal_document_line_id.uot_id, self.env.ref("uom.product_uom_unit")
         )
 
+        self.assertTrue(move.tax_totals, "tax_totals must not be empty.")
+        self.assertAlmostEqual(
+            move.tax_totals["total_amount_currency"],
+            move.amount_total,
+            places=2,
+            msg="tax_totals widget total should match the invoice amount_total.",
+        )
+
         move.action_post()
         self.assertEqual(move.state, "posted")
         move.button_cancel()
@@ -359,13 +367,13 @@ class TestMoveEdition(TransactionCase):
     def test_out_fiscal_invoice_cancel_without_sefaz_event_can_back_to_draft(self):
         """Ensure local cancel (without SEFAZ cancel event) can return to draft."""
 
-        self.user.groups_id += self.env.ref("l10n_br_fiscal.group_user")
-        self.user.groups_id += self.env.ref("uom.group_uom")
+        self.user.group_ids += self.env.ref("l10n_br_fiscal.group_user")
+        self.user.group_ids += self.env.ref("uom.group_uom")
         nfe_user_group = self.env.ref(
             "l10n_br_nfe.group_user", raise_if_not_found=False
         )
         if nfe_user_group:
-            self.user.groups_id += nfe_user_group
+            self.user.group_ids += nfe_user_group
 
         move_form = Form(
             self.env["account.move"].with_context(
@@ -388,7 +396,9 @@ class TestMoveEdition(TransactionCase):
         move.button_cancel()
 
         self.assertEqual(move.state_edoc, DOCUMENT_STATE_CANCEL)
-        self.assertFalse(move.fiscal_document_id.cancel_event_id)
+        # cancel_event_id is only available with l10n_br_fiscal_edi installed
+        if hasattr(move.fiscal_document_id, "cancel_event_id"):
+            self.assertFalse(move.fiscal_document_id.cancel_event_id)
 
         move.button_draft()
         self.assertEqual(move.state, "draft")
@@ -439,12 +449,12 @@ class TestMoveEdition(TransactionCase):
         """
 
         # now user needs to be a Fiscal User:
-        self.user.groups_id += self.env.ref("l10n_br_fiscal.group_user")
+        self.user.group_ids += self.env.ref("l10n_br_fiscal.group_user")
         nfe_user_group = self.env.ref(
             "l10n_br_nfe.group_user", raise_if_not_found=False
         )
         if nfe_user_group:
-            self.user.groups_id += nfe_user_group
+            self.user.group_ids += nfe_user_group
 
         move_form = Form(
             self.env["account.move"].with_context(
@@ -527,12 +537,12 @@ class TestMoveEdition(TransactionCase):
         self.assertEqual(move.state, "draft")
 
     def test_product_fiscal_price_and_qty_edition(self):
-        self.user.groups_id += self.env.ref("l10n_br_fiscal.group_user")
+        self.user.group_ids += self.env.ref("l10n_br_fiscal.group_user")
         nfe_user_group = self.env.ref(
             "l10n_br_nfe.group_user", raise_if_not_found=False
         )
         if nfe_user_group:
-            self.user.groups_id += nfe_user_group
+            self.user.group_ids += nfe_user_group
 
         move_form = Form(
             self.env["account.move"].with_context(
@@ -579,12 +589,12 @@ class TestMoveEdition(TransactionCase):
         self.assertEqual(move.fiscal_line_ids[0].fiscal_quantity, 5)
 
     def test_product_fiscal_factor(self):
-        self.user.groups_id += self.env.ref("l10n_br_fiscal.group_user")
+        self.user.group_ids += self.env.ref("l10n_br_fiscal.group_user")
         nfe_user_group = self.env.ref(
             "l10n_br_nfe.group_user", raise_if_not_found=False
         )
         if nfe_user_group:
-            self.user.groups_id += nfe_user_group
+            self.user.group_ids += nfe_user_group
 
         move_form = Form(
             self.env["account.move"].with_context(
@@ -632,8 +642,8 @@ class TestMoveEdition(TransactionCase):
         1. By Line: Enters costs on lines and verifies the header totals.
         2. By Total: Enters costs on the header and verifies distribution to lines.
         """
-        self.user.groups_id += self.env.ref("l10n_br_fiscal.group_user")
-        self.user.groups_id += self.env.ref("l10n_br_account.group_line_fiscal_detail")
+        self.user.group_ids += self.env.ref("l10n_br_fiscal.group_user")
+        self.user.group_ids += self.env.ref("l10n_br_account.group_line_fiscal_detail")
 
         product1 = self.env.ref("product.product_product_6")
         product2 = self.env.ref("product.product_product_7")
@@ -729,12 +739,12 @@ class TestMoveEdition(TransactionCase):
 
     def _setup_fiscal_user(self):
         """Grant fiscal groups needed for invoice tests with fiscal documents."""
-        self.user.groups_id += self.env.ref("l10n_br_fiscal.group_user")
+        self.user.group_ids += self.env.ref("l10n_br_fiscal.group_user")
         nfe_user_group = self.env.ref(
             "l10n_br_nfe.group_user", raise_if_not_found=False
         )
         if nfe_user_group:
-            self.user.groups_id += nfe_user_group
+            self.user.group_ids += nfe_user_group
 
     def _create_fiscal_invoice_form(self, partner):
         """Create a fiscal invoice Form pre-filled with the given partner."""
