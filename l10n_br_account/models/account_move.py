@@ -171,6 +171,16 @@ class AccountMove(models.Model):
                     )
                 )
 
+    @api.depends("fiscal_operation_id")
+    def _compute_fiscal_position_id(self):
+        """
+        Don't auto-apply Domestic / Foreign Trade core fiscal positions
+        on Brazilian fiscal moves.
+        """
+        fiscal_moves = self.filtered("fiscal_operation_id")
+        fiscal_moves.fiscal_position_id = False
+        return super(AccountMove, self - fiscal_moves)._compute_fiscal_position_id()
+
     @api.depends("line_ids", "fiscal_document_id")
     def _compute_fiscal_document_ids(self):
         for move in self:

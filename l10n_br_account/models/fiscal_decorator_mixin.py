@@ -4,23 +4,63 @@
 import logging
 
 from odoo import api, models
-from odoo.tools import mute_logger
+from odoo.orm import model_classes as orm_model_classes
 
 _logger = logging.getLogger(__name__)
 
 
-class InheritsCheckMuteLogger(mute_logger):
-    """
-    Mute the Model#_inherits_check warning
-    because the _inherits field is not required.
-    (some account.move may have no fiscal document)
-    """
+def _check_inherits_allows_optional_fiscal_document(model_cls):
+    """Patched version of odoo.orm.model_classes._check_inherits.
 
-    def filter(self, record):
-        msg = record.getMessage()
-        if "Field definition for _inherits reference" in msg:
-            return 0
-        return super().filter(record)
+    Odoo 19.0 requires _inherits reference fields to be 'delegate' +
+    'required' + ondelete='cascade'/'restrict' and raises a TypeError
+    otherwise. account.move and account.move.line use _inherits on the
+    fiscal document (line) but legitimately allow an empty reference
+    (account moves that are not related to Brazilian companies, tax lines
+    without fiscal document line...).
+
+    Instead, we wrap the check for the models using this mixin:
+    the required bit of the TypeError is relaxed, while the delegate and
+    ondelete conditions are still enforced.
+    """
+    for comodel_name, field_name in model_cls._inherits.items():
+        field = model_cls._fields.get(field_name)
+        if not field or field.type != "many2one":
+            raise TypeError(
+                f"Missing many2one field definition for _inherits reference "
+                f"{field_name!r} in model {model_cls._name!r}. "
+                f"Add a field like: {field_name} = fields.Many2one("
+                f"{comodel_name!r}, required=True, ondelete='cascade')"
+            )
+        delegate_ok = field.delegate and (field.ondelete or "").lower() in (
+            "cascade",
+            "restrict",
+        )
+        if not delegate_ok:
+            raise TypeError(
+                f"Field definition for _inherits reference {field_name!r} "
+                f"in {model_cls._name!r} must be marked as 'delegate' with "
+                "ondelete='cascade' or 'restrict'"
+            )
+        # NOTE: the 'required' condition of the original check is
+        # voluntarily relaxed for the fiscal decorator models because
+        # account.move(.line) may have no fiscal document at all.
+
+
+_original_check_inherits = orm_model_classes._check_inherits
+
+
+def _patched_check_inherits(model_cls):
+    if getattr(model_cls, "_fiscal_decorator_model", None):
+        return _check_inherits_allows_optional_fiscal_document(model_cls)
+    return _original_check_inherits(model_cls)
+
+
+orm_model_classes._check_inherits = _patched_check_inherits
+_logger.debug(
+    "l10n_br_account: patched odoo.orm.model_classes._check_inherits to "
+    "allow optional fiscal document _inherits references"
+)
 
 
 class FiscalDecoratorMixin(models.AbstractModel):
@@ -29,20 +69,6 @@ class FiscalDecoratorMixin(models.AbstractModel):
     It specially deals with related and compute fields inherited with _inherits.
     """
     _fiscal_decorator_model = None
-
-    @api.model
-    def _inherits_check(self):
-        """
-        Overriden to avoid the super method to set the fiscal_document(_line)_id
-        field as required.
-        """
-        with InheritsCheckMuteLogger("odoo.models"):  # mute spurious warnings
-            res = super()._inherits_check()
-        if self._fiscal_decorator_model is not None:
-            field_name = self._inherits[self._fiscal_decorator_model]
-            field = self._fields.get(field_name)
-            field.required = False  # unset the required = True assignement
-        return res
 
     @api.model_create_multi
     def create(self, vals_list):

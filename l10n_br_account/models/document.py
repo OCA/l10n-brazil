@@ -241,7 +241,7 @@ class FiscalDocument(models.Model):
         for vals in vals_list:
             self._sync_shadow_fields(vals)
 
-        if self._context.get("create_from_account"):
+        if self.env.context.get("create_from_account"):
             filtered_vals_list = []
             for values in vals_list:
                 if values.get("document_type_id") or values.get("document_serie_id"):
@@ -263,7 +263,6 @@ class FiscalDocument(models.Model):
             return
         return super()._update_cache(values, validate)
 
-    @api.returns("mail.message", lambda value: value.id)
     def message_post(self, **kwargs):
         """
         broadcast message_post to all related account.move so
@@ -313,7 +312,7 @@ class FiscalDocument(models.Model):
 
     def action_document_confirm(self):
         result = super().action_document_confirm()
-        if not self._context.get("skip_post"):
+        if not self.env.context.get("skip_post"):
             move_ids = self.move_ids.filtered(lambda move: move.state == "draft")
             move_ids._post()
         return result

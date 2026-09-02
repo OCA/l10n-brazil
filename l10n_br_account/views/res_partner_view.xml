@@ -15,8 +15,7 @@
         <field name="priority">99</field>
         <field name="inherit_id" ref="account.view_partner_property_form" />
         <field name="arch" type="xml">
-            <group position="after" name="banks">
-                <div />
+            <xpath expr="//group[@name='fiscal_information']" position="after">
                 <group
                     string="Brazilian Instant Payment Keys (PIX)"
                     name="pix_keys"
@@ -34,7 +33,7 @@
                         </list>
                     </field>
                 </group>
-            </group>
+            </xpath>
         </field>
     </record>
 </odoo>

@@ -2,6 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, models
+from odoo.fields import Domain
 
 
 class IrRule(models.Model):
@@ -19,6 +20,6 @@ class IrRule(models.Model):
         if model_name in (
             "l10n_br_fiscal.document",
             "l10n_br_fiscal.document.line",
-        ) and self._context.get("allow_fiscal_access"):
-            return []
+        ) and self.env.context.get("allow_fiscal_access"):
+            return Domain.TRUE
         return super()._compute_domain(model_name, mode)

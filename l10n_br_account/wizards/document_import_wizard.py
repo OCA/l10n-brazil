@@ -48,7 +48,7 @@ class DocumentImportWizard(models.TransientModel):
                 [
                     ("res_model", "=", "l10n_br_fiscal.document.import.wizard"),
                     ("res_id", "=", self.id),
-                    ("create_uid", "=", self._uid),
+                    ("create_uid", "=", self.env.uid),
                 ],
                 order="id",
             )
@@ -80,7 +80,7 @@ class DocumentImportWizard(models.TransientModel):
                     [
                         ("imported_document", "=", True),
                         ("id", ">=", self.first_imported_move_id),
-                        ("create_uid", "=", self._uid),
+                        ("create_uid", "=", self.env.uid),
                     ]
                 )
                 return {

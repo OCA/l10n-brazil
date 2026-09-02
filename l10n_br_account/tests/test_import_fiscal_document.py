@@ -45,7 +45,7 @@ class TestImportFiscalDocument(AccountMoveBRCommon):
         )
         # Let the import without sudo below run with the rights of a regular
         # billing user only.
-        cls.env.user.groups_id |= cls.env.ref("account.group_account_invoice")
+        cls.env.user.group_ids += cls.env.ref("account.group_account_invoice")
 
     @classmethod
     def _mirror_latam_document_type(cls, document_type):
