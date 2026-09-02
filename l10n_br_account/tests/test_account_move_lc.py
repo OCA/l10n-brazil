@@ -34,7 +34,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         # on invoices when the l10n_br_nfe module is installed.
         nfe_user_group = cls.env.ref("l10n_br_nfe.group_user", raise_if_not_found=False)
         if nfe_user_group:
-            cls.env.user.write({"groups_id": [Command.link(nfe_user_group.id)]})
+            cls.env.user.write({"group_ids": [Command.link(nfe_user_group.id)]})
 
         cls.move_out_venda = cls.init_invoice(
             "out_invoice",

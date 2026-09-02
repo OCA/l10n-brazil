@@ -131,7 +131,7 @@ class FiscalDocumentLine(models.Model):
             line.price_unit = line.proxy_price_unit
 
     def _records_from_account(self):
-        account_flag = self._context.get("create_from_account")
+        account_flag = self.env.context.get("create_from_account")
         return self.filtered(lambda r: r.account_line_ids or account_flag)
 
     @api.depends("move_id.fiscal_document_id")
@@ -222,7 +222,7 @@ class FiscalDocumentLine(models.Model):
         for vals in vals_list:
             self._sync_shadow_fields(vals)
 
-        if self._context.get("create_from_account"):
+        if self.env.context.get("create_from_account"):
             # Filter out the dictionaries that do not meet the conditions
             filtered_vals_list = [
                 vals

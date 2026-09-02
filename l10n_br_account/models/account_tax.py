@@ -329,16 +329,42 @@ class AccountTax(models.Model):
     def _get_tax_totals_summary(
         self, base_lines, currency, company, cash_rounding=None
     ):
+        # [!] '_get_tax_totals_summary' is mirrored in account_tax.js on the
+        # core side (see the docstring of the base method). This override is
+        # Python-only, so any change here has no JS equivalent.
         res = super()._get_tax_totals_summary(
             base_lines, currency, company, cash_rounding
         )
         amount_total = res["total_amount_currency"]
 
-        for line in base_lines:
-            if line.get("record") and hasattr(
-                line["record"], "fiscal_operation_line_id"
-            ):
-                amount_total = line["record"]._get_total_for_tax_totals()
+        for base_line in base_lines:
+            record = base_line.get("record")
+            if record is not None and getattr(record, "fiscal_operation_id", False):
+                amount_total = record._get_total_for_tax_totals()
+                rate = base_line.get("rate") or 1.0
+
+                delta_currency = amount_total - res["total_amount_currency"]
+                if currency.is_zero(delta_currency):
+                    break
+                delta = company.currency_id.round(delta_currency / rate)
+
+                res["base_amount_currency"] += delta_currency
+                res["base_amount"] += delta
+                for subtotal in res["subtotals"]:
+                    subtotal["base_amount_currency"] += delta_currency
+                    subtotal["base_amount"] += delta
+
+                # The base amount was shifted by the Brazilian delta above, so
+                # it no longer matches the (untouched) per tax group bases
+                # used by super() to compute "same_tax_base": keep the
+                # per-group bases visible in the widget instead of hiding them.
+                res["same_tax_base"] = False
+
+                cash_rounding_base_amount = res.get("cash_rounding_base_amount", 0.0)
+                res["total_amount_currency"] = amount_total
+                res["total_amount"] = (
+                    res["base_amount"] + res["tax_amount"] + cash_rounding_base_amount
+                )
                 break
 
         res["formatted_amount_total"] = formatLang(
