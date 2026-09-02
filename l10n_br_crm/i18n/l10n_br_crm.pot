@@ -19,11 +19,6 @@ msgid "BR Company Currency"
 msgstr ""
 
 #. module: l10n_br_crm
-#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cnpj
-msgid "CNPJ"
-msgstr ""
-
-#. module: l10n_br_crm
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__vat_formatted_cnpj
 msgid "CNPJ or CPF formatted with proper punctuation and special characters"
 msgstr ""
@@ -36,11 +31,6 @@ msgstr ""
 #. module: l10n_br_crm
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__cnpj_cpf_stripped
 msgid "CNPJ/CPF without special characters"
-msgstr ""
-
-#. module: l10n_br_crm
-#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cpf
-msgid "CPF"
 msgstr ""
 
 #. module: l10n_br_crm
