@@ -8,24 +8,15 @@ from odoo.exceptions import UserError
 class StockReturnPicking(models.TransientModel):
     _inherit = "stock.return.picking"
 
-    def _create_returns(self):
+    def _prepare_picking_default_values(self):
         """
-        Creates return picking.
-        @param self: The object pointer.
-        @return: A dictionary which of fields with values.
+        Inform the return Fiscal Operation on the new return picking.
         """
-        new_picking_id, pick_type_id = super()._create_returns()
-
-        picking_obj = self.env["stock.picking"]
-        picking = picking_obj.browse(new_picking_id)
-
-        origin_picking = self.env["stock.picking"].browse(self.env.context["active_id"])
-
-        if origin_picking.fiscal_operation_id:
+        vals = super()._prepare_picking_default_values()
+        if self.picking_id.fiscal_operation_id:
             refund_fiscal_operation = (
-                origin_picking.fiscal_operation_id.return_fiscal_operation_id
+                self.picking_id.fiscal_operation_id.return_fiscal_operation_id
             )
-
             if not refund_fiscal_operation:
                 if self.invoice_state == "2binvoiced":
                     raise UserError(
@@ -35,18 +26,25 @@ class StockReturnPicking(models.TransientModel):
                         )
                     )
             else:
-                picking.fiscal_operation_id = refund_fiscal_operation.id
-                for move in picking.move_ids:
-                    ret_move = move.origin_returned_move_id
-                    fiscal_op = ret_move.fiscal_operation_id.return_fiscal_operation_id
-                    fiscal_op_line = ret_move.fiscal_operation_line_id.line_refund_id
-                    vals = {}
-                    vals["fiscal_operation_id"] = fiscal_op.id
-                    if fiscal_op_line:
-                        # Only include fiscal_operation_line_id when the return
-                        # has a fiscal operation line otherwise, omit it so Odoo
-                        # can compute/fallback to the default value.
-                        vals["fiscal_operation_line_id"] = fiscal_op_line.id
-                    if vals:
-                        move.write(vals)
-        return new_picking_id, pick_type_id
+                vals["fiscal_operation_id"] = refund_fiscal_operation.id
+        return vals
+
+
+class StockReturnPickingLine(models.TransientModel):
+    _inherit = "stock.return.picking.line"
+
+    def _prepare_move_default_values(self, new_picking):
+        """
+        Inform the return Fiscal Operation (and its line) on the return moves.
+        """
+        vals = super()._prepare_move_default_values(new_picking)
+        if self.move_id.fiscal_operation_id:
+            fiscal_op = self.move_id.fiscal_operation_id.return_fiscal_operation_id
+            if fiscal_op:
+                vals["fiscal_operation_id"] = fiscal_op.id
+                refund_line = fiscal_op.line_definition(
+                    self.move_id.company_id, self.move_id.partner_id, self.product_id
+                )
+                if refund_line:
+                    vals["fiscal_operation_line_id"] = refund_line.id
+        return vals
