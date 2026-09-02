@@ -3,6 +3,7 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
 import logging
+import sys
 from importlib import import_module
 
 from odoo import api, fields, models
@@ -122,10 +123,10 @@ class SpecMixinExport(models.AbstractModel):
         binding_class = self._get_binding_class(class_obj, field_name=field_name)
         binding_class_spec = binding_class.__dataclass_fields__
 
+        xsd_fields = [i for i in xsd_fields]
         class_name = class_obj._name.replace(".", "_")
         export_method_name = f"_export_fields_{class_name}"
         if hasattr(self, export_method_name):
-            xsd_fields = [i for i in xsd_fields]
             export_method = getattr(self, export_method_name)
             export_method(xsd_fields, class_obj, export_dict)
 
@@ -163,6 +164,127 @@ class SpecMixinExport(models.AbstractModel):
 
             export_dict[field_spec_name] = field_data
 
+    def _get_tag_export_hook(self, xsd_field, parent_tag=None):
+        """
+        Return the per tag export hook for a field, if any.
+
+        The hook is a method named _export_tag_SCHEMA_VERSION_TAG_NAME
+        (e.g. _export_tag_nfe_40_ibscbs for the nfe40_IBSCBS field). The
+        _export_tag_ prefix keeps this family apart from the per class
+        _export_fields_CLASS_NAME hooks: tag names and spec class names
+        share the same shape (the gMonoPadrao tag and the
+        nfe.40.gmonopadrao class would both yield
+        _export_fields_nfe_40_gmonopadrao), so a common prefix would make
+        the two dispatches silently collide.
+
+        When the same tag appears under different parent tags with different
+        values (e.g. gRed inside both gIBSUF and gCBS), a hook qualified by
+        the parent tag takes precedence over the generic one:
+        _export_tag_nfe_40_gibsuf_gred and _export_tag_nfe_40_gcbs_gred
+        are looked up before _export_tag_nfe_40_gred.
+
+        Stacking points never get a per tag hook: they are exported through
+        their own class and already get the _export_fields_CLASS_NAME
+        dispatch.
+        """
+        schema, version = self._spec_prefix(split=True)
+        if not schema or xsd_field in self._get_stacking_points():
+            return None
+        tag = xsd_field.split("_", 1)[-1].lower()
+        if parent_tag:
+            qualified_method = getattr(
+                self,
+                f"_export_tag_{schema}_{version}_{parent_tag.lower()}_{tag}",
+                None,
+            )
+            if qualified_method is not None:
+                return qualified_method
+        return getattr(self, f"_export_tag_{schema}_{version}_{tag}", None)
+
+    def _get_hook_binding_class(self, child_class, parent_binding_class=None):
+        """
+        Resolve the binding class of a spec model exported via per tag hooks.
+
+        Falls back to the parent binding class module when the type is not
+        reachable from the schema binding module (e.g. Tcibs lives in
+        nfelib dfe_tipos_basicos, not in leiaute_nfe).
+        """
+        try:
+            return self._get_binding_class(child_class)
+        except AttributeError:
+            if parent_binding_class is None:
+                raise
+            binding = sys.modules[parent_binding_class.__module__]
+            for attr in child_class._binding_type.split("."):
+                binding = getattr(binding, attr)
+            return binding
+
+    def _export_m2o_via_tag_hooks(
+        self, xsd_field, class_obj, parent_binding_class=None, parent_tag=None
+    ):
+        """
+        Build the binding of a many2one field through per tag export hooks.
+
+        Used for fields whose comodel is a reusable schema type that is
+        neither stacked in self nor mapped to a related record (e.g. the
+        nfe40_IBSCBS field pointing to nfe.40.ttribnfe): the class name
+        dispatch would not match the tag name and the field values are not
+        denormalized in self. The hook of each (sub) tag only populates
+        export_dict with simple values (numeric values are formatted here
+        according to the field xsd_type); this method assembles the
+        bindings, recursing into the child many2one fields that have their
+        own hook (e.g. nfe40_gIBSUF -> _export_tag_nfe_40_gibsuf, and
+        nfe40_gRed inside gIBSUF -> _export_tag_nfe_40_gibsuf_gred or
+        _export_tag_nfe_40_gred, see _get_tag_export_hook).
+
+        Returns False when the hook leaves export_dict empty, so the tag
+        is omitted.
+        """
+        hook = self._get_tag_export_hook(xsd_field, parent_tag=parent_tag)
+        if hook is None:
+            return False
+        # "is not None": an empty recordset is falsy but still holds _fields
+        field = (
+            class_obj._fields.get(xsd_field) if class_obj is not None else None
+        ) or self._fields.get(xsd_field)
+        child_class = self.env[field.comodel_name]
+        binding_class = self._get_hook_binding_class(child_class, parent_binding_class)
+        prefix = f"{self._spec_prefix()}_"
+        xsd_fields = [
+            f
+            for f in child_class._fields
+            if f.startswith(prefix) and "_choice" not in f
+        ]
+        export_dict = {}
+        hook(xsd_fields, child_class, export_dict)
+        if not export_dict:
+            return False
+        tag = xsd_field.split("_", 1)[-1]
+        for child_field in xsd_fields:
+            tag_name = child_field.split("_", 1)[-1]
+            if child_class._fields[child_field].type == "many2one":
+                if export_dict.get(tag_name) is None:
+                    sub_data = self._export_m2o_via_tag_hooks(
+                        child_field, child_class, binding_class, parent_tag=tag
+                    )
+                    if sub_data:
+                        export_dict[tag_name] = sub_data
+                continue
+            # format the raw numeric values set by the hooks according
+            # to the decimal places of the field xsd_type
+            value = export_dict.get(tag_name)
+            if isinstance(value, bool) or not isinstance(value, int | float):
+                continue
+            export_dict[tag_name] = self._format_float_xsd(
+                value, getattr(child_class._fields[child_field], "xsd_type", None)
+            )
+        sliced_dict = {
+            key: value
+            for key, value in export_dict.items()
+            if key in binding_class.__dataclass_fields__ and value is not None
+        }
+        return binding_class(**sliced_dict)
+
     def _export_field(self, xsd_field, class_obj, field_spec, export_value=None):
         """
         Map a single Odoo field to a python binding value according to the
@@ -179,7 +301,13 @@ class SpecMixinExport(models.AbstractModel):
             if (not self._get_stacking_points().get(xsd_field)) and (
                 not self[xsd_field] and not xsd_required
             ):
-                if field.comodel_name not in self._get_spec_classes():
+                # a per tag hook can export a field with no record behind
+                # it, so let it reach _export_many2one, the single m2o
+                # entry point, which dispatches to the hooks
+                if (
+                    field.comodel_name not in self._get_spec_classes()
+                    and self._get_tag_export_hook(xsd_field) is None
+                ):
                     return False
             if hasattr(field, "xsd_choice_required"):
                 xsd_required = True
@@ -210,6 +338,9 @@ class SpecMixinExport(models.AbstractModel):
             return self._build_binding(
                 class_name=self._get_stacking_points()[field_name].comodel_name
             )
+        elif not self[field_name] and self._get_tag_export_hook(field_name):
+            # no record behind the m2o: the tag is built from its hooks
+            return self._export_m2o_via_tag_hooks(field_name, class_obj)
         else:
             return (self[field_name] or self)._build_binding(
                 field_name=field_name,
@@ -226,6 +357,18 @@ class SpecMixinExport(models.AbstractModel):
             relational_data.append(field_data)
         return relational_data
 
+    @api.model
+    def _format_float_xsd(self, value, xsd_type):
+        """
+        Format a float according to the decimal places of its xsd_type
+        (e.g. TDec1302 -> 2 decimals, TDec_0302_04RTC -> 4 decimals).
+        """
+        if xsd_type and xsd_type.startswith("TDec"):
+            tdec = "".join(filter(lambda x: x.isdigit(), xsd_type))[-2:]
+        else:
+            tdec = ""
+        return str(f"%.{tdec}f" % value)
+
     def _export_float_monetary(
         self, field_name, xsd_type, class_obj, xsd_required, export_value=None
     ):
@@ -234,12 +377,7 @@ class SpecMixinExport(models.AbstractModel):
         # TODO check xsd_required for all fields to export?
         if not field_data and not xsd_required:
             return False
-        if xsd_type and xsd_type.startswith("TDec"):
-            tdec = "".join(filter(lambda x: x.isdigit(), xsd_type))[-2:]
-        else:
-            tdec = ""
-        my_format = f"%.{tdec}f"
-        return str(my_format % field_data)
+        return self._format_float_xsd(field_data, xsd_type)
 
     def _export_date(self, field_name):
         self.ensure_one()
