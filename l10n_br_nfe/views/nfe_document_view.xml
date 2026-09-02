@@ -103,7 +103,7 @@
             >
                 <attribute
                     name="invisible"
-                >state_edoc == 'em_digitacao' or imported_document</attribute>
+                >state_edoc in ('em_digitacao', 'autorizada') or imported_document</attribute>
             </xpath>
             <xpath
                 expr="//header/button[@name='action_document_correction']"
