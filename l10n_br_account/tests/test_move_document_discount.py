@@ -11,6 +11,7 @@ from odoo import Command
 from odoo.tests import TransactionCase
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import DOCUMENT_ISSUER_PARTNER
+from odoo.addons.l10n_br_fiscal.tests.tools import load_fiscal_fixture_files
 
 
 class TestInvoiceDatesAndDiscount(TransactionCase):
@@ -18,6 +19,7 @@ class TestInvoiceDatesAndDiscount(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+        load_fiscal_fixture_files(cls.env)
         cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
         companies = cls.env["res.company"].search([])
         cls.env.user.company_ids = [Command.set(companies.ids)]

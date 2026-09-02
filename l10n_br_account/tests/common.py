@@ -5,10 +5,47 @@ import logging
 
 from odoo import fields
 from odoo.tests import Form
+from odoo.tools.convert import convert_file
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 _logger = logging.getLogger(__name__)
+
+
+def load_demo_company_chart(env, company_xmlid="l10n_br_base.empresa_lucro_presumido"):
+    """Load a chart of accounts + fiscal taxes for a demo company.
+
+    The demo companies created by l10n_br_fiscal.tests.tools.load_fiscal_fixture_files
+    have no chart of accounts: the chart is normally installed by the
+    l10n_br_account post_init_hook when the database is installed with demo
+    data. Tests that post invoices through the demo company need the chart
+    (accounts and journals) and the account taxes mapped from the fiscal
+    taxes, so they call this helper.
+
+    It also reloads the fiscal product demo data with the demo company active,
+    because load_fiscal_fixture_files sets company-dependent fields (e.g.
+    product.fiscal_type, product.icms_origin) for the current (main) company
+    only, which makes the operation line resolution pick the wrong line.
+    """
+    company = env.ref(company_xmlid)
+    if not company.chart_template:
+        env["account.chart.template"].try_loading("generic_coa", company)
+    env["account.chart.template"].load_fiscal_taxes([company])
+    company.currency_id = env.ref("base.BRL")
+
+    convert_file(
+        env(
+            context=dict(
+                env.context, company_id=company.id, allowed_company_ids=company.ids
+            )
+        ),
+        module="l10n_br_fiscal",
+        filename="demo/product_demo.xml",
+        idref={},
+        mode="init",
+        noupdate=False,
+    )
+    return company
 
 
 class AccountMoveBRCommon(AccountTestInvoicingCommon):
