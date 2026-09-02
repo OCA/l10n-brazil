@@ -14,7 +14,7 @@
             <button name="view_pdf" position="attributes">
                 <attribute
                     name="invisible"
-                >state_edoc in ('em_digitacao', 'a_enviar') or is_nfse_paulistana</attribute>
+                >state_edoc == 'em_digitacao' or is_nfse_paulistana</attribute>
             </button>
             <button name="view_pdf" position="after">
                 <field name="is_nfse_paulistana" invisible="1" />
