@@ -12,6 +12,9 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_STATE_CANCEL,
     DOCUMENT_STATE_DRAFT,
 )
+from odoo.addons.l10n_br_fiscal.tests.tools import load_fiscal_fixture_files
+
+from .common import load_demo_company_chart
 
 _logger = logging.getLogger(__name__)
 
@@ -40,7 +43,8 @@ class TestMoveEdition(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
+        load_fiscal_fixture_files(cls.env)
+        cls.company = load_demo_company_chart(cls.env)
         cls.env = cls.env(
             context=dict(cls.env.context, allowed_company_ids=cls.company.ids)
         )
