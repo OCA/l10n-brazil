@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="l10n_br_delivery_carrier_form_view" model="ir.ui.view">
+        <field name="name">l10n_br_delivery.carrier.form</field>
+        <field name="model">delivery.carrier</field>
+        <field
+            name="inherit_id"
+            ref="delivery_carrier_partner.view_delivery_carrier_form"
+        />
+        <field name="arch" type="xml">
+            <field name="partner_id" position="attributes">
+                <field name="domain">[('supplier', '=', True)]</field>
+            </field>
+            <field name="partner_id" position="after">
+                <field name="antt_code" />
+                <field name="vehicle_ids" />
+            </field>
+        </field>
+    </record>
+</odoo>

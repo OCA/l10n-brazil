@@ -1,0 +1,417 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_delivery
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2024-09-26 14:06+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"Language-Team: none\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.6.2\n"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields.selection,name:l10n_br_delivery.selection__account_incoterms__freight_responsibility__0
+msgid "0 - Contratação do Frete por conta do Remetente (CIF)"
+msgstr "0 - Contratação do Frete por conta do Remetente (CIF)"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields.selection,name:l10n_br_delivery.selection__account_incoterms__freight_responsibility__1
+msgid "1 - Contratação do Frete por conta do destinatário/remetente (FOB)"
+msgstr "1 - Contratação do Frete por conta do destinatário/remetente (FOB)"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields.selection,name:l10n_br_delivery.selection__account_incoterms__freight_responsibility__2
+msgid "2 - Contratação do Frete por conta de terceiros"
+msgstr "2 - Contratação do Frete por conta de terceiros"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields.selection,name:l10n_br_delivery.selection__account_incoterms__freight_responsibility__3
+msgid "3 - Transporte próprio por conta do remetente"
+msgstr "3 - Transporte próprio por conta do remetente"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields.selection,name:l10n_br_delivery.selection__account_incoterms__freight_responsibility__4
+#, fuzzy
+msgid "4 - Transporte próprio por conta do destinatário"
+msgstr "4 - Transporte próprio por conta do destinatário"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields.selection,name:l10n_br_delivery.selection__account_incoterms__freight_responsibility__9
+#, fuzzy
+msgid "9 - Sem Ocorrência de transporte."
+msgstr "9 - Sem Ocorrência de transporte."
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__rntc_code
+msgid "ANTT Code"
+msgstr "Código ANTT"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__active
+msgid "Active"
+msgstr "Ativo"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_order__amount_gross_weight
+msgid "Amount Gross Weight"
+msgstr "Valor Peso Bruto"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_order__amount_volume
+msgid "Amount Volume"
+msgstr "Valor do Volume"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__manufacture_year
+#, fuzzy
+msgid "Ano de Fabricação"
+msgstr "Ano de Fabricação"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__model_year
+#, fuzzy
+msgid "Ano do Modelo"
+msgstr "Ano do Modelo"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields.selection,name:l10n_br_delivery.selection__l10n_br_delivery_carrier_vehicle__type__bau
+#, fuzzy
+msgid "Caminhão Baú"
+msgstr "Caminhão Baú"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_bank_statement_line__carrier_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_move__carrier_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_payment__carrier_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_contract_contract__carrier_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__carrier_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document__carrier_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document_mixin__carrier_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document_mixin_fields__carrier_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_pos_order__carrier_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_purchase_order__carrier_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_repair_order__carrier_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_blanket_order__carrier_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_stock_picking__carrier_id
+msgid "Carrier"
+msgstr "Transportadora"
+
+#. module: l10n_br_delivery
+#: model:ir.model,name:l10n_br_delivery.model_l10n_br_delivery_carrier_vehicle
+msgid "Carrier Vehicle"
+msgstr "Veículo da Transportadora"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__city_id
+msgid "City"
+msgstr "Cidade"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_delivery_carrier__antt_code
+msgid "Codigo ANTT"
+msgstr "Código ANTT"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__country_id
+msgid "Country"
+msgstr "País"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__create_uid
+msgid "Created by"
+msgstr "Criado por"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__create_date
+msgid "Created on"
+msgstr "Criado em"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_order__carrier_id
+msgid "Delivery Method"
+msgstr "Método de Entrega"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__description
+msgid "Description"
+msgstr "Descrição"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_incoterms__display_name
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_delivery_carrier__display_name
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__display_name
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document_mixin_fields__display_name
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_order__display_name
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_stock_picking__display_name
+msgid "Display Name"
+msgstr "Nome Exibido"
+
+#. module: l10n_br_delivery
+#: model:ir.model,name:l10n_br_delivery.model_l10n_br_fiscal_document_mixin_fields
+msgid "Document Fiscal Mixin Fields"
+msgstr ""
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__driver
+msgid "Driver"
+msgstr "Motorista"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,help:l10n_br_delivery.field_sale_order__carrier_id
+msgid "Fill this field if you plan to invoice the shipping based on picking."
+msgstr ""
+"Preencha este campo se você planeja faturar a entrega baseada no picking."
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_bank_statement_line__incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_move__incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_payment__incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document__incoterm_id
+msgid "Fiscal Inconterm"
+msgstr "Inconterm Fiscal"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_bank_statement_line__fiscal_proxy_incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_move__fiscal_proxy_incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_payment__fiscal_proxy_incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_contract_contract__fiscal_proxy_incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document__fiscal_proxy_incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document_mixin__fiscal_proxy_incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document_mixin_fields__fiscal_proxy_incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_pos_order__fiscal_proxy_incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_purchase_order__fiscal_proxy_incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_repair_order__fiscal_proxy_incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_blanket_order__fiscal_proxy_incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_order__fiscal_proxy_incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_stock_picking__fiscal_proxy_incoterm_id
+msgid "Fiscal Proxy Incoterm"
+msgstr ""
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_incoterms__freight_responsibility
+#, fuzzy
+msgid "Frete por Conta"
+msgstr "Frete por Conta"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_incoterms__id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_delivery_carrier__id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document_mixin_fields__id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_order__id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_stock_picking__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_contract_contract__incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document_mixin__incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document_mixin_fields__incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_pos_order__incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_purchase_order__incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_repair_order__incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_blanket_order__incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_order__incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_stock_picking__incoterm_id
+#, fuzzy
+msgid "Incoterm"
+msgstr "Incoterm"
+
+#. module: l10n_br_delivery
+#: model:ir.model,name:l10n_br_delivery.model_account_incoterms
+#, fuzzy
+msgid "Incoterms"
+msgstr "Incoterms"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,help:l10n_br_delivery.field_account_incoterms__freight_responsibility
+#, fuzzy
+msgid "Informação usada na emissão de Documentos Fiscais"
+msgstr "Informação usada na emissão de Documentos Fiscais"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,help:l10n_br_delivery.field_account_bank_statement_line__fiscal_proxy_incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_account_bank_statement_line__incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_account_move__fiscal_proxy_incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_account_move__incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_account_payment__fiscal_proxy_incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_account_payment__incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_contract_contract__fiscal_proxy_incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_contract_contract__incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_l10n_br_fiscal_document__fiscal_proxy_incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_l10n_br_fiscal_document__incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_l10n_br_fiscal_document_mixin__fiscal_proxy_incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_l10n_br_fiscal_document_mixin__incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_l10n_br_fiscal_document_mixin_fields__fiscal_proxy_incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_l10n_br_fiscal_document_mixin_fields__incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_pos_order__fiscal_proxy_incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_pos_order__incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_purchase_order__fiscal_proxy_incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_purchase_order__incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_repair_order__fiscal_proxy_incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_repair_order__incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_sale_blanket_order__fiscal_proxy_incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_sale_blanket_order__incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_sale_order__fiscal_proxy_incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_sale_order__incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_stock_picking__fiscal_proxy_incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_stock_picking__incoterm_id
+msgid ""
+"International Commercial Terms are a series of predefined commercial terms "
+"used in international transactions."
+msgstr ""
+"International Commercial Terms são uma série de termos comerciais "
+"predefinidos utilizados em transações internacionais."
+
+#. module: l10n_br_delivery
+#: model:ir.model,name:l10n_br_delivery.model_account_move
+msgid "Journal Entry"
+msgstr "Lançamento de Diário"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_incoterms____last_update
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_move____last_update
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_delivery_carrier____last_update
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle____last_update
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document_mixin_fields____last_update
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_order____last_update
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_stock_picking____last_update
+msgid "Last Modified on"
+msgstr "Última Modificação em"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__write_uid
+msgid "Last Updated by"
+msgstr "Última Atualização por"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__write_date
+msgid "Last Updated on"
+msgstr "Última Atualização em"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__type
+msgid "Model Type"
+msgstr "Tipo de Modelo"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__name
+msgid "Name"
+msgstr "Nome"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__plate
+#, fuzzy
+msgid "Placa"
+msgstr "Placa"
+
+#. module: l10n_br_delivery
+#: model:ir.model,name:l10n_br_delivery.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de Vendas"
+
+#. module: l10n_br_delivery
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery.l10n_br_delivery_carrier_vehicle_form
+msgid "Shipping Company"
+msgstr "Empresa de Transporte"
+
+#. module: l10n_br_delivery
+#: model:ir.model,name:l10n_br_delivery.model_delivery_carrier
+msgid "Shipping Methods"
+msgstr "Métodos de Transporte"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__state_id
+msgid "State"
+msgstr "Estado"
+
+#. module: l10n_br_delivery
+#: model:delivery.carrier,name:l10n_br_delivery.test_br_delivery_carrier
+#, fuzzy
+msgid "Teste - l10n_br_delivery"
+msgstr "Teste - l10n_br_delivery"
+
+#. module: l10n_br_delivery
+#: model:ir.model,name:l10n_br_delivery.model_stock_picking
+msgid "Transfer"
+msgstr "Transferir"
+
+#. module: l10n_br_delivery
+#: model:ir.actions.act_window,name:l10n_br_delivery.action_l10n_br_delivery_carrier_vehicle_form
+#: model:ir.ui.menu,name:l10n_br_delivery.menu_l10n_br_delivery_carrier_vehicle_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery.l10n_br_delivery_carrier_vehicle_form
+msgid "Vehicle"
+msgstr "Veículo"
+
+#. module: l10n_br_delivery
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery.l10n_br_delivery_carrier_vehicle_form
+msgid "Vehicle Data"
+msgstr "Dados do Veículo"
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_delivery_carrier__vehicle_ids
+msgid "Vehicles"
+msgstr "Veículos"
+
+#. module: l10n_br_delivery
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery.l10n_br_delivery_carrier_form_view
+#, fuzzy
+msgid "[('supplier', '=', True)]"
+msgstr "[('supplier', '=', True)]"
+
+#~ msgid "Document Fiscal Mixin"
+#~ msgstr "Mixin Fiscal de Documentos"
+
+#~ msgid "Brazil"
+#~ msgstr "Brasil"
+
+#, fuzzy
+#~ msgid "Guarulhos"
+#~ msgstr "Guarulhos"
+
+#~ msgid "Fiscal Document"
+#~ msgstr "Documento Fiscal"
+
+#~ msgid "Freight"
+#~ msgstr "Frete"
+
+#~ msgid "Freight Value"
+#~ msgstr "Valor do Frete"
+
+#~ msgid "Insurance"
+#~ msgstr "Seguros"
+
+#~ msgid "Insurance Value"
+#~ msgstr "Valor do Seguro"
+
+#, python-format
+#~ msgid "No carrier set for this order."
+#~ msgstr "Nenhum operadora definida para esta ordem."
+
+#~ msgid "Other Costs"
+#~ msgstr "Outros Custos"
+
+#, python-format
+#~ msgid ""
+#~ "Please use \"Check price\" in order to compute a shipping price for this "
+#~ "quotation."
+#~ msgstr ""
+#~ "Por favor, use \"Verificar preço\" para calcular um preço de envio para "
+#~ "esta cotação."
+
+#~ msgid "Sale Order"
+#~ msgstr "Pedido de Venda"
+
+#, python-format
+#~ msgid "You can add delivery price only on unconfirmed quotations."
+#~ msgstr ""
+#~ "Você pode adicionar preço de entrega apenas em cotações não confirmadas."
