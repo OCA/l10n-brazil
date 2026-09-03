@@ -1047,18 +1047,17 @@ class NFe(spec_models.StackedModel):
             company_vat = self.env.company.vat.translate(
                 str.maketrans("", "", string.punctuation)
             )
-            if new_value.get("nfe40_CNPJ"):
-                dest_vat = new_value.get("nfe40_CNPJ").translate(
-                    str.maketrans("", "", string.punctuation)
-                )
-            elif new_value.get("nfe40_CPF"):
-                dest_vat = new_value.get("nfe40_CPF").translate(
-                    str.maketrans("", "", string.punctuation)
-                )
+            # A recipient abroad has neither CNPJ nor CPF: it is identified by
+            # idEstrangeiro, so there is no document number to compare with the
+            # company or to store as the partner vat.
+            dest_vat = (
+                new_value.get("nfe40_CNPJ") or new_value.get("nfe40_CPF") or ""
+            ).translate(str.maketrans("", "", string.punctuation))
             if company_vat != dest_vat:
                 vals["issuer"] = "partner"
             new_value["is_company"] = True
-            new_value["vat"] = dest_vat
+            if dest_vat:
+                new_value["vat"] = dest_vat
             super()._build_many2one(
                 self.env["res.partner"], vals, new_value, "partner_id", value, path
             )
