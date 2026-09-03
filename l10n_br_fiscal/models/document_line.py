@@ -117,7 +117,7 @@ class DocumentLine(models.Model):
         self.ensure_one()
         return {
             "user": self.env.user,
-            "ctx": self._context,
+            "ctx": self.env.context,
             "doc": self.document_id if hasattr(self, "document_id") else None,
             "item": self,
         }
