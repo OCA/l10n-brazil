@@ -6,8 +6,6 @@ import logging
 import sys
 from enum import Enum
 
-from nfelib.nfe.bindings.v4_0.dfe_tipos_basicos_v1_00 import Tcibs, TtribNfe
-
 from odoo import _, api, fields
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -224,7 +222,7 @@ class NFeLine(spec_models.StackedModel):
     ################################
 
     def _export_field(self, xsd_field, class_obj, member_spec, export_value=None):
-        """Override to handle IBSCBS field export"""
+        """Override to handle vItem field export"""
         if xsd_field == "nfe40_vItem":
             # NT 2025.002 (rules VB01/W60): vItem must be present in every
             # det when the document exports the IBS/CBS totals, and the sum
@@ -238,165 +236,7 @@ class NFeLine(spec_models.StackedModel):
                 return False
             return f"{self.fiscal_amount_total:.2f}"
 
-        if xsd_field == "nfe40_IBSCBS":
-            if not self.ibs_value and not self.cbs_value:
-                return False
-
-            # Get tax classification code
-            c_class_trib = "000001"
-            if self.tax_classification_id and self.tax_classification_id.code:
-                c_class_trib = self.tax_classification_id.code.zfill(6)
-
-            # Get CST code - use IBS CST if available, otherwise CBS CST
-            cst = "000"
-            if self.ibs_cst_id and self.ibs_cst_id.code:
-                cst = self.ibs_cst_id.code
-            elif self.cbs_cst_id and self.cbs_cst_id.code:
-                cst = self.cbs_cst_id.code
-
-            # Base calculation - use IBS base or CBS base, whichever is available
-            v_bc = self.ibs_base or self.cbs_base or self.price_gross
-
-            # IBS UF values - when there's only one IBS, populate IBSUF directly
-            # Use IBS percent directly for pIBSUF
-            p_ibs_uf = self.ibs_percent or 0.0
-            # Use IBS value directly for vIBSUF, or calculate from base and percent
-            if self.ibs_value:
-                v_ibs_uf = self.ibs_value
-            elif p_ibs_uf > 0 and v_bc > 0:
-                v_ibs_uf = v_bc * p_ibs_uf / 100
-            else:
-                v_ibs_uf = 0.0
-
-            # IBS Municipal values - not available yet, set to 0
-            p_ibs_mun = 0.0
-            v_ibs_mun = 0.0
-
-            # Total IBS - use IBS value directly or sum of UF + Municipal
-            v_ibs = self.ibs_value or (v_ibs_uf + v_ibs_mun)
-
-            # CBS values
-            p_cbs = self.cbs_percent or 0.0
-            v_cbs = self.cbs_value or (v_bc * p_cbs / 100) if p_cbs else 0.0
-
-            # Build gIBSUF
-            gibsuf = Tcibs.GIbsuf(
-                pIBSUF=f"{p_ibs_uf:.4f}",
-                vIBSUF=f"{v_ibs_uf:.2f}",
-            )
-
-            # Build gIBSMun
-            gibsmun = Tcibs.GIbsmun(
-                pIBSMun=f"{p_ibs_mun:.4f}",
-                vIBSMun=f"{v_ibs_mun:.2f}",
-            )
-
-            # Build gCBS
-            gcbs = Tcibs.GCbs(
-                pCBS=f"{p_cbs:.4f}",
-                vCBS=f"{v_cbs:.2f}",
-            )
-
-            # Build gIBSCBS (Tcibs)
-            gibscbs = Tcibs(
-                vBC=f"{v_bc:.2f}",
-                gIBSUF=gibsuf,
-                gIBSMun=gibsmun,
-                vIBS=f"{v_ibs:.2f}",
-                gCBS=gcbs,
-            )
-
-            # Build TtribNfe
-            ibscbs_obj = TtribNfe(
-                CST=cst,
-                cClassTrib=c_class_trib,
-                gIBSCBS=gibscbs,
-            )
-
-            return ibscbs_obj
-
         return super()._export_field(xsd_field, class_obj, member_spec, export_value)
-
-    def _export_many2one(self, field_name, xsd_required, class_obj=None):
-        """Override to handle IBSCBS Many2one field export"""
-        if field_name == "nfe40_IBSCBS":
-            if not self.ibs_value and not self.cbs_value:
-                return False
-
-            # Get tax classification code
-            c_class_trib = "000001"
-            if self.tax_classification_id and self.tax_classification_id.code:
-                c_class_trib = self.tax_classification_id.code.zfill(6)
-
-            # Get CST code - use IBS CST if available, otherwise CBS CST
-            cst = "000"
-            if self.ibs_cst_id and self.ibs_cst_id.code:
-                cst = self.ibs_cst_id.code
-            elif self.cbs_cst_id and self.cbs_cst_id.code:
-                cst = self.cbs_cst_id.code
-
-            # Base calculation - use IBS base or CBS base, whichever is available
-            v_bc = self.ibs_base or self.cbs_base or self.price_gross
-
-            # IBS UF values - when there's only one IBS, populate IBSUF directly
-            # Use IBS percent directly for pIBSUF
-            p_ibs_uf = self.ibs_percent or 0.0
-            # Use IBS value directly for vIBSUF, or calculate from base and percent
-            if self.ibs_value:
-                v_ibs_uf = self.ibs_value
-            elif p_ibs_uf > 0 and v_bc > 0:
-                v_ibs_uf = v_bc * p_ibs_uf / 100
-            else:
-                v_ibs_uf = 0.0
-
-            # IBS Municipal values - not available yet, set to 0
-            p_ibs_mun = 0.0
-            v_ibs_mun = 0.0
-
-            # Total IBS - use IBS value directly or sum of UF + Municipal
-            v_ibs = self.ibs_value or (v_ibs_uf + v_ibs_mun)
-
-            # CBS values
-            p_cbs = self.cbs_percent or 0.0
-            v_cbs = self.cbs_value or (v_bc * p_cbs / 100) if p_cbs else 0.0
-
-            # Build gIBSUF
-            gibsuf = Tcibs.GIbsuf(
-                pIBSUF=f"{p_ibs_uf:.4f}",
-                vIBSUF=f"{v_ibs_uf:.2f}",
-            )
-
-            # Build gIBSMun
-            gibsmun = Tcibs.GIbsmun(
-                pIBSMun=f"{p_ibs_mun:.4f}",
-                vIBSMun=f"{v_ibs_mun:.2f}",
-            )
-
-            # Build gCBS
-            gcbs = Tcibs.GCbs(
-                pCBS=f"{p_cbs:.4f}",
-                vCBS=f"{v_cbs:.2f}",
-            )
-
-            # Build gIBSCBS (Tcibs)
-            gibscbs = Tcibs(
-                vBC=f"{v_bc:.2f}",
-                gIBSUF=gibsuf,
-                gIBSMun=gibsmun,
-                vIBS=f"{v_ibs:.2f}",
-                gCBS=gcbs,
-            )
-
-            # Build TtribNfe
-            ibscbs_obj = TtribNfe(
-                CST=cst,
-                cClassTrib=c_class_trib,
-                gIBSCBS=gibscbs,
-            )
-
-            return ibscbs_obj
-
-        return super()._export_many2one(field_name, xsd_required, class_obj)
 
     def _export_fields_nfe_40_prod(self, xsd_fields, class_obj, export_dict):
         nfe40_cProd = self.product_id.default_code or self.nfe40_cProd or ""
@@ -543,83 +383,8 @@ class NFeLine(spec_models.StackedModel):
         if self.document_id.document_type == "65":
             xsd_fields.remove("nfe40_IPI")
 
-        # Export IBSCBS if there are values
-        if self.ibs_value or self.cbs_value:
-            # Get tax classification code
-            c_class_trib = "000001"
-            if self.tax_classification_id and self.tax_classification_id.code:
-                c_class_trib = self.tax_classification_id.code.zfill(6)
-
-            # Get CST code - use IBS CST if available, otherwise CBS CST
-            cst = "000"
-            if self.ibs_cst_id and self.ibs_cst_id.code:
-                cst = self.ibs_cst_id.code
-            elif self.cbs_cst_id and self.cbs_cst_id.code:
-                cst = self.cbs_cst_id.code
-
-            # Base calculation - use IBS base or CBS base, whichever is available
-            v_bc = self.ibs_base or self.cbs_base or self.price_gross
-
-            # IBS UF values - when there's only one IBS, populate IBSUF directly
-            # Use IBS percent directly for pIBSUF
-            p_ibs_uf = self.ibs_percent or 0.0
-            # Use IBS value directly for vIBSUF, or calculate from base and percent
-            if self.ibs_value:
-                v_ibs_uf = self.ibs_value
-            elif p_ibs_uf > 0 and v_bc > 0:
-                v_ibs_uf = v_bc * p_ibs_uf / 100
-            else:
-                v_ibs_uf = 0.0
-
-            # IBS Municipal values - not available yet, set to 0
-            p_ibs_mun = 0.0
-            v_ibs_mun = 0.0
-
-            # Total IBS - use IBS value directly or sum of UF + Municipal
-            v_ibs = self.ibs_value or (v_ibs_uf + v_ibs_mun)
-
-            # CBS values
-            p_cbs = self.cbs_percent or 0.0
-            v_cbs = self.cbs_value or (v_bc * p_cbs / 100) if p_cbs else 0.0
-
-            # Build gIBSUF
-            gibsuf = Tcibs.GIbsuf(
-                pIBSUF=f"{p_ibs_uf:.4f}",
-                vIBSUF=f"{v_ibs_uf:.2f}",
-            )
-
-            # Build gIBSMun
-            gibsmun = Tcibs.GIbsmun(
-                pIBSMun=f"{p_ibs_mun:.4f}",
-                vIBSMun=f"{v_ibs_mun:.2f}",
-            )
-
-            # Build gCBS
-            gcbs = Tcibs.GCbs(
-                pCBS=f"{p_cbs:.4f}",
-                vCBS=f"{v_cbs:.2f}",
-            )
-
-            # Build gIBSCBS (Tcibs)
-            gibscbs = Tcibs(
-                vBC=f"{v_bc:.2f}",
-                gIBSUF=gibsuf,
-                gIBSMun=gibsmun,
-                vIBS=f"{v_ibs:.2f}",
-                gCBS=gcbs,
-            )
-
-            # Build TtribNfe and add to export_dict
-            ibscbs_obj = TtribNfe(
-                CST=cst,
-                cClassTrib=c_class_trib,
-                gIBSCBS=gibscbs,
-            )
-            export_dict["IBSCBS"] = ibscbs_obj
-        else:
-            # Remove IBSCBS from xsd_fields if no values
-            if "nfe40_IBSCBS" in xsd_fields:
-                xsd_fields.remove("nfe40_IBSCBS")
+        if not self.tax_classification_id:
+            xsd_fields.remove("nfe40_IBSCBS")
 
     ##################################################
     # NF-e tag: ICMS
@@ -1203,6 +968,85 @@ class NFeLine(spec_models.StackedModel):
         comodel_name="nfe.40.ttribnfe",
         string="Grupo de informações dos tributos IBS, CBS",
     )
+
+    ##########################
+    # NF-e tag: IBSCBS
+    # Inverse Methods
+    ##########################
+
+    def _export_tag_nfe_40_ibscbs(self, xsd_fields, class_obj, export_dict):
+        """Export the IBSCBS group of the line (NT 2025.002).
+
+        Dispatched by the spec_driven_model per tag hooks while exporting
+        the nfe40_IBSCBS field of the nfe.40.imposto class: the comodel is
+        the reusable nfe.40.ttribnfe type, so the class name dispatch would
+        not match the IBSCBS tag name. Like the COFINS methods, this method
+        and the _export_tag_nfe_40_g* ones below only populate export_dict;
+        the framework assembles the bindings.
+        """
+        if self.tax_classification_id:
+            export_dict["cClassTrib"] = self.tax_classification_id.code
+
+        if self.ibs_cst_id and self.ibs_cst_id.code:
+            export_dict["CST"] = self.ibs_cst_id.code
+
+        # The choice branches are exclusive: keep only the one matching the
+        # CST, defaulting to gIBSCBS for every other CST (600, 000, ...)
+        # TODO the monophase (620), credit transfer (800) and period
+        # adjustment (811) groups have no export hook yet: their branch is
+        # kept here so the XSD choice is right once they are implemented.
+        remove_tags = {
+            "620": ["nfe40_gIBSCBS", "nfe40_gTransfCred", "nfe40_gAjusteCompet"],
+            "800": ["nfe40_gIBSCBS", "nfe40_gIBSCBSMono", "nfe40_gAjusteCompet"],
+            "811": ["nfe40_gIBSCBS", "nfe40_gIBSCBSMono", "nfe40_gTransfCred"],
+        }
+        default_remove = [
+            "nfe40_gIBSCBSMono",
+            "nfe40_gTransfCred",
+            "nfe40_gAjusteCompet",
+        ]
+
+        for tag_to_remove in remove_tags.get(self.ibs_cst_id.code, default_remove):
+            if tag_to_remove in xsd_fields:
+                xsd_fields.remove(tag_to_remove)
+
+    # Export nfe40_gIBSCBS
+
+    def _export_tag_nfe_40_gibscbs(self, xsd_fields, class_obj, export_dict):
+        # vBC is the base shared by IBS and CBS: both are computed from the
+        # same cClassTrib, but fall back to the CBS base so a line set up
+        # with a CBS tax only still exports a base consistent with gCBS
+        export_dict["vBC"] = self.ibs_base or self.cbs_base
+        export_dict["vIBS"] = self.ibs_value
+
+    def _export_tag_nfe_40_gibsuf(self, xsd_fields, class_obj, export_dict):
+        export_dict["pIBSUF"] = self.ibs_percent
+        export_dict["vIBSUF"] = self.ibs_value
+
+    def _export_tag_nfe_40_gibsuf_gred(self, xsd_fields, class_obj, export_dict):
+        """gRed of the gIBSUF group (parent qualified hook: the gRed tag also
+        exists inside gCBS with the CBS reduction instead)."""
+        if self.ibs_reduction:
+            export_dict["pRedAliq"] = self.ibs_reduction
+            export_dict["pAliqEfet"] = self.ibs_percent * (1 - self.ibs_reduction / 100)
+
+    def _export_tag_nfe_40_gibsmun(self, xsd_fields, class_obj, export_dict):
+        export_dict["pIBSMun"] = "0.0000"
+        export_dict["vIBSMun"] = "0.00"
+
+    def _export_tag_nfe_40_gcbs(self, xsd_fields, class_obj, export_dict):
+        export_dict["pCBS"] = self.cbs_percent
+        export_dict["vCBS"] = self.cbs_value
+
+    def _export_tag_nfe_40_gcbs_gred(self, xsd_fields, class_obj, export_dict):
+        """gRed of the gCBS group (parent qualified hook)."""
+        if self.cbs_reduction:
+            export_dict["pRedAliq"] = self.cbs_reduction
+            export_dict["pAliqEfet"] = self.cbs_percent * (1 - self.cbs_reduction / 100)
+
+    # TODO Export nfe40_gIBSCBSMono (monophase, CST 620): it needs the
+    # ad rem rates and the monophase amounts, which the fiscal engine does
+    # not compute yet.
 
     #################
     # NF-e tag: ISSQN
