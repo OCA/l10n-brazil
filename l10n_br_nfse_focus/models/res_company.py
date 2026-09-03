@@ -76,6 +76,14 @@ class ResCompany(models.Model):
         default=True,
     )
 
+    focusnfe_nfse_nacional_concat_lines_discriminacao = fields.Boolean(
+        string="Concatenate All Lines in Discriminação (NFSe Nacional)",
+        default=False,
+        help="If checked, the Discriminação do Serviço sent to NFSe Nacional will "
+        "concatenate the description of every fiscal line in the document, instead "
+        "of using only the description of the first line.",
+    )
+
     def get_focusnfe_token(self):
         """
         Retrieve the appropriate FocusNFe API token based on the current NFSe

@@ -37,6 +37,7 @@ from .constants import (
 )
 from .helpers import (
     _is_valid_pdf,
+    concat_lines_discriminacao,
     filter_focusnfe,
     filter_focusnfe_municipal,
     filter_focusnfe_nacional,
@@ -105,6 +106,10 @@ class Document(models.Model):
                 "service": record._prepare_dados_servico(),
                 "recipient": record._prepare_dados_tomador(),
             }
+            if record.company_id.focusnfe_nfse_nacional_concat_lines_discriminacao:
+                edoc["service"]["discriminacao"] = concat_lines_discriminacao(
+                    record.fiscal_line_ids
+                )
             edocs.append(edoc)
         # Handle NFSe Municipal (original)
         for record in self.filtered(filter_processador_edoc_nfse).filtered(

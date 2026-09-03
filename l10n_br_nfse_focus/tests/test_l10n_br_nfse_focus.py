@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import os
+from collections import namedtuple
 from datetime import datetime
 from unittest.mock import MagicMock, patch
 
@@ -28,6 +29,7 @@ from ... import l10n_br_nfse_focus
 from ..models.constants import API_ENDPOINT, NFSE_URL
 from ..models.document import Document
 from ..models.helpers import (
+    concat_lines_discriminacao,
     filter_focusnfe,
     filter_focusnfe_municipal,
     filter_focusnfe_nacional,
@@ -1379,6 +1381,73 @@ class TestL10nBrNfseFocus(common.TransactionCase):
                     mock_rps.assert_called_once()
                     mock_service.assert_called_once()
                     mock_recipient.assert_called_once()
+
+    def test_concat_lines_discriminacao_helper(self):
+        """Tests the pure helper that concatenates fiscal line descriptions."""
+        SimpleLine = namedtuple("SimpleLine", ["name", "product_id"])
+        lines = [
+            SimpleLine(name="Linha 1", product_id=True),
+            SimpleLine(name="Linha 2", product_id=True),
+            SimpleLine(name="Sem produto", product_id=False),
+            SimpleLine(name="", product_id=True),
+        ]
+
+        result = concat_lines_discriminacao(lines)
+
+        self.assertEqual(result, "Linha 1\nLinha 2")
+
+    def test_concat_lines_discriminacao_helper_truncates(self):
+        """Tests that the helper truncates the result to max_length."""
+        SimpleLine = namedtuple("SimpleLine", ["name", "product_id"])
+        lines = [SimpleLine(name="A" * 3000, product_id=True)]
+
+        result = concat_lines_discriminacao(lines, max_length=2000)
+
+        self.assertEqual(len(result), 2000)
+
+    def test_serialize_nacional_concat_lines_discriminacao_enabled(self):
+        """Tests discriminacao concatenation when the company flag is enabled."""
+        document = self.nfse_demo
+        document.processador_edoc = PROCESSADOR_OCA
+        document.document_type_id.code = MODELO_FISCAL_NFSE
+        document.company_id.provedor_nfse = "focusnfe"
+        document.company_id.focusnfe_nfse_type = "nfse_nacional"
+        document.company_id.focusnfe_nfse_nacional_concat_lines_discriminacao = True
+        document.document_date = datetime.now()
+        document.date_in_out = datetime.now()
+
+        first_line = document.fiscal_line_ids[0]
+        first_line.name = "Linha 1 descricao"
+        first_line.copy({"name": "Linha 2 descricao"})
+
+        edocs = document._serialize([])
+
+        self.assertEqual(
+            edocs[-1]["service"]["discriminacao"],
+            "Linha 1 descricao\nLinha 2 descricao",
+        )
+
+    def test_serialize_nacional_concat_lines_discriminacao_disabled(self):
+        """Tests discriminacao keeps only the first line when the flag is disabled."""
+        document = self.nfse_demo
+        document.processador_edoc = PROCESSADOR_OCA
+        document.document_type_id.code = MODELO_FISCAL_NFSE
+        document.company_id.provedor_nfse = "focusnfe"
+        document.company_id.focusnfe_nfse_type = "nfse_nacional"
+        document.company_id.focusnfe_nfse_nacional_concat_lines_discriminacao = False
+        document.document_date = datetime.now()
+        document.date_in_out = datetime.now()
+
+        first_line = document.fiscal_line_ids[0]
+        first_line.name = "Linha 1 descricao"
+        first_line.copy({"name": "Linha 2 descricao"})
+
+        edocs = document._serialize([])
+
+        self.assertEqual(
+            edocs[-1]["service"]["discriminacao"],
+            "Linha 1 descricao",
+        )
 
     def test_serialize_municipal(self):
         """Tests serialization for NFSe Municipal."""
