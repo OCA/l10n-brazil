@@ -1669,7 +1669,6 @@ class NFe(spec_models.StackedModel):
     def _need_compute_nfe_tags(self):
         if (
             self.state_edoc in [SITUACAO_EDOC_EM_DIGITACAO, SITUACAO_EDOC_A_ENVIAR]
-            and self.processador_edoc == PROCESSADOR_OCA
             and self.document_type_id.code in [MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE]
             and self.issuer == DOCUMENT_ISSUER_COMPANY
         ):
