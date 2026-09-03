@@ -13,13 +13,23 @@
     "development_status": "Beta",
     "depends": [
         "mis_builder",
+        # os periodos fiscais brasileiros sao date.range.type; o mis_builder ja
+        # depende deste modulo, mas aqui ele e usado diretamente
+        "date_range",
         "l10n_br_coa",
     ],
     "data": [
         "data/mis_report_styles.xml",
+        "data/mis_report_bp.xml",
+        "data/mis_report_dre.xml",
+        # Mantidos para nao apagar, na atualizacao, os relatorios que usuarios
+        # montaram sobre eles. Foram substituidos pelos dois acima; quem nao
+        # os usa pode remover a mao.
         "data/mis_report_bp_generic.xml",
         "data/mis_report_bp_simple.xml",
         "data/mis_report_dre_generic.xml",
         "data/mis_report_dre_simple.xml",
+        "data/date_range_type.xml",
+        "data/mis_report_instance.xml",
     ],
 }
