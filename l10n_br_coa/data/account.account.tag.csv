@@ -24,5 +24,69 @@ l10n_br_coa.tax_tag_inss_wh,INSS WH,taxes,base.br
 l10n_br_coa.tax_tag_ibs,IBS,taxes,base.br
 l10n_br_coa.tax_tag_cbs,CBS,taxes,base.br
 l10n_br_coa.tax_tag_is,IS,taxes,base.br
-l10n_br_coa.tax_tag_simples,"Simples Nacional",taxes,base.br
+l10n_br_coa.tax_tag_simples,Simples Nacional,taxes,base.br
 l10n_br_coa.tax_tag_others,Others,taxes,base.br
+l10n_br_coa.account_tag_current_assets_cash,Ativo / Circulante / Caixa e Equivalentes de Caixa,accounts,base.br
+l10n_br_coa.account_tag_current_assets_receivable,Ativo / Circulante / Contas a Receber,accounts,base.br
+l10n_br_coa.account_tag_current_assets_receivable_loss,Ativo / Circulante / (-) Perdas Estimadas com Créditos de Liquidação Duvidosa,accounts,base.br
+l10n_br_coa.account_tag_current_assets_stock,Ativo / Circulante / Estoques,accounts,base.br
+l10n_br_coa.account_tag_current_assets_other_credits,Ativo / Circulante / Outros Créditos,accounts,base.br
+l10n_br_coa.account_tag_non_current_assets_receivable,Ativo / Não Circulante / Realizável a Longo Prazo,accounts,base.br
+l10n_br_coa.account_tag_non_current_investments,Ativo / Não Circulante / Investimentos,accounts,base.br
+l10n_br_coa.account_tag_fixed_assets,Ativo / Não Circulante / Imobilizado,accounts,base.br
+l10n_br_coa.account_tag_fixed_assets_depreciation,Ativo / Não Circulante / (-) Depreciação,accounts,base.br
+l10n_br_coa.account_tag_intangible_assets,Ativo / Não Circulante / Intangível,accounts,base.br
+l10n_br_coa.account_tag_intangible_assets_amortization,Ativo / Não Circulante / (-) Amortização,accounts,base.br
+l10n_br_coa.account_tag_current_liabilities_suppliers,Passivo / Circulante / Fornecedores,accounts,base.br
+l10n_br_coa.account_tag_current_liabilities_financial,Passivo / Circulante / Empréstimos e Financiamentos,accounts,base.br
+l10n_br_coa.account_tag_current_liabilities_fiscal,Passivo / Circulante / Obrigações Fiscais,accounts,base.br
+l10n_br_coa.account_tag_current_liabilities_labor,Passivo / Circulante / Obrigações Trabalhistas,accounts,base.br
+l10n_br_coa.account_tag_current_liabilities_payable,Passivo / Circulante / Contas a Pagar,accounts,base.br
+l10n_br_coa.account_tag_current_liabilities_reserve,Passivo / Circulante / Provisões,accounts,base.br
+l10n_br_coa.account_tag_non_current_liabilities,Passivo / Não Circulante / Contas a Pagar,accounts,base.br
+l10n_br_coa.account_tag_non_current_liabilities_loan,Passivo / Não Circulante / Financiamentos,accounts,base.br
+l10n_br_coa.account_tag_equity_capital,Patrimônio Líquido / Capital Social,accounts,base.br
+l10n_br_coa.account_tag_equity_capital_reserve,Patrimônio Líquido / Reservas de Capital,accounts,base.br
+l10n_br_coa.account_tag_equity_profit_reserve,Patrimônio Líquido / Reservas de Lucros,accounts,base.br
+l10n_br_coa.account_tag_equity_accumulated_profits,Patrimônio Líquido / Lucros Acumulados,accounts,base.br
+l10n_br_coa.account_tag_equity_accumulated_losses,Patrimônio Líquido / (-) Prejuízos Acumulados,accounts,base.br
+l10n_br_coa.account_tag_revenue,Resultado / Receita Bruta de Vendas e Serviços,accounts,base.br
+l10n_br_coa.account_tag_revenue_deduction,Resultado / (-) Deduções da Receita Bruta,accounts,base.br
+l10n_br_coa.account_tag_direct_costs,Resultado / (-) Custo das Vendas,accounts,base.br
+l10n_br_coa.account_tag_admin_expenses,Resultado / (-) Despesas Administrativas,accounts,base.br
+l10n_br_coa.account_tag_sale_expenses,Resultado / (-) Despesas com Vendas,accounts,base.br
+l10n_br_coa.account_tag_other_general_expenses,Resultado / (-) Outras Despesas Gerais,accounts,base.br
+l10n_br_coa.account_tag_revenue_financial,Resultado / Receitas Financeiras,accounts,base.br
+l10n_br_coa.account_tag_expenses_financial,Resultado / (-) Despesas Financeiras,accounts,base.br
+l10n_br_coa.account_tag_other_operating_results,Resultado / Outras Receitas e Despesas Operacionais,accounts,base.br
+l10n_br_coa.account_tag_expense_csll,Resultado / (-) Contribuição Social sobre o Lucro Líquido,accounts,base.br
+l10n_br_coa.account_tag_expense_irpj,Resultado / (-) Imposto de Renda da Pessoa Jurídica,accounts,base.br
+l10n_br_coa.account_tag_compensation_assets,Compensação / Ativo,accounts,base.br
+l10n_br_coa.account_tag_compensation_liability,Compensação / Passivo,accounts,base.br
+l10n_br_coa.account_tag_production_cost,Custos de Produção / Apropriação,accounts,base.br
+l10n_br_coa.account_tag_production_transfer,Custos de Produção / (-) Transferência para Estoque,accounts,base.br
+l10n_br_coa.account_tag_result,Resultado / Contas de Resultado (todas),accounts,base.br
+l10n_br_coa.account_tag_cash_and_equivalents,Fluxo de Caixa / Caixa e Equivalentes de Caixa,accounts,base.br
+l10n_br_coa.account_tag_cash_flow_operating,Fluxo de Caixa / Atividades Operacionais,accounts,base.br
+l10n_br_coa.account_tag_cash_flow_investing,Fluxo de Caixa / Atividades de Investimento,accounts,base.br
+l10n_br_coa.account_tag_cash_flow_financing,Fluxo de Caixa / Atividades de Financiamento,accounts,base.br
+l10n_br_coa.account_tag_cash_flow_non_cash,Fluxo de Caixa / Não Afeta o Caixa,accounts,base.br
+l10n_br_coa.account_tag_depreciation_expense,"Ajuste ao Resultado / Depreciação, Amortização e Exaustão",accounts,base.br
+l10n_br_coa.account_tag_provision_expense,Ajuste ao Resultado / Constituição e Reversão de Provisões,accounts,base.br
+l10n_br_coa.account_tag_equity_method_result,Ajuste ao Resultado / Resultado de Equivalência Patrimonial,accounts,base.br
+l10n_br_coa.account_tag_disposal_result,Ajuste ao Resultado / Resultado na Baixa de Ativo,accounts,base.br
+l10n_br_coa.account_tag_equity_valuation_adjustment,Patrimônio Líquido / Ajustes de Avaliação Patrimonial,accounts,base.br
+l10n_br_coa.account_tag_oci_translation,Resultado Abrangente / Variação Cambial de Investimento no Exterior,accounts,base.br
+l10n_br_coa.account_tag_oci_hedge,Resultado Abrangente / Hedge de Fluxo de Caixa,accounts,base.br
+l10n_br_coa.account_tag_oci_actuarial,Resultado Abrangente / Ganhos e Perdas Atuariais,accounts,base.br
+l10n_br_coa.account_tag_oci_fair_value,Resultado Abrangente / Ajuste a Valor Justo,accounts,base.br
+l10n_br_coa.account_tag_dva_inputs,Valor Adicionado / Insumos Adquiridos de Terceiros,accounts,base.br
+l10n_br_coa.account_tag_dva_personnel,Valor Adicionado / Pessoal,accounts,base.br
+l10n_br_coa.account_tag_dva_taxes,"Valor Adicionado / Impostos, Taxas e Contribuições",accounts,base.br
+l10n_br_coa.account_tag_dva_third_party_capital,Valor Adicionado / Remuneração de Capitais de Terceiros,accounts,base.br
+l10n_br_coa.account_tag_dva_own_capital,Valor Adicionado / Remuneração de Capitais Próprios,accounts,base.br
+l10n_br_coa.account_tag_dva_transfer,Valor Adicionado / Recebido em Transferência,accounts,base.br
+l10n_br_coa.account_tag_cash_flow_result_adjustment,Fluxo de Caixa / Neutralizado por Ajuste ao Resultado,accounts,base.br
+l10n_br_coa.account_tag_dva_taxes_federal,Valor Adicionado / Impostos Federais,accounts,base.br
+l10n_br_coa.account_tag_dva_taxes_state,Valor Adicionado / Impostos Estaduais,accounts,base.br
+l10n_br_coa.account_tag_dva_taxes_municipal,Valor Adicionado / Impostos Municipais,accounts,base.br
