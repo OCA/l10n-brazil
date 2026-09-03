@@ -894,11 +894,24 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             "cofinsst_value": tax_dict.get("tax_value", 0.00),
         }
 
-    @api.depends("product_id", "uom_id")
+    @api.depends("product_id", "uom_id", "ncm_id")
     def _compute_uot_id(self):
+        """Taxable unit of the line: product, then NCM, then commercial unit.
+
+        In foreign trade the uTrib has to follow the unit the SEFAZ table fixes
+        for the NCM, which is not the commercial unit of the product: a NCM
+        measured in kilogram on a product sold by the piece is refused with
+        rejection 817, and only after transmitting. Falling back to the NCM
+        makes that rule reach every product of the class at once, and the unit
+        on the product keeps winning for the exceptions.
+        """
         for line in self:
-            p = line.product_id
-            line.uot_id = (p.uot_id if p else False) or line.uom_id
+            product = line.product_id
+            line.uot_id = (
+                (product.uot_id if product else False)
+                or line.ncm_id.uot_id
+                or line.uom_id
+            )
 
     @api.depends("price_unit")
     def _compute_fiscal_price(self):
