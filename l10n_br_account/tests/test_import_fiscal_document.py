@@ -14,7 +14,11 @@ class TestImportFiscalDocument(AccountMoveBRCommon):
         super().setUpClass()
         cls.document_type_55 = cls.env.ref("l10n_br_fiscal.document_55")
         if "l10n_latam.document.type" in cls.env:
-            cls._mirror_latam_document_type()
+            # Without a matching l10n_latam.document.type the import leaves
+            # l10n_latam_document_type_id empty and the form then raises
+            # "l10n_latam_document_type_id is a required field" as soon as the
+            # journal uses documents (l10n_latam_invoice_document installed).
+            cls._mirror_latam_document_type(cls.document_type_55)
         cls.fiscal_document_to_import = cls.env["l10n_br_fiscal.document"].create(
             {
                 "fiscal_operation_id": cls.env.ref("l10n_br_fiscal.fo_compras").id,
@@ -39,20 +43,23 @@ class TestImportFiscalDocument(AccountMoveBRCommon):
                 ).id,
             }
         )
+        # Let the import without sudo below run with the rights of a regular
+        # billing user only.
+        cls.env.user.groups_id |= cls.env.ref("account.group_account_invoice")
 
     @classmethod
-    def _mirror_latam_document_type(cls):
+    def _mirror_latam_document_type(cls, document_type):
         fiscal_country = cls.company_data["company"].account_fiscal_country_id
         domain = [
-            ("code", "=", cls.document_type_55.code),
+            ("code", "=", document_type.code),
             ("country_id", "=", fiscal_country.id),
         ]
         if cls.env["l10n_latam.document.type"].search_count(domain):
             return
         cls.env["l10n_latam.document.type"].create(
             {
-                "name": cls.document_type_55.name,
-                "code": cls.document_type_55.code,
+                "name": document_type.name,
+                "code": document_type.code,
                 "country_id": fiscal_country.id,
                 "internal_type": "invoice",
                 "doc_code_prefix": "NFe",
@@ -87,4 +94,20 @@ class TestImportFiscalDocument(AccountMoveBRCommon):
             self.assertEqual(
                 move.l10n_latam_document_number,
                 self.fiscal_document_to_import.document_number,
+            )
+
+    def test_import_without_sudo(self):
+        # The very same import as a regular billing user: this only passes
+        # because the ir.rule domain override in models/ir_rule.py keys its
+        # ormcache on the allow_fiscal_access context (and fills the LATAM
+        # fields the same way as the sudo import).
+        move_form = self.env["account.move"].import_fiscal_document(
+            self.fiscal_document_to_import, move_type="in_invoice"
+        )
+        move = self.env["account.move"].sudo().browse(move_form.id)
+        self.assertEqual(move.move_type, "in_invoice")
+        self.assertEqual(move.fiscal_document_id, self.fiscal_document_to_import)
+        if move.l10n_latam_use_documents:
+            self.assertEqual(
+                move.l10n_latam_document_type_id.code, self.document_type_55.code
             )
