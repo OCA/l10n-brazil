@@ -977,8 +977,8 @@ class NFe(spec_models.StackedModel):
     @api.model
     def _build_attr(self, node, fields, vals, path, attr):
         key = f"nfe40_{attr[1].metadata.get('name', attr[0])}"
-        if key == "nfe40_IBSCBSTot":
-            # IBSCBSTot fields are computed from lines, skip importing
+        if key in ("nfe40_IBSCBSTot", "nfe40_ISTot"):
+            # IBSCBSTot/ISTot totals are computed from lines, skip importing
             return
         return super()._build_attr(node, fields, vals, path, attr)
 
@@ -1031,6 +1031,12 @@ class NFe(spec_models.StackedModel):
             if company_vat != emit_vat:
                 vals["issuer"] = "partner"
             new_value["vat"] = emit_vat
+            # Capture the emitente's tax regime (CRT) into the supplier
+            # partner's tax_framework (Simples Nacional vs Regime Normal),
+            # which drives the tax mapping and SPED reporting.
+            crt = getattr(value, "CRT", None)
+            if crt is not None:
+                new_value["tax_framework"] = str(getattr(crt, "value", crt))
             super()._build_many2one(
                 self.env["res.partner"], vals, new_value, "partner_id", value, path
             )
