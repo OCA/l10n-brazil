@@ -18,11 +18,11 @@ No network access: every SEFAZ round trip goes through the XML fixtures under
 ``tests/mocks`` via the shared ``nfe_mock`` helper.
 """
 
+import importlib.resources
 from types import SimpleNamespace
 from unittest import mock
 
 import nfelib
-import pkg_resources
 from erpbrasil.assinatura import misc
 from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
 
@@ -399,10 +399,12 @@ class TestNFeWorkflowImportedDocument(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
-        nfe_stream = pkg_resources.resource_stream(
-            nfelib.__name__, "/".join(NFELIB_SAMPLE)
+        binding = TnfeProc.from_xml(
+            importlib.resources.files(nfelib.__name__)
+            .joinpath(*NFELIB_SAMPLE)
+            .read_bytes()
+            .decode()
         )
-        binding = TnfeProc.from_xml(nfe_stream.read().decode())
         cls.imported = cls.env["l10n_br_fiscal.document"].import_binding_nfe(
             binding, edoc_type="in", dry_run=False
         )
