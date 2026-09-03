@@ -1,11 +1,37 @@
 # Copyright 2020 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models
+from odoo import _, api, models
 
 
 class AccountChartTemplate(models.Model):
     _inherit = "account.chart.template"
+
+    @api.model
+    def _prepare_transfer_account_template(self, prefix=None):
+        """A conta de transferência nasce classificada e com nome em português.
+
+        Ela não é declarada pelo plano: o core a cria sozinho ao carregar a
+        escrituração, procurando o primeiro código livre depois do
+        `transfer_account_code_prefix`. Declará-la no plano não substitui a do
+        core, faz o core criar uma SEGUNDA ao lado, porque ele desiste do
+        código que já encontrou ocupado.
+
+        O ajuste tem que ser aqui, então. Sem a classificação a conta fica de
+        fora dos relatórios contábeis, que selecionam por etiqueta, e uma
+        transferência entre bancos ainda em trânsito no fim do período apareceria
+        como diferença sem explicação no Balanço e na demonstração dos fluxos de
+        caixa. Ela é caixa e equivalentes: é conta de passagem entre duas contas
+        de liquidez.
+        """
+        vals = super()._prepare_transfer_account_template(prefix=prefix)
+        tag = self.env.ref(
+            "l10n_br_coa.account_tag_cash_and_equivalents", raise_if_not_found=False
+        )
+        if tag:
+            vals["name"] = _("Transferência entre Contas de Liquidez")
+            vals["tag_ids"] = [(4, tag.id)]
+        return vals
 
     def _prepare_all_journals(self, acc_template_ref, company, journals_dict=None):
         self.ensure_one()

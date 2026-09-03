@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="1">
+    <!--
+      Relatórios prontos para usar. Sem eles o módulo entregava só os modelos,
+      e cada usuário tinha que montar coluna por coluna antes de ver qualquer
+      número.
+
+      As colunas são declaradas por período RELATIVO à data base do relatório,
+      nunca por data fixa: assim o mesmo relatório serve todo mês e todo
+      exercício, sem manutenção. Mudar a data base do relatório reposiciona
+      todas as colunas de uma vez.
+
+      Cada relatório aqui responde a uma exigência concreta:
+
+      - o comparativo com o exercício anterior é o que a Lei 6.404/76 manda
+        publicar (art. 176, § 1º: as demonstrações de cada exercício são
+        publicadas com a indicação dos valores correspondentes do exercício
+        anterior);
+      - o mês com acumulado é o acompanhamento gerencial corrente, no mesmo
+        recorte da apuração mensal de ICMS, IPI, PIS e COFINS;
+      - o trimestral é o período em que se apura IRPJ e CSLL no lucro
+        presumido e no lucro real trimestral (Lei 9.430/96, art. 1º), e é a
+        competência dos registros P030 e K030 da ECF.
+
+      `company_id` fica vazio de propósito: a regra de registro do mis_builder
+      trata empresa vazia como disponível em qualquer empresa, e o relatório
+      lê os dados da empresa em que o usuário estiver.
+
+      O Balanço só fecha em coluna que cubra o exercício (exercício inteiro ou
+      acumulado desde 1º de janeiro), porque o resultado do período é lido do
+      movimento das contas de resultado. Por isso não há Balanço de mês
+      isolado aqui.
+    -->
+    <record id="instance_bp_exercicio" model="mis.report.instance">
+        <field name="name">Balanço Patrimonial - exercício atual e anterior</field>
+        <field name="report_id" ref="bp" />
+        <field name="sequence">10</field>
+        <field name="company_id" eval="False" />
+        <field name="target_move">posted</field>
+        <field name="comparison_mode" eval="True" />
+        <field name="display_columns_description" eval="True" />
+    </record>
+
+    <record id="instance_bp_exercicio_ant" model="mis.report.instance.period">
+        <field name="name">Exercício anterior</field>
+        <field name="report_instance_id" ref="instance_bp_exercicio" />
+        <field name="source">actuals</field>
+        <field name="mode">relative</field>
+        <field name="sequence">10</field>
+        <field name="type">y</field>
+        <field name="offset">-1</field>
+        <field name="duration">1</field>
+    </record>
+
+    <record id="instance_bp_exercicio_atual" model="mis.report.instance.period">
+        <field name="name">Exercício atual</field>
+        <field name="report_instance_id" ref="instance_bp_exercicio" />
+        <field name="source">actuals</field>
+        <field name="mode">relative</field>
+        <field name="sequence">20</field>
+        <field name="type">y</field>
+        <field name="offset">0</field>
+        <field name="duration">1</field>
+    </record>
+
+    <record id="instance_bp_exercicio_var" model="mis.report.instance.period">
+        <field name="name">Variação</field>
+        <field name="report_instance_id" ref="instance_bp_exercicio" />
+        <field name="source">cmpcol</field>
+        <field name="mode">none</field>
+        <field name="sequence">30</field>
+        <field name="source_cmpcol_from_id" ref="instance_bp_exercicio_ant" />
+        <field name="source_cmpcol_to_id" ref="instance_bp_exercicio_atual" />
+    </record>
+
+    <record id="instance_dre_exercicio" model="mis.report.instance">
+        <field name="name">DRE - exercício atual e anterior</field>
+        <field name="report_id" ref="dre" />
+        <field name="sequence">20</field>
+        <field name="company_id" eval="False" />
+        <field name="target_move">posted</field>
+        <field name="comparison_mode" eval="True" />
+        <field name="display_columns_description" eval="True" />
+    </record>
+
+    <record id="instance_dre_exercicio_ant" model="mis.report.instance.period">
+        <field name="name">Exercício anterior</field>
+        <field name="report_instance_id" ref="instance_dre_exercicio" />
+        <field name="source">actuals</field>
+        <field name="mode">relative</field>
+        <field name="sequence">10</field>
+        <field name="type">y</field>
+        <field name="offset">-1</field>
+        <field name="duration">1</field>
+    </record>
+
+    <record id="instance_dre_exercicio_atual" model="mis.report.instance.period">
+        <field name="name">Exercício atual</field>
+        <field name="report_instance_id" ref="instance_dre_exercicio" />
+        <field name="source">actuals</field>
+        <field name="mode">relative</field>
+        <field name="sequence">20</field>
+        <field name="type">y</field>
+        <field name="offset">0</field>
+        <field name="duration">1</field>
+    </record>
+
+    <record id="instance_dre_exercicio_var" model="mis.report.instance.period">
+        <field name="name">Variação</field>
+        <field name="report_instance_id" ref="instance_dre_exercicio" />
+        <field name="source">cmpcol</field>
+        <field name="mode">none</field>
+        <field name="sequence">30</field>
+        <field name="source_cmpcol_from_id" ref="instance_dre_exercicio_ant" />
+        <field name="source_cmpcol_to_id" ref="instance_dre_exercicio_atual" />
+    </record>
+
+    <record id="instance_dre_mensal" model="mis.report.instance">
+        <field name="name">DRE - mês e acumulado no exercício</field>
+        <field name="report_id" ref="dre" />
+        <field name="sequence">30</field>
+        <field name="company_id" eval="False" />
+        <field name="target_move">posted</field>
+        <field name="comparison_mode" eval="True" />
+        <field name="display_columns_description" eval="True" />
+    </record>
+
+    <record id="instance_dre_mensal_mes_ant" model="mis.report.instance.period">
+        <field name="name">Mesmo mês do exercício anterior</field>
+        <field name="report_instance_id" ref="instance_dre_mensal" />
+        <field name="source">actuals</field>
+        <field name="mode">relative</field>
+        <field name="sequence">10</field>
+        <field name="type">m</field>
+        <field name="offset">-12</field>
+        <field name="duration">1</field>
+    </record>
+
+    <record id="instance_dre_mensal_acum_ant" model="mis.report.instance.period">
+        <field name="name">Acumulado do exercício anterior</field>
+        <field name="report_instance_id" ref="instance_dre_mensal" />
+        <field name="source">actuals</field>
+        <field name="mode">relative</field>
+        <field name="sequence">20</field>
+        <field name="type">m</field>
+        <field name="offset">-12</field>
+        <field name="duration">1</field>
+        <field name="is_ytd" eval="True" />
+    </record>
+
+    <record id="instance_dre_mensal_mes" model="mis.report.instance.period">
+        <field name="name">Mês</field>
+        <field name="report_instance_id" ref="instance_dre_mensal" />
+        <field name="source">actuals</field>
+        <field name="mode">relative</field>
+        <field name="sequence">30</field>
+        <field name="type">m</field>
+        <field name="offset">0</field>
+        <field name="duration">1</field>
+    </record>
+
+    <record id="instance_dre_mensal_acum" model="mis.report.instance.period">
+        <field name="name">Acumulado no exercício</field>
+        <field name="report_instance_id" ref="instance_dre_mensal" />
+        <field name="source">actuals</field>
+        <field name="mode">relative</field>
+        <field name="sequence">40</field>
+        <field name="type">m</field>
+        <field name="offset">0</field>
+        <field name="duration">1</field>
+        <field name="is_ytd" eval="True" />
+    </record>
+
+    <record id="instance_dre_trimestral" model="mis.report.instance">
+        <field name="name">DRE - trimestral (apuração do IRPJ e da CSLL)</field>
+        <field name="report_id" ref="dre" />
+        <field name="sequence">40</field>
+        <field name="company_id" eval="False" />
+        <field name="target_move">posted</field>
+        <field name="comparison_mode" eval="True" />
+        <field name="display_columns_description" eval="True" />
+    </record>
+
+    <record id="instance_dre_trimestral_tri_ant_ano" model="mis.report.instance.period">
+        <field name="name">Mesmo trimestre do exercício anterior</field>
+        <field name="report_instance_id" ref="instance_dre_trimestral" />
+        <field name="source">actuals</field>
+        <field name="mode">relative</field>
+        <field name="sequence">10</field>
+        <field name="type">date_range</field>
+        <field name="date_range_type_id" ref="date_range_type_trimestre" />
+        <field name="offset">-4</field>
+        <field name="duration">1</field>
+    </record>
+
+    <record id="instance_dre_trimestral_tri_ant" model="mis.report.instance.period">
+        <field name="name">Trimestre anterior</field>
+        <field name="report_instance_id" ref="instance_dre_trimestral" />
+        <field name="source">actuals</field>
+        <field name="mode">relative</field>
+        <field name="sequence">20</field>
+        <field name="type">date_range</field>
+        <field name="date_range_type_id" ref="date_range_type_trimestre" />
+        <field name="offset">-1</field>
+        <field name="duration">1</field>
+    </record>
+
+    <record id="instance_dre_trimestral_tri" model="mis.report.instance.period">
+        <field name="name">Trimestre atual</field>
+        <field name="report_instance_id" ref="instance_dre_trimestral" />
+        <field name="source">actuals</field>
+        <field name="mode">relative</field>
+        <field name="sequence">30</field>
+        <field name="type">date_range</field>
+        <field name="date_range_type_id" ref="date_range_type_trimestre" />
+        <field name="offset">0</field>
+        <field name="duration">1</field>
+    </record>
+
+</odoo>

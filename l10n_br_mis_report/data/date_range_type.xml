@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="1">
+    <!--
+      Períodos com que a legislação brasileira manda apurar e demonstrar.
+
+      Eles existem para que as colunas dos relatórios sejam declaradas pelo
+      PERÍODO FISCAL, e não por uma janela móvel de meses. A diferença aparece
+      no trimestre: "os últimos três meses" só coincide com o trimestre de
+      apuração quando a data base cai no fim do trimestre; o trimestre civil
+      coincide sempre, que é o que o IRPJ e a CSLL exigem.
+
+      A geração é automática: o `date_range` já traz um cron diário
+      (`autogenerate_ranges`) que estende cada tipo até o horizonte declarado
+      aqui. A data inicial é relativa à instalação, com dois exercícios de
+      histórico, porque toda demonstração brasileira é comparada com o
+      exercício anterior e sem esse histórico a coluna comparativa nasceria
+      vazia.
+
+      `allow_overlap` fica em falso (o padrão) de propósito: o mis_builder só
+      aceita tipo de período sem sobreposição, porque uma data pertenceria a
+      dois períodos e a coluna ficaria ambígua.
+    -->
+
+    <!--
+      Mês de competência. É o período da apuração de ICMS, IPI, PIS e COFINS,
+      da escrituração mensal do SPED e do acompanhamento gerencial.
+    -->
+    <record id="date_range_type_mes" model="date.range.type">
+        <field name="name">Mês de competência</field>
+        <field name="company_id" eval="False" />
+        <field name="duration_count">1</field>
+        <!-- dateutil.rrule: 0 anual, 1 mensal, 2 semanal, 3 diário -->
+        <field name="unit_of_time">1</field>
+        <field name="name_expr">"%02d/%d" % (date_start.month, date_start.year)</field>
+        <field
+            name="autogeneration_date_start"
+            eval="(DateTime.today() + relativedelta(years=-2, month=1, day=1)).strftime('%Y-%m-%d')"
+        />
+        <field name="autogeneration_count">1</field>
+        <field name="autogeneration_unit">0</field>
+    </record>
+
+    <!--
+      Trimestre civil. É o período de apuração do IRPJ e da CSLL no lucro
+      presumido e no lucro real trimestral (Lei 9.430/96, art. 1º), e é a
+      competência dos registros P030 e K030 da ECF.
+
+      Começa em 1º de janeiro para que os trimestres caiam em jan-mar,
+      abr-jun, jul-set e out-dez. Uma data inicial em outro mês produziria
+      trimestres deslocados, que fecham a soma do ano mas não correspondem a
+      nenhuma apuração.
+    -->
+    <record id="date_range_type_trimestre" model="date.range.type">
+        <field name="name">Trimestre de apuração</field>
+        <field name="company_id" eval="False" />
+        <field name="duration_count">3</field>
+        <field name="unit_of_time">1</field>
+        <field
+            name="name_expr"
+        >"%dT%d" % ((date_start.month - 1) // 3 + 1, date_start.year)</field>
+        <field
+            name="autogeneration_date_start"
+            eval="(DateTime.today() + relativedelta(years=-2, month=1, day=1)).strftime('%Y-%m-%d')"
+        />
+        <field name="autogeneration_count">1</field>
+        <field name="autogeneration_unit">0</field>
+    </record>
+
+    <!--
+      Exercício social. A lei o define com duração de um ano (Lei 6.404/76,
+      art. 175); aqui ele coincide com o ano civil, que é o caso da quase
+      totalidade das empresas brasileiras. Quem encerra em outro mês ajusta a
+      data inicial deste tipo.
+    -->
+    <record id="date_range_type_exercicio" model="date.range.type">
+        <field name="name">Exercício social</field>
+        <field name="company_id" eval="False" />
+        <field name="duration_count">1</field>
+        <field name="unit_of_time">0</field>
+        <field name="name_expr">"%d" % date_start.year</field>
+        <field
+            name="autogeneration_date_start"
+            eval="(DateTime.today() + relativedelta(years=-2, month=1, day=1)).strftime('%Y-%m-%d')"
+        />
+        <field name="autogeneration_count">1</field>
+        <field name="autogeneration_unit">0</field>
+    </record>
+
+    <!--
+      Gera os períodos já na instalação. O `date_range` traz um cron diário
+      que estende os tipos com autogeração configurada, mas ele só roda no dia
+      seguinte: sem esta chamada, o relatório trimestral abriria vazio até lá,
+      e quem instalasse o módulo concluiria que ele não funciona.
+    -->
+    <function model="date.range.type" name="autogenerate_ranges" />
+</odoo>
