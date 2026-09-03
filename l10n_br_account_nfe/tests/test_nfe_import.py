@@ -65,6 +65,9 @@ class NFeImportTest(TransactionCase):
         with Form(wizard) as import_form:
             import_form.file = base64.b64encode(file_content)
             import_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras")
+            # this scenario asserts the legacy end to end flow, where the
+            # products of the file are created by the import itself
+            import_form.allow_product_creation = True
             lines = import_form.imported_products_ids._records
         for line in lines:  # ensure testing consistency
             del line["id"]
@@ -245,6 +248,82 @@ class NFeImportTest(TransactionCase):
         self.assertAlmostEqual(move.due_line_ids[1].credit, 4075.95, places=2)
         self.assertAlmostEqual(move.due_line_ids[2].credit, 4075.96, places=2)
 
+    def test_generate_move_from_resolved_document(self):
+        """The vendor bill is generated from the resolved imported document
+        itself, without going through the wizard (queue flow)."""
+        file_path = os.path.join(
+            l10n_br_account_nfe.__path__[0],
+            "tests",
+            "nfe",
+            "35231149647316000169550010000661061151600085-nfe.xml",
+        )
+        with open(file_path, "rb") as file:
+            file_content = file.read()
+
+        wizard = self.env["l10n_br_fiscal.document.import.wizard"].create({})
+        with Form(wizard) as import_form:
+            import_form.file = base64.b64encode(file_content)
+            import_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras")
+            # this scenario asserts the legacy end to end flow, where the
+            # products of the file are created by the import itself
+            import_form.allow_product_creation = True
+
+        # materialize the draft only (no move yet)
+        _binding, document = wizard._import_edoc()
+        self.assertFalse(document.move_ids)
+
+        # the queue flow: the reviewer confirms every line, then generates
+        document.fiscal_line_ids.action_resolve_line()
+        self.assertEqual(document.import_state, "resolved")
+
+        action = document.action_generate_account_move()
+        move = self.env["account.move"].browse(action["res_id"])
+        self.assertEqual(move.fiscal_document_id, document)
+        self.assertEqual(move.move_type, "in_invoice")
+        self.assertEqual(len(move.invoice_line_ids), 4)
+
+    def test_generate_move_guards(self):
+        """Generating the invoice from the document is guarded: every line
+        must be resolved (a matched suggestion is not a confirmed one) and
+        the document must not already have a move."""
+        file_path = os.path.join(
+            l10n_br_account_nfe.__path__[0],
+            "tests",
+            "nfe",
+            "35231149647316000169550010000661061151600085-nfe.xml",
+        )
+        with open(file_path, "rb") as file:
+            file_content = file.read()
+
+        wizard = self.env["l10n_br_fiscal.document.import.wizard"].create({})
+        with Form(wizard) as import_form:
+            import_form.file = base64.b64encode(file_content)
+            import_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras")
+            # this scenario asserts the legacy end to end flow, where the
+            # products of the file are created by the import itself
+            import_form.allow_product_creation = True
+        _binding, document = wizard._import_edoc()
+        document.fiscal_line_ids.action_resolve_line()
+
+        # a line only "matched" (suggestion waiting for a human) blocks it
+        line = document.fiscal_line_ids[0]
+        line.import_state = "matched"
+        self.assertEqual(document.import_state, "in_progress")
+        with self.assertRaises(UserError):
+            document.action_generate_account_move()
+
+        line.import_state = "resolved"
+        document.action_generate_account_move()
+        self.assertTrue(document.move_ids)
+
+        # generating twice would duplicate the accounting entry
+        with self.assertRaises(UserError):
+            document.action_generate_account_move()
+
+        # and the operation cascade is refused on a document with a move
+        with self.assertRaises(UserError):
+            document.action_apply_operation_to_lines()
+
     def test_import_incomplete_document_is_blocked(self):
         """A document with a line missing its product/uom/qty/price must not
         be importable into an account move (SPED data integrity)."""
@@ -261,6 +340,9 @@ class NFeImportTest(TransactionCase):
         with Form(wizard) as import_form:
             import_form.file = base64.b64encode(file_content)
             import_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras")
+            # this scenario asserts the legacy end to end flow, where the
+            # products of the file are created by the import itself
+            import_form.allow_product_creation = True
 
         _binding, document = wizard._import_edoc()
         # Break one line to simulate an unmatched product.

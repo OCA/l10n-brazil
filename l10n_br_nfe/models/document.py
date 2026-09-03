@@ -1633,12 +1633,40 @@ class NFe(spec_models.StackedModel):
 
         self.file_report_id = self.env["ir.attachment"].create(attachment_data)
 
+    def _nfe_import_context(self, edoc_type, dry_run=False):
+        """Context of the NFe import, including the record creation policy.
+
+        Product creation is a supervised action in the draft-first flow:
+        with ``allow_product_creation=False`` in the context an unmatched
+        product is left empty and the line waits in the review queue,
+        instead of a catalog entry appearing as a side effect of an import.
+
+        The policy is expressed with the keys of the spec_driven_model
+        creation policy (``spec_create_forbidden_models``, PR
+        OCA/l10n-brazil#4938) so both designs share a single lever: the
+        draft-first flow is the ``skip`` mode of that policy. While #4938 is
+        not merged, the same decision is carried by ``dont_create_products``,
+        which the l10n_br_nfe product.product override understands.
+
+        The default stays permissive so the DF-e capture and the demo hooks
+        keep their current behavior; the import wizard is what asks for the
+        supervised mode.
+        """
+        ctx = {"tracking_disable": True, "edoc_type": edoc_type}
+        if self.env.context.get("allow_product_creation", True):
+            return ctx
+        ctx["spec_create_forbidden_models"] = {"product.product": "skip"}
+        if not hasattr(self.env["spec.mixin"], "_spec_import_can_create"):
+            ctx["dont_create_products"] = True
+        return ctx
+
     def import_binding_nfe(self, binding, edoc_type="in", dry_run=False):
+        """Build a fiscal document from an NFe binding."""
         if hasattr(binding, "NFe"):
             binding = binding.NFe
         document = (
             self.env["nfe.40.infnfe"]
-            .with_context(tracking_disable=True, edoc_type=edoc_type)
+            .with_context(**self._nfe_import_context(edoc_type, dry_run))
             .build_from_binding("nfe", "40", binding.infNFe, dry_run=dry_run)
         )
 
@@ -1647,6 +1675,13 @@ class NFe(spec_models.StackedModel):
         ):
             document.fiscal_operation_type = "in"
             document.issuer = "partner"
+
+        if not dry_run:
+            # every importer lands in the same review queue: the per-line
+            # states are initialized here, at the single point where a
+            # document is materialized from a binding, so the DF-e capture
+            # and the zip batch get it without going through the wizard
+            document._init_import_states()
 
         return document
 

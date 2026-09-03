@@ -2,7 +2,9 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import base64
+import io
 import logging
+import zipfile
 
 from erpbrasil.base.fiscal.cnpj_cpf import validar_cnpj, validar_cpf
 from erpbrasil.base.fiscal.edoc import detectar_chave_edoc
@@ -37,6 +39,16 @@ class DocumentImportWizard(models.TransientModel):
     )
 
     file = fields.Binary(string="File to Import")
+
+    allow_product_creation = fields.Boolean(
+        string="Create unmapped products",
+        default=False,
+        help="If enabled, products that do not match an existing record are "
+        "created during the import. If disabled (default), the unmatched "
+        "line lands in the review queue, where it is either linked to an "
+        "existing product or used to create one: a catalog entry is never a "
+        "side effect of an import.",
+    )
 
     date_in_out = fields.Datetime(
         default=fields.Datetime.now,
@@ -112,17 +124,24 @@ class DocumentImportWizard(models.TransientModel):
         Raises:
             UserError: If neither CNPJ nor legal name/name is provided.
         """
+        domain = []
         if cnpj:
             if validar_cnpj(cnpj):
                 domain = [("is_company", "=", True)]
             elif validar_cpf(cnpj):
                 domain = [("is_company", "=", False)]
             domain.append(("cnpj_cpf_stripped", "=", punctuation_rm(cnpj)))
-        elif legal_name or name:
-            domain = [("is_company", "=", True)]
-            domain.append(
-                ["|", ("legal_name", "ilike", legal_name), ("name", "ilike", name)]
-            )
+        elif legal_name and name:
+            domain = [
+                ("is_company", "=", True),
+                "|",
+                ("legal_name", "ilike", legal_name),
+                ("name", "ilike", name),
+            ]
+        elif legal_name:
+            domain = [("is_company", "=", True), ("legal_name", "ilike", legal_name)]
+        elif name:
+            domain = [("is_company", "=", True), ("name", "ilike", name)]
         else:
             raise UserError(_("No CNPJ or Legal Name to search for a partner!"))
         return self.env["res.partner"].search(domain, limit=1)
@@ -137,9 +156,53 @@ class DocumentImportWizard(models.TransientModel):
             self.document_id.date_in_out = self.date_in_out
         return binding, self.document_id
 
-    def action_import_and_open_document(self):  # TODO used?
+    def action_import_and_open_document(self):
+        if self._file_is_zip():
+            documents = self._import_edoc_batch()
+            if len(documents) == 1:
+                self.document_id = documents
+                return self.action_open_document()
+            return {
+                "type": "ir.actions.act_window",
+                "name": _("Imported Documents"),
+                "res_model": "l10n_br_fiscal.document",
+                "view_mode": "tree,form",
+                "domain": [("id", "in", documents.ids)],
+            }
         self._import_edoc()
         return self.action_open_document()
+
+    def _import_edoc_batch(self):
+        """Import every fiscal file of the uploaded zip archive: each entry
+        is processed by the regular single-file path and lands as a
+        persisted document waiting for review."""
+        self.ensure_one()
+        documents = self.env["l10n_br_fiscal.document"]
+        errors = []
+        archive = zipfile.ZipFile(io.BytesIO(base64.b64decode(self.file)))
+        for name in archive.namelist():
+            if not name.lower().endswith(".xml"):
+                continue
+            entry = self.copy({"file": base64.b64encode(archive.read(name)).decode()})
+            try:
+                # each entry runs inside its own savepoint: without it, an
+                # entry that violates a database constraint (a duplicate
+                # document key, say) poisons the transaction and every file
+                # after it fails with "current transaction is aborted",
+                # reported as a per-file error that hides the real cause
+                with self.env.cr.savepoint():
+                    entry._onchange_file()
+                    entry._import_edoc()
+                    documents |= entry.document_id
+            except Exception as error:  # noqa: BLE001 - report per entry
+                errors.append(f"{name}: {error}")
+        if errors and not documents:
+            raise UserError(
+                _("No file of the archive could be imported:\n%s") % "\n".join(errors)
+            )
+        if errors:
+            _logger.warning("Zip import: %s file(s) skipped: %s", len(errors), errors)
+        return documents
 
     def _destination_partner_from_binding(self, binding):
         pass
@@ -161,8 +224,17 @@ class DocumentImportWizard(models.TransientModel):
 
     @api.onchange("file")
     def _onchange_file(self):
-        if self.file:
+        if self.file and not self._file_is_zip():
             self._fill_wizard_from_binding()
+
+    def _file_is_zip(self):
+        """A zip archive with several fiscal files can be imported at once:
+        each entry lands as a document waiting for review."""
+        if not self.file:
+            return False
+        # only the prefix is decoded: the whole payload may be a large
+        # archive and this runs on every onchange of the file
+        return base64.b64decode(self.file[:8])[:4] == b"PK\x03\x04"
 
     def _fill_wizard_from_binding(self):
         binding = self._parse_file()
@@ -226,12 +298,30 @@ class DocumentImportWizard(models.TransientModel):
         )
 
     def _find_fiscal_operation(self, cfop, nat_op, fiscal_operation_type):
-        """try to find a matching fiscal operation via an operation line"""
+        """try to find a matching fiscal operation via an operation line
+
+        On an inbound document the file declares the counterparty OUTBOUND
+        CFOP (5xxx/6xxx/7xxx), while the company operation lines reference
+        inbound CFOPs (1xxx/2xxx/3xxx): the lookup goes through the inverse
+        CFOP. On an outbound document the declared CFOP is the company one
+        and is looked up directly.
+        """
+        cfop_record = self.env["l10n_br_fiscal.cfop"].search(
+            [("code", "=", cfop)], limit=1
+        )
+        if fiscal_operation_type == "in":
+            cfop_record = cfop_record.cfop_inverse_id
+        if not cfop_record:
+            return self.env["l10n_br_fiscal.operation"]
         operation_lines = self.env["l10n_br_fiscal.operation.line"].search(
             [
                 ("state", "=", "approved"),
-                ("fiscal_type", "=", fiscal_operation_type),
-                ("cfop_external_id", "=", cfop),
+                ("fiscal_operation_type", "=", fiscal_operation_type),
+                "|",
+                "|",
+                ("cfop_internal_id", "=", cfop_record.id),
+                ("cfop_external_id", "=", cfop_record.id),
+                ("cfop_export_id", "=", cfop_record.id),
             ],
         )
         for line in operation_lines:
@@ -243,18 +333,10 @@ class DocumentImportWizard(models.TransientModel):
     def _match_uom_by_code(self, *codes):
         """Match a fiscal UoM from one or more XML unit codes (uCom/uTrib).
 
-        First try the fiscal ``code`` field, then fall back to the
-        ``uom_alias`` module aliases so that supplier abbreviations
-        (e.g. ``MIL`` -> ``MILHEIRO``, ``UNID`` -> ``Units``) resolve to
-        the company's own UoM.
+        Delegates to ``uom.uom._match_by_fiscal_code`` so the same matching
+        is available outside the wizard (e.g. on the document lines).
         """
-        codes = [code for code in codes if code]
-        if not codes:
-            return self.env["uom.uom"]
-        uom = self.env["uom.uom"].search([("code", "in", codes)], limit=1)
-        if not uom:
-            uom = self.env["uom.uom"].search([("alias_ids.code", "in", codes)], limit=1)
-        return uom
+        return self.env["uom.uom"]._match_by_fiscal_code(*codes)
 
     def _parse_file(self):
         return self._parse_file_data(self.file)

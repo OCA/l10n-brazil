@@ -5,7 +5,6 @@
 # Copyright (C) 2026  Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import base64
 from collections import Counter
 
 from erpbrasil.base.fiscal.cnpj_cpf import formata
@@ -64,22 +63,23 @@ class DocumentImportWizard(models.TransientModel):
         if self.document_type == MODELO_FISCAL_NFE:
             if hasattr(binding, "NFe"):
                 binding = binding.NFe
+            dest = binding.infNFe.dest
+            # the destination can be an individual, identified by CPF
+            dest_cnpj_cpf = dest.CNPJ or dest.CPF
             self.destination_partner_id = self._search_partner(
-                cnpj=binding.infNFe.dest.CNPJ,
-                legal_name=binding.infNFe.dest.xNome,
+                cnpj=dest_cnpj_cpf,
+                legal_name=dest.xNome,
             )
             self.issuer_legal_name = binding.infNFe.emit.xNome
             self.issuer_name = binding.infNFe.emit.xFant
 
-            self.destination_cnpj = formata(binding.infNFe.dest.CNPJ)
-            self.destination_name = binding.infNFe.dest.xNome
+            self.destination_cnpj = formata(dest_cnpj_cpf) if dest_cnpj_cpf else False
+            self.destination_name = dest.xNome
 
     def _parse_file(self):
         binding = super()._parse_file()
         if hasattr(binding, "NFe"):
             binding = binding.NFe
-        if self.document_type == MODELO_FISCAL_NFE:
-            return self._edit_parsed_xml(binding)
         return binding
 
     def _check_xml_data(self, binding):
@@ -264,67 +264,80 @@ class DocumentImportWizard(models.TransientModel):
 
     def _create_edoc_from_file(self):
         if self.document_type == MODELO_FISCAL_NFE:
+            # The document is materialized FAITHFULLY from the file (the
+            # binding is never rewritten); the de-para reviewed in the
+            # wizard grid is then applied on the persisted lines, which is
+            # the single write path (_apply_import_depara).
             binding = self._parse_file()
-            edoc = self.env["l10n_br_fiscal.document"].import_binding_nfe(
-                binding,
-                edoc_type=self.fiscal_operation_type,
+            edoc = (
+                self.env["l10n_br_fiscal.document"]
+                # product creation is a SUPERVISED action: unless the user
+                # ticks the box, an unmatched item lands as a pending line in
+                # the review queue, where it is either linked to an existing
+                # product or used to create one. A catalog entry must never
+                # be a side effect of an import.
+                .with_context(allow_product_creation=self.allow_product_creation)
+                .import_binding_nfe(binding, edoc_type=self.fiscal_operation_type)
             )
             edoc.document_type_id = self.env.ref("l10n_br_fiscal.document_55").id
             edoc.fiscal_operation_id = self.fiscal_operation_id
-            for line in edoc.fiscal_line_ids:
-                # Preserve the XML price_unit because setting
-                # fiscal_operation_id triggers _compute_price_unit_fiscal
-                # which would overwrite it with the product's list/cost price
-                # (which is 0 when the product is created during import).
-                price_unit = line.price_unit
-                line.fiscal_operation_id = self.fiscal_operation_id
-                line.price_unit = price_unit
-                line.uom_id = line.uot_id
 
             if not self.partner_id:
                 self.partner_id = edoc.partner_id
 
-            self._attach_original_nfe_xml_to_document(edoc)
-
-            if self.fiscal_operation_type == "in":
-                self.imported_products_ids._find_or_create_product_supplierinfo()
+            edoc._attach_imported_xml(
+                self.file, f"NFe-Importada-{edoc.document_key}.xml"
+            )
+            # the review states are initialized by import_binding_nfe itself
+            self._apply_wizard_depara(edoc)
 
             return binding, edoc
         return super()._create_edoc_from_file()
 
-    def _attach_original_nfe_xml_to_document(self, edoc):
-        return self.env["ir.attachment"].create(
-            {
-                "name": f"NFe-Importada-{edoc.document_key}.xml",
-                "datas": base64.b64decode(self.file),
-                "description": "XML NFe - Importada por XML",
-                "res_model": "l10n_br_fiscal.document",
-                "res_id": edoc.id,
-            }
-        )
-
-    def _edit_parsed_xml(self, parsed_xml):
-        for product_line in self.imported_products_ids.filtered("product_id"):
-            internal_product = product_line.product_id
-            for xml_product in parsed_xml.infNFe.det:
-                if xml_product.prod.cProd == product_line.product_code:
-                    xml_product.prod.cProd = internal_product.default_code
-                    xml_product.prod.xProd = internal_product.name
-                    xml_product.prod.cEAN = internal_product.barcode or "SEM GTIN"
-                    xml_product.prod.cEANTrib = internal_product.barcode or "SEM GTIN"
-                    xml_product.prod.uCom = product_line.uom_internal.code
-                    xml_product.prod.uTrib = product_line.uom_internal.code
-                    if product_line.new_cfop_id:
-                        xml_product.prod.CFOP = product_line.new_cfop_id.code
-        return parsed_xml
+    def _apply_wizard_depara(self, edoc):
+        """Apply the de-para reviewed in the wizard grid on the persisted
+        document lines (both follow the file line order)."""
+        # both recordsets follow the file line order, one wizard line per det
+        if len(self.imported_products_ids) != len(edoc.fiscal_line_ids):
+            raise UserError(
+                _(
+                    "The reviewed grid has %(wizard)s line(s) and the imported "
+                    "document has %(document)s: the de-para cannot be matched "
+                    "line by line. Reopen the file to import it again."
+                )
+                % {
+                    "wizard": len(self.imported_products_ids),
+                    "document": len(edoc.fiscal_line_ids),
+                }
+            )
+        for wizard_line, line in zip(
+            self.imported_products_ids, edoc.fiscal_line_ids, strict=True
+        ):
+            if wizard_line.product_id:
+                line._apply_import_depara(
+                    product=wizard_line.product_id,
+                    # the legacy flow used the taxation unit as the internal
+                    # unit when no de-para was reviewed
+                    uom=wizard_line.uom_internal or line.uot_id,
+                    factor=wizard_line.uom_conversion_factor,
+                    fiscal_operation=self.fiscal_operation_id,
+                )
+            elif self.fiscal_operation_id:
+                # operation de-para only: the line keeps waiting for the
+                # product review.
+                line.fiscal_operation_id = self.fiscal_operation_id
+            if wizard_line.new_cfop_id:
+                # explicit CFOP override reviewed by the user, applied after
+                # the operation remap.
+                line.cfop_id = wizard_line.new_cfop_id
 
 
 class DocumentImportWizardLine(models.TransientModel):
     """NFe specialization of the generic fiscal import wizard line.
 
     It only adds the NFe specific data: the commercial/tax unit split and
-    the ICMS/IPI taxes read from the XML. It also injects the partner UoM
-    de-para into the generated ``product.supplierinfo``.
+    the ICMS/IPI taxes read from the XML. The supplier info learning now
+    happens on the persisted document line (_apply_import_depara).
     """
 
     _inherit = "l10n_br_fiscal.document.import.wizard.line"
@@ -342,13 +355,3 @@ class DocumentImportWizardLine(models.TransientModel):
     ipi_percent = fields.Char(string="Alíquota IPI")
 
     ipi_value = fields.Char(string="IPI Value")
-
-    def _prepare_supplierinfo_vals(self):
-        vals = super()._prepare_supplierinfo_vals()
-        vals.update(
-            {
-                "partner_uom_id": self.uom_internal.id,
-                "partner_uom_factor": self.uom_conversion_factor,
-            }
-        )
-        return vals
