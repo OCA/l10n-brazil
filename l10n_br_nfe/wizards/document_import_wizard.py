@@ -175,17 +175,19 @@ class DocumentImportWizard(models.TransientModel):
     def _match_product_by_purchase(self, xml_product):
         """Priority match from the referenced purchase order.
 
-        When ``l10n_br_purchase`` is installed and the XML line references the
-        buyer's purchase order (xPed / nItemPed), take the product from the
-        matching purchase order line first: it is the most authoritative match
-        since the buyer already stated which product was ordered.
+        When the XML line references the buyer's purchase order, take the
+        product from the matching purchase order line first: it is the most
+        authoritative match since the buyer already stated which product was
+        ordered.
 
-        Soft dependency: no-op unless l10n_br_purchase is installed (it adds
-        the partner_order / partner_order_line fields to purchase.order.line;
-        core ``purchase`` alone does not provide them).
+        On an inbound supplier NF-e, ``xPed`` holds the buyer's purchase order
+        name and ``nItemPed`` holds the item number inside that order, so they
+        map to ``purchase.order.name`` and ``purchase.order.line.sequence``
+        (NOT to the partner_order / partner_order_line fields, which store the
+        *supplier's* own order reference).
         """
         pol_model = self.env.get("purchase.order.line")
-        if pol_model is None or "partner_order" not in pol_model._fields:
+        if pol_model is None:
             return False
         xped = (getattr(xml_product, "xPed", "") or "").strip()
         if not xped:
@@ -195,40 +197,29 @@ class DocumentImportWizard(models.TransientModel):
         pol = pol_model.sudo()
         nitemped = (getattr(xml_product, "nItemPed", "") or "").strip()
 
-        # 1) exact agreed reference: xPed + nItemPed on the purchase order line
+        # 1) exact reference: buyer PO name + line item number.
         if nitemped:
-            line = pol.search(
-                [
-                    ("order_id.partner_id", "=", partner),
-                    ("partner_order", "=", xped),
-                    ("partner_order_line", "=", nitemped),
-                ],
-                limit=1,
-            )
-            if line:
-                return line.product_id
-
-        # 2) heuristic: narrow to the referenced order (partner_order on the
-        # line, else the buyer PO name / vendor reference), then disambiguate
-        # the line by the XML product code / barcode.
-        lines = pol.search(
-            [("order_id.partner_id", "=", partner), ("partner_order", "=", xped)]
-        )
-        if not lines:
-            order = (
-                self.env["purchase.order"]
-                .sudo()
-                .search(
+            try:
+                sequence = int(nitemped)
+            except ValueError:
+                sequence = None
+            if sequence is not None:
+                line = pol.search(
                     [
-                        ("partner_id", "=", partner),
-                        "|",
-                        ("partner_ref", "=", xped),
-                        ("name", "=", xped),
+                        ("order_id.partner_id", "=", partner),
+                        ("order_id.name", "=", xped),
+                        ("sequence", "=", sequence),
                     ],
                     limit=1,
                 )
-            )
-            lines = order.order_line
+                if line:
+                    return line.product_id
+
+        # 2) heuristic: narrow to the referenced order, then disambiguate the
+        # line by the XML product code / barcode.
+        lines = pol.search(
+            [("order_id.partner_id", "=", partner), ("order_id.name", "=", xped)]
+        )
         if len(lines) == 1:
             return lines.product_id
         cprod = getattr(xml_product, "cProd", None)
@@ -342,6 +333,46 @@ class DocumentImportWizardLine(models.TransientModel):
     ipi_percent = fields.Char(string="Alíquota IPI")
 
     ipi_value = fields.Char(string="IPI Value")
+
+    product_domain = fields.Json(
+        compute="_compute_product_domain",
+        help="Domain applied to the product_id picker (Json so the web "
+        "client evaluates it as an array, not as a Char string).",
+    )
+
+    @api.depends("imported_partner_id", "product_id")
+    def _compute_product_domain(self):
+        """Restrict the selectable products to those ordered from this supplier.
+
+        When a product cannot be auto-matched, the user picks it from the
+        many2one; with the purchase module installed (soft-dependency, like
+        ``_match_product_by_purchase``), propose only the products that have a
+        purchase order line from the NFe supplier with quantity still to be
+        billed — mirroring the legacy akretion importer. The picker stays
+        bounded: core sets ``qty_to_invoice`` to 0 on draft/cancelled orders
+        and on fully billed lines, so only the "open supply pipeline"
+        (confirmed POs awaiting/partially billed) is offered instead of the
+        whole supplier product history. When there is no candidate (no
+        purchase module / no open PO line), fall back to the plain
+        purchasable-products domain so the user is never stuck.
+        """
+        purchase_line_model = self.env.get("purchase.order.line")
+        candidates_by_partner = {}
+        if purchase_line_model is not None:
+            for partner in self.mapped("imported_partner_id"):
+                lines = purchase_line_model.sudo().search(
+                    [
+                        ("order_id.partner_id", "=", partner.id),
+                        ("qty_to_invoice", ">", 0),
+                    ]
+                )
+                candidates_by_partner[partner.id] = lines.product_id.ids
+        for line in self:
+            domain = [("purchase_ok", "=", True)]
+            product_ids = candidates_by_partner.get(line.imported_partner_id.id)
+            if product_ids and not line.product_id:
+                domain.append(("id", "in", product_ids))
+            line.product_domain = domain
 
     def _prepare_supplierinfo_vals(self):
         vals = super()._prepare_supplierinfo_vals()

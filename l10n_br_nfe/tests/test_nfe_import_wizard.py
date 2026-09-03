@@ -3,6 +3,7 @@ import os
 import re
 from unittest.mock import MagicMock, patch
 
+from odoo import fields
 from odoo.tests import TransactionCase
 
 from odoo.addons import l10n_br_nfe
@@ -204,26 +205,146 @@ class NFeImportWizardTest(TransactionCase):
         self.assertFalse(prod_id)
 
     def test_match_product_by_purchase(self):
-        """The purchase-order priority match is a soft dependency on
-        l10n_br_purchase (which adds partner_order/partner_order_line to
-        purchase.order.line). It must be a no-op when those fields are absent,
+        """xPed/nItemPed map to the buyer's purchase.order.name and
+        purchase.order.line.sequence. When purchase is absent it must no-op,
         so _match_product falls back to supplierinfo/default_code/barcode."""
         self._prepare_wizard(self.xml_1)
-        pol = self.env.get("purchase.order.line")
-        has_fields = pol is not None and "partner_order" in pol._fields
+        pol_model = self.env.get("purchase.order.line")
+
         mock = MagicMock()
         mock.xPed = "NONEXISTENT-PO-REF"
         mock.nItemPed = "999"
-        # No PO references this xPed (and/or l10n_br_purchase absent) -> no
-        # match, and crucially no crash on a missing field.
+        # No PO references this xPed (and/or purchase absent) -> no match,
+        # and crucially no crash on a missing model.
         self.assertFalse(self.wizard._match_product_by_purchase(mock))
-        if not has_fields:
+
+        if pol_model is None:
             # guard short-circuits before any purchase.order.line search
             self.assertFalse(
                 self.wizard._match_product_by_purchase(
                     self.wizard._parse_file().infNFe.det[0].prod
                 )
             )
+            return
+
+        # xPed = purchase.order.name, nItemPed = line sequence.
+        partner = self.env["res.partner"].create({"name": "Vendor PO"})
+        product = self.env["product.product"].create({"name": "PO Product"})
+        order = self.env["purchase.order"].create({"partner_id": partner.id})
+        line = self.env["purchase.order.line"].create(
+            {
+                "order_id": order.id,
+                "product_id": product.id,
+                "name": "PO Product",
+                "product_qty": 1.0,
+                "price_unit": 10.0,
+                "date_planned": fields.Datetime.now(),
+            }
+        )
+        self.wizard.partner_id = partner
+        mock = MagicMock()
+        mock.xPed = order.name
+        mock.nItemPed = str(line.sequence)
+        self.assertEqual(self.wizard._match_product_by_purchase(mock), product)
+
+    def test_product_domain_restricted_to_purchase_lines(self):
+        """An unmatched product line proposes only the products ordered from
+        the NFe supplier on a confirmed purchase order with quantity still to
+        be billed (parity with the legacy akretion importer restriction)."""
+        self._prepare_wizard(self.xml_1)
+        pol_model = self.env.get("purchase.order.line")
+        if pol_model is None:
+            self.skipTest("purchase module not installed")
+
+        supplier = self.env["res.partner"].create({"name": "Vendor Domain"})
+        ordered = self.env["product.product"].create(
+            {"name": "Ordered Product", "purchase_ok": True}
+        )
+        other = self.env["product.product"].create(
+            {"name": "Other Product", "purchase_ok": True}
+        )
+        billed = self.env["product.product"].create(
+            {"name": "Billed Product", "purchase_ok": True}
+        )
+        # Bill on ordered quantities so an unreceived line still has
+        # qty_to_invoice > 0 (the Odoo 16 default is 'receive', where
+        # qty_to_invoice = qty_received - qty_invoiced = 0 before receipt).
+        for product in (ordered, other, billed):
+            product.purchase_method = "purchase"
+
+        # confirmed PO with an outstanding line -> candidate
+        order = self.env["purchase.order"].create({"partner_id": supplier.id})
+        self.env["purchase.order.line"].create(
+            {
+                "order_id": order.id,
+                "product_id": ordered.id,
+                "name": "Ordered Product",
+                "product_qty": 1.0,
+                "price_unit": 10.0,
+                "date_planned": fields.Datetime.now(),
+            }
+        )
+        order.button_confirm()
+
+        # fully billed line on the same confirmed PO -> not a candidate
+        billed_line = self.env["purchase.order.line"].create(
+            {
+                "order_id": order.id,
+                "product_id": billed.id,
+                "name": "Billed Product",
+                "product_qty": 1.0,
+                "price_unit": 10.0,
+                "date_planned": fields.Datetime.now(),
+            }
+        )
+        billed_line.write({"qty_to_invoice": 0.0})
+
+        # draft PO line -> not a candidate either (core zeroes qty_to_invoice)
+        draft_order = self.env["purchase.order"].create({"partner_id": supplier.id})
+        self.env["purchase.order.line"].create(
+            {
+                "order_id": draft_order.id,
+                "product_id": other.id,
+                "name": "Other Product",
+                "product_qty": 1.0,
+                "price_unit": 10.0,
+                "date_planned": fields.Datetime.now(),
+            }
+        )
+
+        wizard = self.env["l10n_br_fiscal.document.import.wizard"].create(
+            {
+                "company_id": self.env.ref("base.main_company").id,
+                "partner_id": supplier.id,
+            }
+        )
+        line = self.env["l10n_br_fiscal.document.import.wizard.line"].create(
+            {"import_xml_id": wizard.id}
+        )
+
+        # unmatched product -> restricted to the open PO-line product only
+        domain = line.product_domain
+        candidate_ids = [pid for leaf in domain if leaf[0] == "id" for pid in leaf[2]]
+        self.assertEqual(candidate_ids, [ordered.id])
+        self.assertNotIn(billed.id, candidate_ids)
+        self.assertNotIn(other.id, candidate_ids)
+
+        # once matched, the restriction relaxes so the user can adjust freely
+        line.product_id = ordered
+        self.assertEqual(line.product_domain, [["purchase_ok", "=", True]])
+
+        # a supplier without any open PO line is not restricted either
+        no_po_vendor = self.env["res.partner"].create({"name": "No PO Vendor"})
+        other_wizard = self.env["l10n_br_fiscal.document.import.wizard"].create(
+            {
+                "company_id": self.env.ref("base.main_company").id,
+                "partner_id": no_po_vendor.id,
+            }
+        )
+        line2 = self.env["l10n_br_fiscal.document.import.wizard.line"].create(
+            {"import_xml_id": other_wizard.id}
+        )
+        self.assertEqual(line2.product_domain, [["purchase_ok", "=", True]])
 
     def test__parse_xml(self):
         self._prepare_wizard(self.xml_1)
