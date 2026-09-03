@@ -1,10 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
+
+    <menuitem
+        id="nfe_sub_menu"
+        name="NF-e"
+        groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager"
+        parent="l10n_br_fiscal.document_menu"
+        sequence="100"
+    />
+    <menuitem
+        action="l10n_br_nfe_recipient_manifestation_event_action"
+        id="mde_consult_menu"
+        name="Recipient Manifestation"
+        groups="l10n_br_fiscal.group_manager"
+        parent="nfe_sub_menu"
+        sequence="25"
+    />
     <menuitem
         id="nfe_import_document"
         action="l10n_br_nfe_import_xml_action"
-        name="Import NF-e"
-        parent="l10n_br_fiscal.document_sub_menu"
+        name="Import"
+        parent="nfe_sub_menu"
         sequence="46"
         groups="l10n_br_fiscal.group_manager"
     />
@@ -13,7 +29,7 @@
         id="imported_document_menu"
         action="imported_document_action"
         name="Imported Document"
-        parent="l10n_br_fiscal.document_sub_menu"
+        parent="nfe_sub_menu"
         sequence="20"
         groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager"
     />

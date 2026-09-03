@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Copyright 2026 Engenere (<https://engenere.one>)
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+    <record id="action_server_search_all_dfe" model="ir.actions.server">
+        <field name="name">Search All DF-e</field>
+        <field name="model_id" ref="base.model_res_company" />
+        <field name="state">code</field>
+        <field name="code">
+company = env.company
+result = company.action_document_distribution()
+action = result or {"type": "ir.actions.client", "tag": "reload"}
+        </field>
+    </record>
+
+    <record id="action_server_specific_search_dfe" model="ir.actions.server">
+        <field name="name">Specific Search DF-e</field>
+        <field name="model_id" ref="base.model_res_company" />
+        <field name="state">code</field>
+        <field name="code">
+action = env.company.action_search_specific()
+        </field>
+    </record>
+
+    <record id="action_server_download_xmls_zip" model="ir.actions.server">
+        <field name="name">Download XMLs (zip)</field>
+        <field name="model_id" ref="model_l10n_br_fiscal_dfe_document" />
+        <field name="binding_model_id" ref="model_l10n_br_fiscal_dfe_document" />
+        <field name="binding_view_types">list</field>
+        <field name="groups_id" eval="[(4, ref('l10n_br_fiscal.group_user'))]" />
+        <field name="state">code</field>
+        <field name="code">action = records.action_download_xmls_zip()</field>
+    </record>
+</odoo>

@@ -1,5 +1,9 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
-l10n_br_fiscal_dfe_user,Consut DFe for User,model_l10n_br_fiscal_dfe,l10n_br_fiscal.group_user,1,1,1,0
-l10n_br_fiscal_dfe_manager,Consut DFe for Manager,model_l10n_br_fiscal_dfe,l10n_br_fiscal.group_manager,1,1,1,1
-access_l10n_br_fiscal_attachment_user,access_l10n_br_fiscal_attachment_user,model_l10n_br_fiscal_attachment,l10n_br_fiscal.group_user,1,0,0,0
-access_l10n_br_fiscal_attachment_manager,access_l10n_br_fiscal_attachment_manager,model_l10n_br_fiscal_attachment,l10n_br_fiscal.group_manager,1,1,1,1
+l10n_br_fiscal_dfe_user,Consult DFe for User,model_l10n_br_fiscal_dfe_dfe,l10n_br_fiscal.group_user,1,0,0,0
+l10n_br_fiscal_dfe_manager,Consult DFe for Manager,model_l10n_br_fiscal_dfe_dfe,l10n_br_fiscal.group_manager,1,1,0,0
+l10n_br_fiscal_nfe_dfe_document_user,DFe Document for User,model_l10n_br_fiscal_dfe_document,l10n_br_fiscal.group_user,1,0,0,0
+l10n_br_fiscal_nfe_dfe_document_manager,DFe Document for Manager,model_l10n_br_fiscal_dfe_document,l10n_br_fiscal.group_manager,1,1,0,0
+l10n_br_fiscal_dfe_specific_search_wizard_user,Specific Search Wizard for User,model_dfe_specific_search_wizard,l10n_br_fiscal.group_user,1,1,1,0
+l10n_br_fiscal_dfe_specific_search_wizard_manager,Specific Search Wizard for Manager,model_dfe_specific_search_wizard,l10n_br_fiscal.group_manager,1,1,1,1
+l10n_br_fiscal_dfe_distribution_log_user,Distribution Log for User,model_l10n_br_fiscal_dfe_distribution_log,l10n_br_fiscal.group_user,1,0,0,0
+l10n_br_fiscal_dfe_distribution_log_manager,Distribution Log for Manager,model_l10n_br_fiscal_dfe_distribution_log,l10n_br_fiscal.group_manager,1,1,1,1
