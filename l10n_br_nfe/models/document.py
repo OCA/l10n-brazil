@@ -1240,8 +1240,8 @@ class NFe(spec_models.StackedModel):
             record.authorization_event_id = event_id
             signed_xml = edoc.sign_xml(
                 xml_file,
-                self.company_id.certificate.file,
-                self.company_id.certificate.password,
+                self.company_id.certificate.content,
+                self.company_id.certificate.pkcs12_password,
                 edoc.infNFe.Id,
             )
             self._validate_xml(signed_xml)
