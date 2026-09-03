@@ -1,6 +1,6 @@
 # Copyright (C) 2019-2020 - Raphael Valyi Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
-import importlib
+import importlib.resources
 import logging
 
 import nfelib
@@ -20,10 +20,12 @@ def post_init_hook(env):
             "leiauteNFe",
             "35180834128745000152550010000474491454651420-nfe.xml",
         )
-        resource_path = "/".join(res_items)
-        nfe_stream = importlib.resources.files(nfelib.__name__).joinpath(resource_path)
-        with nfe_stream.open("rb") as fp:
-            binding = TnfeProc.from_xml(fp.read().decode())
+        binding = TnfeProc.from_xml(
+            importlib.resources.files(nfelib.__name__)
+            .joinpath(*res_items)
+            .read_bytes()
+            .decode()
+        )
         document_number = binding.NFe.infNFe.ide.nNF
         existing_nfes = env["l10n_br_fiscal.document"].search(
             [("document_number", "=", document_number)]
