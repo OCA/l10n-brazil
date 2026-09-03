@@ -16,6 +16,20 @@
                         <field name="mdfe30_tpProp" />
                         <field name="mdfe30_RNTRC" />
                     </group>
+                    <group string="Veículos Cadastrados" colspan="4">
+                        <field name="vehicle_ids" nolabel="1">
+                            <tree>
+                                <field name="name" />
+                                <field name="plate" />
+                                <field name="model_year" />
+                                <field name="tara" />
+                                <field name="capacity_kg" />
+                                <field name="capacity_m3" />
+                                <field name="wheel_type" />
+                                <field name="body_type" />
+                            </tree>
+                        </field>
+                    </group>
                 </page>
             </xpath>
         </field>

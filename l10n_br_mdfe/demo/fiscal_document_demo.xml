@@ -19,6 +19,7 @@
 
     <!-- MDFe Test - Modal Ferroviário - LC -->
     <record id="demo_mdfe_lc_modal_ferroviario" model="l10n_br_fiscal.document">
+        <field name="mdfe_transp_type">1</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_manifesto" />
         <field name="document_type_id" ref="l10n_br_fiscal.document_58" />
         <field
@@ -81,6 +82,7 @@
 
     <!-- MDFe Test - Modal Rodoviário - LC -->
     <record id="demo_mdfe_lc_modal_rodoviario" model="l10n_br_fiscal.document">
+        <field name="mdfe_transp_type">1</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_manifesto" />
         <field name="document_type_id" ref="l10n_br_fiscal.document_58" />
         <field
@@ -199,6 +201,7 @@
 
     <!-- MDFe Test - Modal Aéreo - SN -->
     <record id="demo_mdfe_sn_modal_aereo" model="l10n_br_fiscal.document">
+        <field name="mdfe_transp_type">1</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_manifesto" />
         <field name="document_type_id" ref="l10n_br_fiscal.document_58" />
         <field
@@ -255,6 +258,7 @@
 
     <!-- MDFe Test - Modal Aquaviário - SN -->
     <record id="demo_mdfe_sn_modal_aquaviario" model="l10n_br_fiscal.document">
+        <field name="mdfe_transp_type">1</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_manifesto" />
         <field name="document_type_id" ref="l10n_br_fiscal.document_58" />
         <field
