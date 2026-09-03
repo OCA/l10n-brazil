@@ -2,13 +2,14 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
 import dataclasses
+import functools
 import inspect
 import itertools
 import logging
 import re
+import typing
 from datetime import datetime
 from enum import Enum
-from typing import ForwardRef
 
 from odoo import Command, api, models
 
@@ -16,6 +17,55 @@ _logger = logging.getLogger(__name__)
 
 
 tz_datetime = re.compile(r".*[-+]0[0-9]:00$")
+
+
+@functools.cache
+def _resolve_type_hints(cls):
+    """Resolve a dataclass' annotations into real runtime typing objects.
+
+    xsdata >= 26 generates bindings with ``from __future__ import annotations``
+    (PEP 563), so every ``field.type`` is a plain string such as
+    ``"list[Foo.Bar]"`` or ``"None | Foo"`` instead of a real typing object.
+    ``typing.get_type_hints`` evaluates those lazy annotations back into real
+    types. It is also safe (and normalizing) for older xsdata versions where
+    the annotations were already concrete objects (e.g. ``typing.List`` or
+    ``Optional[ForwardRef(...)]``).
+
+    Cached because it is called for every field of every node during import.
+    """
+    try:
+        return typing.get_type_hints(cls)
+    except Exception:  # pragma: no cover - defensive fallback
+        return {}
+
+
+def _unwrap_binding_type(ftype):
+    """Classify a resolved field annotation.
+
+    Returns a ``(inner_type, is_list)`` tuple where ``inner_type`` is the
+    meaningful (non ``NoneType``) type wrapped by the annotation, or ``None``
+    when it cannot be determined. Handles:
+
+    * ``list[X]`` / ``typing.List[X]``  -> (X, True)      # o2m
+    * ``Optional[X]`` / ``X | None``    -> (X, False)     # m2o / simple
+    * bare ``X`` (e.g. ``str``)         -> (X, False)     # simple
+    """
+    origin = typing.get_origin(ftype)
+    if origin is list:
+        args = typing.get_args(ftype)
+        return (args[0] if args else None, True)
+    if origin is not None:
+        # Optional[...] / Union[...] / X | None
+        for arg in typing.get_args(ftype):
+            if arg is type(None):
+                continue
+            # Optional wrapping a list is theoretically possible: unwrap it too
+            if typing.get_origin(arg) is list:
+                largs = typing.get_args(arg)
+                return (largs[0] if largs else None, True)
+            return (arg, False)
+        return (None, False)
+    return (ftype, False)
 
 
 class SpecMixinImport(models.AbstractModel):
@@ -79,14 +129,19 @@ class SpecMixinImport(models.AbstractModel):
         child_path = f"{path}.{key}"
 
         # Is attr a xsd SimpleType or a ComplexType?
-        # with xsdata a ComplexType can have a type like:
-        # typing.Union[nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00.TinfRespTec, NoneType]
-        # or typing.Union[ForwardRef('Tnfe.InfNfe.Det.Imposto'), NoneType]
-        # that's why we test if the 1st Union type is a dataclass or a ForwardRef
-        if attr[1].type == str or (
-            not isinstance(attr[1].type.__args__[0], ForwardRef)
-            and not dataclasses.is_dataclass(attr[1].type.__args__[0])
-        ):
+        # A ComplexType field points to another binding dataclass, e.g.:
+        #   Optional[TinfRespTec]            (m2o, resolved class)
+        #   Optional[ForwardRef('Tnfe...')]  (m2o, xsdata < 26 forward ref)
+        #   list['Tnfe.InfNfe.Det']          (o2m)
+        # xsdata >= 26 emits ``from __future__ import annotations`` (PEP 563)
+        # so every ``attr[1].type`` is a plain string; we must resolve the real
+        # runtime types with typing.get_type_hints before introspecting them.
+        hints = _resolve_type_hints(type(node))
+        ftype = hints.get(attr[0], attr[1].type)
+        inner_type, is_list = _unwrap_binding_type(ftype)
+        is_complex = inner_type is not None and dataclasses.is_dataclass(inner_type)
+
+        if not is_complex:
             # SimpleType
             if isinstance(value, Enum):
                 value = value.value
@@ -100,14 +155,11 @@ class SpecMixinImport(models.AbstractModel):
             vals[key] = value
 
         else:
-            if str(attr[1].type).startswith("typing.List") or "ForwardRef" in str(
-                attr[1].type
-            ):  # o2m
-                binding_type = attr[1].type.__args__[0].__forward_arg__
-            else:
-                binding_type = attr[1].type.__args__[0].__name__
+            # ComplexType: use the qualified binding class name (e.g.
+            # "Tnfe.InfNfe.Det") which is what the xsdata-odoo generated
+            # abstract models are keyed on.
+            binding_type = inner_type.__qualname__
 
-            # ComplexType
             if fields.get(key) and fields[key].related:
                 if fields[key].readonly and fields[key].type == "many2one":
                     return False  # ex: don't import NFe infRespTec
@@ -125,7 +177,7 @@ class SpecMixinImport(models.AbstractModel):
             if comodel is None:  # example skip ICMS100 class
                 return
 
-            if str(attr[1].type).startswith("typing.List"):
+            if is_list:
                 # o2m
                 lines = []
                 for line in [li for li in value if li]:
