@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Família DEMONSTRAÇÃO / MOSTRUÁRIO / FEIRA (Conv. ICMS 19/2017, Ajuste SINIEF
+  02/2018). Remessa com SUSPENSÃO de ICMS (CST 50) e IPI (CST 55); PIS/COFINS não
+  incidem (CST 49). Retorno/entrada: não incidência (ICMS 41, IPI 49, PIS/COFINS
+  99). Prazos (parametrizáveis por UF): demonstração 60 dias, mostruário 90 dias.
+  Se virar venda, reusa fo_venda. Linha modelada p/ contribuinte (ind_ie_dest=1);
+  demonstração a não-contribuinte (9) é variante.
+  Conserto do dono já coberto na família ativo (5915/1916).
+-->
+<odoo noupdate="1">
+
+    <record id="comment_demonstracao" model="l10n_br_fiscal.comment">
+        <field name="name">Remessa para demonstração</field>
+        <field
+            name="comment"
+        >Mercadoria remetida para demonstração. ICMS suspenso (Conv. ICMS 19/2017); IPI suspenso. Retorno ou venda em até 60 dias.</field>
+        <field name="comment_type">fiscal</field>
+        <field name="object">l10n_br_fiscal.document.mixin</field>
+    </record>
+    <record id="comment_mostruario" model="l10n_br_fiscal.comment">
+        <field name="name">Remessa de mostruário</field>
+        <field
+            name="comment"
+        >Remessa de mostruário. ICMS suspenso (Ajuste SINIEF 02/2018). Um exemplar de cada mercadoria. Retorno em 90 dias.</field>
+        <field name="comment_type">fiscal</field>
+        <field name="object">l10n_br_fiscal.document.mixin</field>
+    </record>
+    <record id="comment_feira" model="l10n_br_fiscal.comment">
+        <field name="name">Remessa para feira/exposição</field>
+        <field
+            name="comment"
+        >Remessa para exposição ou feira. ICMS suspenso conforme RICMS/UF. Retorno em 60 dias.</field>
+        <field name="comment_type">fiscal</field>
+        <field name="object">l10n_br_fiscal.document.mixin</field>
+    </record>
+
+    <!-- === DEMONSTRAÇÃO === -->
+    <!-- Retorno-entrada (dono recebe de volta) — alvo do return da remessa -->
+    <record id="fo_retorno_demonstracao_entrada" model="l10n_br_fiscal.operation">
+        <field name="code">RDEM-E</field>
+        <field name="name">Retorno de demonstração (entrada)</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">return_in</field>
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_retorno_demonstracao_entrada_line"
+        model="l10n_br_fiscal.operation.line"
+    >
+        <field name="fiscal_operation_id" ref="fo_retorno_demonstracao_entrada" />
+        <field name="name">Retorno de demonstração</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1913" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2913" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rdem_e_icms" model="l10n_br_fiscal.tax.definition">
+        <field
+            name="fiscal_operation_line_id"
+            ref="fo_retorno_demonstracao_entrada_line"
+        />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_41" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- Remessa para demonstração (dono) -->
+    <record id="fo_remessa_demonstracao" model="l10n_br_fiscal.operation">
+        <field name="code">REM-DEM</field>
+        <field name="name">Remessa para demonstração</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">other</field>
+        <field
+            name="return_fiscal_operation_id"
+            ref="fo_retorno_demonstracao_entrada"
+        />
+        <field name="state">approved</field>
+        <field name="comment_ids" eval="[(6, 0, [ref('comment_demonstracao')])]" />
+    </record>
+    <record id="fo_remessa_demonstracao_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_remessa_demonstracao" />
+        <field name="name">Remessa para demonstração</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5912" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6912" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_dem_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_demonstracao_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_suspensao" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_50" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_dem_ipi" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_demonstracao_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_suspensao" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_55" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_dem_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_demonstracao_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_dem_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_demonstracao_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- Retorno-saída (destinatário devolve ao remetente) -->
+    <record id="fo_retorno_demonstracao_saida" model="l10n_br_fiscal.operation">
+        <field name="code">RDEM-S</field>
+        <field name="name">Retorno de demonstração (saída ao remetente)</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">return_out</field>
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_retorno_demonstracao_saida_line"
+        model="l10n_br_fiscal.operation.line"
+    >
+        <field name="fiscal_operation_id" ref="fo_retorno_demonstracao_saida" />
+        <field name="name">Retorno de demonstração ao remetente</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5913" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6913" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rdem_s_icms" model="l10n_br_fiscal.tax.definition">
+        <field
+            name="fiscal_operation_line_id"
+            ref="fo_retorno_demonstracao_saida_line"
+        />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_suspensao" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_50" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- Entrada para demonstração (destinatário recebe) -->
+    <record id="fo_entrada_demonstracao" model="l10n_br_fiscal.operation">
+        <field name="code">ENT-DEM</field>
+        <field name="name">Entrada para demonstração</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">other</field>
+        <field name="return_fiscal_operation_id" ref="fo_retorno_demonstracao_saida" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_entrada_demonstracao_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_entrada_demonstracao" />
+        <field name="name">Entrada para demonstração</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1912" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2912" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+
+    <!-- === MOSTRUÁRIO === -->
+    <record id="fo_retorno_mostruario_entrada" model="l10n_br_fiscal.operation">
+        <field name="code">RMOS-E</field>
+        <field name="name">Retorno de mostruário (entrada)</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">return_in</field>
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_retorno_mostruario_entrada_line"
+        model="l10n_br_fiscal.operation.line"
+    >
+        <field name="fiscal_operation_id" ref="fo_retorno_mostruario_entrada" />
+        <field name="name">Retorno de mostruário</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1913" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2913" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_remessa_mostruario" model="l10n_br_fiscal.operation">
+        <field name="code">REM-MOS</field>
+        <field name="name">Remessa de mostruário</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">other</field>
+        <field name="return_fiscal_operation_id" ref="fo_retorno_mostruario_entrada" />
+        <field name="state">approved</field>
+        <field name="comment_ids" eval="[(6, 0, [ref('comment_mostruario')])]" />
+    </record>
+    <record id="fo_remessa_mostruario_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_remessa_mostruario" />
+        <field name="name">Remessa de mostruário</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5912" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6912" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_mos_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_mostruario_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_suspensao" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_50" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- === FEIRA / EXPOSIÇÃO === -->
+    <record id="fo_retorno_feira" model="l10n_br_fiscal.operation">
+        <field name="code">RFEIRA-E</field>
+        <field name="name">Retorno de feira/exposição</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">return_in</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_retorno_feira_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_retorno_feira" />
+        <field name="name">Retorno de feira/exposição</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1914" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2914" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_remessa_feira" model="l10n_br_fiscal.operation">
+        <field name="code">REM-FEIRA</field>
+        <field name="name">Remessa para feira/exposição</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">other</field>
+        <field name="return_fiscal_operation_id" ref="fo_retorno_feira" />
+        <field name="state">approved</field>
+        <field name="comment_ids" eval="[(6, 0, [ref('comment_feira')])]" />
+    </record>
+    <record id="fo_remessa_feira_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_remessa_feira" />
+        <field name="name">Remessa para feira/exposição</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5914" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6914" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_feira_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_feira_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_suspensao" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_50" />
+        <field name="state">approved</field>
+    </record>
+
+
+    <!-- ================= Simples Nacional =================
+         Linhas irmãs para empresa do Simples (company_tax_framework=1): o
+         seletor de linha prefere a mais específica, então a empresa SN casa
+         estas (CSOSN via grupo icmssn) e os demais regimes casam as genéricas
+         (CST). Empresa em excesso de sublimite (framework=2) recolhe ICMS fora
+         do DAS e cai na genérica com CST — correto. Regra geral: movimento sem
+         receita/titularidade = CSOSN 400; ajuste/simbólica = 900; linha de
+         receita não fixa ICMS (herda a tributação SN da empresa). Mapa a
+         ratificar com contador (transferência de mercadoria: ADC 49). -->
+    <record id="fo_remessa_demonstracao_line_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_remessa_demonstracao" />
+        <field name="name">Remessa para demonstração - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5912" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6912" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_dem_ipi_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_demonstracao_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_suspensao" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_55" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_dem_pis_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_demonstracao_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_dem_cofins_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_demonstracao_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_remessa_demonstracao_line_sn_icmssn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_remessa_demonstracao_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_entrada_demonstracao_line_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_entrada_demonstracao" />
+        <field name="name">Entrada para demonstração - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1912" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2912" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_entrada_demonstracao_line_sn_icmssn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_entrada_demonstracao_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_remessa_mostruario_line_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_remessa_mostruario" />
+        <field name="name">Remessa de mostruário - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5912" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6912" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_remessa_mostruario_line_sn_icmssn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_remessa_mostruario_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_retorno_feira_line_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_retorno_feira" />
+        <field name="name">Retorno de feira/exposição - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1914" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2914" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_retorno_feira_line_sn_icmssn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_retorno_feira_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_remessa_feira_line_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_remessa_feira" />
+        <field name="name">Remessa para feira/exposição - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5914" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6914" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_remessa_feira_line_sn_icmssn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_feira_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+
+</odoo>
