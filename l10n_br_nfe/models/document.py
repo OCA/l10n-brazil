@@ -30,6 +30,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     CANCELADO,
     CANCELADO_DENTRO_PRAZO,
     CANCELADO_FORA_PRAZO,
+    CFOP_DESTINATION_EXPORT,
     DENEGADO,
     DOCUMENT_ISSUER_COMPANY,
     DOCUMENT_STATE_CANCEL,
@@ -38,6 +39,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     EVENT_ENV_HML,
     EVENT_ENV_PROD,
     EVENTO_RECEBIDO,
+    FISCAL_OUT,
     LOTE_PROCESSADO,
     MODELO_FISCAL_NFCE,
     MODELO_FISCAL_NFE,
@@ -75,6 +77,11 @@ PRODUCT_CODE_FISCAL_DOCUMENT_TYPES = ["55", "01"]
 NFE_XML_NAMESPACE = {"nfe": "http://www.portalfiscal.inf.br/nfe"}
 
 _logger = logging.getLogger(__name__)
+
+
+CFOP_WITHOUT_IMPORT_DECLARATION = ("3201", "3202", "3503", "3553")
+
+CFOP_INDIRECT_EXPORT = ("7501", "3503")
 
 
 def filter_processador_edoc_nfe(record):
@@ -1215,6 +1222,85 @@ class NFe(spec_models.StackedModel):
                     f"in the company: {company_nfe_environment}"
                 )
             )
+
+    def _document_check(self):
+        for record in self.filtered(filter_processador_edoc_nfe):
+            record._check_import_declaration()
+            record._check_export_detail()
+        return super()._document_check()
+
+    def _check_import_declaration(self):
+        self.ensure_one()
+        lines = self.fiscal_line_ids.filtered(
+            lambda line: line.cfop_id.is_import
+            and line.cfop_id.code not in CFOP_WITHOUT_IMPORT_DECLARATION
+            and not line.nfe40_DI
+        )
+        if lines:
+            raise UserError(
+                _(
+                    "The import declaration is missing on the lines %(lines)s. "
+                    "SEFAZ rejects a NF-e whose CFOP starts with 3 and carries "
+                    "no DI group (rejection 525)."
+                )
+                % {"lines": self._line_names(lines)}
+            )
+
+    def _export_lines(self):
+        return self.fiscal_line_ids.filtered(
+            lambda line: line.cfop_id.destination == CFOP_DESTINATION_EXPORT
+            and line.cfop_id.type_in_out == FISCAL_OUT
+        )
+
+    def _check_export_detail(self):
+        self.ensure_one()
+        export_lines = self._export_lines()
+        shipping_place = self.nfe40_UFSaidaPais or self.nfe40_xLocExporta
+
+        if export_lines and not (self.nfe40_UFSaidaPais and self.nfe40_xLocExporta):
+            raise UserError(
+                _(
+                    "An export needs the state and the place of shipment, "
+                    "because SEFAZ requires the whole exporta group."
+                )
+            )
+
+        if shipping_place and not export_lines:
+            raise UserError(
+                _(
+                    "The place of shipment is only for an export, and no line "
+                    "of this document carries an export CFOP (rejection 356)."
+                )
+            )
+
+        misplaced = self.fiscal_line_ids.filtered(
+            lambda line: line.nfe40_detExport
+            and line.cfop_id.destination != CFOP_DESTINATION_EXPORT
+        )
+        if misplaced:
+            raise UserError(
+                _(
+                    "The export detail is only for an export CFOP, and the "
+                    "lines %(lines)s carry another one (rejection 336)."
+                )
+                % {"lines": self._line_names(misplaced)}
+            )
+
+        indirect = self.fiscal_line_ids.filtered(
+            lambda line: line.cfop_id.code in CFOP_INDIRECT_EXPORT
+            and not line.nfe40_detExport.filtered("nfe40_exportInd")
+        )
+        if indirect:
+            raise UserError(
+                _(
+                    "An indirect export needs the export registration on the "
+                    "lines %(lines)s (rejection 340)."
+                )
+                % {"lines": self._line_names(indirect)}
+            )
+
+    def _line_names(self, lines):
+        return ", ".join(line.name or line.product_id.display_name for line in lines)
 
     def _document_export(self, pretty_print=True):
         result = super()._document_export()

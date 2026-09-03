@@ -9,6 +9,7 @@ from enum import Enum
 from nfelib.nfe.bindings.v4_0.dfe_tipos_basicos_v1_00 import Tcibs, TtribNfe
 
 from odoo import _, api, fields
+from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     CFOP_DESTINATION_EXTERNAL,
@@ -783,6 +784,19 @@ class NFeLine(spec_models.StackedModel):
         if "nfe40_ICMSST" in xsd_fields:
             xsd_fields.remove("nfe40_ICMSST")
 
+        if not self.nfe40_choice_icms:
+            raise UserError(
+                _(
+                    "The line %(line)s has no ICMS CST, so its ICMS group "
+                    "cannot be built. Review the tax definition of the fiscal "
+                    "operation for the CFOP %(cfop)s."
+                )
+                % {
+                    "line": self.name or self.product_id.display_name,
+                    "cfop": self.cfop_id.code or "",
+                }
+            )
+
         xsd_fields = [self.nfe40_choice_icms]
         icms_tag = (
             self.nfe40_choice_icms.replace("nfe40_", "")
@@ -939,13 +953,23 @@ class NFeLine(spec_models.StackedModel):
     # Grupo P. Imposto de Importação
     ################################
 
-    # vBC TODO
-
     nfe40_vDespAdu = fields.Monetary(related="ii_customhouse_charges")
 
     nfe40_vII = fields.Monetary(related="ii_value")
 
     nfe40_vIOF = fields.Monetary(related="ii_iof_value", string="vIOF")
+
+    def _export_fields_nfe_40_ii(self, xsd_fields, class_obj, export_dict):
+        export_dict["vBC"] = self.ii_base
+
+    def _ii_percent_from_values(self, tax_binding, odoo_attrs):
+        base = float(getattr(tax_binding, "vBC", 0.0) or 0.0)
+        if not base:
+            return None
+        value = float(getattr(tax_binding, "vII", 0.0) or 0.0)
+        percent = round(value * 100 / base, 2)
+        odoo_attrs["ii_percent"] = percent
+        return percent
 
     ###############
     # NF-e tag: PIS
@@ -1541,6 +1565,8 @@ class NFeLine(spec_models.StackedModel):
         percent = map_binding_attr(
             f"p{kind.upper().replace('ST', '')}", f"{kind}_percent"
         )
+        if kind == "ii" and not percent:
+            percent = self._ii_percent_from_values(tax_binding, odoo_attrs)
         if kind in ("icms", "icmsufdest"):
             map_binding_attr("modBC", "icms_base_type")
             icms_percent_red = map_binding_attr("pRedBC", "icms_reduction")
