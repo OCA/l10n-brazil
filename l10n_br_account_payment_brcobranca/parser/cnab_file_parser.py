@@ -105,8 +105,12 @@ class CNABFileParser(FileParser):
     def _get_date_format(self, bank_name_brcobranca):
         # TODO: Idealmente o JSON de Retorno do BRCobranca deveria vir
         #  padronizado para não ser necessário ser feito esse tratamento aqui
-        if bank_name_brcobranca in ("ailos", "santander"):
-            # No Banco AILOS e Santander o formato da Data é completo com os 4 digitos.
+        if bank_name_brcobranca in ("ailos", "santander") or (
+            bank_name_brcobranca == "itau" and self.parser_name == "cnab240"
+        ):
+            # No Banco AILOS, Santander, e no Itau no CNAB 240 (o CNAB 400
+            # do Itau continua com 2 digitos), o formato da Data é completo
+            # com os 4 digitos.
             zeros_date = "00000000"
             date_format = "%d%m%Y"
         else:
@@ -115,6 +119,24 @@ class CNABFileParser(FileParser):
             date_format = "%d%m%y"
 
         return zeros_date, date_format
+
+    def _get_registration_code_allowed(self, bank_name_brcobranca):
+        if bank_name_brcobranca in ("ailos", "santander"):
+            # No AILOS e Santander o código de registro onde ficam as linhas CNAB é o 3.
+            return 3
+        if bank_name_brcobranca == "itau" and self.parser_name == "cnab240":
+            # No CNAB 240 o codigo de registro (posicao 8 do arquivo, padrao
+            # Febraban) e sempre 3 para os registros de detalhe (segmentos
+            # T e U). O CNAB 400 do Itau continua com o codigo de registro 1.
+            return 3
+        if bank_name_brcobranca == "banco_brasil":
+            # No Banco do Brasil o código do registro principal é o 7.
+            # existem registros opcionais porém como não estão mapeados no BRCobrança
+            # e serão ignorados aqui. Teoricamente a verificação do código do registro
+            # nem deveria se feita aqui, cada dict retornado da lib era pra representar
+            # um registro completo do boleto. Esse tratamento deveria estar lá.
+            return 7
+        return 1
 
     def process_return_file(self, data):
         #          Forma de Lançamento do Retorno
@@ -183,18 +205,9 @@ class CNABFileParser(FileParser):
 
         bank_name_brcobranca = dict_brcobranca_bank[self.bank.code_bc]
 
-        if bank_name_brcobranca in ("ailos", "santander"):
-            # No AILOS e Santander o código de registro onde ficam as linhas CNAB é o 3.
-            registration_code_allowed = 3
-        elif bank_name_brcobranca == "banco_brasil":
-            # No Banco do Brasil o código do registro principal é o 7.
-            # existem registros opcionais porém como não estão mapeados no BRCobrança
-            # e serão ignorados aqui. Teoricamente a verificação do código do registro
-            # nem deveria se feita aqui, cada dict retornado da lib era pra representar
-            # um registro completo do boleto. Esse tratamento deveria estar lá.
-            registration_code_allowed = 7
-        else:
-            registration_code_allowed = 1
+        registration_code_allowed = self._get_registration_code_allowed(
+            bank_name_brcobranca
+        )
 
         for linha_cnab in data:
             if int(linha_cnab["codigo_registro"]) != registration_code_allowed:
