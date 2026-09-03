@@ -428,11 +428,6 @@ msgid "Customhouse Charges"
 msgstr ""
 
 #. module: l10n_br_contract
-#: model:ir.model.fields,field_description:l10n_br_contract.field_res_company__contract_recalculate_taxes_before_invoice
-msgid "Dafault recalculate taxes before invoicing"
-msgstr ""
-
-#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_res_company__contract_purchase_fiscal_operation_id
 msgid "Default Contract Purchase Fiscal Operation"
 msgstr ""
@@ -1414,11 +1409,6 @@ msgstr ""
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__quantity
 msgid "Quantity"
-msgstr ""
-
-#. module: l10n_br_contract
-#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__contract_recalculate_taxes_before_invoice
-msgid "Recalculate taxes before invoicing"
 msgstr ""
 
 #. module: l10n_br_contract
