@@ -339,18 +339,19 @@ class TestNFCeWorkflowContingency(TestNFeExport):
     def setUpClass(cls):
         super().setUpClass(nfe_list=[])
         cls.nfce = cls.env.ref(NFCE_DEMO)
-        certificate = cls.env["l10n_br_fiscal.certificate"].create(
+        certificate = cls.env["certificate.certificate"].create(
             {
                 "type": "nf-e",
                 "subtype": "a1",
-                "password": "123456",
-                "file": misc.create_fake_certificate_file(
+                "pkcs12_password": "123456",
+                "content": misc.create_fake_certificate_file(
                     valid=True,
                     passwd="123456",
                     issuer="EMISSOR A TESTE",
                     country="BR",
                     subject="CERTIFICADO VALIDO TESTE",
                 ),
+                "company_id": cls.nfce.company_id.id,
             }
         )
         cls.nfce.company_id.certificate_nfe_id = certificate
