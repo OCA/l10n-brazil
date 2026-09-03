@@ -6,7 +6,9 @@ from . import test_account_move_lc
 from . import test_move_edition
 from . import test_move_document_discount
 from . import test_invoice_refund
+from . import test_declaration_xml
 
 # from . import test_multi_localizations_invoice
 from . import test_payment_status
 from . import test_move_workflow
+from . import test_import_declaration_wizard
