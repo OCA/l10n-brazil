@@ -6,7 +6,7 @@ import base64
 import logging
 import os
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import EVENT_ENVIRONMENT
@@ -42,13 +42,13 @@ class Event(models.Model):
         for record in self:
             if record.document_id:
                 names = [
-                    _("Fiscal Document"),
+                    self.env._("Fiscal Document"),
                     record.document_id.name,
                 ]
                 record.display_name = " / ".join(filter(None, names))
             elif record.invalidate_number_id:
                 names = [
-                    _("Invalidate Number"),
+                    self.env._("Invalidate Number"),
                     record.invalidate_number_id.name,
                 ]
                 record.display_name = " / ".join(filter(None, names))
@@ -212,7 +212,7 @@ class Event(models.Model):
     @api.constrains("justification")
     def _check_justification(self):
         if len(self.justification) < 15:
-            raise UserError(_("Justification must be at least 15 characters."))
+            raise UserError(self.env._("Justification must be at least 15 characters."))
         return True
 
     def _save_event_2disk(self, arquivo, file_name):
@@ -247,8 +247,8 @@ class Event(models.Model):
             f = open(file_path, "w")
         except OSError as e:
             raise UserError(
-                _("Erro!"),
-                _(
+                self.env._("Erro!"),
+                self.env._(
                     """Não foi possível salvar o arquivo
                     em disco, verifique as permissões de escrita
                     e o caminho da pasta"""
