@@ -26,7 +26,7 @@ dict_brcobranca_bank = {
     "399": "hsbc",
     "341": "itau",
     "033": "santander",
-    "748": "sicred",
+    "748": "sicredi",
     "004": "banco_nordeste",
     "021": "banestes",
     "756": "sicoob",
@@ -105,8 +105,9 @@ class CNABFileParser(FileParser):
     def _get_date_format(self, bank_name_brcobranca):
         # TODO: Idealmente o JSON de Retorno do BRCobranca deveria vir
         #  padronizado para não ser necessário ser feito esse tratamento aqui
-        if bank_name_brcobranca in ("ailos", "santander"):
-            # No Banco AILOS e Santander o formato da Data é completo com os 4 digitos.
+        if bank_name_brcobranca in ("ailos", "santander", "sicredi"):
+            # No Banco AILOS, Santander e Sicredi
+            # o formato da Data é completo com os 4 digitos.
             zeros_date = "00000000"
             date_format = "%d%m%Y"
         else:
@@ -300,7 +301,8 @@ class CNABFileParser(FileParser):
                 row_list, log_event_payment = self._get_accounting_entries(
                     linha_cnab, account_move_line, payment_lines
                 )
-                result_row_list.append(row_list)
+                if row_list:
+                    result_row_list.append(row_list)
                 cnab_return_log_event.update(log_event_payment)
             else:
                 # Nos codigos de retorno cadastrados no Data do modulo
@@ -325,8 +327,9 @@ class CNABFileParser(FileParser):
         return result_row_list
 
     def _get_allowed_registration_code(self, bank_name_brcobranca):
-        if bank_name_brcobranca in ("ailos", "santander"):
-            # No AILOS e Santander o código de registro onde ficam as linhas CNAB é o 3.
+        if bank_name_brcobranca in ("ailos", "santander", "sicredi"):
+            # No AILOS, Santander e Sicredi
+            # o código de registro onde ficam as linhas CNAB é o 3.
             allowed_registration_code = 3
         elif bank_name_brcobranca == "banco_brasil":
             # No Banco do Brasil o código do registro principal é o 7.
@@ -401,6 +404,12 @@ class CNABFileParser(FileParser):
             # convênio, sendo apenas os últimos 10 dígitos a sequencia do nosso
             # número usado para procurar o move line.
             nosso_numero_sem_dig = linha_cnab["nosso_numero"][-10:]
+        elif bank_name_brcobranca == "sicredi":
+            # O Sicredi envia o Nosso Número no retorno no formato:
+            # AA + Byte + Sequência + DV.
+            # Para localizar o título no Odoo, utilizamos apenas a sequência.
+            nosso_numero = linha_cnab["nosso_numero"][:-1]  # Remove DV
+            nosso_numero_sem_dig = nosso_numero[3:]  # Remove AA + Byte
         else:
             nosso_numero_sem_dig = linha_cnab["nosso_numero"][:-1]
 
@@ -439,9 +448,18 @@ class CNABFileParser(FileParser):
             valor_recebido = self.cnab_str_to_float(linha_cnab["valor_recebido"])
 
         zeros_date, date_format = self._get_date_format(bank_name_brcobranca)
+        data_ocorrencia = self._get_occurrence_date(linha_cnab, date_format, zeros_date)
 
         if linha_cnab["data_credito"] == zeros_date or not linha_cnab["data_credito"]:
-            data_credito = linha_cnab["data_credito"]
+            if (
+                bank_name_brcobranca == "sicredi"
+                and linha_cnab["codigo_ocorrencia"] == "09"
+            ):
+                # Sicredi não informa a data de crédito em retornos de baixa (09).
+                # Nesse caso, utiliza a data da ocorrência.
+                data_credito = data_ocorrencia
+            else:
+                data_credito = False  # pragma: no cover
         else:
             data_credito = datetime.datetime.strptime(
                 str(linha_cnab["data_credito"]), date_format
@@ -535,6 +553,7 @@ class CNABFileParser(FileParser):
                         "partner_id": account_move_line.company_id.partner_id.id,
                         "payment_line_ids": payment_lines.ids,
                         "cnab_returned_ref": account_move_line.document_number,
+                        "date": data_credito,
                     }
                 )
 
@@ -551,6 +570,7 @@ class CNABFileParser(FileParser):
                         "account_id": tariff_charge_account.id,
                         "payment_line_ids": payment_lines.ids,
                         "cnab_returned_ref": account_move_line.document_number,
+                        "date": data_credito,
                     }
                 )
 
@@ -598,20 +618,24 @@ class CNABFileParser(FileParser):
         if self.bank.code_bc == "341":
             valor_recebido_calculado += valor_tarifa
 
-        row_list.append(
-            {
-                "name": account_move_line.move_id.name,
-                "debit": 0.0,
-                "credit": valor_recebido_calculado,
-                "move_line": account_move_line,
-                "type": "liquidado",
-                "payment_line_ids": payment_lines.ids,
-                "account_id": account_move_line.account_id.id,
-                "partner_id": account_move_line.partner_id.id,
-                "date": data_credito,
-                "cnab_returned_ref": account_move_line.own_number,
-            }
-        )
+        # Evita criar uma linha de liquidação quando o valor recebido
+        # calculado é zero, mantendo apenas os lançamentos acessórios
+        # (tarifas, descontos, juros etc.).
+        if valor_recebido_calculado:
+            row_list.append(
+                {
+                    "name": account_move_line.move_id.name,
+                    "debit": 0.0,
+                    "credit": valor_recebido_calculado,
+                    "move_line": account_move_line,
+                    "type": "liquidado",
+                    "payment_line_ids": payment_lines.ids,
+                    "account_id": account_move_line.account_id.id,
+                    "partner_id": account_move_line.partner_id.id,
+                    "date": data_credito,
+                    "cnab_returned_ref": account_move_line.own_number,
+                }
+            )
 
         # CNAB LOG
         log_event_payment = {

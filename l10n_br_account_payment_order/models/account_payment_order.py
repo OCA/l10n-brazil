@@ -15,6 +15,7 @@ from odoo.exceptions import UserError
 
 from ..constants import (
     BR_CODES_PAYMENT_ORDER,
+    DICT_SICREDI_MONTH_CODE,
     FORMA_LANCAMENTO,
     INDICATIVO_FORMA_PAGAMENTO,
     TIPO_SERVICO,
@@ -225,10 +226,48 @@ class AccountPaymentOrder(models.Model):
         else:
             return super().generate_payment_file()
 
+    def _get_file_name_748(self, cnab_type, context_today):
+        # Geração do nome do arquivo para Banco Sicredi, que utiliza o código 748
+        day = context_today.strftime("%d").zfill(2)
+        month = int(context_today.strftime("%m"))
+        month_code = DICT_SICREDI_MONTH_CODE.get(month, str(month).zfill(2))
+        file_name = (
+            f"{self.payment_mode_id.cnab_config_id.cnab_company_bank_code}"
+            f"{month_code}{day}"
+        )
+        exist = self.env["ir.attachment"].read_group(
+            domain=[
+                ("res_model", "=", "account.payment.order"),
+                ("name", "like", file_name),
+                ("res_id", "!=", self.id),
+            ],
+            fields=["name"],
+            groupby=["res_id"],
+        )
+        if exist:
+            file_name += f".RM{len(exist)}"
+        else:
+            file_name += ".REM"
+
+        _logger.info(
+            "Using specific method for bank %s to generate file name",
+            self.journal_id.bank_id.code_bc,
+        )
+        return file_name
+
     def get_file_name(self, cnab_type):
         context_today = fields.Date.context_today(self)
         date = context_today.strftime("%d%m")
         file_number = self.file_number
+
+        # Casos Especificos
+        if hasattr(self, f"_get_file_name_{self.journal_id.bank_id.code_bc}"):
+            bank_file_name = getattr(
+                self, f"_get_file_name_{self.journal_id.bank_id.code_bc}"
+            )
+            file_name = bank_file_name(cnab_type, context_today)
+            return file_name
+
         if cnab_type == "240":
             return f"CB{date}{file_number}.REM"
         elif cnab_type == "400":

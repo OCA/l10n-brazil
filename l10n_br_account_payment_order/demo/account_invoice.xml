@@ -103,9 +103,9 @@
         />
     </record>
 
-    <!-- Invoice SICRED 240 -->
+    <!-- Invoice SICREDI 240 -->
     <record id="demo_invoice_payment_order_sicredi_cnab240" model="account.move">
-        <field name="name">Teste SICRED - CNAB 240</field>
+        <field name="name">Teste SICREDI - CNAB 240</field>
         <field
             name="invoice_payment_term_id"
             ref="account.account_payment_term_advance"
