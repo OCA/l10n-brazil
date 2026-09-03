@@ -97,6 +97,73 @@ class CNPJAlfanumericoTest(TransactionCase):
         )
         self.assertEqual(partner.cnpj_cpf_stripped, "A87HBZHB000161")
 
+    def test_partner_write_alphanumeric_cnpj(self):
+        """Writing an alphanumeric CNPJ on an existing partner must succeed.
+
+        Only the create path was covered before, so a formatting helper
+        that dropped the letters and validated the remaining digits as a
+        CPF went unnoticed on write.
+        """
+        partner = (
+            self.env["res.partner"]
+            .with_context(tracking_disable=True)
+            .create(
+                {
+                    "name": "Parceiro Write Alfa",
+                    "is_company": True,
+                    "cnpj_cpf": "77.889.900/0001-66",
+                    **self.base_address,
+                }
+            )
+        )
+
+        partner.write({"cnpj_cpf": "99.XYZ.888/0001-50"})
+
+        self.assertEqual(partner.cnpj_cpf, "99.XYZ.888/0001-50")
+        self.assertEqual(partner.cnpj_cpf_stripped, "99XYZ888000150")
+
+    def test_partner_write_numeric_over_alphanumeric_cnpj(self):
+        """Replacing an alphanumeric CNPJ with a numeric one must keep
+        working, so the fix does not regress the plain numeric path."""
+        partner = (
+            self.env["res.partner"]
+            .with_context(tracking_disable=True)
+            .create(
+                {
+                    "name": "Parceiro Write Numerico",
+                    "is_company": True,
+                    "cnpj_cpf": "12.ABC.345/01DE-35",
+                    **self.base_address,
+                }
+            )
+        )
+
+        partner.write({"cnpj_cpf": "44.556.677/0001-86"})
+
+        self.assertEqual(partner.cnpj_cpf, "44.556.677/0001-86")
+        self.assertEqual(partner.cnpj_cpf_stripped, "44556677000186")
+
+    def test_company_write_alphanumeric_cnpj(self):
+        """Writing an alphanumeric CNPJ on an existing company must succeed
+        and reach the delegated partner."""
+        company = (
+            self.env["res.company"]
+            .with_context(tracking_disable=True)
+            .create(
+                {
+                    "name": "Empresa Write Alfa",
+                    "legal_name": "Empresa Write Alfa Ltda",
+                    "cnpj_cpf": "11.222.333/0001-81",
+                    **self.base_address,
+                }
+            )
+        )
+
+        company.write({"cnpj_cpf": "11.AAA.222/0001-64"})
+
+        self.assertEqual(company.cnpj_cpf, "11.AAA.222/0001-64")
+        self.assertEqual(company.partner_id.cnpj_cpf, "11.AAA.222/0001-64")
+
     def test_pix_valid_alphanumeric_cnpj(self):
         """Creating a PIX key with a valid alphanumeric CNPJ must succeed."""
         pix_vals = {
