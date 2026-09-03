@@ -224,19 +224,14 @@ class AccountTax(models.Model):
             super()._add_tax_details_in_base_line(base_line, company, rounding_method)
             return
 
-        # Check if we have valid Brazilian fiscal data
-        try:
-            if not record.exists():
-                super()._add_tax_details_in_base_line(
-                    base_line, company, rounding_method
-                )
-                return
-            if not record.fiscal_operation_id or not record.fiscal_operation_line_id:
-                super()._add_tax_details_in_base_line(
-                    base_line, company, rounding_method
-                )
-                return
-        except Exception:
+        # The Brazilian engine needs both the operation and the operation line:
+        # without them there are no fiscal taxes to compute. Anything else that
+        # goes wrong while computing a Brazilian tax must be raised: falling back
+        # to the native computation in silence hides the cause and ships wrong
+        # tax amounts to the invoice.
+        if not record.exists() or not getattr(
+            record, "fiscal_operation_line_id", False
+        ):
             super()._add_tax_details_in_base_line(base_line, company, rounding_method)
             return
 
