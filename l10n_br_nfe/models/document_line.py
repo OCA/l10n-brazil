@@ -770,6 +770,7 @@ class NFeLine(spec_models.StackedModel):
                     # DESONERAÇÃO DO IMCS
                     "vICMSDeson": f"{self.icms_relief_value:.2f}",
                     "motDesICMS": self.icms_relief_id.code,
+                    "indDeduzDeson": self.icms_relief_type,
                 }
             )
         return icms

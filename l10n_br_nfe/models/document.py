@@ -515,7 +515,7 @@ class NFe(spec_models.StackedModel):
 
     nfe40_vICMS = fields.Monetary(related="amount_icms_value")
 
-    # <vICMSDeson>0.00</vICMSDeson> TODO
+    nfe40_vICMSDeson = fields.Monetary(related="amount_icms_relief_value")
 
     nfe40_vFCPUFDest = fields.Monetary(related="amount_icmsfcp_value")
 
