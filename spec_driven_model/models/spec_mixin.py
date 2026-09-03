@@ -336,11 +336,12 @@ class SpecMixin(models.AbstractModel):
             model_id = f"spec_driven_model.model_{underline_name}"
         else:
             model_id = f"{module_name}_spec.model_{underline_name}"
+        model = env["ir.model"]._get(cls._name)
         user_access_name = f"access_{underline_name}_user"
         if not env["ir.model.access"].search(
             [
                 ("name", "in", [underline_name, user_access_name]),
-                ("model_id", "=", model_id),
+                ("model_id", "=", model.id),
             ]
         ):
             access_data.append(
@@ -359,7 +360,7 @@ class SpecMixin(models.AbstractModel):
         if not env["ir.model.access"].search(
             [
                 ("name", "in", [underline_name, manager_access_name]),
-                ("model_id", "=", model_id),
+                ("model_id", "=", model.id),
             ]
         ):
             access_data.append(
