@@ -103,7 +103,7 @@ class NFe(spec_models.StackedModel):
 
     # When dynamic stacking is applied the NFe structure is:
     INFNFE_TREE = """
-> <infnfe>
+    > <infnfe>
     > <ide>
         ≡ <NFref> l10n_br_fiscal.document.related
         - <gPagAntecipado>
@@ -1230,8 +1230,8 @@ class NFe(spec_models.StackedModel):
             record.authorization_event_id = event_id
             signed_xml = edoc.sign_xml(
                 xml_file,
-                self.company_id.certificate.file,
-                self.company_id.certificate.password,
+                self.company_id.certificate.content,
+                self.company_id.certificate.pkcs12_password,
                 edoc.infNFe.Id,
             )
             self._validate_xml(signed_xml)
