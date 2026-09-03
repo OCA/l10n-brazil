@@ -977,6 +977,40 @@ class NFe(spec_models.StackedModel):
     @api.model
     def _build_attr(self, node, fields, vals, path, attr):
         key = f"nfe40_{attr[1].metadata.get('name', attr[0])}"
+        if key in ("nfe40_infAdFisco", "nfe40_infCpl"):
+            # <infAdic><infAdFisco>/<infCpl> are non-stored computed fields
+            # (computed from fiscal_additional_data/customer_additional_data):
+            # writing them during import would be silently dropped. Redirect the
+            # declared XML text to the stored manual_* fields so it round-trips
+            # on export and stays available for SPED (C195 observations).
+            manual_field = (
+                "manual_fiscal_additional_data"
+                if key == "nfe40_infAdFisco"
+                else "manual_customer_additional_data"
+            )
+            value = getattr(node, attr[0])
+            if value:
+                vals[manual_field] = value
+            return
+        if key in ("nfe40_obsFisco", "nfe40_obsCont"):
+            # <obsFisco>/<obsCont> are free-form xCampo/xTexto observations.
+            # Fold them into the manual_* text so they are preserved for SPED
+            # (C195) instead of instantiating stacked spec o2m records that
+            # nothing consumes downstream.
+            manual_field = (
+                "manual_fiscal_additional_data"
+                if key == "nfe40_obsFisco"
+                else "manual_customer_additional_data"
+            )
+            obs_lines = []
+            for obs in [o for o in (getattr(node, attr[0]) or []) if o]:
+                xcampo = getattr(obs, "xCampo", "") or ""
+                xtexto = getattr(obs, "xTexto", "") or ""
+                obs_lines.append(f"{xcampo}: {xtexto}".strip())
+            if obs_lines:
+                existing = vals.get(manual_field) or ""
+                vals[manual_field] = "\n".join(filter(None, [existing, *obs_lines]))
+            return
         if key == "nfe40_IBSCBSTot":
             # IBSCBSTot fields are computed from lines, skip importing
             return

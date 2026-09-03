@@ -1393,6 +1393,11 @@ class NFeLine(spec_models.StackedModel):
             vals["quantity"] = float(value)
         if key == "nfe40_qTrib":
             vals["fiscal_quantity"] = float(value)
+        if key == "nfe40_infAdProd" and value:
+            # <det><infAdProd> is a non-stored computed field (computed from
+            # additional_data): writing it is silently dropped. Redirect to the
+            # stored manual_additional_data so the line observation round-trips.
+            vals["manual_additional_data"] = value
         if key == "nfe40_cEnq":
             vals["ipi_guideline_id"] = (
                 self.env["l10n_br_fiscal.tax.ipi.guideline"]
@@ -1618,6 +1623,15 @@ class NFeLine(spec_models.StackedModel):
                 ).id
             map_binding_attr("vICMSDeson", "icms_relief_value")
             map_binding_attr("vICMSSubstituto", "icms_substitute")
+
+            # cBenef (Código de Benefício Fiscal, Tabela 5.2 por UF) is the
+            # benefit the supplier declared; preserved verbatim for SPED C197
+            # (COD_AJ). It's a string, so it can't go through
+            # map_binding_attr's float cast, and it must land on a plain stored
+            # field (icms_tax_benefit_code is related to icms_tax_benefit_id,
+            # which the de-para recomputes).
+            if getattr(tax_binding, "cBenef", None):
+                odoo_attrs["partner_icms_tax_benefit_code"] = tax_binding.cBenef
 
             # ICMS ST fields
             map_binding_attr("modBCST", "icmsst_base_type")

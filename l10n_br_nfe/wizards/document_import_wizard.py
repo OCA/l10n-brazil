@@ -22,6 +22,19 @@ class DocumentImportWizard(models.TransientModel):
 
     nat_op = fields.Char(string="Natureza da Operação")
 
+    fiscal_observation = fields.Text(
+        string="Fiscal Observation (SPED C195)",
+        help="<infAdic> fiscal observations declared by the supplier "
+        "(infAdFisco + obsFisco). Imported into the document's fiscal "
+        "additional data and later exported to the SPED C195/0460 registers. "
+        "You can edit it before importing.",
+    )
+
+    customer_observation = fields.Text(
+        string="Complementary Observation",
+        help="<infAdic> complementary observations (infCpl + obsCont).",
+    )
+
     @api.model
     def _detect_binding(self, binding):
         """
@@ -44,8 +57,40 @@ class DocumentImportWizard(models.TransientModel):
                 self.nat_op,
                 self.fiscal_operation_type,
             )
+            self._extract_observation_data(infNFe)
             self._create_imported_products_by_xml(binding)
         return res
+
+    def _extract_observation_data(self, infNFe):
+        """Surface the <infAdic> observations declared in the XML so the user
+        can review (and adjust) them before they are imported for SPED C195."""
+        infadic = getattr(infNFe, "infAdic", None)
+        if infadic is None:
+            self.fiscal_observation = False
+            self.customer_observation = False
+            return
+        self.fiscal_observation = self._build_observation_text(infadic, fiscal=True)
+        self.customer_observation = self._build_observation_text(infadic, fiscal=False)
+
+    def _build_observation_text(self, infadic, fiscal=True):
+        parts = []
+        if fiscal:
+            if getattr(infadic, "infAdFisco", None):
+                parts.append(infadic.infAdFisco)
+            for obs in getattr(infadic, "obsFisco", None) or []:
+                if obs is not None:
+                    parts.append(
+                        f"{getattr(obs, 'xCampo', '')}: {getattr(obs, 'xTexto', '')}"
+                    )
+        else:
+            if getattr(infadic, "infCpl", None):
+                parts.append(infadic.infCpl)
+            for obs in getattr(infadic, "obsCont", None) or []:
+                if obs is not None:
+                    parts.append(
+                        f"{getattr(obs, 'xCampo', '')}: {getattr(obs, 'xTexto', '')}"
+                    )
+        return "\n".join(filter(None, parts))
 
     @api.model
     def _most_common_cfop(self, infNFe):
@@ -129,6 +174,10 @@ class DocumentImportWizard(models.TransientModel):
             "import_xml_id": self.id,
             "product_supplier_id": supplier_id.id,
             "uom_conversion_factor": supplier_id.partner_uom_factor or 1,
+            "inf_ad_prod": getattr(product, "infAdProd", "") or "",
+            "cbenef": taxes["cBenef"],
+            "pred_bc": taxes["pRedBC"],
+            "vicms_deson": taxes["vICMSDeson"],
         }
 
     def _search_product_supplier_by_product_code(self, code):
@@ -245,14 +294,34 @@ class DocumentImportWizard(models.TransientModel):
         pICMS = 0
         pIPI = 0
         vIPI = 0
+        cBenef = ""
+        pRedBC = 0.0
+        vICMSDeson = 0.0
+        icms_choice = None
         icms_tags = [tag for tag in dir(product.imposto.ICMS) if tag.startswith("ICMS")]
         for tag in icms_tags:
             if getattr(product.imposto.ICMS, tag) is not None:
                 icms_choice = getattr(product.imposto.ICMS, tag)
+        if icms_choice is None:
+            return {
+                "vICMS": vICMS,
+                "pICMS": pICMS,
+                "vIPI": vIPI,
+                "pIPI": pIPI,
+                "cBenef": cBenef,
+                "pRedBC": pRedBC,
+                "vICMSDeson": vICMSDeson,
+            }
         if hasattr(icms_choice, "pICMS"):
             pICMS = icms_choice.pICMS
         if hasattr(icms_choice, "vICMS"):
             vICMS = icms_choice.vICMS
+        if hasattr(icms_choice, "cBenef") and icms_choice.cBenef:
+            cBenef = icms_choice.cBenef
+        if hasattr(icms_choice, "pRedBC") and icms_choice.pRedBC:
+            pRedBC = float(icms_choice.pRedBC)
+        if hasattr(icms_choice, "vICMSDeson") and icms_choice.vICMSDeson:
+            vICMSDeson = float(icms_choice.vICMSDeson)
         if hasattr(product.imposto.IPI, "IPITrib"):
             ipi_trib = product.imposto.IPI.IPITrib
             if hasattr(ipi_trib, "pIPI"):
@@ -260,7 +329,15 @@ class DocumentImportWizard(models.TransientModel):
             if hasattr(ipi_trib, "vIPI"):
                 vIPI = ipi_trib.vIPI
 
-        return {"vICMS": vICMS, "pICMS": pICMS, "vIPI": vIPI, "pIPI": pIPI}
+        return {
+            "vICMS": vICMS,
+            "pICMS": pICMS,
+            "vIPI": vIPI,
+            "pIPI": pIPI,
+            "cBenef": cBenef,
+            "pRedBC": pRedBC,
+            "vICMSDeson": vICMSDeson,
+        }
 
     def _create_edoc_from_file(self):
         if self.document_type == MODELO_FISCAL_NFE:
@@ -283,6 +360,13 @@ class DocumentImportWizard(models.TransientModel):
 
             if not self.partner_id:
                 self.partner_id = edoc.partner_id
+
+            # Reflect the (possibly adjusted) wizard observations into the
+            # imported document so they persist for SPED C195.
+            if self.fiscal_observation:
+                edoc.manual_fiscal_additional_data = self.fiscal_observation
+            if self.customer_observation:
+                edoc.manual_customer_additional_data = self.customer_observation
 
             self._attach_original_nfe_xml_to_document(edoc)
 
@@ -342,6 +426,27 @@ class DocumentImportWizardLine(models.TransientModel):
     ipi_percent = fields.Char(string="Alíquota IPI")
 
     ipi_value = fields.Char(string="IPI Value")
+
+    inf_ad_prod = fields.Char(
+        string="XML Item Observation",
+        help="<det><infAdProd> declared by the supplier for this line.",
+    )
+
+    cbenef = fields.Char(
+        string="XML Fiscal Benefit",
+        help="<cBenef> declared by the supplier (Tabela 5.2 por UF); used for "
+        "SPED C197 (COD_AJ).",
+    )
+
+    pred_bc = fields.Float(
+        string="XML Base Reduction (pRedBC)",
+        help="ICMS base reduction percentage declared by the supplier.",
+    )
+
+    vicms_deson = fields.Float(
+        string="XML ICMS Relief (vICMSDeson)",
+        help="ICMS relief (desoneração) value declared by the supplier.",
+    )
 
     def _prepare_supplierinfo_vals(self):
         vals = super()._prepare_supplierinfo_vals()

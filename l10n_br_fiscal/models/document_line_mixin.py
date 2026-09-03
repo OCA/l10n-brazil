@@ -1098,6 +1098,14 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         "while cfop_id reflects the company's own operation after the de-para.",
     )
 
+    partner_icms_tax_benefit_code = fields.Char(
+        string="Partner Fiscal Benefit Code",
+        help="Fiscal benefit code (<cBenef>) declared by the counterparty in "
+        "the imported document. Preserved verbatim for SPED C197 (COD_AJ), "
+        "while icms_tax_benefit_id/code reflects the company's own de-para "
+        "mapping.",
+    )
+
     fiscal_price = fields.Float(
         digits="Product Price",
         compute="_compute_fiscal_price",
