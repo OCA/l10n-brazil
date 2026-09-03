@@ -226,12 +226,30 @@ class DocumentImportWizard(models.TransientModel):
         )
 
     def _find_fiscal_operation(self, cfop, nat_op, fiscal_operation_type):
-        """try to find a matching fiscal operation via an operation line"""
+        """try to find a matching fiscal operation via an operation line
+
+        On an inbound document the file declares the counterparty OUTBOUND
+        CFOP (5xxx/6xxx/7xxx), while the company operation lines reference
+        inbound CFOPs (1xxx/2xxx/3xxx): the lookup goes through the inverse
+        CFOP. On an outbound document the declared CFOP is the company one
+        and is looked up directly.
+        """
+        cfop_record = self.env["l10n_br_fiscal.cfop"].search(
+            [("code", "=", cfop)], limit=1
+        )
+        if fiscal_operation_type == "in":
+            cfop_record = cfop_record.cfop_inverse_id
+        if not cfop_record:
+            return self.env["l10n_br_fiscal.operation"]
         operation_lines = self.env["l10n_br_fiscal.operation.line"].search(
             [
                 ("state", "=", "approved"),
-                ("fiscal_type", "=", fiscal_operation_type),
-                ("cfop_external_id", "=", cfop),
+                ("fiscal_operation_type", "=", fiscal_operation_type),
+                "|",
+                "|",
+                ("cfop_internal_id", "=", cfop_record.id),
+                ("cfop_external_id", "=", cfop_record.id),
+                ("cfop_export_id", "=", cfop_record.id),
             ],
         )
         for line in operation_lines:
@@ -243,18 +261,10 @@ class DocumentImportWizard(models.TransientModel):
     def _match_uom_by_code(self, *codes):
         """Match a fiscal UoM from one or more XML unit codes (uCom/uTrib).
 
-        First try the fiscal ``code`` field, then fall back to the
-        ``uom_alias`` module aliases so that supplier abbreviations
-        (e.g. ``MIL`` -> ``MILHEIRO``, ``UNID`` -> ``Units``) resolve to
-        the company's own UoM.
+        Delegates to ``uom.uom._match_by_fiscal_code`` so the same matching
+        is available outside the wizard (e.g. on the document lines).
         """
-        codes = [code for code in codes if code]
-        if not codes:
-            return self.env["uom.uom"]
-        uom = self.env["uom.uom"].search([("code", "in", codes)], limit=1)
-        if not uom:
-            uom = self.env["uom.uom"].search([("alias_ids.code", "in", codes)], limit=1)
-        return uom
+        return self.env["uom.uom"]._match_by_fiscal_code(*codes)
 
     def _parse_file(self):
         return self._parse_file_data(self.file)
