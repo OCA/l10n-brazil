@@ -120,9 +120,11 @@ class DocumentImportWizard(models.TransientModel):
             domain.append(("cnpj_cpf_stripped", "=", punctuation_rm(cnpj)))
         elif legal_name or name:
             domain = [("is_company", "=", True)]
-            domain.append(
-                ["|", ("legal_name", "ilike", legal_name), ("name", "ilike", name)]
-            )
+            domain += [
+                "|",
+                ("legal_name", "ilike", legal_name or name),
+                ("name", "ilike", name or legal_name),
+            ]
         else:
             raise UserError(_("No CNPJ or Legal Name to search for a partner!"))
         return self.env["res.partner"].search(domain, limit=1)

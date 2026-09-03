@@ -698,7 +698,10 @@ class AccountMove(models.Model):
             move_form.document_type_id = fiscal_document.document_type_id
             move_form.fiscal_document_id = fiscal_document
             move_form.fiscal_operation_id = fiscal_document.fiscal_operation_id
-            move_form.document_serie = fiscal_document.document_serie
+            if fiscal_document.issuer == DOCUMENT_ISSUER_COMPANY:
+                move_form.document_serie_id = fiscal_document.document_serie_id
+            else:
+                move_form.document_serie = fiscal_document.document_serie
 
         unit_and_prices = []
         for line in fiscal_document.fiscal_line_ids:
