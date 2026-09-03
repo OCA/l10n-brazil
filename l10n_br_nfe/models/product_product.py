@@ -43,6 +43,11 @@ class ProductProduct(models.Model):
         if match:
             return match.id
 
+        if self._context.get("dont_create_products"):
+            # Creating master data must be a supervised action: the line is
+            # left without a product and waits in the review queue.
+            return False
+
         if self._context.get("dry_run"):
             rec_id = self.new(rec_dict).id
         else:

@@ -1633,12 +1633,24 @@ class NFe(spec_models.StackedModel):
 
         self.file_report_id = self.env["ir.attachment"].create(attachment_data)
 
-    def import_binding_nfe(self, binding, edoc_type="in", dry_run=False):
+    def import_binding_nfe(
+        self, binding, edoc_type="in", dry_run=False, create_missing_products=True
+    ):
+        """Build a fiscal document from an NFe binding.
+
+        With ``create_missing_products=False`` unmatched products are left
+        empty instead of created as an import side effect, so the line can
+        wait for a supervised decision in the review flow.
+        """
         if hasattr(binding, "NFe"):
             binding = binding.NFe
         document = (
             self.env["nfe.40.infnfe"]
-            .with_context(tracking_disable=True, edoc_type=edoc_type)
+            .with_context(
+                tracking_disable=True,
+                edoc_type=edoc_type,
+                dont_create_products=not create_missing_products,
+            )
             .build_from_binding("nfe", "40", binding.infNFe, dry_run=dry_run)
         )
 
@@ -1647,6 +1659,13 @@ class NFe(spec_models.StackedModel):
         ):
             document.fiscal_operation_type = "in"
             document.issuer = "partner"
+
+        if not dry_run:
+            # every importer lands in the same review queue: the per-line
+            # states are initialized here, at the single point where a
+            # document is materialized from a binding, so the DF-e capture
+            # and the zip batch get it without going through the wizard
+            document._init_import_states()
 
         return document
 
