@@ -19,6 +19,36 @@ NFE_ENVIRONMENTS = [("1", "Produção"), ("2", "Homologação")]
 NFE_ENVIRONMENT_DEFAULT = "2"
 
 
+NFE_PAYMENT_TYPES = [
+    ("01", "Dinheiro"),
+    ("02", "Cheque"),
+    ("03", "Cartão de Crédito"),
+    ("04", "Cartão de Débito"),
+    ("05", "Crédito Loja"),
+    ("10", "Vale Alimentação"),
+    ("11", "Vale Refeição"),
+    ("12", "Vale Presente"),
+    ("13", "Vale Combustível"),
+    ("15", "Boleto Bancário"),
+    ("16", "Depósito Bancário"),
+    ("17", "Pagamento Instantâneo (PIX) - Dinâmico"),
+    ("18", "Transferência bancária, Carteira Digital"),
+    ("19", "Programa de fidelidade, Cashback, Crédito Virtual"),
+    ("20", "Pagamento Instantâneo (PIX) - Estático"),
+    ("21", "Crédito em Loja"),
+    ("22", "Pagamento Eletrônico não Informado"),
+    ("90", "Sem Pagamento"),
+    ("99", "Outros"),
+]
+
+
+NFE_PAYMENT_TYPE_NO_PAYMENT = "90"
+
+NFE_PAYMENT_TYPE_DEFAULT = NFE_PAYMENT_TYPE_NO_PAYMENT
+
+NFE_PAYMENT_INDICATOR_CASH = "0"
+
+
 NFE_TRANSMISSIONS = [
     ("1", "Emissão Normal"),
     ("2", "Contingência FS-IA"),

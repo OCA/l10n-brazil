@@ -15,6 +15,8 @@ from ..constants.nfe import (
     NFE_DANFE_LAYOUTS,
     NFE_ENVIRONMENT_DEFAULT,
     NFE_ENVIRONMENTS,
+    NFE_PAYMENT_TYPE_DEFAULT,
+    NFE_PAYMENT_TYPES,
     NFE_TRANSMISSION_DEFAULT,
     NFE_TRANSMISSIONS,
     NFE_VERSION_DEFAULT,
@@ -64,6 +66,18 @@ class ResCompany(spec_models.SpecModel):
         selection=NFE_ENVIRONMENTS,
         string="NFe Environment",
         default=NFE_ENVIRONMENT_DEFAULT,
+    )
+
+    nfe_default_payment_type = fields.Selection(
+        selection=NFE_PAYMENT_TYPES,
+        string="NFe Default Payment Type",
+        default=NFE_PAYMENT_TYPE_DEFAULT,
+        help=(
+            "Payment type (tPag) used to fill the payment group of a NF-e "
+            "(modelo 55) when the document has no payment line of its own. "
+            "The NF-e schema requires at least one payment line, so a document "
+            "sent without it is rejected before reaching SEFAZ."
+        ),
     )
 
     nfe_enable_sync_transmission = fields.Boolean(
