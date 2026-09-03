@@ -6,7 +6,7 @@
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from transitions import Machine, MachineError
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -234,7 +234,7 @@ class Document(models.Model):
         for record in self.filtered(lambda d: d.document_electronic):
             if not record.issuer:
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "The field 'Issuer' is required for brazilian electronic "
                         "documents!"
                     )
@@ -407,8 +407,11 @@ class Document(models.Model):
                 getattr(machine, trigger)()
             except MachineError as e:
                 raise UserError(
-                    _("State transition failed for action '%(action)s': %(error)s")
-                    % {"action": trigger, "error": e}
+                    self.env._(
+                        "State transition failed for action '%(action)s': %(error)s",
+                        action=trigger,
+                        error=e,
+                    )
                 ) from e
 
     def _document_cancel(self, justificative=None):
@@ -470,7 +473,7 @@ class Document(models.Model):
         self.ensure_one()
         if self.state_fiscal in SITUACAO_FISCAL_SPED_CONSIDERA_CANCELADO:
             raise UserError(
-                _(
+                self.env._(
                     "You cannot return the document to draft when its "
                     "fiscal state is %(fiscal_state)s, as it has already "
                     "been recorded as cancelled for SPED purposes.",
@@ -754,7 +757,7 @@ class Document(models.Model):
                 "l10n_br_fiscal_edi.document_correction_wizard_action"
             )
         raise UserError(
-            _(
+            self.env._(
                 "You can only create a fiscal correction for authorized "
                 "documents issued by your company."
             )
@@ -774,7 +777,7 @@ class Document(models.Model):
                 "l10n_br_fiscal_edi.invalidate_number_wizard_action"
             )
         raise UserError(
-            _(
+            self.env._(
                 "You can only invalidate the numbering of rejected or denied "
                 "documents issued by your company."
             )
@@ -803,7 +806,7 @@ class Document(models.Model):
             self._document_export()
             xml_file = self.authorization_file_id or self.send_file_id
         if not xml_file:
-            raise UserError(_("No XML file generated!"))
+            raise UserError(self.env._("No XML file generated!"))
         return self._target_new_tab(xml_file)
 
     def make_pdf(self):
@@ -814,7 +817,7 @@ class Document(models.Model):
         if not self.file_report_id or not self.authorization_file_id:
             self.make_pdf()
         if not self.file_report_id:
-            raise UserError(_("No PDF file generated!"))
+            raise UserError(self.env._("No PDF file generated!"))
         return self._target_new_tab(self.file_report_id)
 
     # -------------------------------------------------------------------------
