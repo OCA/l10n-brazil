@@ -25,6 +25,11 @@ class DataNcmNbsAbstract(models.AbstractModel):
     _inherit = "l10n_br_fiscal.data.product.abstract"
     _description = "Fiscal NCM and NBS Data Abstract"
 
+    tax_classification_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.tax.classification",
+        string="Tax Classification",
+    )
+
     tax_estimate_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.tax.estimate",
         string="Estimate Taxes",
