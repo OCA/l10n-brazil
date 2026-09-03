@@ -526,7 +526,7 @@ class Document(models.Model):
     def __document_comment_vals(self):
         return {
             "user": self.env.user,
-            "ctx": self._context,
+            "ctx": self.env.context,
             "doc": self,
         }
 

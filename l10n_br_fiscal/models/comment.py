@@ -139,7 +139,7 @@ class Comment(models.Model):
                 # adding format amount
                 # now we can format values like currency on fiscal observation
                 "format_amount": (
-                    lambda amount, context=self._context: self.format_amount(
+                    lambda amount, context=self.env.context: self.format_amount(
                         self.env, amount, self.env.ref("base.BRL")
                     )
                 ),
@@ -155,5 +155,5 @@ class Comment(models.Model):
         return " - ".join(comments)
 
     def action_test_message(self):
-        vals = {"user": self.env.user, "ctx": self._context, "doc": self.object_id}
+        vals = {"user": self.env.user, "ctx": self.env.context, "doc": self.object_id}
         self.test_comment = self.compute_message(vals)
