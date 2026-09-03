@@ -103,7 +103,7 @@
             >
                 <attribute
                     name="attrs"
-                >{'invisible': ['|', ('state_edoc', '=', 'em_digitacao'), ('imported_document', '=', True)]}</attribute>
+                >{'invisible': ['|', ('state_edoc', 'in', ('em_digitacao', 'autorizada')), ('imported_document', '=', True)]}</attribute>
             </xpath>
             <xpath
                 expr="//header/button[@name='action_document_correction']"
