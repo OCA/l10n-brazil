@@ -46,6 +46,14 @@ class Cfop(models.Model):
         "ICMS Tax Substitution (Substituição Tributária).",
     )
 
+    tax_classification_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.tax.classification",
+        string="Tax Classification",
+        help="IBS/CBS tax classification of the operations of this CFOP. "
+        "Takes precedence over the one of the fiscal operation line and over "
+        "the one of the company.",
+    )
+
     cfop_inverse_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cfop",
         string="Inverse CFOP",
