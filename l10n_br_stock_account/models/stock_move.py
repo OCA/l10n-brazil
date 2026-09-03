@@ -2,6 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
+from odoo.tools.float_utils import float_compare, float_is_zero
 
 USER_TYPE_MAP = {
     ("outgoing", "customer"): ["sale"],
@@ -15,7 +16,11 @@ USER_TYPE_MAP = {
 
 class StockMove(models.Model):
     _name = "stock.move"
-    _inherit = [_name, "l10n_br_fiscal.document.line.mixin"]
+    _inherit = [
+        _name,
+        "l10n_br_fiscal.document.line.mixin",
+        "l10n_br_fiscal.stock.price.mixin",
+    ]
 
     @api.model
     def _default_fiscal_operation(self):
@@ -216,8 +221,81 @@ class StockMove(models.Model):
         #  e continua sendo feito abaixo?
         if self.fiscal_operation_id.fiscal_operation_type == "out":
             result = self.product_id.with_company(self.company_id).standard_price
+        elif (
+            self.fiscal_operation_id.fiscal_operation_type == "in"
+            and self.valuation_via_stock_price
+            and self._net_cost_applies(result)
+        ):
+            # Opt-in: incoming moves are valued at the net acquisition cost
+            # (art. 301 RIR/2018, CPC 16) instead of the purchase price.
+            result = self.cost_unit
 
         return result
+
+    def _net_cost_applies(self, core_price):
+        """Whether the net cost may replace what the core priced this move at.
+
+        The net cost only answers one question: how much of the purchase
+        price is cost and how much is a recoverable tax. Whenever the core
+        priced the move from something other than that purchase price, it
+        knows something this module does not, and it wins.
+
+        Rather than restating each of those cases, the check compares what
+        the core returned against the raw ``price_unit``. Two of them matter
+        today and both would be silently overwritten otherwise:
+
+        * a return is priced by the layers the goods left by
+          (``origin_returned_move_id``), the only value that keeps the stock
+          ledger symmetric. A customer return is an incoming fiscal
+          operation, so it would otherwise come back in at a cost derived
+          from the return invoice;
+        * ``purchase_stock`` prices a receipt that was invoiced ahead of
+          delivery by what was actually invoiced.
+
+        A zero net cost is refused as well: a move carrying a fiscal
+        operation on the header but no operation line computes no cost, and
+        letting it through would book the goods into stock at zero instead
+        of keeping the price the core found.
+
+        Finally, the net cost only applies where it can reach the accounts,
+        which is decided by the product category and not by the company
+        flag. Under periodic inventory no entry is posted on receipt, so a
+        net cost on the layer would face the gross cost the vendor bill
+        posts, and the stock report and the ledger would each hold a
+        defensible and different number. Abstaining keeps them equal.
+        """
+        self.ensure_one()
+        precision = self.env["decimal.precision"].precision_get("Product Price")
+        if float_is_zero(self.cost_unit, precision_digits=precision):
+            return False
+        if self.product_id.with_company(self.company_id).valuation != "real_time":
+            return False
+        core_kept_price = float_compare(
+            core_price, self.price_unit, precision_digits=precision
+        )
+        return core_kept_price == 0
+
+    def _action_done(self, cancel_backorder=False):
+        """Freeze the net cost of incoming moves before they are valued.
+
+        The valuation layer is created inside `_action_done` and reads the
+        cost the move already carries, so a cost that was never computed
+        would reach the ledger as zero. Recomputing here is what makes the
+        opt-in valuation actually reach the ledger.
+
+        This hook sits on the move and not on the picking because the core
+        calls `stock.move._action_done` directly from inventory adjustments,
+        scrap orders and unbuild orders, none of which go through a picking.
+        """
+        incoming = self.filtered(
+            lambda move: move.state not in ("done", "cancel")
+            and move.fiscal_operation_id.fiscal_operation_type == "in"
+            and move.valuation_via_stock_price
+        )
+        if incoming:
+            incoming._compute_taxes_creditable()
+            incoming._compute_cost_unit()
+        return super()._action_done(cancel_backorder=cancel_backorder)
 
     def _split(self, qty, restrict_partner_id=False):
         new_moves_vals = super()._split(qty, restrict_partner_id)
