@@ -13,19 +13,19 @@ class ResCompany(models.Model):
     _inherit = "res.company"
 
     certificate_ecnpj_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.certificate",
+        comodel_name="certificate.certificate",
         string="E-CNPJ",
         domain="[('type', '=', 'e-cnpj')]",
     )
 
     certificate_nfe_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.certificate",
+        comodel_name="certificate.certificate",
         string="NFe",
         domain="[('type', '=', 'nf-e')]",
     )
 
     certificate = fields.Many2one(
-        comodel_name="l10n_br_fiscal.certificate",
+        comodel_name="certificate.certificate",
         compute="_compute_certificate",
     )
 
@@ -58,6 +58,6 @@ class ResCompany(models.Model):
                         _("Only e-CNPJ Certicate can be used for this case.")
                     )
         return cert.Certificado(
-            arquivo=certificate.file,
-            senha=certificate.password,
+            arquivo=certificate.with_context(bin_size=False).content,
+            senha=certificate.pkcs12_password,
         )
