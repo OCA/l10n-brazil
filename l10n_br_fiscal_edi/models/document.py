@@ -743,6 +743,20 @@ class Document(models.Model):
         else:
             return super().action_document_cancel()
 
+    def _edoc_needs_sefaz_action(self):
+        """A company electronic doc needs a SEFAZ round-trip to cancel or
+        reset once it has been authorized or is awaiting a protocol
+        (sending). Such docs must not be silently cancelled/reset by the
+        driving account.move flow.
+        """
+        self.ensure_one()
+        if self.document_electronic and self.issuer == DOCUMENT_ISSUER_COMPANY:
+            return self.state_edoc in (
+                DOCUMENT_STATE_SENDING,
+                DOCUMENT_STATE_AUTHORIZED,
+            )
+        return super()._edoc_needs_sefaz_action()
+
     def action_document_correction(self):
         """Open the correction wizard for authorized company-issued documents."""
         self.ensure_one()
