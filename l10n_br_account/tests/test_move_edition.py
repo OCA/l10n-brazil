@@ -242,6 +242,7 @@ class TestMoveEdition(TransactionCase):
                 ],
                 service_type=self.env["l10n_br_fiscal.service.type"],
                 ind_final="1",
+                reference_date=False,
             )
 
             # ensure manually setting a product_uom_id is properly sync'ed:
