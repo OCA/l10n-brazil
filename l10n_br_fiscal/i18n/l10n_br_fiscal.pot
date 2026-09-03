@@ -429,11 +429,6 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
-msgid "<strong>Open</strong>"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "<strong>XML validation errors:</strong>"
 msgstr ""
 
