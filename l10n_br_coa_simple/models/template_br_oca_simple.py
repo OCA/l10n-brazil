@@ -18,10 +18,6 @@ class AccountChartTemplate(models.AbstractModel):
             "visible": True,
             "property_account_receivable_id": "coa_simple_1120101",
             "property_account_payable_id": "coa_simple_2120101",
-            "property_account_expense_categ_id": "coa_simple_3210101",
-            "property_account_income_categ_id": "coa_simple_3110103",
-            "income_currency_exchange_account_id": "coa_simple_3410204",
-            "expense_currency_exchange_account_id": "coa_simple_3410105",
         }
 
     @template("br_oca_simple", "res.company")
@@ -29,6 +25,10 @@ class AccountChartTemplate(models.AbstractModel):
         return {
             self.env.company.id: {
                 "account_default_pos_receivable_account_id": "coa_simple_1120101",
+                "income_account_id": "coa_simple_3110103",
+                "expense_account_id": "coa_simple_3210101",
+                "income_currency_exchange_account_id": "coa_simple_3410204",
+                "expense_currency_exchange_account_id": "coa_simple_3410105",
                 "anglo_saxon_accounting": True,
             },
         }
