@@ -686,11 +686,12 @@ class NFe(spec_models.StackedModel):
                 record.nfe40_vCredPresCondSusCBS = 0.0
                 continue
 
-            # Calculate totals from lines
-            total_ibs_base = (
-                sum(record.fiscal_line_ids.mapped("ibs_base"))
-                or sum(record.fiscal_line_ids.mapped("cbs_base"))
-                or sum(record.fiscal_line_ids.mapped("price_gross"))
+            lines_with_base = record.fiscal_line_ids.filtered(
+                lambda line: line._has_nfe40_ibscbs_amounts()
+            )
+            total_ibs_base = sum(
+                line.ibs_base or line.cbs_base or line.price_gross
+                for line in lines_with_base
             )
 
             total_ibs_value = sum(record.fiscal_line_ids.mapped("ibs_value"))
@@ -828,12 +829,9 @@ class NFe(spec_models.StackedModel):
     ################################
 
     def _nfe_export_ibscbs_totals(self):
-        """Return True when the document has IBS/CBS values to export"""
+        """Return True when the document has to export the IBS/CBS totals"""
         self.ensure_one()
-        return bool(
-            sum(self.fiscal_line_ids.mapped("ibs_value"))
-            or sum(self.fiscal_line_ids.mapped("cbs_value"))
-        )
+        return any(line._has_nfe40_ibscbs() for line in self.fiscal_line_ids)
 
     def _export_field(self, xsd_field, class_obj, member_spec, export_value=None):
         if xsd_field == "nfe40_tpAmb":
@@ -917,9 +915,7 @@ class NFe(spec_models.StackedModel):
                 return False
 
             if field_name == "nfe40_IBSCBSTot":
-                total_ibs = sum(self.fiscal_line_ids.mapped("ibs_value"))
-                total_cbs = sum(self.fiscal_line_ids.mapped("cbs_value"))
-                if not total_ibs and not total_cbs:
+                if not self._nfe_export_ibscbs_totals():
                     return False
 
             elif (not xsd_required) and field_name not in ["nfe40_enderDest"]:
