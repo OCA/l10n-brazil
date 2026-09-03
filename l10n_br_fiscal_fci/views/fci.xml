@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright (C) 2026  Renato Lima - Akretion <renato.lima@akretion.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record id="fci_search" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.fci.header.search</field>
+        <field name="model">l10n_br_fiscal.fci.header</field>
+        <field name="arch" type="xml">
+            <search string="FCI">
+                <field name="name" />
+                <field name="protocol_number" />
+                <field name="company_id" />
+                <field
+                    name="line_ids"
+                    string="Product"
+                    filter_domain="[('line_ids.product_id', 'ilike', self)]"
+                />
+                <filter
+                    name="filter_draft"
+                    string="Draft"
+                    domain="[('state', '=', 'draft')]"
+                />
+                <filter
+                    name="filter_generated"
+                    string="File Generated"
+                    domain="[('state', '=', 'generated')]"
+                />
+                <filter
+                    name="filter_transmitted"
+                    string="Transmitted"
+                    domain="[('state', '=', 'transmitted')]"
+                />
+                <filter
+                    name="filter_done"
+                    string="Done"
+                    domain="[('state', '=', 'done')]"
+                />
+                <group expand="0" string="Group By">
+                    <filter
+                        name="group_state"
+                        string="Status"
+                        context="{'group_by': 'state'}"
+                    />
+                    <filter
+                        name="group_company"
+                        string="Company"
+                        context="{'group_by': 'company_id'}"
+                    />
+                    <filter
+                        name="group_date"
+                        string="Creation Date"
+                        context="{'group_by': 'date'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="fci_tree" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.fci.header.tree</field>
+        <field name="model">l10n_br_fiscal.fci.header</field>
+        <field name="arch" type="xml">
+            <tree js_class="fci_tree">
+                <field name="name" />
+                <field name="date" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="line_count" />
+                <field name="protocol_number" />
+                <field
+                    name="state"
+                    widget="badge"
+                    decoration-info="state == 'generated'"
+                    decoration-warning="state == 'transmitted'"
+                    decoration-success="state == 'done'"
+                />
+            </tree>
+        </field>
+    </record>
+
+    <record id="fci_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.fci.header.form</field>
+        <field name="model">l10n_br_fiscal.fci.header</field>
+        <field name="arch" type="xml">
+            <form string="FCI">
+                <header>
+                    <button
+                        name="action_generate_file"
+                        type="object"
+                        string="Generate File"
+                        states="draft"
+                        class="oe_highlight"
+                    />
+                    <button
+                        name="action_set_transmitted"
+                        type="object"
+                        string="Confirm Transmission"
+                        states="generated"
+                        class="oe_highlight"
+                    />
+                    <button
+                        name="action_import_return_file"
+                        type="object"
+                        string="Import Return File"
+                        attrs="{'invisible': [('state', 'not in', ('transmitted', 'done'))]}"
+                        class="oe_highlight"
+                    />
+                    <button
+                        name="action_back_to_draft"
+                        type="object"
+                        string="Back to Draft"
+                        states="generated"
+                    />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group name="fci_data" string="FCI">
+                            <field name="company_id" options="{'no_create': True}" />
+                            <field name="date" />
+                            <field name="layout_version" />
+                            <field name="currency_id" invisible="1" />
+                        </group>
+                        <group name="establishment" string="Establishment">
+                            <field name="cnpj_cpf" />
+                            <field name="ie" />
+                            <field name="legal_name" />
+                            <field name="city_id" />
+                            <field name="state_id" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="lines" string="Goods">
+                            <field name="line_ids" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle" />
+                                    <field name="company_id" invisible="1" />
+                                    <field name="currency_id" invisible="1" />
+                                    <field
+                                        name="product_id"
+                                        options="{'no_create': True}"
+                                    />
+                                    <field name="name" />
+                                    <field name="ncm_id" optional="show" />
+                                    <field name="product_code" />
+                                    <field name="gtin" optional="hide" />
+                                    <field name="uom_code" />
+                                    <field name="amount_interstate" sum="Total" />
+                                    <field name="amount_imported" sum="Total" />
+                                    <field name="import_content" />
+                                    <field name="fci_code" optional="show" />
+                                    <field
+                                        name="validation_indicator"
+                                        optional="hide"
+                                    />
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="file" string="File">
+                            <group>
+                                <group name="file_data" string="Transmission">
+                                    <field
+                                        name="file"
+                                        filename="filename"
+                                        attrs="{'invisible': [('file', '=', False)]}"
+                                    />
+                                    <field name="filename" invisible="1" />
+                                    <field name="protocol_number" />
+                                </group>
+                                <group name="return_data" string="Return">
+                                    <field
+                                        name="return_file"
+                                        filename="return_filename"
+                                        attrs="{'invisible': [('return_file', '=', False)]}"
+                                    />
+                                    <field name="return_filename" invisible="1" />
+                                    <field name="hash_code" />
+                                    <field name="date_reception" />
+                                    <field name="date_validation" />
+                                    <field name="validation_indicator" />
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+</odoo>
