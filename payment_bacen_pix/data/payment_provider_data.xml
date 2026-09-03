@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 KMEE -->
+<!-- License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="1">
+    <record id="payment_provider_bacenpix" model="payment.provider">
+        <field name="name">Pix</field>
+        <field name="code">bacenpix</field>
+        <field name="display_as">Pix</field>
+        <field
+            name="image_128"
+            type="base64"
+            file="payment_bacen_pix/static/img/pix.png"
+        />
+        <field name="redirect_form_view_id" ref="redirect_form" />
+        <field name="module_id" ref="base.module_payment_bacen_pix" />
+        <field
+            name="pending_msg"
+        >Your payment is waiting for the confirmation of the Pix arrangement.</field>
+        <field
+            name="payment_icon_ids"
+            eval="[(6, 0, [ref('payment_bacen_pix.payment_icon_pix')])]"
+        />
+    </record>
+</odoo>
