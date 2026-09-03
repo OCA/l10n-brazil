@@ -206,6 +206,88 @@ class Document(models.Model):
 
     imported_document = fields.Boolean(string="Imported", copy=False)
 
+    import_state = fields.Selection(
+        selection=[
+            ("pending", "Pending Review"),
+            ("in_progress", "Review in Progress"),
+            ("resolved", "Resolved"),
+        ],
+        compute="_compute_import_state",
+        store=True,
+        copy=False,
+        help="Aggregated review state of the lines imported from a fiscal "
+        "document file.",
+    )
+
+    import_pending_count = fields.Integer(
+        compute="_compute_import_pending_count",
+    )
+
+    @api.depends("imported_document", "fiscal_line_ids.import_state")
+    def _compute_import_state(self):
+        for document in self:
+            if not document.imported_document:
+                document.import_state = False
+                continue
+            states = set(document.fiscal_line_ids.mapped("import_state")) - {False}
+            if not states or states == {"resolved"}:
+                document.import_state = "resolved"
+            elif "resolved" in states:
+                document.import_state = "in_progress"
+            else:
+                document.import_state = "pending"
+
+    @api.depends("fiscal_line_ids.import_state")
+    def _compute_import_pending_count(self):
+        for document in self:
+            document.import_pending_count = len(
+                document.fiscal_line_ids.filtered(
+                    lambda line: line.import_state in ("pending", "matched")
+                )
+            )
+
+    def _attach_imported_xml(self, file_content, filename=None):
+        """Attach the original imported file to the document.
+
+        The imported file is the single source of the supplier data and
+        must stay untouched: the de-para is persisted on the lines, never
+        rewritten into the file.
+        """
+        self.ensure_one()
+        return self.env["ir.attachment"].create(
+            {
+                "name": filename or "%s-imported.xml" % (self.document_key or self.id),
+                "datas": file_content,
+                "description": "Imported fiscal document file",
+                "res_model": "l10n_br_fiscal.document",
+                "res_id": self.id,
+            }
+        )
+
+    def _init_import_states(self):
+        """Initialize the per-line review states of an imported document.
+
+        Lines that already got an internal product from the automatic
+        matching start as ``matched`` (suggestion to confirm); lines without
+        a product start as ``pending`` and wait for a human decision.
+        """
+        for document in self.filtered("imported_document"):
+            for line in document.fiscal_line_ids:
+                line.import_state = "matched" if line.product_id else "pending"
+
+    def _suggest_fiscal_operation(self):
+        """Suggest the document fiscal operation from the operation most
+        suggested among its imported lines (through the inverse CFOP)."""
+        self.ensure_one()
+        suggestions = {}
+        for line in self.fiscal_line_ids:
+            operation = line._suggest_fiscal_operation_in()
+            if operation:
+                suggestions[operation] = suggestions.get(operation, 0) + 1
+        if not suggestions:
+            return self.env["l10n_br_fiscal.operation"]
+        return max(suggestions, key=suggestions.get)
+
     xml_error_message = fields.Text(
         readonly=True,
         string="XML validation errors",
