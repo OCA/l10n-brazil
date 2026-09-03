@@ -8,7 +8,6 @@ from erpbrasil.assinatura import misc
 from odoo import Command, fields
 from odoo.exceptions import ValidationError
 from odoo.tests import TransactionCase
-from odoo.tools.misc import format_date
 
 
 class TestCertificate(TransactionCase):
@@ -16,7 +15,7 @@ class TestCertificate(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.company_model = cls.env["res.company"]
-        cls.certificate_model = cls.env["l10n_br_fiscal.certificate"]
+        cls.certificate_model = cls.env["certificate.certificate"]
         cls.company = cls._create_compay()
         cls._switch_user_company(cls.env.user, cls.company)
 
@@ -27,12 +26,6 @@ class TestCertificate(TransactionCase):
         cls.cert_date_exp = fields.Datetime.today() + timedelta(days=365)
         cls.cert_subject_invalid = "CERTIFICADO INVALIDO TESTE"
         cls.cert_passwd = "123456"
-        cls.cert_name = "{} - {} - {} - Valid: {}".format(
-            "NF-E",
-            "A1",
-            cls.cert_subject_valid,
-            format_date(cls.env, cls.cert_date_exp),
-        )
 
         cls.certificate_valid = misc.create_fake_certificate_file(
             valid=True,
@@ -72,51 +65,48 @@ class TestCertificate(TransactionCase):
             }
         )
 
+    def _certificate_vals(self, cert_file, cert_type="nf-e", passwd=None):
+        return {
+            "type": cert_type,
+            "subtype": "a1",
+            "scope": "l10n_br",
+            "pkcs12_password": passwd or self.cert_passwd,
+            "content": cert_file,
+            "company_id": self.company.id,
+        }
+
     def test_valid_certificate(self):
         """Create and check a valid certificate"""
         cert = self.certificate_model.create(
-            {
-                "type": "nf-e",
-                "subtype": "a1",
-                "password": self.cert_passwd,
-                "file": self.certificate_valid,
-            }
+            self._certificate_vals(self.certificate_valid)
         )
 
         self.assertEqual(cert.issuer_name, self.cert_issuer_a)
-        self.assertEqual(cert.owner_name, self.cert_subject_valid)
-        self.assertEqual(cert.date_expiration.year, self.cert_date_exp.year)
-        self.assertEqual(cert.date_expiration.month, self.cert_date_exp.month)
-        self.assertEqual(cert.date_expiration.day, self.cert_date_exp.day)
-        self.assertEqual(cert.name, self.cert_name)
+        self.assertEqual(cert.subject_common_name, self.cert_subject_valid)
+        self.assertEqual(cert.date_end.year, self.cert_date_exp.year)
+        self.assertEqual(cert.date_end.month, self.cert_date_exp.month)
+        self.assertEqual(cert.date_end.day, self.cert_date_exp.day)
         self.assertEqual(cert.is_valid, True)
-        # Testa metodo write
+        self.assertEqual(cert.owner_cnpj_cpf, "")
+        self.assertTrue(
+            cert.name.startswith("NF-E - A1 - CERTIFICADO VALIDO TESTE - Valid:")
+        )
+        # Test method write
         cert.type = "e-cnpj"
-        cert._onchange_file_password()
 
     def test_certificate_wrong_password(self):
         """Write a valid certificate with wrong password"""
         with self.assertRaises(ValidationError):
             self.certificate_model.create(
-                {
-                    "type": "nf-e",
-                    "subtype": "a1",
-                    "password": "INVALID",
-                    "file": self.certificate_valid,
-                }
+                self._certificate_vals(self.certificate_valid, passwd="INVALID")
             )
 
     def test_invalid_certificate(self):
-        """Create and check a invalid certificate"""
-        with self.assertRaises(ValidationError):
-            self.certificate_model.create(
-                {
-                    "type": "nf-e",
-                    "subtype": "a1",
-                    "password": self.cert_passwd,
-                    "file": self.certificate_invalid,
-                }
-            )
+        """Create and check an expired certificate is flagged as invalid"""
+        cert = self.certificate_model.create(
+            self._certificate_vals(self.certificate_invalid)
+        )
+        self.assertFalse(cert.is_valid)
 
     def test_compute_field_and_method_to_get_certificate(self):
         """Test compute field and Method to get Certificate or e-CNPJ or e-NFe"""
@@ -124,28 +114,18 @@ class TestCertificate(TransactionCase):
         with self.assertRaises(ValidationError):
             assert company.certificate
         cert = self.certificate_model.create(
-            {
-                "type": "nf-e",
-                "subtype": "a1",
-                "password": self.cert_passwd,
-                "file": self.certificate_valid,
-            }
+            self._certificate_vals(self.certificate_valid)
         )
 
         company.certificate_nfe_id = cert
         assert company.certificate
 
-        # Caso onde apenas o e-CNPJ atende
+        # Case where only e-CNPJ applies
         with self.assertRaises(ValidationError):
             assert company._get_br_ecertificate(only_ecnpj=True)
         company.certificate_nfe_id = False
         cert_ecnpj = self.certificate_model.create(
-            {
-                "type": "e-cnpj",
-                "subtype": "a1",
-                "password": self.cert_passwd,
-                "file": self.certificate_valid,
-            }
+            self._certificate_vals(self.certificate_valid, cert_type="e-cnpj")
         )
         company.certificate_ecnpj_id = cert_ecnpj
         assert company._get_br_ecertificate(only_ecnpj=True)

@@ -1,146 +1,88 @@
 # Copyright (C) 2019  Renato Lima - Akretion
+# Copyright (C) 2024  Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import base64
+from contextlib import suppress
 
-from erpbrasil.assinatura import certificado
+from cryptography import x509
 
-from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
-from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
+from odoo import api, fields, models
 from odoo.tools.misc import format_date
 
-from ..constants import (
-    CERTIFICATE_SUBTYPE,
-    CERTIFICATE_SUBTYPE_DEFAULT,
-    CERTIFICATE_TYPE,
-    CERTIFICATE_TYPE_DEFAULT,
-)
+from ..constants import CERTIFICATE_SUBTYPE, CERTIFICATE_TYPE
 
 
 class Certificate(models.Model):
-    _name = "l10n_br_fiscal.certificate"
-    _inherit = ["mail.thread", "mail.activity.mixin"]
-    _description = "Certificate"
-    _order = "date_expiration"
+    _inherit = "certificate.certificate"
 
-    name = fields.Char(compute="_compute_name", readonly=True)
-
-    active = fields.Boolean(default=True)
-
-    date_start = fields.Datetime(readonly=True, store=True)
-
-    date_expiration = fields.Datetime(readonly=True, store=True)
-
-    issuer_name = fields.Char(size=120, readonly=True, store=True)
-
-    owner_name = fields.Char(string="Owner", size=120, readonly=True, store=True)
-
-    owner_cnpj_cpf = fields.Char(string="CNPJ/CPF", size=18, readonly=True, store=True)
+    scope = fields.Selection(
+        selection_add=[("l10n_br", "Brazilian Fiscal")],
+    )
 
     type = fields.Selection(
         selection=CERTIFICATE_TYPE,
         string="Certificate Type",
-        default=CERTIFICATE_TYPE_DEFAULT,
-        required=True,
     )
 
     subtype = fields.Selection(
         selection=CERTIFICATE_SUBTYPE,
         string="Document SubType",
-        default=CERTIFICATE_SUBTYPE_DEFAULT,
-        required=True,
     )
 
-    file = fields.Binary(string="file", prefetch=True, required=True)
+    name = fields.Char(
+        compute="_compute_name",
+        store=True,
+    )
 
-    file_name = fields.Char(compute="_compute_name", size=255)
+    owner_cnpj_cpf = fields.Char(
+        string="CNPJ/CPF",
+        compute="_compute_owner_cnpj_cpf",
+        store=True,
+    )
 
-    password = fields.Char(required=True)
+    issuer_name = fields.Char(
+        string="Issuer",
+        compute="_compute_issuer_name",
+        store=True,
+    )
 
-    is_valid = fields.Boolean(compute="_compute_is_valid", string="Is Valid?")
+    @api.depends("subject_common_name")
+    def _compute_owner_cnpj_cpf(self):
+        for certificate in self:
+            cnpj_cpf = ""
+            subject = certificate.subject_common_name or ""
+            if ":" in subject:
+                # Brazilian certificates carry the CNPJ/CPF in the subject CN
+                # after the last colon, e.g. "NOME DA EMPRESA:12345678000190".
+                cnpj_cpf = subject.rsplit(":", 1)[1]
+            certificate.owner_cnpj_cpf = cnpj_cpf
 
-    @api.model
-    def _certificate_data(self, cert_file, cert_password):
-        values = {}
-        if cert_file and cert_password:
-            try:
-                cert = certificado.Certificado(cert_file, cert_password)
-            except Exception as e:
-                raise ValidationError(
-                    _("Cannot load Certificate ! \n\n {}").format(e)
-                ) from e
-
-            if cert:
-                values["issuer_name"] = cert.emissor
-                values["owner_name"] = cert.proprietario
-                values["owner_cnpj_cpf"] = cert.cnpj_cpf
-                if cert.fim_validade:
-                    values["date_expiration"] = cert.fim_validade.strftime(
-                        DEFAULT_SERVER_DATETIME_FORMAT
+    @api.depends("pem_certificate")
+    def _compute_issuer_name(self):
+        for certificate in self:
+            issuer_name = ""
+            pem_certificate = certificate.with_context(bin_size=False).pem_certificate
+            if pem_certificate:
+                with suppress(ValueError, TypeError):
+                    x509_cert = x509.load_pem_x509_certificate(
+                        base64.b64decode(pem_certificate)
                     )
+                    issuer_name = self._get_common_name(x509_cert, issuer=True) or ""
+            certificate.issuer_name = issuer_name
 
-                if cert.inicio_validade:
-                    values["date_start"] = cert.inicio_validade.strftime(
-                        DEFAULT_SERVER_DATETIME_FORMAT
-                    )
-
-        return values
-
-    @api.constrains("file", "password")
-    def _check_certificate(self):
-        for c in self:
-            cert_values = c._certificate_data(c.file, c.password)
-            if not cert_values:
-                raise ValidationError(_("Cannot load Certificate !"))
-
-    @api.depends("file", "password")
+    @api.depends("type", "subtype", "subject_common_name", "date_end")
     def _compute_name(self):
-        for cert in self:
-            name = False
-            file_name = False
-            if cert.file and cert.password:
-                name = "{} - {} - {} - Valid: {}".format(
-                    cert.type and cert.type.upper() or "",
-                    cert.subtype and cert.subtype.upper() or "",
-                    cert.owner_name or "",
-                    format_date(self.env, cert.date_expiration.date())
-                    if cert.date_expiration
-                    else "",
+        for certificate in self:
+            parts = []
+            if certificate.type:
+                parts.append(certificate.type.upper())
+            if certificate.subtype:
+                parts.append(certificate.subtype.upper())
+            if certificate.subject_common_name:
+                parts.append(certificate.subject_common_name)
+            if certificate.date_end:
+                parts.append(
+                    f"Valid: {format_date(self.env, certificate.date_end.date())}"
                 )
-                file_name = name + ".p12"
-
-            cert.name = name
-            cert.file_name = file_name
-
-    def update_certificate_data(self, values):
-        cert_file = values.get("file")
-        if isinstance(cert_file, str):
-            cert_file = cert_file.encode()
-        values.update(self._certificate_data(cert_file, values.get("password")))
-        return values
-
-    @api.depends("date_expiration")
-    def _compute_is_valid(self):
-        for c in self:
-            c.is_valid = False
-            if c.date_expiration:
-                c.is_valid = c.date_expiration >= fields.Datetime.now()
-
-    @api.model_create_multi
-    def create(self, vals_list):
-        for vals in vals_list:
-            self.update_certificate_data(vals)
-        return super().create(vals_list)
-
-    def write(self, values):
-        values = self.update_certificate_data(values)
-        return super().write(values)
-
-    @api.onchange("file", "password")
-    def _onchange_file_password(self):
-        if self.file and self.password:
-            self.update(
-                self.update_certificate_data(
-                    {"file": self.file, "password": self.password}
-                )
-            )
+            certificate.name = " - ".join(parts)
