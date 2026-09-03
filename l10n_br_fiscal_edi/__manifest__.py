@@ -33,6 +33,11 @@
         # Menus
         "views/l10n_br_fiscal_menu.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "l10n_br_fiscal_edi/static/src/js/download_files.esm.js",
+        ],
+    },
     "installable": True,
     "external_dependencies": {
         "python": [
