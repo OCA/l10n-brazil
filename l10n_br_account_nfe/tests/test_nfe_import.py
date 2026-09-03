@@ -65,6 +65,7 @@ class NFeImportTest(TransactionCase):
         with Form(wizard) as import_form:
             import_form.file = base64.b64encode(file_content)
             import_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras")
+            import_form.allow_product_creation = True
             lines = import_form.imported_products_ids._records
         for line in lines:  # ensure testing consistency
             del line["id"]
@@ -261,6 +262,7 @@ class NFeImportTest(TransactionCase):
         with Form(wizard) as import_form:
             import_form.file = base64.b64encode(file_content)
             import_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras")
+            import_form.allow_product_creation = True
 
         _binding, document = wizard._import_edoc()
         # Break one line to simulate an unmatched product.

@@ -7,6 +7,7 @@ import nfelib
 import pkg_resources
 from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
 
+from odoo.exceptions import UserError
 from odoo.models import NewId
 from odoo.tests import TransactionCase
 
@@ -24,8 +25,10 @@ class NFeImportTest(TransactionCase):
         resource_path = "/".join(res_items)
         nfe_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
         binding = TnfeProc.from_xml(nfe_stream.read().decode())
-        nfe = self.env["l10n_br_fiscal.document"].import_binding_nfe(
-            binding, edoc_type="in", dry_run=True
+        nfe = (
+            self.env["l10n_br_fiscal.document"]
+            .with_context(allow_product_creation=True)
+            .import_binding_nfe(binding, edoc_type="in", dry_run=True)
         )
         assert isinstance(nfe.id, NewId)
         self._check_nfe(nfe)
@@ -41,8 +44,10 @@ class NFeImportTest(TransactionCase):
         resource_path = "/".join(res_items)
         nfe_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
         binding = TnfeProc.from_xml(nfe_stream.read().decode())
-        nfe = self.env["l10n_br_fiscal.document"].import_binding_nfe(
-            binding, edoc_type="in", dry_run=False
+        nfe = (
+            self.env["l10n_br_fiscal.document"]
+            .with_context(allow_product_creation=True)
+            .import_binding_nfe(binding, edoc_type="in", dry_run=False)
         )
 
         assert isinstance(nfe.id, int)
@@ -132,8 +137,10 @@ class NFeImportTest(TransactionCase):
         )
         xml = xml.replace("</dest>", "</dest>" + entrega, 1)
         binding = TnfeProc.from_xml(xml)
-        nfe = self.env["l10n_br_fiscal.document"].import_binding_nfe(
-            binding, edoc_type="in", dry_run=False
+        nfe = (
+            self.env["l10n_br_fiscal.document"]
+            .with_context(allow_product_creation=True)
+            .import_binding_nfe(binding, edoc_type="in", dry_run=False)
         )
         shipping = nfe.partner_shipping_id
         self.assertTrue(shipping, "delivery address was not imported")
@@ -179,8 +186,10 @@ class NFeImportTest(TransactionCase):
         self.assertFalse(existing, "test precondition: reduced tax must not exist")
 
         binding = TnfeProc.from_xml(xml)
-        nfe = self.env["l10n_br_fiscal.document"].import_binding_nfe(
-            binding, edoc_type="in", dry_run=False
+        nfe = (
+            self.env["l10n_br_fiscal.document"]
+            .with_context(allow_product_creation=True)
+            .import_binding_nfe(binding, edoc_type="in", dry_run=False)
         )
         created = self.env["l10n_br_fiscal.tax"].search(
             [
@@ -193,6 +202,36 @@ class NFeImportTest(TransactionCase):
         line = nfe.fiscal_line_ids[0]
         self.assertEqual(line.icms_tax_id, created)
         self.assertEqual(line.icms_tax_id.percent_reduction, 33.33)
+
+    def test_import_in_nfe_product_creation_forbidden(self):
+        """Unmapped product raises when allow_product_creation is not set."""
+        res_items = (
+            "nfe",
+            "samples",
+            "v4_0",
+            "leiauteNFe",
+            "35180834128745000152550010000474281920007498-nfe.xml",
+        )
+        resource_path = "/".join(res_items)
+        nfe_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
+        binding = TnfeProc.from_xml(nfe_stream.read().decode())
+
+        # The sample NFe has a product code that won't match any existing
+        # product in this fresh test DB (the post_init_hook demo import only
+        # runs with demo data). Importing without allow_product_creation must
+        # raise a UserError instead of silently creating a partial product.
+        with self.assertRaises(UserError) as ctx:
+            self.env["l10n_br_fiscal.document"].import_binding_nfe(
+                binding, edoc_type="in", dry_run=False
+            )
+
+        message = str(ctx.exception)
+        # The model description (Product Variant) is mentioned
+        self.assertIn("Product Variant", message)
+        # The search keys used are described
+        self.assertIn("Searched using:", message)
+        # The XML values that failed to match are echoed
+        self.assertIn("XML values received:", message)
 
     def test_import_out_nfe(self):
         "(can be useful after an ERP migration)"

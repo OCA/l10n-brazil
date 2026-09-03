@@ -403,8 +403,10 @@ class TestNFeWorkflowImportedDocument(TransactionCase):
             nfelib.__name__, "/".join(NFELIB_SAMPLE)
         )
         binding = TnfeProc.from_xml(nfe_stream.read().decode())
-        cls.imported = cls.env["l10n_br_fiscal.document"].import_binding_nfe(
-            binding, edoc_type="in", dry_run=False
+        cls.imported = (
+            cls.env["l10n_br_fiscal.document"]
+            .with_context(allow_product_creation=True)
+            .import_binding_nfe(binding, edoc_type="in", dry_run=False)
         )
 
     def test_imported_document_is_flagged_and_issued_by_the_partner(self):
