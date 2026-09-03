@@ -99,6 +99,7 @@ class NFe(spec_models.StackedModel):
         "infnfe.exporta",
         "infnfe.cobr",
         "infnfe.cobr.fat",
+        "infnfe.pag",
     )
     _nfe_search_keys = ["nfe40_Id"]
 
@@ -1507,6 +1508,8 @@ class NFe(spec_models.StackedModel):
     def _eletronic_document_send(self):
         super()._eletronic_document_send()
         for record in self.filtered(filter_processador_edoc_nfe):
+            if record.document_type == MODELO_FISCAL_NFE:
+                record._prepare_payments_for_nfe()
             if record.xml_error_message:
                 return  # Skip
 
@@ -1814,6 +1817,59 @@ class NFe(spec_models.StackedModel):
             rec.nfe40_detPag.filtered(lambda p: p.nfe40_tPag == "99").write(
                 {"nfe40_xPag": "Outros"}
             )
+
+    def _prepare_payments_for_nfe(self):
+        """Populate nfe40_detPag from invoice payment terms for NF-e (modelo 55).
+
+        NF-e requires at least one <detPag> inside <pag> in the XML.
+        This method reads the linked account.move's payment term and creates
+        nfe.40.detpag records accordingly.
+        """
+        for rec in self.filtered(
+            lambda d: d.document_type == MODELO_FISCAL_NFE
+        ):
+            if rec.nfe40_detPag:
+                continue
+            moves = self.env["account.move"].search([
+                ("fiscal_document_id", "=", rec.id),
+                ("move_type", "=", "out_invoice"),
+            ])
+            if not moves:
+                moves = rec.move_ids.filtered(
+                    lambda m: m.move_type == "out_invoice"
+                )
+            if not moves:
+                rec.nfe40_detPag = [(0, 0, {
+                    "nfe40_indPag": "0",
+                    "nfe40_tPag": "17",
+                    "nfe40_vPag": rec.fiscal_amount_total,
+                })]
+                continue
+            for move in moves:
+                payment_term = move.invoice_payment_term_id
+                if not payment_term or not payment_term.line_ids:
+                    rec.nfe40_detPag = [(0, 0, {
+                        "nfe40_indPag": "0",
+                        "nfe40_tPag": "17",
+                        "nfe40_vPag": move.amount_total,
+                    })]
+                    continue
+                lines = payment_term.line_ids.sorted(
+                    key=lambda l: l.nb_days or 0
+                )
+                is_installment = len(lines) > 1
+                for line in lines:
+                    if line.value == "percent":
+                        line_amount = move.amount_total * (line.value_amount / 100.0)
+                    elif line.value == "fixed":
+                        line_amount = line.value_amount
+                    else:
+                        line_amount = move.amount_total
+                    rec.nfe40_detPag = [(0, 0, {
+                        "nfe40_indPag": "1" if is_installment else "0",
+                        "nfe40_tPag": "17",
+                        "nfe40_vPag": line_amount,
+                    })]
 
     def action_danfe_nfce_report(self):
         return (
