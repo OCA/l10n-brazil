@@ -35,6 +35,7 @@ addon | version | maintainers | summary
 [l10n_br_hr](l10n_br_hr/) | 19.0.1.5.0 |  | Brazilian Localization HR
 [l10n_br_mis_report](l10n_br_mis_report/) | 19.0.1.0.0 | <a href='https://github.com/mileo'><img src='https://github.com/mileo.png' width='32' height='32' style='border-radius:50%;' alt='mileo'/></a> | Templates de relatórios contábeis brasileiros: Balanço Patrimonial e DRE
 [l10n_br_resource](l10n_br_resource/) | 19.0.2.0.0 | <a href='https://github.com/mileo'><img src='https://github.com/mileo.png' width='32' height='32' style='border-radius:50%;' alt='mileo'/></a> | This module extend core resource to create important brazilian informations. Define a Brazilian calendar and some tools to compute dates used in financial and payroll modules
+[l10n_br_setup_tests](l10n_br_setup_tests/) | 19.0.1.0.0 | <a href='https://github.com/antoniospneto'><img src='https://github.com/antoniospneto.png' width='32' height='32' style='border-radius:50%;' alt='antoniospneto'/></a> | Modules for Odoo's Brazil-focused usability with integration tests.
 [l10n_br_zip](l10n_br_zip/) | 19.0.1.1.0 | <a href='https://github.com/renatonlima'><img src='https://github.com/renatonlima.png' width='32' height='32' style='border-radius:50%;' alt='renatonlima'/></a> | Brazilian Localisation ZIP Codes
 
 [//]: # (end addons)
