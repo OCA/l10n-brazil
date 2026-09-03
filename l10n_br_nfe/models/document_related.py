@@ -57,25 +57,6 @@ class NFeRelated(spec_models.StackedModel):
         inverse="_inverse_nfe40_refCTe",
     )
 
-    # TODO
-    # nfe40_refNF = fields.Many2one(
-    #     compute='_compute_nfe_data',
-    #     inverse='_inverse_nfe40_refNF',
-    #     store=True,
-    # )
-    #
-    # nfe40_refNFP = fields.Many2one(
-    #     compute='_compute_nfe_data',
-    #     inverse='_inverse_nfe40_refNFP',
-    #     store=True,
-    # )
-    #
-    # nfe40_refECF = fields.Many2one(
-    #     compute='_compute_nfe_data',
-    #     inverse='_inverse_nfe40_refECF',
-    #     store=True,
-    # )
-
     @api.depends("document_type_id")
     def _compute_nfe_data(self):
         """Set schema data which are not just related fields"""
