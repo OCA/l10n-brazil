@@ -5,7 +5,7 @@
 
 from contextlib import contextmanager
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import frozendict
 
@@ -721,6 +721,42 @@ class AccountMove(models.Model):
     def action_send_email(self):
         self.ensure_one_doc()
         return self.fiscal_document_id.action_send_email()
+
+    def _fiscal_documents_to_download(self):
+        """The fiscal documents behind the selected invoices."""
+        documents = self.mapped("fiscal_document_id")
+        if not documents:
+            raise UserError(
+                _("None of the selected invoices carries a fiscal document.")
+            )
+        return documents
+
+    def _download_fiscal_files(self, method):
+        """Forward the download to the fiscal document.
+
+        Soft dependency: the files and the download itself live in
+        l10n_br_fiscal_edi, which this module does not depend on, so what is
+        left here is the forwarding and a legible answer where the electronic
+        document module is not installed.
+        """
+        documents = self._fiscal_documents_to_download()
+        if not hasattr(documents, method):
+            raise UserError(
+                _(
+                    "Downloading the XML and the report needs the electronic "
+                    "fiscal document module installed."
+                )
+            )
+        return getattr(documents, method)()
+
+    def action_download_xml(self):
+        return self._download_fiscal_files("action_download_xml")
+
+    def action_download_report(self):
+        return self._download_fiscal_files("action_download_report")
+
+    def action_download_xml_and_report(self):
+        return self._download_fiscal_files("action_download_xml_and_report")
 
     @api.constrains("state")
     def _check_l10n_latam_documents(self):
