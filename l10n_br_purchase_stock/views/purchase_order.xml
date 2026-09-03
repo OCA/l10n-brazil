@@ -25,6 +25,24 @@
                     name="attrs"
                 >{'invisible': [('button_create_invoice_invisible', '=', True)]}</attribute>
             </xpath>
+            <!--
+              The net acquisition cost, shown where the buyer decides.
+
+              It used to appear only on the receipt, and only when the
+              company invoices from the picking, so on the default flow
+              nobody ever saw the number that values the stock. Here the
+              buyer compares it against the price before approving, which is
+              the moment the decision is actually taken.
+            -->
+            <xpath expr="//field[@name='order_line']/tree" position="inside">
+                <field name="creditability_origin" optional="hide" readonly="1" />
+                <field
+                    name="cost_unit"
+                    optional="show"
+                    readonly="1"
+                    string="Net Cost"
+                />
+            </xpath>
         </field>
     </record>
 </odoo>
