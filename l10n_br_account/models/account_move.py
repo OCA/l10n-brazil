@@ -329,15 +329,21 @@ class AccountMove(models.Model):
         for move in self.filtered(
             lambda m: m.document_type_id and not m.l10n_latam_document_type_id
         ):
-            latam_doc_type = self.env["l10n_latam.document.type"].search(
-                [
-                    ("code", "=", move.document_type_id.code),
-                    ("country_id", "=", move.company_id.account_fiscal_country_id.id),
-                ],
-                limit=1,
+            latam_doc_type = self._find_latam_document_type(
+                move.document_type_id, move.company_id
             )
             if latam_doc_type:
                 move.l10n_latam_document_type_id = latam_doc_type
+
+    @api.model
+    def _find_latam_document_type(self, document_type, company):
+        return self.env["l10n_latam.document.type"].search(
+            [
+                ("code", "=", document_type.code),
+                ("country_id", "=", company.account_fiscal_country_id.id),
+            ],
+            limit=1,
+        )
 
     def _compute_imported_terms(self):
         self.ensure_one()
@@ -980,6 +986,19 @@ class AccountMove(models.Model):
             move_form.fiscal_document_id = fiscal_document
             move_form.fiscal_operation_id = fiscal_document.fiscal_operation_id
             move_form.document_serie = fiscal_document.document_serie
+            if (
+                "l10n_latam.document.type" in self.env
+                and move_form.l10n_latam_use_documents
+            ):
+                latam_doc_type = self._find_latam_document_type(
+                    fiscal_document.document_type_id, fiscal_document.company_id
+                )
+                if latam_doc_type:
+                    move_form.l10n_latam_document_type_id = latam_doc_type
+                if move_form.l10n_latam_manual_document_number:
+                    move_form.l10n_latam_document_number = (
+                        fiscal_document.document_number
+                    )
 
         unit_and_prices = []
         for line in fiscal_document.fiscal_line_ids:
