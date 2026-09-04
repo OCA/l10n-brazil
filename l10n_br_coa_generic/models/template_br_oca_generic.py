@@ -18,8 +18,6 @@ class AccountChartTemplate(models.AbstractModel):
             "visible": True,
             "property_account_receivable_id": "coa_generic_112101",
             "property_account_payable_id": "coa_generic_211101",
-            "property_account_expense_categ_id": "coa_generic_511101",
-            "property_account_income_categ_id": "coa_generic_611101",
         }
 
     @template("br_oca_generic", "res.company")
@@ -27,6 +25,8 @@ class AccountChartTemplate(models.AbstractModel):
         return {
             self.env.company.id: {
                 "account_default_pos_receivable_account_id": "coa_generic_112102",
+                "income_account_id": "coa_generic_611101",
+                "expense_account_id": "coa_generic_511101",
                 "anglo_saxon_accounting": True,
             },
         }
