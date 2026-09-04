@@ -3,7 +3,9 @@
 # flake8: noqa: C901
 
 import re
+import typing
 from datetime import datetime
+from functools import cache
 from importlib import resources
 
 import nfelib
@@ -19,6 +21,38 @@ from odoo.addons.l10n_br_cte_spec.models.v4_0 import cte_tipos_basico_v4_00
 from ..models import spec_mixin
 
 tz_datetime = re.compile(r".*[-+]0[0-9]:00$")
+
+
+@cache
+def _resolve_type_hints(cls):
+    """Resolve a binding dataclass' annotations into real typing objects.
+
+    xsdata >= 26 emits ``from __future__ import annotations`` (PEP 563) so
+    ``field.type`` is a plain string; get_type_hints evaluates it back into
+    real types. Safe for older xsdata versions too.
+    """
+    try:
+        return typing.get_type_hints(cls)
+    except Exception:
+        return {}
+
+
+def _unwrap_binding_type(ftype):
+    """Return (inner_type_or_None, is_list) for a resolved annotation."""
+    origin = typing.get_origin(ftype)
+    if origin is list:
+        args = typing.get_args(ftype)
+        return (args[0] if args else None, True)
+    if origin is not None:
+        for arg in typing.get_args(ftype):
+            if arg is type(None):
+                continue
+            if typing.get_origin(arg) is list:
+                largs = typing.get_args(arg)
+                return (largs[0] if largs else None, True)
+            return (arg, False)
+        return (None, False)
+    return (ftype, False)
 
 
 # Store the original _add_field method
@@ -65,6 +99,7 @@ def build_attrs_fake(self, node, create_m2o=False):
     """
     fields = self.fields_get()
     vals = self.default_get(fields.keys())
+    hints = _resolve_type_hints(type(node))
     for fname, fspec in node.__dataclass_fields__.items():
         if fname == "any_element":  # FIXME in spec_driven_model
             continue
@@ -72,9 +107,12 @@ def build_attrs_fake(self, node, create_m2o=False):
         if value is None:
             continue
         key = f"{self._field_prefix}{fname}"
-        if (
-            fspec.type is str or not any(["." in str(i) for i in fspec.type.__args__])
-        ) and not str(fspec.type).startswith("typing.List"):
+        ftype = hints.get(fname, fspec.type)
+        inner_type, is_list = _unwrap_binding_type(ftype)
+        is_complex = inner_type is not None and hasattr(
+            inner_type, "__dataclass_fields__"
+        )
+        if not is_complex:
             # SimpleType
             if fields[key]["type"] == "datetime":
                 if "T" in value:
@@ -86,10 +124,7 @@ def build_attrs_fake(self, node, create_m2o=False):
             vals[key] = value
 
         else:
-            if hasattr(fspec.type.__args__[0], "__name__"):
-                binding_type = fspec.type.__args__[0].__name__
-            else:
-                binding_type = fspec.type.__args__[0].__forward_arg__
+            binding_type = inner_type.__qualname__
 
             # ComplexType
             if fields.get(key) and fields[key].get("related"):
@@ -110,7 +145,7 @@ def build_attrs_fake(self, node, create_m2o=False):
             if comodel is None:  # example skip ICMS100 class
                 continue
 
-            if not str(fspec.type).startswith("typing.List"):
+            if not is_list:
                 # m2o
                 new_value = comodel.build_attrs_fake(
                     value,

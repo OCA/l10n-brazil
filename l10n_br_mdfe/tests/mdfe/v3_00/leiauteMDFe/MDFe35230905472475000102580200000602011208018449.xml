@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<MDFe xmlns="http://www.portalfiscal.inf.br/mdfe">
+    <infMDFe versao="3.00" Id="MDFe35230905472475000102580200000602011208018449">
+        <ide>
+            <cUF>35</cUF>
+            <tpAmb>2</tpAmb>
+            <tpEmit>2</tpEmit>
+            <tpTransp>1</tpTransp>
+            <mod>58</mod>
+            <serie>1</serie>
+            <nMDF>2</nMDF>
+            <cMDF>20801844</cMDF>
+            <modal>4</modal>
+            <dhEmi>2020-01-01T12:00:00+01:00</dhEmi>
+            <tpEmis>1</tpEmis>
+            <procEmi>0</procEmi>
+            <verProc>Odoo Brasil OCA v14</verProc>
+            <UFIni>AC</UFIni>
+            <UFFim>AC</UFFim>
+            <infMunCarrega>
+                <cMunCarrega>1200013</cMunCarrega>
+                <xMunCarrega>Acrelândia</xMunCarrega>
+            </infMunCarrega>
+            <infPercurso>
+                <UFPer>PB</UFPer>
+            </infPercurso>
+        </ide>
+        <emit>
+            <CNPJ>81583054000129</CNPJ>
+            <IE>078016350838</IE>
+            <xNome>Empresa Lucro Presumido Ltda</xNome>
+            <xFant>Empresa Lucro Presumido</xFant>
+            <enderEmit>
+                <xLgr>Avenida Paulista</xLgr>
+                <nro>1</nro>
+                <xBairro>Bela Vista</xBairro>
+                <cMun>3550308</cMun>
+                <xMun>São Paulo</xMun>
+                <CEP>01311000</CEP>
+                <UF>SP</UF>
+                <fone>551199999999</fone>
+                <email>info@suaempresa.com.br</email>
+            </enderEmit>
+        </emit>
+        <infModal versaoModal="3.00">
+            <ferrov>
+                <trem>
+                    <xPref>TES</xPref>
+                    <dhTrem>2020-01-01T12:00:00+01:00</dhTrem>
+                    <xOri>TES</xOri>
+                    <xDest>TES</xDest>
+                    <qVag>2</qVag>
+                </trem>
+                <vag>
+                    <pesoBC>500.000</pesoBC>
+                    <pesoR>1.000</pesoR>
+                    <tpVag>123</tpVag>
+                    <serie>123</serie>
+                    <nVag>123</nVag>
+                    <nSeq>123</nSeq>
+                    <TU>1</TU>
+                </vag>
+                <vag>
+                    <pesoBC>500.000</pesoBC>
+                    <pesoR>1.000</pesoR>
+                    <tpVag>321</tpVag>
+                    <serie>321</serie>
+                    <nVag>321</nVag>
+                    <nSeq>321</nSeq>
+                    <TU>1</TU>
+                </vag>
+            </ferrov>
+        </infModal>
+        <infDoc>
+            <infMunDescarga>
+                <cMunDescarga>1200013</cMunDescarga>
+                <xMunDescarga>Acrelândia</xMunDescarga>
+                <infNFe>
+                    <chNFe>41190806117473000150550010000586251016759484</chNFe>
+                </infNFe>
+            </infMunDescarga>
+        </infDoc>
+        <tot>
+            <qNFe>1</qNFe>
+            <vCarga>33.19</vCarga>
+            <cUnid>01</cUnid>
+            <qCarga>10.0000</qCarga>
+        </tot>
+        <infAdic>
+            <infAdFisco>Documento emitido por: Marc Demo</infAdFisco>
+        </infAdic>
+    </infMDFe>
+</MDFe>
