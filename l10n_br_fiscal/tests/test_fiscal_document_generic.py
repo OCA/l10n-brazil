@@ -16,6 +16,12 @@ class TestFiscalDocumentGeneric(SavepointCase):
         # Contribuinte
         cls.nfe_same_state = cls.env.ref("l10n_br_fiscal.demo_nfe_same_state")
         cls.nfe_other_state = cls.env.ref("l10n_br_fiscal.demo_nfe_other_state")
+        cls.nfe_other_state_st_6404 = cls.env.ref(
+            "l10n_br_fiscal.demo_nfe_other_state_st_6404"
+        )
+        cls.nfe_other_state_st_6401 = cls.env.ref(
+            "l10n_br_fiscal.demo_nfe_other_state_st_6401"
+        )
         cls.nfe_not_taxpayer = cls.env.ref("l10n_br_fiscal.demo_nfe_nao_contribuinte")
 
         cls.nfe_not_taxpayer_pf = cls.env.ref(
@@ -289,6 +295,94 @@ class TestFiscalDocumentGeneric(SavepointCase):
                 "Error to mapping CST 01 -"
                 " Operação Tributável com Alíquota Básica"
                 "from COFINS 3% for Venda de Contribuinte p/ Fora do Estado.",
+            )
+
+    def test_nfe_other_state_st_6404(self):
+        """Testing NFe in another state with tax substitution."""
+        empresa_lucro_presumido = self.env.ref("l10n_br_base.empresa_lucro_presumido")
+        self.nfe_other_state_st_6404._onchange_document_serie_id()
+        self.nfe_other_state_st_6404._onchange_fiscal_operation_id()
+
+        for line in self.nfe_other_state_st_6404.fiscal_line_ids:
+            line.with_company(empresa_lucro_presumido.id)._onchange_product_id_fiscal()
+            line.with_company(
+                empresa_lucro_presumido.id
+            )._onchange_commercial_quantity()
+            line.with_company(
+                empresa_lucro_presumido.id
+            )._onchange_fiscal_operation_id()
+            line.with_company(
+                empresa_lucro_presumido.id
+            )._onchange_fiscal_operation_line_id()
+            line.with_company(empresa_lucro_presumido.id)._onchange_fiscal_taxes()
+
+            self.assertEqual(
+                line.cfop_id.code,
+                "6404",
+                "Error to mapping CFOP 6404"
+                " for Revenda de Contribuinte p/ Fora do Estado.",
+            )
+
+            # ICMS
+            line.with_company(empresa_lucro_presumido.id)._onchange_fiscal_taxes()
+            self.assertEqual(
+                line.icms_tax_id.id,
+                self.env.ref("l10n_br_fiscal.tax_icms_antst").id,
+                "Error to mapping ICMS Cobrado Ant. por ST"
+                " for Venda de Contribuinte p/ Fora do Estado.",
+            )
+            self.assertEqual(
+                line.icms_cst_id.code,
+                "60",
+                "Error to mapping CST 60 from ICMS Cobrado Ant. por ST"
+                " for Venda de Contribuinte p/ Fora do Estado.",
+            )
+
+    def test_nfe_other_state_st_6401(self):
+        """Testing NFe in another state with tax substitution."""
+        empresa_lucro_presumido = self.env.ref("l10n_br_base.empresa_lucro_presumido")
+        self.nfe_other_state_st_6401._onchange_document_serie_id()
+        self.nfe_other_state_st_6401._onchange_fiscal_operation_id()
+
+        for line in self.nfe_other_state_st_6401.fiscal_line_ids:
+            line.with_company(empresa_lucro_presumido.id)._onchange_product_id_fiscal()
+            line.with_company(
+                empresa_lucro_presumido.id
+            )._onchange_commercial_quantity()
+            line.with_company(
+                empresa_lucro_presumido.id
+            )._onchange_fiscal_operation_id()
+            line.with_company(
+                empresa_lucro_presumido.id
+            )._onchange_fiscal_operation_line_id()
+            line.with_company(empresa_lucro_presumido.id)._onchange_fiscal_taxes()
+
+            self.assertEqual(
+                line.cfop_id.code,
+                "6401",
+                "Error to mapping CFOP 6401"
+                " for Venda de Contribuinte p/ Fora do Estado.",
+            )
+
+            # ICMS
+            line.with_company(empresa_lucro_presumido.id)._onchange_fiscal_taxes()
+            self.assertEqual(
+                line.icms_tax_id.id,
+                self.env.ref("l10n_br_fiscal.tax_icms_12_st").id,
+                "Error to mapping ICMS 010 12%"
+                " for Venda de Contribuinte p/ Fora do Estado.",
+            )
+            self.assertEqual(
+                line.icmsst_tax_id.id,
+                self.env.ref("l10n_br_fiscal.tax_icmsst_p30_50").id,
+                "Error to mapping ICMS 30% MVA 50"
+                " for Venda de Contribuinte p/ Fora do Estado.",
+            )
+            self.assertEqual(
+                line.icms_cst_id.code,
+                "10",
+                "Error to mapping CST 10 from ICMS 010 12%"
+                " for Venda de Contribuinte p/ Fora do Estado.",
             )
 
     def test_nfe_not_taxpayer(self):

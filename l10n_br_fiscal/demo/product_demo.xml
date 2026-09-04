@@ -1978,4 +1978,126 @@
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
     </record>
 
+    <!-- Product ST CFOP 6404 -->
+    <record id="product_delivery_02_st_6404" model="product.product">
+        <field name="name">Office Lamp ST 6404</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="categ_id" ref="product.product_category_5" />
+        <field name="standard_price">35.0</field>
+        <field name="list_price">40.0</field>
+        <field name="type">consu</field>
+        <field name="weight">0.01</field>
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="uom_po_id" ref="uom.product_uom_unit" />
+        <field name="default_code">FURN_8889</field>
+        <field
+            name="fiscal_product_tag_ids"
+            eval="[(6,0,[ref('l10n_br_fiscal.product_tag_st_6404')])]"
+        />
+        <field
+            name="image_1920"
+            type="base64"
+            file="product/static/img/product_lamp.png"
+        />
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94052000" />
+        <field name="cest_id" ref="l10n_br_fiscal.cest_2112400" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_94" />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+    </record>
+    <!-- fiscal_type property for product_delivery_02_st_6404 for lucro presumido company -->
+    <record
+        forcecreate="True"
+        id="fiscal_type_product_delivery_02_st_6404"
+        model="ir.property"
+    >
+        <field name="name">fiscal_type</field>
+        <field name="fields_id" ref="field_product_template__fiscal_type" />
+        <field name="value">00</field>
+        <field name="type">selection</field>
+        <field
+            eval="'product.template,'+str(obj().env.ref('l10n_br_fiscal.product_delivery_02_st_6404').product_tmpl_id.id)"
+            model="product.template"
+            name="res_id"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+    </record>
+        <!-- icms_origin property for product_delivery_02_st_6404 for simples nacional company -->
+    <record
+        forcecreate="True"
+        id="icms_origin_product_delivery_02_st_6404"
+        model="ir.property"
+    >
+        <field name="name">icms_origin</field>
+        <field name="fields_id" ref="field_product_template__icms_origin" />
+        <field name="value">5</field>
+        <field name="type">selection</field>
+        <field
+            eval="'product.template,'+str(obj().env.ref('l10n_br_fiscal.product_delivery_02_st_6404').product_tmpl_id.id)"
+            model="product.template"
+            name="res_id"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+    </record>
+
+
+    <!-- Product ST CFOP 6401 -->
+    <record id="product_delivery_02_st_6401" model="product.product">
+        <field name="name">Office Lamp ST 6401</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="categ_id" ref="product.product_category_5" />
+        <field name="standard_price">35.0</field>
+        <field name="list_price">40.0</field>
+        <field name="type">consu</field>
+        <field name="weight">0.01</field>
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="uom_po_id" ref="uom.product_uom_unit" />
+        <field name="default_code">FURN_8880</field>
+        <field
+            name="fiscal_product_tag_ids"
+            eval="[(6,0,[ref('l10n_br_fiscal.product_tag_st_6401')])]"
+        />
+        <field
+            name="image_1920"
+            type="base64"
+            file="product/static/img/product_lamp.png"
+        />
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94052000" />
+        <field name="cest_id" ref="l10n_br_fiscal.cest_2112400" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_94" />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+    </record>
+    <!-- fiscal_type property for product_delivery_02_st_6401 for lucro presumido company -->
+    <record
+        forcecreate="True"
+        id="fiscal_type_product_delivery_02_st_6401"
+        model="ir.property"
+    >
+        <field name="name">fiscal_type</field>
+        <field name="fields_id" ref="field_product_template__fiscal_type" />
+        <field name="value">04</field>
+        <field name="type">selection</field>
+        <field
+            eval="'product.template,'+str(obj().env.ref('l10n_br_fiscal.product_delivery_02_st_6401').product_tmpl_id.id)"
+            model="product.template"
+            name="res_id"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+    </record>
+        <!-- icms_origin property for product_delivery_02_st_6401 for simples nacional company -->
+    <record
+        forcecreate="True"
+        id="icms_origin_product_delivery_02_st_6401"
+        model="ir.property"
+    >
+        <field name="name">icms_origin</field>
+        <field name="fields_id" ref="field_product_template__icms_origin" />
+        <field name="value">5</field>
+        <field name="type">selection</field>
+        <field
+            eval="'product.template,'+str(obj().env.ref('l10n_br_fiscal.product_delivery_02_st_6401').product_tmpl_id.id)"
+            model="product.template"
+            name="res_id"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+    </record>
 </odoo>

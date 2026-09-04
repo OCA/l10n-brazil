@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Copyright (C) 2024-Today - KMEE (<http://www.kmee.com.br>).
+@author Diego Paradeda <diego.paradeda@kmee.com.br>
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+    <record id="product_tag_search" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.product_tag.search</field>
+        <field name="model">l10n_br_fiscal.product.tag</field>
+        <field name="arch" type="xml">
+            <search string="Product Tag">
+                <field name="name" />
+            </search>
+        </field>
+    </record>
+
+    <record id="product_tag_tree" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.product_tag.tree</field>
+        <field name="model">l10n_br_fiscal.product.tag</field>
+        <field name="arch" type="xml">
+            <tree editable="top">
+                <field name="name" />
+                <field name="create_uid" />
+                <field name="create_date" />
+            </tree>
+        </field>
+    </record>
+
+</odoo>

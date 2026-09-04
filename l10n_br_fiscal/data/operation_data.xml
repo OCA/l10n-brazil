@@ -42,6 +42,36 @@
         <field name="product_type">00</field>
     </record>
 
+    <record id="product_tag_st_6404" model="l10n_br_fiscal.product.tag">
+        <field name="name">ST CFOP 6404</field>
+    </record>
+    <record id="product_tag_st_6401" model="l10n_br_fiscal.product.tag">
+        <field name="name">ST CFOP 6401</field>
+    </record>
+
+    <record
+        id="tax_icms_regulation_other_state_st_1"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="True" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_12_st" />
+        <field name="state">approved</field>
+    </record>
+        <record
+        id="tax_icms_regulation_other_state_st_2"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsst" />
+        <field name="is_taxed" eval="True" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icmsst_p30_50" />
+        <field name="state">approved</field>
+    </record>
+
     <record id="fo_venda_venda_st_substituto" model="l10n_br_fiscal.operation.line">
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="name">Venda ST contribuinte substituto</field>
@@ -50,6 +80,15 @@
         <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6401" />
         <field name="state">approved</field>
         <field name="product_type">04</field>
+        <field
+            name="fiscal_product_tag_ids"
+            eval="[(6,0,[ref('l10n_br_fiscal.product_tag_st_6401')])]"
+        />
+        <field name="tax_icms_or_issqn">icms</field>
+        <field
+            name="tax_definition_ids"
+            eval="[(6, 0, [ref('l10n_br_fiscal.tax_icms_regulation_other_state_st_1'),ref('l10n_br_fiscal.tax_icms_regulation_other_state_st_2')])]"
+        />
     </record>
 
     <record id="fo_venda_revenda_st_substituto" model="l10n_br_fiscal.operation.line">
@@ -62,6 +101,18 @@
         <field name="product_type">00</field>
     </record>
 
+    <record
+        id="tax_icms_regulation_other_state_st"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="True" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_antst" />
+        <field name="state">approved</field>
+    </record>
+
     <record id="fo_venda_revenda_st_substituido" model="l10n_br_fiscal.operation.line">
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="name">Revenda ST contribuinte substituído</field>
@@ -70,6 +121,15 @@
         <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6404" />
         <field name="state">approved</field>
         <field name="product_type">00</field>
+        <field
+            name="fiscal_product_tag_ids"
+            eval="[(6,0,[ref('l10n_br_fiscal.product_tag_st_6404')])]"
+        />
+        <field name="tax_icms_or_issqn">icms</field>
+        <field
+            name="tax_definition_ids"
+            eval="[(6, 0, [ref('l10n_br_fiscal.tax_icms_regulation_other_state_st')])]"
+        />
     </record>
 
     <record
