@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import Command, fields
-from odoo.tests.common import tagged
+from odoo.tests.common import Form, tagged
 
 from .common import AccountMoveBRCommon
 
@@ -778,6 +778,53 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             ],
             move_vals,
         )
+
+    def _init_additional_values_invoice(self):
+        # freight/insurance/other fields are only injected in the line view
+        # for users with these groups (and with delivery costs by line):
+        self.env.user.groups_id |= self.env.ref("l10n_br_fiscal.group_user")
+        self.env.user.groups_id |= self.env.ref(
+            "l10n_br_account.group_line_fiscal_detail"
+        )
+        invoice = self.init_invoice(
+            "out_invoice",
+            products=[self.product_a],
+            document_type=self.env.ref("l10n_br_fiscal.document_55"),
+            document_serie_id=self.empresa_lc_document_55_serie_1,
+            fiscal_operation=self.env.ref("l10n_br_fiscal.fo_venda"),
+            fiscal_operation_lines=[self.env.ref("l10n_br_fiscal.fo_venda_venda")],
+        )
+        invoice.company_id.delivery_costs = "line"
+        move_form = Form(invoice)
+        with move_form.invoice_line_ids.edit(0) as line:
+            line.freight_value = 100.0
+            line.insurance_value = 100.0
+            line.other_value = 100.0
+        return move_form.save()
+
+    def test_venda_additional_values_included(self):
+        """Tests the inclusion of additional values in IPI tax base and price."""
+        invoice = self._init_additional_values_invoice()
+
+        # Expected inclusive value calculation:
+        # expected = (price_unit + additional_values) * (1 + ipi_percent)
+        # expected = (1000 + 300) * (1 + 0.0325) = 1342.25
+        self.assertEqual(invoice.amount_total, 1342.25)
+
+    def test_venda_additional_values_force_excluded(self):
+        """Tests forced exclusion of additional values in IPI tax base."""
+        fiscal_operation_line = self.env.ref("l10n_br_fiscal.fo_venda_venda")
+        fiscal_operation_line.additional_values_definition = "do_not_add"
+        self.addCleanup(
+            setattr, fiscal_operation_line, "additional_values_definition", "tax"
+        )
+
+        invoice = self._init_additional_values_invoice()
+
+        # Expected non-inclusive value calculation:
+        # expected = price_unit * (1 + ipi_percent) + additional_values
+        # expected = 1000 * (1 + 0.0325) + 300 = 1332.50
+        self.assertEqual(invoice.amount_total, 1332.50)
 
     def test_simples_remessa(self):
         product_line_vals_1 = {
