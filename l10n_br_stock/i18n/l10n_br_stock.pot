@@ -15,12 +15,14 @@ msgstr ""
 
 #. module: l10n_br_stock
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_presumido_picking_type_out
+#: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_real_picking_type_out
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_simples_nacional_picking_type_out
 msgid "Delivery Orders"
 msgstr ""
 
 #. module: l10n_br_stock
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_presumido_picking_type_internal
+#: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_real_picking_type_internal
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_simples_nacional_picking_type_internal
 msgid "Internal Transfers"
 msgstr ""
@@ -39,18 +41,21 @@ msgstr ""
 
 #. module: l10n_br_stock
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_presumido_pack_type_internal
+#: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_real_pack_type_internal
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_simples_nacional_pack_type_internal
 msgid "Pack"
 msgstr ""
 
 #. module: l10n_br_stock
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_presumido_pick_type_internal
+#: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_real_pick_type_internal
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_simples_nacional_pick_type_internal
 msgid "Pick"
 msgstr ""
 
 #. module: l10n_br_stock
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_presumido_picking_type_in
+#: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_real_picking_type_in
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_simples_nacional_picking_type_in
 msgid "Receipts"
 msgstr ""
