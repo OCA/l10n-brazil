@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_installment_renegotiation_wizard,account.installment.renegotiation.wizard,model_account_installment_renegotiation_wizard,account.group_account_manager,1,1,1,1
+access_installment_renegotiation_wizard_line,account.installment.renegotiation.wizard.line,model_account_installment_renegotiation_wizard_line,account.group_account_manager,1,1,1,1
