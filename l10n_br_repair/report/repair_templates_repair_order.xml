@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="report_repair_order"
+        inherit_id="repair.report_repairorder"
+        priority="100"
+    >
+        <xpath expr="//table[hasclass('o_main_table')]" position="after">
+            <div
+                t-if="doc.company_id.country_id.code == 'BR'"
+                id="br_fiscal_totals"
+                class="row mt-3"
+            >
+                <div class="col-6 ms-auto">
+                    <table class="table table-sm">
+                        <tr t-if="doc.amount_price_gross">
+                            <td>
+                                <strong>Amount Gross</strong>
+                            </td>
+                            <td class="text-end">
+                                <span
+                                    t-field="doc.amount_price_gross"
+                                    t-options='{"widget": "monetary", "display_currency": doc.currency_id}'
+                                />
+                            </td>
+                        </tr>
+                        <tr t-if="doc.fiscal_amount_untaxed">
+                            <td>
+                                <strong>Amount Untaxed</strong>
+                            </td>
+                            <td class="text-end">
+                                <span
+                                    t-field="doc.fiscal_amount_untaxed"
+                                    t-options='{"widget": "monetary", "display_currency": doc.currency_id}'
+                                />
+                            </td>
+                        </tr>
+                        <tr t-if="doc.amount_freight_value">
+                            <td>
+                                <strong>Freight</strong>
+                            </td>
+                            <td class="text-end">
+                                <span
+                                    t-field="doc.amount_freight_value"
+                                    t-options='{"widget": "monetary", "display_currency": doc.currency_id}'
+                                />
+                            </td>
+                        </tr>
+                        <tr t-if="doc.amount_insurance_value">
+                            <td>
+                                <strong>Insurance</strong>
+                            </td>
+                            <td class="text-end">
+                                <span
+                                    t-field="doc.amount_insurance_value"
+                                    t-options='{"widget": "monetary", "display_currency": doc.currency_id}'
+                                />
+                            </td>
+                        </tr>
+                        <tr t-if="doc.amount_other_value">
+                            <td>
+                                <strong>Other Costs</strong>
+                            </td>
+                            <td class="text-end">
+                                <span
+                                    t-field="doc.amount_other_value"
+                                    t-options='{"widget": "monetary", "display_currency": doc.currency_id}'
+                                />
+                            </td>
+                        </tr>
+                        <tr t-if="doc.fiscal_amount_tax">
+                            <td>
+                                <strong>Taxes</strong>
+                            </td>
+                            <td class="text-end">
+                                <span
+                                    t-field="doc.fiscal_amount_tax"
+                                    t-options='{"widget": "monetary", "display_currency": doc.currency_id}'
+                                />
+                            </td>
+                        </tr>
+                        <tr t-if="doc.fiscal_amount_total" class="border-top">
+                            <td>
+                                <strong>Total</strong>
+                            </td>
+                            <td class="text-end">
+                                <span
+                                    t-field="doc.fiscal_amount_total"
+                                    t-options='{"widget": "monetary", "display_currency": doc.currency_id}'
+                                />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>
