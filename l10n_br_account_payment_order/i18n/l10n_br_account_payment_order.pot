@@ -14,11 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_account_payment_order
-#: model:account.account,name:l10n_br_account_payment_order.1_account_template_32333_avoid_travis_error
-msgid " Não Pagamento/Inadimplencia - AVOID_TRAVIS_ERROR"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__movement_type__0
 msgid "0 - Indica INCLUSÃO"
 msgstr ""
@@ -773,54 +768,16 @@ msgid "Baixa por Não Pagamento/Inadimplência"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:account.journal,name:l10n_br_account_payment_order.ailos_journal
-msgid "Banco AILOS"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:account.journal,name:l10n_br_account_payment_order.bradesco_journal
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Banco Bradesco"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:account.journal,name:l10n_br_account_payment_order.cef_journal
-msgid "Banco Caixa Economica Federal"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:account.journal,name:l10n_br_account_payment_order.itau_journal
-msgid "Banco Itau"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:account.journal,name:l10n_br_account_payment_order.nordeste_journal
-msgid "Banco Nordeste"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:account.journal,name:l10n_br_account_payment_order.sicredi_journal
-msgid "Banco SICREDI"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:account.journal,name:l10n_br_account_payment_order.santander_journal
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Banco Santander"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:account.journal,name:l10n_br_account_payment_order.sicoob_journal
-msgid "Banco Sicoob"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:account.journal,name:l10n_br_account_payment_order.unicred_journal
-msgid "Banco Unicred"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:account.journal,name:l10n_br_account_payment_order.bb_journal
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Banco do Brasil"
 msgstr ""
@@ -1331,7 +1288,6 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
-#: model:account.payment.mode,name:l10n_br_account_payment_order.payment_mode_cheque
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__payment_mode_domain__cheque
 #, python-format
 msgid "Cheque"
@@ -1368,81 +1324,6 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Cobranca"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:account.payment.mode,name:l10n_br_account_payment_order.payment_mode_cobranca_ailos240
-msgid "Cobrança Ailos240"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:account.payment.mode,name:l10n_br_account_payment_order.payment_mode_cobranca_nordeste_400
-msgid "Cobrança Banco Nordeste 400"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:account.payment.mode,name:l10n_br_account_payment_order.payment_mode_cobranca_santander_240
-msgid "Cobrança Banco Santander 240"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:account.payment.mode,name:l10n_br_account_payment_order.payment_mode_cobranca_santander_400
-msgid "Cobrança Banco Santander 400"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:account.payment.mode,name:l10n_br_account_payment_order.payment_mode_cobranca_bb240
-msgid "Cobrança Banco do Brasil 240"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:account.payment.mode,name:l10n_br_account_payment_order.payment_mode_cobranca_bb400
-msgid "Cobrança Banco do Brasil 400"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:account.payment.mode,name:l10n_br_account_payment_order.payment_mode_cobranca_bradesco240
-msgid "Cobrança Bradesco240"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:account.payment.mode,name:l10n_br_account_payment_order.payment_mode_cobranca_bradesco400
-msgid "Cobrança Bradesco400"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:account.payment.mode,name:l10n_br_account_payment_order.payment_mode_cobranca_cef240
-msgid "Cobrança Caixa Economica Federal 240"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:account.payment.mode,name:l10n_br_account_payment_order.payment_mode_cobranca_cef400
-msgid "Cobrança Caixa Economica Federal 400"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:account.payment.mode,name:l10n_br_account_payment_order.payment_mode_cobranca_itau240
-msgid "Cobrança Itau240"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:account.payment.mode,name:l10n_br_account_payment_order.payment_mode_cobranca_itau400
-msgid "Cobrança Itau400"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:account.payment.mode,name:l10n_br_account_payment_order.payment_mode_cobranca_sicredi240
-msgid "Cobrança SICREDI 240"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:account.payment.mode,name:l10n_br_account_payment_order.payment_mode_cobranca_unicred240
-msgid "Cobrança Unicred240"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:account.payment.mode,name:l10n_br_account_payment_order.payment_mode_cobranca_unicred400
-msgid "Cobrança Unicred400"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -1855,11 +1736,6 @@ msgid "Desconto de pontualidade"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:account.account,name:l10n_br_account_payment_order.1_account_template_32202_avoid_travis_error
-msgid "Despesas com Vendas - AVOID_TRAVIS_ERROR"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__write_off_devolution_code_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__write_off_devolution_code_id
 msgid "Devolution Instruction Code"
@@ -1888,26 +1764,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_lot__display_name
 msgid "Display Name"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:account.journal,name:l10n_br_account_payment_order.cheque_journal
-msgid "Diário Cheque"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:account.journal,name:l10n_br_account_payment_order.main_company_bank_journal
-msgid "Diário de Banco - Empresa Principal"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:account.journal,name:l10n_br_account_payment_order.lucro_presumido_bank_journal
-msgid "Diário de Banco - Lucro Presumido"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:account.journal,name:l10n_br_account_payment_order.simples_nacional_bank_journal
-msgid "Diário de Banco - Simples Nacional"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2214,11 +2070,6 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line__journal_payment_mode_id
 msgid "Journal Payment Mode"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:account.account,name:l10n_br_account_payment_order.1_account_template_31202_avoid_travis_error
-msgid "Juros Ativos - AVOID_TRAVIS_ERROR"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2589,16 +2440,6 @@ msgid "Outras Configurações"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:account.account,name:l10n_br_account_payment_order.1_account_template_32302_avoid_travis_error
-msgid "Outras Despesas Financeiras - AVOID_TRAVIS_ERROR"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:account.account,name:l10n_br_account_payment_order.1_account_template_32203_avoid_travis_error
-msgid "Outras Despesas Gerais - AVOID_TRAVIS_ERROR"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__other_credits
 msgid "Outros Créditos"
 msgstr ""
@@ -2614,11 +2455,6 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__payment_mode_domain__pix_transfer
 #, python-format
 msgid "PIX Transfer"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:account.payment.mode,name:l10n_br_account_payment_order.payment_mode_pix_transfer
-msgid "PIX Transferência"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2829,13 +2665,6 @@ msgid "RECIBO"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:account.account,name:l10n_br_account_payment_order.1_account_template_3010101010200_avoid_travis_error
-msgid ""
-"Receita da Venda no Mercado Interno\n"
-"            de Produtos de Fabricação Própria - AVOID_TRAVIS_ERROR"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_code__code_type__release_form
 msgid "Release Form"
 msgstr ""
@@ -2980,18 +2809,8 @@ msgid "TED Finality Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:account.payment.mode,name:l10n_br_account_payment_order.payment_mode_ted
-msgid "TED Transferência"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__tariff_charge
 msgid "Tarifa"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:account.account,name:l10n_br_account_payment_order.1_account_template_3010101010300_avoid_travis_error
-msgid "Taxa do Boleto - AVOID_TRAVIS_ERROR"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
