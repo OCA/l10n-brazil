@@ -439,7 +439,6 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
                 if rps_info.get("customer_additional_data")
                 else False
             ),
-            "percentual_aliquota_relativa_municipio": service_basic["aliquota_iss"],
             **tax_data,
         }
 
