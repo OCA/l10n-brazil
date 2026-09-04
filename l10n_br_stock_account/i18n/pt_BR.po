@@ -467,6 +467,7 @@ msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:account.journal,name:l10n_br_stock_account.entrada_remessa_journal_lucro_presumido
+#: model:account.journal,name:l10n_br_stock_account.entrada_remessa_journal_lucro_real
 #: model:account.journal,name:l10n_br_stock_account.entrada_remessa_journal_main_company
 #: model:account.journal,name:l10n_br_stock_account.entrada_remessa_journal_simples_nacional
 msgid "Diário Entrada Remessa"
@@ -474,6 +475,7 @@ msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:account.journal,name:l10n_br_stock_account.simples_remessa_journal_lucro_presumido
+#: model:account.journal,name:l10n_br_stock_account.simples_remessa_journal_lucro_real
 #: model:account.journal,name:l10n_br_stock_account.simples_remessa_journal_main_company
 #: model:account.journal,name:l10n_br_stock_account.simples_remessa_journal_simples_nacional
 msgid "Diário Simples Remessa"
