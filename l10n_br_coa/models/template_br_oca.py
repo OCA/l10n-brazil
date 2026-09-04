@@ -177,6 +177,8 @@ class AccountChartTemplate(models.AbstractModel):
         Account = self.env["account.account"]
         IrModelData = self.env["ir.model.data"].sudo()
         created_accounts_refs = {}
+        # Track codes we've already created in this batch to handle duplicates
+        # (e.g., regular and withholding tax accounts may share the same code)
         created_accounts_by_code = {}
 
         # 1. Create or find accounts and their XMLIDs
@@ -283,7 +285,9 @@ class AccountChartTemplate(models.AbstractModel):
             refund_account = (
                 created_accounts_refs.get(ref_rep_acc_key) if ref_rep_acc_key else False
             )
-            company_tax._update_repartition_lines(invoice_account.id, refund_account.id)
+            company_tax.sudo()._update_repartition_lines(
+                invoice_account.id, refund_account.id
+            )
 
         # Void default company sale/purchase taxes:
         company.account_sale_tax_id = None
