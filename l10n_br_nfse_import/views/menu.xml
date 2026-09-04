@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2026 - TODAY, Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+    License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+    <!-- Received NFS-e list — main entry point for reviewing incoming NFS-e -->
+    <menuitem
+        id="menu_nfse_received"
+        name="Received NFS-e"
+        action="action_nfse_received"
+        parent="l10n_br_fiscal.document_sub_menu"
+        sequence="47"
+        groups="l10n_br_fiscal.group_user"
+    />
+
+    <!-- NFS-e Fetch Engine configuration — managers only -->
+    <menuitem
+        id="menu_nfse_dfe"
+        name="NFS-e Fetch Engines"
+        action="action_nfse_dfe"
+        parent="l10n_br_fiscal.document_sub_menu"
+        sequence="48"
+        groups="l10n_br_fiscal.group_manager"
+    />
+
+</odoo>

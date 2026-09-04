@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2026 - TODAY, Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+    License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+    <record id="view_nfse_import_wizard_form" model="ir.ui.view">
+        <field name="name">l10n_br_nfse.import.wizard.form</field>
+        <field name="model">l10n_br_nfse.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import NFS-e as Vendor Bill">
+                <sheet>
+
+                    <group string="NFS-e Details" col="2">
+                        <group>
+                            <field name="received_id" invisible="1" />
+                            <field name="company_id" invisible="1" />
+                            <field name="nfse_number" />
+                            <field name="document_serie" />
+                            <field name="verify_code" />
+                            <field name="rps_number" />
+                            <field name="emission_date" />
+                        </group>
+                        <group>
+                            <field name="provider_cnpj" />
+                            <field name="provider_name" />
+                            <field name="service_value" />
+                        </group>
+                    </group>
+
+                    <group string="Service Description">
+                        <field name="service_description" nolabel="1" colspan="2" />
+                    </group>
+
+                    <group
+                        string="ISSQN Taxes"
+                        col="2"
+                        attrs="{'invisible': [('issqn_base', '=', 0), ('issqn_value', '=', 0)]}"
+                    >
+                        <group>
+                            <field name="issqn_base" />
+                            <field name="issqn_percent" />
+                            <field name="issqn_value" />
+                        </group>
+                        <group>
+                            <field name="issqn_wh_percent" />
+                            <field name="issqn_wh_value" />
+                        </group>
+                    </group>
+
+                    <group
+                        string="Service Classification"
+                        col="2"
+                        attrs="{'invisible': [('service_lc116_code', '=', False), ('service_nbs_code', '=', False), ('issqn_city_ibge', '=', False)]}"
+                    >
+                        <group>
+                            <field name="service_lc116_code" />
+                            <field name="service_nbs_code" />
+                        </group>
+                        <group>
+                            <field name="issqn_city_ibge" />
+                        </group>
+                    </group>
+
+                    <group
+                        string="Construction"
+                        col="2"
+                        attrs="{'invisible': [('civil_construction_code', '=', False)]}"
+                    >
+                        <group>
+                            <field name="civil_construction_code" />
+                        </group>
+                        <group>
+                            <field name="civil_construction_art" />
+                        </group>
+                    </group>
+
+                    <group
+                        string="Additional Information"
+                        attrs="{'invisible': [('fiscal_additional_data', '=', False)]}"
+                    >
+                        <field name="fiscal_additional_data" nolabel="1" colspan="2" />
+                    </group>
+
+                    <group string="Fiscal Settings" col="2">
+                        <group>
+                            <field name="partner_id" />
+                            <field name="service_type_id" invisible="1" />
+                            <field name="nbs_id" invisible="1" />
+                            <field
+                                name="product_id"
+                                domain="[('type', 'in', ('service', 'consu'))]"
+                                context="{
+                                    'default_type': 'service',
+                                    'default_service_type_id': service_type_id,
+                                    'default_nbs_id': nbs_id,
+                                    'search_default_service_type_id': service_type_id,
+                                    'search_default_nbs_id': nbs_id
+                                }"
+                            />
+                        </group>
+                        <group>
+                            <field
+                                name="fiscal_operation_id"
+                                domain="[('fiscal_operation_type','=','in'),('state','=','approved')]"
+                            />
+                        </group>
+                    </group>
+
+                    <group
+                        string="Duplicate Warning"
+                        attrs="{'invisible': [('account_move_id', '=', False)]}"
+                    >
+                        <field name="account_move_id" readonly="1" />
+                        <p class="text-warning">
+                            A vendor bill already exists for this NFS-e.
+                            You can link to the existing bill or open it to review.
+                        </p>
+                    </group>
+
+                </sheet>
+
+                <footer>
+                    <button
+                        name="action_import_document"
+                        string="Import as Vendor Bill"
+                        type="object"
+                        class="btn-primary"
+                        attrs="{'invisible': [('account_move_id', '!=', False)]}"
+                    />
+                    <button
+                        name="action_import_document"
+                        string="Link to Existing Bill"
+                        type="object"
+                        class="btn-warning"
+                        attrs="{'invisible': [('account_move_id', '=', False)]}"
+                    />
+                    <button
+                        name="action_view_existing_document"
+                        string="Open Existing Bill"
+                        type="object"
+                        attrs="{'invisible': [('account_move_id', '=', False)]}"
+                    />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

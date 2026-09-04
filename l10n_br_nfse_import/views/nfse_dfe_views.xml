@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2026 - TODAY, Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+    License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+    <record id="view_nfse_dfe_form" model="ir.ui.view">
+        <field name="name">l10n_br_nfse.dfe.form</field>
+        <field name="model">l10n_br_nfse.dfe</field>
+        <field name="arch" type="xml">
+            <form string="NFS-e Nacional Fetch Engine" duplicate="false">
+                <header>
+                    <button
+                        name="search_received_nfse"
+                        string="Fetch Received NFS-e"
+                        type="object"
+                        class="btn-primary"
+                    />
+                    <button
+                        name="action_discover_nfse_nac_paths"
+                        string="Discover ADN Paths"
+                        type="object"
+                    />
+                </header>
+
+                <sheet>
+                    <group col="2">
+                        <group string="Connection">
+                            <field name="name" />
+                            <field name="company_id" />
+                            <field name="nfse_nac_environment" />
+                        </group>
+                        <group string="Sync">
+                            <field name="last_query" readonly="1" />
+                            <field name="last_nsu" readonly="1" />
+                            <field name="use_cron" />
+                            <field name="active" />
+                            <field name="fetch_from_year" />
+                            <field name="fetch_limit" />
+                        </group>
+                    </group>
+
+                    <div class="alert alert-info" role="alert">
+                        <strong>Authentication:</strong>
+                        uses the company's <strong>e-CNPJ certificate</strong>
+                        (mTLS). Configure it under
+                        <em>Company → e-CNPJ Certificate</em>.<br />
+                        <strong>Endpoint:</strong>
+                        <code
+                        >GET /contribuintes/DFe/{NSU}</code> — NSU-based pagination.
+                        The e-CNPJ certificate identifies the taxpayer.<br />
+                        <strong>Note:</strong>
+                        only municipalities that have joined the NFS-e Nacional
+                        programme (post-2024 tax reform) are covered by this endpoint.
+                    </div>
+
+                    <notebook>
+                        <page string="Received NFS-e" id="received_nfse">
+                            <field
+                                name="received_ids"
+                                nolabel="1"
+                                context="{'tree_view_ref': 'l10n_br_nfse_import.view_nfse_received_tree'}"
+                            />
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_nfse_dfe_tree" model="ir.ui.view">
+        <field name="name">l10n_br_nfse.dfe.tree</field>
+        <field name="model">l10n_br_nfse.dfe</field>
+        <field name="arch" type="xml">
+            <tree string="NFS-e Nacional Fetch Engines" duplicate="false">
+                <field name="name" />
+                <field name="company_id" />
+                <field name="nfse_nac_environment" />
+                <field name="last_query" />
+                <field name="last_nsu" />
+                <field name="use_cron" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_nfse_dfe_search" model="ir.ui.view">
+        <field name="name">l10n_br_nfse.dfe.search</field>
+        <field name="model">l10n_br_nfse.dfe</field>
+        <field name="arch" type="xml">
+            <search string="NFS-e Nacional Fetch Engines">
+                <field name="name" />
+                <field name="company_id" />
+            </search>
+        </field>
+    </record>
+
+    <record id="action_nfse_dfe" model="ir.actions.act_window">
+        <field name="name">NFS-e Nacional Fetch Engines</field>
+        <field name="res_model">l10n_br_nfse.dfe</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2026 - TODAY, Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+    License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+    <record id="view_nfse_received_form" model="ir.ui.view">
+        <field name="name">l10n_br_nfse.received.form</field>
+        <field name="model">l10n_br_nfse.received</field>
+        <field name="arch" type="xml">
+            <form string="Received NFS-e">
+                <header>
+                    <button
+                        name="action_open_import_wizard"
+                        string="Import as Vendor Bill"
+                        type="object"
+                        class="btn-primary"
+                        attrs="{'invisible': [('state', '!=', 'pending')]}"
+                    />
+                    <button
+                        name="action_cancel"
+                        string="Cancel"
+                        type="object"
+                        attrs="{'invisible': [('state', '!=', 'pending')]}"
+                        confirm="Are you sure you want to cancel this received NFS-e?"
+                    />
+                    <button
+                        name="action_reset_to_pending"
+                        string="Reset to Pending"
+                        type="object"
+                        attrs="{'invisible': [('state', '!=', 'cancelled')]}"
+                    />
+                    <button
+                        name="action_reparse_xml"
+                        string="Re-parse XML"
+                        type="object"
+                        attrs="{'invisible': [('attachment_id', '=', False)]}"
+                        help="Re-read the XML attachment and update value and description fields."
+                    />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_visible="pending,done"
+                        readonly="1"
+                        nolabel="1"
+                    />
+                </header>
+
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button
+                            name="action_view_vendor_bill"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-file-text-o"
+                            attrs="{'invisible': [('account_move_id', '=', False)]}"
+                        >
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Vendor Bill</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <group col="2">
+                        <group string="NFS-e Identification">
+                            <field name="nfse_number" />
+                            <field name="verify_code" />
+                            <field name="emission_date" />
+                            <field name="company_id" />
+                        </group>
+                        <group string="Service Provider">
+                            <field name="provider_cnpj" />
+                            <field name="provider_name" />
+                            <field name="partner_id" />
+                            <field name="service_value" />
+                        </group>
+                    </group>
+
+                    <group string="Service Description">
+                        <field name="service_description" nolabel="1" colspan="2" />
+                    </group>
+
+                    <group
+                        string="Vendor Bill"
+                        attrs="{'invisible': [('account_move_id', '=', False)]}"
+                    >
+                        <field name="account_move_id" readonly="1" />
+                        <field
+                            name="document_id"
+                            readonly="1"
+                            attrs="{'invisible': [('document_id', '=', False)]}"
+                        />
+                    </group>
+
+                    <group string="Fetch Engine">
+                        <field name="dfe_id" readonly="1" />
+                        <field name="attachment_id" readonly="1" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_nfse_received_tree" model="ir.ui.view">
+        <field name="name">l10n_br_nfse.received.tree</field>
+        <field name="model">l10n_br_nfse.received</field>
+        <field name="arch" type="xml">
+            <tree
+                string="Received NFS-e"
+                decoration-info="state == 'pending'"
+                decoration-muted="state == 'cancelled'"
+                decoration-success="state == 'done'"
+            >
+                <field name="emission_date" />
+                <field name="nfse_number" />
+                <field name="provider_cnpj" />
+                <field name="provider_name" />
+                <field name="partner_id" />
+                <field name="service_value" />
+                <field name="company_id" />
+                <field name="state" />
+                <field name="account_move_id" optional="show" />
+                <field name="document_id" optional="hide" />
+                <button
+                    name="action_open_import_wizard"
+                    string="Import"
+                    type="object"
+                    icon="fa-download"
+                    attrs="{'invisible': [('state', '!=', 'pending')]}"
+                />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_nfse_received_search" model="ir.ui.view">
+        <field name="name">l10n_br_nfse.received.search</field>
+        <field name="model">l10n_br_nfse.received</field>
+        <field name="arch" type="xml">
+            <search string="Received NFS-e">
+                <field name="nfse_number" />
+                <field name="provider_cnpj" />
+                <field name="provider_name" />
+                <field name="partner_id" />
+                <field name="company_id" />
+                <filter
+                    name="pending"
+                    string="Pending Review"
+                    domain="[('state', '=', 'pending')]"
+                />
+                <filter
+                    name="done"
+                    string="Imported"
+                    domain="[('state', '=', 'done')]"
+                />
+                <filter
+                    name="cancelled"
+                    string="Cancelled"
+                    domain="[('state', '=', 'cancelled')]"
+                />
+                <group expand="0" string="Group By">
+                    <filter
+                        name="group_company"
+                        string="Company"
+                        context="{'group_by': 'company_id'}"
+                    />
+                    <filter
+                        name="group_state"
+                        string="Status"
+                        context="{'group_by': 'state'}"
+                    />
+                    <filter
+                        name="group_provider"
+                        string="Provider"
+                        context="{'group_by': 'provider_name'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_nfse_received" model="ir.actions.act_window">
+        <field name="name">Received NFS-e</field>
+        <field name="res_model">l10n_br_nfse.received</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_pending': 1}</field>
+    </record>
+
+</odoo>
