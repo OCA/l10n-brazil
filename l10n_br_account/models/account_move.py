@@ -726,14 +726,12 @@ class AccountMove(models.Model):
         """Ask the SEFAZ about the fiscal documents of the selected invoices.
 
         Soft dependency: the consult lives in l10n_br_fiscal_edi, which this
-        module does not depend on, so what is left here is the forwarding and a
-        legible answer where the electronic document module is not installed.
+        module does not depend on.
         """
-        documents = self.mapped("fiscal_document_id")
-        if not documents:
-            raise UserError(
-                _("None of the selected invoices carries a fiscal document.")
-            )
+        without_document = self.filtered(
+            lambda move: not move.fiscal_document_ids
+        ).mapped("display_name")
+        documents = self.mapped("fiscal_document_ids")
         if not hasattr(documents, "action_check_status"):
             raise UserError(
                 _(
@@ -741,7 +739,13 @@ class AccountMove(models.Model):
                     "fiscal document module installed."
                 )
             )
-        return documents.action_check_status()
+        result = documents.action_check_status()
+        if without_document:
+            extra = _("Without a fiscal document: %s") % "; ".join(without_document)
+            result["params"]["message"] = "\n".join(
+                filter(None, [result["params"]["message"], extra])
+            )
+        return result
 
     @api.constrains("state")
     def _check_l10n_latam_documents(self):
