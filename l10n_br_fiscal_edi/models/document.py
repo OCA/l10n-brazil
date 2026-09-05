@@ -40,6 +40,11 @@ def filter_processador(record):
     return False
 
 
+# Above this, a single run risks Odoo's 120s request timeout and, worse,
+# Sefaz's 1h block on the CNPJ that queries it.
+BATCH_STATUS_CHECK_LIMIT = 25
+
+
 class FiscalDocumentStateMachine(Machine):
     """A ``transitions`` Machine bound to an Odoo fiscal document.
 
@@ -810,47 +815,56 @@ class Document(models.Model):
         pass
 
     def action_check_status(self):
-        """Ask the SEFAZ about each selected document and apply what comes back.
-
-        A document issued by someone else only moves at the SEFAZ: the issuer
-        cancels it and nothing on this side knows until somebody asks. The
-        consult by key already answers that, and the state map already turns a
-        homologated cancellation into a cancelled document. What was missing
-        was doing it over a selection and saying out loud what moved, because
-        the point of asking about twenty notes is the two that changed.
-        """
-        changed, kept, without_key = [], [], []
-        for record in self:
+        """Ask the SEFAZ about each selected document, within a safe batch size."""
+        askable = self.filtered(lambda d: d.state_edoc == DOCUMENT_STATE_SENDING)
+        skipped = (self - askable).mapped("display_name")
+        changed, kept, failed, without_key = [], [], [], []
+        for record in askable[:BATCH_STATUS_CHECK_LIMIT]:
             if not record.document_key:
                 without_key.append(record.display_name)
                 continue
             before = record.state_edoc
-            record._document_status()
+            try:
+                with self.env.cr.savepoint():
+                    record._document_status()
+            except Exception as error:
+                failed.append(f"{record.display_name}: {error}")
+                continue
             record.invalidate_recordset(["state_edoc"])
             if record.state_edoc == before:
                 kept.append(record.display_name)
             else:
-                changed.append(
-                    f"{record.display_name}: {before} -> {record.state_edoc}"
-                )
-        return self._notify_status_check(changed, kept, without_key)
+                changed.append((record.display_name, before, record.state_edoc))
+        overflow = askable[BATCH_STATUS_CHECK_LIMIT:].mapped("display_name")
+        return self._notify_status_check(
+            changed, kept, failed, without_key, skipped + overflow
+        )
 
-    def _notify_status_check(self, changed, kept, without_key):
+    def _notify_status_check(self, changed, kept, failed, without_key, skipped):
+        labels = dict(self._fields["state_edoc"]._description_selection(self.env))
+        changed = [
+            f"{name}: {labels.get(before, before)} -> {labels.get(after, after)}"
+            for name, before, after in changed
+        ]
         lines = []
         if changed:
             lines.append(_("Changed: %s") % "; ".join(changed))
         if kept:
             lines.append(_("Unchanged: %s") % len(kept))
+        if failed:
+            lines.append(_("Failed: %s") % "; ".join(failed))
         if without_key:
             lines.append(_("Without a key to ask about: %s") % "; ".join(without_key))
+        if skipped:
+            lines.append(_("Not asked about this time: %s") % len(skipped))
         return {
             "type": "ir.actions.client",
             "tag": "display_notification",
             "params": {
                 "title": _("Status checked at the SEFAZ"),
                 "message": "\n".join(lines),
-                "type": "success" if changed else "info",
-                "sticky": bool(changed),
+                "type": "danger" if failed else ("success" if changed else "info"),
+                "sticky": bool(changed or failed),
             },
         }
 
