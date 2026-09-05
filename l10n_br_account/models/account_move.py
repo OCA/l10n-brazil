@@ -17,6 +17,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     FISCAL_IN_OUT_ALL,
     FISCAL_OUT,
     MODELO_FISCAL_NFE,
+    SITUACAO_EDOC_DENEGADA,
 )
 
 from .constants import (
@@ -737,14 +738,12 @@ class AccountMove(models.Model):
         """Ask the SEFAZ about the fiscal documents of the selected invoices.
 
         Soft dependency: the consult lives in l10n_br_fiscal_edi, which this
-        module does not depend on, so what is left here is the forwarding and a
-        legible answer where the electronic document module is not installed.
+        module does not depend on.
         """
-        documents = self.mapped("fiscal_document_id")
-        if not documents:
-            raise UserError(
-                _("None of the selected invoices carries a fiscal document.")
-            )
+        without_document = self.filtered(
+            lambda move: not move.fiscal_document_ids
+        ).mapped("display_name")
+        documents = self.mapped("fiscal_document_ids")
         if not hasattr(documents, "action_check_status"):
             raise UserError(
                 _(
@@ -752,7 +751,36 @@ class AccountMove(models.Model):
                     "fiscal document module installed."
                 )
             )
-        return documents.action_check_status()
+        result = documents.action_check_status()
+        notes = []
+        if without_document:
+            notes.append(
+                _("Without a fiscal document: %s") % "; ".join(without_document)
+            )
+        settled_by_hand = self._settled_moves_no_longer_valid()
+        if settled_by_hand:
+            notes.append(
+                _("Paid and no longer valid at the SEFAZ, settle by hand: %s")
+                % "; ".join(settled_by_hand.mapped("display_name"))
+            )
+            result["params"]["type"] = "warning"
+            result["params"]["sticky"] = True
+        if notes:
+            result["params"]["message"] = "\n".join(
+                filter(None, [result["params"]["message"], *notes])
+            )
+        return result
+
+    def _settled_moves_no_longer_valid(self):
+        void_states = (DOCUMENT_STATE_CANCEL, SITUACAO_EDOC_DENEGADA)
+        paid_states = ("in_payment", "paid", "partial")
+        return self.filtered(
+            lambda move: move.payment_state in paid_states
+            and any(
+                document.state_edoc in void_states
+                for document in move.fiscal_document_ids
+            )
+        )
 
     @api.constrains("state")
     def _check_l10n_latam_documents(self):
