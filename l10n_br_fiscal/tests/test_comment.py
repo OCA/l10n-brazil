@@ -18,13 +18,7 @@ class TestComment(TransactionCase):
         )
 
     def test_a_comment_that_does_not_apply_leaves_no_separator(self):
-        """A comment that renders to nothing must not join the message.
-
-        A benefit legend tied to a contract belongs to the notes of that
-        customer only, so the comment is written conditional on the document.
-        For every other document it renders to nothing, and joining that empty
-        render used to leave the manual text ending in " - " on the DANFE.
-        """
+        """A comment that renders to nothing must not join the message."""
         comment = self._comment(f"% if doc.applies:\n{FIXO}\n% endif")
 
         message = comment.compute_message(
@@ -41,3 +35,22 @@ class TestComment(TransactionCase):
         )
 
         self.assertEqual(message, f"ITEM 01.05 - {FIXO}")
+
+    def test_a_blank_manual_comment_leaves_no_separator(self):
+        comment = self._comment(FIXO)
+
+        message = comment.compute_message({}, "   ")
+
+        self.assertEqual(message, FIXO)
+
+    def test_a_comment_that_does_not_apply_in_the_middle_is_skipped(self):
+        first = self._comment("A")
+        middle = self._comment(f"% if doc.applies:\n{FIXO}\n% endif")
+        last = self._comment("B")
+        comments = first + middle + last
+
+        message = comments.compute_message(
+            {"doc": type("Doc", (), {"applies": False})()}
+        )
+
+        self.assertEqual(message, "A - B")

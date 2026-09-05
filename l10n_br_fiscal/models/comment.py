@@ -148,17 +148,14 @@ class Comment(models.Model):
         mako_safe_env = copy.copy(mako_template_env)
         mako_safe_env.autoescape = False
 
-        comments = [manual_comment] if manual_comment else []
-        for record in self:
-            template = mako_safe_env.from_string(record.comment)
-            # A comment can be conditional on the document, so it renders to
-            # nothing for the documents it does not apply to. Joining an empty
-            # render leaves a dangling separator in the additional data, which
-            # reaches the DANFE.
-            rendered = template.render(vals).strip()
-            if rendered:
-                comments.append(rendered)
-        return " - ".join(comments)
+        # A comment can be conditional on the document, so it renders to
+        # nothing for the documents it does not apply to; joining an empty
+        # or blank candidate leaves a dangling separator in the DANFE.
+        candidates = [manual_comment or ""]
+        candidates += [
+            mako_safe_env.from_string(record.comment).render(vals) for record in self
+        ]
+        return " - ".join(c for c in (c.strip() for c in candidates) if c)
 
     def action_test_message(self):
         vals = {"user": self.env.user, "ctx": self._context, "doc": self.object_id}
