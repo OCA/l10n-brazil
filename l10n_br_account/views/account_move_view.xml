@@ -41,8 +41,17 @@
                     invisible="not document_type_id"
                 />
             </field>
+            <xpath expr="//list/header" position="inside">
+                <button
+                    name="action_check_status"
+                    string="Check status at the SEFAZ"
+                    type="object"
+                    display="always"
+                />
+            </xpath>
         </field>
     </record>
+
     <!-- Customer Invoice views -->
 
     <record id="invoice_form" model="ir.ui.view">

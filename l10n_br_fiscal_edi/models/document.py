@@ -40,6 +40,11 @@ def filter_processador(record):
     return False
 
 
+# Above this, a single run risks Odoo's 120s request timeout and, worse,
+# Sefaz's 1h block on the CNPJ that queries it.
+BATCH_STATUS_CHECK_LIMIT = 25
+
+
 class FiscalDocumentStateMachine(Machine):
     """A ``transitions`` Machine bound to an Odoo fiscal document.
 
@@ -808,6 +813,60 @@ class Document(models.Model):
 
     def make_pdf(self):
         pass
+
+    def action_check_status(self):
+        """Ask the SEFAZ about each selected document, within a safe batch size."""
+        askable = self.filtered(lambda d: d.state_edoc == DOCUMENT_STATE_SENDING)
+        skipped = (self - askable).mapped("display_name")
+        changed, kept, failed, without_key = [], [], [], []
+        for record in askable[:BATCH_STATUS_CHECK_LIMIT]:
+            if not record.document_key:
+                without_key.append(record.display_name)
+                continue
+            before = record.state_edoc
+            try:
+                with self.env.cr.savepoint():
+                    record._document_status()
+            except Exception as error:
+                failed.append(f"{record.display_name}: {error}")
+                continue
+            record.invalidate_recordset(["state_edoc"])
+            if record.state_edoc == before:
+                kept.append(record.display_name)
+            else:
+                changed.append((record.display_name, before, record.state_edoc))
+        overflow = askable[BATCH_STATUS_CHECK_LIMIT:].mapped("display_name")
+        return self._notify_status_check(
+            changed, kept, failed, without_key, skipped + overflow
+        )
+
+    def _notify_status_check(self, changed, kept, failed, without_key, skipped):
+        labels = dict(self._fields["state_edoc"]._description_selection(self.env))
+        changed = [
+            f"{name}: {labels.get(before, before)} -> {labels.get(after, after)}"
+            for name, before, after in changed
+        ]
+        lines = []
+        if changed:
+            lines.append(_("Changed: %s") % "; ".join(changed))
+        if kept:
+            lines.append(_("Unchanged: %s") % len(kept))
+        if failed:
+            lines.append(_("Failed: %s") % "; ".join(failed))
+        if without_key:
+            lines.append(_("Without a key to ask about: %s") % "; ".join(without_key))
+        if skipped:
+            lines.append(_("Not asked about this time: %s") % len(skipped))
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("Status checked at the SEFAZ"),
+                "message": "\n".join(lines),
+                "type": "danger" if failed else ("success" if changed else "info"),
+                "sticky": bool(changed or failed),
+            },
+        }
 
     def view_pdf(self):
         self.ensure_one()
