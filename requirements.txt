@@ -4,4 +4,5 @@ email-validator
 erpbrasil.base
 num2words
 phonenumbers
+transitions
 workalendar
