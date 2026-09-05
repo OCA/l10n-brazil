@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="document_form" model="ir.ui.view">
+        <field name="name">l10n_br_nfse_nacional.document.form</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
+        <field name="arch" type="xml">
+            <button name="action_document_invalidate" position="attributes">
+                <attribute
+                    name="invisible"
+                >document_type == 'SE' or state_edoc in ('em_digitacao', 'autorizada', 'cancelada', 'denegada')</attribute>
+            </button>
+            <button name="action_document_cancel" position="after">
+                <button
+                    name="action_adn_check_status"
+                    type="object"
+                    string="Consultar Status"
+                    groups="l10n_br_fiscal.group_user"
+                    invisible="document_type != 'SE' or state_edoc != 'autorizada'"
+                />
+            </button>
+        </field>
+    </record>
+</odoo>

@@ -241,3 +241,32 @@ class TestFiscalDocumentNFSeCommon(TransactionCase):
             service_data["percentual_total_tributos_municipais"],
             "Should be the same as tax_estimate.municipal_taxes",
         )
+
+    def test_the_exported_service_is_not_declared_as_immune(self):
+        """``tribISSQN`` is 1 taxable, 2 export, 3 no incidence, 4 immunity.
+
+        The map sent 4 (export) as 3 and 5 (immunity) as 2, so an exported
+        service was declared as no incidence and an immune one as an export.
+        """
+        fiscal_document = self.nfse_same_state
+        fiscal_line = fiscal_document.fiscal_line_ids[0]
+
+        fiscal_line.issqn_eligibility = "4"
+        self.assertEqual(
+            fiscal_document._prepare_dados_servico()["codigo_tributacao_iss"], "2"
+        )
+
+        fiscal_line.issqn_eligibility = "5"
+        self.assertEqual(
+            fiscal_document._prepare_dados_servico()["codigo_tributacao_iss"], "4"
+        )
+
+        fiscal_line.issqn_eligibility = "2"
+        self.assertEqual(
+            fiscal_document._prepare_dados_servico()["codigo_tributacao_iss"], "3"
+        )
+
+        fiscal_line.issqn_eligibility = "1"
+        self.assertEqual(
+            fiscal_document._prepare_dados_servico()["codigo_tributacao_iss"], "1"
+        )
