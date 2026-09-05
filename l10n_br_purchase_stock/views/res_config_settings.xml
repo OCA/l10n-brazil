@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="l10n_br_purchase_res_config_settings_form" model="ir.ui.view">
+        <field name="name">l10n_br_purchase.res.config.settings.form</field>
+        <field name="model">res.config.settings</field>
+        <field
+            name="inherit_id"
+            ref="purchase.res_config_settings_view_form_purchase"
+        />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//block[@name='invoicing_settings_container']"
+                position="inside"
+            >
+                <setting
+                    id="purchase_invoicing_policy_setting"
+                    title="Select invoiced based on order or picking"
+                    help="Define if Vendor Bill should be created from Purchase Order or from Stock Picking"
+                >
+                    <field
+                        name="purchase_invoicing_policy"
+                        class="o_light_label"
+                        widget="radio"
+                    />
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>
