@@ -84,7 +84,7 @@ class TestCheckStatus(TransactionCase):
         self.assertEqual(action["params"]["type"], "danger")
 
     def test_only_the_limit_is_asked_about_the_rest_is_named(self):
-        second = self._create_document("35260947786619000137550020000000061765922233")
+        second = self._create_document("35200159594315000157550010000000012062777161")
         with (
             patch(f"{DOCUMENT_MODEL}.BATCH_STATUS_CHECK_LIMIT", 1),
             patch(f"{FROM_THE_DOCUMENT}._document_status", autospec=True) as consulted,
