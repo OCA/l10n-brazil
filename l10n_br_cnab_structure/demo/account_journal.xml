@@ -16,15 +16,15 @@
         />
         <field
             name="inbound_interest_fee_account_id"
-            ref="l10n_br_account_payment_order.1_account_template_31202_avoid_travis_error"
+            ref="l10n_br_account_payment_order.1_account_template_31202_avoid_ci_error"
         />
         <field
             name="inbound_discount_account_id"
-            ref="l10n_br_account_payment_order.1_account_template_32202_avoid_travis_error"
+            ref="l10n_br_account_payment_order.1_account_template_32202_avoid_ci_error"
         />
         <field
             name="inbound_rebate_account_id"
-            ref="l10n_br_account_payment_order.1_account_template_32203_avoid_travis_error"
+            ref="l10n_br_account_payment_order.1_account_template_32203_avoid_ci_error"
         />
         <field
             name="outbound_interest_fee_account_id"
@@ -40,7 +40,7 @@
         />
         <field
             name="tariff_charge_account_id"
-            ref="l10n_br_account_payment_order.1_account_template_32302_avoid_travis_error"
+            ref="l10n_br_account_payment_order.1_account_template_32302_avoid_ci_error"
         />
     </record>
     <record
@@ -68,15 +68,15 @@
         <!-- Contas de entrada (retorno de cobrança) -->
         <field
             name="inbound_interest_fee_account_id"
-            ref="l10n_br_account_payment_order.1_account_template_31202_avoid_travis_error"
+            ref="l10n_br_account_payment_order.1_account_template_31202_avoid_ci_error"
         />
         <field
             name="inbound_discount_account_id"
-            ref="l10n_br_account_payment_order.1_account_template_32202_avoid_travis_error"
+            ref="l10n_br_account_payment_order.1_account_template_32202_avoid_ci_error"
         />
         <field
             name="inbound_rebate_account_id"
-            ref="l10n_br_account_payment_order.1_account_template_32203_avoid_travis_error"
+            ref="l10n_br_account_payment_order.1_account_template_32203_avoid_ci_error"
         />
 
         <!-- Contas de saída (pagamentos via CNAB) -->
@@ -96,7 +96,7 @@
         <!-- Taxas bancárias -->
         <field
             name="tariff_charge_account_id"
-            ref="l10n_br_account_payment_order.1_account_template_32302_avoid_travis_error"
+            ref="l10n_br_account_payment_order.1_account_template_32302_avoid_ci_error"
         />
     </record>
     <record
@@ -124,15 +124,15 @@
         <!-- Contas de entrada (retorno de cobrança) -->
         <field
             name="inbound_interest_fee_account_id"
-            ref="l10n_br_account_payment_order.1_account_template_31202_avoid_travis_error"
+            ref="l10n_br_account_payment_order.1_account_template_31202_avoid_ci_error"
         />
         <field
             name="inbound_discount_account_id"
-            ref="l10n_br_account_payment_order.1_account_template_32202_avoid_travis_error"
+            ref="l10n_br_account_payment_order.1_account_template_32202_avoid_ci_error"
         />
         <field
             name="inbound_rebate_account_id"
-            ref="l10n_br_account_payment_order.1_account_template_32203_avoid_travis_error"
+            ref="l10n_br_account_payment_order.1_account_template_32203_avoid_ci_error"
         />
 
         <!-- Contas de saída (pagamentos via CNAB) -->
@@ -152,7 +152,7 @@
         <!-- Taxas bancárias -->
         <field
             name="tariff_charge_account_id"
-            ref="l10n_br_account_payment_order.1_account_template_32302_avoid_travis_error"
+            ref="l10n_br_account_payment_order.1_account_template_32302_avoid_ci_error"
         />
     </record>
     <record
@@ -180,15 +180,15 @@
         <!-- Contas de entrada (retorno de cobrança) -->
         <field
             name="inbound_interest_fee_account_id"
-            ref="l10n_br_account_payment_order.1_account_template_31202_avoid_travis_error"
+            ref="l10n_br_account_payment_order.1_account_template_31202_avoid_ci_error"
         />
         <field
             name="inbound_discount_account_id"
-            ref="l10n_br_account_payment_order.1_account_template_32202_avoid_travis_error"
+            ref="l10n_br_account_payment_order.1_account_template_32202_avoid_ci_error"
         />
         <field
             name="inbound_rebate_account_id"
-            ref="l10n_br_account_payment_order.1_account_template_32203_avoid_travis_error"
+            ref="l10n_br_account_payment_order.1_account_template_32203_avoid_ci_error"
         />
 
         <!-- Contas de saída (pagamentos via CNAB) -->
@@ -208,7 +208,7 @@
         <!-- Taxas bancárias -->
         <field
             name="tariff_charge_account_id"
-            ref="l10n_br_account_payment_order.1_account_template_32302_avoid_travis_error"
+            ref="l10n_br_account_payment_order.1_account_template_32302_avoid_ci_error"
         />
     </record>
     <record
