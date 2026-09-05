@@ -41,13 +41,6 @@
                     invisible="not document_type_id"
                 />
             </field>
-        </field>
-    </record>
-    <record id="invoice_tree_check_status" model="ir.ui.view">
-        <field name="name">l10n_br_account.invoice.tree.check.status</field>
-        <field name="model">account.move</field>
-        <field name="inherit_id" ref="account.view_invoice_tree" />
-        <field name="arch" type="xml">
             <xpath expr="//list/header" position="inside">
                 <button
                     name="action_check_status"
