@@ -25,6 +25,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     PROCESSADOR_OCA,
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
+    SITUACAO_EDOC_ENVIADA,
     SITUACAO_EDOC_REJEITADA,
 )
 from odoo.addons.spec_driven_model.models import spec_models
@@ -257,7 +258,7 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
                         "errors": record.xml_error_message,
                     }
                 )
-            if record.state_edoc != "a_enviar":
+            if record.state_edoc != SITUACAO_EDOC_ENVIADA:
                 continue
             record._adn_send_for_authorization()
         return result
