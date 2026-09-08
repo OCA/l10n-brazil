@@ -38,6 +38,15 @@ class DocumentImportWizard(models.TransientModel):
 
     file = fields.Binary(string="File to Import")
 
+    allow_product_creation = fields.Boolean(
+        string="Create unmapped products",
+        default=False,
+        help="If enabled, products that don't match an existing record will be"
+        " automatically created during import. If disabled (default), the"
+        " import will raise an error when an unmapped product is found so you"
+        " can map it in the product lines above before importing.",
+    )
+
     date_in_out = fields.Datetime(
         default=fields.Datetime.now,
         help="Effective incoming/outgoing date of the goods (DT_E_S in the "

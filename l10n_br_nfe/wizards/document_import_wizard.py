@@ -265,12 +265,19 @@ class DocumentImportWizard(models.TransientModel):
     def _create_edoc_from_file(self):
         if self.document_type == MODELO_FISCAL_NFE:
             binding = self._parse_file()
-            edoc = self.env["l10n_br_fiscal.document"].import_binding_nfe(
-                binding,
-                edoc_type=self.fiscal_operation_type,
+            edoc = (
+                self.env["l10n_br_fiscal.document"]
+                .with_context(allow_product_creation=self.allow_product_creation)
+                .import_binding_nfe(
+                    binding,
+                    edoc_type=self.fiscal_operation_type,
+                )
             )
             edoc.document_type_id = self.env.ref("l10n_br_fiscal.document_55").id
             edoc.fiscal_operation_id = self.fiscal_operation_id
+            wizard_lines_by_code = {
+                w.product_code: w for w in self.imported_products_ids
+            }
             for line in edoc.fiscal_line_ids:
                 # Preserve the XML price_unit because setting
                 # fiscal_operation_id triggers _compute_price_unit_fiscal
@@ -280,6 +287,22 @@ class DocumentImportWizard(models.TransientModel):
                 line.fiscal_operation_id = self.fiscal_operation_id
                 line.price_unit = price_unit
                 line.uom_id = line.uot_id
+                if not line.uom_id:
+                    # When the product was created during this import its uom
+                    # was not resolved from the XML at line-creation time (the
+                    # line compute ran before the product's units were set), so
+                    # fall back to the unit the wizard matched from uCom/uTrib
+                    # and align the created product's units with it.
+                    wl = (
+                        wizard_lines_by_code.get(line.product_id.default_code)
+                        if line.product_id
+                        else None
+                    )
+                    if wl and wl.uom_internal:
+                        line.uom_id = wl.uom_internal
+                        if not wl.product_id:
+                            line.product_id.uom_id = wl.uom_internal
+                            line.product_id.uom_po_id = wl.uom_internal
 
             if not self.partner_id:
                 self.partner_id = edoc.partner_id
