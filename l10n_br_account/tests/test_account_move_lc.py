@@ -562,9 +562,10 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "Venda com ICMS 12 e Redução de 26,57",
         )
 
-        # price_total deve ser vProd + vIPI − vICMSDeson
-        # 1000.00 + 32.50 − 36.23 = 996.27
-        price_total = 996.27
+        # vICMSDeson (icms_relief_value) is informational only, per the NFe
+        # schema, and must not be deducted from vNF / price_total.
+        # price_total deve ser vProd + vIPI = 1000.00 + 32.50 = 1032.50
+        price_total = 1032.5
 
         product_line_vals_1 = {
             "name": self.product_a.display_name,
@@ -579,9 +580,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "price_total": price_total,
             "tax_line_id": False,
             "currency_id": self.company_data["currency"].id,
-            "amount_currency": -839.15,
+            "amount_currency": -875.38,
             "debit": 0.0,
-            "credit": 839.15,
+            "credit": 875.38,
             "date_maturity": False,
         }
 
@@ -747,8 +748,8 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "tax_ids": [],
             "tax_line_id": False,
             "currency_id": self.company_data["currency"].id,
-            "amount_currency": 996.27,
-            "debit": 996.27,
+            "amount_currency": 1032.5,
+            "debit": 1032.5,
             "credit": 0.0,
             "date_maturity": fields.Date.from_string("2019-01-01"),
         }
@@ -761,9 +762,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "fiscal_position_id": False,
             "payment_reference": "",
             "invoice_payment_term_id": self.pay_terms_a.id,
-            "amount_untaxed": 963.77,
+            "amount_untaxed": 1000.0,
             "amount_tax": 32.5,
-            "amount_total": 996.27,
+            "amount_total": 1032.5,
         }
 
         self.assertInvoiceValues(
