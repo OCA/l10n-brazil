@@ -300,6 +300,11 @@ class ResPartner(spec_models.SpecModel):
         if rec_dict.get("nfe40_CNPJ", False):
             rec_dict["cnpj_cpf"] = rec_dict["nfe40_CNPJ"]
 
+        # The emitente's tax regime (CRT) is written after create/match: the
+        # fiscal_profile_id inverse would otherwise reset tax_framework to the
+        # profile's default during create.
+        tax_framework = rec_dict.pop("tax_framework", None)
+
         if rec_dict.get("cnpj_cpf", False):
             domain_cnpj = [
                 "|",
@@ -308,6 +313,14 @@ class ResPartner(spec_models.SpecModel):
             ]
             match = self.search(domain_cnpj, limit=1)
             if match:
+                if (
+                    not self._context.get("dry_run")
+                    and tax_framework
+                    and match.tax_framework != tax_framework
+                ):
+                    # logged in the partner chatter (tax_framework is tracked)
+                    # and historicized in SPED.
+                    match.tax_framework = tax_framework
                 return match.id
 
         vals = self._prepare_import_dict(
@@ -316,7 +329,10 @@ class ResPartner(spec_models.SpecModel):
         if self._context.get("dry_run", False):
             rec_id = self.new(vals).id
         else:
-            rec_id = self.with_context(parent_dict=parent_dict).create(vals).id
+            rec = self.with_context(parent_dict=parent_dict).create(vals)
+            if tax_framework and rec.tax_framework != tax_framework:
+                rec.tax_framework = tax_framework
+            rec_id = rec.id
         return rec_id
 
     def _export_field(self, xsd_field, class_obj, member_spec, export_value=None):
