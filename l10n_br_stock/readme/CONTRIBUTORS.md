@@ -1,0 +1,5 @@
+- [KMEE](https://kmee.com.br):
+  - Hendrix Costa
+  - Luis Felipe Mileo \<<mileo@kmee.com.br>\>
+- [ESCODOO](https://escodoo.com.br):
+  - Marcel Savegnago \<<marcel.savegnago@escodoo.com.br>\>
