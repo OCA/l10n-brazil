@@ -12,7 +12,6 @@ from datetime import datetime
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from erpbrasil.transmissao import TransmissaoSOAP
 from lxml import etree
-from nfelib.nfe.bindings.v4_0.dfe_tipos_basicos_v1_00 import TibscbsmonoTot
 from nfelib.nfe.bindings.v4_0.nfe_v4_00 import Nfe
 from nfelib.nfe.bindings.v4_0.proc_nfe_v4_00 import NfeProc
 from nfelib.nfe.ws.edoc_legacy import NFCeAdapter as edoc_nfce
@@ -687,10 +686,8 @@ class NFe(spec_models.StackedModel):
                 continue
 
             # Calculate totals from lines
-            total_ibs_base = (
-                sum(record.fiscal_line_ids.mapped("ibs_base"))
-                or sum(record.fiscal_line_ids.mapped("cbs_base"))
-                or sum(record.fiscal_line_ids.mapped("price_gross"))
+            total_ibs_base = sum(record.fiscal_line_ids.mapped("ibs_base")) or sum(
+                record.fiscal_line_ids.mapped("cbs_base")
             )
 
             total_ibs_value = sum(record.fiscal_line_ids.mapped("ibs_value"))
@@ -716,6 +713,44 @@ class NFe(spec_models.StackedModel):
             record.nfe40_vDevTribCBS = 0.0
             record.nfe40_vCredPresCBS = 0.0
             record.nfe40_vCredPresCondSusCBS = 0.0
+
+    def _export_tag_nfe_40_ibscbstot(self, xsd_fields, class_obj, export_dict):
+        """Export the IBSCBSTot group of the document (NT 2025.002).
+
+        Dispatched by the spec_driven_model per tag hooks while exporting
+        the nfe40_IBSCBSTot field of the nfe.40.total class: the comodel is
+        the reusable nfe.40.tibscbsmonotot type, so the class name dispatch
+        would not match the IBSCBSTot tag name. This method and the
+        _export_tag_nfe_40_g* ones below only populate export_dict; the
+        framework assembles the bindings.
+        """
+        # Export IBSCBSTot only when the lines export the IBSCBS group
+        if not self._nfe_export_ibscbs_totals():
+            return
+
+        export_dict["vBCIBSCBS"] = self.nfe40_vBCIBSCBS
+
+    def _export_tag_nfe_40_gibs(self, xsd_fields, class_obj, export_dict):
+        export_dict["vIBS"] = self.nfe40_vIBS
+        export_dict["vCredPres"] = self.nfe40_vCredPres
+        export_dict["vCredPresCondSus"] = self.nfe40_vCredPresCondSus
+
+    def _export_tag_nfe_40_gibsuf(self, xsd_fields, class_obj, export_dict):
+        export_dict["vDif"] = self.nfe40_vDifIBSUF
+        export_dict["vDevTrib"] = self.nfe40_vDevTribIBSUF
+        export_dict["vIBSUF"] = self.nfe40_vIBSUF
+
+    def _export_tag_nfe_40_gibsmun(self, xsd_fields, class_obj, export_dict):
+        export_dict["vDif"] = self.nfe40_vDifIBSMun
+        export_dict["vDevTrib"] = self.nfe40_vDevTribIBSMun
+        export_dict["vIBSMun"] = self.nfe40_vIBSMun
+
+    def _export_tag_nfe_40_gcbs(self, xsd_fields, class_obj, export_dict):
+        export_dict["vDif"] = self.nfe40_vDifCBS
+        export_dict["vDevTrib"] = self.nfe40_vDevTribCBS
+        export_dict["vCBS"] = self.nfe40_vCBS
+        export_dict["vCredPres"] = self.nfe40_vCredPresCBS
+        export_dict["vCredPresCondSus"] = self.nfe40_vCredPresCondSusCBS
 
     ##########################
     # NF-e tag: ISSQNtot
@@ -828,12 +863,9 @@ class NFe(spec_models.StackedModel):
     ################################
 
     def _nfe_export_ibscbs_totals(self):
-        """Return True when the document has IBS/CBS values to export"""
+        """Return True when the document lines export the IBSCBS group"""
         self.ensure_one()
-        return bool(
-            sum(self.fiscal_line_ids.mapped("ibs_value"))
-            or sum(self.fiscal_line_ids.mapped("cbs_value"))
-        )
+        return bool(self.fiscal_line_ids.filtered("tax_classification_id"))
 
     def _export_field(self, xsd_field, class_obj, member_spec, export_value=None):
         if xsd_field == "nfe40_tpAmb":
@@ -856,51 +888,6 @@ class NFe(spec_models.StackedModel):
                 return False
             return f"{self.fiscal_amount_total:.2f}"
 
-        if xsd_field == "nfe40_IBSCBSTot":
-            if not self._nfe_export_ibscbs_totals():
-                return False
-
-            # Build gIBSUF
-            gibsuf = TibscbsmonoTot.GIbs.GIbsuf(
-                vDif=f"{self.nfe40_vDifIBSUF:.2f}",
-                vDevTrib=f"{self.nfe40_vDevTribIBSUF:.2f}",
-                vIBSUF=f"{self.nfe40_vIBSUF:.2f}",
-            )
-
-            # Build gIBSMun
-            gibsmun = TibscbsmonoTot.GIbs.GIbsmun(
-                vDif=f"{self.nfe40_vDifIBSMun:.2f}",
-                vDevTrib=f"{self.nfe40_vDevTribIBSMun:.2f}",
-                vIBSMun=f"{self.nfe40_vIBSMun:.2f}",
-            )
-
-            # Build gIBS
-            gibs = TibscbsmonoTot.GIbs(
-                gIBSUF=gibsuf,
-                gIBSMun=gibsmun,
-                vIBS=f"{self.nfe40_vIBS:.2f}",
-                vCredPres=f"{self.nfe40_vCredPres:.2f}",
-                vCredPresCondSus=f"{self.nfe40_vCredPresCondSus:.2f}",
-            )
-
-            # Build gCBS
-            gcbs = TibscbsmonoTot.GCbs(
-                vDif=f"{self.nfe40_vDifCBS:.2f}",
-                vDevTrib=f"{self.nfe40_vDevTribCBS:.2f}",
-                vCBS=f"{self.nfe40_vCBS:.2f}",
-                vCredPres=f"{self.nfe40_vCredPresCBS:.2f}",
-                vCredPresCondSus=f"{self.nfe40_vCredPresCondSusCBS:.2f}",
-            )
-
-            # Build IBSCBSTot
-            ibscbs_tot = TibscbsmonoTot(
-                vBCIBSCBS=f"{self.nfe40_vBCIBSCBS:.2f}",
-                gIBS=gibs,
-                gCBS=gcbs,
-            )
-
-            return ibscbs_tot
-
         return super()._export_field(xsd_field, class_obj, member_spec, export_value)
 
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
@@ -916,13 +903,7 @@ class NFe(spec_models.StackedModel):
             ):
                 return False
 
-            if field_name == "nfe40_IBSCBSTot":
-                total_ibs = sum(self.fiscal_line_ids.mapped("ibs_value"))
-                total_cbs = sum(self.fiscal_line_ids.mapped("cbs_value"))
-                if not total_ibs and not total_cbs:
-                    return False
-
-            elif (not xsd_required) and field_name not in ["nfe40_enderDest"]:
+            if (not xsd_required) and field_name not in ["nfe40_enderDest"]:
                 comodel = self.env[
                     self._get_stacking_points().get(field_name).comodel_name
                 ]
