@@ -28,46 +28,13 @@ Relatórios contábeis brasileiros: Balanço Patrimonial e DRE
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Este módulo implementa **Modelos de Relatórios Contábeis Brasileiros**,
-como o **Demonstrativo de Resultados do Exercício (DRE)** e o **Balanço
-Patrimonial (BP)**, baseados na norma **ITG 1000**. Ele permite que
-pequenas empresas e microentidades gerem relatórios contábeis de acordo
-com os padrões brasileiros, com a flexibilidade de personalizar os
-modelos conforme o plano de contas de cada empresa.
+Balanço Patrimonial e Demonstração do Resultado do Exercício brasileiros
+para o mis_builder, com os relatórios já montados e os períodos em que a
+legislação brasileira manda apurar e demonstrar.
 
-**Nota:** Embora esses modelos sejam **inspirados no ITG 1000**, eles
-**não correspondem exatamente ao modelo proposto pela norma**. Além
-disso, pode haver **diferenças** em relação às versões mais recentes do
-ITG 1000.
-
-Para mais informações, consulte as `Normas Simplificadas para PMEs no
-site do
-CFC <https://cfc.org.br/tecnica/normas-brasileiras-de-contabilidade/normas-simplificadas-para-pmes/>`__.
-
-**Observação:** Esses modelos são um **ponto de partida** e precisam ser
-**ajustados** de acordo com o plano de contas da sua empresa. Por
-padrão, eles estão configurados com os prefixos das contas contábeis da
-**localização brasileira da OCA**. Para saber mais sobre como configurar
-corretamente esses modelos, consulte a **seção de configuração**.
-
-Balanço Patrimonial (BP)
-^^^^^^^^^^^^^^^^^^^^^^^^
-
-Abaixo está um exemplo visual de um **Balanço Patrimonial** inspirado no
-ITG 1000:
-
-|Balanço Patrimonial|
-
-Demonstrativo de Resultados do Exercício (DRE)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Abaixo está um exemplo visual de um **DRE** (Demonstrativo de Resultados
-do Exercício) inspirado no ITG 1000:
-
-|DRE|
-
-.. |Balanço Patrimonial| image:: https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_mis_report/static/description/bp.png
-.. |DRE| image:: https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_mis_report/static/description/dre.png
+O Balanço segue a ordem do art. 178 da Lei 6.404/76 e a DRE a do art.
+187. As contas são selecionadas pela classificação contábil, então os
+mesmos relatórios servem qualquer plano de contas.
 
 **Table of contents**
 
@@ -80,68 +47,84 @@ Installation
 Este módulo tem como dependência o módulo ``mis_builder``, que pode ser
 encontrado nos seguintes locais:
 
--  `Odoo Community Association (OCA)
-   Shop <https://odoo-community.org/shop>`__
--  `Repositório no GitHub <https://github.com/OCA/mis-builder>`__
+- `Odoo Community Association (OCA)
+  Shop <https://odoo-community.org/shop>`__
+- `Repositório no GitHub <https://github.com/OCA/mis-builder>`__
 
 Configuration
 =============
 
-Esses relatórios são estruturados inicialmente com base no **prefixo das
-contas**. Se você estiver utilizando um plano de contas customizado, é
-importante revisar o campo **prefixo da conta** no cadastro do plano de
-contas para garantir que está alinhado com o que foi configurado no
-modelo de relatório.
+Os relatórios selecionam as contas pela **classificação contábil
+brasileira** (as etiquetas de conta do ``l10n_br_coa``), não pelo código
+da conta. Quem usa os planos ``l10n_br_coa_generic`` ou
+``l10n_br_coa_simple`` não precisa configurar nada: eles já vêm
+classificados.
 
-No entanto, essa configuração pode ser ajustada para utilizar **outros
-métodos de identificação** oferecidos pela ferramenta **SIG** (Sistema
-de Informação Gerencial), equivalente ao **MIS** (Management Information
-System) em inglês, implementada pelo módulo **mis_builder**.
+Num **plano de contas próprio**, classifique as contas para que elas
+apareçam: vá em **Faturamento > Configuração > Plano de Contas**, abra a
+conta e preencha **Etiquetas** com a linha de relatório correspondente
+(por exemplo "Ativo / Circulante / Estoques" ou "Resultado / (-)
+Despesas Administrativas").
 
-Para alterar um modelo, siga os passos abaixo:
+Toda conta de resultado leva **duas** etiquetas: a da sua linha na DRE e
+a etiqueta guarda-chuva "Resultado / Contas de Resultado (todas)". É
+essa segunda que alimenta a linha "Resultado do Exercício" do Balanço,
+que é o que faz o ativo fechar com o passivo mais o patrimônio líquido.
 
-1. Acesse **Faturamento > Configuração > Relatórios SIG > Modelos do
-   Relatório SIG**.
-2. Selecione o modelo que deseja editar e ajuste os critérios de
-   identificação, incluindo o **prefixo das contas** ou outro método de
-   identificação disponível.
-3. Certifique-se de que os **prefixos configurados** no modelo do
-   relatório estejam **alinhados** com os prefixos do seu plano de
-   contas.
-
-Para mais detalhes sobre como configurar, consulte a documentação do
-**mis_builder**.
+Conta sem etiqueta simplesmente não entra nos relatórios legais, que é o
+comportamento desejado para contas de controle interno.
 
 Usage
 =====
 
-1. Acesse Faturamento > Relatórios > Relatórios SIG > Relatórios SIG
+O módulo já instala os relatórios prontos. Acesse **Faturamento >
+Relatórios > Relatórios SIG** e escolha um deles:
 
-2. Crie um **novo Relatório**.
+- **Balanço Patrimonial - exercício atual e anterior**: a apresentação
+  comparativa que a Lei 6.404/76 manda publicar (art. 176, § 1º), com a
+  coluna de variação.
+- **DRE - exercício atual e anterior**: a mesma comparação, para o
+  resultado.
+- **DRE - mês e acumulado no exercício**: o acompanhamento gerencial
+  corrente, com o mês, o acumulado desde 1º de janeiro e as duas colunas
+  equivalentes do exercício anterior.
+- **DRE - trimestral**: o trimestre em que se apura o IRPJ e a CSLL no
+  lucro presumido e no lucro real trimestral (Lei 9.430/96, art. 1º),
+  com o trimestre anterior e o mesmo trimestre do exercício passado.
 
-3. Selecione um dos **modelos de relatórios contabeis brasileiro**.
+Para ver outro período, mude a **data base** do relatório: todas as
+colunas se reposicionam juntas, porque são declaradas relativas a ela,
+não por data fixa.
 
-4. Na aba **Layout**, você pode desativar a **expansão das contas** para
-   gerar um relatório mais resumido.
+Depois clique em **Visualizar**, **Imprimir** ou **Exportar**. No modo
+de visualização, clicar no valor de uma linha detalhada abre os
+lançamentos que a compõem.
 
-5. Para selecionar os períodos, siga uma das opções abaixo:
+Períodos
+--------
 
-   -  Selecione diretamente o **intervalo de datas** ou o **nome do
-      período** desejado para obter o relatório referente a esse período
-      específico.
-   -  Ative o **Modo de Comparação** e, na guia **Colunas**, defina
-      quantas colunas deseja, com períodos diferentes. Esses períodos
-      podem ser configurados com **datas fixas** ou períodos relativos.
-      Por exemplo, defina "Tipo de período" como "Ano", com
-      "Deslocamento" = "0" e "Duração" = "1" para o ano corrente (N), e
-      "Deslocamento" = "-1" para o ano anterior (N-1). Lembre-se de
-      ajustar a **data base** do relatório para o ano a ser analisado.
+O módulo instala três tipos de período (**Faturamento > Configuração >
+Intervalos de Datas**), que se geram sozinhos daí em diante:
 
-6. Clique em **Visualizar**, **Imprimir** ou **Exportar** para calcular
-   o relatório e executar a ação desejada.
+- **Mês de competência**, que é o período da apuração de ICMS, IPI, PIS
+  e COFINS e da escrituração mensal do SPED;
+- **Trimestre de apuração**, o trimestre civil do IRPJ e da CSLL;
+- **Exercício social**, de um ano (Lei 6.404/76, art. 175).
 
-7. No modo de visualização, você pode clicar no **valor** das linhas
-   detalhadas para visualizar os **registros contábeis relacionados**.
+Montar um relatório próprio
+---------------------------
+
+Duplique um dos prontos e ajuste as colunas, ou crie um novo escolhendo
+o modelo BP ou DRE. Em **Colunas**, cada coluna pode ser uma data fixa
+ou um período relativo à data base: "Tipo de período" Ano com
+"Deslocamento" 0 é o exercício corrente, -1 o anterior. Marque
+**Acumulado no ano** para a coluna começar em 1º de janeiro.
+
+Uma ressalva do Balanço: a coluna precisa cobrir o exercício (o
+exercício inteiro ou um acumulado desde 1º de janeiro), porque o
+resultado do período é lido do movimento das contas de resultado. Numa
+coluna de mês isolado, o patrimônio líquido exibiria só o resultado
+daquele mês.
 
 Known issues / Roadmap
 ======================
@@ -150,13 +133,38 @@ Fornecer modelos de **Balanço Patrimonial (BP)** e **Demonstrativo de
 Resultados do Exercício (DRE)** conforme a norma **ITG 1000**, com
 versões para:
 
--  **Pequenas Empresas**
--  **Microentidades**
+- **Pequenas Empresas**
+- **Microentidades**
 
 Changelog
 =========
 
+16.0.2.0.0
+----------
 
+- O Balanço e a DRE deixam de ser quatro modelos por prefixo de conta
+  (um par por plano) e passam a ser **um Balanço e uma DRE** que
+  selecionam as contas pela classificação contábil, valendo para
+  qualquer plano, inclusive customizado. Até a versão 14.0 esse papel
+  era dos tipos de conta brasileiros, que a versão 16.0 do Odoo
+  eliminou.
+- O Balanço ganha a linha **Resultado do Exercício**. Sem ela o
+  resultado do período não aparecia em lugar nenhum e o balanço fechava
+  com o ativo maior que o passivo mais o patrimônio líquido, pela
+  diferença exata do lucro.
+- Correções de seleção de conta que vinham desde a migração para a 16.0:
+  os Lucros Acumulados apontavam para uma conta de compensação
+  inexistente, o grupo de Lucros e Prejuízos Acumulados era contado duas
+  vezes no patrimônio líquido, e as linhas de IRPJ e de CSLL apontavam
+  para prefixos que não existem em nenhum dos dois planos.
+- O módulo passa a instalar **relatórios prontos** e os **períodos
+  fiscais brasileiros** (mês de competência, trimestre de apuração e
+  exercício social), em vez de entregar só os modelos.
+
+Os modelos antigos (``balanco_patrimonial_generic``,
+``balanco_patrimonial_simple``, ``dre_generic`` e ``dre_simple``) foram
+removidos. Relatórios montados sobre eles precisam ser refeitos sobre os
+novos.
 
 Bug Tracker
 ===========
@@ -179,9 +187,9 @@ Authors
 Contributors
 ------------
 
--  Luis Felipe Mileo <mileo@kmee.com.br>
--  Diego Paradeda <diego.paradeda@kmee.com.br>
--  Antônio S. Pereira Neto <neto@engenere.one>
+- Luis Felipe Mileo <mileo@kmee.com.br>
+- Diego Paradeda <diego.paradeda@kmee.com.br>
+- Antônio S. Pereira Neto <neto@engenere.one>
 
 Maintainers
 -----------
