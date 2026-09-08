@@ -231,7 +231,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         "quantity",
         "fiscal_operation_line_id",
         "cfop_id",
-        "icms_relief_value",
         "insurance_value",
         "other_value",
         "freight_value",
@@ -1009,7 +1008,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     @api.model
     def _rm_fields_to_amount(self):
-        return ["icms_relief_value"]
+        return []
 
     def _get_report_product_code(self):
         """Product reference printed before the description, as the product
