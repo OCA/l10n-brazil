@@ -59,3 +59,7 @@
 "tax_template_in_inss_wh","INSS WH","INSS WH Entrada","INSS WH Entrada","0.00","purchase","0","0","1","tax_group_inss_wh"
 "tax_template_simples","Simples Nacional","Simples Nacional","Simples Nacional","0.00","none","0","0","0","tax_group_simples"
 "tax_template_others","Others","Others","Others","0.00","none","0","0","0","tax_group_others"
+"tax_template_out_ibs","IBS","IBS Saída","IBS Saída","0.00","sale","0","0","0","tax_group_ibs"
+"tax_template_in_ibs","IBS","IBS Entrada","IBS Entrada","0.00","purchase","0","0","0","tax_group_ibs"
+"tax_template_out_cbs","CBS","CBS Saída","CBS Saída","0.00","sale","0","0","0","tax_group_cbs"
+"tax_template_in_cbs","CBS","CBS Entrada","CBS Entrada","0.00","purchase","0","0","0","tax_group_cbs"
