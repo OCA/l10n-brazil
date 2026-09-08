@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="l10n_br_delivery-view_picking_withcarrier_out_form" model="ir.ui.view">
+        <field name="name">l10n_br_delivery.picking.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <!--
+                delivery.view_picking_withcarrier_out_form does not exist in
+                Odoo 18.  carrier_id is added by the stock_delivery module
+                (auto-installed by delivery when stock is present).  We add
+                incoterm_id after partner_id as a stable anchor.
+            -->
+            <field name="partner_id" position="after">
+                <field name="incoterm_id" />
+            </field>
+        </field>
+    </record>
+</odoo>
