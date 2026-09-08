@@ -351,12 +351,18 @@ class Document(models.Model):
                     "before": "_before_document_cancel",
                 },
                 # Back to Draft
-                # SENDING (enviada) is NOT a valid source: a doc being
-                # processed by SEFAZ could be edited and re-sent with the
-                # same key while the batch is in flight.  DENIED (denegada)
-                # is NOT a valid source: denial is definitive and consumes
-                # the numbering.  The SPED guard in the before callback
-                # provides an additional safety net.
+                # SENDING (enviada) is accepted as a source, but only for
+                # documents that never actually reached the tax authority:
+                # _before_document_back2draft refuses the transition as soon
+                # as the authorization event carries a batch receipt or a
+                # protocol, so a document whose batch is really in flight
+                # still cannot be edited and re-sent with the same key.
+                # Without this source a document that stopped in SENDING
+                # before any webservice call (a transmission aborted by a
+                # local error) had no way back other than a manual write.
+                # DENIED (denegada) is NOT a valid source: denial is
+                # definitive and consumes the numbering.  The SPED guard in
+                # the before callback provides an additional safety net.
                 # DRAFT self-loop is handled by an early return in
                 # action_document_back2draft for idempotency.
                 {
@@ -365,6 +371,7 @@ class Document(models.Model):
                         DOCUMENT_STATE_OPEN,
                         DOCUMENT_STATE_REJECTED,
                         DOCUMENT_STATE_CANCEL,
+                        DOCUMENT_STATE_SENDING,
                     ],
                     "dest": DOCUMENT_STATE_DRAFT,
                     "before": "_before_document_back2draft",
@@ -441,8 +448,25 @@ class Document(models.Model):
             self._document_export()
 
     def _before_document_send(self):
-        # Placeholder for pre-send checks
-        pass
+        """Veto the transition to SENDING when the XML failed schema validation.
+
+        This callback runs *before* the machine writes state_edoc (see
+        FiscalDocumentStateMachine.set_state), so raising here leaves the
+        document in its source state. Without this guard the document was
+        moved to SENDING first and only then did the transmission module skip
+        the actual send because of xml_error_message, stranding the document
+        in a state that is not a valid source for action_draft_fsm.
+        """
+        self.ensure_one()
+        if self.xml_error_message:
+            raise UserError(
+                _(
+                    "The document XML does not comply with its schema, so it "
+                    "cannot be transmitted. Set the document back to draft, "
+                    "fix the data and confirm it again.\n\n%(errors)s",
+                    errors=self.xml_error_message,
+                )
+            )
 
     def _after_document_send(self):
         # Trigger actual sending logic
@@ -466,6 +490,19 @@ class Document(models.Model):
         # and rely on it being truthy when they have nothing to do.
         return True
 
+    def _is_document_in_transit(self):
+        """Whether the document actually reached the tax authority.
+
+        A document sitting in SENDING is only really in flight when the
+        transmission left something behind: a batch receipt to consult or an
+        authorization protocol. Otherwise the send was interrupted before the
+        webservice answered and the numbering was not consumed, so the
+        document may safely go back to draft.
+        """
+        self.ensure_one()
+        event = self.authorization_event_id
+        return bool(event and (event.lot_receipt_number or event.protocol_number))
+
     def _before_document_back2draft(self):
         self.ensure_one()
         if self.state_fiscal in SITUACAO_FISCAL_SPED_CONSIDERA_CANCELADO:
@@ -475,6 +512,17 @@ class Document(models.Model):
                     "fiscal state is %(fiscal_state)s, as it has already "
                     "been recorded as cancelled for SPED purposes.",
                     fiscal_state=self.state_fiscal,
+                )
+            )
+        if self.state_edoc == DOCUMENT_STATE_SENDING and self._is_document_in_transit():
+            # state_edoc still holds the source state here: this callback runs
+            # before the machine writes the new one.
+            raise UserError(
+                _(
+                    "This document was already transmitted and is awaiting "
+                    "processing by the tax authority. Consult its status "
+                    "instead of editing it: sending the same access key "
+                    "again would be rejected as a duplicate."
                 )
             )
         self.xml_error_message = False

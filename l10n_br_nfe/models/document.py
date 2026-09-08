@@ -61,6 +61,7 @@ from ..constants.nfe import (
     NFCE_DANFE_LAYOUTS,
     NFE_DANFE_LAYOUTS,
     NFE_ENVIRONMENTS,
+    NFE_TRANSMISSION_DEFAULT,
     NFE_TRANSMISSIONS,
     NFE_VERSIONS,
 )
@@ -1520,9 +1521,23 @@ class NFe(spec_models.StackedModel):
                 and record.authorization_event_id.lot_receipt_number
             ):
                 record._nfe_consult_receipt()
-            else:
-                # Otherwise we send
+            elif (
+                record.state_edoc == DOCUMENT_STATE_OPEN
+                or record.nfe_transmission != NFE_TRANSMISSION_DEFAULT
+            ):
+                # Either a first transmission, or a document that fell back to
+                # a contingency mode (tpEmis != 1) because SEFAZ was down and
+                # therefore never registered it: both must be transmitted.
                 record._nfe_send_for_authorization()
+            else:
+                # Already in SENDING, with no batch receipt to consult and no
+                # contingency to justify a retransmission: the previous send
+                # left the document in an inconsistent state. Ask SEFAZ what it
+                # knows about this access key instead of transmitting the same
+                # document again -- repeated submissions of the same key are
+                # what SEFAZ punishes with the "Consumo Indevido" (656)
+                # rejection.
+                record._document_status()
 
     def _nfe_send_for_authorization(self):
         """

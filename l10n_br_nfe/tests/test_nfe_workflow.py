@@ -250,6 +250,62 @@ class TestNFeWorkflowAsync(TestNFeExport):
         self.assertEqual(self.nfe.status_code, "303")
 
 
+class TestNFeWorkflowStrandedInEnviada(TestNFeExport):
+    """Documents left in 'enviada' without ever reaching SEFAZ.
+
+    A transmission aborted before the webservice answered leaves the document
+    in SENDING with no batch receipt and no protocol: nothing about its access
+    key reached SEFAZ, so it must stay both recoverable and non retransmitted.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass(nfe_list=[{"record_ref": NFE_LC_DEMO}])
+        cls.nfe = cls.nfe_list[0]["nfe"]
+
+    def _strand_in_enviada(self):
+        self.nfe.write({"state_edoc": SITUACAO_EDOC_ENVIADA})
+        self.assertFalse(self.nfe._is_document_in_transit())
+
+    def test_back2draft_from_enviada_without_protocol_is_allowed(self):
+        """Nothing reached SEFAZ, so the document must be editable again."""
+        self._strand_in_enviada()
+
+        self.nfe.action_document_back2draft()
+
+        self.assertEqual(self.nfe.state_edoc, SITUACAO_EDOC_EM_DIGITACAO)
+        self.assertFalse(self.nfe.xml_error_message)
+
+    def test_send_from_enviada_without_receipt_consults_instead_of_resending(self):
+        """The 'Consultar Recibo' button must not retransmit the same key.
+
+        Submitting the same access key over and over is what SEFAZ answers
+        with the "Consumo Indevido" (656) rejection.
+        """
+        self._strand_in_enviada()
+
+        recorder = RecordingNFeMock()
+        with recorder:
+            self.nfe.action_document_send()
+
+        self.assertNotIn("nfeAutorizacaoLote", recorder.calls)
+        self.assertIn("nfeConsultaNF", recorder.calls)
+
+    def test_back2draft_from_enviada_with_receipt_is_refused(self):
+        """A batch really in flight at SEFAZ still cannot be edited."""
+        self.env.company.nfe_separate_async_process = True
+        with nfe_mock({"nfeAutorizacaoLote": "retEnviNFe/lote_recebido.xml"}):
+            self.nfe.action_document_send()
+
+        self.assertEqual(self.nfe.state_edoc, SITUACAO_EDOC_ENVIADA)
+        self.assertTrue(self.nfe.authorization_event_id.lot_receipt_number)
+
+        with self.assertRaises(UserError):
+            self.nfe.action_document_back2draft()
+
+        self.assertEqual(self.nfe.state_edoc, SITUACAO_EDOC_ENVIADA)
+
+
 class TestNFeWorkflowXmlValidation(TransactionCase):
     """XML schema validation failure and the recovery path around it."""
 
@@ -296,21 +352,23 @@ class TestNFeWorkflowXmlValidation(TransactionCase):
         self.assertEqual(self.document.state_edoc, SITUACAO_EDOC_A_ENVIAR)
         self.assertIn("CEP", self.document.xml_error_message)
 
-    def test_invalid_xml_blocks_transmission_without_error(self):
-        """With xml_error_message set, sending is a silent no-op (no SEFAZ call)."""
+    def test_invalid_xml_blocks_transmission_and_holds_a_enviar(self):
+        """With xml_error_message set, sending is refused and the state holds."""
         self._break_partner_zip()
         self.document.action_document_confirm()
         self.assertTrue(self.document.xml_error_message)
 
         recorder = RecordingNFeMock(NFE_ASYNC_AUTHORIZED)
-        with recorder:
+        with recorder, self.assertRaises(UserError):
             self.document.action_document_send()
 
-        # FSM transitions to enviada via the Machine before the NFe
-        # _eletronic_document_send runs. The NFe module then returns
-        # early because xml_error_message is set, skipping transmission.
+        # _before_document_send vetoes the transition, so the machine never
+        # writes 'enviada'. Before this guard the document was moved to
+        # 'enviada' first and only then did _eletronic_document_send() skip
+        # the transmission, stranding it in a state that action_draft_fsm
+        # did not accept as a source.
         self.assertEqual(recorder.calls, [])
-        self.assertEqual(self.document.state_edoc, SITUACAO_EDOC_ENVIADA)
+        self.assertEqual(self.document.state_edoc, SITUACAO_EDOC_A_ENVIAR)
         self.assertIn("CEP", self.document.xml_error_message)
 
     def test_invalid_xml_recovery_via_back2draft(self):
