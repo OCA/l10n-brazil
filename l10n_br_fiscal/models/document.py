@@ -518,6 +518,18 @@ class Document(models.Model):
         """
         pass
 
+    def _get_imported_installments(self):
+        """Installments declared in the file of an imported document.
+
+        Returns a list of (due date, amount) tuples, ordered by due date, for
+        the modules that know the document schema to fill: the <cobr>/<dup>
+        group of a NF-e, for instance. Defined here so that l10n_br_account
+        can call it on any fiscal document without crashing, the same way
+        view_pdf and the other placeholders above are.
+        """
+        self.ensure_one()
+        return []
+
     @api.depends("fiscal_operation_id")
     def _compute_edoc_purpose(self):
         for record in self:
