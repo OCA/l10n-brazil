@@ -758,6 +758,27 @@
         <field name="name">VALOR RESIDUAL DO ATIVO PERMANENTE</field>
         <field name="parent_id" ref="coa_generic_512" />
     </record>
+    <!--
+      Tributos sobre o lucro. O plano já tinha o passivo (2.1.7.1.06 IRPJ a
+      Recolher e 2.1.7.1.07 CSLL a Recolher), mas não a despesa que os
+      constitui, então a provisão de IRPJ e de CSLL não tinha onde ser
+      lançada e a demonstração do resultado não conseguia exibir o que o
+      art. 187, inciso V da Lei 6.404/76 exige: o resultado antes do imposto
+      de renda e a provisão para o imposto.
+    -->
+    <record id="coa_generic_513" model="account.group.template">
+        <field name="chart_template_id" ref="l10n_br_coa_generic_template" />
+        <field name="code_prefix_start">5.1.3</field>
+        <field name="name">TRIBUTOS SOBRE O LUCRO</field>
+        <field name="parent_id" ref="coa_generic_51" />
+    </record>
+    <record id="coa_generic_5131" model="account.group.template">
+        <field name="chart_template_id" ref="l10n_br_coa_generic_template" />
+        <field name="code_prefix_start">5.1.3.1</field>
+        <field name="name">PROVISÕES PARA TRIBUTOS SOBRE O LUCRO</field>
+        <field name="parent_id" ref="coa_generic_513" />
+    </record>
+
     <record id="coa_generic_6" model="account.group.template">
         <field name="chart_template_id" ref="l10n_br_coa_generic_template" />
         <field name="code_prefix_start">6</field>
