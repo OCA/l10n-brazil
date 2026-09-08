@@ -1528,6 +1528,11 @@ msgid "Return Picking"
 msgstr "Separação de Retorno"
 
 #. module: l10n_br_stock_account
+#: model:ir.model,name:l10n_br_stock_account.model_stock_return_picking_line
+msgid "Return Picking Line"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
 msgid "Serie"
 msgstr ""
