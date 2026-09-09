@@ -97,8 +97,9 @@ class CNABFileParser(FileParser):
         if res.status_code != 201:
             raise UserError(res.text)
 
-        string_result = res.json()
-        data = json.loads(string_result)
+        data = res.json()
+        if isinstance(data, str):
+            data = json.loads(data)
 
         return data
 
