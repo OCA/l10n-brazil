@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+
+    <t
+        t-name="TicketScreen"
+        t-inherit="point_of_sale.TicketScreen"
+        t-inherit-mode="extension"
+        owl="1"
+    >
+
+        <xpath expr="//div[hasclass('header-row')]/div[2]" position="after">
+            <div class="col start">CPF/CNPJ</div>
+            <div class="col start wide">Chave</div>
+        </xpath>
+
+        <xpath
+            expr="//div[hasclass('header-row')]/div[hasclass('end')][1]"
+            position="after"
+        >
+            <div class="col start">Ações</div>
+        </xpath>
+
+        <xpath expr="//div[hasclass('order-row')]/div[2]" position="after">
+            <div class="col start">
+                <t t-esc="order.get_cnpj_cpf ? order.get_cnpj_cpf() : ''" />
+            </div>
+            <div class="col start wide">
+                <t t-esc="order.document_key || ''" />
+            </div>
+        </xpath>
+
+        <xpath
+            expr="//div[hasclass('order-row')]/div[hasclass('end')][1]"
+            position="after"
+        >
+            <div class="col start">
+                <button
+                    class="button"
+                    t-on-click.stop="() => reprint(order)"
+                >Reimprimir</button>
+            </div>
+        </xpath>
+
+    </t>
+
+</templates>
