@@ -712,20 +712,22 @@ class AccountMove(models.Model):
                 line_form.fiscal_document_line_id = line
 
                 # SEFAZ Standard: What is included in vProd?
+                # IBS/CBS are "por dentro" (tax_group tax_include=True) like
+                # ICMS/PIS/COFINS, so they belong to amt_inc, not amt_not_inc.
                 amt_inc = (
                     (line.icms_value or 0.0)
                     + (line.pis_value or 0.0)
                     + (line.cofins_value or 0.0)
                     + (line.issqn_value or 0.0)
                     + (line.icmsfcp_value or 0.0)
+                    + (line.ibs_value or 0.0)
+                    + (line.cbs_value or 0.0)
                 )
                 amt_not_inc = (
                     (line.icmsst_value or 0.0)
                     + (line.ipi_value or 0.0)
                     + (line.ii_value or 0.0)
                     + (line.icmsfcpst_value or 0.0)
-                    + (line.ibs_value or 0.0)
-                    + (line.cbs_value or 0.0)
                 )
 
                 unit_and_prices.append(
