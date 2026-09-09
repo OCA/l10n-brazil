@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_l10n_br_pos_pos_method_term_form" model="ir.ui.view">
+        <field name="name">l10n_br_pos pos.payment.method.form</field>
+        <field name="model">pos.payment.method</field>
+        <field name="inherit_id" ref="point_of_sale.pos_payment_method_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="/form/sheet/group[1]" position="after">
+                <group string="Fiscal Data" name="l10n_br_pos" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

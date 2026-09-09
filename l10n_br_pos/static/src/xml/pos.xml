@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+
+    <t
+        t-name="PaymentScreen"
+        t-inherit="point_of_sale.PaymentScreen"
+        t-inherit-mode="extension"
+        owl="1"
+    >
+        <xpath expr="//div[hasclass('payment-buttons')]" position="inside">
+            <t t-set="order" t-value="env.pos.get_order()" />
+            <t
+                t-set="cnpj"
+                t-value="order ? (order.get_cnpj_cpf ? order.get_cnpj_cpf() : '') : ''"
+            />
+
+            <div
+                t-attf-class="button js_set_cnpj_cpf #{ cnpj ? 'highlight' : '' }"
+                t-on-click="() => trigger('set-cnpj-cpf')"
+            >
+                <i
+                    class="fa fa-user"
+                    role="img"
+                    aria-label="CNPJ/CPF na nota?"
+                    title="CNPJ/CPF na nota?"
+                />
+                <span class="js_cnpj_cpf_document">
+                    <t t-if="cnpj">
+                        CNPJ/CPF: <t t-esc="cnpj" />
+                    </t>
+                    <t t-else="">
+                        CNPJ/CPF na nota?
+                    </t>
+                </span>
+            </div>
+        </xpath>
+    </t>
+
+    <t
+        t-name="PartnerDetailsEdit"
+        t-inherit="point_of_sale.PartnerDetailsEdit"
+        t-inherit-mode="extension"
+        owl="1"
+    >
+        <xpath expr="//input[@name='vat']/.." position="replace">
+            <div class="partner-detail">
+                <span class="label">CPF/CNPJ</span>
+                <input
+                    class="detail vat"
+                    name="cnpj_cpf"
+                    t-att-value="props.partner.cnpj_cpf || ''"
+                    t-on-change="captureChange"
+                />
+            </div>
+        </xpath>
+    </t>
+
+    <t
+        t-name="PartnerLine"
+        t-inherit="point_of_sale.PartnerLine"
+        t-inherit-mode="extension"
+        owl="1"
+    >
+        <xpath
+            expr="(//*[self::td or self::div][contains(@class,'partner-line') or contains(@class,'partner')])[1]"
+            position="inside"
+        >
+          <t t-if="props.partner and props.partner.cnpj_cpf">
+            <span class="ms-2 text-muted">(<t t-esc="props.partner.cnpj_cpf" />)</span>
+          </t>
+        </xpath>
+    </t>
+
+    <t
+        t-name="TicketScreenCNPJ"
+        t-inherit="point_of_sale.TicketScreen"
+        t-inherit-mode="extension"
+        owl="1"
+    >
+
+        <xpath expr="//div[hasclass('header-row')]/div[2]" position="after">
+            <div class="col start">CPF/CNPJ</div>
+            <div class="col start wide">Chave</div>
+        </xpath>
+
+        <xpath
+            expr="//div[hasclass('header-row')]/div[hasclass('end')][1]"
+            position="after"
+        >
+            <div class="col start">Ações</div>
+        </xpath>
+
+    </t>
+
+</templates>
