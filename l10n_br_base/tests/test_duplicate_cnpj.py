@@ -88,3 +88,105 @@ class DuplicateCnpjTest(TransactionCase):
         self._create_partner_with_ie("Branch 1", self.google_cnpj, "111111111")
         with self.assertRaises(ValidationError):
             self._create_partner_with_ie("Branch 2", self.google_cnpj, "111111111")
+
+    def _desync_stripped(self, partner):
+        """Reproduce the effect of a raw SQL write on ``vat``.
+
+        ``cnpj_cpf_stripped`` is a stored computed field, so a plain UPDATE
+        (a data migration, a bulk import) leaves it behind. This is the state
+        the 16.0.2.0.0 pre-migration left on every record it touched.
+        """
+        # Flush first: right after create the computed value is still pending,
+        # and the ORM would write it back over the raw UPDATE below.
+        partner.flush_recordset(["cnpj_cpf_stripped"])
+        self.env.cr.execute(
+            "UPDATE res_partner SET cnpj_cpf_stripped = NULL WHERE id = %s",
+            (partner.id,),
+        )
+        partner.invalidate_recordset(["cnpj_cpf_stripped"])
+        self.assertFalse(
+            partner.cnpj_cpf_stripped, "setup failed: the field is still in sync"
+        )
+
+    def test_out_of_sync_stripped_is_not_a_duplicate(self):
+        """Records with an out-of-sync ``cnpj_cpf_stripped`` and *distinct*
+        CNPJs must not be reported as duplicates of each other.
+
+        Before the fix the domain was built from the stored (empty) value, so
+        it became ("cnpj_cpf_stripped", "=", False) and matched every other
+        out-of-sync record -- flagging a completely unrelated partner.
+        """
+        first = self._create_partner("Google", self.google_cnpj)
+        second = self._create_partner("Other Co", self.other_cnpj)
+        self._desync_stripped(first)
+        self._desync_stripped(second)
+
+        # Must not raise: the two hold different CNPJs.
+        second._check_cnpj_l10n_br_ie_code()
+
+    def test_out_of_sync_stripped_still_detects_duplicate(self):
+        """A real duplicate is still caught when the stored value is empty,
+        because the comparison normalizes from ``vat`` itself."""
+        original = self._create_partner("Google 1", self.google_cnpj)
+        # allow_vat_duplicate bypasses the check on create so the test can set
+        # up the duplicate it wants to assert on.
+        duplicate = self.partner_model.with_context(allow_vat_duplicate=True).create(
+            dict(self.base_vals, name="Google 2", vat=self.google_cnpj)
+        )
+        self._desync_stripped(duplicate)
+
+        # Drop allow_vat_duplicate before asserting: the recordset carries the
+        # context it was created with, and the check bails out early on it.
+        with self.assertRaises(ValidationError) as capture:
+            duplicate.with_context(
+                allow_vat_duplicate=False
+            )._check_cnpj_l10n_br_ie_code()
+
+        # Assert *which* record is reported. Raising alone is not enough: with
+        # the old code the empty domain matched any record with an empty stored
+        # value, so the error was raised for the wrong partner.
+        self.assertIn(original.name, capture.exception.args[0])
+
+    def test_out_of_sync_counterpart_still_detects_duplicate(self):
+        """A real duplicate is still caught when the *counterpart* -- the
+        record already stored -- is the one out of sync.
+
+        Normalizing from ``vat`` only fixes the side being validated: the
+        searched column remains the stored ``cnpj_cpf_stripped``, which is
+        empty on the counterpart, so the duplicate would go through unnoticed.
+        The domain matches the raw ``vat`` as well to cover it.
+        """
+        original = self._create_partner("Google 1", self.google_cnpj)
+        self._desync_stripped(original)
+
+        with self.assertRaises(ValidationError) as capture:
+            self._create_partner("Google 2", self.google_cnpj)
+
+        self.assertIn(original.name, capture.exception.args[0])
+
+    def test_tax_exempt_partners_are_not_duplicates(self):
+        """Two partners "not subject to tax" are not duplicates of each other.
+
+        ``base`` documents ``vat = "/"`` as "the partner is not subject to
+        tax", and ``_compute_cnpj_cpf_stripped`` only keeps alphanumeric
+        characters, so the stored document is legitimately an empty string --
+        with the compute perfectly in sync, no raw SQL write involved. Without
+        the guard the clause degrades to ("cnpj_cpf_stripped", "=", "") and
+        every other tax-exempt partner matches.
+
+        Note this is a distinct state from a partner with no ``vat`` at all,
+        which stores NULL and is therefore never matched by that clause.
+        """
+        # is_company=False: for a document that is not a valid CNPJ, the check
+        # only reports duplicates on individuals (the CPF/RG branch).
+        exempt_vals = {
+            "is_company": False,
+            "country_id": self.env.ref("base.us").id,
+            "vat": "/",
+        }
+        self.partner_model.create(dict(exempt_vals, name="Tax exempt 1"))
+        second = self.partner_model.create(dict(exempt_vals, name="Tax exempt 2"))
+
+        # Must not raise, neither on the create above nor on an explicit
+        # re-check.
+        second._check_cnpj_l10n_br_ie_code()
