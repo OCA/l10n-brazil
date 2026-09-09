@@ -296,21 +296,23 @@ class TestNFeWorkflowXmlValidation(TransactionCase):
         self.assertEqual(self.document.state_edoc, SITUACAO_EDOC_A_ENVIAR)
         self.assertIn("CEP", self.document.xml_error_message)
 
-    def test_invalid_xml_blocks_transmission_without_error(self):
-        """With xml_error_message set, sending is a silent no-op (no SEFAZ call)."""
+    def test_invalid_xml_blocks_transmission_and_holds_a_enviar(self):
+        """With xml_error_message set, sending is refused and the state holds."""
         self._break_partner_zip()
         self.document.action_document_confirm()
         self.assertTrue(self.document.xml_error_message)
 
         recorder = RecordingNFeMock(NFE_ASYNC_AUTHORIZED)
-        with recorder:
+        with recorder, self.assertRaises(UserError):
             self.document.action_document_send()
 
-        # FSM transitions to enviada via the Machine before the NFe
-        # _eletronic_document_send runs. The NFe module then returns
-        # early because xml_error_message is set, skipping transmission.
+        # _before_document_send vetoes the transition, so the machine never
+        # writes 'enviada'. Before this guard the document was moved to
+        # 'enviada' first and only then did _eletronic_document_send() skip
+        # the transmission, stranding it in a state that action_draft_fsm
+        # did not accept as a source.
         self.assertEqual(recorder.calls, [])
-        self.assertEqual(self.document.state_edoc, SITUACAO_EDOC_ENVIADA)
+        self.assertEqual(self.document.state_edoc, SITUACAO_EDOC_A_ENVIAR)
         self.assertIn("CEP", self.document.xml_error_message)
 
     def test_invalid_xml_recovery_via_back2draft(self):
