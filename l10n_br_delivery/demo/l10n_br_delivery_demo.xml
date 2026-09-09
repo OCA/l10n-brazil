@@ -31,7 +31,10 @@
     >
         <field name="name">Teste - Veículo da Transportadora 1</field>
         <field name="description">Teste - Veículo da Transportadora 1</field>
+        <field name="owner_id" ref="test_carrier" />
         <field name="plate">ABC1234</field>
+        <field name="vehicle_code">01</field>
+        <field name="renavam">42423325472</field>
         <field name="driver">Teste - Motorista 1</field>
         <field name="rntc_code">Teste - Codigo RTNC 1</field>
         <field name="country_id" ref="base.br" />
@@ -41,6 +44,11 @@
         <field name="manufacture_year">2000</field>
         <field name="model_year">2001</field>
         <field name="type">bau</field>
+        <field name="wheel_type">03</field>
+        <field name="body_type">02</field>
+        <field name="tara">7500</field>
+        <field name="capacity_kg">42500</field>
+        <field name="capacity_m3">300</field>
     </record>
 
     <record
@@ -49,7 +57,10 @@
     >
         <field name="name">Teste - Veículo da Transportadora 2</field>
         <field name="description">Teste - Veículo da Transportadora 2</field>
+        <field name="owner_id" ref="test_carrier" />
         <field name="plate">DEF5678</field>
+        <field name="vehicle_code">02</field>
+        <field name="renavam">42423325473</field>
         <field name="driver">Teste - Motorista 2</field>
         <field name="rntc_code">Teste - Codigo RTNC 2</field>
         <field name="country_id" ref="base.br" />
@@ -59,6 +70,11 @@
         <field name="manufacture_year">2010</field>
         <field name="model_year">2011</field>
         <field name="type">bau</field>
+        <field name="wheel_type">03</field>
+        <field name="body_type">02</field>
+        <field name="tara">7500</field>
+        <field name="capacity_kg">42500</field>
+        <field name="capacity_m3">300</field>
     </record>
 
     <!-- Metodo de Entrega -->
