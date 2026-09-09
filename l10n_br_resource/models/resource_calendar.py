@@ -2,7 +2,7 @@
 # Copyright 2016 KMEE - Hendrix Costa <hendrix.costa@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from datetime import datetime, timedelta
+from datetime import datetime, time, timedelta
 
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
@@ -105,23 +105,56 @@ class ResourceCalendar(models.Model):
                         return True
         return False
 
+    @staticmethod
+    def _as_datetime(reference_date):
+        """Normalize a date to midday, so a timezone offset cannot shift the day.
+
+        Leaves are stored in UTC and the holiday wizard writes date_from at the start
+        of the day in the local timezone, which in Brazil lands on 03:00 UTC. Comparing
+        a plain date at midnight would therefore fall before the leave and report a
+        holiday as a working day. Midday is far enough from both ends of any offset.
+        """
+        if not reference_date:
+            return datetime.now()
+        if isinstance(reference_date, datetime):
+            return reference_date
+        return datetime.combine(reference_date, time(12, 0))
+
     def is_bank_holiday(self, reference_date):
-        """Check if a date is a bank holiday.
+        """Check if a date is a bank holiday for THIS calendar.
+
+        Bank holidays are the ones that close the banking system: national and local
+        holidays (``F``) plus the banking-only ones such as Carnival and Corpus Christi
+        (``B``).
 
         :param datetime reference_date: date to check. If not provided,
                                         checks today.
         :return int: number of matching bank holiday leaves (> 0 if it is
                      a bank holiday, 0 otherwise).
         """
-        if not reference_date:
-            reference_date = datetime.now()
-        domain = [
-            ("date_from", "<=", reference_date.strftime("%Y-%m-%d %H:%M:%S")),
-            ("date_to", ">=", reference_date.strftime("%Y-%m-%d %H:%M:%S")),
-            ("leave_type", "in", ["F", "B"]),
-        ]
-        leaves_count = self.env["resource.calendar.leaves"].search_count(domain)
-        return leaves_count
+        reference_date = self._as_datetime(reference_date)
+        # Scoped to this calendar and its ancestors, which is the country/state/city
+        # chain. Searching resource.calendar.leaves globally instead would match a
+        # holiday of any other municipality loaded in the database and report a
+        # working day as a holiday.
+        return self.env["resource.calendar.leaves"].search_count(
+            [
+                ("calendar_id", "in", self._calendar_with_ancestors().ids),
+                ("leave_type", "in", ["F", "B"]),
+                ("date_from", "<=", reference_date),
+                ("date_to", ">=", reference_date),
+            ]
+        )
+
+    def _calendar_with_ancestors(self):
+        """This calendar plus the chain above it, city to state to country."""
+        self.ensure_one()
+        calendars = self
+        parent = self.parent_id
+        while parent:
+            calendars |= parent
+            parent = parent.parent_id
+        return calendars
 
     def is_extended_holiday(self, reference_date):
         """Check if a date is a bridged/extended holiday (feriado emendado).
@@ -191,6 +224,40 @@ class ResourceCalendar(models.Model):
                 return reference_date
             reference_date += timedelta(days=1)
 
+    def previous_business_day(self, reference_date):
+        """Return the business day right before reference_date.
+
+        Mirror of :meth:`next_business_day`: strictly before, so a date that already is
+        a business day is not returned. Callers that need "this day or the one before"
+        must check the date first.
+
+        :param datetime reference_date: reference date. If not provided,
+                                        checks yesterday.
+        :return datetime: previous business day from reference_date.
+        """
+        reference_date = self._as_datetime(reference_date)
+        reference_date -= timedelta(days=1)
+        while not self.is_business_day(reference_date):
+            reference_date -= timedelta(days=1)
+        return reference_date
+
+    def previous_bank_business_day(self, reference_date):
+        """Return the bank business day right before reference_date.
+
+        Taxes anticipated to the previous working day follow the banking calendar, not
+        the labour one: a bank holiday is not a payment day even when it is a working
+        day for the company.
+
+        :param datetime reference_date: reference date. If not provided,
+                                        checks yesterday.
+        :return datetime: previous bank business day from reference_date.
+        """
+        reference_date = self._as_datetime(reference_date)
+        reference_date -= timedelta(days=1)
+        while not self.is_bank_business_day(reference_date):
+            reference_date -= timedelta(days=1)
+        return reference_date
+
     def get_base_days(self, date_from, date_to, commercial_month=True):
         """Calculate the number of payable days in a given time interval.
 
@@ -234,9 +301,8 @@ class ResourceCalendar(models.Model):
                                         checks tomorrow.
         :return datetime: next bank business day from reference_date.
         """
-        if not reference_date:
-            reference_date = datetime.now()
+        reference_date = self._as_datetime(reference_date)
         reference_date += timedelta(days=1)
-        if self.is_bank_business_day(reference_date):
-            return reference_date
-        return self.next_bank_business_day(reference_date)
+        while not self.is_bank_business_day(reference_date):
+            reference_date += timedelta(days=1)
+        return reference_date
