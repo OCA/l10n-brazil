@@ -32,6 +32,62 @@ msgid "Account Tax Mixin"
 msgstr "Mezcla de impuestos sobre cuentas"
 
 #. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_current_assets_receivable_loss
+msgid ""
+"Ativo / Circulante / (-) Perdas Estimadas com Créditos de Liquidação Duvidosa"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_current_assets_cash
+msgid "Ativo / Circulante / Caixa e Equivalentes de Caixa"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_current_assets_receivable
+msgid "Ativo / Circulante / Contas a Receber"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_current_assets_stock
+msgid "Ativo / Circulante / Estoques"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_current_assets_other_credits
+msgid "Ativo / Circulante / Outros Créditos"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_intangible_assets_amortization
+msgid "Ativo / Não Circulante / (-) Amortização"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_fixed_assets_depreciation
+msgid "Ativo / Não Circulante / (-) Depreciação"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_fixed_assets
+msgid "Ativo / Não Circulante / Imobilizado"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_intangible_assets
+msgid "Ativo / Não Circulante / Intangível"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_non_current_investments
+msgid "Ativo / Não Circulante / Investimentos"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_non_current_assets_receivable
+msgid "Ativo / Não Circulante / Realizável a Longo Prazo"
+msgstr ""
+
+#. module: l10n_br_coa
 #. odoo-python
 #: code:addons/l10n_br_coa/models/template_br_oca.py:0
 msgid "Basic Chart of Accounts"
@@ -265,8 +321,28 @@ msgid "Company %(company_name)s: created tax accounts: %(refs)s"
 msgstr ""
 
 #. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_compensation_assets
+msgid "Compensação / Ativo"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_compensation_liability
+msgid "Compensação / Passivo"
+msgstr ""
+
+#. module: l10n_br_coa
 #: model:ir.model.fields,field_description:l10n_br_coa.field_account_account__l10n_br_sped_referential_code
 msgid "Conta referencial da RFB"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_production_transfer
+msgid "Custos de Produção / (-) Transferência para Estoque"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_production_cost
+msgid "Custos de Produção / Apropriação"
 msgstr ""
 
 #. module: l10n_br_coa
@@ -899,6 +975,131 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_pis_wh
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_pis_wh
 msgid "PIS WH Saída"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_current_liabilities_payable
+msgid "Passivo / Circulante / Contas a Pagar"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_current_liabilities_financial
+msgid "Passivo / Circulante / Empréstimos e Financiamentos"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_current_liabilities_suppliers
+msgid "Passivo / Circulante / Fornecedores"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_current_liabilities_fiscal
+msgid "Passivo / Circulante / Obrigações Fiscais"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_current_liabilities_labor
+msgid "Passivo / Circulante / Obrigações Trabalhistas"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_current_liabilities_reserve
+msgid "Passivo / Circulante / Provisões"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_non_current_liabilities
+msgid "Passivo / Não Circulante / Contas a Pagar"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_non_current_liabilities_loan
+msgid "Passivo / Não Circulante / Financiamentos"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_equity_accumulated_losses
+msgid "Patrimônio Líquido / (-) Prejuízos Acumulados"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_equity_capital
+msgid "Patrimônio Líquido / Capital Social"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_equity_accumulated_profits
+msgid "Patrimônio Líquido / Lucros Acumulados"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_equity_capital_reserve
+msgid "Patrimônio Líquido / Reservas de Capital"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_equity_profit_reserve
+msgid "Patrimônio Líquido / Reservas de Lucros"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_expense_csll
+msgid "Resultado / (-) Contribuição Social sobre o Lucro Líquido"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_direct_costs
+msgid "Resultado / (-) Custo das Vendas"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_revenue_deduction
+msgid "Resultado / (-) Deduções da Receita Bruta"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_admin_expenses
+msgid "Resultado / (-) Despesas Administrativas"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_expenses_financial
+msgid "Resultado / (-) Despesas Financeiras"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_sale_expenses
+msgid "Resultado / (-) Despesas com Vendas"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_expense_irpj
+msgid "Resultado / (-) Imposto de Renda da Pessoa Jurídica"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_other_general_expenses
+msgid "Resultado / (-) Outras Despesas Gerais"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_result
+msgid "Resultado / Contas de Resultado (todas)"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_other_operating_results
+msgid "Resultado / Outras Receitas e Despesas Operacionais"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_revenue
+msgid "Resultado / Receita Bruta de Vendas e Serviços"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.account_tag_revenue_financial
+msgid "Resultado / Receitas Financeiras"
 msgstr ""
 
 #. module: l10n_br_coa
