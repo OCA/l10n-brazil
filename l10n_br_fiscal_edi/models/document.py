@@ -441,8 +441,25 @@ class Document(models.Model):
             self._document_export()
 
     def _before_document_send(self):
-        # Placeholder for pre-send checks
-        pass
+        """Veto the transition to SENDING when the XML failed schema validation.
+
+        This callback runs *before* the machine writes state_edoc (see
+        FiscalDocumentStateMachine.set_state), so raising here leaves the
+        document in its source state. Without this guard the document was
+        moved to SENDING first and only then did the transmission module skip
+        the actual send because of xml_error_message, stranding the document
+        in a state that is not a valid source for action_draft_fsm.
+        """
+        self.ensure_one()
+        if self.xml_error_message:
+            raise UserError(
+                _(
+                    "The document XML does not comply with its schema, so it "
+                    "cannot be transmitted. Set the document back to draft, "
+                    "fix the data and confirm it again.\n\n%(errors)s",
+                    errors=self.xml_error_message,
+                )
+            )
 
     def _after_document_send(self):
         # Trigger actual sending logic
