@@ -4,7 +4,7 @@
 {
     "name": "Brazilian Localization CNPJ Search",
     "summary": """
-        Integração com os Webservices da ReceitaWS e SerPro""",
+        Integração com os Webservices da ReceitaWS, SerPro e cpfcnpj.com.br""",
     "version": "19.0.1.0.0",
     "license": "AGPL-3",
     "development_status": "Production/Stable",
