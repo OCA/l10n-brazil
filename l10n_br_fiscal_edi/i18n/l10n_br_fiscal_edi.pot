@@ -778,6 +778,16 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_fiscal_edi/models/document.py:0
 #, python-format
+msgid ""
+"The document XML does not comply with its schema, so it cannot be transmitted. Set the document back to draft, fix the data and confirm it again.\n"
+"\n"
+"%(errors)s"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
+#, python-format
 msgid "The field 'Issuer' is required for brazilian electronic documents!"
 msgstr ""
 
