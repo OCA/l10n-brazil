@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <record id="tax_assessment_company_rule" model="ir.rule">
+        <field name="name">Apuração: multi-empresa</field>
+        <field name="model_id" ref="model_l10n_br_tax_assessment" />
+        <field
+            name="domain_force"
+        >['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="tax_assessment_line_company_rule" model="ir.rule">
+        <field name="name">Linha da apuração: multi-empresa</field>
+        <field name="model_id" ref="model_l10n_br_tax_assessment_line" />
+        <field
+            name="domain_force"
+        >['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>
