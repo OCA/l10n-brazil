@@ -11,7 +11,6 @@ ADN_BASE_URL = {
 }
 
 PRESTADOR_SELF_EMITTED_EXCLUDED = (
-    "nfse10_IM",
     "nfse10_xNome",
     "nfse10_end",
     "nfse10_fone",
