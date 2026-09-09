@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2026 - TODAY, Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html -->
+<odoo>
+    <record id="duimp_import_wizard_line_tree" model="ir.ui.view">
+        <field name="name">l10n_br_duimp.import_wizard.line.tree</field>
+        <field name="model">l10n_br_duimp.import_wizard.line</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="duimp_item_number" readonly="1" />
+                <field name="product_code" readonly="1" />
+                <field name="ncm_code" readonly="1" />
+                <field
+                    name="product_id"
+                    options="{'no_quick_create': True, 'no_create': True}"
+                    domain="[('purchase_ok', '=', True)]"
+                />
+                <field name="cfop_id" />
+                <field name="quantity" />
+                <field name="uom_code" readonly="1" />
+                <field name="price_unit" />
+                <field name="customs_value" />
+                <field name="freight_value" />
+                <field name="insurance_value" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="duimp_import_wizard_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.document.import.wizard.duimp.form</field>
+        <field name="model">l10n_br_fiscal.document.import.wizard</field>
+        <field name="priority">32</field>
+        <field name="arch" type="xml">
+            <form string="Import DUIMP">
+                <group>
+                    <group>
+                        <field name="company_id" />
+                        <field name="duimp_number" required="1" />
+                        <field name="duimp_version" />
+                    </group>
+                    <group>
+                        <field name="fiscal_operation_id" required="1" />
+                        <field name="fiscal_operation_type" invisible="1" />
+                        <field name="partner_id" />
+                        <field name="duimp_afrmm_value" />
+                    </group>
+                </group>
+                <separator
+                    string="DUIMP Items"
+                    attrs="{'invisible': [('duimp_line_ids', '=', [])]}"
+                />
+                <field
+                    name="duimp_line_ids"
+                    attrs="{'invisible': [('duimp_line_ids', '=', [])]}"
+                />
+                <footer>
+                    <button
+                        name="action_consult_duimp"
+                        string="Query DUIMP"
+                        class="btn-secondary"
+                        type="object"
+                    />
+                    <button
+                        name="action_import_duimp"
+                        string="Import"
+                        class="btn-primary"
+                        type="object"
+                        attrs="{'invisible': [('duimp_line_ids', '=', [])]}"
+                    />
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="duimp_import_wizard_action" model="ir.actions.act_window">
+        <field name="name">Import DUIMP</field>
+        <field name="res_model">l10n_br_fiscal.document.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="duimp_import_wizard_form" />
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+        id="duimp_import_document_menu"
+        action="duimp_import_wizard_action"
+        name="Import DUIMP (Manual)"
+        parent="account.menu_finance_payables"
+        sequence="5"
+        groups="l10n_br_fiscal.group_manager"
+    />
+</odoo>
