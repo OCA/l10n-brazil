@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 17.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -121,7 +121,6 @@ msgstr ""
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_bank_statement_line__nfe40_dup
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_move__nfe40_dup
-#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment__nfe40_dup
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_l10n_br_fiscal_document__nfe40_dup
 msgid "Dados das duplicatas NT 2011/004"
 msgstr ""
@@ -132,6 +131,11 @@ msgid "Diário de Boleto - Simples Nacional"
 msgstr ""
 
 #. module: l10n_br_account_nfe
+#: model:account.journal,name:l10n_br_account_nfe.demo_simples_nacional_sale_journal
+msgid "Diário de Venda - Simples Nacional"
+msgstr ""
+
+#. module: l10n_br_account_nfe
 #: model:ir.model,name:l10n_br_account_nfe.model_l10n_br_fiscal_document
 msgid "Fiscal Document"
 msgstr ""
@@ -139,7 +143,6 @@ msgstr ""
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_bank_statement_line__nfe40_detPag
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_move__nfe40_detPag
-#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment__nfe40_detPag
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_l10n_br_fiscal_document__nfe40_detPag
 msgid "Grupo de detalhamento da forma"
 msgstr ""
@@ -148,20 +151,18 @@ msgstr ""
 #: model:ir.model,name:l10n_br_account_nfe.model_nfe_40_detpag
 #: model:ir.model.fields,help:l10n_br_account_nfe.field_account_bank_statement_line__nfe40_detPag
 #: model:ir.model.fields,help:l10n_br_account_nfe.field_account_move__nfe40_detPag
-#: model:ir.model.fields,help:l10n_br_account_nfe.field_account_payment__nfe40_detPag
 #: model:ir.model.fields,help:l10n_br_account_nfe.field_l10n_br_fiscal_document__nfe40_detPag
 msgid "Grupo de detalhamento da forma de pagamento."
 msgstr ""
 
 #. module: l10n_br_account_nfe
-#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_nfe_40_detpag__nfe40_indPag
+#: model:ir.model.fields,help:l10n_br_account_nfe.field_nfe_40_detpag__nfe40_indPag
 msgid "Indicador da Forma de Pagamento"
 msgstr ""
 
 #. module: l10n_br_account_nfe
-#: model:ir.model.fields,help:l10n_br_account_nfe.field_nfe_40_detpag__nfe40_indPag
-msgid ""
-"Indicador da Forma de Pagamento:0-Pagamento à Vista;1-Pagamento à Prazo;"
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_nfe_40_detpag__nfe40_indPag
+msgid "Indicador de Pagamento"
 msgstr ""
 
 #. module: l10n_br_account_nfe
@@ -200,7 +201,6 @@ msgstr ""
 #. module: l10n_br_account_nfe
 #. odoo-python
 #: code:addons/l10n_br_account_nfe/models/document.py:0
-#, python-format
 msgid ""
 "Payment Mode %(mode)s should have a Fiscal Payment Mode filled to be used in"
 " the Fiscal Document!"
@@ -209,7 +209,6 @@ msgstr ""
 #. module: l10n_br_account_nfe
 #. odoo-python
 #: code:addons/l10n_br_account_nfe/models/document.py:0
-#, python-format
 msgid "Payment Mode cannot be empty for this NF-e/NFC-e"
 msgstr ""
 
