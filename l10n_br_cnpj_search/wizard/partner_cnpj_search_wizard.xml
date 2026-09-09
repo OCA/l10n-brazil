@@ -41,6 +41,7 @@
 
                     <group name="Other Information" string="Other Information">
                         <field name="legal_nature_id" />
+                        <field name="tax_framework" />
                         <field name="equity_capital" widget="monetary" />
                         <field name="cnae_main_id" string="Main CNAE" />
                         <field
@@ -51,6 +52,22 @@
                         <field name="currency_id" invisible="1" />
                     </group>
                 </group>
+
+                <group>
+                    <group name="federal_revenue" string="Federal Revenue">
+                        <field name="company_size" />
+                        <field name="cnpj_status" />
+                        <field name="cnpj_status_date" />
+                        <field name="cnpj_status_reason" />
+                        <field name="opening_date" />
+                        <field name="cnpj_branch_type" />
+                        <field name="simples_option_date" />
+                        <field name="legal_responsible_name" />
+                        <field name="legal_responsible_function" />
+                    </group>
+                </group>
+
+                <field name="cnpj_card_pdf" invisible="1" />
 
                 <footer>
                     <button

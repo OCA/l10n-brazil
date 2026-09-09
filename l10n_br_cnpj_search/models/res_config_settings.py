@@ -11,6 +11,7 @@ class ResConfigSettings(models.TransientModel):
         selection=[
             ("receitaws", "ReceitaWS"),
             ("serpro", "SERPRO"),
+            ("cpfcnpj", "CPF.CNPJ"),
         ],
         string="CNPJ Search Provider",
         required=True,
@@ -36,4 +37,39 @@ class ResConfigSettings(models.TransientModel):
         ],
         string="SERPRO Schema",
         config_parameter="l10n_br_cnpj_search.serpro_schema",
+    )
+
+    cpfcnpj_token = fields.Char(
+        string="CPF.CNPJ Token",
+        config_parameter="l10n_br_cnpj_search.cpfcnpj_token",
+    )
+
+    cpfcnpj_package = fields.Selection(
+        selection=[
+            ("5", "5 - Cadastro e endereço"),
+            ("6", "6 - Cadastro completo (Simples Nacional, porte e situação)"),
+        ],
+        string="CPF.CNPJ Package",
+        default="6",
+        config_parameter="l10n_br_cnpj_search.cpfcnpj_package",
+    )
+
+    cpfcnpj_skip_partners = fields.Boolean(
+        string="CPF.CNPJ: do not import partners (QSA)",
+        help="By default each partner from the QSA becomes a child contact. "
+        "Enable this to skip that step.",
+        config_parameter="l10n_br_cnpj_search.cpfcnpj_skip_partners",
+    )
+
+    cpfcnpj_skip_card = fields.Boolean(
+        string="CPF.CNPJ: do not attach the CNPJ card PDF",
+        help="By default the CNPJ card PDF returned by package 6 is attached "
+        "to the partner. Enable this to skip that step.",
+        config_parameter="l10n_br_cnpj_search.cpfcnpj_skip_card",
+    )
+
+    cpfcnpj_fetch_ie = fields.Boolean(
+        string="CPF.CNPJ: fetch state registration (package 16)",
+        default=False,
+        config_parameter="l10n_br_cnpj_search.cpfcnpj_fetch_ie",
     )
