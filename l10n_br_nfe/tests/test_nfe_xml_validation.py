@@ -1,9 +1,10 @@
 import logging
 
+from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
 from odoo.tools import float_compare
 
-from odoo.addons.l10n_br_fiscal.constants.fiscal import SITUACAO_EDOC_ENVIADA
+from odoo.addons.l10n_br_fiscal.constants.fiscal import SITUACAO_EDOC_A_ENVIAR
 
 _logger = logging.getLogger(__name__)
 
@@ -38,12 +39,16 @@ class TestXMLValidation(TransactionCase):
             }
         )
         document.action_document_confirm()
-        document.action_document_send()
+        # The schema errors are recorded by the confirmation, and the send is
+        # then refused by _before_document_send() so the document stays in
+        # 'a_enviar', where it can be set back to draft and fixed.
+        with self.assertRaises(UserError):
+            document.action_document_send()
         _logger.info(
             f"(Test Result) XML Validation Message: {document.xml_error_message}"
         )
         self.assertTrue("CEP" in document.xml_error_message)
-        self.assertEqual(document.state_edoc, SITUACAO_EDOC_ENVIADA)
+        self.assertEqual(document.state_edoc, SITUACAO_EDOC_A_ENVIAR)
 
     def test_xml_nfe_taxes(self):
         """This method tests multiple tax fields for NFe lines and NFe totals.
@@ -127,8 +132,11 @@ class TestXMLValidation(TransactionCase):
             }
         )
 
+        # This test only checks tax values, which are computed by the
+        # confirmation. It does not transmit: the document carries no payment
+        # details, so its XML does not validate against the schema and
+        # _before_document_send() refuses the transmission.
         document.action_document_confirm()
-        document.action_document_send()
         # This section probably indicates an error in eiter
         #   l10n_br_account or l10n_br_fiscal
         self.assertEqual(line.icms_value, 307.32)
