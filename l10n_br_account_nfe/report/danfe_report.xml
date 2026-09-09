@@ -1,0 +1,12 @@
+<odoo>
+    <record id="report_danfe_account" model="ir.actions.report">
+        <field name="name">DANFE</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">main_template_danfe_account</field>
+        <field name="report_file">main_template_danfe_account</field>
+        <field name="print_report_name">'%s' % (object.document_key)</field>
+        <field name="binding_model_id" ref="account.model_account_move" />
+        <field name="binding_type">report</field>
+    </record>
+</odoo>
