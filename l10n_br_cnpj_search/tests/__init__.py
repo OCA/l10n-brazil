@@ -3,3 +3,4 @@
 
 from . import test_receitaws
 from . import test_serpro
+from . import test_cpfcnpj

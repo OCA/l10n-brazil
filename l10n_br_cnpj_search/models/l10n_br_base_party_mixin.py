@@ -6,11 +6,59 @@
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 
+CNPJ_BRANCH_TYPE_SELECTION = [
+    ("head_office", "Head Office"),
+    ("branch", "Branch"),
+]
+
 
 class PartyMixin(models.AbstractModel):
     _inherit = "l10n_br_base.party.mixin"
 
     equity_capital = fields.Monetary(currency_field="br_currency_id")
+
+    company_size = fields.Char(
+        help="Company size classification (e.g. Small Business).",
+    )
+
+    cnpj_status = fields.Char(
+        string="CNPJ Status",
+        help="Registration status of the CNPJ (e.g. Active).",
+    )
+
+    cnpj_status_date = fields.Date(
+        string="CNPJ Status Date",
+        help="Date of the current registration status.",
+    )
+
+    cnpj_status_reason = fields.Char(
+        string="CNPJ Status Reason",
+        help="Reason for the current registration status.",
+    )
+
+    opening_date = fields.Date(
+        help="Date the company started its activities.",
+    )
+
+    cnpj_branch_type = fields.Selection(
+        selection=CNPJ_BRANCH_TYPE_SELECTION,
+        string="Head Office / Branch",
+        help="Whether the establishment is the head office or a branch.",
+    )
+
+    simples_option_date = fields.Date(
+        string="Simples Nacional Option Date",
+        help="Date the company opted for the Simples Nacional regime.",
+    )
+
+    legal_responsible_name = fields.Char(
+        string="Legal Responsible",
+        help="Name of the legal responsible for the company.",
+    )
+
+    legal_responsible_function = fields.Char(
+        help="Function of the legal responsible for the company.",
+    )
 
     cnae_main_id = fields.Many2one(comodel_name="l10n_br_fiscal.cnae")
 
