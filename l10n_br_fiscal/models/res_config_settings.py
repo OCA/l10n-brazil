@@ -51,3 +51,8 @@ class ResConfigSettings(models.TransientModel):
     delivery_costs = fields.Selection(
         related="company_id.delivery_costs", readonly=False
     )
+
+    edoc_require_send_before_post = fields.Boolean(
+        related="company_id.edoc_require_send_before_post",
+        readonly=False,
+    )

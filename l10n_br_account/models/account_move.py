@@ -15,7 +15,6 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
     DOCUMENT_ISSUER_PARTNER,
     DOCUMENT_STATE_CANCEL,
-    DOCUMENT_STATE_DRAFT,
     FISCAL_IN_OUT_ALL,
     FISCAL_OUT,
     MODELO_FISCAL_NFE,
@@ -156,6 +155,28 @@ class AccountMove(models.Model):
             for line in move.invoice_line_ids:
                 docs |= line.document_id
             move.fiscal_document_ids = docs
+
+    edoc_locked_warning = fields.Char(
+        compute="_compute_edoc_locked_warning",
+    )
+
+    @api.depends("fiscal_document_ids.edoc_is_locked")
+    def _compute_edoc_locked_warning(self):
+        for move in self:
+            locked = move.fiscal_document_ids.filtered("edoc_is_locked")
+            if not locked:
+                move.edoc_locked_warning = False
+            elif locked.filtered(lambda d: d.issuer == DOCUMENT_ISSUER_COMPANY):
+                move.edoc_locked_warning = _(
+                    "This move is linked to a fiscal document already "
+                    "validated or sent (locked). Fiscal identity fields can "
+                    "only be changed from the Fiscal Document view."
+                )
+            else:
+                move.edoc_locked_warning = _(
+                    "This move is linked to a cancelled fiscal document. "
+                    "Its fiscal fields can no longer be changed."
+                )
 
     @api.depends("move_type", "fiscal_operation_id")
     def _compute_fiscal_operation_type(self):
@@ -504,20 +525,23 @@ class AccountMove(models.Model):
                         "because this document is cancelled in SEFAZ"
                     ).format(move.document_number)
                 )
-            move.fiscal_document_ids.filtered(
-                lambda d: d.state_edoc != DOCUMENT_STATE_DRAFT
-            ).action_document_back2draft()
+            # Best-effort: reset only e-docs that don't need a SEFAZ event.
+            # SEFAZ-locked docs are left as-is so the accountant can still
+            # reset the move (e.g. to fix a journal or account).
+            move.fiscal_document_ids.action_document_back2draft_from_move()
         return super().button_draft()
 
     def action_document_send(self):
-        for invoice in self.filtered(lambda d: d.document_type_id):
-            if hasattr(invoice.fiscal_document_ids, "action_document_send"):
-                invoice.fiscal_document_ids.action_document_send()
-            # FIXME: na migração para a v14 foi permitido o post antes do envio
-            #  para destravar a migração, mas poderia ser cogitado de obrigar a
-            #  transmissão antes do post novamente como na v12.
-            # for invoice in invoices:
-            #     invoice.move_id.post(invoice=invoice)
+        """Send all related electronic fiscal documents to SEFAZ.
+
+        Surfaced as a button on the move so the e-doc transmission can be
+        driven from the invoice without opening the fiscal view. Advanced
+        e-doc operations (correction, number invalidation) still require
+        the fiscal document view.
+        """
+        docs = self.fiscal_document_ids.filtered(lambda d: d.document_type_id)
+        if hasattr(docs, "action_document_send"):
+            docs.action_document_send()
 
     def action_document_cancel(self):
         for move in self.filtered(lambda d: d.document_type_id):
@@ -546,11 +570,46 @@ class AccountMove(models.Model):
             move.ensure_one_doc()
             return move.fiscal_document_id.action_view_invoice()
 
+    def _edoc_post_gate(self):
+        """Optional hard gate: block posting a move whose electronic
+        company-issued fiscal document is not yet authorized by SEFAZ.
+
+        Controlled per-company by `edoc_require_send_before_post` (off by
+        default). Billing Administrators, or the `force_edoc_post` context,
+        bypass the gate so an authorized user can still post when needed.
+        """
+        if self.env.context.get("force_edoc_post"):
+            return
+        if self.env.user.has_group("account.group_account_manager"):
+            return
+        blocking = self.env["l10n_br_fiscal.document"]
+        for doc in self.fiscal_document_ids.filtered(lambda d: d.document_type_id):
+            if not (
+                doc.company_id.edoc_require_send_before_post
+                and doc.document_electronic
+                and doc.issuer == DOCUMENT_ISSUER_COMPANY
+            ):
+                continue
+            # "authorized" is the terminal OK state; anything else means the
+            # e-doc still needs to be sent / is not cleared by SEFAZ.
+            if doc.state_edoc != "autorizada":
+                blocking |= doc
+        if blocking:
+            raise UserError(
+                _(
+                    "The following fiscal document(s) must be authorized by "
+                    "SEFAZ before posting: %(docs)s.\nUse the Send button "
+                    "first, or ask a Billing Administrator to post.",
+                    docs=", ".join(blocking.mapped("display_name")),
+                )
+            )
+
     def _post(self, soft=True):
         for move in self.with_context(skip_post=True):
             move.fiscal_document_ids.filtered(
                 lambda d: d.document_type_id
             ).action_document_confirm()
+        self._edoc_post_gate()
         return super()._post(soft=soft)
 
     def view_xml(self):
@@ -621,8 +680,12 @@ class AccountMove(models.Model):
         return new_moves
 
     def button_cancel(self):
-        for doc in self.filtered(lambda d: d.document_type_id):
-            doc.fiscal_document_id.action_document_cancel()
+        # Best-effort: cancel only the related e-docs that don't need a
+        # SEFAZ event. SEFAZ-locked docs (authorized / in transit) keep
+        # their real fiscal state and must be cancelled from the fiscal
+        # document view via the proper SEFAZ event; cancelling the move
+        # here is never blocked by them.
+        self.fiscal_document_ids.action_document_cancel_from_move()
         return super().button_cancel()
 
     def button_import_fiscal_document(self):
