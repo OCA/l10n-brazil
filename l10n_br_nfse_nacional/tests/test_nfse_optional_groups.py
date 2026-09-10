@@ -50,3 +50,42 @@ class TestNfseOptionalGroups(TransactionCase):
         self.line.write({"discount_value": 0.0, "issqn_desc_cond_amount": 7.5})
         self.assertEqual(self.line.nfse10_vDescCondIncond, self.line)
         self.assertEqual(self.line.nfse10_vDescCond, "7.50")
+
+
+class TestNfseServiceDescription(TransactionCase):
+    """What the client requires inside xDescServ, since the NFS-e has no infAdProd.
+
+    A real note issued outside Odoo carried the measurement bulletin, the contract,
+    the order, the period, the cost centre, the due date and the bank details, all in
+    the service description. Line level fiscal comments already render that text into
+    additional_data; this is the wire from there to the tag.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.line = cls.env.ref("l10n_br_nfse_nacional.demo_nfse_lc").fiscal_line_ids[0]
+
+    def test_without_a_composed_text_the_line_name_is_used(self):
+        self.line.write({"name": "SERVICO DE MANUTENCAO", "additional_data": False})
+        self.assertEqual(self.line.nfse10_xDescServ, "SERVICO DE MANUTENCAO")
+
+    def test_a_composed_text_replaces_the_line_name(self):
+        """The real note does not prefix a product name; a template asks for it."""
+        self.line.write(
+            {
+                "name": "SERVICO DE MANUTENCAO",
+                "additional_data": "CONFORME BOLETIM 057771 - CONTRATO 021925",
+            }
+        )
+        self.assertEqual(
+            self.line.nfse10_xDescServ, "CONFORME BOLETIM 057771 - CONTRATO 021925"
+        )
+
+    def test_a_text_longer_than_the_schema_allows_is_cut(self):
+        self.line.write({"additional_data": "x" * 2500})
+        self.assertEqual(len(self.line.nfse10_xDescServ), 2000)
+
+    def test_a_blank_text_falls_back_instead_of_going_out_empty(self):
+        self.line.write({"name": "SERVICO", "additional_data": "   "})
+        self.assertEqual(self.line.nfse10_xDescServ, "SERVICO")
