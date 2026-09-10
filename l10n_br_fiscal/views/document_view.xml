@@ -283,6 +283,7 @@
                                 }"
                             >
                                 <list>
+                                    <field name="currency_id" column_invisible="True" />
                                     <field name="product_id" />
                                     <field name="name" />
                                     <field name="uom_id" />
