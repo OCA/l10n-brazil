@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Famílias ARMAZÉM GERAL / DEPÓSITO FECHADO e EMBALAGENS RETORNÁVEIS (vasilhame/
+  sacaria). Não existem no core.
+
+  ARMAZÉM (lado depositante): remessa (5905/6905) e retorno (1906/2906) — não
+  incidência de ICMS na mesma UF (CST 41); interestadual pode tributar
+  (parametrizável). Lado armazém (entrada/retorno real/simbólico/conta-e-ordem)
+  e venda de mercadoria depositada = bloco opcional (3PL), não incluído no base.
+
+  VASILHAME/SACARIA: ciclo completo (remessa/retorno/entrada/devolução). Não
+  incidência de ICMS (CST 41; variante isenção CST 40 Conv. ICMS 88/91,
+  parametrizável), IPI NT, PIS/COFINS sem incidência (CST 08).
+
+  IPI: usa NT (revenda, caso geral). Depositante industrial → suspensão (variante).
+-->
+<odoo noupdate="1">
+
+    <record id="comment_deposito" model="l10n_br_fiscal.comment">
+        <field name="name">Remessa para depósito/armazém geral</field>
+        <field
+            name="comment"
+        >Remessa para depósito fechado ou armazém geral. Não incidência de ICMS na mesma UF (art. 7º do RICMS; Convênio SINIEF).</field>
+        <field name="comment_type">fiscal</field>
+        <field name="object">l10n_br_fiscal.document.mixin</field>
+    </record>
+    <record id="comment_vasilhame" model="l10n_br_fiscal.comment">
+        <field name="name">Vasilhame/sacaria retornável</field>
+        <field
+            name="comment"
+        >Vasilhame ou sacaria retornável. Não incidência de ICMS (ou isenção Conv. ICMS 88/91). Sem incidência de IPI/PIS/COFINS.</field>
+        <field name="comment_type">fiscal</field>
+        <field name="object">l10n_br_fiscal.document.mixin</field>
+    </record>
+
+    <!-- ARMAZÉM: retorno (alvo do return da remessa) -->
+    <record id="fo_retorno_deposito" model="l10n_br_fiscal.operation">
+        <field name="code">RT-DEP</field>
+        <field
+            name="name"
+        >Retorno de mercadoria depositada em depósito/armazém geral</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">return_in</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_retorno_deposito_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_retorno_deposito" />
+        <field name="name">Retorno de mercadoria depositada</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1906" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2906" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ret_dep_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_retorno_deposito_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_41" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- ARMAZÉM: remessa para depósito -->
+    <record id="fo_remessa_deposito" model="l10n_br_fiscal.operation">
+        <field name="code">REM-DEP</field>
+        <field name="name">Remessa para depósito fechado ou armazém geral</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">other</field>
+        <field name="return_fiscal_operation_id" ref="fo_retorno_deposito" />
+        <field name="state">approved</field>
+        <field name="comment_ids" eval="[(6, 0, [ref('comment_deposito')])]" />
+    </record>
+    <record id="fo_remessa_deposito_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_remessa_deposito" />
+        <field name="name">Remessa para depósito/armazém geral</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5905" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6905" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_dep_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_deposito_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_41" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_dep_ipi" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_deposito_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_dep_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_deposito_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_08" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_dep_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_deposito_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_08" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- VASILHAME: retorno (alvo do return da remessa) -->
+    <record id="fo_retorno_vasilhame" model="l10n_br_fiscal.operation">
+        <field name="code">RT-VAS</field>
+        <field name="name">Retorno de vasilhame ou sacaria</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">return_in</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_retorno_vasilhame_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_retorno_vasilhame" />
+        <field name="name">Retorno de vasilhame ou sacaria</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1921" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2921" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ret_vas_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_retorno_vasilhame_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_41" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- VASILHAME: remessa -->
+    <record id="fo_remessa_vasilhame" model="l10n_br_fiscal.operation">
+        <field name="code">REM-VAS</field>
+        <field name="name">Remessa de vasilhame ou sacaria</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">other</field>
+        <field name="return_fiscal_operation_id" ref="fo_retorno_vasilhame" />
+        <field name="state">approved</field>
+        <field name="comment_ids" eval="[(6, 0, [ref('comment_vasilhame')])]" />
+    </record>
+    <record id="fo_remessa_vasilhame_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_remessa_vasilhame" />
+        <field name="name">Remessa de vasilhame ou sacaria</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5920" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6920" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_vas_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_vasilhame_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_41" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_vas_ipi" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_vasilhame_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_vas_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_vasilhame_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_08" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_vas_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_vasilhame_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_08" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- VASILHAME: devolução (alvo do return da entrada) -->
+    <record id="fo_devolucao_vasilhame" model="l10n_br_fiscal.operation">
+        <field name="code">DEV-VAS</field>
+        <field name="name">Devolução de vasilhame ou sacaria</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">return_out</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_devolucao_vasilhame_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_devolucao_vasilhame" />
+        <field name="name">Devolução de vasilhame ou sacaria</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5921" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6921" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_dev_vas_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_devolucao_vasilhame_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_41" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- VASILHAME: entrada -->
+    <record id="fo_entrada_vasilhame" model="l10n_br_fiscal.operation">
+        <field name="code">ENT-VAS</field>
+        <field name="name">Entrada de vasilhame ou sacaria</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">other</field>
+        <field name="return_fiscal_operation_id" ref="fo_devolucao_vasilhame" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_entrada_vasilhame_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_entrada_vasilhame" />
+        <field name="name">Entrada de vasilhame ou sacaria</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1920" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2920" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+
+
+    <!-- ================= Simples Nacional =================
+         Linhas irmãs para empresa do Simples (company_tax_framework=1): o
+         seletor de linha prefere a mais específica, então a empresa SN casa
+         estas (CSOSN via grupo icmssn) e os demais regimes casam as genéricas
+         (CST). Empresa em excesso de sublimite (framework=2) recolhe ICMS fora
+         do DAS e cai na genérica com CST — correto. Regra geral: movimento sem
+         receita/titularidade = CSOSN 400; ajuste/simbólica = 900; linha de
+         receita não fixa ICMS (herda a tributação SN da empresa). Mapa a
+         ratificar com contador (transferência de mercadoria: ADC 49). -->
+    <record id="fo_retorno_deposito_line_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_retorno_deposito" />
+        <field name="name">Retorno de mercadoria depositada - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1906" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2906" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_retorno_deposito_line_sn_icmssn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_retorno_deposito_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_remessa_deposito_line_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_remessa_deposito" />
+        <field
+            name="name"
+        >Remessa para depósito/armazém geral - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5905" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6905" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_dep_ipi_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_deposito_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_dep_pis_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_deposito_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_08" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_dep_cofins_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_deposito_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_08" />
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_remessa_deposito_line_sn_icmssn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_remessa_deposito_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_retorno_vasilhame_line_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_retorno_vasilhame" />
+        <field name="name">Retorno de vasilhame ou sacaria - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1921" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2921" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_retorno_vasilhame_line_sn_icmssn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_retorno_vasilhame_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_remessa_vasilhame_line_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_remessa_vasilhame" />
+        <field name="name">Remessa de vasilhame ou sacaria - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5920" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6920" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_vas_ipi_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_vasilhame_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_vas_pis_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_vasilhame_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_08" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_vas_cofins_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_vasilhame_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_08" />
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_remessa_vasilhame_line_sn_icmssn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_remessa_vasilhame_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_devolucao_vasilhame_line_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_devolucao_vasilhame" />
+        <field name="name">Devolução de vasilhame ou sacaria - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5921" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6921" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_devolucao_vasilhame_line_sn_icmssn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_devolucao_vasilhame_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_entrada_vasilhame_line_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_entrada_vasilhame" />
+        <field name="name">Entrada de vasilhame ou sacaria - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1920" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2920" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_entrada_vasilhame_line_sn_icmssn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_entrada_vasilhame_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+
+</odoo>
