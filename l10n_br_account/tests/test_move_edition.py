@@ -254,9 +254,6 @@ class TestMoveEdition(TransactionCase):
             self.assertEqual(
                 line_form.ipi_tax_id, self.env.ref("l10n_br_fiscal.tax_ipi_5")
             )
-            line_form.icmsfcp_base = line_form.price_unit
-            line_form.icmsfcp_value = 3  # ensure manually setting FCP value works
-            self.assertEqual(line_form.icmsfcp_value, 3)
 
         move = move_form.save()
 
@@ -293,6 +290,15 @@ class TestMoveEdition(TransactionCase):
         )
         self.assertEqual(aml.ipi_tax_id, self.env.ref("l10n_br_fiscal.tax_ipi_5"))
         self.assertEqual(aml.icms_value, 79.38)
+
+        # The FCP detail fields moved from the (reduced) inline line tree to the
+        # line form dialog (popup) with the fiscal tree-field whitelist, so they
+        # are edited there now, as a user would. Ensure the manual FCP override
+        # still persists (the stored compute must not clobber a client value).
+        with Form(aml.fiscal_document_line_id) as line_popup:
+            line_popup.icmsfcp_base = line_popup.price_unit
+            line_popup.icmsfcp_value = 3  # ensure manually setting FCP value works
+            self.assertEqual(line_popup.icmsfcp_value, 3)
         self.assertEqual(aml.icmsfcp_base, aml.price_unit)
         self.assertEqual(aml.icmsfcp_value, 3)
 

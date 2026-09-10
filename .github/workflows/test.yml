@@ -2,6 +2,11 @@ name: tests
 
 on:
   pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - labeled
     branches:
       - "16.0*"
   push:
@@ -71,6 +76,12 @@ jobs:
         run: oca_init_test_database
       - name: Run tests
         run: oca_run_tests
+      - name: Run performance tests (opt-in via "performance" label)
+        if: contains(github.event.pull_request.labels.*.name, 'performance')
+        run: |
+          unbuffer $(which odoo) -d ${PGDATABASE} \
+            -u l10n_br_account,l10n_br_sale,l10n_br_setup_tests --test-enable \
+            --test-tags l10n_br_performance --stop-after-init
       - uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
