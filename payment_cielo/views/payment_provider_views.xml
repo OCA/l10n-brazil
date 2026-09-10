@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="payment_provider_form" model="ir.ui.view">
+        <field name="name">Cielo Provider Form</field>
+        <field name="model">payment.provider</field>
+        <field name="inherit_id" ref="payment.payment_provider_form" />
+        <field name="arch" type="xml">
+            <group name="provider_credentials" position="inside">
+                <group attrs="{'invisible': [('code', '!=', 'cielo')]}">
+                    <field
+                        name="cielo_merchant_id"
+                        password="True"
+                        attrs="{'required': [('code', '=', 'cielo'), ('state', '!=', 'disabled')]}"
+                    />
+                    <field
+                        name="cielo_merchant_key"
+                        password="True"
+                        attrs="{'required': [('code', '=', 'cielo'), ('state', '!=', 'disabled')]}"
+                    />
+                    <field name="cielo_soft_descriptor" />
+                </group>
+            </group>
+        </field>
+    </record>
+
+    <record id="payment_token_form" model="ir.ui.view">
+        <field name="name">Cielo Token Form</field>
+        <field name="model">payment.token</field>
+        <field name="inherit_id" ref="payment.payment_token_form" />
+        <field name="arch" type="xml">
+            <field name="provider_ref" position="after">
+                <field name="provider_code" invisible="1" />
+                <field
+                    name="cielo_card_brand"
+                    attrs="{'invisible': [('provider_code', '!=', 'cielo')]}"
+                />
+            </field>
+        </field>
+    </record>
+
+</odoo>
