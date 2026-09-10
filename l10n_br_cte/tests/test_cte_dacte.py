@@ -29,6 +29,6 @@ class TestDacteGeneration(TransactionCase):
     def test_generate_dacte_brazil_fiscal_report_partner(self):
         cte = self.env.ref("l10n_br_cte.demo_cte_lc_modal_rodoviario")
         cte.action_document_confirm()
-        cte.issuer = "partner"
+        cte.with_context(skip_edoc_lock=True).issuer = "partner"
         cte.view_pdf()
         self.assertTrue(cte.file_report_id)

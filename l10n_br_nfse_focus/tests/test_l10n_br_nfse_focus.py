@@ -978,9 +978,9 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         document.document_type_id.code = MODELO_FISCAL_NFSE
         document.company_id.provedor_nfse = "focusnfe"
         document.company_id.focusnfe_nfse_type = "nfse_nacional"
-        document.state_edoc = SITUACAO_EDOC_ENVIADA
         document.document_date = datetime.now()
         document.date_in_out = datetime.now()
+        document.state_edoc = SITUACAO_EDOC_ENVIADA
 
         with patch(
             "odoo.addons.l10n_br_nfse_focus.models.document.requests.get"
@@ -1700,9 +1700,9 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         document.document_type_id.code = MODELO_FISCAL_NFSE
         document.company_id.provedor_nfse = "focusnfe"
         document.company_id.focusnfe_nfse_type = "nfse_nacional"
-        document.state_edoc = SITUACAO_EDOC_ENVIADA
         document.document_date = datetime.now()
         document.date_in_out = datetime.now()
+        document.state_edoc = SITUACAO_EDOC_ENVIADA
 
         with patch(
             "odoo.addons.l10n_br_nfse_focus.models.document.Document._document_status"
@@ -1730,9 +1730,9 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         document.document_type_id.code = MODELO_FISCAL_NFSE
         document.company_id.provedor_nfse = "focusnfe"
         document.company_id.focusnfe_nfse_type = "nfse"
-        document.state_edoc = SITUACAO_EDOC_ENVIADA
         document.document_date = datetime.now()
         document.date_in_out = datetime.now()
+        document.state_edoc = SITUACAO_EDOC_ENVIADA
 
         with patch(
             "odoo.addons.l10n_br_nfse_focus.models.document.Document._document_status"

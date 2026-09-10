@@ -254,7 +254,10 @@ class Document(models.Model):
         )
         document_number = json_data.get("numero", "")
 
-        record.write(
+        # SEFAZ/prefecture authorization callback: the definitive document
+        # number and protocol are written back onto a doc that is already
+        # in the "sending" state, so bypass the edoc identity-field lock.
+        record.with_context(skip_edoc_lock=True).write(
             {
                 "verify_code": verify_code,
                 "document_number": document_number,
