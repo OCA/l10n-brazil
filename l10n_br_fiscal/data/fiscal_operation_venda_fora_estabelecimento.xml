@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Família VENDA FORA DO ESTABELECIMENTO (venda ambulante / em veículo).
+  Não existe no core. Mesma dissociação de fato gerador da consignação:
+  ICMS/IPI (circulação) na REMESSA (5904); PIS/COFINS (receita) na VENDA
+  EFETIVA (5103/5104). A venda efetiva NÃO destaca ICMS de novo (já debitado na
+  remessa — evita bis in idem); o retorno das não vendidas (1904) credita o
+  ICMS proporcional.
+
+  Caso geral (RICMS-SP clássico): remessa destaca ICMS integral / venda efetiva
+  sem destaque (CST 90). Variante por UF (venda destaca, remessa não) e destinos
+  ind_ie_dest 2/9 (DIFAL na camada de imposto) e ST/Simples = parametrizável,
+  fora do default (readme).
+-->
+<odoo noupdate="1">
+
+    <record id="comment_vfe_remessa" model="l10n_br_fiscal.comment">
+        <field name="name">Remessa para venda fora do estabelecimento</field>
+        <field
+            name="comment"
+        >Remessa de mercadoria para realização de vendas fora do estabelecimento, sem destinatário certo, por meio de veículo. ICMS destacado sobre o total da carga.</field>
+        <field name="comment_type">fiscal</field>
+        <field name="object">l10n_br_fiscal.document.mixin</field>
+    </record>
+    <record id="comment_vfe_venda" model="l10n_br_fiscal.comment">
+        <field name="name">Venda efetuada fora do estabelecimento</field>
+        <field
+            name="comment"
+        >Venda de mercadoria efetuada fora do estabelecimento. ICMS integralmente debitado na NF-e de remessa; sem novo destaque para evitar duplicidade.</field>
+        <field name="comment_type">fiscal</field>
+        <field name="object">l10n_br_fiscal.document.mixin</field>
+    </record>
+    <record id="comment_vfe_retorno" model="l10n_br_fiscal.comment">
+        <field name="name">Retorno de venda fora do estabelecimento</field>
+        <field
+            name="comment"
+        >Retorno de mercadoria remetida para venda fora do estabelecimento e não comercializada. Crédito do ICMS proporcional às mercadorias retornadas. Ref. NF-e de remessa.</field>
+        <field name="comment_type">fiscal</field>
+        <field name="object">l10n_br_fiscal.document.mixin</field>
+    </record>
+
+    <!-- OP-2: retorno das não vendidas (alvo do return da remessa) -->
+    <record id="fo_vfe_retorno" model="l10n_br_fiscal.operation">
+        <field name="code">VFE-RET</field>
+        <field name="name">Retorno de venda fora do estabelecimento</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">other</field>
+        <field name="state">approved</field>
+        <field name="comment_ids" eval="[(6, 0, [ref('comment_vfe_retorno')])]" />
+    </record>
+    <record id="fo_vfe_retorno_producao" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_vfe_retorno" />
+        <field name="name">Retorno de venda fora do estabelecimento (produção)</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1904" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2904" />
+        <field name="product_type">04</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_retorno_producao_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_vfe_retorno_producao" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_retorno_producao_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_vfe_retorno_producao" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_retorno_revenda" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_vfe_retorno" />
+        <field name="name">Retorno de venda fora do estabelecimento (revenda)</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1904" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2904" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_retorno_revenda_ipi" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_vfe_retorno_revenda" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_retorno_revenda_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_vfe_retorno_revenda" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_retorno_revenda_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_vfe_retorno_revenda" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- OP-1: remessa para venda fora do estabelecimento -->
+    <record id="fo_vfe_remessa" model="l10n_br_fiscal.operation">
+        <field name="code">VFE-REM</field>
+        <field name="name">Remessa para venda fora do estabelecimento</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">other</field>
+        <field name="return_fiscal_operation_id" ref="fo_vfe_retorno" />
+        <field name="state">approved</field>
+        <field name="comment_ids" eval="[(6, 0, [ref('comment_vfe_remessa')])]" />
+    </record>
+    <record id="fo_vfe_remessa_producao" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_vfe_remessa" />
+        <field name="name">Remessa para venda fora do estabelecimento (produção)</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5904" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6904" />
+        <field name="product_type">04</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_remessa_producao_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_vfe_remessa_producao" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_remessa_producao_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_vfe_remessa_producao" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_remessa_revenda" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_vfe_remessa" />
+        <field name="name">Remessa para venda fora do estabelecimento (revenda)</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5904" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6904" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_remessa_revenda_ipi" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_vfe_remessa_revenda" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_remessa_revenda_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_vfe_remessa_revenda" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_remessa_revenda_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_vfe_remessa_revenda" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- OP-3: venda efetuada fora do estabelecimento (receita) -->
+    <record id="fo_vfe_venda" model="l10n_br_fiscal.operation">
+        <field name="code">VFE-VDA</field>
+        <field name="name">Venda efetuada fora do estabelecimento</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">sale</field>
+        <field
+            name="return_fiscal_operation_id"
+            ref="l10n_br_fiscal.fo_devolucao_venda"
+        />
+        <field name="state">approved</field>
+        <field name="comment_ids" eval="[(6, 0, [ref('comment_vfe_venda')])]" />
+    </record>
+    <record id="fo_vfe_venda_producao" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_vfe_venda" />
+        <field name="name">Venda fora do estabelecimento (produção)</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5103" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6103" />
+        <field name="product_type">04</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_venda_producao_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_vfe_venda_producao" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_0" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_90" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_venda_producao_ipi" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_vfe_venda_producao" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_venda_revenda" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_vfe_venda" />
+        <field name="name">Venda fora do estabelecimento (revenda)</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5104" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6104" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_venda_revenda_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_vfe_venda_revenda" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_0" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_90" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_venda_revenda_ipi" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_vfe_venda_revenda" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53" />
+        <field name="state">approved</field>
+    </record>
+
+
+    <!-- ================= Simples Nacional =================
+         Linhas irmãs para empresa do Simples (company_tax_framework=1): o
+         seletor de linha prefere a mais específica, então a empresa SN casa
+         estas (CSOSN via grupo icmssn) e os demais regimes casam as genéricas
+         (CST). Empresa em excesso de sublimite (framework=2) recolhe ICMS fora
+         do DAS e cai na genérica com CST — correto. Regra geral: movimento sem
+         receita/titularidade = CSOSN 400; ajuste/simbólica = 900; linha de
+         receita não fixa ICMS (herda a tributação SN da empresa). Mapa a
+         ratificar com contador (transferência de mercadoria: ADC 49). -->
+    <record id="fo_vfe_retorno_producao_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_vfe_retorno" />
+        <field
+            name="name"
+        >Retorno de venda fora do estabelecimento (produção) - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1904" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2904" />
+        <field name="product_type">04</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_retorno_producao_pis_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_vfe_retorno_producao_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_vfe_retorno_producao_cofins_sn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_vfe_retorno_producao_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_vfe_retorno_producao_sn_icmssn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_vfe_retorno_producao_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_retorno_revenda_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_vfe_retorno" />
+        <field
+            name="name"
+        >Retorno de venda fora do estabelecimento (revenda) - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1904" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2904" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_retorno_revenda_ipi_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_vfe_retorno_revenda_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_retorno_revenda_pis_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_vfe_retorno_revenda_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_retorno_revenda_cofins_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_vfe_retorno_revenda_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_retorno_revenda_sn_icmssn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_vfe_retorno_revenda_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_remessa_producao_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_vfe_remessa" />
+        <field
+            name="name"
+        >Remessa para venda fora do estabelecimento (produção) - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5904" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6904" />
+        <field name="product_type">04</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_remessa_producao_pis_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_vfe_remessa_producao_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_vfe_remessa_producao_cofins_sn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_vfe_remessa_producao_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_vfe_remessa_producao_sn_icmssn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_vfe_remessa_producao_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_remessa_revenda_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_vfe_remessa" />
+        <field
+            name="name"
+        >Remessa para venda fora do estabelecimento (revenda) - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5904" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6904" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_remessa_revenda_ipi_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_vfe_remessa_revenda_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_remessa_revenda_pis_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_vfe_remessa_revenda_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_remessa_revenda_cofins_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_vfe_remessa_revenda_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_remessa_revenda_sn_icmssn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_vfe_remessa_revenda_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_venda_producao_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_vfe_venda" />
+        <field
+            name="name"
+        >Venda fora do estabelecimento (produção) - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5103" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6103" />
+        <field name="product_type">04</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_venda_producao_ipi_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_vfe_venda_producao_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_venda_revenda_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_vfe_venda" />
+        <field
+            name="name"
+        >Venda fora do estabelecimento (revenda) - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5104" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6104" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_vfe_venda_revenda_ipi_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_vfe_venda_revenda_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53" />
+        <field name="state">approved</field>
+    </record>
+
+</odoo>
