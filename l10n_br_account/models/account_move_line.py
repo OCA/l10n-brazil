@@ -560,6 +560,7 @@ class AccountMoveLine(models.Model):
         "ind_final",
         "fiscal_document_line_id",
         "fiscal_document_line_id.document_id.imported_document",
+        "fiscal_document_line_id.ii_declared_value",
     )
     def _compute_all_tax(self):
         """
@@ -620,9 +621,13 @@ class AccountMoveLine(models.Model):
             )
             line.compute_all_tax_dirty = True
 
-            if (
-                line.fiscal_document_line_id
-                and line.fiscal_document_line_id.document_id.imported_document
+            # A declared Import Tax means the fiscal line already carries the
+            # tax the declaration charged, ICMS grossed up included; the
+            # accounting has to book those values, not a recomputation from
+            # the product's own rate, exactly like an imported NF-e.
+            if line.fiscal_document_line_id and (
+                line.fiscal_document_line_id.document_id.imported_document
+                or line.fiscal_document_line_id.ii_declared_value
             ):
                 self._override_taxes_from_import(
                     compute_all_currency["taxes"],
