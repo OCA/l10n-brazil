@@ -35,4 +35,23 @@
             <field name="code">model._scheduled_update()</field>
         </record>
 
+        <record
+        forcecreate="True"
+        id="l10n_br_fiscal_expire_parametrization_cron"
+        model="ir.cron"
+    >
+            <field name="name">Expire Fiscal Parametrization</field>
+            <field name="state">code</field>
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="model_id" ref="model_l10n_br_fiscal_data_abstract" />
+            <field name="code">model._cron_expire_fiscal_parametrization()</field>
+            <field
+            name="nextcall"
+            eval="(DateTime.now()).strftime('%Y-%m-%d 00:01:00')"
+        />
+        </record>
+
 </odoo>
