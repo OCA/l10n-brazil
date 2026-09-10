@@ -43,6 +43,9 @@ class ProductProduct(models.Model):
         if match:
             return match.id
 
+        if not self.env["spec.mixin"]._spec_import_can_create(self):
+            return self.env["spec.mixin"]._spec_import_forbidden(self, rec_dict)
+
         if self._context.get("dry_run"):
             rec_id = self.new(rec_dict).id
         else:

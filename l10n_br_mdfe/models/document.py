@@ -919,9 +919,18 @@ class MDFe(spec_models.StackedModel):
     def import_binding_mdfe(self, binding, edoc_type="in", dry_run=False):
         if hasattr(binding, "MDFe"):
             binding = binding.MDFe
+        ctx = {"tracking_disable": True, "edoc_type": edoc_type}
+        if edoc_type == "in":
+            # Only res.country.state is forbidden (as before via the manual
+            # match_or_create_m2o override). res.city MUST remain creatable:
+            # l10n_br_mdfe.municipio.descarga.city_id is required=True and the
+            # municípios de descarga are often not in the DB yet.
+            ctx["spec_create_forbidden_models"] = {
+                "res.country.state": "skip",
+            }
         document = (
             self.env["mdfe.30.tmdfe_infmdfe"]
-            .with_context(tracking_disable=True, edoc_type=edoc_type)
+            .with_context(**ctx)
             .build_from_binding("mdfe", "30", binding.infMDFe, dry_run=dry_run)
         )
 

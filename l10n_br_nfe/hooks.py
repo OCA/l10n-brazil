@@ -31,8 +31,8 @@ def post_init_hook(cr, registry):
         )
         try:
             existing_nfes.unlink()
-            env["l10n_br_fiscal.document"].import_binding_nfe(
-                binding, edoc_type="in", dry_run=False
-            )
+            env["l10n_br_fiscal.document"].with_context(
+                allow_product_creation=True
+            ).import_binding_nfe(binding, edoc_type="in", dry_run=False)
         except ValidationError:
             _logger.info(f"NF-e already {document_number} imported by hooks")

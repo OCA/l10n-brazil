@@ -207,6 +207,19 @@ class SpecMixin(models.AbstractModel):
             definition_bases = tuple(
                 base for base in merged_base_classes if is_definition_class(base)
             )
+            # When the hook runs again on a registry where the remaining model
+            # was already built (e.g. a test clearing the load guard), the
+            # previously built concrete class (a SpecModel subclass carrying
+            # every merged field) is what ends up in __base_classes. Combining
+            # it with the explicit SpecModel base below would break the MRO,
+            # so use it alone in that case.
+            spec_definition_bases = tuple(
+                base for base in definition_bases if issubclass(base, SpecModel)
+            )
+            if spec_definition_bases:
+                bases = spec_definition_bases[-1:]
+            else:
+                bases = (SpecModel,) + definition_bases
             fields = merged_class._fields
             rec_name = next(
                 filter(
@@ -217,7 +230,7 @@ class SpecMixin(models.AbstractModel):
             )
             model_type = type(
                 name,
-                (SpecModel,) + definition_bases,
+                bases,
                 {
                     "_name": name,
                     "_inherit": spec_class._inherit,
