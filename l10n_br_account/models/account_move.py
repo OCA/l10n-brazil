@@ -114,10 +114,12 @@ class AccountMove(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             self._sync_proxy_fields_vals(vals)
-            # Prevent Odoo's tax_totals widget from obliterating our
-            # exact XML tax calculations
+            # Prevent Odoo's tax_totals widget from obliterating the fiscal
+            # tax values: it adds every tax on top of the base, while ICMS, II,
+            # PIS and COFINS are already inside the price of a fiscal document.
             if "tax_totals" in vals and (
-                vals.get("imported_document")
+                vals.get("fiscal_operation_id")
+                or vals.get("imported_document")
                 or self.env.context.get("force_fiscal_amount_recompute")
             ):
                 vals.pop("tax_totals")
@@ -127,7 +129,8 @@ class AccountMove(models.Model):
         self._sync_proxy_fields_vals(vals)
         # Pop tax_totals to prevent Odoo from overriding our tax lines on save
         if "tax_totals" in vals and (
-            any(self.mapped("imported_document"))
+            any(self.mapped("fiscal_operation_id"))
+            or any(self.mapped("imported_document"))
             or self.env.context.get("force_fiscal_amount_recompute")
         ):
             vals.pop("tax_totals")
@@ -138,16 +141,20 @@ class AccountMove(models.Model):
         return res
 
     def _inverse_tax_totals(self):
-        # Never let the tax_totals widget override the exact tax values
-        # of an imported fiscal document.
+        # Never let the tax_totals widget override the tax values of a fiscal
+        # document: the widget's total is the base plus every tax, so applying
+        # it rebuilds the payment term line from a total that no longer matches
+        # the fiscal one and the entry stops balancing.
         if self.env.context.get("force_fiscal_amount_recompute"):
             # Import flow: the move is still being assembled and
             # imported_document may not be written yet, so skip the
             # inverse for the whole batch.
             return
         # Regular (UI) flow: run the standard inverse only for the moves
-        # that are not the mirror of an imported fiscal document.
-        moves = self.filtered(lambda move: not move.imported_document)
+        # that carry no fiscal document.
+        moves = self.filtered(
+            lambda move: not move.fiscal_operation_id and not move.imported_document
+        )
         return super(AccountMove, moves)._inverse_tax_totals()
 
     @api.onchange("company_id")
