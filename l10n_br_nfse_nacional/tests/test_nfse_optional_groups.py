@@ -129,3 +129,38 @@ class TestNfseServiceDescription(NfseServiceCase):
         self.assertEqual(
             self._prepare().nfse10_xDescServ, "BOLETIM 057771\nSUSTENTACAO"
         )
+
+
+@tagged("post_install", "-at_install")
+class TestNfseServiceCity(NfseServiceCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.elsewhere = cls.env["res.city"].search(
+            [("id", "!=", cls.line.company_id.city_id.id)], limit=1
+        )
+
+    def test_a_service_is_performed_where_the_taker_is(self):
+        self.line.partner_id.city_id = self.elsewhere
+        self.line.invalidate_recordset(["issqn_service_city_id"])
+        self.assertEqual(self.line.issqn_service_city_id, self.elsewhere)
+        self.assertEqual(
+            self._prepare().nfse10_cLocPrestacao, self.elsewhere.ibge_code
+        )
+
+    def test_without_a_city_on_the_taker_it_falls_back(self):
+        self.line.partner_id.city_id = False
+        self.line.invalidate_recordset(["issqn_service_city_id"])
+        self.assertEqual(self.line.issqn_service_city_id, self.line.issqn_fg_city_id)
+
+    def test_the_place_of_performance_does_not_move_the_issqn(self):
+        """Setting one must not drag the other: they feed different tags."""
+        antes = self.line.issqn_fg_city_id
+        self.line.issqn_service_city_id = self.elsewhere
+        self.assertEqual(self.line.issqn_fg_city_id, antes)
+
+    def test_whoever_did_the_job_can_correct_the_city(self):
+        self.line.issqn_service_city_id = self.elsewhere
+        self.assertEqual(
+            self._prepare().nfse10_cLocPrestacao, self.elsewhere.ibge_code
+        )

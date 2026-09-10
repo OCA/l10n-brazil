@@ -327,7 +327,11 @@ class L10nBrFiscalDocument(spec_models.StackedModel):
             "cTribNac": line.national_taxation_code_id.code_unmasked or None,
             "cTribMun": line.city_taxation_code_id.code_unmasked or None,
             "cNBS": line.nbs_id.code_unmasked or None,
-            "cLocPrestacao": line.issqn_fg_city_id.ibge_code or None,
+            # Where the service is PERFORMED, not where the ISSQN taxable
+            # event is: see issqn_service_city_id in l10n_br_fiscal. The
+            # taxable event falls back to the company city when there is no
+            # municipal code, which sent every note with the issuer's city.
+            "cLocPrestacao": line.issqn_service_city_id.ibge_code or None,
             "tribISSQN": self._nfse10_trib_issqn_code(line),
             "PIS/COFINS CST": self._nfse10_pis_cst(line),
             "RTC cClassTrib": line.tax_classification_id.code or None,
