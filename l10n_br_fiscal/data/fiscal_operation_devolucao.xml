@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Família DEVOLUÇÕES — o core já tem fo_devolucao_venda e fo_devolucao_compras
+  com as linhas principais (produção/revenda/ativo/uso-consumo). O espelhamento
+  dos impostos da nota de origem é comportamento de runtime (copiado via
+  return_fiscal_operation_id), não dado fixo — por isso não há tax.definition
+  aqui.
+
+  Nesta fase entra apenas a linha que fecha o par da compra para prestação de
+  serviço (1126/2126 → devolução 5210/6210).
+
+  A DEVOLUÇÃO DE TRANSFERÊNCIA (5208/5209·6208/6209 / 1208/1209·2208/2209) fica
+  para a fase 2, junto com a família Transferências — o core 16.0 atual NÃO tem
+  operações de transferência (só existiam no snapshot antigo), então a ida
+  precisa ser criada primeiro para o retorno ter par.
+-->
+<odoo noupdate="1">
+
+    <!-- Devolução de compra para prestação de serviço (par de fo_compras_servico_icms) -->
+    <record id="fo_devolucao_compras_servico" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_devolucao_compras" />
+        <field name="name">Devolução de compra para prestação de serviço</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5210" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6210" />
+        <field name="product_type">09</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+
+</odoo>
