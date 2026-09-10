@@ -106,6 +106,7 @@ class FocusnfeNfse(FocusnfeNfseBase):
             "optante_simples_nacional": rps_info.get("optante_simples_nacional", False),
             "regime_especial_tributacao": rps_info.get("natureza_operacao"),
             "finalidade_emissao": rps_info.get("finalidade_emissao", "0"),
+            "consumidor_final": rps_info.get("consumidor_final", False),
             "indicador_destinatario": rps_info.get("indicador_destinatario", "9"),
             "operacao_onerosa": rps_info.get("operacao_onerosa", False),
             "status": rps_info.get("status"),
@@ -152,6 +153,55 @@ class FocusnfeNfse(FocusnfeNfseBase):
         Returns:
             dict: The service section of the payload.
         """
+        situacao_tributaria_pis_cofins = (
+            service.get("situacao_tributaria_pis")
+            or service.get("situacao_tributaria_cofins")
+            or ""
+        )
+        if situacao_tributaria_pis_cofins == "99":
+            situacao_tributaria_pis_cofins = "00"
+
+        base_calculo_pis = service.get("base_calculo_pis", 0)
+        base_calculo_cofins = service.get("base_calculo_cofins", 0)
+        base_calculo_pis_cofins = round(
+            base_calculo_pis if base_calculo_pis else base_calculo_cofins, 2
+        )
+        if situacao_tributaria_pis_cofins:
+            if situacao_tributaria_pis_cofins in ["00", "08", "09"]:
+                base_calculo_pis_cofins = 0.0
+            elif not base_calculo_pis_cofins:
+                base_calculo_pis_cofins = round(service.get("valor_servicos", 0), 2)
+
+        pis_retido = bool(service.get("valor_pis_retido"))
+        cofins_retido = bool(service.get("valor_cofins_retido"))
+        csll_retido = bool(service.get("valor_csll_retido"))
+        inss_retido = bool(service.get("valor_inss_retido"))
+        ir_retido = bool(service.get("valor_ir_retido"))
+        icms_retido = bool(service.get("valor_icms_retido"))
+
+        valor_servicos = round(service.get("valor_servicos", 0), 2)
+
+        def _base_calculo(field_name, retido):
+            if not retido:
+                return 0.0
+            return round(service.get(field_name, 0), 2) or valor_servicos
+
+        base_calculo_csll = _base_calculo("base_calculo_csll", csll_retido)
+        base_calculo_inss = _base_calculo("base_calculo_inss", inss_retido)
+        base_calculo_ir = _base_calculo("base_calculo_ir", ir_retido)
+        base_calculo_icms = _base_calculo("base_calculo_icms", icms_retido)
+
+        tipo_retencao_pis_cofins = {
+            (False, False, False): "0",
+            (True, True, True): "3",
+            (True, True, False): "4",
+            (True, False, False): "5",
+            (False, True, False): "6",
+            (False, True, True): "7",
+            (False, False, True): "8",
+            (True, False, True): "9",
+        }[(pis_retido, cofins_retido, csll_retido)]
+
         return {
             "aliquota": service.get("aliquota")
             if company.focusnfe_tax_rate_format == "decimal"
@@ -164,6 +214,34 @@ class FocusnfeNfse(FocusnfeNfseBase):
             "discriminacao": service.get("discriminacao"),
             "iss_retido": service.get("iss_retido"),
             **(
+                {
+                    "situacao_tributaria_pis_cofins": situacao_tributaria_pis_cofins,
+                    "base_calculo_pis_cofins": base_calculo_pis_cofins,
+                    "aliquota_pis": round(service.get("aliquota_pis", 0), 2),
+                    "aliquota_cofins": round(service.get("aliquota_cofins", 0), 2),
+                }
+                if situacao_tributaria_pis_cofins
+                else {}
+            ),
+            **(
+                {"tipo_retencao_pis_cofins": tipo_retencao_pis_cofins}
+                if pis_retido or cofins_retido or csll_retido
+                else {}
+            ),
+            "aliquota_csll": round(service.get("aliquota_csll", 0), 2),
+            "aliquota_ir": round(service.get("aliquota_ir", 0), 2),
+            "aliquota_inss": round(service.get("aliquota_inss", 0), 2),
+            "aliquota_cp": round(service.get("aliquota_inss", 0), 2),
+            "aliquota_icms": round(service.get("aliquota_icms", 0), 2),
+            "base_calculo_csll": base_calculo_csll,
+            "base_calculo_ir": base_calculo_ir,
+            "base_calculo_inss": base_calculo_inss,
+            "base_calculo_cp": base_calculo_inss,
+            "base_calculo_icms": base_calculo_icms,
+            "inss_retido": inss_retido,
+            "ir_retido": ir_retido,
+            "icms_retido": icms_retido,
+            **(
                 {"codigo_municipio": service.get("municipio_prestacao_servico")}
                 if service.get("municipio_prestacao_servico") != "3507605"
                 else {}
@@ -173,12 +251,13 @@ class FocusnfeNfse(FocusnfeNfseBase):
             "codigo_cnae": service.get(company.focusnfe_nfse_cnae_code_value),
             "valor_iss": round(service.get("valor_iss", 0), 2),
             "valor_iss_retido": round(service.get("valor_iss_retido", 0), 2),
-            "valor_pis": round(service.get("valor_pis_retido", 0), 2),
-            "valor_cofins": round(service.get("valor_cofins_retido", 0), 2),
+            "valor_pis": round(service.get("valor_pis", 0), 2),
+            "valor_cofins": round(service.get("valor_cofins", 0), 2),
             "valor_inss": round(service.get("valor_inss_retido", 0), 2),
             "valor_ir": round(service.get("valor_ir_retido", 0), 2),
             "valor_csll": round(service.get("valor_csll_retido", 0), 2),
             "valor_deducoes": round(service.get("valor_deducoes", 0), 2),
+            "discriminacao_deducoes": service.get("discriminacao_deducoes") or "",
             "fonte_total_tributos": service.get("fonte_total_tributos", "IBPT"),
             "desconto_incondicionado": round(
                 service.get("valor_desconto_incondicionado", 0), 2
@@ -195,21 +274,6 @@ class FocusnfeNfse(FocusnfeNfseBase):
             ),
             "ibs_cbs_situacao_tributaria": service.get("ibs_cbs_situacao_tributaria"),
             "codigo_tributacao_nacional_iss": service.get("codigo_tributacao_nacional"),
-            "ibs_cbs_base_calculo": service.get("ibs_cbs_base_calculo"),
-            "ibs_uf_aliquota": round(service.get("ibs_uf_aliquota", 0), 2)
-            if service.get("ibs_uf_aliquota")
-            else None,
-            "ibs_mun_aliquota": 0.0,
-            "cbs_aliquota": round(service.get("cbs_aliquota", 0), 2)
-            if service.get("cbs_aliquota")
-            else None,
-            "ibs_uf_valor": round(service.get("ibs_uf_valor", 0), 2)
-            if service.get("ibs_uf_valor")
-            else None,
-            "ibs_mun_valor": 0.0,
-            "cbs_valor": round(service.get("cbs_valor", 0), 2)
-            if service.get("cbs_valor")
-            else None,
         }
 
     def _prepare_recipient_data(self, recipient, identification, company):
