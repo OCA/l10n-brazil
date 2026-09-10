@@ -66,3 +66,24 @@ l10n_br_coa.account_tag_compensation_liability,Compensação / Passivo,accounts,
 l10n_br_coa.account_tag_production_cost,Custos de Produção / Apropriação,accounts,base.br
 l10n_br_coa.account_tag_production_transfer,Custos de Produção / (-) Transferência para Estoque,accounts,base.br
 l10n_br_coa.account_tag_result,Resultado / Contas de Resultado (todas),accounts,base.br
+l10n_br_coa.account_tag_cash_and_equivalents,Fluxo de Caixa / Caixa e Equivalentes de Caixa,accounts,base.br
+l10n_br_coa.account_tag_cash_flow_operating,Fluxo de Caixa / Atividades Operacionais,accounts,base.br
+l10n_br_coa.account_tag_cash_flow_investing,Fluxo de Caixa / Atividades de Investimento,accounts,base.br
+l10n_br_coa.account_tag_cash_flow_financing,Fluxo de Caixa / Atividades de Financiamento,accounts,base.br
+l10n_br_coa.account_tag_cash_flow_non_cash,Fluxo de Caixa / Não Afeta o Caixa,accounts,base.br
+l10n_br_coa.account_tag_depreciation_expense,"Ajuste ao Resultado / Depreciação, Amortização e Exaustão",accounts,base.br
+l10n_br_coa.account_tag_provision_expense,Ajuste ao Resultado / Constituição e Reversão de Provisões,accounts,base.br
+l10n_br_coa.account_tag_equity_method_result,Ajuste ao Resultado / Resultado de Equivalência Patrimonial,accounts,base.br
+l10n_br_coa.account_tag_disposal_result,Ajuste ao Resultado / Resultado na Baixa de Ativo,accounts,base.br
+l10n_br_coa.account_tag_equity_valuation_adjustment,Patrimônio Líquido / Ajustes de Avaliação Patrimonial,accounts,base.br
+l10n_br_coa.account_tag_oci_translation,Resultado Abrangente / Variação Cambial de Investimento no Exterior,accounts,base.br
+l10n_br_coa.account_tag_oci_hedge,Resultado Abrangente / Hedge de Fluxo de Caixa,accounts,base.br
+l10n_br_coa.account_tag_oci_actuarial,Resultado Abrangente / Ganhos e Perdas Atuariais,accounts,base.br
+l10n_br_coa.account_tag_oci_fair_value,Resultado Abrangente / Ajuste a Valor Justo,accounts,base.br
+l10n_br_coa.account_tag_dva_inputs,Valor Adicionado / Insumos Adquiridos de Terceiros,accounts,base.br
+l10n_br_coa.account_tag_dva_personnel,Valor Adicionado / Pessoal,accounts,base.br
+l10n_br_coa.account_tag_dva_taxes,"Valor Adicionado / Impostos, Taxas e Contribuições",accounts,base.br
+l10n_br_coa.account_tag_dva_third_party_capital,Valor Adicionado / Remuneração de Capitais de Terceiros,accounts,base.br
+l10n_br_coa.account_tag_dva_own_capital,Valor Adicionado / Remuneração de Capitais Próprios,accounts,base.br
+l10n_br_coa.account_tag_dva_transfer,Valor Adicionado / Recebido em Transferência,accounts,base.br
+l10n_br_coa.account_tag_cash_flow_result_adjustment,Fluxo de Caixa / Neutralizado por Ajuste ao Resultado,accounts,base.br
