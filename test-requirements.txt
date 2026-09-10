@@ -2,3 +2,8 @@
 odoo-test-helper  # Needed by spec_driven_model
 pyopenssl==22.1.0
 xmldiff
+# l10n_br_sped_efd_pis_cofins reads the assessment to build block M, and the
+# assessment is still under review in PR #4882: until it is merged the CI has
+# no other way to resolve the dependency.
+odoo-addon-l10n_br_tax_assessment @ git+https://github.com/OCA/l10n-brazil.git@refs/pull/4882/head#subdirectory=l10n_br_tax_assessment
+odoo-addon-account-tax-balance>=16.0dev,<16.1dev  # Needed by l10n_br_tax_assessment
