@@ -8,8 +8,9 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK_SIMPLES_AL
 from odoo.addons.l10n_br_nfse.constants.nfse import ISSQN_TO_TRIBUTACAO_ISS
 from odoo.addons.spec_driven_model.models import spec_models
 
-# xDescServ e TSDesc2000 no esquema: 2000 caracteres. A descricao composta da nota
-# real tem cerca de 330, entao o corte e rede de seguranca, nao regra de negocio.
+# xDescServ is TSDesc2000 in the schema: 2000 characters. The composed
+# description of a real note runs around 330, so the cut is a safety net and
+# not a business rule.
 LIMITE_XDESCSERV = 2000
 
 
@@ -97,7 +98,12 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
     )
 
     # Fields mapped to tags
-    nfse10_cLocPrestacao = fields.Char(related="issqn_fg_city_id.ibge_code")
+    # Where the service is PERFORMED, not where the ISSQN taxable event is:
+    # see issqn_service_city_id in l10n_br_fiscal. It used to be related to the
+    # taxable event, which falls back to the company city when there is no
+    # municipal code, and that is why the note always went out with the
+    # issuer's city.
+    nfse10_cLocPrestacao = fields.Char(related="issqn_service_city_id.ibge_code")
     nfse10_cTribNac = fields.Char(related="national_taxation_code_id.code")
     nfse10_cTribMun = fields.Char(related="city_taxation_code_id.code")
     nfse10_cNBS = fields.Char(related="nbs_id.code_unmasked")
