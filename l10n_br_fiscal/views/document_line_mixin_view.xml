@@ -282,7 +282,7 @@
                                 <group name="icms" string="ICMS">
                                     <field
                                         name="icms_tax_id"
-                                        attrs="{'invisible': [('tax_framework', 'in', ('1', '2'))]}"
+                                        attrs="{'invisible': [('tax_framework', 'in', ('1', '2'))], 'readonly': [('icms_tax_benefit_id', '!=', False)]}"
                                         options="{'no_create': True, 'no_create_edit': True}"
                                     />
                                     <field
@@ -367,6 +367,11 @@
                                         />
                                         <field
                                             name="icms_relief_id"
+                                            force_save="1"
+                                            attrs="{'readonly': [('icms_tax_id', '!=', False), ('icms_cst_code', 'not in', ('20', '30', '40', '41', '50', '70', '90'))], 'invisible': ['|', ('tax_framework', 'in', ('1', '2')), ('icms_cst_code', 'not in', ('20', '30', '40', '41', '50', '70', '90'))]}"
+                                        />
+                                        <field
+                                            name="icms_relief_type"
                                             force_save="1"
                                             attrs="{'readonly': [('icms_tax_id', '!=', False), ('icms_cst_code', 'not in', ('20', '30', '40', '41', '50', '70', '90'))], 'invisible': ['|', ('tax_framework', 'in', ('1', '2')), ('icms_cst_code', 'not in', ('20', '30', '40', '41', '50', '70', '90'))]}"
                                         />
