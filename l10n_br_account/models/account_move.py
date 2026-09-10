@@ -507,6 +507,35 @@ class AccountMove(models.Model):
             yield
         self.update_payment_term_number()
 
+    @contextmanager
+    def _sync_tax_lines(self, container):
+        with super()._sync_tax_lines(container):
+            yield
+        self._sync_fiscal_product_amounts(container)
+
+    def _sync_fiscal_product_amounts(self, container):
+        moves = container["records"].filtered(
+            lambda move: move.fiscal_operation_id and move.is_invoice(True)
+        )
+        lines = moves.line_ids.filtered(lambda line: line.display_type == "product")
+        amount_currency_field = lines._fields["amount_currency"]
+        for line in lines:
+            if self.env.is_protected(amount_currency_field, line):
+                continue
+            amount_currency = (
+                line._fiscal_unsigned_amount_currency() * line.move_id.direction_sign
+            )
+            if line.currency_id.compare_amounts(line.amount_currency, amount_currency):
+                line.amount_currency = amount_currency
+            if line.currency_id == line.company_id.currency_id:
+                if line.company_id.currency_id.compare_amounts(
+                    line.balance, amount_currency
+                ):
+                    line.balance = amount_currency
+        if lines:
+            self.env.add_to_compute(lines._fields["debit"], lines)
+            self.env.add_to_compute(lines._fields["credit"], lines)
+
     def update_payment_term_number(self):
         for move in self.filtered(
             lambda m: m.fiscal_operation_id and m.is_invoice(include_receipts=True)
