@@ -4,14 +4,14 @@
 "tax_classification_000003","000003","Regime automotivo - projetos incentivados (art. 311)","Regime automotivo - projetos incentivados (art. 311)","2","False","True","False","tax_ibs_0_1","tax_cbs_0_9"
 "tax_classification_000004","000004","Regime automotivo - projetos incentivados (art. 312)","Regime automotivo - projetos incentivados (art. 312)","2","False","True","False","tax_ibs_0_1","tax_cbs_0_9"
 
-"tax_classification_010001","010001","Operações do FGTS não realizadas pela Caixa Econômica Federal","Operações do FGTS não realizadas pela Caixa Econômica Federal","5","False","False","False","",""
-"tax_classification_010002","010002","Operações do serviço financeiro","Operações do serviço financeiro","5","False","False","False","",""
+"tax_classification_010001","010001","Operações do FGTS não realizadas pela Caixa Econômica Federal","Operações do FGTS não realizadas pela Caixa Econômica Federal","5","False","False","False","tax_ibs_0_1_cst010","tax_cbs_0_9_cst010"
+"tax_classification_010002","010002","Operações do serviço financeiro","Operações do serviço financeiro","5","False","False","False","tax_ibs_0_1_cst010","tax_cbs_0_9_cst010"
 
-"tax_classification_011001","011001","Planos de assistência funerária.","Planos de assistência funerária.","4","False","False","False","tax_ibs_0_1_red_60","tax_cbs_0_9_red_60"
-"tax_classification_011002","011002","Planos de assistência à saúde","Planos de assistência à saúde","4","False","False","False","tax_ibs_0_1_red_60","tax_cbs_0_9_red_60"
-"tax_classification_011003","011003","Intermediação de planos de assistência à saúde","Intermediação de planos de assistência à saúde","4","False","False","False","tax_ibs_0_1_red_60","tax_cbs_0_9_red_60"
-"tax_classification_011004","011004","Concursos e prognósticos","Concursos e prognósticos","4","False","False","False","tax_ibs_0_1","tax_cbs_0_9"
-"tax_classification_011005","011005","Planos de assistência à saúde de animais domésticos","Planos de assistência à saúde de animais domésticos","4","False","False","False","tax_ibs_0_1_red_30","tax_cbs_0_9_red_30"
+"tax_classification_011001","011001","Planos de assistência funerária.","Planos de assistência funerária.","4","False","False","False","tax_ibs_0_1_red_60_cst011","tax_cbs_0_9_red_60_cst011"
+"tax_classification_011002","011002","Planos de assistência à saúde","Planos de assistência à saúde","4","False","False","False","tax_ibs_0_1_red_60_cst011","tax_cbs_0_9_red_60_cst011"
+"tax_classification_011003","011003","Intermediação de planos de assistência à saúde","Intermediação de planos de assistência à saúde","4","False","False","False","tax_ibs_0_1_red_60_cst011","tax_cbs_0_9_red_60_cst011"
+"tax_classification_011004","011004","Concursos e prognósticos","Concursos e prognósticos","4","False","False","False","tax_ibs_0_1_cst011","tax_cbs_0_9_cst011"
+"tax_classification_011005","011005","Planos de assistência à saúde de animais domésticos","Planos de assistência à saúde de animais domésticos","4","False","False","False","tax_ibs_0_1_red_30_cst011","tax_cbs_0_9_red_30_cst011"
 
 "tax_classification_200001","200001","Aquisições realizadas entre empresas autorizadas a operar em zonas de processamento de exportação","Aquisições realizadas entre empresas autorizadas a operar em zonas de processamento de exportação","2","False","False","False","tax_ibs_0_1_red_100","tax_cbs_0_9_red_100"
 "tax_classification_200002","200002","Fornecimento ou importação para produtor rural não contribuinte ou TAC","Fornecimento ou importação para produtor rural não contribuinte ou TAC","2","False","False","False","tax_ibs_0_1_red_100","tax_cbs_0_9_red_100"
