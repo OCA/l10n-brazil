@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Família ATIVO IMOBILIZADO — movimentações sem venda (a venda/desincorporação já
+  está em fiscal_operation_venda.xml). Bem do ativo não circula economicamente:
+  não incidência de ICMS (CST 41), IPI (CST 53 saída / 49 entrada) e PIS/COFINS
+  (CST 08 saída / 98 entrada). product_type=08.
+
+  Distinção: 5554/1554 = MEU ativo usado fora do estabelecimento (aqui);
+  5908/5909 = MEU ativo cedido a terceiro sob comodato (família comodato);
+  5552/1552 = transferência de ativo entre filiais (família transferência).
+
+  Nota do agente fiscal: o core `fo_entrada_reparo` usa CST IPI 00 e PIS/COFINS 99
+  nas entradas, o que é discutível; aqui adotamos 49 (outras entradas) e 98
+  (outras op. de entrada), coerentes com o tipo da operação. Registrar como
+  divergência a alinhar em PR de core.
+-->
+<odoo noupdate="1">
+
+    <!-- Remessa de ativo para uso fora do estabelecimento (retorno é alvo) -->
+    <record id="fo_retorno_ativo_uso_fora" model="l10n_br_fiscal.operation">
+        <field name="code">RT-AUF</field>
+        <field name="name">Retorno de bem do ativo usado fora do estabelecimento</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">other</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_retorno_ativo_uso_fora_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_retorno_ativo_uso_fora" />
+        <field name="name">Retorno de bem do ativo usado fora do estabelecimento</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1554" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2554" />
+        <field name="product_type">08</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ret_auf_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_retorno_ativo_uso_fora_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_41" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ret_auf_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_retorno_ativo_uso_fora_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_0" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_98" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ret_auf_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_retorno_ativo_uso_fora_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_0" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_98" />
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_remessa_ativo_uso_fora" model="l10n_br_fiscal.operation">
+        <field name="code">REM-AUF</field>
+        <field
+            name="name"
+        >Remessa de bem do ativo para uso fora do estabelecimento</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">return_out</field>
+        <field name="return_fiscal_operation_id" ref="fo_retorno_ativo_uso_fora" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_remessa_ativo_uso_fora_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_remessa_ativo_uso_fora" />
+        <field
+            name="name"
+        >Remessa de bem do ativo para uso fora do estabelecimento</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5554" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6554" />
+        <field name="product_type">08</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_auf_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_ativo_uso_fora_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_41" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_auf_ipi" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_ativo_uso_fora_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_auf_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_ativo_uso_fora_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_08" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_auf_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_ativo_uso_fora_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_08" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- Remessa de ativo para conserto (lado dono) — retorno 1916/2916 -->
+    <record id="fo_retorno_ativo_conserto" model="l10n_br_fiscal.operation">
+        <field name="code">RT-AC</field>
+        <field
+            name="name"
+        >Retorno de bem do ativo enviado para conserto ou reparo</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">other</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_retorno_ativo_conserto_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_retorno_ativo_conserto" />
+        <field
+            name="name"
+        >Retorno de bem do ativo enviado para conserto ou reparo</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1916" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2916" />
+        <field name="product_type">08</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ret_ac_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_retorno_ativo_conserto_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_41" />
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_remessa_ativo_conserto" model="l10n_br_fiscal.operation">
+        <field name="code">REM-AC</field>
+        <field name="name">Remessa de bem do ativo para conserto ou reparo</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">return_out</field>
+        <field name="return_fiscal_operation_id" ref="fo_retorno_ativo_conserto" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_remessa_ativo_conserto_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_remessa_ativo_conserto" />
+        <field name="name">Remessa de bem do ativo para conserto ou reparo</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5915" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6915" />
+        <field name="product_type">08</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_ac_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_ativo_conserto_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_41" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_ac_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_ativo_conserto_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_08" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_ac_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_ativo_conserto_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_08" />
+        <field name="state">approved</field>
+    </record>
+
+
+    <!-- ================= Simples Nacional =================
+         Linhas irmãs para empresa do Simples (company_tax_framework=1): o
+         seletor de linha prefere a mais específica, então a empresa SN casa
+         estas (CSOSN via grupo icmssn) e os demais regimes casam as genéricas
+         (CST). Empresa em excesso de sublimite (framework=2) recolhe ICMS fora
+         do DAS e cai na genérica com CST — correto. Regra geral: movimento sem
+         receita/titularidade = CSOSN 400; ajuste/simbólica = 900; linha de
+         receita não fixa ICMS (herda a tributação SN da empresa). Mapa a
+         ratificar com contador (transferência de mercadoria: ADC 49). -->
+    <record
+        id="fo_retorno_ativo_uso_fora_line_sn"
+        model="l10n_br_fiscal.operation.line"
+    >
+        <field name="fiscal_operation_id" ref="fo_retorno_ativo_uso_fora" />
+        <field
+            name="name"
+        >Retorno de bem do ativo usado fora do estabelecimento - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1554" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2554" />
+        <field name="product_type">08</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ret_auf_pis_sn" model="l10n_br_fiscal.tax.definition">
+        <field
+            name="fiscal_operation_line_id"
+            ref="fo_retorno_ativo_uso_fora_line_sn"
+        />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_0" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_98" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_ret_auf_cofins_sn" model="l10n_br_fiscal.tax.definition">
+        <field
+            name="fiscal_operation_line_id"
+            ref="fo_retorno_ativo_uso_fora_line_sn"
+        />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_0" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_98" />
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_retorno_ativo_uso_fora_line_sn_icmssn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field
+            name="fiscal_operation_line_id"
+            ref="fo_retorno_ativo_uso_fora_line_sn"
+        />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_remessa_ativo_uso_fora_line_sn"
+        model="l10n_br_fiscal.operation.line"
+    >
+        <field name="fiscal_operation_id" ref="fo_remessa_ativo_uso_fora" />
+        <field
+            name="name"
+        >Remessa de bem do ativo para uso fora do estabelecimento - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5554" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6554" />
+        <field name="product_type">08</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_auf_ipi_sn" model="l10n_br_fiscal.tax.definition">
+        <field
+            name="fiscal_operation_line_id"
+            ref="fo_remessa_ativo_uso_fora_line_sn"
+        />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_auf_pis_sn" model="l10n_br_fiscal.tax.definition">
+        <field
+            name="fiscal_operation_line_id"
+            ref="fo_remessa_ativo_uso_fora_line_sn"
+        />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_08" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_auf_cofins_sn" model="l10n_br_fiscal.tax.definition">
+        <field
+            name="fiscal_operation_line_id"
+            ref="fo_remessa_ativo_uso_fora_line_sn"
+        />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_08" />
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_remessa_ativo_uso_fora_line_sn_icmssn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field
+            name="fiscal_operation_line_id"
+            ref="fo_remessa_ativo_uso_fora_line_sn"
+        />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_retorno_ativo_conserto_line_sn"
+        model="l10n_br_fiscal.operation.line"
+    >
+        <field name="fiscal_operation_id" ref="fo_retorno_ativo_conserto" />
+        <field
+            name="name"
+        >Retorno de bem do ativo enviado para conserto ou reparo - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1916" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2916" />
+        <field name="product_type">08</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_retorno_ativo_conserto_line_sn_icmssn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field
+            name="fiscal_operation_line_id"
+            ref="fo_retorno_ativo_conserto_line_sn"
+        />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_remessa_ativo_conserto_line_sn"
+        model="l10n_br_fiscal.operation.line"
+    >
+        <field name="fiscal_operation_id" ref="fo_remessa_ativo_conserto" />
+        <field
+            name="name"
+        >Remessa de bem do ativo para conserto ou reparo - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5915" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6915" />
+        <field name="product_type">08</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_ac_pis_sn" model="l10n_br_fiscal.tax.definition">
+        <field
+            name="fiscal_operation_line_id"
+            ref="fo_remessa_ativo_conserto_line_sn"
+        />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_08" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_ac_cofins_sn" model="l10n_br_fiscal.tax.definition">
+        <field
+            name="fiscal_operation_line_id"
+            ref="fo_remessa_ativo_conserto_line_sn"
+        />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_08" />
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_remessa_ativo_conserto_line_sn_icmssn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field
+            name="fiscal_operation_line_id"
+            ref="fo_remessa_ativo_conserto_line_sn"
+        />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+
+</odoo>
