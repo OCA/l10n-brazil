@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright (C) 2026  Renato Lima - Akretion <renato.lima@akretion.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record id="fci_import_wizard_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.fci.import.wizard.form</field>
+        <field name="model">l10n_br_fiscal.fci.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import FCI File">
+                <field name="state" invisible="1" />
+                <group attrs="{'invisible': [('state', '!=', 'init')]}">
+                    <field
+                        name="fci_id"
+                        readonly="1"
+                        force_save="1"
+                        attrs="{'invisible': [('fci_id', '=', False)]}"
+                    />
+                    <field name="file" filename="filename" />
+                    <field name="filename" invisible="1" />
+                </group>
+                <div attrs="{'invisible': [('state', '!=', 'init')]}">
+                    <p>
+                        Select a FCI file in the layout of the Ato COTEPE ICMS
+                        61/2012:
+                    </p>
+                    <ul>
+                        <li>
+                            a file to be transmitted, generated here or in
+                            another platform: a draft FCI is created from it,
+                            so that it can be reviewed and completed in Odoo;
+                        </li>
+                        <li>
+                            a file returned by the tax administration, from
+                            the restricted query of the FCI web system (option
+                            "Download Arquivo de Retorno"), either the TXT or
+                            the ZIP: the FCI control numbers are written in
+                            the goods of the FCI it comes from.
+                        </li>
+                    </ul>
+                </div>
+                <group attrs="{'invisible': [('state', '!=', 'done')]}">
+                    <field name="result" nolabel="1" colspan="2" />
+                </group>
+                <footer>
+                    <button
+                        name="action_import"
+                        string="Import"
+                        type="object"
+                        class="btn-primary"
+                        attrs="{'invisible': [('state', '!=', 'init')]}"
+                    />
+                    <button
+                        name="action_open_fci"
+                        string="Open FCI"
+                        type="object"
+                        class="btn-primary"
+                        attrs="{'invisible': [('state', '!=', 'done')]}"
+                    />
+                    <button
+                        string="Cancel"
+                        class="btn-default"
+                        special="cancel"
+                        attrs="{'invisible': [('state', '!=', 'init')]}"
+                    />
+                    <button
+                        string="Close"
+                        class="btn-secondary"
+                        special="cancel"
+                        attrs="{'invisible': [('state', '!=', 'done')]}"
+                    />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>
