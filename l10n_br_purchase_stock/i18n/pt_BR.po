@@ -1,0 +1,371 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* purchase_stock
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-02-02 02:25+0000\n"
+"PO-Revision-Date: 2024-05-20 22:42+0000\n"
+"Last-Translator: Rodrigo Macedo <sottomaiormacedotec@users.noreply."
+"translation.odoo-community.org>\n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.17\n"
+
+#. module: l10n_br_purchase_stock
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_stock.l10n_br_purchase_res_config_settings_form
+msgid ""
+"<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-"
+"specific.\" aria-label=\"Values set here are company-specific.\" "
+"groups=\"base.group_multi_company\" role=\"img\"/>"
+msgstr ""
+"<span class=\"fa fa-lg fa-building-o\" title=\"Os valores definidos aqui são "
+"específicos da empresa.\" aria-label=\"Os valores definidos aqui são "
+"específicos da empresa.\" groups=\"base.group_multi_company\" role=\"img\"/>"
+
+#. module: l10n_br_purchase_stock
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_purchase_order__button_create_invoice_invisible
+msgid "Button Create Invoice Invisible"
+msgstr "Botão Criar fatura invisível"
+
+#. module: l10n_br_purchase_stock
+#: model:ir.model,name:l10n_br_purchase_stock.model_res_company
+msgid "Companies"
+msgstr "Empresas"
+
+#. module: l10n_br_purchase_stock
+#: model:ir.model,name:l10n_br_purchase_stock.model_res_config_settings
+msgid "Config Settings"
+msgstr "Ajustes de Configurações"
+
+#. module: l10n_br_purchase_stock
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_res_company__purchase_fiscal_operation_id
+msgid "Default Fiscal Operation for Purchase"
+msgstr "Operação Fiscal Padrão para Compra"
+
+#. module: l10n_br_purchase_stock
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_purchase_order__display_name
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_purchase_order_line__display_name
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_invoice_onshipping__display_name
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_move__display_name
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_picking__display_name
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_rule__display_name
+msgid "Display Name"
+msgstr "Nome Exibido"
+
+#. module: l10n_br_purchase_stock
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_purchase_order__id
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_purchase_order_line__id
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_res_config_settings__id
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_invoice_onshipping__id
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_move__id
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_picking__id
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_rule__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_br_purchase_stock
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_stock.l10n_br_purchase_res_config_settings_form
+msgid ""
+"If enabled, activates 3-way matching on vendor bills : the items must be "
+"received in order to pay the invoice."
+msgstr ""
+"Se ativado, ativa a conciliação de 3 vias nas faturas de fornecedores: os "
+"itens devem ser recebidos para pagar a fatura."
+
+#. module: l10n_br_purchase_stock
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_purchase_order____last_update
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_purchase_order_line____last_update
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_res_company____last_update
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_res_config_settings____last_update
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_invoice_onshipping____last_update
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_move____last_update
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_picking____last_update
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_rule____last_update
+msgid "Last Modified on"
+msgstr "Última Modificação em"
+
+#. module: l10n_br_purchase_stock
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_purchase_order__purchase_invoicing_policy
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_res_company__purchase_invoicing_policy
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_res_config_settings__purchase_invoicing_policy
+msgid "Purchase Invoicing Policy"
+msgstr ""
+
+#. module: l10n_br_purchase_stock
+#: code:addons/l10n_br_purchase_stock/models/res_company.py:0
+#: model:ir.model,name:l10n_br_purchase_stock.model_purchase_order
+#: model:ir.model.fields.selection,name:l10n_br_purchase_stock.selection__res_company__purchase_invoicing_policy__purchase_order
+#, python-format
+msgid "Purchase Order"
+msgstr "Pedido de Compra"
+
+#. module: l10n_br_purchase_stock
+#: model:ir.model,name:l10n_br_purchase_stock.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Linha de Pedido de Compra"
+
+#. module: l10n_br_purchase_stock
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_stock.l10n_br_purchase_res_config_settings_form
+msgid "Select invoiced based on order or picking"
+msgstr "Selecione faturas com base no pedido ou na separação de mercadorias"
+
+#. module: l10n_br_purchase_stock
+#: model:ir.model,name:l10n_br_purchase_stock.model_stock_invoice_onshipping
+msgid "Stock Invoice Onshipping"
+msgstr "Faturamento ao Enviar"
+
+#. module: l10n_br_purchase_stock
+#: model:ir.model,name:l10n_br_purchase_stock.model_stock_move
+msgid "Stock Move"
+msgstr "Movimento de Estoque"
+
+#. module: l10n_br_purchase_stock
+#: code:addons/l10n_br_purchase_stock/models/res_company.py:0
+#: model:ir.model.fields.selection,name:l10n_br_purchase_stock.selection__res_company__purchase_invoicing_policy__stock_picking
+#, python-format
+msgid "Stock Picking"
+msgstr "Separação de Estoque"
+
+#. module: l10n_br_purchase_stock
+#: model:ir.model,name:l10n_br_purchase_stock.model_stock_rule
+msgid "Stock Rule"
+msgstr "Regra de Estoque"
+
+#. module: l10n_br_purchase_stock
+#: model:ir.model,name:l10n_br_purchase_stock.model_stock_picking
+msgid "Transfer"
+msgstr "Transferir"
+
+#~ msgid "Purchase Create Invoice Policy"
+#~ msgstr "Política de Criação de Faturas de Compra"
+
+#~ msgid "<span class=\"o_stat_text\">Purchase Orders</span>"
+#~ msgstr "<span class=\"o_stat_text\">Ordens de compra</span>"
+
+#~ msgid "<strong>Shipping address:</strong>"
+#~ msgstr "<strong>Endereço de envio:</strong>"
+
+#~ msgid "Action"
+#~ msgstr "Ação"
+
+#~ msgid "Buy"
+#~ msgstr "Comprar"
+
+#~ msgid "Buy rule"
+#~ msgstr "Regra de Compra"
+
+#~ msgid "Buy to Resupply"
+#~ msgstr "Compre para reabastecer"
+
+#~ msgid "Created Purchase Order Line"
+#~ msgstr "Linha de pedidos de compra criada"
+
+#~ msgid "Deliver To"
+#~ msgstr "Entregar para"
+
+#~ msgid ""
+#~ "Depending on the modules installed, this will allow you to define the "
+#~ "route of the product: whether it will be bought, manufactured, MTO, etc."
+#~ msgstr ""
+#~ "Dependendo dos módulos instalados, isso permitirá definir a rota do "
+#~ "produto: se ele será comprado, fabricado, MTO, etc."
+
+#~ msgid "Destination Location Type"
+#~ msgstr "Tipo de localização de destino"
+
+#~ msgid "Downstream Moves"
+#~ msgstr "Movimentos Downstream"
+
+#~ msgid "Exception(s) occurred on the purchase order(s):"
+#~ msgstr "Exceções(s) ocorreram na ordem de compra:"
+
+#~ msgid "Exception(s):"
+#~ msgstr "Exceções:"
+
+#~ msgid "Incoming  Products"
+#~ msgstr "Recebimentos de Produtos"
+
+#~ msgid "Incoming Shipments"
+#~ msgstr "Remessas Recebidas"
+
+#~ msgid ""
+#~ "International Commercial Terms are a series of predefined commercial "
+#~ "terms used in international transactions."
+#~ msgstr ""
+#~ "International Commercial Terms são uma série de termos comerciais pré-"
+#~ "definidos utilizados em transações internacionais."
+
+#~ msgid "Invoice"
+#~ msgstr "Fatura"
+
+#~ msgid "Invoice Line"
+#~ msgstr "Linha da Fatura"
+
+#~ msgid "Is Shipped"
+#~ msgstr "É enviado"
+
+#~ msgid "Is the Sale Module Installed"
+#~ msgstr "O módulo de venda está instalado"
+
+#~ msgid "Logistics"
+#~ msgstr "Logística"
+
+#~ msgid "Lot/Serial"
+#~ msgstr "Lote/Serie"
+
+#~ msgid "Manual actions may be needed."
+#~ msgstr "Ações manuais podem ser necessárias."
+
+#~ msgid ""
+#~ "Margin of error for vendor lead times. When the system generates Purchase "
+#~ "Orders for reordering products,they will be scheduled that many days "
+#~ "earlier to cope with unexpected vendor delays."
+#~ msgstr ""
+#~ "Margem de erro para tempo de entrega de fornecedor. Quando o sistema "
+#~ "gerar Ordens de Compra para recomprar produtos, eles serão agendados "
+#~ "nesses número de dias anteriormente para levar em conta demoras "
+#~ "inesperadas de fornecedores."
+
+#~ msgid "Minimum Inventory Rule"
+#~ msgstr "Regra de Estoque Mínimo"
+
+#~ msgid "Move forward expected delivery dates by"
+#~ msgstr "Avance as datas de entrega previstas por"
+
+#~ msgid "Next transfer(s) impacted:"
+#~ msgstr "Próximas transferências afetadas:"
+
+#~ msgid "Orderpoint"
+#~ msgstr "Ponto de pedido"
+
+#~ msgid "Picking count"
+#~ msgstr "Resultado da Separação"
+
+#~ msgid "Procurement Group"
+#~ msgstr "Grupo de Aquisição"
+
+#~ msgid "Product Template"
+#~ msgstr "Modelo de Produto"
+
+#~ msgid "Pull & Push"
+#~ msgstr "Puxe empurre"
+
+#~ msgid "Pull From"
+#~ msgstr "Puxar de"
+
+#~ msgid "Purchase Orders"
+#~ msgstr "Pedidos de Compra"
+
+#~ msgid "Purchase Report"
+#~ msgstr "Relatório de Compra"
+
+#~ msgid "Purchase order count"
+#~ msgstr "Contagem Ordem de Compra"
+
+#~ msgid "Push To"
+#~ msgstr "Empurre para"
+
+#~ msgid "Receipt"
+#~ msgstr "Recebimento"
+
+#~ msgid "Receive Products"
+#~ msgstr "Receber Produtos"
+
+#~ msgid "Receptions"
+#~ msgstr "Recebimentos"
+
+#~ msgid "Request your vendors to deliver to your customers"
+#~ msgstr "Solicite que seus fornecedores entreguem aos seus clientes"
+
+#~ msgid "Reservation"
+#~ msgstr "Reserva"
+
+#~ msgid "Routes"
+#~ msgstr "Rotas"
+
+#~ msgid "Schedule receivings earlier to avoid delays"
+#~ msgstr "Agende recebimentos com antecedência para evitar atrasos"
+
+#~ msgid "Stock Moves"
+#~ msgstr "Movimentos de Estoque"
+
+#~ msgid "Stock rule report"
+#~ msgstr "Relatório de regra de estoque"
+
+#~ msgid "Technical field used to display the Drop Ship Address"
+#~ msgstr "Campo técnico usado para exibir o endereço de envio direto"
+
+#~ msgid ""
+#~ "The quantities on your purchase order indicate less than billed. You "
+#~ "should ask for a refund. "
+#~ msgstr ""
+#~ "As quantidades em seu pedido de compra indicam menos do que faturado. "
+#~ "Você deve pedir um reembolso."
+
+#~ msgid ""
+#~ "This adds a dropshipping route to apply on products in order to request "
+#~ "your vendors to deliver to your customers. A product to dropship will "
+#~ "generate a purchase request for quotation once the sales order confirmed. "
+#~ "This is a on-demand flow. The requested delivery address will be the "
+#~ "customer delivery address and not your warehouse."
+#~ msgstr ""
+#~ "Isso adiciona uma rota de dropshipping para aplicar em produtos a fim de "
+#~ "solicitar que seus fornecedores entreguem aos seus clientes. Um produto "
+#~ "para dropship gerará uma solicitação de compra para cotação assim que o "
+#~ "pedido de venda for confirmado. Este é um fluxo sob demanda. O endereço "
+#~ "de entrega solicitado será o endereço de entrega do cliente e não o seu "
+#~ "armazém."
+
+#~ msgid "This will determine operation type of incoming shipment"
+#~ msgstr "Isso determinará o tipo de operação da remessa de entrada"
+
+#~ msgid ""
+#~ "Unable to cancel purchase order %s as some receptions have already been "
+#~ "done."
+#~ msgstr ""
+#~ "ão é possível cancelar o pedido %s como algumas recepções já feitas."
+
+#~ msgid "Warehouse"
+#~ msgstr "Armazém"
+
+#~ msgid "When products are bought, they can be delivered to this warehouse"
+#~ msgstr ""
+#~ "Quando os produtos são comprados , eles podem ser entregues nesse armazém"
+
+#~ msgid ""
+#~ "When products are needed in <b>%s</b>, <br/> a request for quotation is "
+#~ "created to fulfill the need."
+#~ msgstr ""
+#~ "Quando os produtos são necessários <b>%s</b>,  <br/>uma solicitação de "
+#~ "cotação é criada para atender à necessidade."
+
+#~ msgid ""
+#~ "You cannot decrease the ordered quantity below the received quantity.\n"
+#~ "Create a return first."
+#~ msgstr ""
+#~ "Você não pode diminuir a quantidade solicitada abaixo da quantidade "
+#~ "recebida.\n"
+#~ "Crie uma devolução primeiro."
+
+#~ msgid "You must set a Vendor Location for this partner %s"
+#~ msgstr ""
+#~ "Você deve definir uma localização de fornecedor para este parceiro %s"
+
+#~ msgid "days"
+#~ msgstr "dias"
+
+#~ msgid "of"
+#~ msgstr "de"
+
+#~ msgid "ordered instead of"
+#~ msgstr "ordenado em vez de"
