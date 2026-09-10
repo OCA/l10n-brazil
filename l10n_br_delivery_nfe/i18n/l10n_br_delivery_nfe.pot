@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -49,7 +49,6 @@ msgstr ""
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_account_bank_statement_line__nfe40_transporta
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_account_move__nfe40_transporta
-#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_account_payment__nfe40_transporta
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_l10n_br_fiscal_document__nfe40_transporta
 msgid "Dados do transportador"
 msgstr ""
@@ -77,6 +76,11 @@ msgid "Espécie dos volumes transportados"
 msgstr ""
 
 #. module: l10n_br_delivery_nfe
+#: model:ir.model,name:l10n_br_delivery_nfe.model_l10n_br_fiscal_document
+msgid "Fiscal Document"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
 #: model:ir.actions.act_window,name:l10n_br_delivery_nfe.action_generate_volume_ids
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_generate_volumes
 msgid "Generate Draft Volumes"
@@ -94,20 +98,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_lacres__id
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__id
 msgid "ID"
-msgstr ""
-
-#. module: l10n_br_delivery_nfe
-#: model:ir.model,name:l10n_br_delivery_nfe.model_l10n_br_fiscal_document
-msgid "Informações de exportação"
-msgstr ""
-
-#. module: l10n_br_delivery_nfe
-#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_generate_volumes____last_update
-#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_lacres____last_update
-#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol____last_update
-#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_lacres____last_update
-#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol____last_update
-msgid "Last Modified on"
 msgstr ""
 
 #. module: l10n_br_delivery_nfe
@@ -144,7 +134,6 @@ msgstr ""
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_account_bank_statement_line__nfe40_modFrete
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_account_move__nfe40_modFrete
-#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_account_payment__nfe40_modFrete
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_l10n_br_fiscal_document__nfe40_modFrete
 msgid "Modalidade do frete"
 msgstr ""
@@ -152,7 +141,6 @@ msgstr ""
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,help:l10n_br_delivery_nfe.field_account_bank_statement_line__nfe40_modFrete
 #: model:ir.model.fields,help:l10n_br_delivery_nfe.field_account_move__nfe40_modFrete
-#: model:ir.model.fields,help:l10n_br_delivery_nfe.field_account_payment__nfe40_modFrete
 #: model:ir.model.fields,help:l10n_br_delivery_nfe.field_l10n_br_fiscal_document__nfe40_modFrete
 msgid ""
 "Modalidade do frete\n"
@@ -162,6 +150,12 @@ msgid ""
 "3- Transporte próprio por conta do remetente;\n"
 "4- Transporte próprio por conta do destinatário;\n"
 "9- Sem Ocorrência de transporte."
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_lacres__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__brl_currency_id
+msgid "Moeda"
 msgstr ""
 
 #. module: l10n_br_delivery_nfe
@@ -178,7 +172,6 @@ msgid "Nfe40 Lacres Vol"
 msgstr ""
 
 #. module: l10n_br_delivery_nfe
-#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__nfe40_vol_transp_id
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__nfe40_vol_transp_id
 msgid "Nfe40 Vol Transp"
 msgstr ""
@@ -186,15 +179,12 @@ msgstr ""
 #. module: l10n_br_delivery_nfe
 #. odoo-python
 #: code:addons/l10n_br_delivery_nfe/wizards/stock_invoice_onshipping.py:0
-#: code:addons/l10n_br_delivery_nfe/wizards/stock_invoice_onshipping.py:0
-#, python-format
 msgid "No picking 2binvoiced!"
 msgstr ""
 
 #. module: l10n_br_delivery_nfe
 #. odoo-python
 #: code:addons/l10n_br_delivery_nfe/wizards/stock_generate_volumes.py:0
-#, python-format
 msgid "No picking to generate vols!"
 msgstr ""
 
@@ -287,7 +277,6 @@ msgstr ""
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,help:l10n_br_delivery_nfe.field_account_bank_statement_line__nfe40_transporta
 #: model:ir.model.fields,help:l10n_br_delivery_nfe.field_account_move__nfe40_transporta
-#: model:ir.model.fields,help:l10n_br_delivery_nfe.field_account_payment__nfe40_transporta
 #: model:ir.model.fields,help:l10n_br_delivery_nfe.field_l10n_br_fiscal_document__nfe40_transporta
 msgid "The partner that is doing the delivery service."
 msgstr ""
