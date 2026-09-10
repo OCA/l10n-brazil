@@ -574,7 +574,14 @@ class AccountMove(models.Model):
             force_fiscal_operation_id = self.env["l10n_br_fiscal.operation"].browse(
                 self.env.context.get("force_fiscal_operation_id")
             )
-        for record in new_moves.filtered(lambda i: i.document_type_id):
+        fiscal_records = new_moves.filtered(lambda i: i.document_type_id)
+        reconciled_lines = fiscal_records.line_ids.filtered(
+            lambda line: line.matched_debit_ids or line.matched_credit_ids
+        )
+        if reconciled_lines:
+            reconciled_lines.remove_move_reconcile()
+
+        for record in fiscal_records:
             if (
                 not force_fiscal_operation_id
                 and not record.fiscal_operation_id.return_fiscal_operation_id
@@ -617,6 +624,17 @@ class AccountMove(models.Model):
                     record.fiscal_document_id._document_reference(
                         record.reversed_entry_id.fiscal_document_id
                     )
+
+        if reconciled_lines:
+            accounts = reconciled_lines.account_id
+            for account in accounts:
+                account_lines = reconciled_lines.filtered(
+                    lambda line, account=account: line.account_id == account
+                )
+                for currency in account_lines.currency_id:
+                    account_lines.filtered(
+                        lambda line, currency=currency: line.currency_id == currency
+                    ).with_context(move_reverse_cancel=cancel).reconcile()
 
         return new_moves
 
