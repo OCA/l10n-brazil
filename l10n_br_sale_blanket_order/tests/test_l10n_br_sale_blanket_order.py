@@ -4,8 +4,6 @@
 from contextlib import contextmanager
 from datetime import date, timedelta
 
-from lxml import etree
-
 from odoo.exceptions import UserError
 from odoo.fields import Command
 from odoo.tests import tagged
@@ -553,9 +551,18 @@ class L10nBrSaleBLanketOrderTest(TransactionCase):
 
         with self.subTest("BR company - form view - fiscal fields injected"):
             arch, _ = sale_blanket_order._get_view(view_type="form")
-            self.assertIn(
-                "fiscal_operation_id", etree.tostring(arch, encoding="unicode")
-            )
+            injected = {el.get("name") for el in arch.findall(".//field")}
+            self.assertIn("fiscal_operation_id", injected)
+            self.assertIn("icms_tax_id", injected)
+            # C4 census "dead" fiscal computes are pruned from the injection
+            for dead in (
+                "ii_percent",
+                "simple_value",
+                "simple_without_icms_value",
+                "cofins_wh_base_type",
+                "pis_wh_base_type",
+            ):
+                self.assertNotIn(dead, injected)
 
         with self.subTest("Non-BR company - form view - line_ids tree not modified"):
             us_country = self.env.ref("base.us")

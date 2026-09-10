@@ -103,6 +103,46 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         return domain
 
     @api.model
+    def _fiscal_view_compute_methods(self):
+        """Compute methods whose (stored) fields must be kept available in the
+        business-document line views (invisible), so the fiscal onchange
+        protocol can round-trip them. Formalizes the implicit triad used by
+        ``inject_fiscal_fields``. A submodule adding a fiscal compute to the
+        line can extend it::
+
+            @api.model
+            def _fiscal_view_compute_methods(self):
+                return super()._fiscal_view_compute_methods() + [
+                    "_compute_my_tax_fields",
+                ]
+        """
+        return [
+            "_compute_tax_fields",
+            "_compute_fiscal_tax_ids",
+            "_compute_product_fiscal_fields",
+        ]
+
+    @api.model
+    def _fiscal_view_pruned_fields(self):
+        """Stored fiscal computes that no business-document line view reads,
+        displays, edits or references in a modifier/domain (C4 census "dead"):
+        they are *not* injected into the invisible onchange collection. They
+        keep being recomputed server-side on write, so dropping them from the
+        view is value-preserving. Override to force one back in::
+
+            @api.model
+            def _fiscal_view_pruned_fields(self):
+                return super()._fiscal_view_pruned_fields() - {"ii_percent"}
+        """
+        return {
+            "ii_percent",
+            "simple_value",
+            "simple_without_icms_value",
+            "cofins_wh_base_type",
+            "pis_wh_base_type",
+        }
+
+    @api.model
     def inject_fiscal_fields(
         self,
         doc,
@@ -115,20 +155,15 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         """
 
         # the list of computed fields we will add to the view when missing
-        missing_line_fields = set(
-            [
-                fname
-                for fname, _field in filter(
-                    lambda item: item[1].compute
-                    in (
-                        "_compute_tax_fields",
-                        "_compute_fiscal_tax_ids",
-                        "_compute_product_fiscal_fields",
-                    ),
-                    self.env["l10n_br_fiscal.document.line.mixin"]._fields.items(),
-                )
-            ]
-        )
+        compute_methods = tuple(self._fiscal_view_compute_methods())
+        pruned_fields = self._fiscal_view_pruned_fields()
+        missing_line_fields = {
+            fname
+            for fname, _field in self.env[
+                "l10n_br_fiscal.document.line.mixin"
+            ]._fields.items()
+            if _field.compute in compute_methods and fname not in pruned_fields
+        }
 
         fiscal_view = self.env.ref(
             "l10n_br_fiscal.document_fiscal_line_mixin_form"
@@ -180,6 +215,9 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                     for fiscal_node in fiscal_nodes:
                         if fiscal_node.attrib["name"] in missing_line_fields:
                             missing_line_fields.remove(fiscal_node.attrib["name"])
+                        if fiscal_node.attrib["name"] in pruned_fields:
+                            # dead fiscal computes never belong in the views
+                            continue
                         if fiscal_node.attrib["name"] in existing_fields:
                             continue
                         field = deepcopy(fiscal_node)
