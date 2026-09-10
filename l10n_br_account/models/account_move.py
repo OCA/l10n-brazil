@@ -467,13 +467,19 @@ class AccountMove(models.Model):
         """
         protected = set()
         for fname in vals:
+            if fname == "tax_totals":
+                # Skip protecting tax_totals since it is updated explicitly
+                # after create/write, same as the native override this one
+                # replaces. Protecting it here freezes the whole group of
+                # computed fields sharing its @api.depends, including the
+                # totals the accounting engine needs to recompute to keep the
+                # entry balanced.
+                continue
             if (
                 records._name == "account.move"
                 and records.fiscal_document_id
                 and records.fiscal_document_id._fields.get(fname)
-            ):
-                continue
-            elif (
+            ) or (
                 records._name == "account.move.line"
                 and records.fiscal_document_line_id
                 and records.fiscal_document_line_id._fields.get(fname)
