@@ -256,6 +256,27 @@ class L10nBrFiscalDocument(spec_models.StackedModel):
             amounts[field_name] = self._nfse10_weighted_percent(field_name)
         return amounts
 
+    def _nfse10_line_description(self, line):
+        """Text a fiscal line declares about its service.
+
+        The NFS-e has no per item additional information tag: what the note
+        carries about the service is xDescServ and nothing else. Customers do
+        ask for the measurement report, the contract, the order, the period,
+        the cost center, the due date and the bank details in there.
+
+        The line's `additional_data` is already the rendered text of the
+        fiscal line comments (l10n_br_fiscal.comment whose object is the
+        line), Jinja templates with `doc` and `item` in the context,
+        configured on the operation line itself. `manual_additional_data`
+        joins the same rendering for the part that changes per note.
+
+        Composed text REPLACES the name instead of being appended to it: the
+        real note does not prefix the product name, and a template that wants
+        it writes ${item.name}. With no comment at all it falls back to the
+        line name.
+        """
+        return (line.additional_data or "").strip() or (line.name or "").strip()
+
     def _nfse10_service_description(self):
         """Describe the single service of the DPS.
 
@@ -266,14 +287,16 @@ class L10nBrFiscalDocument(spec_models.StackedModel):
         """
         self.ensure_one()
         line = self._nfse10_service_line()
-        if not self.nfse_nacional_concat_lines:
-            return line.name
-        names = [
-            doc_line.name
-            for doc_line in self.fiscal_line_ids
-            if doc_line.product_id and doc_line.name
-        ]
-        return "\n".join(names)[:2000].rstrip() or line.name
+        if self.nfse_nacional_concat_lines:
+            texts = [
+                self._nfse10_line_description(doc_line)
+                for doc_line in self.fiscal_line_ids
+                if doc_line.product_id
+            ]
+            text = "\n".join(text for text in texts if text)[:2000].rstrip()
+            if text:
+                return text
+        return self._nfse10_line_description(line)[:2000] or False
 
     def _nfse10_trib_issqn_code(self, line):
         """tribISSQN of the single service: taxable, immune, exempt..."""
