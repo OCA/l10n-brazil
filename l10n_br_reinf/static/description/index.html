@@ -1,0 +1,666 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
+<title>EFD-Reinf</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 9511 2024-01-13 09:50:07Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+Despite the name, some widely supported CSS2 features are used.
+
+See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: gray; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic, pre.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document">
+
+
+<a class="reference external image-reference" href="https://odoo-community.org/get-involved?utm_source=readme">
+<img alt="Odoo Community Association" src="https://odoo-community.org/readme-banner-image" />
+</a>
+<div class="section" id="efd-reinf">
+<h1>EFD-Reinf</h1>
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! This file is generated by oca-gen-addon-readme !!
+!! changes will be overwritten.                   !!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! source digest: sha256:c9dee5d9010a64c14404c010eec9163044a270b8f27d548b5922437d9e8f611f
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Alpha" src="https://img.shields.io/badge/maturity-Alpha-red.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/license-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_reinf"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-l10n_br_reinf"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=16.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
+<p><strong>EFD-Reinf</strong> (Escrituração Fiscal Digital de Retenções e Outras
+Informações Fiscais) para o Odoo. Desde a extinção da DIRF, para fatos
+geradores a partir de 01/01/2025, as retenções de IR, CSLL, PIS e COFINS
+sobre pagamentos a terceiros são declaradas nos eventos da série R-4000,
+que alimentam a DCTFWeb pelos totalizadores. É obrigação mensal
+corrente: quando os pagamentos a fornecedores nascem no Odoo, não há
+como declarar o Reinf em outro sistema.</p>
+<p>Este módulo é a <strong>fundação</strong> dessa escrituração. Ele traz o motor de
+eventos, os cadastros de apoio e o ambiente de transmissão. A geração
+dos eventos, a apuração por competência, a tela de conferência e o
+transporte REST vêm nas fases seguintes, listadas no <tt class="docutils literal">ROADMAP</tt>.</p>
+<div class="section" id="o-que-ja-esta-aqui">
+<h2>O que já está aqui</h2>
+<ul class="simple">
+<li><strong>R-1000</strong> (<tt class="docutils literal">l10n_br_reinf.r1000</tt>): o evento de cadastro do
+contribuinte, montado a partir da configuração da empresa e
+<strong>serializado em XML conferido contra o XSD oficial</strong> antes de ser
+gravado como anexo do evento. O R-1000 é declaração versionada (tem
+período de validade e é alterado por <tt class="docutils literal">novaValidade</tt>), por isso é
+modelo próprio, um registro por evento, e não campos em
+<tt class="docutils literal">res.company</tt>: a empresa guarda a configuração, e cada evento copia
+o que valia no momento em que foi montado, para o XML de um evento
+passado continuar reproduzível.</li>
+<li><strong>Apuração da competência</strong> (<tt class="docutils literal">l10n_br_reinf.calculation</tt>): a
+declaração nasce do pagamento e do crédito, e o fato gerador é por
+tributo, então a mesma nota alimenta duas competências (IR pelo
+crédito, PCC pelo pagamento). A tela da apuração é a tela de
+conferência: linhas com divergência, exceções enumeradas com o
+registro de origem e o que fazer, DARFs espelho e eventos gerados.</li>
+<li><strong>Colapso do agregado (DARF 5952)</strong>: as três retenções de PIS/PASEP,
+COFINS e CSLL viram um valor único quando a natureza admite, com o
+código de receita lido do Anexo I, tolerância configurável para os
+centavos do arredondamento, e as regras que evitam declarar o que
+ninguém retirou (cooperativa não agrega; retenção parcial não agrega).
+Três decisões de desenho deste módulo respondem a como a apuração do
+DARF 5952 realmente funciona, e vale dizer por quê, porque cada uma
+delas é fácil de errar na direção oposta:</li>
+<li>na série R-4000 <strong>não se informa código de receita</strong>, informa-se a
+natureza de rendimento. Por isso o código nunca é constante no
+código-fonte: ele é derivado do mapeamento da natureza, que é dado com
+vigência;</li>
+<li>a <strong>consolidação no DARF 5952 acontece na DCTFWeb</strong>, não aqui. Por
+isso o <tt class="docutils literal">l10n_br_reinf.darf</tt> é espelho de conferência e provisão, e
+nunca emissor de guia: guia avulsa cria pagamento sem débito;</li>
+<li>o <strong>fato gerador é a data do efetivo pagamento ou crédito</strong>, não a
+emissão da nota. Por isso a apuração nasce do pagamento e do crédito,
+com <tt class="docutils literal">dtFG</tt> por tributo, e não da nota fiscal.</li>
+<li><strong>DARF espelho</strong> (<tt class="docutils literal">l10n_br_reinf.darf</tt>): quanto é devido por código
+de receita, confronto com o número e o valor que a DCTFWeb devolveu, e
+o mínimo do art. 68 da Lei 9.430/1996, com o saldo viajando para a
+competência seguinte no mesmo código.</li>
+<li><strong>R-4020</strong>: um evento por beneficiário, montado direto nos bindings a
+partir das linhas da apuração, com split automático nos limites do
+leiaute (100 idePgto, 999 infoPgto) usando <tt class="docutils literal">ideEvtAdic</tt>, e XML
+conferido contra o XSD antes de ser gravado.</li>
+<li><strong>Naturezas de rendimento e códigos de receita, das tabelas
+oficiais</strong>: 297 naturezas e 1576 linhas de mapeamento (evento,
+tributo, código de receita, periodicidade, residência fiscal no
+exterior, classificação tributária 85), <strong>cada linha com a sua
+vigência</strong>, porque as tabelas trocam o código de receita sem a
+natureza mudar. A fonte é o pacote “EFD-REINF Tabelas” do portal SPED,
+em XLSX, e não o PDF do manual; o conversor está em
+<tt class="docutils literal">scripts/generate_annex_data.py</tt>. As marcações de retenção da
+natureza são lidas desse mapeamento, então a marcação e o código de
+receita não contam histórias diferentes.</li>
+<li><strong>Motor de eventos</strong> (<tt class="docutils literal">l10n_br_reinf.event</tt>): um registro por
+evento, com o identificador de 36 posições do leiaute (<tt class="docutils literal">ID</tt> + tipo e
+número de inscrição do contribuinte + momento da geração +
+sequencial), o XML de envio e o de retorno em <tt class="docutils literal">ir.attachment</tt>, o
+ciclo de vida do rascunho ao recibo, a cadeia de retificação por
+<tt class="docutils literal">nrRecibo</tt> e a origem polimórfica (um evento do Reinf não nasce de
+documento fiscal: nasce de pagamento, de fechamento ou do próprio
+cadastro da empresa). Os nomes de campo espelham o
+<tt class="docutils literal">l10n_br_fiscal.event</tt> do <tt class="docutils literal">l10n_br_fiscal_edi</tt>, para quem já lê um
+evento fiscal ler este também.</li>
+<li><strong>Lote</strong> (<tt class="docutils literal">l10n_br_reinf.batch</tt>): o agrupamento que vai ao serviço
+de recepção assíncrona, com as regras que não são questão de gosto: no
+máximo 50 eventos (o que o envelope do leiaute aceita), grupo
+homogêneo, e evento de fechamento nunca no mesmo lote dos periódicos,
+porque a Receita processa os eventos de um lote em paralelo, sem ordem
+garantida.</li>
+<li><strong>Ocorrências</strong> (<tt class="docutils literal">l10n_br_reinf.occurrence</tt>): os erros e avisos
+devolvidos pela Receita, guardados como registro, para a conferência
+listar o motivo da rejeição em vez de pedir que alguém leia um XML.</li>
+<li><strong>Cadastros</strong>: natureza de rendimento (<tt class="docutils literal">natRend</tt>, com as marcações
+de quais retenções ela admite) e código de receita do DARF (com a
+periodicidade que define em qual totalizador do R-9015 o código
+aparece). Os dois herdam o <tt class="docutils literal">l10n_br_fiscal.data.abstract</tt>, então já
+vêm com vigência (<tt class="docutils literal">date_start</tt> / <tt class="docutils literal">date_end</tt>), busca por código e o
+mesmo comportamento das outras tabelas fiscais da localização.
+Alíquota e código são dado com vigência, nunca constante no código.</li>
+<li><strong>Ambiente</strong> (<tt class="docutils literal">res.company.reinf_environment</tt>): produção ou produção
+restrita, <strong>sem default</strong>. Escolher entre os dois é decisão do
+contribuinte, e um chute manda dado real para o ambiente errado; por
+isso o campo é exigido na transmissão, e não preenchido em silêncio.</li>
+</ul>
+</div>
+<div class="section" id="o-que-ainda-nao-esta">
+<h2>O que ainda não está</h2>
+<p>Não há transporte: <tt class="docutils literal">_transport_send()</tt> e <tt class="docutils literal">_transport_query()</tt> são a
+interface única de saída do Odoo e levantam <tt class="docutils literal">NotImplementedError</tt>.
+Isso é deliberado: o resto do módulo é escrito e testado contra um mock
+antes de existir cliente REST, e o CI da OCA nunca chama a Receita.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">This is an alpha version, the data model and design can change at any time without warning.
+Only for development or testing purpose, do not use in production.
+<a class="reference external" href="https://odoo-community.org/page/development-status">More details on development status</a></p>
+</div>
+<p><strong>Table of contents</strong></p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#known-issues-roadmap" id="toc-entry-1">Known issues / Roadmap</a></li>
+<li><a class="reference internal" href="#bug-tracker" id="toc-entry-2">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-3">Credits</a></li>
+</ul>
+</div>
+<div class="section" id="known-issues-roadmap">
+<h3><a class="toc-backref" href="#toc-entry-1">Known issues / Roadmap</a></h3>
+<p>As fases seguintes, na ordem em que dependem uma da outra:</p>
+<ol class="arabic simple">
+<li><strong>Códigos de receita.</strong> A tabela <tt class="docutils literal">l10n_br_reinf.revenue.code</tt> não
+tem dados: o mapeamento do Anexo I traz os 90 códigos que as
+naturezas usam, mas não a denominação oficial de cada um, e inventar
+descrição de código de DARF não serve. Falta a tabela oficial de
+códigos de receita para popular nome e vigência e transformar o
+<tt class="docutils literal">revenue_code</tt> do mapeamento em <tt class="docutils literal">many2one</tt>.</li>
+<li><strong>R-1000: alteração e exclusão.</strong> As pernas <tt class="docutils literal">alteracao</tt> (com
+<tt class="docutils literal">novaValidade</tt>) e <tt class="docutils literal">exclusao</tt> do choice de <tt class="docutils literal">infoContri</tt> ficaram
+fora, e com elas os grupos opcionais <tt class="docutils literal">softHouse</tt> e <tt class="docutils literal">infoEFR</tt>, que
+existem como campo mas não são populados a partir do Odoo.</li>
+<li><strong>Transporte REST assíncrono.</strong> Implementar <tt class="docutils literal">_transport_send()</tt> e
+<tt class="docutils literal">_transport_query()</tt> (recepção de lote e consulta por protocolo), o
+cron de polling e a trava anti-transmissão de produção em banco
+restaurado. Depende de assinatura <strong>rsa-sha256</strong>, que a
+<tt class="docutils literal">erpbrasil.assinatura</tt> ainda não faz (só sha1).</li>
+<li><strong>Dados de retenção por linha.</strong> Natureza de rendimento e código de
+receita por linha fiscal, e as <strong>duas datas</strong> de cada origem:
+crédito/competência e liquidação. O fato gerador é por tributo: o IR
+pelo crédito quando anterior ao pagamento, o PCC pelo pagamento.
+Enquanto os campos não estiverem no <tt class="docutils literal">l10n_br_fiscal</tt> e no
+<tt class="docutils literal">l10n_br_account_withholding</tt>, eles moram aqui como <tt class="docutils literal">_inherit</tt>, e
+migram quando os PRs de origem forem mesclados.</li>
+<li><strong>Apuração por competência e tela de conferência.</strong> Empresa x
+período, com unicidade, agregando estabelecimento x beneficiário x
+natureza, e a tela de conferência com divergências enumeradas,
+exceções com motivo, agregados armazenados, exportação e confronto
+com os totalizadores devolvidos pela Receita.</li>
+<li><strong>R-4020</strong> (pagamentos a PJ), em quatro tabelas (evento, <tt class="docutils literal">idePgto</tt>,
+<tt class="docutils literal">infoPgto</tt>, <tt class="docutils literal">infoProcRet</tt>), com acumulação mensal por
+estabelecimento e beneficiário, o colapso do PCC agregado e o split
+quando estourar os limites do leiaute (100 <tt class="docutils literal">idePgto</tt>, 999
+<tt class="docutils literal">infoPgto</tt>, 50 <tt class="docutils literal">infoProcRet</tt>).</li>
+<li><strong>R-4010</strong> (aluguel de pessoa física, serviços de autônomos,
+dividendos), <strong>R-2010</strong> (retenção previdenciária de cessão de mão de
+obra), totalizadores <strong>R-900x</strong>, calendário da obrigação, fechamento
+e reabertura (<strong>R-2099/R-4099</strong>, e a série R-4000 reabre pelo próprio
+R-4099 com <tt class="docutils literal">fechRet</tt> = 1), retificação e <strong>R-9000</strong>.</li>
+</ol>
+<p>Limitações conhecidas desta fase:</p>
+<ul class="simple">
+<li>O colapso do agregado segue o parecer fiscal: a natureza autoriza pela
+coluna Tributo da Tabela 01, que também diz quais componentes o
+agregado carrega (a 15001, cooperativas de trabalho, agrega sem CSLL,
+em 3,65%), e a parcialidade só mantém o agregado quando é da NATUREZA.
+Parcialidade por isenção ou alíquota zero do beneficiário (IN RFB
+459/2004, art. 2) e por medida judicial (art. 10) vão nos códigos
+específicos. O que ainda <strong>não</strong> está implementado é o grupo
+<tt class="docutils literal">infoProcRet</tt> do caso judicial, que depende do R-1070.</li>
+<li><strong>A tabela de códigos de receita com a denominação oficial não está no
+manual da EFD-Reinf.</strong> O Anexo I é “natureza de rendimento x código de
+receita”: dá o código, nunca o nome dele. A denominação vive na Tabela
+de Códigos de Receita da própria Receita Federal (SICALC / Agenda
+Tributária), que é outra fonte. Por isso
+<tt class="docutils literal">l10n_br_reinf.revenue.code</tt> só traz o 595207, cujo nome vem do art.
+31 da Lei 10.833/2003.</li>
+<li>A Tabela 01 publicada <strong>não lista a natureza 17547</strong>, que a tabela do
+R-4020 mapeia em 6 linhas. Ela é recuperada da própria tabela de
+mapeamento, que traz a descrição oficial numa coluna, e o script avisa
+quando isso acontece: é divergência da fonte, não do módulo.</li>
+<li><strong>Os campos ``*_wh_value`` da linha fiscal não podem ser preenchidos à
+mão.</strong> Eles pertencem ao motor de imposto do <tt class="docutils literal">l10n_br_fiscal</tt>, que
+os re-deriva de <tt class="docutils literal">fiscal_tax_ids</tt> a cada escrita na linha: verificado
+em runtime escrevendo antes do post, depois do post e direto na
+<tt class="docutils literal">l10n_br_fiscal.document.line</tt>, e nos três casos o banco fica com
+0,00 (o cache ainda mostra o valor até a invalidação, o que engana).
+Por isso a apuração lê a retenção em duas fontes: os campos fiscais
+quando o documento foi precificado pelo motor, e as linhas de imposto
+postadas cujo grupo fiscal é de retenção em todo o resto. Na mesma
+linha, valor gravado em campo da linha fiscal de uma nota <strong>sem
+operação fiscal</strong> não sobrevive ao post, e é por isso que a natureza
+de rendimento se resolve em cascata (linha, tipo de serviço, parceiro)
+em vez de depender só do campo da linha.</li>
+<li>A tabela <tt class="docutils literal">l10n_br_reinf.revenue.code</tt> só tem o código agregado
+595207, que é o que o colapso precisa (é o único cujo nome tem lastro:
+art. 31 da Lei 10.833/2003). Os outros 89 códigos que o Anexo I usa
+entram quando a tabela oficial de códigos de DARF estiver transcrita,
+com nome e vigência: o mapeamento das naturezas já traz o código, e é
+dele que a apuração lê.</li>
+<li>O rateio da retenção entre várias linhas de base é proporcional ao
+subtotal. A base declarada vem do <tt class="docutils literal">tax_base_amount</tt> do imposto
+(correta com redução de base), mas quando <strong>um mesmo imposto cobre
+linhas com reduções diferentes</strong> a divisão entre elas fica aproximada.</li>
+<li>Exportação XLSX da conferência usa a exportação padrão de lista do
+Odoo. A planilha formatada depende do <tt class="docutils literal">report_xlsx</tt> do
+reporting-engine.</li>
+<li><tt class="docutils literal">infoProcRet</tt> (retenção suspensa por decisão judicial) gera exceção
+e não o grupo no XML: depende do R-1070, que é da fase seguinte.</li>
+<li>A apuração cobre a série R-4000 de pessoa jurídica. IRPF e RRA não têm
+campo próprio na localização e entram com o R-4010.</li>
+<li><tt class="docutils literal">classTrib</tt> é <tt class="docutils literal">Char</tt> de 2 posições na empresa, e não uma seleção
+com os valores oficiais da tabela de classificações do manual, que
+ainda não foi transcrita.</li>
+<li>Escrever CNPJ alfanumérico em empresa <strong>já existente</strong> falha no
+<tt class="docutils literal">l10n_br_base</tt> (o inverso de <tt class="docutils literal">cnpj_cpf</tt> passa pelo
+<tt class="docutils literal">erpbrasil.base</tt>, que descarta as letras e valida o resto como CPF).
+Criar já funciona. Por isso os testes de banco leem a inscrição da
+empresa em vez de escrever uma alfanumérica, e o CNPJ alfanumérico é
+coberto nos testes unitários do identificador, que não precisam de
+banco.</li>
+<li>O envelope do lote assíncrono e a consulta de recibos não têm mixins
+no <tt class="docutils literal">l10n_br_reinf_spec</tt> (são outra família de esquema, com versão
+própria) e vão ser montados diretamente com os bindings da <tt class="docutils literal">nfelib</tt>.</li>
+<li>Os bindings da <tt class="docutils literal">nfelib</tt> degradam o elemento <tt class="docutils literal">Signature</tt> do evento
+para uma string simples, e ele é <strong>obrigatório</strong>: desserializar um
+evento sem assinatura levanta <tt class="docutils literal">TypeError</tt>. A assinatura é aplicada
+sobre o XML serializado, e o teste de round-trip carrega um valor de
+marcação.</li>
+<li>O <tt class="docutils literal">nfelib.CommonMixin._get_schema_path()</tt> não conhece o pacote
+<tt class="docutils literal">reinf</tt>, então a validação contra XSD pela biblioteca ainda não
+funciona sem passar o caminho do esquema à mão.</li>
+<li>Natureza de rendimento e código de receita são únicos por código, como
+o CFOP e o NCM do <tt class="docutils literal">l10n_br_fiscal</tt>: a vigência do <tt class="docutils literal">data.abstract</tt>
+diz quando o código vale, e não versiona o conteúdo. Quando a alíquota
+ou a composição de um código mudar por lei (é o que acontece com o
+agregado de PIS/COFINS/CSLL na extinção dos dois tributos), o
+versionamento pede uma tabela filha com vigência, no mesmo desenho do
+<tt class="docutils literal">l10n_br_fiscal.tax.definition</tt>, e não linhas repetidas com o mesmo
+código.</li>
+<li>Estabelecimento (<tt class="docutils literal">ideEstab</tt>) é assumido igual à empresa.
+Multiestabelecimento (filial como <tt class="docutils literal">res.company</tt> filha) é decisão em
+aberto.</li>
+</ul>
+</div>
+<div class="section" id="bug-tracker">
+<h3><a class="toc-backref" href="#toc-entry-2">Bug Tracker</a></h3>
+<p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-brazil/issues">GitHub Issues</a>.
+In case of trouble, please check there if your issue has already been reported.
+If you spotted it first, help us to smash it by providing a detailed and welcomed
+<a class="reference external" href="https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_reinf%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
+<p>Do not contact contributors directly about support or help with technical issues.</p>
+</div>
+<div class="section" id="credits">
+<h3><a class="toc-backref" href="#toc-entry-3">Credits</a></h3>
+</div>
+</div>
+<div class="section" id="authors">
+<h2>Authors</h2>
+<ul class="simple">
+<li>KMEE</li>
+</ul>
+</div>
+<div class="section" id="contributors">
+<h2>Contributors</h2>
+<ul class="simple">
+<li><a class="reference external" href="https://www.kmee.com.br">KMEE</a>:<ul>
+<li>Luis Felipe Mileo &lt;<a class="reference external" href="mailto:mileo&#64;kmee.com.br">mileo&#64;kmee.com.br</a>&gt;</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="maintainers">
+<h2>Maintainers</h2>
+<p>This module is maintained by the OCA.</p>
+<a class="reference external image-reference" href="https://odoo-community.org">
+<img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" />
+</a>
+<p>OCA, or the Odoo Community Association, is a nonprofit organization whose
+mission is to support the collaborative development of Odoo features and
+promote its widespread use.</p>
+<p>Current <a class="reference external" href="https://odoo-community.org/page/maintainer-role">maintainer</a>:</p>
+<p><a class="reference external image-reference" href="https://github.com/mileo"><img alt="mileo" src="https://github.com/mileo.png?size=40px" /></a></p>
+<p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_reinf">OCA/l10n-brazil</a> project on GitHub.</p>
+<p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
+</div>
+</div>
+</div>
+</body>
+</html>
