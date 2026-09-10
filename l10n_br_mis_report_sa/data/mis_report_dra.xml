@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="1">
+    <!--
+      Demonstração do Resultado Abrangente (CPC 26 R1, itens 81 a 105).
+
+      Ela começa onde a DRE termina: a primeira linha é o resultado líquido, lido
+      da DRE por subrelatório, e a ele se somam os resultados que a norma manda
+      reconhecer no patrimônio líquido em vez de no resultado do período. O
+      CPC 26 permite apresentar as duas em demonstração única; aqui elas são
+      separadas, que é a forma mais usada no Brasil.
+
+      Empresa que não tem operação no exterior, hedge designado, plano de
+      benefício a empregados nem instrumento mensurado a valor justo por
+      resultado abrangente vai ver todas as linhas de outros resultados
+      abrangentes em zero, e o resultado abrangente igual ao resultado líquido.
+      Isso é o correto, não uma falha de configuração.
+    -->
+    <record id="dra" model="mis.report">
+        <field name="name">DRA - Demonstração do Resultado Abrangente</field>
+        <field name="description">Demonstração do Resultado Abrangente</field>
+        <field name="move_lines_source" ref="account.model_account_move_line" />
+    </record>
+
+    <record id="dra_subreport_dre" model="mis.report.subreport">
+        <field name="name">dre</field>
+        <field name="report_id" ref="dra" />
+        <field name="subreport_id" ref="l10n_br_mis_report.dre" />
+    </record>
+
+    <record id="dra_resultado" model="mis.report.kpi">
+        <field name="sequence">10</field>
+        <field name="report_id" ref="dra" />
+        <field name="description">Resultado líquido do exercício</field>
+        <field name="name">resultado</field>
+        <field name="expression">dre.resultado_liquido</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="style_id"
+            ref="l10n_br_mis_report.mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="dra_header_oci" model="mis.report.kpi">
+        <field name="sequence">20</field>
+        <field name="report_id" ref="dra" />
+        <field name="description">Outros resultados abrangentes</field>
+        <field name="name">header_oci</field>
+        <field name="type">str</field>
+        <field name="style_id"
+            ref="l10n_br_mis_report.mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="dra_cambial" model="mis.report.kpi">
+        <field name="sequence">30</field>
+        <field name="report_id" ref="dra" />
+        <field name="description">Variação cambial de investimento no exterior</field>
+        <field name="name">cambial</field>
+        <field name="expression">-bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_oci_translation').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="dra_hedge" model="mis.report.kpi">
+        <field name="sequence">40</field>
+        <field name="report_id" ref="dra" />
+        <field name="description">Hedge de fluxo de caixa</field>
+        <field name="name">hedge</field>
+        <field name="expression">-bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_oci_hedge').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="dra_atuarial" model="mis.report.kpi">
+        <field name="sequence">50</field>
+        <field name="report_id" ref="dra" />
+        <field name="description">Ganhos e perdas atuariais</field>
+        <field name="name">atuarial</field>
+        <field name="expression">-bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_oci_actuarial').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="dra_valor_justo" model="mis.report.kpi">
+        <field name="sequence">60</field>
+        <field name="report_id" ref="dra" />
+        <field name="description">Ajuste de instrumentos financeiros a valor justo</field>
+        <field name="name">valor_justo</field>
+        <field name="expression">-bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_oci_fair_value').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="dra_total_oci" model="mis.report.kpi">
+        <field name="sequence">70</field>
+        <field name="report_id" ref="dra" />
+        <field name="description">= Total dos outros resultados abrangentes</field>
+        <field name="name">total_oci</field>
+        <field name="expression">cambial+hedge+atuarial+valor_justo</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="dra_abrangente" model="mis.report.kpi">
+        <field name="sequence">80</field>
+        <field name="report_id" ref="dra" />
+        <field name="description">= RESULTADO ABRANGENTE TOTAL</field>
+        <field name="name">abrangente</field>
+        <field name="expression">resultado+total_oci</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="style_id"
+            ref="l10n_br_mis_report.mis_report_style_l10n_br_negrito" />
+    </record>
+
+</odoo>
