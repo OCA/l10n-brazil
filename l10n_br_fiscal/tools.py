@@ -8,7 +8,7 @@ from unicodedata import normalize
 
 from erpbrasil.base.misc import punctuation_rm
 
-from odoo import SUPERUSER_ID, api, tools
+from odoo import SUPERUSER_ID, _, api, tools
 
 from .constants.fiscal import EVENT_ENV_HML, EVENT_ENV_PROD
 
@@ -140,3 +140,53 @@ def set_journal_in_fiscal_operation(cr, company, values):
                     "company_id": company.id,
                 }
             )
+
+
+def cfop_geography_warning(cfop_code, issuer_partner, company):
+    """Warn when a declared CFOP scope contradicts the real geography.
+
+    CFOP first digit: 1/5 = intrastate, 2/6 = interstate,
+    3/7 = foreign trade. Returns a translated message or False.
+    """
+    if not cfop_code:
+        return False
+    declared = cfop_code[0]
+    issuer_country = issuer_partner.country_id
+    company_country = company.country_id
+    if declared in ("3", "7"):
+        if issuer_country and company_country and issuer_country == company_country:
+            return _(
+                "Declared CFOP %(cfop)s is a foreign trade CFOP but issuer "
+                "and company are both in %(country)s."
+            ) % {"cfop": cfop_code, "country": company_country.name}
+        return False
+    if issuer_country and company_country and issuer_country != company_country:
+        return _(
+            "Declared CFOP %(cfop)s is a domestic CFOP but issuer "
+            "(%(issuer)s) and company (%(company)s) are in different "
+            "countries."
+        ) % {
+            "cfop": cfop_code,
+            "issuer": issuer_country.name,
+            "company": company_country.name,
+        }
+    issuer_state = issuer_partner.state_id
+    company_state = company.state_id
+    if not issuer_state or not company_state:
+        return False
+    same_state = issuer_state == company_state
+    if declared in ("1", "5") and not same_state:
+        return _(
+            "Declared CFOP %(cfop)s is intrastate but issuer (%(issuer)s) "
+            "and company (%(company)s) are in different states."
+        ) % {
+            "cfop": cfop_code,
+            "issuer": issuer_state.code,
+            "company": company_state.code,
+        }
+    if declared in ("2", "6") and same_state:
+        return _(
+            "Declared CFOP %(cfop)s is interstate but issuer and company "
+            "are both in %(state)s."
+        ) % {"cfop": cfop_code, "state": company_state.code}
+    return False
