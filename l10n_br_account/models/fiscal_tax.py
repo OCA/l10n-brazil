@@ -7,10 +7,65 @@ from odoo import Command, api, fields, models
 class FiscalTax(models.Model):
     _inherit = "l10n_br_fiscal.tax"
 
+    def _account_taxes_company(self, company=False):
+        if company:
+            return company
+        # ``self.env.company`` already resolves ``allowed_company_ids[0]`` *with*
+        # access validation, so it replaces the previous raw browse of that id.
+        # A ``default_company_id`` in the context is still honoured as an
+        # explicit override.
+        company = self.env.company
+        if self.env.context.get("default_company_id"):
+            company = self.env["res.company"].browse(
+                self.env.context["default_company_id"]
+            )
+        return company
+
     def account_taxes(self, user_type="sale", fiscal_operation=False, company=False):
         account_taxes = self.env["account.tax"]
+        if not self:
+            return account_taxes
+
+        company = self._account_taxes_company(company)
+
+        # Resolve os grupos contábeis de todos os impostos fiscais em um único
+        # search e traz TODOS os account.tax dos grupos envolvidos numa única
+        # query (antes: 1 search de grupo + 1 search de account.tax por imposto
+        # por linha). O casamento por grupo é feito em memória.
+        fiscal_group_to_account_group = self.tax_group_id._account_tax_group_map()
+        account_group_ids = [
+            group.id for group in fiscal_group_to_account_group.values() if group
+        ]
+        candidate_taxes = self.env["account.tax"].search(
+            [
+                ("tax_group_id", "in", account_group_ids),
+                ("active", "=", True),
+                ("company_id", "=", company.id),
+            ]
+        )
+        taxes_by_account_group = {}
+        for tax in candidate_taxes:
+            taxes_by_account_group.setdefault(
+                tax.tax_group_id.id, self.env["account.tax"]
+            )
+            taxes_by_account_group[tax.tax_group_id.id] |= tax
+
+        # `deductible_taxes` is company dependent, so reading it off the record
+        # as it comes answers for whatever company sits in the environment, not
+        # for the one resolved above. Same correction as #4996, kept here
+        # because this method is rewritten by this PR: without it, whichever of
+        # the two merges last silently drops the fix.
+        if fiscal_operation and company:
+            fiscal_operation = fiscal_operation.with_company(company)
+
         for fiscal_tax in self:
-            taxes = fiscal_tax._account_taxes(company)
+            account_group = fiscal_group_to_account_group.get(
+                fiscal_tax.tax_group_id.id
+            )
+            taxes = taxes_by_account_group.get(
+                account_group.id if account_group else False,
+                self.env["account.tax"],
+            )
             # Atualiza os impostos contábeis relacionados aos impostos fiscais
             account_taxes |= taxes.filtered(
                 lambda t: t.type_tax_use == user_type and t.active and not t.deductible
@@ -28,15 +83,7 @@ class FiscalTax(models.Model):
     def _account_taxes(self, company=False):
         self.ensure_one()
         account_tax_group = self.tax_group_id.account_tax_group()
-        if not company:
-            company = self.env.company
-            if self.env.context.get("default_company_id") or self.env.context.get(
-                "allowed_company_ids"
-            ):
-                company = self.env["res.company"].browse(
-                    self.env.context.get("default_company_id")
-                    or self.env.context.get("allowed_company_ids")[0]
-                )
+        company = self._account_taxes_company(company)
         return self.env["account.tax"].search(
             [
                 ("tax_group_id", "=", account_tax_group.id),
