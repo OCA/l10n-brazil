@@ -491,6 +491,28 @@ class TestBRCobrancaCommon(CNABTestCommon):
                 ),
             },
         )
+        cls.cnab_config_sicredi.write(
+            {
+                "liq_return_move_code_ids": [
+                    Command.set(
+                        [
+                            cls.env.ref(
+                                "l10n_br_account_payment_order.sicredi_240_return_02"
+                            ).id,
+                            cls.env.ref(
+                                "l10n_br_account_payment_order.sicredi_240_return_03"
+                            ).id,
+                            cls.env.ref(
+                                "l10n_br_account_payment_order.sicredi_240_return_06"
+                            ).id,
+                            cls.env.ref(
+                                "l10n_br_account_payment_order.sicredi_240_return_09"
+                            ).id,
+                        ],
+                    )
+                ],
+            }
+        )
 
         cls.cnab_config_santander_400 = create_with_form_l10n_br_cnab_config(
             cls.env,
@@ -686,7 +708,7 @@ class TestBRCobrancaCommon(CNABTestCommon):
         cls.journal_sicredi.write(
             {
                 "used_for_import": True,
-                "import_type": "cnab400",
+                "import_type": "cnab240",
                 "return_auto_reconcile": True,
             }
         )
