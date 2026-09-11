@@ -8,7 +8,7 @@
         <field name="name">dfe.distribution.log.tree</field>
         <field name="model">l10n_br_fiscal_dfe.distribution_log</field>
         <field name="arch" type="xml">
-            <tree
+            <list
                 create="false"
                 edit="false"
                 decoration-success="log_type == 'success'"
@@ -18,9 +18,10 @@
             >
                 <field name="create_date" string="Date" />
                 <field name="log_type" />
+                <field name="fiscal_type" />
                 <field name="message" />
                 <field name="company_id" groups="base.group_multi_company" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -46,14 +47,14 @@
                         <page
                             string="SOAP Request"
                             name="request"
-                            attrs="{'invisible': [('request_xml', '=', False)]}"
+                            invisible="not request_xml"
                         >
                             <field name="request_xml" nolabel="1" />
                         </page>
                         <page
                             string="SOAP Response"
                             name="response"
-                            attrs="{'invisible': [('response_xml', '=', False)]}"
+                            invisible="not response_xml"
                         >
                             <field name="response_xml" nolabel="1" />
                         </page>
@@ -69,6 +70,7 @@
         <field name="arch" type="xml">
             <search>
                 <field name="message" />
+                <field name="fiscal_type" />
                 <field name="company_id" groups="base.group_multi_company" />
                 <filter
                     name="success"

@@ -1,10 +1,9 @@
 ## Dependências Python
 
-Este módulo requer as seguintes bibliotecas:
-
-- `nfelib` — cliente SOAP para o web service NFeDistribuicaoDFe da SEFAZ
-- `brazilfiscalreport` — geração de DANFE em PDF
 - `erpbrasil.base` — validação de chave de acesso (dígito verificador)
+
+Os módulos específicos declaram suas próprias dependências (ex.:
+`l10n_br_nfe_dfe` requer `nfelib` e `brazilfiscalreport`).
 
 ## queue_job como server wide module
 
