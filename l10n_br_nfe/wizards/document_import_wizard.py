@@ -175,60 +175,59 @@ class DocumentImportWizard(models.TransientModel):
     def _match_product_by_purchase(self, xml_product):
         """Priority match from the referenced purchase order.
 
-        When ``l10n_br_purchase`` is installed and the XML line references the
-        buyer's purchase order (xPed / nItemPed), take the product from the
-        matching purchase order line first: it is the most authoritative match
-        since the buyer already stated which product was ordered.
+        When the XML line references the buyer's purchase order, take the
+        product from the matching purchase order line first: it is the most
+        authoritative match since the buyer already stated which product was
+        ordered.
 
-        Soft dependency: no-op unless l10n_br_purchase is installed (it adds
-        the partner_order / partner_order_line fields to purchase.order.line;
-        core ``purchase`` alone does not provide them).
+        On an inbound supplier NF-e, ``xPed`` holds the buyer's purchase order
+        reference and ``nItemPed`` the 1-based item position inside that
+        order. ``xPed`` is matched against both ``purchase.order.name`` (the
+        supplier echoes the buyer's PO number) and
+        ``purchase.order.partner_ref`` (the vendor reference the buyer fills
+        precisely to match incoming goods). ``nItemPed`` is matched by
+        POSITION: ``purchase.order.line.sequence`` defaults to 10 for every
+        line created in the interface, so it cannot be used; the order lines
+        come ordered by ``sequence, id``, so the n-th line is
+        ``order.order_line[nItemPed - 1]``.
         """
         pol_model = self.env.get("purchase.order.line")
-        if pol_model is None or "partner_order" not in pol_model._fields:
+        if pol_model is None:
             return False
         xped = (getattr(xml_product, "xPed", "") or "").strip()
         if not xped:
             return False
 
-        partner = self.partner_id.id
-        pol = pol_model.sudo()
-        nitemped = (getattr(xml_product, "nItemPed", "") or "").strip()
-
-        # 1) exact agreed reference: xPed + nItemPed on the purchase order line
-        if nitemped:
-            line = pol.search(
+        company = self.company_id or self.env.company
+        order = (
+            self.env["purchase.order"]
+            .sudo()
+            .search(
                 [
-                    ("order_id.partner_id", "=", partner),
-                    ("partner_order", "=", xped),
-                    ("partner_order_line", "=", nitemped),
+                    ("partner_id", "=", self.issuer_partner_id.id),
+                    ("company_id", "=", company.id),
+                    "|",
+                    ("name", "=", xped),
+                    ("partner_ref", "=", xped),
                 ],
                 limit=1,
             )
-            if line:
-                return line.product_id
-
-        # 2) heuristic: narrow to the referenced order (partner_order on the
-        # line, else the buyer PO name / vendor reference), then disambiguate
-        # the line by the XML product code / barcode.
-        lines = pol.search(
-            [("order_id.partner_id", "=", partner), ("partner_order", "=", xped)]
         )
-        if not lines:
-            order = (
-                self.env["purchase.order"]
-                .sudo()
-                .search(
-                    [
-                        ("partner_id", "=", partner),
-                        "|",
-                        ("partner_ref", "=", xped),
-                        ("name", "=", xped),
-                    ],
-                    limit=1,
-                )
-            )
-            lines = order.order_line
+        if not order:
+            return False
+
+        lines = order.order_line
+        nitemped = (getattr(xml_product, "nItemPed", "") or "").strip()
+        if nitemped:
+            try:
+                position = int(nitemped)
+            except ValueError:
+                position = None
+            if position is not None and 1 <= position <= len(lines):
+                return lines[position - 1].product_id
+
+        # heuristic fallback: disambiguate the referenced order's line by the
+        # XML product code / barcode when nItemPed is missing or out of range.
         if len(lines) == 1:
             return lines.product_id
         cprod = getattr(xml_product, "cProd", None)
