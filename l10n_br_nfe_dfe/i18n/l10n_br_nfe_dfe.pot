@@ -1,0 +1,254 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_nfe_dfe
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model.fields.selection,name:l10n_br_nfe_dfe.selection__res_company__nfe_dfe_version__1_01
+msgid "1.01"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_document_tree
+msgid "Amount"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_res_company__nfe_auto_fetch
+msgid "Auto-fetch NF-e DF-e"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_res_company__auto_manifest_nfe
+msgid "Automatic Recipient Manifestation (NF-e)"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model.fields,help:l10n_br_nfe_dfe.field_res_company__auto_manifest_nfe
+msgid ""
+"Automatically acknowledge receipt of notifications or events without manual "
+"intervention"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_l10n_br_fiscal_dfe_document__cfop_ids
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_document_tree
+msgid "CFOPs"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model.fields.selection,name:l10n_br_nfe_dfe.selection__l10n_br_fiscal_dfe_document__manifestation_status__ciente
+msgid "Ciente da Operação"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model,name:l10n_br_nfe_dfe.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model.fields.selection,name:l10n_br_nfe_dfe.selection__l10n_br_fiscal_dfe_document__manifestation_status__confirmado
+msgid "Confirmada operação"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_document_tree
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.view_l10n_br_fiscal_dfe_document_form_nfe
+msgid "DANFE"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.actions.server,name:l10n_br_nfe_dfe.ir_cron_search_dfe_documents_ir_actions_server
+#: model:ir.cron,cron_name:l10n_br_nfe_dfe.ir_cron_search_dfe_documents
+msgid "DF-e - Search NF-e Documents"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_l10n_br_nfe_md_event__dfe_document_id
+msgid "DF-e Document"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_document_tree
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_res_company_form
+msgid "Date"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model.fields.selection,name:l10n_br_nfe_dfe.selection__l10n_br_fiscal_dfe_document__manifestation_status__desconhecido
+msgid "Desconhecimento"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model,name:l10n_br_nfe_dfe.model_l10n_br_fiscal_dfe_document
+msgid "Fiscal document from distribution service"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_document_tree
+msgid "Import"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_res_company_form
+msgid "Last Query"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_document_tree
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.view_l10n_br_fiscal_dfe_document_form_nfe
+msgid "Manifest"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_document_tree
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.view_l10n_br_fiscal_dfe_document_form_nfe
+msgid "Manifestation"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_l10n_br_fiscal_dfe_document__manifestation_status
+msgid "Manifestation Status"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_l10n_br_fiscal_dfe_document__manifestations_ids
+msgid "Manifestations"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfe_dfe/models/dfe_document.py:0
+#, python-format
+msgid "Manifestação do Destinatário da NF-e"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_res_company_form
+msgid "NF-e DF-e"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_res_company__nfe_dfe_last_query
+msgid "NF-e DF-e Last Query"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_res_company__nfe_dfe_last_status
+msgid "NF-e DF-e Last Status"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_res_company__nfe_dfe_last_status_code
+msgid "NF-e DF-e Last Status Code"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_res_company_form
+msgid "NF-e DF-e Settings"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_res_company__nfe_dfe_version
+msgid "NF-e DF-e Version"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model.fields,help:l10n_br_nfe_dfe.field_res_company__nfe_dfe_next_query
+msgid "NF-e DF-e distribution will not be queried before this time."
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_res_company__nfe_last_nsu
+msgid "NF-e Last NSU"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_res_company__nfe_max_nsu
+msgid "NF-e Max NSU"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_res_company__nfe_dfe_next_query
+msgid "NF-e Next Scheduled Query"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.actions.act_window,name:l10n_br_nfe_dfe.action_nfe_dfe_document
+#: model:ir.ui.menu,name:l10n_br_nfe_dfe.menu_l10n_br_nfe_dfe_document
+msgid "NF-e de Terceiros"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_res_company_form
+msgid "Next Query"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfe_dfe/models/dfe_document.py:0
+#, python-format
+msgid "No complete DF-e found."
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model.fields.selection,name:l10n_br_nfe_dfe.selection__l10n_br_fiscal_dfe_document__manifestation_status__nao_realizado
+msgid "Não realizado"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model.fields,help:l10n_br_nfe_dfe.field_res_company__nfe_auto_fetch
+msgid "Periodically queries DF-e distribution for new NF-e documents"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model,name:l10n_br_nfe_dfe.model_l10n_br_nfe_md_event
+msgid "Recipient Manifestation"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model.fields.selection,name:l10n_br_nfe_dfe.selection__l10n_br_fiscal_dfe_document__manifestation_status__sem_manifestacao
+msgid "Sem manifestação"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_document_tree
+msgid "State"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_res_company_form
+msgid "Status"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_res_company_form
+msgid "Status Code"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_document_tree
+msgid "Type"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_document_tree
+msgid "XML"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfe_dfe/models/dfe_document.py:0
+#, python-format
+msgid "You can only import the NF-e when the DF-e is completed."
+msgstr ""

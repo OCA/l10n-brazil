@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2026 Engenere (<https://engenere.one>)
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <!-- NF-e specific tree: same as the generic one plus the KPI banner,
+         CFOP tags, manifestation badge and NF-e buttons. Referenced
+         explicitly by action_nfe_dfe_document. -->
+    <record model="ir.ui.view" id="nfe_dfe_document_tree">
+        <field name="name">l10n_br_fiscal_dfe.document.tree.nfe</field>
+        <field name="model">l10n_br_fiscal_dfe.document</field>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <tree
+                create="false"
+                edit="false"
+                delete="false"
+                banner_route="/l10n_br_fiscal_dfe/document_banner/nfe"
+                decoration-success="color_status == 'green'"
+                decoration-info="color_status == 'blue'"
+                decoration-muted="color_status == 'muted'"
+            >
+                <field
+                    name="color_status"
+                    widget="badge"
+                    string="Type"
+                    decoration-success="color_status == 'green'"
+                    decoration-info="color_status == 'blue'"
+                    decoration-muted="color_status == 'muted'"
+                />
+                <field name="document_emission_date" string="Date" widget="date" />
+                <field name="access_key" />
+                <field name="emitter" />
+                <field name="vat" />
+                <field name="partner_id" />
+                <field name="document_amount" string="Amount" />
+                <field name="cfop_ids" widget="many2many_tags" string="CFOPs" />
+                <field
+                    name="manifestation_status"
+                    widget="badge"
+                    string="Manifestation"
+                    decoration-success="manifestation_status == 'confirmado'"
+                    decoration-info="manifestation_status == 'ciente'"
+                    decoration-warning="manifestation_status == 'desconhecido'"
+                    decoration-danger="manifestation_status == 'nao_realizado'"
+                    decoration-muted="manifestation_status == 'sem_manifestacao'"
+                />
+                <field name="document_state" string="State" />
+                <button
+                    string="XML"
+                    name="action_download_xml"
+                    type="object"
+                    icon="fa-file-code-o"
+                />
+                <button
+                    string="DANFE"
+                    name="make_pdf"
+                    type="object"
+                    icon="fa-file-pdf-o"
+                />
+                <button
+                    name="import_document"
+                    string="Import"
+                    type="object"
+                    icon="fa-file-text-o"
+                />
+                <button
+                    string="Manifest"
+                    name="create_nfe_md_action"
+                    type="object"
+                    icon="fa-check-square-o"
+                />
+            </tree>
+        </field>
+    </record>
+
+    <!-- NF-e additions to the generic document form -->
+    <record id="view_l10n_br_fiscal_dfe_document_form_nfe" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal_dfe.document.form.nfe</field>
+        <field name="model">l10n_br_fiscal_dfe.document</field>
+        <field
+            name="inherit_id"
+            ref="l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='make_pdf']" position="attributes">
+                <attribute name="string">DANFE</attribute>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <button
+                    name="create_nfe_md_action"
+                    type="object"
+                    string="Manifest"
+                    icon="fa-check-square-o"
+                    attrs="{'invisible': ['|', ('fiscal_type', '!=', 'nfe'), ('manifestation_status', 'in', ('confirmado', 'desconhecido', 'nao_realizado'))]}"
+                />
+            </xpath>
+            <xpath expr="//field[@name='document_amount']" position="after">
+                <field
+                    name="cfop_ids"
+                    widget="many2many_tags"
+                    attrs="{'invisible': [('fiscal_type', '!=', 'nfe')]}"
+                />
+            </xpath>
+            <xpath expr="//group[@name='emitter_group']" position="after">
+                <group
+                    string="Manifestation"
+                    attrs="{'invisible': [('fiscal_type', '!=', 'nfe')]}"
+                >
+                    <field
+                        name="manifestation_status"
+                        widget="badge"
+                        decoration-success="manifestation_status == 'confirmado'"
+                        decoration-info="manifestation_status == 'ciente'"
+                        decoration-warning="manifestation_status == 'desconhecido'"
+                        decoration-danger="manifestation_status == 'nao_realizado'"
+                        decoration-muted="manifestation_status == 'sem_manifestacao'"
+                    />
+                    <field name="manifestations_ids" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_nfe_dfe_document" model="ir.actions.act_window">
+        <field name="name">NF-e de Terceiros</field>
+        <field name="res_model">l10n_br_fiscal_dfe.document</field>
+        <field name="view_mode">tree,form</field>
+        <field
+            name="domain"
+        >[('fiscal_type', '=', 'nfe'), ('is_own_document', '=', False)]</field>
+        <field name="context">{'default_fiscal_type': 'nfe'}</field>
+        <field
+            name="view_ids"
+            eval="[(5, 0, 0),
+                   (0, 0, {'view_mode': 'tree',
+                           'view_id': ref('nfe_dfe_document_tree')}),
+                   (0, 0, {'view_mode': 'form',
+                           'view_id': ref('l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_form')})]"
+        />
+    </record>
+
+    <menuitem
+        id="menu_l10n_br_nfe_dfe_document"
+        name="NF-e de Terceiros"
+        action="action_nfe_dfe_document"
+        parent="l10n_br_fiscal_dfe.menu_l10n_br_fiscal_dfe_root"
+        sequence="10"
+    />
+</odoo>
