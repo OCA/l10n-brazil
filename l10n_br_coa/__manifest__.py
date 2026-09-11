@@ -25,6 +25,11 @@
         "views/account_account.xml",
         "views/account_tax.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "l10n_br_coa/static/src/js/account_tax_withholding.esm.js",
+        ],
+    },
     "development_status": "Production/Stable",
     "installable": True,
 }
