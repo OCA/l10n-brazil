@@ -19,7 +19,7 @@
                         icon="fa-file-code-o"
                     />
                     <button
-                        string="DANFE"
+                        string="PDF"
                         name="make_pdf"
                         type="object"
                         icon="fa-file-pdf-o"
@@ -29,12 +29,7 @@
                         string="Import"
                         type="object"
                         icon="fa-file-text-o"
-                    />
-                    <button
-                        string="Manifest"
-                        name="create_nfe_md_action"
-                        type="object"
-                        icon="fa-check-square-o"
+                        class="oe_highlight"
                     />
                     <button
                         string="Match Partner"
@@ -51,43 +46,32 @@
                         </h1>
                     </div>
                     <group>
-                        <group string="Document">
+                        <group name="document_group" string="Document">
+                            <field name="fiscal_type" readonly="1" />
                             <field name="document_number" />
                             <field name="serie" />
                             <field name="document_emission_date" />
                             <field name="document_state" />
                             <field name="document_amount" widget="monetary" />
-                            <field name="cfop_ids" widget="many2many_tags" />
                             <field
                                 name="company_id"
                                 groups="base.group_multi_company"
                             />
                         </group>
-                        <group string="Emitter">
+                        <group name="emitter_group" string="Emitter">
                             <field name="emitter" />
                             <field name="vat" />
                             <field name="partner_id" />
                         </group>
                     </group>
-                    <group string="Manifestation">
-                        <field
-                            name="manifestation_status"
-                            widget="badge"
-                            decoration-success="manifestation_status == 'confirmado'"
-                            decoration-info="manifestation_status == 'ciente'"
-                            decoration-warning="manifestation_status == 'desconhecido'"
-                            decoration-danger="manifestation_status == 'nao_realizado'"
-                            decoration-muted="manifestation_status == 'sem_manifestacao'"
-                        />
-                        <field name="manifestations_ids" />
-                    </group>
                     <notebook>
                         <page string="DF-e Records" name="dfe_records">
                             <field name="dfe_ids">
                                 <tree>
-                                    <field name="dfe_nfe_document_type" string="DF-e" />
+                                    <field name="document_type_dfe" string="DF-e" />
                                     <field name="event_type_dfe_label" string="Event" />
                                     <field name="nsu" />
+                                    <field name="schema_type" />
                                     <button
                                         string="XML"
                                         name="action_download_xml"
@@ -103,6 +87,9 @@
         </field>
     </record>
 
+    <!-- Base tree: generic, no banner. Fiscal type specific modules
+         (e.g. l10n_br_nfe_dfe) provide their own tree view with a
+         banner_route and reference it from their action. -->
     <record model="ir.ui.view" id="l10n_br_fiscal_dfe_document_tree">
         <field name="name">l10n_br_fiscal_dfe.document.tree</field>
         <field name="model">l10n_br_fiscal_dfe.document</field>
@@ -112,7 +99,6 @@
                 create="false"
                 edit="false"
                 delete="false"
-                banner_route="/l10n_br_fiscal_dfe/document_banner"
                 decoration-success="color_status == 'green'"
                 decoration-info="color_status == 'blue'"
                 decoration-muted="color_status == 'muted'"
@@ -126,22 +112,12 @@
                     decoration-muted="color_status == 'muted'"
                 />
                 <field name="document_emission_date" string="Date" widget="date" />
+                <field name="fiscal_type" />
                 <field name="access_key" />
                 <field name="emitter" />
                 <field name="vat" />
                 <field name="partner_id" />
                 <field name="document_amount" string="Amount" />
-                <field name="cfop_ids" widget="many2many_tags" string="CFOPs" />
-                <field
-                    name="manifestation_status"
-                    widget="badge"
-                    string="Manifestation"
-                    decoration-success="manifestation_status == 'confirmado'"
-                    decoration-info="manifestation_status == 'ciente'"
-                    decoration-warning="manifestation_status == 'desconhecido'"
-                    decoration-danger="manifestation_status == 'nao_realizado'"
-                    decoration-muted="manifestation_status == 'sem_manifestacao'"
-                />
                 <field name="document_state" string="State" />
                 <button
                     string="XML"
@@ -150,22 +126,10 @@
                     icon="fa-file-code-o"
                 />
                 <button
-                    string="DANFE"
-                    name="make_pdf"
-                    type="object"
-                    icon="fa-file-pdf-o"
-                />
-                <button
                     name="import_document"
                     string="Import"
                     type="object"
                     icon="fa-file-text-o"
-                />
-                <button
-                    string="Manifest"
-                    name="create_nfe_md_action"
-                    type="object"
-                    icon="fa-check-square-o"
                 />
             </tree>
         </field>
@@ -185,7 +149,7 @@
                 <separator />
                 <filter
                     name="complete"
-                    string="Complete NF-e"
+                    string="Complete"
                     domain="[('color_status', '=', 'green')]"
                 />
                 <filter
@@ -213,6 +177,11 @@
                 <separator />
                 <group expand="0" string="Group By">
                     <filter
+                        name="group_fiscal_type"
+                        string="Fiscal Type"
+                        context="{'group_by': 'fiscal_type'}"
+                    />
+                    <filter
                         name="group_partner"
                         string="Partner"
                         context="{'group_by': 'partner_id'}"
@@ -233,7 +202,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="dfe_document_action">
-        <field name="name">Third-party NF-e</field>
+        <field name="name">Third-party DF-e Documents</field>
         <field name="res_model">l10n_br_fiscal_dfe.document</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('is_own_document', '=', False)]</field>

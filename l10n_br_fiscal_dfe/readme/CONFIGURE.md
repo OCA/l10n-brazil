@@ -20,20 +20,12 @@ ODOO_QUEUE_JOB_CHANNELS=root:2,root.dfe:1
 
 ## Configuração da empresa
 
-Em **Faturamento > Configuração > Empresas**, na aba **Fiscal > DF-e**
-(Configurações DF-e):
+A configuração por empresa (ambiente, busca automática, NSU, etc.) é feita
+nos módulos específicos de cada documento fiscal (ex.: aba **NF-e DF-e** do
+módulo `l10n_br_nfe_dfe`).
 
-- **Versão DF-e**: versão do serviço (padrão: 1.01)
-- **Ambiente DF-e**: Produção ou Homologação
-- **Busca automática de DF-e**: habilita a consulta automática via cron
-- **Manifestação Automática do Destinatário (NF-e)**: envia ciência da
-  operação automaticamente para cada resumo de NF-e recebido
+## Notificações
 
-A empresa precisa ter um **certificado digital A1** configurado no módulo
-`l10n_br_fiscal_certificate`.
-
-## Notificação de documentos (por usuário)
-
-Em **Preferências do Usuário**, o campo **Notificação DF-e** habilita o
-recebimento de notificações na caixa de entrada quando novos documentos de
-terceiros são encontrados pela distribuição DF-e.
+Cada usuário pode ativar a preferência **DF-e Notification** em
+**Preferências** para receber notificações no Inbox quando novos
+documentos de terceiros forem encontrados.

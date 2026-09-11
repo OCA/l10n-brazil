@@ -4,11 +4,8 @@
 
 import base64
 import re
-from datetime import datetime, timezone
 
 from lxml import objectify
-from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
-from nfelib.nfe.client.v4_0.dfe import DfeClient
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
@@ -17,66 +14,82 @@ from ..constants.dfe import (
     CSTAT_CONSUMO_INDEVIDO,
     CSTAT_NO_DOCS,
     CSTAT_SUCCESS,
-    DFE_ENVIRONMENT_DEFAULT,
-    DFE_ENVIRONMENTS,
     DFE_INTERVAL_ERROR,
     DFE_INTERVAL_NO_DOCS,
     DFE_INTERVAL_RATE_LIMITED,
     DFE_INTERVAL_SUCCESS,
-    DFE_VERSION_DEFAULT,
-    DFE_VERSIONS,
 )
 from ..tools import utils
 
-ACCESS_KEY_EXTRACTORS = {
-    "procNFe": lambda root: str(root.protNFe.infProt.chNFe),
-    "resNFe": lambda root: str(root.chNFe),
-    "resEvento": lambda root: str(root.chNFe),
-    "procEventoNFe": lambda root: str(root.evento.infEvento.chNFe),
-}
-
 
 class ResCompany(models.Model):
+    """Generic DF-e distribution engine.
+
+    This module is fiscal-document agnostic: the whole distribution
+    algorithm is implemented here, parameterized by ``fiscal_type``
+    (e.g. "nfe", "cte"). Specific modules (l10n_br_nfe_dfe,
+    l10n_br_cte_dfe...) only need to:
+
+    - define the typed fields on res.company:
+      ``{fiscal_type}_last_nsu``, ``{fiscal_type}_max_nsu``,
+      ``{fiscal_type}_dfe_last_query``, ``{fiscal_type}_dfe_last_status``,
+      ``{fiscal_type}_dfe_last_status_code``,
+      ``{fiscal_type}_dfe_next_query``, ``{fiscal_type}_auto_fetch``
+      (and ``{fiscal_type}_environment`` for the banner);
+    - implement ``_dfe_get_processor(fiscal_type)`` returning a SOAP
+      client exposing ``consultar_distribuicao(**kwargs)``;
+    - implement ``_dfe_create_from_<schema_type>(root, nsu, fiscal_type)``
+      for each schema the service distributes (procNFe, resNFe...);
+    - optionaly override ``_dfe_extract_access_key``,
+      ``_dfe_cron_xmlid`` and ``_dfe_document_action_xmlid``.
+    """
+
     _inherit = "res.company"
 
-    # ── DF-e configuration ──────────────────────────────────────────────
+    # ── Typed field helpers ─────────────────────────────────────────────
 
-    dfe_version = fields.Selection(selection=DFE_VERSIONS, default=DFE_VERSION_DEFAULT)
+    @staticmethod
+    def _dfe_field_name(fiscal_type, base):
+        """Return the company field name for a fiscal type, e.g.
+        ("nfe", "last_nsu") -> "nfe_last_nsu"."""
+        return f"{fiscal_type}_{base}"
 
-    dfe_environment = fields.Selection(
-        selection=DFE_ENVIRONMENTS,
-        default=DFE_ENVIRONMENT_DEFAULT,
-    )
+    def _dfe_get_typed_value(self, fiscal_type, base, default=False):
+        return getattr(self, self._dfe_field_name(fiscal_type, base), default)
 
-    last_nsu = fields.Char(string="Last NSU", size=25, default="0")
+    def _dfe_write_typed(self, fiscal_type, vals):
+        """Write {base: value} dict into the typed company fields."""
+        self.sudo().write(
+            {self._dfe_field_name(fiscal_type, k): v for k, v in vals.items()}
+        )
 
-    max_nsu = fields.Char(string="Max NSU", readonly=True)
+    # ── Hooks to implement in fiscal type specific modules ──────────────
 
-    dfe_last_query = fields.Datetime(string="Last Query")
+    def _dfe_get_processor(self, fiscal_type):
+        """Return the SOAP client for the given fiscal type."""
+        raise NotImplementedError(
+            "_dfe_get_processor() must be implemented in fiscal type specific "
+            "modules (e.g., l10n_br_nfe_dfe, l10n_br_cte_dfe)."
+        )
 
-    dfe_last_status = fields.Char(string="Last Status", readonly=True)
+    def _dfe_consultar_distribuicao(self, fiscal_type, **kwargs):
+        return self._dfe_get_processor(fiscal_type).consultar_distribuicao(**kwargs)
 
-    dfe_last_status_code = fields.Char(string="Last Status Code", readonly=True)
+    def _dfe_extract_access_key(self, root, schema_type):
+        """Extract the access key from a parsed DF-e payload.
 
-    dfe_next_query = fields.Datetime(
-        string="Next Scheduled Query",
-        help="DF-e distribution will not be queried before this time.",
-    )
+        Used for the dedup fallback when the NSU is zero (consChNFe in
+        homologation). Should be overridden by specific modules.
+        """
+        return None
 
-    auto_fetch = fields.Boolean(
-        default=False,
-        string="Auto-fetch DF-e",
-        help="Periodically queries DF-e distribution for new documents",
-    )
+    def _dfe_cron_xmlid(self, fiscal_type):
+        """XML id of the ir.cron to sync nextcall with, per fiscal type."""
+        return None
 
-    auto_manifest_nfe = fields.Boolean(
-        default=False,
-        string="Automatic Recipient Manifestation (NF-e)",
-        help=(
-            "Automatically acknowledge receipt of notifications or events "
-            "without manual intervention"
-        ),
-    )
+    def _dfe_document_action_xmlid(self, fiscal_type):
+        """XML id of the act_window opening the document list, per type."""
+        return "l10n_br_fiscal_dfe.dfe_document_action"
 
     # ── Helpers ─────────────────────────────────────────────────────────
 
@@ -85,7 +98,7 @@ class ResCompany(models.Model):
         """NSU is valid for dedup when it's a non-zero string."""
         return bool(nsu) and nsu != "000000000000000"
 
-    def _dfe_log(self, message, log_type="info", result=None):
+    def _dfe_log(self, message, log_type="info", result=None, fiscal_type=False):
         """Create a distribution log entry visible in the UI.
 
         If a WrappedResponse ``result`` is provided, the SOAP request and
@@ -95,9 +108,10 @@ class ResCompany(models.Model):
             "company_id": self.id,
             "log_type": log_type,
             "message": message,
+            "fiscal_type": fiscal_type,
         }
         if result is not None:
-            if hasattr(result, "envio_xml") and result.envio_xml:
+            if getattr(result, "envio_xml", False):
                 vals["request_xml"] = (
                     result.envio_xml.decode("utf-8", errors="replace")
                     if isinstance(result.envio_xml, bytes)
@@ -116,7 +130,7 @@ class ResCompany(models.Model):
                     )
         self.env["l10n_br_fiscal_dfe.distribution_log"].sudo().create(vals)
 
-    def _dfe_schedule_next_query(self, status_code, had_exception=False):
+    def _dfe_schedule_next_query(self, status_code, fiscal_type, had_exception=False):
         """Schedule the next DF-e query based on the last response status."""
         if had_exception:
             interval = DFE_INTERVAL_ERROR
@@ -128,43 +142,32 @@ class ResCompany(models.Model):
             interval = DFE_INTERVAL_RATE_LIMITED
         else:
             interval = DFE_INTERVAL_NO_DOCS
-        self.sudo().dfe_next_query = fields.Datetime.now() + interval
-        self._dfe_sync_cron_nextcall()
-
-    def _dfe_sync_cron_nextcall(self):
-        """Sync cron nextcall to the earliest dfe_next_query across companies."""
-        cron = self.env.ref(
-            "l10n_br_fiscal_dfe.ir_cron_search_dfe_documents",
-            raise_if_not_found=False,
+        self._dfe_write_typed(
+            fiscal_type, {"dfe_next_query": fields.Datetime.now() + interval}
         )
+        self._dfe_sync_cron_nextcall(fiscal_type)
+
+    def _dfe_sync_cron_nextcall(self, fiscal_type):
+        """Sync cron nextcall to the earliest typed dfe_next_query."""
+        cron_xmlid = self._dfe_cron_xmlid(fiscal_type)  # pylint: disable=assignment-from-none
+        if not cron_xmlid:
+            return
+        cron = self.env.ref(cron_xmlid, raise_if_not_found=False)
         if not cron:
             return
+        auto_fetch_field = self._dfe_field_name(fiscal_type, "auto_fetch")
+        next_query_field = self._dfe_field_name(fiscal_type, "dfe_next_query")
         earliest = (
             self.env["res.company"]
             .sudo()
             .search(
-                [("auto_fetch", "=", True), ("dfe_next_query", "!=", False)],
-                order="dfe_next_query asc",
+                [(auto_fetch_field, "=", True), (next_query_field, "!=", False)],
+                order=f"{next_query_field} asc",
                 limit=1,
-            )
-            .dfe_next_query
+            )[next_query_field]
         )
         if earliest and earliest != cron.nextcall:
             cron.sudo().nextcall = earliest
-
-    def _dfe_get_processor(self):
-        self.ensure_one()
-        cert = base64.b64decode(self.certificate.file)
-        return DfeClient(
-            ambiente=self.dfe_environment,
-            uf=self.state_id.ibge_code,
-            pkcs12_data=cert,
-            pkcs12_password=self.certificate.password,
-            wrap_response=True,
-        )
-
-    def _dfe_consultar_distribuicao(self, **kwargs):
-        return self._dfe_get_processor().consultar_distribuicao(**kwargs)
 
     def _dfe_validate_distribution_response(self, result, raise_message=False):
         resp = result.resposta
@@ -186,7 +189,7 @@ class ResCompany(models.Model):
             )
         else:
             msg_error = _(
-                "Error validating document distribution: " "\n\n%(code)s - %(message)s",
+                "Error validating document distribution: \n\n%(code)s - %(message)s",
                 code=code,
                 message=message,
             )
@@ -197,31 +200,21 @@ class ResCompany(models.Model):
 
     # ── Distribution actions ────────────────────────────────────────────
 
-    @api.model
-    def action_banner_search_all(self):
-        """Called from banner button — delegates to current company."""
-        company = self.env.company
-        result = company.action_document_distribution()
-        return result or {"type": "ir.actions.client", "tag": "reload"}
-
-    @api.model
-    def action_banner_specific_search(self):
-        """Called from banner button — delegates to current company."""
-        return self.env.company.action_search_specific()
-
-    def action_document_distribution(self):
+    def action_document_distribution(self, fiscal_type):
         self.ensure_one()
         now = fields.Datetime.now()
-        if self.dfe_next_query and self.dfe_next_query > now:
-            remaining = self.dfe_next_query - now
+        next_query = self._dfe_get_typed_value(fiscal_type, "dfe_next_query")
+        if next_query and next_query > now:
+            remaining = next_query - now
             minutes = int(remaining.total_seconds() // 60)
+            status_code = self._dfe_get_typed_value(fiscal_type, "dfe_last_status_code")
             return {
                 "type": "ir.actions.client",
                 "tag": "display_notification",
                 "params": {
                     "title": _(
                         "Cooldown active (%(code)s)",
-                        code=self.dfe_last_status_code or "—",
+                        code=status_code or "—",
                     ),
                     "message": _(
                         "Next query scheduled in %(minutes)s minutes.",
@@ -231,12 +224,13 @@ class ResCompany(models.Model):
                     "sticky": False,
                 },
             }
-        return self._dfe_document_distribution()
+        return self._dfe_document_distribution(fiscal_type)
 
-    def _dfe_search_specific_document(self, access_key=None, nsu=None):
+    def _dfe_search_specific_document(self, fiscal_type, access_key=None, nsu=None):
         """Search for a specific document by access key or NSU."""
         self.ensure_one()
         result = self._dfe_consultar_distribuicao(
+            fiscal_type,
             chave=access_key,
             nsu_especifico=utils.format_nsu(nsu) if nsu else None,
             cnpj_cpf=re.sub("[^0-9]", "", self.vat),
@@ -252,29 +246,33 @@ class ResCompany(models.Model):
             ),
             log_type="success",
             result=result,
+            fiscal_type=fiscal_type,
         )
-        self._dfe_process_distribution(resp)
+        self._dfe_process_distribution(resp, fiscal_type)
 
-    def _dfe_document_distribution(self):
+    def _dfe_document_distribution(self, fiscal_type):
         self.ensure_one()
-        last_nsu = (
-            self.last_nsu
-            if (self.last_nsu and self.last_nsu.isdigit())
-            else "000000000000000"
-        )
-        raw_max = (self.max_nsu or "").strip()
+        last_nsu = str(self._dfe_get_typed_value(fiscal_type, "last_nsu") or "0")
+        last_nsu = last_nsu if last_nsu.isdigit() else "000000000000000"
+        raw_max = str(self._dfe_get_typed_value(fiscal_type, "max_nsu") or "").strip()
         max_nsu = raw_max if (raw_max and raw_max != "000000000000000") else False
         now = fields.Datetime.now()
-        if self.dfe_next_query and self.dfe_next_query > now:
+        next_query = self._dfe_get_typed_value(fiscal_type, "dfe_next_query")
+        if next_query and next_query > now:
             return
 
         last_query_time = None
         last_result = False
         Document = self.env["l10n_br_fiscal_dfe.document"].sudo()
-        existing_doc_ids = set(Document.search([("company_id", "=", self.id)]).ids)
+        existing_doc_ids = set(
+            Document.search(
+                [("company_id", "=", self.id), ("fiscal_type", "=", fiscal_type)]
+            ).ids
+        )
         while True:
             try:
                 result = self._dfe_consultar_distribuicao(
+                    fiscal_type,
                     cnpj_cpf=re.sub("[^0-9]", "", self.vat),
                     ultimo_nsu=utils.format_nsu(last_nsu),
                 )
@@ -282,6 +280,7 @@ class ResCompany(models.Model):
                 self._dfe_log(
                     _("Error on searching documents.\n%(error)s", error=exc),
                     log_type="error",
+                    fiscal_type=fiscal_type,
                 )
                 break
 
@@ -316,24 +315,30 @@ class ResCompany(models.Model):
                 ),
                 log_type="success",
                 result=result,
+                fiscal_type=fiscal_type,
             )
 
-            self._dfe_process_distribution(resp)
+            self._dfe_process_distribution(resp, fiscal_type)
 
             if max_nsu and last_nsu >= max_nsu:
                 break
 
         # Notify opted-in users about newly found documents
-        current_doc_ids = set(Document.search([("company_id", "=", self.id)]).ids)
+        current_doc_ids = set(
+            Document.search(
+                [("company_id", "=", self.id), ("fiscal_type", "=", fiscal_type)]
+            ).ids
+        )
         new_doc_ids = current_doc_ids - existing_doc_ids
         if new_doc_ids:
             new_documents = Document.browse(new_doc_ids)
-            self._dfe_notify_users(new_documents)
+            self._dfe_notify_users(new_documents, fiscal_type)
 
         last_resp = last_result.resposta if last_result else False
         write_vals = {
             "last_nsu": last_nsu,
-            "dfe_last_query": last_query_time or self.dfe_last_query,
+            "dfe_last_query": last_query_time
+            or self._dfe_get_typed_value(fiscal_type, "dfe_last_query"),
             "dfe_last_status": (getattr(last_resp, "xMotivo", "") if last_resp else ""),
             "dfe_last_status_code": (
                 getattr(last_resp, "cStat", "") if last_resp else ""
@@ -341,13 +346,14 @@ class ResCompany(models.Model):
         }
         if max_nsu:
             write_vals["max_nsu"] = max_nsu
-        self.sudo().write(write_vals)
+        self._dfe_write_typed(fiscal_type, write_vals)
         self._dfe_schedule_next_query(
             status_code=write_vals.get("dfe_last_status_code", ""),
+            fiscal_type=fiscal_type,
             had_exception=not last_result,
         )
 
-    def _dfe_notify_users(self, new_documents):
+    def _dfe_notify_users(self, new_documents, fiscal_type):
         """Notify opted-in users about new third-party documents."""
         self.ensure_one()
         third_party_docs = new_documents.filtered(lambda d: not d.is_own_document)
@@ -367,9 +373,8 @@ class ResCompany(models.Model):
         if not users:
             return
 
-        action = self.env.ref(
-            "l10n_br_fiscal_dfe.dfe_document_action", raise_if_not_found=False
-        )
+        action_xmlid = self._dfe_document_action_xmlid(fiscal_type)
+        action = self.env.ref(action_xmlid, raise_if_not_found=False)
         action_url = (
             f"/web#action={action.id}"
             if action
@@ -393,42 +398,49 @@ class ResCompany(models.Model):
                 res_id=company.id,
             )
 
-    def dfe_search_documents(self):
+    def dfe_search_documents(self, fiscal_type):
         for record in self:
-            record._dfe_document_distribution()
+            record._dfe_document_distribution(fiscal_type)
 
-    def action_search_specific(self):
+    def action_search_specific(self, fiscal_type):
         self.ensure_one()
         return {
             "name": _("Specific Document Search"),
             "type": "ir.actions.act_window",
-            "res_model": "dfe_specific_search_wizard",
+            "res_model": "dfe.specific.search.wizard",
             "views": [[False, "form"]],
             "target": "new",
-            "context": {"default_company_id": self.id},
+            "context": {
+                "default_company_id": self.id,
+                "default_fiscal_type": fiscal_type,
+            },
         }
 
     # ── Cron ────────────────────────────────────────────────────────────
 
     @api.model
-    def _cron_dfe_search_documents(self):
+    def _cron_dfe_search_documents(self, fiscal_type):
         now = fields.Datetime.now()
+        auto_fetch_field = self._dfe_field_name(fiscal_type, "auto_fetch")
+        next_query_field = self._dfe_field_name(fiscal_type, "dfe_next_query")
         companies = self.search(
             [
-                ("auto_fetch", "=", True),
+                (auto_fetch_field, "=", True),
                 "|",
-                ("dfe_next_query", "=", False),
-                ("dfe_next_query", "<=", now),
+                (next_query_field, "=", False),
+                (next_query_field, "<=", now),
             ]
         )
         for company in companies:
             company.with_company(company).with_delay(
-                description=f"NF-e: consulta distribuição DF-e ({company.name})",
-            )._dfe_document_distribution()
+                description=(
+                    f"DF-e ({fiscal_type}): distribution query ({company.name})"
+                ),
+            )._dfe_document_distribution(fiscal_type)
 
     # ── Distribution processing ─────────────────────────────────────────
 
-    def _dfe_process_distribution(self, result):
+    def _dfe_process_distribution(self, result, fiscal_type):
         DfeRecord = self.env["l10n_br_fiscal_dfe.dfe"].sudo()
 
         for doc in result.loteDistDFeInt.docZip:
@@ -459,192 +471,65 @@ class ResCompany(models.Model):
             # false dedup when multiple documents have NSU=0 (e.g. consChNFe).
             if self._dfe_is_valid_nsu(nsu):
                 existing = DfeRecord.search(
-                    [("nsu", "=", nsu), ("company_id", "=", self.id)], limit=1
+                    [
+                        ("nsu", "=", nsu),
+                        ("company_id", "=", self.id),
+                        ("fiscal_type", "=", fiscal_type),
+                    ],
+                    limit=1,
                 )
                 if existing:
                     continue
             else:
                 nsu = False
-                extractor = ACCESS_KEY_EXTRACTORS.get(schema_type)
-                access_key = extractor(root) if extractor else None
+                access_key = self._dfe_extract_access_key(  # pylint: disable=assignment-from-none
+                    root, schema_type
+                )
                 if access_key:
                     existing = DfeRecord.search(
                         [
                             ("access_key", "=", access_key),
                             ("schema_type", "=", schema_type),
                             ("company_id", "=", self.id),
+                            ("fiscal_type", "=", fiscal_type),
                         ],
                         limit=1,
                     )
                     if existing:
                         continue
 
-            if schema_type == "procNFe":
-                dfe_record = self._dfe_create_from_procNFe(root, nsu)
-            elif schema_type == "resNFe":
-                dfe_record = self._dfe_create_from_resNFe(root, nsu)
-            elif schema_type == "resEvento":
-                dfe_record = self._dfe_create_from_resEvento(root, nsu)
-            elif schema_type == "procEventoNFe":
-                dfe_record = self._dfe_create_from_procEventoNFe(root, nsu)
+            create_method = getattr(self, f"_dfe_create_from_{schema_type}", None)
+            if create_method:
+                dfe_record = create_method(root, nsu, fiscal_type)
             else:
                 dfe_record = DfeRecord.create(
                     {
                         "nsu": nsu,
                         "company_id": self.id,
+                        "fiscal_type": fiscal_type,
                     }
                 )
             if dfe_record:
                 dfe_record.schema_type = schema_type
                 dfe_record.create_xml_attachment(xml)
 
-    def _dfe_create_from_procNFe(self, root, nsu):
-        nfe_key = root.protNFe.infProt.chNFe
-        dfe_document = self._dfe_get_or_create_document(nfe_key)
-        supplier_cnpj = utils.mask_cnpj("%014d" % root.NFe.infNFe.emit.CNPJ)
-
-        dfe_record = (
-            self.env["l10n_br_fiscal_dfe.dfe"]
-            .sudo()
-            .create(
-                {
-                    "access_key": nfe_key,
-                    "nsu": nsu,
-                    "company_id": self.id,
-                    "dfe_nfe_document_type": "dfe_nfe_complete",
-                    "operation_type": str(root.NFe.infNFe.ide.tpNF),
-                }
-            )
-        )
-
-        dfe_document.sudo().dfe_ids = [(4, dfe_record.id)]
-        dfe_document._update_metadata(
-            {
-                "emitter": str(root.NFe.infNFe.emit.xNome),
-                "vat": supplier_cnpj,
-                "serie": str(root.NFe.infNFe.ide.serie),
-                "document_number": str(int(root.NFe.infNFe.ide.nNF)),
-                "document_amount": float(root.NFe.infNFe.total.ICMSTot.vNF),
-                "document_emission_date": datetime.fromisoformat(
-                    str(root.NFe.infNFe.ide.dhEmi)
-                )
-                .astimezone(timezone.utc)
-                .replace(tzinfo=None),
-                "document_state": "1",
-            },
-            is_complete=True,
-        )
-        return dfe_record
-
-    def _dfe_create_from_resNFe(self, root, nsu):
-        nfe_key = root.chNFe
-        dfe_document = self._dfe_get_or_create_document(nfe_key)
-        supplier_cnpj = utils.mask_cnpj("%014d" % root.CNPJ)
-
-        dfe_record = (
-            self.env["l10n_br_fiscal_dfe.dfe"]
-            .sudo()
-            .create(
-                {
-                    "access_key": nfe_key,
-                    "nsu": nsu,
-                    "company_id": self.id,
-                    "dfe_nfe_document_type": "dfe_nfe_summary",
-                    "operation_type": str(root.tpNF),
-                }
-            )
-        )
-
-        dfe_document.sudo().dfe_ids = [(4, dfe_record.id)]
-        dfe_document._update_metadata(
-            {
-                "emitter": str(root.xNome),
-                "vat": supplier_cnpj,
-                "document_amount": float(root.vNF),
-                "document_emission_date": datetime.fromisoformat(str(root.dhEmi))
-                .astimezone(timezone.utc)
-                .replace(tzinfo=None),
-                "document_state": str(root.cSitNFe),
-            },
-            is_complete=False,
-        )
-
-        if self.auto_manifest_nfe:
-            mde = self.env["l10n_br_nfe.md_event"].create(
-                {
-                    "access_key": nfe_key,
-                    "event_type": "ciente",
-                    "company_id": self.id,
-                    "document_type": "nfe",
-                    "state": "draft",
-                    "dfe_document_id": dfe_document.id,
-                }
-            )
-            mde.with_delay(
-                channel="root.dfe",
-                description=f"Auto-manifest ciência: {nfe_key}",
-            ).action_confirm()
-
-        return dfe_record
-
-    def _dfe_create_from_resEvento(self, root, nsu):
-        nfe_key = root.chNFe
-        dfe_document = self._dfe_get_or_create_document(nfe_key)
-
-        dfe_record = (
-            self.env["l10n_br_fiscal_dfe.dfe"]
-            .sudo()
-            .create(
-                {
-                    "access_key": nfe_key,
-                    "nsu": nsu,
-                    "company_id": self.id,
-                    "dfe_nfe_document_type": "dfe_nfe_event",
-                    "event_type_dfe": str(root.tpEvento),
-                }
-            )
-        )
-
-        dfe_document.sudo().dfe_ids = [(4, dfe_record.id)]
-        return dfe_record
-
-    def _dfe_create_from_procEventoNFe(self, root, nsu):
-        nfe_key = root.evento.infEvento.chNFe
-        dfe_document = self._dfe_get_or_create_document(nfe_key)
-
-        dfe_record = (
-            self.env["l10n_br_fiscal_dfe.dfe"]
-            .sudo()
-            .create(
-                {
-                    "access_key": nfe_key,
-                    "nsu": nsu,
-                    "company_id": self.id,
-                    "dfe_nfe_document_type": "dfe_nfe_event",
-                    "event_type_dfe": str(root.evento.infEvento.tpEvento),
-                }
-            )
-        )
-
-        dfe_document.sudo().dfe_ids = [(4, dfe_record.id)]
-        return dfe_record
-
-    def _dfe_get_or_create_document(self, nfe_key):
+    def _dfe_get_or_create_document(self, access_key, fiscal_type):
         Document = self.env["l10n_br_fiscal_dfe.document"].sudo()
         domain = [
-            ("access_key", "=", nfe_key),
+            ("access_key", "=", access_key),
             ("company_id", "=", self.id),
         ]
 
         document = Document.search(domain, limit=1)
         if not document:
             vals = {
-                "access_key": nfe_key,
+                "access_key": access_key,
                 "company_id": self.id,
+                "fiscal_type": fiscal_type,
             }
             # Extract baseline metadata from the access key structure:
             # positions 6-20: CNPJ, 22-25: serie, 25-34: document number
-            key = str(nfe_key)
+            key = str(access_key)
             if len(key) == 44:
                 cnpj_digits = key[6:20]
                 vals["vat"] = utils.mask_cnpj(cnpj_digits)
@@ -652,8 +537,3 @@ class ResCompany(models.Model):
                 vals["document_number"] = key[25:34].lstrip("0") or "0"
             document = Document.create(vals)
         return document
-
-    @api.model
-    def parse_procNFe(self, xml):
-        binding = TnfeProc.from_xml(xml.read().decode())
-        return self.env["l10n_br_fiscal.document"].import_binding_nfe(binding)

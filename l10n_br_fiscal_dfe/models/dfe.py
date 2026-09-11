@@ -13,6 +13,12 @@ _logger = logging.getLogger(__name__)
 
 
 class DFe(models.Model):
+    """Generic DF-e payload record (one per NSU / schema received).
+
+    Fiscal document agnostic: works for NF-e, CT-e or any document
+    distributed by a SEFAZ DF-e distribution service.
+    """
+
     _name = "l10n_br_fiscal_dfe.dfe"
     _description = "DF-e"
     _order = "id desc"
@@ -24,6 +30,11 @@ class DFe(models.Model):
     access_key = fields.Char(size=44, index=True)
 
     nsu = fields.Char(string="NSU", size=25, index=True)
+
+    fiscal_type = fields.Selection(
+        selection=[("nfe", "NF-e"), ("cte", "CT-e")],
+        index=True,
+    )
 
     schema_type = fields.Char(
         help="Type of the DF-e document according to the XML schema.",
@@ -40,13 +51,13 @@ class DFe(models.Model):
         readonly=True,
     )
 
-    dfe_nfe_document_type = fields.Selection(
+    document_type_dfe = fields.Selection(
         selection=[
-            ("dfe_nfe_complete", "NF-e Completa"),
-            ("dfe_nfe_summary", "Resumo da NF-e"),
-            ("dfe_nfe_event", "Evento da NF-e"),
+            ("complete", "Complete"),
+            ("summary", "Summary"),
+            ("event", "Event"),
         ],
-        string="DF-e Type (NF-e)",
+        string="DF-e Type",
     )
 
     attachment_id = fields.Many2one(
@@ -77,8 +88,8 @@ class DFe(models.Model):
     def name_get(self):
         result = []
         for rec in self:
-            document_type = dict(rec._fields["dfe_nfe_document_type"].selection).get(
-                rec.dfe_nfe_document_type
+            document_type = dict(rec._fields["document_type_dfe"].selection).get(
+                rec.document_type_dfe
             )
             result.append(
                 (
@@ -91,7 +102,7 @@ class DFe(models.Model):
     def create_xml_attachment(self, xml):
         self.sudo().attachment_id = self.env["ir.attachment"].create(
             {
-                "name": f"{self.schema_type}{self.access_key}.xml",
+                "name": f"{self.schema_type}_{self.access_key}.xml",
                 "datas": base64.b64encode(xml),
                 "description": DFE_DESCRIPTION_MAP.get(self.schema_type),
                 "res_model": self._name,
