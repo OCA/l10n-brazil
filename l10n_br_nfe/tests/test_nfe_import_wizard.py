@@ -324,6 +324,76 @@ class NFeImportWizardTest(TransactionCase):
                 "product created during import must get the XML unit",
             )
 
+    def test_product_name_search_prioritizes_supplier_po_lines(self):
+        """The unmatched product picker proposes the products still awaiting
+        billing on the NFe supplier's confirmed POs first, without restricting
+        the search to them (parity with the legacy akretion importer)."""
+        self._prepare_wizard(self.xml_1)
+        if self.env.get("purchase.order.line") is None:
+            self.skipTest("purchase module not installed")
+
+        company = self.env.ref("base.main_company")
+        supplier = self.env["res.partner"].create({"name": "Vendor Domain"})
+        ordered = self.env["product.product"].create(
+            {"name": "ZZZ Ordered Product", "purchase_ok": True}
+        )
+        other = self.env["product.product"].create(
+            {"name": "ZZZ Other Product", "purchase_ok": True}
+        )
+        draft_product = self.env["product.product"].create(
+            {"name": "ZZZ Draft Product", "purchase_ok": True}
+        )
+        foreign_product = self.env["product.product"].create(
+            {"name": "ZZZ Foreign Product", "purchase_ok": True}
+        )
+
+        def add_line(order, product):
+            self.env["purchase.order.line"].create(
+                {
+                    "order_id": order.id,
+                    "product_id": product.id,
+                    "name": product.name,
+                    "product_qty": 1.0,
+                    "price_unit": 10.0,
+                    "date_planned": fields.Datetime.now(),
+                }
+            )
+
+        # confirmed PO line in the wizard's company -> proposed first
+        order = self.env["purchase.order"].create(
+            {"partner_id": supplier.id, "company_id": company.id}
+        )
+        add_line(order, ordered)
+        order.button_confirm()
+
+        # draft PO line in the wizard's company -> not proposed
+        draft_order = self.env["purchase.order"].create(
+            {"partner_id": supplier.id, "company_id": company.id}
+        )
+        add_line(draft_order, draft_product)
+
+        # confirmed PO line in ANOTHER company -> not proposed (multi-company)
+        other_company = self.env["res.company"].create(
+            {"name": "Other Co", "currency_id": company.currency_id.id}
+        )
+        foreign_order = self.env["purchase.order"].create(
+            {"partner_id": supplier.id, "company_id": other_company.id}
+        )
+        add_line(foreign_order, foreign_product)
+        foreign_order.button_confirm()
+
+        products = self.env["product.product"].with_context(
+            nfe_import_supplier_id=supplier.id, nfe_import_company_id=company.id
+        )
+        found = products.name_search("ZZZ")
+        found_ids = [pid for pid, _name in found]
+        # the confirmed-PO product comes first in the proposals
+        self.assertEqual(found_ids[0], ordered.id)
+        # the search is not restricted: every matching product stays reachable
+        self.assertIn(other.id, found_ids)
+        self.assertIn(draft_product.id, found_ids)
+        self.assertIn(foreign_product.id, found_ids)
+
     def test__parse_xml(self):
         self._prepare_wizard(self.xml_1)
 

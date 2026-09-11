@@ -50,6 +50,88 @@ class ProductProduct(models.Model):
         return rec_id
 
     @api.model
+    def _get_supplier_open_po_product_ids(self, supplier_id, company_id):
+        """Ids of products with a not-fully-billed line on the supplier's
+        confirmed/done purchase orders (soft dependency on ``purchase``)."""
+        po_line_model = self.env.get("purchase.order.line")
+        if po_line_model is None:
+            return set()
+        po_lines = po_line_model.sudo().search(
+            [
+                ("order_id.partner_id", "=", supplier_id),
+                ("order_id.company_id", "=", company_id),
+                ("order_id.state", "in", ("purchase", "done")),
+            ]
+        )
+        return set(
+            po_lines.filtered(
+                lambda line: line.product_qty > line.qty_invoiced
+            ).product_id.ids
+        )
+
+    @api.model
+    def _name_search(
+        self, name="", args=None, operator="ilike", limit=100, name_get_uid=None
+    ):
+        """Propose the NFe supplier's open purchase-order products first.
+
+        The fiscal document import wizard's product picker passes
+        ``nfe_import_supplier_id`` and ``nfe_import_company_id`` in its
+        context: the products on that supplier's confirmed purchase orders
+        with quantity still to be billed are then proposed first in the
+        many2one, while the search itself stays unrestricted so any other
+        product remains selectable (typing filters the whole catalog).
+        Without those context keys this is a plain ``super()`` pass-through.
+
+        ``qty_to_invoice`` cannot be used as the "open" criterion: with the
+        default ``purchase_method='receive'`` it is 0 until the goods are
+        received, while the supplier NF-e typically arrives together with the
+        truck. A search domain cannot compare two fields either, so the
+        not-fully-billed check is done in Python over the confirmed/done
+        order lines.
+        """
+        supplier_id = self.env.context.get("nfe_import_supplier_id")
+        company_id = self.env.context.get("nfe_import_company_id")
+        if not supplier_id or not company_id:
+            return super()._name_search(
+                name,
+                args=args,
+                operator=operator,
+                limit=limit,
+                name_get_uid=name_get_uid,
+            )
+        open_product_ids = self._get_supplier_open_po_product_ids(
+            supplier_id, company_id
+        )
+        if not open_product_ids:
+            return super()._name_search(
+                name,
+                args=args,
+                operator=operator,
+                limit=limit,
+                name_get_uid=name_get_uid,
+            )
+        priority_args = expression.AND(
+            [list(args or []), [("id", "in", list(open_product_ids))]]
+        )
+        priority_ids = super()._name_search(
+            name,
+            args=priority_args,
+            operator=operator,
+            limit=limit,
+            name_get_uid=name_get_uid,
+        )
+        ids = super()._name_search(
+            name,
+            args=args,
+            operator=operator,
+            limit=limit,
+            name_get_uid=name_get_uid,
+        )
+        merged = list(dict.fromkeys(list(priority_ids) + list(ids)))
+        return merged[:limit] if limit else merged
+
+    @api.model
     def default_get(self, default_fields):
         """
         The nfe.40.prod mixin (prod XML tag) cannot be injected in
