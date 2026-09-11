@@ -9,9 +9,20 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
-class DFeSpecificSearchWizard(models.TransientModel):
-    _name = "dfe_specific_search_wizard"
+class DfeSpecificSearchWizard(models.TransientModel):
+    _name = "dfe.specific.search.wizard"
     _description = "Wizard to search specific DFe"
+
+    company_id = fields.Many2one(
+        comodel_name="res.company",
+        string="Company",
+        default=lambda self: self.env.company.id,
+    )
+
+    fiscal_type = fields.Selection(
+        selection=[("nfe", "NF-e"), ("cte", "CT-e")],
+        required=True,
+    )
 
     access_key = fields.Char(
         help="Access Key of the electronic fiscal document to be searched.",
@@ -32,12 +43,6 @@ class DFeSpecificSearchWizard(models.TransientModel):
         ],
         default="access_key",
         required=True,
-    )
-
-    company_id = fields.Many2one(
-        comodel_name="res.company",
-        string="Company",
-        default=lambda self: self.env.company.id,
     )
 
     @api.onchange("access_key")
@@ -73,6 +78,7 @@ class DFeSpecificSearchWizard(models.TransientModel):
             [
                 ("nsu", "=", digits_only.zfill(15)),
                 ("company_id", "=", self.company_id.id),
+                ("fiscal_type", "=", self.fiscal_type),
             ],
             limit=1,
         )
@@ -90,10 +96,14 @@ class DFeSpecificSearchWizard(models.TransientModel):
         if self.search_type == "access_key":
             access_key = self._sanitize_access_key(self.access_key)
             self._validate_access_key(access_key)
-            self.company_id._dfe_search_specific_document(access_key=access_key)
+            self.company_id._dfe_search_specific_document(
+                self.fiscal_type, access_key=access_key
+            )
         else:
             self._validate_nsu(self.nsu)
-            self.company_id._dfe_search_specific_document(nsu=self.nsu)
+            self.company_id._dfe_search_specific_document(
+                self.fiscal_type, nsu=self.nsu
+            )
         return {
             "type": "ir.actions.client",
             "tag": "display_notification",
