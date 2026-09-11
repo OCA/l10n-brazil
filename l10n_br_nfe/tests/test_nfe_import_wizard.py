@@ -3,6 +3,7 @@ import os
 import re
 from unittest.mock import MagicMock, patch
 
+from odoo import fields
 from odoo.tests import TransactionCase
 
 from odoo.addons import l10n_br_nfe
@@ -204,26 +205,97 @@ class NFeImportWizardTest(TransactionCase):
         self.assertFalse(prod_id)
 
     def test_match_product_by_purchase(self):
-        """The purchase-order priority match is a soft dependency on
-        l10n_br_purchase (which adds partner_order/partner_order_line to
-        purchase.order.line). It must be a no-op when those fields are absent,
-        so _match_product falls back to supplierinfo/default_code/barcode."""
+        """xPed/nItemPed map to the buyer's purchase order reference and the
+        1-based line POSITION (``sequence`` defaults to 10 for every
+        interface-created line and cannot be used). When purchase is absent it
+        must no-op so _match_product falls back to
+        supplierinfo/default_code/barcode."""
         self._prepare_wizard(self.xml_1)
-        pol = self.env.get("purchase.order.line")
-        has_fields = pol is not None and "partner_order" in pol._fields
+        pol_model = self.env.get("purchase.order.line")
+
         mock = MagicMock()
         mock.xPed = "NONEXISTENT-PO-REF"
         mock.nItemPed = "999"
-        # No PO references this xPed (and/or l10n_br_purchase absent) -> no
-        # match, and crucially no crash on a missing field.
+        # No PO references this xPed (and/or purchase absent) -> no match,
+        # and crucially no crash on a missing model.
         self.assertFalse(self.wizard._match_product_by_purchase(mock))
-        if not has_fields:
+
+        if pol_model is None:
             # guard short-circuits before any purchase.order.line search
             self.assertFalse(
                 self.wizard._match_product_by_purchase(
                     self.wizard._parse_file().infNFe.det[0].prod
                 )
             )
+            return
+
+        company = self.env.ref("base.main_company")
+        partner = self.env["res.partner"].create({"name": "Vendor PO"})
+        first_product = self.env["product.product"].create({"name": "PO Product 1"})
+        second_product = self.env["product.product"].create({"name": "PO Product 2"})
+        order = self.env["purchase.order"].create(
+            {"partner_id": partner.id, "company_id": company.id}
+        )
+        for product in (first_product, second_product):
+            self.env["purchase.order.line"].create(
+                {
+                    "order_id": order.id,
+                    "product_id": product.id,
+                    "name": product.name,
+                    "product_qty": 1.0,
+                    "price_unit": 10.0,
+                    "date_planned": fields.Datetime.now(),
+                }
+            )
+        self.wizard.issuer_partner_id = partner
+        self.wizard.company_id = company
+
+        # nItemPed is the 1-based line position, not the (10, 10, ...) sequence.
+        mock = MagicMock()
+        mock.xPed = order.name
+        mock.nItemPed = "1"
+        self.assertEqual(self.wizard._match_product_by_purchase(mock), first_product)
+        mock.nItemPed = "2"
+        self.assertEqual(self.wizard._match_product_by_purchase(mock), second_product)
+
+        # the buyer's vendor reference (partner_ref) also matches xPed.
+        order.partner_ref = "SUPPLIER-PO-REF"
+        mock = MagicMock()
+        mock.xPed = "SUPPLIER-PO-REF"
+        mock.nItemPed = "2"
+        self.assertEqual(self.wizard._match_product_by_purchase(mock), second_product)
+
+        # an out-of-range nItemPed falls back to the cProd disambiguation.
+        second_product.default_code = "COD-2"
+        mock = MagicMock()
+        mock.xPed = order.name
+        mock.nItemPed = "99"
+        mock.cProd = "COD-2"
+        mock.cEANTrib = None
+        self.assertEqual(self.wizard._match_product_by_purchase(mock), second_product)
+
+        # a purchase order in another company must not match (multi-company).
+        other_company = self.env["res.company"].create(
+            {"name": "Other Co", "currency_id": company.currency_id.id}
+        )
+        foreign_order = self.env["purchase.order"].create(
+            {"partner_id": partner.id, "company_id": other_company.id}
+        )
+        self.env["purchase.order.line"].create(
+            {
+                "order_id": foreign_order.id,
+                "product_id": first_product.id,
+                "name": first_product.name,
+                "product_qty": 1.0,
+                "price_unit": 10.0,
+                "date_planned": fields.Datetime.now(),
+            }
+        )
+        foreign_order.partner_ref = "FOREIGN-COMPANY-REF"
+        mock = MagicMock()
+        mock.xPed = "FOREIGN-COMPANY-REF"
+        mock.nItemPed = "1"
+        self.assertFalse(self.wizard._match_product_by_purchase(mock))
 
     def test_import_nfe_created_product_uom_from_xml(self):
         """A product created during import gets its unit from the XML uCom.
@@ -251,6 +323,81 @@ class NFeImportWizardTest(TransactionCase):
                 line.product_id.uom_id,
                 "product created during import must get the XML unit",
             )
+
+    def test_product_name_search_prioritizes_supplier_po_lines(self):
+        """The unmatched product picker proposes the products still awaiting
+        billing on the NFe supplier's confirmed POs first, without restricting
+        the search to them (parity with the legacy akretion importer)."""
+        self._prepare_wizard(self.xml_1)
+        if self.env.get("purchase.order.line") is None:
+            self.skipTest("purchase module not installed")
+
+        company = self.env.ref("base.main_company")
+        supplier = self.env["res.partner"].create({"name": "Vendor Domain"})
+        ordered = self.env["product.product"].create(
+            {"name": "ZZZ Ordered Product", "purchase_ok": True}
+        )
+        other = self.env["product.product"].create(
+            {"name": "ZZZ Other Product", "purchase_ok": True}
+        )
+        draft_product = self.env["product.product"].create(
+            {"name": "ZZZ Draft Product", "purchase_ok": True}
+        )
+        foreign_product = self.env["product.product"].create(
+            {"name": "ZZZ Foreign Product", "purchase_ok": True}
+        )
+
+        def add_line(order, product):
+            self.env["purchase.order.line"].create(
+                {
+                    "order_id": order.id,
+                    "product_id": product.id,
+                    "name": product.name,
+                    "product_qty": 1.0,
+                    "price_unit": 10.0,
+                    "date_planned": fields.Datetime.now(),
+                }
+            )
+
+        # confirmed PO line in the wizard's company -> proposed first
+        order = self.env["purchase.order"].create(
+            {"partner_id": supplier.id, "company_id": company.id}
+        )
+        add_line(order, ordered)
+        order.button_confirm()
+
+        # draft PO line in the wizard's company -> not proposed
+        draft_order = self.env["purchase.order"].create(
+            {"partner_id": supplier.id, "company_id": company.id}
+        )
+        add_line(draft_order, draft_product)
+
+        # confirmed PO line in ANOTHER company -> not proposed (multi-company)
+        other_company = self.env["res.company"].create(
+            {"name": "Other Co", "currency_id": company.currency_id.id}
+        )
+        foreign_order = self.env["purchase.order"].create(
+            {"partner_id": supplier.id, "company_id": other_company.id}
+        )
+        add_line(foreign_order, foreign_product)
+        foreign_order.button_confirm()
+
+        products = self.env["product.product"].with_context(
+            nfe_import_supplier_id=supplier.id, nfe_import_company_id=company.id
+        )
+        found = products.name_search("ZZZ")
+        found_ids = [pid for pid, _name in found]
+        # the confirmed-PO product comes first in the proposals
+        self.assertEqual(found_ids[0], ordered.id)
+        # the search is not restricted: every matching product stays reachable
+        self.assertIn(other.id, found_ids)
+        self.assertIn(draft_product.id, found_ids)
+        self.assertIn(foreign_product.id, found_ids)
+        # only the proposed (open-PO) products are flagged with a leading "*"
+        labels = dict(found)
+        self.assertTrue(labels[ordered.id].startswith("* "))
+        for pid in (other.id, draft_product.id, foreign_product.id):
+            self.assertFalse(labels[pid].startswith("* "))
 
     def test__parse_xml(self):
         self._prepare_wizard(self.xml_1)
