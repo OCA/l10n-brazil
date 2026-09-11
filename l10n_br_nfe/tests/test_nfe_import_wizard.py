@@ -393,6 +393,11 @@ class NFeImportWizardTest(TransactionCase):
         self.assertIn(other.id, found_ids)
         self.assertIn(draft_product.id, found_ids)
         self.assertIn(foreign_product.id, found_ids)
+        # only the proposed (open-PO) products are flagged with a leading "*"
+        labels = dict(found)
+        self.assertTrue(labels[ordered.id].startswith("* "))
+        for pid in (other.id, draft_product.id, foreign_product.id):
+            self.assertFalse(labels[pid].startswith("* "))
 
     def test__parse_xml(self):
         self._prepare_wizard(self.xml_1)

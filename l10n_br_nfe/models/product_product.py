@@ -132,6 +132,32 @@ class ProductProduct(models.Model):
         return merged[:limit] if limit else merged
 
     @api.model
+    def name_search(self, name="", args=None, operator="ilike", limit=100):
+        """Flag the supplier's open-PO products with a leading ``*``.
+
+        ``name_search`` drives the many2one dropdown: prefixing a ``*`` marks
+        the products still awaiting billing on the NFe supplier's confirmed
+        purchase orders, so the operator can tell the proposed products apart
+        from the rest of the (still fully searchable) catalog. The decoration
+        only lives in the suggestion list — ``display_name``/``name_get`` are
+        left untouched, so the selected value and every other view stay clean.
+        """
+        result = super().name_search(name, args=args, operator=operator, limit=limit)
+        supplier_id = self.env.context.get("nfe_import_supplier_id")
+        company_id = self.env.context.get("nfe_import_company_id")
+        if not supplier_id or not company_id:
+            return result
+        open_product_ids = self._get_supplier_open_po_product_ids(
+            supplier_id, company_id
+        )
+        if not open_product_ids:
+            return result
+        return [
+            (pid, ("* " if pid in open_product_ids else "") + label)
+            for pid, label in result
+        ]
+
+    @api.model
     def default_get(self, default_fields):
         """
         The nfe.40.prod mixin (prod XML tag) cannot be injected in
