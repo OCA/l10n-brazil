@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
-    Copyright 2023 KMEE INFORMATICA LTDA
     Copyright 2026 Engenere (<https://engenere.one>)
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
@@ -12,39 +11,14 @@
         <field name="arch" type="xml">
             <xpath expr="//notebook/page[@name='fiscal']/notebook" position="inside">
                 <page name="dfe" string="DF-e">
-                    <group name="dfe_settings" string="DF-e Settings">
-                        <group>
-                            <field name="dfe_version" required="1" />
-                            <field name="dfe_environment" required="1" />
-                        </group>
-                        <group>
-                            <field name="auto_fetch" />
-                            <field name="auto_manifest_nfe" />
-                        </group>
-                    </group>
-                    <group name="dfe_last_query" string="Last Query">
-                        <group>
-                            <field name="last_nsu" />
-                            <field name="max_nsu" />
-                            <field
-                                name="dfe_last_query"
-                                string="Date"
-                                readonly="1"
-                                widget="datetime"
-                            />
-                        </group>
-                        <group>
-                            <field
-                                name="dfe_last_status"
-                                string="Status"
-                                readonly="1"
-                            />
-                            <field
-                                name="dfe_last_status_code"
-                                string="Status Code"
-                                readonly="1"
-                            />
-                        </group>
+                    <group name="dfe_settings" string="DF-e Distribution">
+                        <button
+                            name="%(l10n_br_fiscal_dfe.dfe_distribution_log_action)d"
+                            type="action"
+                            icon="fa-list-alt"
+                            string="DF-e Logs"
+                            context="{'search_default_company_id': active_id}"
+                        />
                     </group>
                 </page>
             </xpath>

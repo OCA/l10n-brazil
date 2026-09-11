@@ -6,13 +6,14 @@
 <odoo>
     <template id="dfe_document_banner" name="DF-e Document Banner">
         <div class="o_dfe_banner container-fluid border-bottom py-3 px-4 bg-view">
-            <!-- Action Buttons -->
+            <!-- Action Buttons: the data-method is resolved per fiscal type
+                 (e.g. action_banner_search_all_nfe defined in l10n_br_nfe_dfe) -->
             <div class="mb-3">
                 <a
                     type="action"
                     role="button"
                     data-model="res.company"
-                    data-method="action_banner_search_all"
+                    t-att-data-method="'action_banner_search_all_' + fiscal_type"
                     data-reload-on-close="true"
                     class="btn btn-primary me-2"
                 >
@@ -22,7 +23,7 @@
                     type="action"
                     role="button"
                     data-model="res.company"
-                    data-method="action_banner_specific_search"
+                    t-att-data-method="'action_banner_specific_search_' + fiscal_type"
                     class="btn btn-secondary"
                 >
                     <i class="fa fa-key" /> Specific Search
@@ -66,13 +67,13 @@
                             </a>
                         </div>
                         <div class="fs-5 fw-bold" t-esc="last_query_str" />
-                        <t t-if="company.dfe_last_status">
+                        <t t-if="last_status">
                             <div
                                 class="text-muted small text-truncate mt-1"
-                                t-att-title="company.dfe_last_status"
+                                t-att-title="last_status"
                             >
-                                <t t-esc="company.dfe_last_status_code" />
-                                - <t t-esc="company.dfe_last_status" />
+                                <t t-esc="last_status_code" />
+                                - <t t-esc="last_status" />
                             </div>
                         </t>
                     </div>
@@ -123,10 +124,10 @@
                         </div>
                         <div class="d-flex align-items-baseline gap-1">
                             <span class="fs-5 fw-bold">
-                                <t t-esc="company.last_nsu or '0'" />
+                                <t t-esc="last_nsu" />
                             </span>
                             <span class="text-muted small">
-                                / <t t-esc="company.max_nsu or '0'" />
+                                / <t t-esc="max_nsu" />
                             </span>
                         </div>
                         <div class="mt-1">
@@ -177,7 +178,7 @@
                             </t>
                         </div>
                         <div class="text-muted small mt-1">
-                            Complete NF-e not imported
+                            Complete documents not imported
                         </div>
                     </div>
                 </div>

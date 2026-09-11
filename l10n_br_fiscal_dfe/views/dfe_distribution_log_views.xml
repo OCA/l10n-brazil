@@ -18,6 +18,7 @@
             >
                 <field name="create_date" string="Date" />
                 <field name="log_type" />
+                <field name="fiscal_type" />
                 <field name="message" />
                 <field name="company_id" groups="base.group_multi_company" />
             </tree>
@@ -69,6 +70,7 @@
         <field name="arch" type="xml">
             <search>
                 <field name="message" />
+                <field name="fiscal_type" />
                 <field name="company_id" groups="base.group_multi_company" />
                 <filter
                     name="success"

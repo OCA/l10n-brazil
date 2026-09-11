@@ -30,6 +30,12 @@ class DfeDistributionLog(models.Model):
 
     message = fields.Text(required=True, readonly=True)
 
+    fiscal_type = fields.Selection(
+        selection=[("nfe", "NF-e"), ("cte", "CT-e")],
+        readonly=True,
+        index=True,
+    )
+
     request_xml = fields.Text(
         string="SOAP Request",
         readonly=True,
