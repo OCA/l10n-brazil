@@ -117,7 +117,7 @@
                         string="Set to Draft"
                         groups="l10n_br_fiscal.group_user"
                         class="btn-secondary"
-                        invisible="state_edoc == 'em_digitacao'"
+                        invisible="state_edoc in ('em_digitacao', 'autorizada')"
                     />
                     <button
                         name="action_document_cancel"
@@ -163,13 +163,6 @@
                 <strong>
                     <field name="state_edoc" readonly="1" />
                 </strong></div>
-                <div
-                    class="alert alert-success"
-                    role="alert"
-                    invisible="state_edoc != 'a_enviar'"
-                >Fiscal Document:
-                <field name="document_type_id" readonly="1" />
-                <strong>Open</strong></div>
                 <div
                     class="alert alert-success"
                     role="alert"
