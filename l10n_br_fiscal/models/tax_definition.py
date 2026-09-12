@@ -427,6 +427,7 @@ class TaxDefinition(models.Model):
         city_taxation_code=None,
         national_taxation_code=None,
         service_type=None,
+        cfop=None,
     ):
         """
         Filter and return tax definitions that match the given criteria.
@@ -444,6 +445,7 @@ class TaxDefinition(models.Model):
         - City taxation codes, allowing for no specific code.
         - Service types, allowing for no specific type.
         - Specific products, allowing for no specific product.
+        - CFOP, allowing for no specific CFOP, when the caller knows it.
 
         :param company: The company record (res.company) of the transaction.
         :param partner: The partner record (res.partner) of the transaction.
@@ -462,6 +464,9 @@ class TaxDefinition(models.Model):
             (l10n_br_fiscal.national.taxation.code).
         :param service_type: Optional Service Type record
             (l10n_br_fiscal.service.type).
+        :param cfop: Optional CFOP record (l10n_br_fiscal.cfop) of the
+            operation. When given, a definition bound to another CFOP is
+            skipped; when omitted, the CFOP is not part of the matching.
         :return: A recordset of matching
             l10n_br_fiscal.tax.definition.
         """
@@ -506,6 +511,13 @@ class TaxDefinition(models.Model):
             ("product_ids", "=", False),
             ("product_ids", "=", product.id),
         ]
+
+        if cfop:
+            domain += [
+                "|",
+                ("cfop_id", "=", False),
+                ("cfop_id", "=", cfop.id),
+            ]
 
         return self.search(domain)
 
