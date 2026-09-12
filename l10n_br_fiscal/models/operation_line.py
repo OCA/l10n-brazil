@@ -39,11 +39,15 @@ class OperationLine(models.Model):
 
     name = fields.Char(required=True)
 
-    document_type_id = fields.Many2one(comodel_name="l10n_br_fiscal.document.type")
+    document_type_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document.type",
+        help="Applied to the fiscal record when this operation line is selected.",
+    )
 
     tax_classification_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.classification",
         string="Tax Classification",
+        help="Applied to the fiscal record when this operation line is selected.",
     )
 
     cfop_internal_id = fields.Many2one(
@@ -52,6 +56,7 @@ class OperationLine(models.Model):
         domain="[('type_in_out', '=', fiscal_operation_type), "
         "('destination', '=', '1'),"
         "('type_move', '=ilike', fiscal_type + '%')]",
+        help="Applied to the fiscal record when this operation line is selected.",
     )
 
     cfop_external_id = fields.Many2one(
@@ -60,6 +65,7 @@ class OperationLine(models.Model):
         domain="[('type_in_out', '=', fiscal_operation_type), "
         "('type_move', '=ilike', fiscal_type + '%'), "
         "('destination', '=', '2')]",
+        help="Applied to the fiscal record when this operation line is selected.",
     )
 
     cfop_export_id = fields.Many2one(
@@ -68,6 +74,7 @@ class OperationLine(models.Model):
         domain="[('type_in_out', '=', fiscal_operation_type), "
         "('type_move', '=ilike', fiscal_type + '%'), "
         "('destination', '=', '3')]",
+        help="Applied to the fiscal record when this operation line is selected.",
     )
 
     is_icmsst = fields.Boolean(
@@ -97,6 +104,10 @@ class OperationLine(models.Model):
     tax_icms_or_issqn = fields.Selection(
         selection=TAX_ICMS_OR_ISSQN,
         string="ICMS or ISSQN Tax",
+        help=(
+            "Selection criterion used to match this line with the product. "
+            "Leave empty to match any value."
+        ),
     )
 
     line_inverse_id = fields.Many2one(
@@ -113,28 +124,87 @@ class OperationLine(models.Model):
         copy=False,
     )
 
-    partner_tax_framework = fields.Selection(selection=TAX_FRAMEWORK)
+    partner_tax_framework = fields.Selection(
+        selection=TAX_FRAMEWORK,
+        help=(
+            "Selection criterion used to match this line with the partner. "
+            "Leave empty to match any value."
+        ),
+    )
 
     ind_ie_dest = fields.Selection(
         selection=NFE_IND_IE_DEST,
         string="ICMS Taxpayer",
+        help=(
+            "Selection criterion used to match this line with the partner. "
+            "Leave empty to match any value."
+        ),
     )
 
     product_type = fields.Selection(
-        selection=PRODUCT_FISCAL_TYPE, string="Product Fiscal Type"
+        selection=PRODUCT_FISCAL_TYPE,
+        string="Product Fiscal Type",
+        help=(
+            "Selection criterion used to match this line with the product. "
+            "Leave empty to match any value."
+        ),
     )
 
-    company_tax_framework = fields.Selection(selection=TAX_FRAMEWORK)
+    categ_id = fields.Many2one(
+        comodel_name="product.category",
+        string="Product Category",
+        company_dependent=True,
+        help=(
+            "Selection criterion used to match this line with the product. "
+            "Leave empty to match any value."
+        ),
+    )
+
+    nbs_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.nbs",
+        string="NBS",
+        company_dependent=True,
+        help=(
+            "Selection criterion used to match this line with the product. "
+            "Leave empty to match any value."
+        ),
+    )
+
+    operation_indicator_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.operation.indicator",
+        string="Operation Indicator",
+        company_dependent=True,
+        help=(
+            "Selection criterion used to match this line with the product. "
+            "Leave empty to match any value."
+        ),
+    )
+
+    company_tax_framework = fields.Selection(
+        selection=TAX_FRAMEWORK,
+        help=(
+            "Selection criterion used to match this line with the company. "
+            "Leave empty to match any value."
+        ),
+    )
 
     add_to_amount = fields.Boolean(string="Add to Document Amount?", default=True)
 
-    icms_origin = fields.Selection(selection=ICMS_ORIGIN, string="Origin")
+    icms_origin = fields.Selection(
+        selection=ICMS_ORIGIN,
+        string="Origin",
+        help=(
+            "Selection criterion used to match this line with the product. "
+            "Leave empty to match any value."
+        ),
+    )
 
     tax_definition_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.tax.definition",
         inverse_name="fiscal_operation_line_id",
         string="Tax Definition",
         copy=True,
+        help="Applied to the fiscal record when this operation line is selected.",
     )
 
     comment_ids = fields.Many2many(
@@ -152,9 +222,21 @@ class OperationLine(models.Model):
         copy=False,
     )
 
-    date_start = fields.Datetime(string="Start Date")
+    date_start = fields.Datetime(
+        string="Start Date",
+        help=(
+            "Selection criterion: this line only matches from this date on. "
+            "Leave empty for no start limit."
+        ),
+    )
 
-    date_end = fields.Datetime(string="End Date")
+    date_end = fields.Datetime(
+        string="End Date",
+        help=(
+            "Selection criterion: this line only matches until this date. "
+            "Leave empty for no end limit."
+        ),
+    )
 
     _sql_constraints = [
         (
