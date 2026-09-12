@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="import_declaration_wizard_form" model="ir.ui.view">
+        <field name="name">l10n_br_account.import.declaration.wizard.form</field>
+        <field name="model">l10n_br_account.import.declaration.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import Declaration to Entry NF-e">
+                <field name="company_currency_id" invisible="1" />
+                <field name="document_type_id" invisible="1" />
+                <group string="Declaration XML">
+                    <field name="di_filename" invisible="1" />
+                    <field
+                        name="di_file"
+                        filename="di_filename"
+                        widget="binary"
+                        nolabel="1"
+                    />
+                    <button
+                        name="action_load_declaration"
+                        string="Load the declaration"
+                        type="object"
+                        class="btn-secondary"
+                        invisible="not di_file"
+                    />
+                </group>
+                <group>
+                    <group string="Foreign Invoice">
+                        <field name="move_id" readonly="1" />
+                        <field name="partner_id" readonly="1" />
+                        <field name="customs_value" />
+                    </group>
+                    <group string="Entry Note">
+                        <field name="fiscal_operation_id" />
+                        <field name="fiscal_operation_line_id" />
+                        <field name="document_serie_id" />
+                        <field name="document_date" />
+                    </group>
+                </group>
+                <group>
+                    <group string="Declaration">
+                        <field name="di_number" />
+                        <field name="di_date" />
+                        <field name="clearance_date" />
+                        <field name="clearance_place" />
+                        <field name="clearance_state_id" />
+                        <field name="transport_via" />
+                        <field name="intermediation" />
+                    </group>
+                    <group string="Addition and Exporter">
+                        <field name="addition_number" />
+                        <field name="exporter_code" />
+                        <field name="manufacturer_code" />
+                        <field name="afrmm_value" />
+                    </group>
+                </group>
+                <group string="Amounts charged by the declaration">
+                    <group>
+                        <field name="ii_value" />
+                        <field name="ipi_value" />
+                        <field name="pis_value" />
+                    </group>
+                    <group>
+                        <field name="cofins_value" />
+                        <field name="icms_value" />
+                        <field name="customhouse_charges" />
+                    </group>
+                </group>
+                <field name="addition_ids" invisible="not addition_ids">
+                    <list editable="bottom">
+                        <field name="company_currency_id" column_invisible="True" />
+                        <field name="number" readonly="1" />
+                        <field name="ncm_code" readonly="1" />
+                        <field name="customs_value" readonly="1" />
+                        <field name="ii_rate" readonly="1" />
+                        <field name="ii_value" readonly="1" />
+                        <field name="ipi_value" readonly="1" />
+                        <field name="pis_value" readonly="1" />
+                        <field name="cofins_value" readonly="1" />
+                        <field name="line_ids" widget="many2many_tags" />
+                        <field name="unmatched" readonly="1" optional="show" />
+                    </list>
+                </field>
+                <field name="unclaimed_lines" invisible="not unclaimed_lines" />
+                <footer>
+                    <button
+                        name="action_generate_document"
+                        string="Generate Entry Note"
+                        type="object"
+                        class="btn-primary"
+                    />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="import_declaration_wizard_action" model="ir.actions.act_window">
+        <field name="name">Import Declaration to Entry NF-e</field>
+        <field name="res_model">l10n_br_account.import.declaration.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="account.model_account_move" />
+        <field name="binding_view_types">form,list</field>
+    </record>
+</odoo>

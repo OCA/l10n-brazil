@@ -350,6 +350,18 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
                 if latam_doc_type:
                     move_form.l10n_latam_document_type_id = latam_doc_type
 
+        # A manually numbered LATAM document requires its own number, and the fiscal
+        # document number is the one the file carries. Vendor bills are the case that
+        # reaches here, since the sequence only numbers what the company issues.
+        if (
+            "l10n_latam.document.type" in cls.env
+            and move_form.l10n_latam_use_documents
+            and move_form.l10n_latam_manual_document_number
+            and not move_form.l10n_latam_document_number
+            and document_number is not None
+        ):
+            move_form.l10n_latam_document_number = document_number
+
         for index, product in enumerate(products):
             with move_form.invoice_line_ids.new() as line_form:
                 line_form.product_id = product
