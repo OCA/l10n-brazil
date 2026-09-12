@@ -27,6 +27,7 @@ class PartyMixin(models.AbstractModel):
     vat_formatted_cnpj = fields.Char(
         string="VAT Formatted (Brazil)",
         compute="_compute_vat_formatted_cnpj",
+        inverse="_inverse_vat_formatted_cnpj",
         help="CNPJ or CPF formatted with proper punctuation and special characters",
     )
 
@@ -159,6 +160,15 @@ class PartyMixin(models.AbstractModel):
             if record.vat and record.country_id and record.country_id.code == "BR":
                 vat_formatted_cnpj = cnpj_cpf.formata(record.vat)
             record.vat_formatted_cnpj = vat_formatted_cnpj
+
+    def _inverse_vat_formatted_cnpj(self):
+        """Write user edits of the formatted CNPJ/CPF back to vat, unformatted."""
+        for record in self:
+            record.vat = (
+                misc.punctuation_rm(record.vat_formatted_cnpj)
+                if record.vat_formatted_cnpj
+                else False
+            )
 
     @api.depends_context("company")
     def _compute_show_br_vat_format(self):
