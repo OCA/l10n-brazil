@@ -173,6 +173,7 @@ class Cfop(models.Model):
         string="Tax Definition",
     )
 
+    @api.depends("code")
     def _compute_is_import(self):
         for cfop in self:
             if cfop.code:
