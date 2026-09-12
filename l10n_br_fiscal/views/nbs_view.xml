@@ -92,6 +92,10 @@
                     <group>
                         <field name="code" readonly="1" />
                         <field name="name" readonly="1" />
+                        <field
+                            name="operation_indicator_id"
+                            options="{'no_create': True, 'no_create_edit': True}"
+                        />
                     </group>
                     <notebook>
                         <page string="Related Produts" name="tax_product_tmpl">
