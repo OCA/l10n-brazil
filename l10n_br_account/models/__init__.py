@@ -11,6 +11,7 @@ from . import account_move_line
 from . import document
 from . import document_line
 from . import account_incoterms
+from . import ir_model
 from . import ir_model_data
 from . import account_journal
 from . import template_br_oca
