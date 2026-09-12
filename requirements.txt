@@ -10,6 +10,7 @@ nfelib
 nfselib.paulistana
 num2words
 phonenumbers
+pyyaml
 transitions
 unidecode
 workalendar

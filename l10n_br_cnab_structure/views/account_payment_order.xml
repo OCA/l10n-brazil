@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright (C) 2022-Today - Engenere (<https://engenere.one>).
+    @author Antônio S. Pereira Neto <neto@engenere.one>
+    @author Felipe Motter Pereira <felipe@engenere.one>
+    License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+-->
+<odoo>
+    <record id="cnab_structure_payment_order_form" model="ir.ui.view">
+        <field name="name">cnab_structure_payment_order_form</field>
+        <field name="model">account.payment.order</field>
+        <field name="priority">99</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_order.account_payment_order_form"
+        />
+        <field name="arch" type="xml">
+            <field name="bank_line_count" position="after">
+                <field name="cnab_processor" />
+                <field name="cnab_structure_id" />
+            </field>
+        </field>
+    </record>
+</odoo>
