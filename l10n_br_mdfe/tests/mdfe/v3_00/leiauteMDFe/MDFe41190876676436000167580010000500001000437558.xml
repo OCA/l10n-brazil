@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MDFe xmlns="http://www.portalfiscal.inf.br/mdfe">
+    <infMDFe Id="MDFe41190876676436000167580010000500001000437558" versao="3.00">
+        <ide>
+            <cUF>41</cUF>
+            <tpAmb>2</tpAmb>
+            <tpEmit>2</tpEmit>
+            <mod>58</mod>
+            <serie>1</serie>
+            <nMDF>50000</nMDF>
+            <cMDF>00043755</cMDF>
+            <cDV>8</cDV>
+            <modal>1</modal>
+            <dhEmi>2019-08-16T15:00:00-02:00</dhEmi>
+            <tpEmis>1</tpEmis>
+            <procEmi>0</procEmi>
+            <verProc>71411</verProc>
+            <UFIni>PR</UFIni>
+            <UFFim>SC</UFFim>
+            <infMunCarrega>
+                <cMunCarrega>4101804</cMunCarrega>
+                <xMunCarrega>ARAUCARIA</xMunCarrega>
+            </infMunCarrega>
+        </ide>
+        <emit>
+            <CNPJ>81583054000129</CNPJ>
+            <IE>078016350838</IE>
+            <xNome>Empresa Lucro Presumido Ltda</xNome>
+            <xFant>Empresa Lucro Presumido</xFant>
+            <enderEmit>
+                <xLgr>Avenida Paulista</xLgr>
+                <nro>1</nro>
+                <xBairro>Bela Vista</xBairro>
+                <cMun>3550308</cMun>
+                <xMun>São Paulo</xMun>
+                <CEP>01311000</CEP>
+                <UF>SP</UF>
+                <fone>551199999999</fone>
+                <email>info@suaempresa.com.br</email>
+            </enderEmit>
+        </emit>
+        <infModal versaoModal="3.00">
+            <rodo>
+                <infANTT>
+                    <RNTRC>12345678</RNTRC>
+                </infANTT>
+                <veicTracao>
+                    <cInt>1</cInt>
+                    <placa>AAA4444</placa>
+                    <tara>15000</tara>
+                    <condutor>
+                        <xNome>MAURICIO ROBERTO MOLLER</xNome>
+                        <CPF>03720677940</CPF>
+                    </condutor>
+                    <tpRod>03</tpRod>
+                    <tpCar>00</tpCar>
+                    <UF>PR</UF>
+                </veicTracao>
+                <veicReboque>
+                    <placa>REE4343</placa>
+                    <tara>7500</tara>
+                    <capKG>42500</capKG>
+                    <tpCar>02</tpCar>
+                    <UF>AC</UF>
+                </veicReboque>
+                <veicReboque>
+                    <placa>RER7878</placa>
+                    <tara>7500</tara>
+                    <capKG>42500</capKG>
+                    <tpCar>02</tpCar>
+                    <UF>RS</UF>
+                </veicReboque>
+            </rodo>
+        </infModal>
+        <infDoc>
+            <infMunDescarga>
+                <cMunDescarga>4209102</cMunDescarga>
+                <xMunDescarga>JOINVILLE</xMunDescarga>
+                <infNFe>
+                    <chNFe>41190806117473000150550010000586251016759484</chNFe>
+                </infNFe>
+            </infMunDescarga>
+        </infDoc>
+        <tot>
+            <qNFe>1</qNFe>
+            <vCarga>33.19</vCarga>
+            <cUnid>01</cUnid>
+            <qCarga>10.0000</qCarga>
+        </tot>
+        <infAdic>
+            <infCpl>Distancia: 12 KM Passar por: BR105</infCpl>
+        </infAdic>
+    </infMDFe>
+</MDFe>
