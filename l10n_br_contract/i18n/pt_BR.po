@@ -1,0 +1,1655 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_contract
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2024-12-21 15:52+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"Language-Team: none\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.6.2\n"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__additional_data
+msgid "Additional Data"
+msgstr "Dados Adicionais"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_line__manual_additional_data
+msgid "Additional data manually entered by user"
+msgstr "Dados adicionais inseridos manualmente pelo usuário"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__allow_csll_irpj
+msgid "Allow Csll Irpj"
+msgstr "Permitir CSLL IRPJ"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_discount_value
+msgid "Amount Discount"
+msgstr "Total do Desconto"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_estimate_tax
+msgid "Amount Estimate Tax"
+msgstr "Total Estimado de Impostos"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_financial_total
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__financial_total
+msgid "Amount Financial"
+msgstr "Total Financeiro"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_financial_total_gross
+msgid "Amount Financial Gross"
+msgstr "Total Financeiro Bruto"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__amount_fiscal
+msgid "Amount Fiscal"
+msgstr "Total Fiscal"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_price_gross
+msgid "Amount Gross"
+msgstr "Total Bruto"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_tax
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__amount_tax
+msgid "Amount Tax"
+msgstr "Total de Imposto"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__amount_tax_included
+msgid "Amount Tax Included"
+msgstr "Total Impostos Inclusos"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__amount_tax_not_included
+msgid "Amount Tax Not Included"
+msgstr "Total Não incluído Impostos"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__amount_taxed
+msgid "Amount Taxed"
+msgstr "Total Tributado"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_total
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__amount_total
+msgid "Amount Total"
+msgstr "Valor Total"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_untaxed
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__amount_untaxed
+msgid "Amount Untaxed"
+msgstr "Total sem Impostos"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_contract__amount_price_gross
+msgid "Amount without discount."
+msgstr "Total sem desconto."
+
+#. module: l10n_br_contract
+#: model_terms:ir.ui.view,arch_db:l10n_br_contract.contract_line_form_view
+msgid "Amounts"
+msgstr "Totais"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__ind_pres
+msgid "Buyer Presence"
+msgstr "Presença do Comprador"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cest_id
+msgid "CEST"
+msgstr "CEST"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cfop_id
+msgid "CFOP"
+msgstr "CFOP"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cfop_destination
+msgid "CFOP Destination"
+msgstr "CFOP Destino"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cnae_id
+msgid "CNAE Code"
+msgstr "Código CNAE"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__cnpj_cpf
+msgid "CNPJ/CPF"
+msgstr "CNPJ/CPF"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofins_percent
+msgid "COFINS %"
+msgstr "% COFINS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofins_reduction
+msgid "COFINS % Reduction"
+msgstr "% Redução COFINS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_cofins_base
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofins_base
+msgid "COFINS Base"
+msgstr "Base para COFINS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofins_base_id
+msgid "COFINS Base Code"
+msgstr "COFINS Código da Base"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofins_base_type
+msgid "COFINS Base Type"
+msgstr "COFINS Tipo da Base"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofins_cst_code
+msgid "COFINS CST Code"
+msgstr "Código CST de COFINS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofins_credit_id
+msgid "COFINS Credit Code"
+msgstr "Código de Crédito de COFINS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofins_wh_percent
+msgid "COFINS RET %"
+msgstr "% RET COFINS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofins_wh_reduction
+msgid "COFINS RET % Reduction"
+msgstr "% Redução de RETENÇÃO de COFINS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofins_wh_base
+msgid "COFINS RET Base"
+msgstr "Base para RET COFINS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofins_wh_value
+msgid "COFINS RET Value"
+msgstr "Valor RET COFINS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_cofins_wh_base
+msgid "COFINS Ret Base"
+msgstr "Base para RET COFINS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_cofins_wh_value
+msgid "COFINS Ret Value"
+msgstr "Valor RET COFINS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofinsst_percent
+msgid "COFINS ST %"
+msgstr "% ST COFINS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofinsst_reduction
+msgid "COFINS ST % Reduction"
+msgstr "% Redução ST COFINS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_cofinsst_base
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofinsst_base
+msgid "COFINS ST Base"
+msgstr "Base para ST COFINS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofinsst_base_type
+msgid "COFINS ST Base Type"
+msgstr "Tipo de Base ST COFINS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofinsst_cst_code
+msgid "COFINS ST CST Code"
+msgstr "Código CST ST COFINS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_cofinsst_value
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofinsst_value
+msgid "COFINS ST Value"
+msgstr "Valor de ST do COFINS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_cofins_value
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofins_value
+msgid "COFINS Value"
+msgstr "Valor do COFINS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofins_wh_base_type
+msgid "COFINS WH Base Type"
+msgstr "Tipo de Base COFINS WH"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__csll_percent
+msgid "CSLL %"
+msgstr "% CSLL"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__csll_reduction
+msgid "CSLL % Reduction"
+msgstr "% de Redução do CSLL"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_csll_base
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__csll_base
+msgid "CSLL Base"
+msgstr "Base para CSLL"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__csll_wh_percent
+msgid "CSLL RET %"
+msgstr "% CSLL RET"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__csll_wh_reduction
+msgid "CSLL RET % Reduction"
+msgstr "% de Redução CSLL RET"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__csll_wh_base
+msgid "CSLL RET Base"
+msgstr "Base para CSLL RET"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__csll_wh_value
+msgid "CSLL RET Value"
+msgstr "Valor RET CSLL"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_csll_wh_base
+msgid "CSLL Ret Base"
+msgstr "Base para CSLL RET"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_csll_wh_value
+msgid "CSLL Ret Value"
+msgstr "Valor RET CSLL"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_csll_value
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__csll_value
+msgid "CSLL Value"
+msgstr "Valor CSLL"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofins_cst_id
+msgid "CST COFINS"
+msgstr "CST COFINS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofinsst_cst_id
+msgid "CST COFINS ST"
+msgstr "CST COFINS ST"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_cst_id
+msgid "CST ICMS"
+msgstr "CST ICMS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ipi_cst_id
+msgid "CST IPI"
+msgstr "CST IPI"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__pis_cst_id
+msgid "CST PIS"
+msgstr "CST PIS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__pisst_cst_id
+msgid "CST PIS ST"
+msgstr "CST PIS ST"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__city_taxation_code_id
+msgid "City Taxation Code"
+msgstr "Código de Tributação da Cidade"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__comment_ids
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__comment_ids
+msgid "Comments"
+msgstr "Comentários"
+
+#. module: l10n_br_contract
+#: model:ir.model,name:l10n_br_contract.model_res_company
+msgid "Companies"
+msgstr "Empresas"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__company_id
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__company_id
+msgid "Company"
+msgstr "Empresa"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__partner_company_type
+msgid "Company Type"
+msgstr "Tipo de Empresa"
+
+#. module: l10n_br_contract
+#: model:ir.model,name:l10n_br_contract.model_contract_contract
+#: model_terms:ir.ui.view,arch_db:l10n_br_contract.l10n_br_contract_res_company_form
+msgid "Contract"
+msgstr "Contrato"
+
+#. module: l10n_br_contract
+#: model:ir.model,name:l10n_br_contract.model_contract_line
+msgid "Contract Line"
+msgstr "Linha de Contrato"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__country_id
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__country_id
+msgid "Country"
+msgstr "País"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__currency_id
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__currency_id
+msgid "Currency"
+msgstr "Moeda"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__customer_additional_data
+msgid "Customer Additional Data"
+msgstr "Dados Adicionais do Cliente"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_contract__manual_customer_additional_data
+msgid "Customer Additional data manually entered by user"
+msgstr "Dados adicionais do cliente inseridos manualmente pelo usuário"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_ii_customhouse_charges
+msgid "Customhouse Charges"
+msgstr "Encargos Alfandegários"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_res_company__contract_recalculate_taxes_before_invoice
+msgid "Dafault recalculate taxes before invoicing"
+msgstr "Padrão recalcular impostos antes do faturamento"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_res_company__contract_purchase_fiscal_operation_id
+msgid "Default Contract Purchase Fiscal Operation"
+msgstr "Padrão de Operação Fiscal de Contrato de Compras"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_res_company__contract_sale_fiscal_operation_id
+msgid "Default Contract Sale Fiscal Operation"
+msgstr "Padrão de Operação Fiscal de Contrato de Vendas"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_contract__delivery_costs
+msgid ""
+"Define if costs of Insurance, Freight and Other Costs should be informed by "
+"Line or by Total."
+msgstr ""
+"Defina se os custos de Seguro, Frete e Outros Custos devem ser informados "
+"por Linha ou por Total."
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__delivery_costs
+msgid "Delivery Costs"
+msgstr "Custos de Entrega"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ii_customhouse_charges
+msgid "Despesas Aduaneiras"
+msgstr "Despesas Aduaneiras"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__discount_value
+msgid "Discount Value"
+msgstr "Valor do Desconto"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__display_name
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__display_name
+#: model:ir.model.fields,field_description:l10n_br_contract.field_res_company__display_name
+msgid "Display Name"
+msgstr "Nome Exibido"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__key_check_digit
+msgid "Document Key Check Digit"
+msgstr "Dígito de Verificação da Chave do Documento"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__key_random_code
+msgid "Document Key Random Code"
+msgstr "Código Aleatório da Chave do Documento"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__document_number
+msgid "Document Number"
+msgstr "Número do Documento"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__document_serie_id
+msgid "Document Serie"
+msgstr "Série do Documento"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__document_type_id
+msgid "Document Type"
+msgstr "Tipo de Documento"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__estimate_tax
+msgid "Estimate Tax"
+msgstr "Estimativa de Imposto"
+
+#. module: l10n_br_contract
+#: model_terms:ir.ui.view,arch_db:l10n_br_contract.contract_line_form_view
+msgid "Extra Info"
+msgstr "Informação Extra"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmsfcp_value_wh
+msgid "FCP WH"
+msgstr "FCP WH"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmsfcp_wh_percent
+msgid "FCP WH %"
+msgstr "% FCP WH"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmsfcp_base_wh
+msgid "FCP WH Base"
+msgstr "Base para FCP WH"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__ind_final
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ind_final
+msgid "Final Consumption Operation"
+msgstr "Operação de Consumo Final"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_financial_discount_value
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__financial_discount_value
+msgid "Financial Discount Value"
+msgstr "Valor do Desconto Financeiro"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__financial_total_gross
+msgid "Financial Gross Amount"
+msgstr "Valor Financeiro Bruto"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__fiscal_additional_data
+msgid "Fiscal Additional Data"
+msgstr "Dados Adicionais Fiscais"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_contract__manual_fiscal_additional_data
+msgid "Fiscal Additional data manually entered by user"
+msgstr "Dados adicionais fiscais inseridos manualmente pelo usuário"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__fiscal_operation_id
+msgid "Fiscal Operation"
+msgstr "Operação Fiscal"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__fiscal_operation_type
+msgid "Fiscal Operation Type"
+msgstr "Tipo de Operação Fiscal"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__fiscal_price
+msgid "Fiscal Price"
+msgstr "Preço Fiscal"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__fiscal_genre_id
+msgid "Fiscal Product Genre"
+msgstr "Gênero Fiscal do Produto"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__fiscal_genre_code
+msgid "Fiscal Product Genre Code"
+msgstr "Código do Gênero Fiscal do Produto"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__fiscal_quantity
+msgid "Fiscal Quantity"
+msgstr "Quantidade Fiscal"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__fiscal_tax_ids
+msgid "Fiscal Taxes"
+msgstr "Impostos Fiscais"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__fiscal_type
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__operation_fiscal_type
+msgid "Fiscal Type"
+msgstr "Tipo Fiscal"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__force_compute_delivery_costs_by_total
+msgid "Force Compute Delivery Costs By Total"
+msgstr "Forçar Cálculo de Custos de Entrega por Total"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_freight_value
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__freight_value
+msgid "Freight Value"
+msgstr "Valor do Frete"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__price_gross
+msgid "Gross Product/Service Amount"
+msgstr "Valor Bruto do Produto/Serviço"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_percent
+msgid "ICMS %"
+msgstr "% ICMS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_reduction
+msgid "ICMS % Reduction"
+msgstr "% de Redução de ICMS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_icms_base
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_base
+msgid "ICMS Base"
+msgstr "Base para ICMS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_base_type
+msgid "ICMS Base Type"
+msgstr "Tipo da Base do ICMS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_cst_code
+msgid "ICMS CST Code"
+msgstr "Código CST do ICMS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_destination_value
+msgid "ICMS Dest. Value"
+msgstr "Valor do Dest. ICMS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_destination_base
+msgid "ICMS Destination Base"
+msgstr "Base de Destino do ICMS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_icms_destination_value
+msgid "ICMS Destination Value"
+msgstr "Valor Destino ICMS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_effective_value
+msgid "ICMS Effective"
+msgstr "ICMS Efetivo"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_effective_percent
+msgid "ICMS Effective %"
+msgstr "% ICMS Efetivo"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_effective_reduction
+msgid "ICMS Effective % Reduction"
+msgstr "% de Redução ICMS Efetivo"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_effective_base
+msgid "ICMS Effective Base"
+msgstr "Base para ICMS Efetivo"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_destination_percent
+msgid "ICMS External %"
+msgstr "% ICMS Externo"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmsfcp_percent
+msgid "ICMS FCP %"
+msgstr "% ICMS FCP"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_icmsfcp_base
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmsfcp_base
+msgid "ICMS FCP Base"
+msgstr "Base para ICMS FCP"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmsfcpst_percent
+msgid "ICMS FCP ST %"
+msgstr "% ICMS FCP ST"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmsfcpst_base
+msgid "ICMS FCP ST Base"
+msgstr "Base para ICMS FCP ST"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_icmsfcpst_value
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmsfcpst_value
+msgid "ICMS FCP ST Value"
+msgstr "Valor ICMS FCP ST"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_icmsfcp_value
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmsfcp_value
+msgid "ICMS FCP Value"
+msgstr "Valor do ICMS FCP"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_origin_percent
+msgid "ICMS Internal %"
+msgstr "% ICMS Interno"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_origin
+msgid "ICMS Origin"
+msgstr "Origem do ICMS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_icms_origin_value
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_origin_value
+msgid "ICMS Origin Value"
+msgstr "Valor do ICMS de Origem"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_relief_id
+msgid "ICMS Relief"
+msgstr "Alívio do ICMS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_relief_value
+msgid "ICMS Relief Value"
+msgstr "Valor de Alívio do ICMS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmssn_percent
+msgid "ICMS SN %"
+msgstr "% ICMS SN"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmssn_base
+msgid "ICMS SN Base"
+msgstr "Base do ICMS SN"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmssn_credit_value
+msgid "ICMS SN Credit"
+msgstr "Crédito ICMS SN"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmssn_reduction
+msgid "ICMS SN Reduction"
+msgstr "Redução do ICMS SN"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmsst_percent
+msgid "ICMS ST %"
+msgstr "% ICMS ST"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmsst_reduction
+msgid "ICMS ST % Reduction"
+msgstr "% Redução de ICMS ST"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_icmsst_base
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmsst_base
+msgid "ICMS ST Base"
+msgstr "Base do ICMS ST"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmsst_base_type
+msgid "ICMS ST Base Type"
+msgstr "Tipo de Base do ICMS ST"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmsst_mva_percent
+msgid "ICMS ST MVA %"
+msgstr "% ICMS ST MVA"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_icmsst_value
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmsst_value
+msgid "ICMS ST Value"
+msgstr "Valor do ICMS ST"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmsst_wh_percent
+msgid "ICMS ST WH %"
+msgstr "% ICMS ST WH"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmsst_wh_base
+msgid "ICMS ST WH Base"
+msgstr "Base do ICMS ST WH"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmsst_wh_value
+msgid "ICMS ST WH Value"
+msgstr "Valor do ICMS ST WH"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_sharing_percent
+msgid "ICMS Sharing %"
+msgstr "% de Compartilhamento do ICMS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_substitute
+msgid "ICMS Substitute"
+msgstr "ICMS Substituto"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_icms_value
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_value
+msgid "ICMS Value"
+msgstr "Valor do ICMS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__tax_icms_or_issqn
+msgid "ICMS or ISSQN Tax"
+msgstr "Imposto sobre ICMS ou ISSQN"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_icmssn_credit_value
+msgid "ICMSSN Credit Value"
+msgstr "Valor do Crédito de ICMSSN"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__id
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__id
+#: model:ir.model.fields,field_description:l10n_br_contract.field_res_company__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ii_percent
+msgid "II %"
+msgstr "% II"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_ii_base
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ii_base
+msgid "II Base"
+msgstr "Base do II"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_ii_value
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ii_value
+msgid "II Value"
+msgstr "Valor do II"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__inss_percent
+msgid "INSS %"
+msgstr "% INSS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__inss_reduction
+msgid "INSS % Reduction"
+msgstr "% de Redução do INSS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_inss_base
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__inss_base
+msgid "INSS Base"
+msgstr "Base do INSS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__inss_wh_percent
+msgid "INSS RET %"
+msgstr "% INSS RET"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__inss_wh_reduction
+msgid "INSS RET % Reduction"
+msgstr "% de Redução do INSS RET"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__inss_wh_base
+msgid "INSS RET Base"
+msgstr "Base do INSS RET"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__inss_wh_value
+msgid "INSS RET Value"
+msgstr "Valor do INSS RET"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_inss_wh_base
+msgid "INSS Ret Base"
+msgstr "Base do INSS Ret"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_inss_wh_value
+msgid "INSS Ret Value"
+msgstr "Valor do INSS Ret"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_inss_value
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__inss_value
+msgid "INSS Value"
+msgstr "Valor do INSS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ii_iof_value
+msgid "IOF Value"
+msgstr "Valor IOF"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ipi_percent
+msgid "IPI %"
+msgstr "% IPI"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ipi_reduction
+msgid "IPI % Reduction"
+msgstr "% Redução do IPI"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_ipi_base
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ipi_base
+msgid "IPI Base"
+msgstr "Base do IPI"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ipi_base_type
+msgid "IPI Base Type"
+msgstr "Tipo da Base do IPI"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ipi_cst_code
+msgid "IPI CST Code"
+msgstr "Código CST do IPI"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ipi_guideline_id
+msgid "IPI Guideline"
+msgstr "Enquadramento do IPI"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_ipi_value
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ipi_value
+msgid "IPI Value"
+msgstr "Valor do IPI"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__irpj_percent
+msgid "IRPJ %"
+msgstr "% IRPJ"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__irpj_reduction
+msgid "IRPJ % Reduction"
+msgstr "% Redução do IRPJ"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_irpj_base
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__irpj_base
+msgid "IRPJ Base"
+msgstr "Base do IRPJ"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__irpj_wh_percent
+msgid "IRPJ RET %"
+msgstr "% RET IRPJ"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__irpj_wh_reduction
+msgid "IRPJ RET % Reduction"
+msgstr "% Redução do IRPJ RET"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__irpj_wh_base
+msgid "IRPJ RET Base"
+msgstr "Base do IRPJ RET"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__irpj_wh_value
+msgid "IRPJ RET Value"
+msgstr "Valor do IRPJ RET"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_irpj_wh_base
+msgid "IRPJ Ret Base"
+msgstr "Base do IRPJ Ret"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_irpj_wh_value
+msgid "IRPJ Ret Value"
+msgstr "Valor do IRPJ Ret"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_irpj_value
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__irpj_value
+msgid "IRPJ Value"
+msgstr "Valor do IRPJ"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__issqn_percent
+msgid "ISSQN %"
+msgstr "% ISSQN"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__issqn_reduction
+msgid "ISSQN % Reduction"
+msgstr "% de Redução do ISSQN"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_issqn_base
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__issqn_base
+msgid "ISSQN Base"
+msgstr "Base do ISSQN"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__issqn_fg_city_id
+msgid "ISSQN City"
+msgstr "Cidade do ISSQN"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__issqn_deduction_amount
+msgid "ISSQN Deduction Value"
+msgstr "Valor de Dedução do ISSQN"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__issqn_desc_cond_amount
+msgid "ISSQN Discount Cond"
+msgstr "Desconto Cond. do ISSQN"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__issqn_desc_incond_amount
+msgid "ISSQN Discount Incond"
+msgstr "Desconto Incond. do ISSQN"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__issqn_eligibility
+msgid "ISSQN Eligibility"
+msgstr "Elegibilidade do ISSQN"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__issqn_incentive
+msgid "ISSQN Incentive"
+msgstr "Incentivo ISSQN"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__issqn_other_amount
+msgid "ISSQN Other Value"
+msgstr "Outro Valor ISSQN"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__issqn_wh_percent
+msgid "ISSQN RET %"
+msgstr "% RET ISSQN"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__issqn_wh_reduction
+msgid "ISSQN RET % Reduction"
+msgstr "% de Redução ISSQN RET"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__issqn_wh_base
+msgid "ISSQN RET Base"
+msgstr "Base do ISSQN RET"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__issqn_wh_value
+msgid "ISSQN RET Value"
+msgstr "Valor ISSQN RET"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_issqn_wh_base
+msgid "ISSQN Ret Base"
+msgstr "Base do ISSQN Ret"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_issqn_wh_value
+msgid "ISSQN Ret Value"
+msgstr "Valor ISSQN Ret"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_issqn_value
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__issqn_value
+msgid "ISSQN Value"
+msgstr "Valor ISSQN"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_line__cfop_destination
+msgid "Identifies the operation destination."
+msgstr "Identifica o destino da operação."
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_line__allow_csll_irpj
+msgid "Indicates potential 'CSLL' and 'IRPJ' tax charges."
+msgstr "Indica potencial cobrança de imposto 'CSLL' e 'IRPJ' ."
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_line__partner_is_public_entity
+msgid ""
+"Indicates whether the entity in question is a public organization or "
+"government-related entity. It encompasses a range of entities such as "
+"municipal governments, state-owned enterprises (where the government is the "
+"largest shareholder), and other government-controlled organizations."
+msgstr ""
+"Indica se a entidade em questão é uma organização pública ou uma entidade "
+"relacionada ao governo. Abrange uma gama de entidades, como governos "
+"municipais, empresas estatais (onde o governo é o maior acionista) e outras "
+"organizações controladas pelo governo."
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__insurance_endorsement
+msgid "Insurance Endorsement"
+msgstr "Averbação do Seguro"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__insurance_policy
+msgid "Insurance Policy"
+msgstr "Apólice de Seguro"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__partner_insurance_id
+msgid "Insurance Provider"
+msgstr "Provedor do Seguro"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_insurance_value
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__insurance_value
+msgid "Insurance Value"
+msgstr "Valor do Seguro"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__document_key
+msgid "Key"
+msgstr "Chave"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract____last_update
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line____last_update
+#: model:ir.model.fields,field_description:l10n_br_contract.field_res_company____last_update
+msgid "Last Modified on"
+msgstr "Última Modificação em"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__legal_name
+msgid "Legal Name"
+msgstr "Razão Social"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__manual_additional_data
+msgid "Manual Additional Data"
+msgstr "Dado Adicional Manual"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__manual_customer_additional_data
+msgid "Manual Customer Additional Data"
+msgstr "Dado Adicional do Cliente Manual"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__manual_fiscal_additional_data
+msgid "Manual Fiscal Additional Data"
+msgstr "Dado Adicional Fiscal Manual"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_line__line_recurrence
+msgid ""
+"Mark this check if you want to control recurrrence at line level instead of "
+"all together for the whole contract."
+msgstr ""
+"Marque esta verificação se desejar controlar a recorrência no nível da linha "
+"em vez de todos juntos para todo o contrato."
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__nbm_id
+msgid "NBM"
+msgstr "NBM"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__nbs_id
+msgid "NBS"
+msgstr "NBS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ncm_id
+msgid "NCM"
+msgstr "NCM"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__simple_value
+msgid "National Simple Taxes"
+msgstr "Impostos do Simples Nacional"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__simple_without_icms_value
+msgid "National Simple Taxes without ICMS"
+msgstr "Impostos do Simples Nacional sem ICMS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__fiscal_operation_id
+msgid "Operation"
+msgstr "Operação"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__fiscal_operation_line_id
+msgid "Operation Line"
+msgstr "Linha de Operação"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__operation_name
+msgid "Operation Name"
+msgstr "Nome da Operação"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_other_value
+msgid "Other Costs"
+msgstr "Outros Custos"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__other_value
+msgid "Other Value"
+msgstr "Outros Valores"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__pis_percent
+msgid "PIS %"
+msgstr "% PIS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__pis_reduction
+msgid "PIS % Reduction"
+msgstr "% Redução do PIS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_pis_base
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__pis_base
+msgid "PIS Base"
+msgstr "Base do PIS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__pis_base_id
+msgid "PIS Base Code"
+msgstr "Código da Base do PIS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__pis_base_type
+msgid "PIS Base Type"
+msgstr "Tipo da Base do PIS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__pis_cst_code
+msgid "PIS CST Code"
+msgstr "Código CST do PIS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__pis_credit_id
+msgid "PIS Credit"
+msgstr "Crédito do PIS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__pis_wh_percent
+msgid "PIS RET %"
+msgstr "% PIS RET"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__pis_wh_reduction
+msgid "PIS RET % Reduction"
+msgstr "% de Redução do PIS RET"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__pis_wh_base
+msgid "PIS RET Base"
+msgstr "Base do PIS RET"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__pis_wh_value
+msgid "PIS RET Value"
+msgstr "Valor do PIS RET"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_pis_wh_base
+msgid "PIS Ret Base"
+msgstr "Base do PIS Ret"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_pis_wh_value
+msgid "PIS Ret Value"
+msgstr "Valor do PIS Ret"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__pisst_percent
+msgid "PIS ST %"
+msgstr "% PIS ST"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__pisst_reduction
+msgid "PIS ST % Reduction"
+msgstr "% de Redução do PIS ST"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_pisst_base
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__pisst_base
+msgid "PIS ST Base"
+msgstr "Base do PIS ST"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__pisst_base_type
+msgid "PIS ST Base Type"
+msgstr "Tipo da Base do PIS ST"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__pisst_cst_code
+msgid "PIS ST CST Code"
+msgstr "Código CST do PIS ST"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_pisst_value
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__pisst_value
+msgid "PIS ST Value"
+msgstr "Valor do PIS ST"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_pis_value
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__pis_value
+msgid "PIS Value"
+msgstr "Valor do PIS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__pis_wh_base_type
+msgid "PIS WH Base Type"
+msgstr "Tipo da Base do PIS WH"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__partner_id
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__partner_id
+msgid "Partner"
+msgstr "Parceiro"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__partner_order
+msgid "Partner Order (xPed)"
+msgstr "Pedido de Parceiro (xPed)"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__partner_order_line
+msgid "Partner Order Line (nItemPed)"
+msgstr "Linha de Pedido do Parceiro (nItemPed)"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__p_devol
+msgid "Percentual de mercadoria devolvida"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__product_id
+msgid "Product"
+msgstr "Produto"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__partner_is_public_entity
+msgid "Public Entity"
+msgstr "Entidade Pública"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__quantity
+msgid "Quantity"
+msgstr "Quantidade"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__contract_recalculate_taxes_before_invoice
+msgid "Recalculate taxes before invoicing"
+msgstr "Recalcular impostos antes do faturamento"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__partner_receivering_id
+msgid "Receiver Address"
+msgstr "Endereço do Recebedor"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__line_recurrence
+msgid "Recurrence at line level?"
+msgstr "Recorrência no nível da linha?"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__partner_sendering_id
+msgid "Sender Address"
+msgstr "Endereço do Remetente"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__document_serie
+msgid "Serie Number"
+msgstr "Número de Série"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__service_type_id
+msgid "Service Type LC 166"
+msgstr "Tipo de Serviço LC 166"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__partner_shippering_id
+msgid "Shipper Address"
+msgstr "Endereço do Expedidor"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmssn_range_id
+msgid "Simplified Range Tax"
+msgstr "Intervalo do Imposto Simplificado"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__ie
+msgid "State Tax Number/RG"
+msgstr "Número da Inscrição Estadual/RG"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_tax_benefit_id
+msgid "Tax Benefit"
+msgstr "Benefício Fiscal"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_tax_benefit_code
+msgid "Tax Benefit Code"
+msgstr "Código do Benefício Fiscal"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofins_tax_id
+msgid "Tax COFINS"
+msgstr "Imposto COFINS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofins_wh_tax_id
+msgid "Tax COFINS RET"
+msgstr "Imposto COFINS RET"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofinsst_tax_id
+msgid "Tax COFINS ST"
+msgstr "Imposto COFINS ST"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__csll_tax_id
+msgid "Tax CSLL"
+msgstr "Imposto CSLL"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__csll_wh_tax_id
+msgid "Tax CSLL RET"
+msgstr "Imposto CSLL RET"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__tax_framework
+msgid "Tax Framework"
+msgstr "Estrutura Tributária"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_tax_id
+msgid "Tax ICMS"
+msgstr "Imposto ICMS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmsfcp_tax_id
+msgid "Tax ICMS FCP"
+msgstr "Imposto ICMS FCP"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmsfcpst_tax_id
+msgid "Tax ICMS FCP ST"
+msgstr "Imposto ICMS FCP ST"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmssn_tax_id
+msgid "Tax ICMS SN"
+msgstr "Imposto ICMS SN"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmsst_tax_id
+msgid "Tax ICMS ST"
+msgstr "Imposto ICMS ST"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ii_tax_id
+msgid "Tax II"
+msgstr "Imposto II"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__inss_tax_id
+msgid "Tax INSS"
+msgstr "Imposto INSS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__inss_wh_tax_id
+msgid "Tax INSS RET"
+msgstr "Imposto INSS RET"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ipi_tax_id
+msgid "Tax IPI"
+msgstr "Imposto IPI"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__irpj_tax_id
+msgid "Tax IRPJ"
+msgstr "Imposto IRPJ"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__irpj_wh_tax_id
+msgid "Tax IRPJ RET"
+msgstr "Imposto IRPJ RET"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__issqn_tax_id
+msgid "Tax ISSQN"
+msgstr "Imposto ISSQN"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__issqn_wh_tax_id
+msgid "Tax ISSQN RET"
+msgstr "Imposto ISSQN RET"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__pis_tax_id
+msgid "Tax PIS"
+msgstr "Imposto PIS"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__pis_wh_tax_id
+msgid "Tax PIS RET"
+msgstr "Imposto PIS RET"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__pisst_tax_id
+msgid "Tax PIS ST"
+msgstr "Imposto PIS ST"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__uot_id
+msgid "Tax UoM"
+msgstr "UoM Fiscal"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_tax_withholding
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__amount_tax_withholding
+msgid "Tax Withholding"
+msgstr "Imposto Retido"
+
+#. module: l10n_br_contract
+#: model_terms:ir.ui.view,arch_db:l10n_br_contract.contract_line_form_view
+msgid "Taxes"
+msgstr "Impostos"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_contract__insurance_endorsement
+msgid ""
+"The endorsement number associated with the insurance policy, indicating any "
+"modifications or adjustments to the coverage. This field is primarily used "
+"when issuing the CT-e."
+msgstr ""
+"O número da averbação associado à apólice de seguro, indicando quaisquer "
+"modificações ou ajustes na cobertura. Este campo é usado principalmente ao "
+"emitir o CT-e."
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_contract__insurance_policy
+msgid ""
+"The insurance policy number covering the transported goods. This field is "
+"primarily used when issuing the CT-e."
+msgstr ""
+"O número da apólice de seguro que cobre as mercadorias transportadas. Este "
+"campo é usado principalmente ao emitir o CT-e."
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_contract__partner_receivering_id
+msgid ""
+"The intermediary partner who receives the goods before they reach the final "
+"recipient, often involved in verification, temporary storage, or further "
+"distribution. This field is primarily used when issuing the CT-e."
+msgstr ""
+"O parceiro intermediário que recebe as mercadorias antes que elas cheguem ao "
+"destinatário final, frequentemente envolvido em verificação, armazenamento "
+"temporário ou distribuição posterior. Este campo é usado principalmente ao "
+"emitir o CT-e."
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_contract__partner_insurance_id
+msgid ""
+"The partner providing insurance coverage for the transported goods. This "
+"field is primarily used when issuing the CT-e."
+msgstr ""
+"O parceiro que fornece cobertura de seguro para as mercadorias "
+"transportadas. Este campo é usado principalmente ao emitir o CT-e."
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_contract__partner_shippering_id
+msgid ""
+"The partner responsible for delivering the cargo to the carrier, if not done "
+"directly by the sender. This field is primarily used when issuing the CT-e."
+msgstr ""
+"O parceiro responsável pela entrega da carga ao transportador, caso não seja "
+"feita diretamente pelo remetente. Este campo é usado principalmente na "
+"emissão do CT-e."
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_contract__partner_sendering_id
+msgid ""
+"The partner responsible for sending the goods, typically the issuer of the "
+"document. This field is primarily used when issuing the CT-e."
+msgstr ""
+"O parceiro responsável pelo envio das mercadorias, normalmente o emissor do "
+"documento. Este campo é usado principalmente ao emitir o CT-e."
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__total_weight
+msgid "Total Weight"
+msgstr "Peso Total"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_line__financial_total_gross
+msgid "Total amount before any discounts are applied."
+msgstr "Valor total antes de quaisquer descontos serem aplicados."
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_line__price_gross
+msgid ""
+"Total value of products or services (quantity x unit price)before any "
+"discounts."
+msgstr ""
+"Valor total dos produtos ou serviços (quantidade x preço unitário) antes de "
+"quaisquer descontos."
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__fiscal_operation_type
+msgid "Type"
+msgstr "Tipo"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__price_unit
+msgid "Unit Price"
+msgstr "Preço Unitário"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__uom_id
+msgid "Unit of Measure"
+msgstr "Unidade de Medida"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_contract__legal_name
+msgid "Used in fiscal documents"
+msgstr "Usado em documentos fiscais"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_line__icms_substitute
+msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
+msgstr "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ipi_devol_value
+msgid "Valor do IPI devolvido"
+msgstr ""
+
+#~ msgid ""
+#~ "Actor who receives the goods. He is considered an "
+#~ "intermediary             between the issuer and the final recipient."
+#~ msgstr ""
+#~ "Ator que recebe a mercadoria. Ele é considerado um "
+#~ "intermediário             entre o emissor e o destinatário final."
+
+#~ msgid "(-) Amount Tax Withholding"
+#~ msgstr "(-) Valor Retido na Fonte"
+
+#~ msgid "Amount Tax Withholding"
+#~ msgstr "Total de Imposto Retido na Fonte"
+
+#~ msgid "Amount Tax not Included"
+#~ msgstr "Total de Impostos Não Incluídos no Preço"
+
+#~ msgid ""
+#~ "Contract manually invoiced: <a href=\"#\" data-oe-model=\"%s\" data-oe-"
+#~ "id=\"%s\">Invoice</a>"
+#~ msgstr ""
+#~ "Contrato faturado manualmente: <a href=\"#\" data-oe-model=\"%s\" data-oe-"
+#~ "id=\"%s\">Fatura</a>"
+
+#~ msgid "Default Fiscal Operation"
+#~ msgstr "Operação Fiscal Padrão"
+
+#~ msgid "Document Count"
+#~ msgstr "Contagem de Documentos Fiscais"
+
+#~ msgid "Documents"
+#~ msgstr "Documentos"
+
+#~ msgid "Fiscal Document Line"
+#~ msgstr "Linha de Documentos Fiscais"
+
+#~ msgid "Invoice Line"
+#~ msgstr "Linha da Fatura"
