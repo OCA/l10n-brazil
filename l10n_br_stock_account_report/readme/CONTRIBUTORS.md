@@ -1,0 +1,2 @@
+- [Akretion](https://www.akretion.com/pt-BR):
+  - Magno Costa \<<magno.costa@akretion.com.br>\>
