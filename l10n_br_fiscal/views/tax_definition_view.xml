@@ -229,6 +229,35 @@
                                 <field name="not_in_nbms" readonly="state != 'draft'" />
                             </group>
                         </page>
+                        <page name="nbs_page" string="NBS">
+                            <group name="nbss" string="NBSs">
+                                <label for="nbss" />
+                                <div class="o_row">
+                                    <field
+                                        name="nbss"
+                                        force_save="1"
+                                        class="oe_inline"
+                                        readonly="state != 'draft'"
+                                    />
+                                    <button
+                                        name="action_search_nbss"
+                                        type="object"
+                                        class="oe_inline btn-sm btn-link mb4 fa fa-search oe_edit_only"
+                                        aria-label="Search NBSs"
+                                        title="Search NBSs"
+                                    />
+                                </div>
+                                <field
+                                    name="nbs_ids"
+                                    options="{'no_create': True}"
+                                    force_save="1"
+                                    nolabel="1"
+                                    colspan="2"
+                                    readonly="state != 'draft'"
+                                />
+                                <field name="not_in_nbss" readonly="state != 'draft'" />
+                            </group>
+                        </page>
                         <page name="cests_page" string="CEST">
                             <group name="cests" string="CESTs">
                                 <label for="cests" />
@@ -287,6 +316,24 @@
                                     force_save="1"
                                     nolabel="1"
                                     colspan="2"
+                                    readonly="state != 'draft'"
+                                />
+                            </group>
+                        </page>
+                        <page
+                            name="operation_indicators_page"
+                            string="Operation Indicator"
+                        >
+                            <group
+                                name="operation_indicators"
+                                string="Operation Indicators"
+                            >
+                                <field
+                                    name="operation_indicator_ids"
+                                    force_save="1"
+                                    nolabel="1"
+                                    colspan="2"
+                                    options="{'no_create': True}"
                                     readonly="state != 'draft'"
                                 />
                             </group>

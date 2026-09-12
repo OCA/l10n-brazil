@@ -39,7 +39,9 @@ class TaxDefinition(models.Model):
 
     Furthermore, it allows for conditions based on:
     - Originating and destination states (`state_from_id`, `state_to_ids`)
-    - Product characteristics (NCM, CEST, NBM, specific products, type)
+    - Product characteristics (NCM, CEST, NBM, NBS, specific products, type)
+    - Service characteristics (city/national taxation codes, service types,
+      operation indicators)
     - Partner characteristics (tax framework, ICMS taxpayer status, final consumer)
     - Company tax framework
     - Date validity (`date_start`, `date_end`)
@@ -199,6 +201,22 @@ class TaxDefinition(models.Model):
         string="NBMs",
     )
 
+    nbss = fields.Text(
+        string="NBS List",
+        readonly=True,
+    )
+
+    not_in_nbss = fields.Text(
+        string="Not in NBSs",
+        readonly=True,
+    )
+
+    nbs_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.nbs",
+        readonly=True,
+        string="NBSs",
+    )
+
     product_ids = fields.Many2many(
         comodel_name="product.product",
         string="Products",
@@ -219,6 +237,12 @@ class TaxDefinition(models.Model):
     service_type_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.service.type",
         string="Fiscal Service Types",
+    )
+
+    operation_indicator_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.operation.indicator",
+        relation="tax_definition_operation_indicator_rel",
+        string="Operation Indicators",
     )
 
     ind_final = fields.Selection(
@@ -304,6 +328,10 @@ class TaxDefinition(models.Model):
                 domain.append(
                     ("nbm_ids", "in", tax_definition.nbm_ids.ids),
                 )
+            if tax_definition.nbs_ids:
+                domain.append(
+                    ("nbs_ids", "in", tax_definition.nbs_ids.ids),
+                )
             if tax_definition.product_ids:
                 domain.append(
                     ("product_ids", "in", tax_definition.product_ids.ids),
@@ -388,6 +416,27 @@ class TaxDefinition(models.Model):
             else:
                 r.nbm_ids = False
 
+    def action_search_nbss(self):
+        nbs = self.env["l10n_br_fiscal.nbs"]
+        for r in self:
+            domain = []
+
+            if r.nbss:
+                domain += tools.domain_field_codes(r.nbss, code_size=10)
+
+            if r.not_in_nbss:
+                domain += tools.domain_field_codes(
+                    field_codes=r.not_in_nbss,
+                    operator1="!=",
+                    operator2="not ilike",
+                    code_size=10,
+                )
+
+            if domain:
+                r.nbs_ids = nbs.search(domain)
+            else:
+                r.nbs_ids = False
+
     @api.model_create_multi
     def create(self, vals_list):
         create_super = super().create(vals_list)
@@ -401,6 +450,8 @@ class TaxDefinition(models.Model):
                 ).action_search_cests()
             if "nbms" in values.keys():
                 create_super[index].with_context(do_not_write=True).action_search_nbms()
+            if "nbss" in values.keys():
+                create_super[index].with_context(do_not_write=True).action_search_nbss()
         return create_super
 
     def write(self, values):
@@ -413,6 +464,8 @@ class TaxDefinition(models.Model):
             self.with_context(do_not_write=True).action_search_cests()
         if "nbms" in values.keys() and not do_not_write:
             self.with_context(do_not_write=True).action_search_nbms()
+        if "nbss" in values.keys() and not do_not_write:
+            self.with_context(do_not_write=True).action_search_nbss()
         return write_super
 
     def map_tax_definition(
@@ -427,6 +480,7 @@ class TaxDefinition(models.Model):
         city_taxation_code=None,
         national_taxation_code=None,
         service_type=None,
+        operation_indicator=None,
     ):
         """
         Filter and return tax definitions that match the given criteria.
@@ -440,9 +494,10 @@ class TaxDefinition(models.Model):
         - Current record state (not 'expired').
         - Originating state (state_from_id).
         - Destination states (state_to_ids), allowing for no specific destination.
-        - NCM, NBM, CEST codes, allowing for no specific code.
+        - NCM, NBM, NBS, CEST codes, allowing for no specific code.
         - City taxation codes, allowing for no specific code.
         - Service types, allowing for no specific type.
+        - Operation indicators, allowing for no specific indicator.
         - Specific products, allowing for no specific product.
 
         :param company: The company record (res.company) of the transaction.
@@ -453,7 +508,7 @@ class TaxDefinition(models.Model):
         :param nbm: Optional NBM record (l10n_br_fiscal.nbm);
             defaults to product's NBM.
         :param nbs: Optional NBS record (l10n_br_fiscal.nbs);
-            (Note: nbs not used in current domain construction)
+            defaults to product's NBS.
         :param cest: Optional CEST record (l10n_br_fiscal.cest);
             defaults to product's CEST.
         :param city_taxation_code: Optional City Taxation Code record
@@ -462,6 +517,9 @@ class TaxDefinition(models.Model):
             (l10n_br_fiscal.national.taxation.code).
         :param service_type: Optional Service Type record
             (l10n_br_fiscal.service.type).
+        :param operation_indicator: Optional Operation Indicator record
+            (l10n_br_fiscal.operation.indicator); defaults to product's
+            operation indicator.
         :return: A recordset of matching
             l10n_br_fiscal.tax.definition.
         """
@@ -475,8 +533,14 @@ class TaxDefinition(models.Model):
         if not nbm:
             nbm = product.nbm_id
 
+        if not nbs:
+            nbs = product.nbs_id
+
         if not cest:
             cest = product.cest_id
+
+        if not operation_indicator:
+            operation_indicator = product.operation_indicator_id
 
         domain = [
             ("state", "!=", "expired"),
@@ -491,6 +555,9 @@ class TaxDefinition(models.Model):
             ("nbm_ids", "=", False),
             ("nbm_ids", "=", nbm.id),
             "|",
+            ("nbs_ids", "=", False),
+            ("nbs_ids", "=", nbs.id),
+            "|",
             ("cest_ids", "=", False),
             ("cest_ids", "=", cest.id),
             "|",
@@ -502,6 +569,9 @@ class TaxDefinition(models.Model):
             "|",
             ("service_type_ids", "=", False),
             ("service_type_ids", "=", service_type.id),
+            "|",
+            ("operation_indicator_ids", "=", False),
+            ("operation_indicator_ids", "=", operation_indicator.id),
             "|",
             ("product_ids", "=", False),
             ("product_ids", "=", product.id),
