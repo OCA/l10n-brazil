@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 - TODAY, Marcel Savegnago - Escodoo
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.ui.view" id="repair_order_form_view">
+        <field name="name">repair.order.form (in l10n_br_repair)</field>
+        <field name="model">repair.order</field>
+        <field name="inherit_id" ref="repair.view_repair_order_form" />
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='tag_ids']" position="after">
+                <field name="fiscal_operation_id" />
+                <field name="ind_pres" />
+                <field name="client_order_ref" />
+                <field name="operation_name" />
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="cnpj_cpf" />
+                <field name="legal_name" />
+                <field name="ie" />
+            </xpath>
+            <xpath expr="//page[@name='repair_notes']" position="after">
+                <page name="page_fiscal" string="Fiscal">
+                    <group>
+                        <field name="copy_repair_quotation_notes" />
+                        <field name="manual_customer_additional_data" />
+                        <field name="manual_fiscal_additional_data" />
+                    </group>
+                    <group>
+                        <field
+                            name="amount_price_gross"
+                            widget="monetary"
+                            options="{'currency_field': 'currency_id'}"
+                        />
+                        <field
+                            name="amount_freight_value"
+                            widget="monetary"
+                            options="{'currency_field': 'currency_id'}"
+                        />
+                        <field
+                            name="amount_insurance_value"
+                            widget="monetary"
+                            options="{'currency_field': 'currency_id'}"
+                        />
+                        <field
+                            name="amount_other_value"
+                            widget="monetary"
+                            options="{'currency_field': 'currency_id'}"
+                        />
+                    </group>
+                    <field
+                        name="comment_ids"
+                        widget="many2many_tags"
+                        options="{'no_create_edit': True}"
+                    />
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
