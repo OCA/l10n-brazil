@@ -123,8 +123,9 @@ class L10nBrFiscalDocument(spec_models.StackedModel):
     _nfse10_binding_type = "TcinfDps"
     _nfse10_stacking_mixin = "nfse.10.tcinfdps"
     # Groups the schema declares as optional (so they are not stacked by
-    # default) but the DPS always declares: leaving them out of the stack
-    # would send their values to a side table, outside the fiscal document.
+    # default) but whose values the DPS declares: leaving them out of the
+    # stack would send those values to a side table, outside the fiscal
+    # document. Whether vDescCondIncond is exported is decided at the export.
     _nfse10_stacking_force_paths = (
         "tcinfdps.valores.vDescCondIncond",
         "tcinfdps.valores.trib.tribFed",
@@ -496,17 +497,23 @@ class L10nBrFiscalDocument(spec_models.StackedModel):
         l10n_br_fiscal.document model, so their _export_many2one overrides
         sit in the same MRO: l10n_br_nfe drops every non required stacked
         group whose denormalized fields are all empty. The DPS always
-        declares vDescCondIncond and tribFed (piscofins included) even when
-        they hold no value, so the nfse fields are exported here with the
-        generic implementation instead of being pruned by a sibling module.
+        declares tribFed (piscofins included) even when it holds no value, so
+        the nfse fields are exported here with the generic implementation
+        instead of being pruned by a sibling module.
 
-        The totTrib xs:choice is the only conditional member: the pTotTrib
-        percentages (a company outside the Simples Nacional) must not appear
-        next to pTotTribSN and vice versa.
+        Two members are conditional. The pTotTrib percentages of the totTrib
+        xs:choice (a company outside the Simples Nacional) must not appear
+        next to pTotTribSN and vice versa. vDescCondIncond only goes out with
+        a discount: without one the group would be an empty tag, which the
+        note of the national web emitter does not carry.
         """
         if not field_name.startswith(f"{self._spec_prefix()}_"):
             return super()._export_many2one(field_name, xsd_required, class_obj)
         if field_name == "nfse10_pTotTrib" and not self.nfse10_pTotTribFed:
+            return False
+        if field_name == "nfse10_vDescCondIncond" and not (
+            self.nfse10_vDescIncond or self.nfse10_vDescCond
+        ):
             return False
         return SpecMixinExport._export_many2one(
             self, field_name, xsd_required, class_obj

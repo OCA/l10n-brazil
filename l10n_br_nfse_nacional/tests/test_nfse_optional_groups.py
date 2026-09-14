@@ -54,3 +54,23 @@ class TestNfseOptionalGroups(TransactionCase):
     def test_without_an_nbs_the_tag_is_left_out(self):
         self.line.nbs_id = False
         self.assertFalse(self._prepare().nfse10_cNBS)
+
+    def _serialize(self):
+        return self.document._serialize([])[0].to_xml()
+
+    def test_the_discount_group_is_absent_when_there_is_no_discount(self):
+        """Without a discount the group would only be an empty tag."""
+        self.line.write({"discount_value": 0.0, "issqn_desc_cond_amount": 0.0})
+        self.assertNotIn("<vDescCondIncond", self._serialize())
+
+    def test_an_unconditional_discount_brings_the_group_back(self):
+        self.line.discount_value = 10.0
+        xml = self._serialize()
+        self.assertIn("<vDescCondIncond>", xml)
+        self.assertIn("<vDescIncond>10.00</vDescIncond>", xml)
+
+    def test_a_conditional_discount_brings_the_group_back(self):
+        self.line.write({"discount_value": 0.0, "issqn_desc_cond_amount": 7.5})
+        xml = self._serialize()
+        self.assertIn("<vDescCondIncond>", xml)
+        self.assertIn("<vDescCond>7.50</vDescCond>", xml)

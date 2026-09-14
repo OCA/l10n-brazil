@@ -80,16 +80,16 @@ class TestNfseExportLC(TestNfseSerialize):
         self.assertIsNone(re.search(r"<pAliq[ >/]", xml))
 
     def test_empty_groups_are_still_declared(self):
-        """The DPS declares its groups even when they hold no value.
+        """The DPS declares tribFed even when it holds no value.
 
-        vDescCondIncond and tribFed are optional in the leiaute, so a
-        stacking algorithm that prunes empty groups drops them: the DPS then
-        differs from the one the ADN produces, and installing l10n_br_nfe
-        next to this module used to be enough to trigger it because both
-        stack on the same l10n_br_fiscal.document model.
+        tribFed is optional in the leiaute, so a stacking algorithm that
+        prunes empty groups drops it: the DPS then differs from the one the
+        ADN produces, and installing l10n_br_nfe next to this module used to
+        be enough to trigger it because both stack on the same
+        l10n_br_fiscal.document model. vDescCondIncond is the exception: it
+        only goes out with a discount (see test_nfse_optional_groups).
         """
         xml = self._xml()
-        self.assertIn("<vDescCondIncond", xml)
         self.assertIn("<tribFed>", xml)
         self.assertIn("<piscofins>", xml)
 
