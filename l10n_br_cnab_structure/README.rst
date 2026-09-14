@@ -90,18 +90,18 @@ Authors
 Contributors
 ------------
 
--  `Engenere <https://engenere.one>`__:
+- `Engenere <https://engenere.one>`__:
 
-   -  Antônio S. Pereira Neto <neto@engenere.one>
-   -  Felipe Motter Pereira <felipe@engenere.one>
+  - Antônio S. Pereira Neto <neto@engenere.one>
+  - Felipe Motter Pereira <felipe@engenere.one>
 
 Other credits
 -------------
 
 The development of this module has been financially supported by:
 
--  Escodoo - https://www.escodoo.com.br
--  Engenere - https://engenere.one/
+- Escodoo - https://www.escodoo.com.br
+- Engenere - https://engenere.one/
 
 Maintainers
 -----------
@@ -122,10 +122,16 @@ promote its widespread use.
 .. |maintainer-felipemotter| image:: https://github.com/felipemotter.png?size=40px
     :target: https://github.com/felipemotter
     :alt: felipemotter
+.. |maintainer-marcelsavegnago| image:: https://github.com/marcelsavegnago.png?size=40px
+    :target: https://github.com/marcelsavegnago
+    :alt: marcelsavegnago
+.. |maintainer-kaynnan| image:: https://github.com/kaynnan.png?size=40px
+    :target: https://github.com/kaynnan
+    :alt: kaynnan
 
 Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
 
-|maintainer-antoniospneto| |maintainer-felipemotter| 
+|maintainer-antoniospneto| |maintainer-felipemotter| |maintainer-marcelsavegnago| |maintainer-kaynnan| 
 
 This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_cnab_structure>`_ project on GitHub.
 
