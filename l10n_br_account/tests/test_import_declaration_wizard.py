@@ -64,6 +64,11 @@ class TestImportDeclarationWizard(AccountMoveBRCommon):
         contributions and the ICMS come from the product and from the CFOP, so
         the test has to declare what the file says, or the check refuses the
         note, which is exactly what it exists for.
+
+        ii_declared_value has to be on the probe too: it is what the engine
+        puts into the base of the IPI, the contributions and the ICMS on an
+        import, not the product's own Import Tax rate (see
+        test_ipi_follows_the_declared_import_tax below).
         """
         lines = wizard._bill_lines()
         shares = wizard._shares(lines)
@@ -79,6 +84,7 @@ class TestImportDeclarationWizard(AccountMoveBRCommon):
             values = wizard._prepare_line_values(bill_line, gross_parts[position])
             values.update(
                 {
+                    "ii_declared_value": ii_parts[position],
                     "ii_value": ii_parts[position],
                     "ii_base": gross_parts[position],
                     "ii_customhouse_charges": charge_parts[position],
@@ -201,6 +207,43 @@ class TestImportDeclarationWizard(AccountMoveBRCommon):
             self.assertAlmostEqual(
                 sum(lines.mapped(fname)), expected, places=2, msg=fname
             )
+
+    def test_ipi_follows_the_declared_import_tax(self):
+        """The IPI base has to follow the II the declaration charged, not the
+        product's own Import Tax rate.
+
+        product_a carries no Import Tax of its own, so before the fix
+        _write_block() created the line with ii_declared_value=0, and the
+        engine's only pass at that IPI computed the same as it would with no
+        declaration at all. Writing ii_declared_value afterwards did not fix
+        it: ipi_base and ipi_value are computed by the same method as
+        amount_tax_included, ii_base and icms_base, and Odoo does not
+        recompute the fields of a compute method left out of a write() that
+        already supplies some of its other fields.
+        """
+        wizard = self._wizard()
+        lines = wizard._bill_lines()
+        shares = wizard._shares(lines)
+        currency = wizard.company_currency_id
+        gross_parts = wizard._split(wizard.customs_value, shares, currency)
+        ii_parts = wizard._split(wizard.ii_value, shares, currency)
+        Line = self.env["l10n_br_fiscal.document.line"]
+        unaware_probe = Line.new(wizard._prepare_line_values(lines[0], gross_parts[0]))
+        # The scenario the bug needs: the product carries no Import Tax of
+        # its own, while the declaration charged one.
+        self.assertEqual(unaware_probe.ii_percent, 0.0)
+
+        wizard.action_generate_document()
+
+        generated_line = wizard.document_id.fiscal_line_ids[0]
+        self.assertAlmostEqual(
+            generated_line.ipi_base,
+            gross_parts[0] + ii_parts[0],
+            places=2,
+        )
+        self.assertNotAlmostEqual(
+            generated_line.ipi_value, unaware_probe.ipi_value, places=2
+        )
 
     def test_the_lines_resolve_an_import_cfop(self):
         """Without a 3.xxx CFOP the taxes of the declaration do not compose."""
