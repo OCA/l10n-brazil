@@ -35,7 +35,7 @@
     <!-- 2. NBS CODES -->
     <record id="nbs_111111111" model="l10n_br_fiscal.nbs">
         <field name="name">111111111</field>
-        <field name="code">111111111</field>
+        <field name="code">1.1111.11.11</field>
     </record>
 
     <!-- DEMO 1: REGIME NORMAL (MEI - LC) -->
