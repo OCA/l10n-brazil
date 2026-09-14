@@ -29,6 +29,21 @@ msgid "BR Company Currency"
 msgstr ""
 
 #. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__cnpj_status
+msgid "CNPJ Status"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__cnpj_status_date
+msgid "CNPJ Status Date"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__cnpj_status_reason
+msgid "CNPJ Status Reason"
+msgstr ""
+
+#. module: l10n_br_portal
 #: model:ir.model.fields,help:l10n_br_portal.field_res_partner__vat_formatted_cnpj
 msgid "CNPJ or CPF formatted with proper punctuation and special characters"
 msgstr ""
@@ -71,6 +86,16 @@ msgid "Company Name"
 msgstr ""
 
 #. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__company_size
+msgid "Company Size"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,help:l10n_br_portal.field_res_partner__company_size
+msgid "Company size classification (e.g. Small Business)."
+msgstr ""
+
+#. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid ""
 "Confirm\n"
@@ -89,6 +114,21 @@ msgid "Country"
 msgstr ""
 
 #. module: l10n_br_portal
+#: model:ir.model.fields,help:l10n_br_portal.field_res_partner__cnpj_status_date
+msgid "Date of the current registration status."
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,help:l10n_br_portal.field_res_partner__simples_option_date
+msgid "Date the company opted for the Simples Nacional regime."
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,help:l10n_br_portal.field_res_partner__opening_date
+msgid "Date the company started its activities."
+msgstr ""
+
+#. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__district
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "District"
@@ -102,6 +142,16 @@ msgstr ""
 #. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__equity_capital
 msgid "Equity Capital"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,help:l10n_br_portal.field_res_partner__legal_responsible_function
+msgid "Function of the legal responsible for the company."
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__cnpj_branch_type
+msgid "Head Office / Branch"
 msgstr ""
 
 #. module: l10n_br_portal
@@ -136,6 +186,16 @@ msgid "Legal Nature"
 msgstr ""
 
 #. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__legal_responsible_name
+msgid "Legal Responsible"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__legal_responsible_function
+msgid "Legal Responsible Function"
+msgstr ""
+
+#. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__cnae_main_id
 msgid "Main CNAE"
 msgstr ""
@@ -156,8 +216,18 @@ msgid "Municipal Tax Number"
 msgstr ""
 
 #. module: l10n_br_portal
+#: model:ir.model.fields,help:l10n_br_portal.field_res_partner__legal_responsible_name
+msgid "Name of the legal responsible for the company."
+msgstr ""
+
+#. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "Nº"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__opening_date
+msgid "Opening Date"
 msgstr ""
 
 #. module: l10n_br_portal
@@ -168,6 +238,16 @@ msgstr ""
 #. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "Phone"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,help:l10n_br_portal.field_res_partner__cnpj_status_reason
+msgid "Reason for the current registration status."
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,help:l10n_br_portal.field_res_partner__cnpj_status
+msgid "Registration status of the CNPJ (e.g. Active)."
 msgstr ""
 
 #. module: l10n_br_portal
@@ -193,6 +273,11 @@ msgstr ""
 #. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__show_l10n_br
 msgid "Show L10N Br"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__simples_option_date
+msgid "Simples Nacional Option Date"
 msgstr ""
 
 #. module: l10n_br_portal
@@ -228,6 +313,11 @@ msgstr ""
 #. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__vat_formatted_cnpj
 msgid "VAT Formatted (Brazil)"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,help:l10n_br_portal.field_res_partner__cnpj_branch_type
+msgid "Whether the establishment is the head office or a branch."
 msgstr ""
 
 #. module: l10n_br_portal
