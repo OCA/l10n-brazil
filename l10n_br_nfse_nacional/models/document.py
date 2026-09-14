@@ -23,6 +23,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     EVENT_ENV_HML,
     EVENT_ENV_PROD,
     MODELO_FISCAL_NFSE,
+    PROCESSADOR_OCA,
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_REJEITADA,
@@ -33,6 +34,7 @@ from ..constants.nfse_nacional import (
     ADN_BASE_URL,
     NFSE_NACIONAL_CANCEL_EVENT,
     NFSE_NACIONAL_CANCEL_OFICIO_EVENT,
+    PROVEDOR_NFSE_NACIONAL,
 )
 from ..transport.adn_rest import AdnRestClient
 
@@ -41,7 +43,9 @@ BRAZIL_TZ = pytz.timezone("America/Sao_Paulo")
 
 def filter_nfse_nacional(record):
     return (
-        record.document_type_id and record.document_type_id.code == MODELO_FISCAL_NFSE
+        record.processador_edoc == PROCESSADOR_OCA
+        and record.document_type_id.code == MODELO_FISCAL_NFSE
+        and record.company_id.provedor_nfse == PROVEDOR_NFSE_NACIONAL
     )
 
 
