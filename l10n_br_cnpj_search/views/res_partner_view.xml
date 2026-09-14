@@ -10,6 +10,15 @@
         <field name="arch" type="xml">
             <field name="cnae_secondary_ids" position="after">
                 <field name="equity_capital" widget="monetary" />
+                <field name="company_size" readonly="False" />
+                <field name="cnpj_status" readonly="False" />
+                <field name="cnpj_status_date" readonly="False" />
+                <field name="cnpj_status_reason" readonly="False" />
+                <field name="opening_date" readonly="False" />
+                <field name="cnpj_branch_type" readonly="False" />
+                <field name="simples_option_date" readonly="False" />
+                <field name="legal_responsible_name" readonly="False" />
+                <field name="legal_responsible_function" readonly="False" />
             </field>
             <field name="vat" position="replace">
                 <div class="o_row" colspan="4">

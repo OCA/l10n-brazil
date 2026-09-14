@@ -1,2 +1,4 @@
 - [KMEE](https://www.kmee.com.br):
   - Breno Oliveira Dias \<<breno.dias@kmee.com.br>\>
+- [ALAS Tecnologia](https://www.cpfcnpj.com.br):
+  - Alisson Linneker \<<hi@alas.technology>\>
