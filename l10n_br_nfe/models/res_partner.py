@@ -275,39 +275,47 @@ class ResPartner(spec_models.SpecModel):
                 rec.phone = rec.nfe40_fone
 
     @api.model
-    def match_or_create_m2o(self, rec_dict, parent_dict, model=None):
-        if model is not None and model != self:
-            return False
-
+    def _match_cnpj_cpf(self, rec_dict, parent_dict):
         if parent_dict.get("nfe40_CNPJ", False):
             rec_dict["cnpj_cpf"] = parent_dict["nfe40_CNPJ"]
 
         if rec_dict.get("nfe40_CNPJ", False):
             rec_dict["cnpj_cpf"] = rec_dict["nfe40_CNPJ"]
 
+        if not rec_dict.get("cnpj_cpf", False):
+            return False
+
+        cnpj_cpf_stripped = punctuation_rm(str(rec_dict["cnpj_cpf"]))
+        domain_cnpj = [
+            "|",
+            ("cnpj_cpf_stripped", "=", cnpj_cpf_stripped),
+            ("vat", "=", cnpj_cpf_stripped),
+        ]
+        return self.search(domain_cnpj, limit=1).id
+
+    @api.model
+    def _match_o2m_line(self, line_vals, parent_vals):
+        return self._match_cnpj_cpf(line_vals, {})
+
+    @api.model
+    def match_or_create_m2o(self, rec_dict, parent_dict, model=None):
+        if model is not None and model != self:
+            return False
+
         # The emitente's tax regime (CRT) is written after create/match: the
         # fiscal_profile_id inverse would otherwise reset tax_framework to the
         # profile's default during create.
         tax_framework = rec_dict.pop("tax_framework", None)
 
-        if rec_dict.get("cnpj_cpf", False):
-            cnpj_cpf_stripped = punctuation_rm(str(rec_dict["cnpj_cpf"]))
-            domain_cnpj = [
-                "|",
-                ("cnpj_cpf_stripped", "=", cnpj_cpf_stripped),
-                ("vat", "=", cnpj_cpf_stripped),
-            ]
-            match = self.search(domain_cnpj, limit=1)
-            if match:
-                if (
-                    not self._context.get("dry_run")
-                    and tax_framework
-                    and match.tax_framework != tax_framework
-                ):
-                    # logged in the partner chatter (tax_framework is tracked)
-                    # and historicized in SPED.
+        match_id = self._match_cnpj_cpf(rec_dict, parent_dict)
+        if match_id:
+            if not self._context.get("dry_run") and tax_framework:
+                match = self.browse(match_id)
+                if match.tax_framework != tax_framework:
+                    # logged in the partner chatter (tax_framework is
+                    # tracked) and historicized in SPED.
                     match.tax_framework = tax_framework
-                return match.id
+            return match_id
 
         vals = self._prepare_import_dict(
             rec_dict, model=model, parent_dict=parent_dict, defaults_model=model
