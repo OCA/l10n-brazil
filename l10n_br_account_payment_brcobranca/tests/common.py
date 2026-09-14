@@ -6,9 +6,8 @@ import base64
 import logging
 import os
 
-from odoo import Command
 from odoo.modules import get_resource_path
-from odoo.tests import tagged
+from odoo.tests import Form, tagged
 
 from odoo.addons.l10n_br_account_payment_order.tests.common import (
     CNABTestCommon,
@@ -60,6 +59,11 @@ class TestBRCobrancaCommon(CNABTestCommon):
         # l10n_br_account_payment_order/models/account_payment_line.py",
         # line 270, in _prepare_boleto_line_vals
         cls.partner_a.district = "Bairro A"
+        # l10n_br_account_payment_order/models/account_payment_line.py
+        # _prepare_boleto_line_vals concatenates street_name, on 14.0 an empty
+        # computed street_name is False instead of an empty string
+        cls.partner_a.street_name = "Rua A"
+        cls.partner_a.street_number = "100"
         # l10n_br_account_payment_brcobranca/models/account_move.py",
         # line 84, in _get_brcobranca_boleto
         # raise UserError(res.text.encode("utf-8"))
@@ -155,8 +159,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
         # Arquivo CNAB
         cls.cnab_seq_unicred = create_with_form_ir_sequence(
             cls.env,
-            cls.common_sequence_values
-            | {
+            {
+                **cls.common_sequence_values,
                 "name": "Sequencia Arquivo CNAB - UNICRED 400",
                 "code": "Sequencia Arquivo CNAB - UNICRED 400",
             },
@@ -164,8 +168,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
         # Nosso Número
         cls.own_number_seq_unicred = create_with_form_ir_sequence(
             cls.env,
-            cls.common_sequence_values
-            | {
+            {
+                **cls.common_sequence_values,
                 "name": "Nosso número UNICRED",
                 "code": "nosso.numero",
             },
@@ -173,8 +177,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.cnab_seq_brasil_400 = create_with_form_ir_sequence(
             cls.env,
-            cls.common_sequence_values
-            | {
+            {
+                **cls.common_sequence_values,
                 "name": "Sequencia Arquivo CNAB - Banco do Brasil 400",
                 "code": "Sequencia Arquivo CNAB - Banco do BRasil 400",
             },
@@ -182,8 +186,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.own_number_seq_brasil_400 = create_with_form_ir_sequence(
             cls.env,
-            cls.common_sequence_values
-            | {
+            {
+                **cls.common_sequence_values,
                 "name": "Nosso número Banco do Brasil 400",
                 "code": "nosso.numero",
             },
@@ -191,8 +195,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.cnab_seq_brasil_240 = create_with_form_ir_sequence(
             cls.env,
-            cls.common_sequence_values
-            | {
+            {
+                **cls.common_sequence_values,
                 "name": "Sequencia Arquivo CNAB - Banco do Brasil 240",
                 "code": "Sequencia Arquivo CNAB - Banco do BRasil 240",
             },
@@ -200,8 +204,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.own_number_seq_brasil_240 = create_with_form_ir_sequence(
             cls.env,
-            cls.common_sequence_values
-            | {
+            {
+                **cls.common_sequence_values,
                 "name": "Nosso número Banco do Brasil 240",
                 "code": "nosso.numero",
             },
@@ -209,8 +213,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.cnab_seq_bradesco = create_with_form_ir_sequence(
             cls.env,
-            cls.common_sequence_values
-            | {
+            {
+                **cls.common_sequence_values,
                 "name": "Sequencia Arquivo CNAB - Bradesco 400",
                 "code": "Sequencia Arquivo CNAB - Bradesco 400",
             },
@@ -218,8 +222,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.own_number_seq_bradesco = create_with_form_ir_sequence(
             cls.env,
-            cls.common_sequence_values
-            | {
+            {
+                **cls.common_sequence_values,
                 "name": "Nosso número Bradesco",
                 "code": "nosso.numero",
             },
@@ -227,8 +231,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.cnab_seq_sicredi = create_with_form_ir_sequence(
             cls.env,
-            cls.common_sequence_values
-            | {
+            {
+                **cls.common_sequence_values,
                 "name": "Sequencia Arquivo CNAB - SICREDI 240",
                 "code": "Sequencia Arquivo CNAB - SICREDI 240",
             },
@@ -236,8 +240,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.own_number_seq_sicredi = create_with_form_ir_sequence(
             cls.env,
-            cls.common_sequence_values
-            | {
+            {
+                **cls.common_sequence_values,
                 "name": "Nosso número SICREDI",
                 "code": "nosso.numero",
             },
@@ -245,8 +249,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.cnab_seq_santander_400 = create_with_form_ir_sequence(
             cls.env,
-            cls.common_sequence_values
-            | {
+            {
+                **cls.common_sequence_values,
                 "name": "Sequencia Arquivo CNAB - Santander 400",
                 "code": "Sequencia Arquivo CNAB - Santander 400",
             },
@@ -254,8 +258,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.own_number_seq_santander_400 = create_with_form_ir_sequence(
             cls.env,
-            cls.common_sequence_values
-            | {
+            {
+                **cls.common_sequence_values,
                 "name": "Nosso número Santander",
                 "code": "nosso.numero",
             },
@@ -263,8 +267,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.cnab_seq_santander_240 = create_with_form_ir_sequence(
             cls.env,
-            cls.common_sequence_values
-            | {
+            {
+                **cls.common_sequence_values,
                 "name": "Sequencia Arquivo CNAB - Santander 240",
                 "code": "Sequencia Arquivo CNAB - Santander 240",
             },
@@ -272,8 +276,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.own_number_seq_santander_240 = create_with_form_ir_sequence(
             cls.env,
-            cls.common_sequence_values
-            | {
+            {
+                **cls.common_sequence_values,
                 "name": "Nosso número Santander",
                 "code": "nosso.numero",
             },
@@ -281,8 +285,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.cnab_seq_nordeste = create_with_form_ir_sequence(
             cls.env,
-            cls.common_sequence_values
-            | {
+            {
+                **cls.common_sequence_values,
                 "name": "Sequencia Arquivo CNAB - Nordeste 400",
                 "code": "Sequencia Arquivo CNAB - Nordeste 400",
             },
@@ -290,8 +294,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.own_number_seq_nordeste = create_with_form_ir_sequence(
             cls.env,
-            cls.common_sequence_values
-            | {
+            {
+                **cls.common_sequence_values,
                 "name": "Nosso número Nordeste",
                 "code": "nosso.numero",
             },
@@ -307,8 +311,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.cnab_config_unicred = create_with_form_l10n_br_cnab_config(
             cls.env,
-            cls.common_cnab_config_values
-            | {
+            {
+                **cls.common_cnab_config_values,
                 "name": "Banco Unicred - CNAB 400 (inbound)",
                 "bank_id": cls.env.ref("l10n_br_base.res_bank_136"),
                 "payment_method_id": cls.pay_method_type_400,
@@ -358,7 +362,9 @@ class TestBRCobrancaCommon(CNABTestCommon):
         cls.cnab_config_unicred.write(
             {
                 "liq_return_move_code_ids": [
-                    Command.set(
+                    (
+                        6,
+                        0,
                         [
                             cls.env.ref(
                                 "l10n_br_account_payment_order.unicred_240_400_return_01"
@@ -380,8 +386,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.cnab_config_brasil_400 = create_with_form_l10n_br_cnab_config(
             cls.env,
-            cls.common_cnab_config_values
-            | {
+            {
+                **cls.common_cnab_config_values,
                 "name": "Banco do Brasil - CNAB 400 (inbound)",
                 "bank_id": cls.env.ref("l10n_br_base.res_bank_001"),
                 "payment_method_id": cls.pay_method_type_400,
@@ -409,8 +415,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.cnab_config_brasil_240 = create_with_form_l10n_br_cnab_config(
             cls.env,
-            cls.common_cnab_config_values
-            | {
+            {
+                **cls.common_cnab_config_values,
                 "name": "Banco do Brasil - CNAB 240 (inbound)",
                 "bank_id": cls.env.ref("l10n_br_base.res_bank_001"),
                 "payment_method_id": cls.pay_method_type_240,
@@ -437,8 +443,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.cnab_config_bradesco = create_with_form_l10n_br_cnab_config(
             cls.env,
-            cls.common_cnab_config_values
-            | {
+            {
+                **cls.common_cnab_config_values,
                 "name": "Banco do Bradesco - CNAB 400 (inbound)",
                 "bank_id": cls.env.ref("l10n_br_base.res_bank_237"),
                 "payment_method_id": cls.pay_method_type_400,
@@ -465,8 +471,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.cnab_config_sicredi = create_with_form_l10n_br_cnab_config(
             cls.env,
-            cls.common_cnab_config_values
-            | {
+            {
+                **cls.common_cnab_config_values,
                 "name": "Banco do SICREDI - CNAB 240 (inbound)",
                 "bank_id": cls.env.ref("l10n_br_base.res_bank_748"),
                 "payment_method_id": cls.pay_method_type_240,
@@ -494,8 +500,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.cnab_config_santander_400 = create_with_form_l10n_br_cnab_config(
             cls.env,
-            cls.common_cnab_config_values
-            | {
+            {
+                **cls.common_cnab_config_values,
                 "name": "Banco Santander - CNAB 400 (inbound)",
                 "bank_id": cls.env.ref("l10n_br_base.res_bank_033"),
                 "payment_method_id": cls.pay_method_type_400,
@@ -522,8 +528,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.cnab_config_santander_240 = create_with_form_l10n_br_cnab_config(
             cls.env,
-            cls.common_cnab_config_values
-            | {
+            {
+                **cls.common_cnab_config_values,
                 "name": "Banco Santander - CNAB 240 (inbound)",
                 "bank_id": cls.env.ref("l10n_br_base.res_bank_033"),
                 "payment_method_id": cls.pay_method_type_240,
@@ -560,8 +566,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.cnab_config_nordeste = create_with_form_l10n_br_cnab_config(
             cls.env,
-            cls.common_cnab_config_values
-            | {
+            {
+                **cls.common_cnab_config_values,
                 "name": "Banco do Nordeste - CNAB 400 (inbound)",
                 "bank_id": cls.env.ref("l10n_br_base.res_bank_004"),
                 "payment_method_id": cls.pay_method_type_400,
@@ -777,8 +783,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
         # Modo de Pagamento
         cls.pay_mode_unicred = create_with_form_account_payment_mode(
             cls.env,
-            cls.common_pay_mode_values
-            | {
+            {
+                **cls.common_pay_mode_values,
                 "name": "Cobrança UNICRED 400",
                 "bank_id": cls.env.ref("l10n_br_base.res_bank_136"),
                 "fixed_journal_id": cls.journal_unicred,
@@ -789,8 +795,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.pay_mode_brasil_400 = create_with_form_account_payment_mode(
             cls.env,
-            cls.common_pay_mode_values
-            | {
+            {
+                **cls.common_pay_mode_values,
                 "name": "Cobrança Banco do Brasil 400",
                 "bank_id": cls.env.ref("l10n_br_base.res_bank_001"),
                 "fixed_journal_id": cls.journal_brasil,
@@ -801,8 +807,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.pay_mode_brasil_240 = create_with_form_account_payment_mode(
             cls.env,
-            cls.common_pay_mode_values
-            | {
+            {
+                **cls.common_pay_mode_values,
                 "name": "Cobrança Banco do Brasil 240",
                 "bank_id": cls.env.ref("l10n_br_base.res_bank_001"),
                 "fixed_journal_id": cls.journal_brasil,
@@ -813,8 +819,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.pay_mode_bradesco = create_with_form_account_payment_mode(
             cls.env,
-            cls.common_pay_mode_values
-            | {
+            {
+                **cls.common_pay_mode_values,
                 "name": "Cobrança Bradesco 400",
                 "bank_id": cls.env.ref("l10n_br_base.res_bank_237"),
                 "fixed_journal_id": cls.journal_bradesco,
@@ -825,8 +831,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.pay_mode_sicredi = create_with_form_account_payment_mode(
             cls.env,
-            cls.common_pay_mode_values
-            | {
+            {
+                **cls.common_pay_mode_values,
                 "name": "Cobrança SICREDI 240",
                 "bank_id": cls.env.ref("l10n_br_base.res_bank_748"),
                 "fixed_journal_id": cls.journal_sicredi,
@@ -837,8 +843,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.pay_mode_santander_400 = create_with_form_account_payment_mode(
             cls.env,
-            cls.common_pay_mode_values
-            | {
+            {
+                **cls.common_pay_mode_values,
                 "name": "Cobrança Santander 400",
                 "bank_id": cls.env.ref("l10n_br_base.res_bank_033"),
                 "fixed_journal_id": cls.journal_santander_400,
@@ -849,8 +855,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.pay_mode_santander_240 = create_with_form_account_payment_mode(
             cls.env,
-            cls.common_pay_mode_values
-            | {
+            {
+                **cls.common_pay_mode_values,
                 "name": "Cobrança Santander 240",
                 "bank_id": cls.env.ref("l10n_br_base.res_bank_033"),
                 "fixed_journal_id": cls.journal_santander_240,
@@ -861,8 +867,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.pay_mode_nordeste = create_with_form_account_payment_mode(
             cls.env,
-            cls.common_pay_mode_values
-            | {
+            {
+                **cls.common_pay_mode_values,
                 "name": "Cobrança Nordeste 400",
                 "bank_id": cls.env.ref("l10n_br_base.res_bank_004"),
                 "fixed_journal_id": cls.journal_nordeste,
@@ -874,34 +880,40 @@ class TestBRCobrancaCommon(CNABTestCommon):
         # Faturas/Invoice/account.move
         cls.invoice_unicred_400_1 = create_with_form_account_move(
             cls.env,
-            cls.inv_common_values
-            | {
+            {
+                **cls.inv_common_values,
                 "name": "UNICRED 400 - Valor Menor",
                 "payment_mode_id": cls.pay_mode_unicred,
             },
             cls.inv_line_common_values,
         )
-        # Altera o valor total para 1000
-        for line in cls.invoice_unicred_400_1.invoice_line_ids:
-            line.tax_ids = False
+        # Altera o valor total para 1000, on 14.0 writing tax_ids outside a
+        # Form does not recompute the invoice amounts
+        with Form(cls.invoice_unicred_400_1) as invoice_form:
+            for index in range(len(invoice_form.invoice_line_ids)):
+                with invoice_form.invoice_line_ids.edit(index) as line:
+                    line.tax_ids.clear()
 
         cls.invoice_unicred_400_2 = create_with_form_account_move(
             cls.env,
-            cls.inv_common_values
-            | {
+            {
+                **cls.inv_common_values,
                 "name": "UNICRED 400 - Valor Maior",
                 "payment_mode_id": cls.pay_mode_unicred,
             },
             cls.inv_line_common_values,
         )
-        # Altera o valor total para 1000
-        for line in cls.invoice_unicred_400_2.invoice_line_ids:
-            line.tax_ids = False
+        # Altera o valor total para 1000, on 14.0 writing tax_ids outside a
+        # Form does not recompute the invoice amounts
+        with Form(cls.invoice_unicred_400_2) as invoice_form:
+            for index in range(len(invoice_form.invoice_line_ids)):
+                with invoice_form.invoice_line_ids.edit(index) as line:
+                    line.tax_ids.clear()
 
         cls.invoice_itau_400 = create_with_form_account_move(
             cls.env,
-            cls.inv_common_values
-            | {
+            {
+                **cls.inv_common_values,
                 "name": "Itau CNAB 400",
                 "payment_mode_id": cls.pay_mode_itau_400,
             },
@@ -910,8 +922,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.invoice_brasil_400 = create_with_form_account_move(
             cls.env,
-            cls.inv_common_values
-            | {
+            {
+                **cls.inv_common_values,
                 "name": "Banco do Brasil CNAB 400",
                 "payment_mode_id": cls.pay_mode_brasil_400,
             },
@@ -920,8 +932,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.invoice_brasil_240 = create_with_form_account_move(
             cls.env,
-            cls.inv_common_values
-            | {
+            {
+                **cls.inv_common_values,
                 "name": "Banco do Brasil CNAB 240",
                 "payment_mode_id": cls.pay_mode_brasil_240,
             },
@@ -930,8 +942,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.invoice_bradesco_400 = create_with_form_account_move(
             cls.env,
-            cls.inv_common_values
-            | {
+            {
+                **cls.inv_common_values,
                 "name": "Banco Bradesco CNAB 400",
                 "payment_mode_id": cls.pay_mode_bradesco,
             },
@@ -940,8 +952,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.invoice_sicredi_240 = create_with_form_account_move(
             cls.env,
-            cls.inv_common_values
-            | {
+            {
+                **cls.inv_common_values,
                 "name": "Banco SICREDI 240",
                 "payment_mode_id": cls.pay_mode_sicredi,
             },
@@ -950,8 +962,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.invoice_santander_400 = create_with_form_account_move(
             cls.env,
-            cls.inv_common_values
-            | {
+            {
+                **cls.inv_common_values,
                 "name": "Santander CNAB 400",
                 "payment_mode_id": cls.pay_mode_santander_400,
             },
@@ -960,8 +972,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.invoice_santander_240 = create_with_form_account_move(
             cls.env,
-            cls.inv_common_values
-            | {
+            {
+                **cls.inv_common_values,
                 "name": "Santander CNAB 240",
                 "payment_mode_id": cls.pay_mode_santander_240,
             },
@@ -970,8 +982,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
 
         cls.invoice_nordeste_400 = create_with_form_account_move(
             cls.env,
-            cls.inv_common_values
-            | {
+            {
+                **cls.inv_common_values,
                 "name": "Nordeste CNAB 400",
                 "payment_mode_id": cls.pay_mode_nordeste,
             },

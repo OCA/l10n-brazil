@@ -1,3 +1,7 @@
+.. image:: https://odoo-community.org/readme-banner-image
+   :target: https://odoo-community.org/get-involved?utm_source=readme
+   :alt: Odoo Community Association
+
 ==========================
 Boletos e CNAB de cobrança
 ==========================
@@ -13,17 +17,17 @@ Boletos e CNAB de cobrança
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_account_payment_brcobranca
+    :target: https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_account_payment_brcobranca
     :alt: OCA/l10n-brazil
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-l10n_br_account_payment_brcobranca
+    :target: https://translation.odoo-community.org/projects/l10n-brazil-14-0/l10n-brazil-14-0-l10n_br_account_payment_brcobranca
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=16.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=14.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
@@ -44,8 +48,8 @@ Installation
 
 O modulo depende do:
 
--  l10n_br_account_payment_order
--  account_move_base_import
+- l10n_br_account_payment_order
+- account_move_base_import
 
 Configuration
 =============
@@ -58,14 +62,14 @@ Rodar a biblioteca **BRCobranca** como um micro-serviço
 Informar a variável de ambiente **BRCOBRANCA_API_URL**, existem três
 opções:
 
--  No arquivo de configuração do **Docker Compose File** na seção
-   **enviroment**, por exemplo
-   https://github.com/akretion/docky-odoo-brasil/blob/12.0/docker-compose.yml#L3
-   , incluir: **BRCOBRANCA_API_URL=http://boleto_cnab_api:9292**
--  No arquivo de Configuração do Odoo, incluir:
-   **brcobranca_api_url=http://boleto_cnab_api:9292**
--  No Odoo crie um Parâmetro de Sistema como:
-   **brcobranca_api_url=http://boleto_cnab_api:9292**
+- No arquivo de configuração do **Docker Compose File** na seção
+  **enviroment**, por exemplo
+  https://github.com/akretion/docky-odoo-brasil/blob/12.0/docker-compose.yml#L3
+  , incluir: **BRCOBRANCA_API_URL=http://boleto_cnab_api:9292**
+- No arquivo de Configuração do Odoo, incluir:
+  **brcobranca_api_url=http://boleto_cnab_api:9292**
+- No Odoo crie um Parâmetro de Sistema como:
+  **brcobranca_api_url=http://boleto_cnab_api:9292**
 
 Verifique se os Códigos do CNAB do Banco que será usado existem em:
 
@@ -199,94 +203,89 @@ feito manualmente.
 Known issues / Roadmap
 ======================
 
--  Verificar a posssibilidade de Imprimir o **Boleto** pelo menu
-   **Imprimir** da Fatura, na v16 em diante.
+- Verificar a posssibilidade de Imprimir o **Boleto** pelo menu
+  **Imprimir** da Fatura, na v16 em diante.
 
 Changelog
 =========
 
-16.0.6.0.0 (2025-09-02)
------------------------
-
-- [REF] Alterado o Código de Multa de Char para Objeto/l10n_br_cnab.code
-
 16.0.4.0.0 (2025-03-06)
 -----------------------
 
--  [REF] Alterado o Código de Protesto de Char para
-   Objeto/l10n_br_cnab.code
+- [REF] Alterado o Código de Protesto de Char para
+  Objeto/l10n_br_cnab.code
 
 16.0.3.0.0 (2024-12-16)
 -----------------------
 
--  [REF] "Foward Port" Separando as Configurações do CNAB do Modo de
-   Pagamento.
+- [REF] "Foward Port" Separando as Configurações do CNAB do Modo de
+  Pagamento.
 
 16.0.2.0.0 (2024-12-02)
 -----------------------
 
--  [REF] "Foward Port" Unindo os Códigos CNAB em um mesmo objeto.
+- [REF] "Foward Port" Unindo os Códigos CNAB em um mesmo objeto.
 
 16.0.1.0.0 (2024-08-22)
 -----------------------
 
--  [MIG] Migração para a versão 16.0
+- [MIG] Migração para a versão 16.0
 
 14.0.9.0.0 (2024-09-19)
 -----------------------
 
--  [REM] Removendo Campos, Visões e Objetos obsoletos.
+- [REM] Removendo Campos, Visões e Objetos obsoletos.
 
 14.0.8.0.0 (2024-09-18)
 -----------------------
 
--  [IMP] Possibilidade de informar Códigos de Desconto além do 0 e 1.
+- [IMP] Possibilidade de informar Códigos de Desconto além do 0 e 1.
 
 14.0.7.0.0 (2024-09-13)
 -----------------------
 
--  [REF] Separando as Configurações do CNAB do Modo de Pagamento.
+- [REF] Separando as Configurações do CNAB do Modo de Pagamento.
 
 14.0.6.0.0 (2024-09-10)
 -----------------------
 
--  [REF] Unindo os Códigos CNAB em um mesmo objeto.
+- [REF] Unindo os Códigos CNAB em um mesmo objeto.
 
 14.0.1.0.0 (2022-05-26)
 -----------------------
 
--  [MIG] Migration
+- [MIG] Migration
 
 12.0.1.0.0 (2021-05-07)
 -----------------------
 
--  [MIG] Finish migration
--  [IMP] Integrate with module account_move_base_import used to import
-   CNAB file
--  [IMP] Make possible automatic reconciliation and register the values
-   of Fees, Tariff Bank, Rebate in configured accounts.
+- [MIG] Finish migration
+- [IMP] Integrate with module account_move_base_import used to import
+  CNAB file
+- [IMP] Make possible automatic reconciliation and register the values
+  of Fees, Tariff Bank, Rebate in configured accounts.
 
 12.0.1.0.0 (2020-06-12)
 -----------------------
 
--  [MIG] Start Migration
+- [MIG] Start Migration
 
 10.0.1.0.0 (2019-05-30)
 -----------------------
 
--  [MIG] Migration
+- [MIG] Migration
 
 8.0.1.0.0 (2018-01-29)
 ----------------------
 
--  [REF] Maked functional to print Boleto, create CNAB file and import
-   CNAB as Extrat Bank the user should be resolved manully the
-   divergences between the values( Fee, Tariff Bank, Rebate, etc).
+- [REF] Maked functional to print Boleto, create CNAB file and import
+  CNAB as Extrat Bank the user should be resolved manully the
+  divergences between the values( Fee, Tariff Bank, Rebate, etc).
 
 8.0.1.0.0 (2017-07-01)
 ----------------------
 
--  [NEW] First version
+- [NEW] First version
 
 Bug Tracker
 ===========
@@ -294,7 +293,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-brazil/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_account_payment_brcobranca%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_account_payment_brcobranca%0Aversion:%2014.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -309,21 +308,21 @@ Authors
 Contributors
 ------------
 
--  `Akretion <https://akretion.com/pt-BR>`__:
+- `Akretion <https://akretion.com/pt-BR>`__:
 
-   -  Raphaël Valyi <raphael.valyi@akretion.com.br>
-   -  Magno Costa <magno.costa@akretion.com.br>
+  - Raphaël Valyi <raphael.valyi@akretion.com.br>
+  - Magno Costa <magno.costa@akretion.com.br>
 
--  `Engenere <https://engenere.one>`__:
+- `Engenere <https://engenere.one>`__:
 
-   -  Antônio S. Pereira Neto <neto@engenere.one>
+  - Antônio S. Pereira Neto <neto@engenere.one>
 
 Other credits
 -------------
 
 The development of this module has been financially supported by:
 
--  AKRETION LTDA - https://akretion.com/pt-BR
+- AKRETION LTDA - https://akretion.com/pt-BR
 
 Maintainers
 -----------
@@ -349,6 +348,6 @@ Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-rvalyi| |maintainer-mbcosta| 
 
-This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_account_payment_brcobranca>`_ project on GitHub.
+This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_account_payment_brcobranca>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.

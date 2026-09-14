@@ -128,7 +128,7 @@ class TestPaymentOrder(TestBRCobrancaCommon):
         """
         if not self._check_ci_no_brcobranca():
             self._run_invoice_and_order_brcobranca(self.invoice_cef_240)
-            aml_to_change = self.invoice_cef_240.due_line_ids[0]
+            aml_to_change = self.invoice_cef_240.financial_move_line_ids[0]
             self._send_new_cnab_code(aml_to_change, "not_payment")
             self.assertEqual(aml_to_change.payment_situation, "nao_pagamento")
             self.assertEqual(aml_to_change.cnab_state, "done")
