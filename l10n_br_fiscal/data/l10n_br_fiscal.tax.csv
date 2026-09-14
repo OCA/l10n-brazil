@@ -239,6 +239,7 @@
 "tax_irpj_1","IRPJ 1,5%","percent","1.50","0.00","tax_group_irpj",,,,,,,"0","4",,
 "tax_irpj_4_6","IRPJ 4_8%","percent","4.80","0.00","tax_group_irpj",,,,,,,"0","4",,
 "tax_irpj_nt","IRPJ NT","percent","0.00","0.00","tax_group_irpj",,,,,,,"0","4",,
+"tax_irpj_wh_1_percent","IRPJ RET 1%","percent","1.00","0.00","tax_group_irpj_wh",,,,,,,"0","4",,
 "tax_irpj_wh_1","IRPJ RET 1,5%","percent","1.50","0.00","tax_group_irpj_wh",,,,,,,"0","4",,
 "tax_irpj_wh_4_6","IRPJ RET 4_8%","percent","4.80","0.00","tax_group_irpj",,,,,,,"0","4",,
 "tax_irpj_wh_nt","IRPJ RET NT","percent","0.00","0.00","tax_group_irpj_wh",,,,,,,"0","4",,
