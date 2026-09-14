@@ -4,7 +4,7 @@
         <field name="name">l10n_br_nfe.document.form.inherit</field>
         <field name="model">l10n_br_fiscal.document</field>
         <field name="priority">5</field>
-        <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
+        <field name="inherit_id" ref="l10n_br_fiscal_edi.document_form" />
         <field name="arch" type="xml">
             <xpath expr="//sheet" position="before">
                 <div
