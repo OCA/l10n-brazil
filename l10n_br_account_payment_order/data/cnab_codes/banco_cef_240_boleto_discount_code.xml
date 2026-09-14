@@ -11,13 +11,10 @@
         <field name="name">Sem Desconto</field>
         <field name="code">0</field>
         <field name="code_type">discount_code</field>
-        <field
-            name="bank_ids"
-            eval="[Command.link(ref('l10n_br_base.res_bank_104'))]"
-        />
+        <field name="bank_ids" eval="[(4, ref('l10n_br_base.res_bank_104'))]" />
         <field
             name="payment_method_ids"
-            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+            eval="[(4, ref('payment_mode_type_cnab240'))]"
         />
     </record>
 
@@ -25,13 +22,10 @@
         <field name="name">Valor Fixo até a data informada</field>
         <field name="code">1</field>
         <field name="code_type">discount_code</field>
-        <field
-            name="bank_ids"
-            eval="[Command.link(ref('l10n_br_base.res_bank_104'))]"
-        />
+        <field name="bank_ids" eval="[(4, ref('l10n_br_base.res_bank_104'))]" />
         <field
             name="payment_method_ids"
-            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+            eval="[(4, ref('payment_mode_type_cnab240'))]"
         />
     </record>
 
@@ -39,13 +33,10 @@
         <field name="name">Percentual até a data informada</field>
         <field name="code">2</field>
         <field name="code_type">discount_code</field>
-        <field
-            name="bank_ids"
-            eval="[Command.link(ref('l10n_br_base.res_bank_104'))]"
-        />
+        <field name="bank_ids" eval="[(4, ref('l10n_br_base.res_bank_104'))]" />
         <field
             name="payment_method_ids"
-            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+            eval="[(4, ref('payment_mode_type_cnab240'))]"
         />
     </record>
 

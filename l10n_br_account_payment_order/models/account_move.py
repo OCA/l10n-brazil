@@ -108,7 +108,10 @@ class AccountMove(models.Model):
         # por isso nesse caso tbm nada a ser feito
         if self.payment_mode_id.payment_method_code not in BR_CODES_PAYMENT_ORDER:
             return
-        for index, interval in enumerate(self.due_line_ids):
+        # financial_move_line_ids is computed but can still be empty here,
+        # which would leave the boleto data unfilled
+        self._compute_financial()
+        for index, interval in enumerate(self.financial_move_line_ids):
             inv_number = self.get_invoice_fiscal_number().split("/")[-1]
             numero_documento = inv_number + "/" + str(index + 1).zfill(2)
             cnab_config = interval.payment_mode_id.cnab_config_id
@@ -146,7 +149,7 @@ class AccountMove(models.Model):
 
         if cnab_already_start:
             # Solicitar a Baixa do CNAB
-            for l_aml in self.mapped("due_line_ids"):
+            for l_aml in self.mapped("financial_move_line_ids"):
                 l_aml.update_cnab_for_cancel_invoice()
 
         return super().unlink()

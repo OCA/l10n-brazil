@@ -13,13 +13,13 @@
         <field name="name">Valor por Dia</field>
         <field name="code">1</field>
         <field name="code_type">interest_code</field>
-	<field
+        <field
             name="bank_ids"
-            eval="[Command.set([ref('l10n_br_base.res_bank_085'),ref('l10n_br_base.res_bank_237'),ref('l10n_br_base.res_bank_001'),ref('l10n_br_base.res_bank_104'),ref('l10n_br_base.res_bank_748')])]"
+            eval="[(6, 0, [ref('l10n_br_base.res_bank_085'),ref('l10n_br_base.res_bank_237'),ref('l10n_br_base.res_bank_001'),ref('l10n_br_base.res_bank_104'),ref('l10n_br_base.res_bank_748')])]"
         />
         <field
             name="payment_method_ids"
-            eval="[Command.set([ref('payment_mode_type_cnab240')])]"
+            eval="[(6, 0, [ref('payment_mode_type_cnab240')])]"
         />
     </record>
 
@@ -27,13 +27,13 @@
         <field name="name">Taxa Mensal</field>
         <field name="code">2</field>
         <field name="code_type">interest_code</field>
-	<field
+        <field
             name="bank_ids"
-            eval="[Command.set([ref('l10n_br_base.res_bank_085'),ref('l10n_br_base.res_bank_237'),ref('l10n_br_base.res_bank_001'),ref('l10n_br_base.res_bank_104'),ref('l10n_br_base.res_bank_748')])]"
+            eval="[(6, 0, [ref('l10n_br_base.res_bank_085'),ref('l10n_br_base.res_bank_237'),ref('l10n_br_base.res_bank_001'),ref('l10n_br_base.res_bank_104'),ref('l10n_br_base.res_bank_748')])]"
         />
         <field
             name="payment_method_ids"
-            eval="[Command.set([ref('payment_mode_type_cnab240')])]"
+            eval="[(6, 0, [ref('payment_mode_type_cnab240')])]"
         />
     </record>
 
@@ -41,13 +41,13 @@
         <field name="name">Isento</field>
         <field name="code">3</field>
         <field name="code_type">interest_code</field>
-	<field
+        <field
             name="bank_ids"
-            eval="[Command.set([ref('l10n_br_base.res_bank_085'),ref('l10n_br_base.res_bank_237'),ref('l10n_br_base.res_bank_001'),ref('l10n_br_base.res_bank_104'),ref('l10n_br_base.res_bank_748')])]"
+            eval="[(6, 0, [ref('l10n_br_base.res_bank_085'),ref('l10n_br_base.res_bank_237'),ref('l10n_br_base.res_bank_001'),ref('l10n_br_base.res_bank_104'),ref('l10n_br_base.res_bank_748')])]"
         />
         <field
             name="payment_method_ids"
-            eval="[Command.set([ref('payment_mode_type_cnab240')])]"
+            eval="[(6, 0, [ref('payment_mode_type_cnab240')])]"
         />
     </record>
 

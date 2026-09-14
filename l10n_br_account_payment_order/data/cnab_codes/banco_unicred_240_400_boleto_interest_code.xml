@@ -9,13 +9,10 @@
         <field name="name">Valor Diário (R$)</field>
         <field name="code">1</field>
         <field name="code_type">interest_code</field>
-        <field
-            name="bank_ids"
-            eval="[Command.set([ref('l10n_br_base.res_bank_136')])]"
-        />
+        <field name="bank_ids" eval="[(6, 0, [ref('l10n_br_base.res_bank_136')])]" />
         <field
             name="payment_method_ids"
-            eval="[Command.set([ref('payment_mode_type_cnab400'),ref('payment_mode_type_cnab240')])]"
+            eval="[(6, 0, [ref('payment_mode_type_cnab400'),ref('payment_mode_type_cnab240')])]"
         />
     </record>
 
@@ -23,13 +20,10 @@
         <field name="name">Taxa Mensal (%)</field>
         <field name="code">2</field>
         <field name="code_type">interest_code</field>
-        <field
-            name="bank_ids"
-            eval="[Command.set([ref('l10n_br_base.res_bank_136')])]"
-        />
+        <field name="bank_ids" eval="[(6, 0, [ref('l10n_br_base.res_bank_136')])]" />
         <field
             name="payment_method_ids"
-            eval="[Command.set([ref('payment_mode_type_cnab400'),ref('payment_mode_type_cnab240')])]"
+            eval="[(6, 0, [ref('payment_mode_type_cnab400'),ref('payment_mode_type_cnab240')])]"
         />
     </record>
 
@@ -37,13 +31,10 @@
         <field name="name">Valor Mensal (R$) *</field>
         <field name="code">3</field>
         <field name="code_type">interest_code</field>
-        <field
-            name="bank_ids"
-            eval="[Command.set([ref('l10n_br_base.res_bank_136')])]"
-        />
+        <field name="bank_ids" eval="[(6, 0, [ref('l10n_br_base.res_bank_136')])]" />
         <field
             name="payment_method_ids"
-            eval="[Command.set([ref('payment_mode_type_cnab400'),ref('payment_mode_type_cnab240')])]"
+            eval="[(6, 0, [ref('payment_mode_type_cnab400'),ref('payment_mode_type_cnab240')])]"
         />
         <field name="comment">*OBSERVAÇÃO:
 ‘3’ - Valor Mensal (R$): a CIP não acata valor mensal, segundo manual. Cógido mantido
@@ -55,13 +46,10 @@ para Correspondentes que ainda utilizam.
         <field name="name">Taxa diária (%)</field>
         <field name="code">4</field>
         <field name="code_type">interest_code</field>
-        <field
-            name="bank_ids"
-            eval="[Command.set([ref('l10n_br_base.res_bank_136')])]"
-        />
+        <field name="bank_ids" eval="[(6, 0, [ref('l10n_br_base.res_bank_136')])]" />
         <field
             name="payment_method_ids"
-            eval="[Command.set([ref('payment_mode_type_cnab400'),ref('payment_mode_type_cnab240')])]"
+            eval="[(6, 0, [ref('payment_mode_type_cnab400'),ref('payment_mode_type_cnab240')])]"
         />
     </record>
 
@@ -69,13 +57,10 @@ para Correspondentes que ainda utilizam.
         <field name="name">Isento</field>
         <field name="code">5</field>
         <field name="code_type">interest_code</field>
-        <field
-            name="bank_ids"
-            eval="[Command.set([ref('l10n_br_base.res_bank_136')])]"
-        />
+        <field name="bank_ids" eval="[(6, 0, [ref('l10n_br_base.res_bank_136')])]" />
         <field
             name="payment_method_ids"
-            eval="[Command.set([ref('payment_mode_type_cnab400'),ref('payment_mode_type_cnab240')])]"
+            eval="[(6, 0, [ref('payment_mode_type_cnab400'),ref('payment_mode_type_cnab240')])]"
         />
     </record>
 

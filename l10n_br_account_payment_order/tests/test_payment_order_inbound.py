@@ -87,7 +87,7 @@ class TestPaymentOrderInbound(CNABTestCommon):
 
     def test_warning_when_cnab_config_dont_has_code(self):
         self._run_invoice_and_order_workflow(self.invoice_itau_400)
-        aml_to_change = self.invoice_itau_400.due_line_ids[0]
+        aml_to_change = self.invoice_itau_400.financial_move_line_ids[0]
         self.changes_to_sending += [
             {
                 "change_to_send": "change_date_maturity",
@@ -137,7 +137,7 @@ class TestPaymentOrderInbound(CNABTestCommon):
         ]
         for change in changes_to_sending:
             self._send_new_cnab_code(
-                self.invoice_ailos_240.due_line_ids[0],
+                self.invoice_ailos_240.financial_move_line_ids[0],
                 change.get("change_to_send"),
                 change.get("warning_error"),
                 change.get("test_dates_are_equals"),
@@ -161,7 +161,7 @@ class TestPaymentOrderInbound(CNABTestCommon):
 
         self.assertAlmostEqual(payment.amount, 1000.0)
         self.assertEqual(payment.state, "posted")
-        self.assertEqual(self.invoice_cef_240.payment_state, "in_payment")
+        self.assertEqual(self.invoice_cef_240.payment_state, "paid")
         # Linhas Apagadas
         self.assertEqual(len(payment_order.payment_line_ids), 0)
 
@@ -212,7 +212,7 @@ class TestPaymentOrderInbound(CNABTestCommon):
         # I verify that invoice is now in Paid state
         self.assertEqual(
             self.invoice_cef_240.payment_state,
-            "in_payment",
+            "paid",
             "Invoice is not in Paid state",
         )
         self._check_order_with_write_off_code(self.invoice_cef_240)
@@ -239,7 +239,7 @@ class TestPaymentOrderInbound(CNABTestCommon):
         self.assertEqual(len(payment), 1)
         self.assertEqual(
             self.invoice_cef_240.payment_state,
-            "in_payment",
+            "paid",
             "Invoice is not in Paid state",
         )
         self._check_order_with_write_off_code(self.invoice_cef_240)
@@ -255,7 +255,8 @@ class TestPaymentOrderInbound(CNABTestCommon):
         self._check_order_with_write_off_code(self.invoice_cef_240)
         pay_order = self._get_draft_payment_order(self.invoice_cef_240)
         self._run_payment_order_workflow(pay_order)
-        self.invoice_cef_240.unlink()
+        # 14.0 forbids deleting a move posted once unless forced
+        self.invoice_cef_240.with_context(force_delete=True).unlink()
 
     def test_cancel_invoice_no_payment_mode_pay(self):
         """Test Pay Invoice without payment mode in cash"""

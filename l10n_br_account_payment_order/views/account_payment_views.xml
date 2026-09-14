@@ -8,7 +8,7 @@
         <field name="priority">99</field>
         <field
             name="inherit_id"
-            ref="account_payment.view_account_payment_form_inherit_payment"
+            ref="payment.view_account_payment_form_inherit_payment"
         />
         <field name="arch" type="xml">
             <!-- TODO - Idealmente isso deveria ser resolvido com um

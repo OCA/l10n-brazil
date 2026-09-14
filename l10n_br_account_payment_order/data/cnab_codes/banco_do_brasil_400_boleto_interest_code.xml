@@ -9,13 +9,10 @@
         <field name="name">Valor</field>
         <field name="code">1</field>
         <field name="code_type">interest_code</field>
-        <field
-            name="bank_ids"
-            eval="[Command.set([ref('l10n_br_base.res_bank_001')])]"
-        />
+        <field name="bank_ids" eval="[(6, 0, [ref('l10n_br_base.res_bank_001')])]" />
         <field
             name="payment_method_ids"
-            eval="[Command.set([ref('payment_mode_type_cnab400')])]"
+            eval="[(6, 0, [ref('payment_mode_type_cnab400')])]"
         />
     </record>
 
@@ -23,13 +20,10 @@
         <field name="name">Percentual</field>
         <field name="code">2</field>
         <field name="code_type">interest_code</field>
-        <field
-            name="bank_ids"
-            eval="[Command.set([ref('l10n_br_base.res_bank_001')])]"
-        />
+        <field name="bank_ids" eval="[(6, 0, [ref('l10n_br_base.res_bank_001')])]" />
         <field
             name="payment_method_ids"
-            eval="[Command.set([ref('payment_mode_type_cnab400')])]"
+            eval="[(6, 0, [ref('payment_mode_type_cnab400')])]"
         />
     </record>
 

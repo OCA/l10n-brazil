@@ -23,7 +23,7 @@ def create_with_form_account_account(env, values):
     with Form(env["account.account"]) as account:
         account.name = values.get("name")
         account.code = values.get("code")
-        account.account_type = values.get("account_type")
+        account.user_type_id = values.get("user_type_id")
     return account.save()
 
 
@@ -52,9 +52,7 @@ def create_with_form_account_journal(env, values, line_values=False):
         else:
             journal.default_account_id = values.get("default_account_id")
         for line_dict in line_values:
-            with journal.inbound_payment_method_line_ids.new() as line:
-                line.name = line_dict.get("name")
-                line.payment_method_id = line_dict.get("payment_method_id")
+            journal.inbound_payment_method_ids.add(line_dict.get("payment_method_id"))
     return journal.save()
 
 

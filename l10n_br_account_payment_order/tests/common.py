@@ -4,11 +4,11 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from contextlib import contextmanager
 from datetime import date
 
 from dateutil.relativedelta import relativedelta
 
-from odoo import Command
 from odoo.exceptions import UserError
 from odoo.fields import Date
 from odoo.tests import Form, tagged
@@ -28,6 +28,15 @@ from .tools import (
 
 @tagged("post_install", "-at_install")
 class CNABTestCommon(AccountTestInvoicingCommon):
+    @contextmanager
+    def _assertRaises(self, exception, *, msg=None):
+        # Since 15.0 assertRaises rolls back what was written before the
+        # exception, 14.0 does not: do it here so a failed CNAB change does
+        # not leave half-created payment orders behind.
+        with super()._assertRaises(exception, msg=msg) as cm:
+            with self.env.cr.savepoint():
+                yield cm
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -45,7 +54,7 @@ class CNABTestCommon(AccountTestInvoicingCommon):
                 "name": "Receita da Venda no Mercado Interno de Produtos de"
                 "Fabricação Própria - AVOID_TRAVIS_ERROR",
                 "code": "3010101010200",
-                "account_type": "income",
+                "user_type_id": cls.env.ref("account.data_account_type_revenue"),
             },
         )
         # Conta Contabil de Tarifa Bancaria para Modo de Pagamento
@@ -54,7 +63,7 @@ class CNABTestCommon(AccountTestInvoicingCommon):
             {
                 "name": "Outras Despesas Financeiras - AVOID_TRAVIS_ERROR",
                 "code": "32302",
-                "account_type": "expense",
+                "user_type_id": cls.env.ref("account.data_account_type_expenses"),
             },
         )
         # Conta Contabil de Juros/Multa para Modo de Pagamento
@@ -63,7 +72,7 @@ class CNABTestCommon(AccountTestInvoicingCommon):
             {
                 "name": "Juros Ativos - AVOID_TRAVIS_ERROR",
                 "code": "31202",
-                "account_type": "income",
+                "user_type_id": cls.env.ref("account.data_account_type_revenue"),
             },
         )
         # Conta Contabil de Desconto para Modo de Pagamento
@@ -72,7 +81,7 @@ class CNABTestCommon(AccountTestInvoicingCommon):
             {
                 "name": "Despesas com Vendas - AVOID_TRAVIS_ERROR",
                 "code": "32202",
-                "account_type": "expense",
+                "user_type_id": cls.env.ref("account.data_account_type_expenses"),
             },
         )
         # Conta Contabil de Abatimento para Modo de Pagamento
@@ -81,7 +90,7 @@ class CNABTestCommon(AccountTestInvoicingCommon):
             {
                 "name": "Outras Despesas Gerais - AVOID_TRAVIS_ERROR",
                 "code": "32203",
-                "account_type": "expense",
+                "user_type_id": cls.env.ref("account.data_account_type_expenses"),
             },
         )
         # Conta Contabil de Não Pagamento/Inadimplencia para Modo de Pagamento
@@ -90,7 +99,7 @@ class CNABTestCommon(AccountTestInvoicingCommon):
             {
                 "name": "Não Pagamento/Inadimplencia - AVOID_TRAVIS_ERROR",
                 "code": "32333",
-                "account_type": "expense",
+                "user_type_id": cls.env.ref("account.data_account_type_expenses"),
             },
         )
 
@@ -150,14 +159,14 @@ class CNABTestCommon(AccountTestInvoicingCommon):
 
         # Sequencias
         cls.common_sequence_values = {
-            "number_next_actual": "1",
-            "number_increment": "1",
+            "number_next_actual": 1,
+            "number_increment": 1,
         }
         # Arquivo CNAB
         cls.cnab_seq_cef = create_with_form_ir_sequence(
             cls.env,
-            cls.common_sequence_values
-            | {
+            {
+                **cls.common_sequence_values,
                 "name": "Sequencia Arquivo CNAB - CEF 240",
                 "code": "Sequencia Arquivo CNAB - CEF 240",
             },
@@ -166,8 +175,8 @@ class CNABTestCommon(AccountTestInvoicingCommon):
         # Nosso Número
         cls.own_number_seq_cef = create_with_form_ir_sequence(
             cls.env,
-            cls.common_sequence_values
-            | {
+            {
+                **cls.common_sequence_values,
                 "name": "Nosso número CEF",
                 "code": "nosso.numero",
             },
@@ -175,8 +184,8 @@ class CNABTestCommon(AccountTestInvoicingCommon):
 
         cls.cnab_seq_itau_400 = create_with_form_ir_sequence(
             cls.env,
-            cls.common_sequence_values
-            | {
+            {
+                **cls.common_sequence_values,
                 "name": "Sequencia Arquivo CNAB - Itau 400",
                 "code": "Sequencia Arquivo CNAB - Itau 400",
             },
@@ -184,8 +193,8 @@ class CNABTestCommon(AccountTestInvoicingCommon):
 
         cls.own_number_seq_itau_400 = create_with_form_ir_sequence(
             cls.env,
-            cls.common_sequence_values
-            | {
+            {
+                **cls.common_sequence_values,
                 "name": "Nosso número Itau 400",
                 "code": "nosso.numero",
             },
@@ -193,8 +202,8 @@ class CNABTestCommon(AccountTestInvoicingCommon):
 
         cls.cnab_seq_itau_240 = create_with_form_ir_sequence(
             cls.env,
-            cls.common_sequence_values
-            | {
+            {
+                **cls.common_sequence_values,
                 "name": "Sequencia Arquivo CNAB - Itau 240",
                 "code": "Sequencia Arquivo CNAB - Itau 240",
             },
@@ -202,8 +211,8 @@ class CNABTestCommon(AccountTestInvoicingCommon):
 
         cls.own_number_seq_itau_240 = create_with_form_ir_sequence(
             cls.env,
-            cls.common_sequence_values
-            | {
+            {
+                **cls.common_sequence_values,
                 "name": "Nosso número Itau 240",
                 "code": "nosso.numero",
             },
@@ -211,8 +220,8 @@ class CNABTestCommon(AccountTestInvoicingCommon):
 
         cls.cnab_seq_ailos = create_with_form_ir_sequence(
             cls.env,
-            cls.common_sequence_values
-            | {
+            {
+                **cls.common_sequence_values,
                 "name": "Sequencia Arquivo CNAB - AILOS 240",
                 "code": "Sequencia Arquivo CNAB - AILOS 240",
             },
@@ -220,8 +229,8 @@ class CNABTestCommon(AccountTestInvoicingCommon):
 
         cls.own_number_seq_ailos = create_with_form_ir_sequence(
             cls.env,
-            cls.common_sequence_values
-            | {
+            {
+                **cls.common_sequence_values,
                 "name": "Nosso número AILOS",
                 "code": "nosso.numero",
             },
@@ -238,10 +247,10 @@ class CNABTestCommon(AccountTestInvoicingCommon):
             "discount_account_id": cls.discount_account,
             "rebate_account_id": cls.rebate_account,
             "not_payment_account_id": cls.not_payment_account,
-            "boleto_discount_perc": "1",
-            "boleto_interest_perc": "2",
+            "boleto_discount_perc": 1.0,
+            "boleto_interest_perc": 2.0,
             "boleto_days_protest": "5",
-            "boleto_fee_perc": "1",
+            "boleto_fee_perc": 1.0,
             "cnab_processor": False,
             "change_title_value_code_id": False,
             "change_maturity_date_code_id": False,
@@ -257,8 +266,8 @@ class CNABTestCommon(AccountTestInvoicingCommon):
 
         cls.cnab_config_cef = create_with_form_l10n_br_cnab_config(
             cls.env,
-            cls.common_cnab_config_values
-            | {
+            {
+                **cls.common_cnab_config_values,
                 "name": "Caixa Economica Federal - CNAB 240 (inbound)",
                 "bank_id": cls.env.ref("l10n_br_base.res_bank_104"),
                 "payment_method_id": cls.pay_method_type_240,
@@ -327,7 +336,9 @@ class CNABTestCommon(AccountTestInvoicingCommon):
         cls.cnab_config_cef.write(
             {
                 "liq_return_move_code_ids": [
-                    Command.set(
+                    (
+                        6,
+                        0,
                         [
                             cls.env.ref(
                                 "l10n_br_account_payment_order.cef_240_return_06"
@@ -343,8 +354,8 @@ class CNABTestCommon(AccountTestInvoicingCommon):
 
         cls.cnab_config_itau_400 = create_with_form_l10n_br_cnab_config(
             cls.env,
-            cls.common_cnab_config_values
-            | {
+            {
+                **cls.common_cnab_config_values,
                 "name": "Banco ITAÚ - CNAB 400 (inbound)",
                 "bank_id": cls.env.ref("l10n_br_base.res_bank_341"),
                 "payment_method_id": cls.pay_method_type_400,
@@ -367,8 +378,8 @@ class CNABTestCommon(AccountTestInvoicingCommon):
 
         cls.cnab_config_itau_240 = create_with_form_l10n_br_cnab_config(
             cls.env,
-            cls.common_cnab_config_values
-            | {
+            {
+                **cls.common_cnab_config_values,
                 "name": "Banco ITAÚ - CNAB 240 (inbound)",
                 "bank_id": cls.env.ref("l10n_br_base.res_bank_341"),
                 "payment_method_id": cls.pay_method_type_240,
@@ -391,8 +402,8 @@ class CNABTestCommon(AccountTestInvoicingCommon):
 
         cls.cnab_config_ailos_240 = create_with_form_l10n_br_cnab_config(
             cls.env,
-            cls.common_cnab_config_values
-            | {
+            {
+                **cls.common_cnab_config_values,
                 "name": "Banco AILOS - CNAB 240 (inbound)",
                 "bank_id": cls.env.ref("l10n_br_base.res_bank_085"),
                 "payment_method_id": cls.pay_method_type_240,
@@ -424,7 +435,9 @@ class CNABTestCommon(AccountTestInvoicingCommon):
         cls.cnab_config_ailos_240.write(
             {
                 "liq_return_move_code_ids": [
-                    Command.set(
+                    (
+                        6,
+                        0,
                         [
                             cls.env.ref(
                                 "l10n_br_account_payment_order.ailos_240_return_06"
@@ -523,8 +536,8 @@ class CNABTestCommon(AccountTestInvoicingCommon):
 
         cls.pay_mode_cef = create_with_form_account_payment_mode(
             cls.env,
-            cls.common_pay_mode_values
-            | {
+            {
+                **cls.common_pay_mode_values,
                 "name": "Cobrança Caixa Economica Federal 240",
                 "bank_id": cls.env.ref("l10n_br_base.res_bank_104"),
                 "fixed_journal_id": cls.journal_cef,
@@ -535,8 +548,8 @@ class CNABTestCommon(AccountTestInvoicingCommon):
 
         cls.pay_mode_itau_400 = create_with_form_account_payment_mode(
             cls.env,
-            cls.common_pay_mode_values
-            | {
+            {
+                **cls.common_pay_mode_values,
                 "name": "Cobrança Itau 400",
                 "bank_id": cls.env.ref("l10n_br_base.res_bank_341"),
                 "fixed_journal_id": cls.journal_itau_400,
@@ -547,8 +560,8 @@ class CNABTestCommon(AccountTestInvoicingCommon):
 
         cls.pay_mode_itau_240 = create_with_form_account_payment_mode(
             cls.env,
-            cls.common_pay_mode_values
-            | {
+            {
+                **cls.common_pay_mode_values,
                 "name": "Cobrança Itau 240",
                 "bank_id": cls.env.ref("l10n_br_base.res_bank_341"),
                 "fixed_journal_id": cls.journal_itau_240,
@@ -559,8 +572,8 @@ class CNABTestCommon(AccountTestInvoicingCommon):
 
         cls.pay_mode_ailos = create_with_form_account_payment_mode(
             cls.env,
-            cls.common_pay_mode_values
-            | {
+            {
+                **cls.common_pay_mode_values,
                 "name": "Cobrança AILOS 240",
                 "bank_id": cls.env.ref("l10n_br_base.res_bank_085"),
                 "fixed_journal_id": cls.journal_ailos,
@@ -585,21 +598,24 @@ class CNABTestCommon(AccountTestInvoicingCommon):
 
         cls.invoice_cef_240 = create_with_form_account_move(
             cls.env,
-            cls.inv_common_values
-            | {
+            {
+                **cls.inv_common_values,
                 "name": "Teste Caixa Economica Federal CNAB240",
                 "payment_mode_id": cls.pay_mode_cef,
             },
             cls.inv_line_common_values,
         )
-        # Altera o valor total para 1000
-        for line in cls.invoice_cef_240.invoice_line_ids:
-            line.tax_ids = False
+        # Altera o valor total para 1000, on 14.0 writing tax_ids outside a
+        # Form does not recompute the invoice amounts
+        with Form(cls.invoice_cef_240) as invoice_form:
+            for index in range(len(invoice_form.invoice_line_ids)):
+                with invoice_form.invoice_line_ids.edit(index) as line:
+                    line.tax_ids.clear()
 
         cls.invoice_itau_400 = create_with_form_account_move(
             cls.env,
-            cls.inv_common_values
-            | {
+            {
+                **cls.inv_common_values,
                 "name": "Itau CNAB 400",
                 "payment_mode_id": cls.pay_mode_itau_400,
             },
@@ -608,8 +624,8 @@ class CNABTestCommon(AccountTestInvoicingCommon):
 
         cls.invoice_itau_240 = create_with_form_account_move(
             cls.env,
-            cls.inv_common_values
-            | {
+            {
+                **cls.inv_common_values,
                 "name": "Itau CNAB 240",
                 "payment_mode_id": cls.pay_mode_itau_240,
             },
@@ -618,16 +634,19 @@ class CNABTestCommon(AccountTestInvoicingCommon):
 
         cls.invoice_ailos_240 = create_with_form_account_move(
             cls.env,
-            cls.inv_common_values
-            | {
+            {
+                **cls.inv_common_values,
                 "name": "AILOS CNAB 240",
                 "payment_mode_id": cls.pay_mode_ailos,
             },
             cls.inv_line_common_values,
         )
-        # Altera o valor total para 1000
-        for line in cls.invoice_ailos_240.invoice_line_ids:
-            line.tax_ids = False
+        # Altera o valor total para 1000, on 14.0 writing tax_ids outside a
+        # Form does not recompute the invoice amounts
+        with Form(cls.invoice_ailos_240) as invoice_form:
+            for index in range(len(invoice_form.invoice_line_ids)):
+                with invoice_form.invoice_line_ids.edit(index) as line:
+                    line.tax_ids.clear()
 
         # Caso que não é um CNAB
         # Diário Cheque
@@ -663,8 +682,8 @@ class CNABTestCommon(AccountTestInvoicingCommon):
 
         cls.invoice_cheque = create_with_form_account_move(
             cls.env,
-            cls.inv_common_values
-            | {
+            {
+                **cls.inv_common_values,
                 "name": "Caso Não CNAB",
                 "payment_mode_id": cls.pay_mode_cheque,
             },
@@ -674,8 +693,8 @@ class CNABTestCommon(AccountTestInvoicingCommon):
         # Caso Sem Modo de Pagamento
         cls.invoice_without_pay_mode = create_with_form_account_move(
             cls.env,
-            cls.inv_common_values
-            | {
+            {
+                **cls.inv_common_values,
                 "name": "Caso Sem Modo de Pagamento",
             },
             cls.inv_line_common_values,
@@ -849,7 +868,7 @@ class CNABTestCommon(AccountTestInvoicingCommon):
         warning_error=False,
         test_not_create_file=True,
     ):
-        aml_to_change = invoice.due_line_ids[0]
+        aml_to_change = invoice.financial_move_line_ids[0]
         self._send_new_cnab_code(aml_to_change, code_to_send, warning_error)
 
         if not warning_error:
@@ -888,10 +907,9 @@ class CNABTestCommon(AccountTestInvoicingCommon):
             )
         )
         payment_register.journal_id = journal_cash
-        method_lines = journal_cash._get_available_payment_method_lines(
-            "inbound"
-        ).filtered(lambda x: x.code == "manual")
-        payment_register.payment_method_line_id = method_lines[0]
+        payment_register.payment_method_id = self.env.ref(
+            "account.account_payment_method_manual_in"
+        )
         payment_register.amount = value
         return payment_register.save()._create_payments()
 
