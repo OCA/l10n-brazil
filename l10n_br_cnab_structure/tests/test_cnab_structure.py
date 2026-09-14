@@ -217,7 +217,9 @@ class TestCNABStructure(AccountTestInvoicingCommon):
             {
                 "partner_id": cls.partner_a.id,
                 "move_type": "in_invoice",
-                "ref": "Test Invoice",
+                # 14.0 forbids vendor bills sharing the same reference
+                "ref": "Test Invoice %s"
+                % (cls.env["account.move"].search_count([]) + 1),
                 "invoice_date": fields.Date.today(),
                 "company_id": cls.company.id,
                 "payment_mode_id": (payment_mode or cls.pix_mode).id,

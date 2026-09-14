@@ -14,11 +14,11 @@
         <field name="cnab_structure_ok">True</field>
         <field
             name="variable_journal_ids"
-            eval="[Command.set([ref('l10n_br_account_payment_order.itau_journal')])]"
+            eval="[(6, 0, [ref('l10n_br_account_payment_order.itau_journal')])]"
         />
         <field
             name="cnab_payment_way_ids"
-            eval="[Command.set([ref('cnab_itau_240_pay_way_41')])]"
+            eval="[(6, 0, [ref('cnab_itau_240_pay_way_41')])]"
         />
     </record>
     <!-- PIX Generic -->
@@ -29,11 +29,11 @@
         <field name="cnab_structure_ok">True</field>
         <field
             name="variable_journal_ids"
-            eval="[Command.set([ref('l10n_br_account_payment_order.itau_journal')])]"
+            eval="[(6, 0, [ref('l10n_br_account_payment_order.itau_journal')])]"
         />
         <field
             name="cnab_payment_way_ids"
-            eval="[Command.set([ref('cnab_itau_240_pay_way_45')])]"
+            eval="[(6, 0, [ref('cnab_itau_240_pay_way_45')])]"
         />
     </record>
     <!-- SISPAG ITAÚ - TED - FIXED -->
@@ -58,7 +58,7 @@
         <field name="cnab_structure_id" ref="cnab_itau_240" />
         <field
             name="cnab_payment_way_ids"
-            eval="[Command.set([ref('cnab_itau_240_pay_way_41')])]"
+            eval="[(6, 0, [ref('cnab_itau_240_pay_way_41')])]"
         />
     </record>
     <!-- SISPAG ITAÚ - PIX Transferência - FIXED -->
@@ -83,7 +83,7 @@
         <field name="cnab_structure_id" ref="cnab_itau_240" />
         <field
             name="cnab_payment_way_ids"
-            eval="[Command.set([ref('cnab_itau_240_pay_way_45')])]"
+            eval="[(6, 0, [ref('cnab_itau_240_pay_way_45')])]"
         />
     </record>
     <!-- SISPAG Banco do Brasil - TED - FIXED -->
@@ -105,7 +105,7 @@
         <field name="cnab_structure_id" ref="cnab_bb_240" />
         <field
             name="cnab_payment_way_ids"
-            eval="[(Command.link(ref('cnab_bb_240_pay_way_41')))]"
+            eval="[((4, ref('cnab_bb_240_pay_way_41')))]"
         />
     </record>
     <!-- SISPAG Banco do Brasil - PIX Transferência - FIXED -->
@@ -127,7 +127,7 @@
         <field name="cnab_structure_id" ref="cnab_bb_240" />
         <field
             name="cnab_payment_way_ids"
-            eval="[(Command.link(ref('cnab_bb_240_pay_way_45')))]"
+            eval="[((4, ref('cnab_bb_240_pay_way_45')))]"
         />
     </record>
 
@@ -150,7 +150,7 @@
         <field name="cnab_structure_id" ref="cnab_santander_240" />
         <field
             name="cnab_payment_way_ids"
-            eval="[(Command.link(ref('cnab_santander_240_pay_way_41')))]"
+            eval="[((4, ref('cnab_santander_240_pay_way_41')))]"
         />
     </record>
 
@@ -173,7 +173,7 @@
         <field name="cnab_structure_id" ref="cnab_santander_240" />
         <field
             name="cnab_payment_way_ids"
-            eval="[(Command.link(ref('cnab_santander_240_pay_way_45')))]"
+            eval="[((4, ref('cnab_santander_240_pay_way_45')))]"
         />
     </record>
 
@@ -199,7 +199,7 @@
         <field name="cnab_structure_id" ref="cnab_sicoob_240" />
         <field
             name="cnab_payment_way_ids"
-            eval="[(Command.link(ref('cnab_sicoob_240_pay_way_41')))]"
+            eval="[((4, ref('cnab_sicoob_240_pay_way_41')))]"
         />
     </record>
 
@@ -225,7 +225,7 @@
         <field name="cnab_structure_id" ref="cnab_sicoob_240" />
         <field
             name="cnab_payment_way_ids"
-            eval="[(Command.link(ref('cnab_sicoob_240_pay_way_45')))]"
+            eval="[((4, ref('cnab_sicoob_240_pay_way_45')))]"
         />
     </record>
 
@@ -251,7 +251,7 @@
         <field name="cnab_structure_id" ref="cnab_sicoob_240" />
         <field
             name="cnab_payment_way_ids"
-            eval="[(Command.link(ref('cnab_sicoob_240_pay_way_31')))]"
+            eval="[((4, ref('cnab_sicoob_240_pay_way_31')))]"
         />
     </record>
 
@@ -276,7 +276,7 @@
         <field name="cnab_structure_id" ref="cnab_sicoob_240" />
         <field
             name="cnab_payment_way_ids"
-            eval="[(Command.link(ref('cnab_sicoob_240_pay_way_91')))]"
+            eval="[((4, ref('cnab_sicoob_240_pay_way_91')))]"
         />
     </record>
 
@@ -301,7 +301,7 @@
         <field name="cnab_structure_id" ref="cnab_sicoob_240" />
         <field
             name="cnab_payment_way_ids"
-            eval="[(Command.link(ref('cnab_sicoob_240_pay_way_17')))]"
+            eval="[((4, ref('cnab_sicoob_240_pay_way_17')))]"
         />
     </record>
 
@@ -327,7 +327,7 @@
         <field name="cnab_structure_id" ref="cnab_itau_240" />
         <field
             name="cnab_payment_way_ids"
-            eval="[(Command.link(ref('cnab_itau_240_pay_way_31')))]"
+            eval="[((4, ref('cnab_itau_240_pay_way_31')))]"
         />
     </record>
 
@@ -352,7 +352,7 @@
         <field name="cnab_structure_id" ref="cnab_itau_240" />
         <field
             name="cnab_payment_way_ids"
-            eval="[(Command.link(ref('cnab_itau_240_pay_way_91')))]"
+            eval="[((4, ref('cnab_itau_240_pay_way_91')))]"
         />
     </record>
 
@@ -377,7 +377,7 @@
         <field name="cnab_structure_id" ref="cnab_itau_240" />
         <field
             name="cnab_payment_way_ids"
-            eval="[(Command.link(ref('cnab_itau_240_pay_way_17')))]"
+            eval="[((4, ref('cnab_itau_240_pay_way_17')))]"
         />
     </record>
 
@@ -400,7 +400,7 @@
         <field name="cnab_structure_id" ref="cnab_bb_240" />
         <field
             name="cnab_payment_way_ids"
-            eval="[(Command.link(ref('cnab_bb_240_pay_way_31')))]"
+            eval="[((4, ref('cnab_bb_240_pay_way_31')))]"
         />
     </record>
 
@@ -424,7 +424,7 @@
         <field name="cnab_structure_id" ref="cnab_bb_240" />
         <field
             name="cnab_payment_way_ids"
-            eval="[(Command.link(ref('cnab_bb_240_pay_way_91')))]"
+            eval="[((4, ref('cnab_bb_240_pay_way_91')))]"
         />
     </record>
 
@@ -448,7 +448,7 @@
         <field name="cnab_structure_id" ref="cnab_bb_240" />
         <field
             name="cnab_payment_way_ids"
-            eval="[(Command.link(ref('cnab_bb_240_pay_way_17')))]"
+            eval="[((4, ref('cnab_bb_240_pay_way_17')))]"
         />
     </record>
 
@@ -471,7 +471,7 @@
         <field name="cnab_structure_id" ref="cnab_santander_240" />
         <field
             name="cnab_payment_way_ids"
-            eval="[(Command.link(ref('cnab_santander_240_pay_way_31')))]"
+            eval="[((4, ref('cnab_santander_240_pay_way_31')))]"
         />
     </record>
 
@@ -496,7 +496,7 @@
         <field name="cnab_structure_id" ref="cnab_santander_240" />
         <field
             name="cnab_payment_way_ids"
-            eval="[(Command.link(ref('cnab_santander_240_pay_way_91')))]"
+            eval="[((4, ref('cnab_santander_240_pay_way_91')))]"
         />
     </record>
 
@@ -518,7 +518,7 @@
         <field name="cnab_structure_id" ref="cnab_santander_240" />
         <field
             name="cnab_payment_way_ids"
-            eval="[(Command.link(ref('cnab_santander_240_pay_way_17')))]"
+            eval="[((4, ref('cnab_santander_240_pay_way_17')))]"
         />
     </record>
 </odoo>

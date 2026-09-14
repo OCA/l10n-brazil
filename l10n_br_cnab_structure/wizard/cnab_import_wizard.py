@@ -4,7 +4,7 @@
 import base64
 from io import StringIO
 
-from odoo import Command, _, api, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -66,7 +66,7 @@ class CNABImportWizard(models.TransientModel):
         if len(structure_ids):
             self.cnab_structure_id = structure_ids[0]
         else:
-            self.cnab_structure_id = [Command.clear()]
+            self.cnab_structure_id = [(5, 0, 0)]
 
     @api.depends("journal_id", "type")
     def _compute_payment_method_ids(self):
@@ -78,7 +78,7 @@ class CNABImportWizard(models.TransientModel):
                     record.journal_id.outbound_payment_method_ids
                 )
             else:
-                record.payment_method_ids = [Command.clear()]
+                record.payment_method_ids = [(5, 0, 0)]
 
     def _get_conf_positions_240(self):
         """

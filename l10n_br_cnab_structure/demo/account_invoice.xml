@@ -22,7 +22,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10})
+            (0, 0, {'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10})
         ]"
         />
     </record>
@@ -58,7 +58,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 199, 'quantity': 5})
+            (0, 0, {'product_id': ref('product.product_product_5'), 'price_unit': 199, 'quantity': 5})
         ]"
         />
     </record>
@@ -163,7 +163,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 189.75, 'quantity': 8})
+            (0, 0, {'product_id': ref('product.product_product_5'), 'price_unit': 189.75, 'quantity': 8})
         ]"
         />
     </record>
@@ -200,7 +200,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 299.50, 'quantity': 4})
+            (0, 0, {'product_id': ref('product.product_product_5'), 'price_unit': 299.50, 'quantity': 4})
         ]"
         />
     </record>
@@ -237,7 +237,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 3})
+            (0, 0, {'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 3})
         ]"
         />
     </record>
@@ -273,7 +273,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 199, 'quantity': 2})
+            (0, 0, {'product_id': ref('product.product_product_5'), 'price_unit': 199, 'quantity': 2})
         ]"
         />
     </record>
@@ -309,7 +309,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 150, 'quantity': 4})
+            (0, 0, {'product_id': ref('product.product_product_5'), 'price_unit': 150, 'quantity': 4})
         ]"
         />
     </record>
@@ -345,7 +345,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 320, 'quantity': 1})
+            (0, 0, {'product_id': ref('product.product_product_5'), 'price_unit': 320, 'quantity': 1})
         ]"
         />
     </record>
@@ -381,7 +381,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 275, 'quantity': 1})
+            (0, 0, {'product_id': ref('product.product_product_5'), 'price_unit': 275, 'quantity': 1})
         ]"
         />
     </record>
@@ -417,7 +417,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 150, 'quantity': 4})
+            (0, 0, {'product_id': ref('product.product_product_5'), 'price_unit': 150, 'quantity': 4})
         ]"
         />
     </record>
@@ -453,7 +453,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 320, 'quantity': 1})
+            (0, 0, {'product_id': ref('product.product_product_5'), 'price_unit': 320, 'quantity': 1})
         ]"
         />
     </record>
@@ -489,7 +489,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 275, 'quantity': 1})
+            (0, 0, {'product_id': ref('product.product_product_5'), 'price_unit': 275, 'quantity': 1})
         ]"
         />
     </record>
@@ -525,7 +525,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 160, 'quantity': 4})
+            (0, 0, {'product_id': ref('product.product_product_5'), 'price_unit': 160, 'quantity': 4})
         ]"
         />
     </record>
@@ -561,7 +561,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 330, 'quantity': 1})
+            (0, 0, {'product_id': ref('product.product_product_5'), 'price_unit': 330, 'quantity': 1})
         ]"
         />
     </record>
@@ -597,7 +597,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 285, 'quantity': 1})
+            (0, 0, {'product_id': ref('product.product_product_5'), 'price_unit': 285, 'quantity': 1})
         ]"
         />
     </record>
@@ -633,7 +633,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 170, 'quantity': 4})
+            (0, 0, {'product_id': ref('product.product_product_5'), 'price_unit': 170, 'quantity': 4})
         ]"
         />
     </record>
@@ -672,7 +672,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 340, 'quantity': 1})
+            (0, 0, {'product_id': ref('product.product_product_5'), 'price_unit': 340, 'quantity': 1})
         ]"
         />
     </record>
@@ -708,7 +708,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 295, 'quantity': 1})
+            (0, 0, {'product_id': ref('product.product_product_5'), 'price_unit': 295, 'quantity': 1})
         ]"
         />
     </record>

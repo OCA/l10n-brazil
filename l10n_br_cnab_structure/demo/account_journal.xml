@@ -8,6 +8,10 @@
 <odoo noupdate="1">
     <!-- Diario Itau -->
     <record id="l10n_br_account_payment_order.itau_journal" model="account.journal">
+        <field
+            name="outbound_payment_method_ids"
+            eval="[(6, 0, [ref('l10n_br_account_payment_order.payment_mode_type_cnab240_out')])]"
+        />
         <field name="used_to_import_cnab">True</field>
         <field name="default_outbound_cnab_processor">oca_processor</field>
         <field
@@ -43,19 +47,12 @@
             ref="l10n_br_account_payment_order.1_account_template_32302_avoid_travis_error"
         />
     </record>
-    <record
-        id="itau_journal_payment_method_cnab240_out"
-        model="account.payment.method.line"
-    >
-        <field name="name">ITAU CNAB 240</field>
-        <field
-            name="payment_method_id"
-            ref="l10n_br_account_payment_order.payment_mode_type_cnab240_out"
-        />
-        <field name="journal_id" ref="l10n_br_account_payment_order.itau_journal" />
-    </record>
     <!-- Diário Banco do Brasil -->
     <record id="l10n_br_account_payment_order.bb_journal" model="account.journal">
+        <field
+            name="outbound_payment_method_ids"
+            eval="[(6, 0, [ref('l10n_br_account_payment_order.payment_mode_type_cnab240_out')])]"
+        />
         <field name="name">Banco do Brasil - Pagamentos</field>
         <field name="code">BB-PAY</field>
         <field name="type">bank</field>
@@ -99,19 +96,12 @@
             ref="l10n_br_account_payment_order.1_account_template_32302_avoid_travis_error"
         />
     </record>
-    <record
-        id="bb_journal_payment_method_cnab240_out"
-        model="account.payment.method.line"
-    >
-        <field name="name">BB CNAB 240</field>
-        <field
-            name="payment_method_id"
-            ref="l10n_br_account_payment_order.payment_mode_type_cnab240_out"
-        />
-        <field name="journal_id" ref="l10n_br_account_payment_order.bb_journal" />
-    </record>
     <!-- Diário Santander -->
     <record id="santander_journal" model="account.journal">
+        <field
+            name="outbound_payment_method_ids"
+            eval="[(6, 0, [ref('l10n_br_account_payment_order.payment_mode_type_cnab240_out')])]"
+        />
         <field name="name">Santander - Pagamentos</field>
         <field name="code">SANT-PAY</field>
         <field name="type">bank</field>
@@ -155,19 +145,12 @@
             ref="l10n_br_account_payment_order.1_account_template_32302_avoid_travis_error"
         />
     </record>
-    <record
-        id="santander_journal_payment_method_cnab240_out"
-        model="account.payment.method.line"
-    >
-        <field name="name">Santander CNAB 240</field>
-        <field
-            name="payment_method_id"
-            ref="l10n_br_account_payment_order.payment_mode_type_cnab240_out"
-        />
-        <field name="journal_id" ref="santander_journal" />
-    </record>
     <!-- Diário Sicoob -->
     <record id="l10n_br_account_payment_order.sicoob_journal" model="account.journal">
+        <field
+            name="outbound_payment_method_ids"
+            eval="[(6, 0, [ref('l10n_br_account_payment_order.payment_mode_type_cnab240_out')])]"
+        />
         <field name="name">Sicoob - Pagamentos</field>
         <field name="code">SICOOB-PAY</field>
         <field name="type">bank</field>
@@ -210,16 +193,5 @@
             name="tariff_charge_account_id"
             ref="l10n_br_account_payment_order.1_account_template_32302_avoid_travis_error"
         />
-    </record>
-    <record
-        id="sicoob_journal_payment_method_cnab240_out"
-        model="account.payment.method.line"
-    >
-        <field name="name">Sicoob CNAB 240</field>
-        <field
-            name="payment_method_id"
-            ref="l10n_br_account_payment_order.payment_mode_type_cnab240_out"
-        />
-        <field name="journal_id" ref="l10n_br_account_payment_order.sicoob_journal" />
     </record>
 </odoo>

@@ -8,7 +8,7 @@ from unittest.mock import patch
 
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests import tagged
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import SavepointCase
 
 from odoo.addons.l10n_br_cnab_structure.models.cnab_data_management import (
     UPGRADE_FILES,
@@ -16,7 +16,7 @@ from odoo.addons.l10n_br_cnab_structure.models.cnab_data_management import (
 
 
 @tagged("post_install", "-at_install")
-class TestCnabDataManagement(TransactionCase):
+class TestCnabDataManagement(SavepointCase):
     """
     Unit tests for CNAB Data Management model.
     Covers backup, restore, upgrade flows, permissions, and validations.
