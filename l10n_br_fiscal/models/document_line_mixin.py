@@ -930,11 +930,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             self.cfop_id.destination == CFOP_DESTINATION_EXPORT
             and self.fiscal_operation_id.fiscal_operation_type == FISCAL_IN
         ):
-            fields_to_amount.append("pis_value")
-            fields_to_amount.append("cofins_value")
             fields_to_amount.append("icms_value")
-            fields_to_amount.append("ii_value")
-            fields_to_amount.append("ii_customhouse_charges")
         return fields_to_amount
 
     @api.model
