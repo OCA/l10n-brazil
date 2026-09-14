@@ -142,12 +142,18 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
     nfse10_pTotTribEst = fields.Char(compute="_compute_nfse10_tot_trib")
     nfse10_pTotTribMun = fields.Char(compute="_compute_nfse10_tot_trib")
 
+    @api.depends("discount_value", "issqn_desc_cond_amount")
     def _compute_nfse10_self(self):
         for rec in self:
             rec.nfse10_locPrest = rec.id
             rec.nfse10_cServ = rec.id
             rec.nfse10_vServPrest = rec.id
-            rec.nfse10_vDescCondIncond = rec.id
+            # Optional group: pointing it at the record always serializes an
+            # empty <vDescCondIncond/>, because both children are False when
+            # there is no discount, and an empty tag is refused by the XSD.
+            rec.nfse10_vDescCondIncond = (
+                rec.id if (rec.discount_value or rec.issqn_desc_cond_amount) else False
+            )
             rec.nfse10_trib = rec.id
             rec.nfse10_tribMun = rec.id
             rec.nfse10_tribFed = rec.id
