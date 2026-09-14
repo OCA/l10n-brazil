@@ -22,6 +22,21 @@ msgid "BR Company Currency"
 msgstr ""
 
 #. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cnpj_status
+msgid "CNPJ Status"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cnpj_status_date
+msgid "CNPJ Status Date"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cnpj_status_reason
+msgid "CNPJ Status Reason"
+msgstr ""
+
+#. module: l10n_br_crm
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__vat_formatted_cnpj
 msgid "CNPJ or CPF formatted with proper punctuation and special characters"
 msgstr ""
@@ -52,9 +67,34 @@ msgid "Cnae Main"
 msgstr ""
 
 #. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__company_size
+msgid "Company Size"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__company_size
+msgid "Company size classification (e.g. Small Business)."
+msgstr ""
+
+#. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__country_id
 msgid "Country"
 msgstr "País"
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__cnpj_status_date
+msgid "Date of the current registration status."
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__simples_option_date
+msgid "Date the company opted for the Simples Nacional regime."
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__opening_date
+msgid "Date the company started its activities."
+msgstr ""
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__district
@@ -64,6 +104,16 @@ msgstr "Distrito"
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__equity_capital
 msgid "Equity Capital"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__legal_responsible_function
+msgid "Function of the legal responsible for the company."
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cnpj_branch_type
+msgid "Head Office / Branch"
 msgstr ""
 
 #. module: l10n_br_crm
@@ -95,6 +145,16 @@ msgid "Legal Nature"
 msgstr ""
 
 #. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__legal_responsible_name
+msgid "Legal Responsible"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__legal_responsible_function
+msgid "Legal Responsible Function"
+msgstr ""
+
+#. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__l10n_br_im_code
 msgid "Municipal Tax Number"
 msgstr "Número de identificación fiscal municipal"
@@ -105,9 +165,19 @@ msgid "Name and Surname"
 msgstr "Nombre y apellido"
 
 #. module: l10n_br_crm
+#: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__legal_responsible_name
+msgid "Name of the legal responsible for the company."
+msgstr ""
+
+#. module: l10n_br_crm
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__name_surname
 msgid "Name used in fiscal documents"
 msgstr "Nombre utilizado en los documentos fiscales"
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__opening_date
+msgid "Opening Date"
+msgstr ""
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__state_tax_number_ids
@@ -126,6 +196,16 @@ msgid "RG"
 msgstr "RG"
 
 #. module: l10n_br_crm
+#: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__cnpj_status_reason
+msgid "Reason for the current registration status."
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__cnpj_status
+msgid "Registration status of the CNPJ (e.g. Active)."
+msgstr ""
+
+#. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__show_br_vat_format
 msgid "Show Br Vat Format"
 msgstr ""
@@ -133,6 +213,11 @@ msgstr ""
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__show_l10n_br
 msgid "Show L10N Br"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__simples_option_date
+msgid "Simples Nacional Option Date"
 msgstr ""
 
 #. module: l10n_br_crm
@@ -168,6 +253,11 @@ msgstr ""
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__vat
 msgid "Vat"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__cnpj_branch_type
+msgid "Whether the establishment is the head office or a branch."
 msgstr ""
 
 #. module: l10n_br_crm
