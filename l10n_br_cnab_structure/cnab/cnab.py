@@ -3,8 +3,9 @@
 # @author Felipe Motter Pereira <felipe@engenere.one>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from __future__ import annotations
+
 from enum import Enum
-from typing import List
 
 
 class RecordType(Enum):
@@ -26,7 +27,7 @@ class CnabField:
 
 class CnabLine:
     type: RecordType
-    fields: List[CnabField]
+    fields: list[CnabField]
 
     def __init__(self, record_type) -> None:
         self.type = record_type
@@ -56,13 +57,13 @@ class CnabLine:
 
 
 class CnabDetailRecord:
-    segments: List[CnabLine]
+    segments: list[CnabLine]
 
     def __init__(self, name: str) -> None:
         self.name = name
         self.segments = []
 
-    def lines(self) -> List[CnabLine]:
+    def lines(self) -> list[CnabLine]:
         lines = []
         for segment in self.segments:
             lines.append(segment)
@@ -76,22 +77,23 @@ class CnabDetailRecord:
 
 
 class CnabBatch:
-    header: CnabLine
-    detail_records: List[CnabDetailRecord]
+    header: list[CnabLine]
+    detail_records: list[CnabDetailRecord]
     trailer: CnabLine
 
     def __init__(self) -> None:
+        self.header = []
         self.detail_records = []
 
-    def detail_lines(self) -> List[CnabLine]:
+    def detail_lines(self) -> list[CnabLine]:
         lines = []
         for detail in self.detail_records:
             lines.extend(detail.lines())
         return lines
 
-    def lines(self) -> List[CnabLine]:
+    def lines(self) -> list[CnabLine]:
         lines = []
-        lines.append(self.header)
+        lines.extend(self.header)
         lines.extend(self.detail_lines())
         lines.append(self.trailer)
         return lines
@@ -100,11 +102,11 @@ class CnabBatch:
         count_records = 0
         for detail in self.detail_records:
             count_records += detail.len_records()
-        return count_records + 2
+        return count_records + len(self.header) + 1
 
     def asdict(self):
         return {
-            "header": self.header.asdict(),
+            "header": [h.asdict() for h in self.header],
             "detail_records": [d.asdict() for d in self.detail_records],
             "trailer": self.trailer.asdict(),
         }
@@ -112,7 +114,7 @@ class CnabBatch:
 
 class Cnab:
     header: CnabLine
-    batches: List[CnabBatch]
+    batches: list[CnabBatch]
     trailer: CnabLine
 
     def __init__(self) -> None:
@@ -120,7 +122,7 @@ class Cnab:
         self.batches = []
         self.trailer = CnabLine(RecordType.TRAILER)
 
-    def lines(self) -> List[CnabLine]:
+    def lines(self) -> list[CnabLine]:
         lines = []
         lines.append(self.header)
         for batch in self.batches:

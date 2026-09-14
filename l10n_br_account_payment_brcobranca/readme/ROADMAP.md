@@ -1,0 +1,1 @@
+- Verificar a posssibilidade de Imprimir o **Boleto** pelo menu **Imprimir** da Fatura, na v16 em diante.

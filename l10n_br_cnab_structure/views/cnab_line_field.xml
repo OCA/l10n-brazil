@@ -6,7 +6,6 @@
     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 -->
 <odoo>
-
     <record model="ir.ui.view" id="cnab_line_field_tree_view">
         <field name="model">l10n_br_cnab.line.field</field>
         <field name="arch" type="xml">

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="cnab_account_payment_line_tree" model="ir.ui.view">
         <field name="name">cnab.account.payment.line.tree</field>
         <field name="model">account.payment.line</field>
@@ -9,7 +8,6 @@
             ref="account_payment_order.account_payment_line_tree"
         />
         <field name="arch" type="xml">
-
             <field name="partner_id" position="before">
                 <field name="document_number" optional="show" />
             </field>
@@ -62,8 +60,9 @@
                 <group
                     string="Linhas de Ordem de Pagamentos"
                     attrs="{'invisible': [('payment_method_code', 'not in', ('400', '240', '500'))]}"
+                    colspan="2"
                 >
-                    <field name="payment_line_ids" nolabel="1">
+                    <field name="payment_line_ids" nolabel="1" colspan="2">
                         <tree>
                             <field name="communication" />
                             <field name="partner_bank_id" />
@@ -80,8 +79,9 @@
                 <group
                     string="Linhas de Retorno do CNAB"
                     attrs="{'invisible': [('payment_method_code', 'not in', ('400', '240', '500'))]}"
+                    colspan="2"
                 >
-                    <field name="cnab_return_line_ids" nolabel="1">
+                    <field name="cnab_return_line_ids" nolabel="1" colspan="2">
                         <tree>
                             <field name="lot_id" />
                             <field name="invoice_id" />
@@ -117,5 +117,4 @@
             </field>
         </field>
     </record>
-
 </odoo>
