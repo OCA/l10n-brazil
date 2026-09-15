@@ -63,6 +63,23 @@
                     <span>Fiscal Details</span>
                 </button>
             </div>
+            <xpath expr="//widget[@name='web_ribbon'][1]" position="before">
+                <widget
+                    name="web_ribbon"
+                    title="Locked e-doc"
+                    bg_color="bg-warning"
+                    attrs="{'invisible': [('edoc_locked_warning', '=', False)]}"
+                />
+            </xpath>
+            <header position="inside">
+                <button
+                    name="action_document_send"
+                    type="object"
+                    string="Send e-doc"
+                    groups="l10n_br_fiscal.group_user"
+                    attrs="{'invisible': ['|', '|', ('document_type_id', '=', False), ('issuer', '!=', 'company'), ('state_edoc', '!=', 'a_enviar')]}"
+                />
+            </header>
             <xpath expr="//form/sheet/div/h1[1]" position="attributes">
                 <attribute
                     name="attrs"
@@ -84,6 +101,8 @@
             </xpath>
             <field name="ref" position="after">
                 <field name="document_type" invisible="1" />
+                <field name="edoc_locked_warning" invisible="1" />
+                <field name="state_edoc" invisible="1" />
                 <field
                     name="document_type_id"
                     attrs="{ 'invisible': [ ('move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')), ], 'readonly': [('state', '!=', 'draft')] }"
