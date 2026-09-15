@@ -24,8 +24,9 @@ def post_init_hook(env):
         return {
             "type": cert_type,
             "subtype": "a1",
-            "password": passwd,
-            "file": misc.create_fake_certificate_file(
+            "scope": "l10n_br",
+            "pkcs12_password": passwd,
+            "content": misc.create_fake_certificate_file(
                 valid, passwd, issuer, country, subject
             ),
         }
@@ -41,14 +42,16 @@ def post_init_hook(env):
             env.ref("l10n_br_base.empresa_lucro_real", raise_if_not_found=False),
         ]
         try:
+            certificate_model = env["certificate.certificate"]
             for company in companies:
-                l10n_br_fiscal_certificate_id = env["l10n_br_fiscal.certificate"]
-                company.certificate_nfe_id = l10n_br_fiscal_certificate_id.create(
-                    prepare_fake_certificate_vals()
-                )
-                company.certificate_ecnpj_id = l10n_br_fiscal_certificate_id.create(
-                    prepare_fake_certificate_vals(cert_type=CERTIFICATE_TYPE_ECNPJ)
-                )
+                if not company:
+                    continue
+                vals = prepare_fake_certificate_vals()
+                vals["company_id"] = company.id
+                company.certificate_nfe_id = certificate_model.create(vals)
+                vals = prepare_fake_certificate_vals(cert_type=CERTIFICATE_TYPE_ECNPJ)
+                vals["company_id"] = company.id
+                company.certificate_ecnpj_id = certificate_model.create(vals)
         except NameError:  # (means from erpbrasil.assinatura import misc failed)
             _logger.error(
                 _(
