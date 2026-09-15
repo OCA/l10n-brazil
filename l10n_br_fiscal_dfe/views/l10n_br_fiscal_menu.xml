@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
     Copyright 2023 KMEE INFORMATICA LTDA
+    Copyright 2026 Engenere (<https://engenere.one>)
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <odoo>
     <menuitem
-        action="dfe_action"
-        id="dfe_consult_menu"
-        name="DF-e"
-        groups="l10n_br_fiscal.group_manager"
-        parent="l10n_br_fiscal.document_menu"
+        id="dfe_queries_menu"
+        name="DF-e Queries"
+        parent="l10n_br_fiscal.fiscal_menu"
+        groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager"
         sequence="15"
+    />
+    <menuitem
+        id="dfe_document_menu"
+        action="dfe_document_action"
+        name="Third-party NF-e"
+        parent="dfe_queries_menu"
+        sequence="10"
     />
 </odoo>
