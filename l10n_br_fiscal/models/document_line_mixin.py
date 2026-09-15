@@ -335,6 +335,9 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                     national_taxation_code=line.national_taxation_code_id,
                     service_type=line.service_type_id,
                     ind_final=line.ind_final,
+                    reference_date=getattr(
+                        line._get_document(), "document_date", False
+                    ),
                 )
                 line.cfop_id = mapping_result["cfop"]
                 line.ipi_guideline_id = mapping_result["ipi_guideline"]
