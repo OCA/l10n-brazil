@@ -96,7 +96,7 @@ class DocumentLine(models.Model):
             "ibs_cbs_classificacao_tributaria": self.tax_classification_id.code
             or "000000",
             "ibs_cbs_situacao_tributaria": self.ibs_cst_code or "000",
-            "ibs_cbs_base_calculo": round(self.issqn_base, 2),
+            "ibs_cbs_base_calculo": round(self.cbs_base, 2) or round(self.ibs_base, 2),
             "valor_desconto_incondicionado": round(self.discount_value, 2),
             "ibs_uf_aliquota": round(self.ibs_percent, 2) if self.ibs_percent else None,
             "ibs_mun_aliquota": 0.0,
@@ -104,14 +104,29 @@ class DocumentLine(models.Model):
             "ibs_uf_valor": round(self.ibs_value, 2) if self.ibs_value else None,
             "ibs_mun_valor": 0.0,
             "cbs_valor": round(self.cbs_value, 2) if self.cbs_value else None,
+            "ibs_uf_percentual_diferimento": round(self.ibs_reduction, 2),
+            "cbs_percentual_diferimento": round(self.cbs_reduction, 2),
             "situacao_tributaria_pis": self.pis_cst_code or "",
             "situacao_tributaria_cofins": self.cofins_cst_code or "",
-            "base_calculo_pis": round(self.pis_base, 2),
-            "base_calculo_cofins": round(self.cofins_base, 2),
-            "aliquota_pis": round(self.pis_percent, 2) if self.pis_percent else 0.0,
-            "aliquota_cofins": (
-                round(self.cofins_percent, 2) if self.cofins_percent else 0.0
-            ),
+            "base_calculo_pis": round(self.pis_base, 2) or round(self.pis_wh_base, 2),
+            "base_calculo_cofins": round(self.cofins_base, 2)
+            or round(self.cofins_wh_base, 2),
+            "aliquota_pis": round(self.pis_percent, 2) or round(self.pis_wh_percent, 2),
+            "aliquota_cofins": round(self.cofins_percent, 2)
+            or round(self.cofins_wh_percent, 2),
+            "aliquota_csll": round(self.csll_percent, 2)
+            or round(self.csll_wh_percent, 2),
+            "aliquota_ir": round(self.irpj_percent, 2)
+            or round(self.irpj_wh_percent, 2),
+            "aliquota_inss": round(self.inss_percent, 2)
+            or round(self.inss_wh_percent, 2),
+            "aliquota_icms": round(self.icms_percent, 2) if self.icms_percent else 0.0,
+            "base_calculo_csll": round(self.csll_base, 2)
+            or round(self.csll_wh_base, 2),
+            "base_calculo_ir": round(self.irpj_base, 2) or round(self.irpj_wh_base, 2),
+            "base_calculo_inss": round(self.inss_base, 2)
+            or round(self.inss_wh_base, 2),
+            "base_calculo_icms": round(self.icms_base, 2) if self.icms_base else 0.0,
             "tipo_retencao_pis_cofins": (
                 "1" if (self.pis_wh_value or self.cofins_wh_value) else "2"
             ),
