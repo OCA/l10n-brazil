@@ -130,4 +130,25 @@ class DFe(models.Model):
     @api.model
     def parse_procNFe(self, xml):
         binding = TnfeProc.from_xml(xml.read().decode())
-        return self.env["l10n_br_fiscal.document"].import_binding_nfe(binding)
+        document = self.env["l10n_br_fiscal.document"].import_binding_nfe(binding)
+        self._apply_fiscal_operation(document, binding)
+        return document
+
+    @api.model
+    def _apply_fiscal_operation(self, document, binding):
+        wizard = self.env["l10n_br_fiscal.document.import.wizard"]
+        inf_nfe = binding.NFe.infNFe
+        operation_line = wizard._find_fiscal_operation_line(
+            wizard._most_common_cfop(inf_nfe), inf_nfe.ide.natOp, "in"
+        )
+        if not operation_line:
+            return
+
+        document.document_type_id = self.env.ref("l10n_br_fiscal.document_55")
+        document.fiscal_operation_id = operation_line.fiscal_operation_id
+        for line in document.fiscal_line_ids:
+            price_unit = line.price_unit
+            line.fiscal_operation_id = operation_line.fiscal_operation_id
+            line.fiscal_operation_line_id = operation_line
+            line.price_unit = price_unit
+            line.uom_id = line.uot_id
