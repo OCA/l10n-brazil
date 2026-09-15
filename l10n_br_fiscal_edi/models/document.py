@@ -826,6 +826,99 @@ class Document(models.Model):
     def make_pdf(self):
         pass
 
+    def _download_url(self, attachment):
+        return f"/web/content/{attachment.id}/{attachment.name}?download=true"
+
+    def _xml_attachment(self):
+        """The XML of the document, wherever this one keeps it.
+
+        A document the company issued keeps it in the authorization event, and
+        the sent one serves while the authorization has not come. A document
+        that came in by import has neither: its file arrived as an attachment
+        of the document, and looking only at the event fields would answer that
+        an imported note has no XML, which is exactly the note the accountant
+        asks for.
+        """
+        self.ensure_one()
+        found = self.authorization_file_id or self.send_file_id
+        if found:
+            return found
+        return self.env["ir.attachment"].search(
+            [
+                ("res_model", "=", self._name),
+                ("res_id", "=", self.id),
+                ("mimetype", "in", ("application/xml", "text/xml")),
+            ],
+            order="id desc",
+            limit=1,
+        )
+
+    def _report_attachment(self):
+        self.ensure_one()
+        if not self.file_report_id:
+            self.make_pdf()
+        return self.file_report_id
+
+    def _collect_download_files(self, xml=True, report=True):
+        """Files to hand to the browser, and the documents left without any.
+
+        A document still in typing has nothing to give, and a selection of many
+        notes usually mixes those with the authorized ones. Refusing the whole
+        batch because of one of them is worse than handing over what exists and
+        naming what was left out, so the ones without a file come back apart
+        instead of raising.
+        """
+        files = []
+        skipped = self.browse()
+        for record in self:
+            attachments = self.env["ir.attachment"]
+            if xml:
+                attachments |= record._xml_attachment()
+            if report:
+                attachments |= record._report_attachment()
+            if not attachments:
+                skipped |= record
+                continue
+            files.extend(
+                {"url": record._download_url(each), "name": each.name}
+                for each in attachments
+            )
+        return files, skipped
+
+    def action_download_files(self, xml=True, report=True):
+        """Hand the files over one by one, unzipped.
+
+        A download of the browser carries one file, so who walks the list is the
+        client: the action below receives the addresses and asks for one at a
+        time. From three files on the browser asks the person once whether to
+        accept several, which is the price of not zipping.
+        """
+        files, skipped = self._collect_download_files(xml=xml, report=report)
+        if not files:
+            raise UserError(
+                _(
+                    "None of the selected documents has a file to download. A "
+                    "document still in typing has no XML and no report yet."
+                )
+            )
+        return {
+            "type": "ir.actions.client",
+            "tag": "l10n_br_fiscal_edi.download_files",
+            "params": {
+                "files": files,
+                "skipped": skipped.mapped("display_name"),
+            },
+        }
+
+    def action_download_xml(self):
+        return self.action_download_files(report=False)
+
+    def action_download_report(self):
+        return self.action_download_files(xml=False)
+
+    def action_download_xml_and_report(self):
+        return self.action_download_files()
+
     def view_pdf(self):
         self.ensure_one()
         if not self.file_report_id or not self.authorization_file_id:

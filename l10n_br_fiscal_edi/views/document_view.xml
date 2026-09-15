@@ -32,6 +32,28 @@
         <field name="priority">5</field>
         <field name="inherit_id" ref="l10n_br_fiscal.document_tree" />
         <field name="arch" type="xml">
+            <list position="inside">
+                <header>
+                    <button
+                        name="action_download_xml"
+                        string="Download XML"
+                        type="object"
+                        display="always"
+                    />
+                    <button
+                        name="action_download_report"
+                        string="Download DANFE"
+                        type="object"
+                        display="always"
+                    />
+                    <button
+                        name="action_download_xml_and_report"
+                        string="Download both"
+                        type="object"
+                        display="always"
+                    />
+                </header>
+            </list>
             <field name="state_edoc" position="attributes">
                 <attribute name="decoration-info">state_edoc == 'enviada'</attribute>
                 <attribute
@@ -74,6 +96,13 @@
                     string="View XML"
                     groups="l10n_br_fiscal.group_user"
                     class="btn-primary"
+                    invisible="state_edoc in ('em_digitacao', 'a_enviar')"
+                />
+                <button
+                    name="action_download_xml_and_report"
+                    type="object"
+                    string="Download XML and DANFE"
+                    groups="l10n_br_fiscal.group_user"
                     invisible="state_edoc in ('em_digitacao', 'a_enviar')"
                 />
             </button>
