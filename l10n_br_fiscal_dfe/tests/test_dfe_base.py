@@ -73,6 +73,18 @@ class TestDfeBase(TransactionCase):
         doc._compute_color_status()
         self.assertEqual(doc.color_status, "muted")
 
+    def test_document_state_label_default_returns_raw_code(self):
+        """Without a fiscal type specific override, the label is the raw code."""
+        doc = self.env["l10n_br_fiscal_dfe.document"].create(
+            {
+                "access_key": "35200199999999999999550010000000019999999992",
+                "company_id": self.company.id,
+                "fiscal_type": "cte",
+                "document_state": "42",
+            }
+        )
+        self.assertEqual(doc.document_state_label, "42")
+
     def test_xml_pretty_formatting(self):
         dfe = self.env["l10n_br_fiscal_dfe.dfe"].create(
             {

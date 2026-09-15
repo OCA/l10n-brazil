@@ -117,7 +117,7 @@
                 <field name="vat" />
                 <field name="partner_id" />
                 <field name="document_amount" string="Amount" />
-                <field name="document_state" string="State" />
+                <field name="document_state_label" string="State" />
                 <button
                     string="XML"
                     name="action_download_xml"

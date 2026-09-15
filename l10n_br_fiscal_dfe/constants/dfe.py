@@ -17,12 +17,6 @@ OP_TYPE_SAIDA = ("1", "Saída")
 
 OPERATION_TYPE = [OP_TYPE_ENTRADA, OP_TYPE_SAIDA]
 
-
-SIT_NFE_AUTORIZADA = ("1", "Autorizada")
-SIT_NFE_DENEGADA = ("2", "Denegada")
-SIT_NFE_CANCELADA = ("3", "Cancelada")
-SITUACAO_NFE = [SIT_NFE_AUTORIZADA, SIT_NFE_DENEGADA, SIT_NFE_CANCELADA]
-
 # SEFAZ distribution response codes (NT 2014.002)
 CSTAT_SUCCESS = "138"  # Documento(s) localizado(s)
 CSTAT_NO_DOCS = "137"  # Nenhum documento localizado para o Contribuinte

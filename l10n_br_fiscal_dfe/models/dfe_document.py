@@ -54,6 +54,11 @@ class L10nBrFiscalDfeDocument(models.Model):
         "service (semantics depend on the fiscal document type).",
     )
 
+    document_state_label = fields.Char(
+        string="State",
+        compute="_compute_document_state_label",
+    )
+
     document_number = fields.Char(size=18)
 
     document_emission_date = fields.Datetime(string="Emission Date")
@@ -120,6 +125,22 @@ class L10nBrFiscalDfeDocument(models.Model):
             else:
                 record.is_own_document = False
 
+    @api.depends("document_state", "fiscal_type")
+    def _compute_document_state_label(self):
+        for record in self:
+            record.document_state_label = record._get_document_state_label()
+
+    def _get_document_state_label(self):
+        """Human-readable label for ``document_state``.
+
+        The raw code's meaning depends on the fiscal document type, so
+        fiscal type specific modules (e.g. l10n_br_nfe_dfe) should
+        override this to map their own status codes to readable text.
+        Defaults to the raw code when no mapping is available.
+        """
+        self.ensure_one()
+        return self.document_state
+
     @api.depends("dfe_ids.document_type_dfe", "document_state")
     def _compute_color_status(self):
         for record in self:
@@ -134,8 +155,10 @@ class L10nBrFiscalDfeDocument(models.Model):
             else:
                 record.color_status = False
 
-    def name_get(self):
-        return [(record.id, record.access_key) for record in self]
+    @api.depends("access_key")
+    def _compute_display_name(self):
+        for record in self:
+            record.display_name = record.access_key
 
     def _update_metadata(self, vals, is_complete=False):
         """Update document metadata from parsed XML data.
