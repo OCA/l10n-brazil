@@ -259,3 +259,35 @@ class TestWorkflow(TransactionCase):
         ):
             self.fiscal_document.action_document_confirm()
         self.assertEqual(self.fiscal_document.state_edoc, DOCUMENT_STATE_AUTHORIZED)
+
+    def test_partner_issuer_not_locked_when_open(self):
+        """Supplier bills (issuer=partner) stay editable after confirm.
+
+        Partner-issued docs are local records of a third-party document,
+        so their identity fields must remain editable once out of draft;
+        only company-issued docs lock. They lock only when cancelled.
+        """
+        self.fiscal_document.document_electronic = True
+        self.fiscal_document.issuer = "partner"
+        self.fiscal_document.action_document_confirm()
+        # Partner-issued docs go directly to AUTHORIZED (no SEFAZ
+        # transmission needed from the company's side) but stay unlocked.
+        self.assertEqual(self.fiscal_document.state_edoc, DOCUMENT_STATE_AUTHORIZED)
+
+        # not locked -> identity field write is allowed
+        self.assertFalse(self.fiscal_document.edoc_is_locked)
+        self.fiscal_document.document_date = "2026-01-01 00:00:00"
+
+        # a company-issued doc in the same state IS locked
+        company_doc = self.env["l10n_br_fiscal.document"].create(
+            {
+                "document_type_id": self.env.ref(
+                    "l10n_br_fiscal.document_55_serie_1"
+                ).id,
+                "fiscal_operation_type": "out",
+                "issuer": "company",
+            }
+        )
+        company_doc.document_electronic = True
+        company_doc.action_document_confirm()
+        self.assertTrue(company_doc.edoc_is_locked)
