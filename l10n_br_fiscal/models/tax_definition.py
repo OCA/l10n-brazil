@@ -88,7 +88,6 @@ class TaxDefinition(models.Model):
         comodel_name="l10n_br_fiscal.tax.group",
         string="Tax Group",
         required=True,
-        readonly=True,
     )
 
     custom_tax = fields.Boolean(
