@@ -281,14 +281,32 @@ class Operation(models.Model):
         if not company.icms_regulation_id or not product:
             return False
 
+        # `_map_tax_def_icmsst` now answers the ``(tax_group, domain)`` pair that
+        # map_tax feeds to its single combined search, instead of the definitions
+        # themselves. Truth-testing that pair would be true for every product,
+        # which would put ICMS ST on every line and change which operation line
+        # gets selected. So the search still has to run here, with the same
+        # precedence the previous contract applied.
+        regulation = company.icms_regulation_id
+        search = regulation._map_tax_def_icmsst(
+            company,
+            partner,
+            product,
+            ncm=product.ncm_id,
+            nbm=product.nbm_id,
+            cest=product.cest_id,
+        )
+        if not search:
+            return False
+
+        _tax_group, domain = search
         return bool(
-            company.icms_regulation_id._map_tax_def_icmsst(
-                company,
-                partner,
+            regulation._tax_definition_search(
+                domain,
+                product.ncm_id,
+                product.nbm_id,
+                product.cest_id,
                 product,
-                ncm=product.ncm_id,
-                nbm=product.nbm_id,
-                cest=product.cest_id,
             )
         )
 
