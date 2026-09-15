@@ -4,6 +4,7 @@
 from odoo import _, fields, models
 from odoo.exceptions import UserError
 
+from .. import tools
 from ..constants.fiscal import (
     EDOC_PURPOSE,
     EDOC_PURPOSE_NORMAL,
@@ -230,14 +231,7 @@ class Operation(models.Model):
             ("state", "=", "approved"),
         ]
 
-        domain += [
-            "|",
-            ("date_start", "=", False),
-            ("date_start", "<=", fields.Datetime.now()),
-            "|",
-            ("date_end", "=", False),
-            ("date_end", ">=", fields.Datetime.now()),
-        ]
+        domain += tools.date_validity_domain(fields.Datetime.now())
 
         domain += [
             "|",
