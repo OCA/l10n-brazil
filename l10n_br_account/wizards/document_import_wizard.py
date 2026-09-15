@@ -2,7 +2,12 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 
+import logging
+
 from odoo import fields, models
+from odoo.exceptions import UserError
+
+_logger = logging.getLogger(__name__)
 
 
 class DocumentImportWizard(models.TransientModel):
@@ -92,20 +97,40 @@ class DocumentImportWizard(models.TransientModel):
                     "res_model": "account.move",
                 }
 
+    def _is_xml_attachment(self, attachment):
+        if attachment.mimetype in ("application/xml", "text/xml"):
+            return True
+        return (attachment.name or "").lower().endswith(".xml")
+
     def _get_importer_action(self, attachments, move_id=None):
         """
-        Try to parse the 1st file of the the attachments to
+        Try to parse the 1st XML of the attachments to
         detect its type and return the wizard import action.
-        Also mark the other attachments to be imported next.
+        Also mark the other XML attachments to be imported next.
         """
+        xml_attachments = attachments.filtered(self._is_xml_attachment)
+        if not xml_attachments:
+            raise UserError(
+                self.env._(
+                    "None of the uploaded files is an XML: %(names)s",
+                    names=", ".join(attachments.mapped("name")),
+                )
+            )
+        ignored_attachments = attachments - xml_attachments
+        if ignored_attachments:
+            _logger.info(
+                "Not importing the files that are not XML: %s",
+                ", ".join(ignored_attachments.mapped("name")),
+            )
+
         wizard = self.env["l10n_br_fiscal.document.import.wizard"].create(
             {
-                "file": attachments[0].datas,
+                "file": xml_attachments[0].datas,
                 "first_imported_move_id": self.first_imported_move_id or move_id,
             }
         )
 
-        for attachment in attachments:
+        for attachment in xml_attachments:
             # this link will allow to retrieve the next attachments to import:
             attachment.res_model = "l10n_br_fiscal.document.import.wizard"
             attachment.res_id = wizard.id
