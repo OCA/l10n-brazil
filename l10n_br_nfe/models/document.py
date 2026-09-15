@@ -21,7 +21,7 @@ from requests import Session
 from xsdata.formats.dataclass.parsers import XmlParser
 from xsdata.models.datatype import XmlDateTime
 
-from odoo import _, api, fields
+from odoo import Command, _, api, fields
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
@@ -958,8 +958,29 @@ class NFe(spec_models.StackedModel):
     @api.model
     def _build_attr(self, node, fields, vals, path, attr):
         key = f"nfe40_{attr[1].metadata.get('name', attr[0])}"
-        if key == "nfe40_IBSCBSTot":
-            # IBSCBSTot fields are computed from lines, skip importing
+        if key in ("nfe40_IBSCBSTot", "nfe40_ISTot"):
+            # IBSCBSTot/ISTot totals are computed from lines, skip importing
+            return
+        if attr[0] == "autXML":
+            # <autXML> is imported as a one2many of res.partner "contato
+            # CNPJ/CPF X" records. Deduplicate them by CNPJ/CPF through the
+            # res.partner match_or_create_m2o override instead of always
+            # creating a fresh partner, otherwise importing two NF-e sharing
+            # the same autXML CNPJ/CPF (e.g. the supplier's accountant) raises
+            # the l10n_br_fiscal CNPJ/CPF uniqueness constraint.
+            value = getattr(node, attr[0])
+            if value is None or value == []:
+                return
+            partner_model = self.env["res.partner"]
+            partner_ids = []
+            for autxml_line in value:
+                if autxml_line is None:
+                    continue
+                line_vals = partner_model.build_attrs(
+                    autxml_line, path=f"{path}.{key}", defaults_model=partner_model
+                )
+                partner_ids.append(partner_model.match_or_create_m2o(line_vals, vals))
+            vals[key] = [Command.set(partner_ids)]
             return
         return super()._build_attr(node, fields, vals, path, attr)
 
@@ -1012,6 +1033,12 @@ class NFe(spec_models.StackedModel):
             if company_vat != emit_vat:
                 vals["issuer"] = "partner"
             new_value["vat"] = emit_vat
+            # Capture the emitente's tax regime (CRT) into the supplier
+            # partner's tax_framework (Simples Nacional vs Regime Normal),
+            # which drives the tax mapping and SPED reporting.
+            crt = getattr(value, "CRT", None)
+            if crt is not None:
+                new_value["tax_framework"] = str(getattr(crt, "value", crt))
             super()._build_many2one(
                 self.env["res.partner"], vals, new_value, "partner_id", value, path
             )
