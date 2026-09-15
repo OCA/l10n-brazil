@@ -12,6 +12,8 @@ from lxml.etree import XMLSyntaxError
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
+from ..constants.nfe_dfe import SITUACAO_NFE
+
 try:
     from brazilfiscalreport.danfe import Danfe
 except ImportError:
@@ -96,6 +98,12 @@ class L10nBrFiscalDfeDocument(models.Model):
                     ValueError,
                 ) as e:
                     _logger.warning("Error computing CFOP IDs: %s", e)
+
+    def _get_document_state_label(self):
+        self.ensure_one()
+        if self.fiscal_type != "nfe":
+            return super()._get_document_state_label()
+        return dict(SITUACAO_NFE).get(self.document_state, self.document_state)
 
     def create_nfe_md_action(self):
         self.ensure_one()
