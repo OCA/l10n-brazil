@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Família COMODATO / LOCAÇÃO (empréstimo gratuito de bem infungível, CC art. 579).
+  NÃO existe no core. Não incidência de ICMS (sem transferência de titularidade,
+  STF Súmula 573), IPI (CST 53/03), PIS/COFINS (CST 08) e ISS (Súmula Vinculante
+  31 — locação pura de bem móvel). product_type=08 (ativo) no caso geral.
+  IPI do fabricante que dá saída do próprio produto em comodato = override por
+  perfil (não default). Ciclo: comodante remete/recebe de volta; comodatário
+  recebe/devolve.
+-->
+<odoo noupdate="1">
+
+    <record id="comment_comodato_remessa" model="l10n_br_fiscal.comment">
+        <field name="name">Remessa em comodato</field>
+        <field
+            name="comment"
+        >Remessa em comodato conforme contrato (CC art. 579). Não incidência de ICMS/IPI/PIS/COFINS; bem deve retornar ao remetente.</field>
+        <field name="comment_type">fiscal</field>
+        <field name="object">l10n_br_fiscal.document.mixin</field>
+    </record>
+    <record id="comment_comodato_devolucao" model="l10n_br_fiscal.comment">
+        <field name="name">Devolução de comodato</field>
+        <field
+            name="comment"
+        >Devolução de bem recebido em comodato. Não incidência de ICMS/IPI/PIS/COFINS.</field>
+        <field name="comment_type">fiscal</field>
+        <field name="object">l10n_br_fiscal.document.mixin</field>
+    </record>
+
+    <!-- COMODANTE: entrada do retorno (alvo do return da remessa) -->
+    <record id="fo_entrada_retorno_comodato" model="l10n_br_fiscal.operation">
+        <field name="code">ER-COM</field>
+        <field name="name">Entrada de retorno de comodato/locação</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">return_in</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_entrada_retorno_comodato_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_entrada_retorno_comodato" />
+        <field name="name">Entrada de retorno de comodato</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1909" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2909" />
+        <field name="product_type">08</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_er_comodato_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_entrada_retorno_comodato_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_41" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_er_comodato_ipi" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_entrada_retorno_comodato_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_03" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_er_comodato_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_entrada_retorno_comodato_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_08" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_er_comodato_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_entrada_retorno_comodato_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_08" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- COMODANTE: remessa em comodato -->
+    <record id="fo_remessa_comodato" model="l10n_br_fiscal.operation">
+        <field name="code">REM-COM</field>
+        <field name="name">Remessa em comodato/locação</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">other</field>
+        <field name="return_fiscal_operation_id" ref="fo_entrada_retorno_comodato" />
+        <field name="state">approved</field>
+        <field name="comment_ids" eval="[(6, 0, [ref('comment_comodato_remessa')])]" />
+    </record>
+    <record id="fo_remessa_comodato_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_remessa_comodato" />
+        <field name="name">Remessa em comodato/locação</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5908" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6908" />
+        <field name="product_type">08</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_comodato_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_comodato_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_41" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_comodato_ipi" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_comodato_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_comodato_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_comodato_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_08" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_comodato_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_comodato_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_08" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- COMODATÁRIO: devolução (alvo do return da entrada) -->
+    <record id="fo_devolucao_comodato" model="l10n_br_fiscal.operation">
+        <field name="code">DEV-COM</field>
+        <field name="name">Devolução de comodato/locação</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">return_out</field>
+        <field name="state">approved</field>
+        <field
+            name="comment_ids"
+            eval="[(6, 0, [ref('comment_comodato_devolucao')])]"
+        />
+    </record>
+    <record id="fo_devolucao_comodato_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_devolucao_comodato" />
+        <field name="name">Devolução de comodato/locação</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5909" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6909" />
+        <field name="product_type">08</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_dev_comodato_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_devolucao_comodato_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_41" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_dev_comodato_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_devolucao_comodato_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_08" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_dev_comodato_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_devolucao_comodato_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_08" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- COMODATÁRIO: entrada do bem recebido em comodato -->
+    <record id="fo_entrada_comodato" model="l10n_br_fiscal.operation">
+        <field name="code">ENT-COM</field>
+        <field name="name">Entrada de bem em comodato/locação</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">return_in</field>
+        <field name="return_fiscal_operation_id" ref="fo_devolucao_comodato" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_entrada_comodato_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_entrada_comodato" />
+        <field name="name">Entrada de bem em comodato/locação</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1908" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2908" />
+        <field name="product_type">08</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+
+
+    <!-- ================= Simples Nacional =================
+         Linhas irmãs para empresa do Simples (company_tax_framework=1): o
+         seletor de linha prefere a mais específica, então a empresa SN casa
+         estas (CSOSN via grupo icmssn) e os demais regimes casam as genéricas
+         (CST). Empresa em excesso de sublimite (framework=2) recolhe ICMS fora
+         do DAS e cai na genérica com CST — correto. Regra geral: movimento sem
+         receita/titularidade = CSOSN 400; ajuste/simbólica = 900; linha de
+         receita não fixa ICMS (herda a tributação SN da empresa). Mapa a
+         ratificar com contador (transferência de mercadoria: ADC 49). -->
+    <record
+        id="fo_entrada_retorno_comodato_line_sn"
+        model="l10n_br_fiscal.operation.line"
+    >
+        <field name="fiscal_operation_id" ref="fo_entrada_retorno_comodato" />
+        <field name="name">Entrada de retorno de comodato - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1909" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2909" />
+        <field name="product_type">08</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_er_comodato_ipi_sn" model="l10n_br_fiscal.tax.definition">
+        <field
+            name="fiscal_operation_line_id"
+            ref="fo_entrada_retorno_comodato_line_sn"
+        />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_03" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_er_comodato_pis_sn" model="l10n_br_fiscal.tax.definition">
+        <field
+            name="fiscal_operation_line_id"
+            ref="fo_entrada_retorno_comodato_line_sn"
+        />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_08" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_er_comodato_cofins_sn" model="l10n_br_fiscal.tax.definition">
+        <field
+            name="fiscal_operation_line_id"
+            ref="fo_entrada_retorno_comodato_line_sn"
+        />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_08" />
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_entrada_retorno_comodato_line_sn_icmssn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field
+            name="fiscal_operation_line_id"
+            ref="fo_entrada_retorno_comodato_line_sn"
+        />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_remessa_comodato_line_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_remessa_comodato" />
+        <field name="name">Remessa em comodato/locação - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5908" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6908" />
+        <field name="product_type">08</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_comodato_ipi_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_comodato_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_comodato_pis_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_comodato_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_08" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_comodato_cofins_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_remessa_comodato_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_08" />
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_remessa_comodato_line_sn_icmssn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_remessa_comodato_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_devolucao_comodato_line_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_devolucao_comodato" />
+        <field name="name">Devolução de comodato/locação - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5909" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6909" />
+        <field name="product_type">08</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_dev_comodato_pis_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_devolucao_comodato_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_08" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_dev_comodato_cofins_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_devolucao_comodato_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_08" />
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_devolucao_comodato_line_sn_icmssn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_devolucao_comodato_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_entrada_comodato_line_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_entrada_comodato" />
+        <field name="name">Entrada de bem em comodato/locação - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1908" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2908" />
+        <field name="product_type">08</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_entrada_comodato_line_sn_icmssn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_entrada_comodato_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+
+</odoo>
