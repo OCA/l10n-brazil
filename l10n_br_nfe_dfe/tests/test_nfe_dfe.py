@@ -778,6 +778,21 @@ class TestDFe(TransactionCase):
             "action_match_partner should find the newly created partner",
         )
 
+    def test_document_state_label_nfe_mapping(self):
+        """document_state_label maps NF-e codes, with a raw-code fallback."""
+        dfe_doc = self.env["l10n_br_fiscal_dfe.document"].create(
+            {
+                "access_key": "35200159594315000157550010000000099999999999",
+                "company_id": self.company.id,
+                "fiscal_type": "nfe",
+                "document_state": "1",
+            }
+        )
+        self.assertEqual(dfe_doc.document_state_label, "Autorizada")
+
+        dfe_doc.document_state = "999"
+        self.assertEqual(dfe_doc.document_state_label, "999")
+
     # ── DFe record compute/display tests ──────────────────────────────────
 
     @mock.patch.object(DefaultTransport, "post")
