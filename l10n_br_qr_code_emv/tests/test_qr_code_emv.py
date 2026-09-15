@@ -95,6 +95,17 @@ class TestPixQrCodeEmv(TransactionCase):
             ),
         )
 
+    def test_account_without_city_reports_why(self):
+        """Regression test: eligibility and generation must agree on the city
+        requirement, or the QR method shows as available and only fails later."""
+        self.partner.city = False
+        self.assertIn(
+            "Missing Merchant City",
+            self.bank_account._get_error_messages_for_qr(
+                "emv_qr", self.debtor, self.brl
+            ),
+        )
+
     def test_currency_other_than_brl_is_refused(self):
         usd = self.env.ref("base.USD")
         self.assertIn(
@@ -109,10 +120,43 @@ class TestPixQrCodeEmv(TransactionCase):
 
     def test_non_brazilian_account_keeps_the_base_behaviour(self):
         foreign = self.env["res.partner"].create(
-            {"name": "Foreign", "country_id": self.env.ref("base.us").id}
+            {
+                "name": "Foreign",
+                "city": "Somewhere",
+                "country_id": self.env.ref("base.us").id,
+            }
         )
         account = self.env["res.partner.bank"].create(
             {"acc_number": "US-1", "partner_id": foreign.id}
         )
         self.assertEqual(account._get_merchant_account_info(), (None, None))
         self.assertEqual(account._get_merchant_category_code(), "0000")
+        self.assertIsNone(account._get_additional_data_field("txid"))
+        self.assertFalse(account.display_qr_setting)
+        vals = account._get_qr_code_vals_list(
+            "emv_qr", 745.10, self.brl, self.debtor, None, None
+        )
+        self.assertEqual(vals[5], (54, 745.1))
+        self.assertIn(
+            "Missing Proxy Value",
+            account._check_for_qr_code_errors(
+                "emv_qr", 745.10, self.brl, self.debtor, None, None
+            ),
+        )
+
+    def test_account_without_pix_key_has_no_merchant_account_info(self):
+        self.pix.unlink()
+        self.assertEqual(self.bank_account._get_merchant_account_info(), (None, None))
+
+    def test_eligible_account_reports_no_error(self):
+        self.assertIsNone(self.bank_account._get_pix_eligibility_error(self.brl))
+        self.assertFalse(
+            self.bank_account._get_error_messages_for_qr(
+                "emv_qr", self.debtor, self.brl
+            )
+        )
+        self.assertFalse(
+            self.bank_account._check_for_qr_code_errors(
+                "emv_qr", 745.10, self.brl, self.debtor, None, None
+            )
+        )
