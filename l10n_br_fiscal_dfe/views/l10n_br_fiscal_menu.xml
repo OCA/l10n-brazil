@@ -1,15 +1,42 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
     Copyright 2023 KMEE INFORMATICA LTDA
+    Copyright 2026 Engenere (<https://engenere.one>)
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <odoo>
+    <!-- Root Menu for DF-e Queries -->
     <menuitem
-        action="dfe_action"
-        id="dfe_consult_menu"
-        name="DF-e"
-        groups="l10n_br_fiscal.group_manager"
-        parent="l10n_br_fiscal.document_menu"
+        id="menu_l10n_br_fiscal_dfe_root"
+        name="DF-e Queries"
+        parent="l10n_br_fiscal.fiscal_menu"
+        groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager"
         sequence="15"
+    />
+
+    <menuitem
+        id="dfe_document_menu"
+        action="dfe_document_action"
+        name="Third-party Documents"
+        parent="menu_l10n_br_fiscal_dfe_root"
+        sequence="10"
+    />
+
+    <menuitem
+        id="dfe_record_menu"
+        action="dfe_action"
+        name="DF-e Records"
+        parent="menu_l10n_br_fiscal_dfe_root"
+        sequence="90"
+        groups="base.group_no_one"
+    />
+
+    <menuitem
+        id="dfe_distribution_log_menu"
+        action="dfe_distribution_log_action"
+        name="Distribution Logs"
+        parent="menu_l10n_br_fiscal_dfe_root"
+        sequence="95"
+        groups="base.group_no_one"
     />
 </odoo>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2026 Engenere (<https://engenere.one>)
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+    <record id="nfe_dfe_res_company_form" model="ir.ui.view">
+        <field name="name">nfe.dfe.res.company.form</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.fiscal_res_company_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='fiscal']/notebook" position="inside">
+                <page name="nfe_dfe" string="NF-e DF-e">
+                    <group name="nfe_dfe_settings" string="NF-e DF-e Settings">
+                        <group>
+                            <field name="nfe_dfe_version" required="1" />
+                        </group>
+                        <group>
+                            <field name="nfe_auto_fetch" />
+                            <field name="auto_manifest_nfe" />
+                        </group>
+                    </group>
+                    <group name="nfe_dfe_last_query" string="Last Query">
+                        <group>
+                            <field name="nfe_last_nsu" />
+                            <field name="nfe_max_nsu" />
+                            <field
+                                name="nfe_dfe_last_query"
+                                string="Date"
+                                readonly="1"
+                                widget="datetime"
+                            />
+                        </group>
+                        <group>
+                            <field
+                                name="nfe_dfe_last_status"
+                                string="Status"
+                                readonly="1"
+                            />
+                            <field
+                                name="nfe_dfe_last_status_code"
+                                string="Status Code"
+                                readonly="1"
+                            />
+                            <field
+                                name="nfe_dfe_next_query"
+                                string="Next Query"
+                                readonly="1"
+                                widget="datetime"
+                            />
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
