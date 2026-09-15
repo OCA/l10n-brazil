@@ -233,5 +233,87 @@ class NFeImportTest(TransactionCase):
         self.assertEqual(line.icms_tax_id, created)
         self.assertEqual(line.icms_tax_id.percent_reduction, 33.33)
 
+    def _sample_xml(self):
+        res_items = (
+            "nfe",
+            "samples",
+            "v4_0",
+            "leiauteNFe",
+            "35180834128745000152550010000474281920007498-nfe.xml",
+        )
+        return (
+            importlib.resources.files(nfelib.__name__)
+            .joinpath(*res_items)
+            .read_bytes()
+            .decode()
+        )
+
     def test_import_out_nfe(self):
         "(can be useful after an ERP migration)"
+        binding = TnfeProc.from_xml(self._sample_xml())
+        nfe = self.env["l10n_br_fiscal.document"].import_binding_nfe(
+            binding, edoc_type="out", dry_run=True
+        )
+        self.assertTrue(nfe.partner_id)
+        self.assertEqual(nfe.partner_id.vat, "68161525650")
+
+    def test_import_out_nfe_of_a_recipient_abroad(self):
+        """A recipient abroad carries idEstrangeiro instead of CNPJ or CPF."""
+        xml = self._sample_xml()
+        dest = xml[xml.index("<dest>") : xml.index("</dest>")]
+        dest_abroad = re.sub(
+            r"<(CNPJ|CPF)>[^<]*</(CNPJ|CPF)>",
+            "<idEstrangeiro>EXTERIOR</idEstrangeiro>",
+            dest,
+            count=1,
+        )
+        for tag, value in (
+            ("cMun", "9999999"),
+            ("xMun", "EXTERIOR"),
+            ("UF", "EX"),
+            ("cPais", "2496"),
+            ("xPais", "ESTADOS UNIDOS"),
+        ):
+            dest_abroad = re.sub(
+                rf"<{tag}>[^<]*</{tag}>", f"<{tag}>{value}</{tag}>", dest_abroad
+            )
+        dest_abroad = re.sub(r"<CEP>[^<]*</CEP>", "", dest_abroad)
+        xml = xml.replace(dest, dest_abroad, 1)
+
+        binding = TnfeProc.from_xml(xml)
+        nfe = self.env["l10n_br_fiscal.document"].import_binding_nfe(
+            binding, edoc_type="out", dry_run=True
+        )
+        self.assertTrue(nfe.partner_id)
+        self.assertFalse(nfe.partner_id.vat)
+
+    def test_import_in_nfe_ipi_reaches_the_totals(self):
+        res_items = (
+            "nfe",
+            "samples",
+            "v4_0",
+            "leiauteNFe",
+            "35180834128745000152550010000474281920007498-nfe.xml",
+        )
+        xml = (
+            importlib.resources.files(nfelib.__name__)
+            .joinpath(*res_items)
+            .read_bytes()
+            .decode()
+        )
+        ipi = (
+            "<IPI><cEnq>999</cEnq><IPITrib>"
+            "<CST>50</CST><vBC>50.60</vBC><pIPI>6.50</pIPI><vIPI>3.29</vIPI>"
+            "</IPITrib></IPI>"
+        )
+        xml = re.sub(r"<IPI>.*?</IPI>", ipi, xml, count=1, flags=re.S)
+
+        binding = TnfeProc.from_xml(xml)
+        nfe = self.env["l10n_br_fiscal.document"].import_binding_nfe(
+            binding, edoc_type="in", dry_run=False
+        )
+        line = nfe.fiscal_line_ids[0]
+        self.assertEqual(line.ipi_value, 3.29)
+        self.assertEqual(line.amount_tax_not_included, 3.29)
+        self.assertEqual(line.fiscal_amount_tax, 3.29)
+        self.assertEqual(line.amount_tax_included, 7.64)
