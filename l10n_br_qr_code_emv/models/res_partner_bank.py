@@ -87,16 +87,22 @@ class ResPartnerBank(models.Model):
             return super()._get_merchant_category_code()
         return DEFAULT_MERCHANT_CATEGORY_CODE
 
+    def _get_pix_eligibility_error(self, currency):
+        if currency.name != "BRL":
+            return self.env._("Pix is only available in BRL.")
+        if not self._get_pix_key():
+            return self.env._(
+                "The bank account %(account)s has no Pix key. Register one "
+                "under the partner's Pix Keys and link it to this account.",
+                account=self.acc_number,
+            )
+        if not self.partner_id.city:
+            return self.env._("Missing Merchant City.")
+        return None
+
     def _get_error_messages_for_qr(self, qr_method, debtor_partner, currency):
         if qr_method == "emv_qr" and self.country_code == "BR":
-            if currency.name != "BRL":
-                return self.env._("Pix is only available in BRL.")
-            if not self._get_pix_key():
-                return self.env._(
-                    "The bank account %(account)s has no Pix key. Register one "
-                    "under the partner's Pix Keys and link it to this account.",
-                    account=self.acc_number,
-                )
+            return self._get_pix_eligibility_error(currency)
         return super()._get_error_messages_for_qr(qr_method, debtor_partner, currency)
 
     def _check_for_qr_code_errors(
@@ -112,14 +118,7 @@ class ResPartnerBank(models.Model):
             # proxy_type/proxy_value do not apply to Pix: the key comes from
             # res.partner.pix and is already validated per type. The base check would
             # ask for both empty fields and refuse a QR code that is valid.
-            if not self._get_pix_key():
-                return self.env._(
-                    "The bank account %(account)s has no Pix key.",
-                    account=self.acc_number,
-                )
-            if not self.partner_id.city:
-                return self.env._("Missing Merchant City.")
-            return None
+            return self._get_pix_eligibility_error(currency)
         return super()._check_for_qr_code_errors(
             qr_method,
             amount,
