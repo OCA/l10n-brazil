@@ -132,7 +132,11 @@ class SpecMixinImport(models.AbstractModel):
                     line_vals = comodel.build_attrs(
                         line, path=child_path, defaults_model=comodel
                     )
-                    lines.append(Command.create(line_vals))
+                    match_id = comodel._match_o2m_line(line_vals, vals)
+                    if match_id:
+                        lines.append(Command.link(match_id))
+                    else:
+                        lines.append(Command.create(line_vals))
                 vals[key] = lines
             else:
                 # m2o
@@ -199,6 +203,10 @@ class SpecMixinImport(models.AbstractModel):
             vals.update(comodel_vals)
         else:
             vals[key] = comodel.match_or_create_m2o(comodel_vals, vals)
+
+    @api.model
+    def _match_o2m_line(self, line_vals, parent_vals):
+        return False
 
     @api.model
     def _extract_related_values(self, vals, key):
