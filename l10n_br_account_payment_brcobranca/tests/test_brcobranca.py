@@ -4,9 +4,14 @@
 
 import os
 
+from odoo import fields
 from odoo.exceptions import UserError
 from odoo.tests import tagged
 
+from odoo.addons.l10n_br_account_payment_brcobranca.constants.br_cobranca import (
+    get_brcobranca_bank,
+    modulo11,
+)
 from odoo.addons.l10n_br_account_payment_brcobranca.tests.common import (
     TestBRCobrancaCommon,
 )
@@ -249,6 +254,138 @@ class TestPaymentOrder(TestBRCobrancaCommon):
                 "Retorno CNAB - Banco COOP CENTRAL AILOS - Conta 374", moves.ref
             )
             self.assertEqual(self.invoice_ailos_240.payment_state, "paid")
+
+    def test_4_sicredi_cnab_240(self):
+        """Teste de integração CNAB 240 Sicredi:
+
+        - Validação da preparação dos dados (regras Sicredi)
+        - Geração do arquivo de remessa via BRCobranca
+        - Processamento do arquivo de retorno e liquidação parcial
+        """
+        if not self._check_ci_no_brcobranca():
+            # Reiniciando a sequencia de Nosso Numero para o teste
+            self.own_number_seq_sicredi.number_next = 1
+            self._run_invoice_and_order_brcobranca(self.invoice_sicredi_240)
+
+            payment_order = self.invoice_sicredi_240.line_ids.mapped(
+                "payment_line_ids"
+            ).order_id
+
+            # Manual Sicredi CNAB 240 - item 6.1 (Nomenclatura dos arquivos):
+            # Arquivo de remessa no formato CCCCCMDD.XXX, onde:
+            # - CCCCC = Código do beneficiário (5 dígitos)
+            # - M = Código do mês (1-9 para Jan-Set, O para Out, N para Nov, D para Dez)
+            # - DD = Dia da geração
+            # - XXX = Extensão/Sequencial
+            # (sugestão: 001, 002 ou .REM na integração brcobranca)
+            # Teste para validação do nome do arquivo
+            file_name = payment_order.get_file_name("240")
+
+            self.assertTrue(file_name.endswith(".REM"))
+            self.assertTrue(
+                file_name.startswith(
+                    payment_order.payment_mode_id.cnab_config_id.cnab_company_bank_code
+                )
+            )
+
+            # geração do sequencial .RM1; Retorna ex: CCCCCMDD.REM
+            base_file_name = payment_order.get_file_name("240")
+
+            # Simula a existência de um arquivo gerado anteriormente no mesmo dia
+            self.env["ir.attachment"].create(
+                {
+                    "name": base_file_name,
+                    "res_model": "account.payment.order",
+                    "res_id": payment_order.id + 999,
+                    "datas": False,
+                }
+            )
+
+            # Chama novamente o método para validar a alteração da extensão para .RM1
+            second_file_name = payment_order._get_file_name_748(
+                "240", fields.Date.context_today(payment_order)
+            )
+            self.assertTrue(
+                second_file_name.endswith(".RM1"),
+                "Quando já existir um arquivo gerado no dia, a extensão deve ser .RM1",
+            )
+
+            bank_account_id = payment_order.journal_id.bank_account_id
+            bank_brcobranca = get_brcobranca_bank(bank_account_id, "240")
+
+            for line in payment_order.payment_line_ids:
+                prepared = line.prepare_bank_payment_line(bank_brcobranca)
+                cnab_config = line.order_id.payment_mode_id.cnab_config_id
+
+                sequencial = "".join(
+                    ch for ch in str(line.own_number) if ch.isdigit()
+                ).zfill(5)[-5:]
+
+                ano = self.invoice_sicredi_240.invoice_date.strftime("%y")
+                nosso_numero_with_byte_idt = (
+                    ano + cnab_config.boleto_byte_idt + sequencial
+                )
+
+                nosso_numero_para_calcular_dv = (
+                    bank_account_id.bra_number
+                    + cnab_config.boleto_post.zfill(2)
+                    + cnab_config.cnab_company_bank_code
+                    + nosso_numero_with_byte_idt
+                )
+                expected_nosso_numero = nosso_numero_with_byte_idt + str(
+                    modulo11(nosso_numero_para_calcular_dv, 9, 0)
+                )
+
+                # Asserções de regras específicas do Sicredi Nosso Numero
+                self.assertEqual(prepared["nosso_numero"], expected_nosso_numero)
+
+            payment_file, filename = payment_order.generate_payment_file()
+            payment_file_content = payment_file.decode("utf-8")
+
+            # Valida presença dos Nossos Números formatados no texto do arquivo
+            self.assertIn("262000017", payment_file_content)
+            self.assertIn("262000025", payment_file_content)
+
+            # Importa retorno e valida efeito contábil
+            moves = self._run_import_return_file(
+                "CNAB240SICREDIRET.RET",
+                self.journal_sicredi,
+            )
+
+            self.assertEqual(self.invoice_sicredi_240.payment_state, "partial")
+            self.assertEqual(moves.date.strftime("%Y-%m-%d"), "2026-08-12")
+
+            # --- Validações da regra: valor_recebido_calculado == 0 ---
+
+            # Conta a Receber associada
+            receivable_account = self.invoice_sicredi_240.line_ids.filtered(
+                lambda line: line.account_id.account_type == "asset_receivable"
+            ).account_id
+
+            all_move_lines = moves.line_ids
+
+            # 1. Testa (valor_recebido_calculado > 0 -> CRIA a linha de crédito)
+            liquidation_line_paid = all_move_lines.filtered(
+                lambda line: line.account_id == receivable_account
+                and line.cnab_returned_ref == "1"
+            )
+            self.assertTrue(
+                liquidation_line_paid,
+                "Para valor_recebido_calculado > 0,"
+                " a linha de liquidação DEVE ser criada.",
+            )
+            self.assertEqual(round(liquidation_line_paid.credit, 2), 805.00)
+
+            # 2. Testa (valor_recebido_calculado == 0 -> NÃO CRIA a linha de crédito)
+            liquidation_line_0_val = all_move_lines.filtered(
+                lambda line: line.account_id == receivable_account
+                and line.cnab_returned_ref == "2"
+            )
+            self.assertFalse(
+                liquidation_line_0_val,
+                "Para valor_recebido_calculado == 0,"
+                " a linha de liquidação NÃO deve ser criada.",
+            )
 
     def test_5_nordeste_cnab_400(self):
         """
