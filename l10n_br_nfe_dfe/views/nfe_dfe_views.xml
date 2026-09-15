@@ -47,7 +47,7 @@
                     decoration-danger="manifestation_status == 'nao_realizado'"
                     decoration-muted="manifestation_status == 'sem_manifestacao'"
                 />
-                <field name="document_state" string="State" />
+                <field name="document_state_label" string="State" />
                 <button
                     string="XML"
                     name="action_download_xml"
