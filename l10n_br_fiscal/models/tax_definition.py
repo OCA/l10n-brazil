@@ -52,7 +52,7 @@ class TaxDefinition(models.Model):
     """
 
     _name = "l10n_br_fiscal.tax.definition"
-    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _inherit = ["mail.thread", "mail.activity.mixin", "l10n_br_fiscal.cache.mixin"]
     _description = "Tax Definition"
 
     def _get_complete_name(self):
