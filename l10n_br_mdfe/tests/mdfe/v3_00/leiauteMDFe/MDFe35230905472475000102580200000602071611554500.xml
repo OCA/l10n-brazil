@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<MDFe xmlns="http://www.portalfiscal.inf.br/mdfe">
+    <infMDFe versao="3.00" Id="MDFe35230905472475000102580200000602071611554500">
+        <ide>
+            <cUF>35</cUF>
+            <tpAmb>2</tpAmb>
+            <tpEmit>2</tpEmit>
+            <mod>58</mod>
+            <serie>1</serie>
+            <nMDF>3</nMDF>
+            <cMDF>20801844</cMDF>
+            <modal>1</modal>
+            <dhEmi>2020-01-01T12:00:00+01:00</dhEmi>
+            <tpEmis>1</tpEmis>
+            <procEmi>0</procEmi>
+            <verProc>Odoo Brasil OCA v14</verProc>
+            <UFIni>AC</UFIni>
+            <UFFim>AC</UFFim>
+            <infMunCarrega>
+                <cMunCarrega>1200013</cMunCarrega>
+                <xMunCarrega>Acrelândia</xMunCarrega>
+            </infMunCarrega>
+            <infPercurso>
+                <UFPer>PB</UFPer>
+            </infPercurso>
+        </ide>
+        <emit>
+            <CNPJ>81583054000129</CNPJ>
+            <IE>078016350838</IE>
+            <xNome>Empresa Lucro Presumido Ltda</xNome>
+            <xFant>Empresa Lucro Presumido</xFant>
+            <enderEmit>
+                <xLgr>Avenida Paulista</xLgr>
+                <nro>1</nro>
+                <xBairro>Bela Vista</xBairro>
+                <cMun>3550308</cMun>
+                <xMun>São Paulo</xMun>
+                <CEP>01311000</CEP>
+                <UF>SP</UF>
+                <fone>551199999999</fone>
+                <email>info@suaempresa.com.br</email>
+            </enderEmit>
+        </emit>
+        <infModal versaoModal="3.00">
+            <rodo>
+                <infANTT>
+                    <RNTRC>12345678</RNTRC>
+                    <infCIOT>
+                        <CIOT>123456789101</CIOT>
+                        <CPF>99999999999</CPF>
+                    </infCIOT>
+                    <valePed>
+                        <disp>
+                            <CNPJForn>99999999999999</CNPJForn>
+                            <CNPJPg>99999999999999</CNPJPg>
+                            <nCompra>1234</nCompra>
+                            <vValePed>5.00</vValePed>
+                            <tpValePed>01</tpValePed>
+                        </disp>
+                        <categCombVeic>02</categCombVeic>
+                    </valePed>
+                    <infPag>
+                        <xNome>Intel do Brasil</xNome>
+                        <CNPJ>86144802000190</CNPJ>
+                        <Comp>
+                            <tpComp>01</tpComp>
+                            <vComp>5.00</vComp>
+                        </Comp>
+                        <vContrato>5.00</vContrato>
+                        <indPag>0</indPag>
+                        <infBanc>
+                            <PIX>99999999999999</PIX>
+                        </infBanc>
+                    </infPag>
+                </infANTT>
+                <veicTracao>
+                    <cInt>1</cInt>
+                    <placa>AAA1233</placa>
+                    <RENAVAM>42423325472</RENAVAM>
+                    <tara>7500</tara>
+                    <capKG>42500</capKG>
+                    <capM3>300</capM3>
+                    <condutor>
+                        <xNome>Teste</xNome>
+                        <CPF>99999999999</CPF>
+                    </condutor>
+                    <condutor>
+                        <xNome>Teste2</xNome>
+                        <CPF>99999999999</CPF>
+                    </condutor>
+                    <tpRod>03</tpRod>
+                    <tpCar>00</tpCar>
+                    <UF>AC</UF>
+                </veicTracao>
+                <veicReboque>
+                    <cInt>2</cInt>
+                    <placa>AAA4321</placa>
+                    <RENAVAM>11557770179</RENAVAM>
+                    <tara>7200</tara>
+                    <capKG>42500</capKG>
+                    <capM3>300</capM3>
+                    <tpCar>00</tpCar>
+                    <UF>AC</UF>
+                </veicReboque>
+                <codAgPorto>12345678</codAgPorto>
+            </rodo>
+        </infModal>
+        <infDoc>
+            <infMunDescarga>
+                <cMunDescarga>1200013</cMunDescarga>
+                <xMunDescarga>Acrelândia</xMunDescarga>
+                <infNFe>
+                    <chNFe>41190806117473000150550010000586251016759484</chNFe>
+                </infNFe>
+            </infMunDescarga>
+        </infDoc>
+        <tot>
+            <qNFe>1</qNFe>
+            <vCarga>33.19</vCarga>
+            <cUnid>01</cUnid>
+            <qCarga>10.0000</qCarga>
+        </tot>
+        <infAdic>
+            <infAdFisco>Documento emitido por: Marc Demo</infAdFisco>
+        </infAdic>
+    </infMDFe>
+</MDFe>
