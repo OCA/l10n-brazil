@@ -6,6 +6,7 @@ from . import (
     test_fiscal_document_generic,
     test_fiscal_document_nfse,
     test_fiscal_tax,
+    test_import_tax_base,
     test_tax_classification,
     test_tax_benefit,
     test_document_edition,
