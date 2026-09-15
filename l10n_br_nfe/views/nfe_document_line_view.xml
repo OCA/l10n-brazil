@@ -12,6 +12,18 @@
                     context="{'form_view_ref': 'l10n_br_nfe.nfe_di_form', 'tree_view_ref': 'l10n_br_nfe.nfe_di_tree'}"
                 />
             </page>
+            <page name="import_declaration" position="after">
+                <page
+                    name="export_detail"
+                    string="Export Detail"
+                    invisible="cfop_destination != '3' or fiscal_operation_type != 'out'"
+                >
+                    <field
+                        name="nfe40_detExport"
+                        context="{'form_view_ref': 'l10n_br_nfe.nfe_detexport_form', 'tree_view_ref': 'l10n_br_nfe.nfe_detexport_tree'}"
+                    />
+                </page>
+            </page>
         </field>
     </record>
 </odoo>
