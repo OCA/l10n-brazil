@@ -2617,8 +2617,347 @@ msgstr ""
 msgid "You cannot set a document type when the move has no Fiscal Document!"
 msgstr ""
 
-#~ msgid "Document Type"
-#~ msgstr "Tipo do Documento"
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/wizards/import_declaration_wizard.py:0
+msgid "%(goods)s, quantity %(quantity)s"
+msgstr "%(goods)s, quantidade %(quantity)s"
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/wizards/import_declaration_wizard.py:0
+msgid "%(line)s, quantity %(quantity)s"
+msgstr "%(line)s, quantidade %(quantity)s"
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__l10n_br_account_import_declaration_wizard__transport_via__1
+msgid "1 - Maritima"
+msgstr "1 - Marítima"
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__l10n_br_account_import_declaration_wizard__intermediation__1
+msgid "1 - Por conta propria"
+msgstr "1 - Por conta própria"
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__l10n_br_account_import_declaration_wizard__transport_via__10
+msgid "10 - Entrada/Saida Ficta"
+msgstr "10 - Entrada ou saída ficta"
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__l10n_br_account_import_declaration_wizard__transport_via__11
+msgid "11 - Courier"
+msgstr "11 - Courier"
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__l10n_br_account_import_declaration_wizard__transport_via__12
+msgid "12 - Em maos"
+msgstr "12 - Em mãos"
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__l10n_br_account_import_declaration_wizard__transport_via__13
+msgid "13 - Por reboque"
+msgstr "13 - Por reboque"
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__l10n_br_account_import_declaration_wizard__transport_via__2
+msgid "2 - Fluvial"
+msgstr "2 - Fluvial"
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__l10n_br_account_import_declaration_wizard__intermediation__2
+msgid "2 - Por conta e ordem"
+msgstr "2 - Por conta e ordem"
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__l10n_br_account_import_declaration_wizard__intermediation__3
+msgid "3 - Encomenda"
+msgstr "3 - Encomenda"
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__l10n_br_account_import_declaration_wizard__transport_via__3
+msgid "3 - Lacustre"
+msgstr "3 - Lacustre"
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__l10n_br_account_import_declaration_wizard__transport_via__4
+msgid "4 - Aerea"
+msgstr "4 - Aérea"
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__l10n_br_account_import_declaration_wizard__transport_via__5
+msgid "5 - Postal"
+msgstr "5 - Postal"
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__l10n_br_account_import_declaration_wizard__transport_via__6
+msgid "6 - Ferroviaria"
+msgstr "6 - Ferroviária"
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__l10n_br_account_import_declaration_wizard__transport_via__7
+msgid "7 - Rodoviaria"
+msgstr "7 - Rodoviária"
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__l10n_br_account_import_declaration_wizard__transport_via__8
+msgid "8 - Conduto/Rede Transmissao"
+msgstr "8 - Conduto ou rede de transmissão"
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__l10n_br_account_import_declaration_wizard__transport_via__9
+msgid "9 - Meios Proprios"
+msgstr "9 - Meios próprios"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_wizard__afrmm_value
+msgid "AFRMM"
+msgstr "AFRMM"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_addition__number
+msgid "Addition"
+msgstr "Adição"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_wizard__addition_number
+msgid "Addition Number"
+msgstr "Número da Adição"
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.import_declaration_wizard_form
+msgid "Addition and Exporter"
+msgstr "Adição e Exportador"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_wizard__addition_ids
+msgid "Additions"
+msgstr "Adições"
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.import_declaration_wizard_form
+msgid "Amounts charged by the declaration"
+msgstr "Valores cobrados pela DI"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_addition__cofins_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_wizard__cofins_value
+msgid "COFINS"
+msgstr "COFINS"
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/wizards/import_declaration_wizard.py:0
+msgid "Choose the XML of the declaration first."
+msgstr "Escolha antes o XML da declaração."
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_wizard__clearance_date
+msgid "Clearance Date"
+msgstr "Data do Desembaraço"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_wizard__clearance_place
+msgid "Clearance Place"
+msgstr "Local do Desembaraço"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_wizard__clearance_state_id
+msgid "Clearance State"
+msgstr "UF do Desembaraço"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_wizard__customhouse_charges
+msgid "Customs Charges"
+msgstr "Despesas Aduaneiras"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_addition__customs_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_wizard__customs_value
+msgid "Customs Value"
+msgstr "Valor Aduaneiro"
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.import_declaration_wizard_form
+msgid "Declaration"
+msgstr "Declaração"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_wizard__di_number
+msgid "Declaration Number"
+msgstr "Número da DI"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_wizard__di_file
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.import_declaration_wizard_form
+msgid "Declaration XML"
+msgstr "XML da Declaração"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_wizard__di_filename
+msgid "Di Filename"
+msgstr "Nome do Arquivo"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_wizard__document_type_id
+msgid "Document Type"
+msgstr "Tipo de Documento"
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.import_declaration_wizard_form
+msgid "Entry Note"
+msgstr "Nota de Entrada"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_wizard__exporter_code
+msgid "Exporter Code"
+msgstr "Código do Exportador"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_wizard__move_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.import_declaration_wizard_form
+msgid "Foreign Invoice"
+msgstr "Fatura do Exterior"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_addition__manufacturer_code
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_wizard__manufacturer_code
+msgid "Foreign Manufacturer Code"
+msgstr "Código do Fabricante Estrangeiro"
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.import_declaration_wizard_form
+msgid "Generate Entry Note"
+msgstr "Gerar Nota de Entrada"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_wizard__document_id
+msgid "Generated Document"
+msgstr "Documento Gerado"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_account_import_declaration_addition__unmatched
+msgid "Goods of the addition that no line of the invoice answered for."
+msgstr "Mercadorias da adição que nenhuma linha da fatura atendeu."
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_addition__unmatched
+msgid "Goods without a line"
+msgstr "Mercadorias sem linha"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_wizard__icms_value
+msgid "ICMS"
+msgstr "ICMS"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_addition__ii_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_wizard__ii_value
+msgid "II"
+msgstr "Imposto de Importação"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ii_declared_value
+msgid "II charged by the declaration"
+msgstr "II cobrado pela DI"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_addition__ipi_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_wizard__ipi_value
+msgid "IPI"
+msgstr "IPI"
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_account_import_declaration_addition
+msgid "Import Declaration Addition"
+msgstr "Adição da Declaração de Importação"
+
+#. module: l10n_br_account
+#: model:ir.actions.act_window,name:l10n_br_account.import_declaration_wizard_action
+#: model:ir.model,name:l10n_br_account.model_l10n_br_account_import_declaration_wizard
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.import_declaration_wizard_form
+msgid "Import Declaration to Entry NF-e"
+msgstr "Declaração de Importação para NF-e de Entrada"
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/wizards/import_declaration_wizard.py:0
+msgid "Import Entry Note"
+msgstr "Nota de Entrada da Importação"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_wizard__intermediation
+msgid "Intermediation"
+msgstr "Tipo de Intermediação"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_wizard__unclaimed_lines
+msgid "Lines no addition claimed"
+msgstr "Linhas sem adição"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_account_import_declaration_wizard__unclaimed_lines
+msgid "Lines of the invoice that no addition of the declaration answered for."
+msgstr "Linhas da fatura que nenhuma adição da declaração atendeu."
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.import_declaration_wizard_form
+msgid "Load the declaration"
+msgstr "Carregar a declaração"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_addition__pis_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_wizard__pis_value
+msgid "PIS"
+msgstr "PIS"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_wizard__di_date
+msgid "Registration Date"
+msgstr "Data de Registro"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_account_import_declaration_wizard__afrmm_value
+msgid "Required by the schema when the transport is waterway."
+msgstr "Exigido pelo schema quando a via de transporte é aquaviária."
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_account_import_declaration_wizard__customhouse_charges
+msgid "Siscomex fee and the other charges the declaration lists."
+msgstr "Taxa Siscomex e as demais despesas que a declaração lista."
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/wizards/import_declaration_wizard.py:0
+msgid "The foreign invoice adds up to zero, there is no weight to split by."
+msgstr "A fatura do exterior soma zero, não há peso para ratear."
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/wizards/import_declaration_wizard.py:0
+msgid "The foreign invoice has no product line."
+msgstr "A fatura do exterior não tem linha de produto."
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_account_import_declaration_addition__line_ids
+msgid "The lines of the foreign invoice this addition covers."
+msgstr "As linhas da fatura do exterior que esta adição cobre."
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_account_import_declaration_wizard__move_id
+msgid "The vendor bill of the invoice issued abroad."
+msgstr "A fatura de fornecedor da Invoice emitida no exterior."
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/wizards/import_declaration_wizard.py:0
+msgid "This wizard already generated the document %s."
+msgstr "Esta tela já gerou o documento %s."
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_import_declaration_wizard__transport_via
+msgid "Transport Via"
+msgstr "Via de Transporte"
 
 #, python-format
 #~ msgid ""
