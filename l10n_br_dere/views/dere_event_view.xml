@@ -6,7 +6,7 @@
         <field name="name">l10n_br_dere.event.list</field>
         <field name="model">l10n_br_dere.event</field>
         <field name="arch" type="xml">
-            <list>
+            <list create="0" delete="0">
                 <field name="event_type" />
                 <field name="declaration_id" />
                 <field name="state" />
@@ -21,35 +21,39 @@
         <field name="name">l10n_br_dere.event.form</field>
         <field name="model">l10n_br_dere.event</field>
         <field name="arch" type="xml">
-            <form>
+            <form create="0">
                 <header>
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
                     <group>
                         <group>
-                            <field name="declaration_id" />
-                            <field name="event_type" />
-                            <field name="tp_oper" />
-                            <field name="tp_amb" />
-                            <field name="ver_aplic" />
+                            <field name="declaration_id" readonly="state != 'draft'" />
+                            <field name="event_type" readonly="state != 'draft'" />
+                            <field name="tp_oper" readonly="state != 'draft'" />
+                            <field name="tp_amb" readonly="state != 'draft'" />
+                            <field name="ver_aplic" readonly="state != 'draft'" />
                         </group>
                         <group>
-                            <field name="event_id_attr" />
-                            <field name="protocol" />
-                            <field name="nr_recibo" />
-                            <field name="cd_retorno" />
-                            <field name="desc_retorno" />
+                            <field name="event_id_attr" readonly="1" />
+                            <field name="protocol" readonly="1" />
+                            <field name="nr_recibo" readonly="1" />
+                            <field name="cd_retorno" readonly="1" />
+                            <field name="desc_retorno" readonly="1" />
                         </group>
                     </group>
                     <notebook>
                         <page string="XML" name="xml">
-                            <field name="xml_content" widget="text" />
-                            <field name="xml_hash" />
+                            <field
+                                name="xml_content"
+                                widget="text"
+                                readonly="state != 'draft'"
+                            />
+                            <field name="xml_hash" readonly="1" />
                         </page>
                         <page string="Occurrences" name="occurrences">
-                            <field name="occurrence_ids">
-                                <list>
+                            <field name="occurrence_ids" readonly="1">
+                                <list create="0" delete="0">
                                     <field name="codigo" />
                                     <field name="tipo" />
                                     <field name="descricao" />

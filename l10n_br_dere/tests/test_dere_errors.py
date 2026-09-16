@@ -118,6 +118,36 @@ class TestDereErrors(DereCommon):
             2,
         )
 
+    def test_closed_declaration_cannot_change_company_or_period(self):
+        declaration = self._create_declaration("2026-03")
+        self._post_entry("2026-03-10", self.receivable, self.fee_account, 50.0)
+        declaration.action_generate_tables()
+        with self.assertRaises(UserError):
+            declaration.write({"per_apur": "2026-06"})
+        declaration.action_generate_d1101()
+        declaration.action_generate_d1199()
+        self.assertEqual(declaration.state, "closed")
+        with self.assertRaises(UserError):
+            declaration.write({"company_id": declaration.company_id.id})
+        with self.assertRaises(UserError):
+            declaration.write({"ini_valid": declaration.date_from})
+        with self.assertRaises(UserError):
+            declaration.write({"ind_inexist_dedu": True})
+        with self.assertRaises(UserError):
+            declaration.pgcc_account_ids[:1].write({"dere12_nomeCta": "X"})
+        with self.assertRaises(UserError):
+            declaration.trial_line_ids[:1].write({"dere12_vApur": 1})
+
+    def test_processed_event_cannot_be_edited_or_deleted(self):
+        declaration = self._create_declaration("2026-04")
+        declaration.action_generate_d1001()
+        event = declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1001")
+        event.write({"state": "accepted", "cd_retorno": "1"})
+        with self.assertRaises(UserError):
+            event.write({"tp_oper": "2"})
+        with self.assertRaises(UserError):
+            event.unlink()
+
     def test_send_without_events_or_token_error(self):
         declaration = self._create_declaration("2026-01")
         with self.assertRaises(UserError):

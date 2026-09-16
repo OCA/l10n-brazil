@@ -69,6 +69,33 @@ class DereEvent(models.Model):
         inverse_name="event_id",
     )
 
+    _SENT_WRITE_FIELDS = frozenset(
+        {
+            "state",
+            "protocol",
+            "nr_recibo",
+            "cd_retorno",
+            "desc_retorno",
+        }
+    )
+
+    def write(self, vals):
+        if not self.env.context.get("dere_force_event_write"):
+            locked = self.filtered(lambda ev: ev.state in ("accepted", "rejected"))
+            if locked:
+                raise UserError(_("Processed DeRE events cannot be modified."))
+            sent = self.filtered(lambda ev: ev.state == "sent")
+            if sent and set(vals) - self._SENT_WRITE_FIELDS:
+                raise UserError(
+                    _("Sent DeRE events can only be updated with the consult result.")
+                )
+        return super().write(vals)
+
+    def unlink(self):
+        if self.filtered(lambda ev: ev.state != "draft"):
+            raise UserError(_("Only draft events can be deleted."))
+        return super().unlink()
+
     @api.depends("event_type", "declaration_id.per_apur")
     def _compute_name(self):
         for rec in self:
