@@ -72,7 +72,7 @@
                         <page name="tax_settings" string="Taxes Settings">
                             <field
                                 name="tax_definition_ids"
-                                context="{'tree_view_ref': 'l10n_br_fiscal.tax_definition_tree','form_view_ref': 'l10n_br_fiscal.tax_definition_form', 'default_fiscal_profile_id': id}"
+                                context="{'list_view_ref': 'l10n_br_fiscal.tax_definition_tree','form_view_ref': 'l10n_br_fiscal.tax_definition_form', 'default_fiscal_profile_id': id}"
                             />
                         </page>
                         <page string="Notes" name="notes" />
