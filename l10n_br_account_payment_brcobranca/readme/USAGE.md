@@ -26,4 +26,4 @@ Caso o **Código de Retorno CNAB** recebido seja um dos **Códigos de Liquidaç�
 
 **valor_recebido_calculado = valor_recebido + valor_desconto + valor_abatimento - valor_juros_mora**
 
-Quando marcada a opção de **Reconciliação Automatica** a **Entrada de Diário** será movida para o status **Lançado** automaticamente ao importar o arquivo, se essa opção não estiver marcada isso deverá ser feito manualmente.
+Quando marcada a opção de **Reconciliação Automática** a **Entrada de Diário** será movida para o status **Lançado** automaticamente ao importar o arquivo, se essa opção não estiver marcada isso deverá ser feito manualmente.

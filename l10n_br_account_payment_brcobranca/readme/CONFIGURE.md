@@ -15,7 +15,7 @@ Verifique se os Códigos do CNAB do Banco que será usado existem em:
 
 **Faturamento > Configurações > Administração > Códigos CNAB**
 
-Caso seja preciso criar por favor considere fazer um PR acrescentando os Códigos em l10n_br_account_payment_order/data/cnab_codes/banco_X_cnab_Y_Z.xml assim em próximas implementações já não será preciso cadastra-los ajudando também na construção desse banco de conhecimento, você pode ver os casos que já existem hoje no módulo `l10n_br_account_payment_order <https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_account_payment_order>`_.
+Caso seja preciso criar por favor considere fazer um PR nesse módulo acrescentando os Códigos em **l10n_br_account_payment_order/data/cnab_codes/banco_X_cnab_Y_Z.xml** dessa forma nas próximas implementações já não será preciso cadastrar, isso ajuda na construção de um banco de conhecimento, salvando tanto horas de implementação por não ser necessário rever ou refazer o que foi feito como poder usar o que outros fizeram, isso também é importante porque permite testar e avaliar as diferenças entre cada caso tornando a implementação mais robusta, você pode ver os casos que já existem hoje no módulo [l10n_br_account_payment_order](https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_account_payment_order).
 
 Crie uma **Configuração CNAB**, é onde serão armazenadas as informações específicas de cada caso como a Carteira, Convênio, Código do Benificiário, Códigos de Instrução e Retorno do Movimento, etc, em:
 
@@ -41,6 +41,6 @@ Crie um **Modo de Pagamento** ou use um existente em:
 
 Informe o **Diário Contábil** referente ao Banco e a **Configuração CNAB** que deverá ser utilizada, no campo **Diário de Banco Fixo** informar o Diário Contábil da Conta Bancária e se for o caso, e é recomendado, marcar a opção **Adicionar automaticamente ao validar a fatura** para não ser preciso fazer manualmente.
 
-Caso o CNAB e Banco escolhidos possua um campo específico que seja preciso implementar considere fazer um PR no módulo **l10n_br_account_payment_order** aqui https://github.com/OCA/l10n-brazil/blob/14.0/l10n_br_account_payment_order/models/l10n_br_cnab_boleto_fields.py#L307 .
+Caso o CNAB e Banco escolhidos possua um campo específico que seja preciso implementar considere fazer um PR no módulo **l10n_br_account_payment_order** aqui https://github.com/OCA/l10n-brazil/blob/16.0/l10n_br_account_payment_order/models/l10n_br_cnab_boleto_fields.py#L307 .
 
 Configure as permissões de acesso dos usuários, as opções são CNAB **Usuário** e **Gerente**.
