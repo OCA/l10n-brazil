@@ -1,0 +1,744 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_dere_spec
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-16 02:59+0000\n"
+"PO-Revision-Date: 2026-09-16 03:00+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"Language-Team: none\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtpgcc__dere12_planoCtaRef__2
+msgid "ANS"
+msgstr "ANS"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_infoconta__dere12_descCta
+msgid "Account description"
+msgstr "Descrição da conta"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_infoconta__dere12_fimVig
+msgid "Account end"
+msgstr "Fim da vigência da conta"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_infoconta__dere12_indCta
+msgid "Account indicator"
+msgstr "Indicador da conta"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_infoconta__dere12_nomeCta
+msgid "Account name"
+msgstr "Nome da conta"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_infoconta__dere12_natCta
+msgid "Account nature"
+msgstr "Natureza da conta"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_infoconta__dere12_iniVig
+msgid "Account start"
+msgstr "Início da vigência da conta"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_infobcn__dere12_vUsarBCN
+msgid "Amount to recover"
+msgstr "Valor a aproveitar"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_infoconta__dere12_indCta__a
+msgid "Analytic"
+msgstr "Analítica"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_balanceteconta__dere12_cCta
+msgid "Analytic account code"
+msgstr "Código da conta analítica"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtpgcc__dere12_freqEncerr__a
+msgid "Annual"
+msgstr "Anual"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtbalancete__dere12_verAplic
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtfechmensal__dere12_verAplic
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtinfocontrib__dere12_verAplic
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtpgcc__dere12_verAplic
+msgid "Application version"
+msgstr "Versão do aplicativo"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_balanceteconta__dere12_natVApur
+msgid "Assessment nature"
+msgstr "Natureza da apuração"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtbalancete__dere12_perApur
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtfechmensal__dere12_perApur
+msgid "Assessment period"
+msgstr "Período de apuração"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_infoconta__dere12_codNat__1
+msgid "Asset"
+msgstr "Ativo"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtretornostabela__dere12_protocoloLote
+msgid "Batch protocol"
+msgstr "Protocolo do lote"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtpgcc__dere12_freqEncerr__b
+msgid "Bimonthly"
+msgstr "Bimestral"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtbalancete__dere12_nrInsc
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtfechmensal__dere12_nrInsc
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtinfocontrib__dere12_nrInsc
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtpgcc__dere12_nrInsc
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtretornostabela__dere12_nrInsc
+msgid "CNPJ root"
+msgstr "Raiz do CNPJ"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtpgcc__dere12_planoCtaRef__1
+msgid "COSIF"
+msgstr "COSIF"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_balanceteconta__dere12_vSaldoFinal
+msgid "Closing balance"
+msgstr "Saldo final"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_balanceteconta__dere12_natSaldoFinal
+msgid "Closing balance nature"
+msgstr "Natureza do saldo final"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtpgcc__dere12_freqEncerr
+msgid "Closing frequency"
+msgstr "Frequência de encerramento"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtbalancete__dere12_aplicEmi__1
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtfechmensal__dere12_aplicEmi__1
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtinfocontrib__dere12_aplicEmi__1
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtpgcc__dere12_aplicEmi__1
+msgid "Company application"
+msgstr "Aplicativo do contribuinte"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_balanceteconta__dere12_natSaldoFinal__c
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_balanceteconta__dere12_natSaldoInic__c
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_balanceteconta__dere12_natVApur__c
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_infoconta__dere12_natCta__c
+msgid "Credit"
+msgstr "Crédito"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_balanceteconta__dere12_vAjusteCred
+msgid "Credit adjustment"
+msgstr "Ajuste a crédito"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_balanceteconta__dere12_vMovCred
+msgid "Credit movement"
+msgstr "Movimento a crédito"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_balanceteconta__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_infobcn__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_spec_mixin_dere_currency__brl_currency_id
+msgid "Currency"
+msgstr "Moeda"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model,name:l10n_br_dere_spec.model_dere_12_evtinfocontrib
+msgid "D-1001 taxpayer information"
+msgstr "D-1001 informações do contribuinte"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model,name:l10n_br_dere_spec.model_dere_12_infoconta
+msgid "D-1011 chart account"
+msgstr "D-1011 conta do plano"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model,name:l10n_br_dere_spec.model_dere_12_evtpgcc
+msgid "D-1011 commented chart of accounts"
+msgstr "D-1011 plano geral de contas comentado"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model,name:l10n_br_dere_spec.model_dere_12_evtbalancete
+msgid "D-1101 monthly trial balance"
+msgstr "D-1101 balancete mensal"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model,name:l10n_br_dere_spec.model_dere_12_balanceteconta
+msgid "D-1101 trial-balance account"
+msgstr "D-1101 conta do balancete"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model,name:l10n_br_dere_spec.model_dere_12_evtfechmensal
+msgid "D-1199 monthly closing"
+msgstr "D-1199 encerramento mensal"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model,name:l10n_br_dere_spec.model_dere_12_infobcn
+msgid "D-1199 negative tax base"
+msgstr "D-1199 base de cálculo negativa"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model,name:l10n_br_dere_spec.model_dere_12_evtretornostabela
+msgid "D-9001 table-event return"
+msgstr "D-9001 retorno de evento de tabela"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model,name:l10n_br_dere_spec.model_spec_mixin_dere_currency
+msgid "DeRE currency helper"
+msgstr "Auxiliar de moeda da DeRE"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model,name:l10n_br_dere_spec.model_dere_12_ocorrencia
+msgid "DeRE return occurrence"
+msgstr "Ocorrência de retorno DeRE"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model,name:l10n_br_dere_spec.model_spec_mixin_dere
+msgid "DeRE spec mixin"
+msgstr "Mixin da especificação DeRE"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_balanceteconta__dere12_natSaldoFinal__d
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_balanceteconta__dere12_natSaldoInic__d
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_balanceteconta__dere12_natVApur__d
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_infoconta__dere12_natCta__d
+msgid "Debit"
+msgstr "Débito"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_balanceteconta__dere12_vAjusteDebt
+msgid "Debit adjustment"
+msgstr "Ajuste a débito"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_balanceteconta__dere12_vMovDebt
+msgid "Debit movement"
+msgstr "Movimento a débito"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_infobcn__dere12_codBCN
+msgid "Detailed negative base code"
+msgstr "Código detalhado da base negativa"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_infobcn__dere12_usarBCNAcum__0
+msgid "Do not use accumulated negative base"
+msgstr "Não usar base negativa acumulada"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtbalancete__dere12_tpAmb
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtfechmensal__dere12_tpAmb
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtinfocontrib__dere12_tpAmb
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtpgcc__dere12_tpAmb
+msgid "Environment"
+msgstr "Ambiente"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_infoconta__dere12_codNat__3
+msgid "Equity"
+msgstr "Patrimônio líquido"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtretornostabela__dere12_cdRetorno__0
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_ocorrencia__dere12_tipo__1
+msgid "Error"
+msgstr "Erro"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtbalancete__dere12_id
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtfechmensal__dere12_id
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtinfocontrib__dere12_id
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtpgcc__dere12_id
+msgid "Event id"
+msgstr "Id do evento"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtretornostabela__dere12_nrRecibo
+msgid "Event receipt"
+msgstr "Recibo do evento"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtretornostabela__dere12_tpEv
+msgid "Event type"
+msgstr "Tipo de evento"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtbalancete__dere12_tpOper__3
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtinfocontrib__dere12_tpOper__3
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtpgcc__dere12_tpOper__3
+msgid "Exclusion"
+msgstr "Exclusão"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtbalancete__dere12_motExcl
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtinfocontrib__dere12_motExcl
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtpgcc__dere12_motExcl
+msgid "Exclusion reason"
+msgstr "Motivo da exclusão"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_infoconta__dere12_codNat__5
+msgid "Expense"
+msgstr "Despesa"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_infobcn__dere12_metodoAproveit__0
+msgid "FIFO computed by the tax authority"
+msgstr "PEPS calculado pela administração tributária"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_ocorrencia__dere12_localizacao
+msgid "Field location"
+msgstr "Localização do campo"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtretornostabela__dere12_hash
+msgid "File hash"
+msgstr "Hash do arquivo"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtinfocontrib__dere12_tpAtividadeFinanc
+msgid "Financial activity codes"
+msgstr "Códigos de atividade financeira"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtpgcc__dere12_freqEncerr__q
+msgid "Four-monthly"
+msgstr "Quadrimestral"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_infoconta__dere12_cCta
+msgid "Full account code"
+msgstr "Código completo da conta"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtbalancete__dere12_aplicEmi__2
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtfechmensal__dere12_aplicEmi__2
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtinfocontrib__dere12_aplicEmi__2
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtpgcc__dere12_aplicEmi__2
+msgid "Government application"
+msgstr "Aplicativo do governo"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtinfocontrib__dere12_tpAtividadeSaude
+msgid "Health-plan activity codes"
+msgstr "Códigos de atividade de planos de saúde"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_infoconta__dere12_nivelCta
+msgid "Hierarchy level"
+msgstr "Nível hierárquico"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_infoconta__dere12_indTribISS
+msgid "ISS indicator"
+msgstr "Indicador de ISS"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtbalancete__dere12_motExcl__3
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtinfocontrib__dere12_motExcl__3
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtpgcc__dere12_motExcl__3
+msgid "Identification error (CNPJ/period)"
+msgstr "Erro de identificação (CNPJ/período)"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtinfocontrib__dere12_indNatTrib__1
+msgid "Immunity or non-incidence"
+msgstr "Imunidade ou não incidência"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtbalancete__dere12_motExcl__2
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtinfocontrib__dere12_motExcl__2
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtpgcc__dere12_motExcl__2
+msgid "Improper submission (inexistent fact)"
+msgstr "Transmissão indevida (fato inexistente)"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtbalancete__dere12_tpOper__1
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtfechmensal__dere12_tpOper__1
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtinfocontrib__dere12_tpOper__1
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtpgcc__dere12_tpOper__1
+msgid "Inclusion"
+msgstr "Inclusão"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_infoconta__dere12_cCtaInterna
+msgid "Internal account code"
+msgstr "Código da conta interna"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtbalancete__dere12_aplicEmi
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtfechmensal__dere12_aplicEmi
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtinfocontrib__dere12_aplicEmi
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtpgcc__dere12_aplicEmi
+msgid "Issuer application"
+msgstr "Aplicativo emissor"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtbalancete__dere12_motExcl__1
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtinfocontrib__dere12_motExcl__1
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtpgcc__dere12_motExcl__1
+msgid "Judicial or administrative order"
+msgstr "Determinação judicial ou administrativa"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtbalancete__dere12_nrProc
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtinfocontrib__dere12_nrProc
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtpgcc__dere12_nrProc
+msgid "Lawsuit / process number"
+msgstr "Número do processo"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_infoconta__dere12_idLeiDisp
+msgid "Legal destination code"
+msgstr "Código da destinação legal"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_infoconta__dere12_codNat__2
+msgid "Liability"
+msgstr "Passivo"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtinfocontrib__dere12_UFCredenc
+msgid "Licensed UFs"
+msgstr "UFs de credenciamento"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtinfocontrib__dere12_regTribPrinc
+msgid "Main tax regime"
+msgstr "Regime tributário principal"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_infobcn__dere12_metodoAproveit__1
+msgid "Manual amounts by origin period"
+msgstr "Valores manuais por período de origem"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_infoconta__dere12_cDbrMista
+msgid "Mixed-account split"
+msgstr "Desdobramento de conta mista"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtpgcc__dere12_freqEncerr__m
+msgid "Monthly"
+msgstr "Mensal"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_infoconta__dere12_codNat
+msgid "Nature code"
+msgstr "Código da natureza"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_infobcn__dere12_codBCNRaiz
+msgid "Negative base code"
+msgstr "Código da base negativa"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtinfocontrib__dere12_novaFimValid
+msgid "New validity end"
+msgstr "Novo fim de vigência"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtinfocontrib__dere12_novaIniValid
+msgid "New validity start"
+msgstr "Novo início de vigência"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtfechmensal__dere12_indInexistDedu
+msgid "No deductions indicator"
+msgstr "Indicador de inexistência de deduções"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtfechmensal__dere12_indInexistDedu__1
+msgid "No deductions to report in this period"
+msgstr "Não há deduções a informar neste período"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_infoconta__dere12_indTribISS__0
+msgid "Not subject to ISS"
+msgstr "Não sujeito ao ISS"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_ocorrencia__dere12_codigo
+msgid "Occurrence code"
+msgstr "Código da ocorrência"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_ocorrencia__dere12_descricao
+msgid "Occurrence description"
+msgstr "Descrição da ocorrência"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_ocorrencia__dere12_tipo
+msgid "Occurrence type"
+msgstr "Tipo da ocorrência"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_balanceteconta__dere12_vSaldoInic
+msgid "Opening balance"
+msgstr "Saldo inicial"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_balanceteconta__dere12_natSaldoInic
+msgid "Opening balance nature"
+msgstr "Natureza do saldo inicial"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtbalancete__dere12_tpOper
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtfechmensal__dere12_tpOper
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtinfocontrib__dere12_tpOper
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtpgcc__dere12_tpOper
+msgid "Operation type"
+msgstr "Tipo de operação"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtbalancete__dere12_motExcl__9
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtinfocontrib__dere12_motExcl__9
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtpgcc__dere12_motExcl__9
+msgid "Other"
+msgstr "Outro"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtinfocontrib__dere12_regTribPrinc__9
+msgid "Other taxation regimes"
+msgstr "Outros regimes de tributação"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtpgcc__dere12_planoCtaRef__5
+msgid "PREVIC"
+msgstr "PREVIC"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_infoconta__dere12_cCtaSup
+msgid "Parent account code"
+msgstr "Código da conta superior"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtbalancete__dere12_nrRecibo
+msgid "Previous receipt"
+msgstr "Recibo anterior"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtinfocontrib__dere12_tpAtividadeProg
+msgid "Prize-contest activity codes"
+msgstr "Códigos de atividade de concursos de prognósticos"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtretornostabela__dere12_dhProcess
+msgid "Processing datetime"
+msgstr "Data e hora do processamento"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtbalancete__dere12_tpAmb__1
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtfechmensal__dere12_tpAmb__1
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtinfocontrib__dere12_tpAmb__1
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtpgcc__dere12_tpAmb__1
+msgid "Production"
+msgstr "Produção"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtpgcc__dere12_freqEncerr__t
+msgid "Quarterly"
+msgstr "Trimestral"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtretornostabela__dere12_dhRecepcao
+msgid "Reception datetime"
+msgstr "Data e hora da recepção"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_infobcn__dere12_metodoAproveit
+msgid "Recovery method"
+msgstr "Método de aproveitamento"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_infoconta__dere12_cCtaRef
+msgid "Referential account code"
+msgstr "Código da conta referencial"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtpgcc__dere12_planoCtaRef
+msgid "Referential chart"
+msgstr "Plano referencial"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtinfocontrib__dere12_indNatTrib__0
+msgid "Regular taxation"
+msgstr "Tributação regular"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtbalancete__dere12_tpOper__2
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtinfocontrib__dere12_tpOper__2
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtpgcc__dere12_tpOper__2
+msgid "Replacement"
+msgstr "Substituição"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtbalancete__dere12_tpAmb__2
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtfechmensal__dere12_tpAmb__2
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtinfocontrib__dere12_tpAmb__2
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtpgcc__dere12_tpAmb__2
+msgid "Restricted production"
+msgstr "Produção restrita"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtretornostabela__dere12_cdRetorno
+msgid "Return code"
+msgstr "Código de retorno"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtretornostabela__dere12_descRetorno
+msgid "Return description"
+msgstr "Descrição do retorno"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_infoconta__dere12_codNat__4
+msgid "Revenue"
+msgstr "Receita"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtpgcc__dere12_planoCtaRef__4
+msgid "SPED"
+msgstr "SPED"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtpgcc__dere12_planoCtaRef__3
+msgid "SUSEP"
+msgstr "SUSEP"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtinfocontrib__dere12_regTribSecund
+msgid "Secondary tax regimes"
+msgstr "Regimes tributários secundários"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtpgcc__dere12_freqEncerr__s
+msgid "Semiannual"
+msgstr "Semestral"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtinfocontrib__dere12_regTribPrinc__1
+msgid "Specific regime - Financial services"
+msgstr "Regime específico - Serviços financeiros"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtinfocontrib__dere12_regTribPrinc__2
+msgid "Specific regime - Health-care plans"
+msgstr "Regime específico - Planos de assistência à saúde"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtinfocontrib__dere12_regTribPrinc__3
+msgid "Specific regime - Prize contests"
+msgstr "Regime específico - Concursos de prognósticos"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_infoconta__dere12_indTribISS__1
+msgid "Subject to ISS"
+msgstr "Sujeito ao ISS"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_evtretornostabela__dere12_cdRetorno__1
+msgid "Success"
+msgstr "Sucesso"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_infoconta__dere12_indCta__s
+msgid "Synthetic"
+msgstr "Sintética"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,help:l10n_br_dere_spec.field_dere_12_evtinfocontrib__dere12_UFCredenc
+msgid "Table 13 UF codes, comma-separated."
+msgstr "Códigos de UF da Tabela 13, separados por vírgula."
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,help:l10n_br_dere_spec.field_dere_12_evtinfocontrib__dere12_tpAtividadeFinanc
+msgid "Table 21 codes (NNC), comma-separated."
+msgstr "Códigos da Tabela 21 (NNC), separados por vírgula."
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,help:l10n_br_dere_spec.field_dere_12_evtinfocontrib__dere12_tpAtividadeSaude
+msgid "Table 31 codes (NNC), comma-separated."
+msgstr "Códigos da Tabela 31 (NNC), separados por vírgula."
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,help:l10n_br_dere_spec.field_dere_12_evtinfocontrib__dere12_tpAtividadeProg
+msgid "Table 41 codes (NNC), comma-separated."
+msgstr "Códigos da Tabela 41 (NNC), separados por vírgula."
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtinfocontrib__dere12_indNatTrib
+msgid "Tax nature"
+msgstr "Natureza tributária"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_balanceteconta__dere12_vApur
+msgid "Taxable amount"
+msgstr "Valor tributável"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_infoconta__dere12_codTrib
+msgid "Taxation code"
+msgstr "Código de tributação"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,help:l10n_br_dere_spec.field_dere_12_evtinfocontrib__dere12_regTribSecund
+msgid "Up to three values from 1, 2 or 3, comma-separated."
+msgstr "Até três valores entre 1, 2 ou 3, separados por vírgula."
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_infobcn__dere12_usarBCNAcum
+msgid "Use accumulated base"
+msgstr "Usar base acumulada"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_infobcn__dere12_usarBCNAcum__1
+msgid "Use accumulated negative base"
+msgstr "Usar base negativa acumulada"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtinfocontrib__dere12_fimValid
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtpgcc__dere12_fimValid
+msgid "Validity end"
+msgstr "Fim da vigência"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtinfocontrib__dere12_iniValid
+#: model:ir.model.fields,field_description:l10n_br_dere_spec.field_dere_12_evtpgcc__dere12_iniValid
+msgid "Validity start"
+msgstr "Início da vigência"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_infoconta__dere12_natCta__v
+msgid "Variable"
+msgstr "Variável"
+
+#. module: l10n_br_dere_spec
+#: model:ir.model.fields.selection,name:l10n_br_dere_spec.selection__dere_12_ocorrencia__dere12_tipo__2
+msgid "Warning"
+msgstr "Aviso"
