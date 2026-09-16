@@ -133,3 +133,20 @@ class TestDereTransmit(DereCommon):
             with self.assertRaises(UserError):
                 declaration.action_send_tables()
             mocked.assert_not_called()
+
+    def test_send_signs_event_with_sha256(self):
+        declaration = self._create_declaration()
+        declaration.action_generate_tables()
+        event = declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1001")
+        self.assertNotIn("Signature", event.xml_content)
+        with patch(
+            "odoo.addons.l10n_br_dere.models.receita_integra.requests.post",
+            side_effect=self._fake_post,
+        ):
+            declaration.action_send_tables()
+        lote = declaration.batch_ids.xml_content
+        self.assertIn("Signature", lote)
+        self.assertIn("rsa-sha256", lote)
+        self.assertIn("sha256", lote)
+        self.assertIn(f'URI="#{event.event_id_attr}"', lote)
+        self.assertNotIn("Signature", event.xml_content)

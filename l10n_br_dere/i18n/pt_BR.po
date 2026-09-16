@@ -263,6 +263,13 @@ msgstr "Eventos condicionais"
 
 #. module: l10n_br_dere
 #. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "Configure an A1 certificate on the company before sending DeRE events."
+msgstr ""
+"Configure um certificado A1 na empresa antes de transmitir eventos DeRE."
+
+#. module: l10n_br_dere
+#. odoo-python
 #: code:addons/l10n_br_dere/models/receita_integra.py:0
 msgid "Configure the Receita Integra client id and secret on the company."
 msgstr "Configure o client id e o client secret da Receita Integra na empresa."

@@ -485,14 +485,35 @@ class DereDeclaration(models.Model):
             rec._send_events(rec._next_events(PERIODIC_EVENTS))
         return True
 
+    def _get_dere_certificate(self):
+        self.ensure_one()
+        company = self.company_id
+        if not company.certificate_nfe_id and not company.certificate_ecnpj_id:
+            raise UserError(
+                _(
+                    "Configure an A1 certificate on the company before sending "
+                    "DeRE events."
+                )
+            )
+        return company._get_br_ecertificate()
+
     def _send_events(self, events):
         self.ensure_one()
         if not events:
             raise UserError(_("There is no generated event to send."))
         self._assert_send_order(events.mapped("event_type"))
+        certificado = self._get_dere_certificate()
         xml = xml_builder.build_lote(
             self.company_id._dere_cnpj_root(),
-            [{"id": ev.event_id_attr, "xml": ev.xml_content} for ev in events],
+            [
+                {
+                    "id": ev.event_id_attr,
+                    "xml": xml_builder.sign_event(
+                        ev.xml_content, certificado, ev.event_id_attr
+                    ),
+                }
+                for ev in events
+            ],
         )
         batch = self.env["l10n_br_dere.batch"].create(
             {

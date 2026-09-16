@@ -3,6 +3,8 @@
 
 import re
 
+from erpbrasil.assinatura import misc
+
 from odoo import Command
 from odoo.tests import TransactionCase
 
@@ -31,6 +33,22 @@ class DereCommon(TransactionCase):
                 "dere_client_secret": "demo-secret",
             }
         )
+        if not cls.company.certificate_nfe_id and not cls.company.certificate_ecnpj_id:
+            certificate = cls.env["l10n_br_fiscal.certificate"].create(
+                {
+                    "type": "nf-e",
+                    "subtype": "a1",
+                    "password": "123456",
+                    "file": misc.create_fake_certificate_file(
+                        True,
+                        "123456",
+                        "EMISSOR A TESTE",
+                        "BR",
+                        "CERTIFICADO VALIDO TESTE",
+                    ),
+                }
+            )
+            cls.company.certificate_nfe_id = certificate
         cls.parent_account = cls.env["account.account"].create(
             {
                 "name": "Health revenue",

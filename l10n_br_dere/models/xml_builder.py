@@ -2,8 +2,12 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from lxml import etree
+from signxml import XMLSigner, methods
 
 from ..constants import EVENT_D1001, EVENT_D1011, EVENT_D1101, EVENT_D1199, NS
+
+DS_NS = "http://www.w3.org/2000/09/xmldsig#"
+C14N_ALG = "http://www.w3.org/TR/2001/REC-xml-c14n-20010315"
 
 
 def _money(value):
@@ -200,4 +204,39 @@ def build_lote(nr_insc, events):
         node = etree.SubElement(eventos, "evento", id=event["id"])
         inner = etree.fromstring(event["xml"].encode("utf-8"))
         node.append(inner)
-    return etree.tostring(root, encoding="unicode", pretty_print=True)
+    return etree.tostring(root, encoding="unicode")
+
+
+def sign_event(xml_content, certificado, reference):
+    if isinstance(xml_content, bytes):
+        payload = xml_content
+    else:
+        payload = (xml_content or "").encode("utf-8")
+    root = etree.fromstring(payload)
+    for element in root.iter("*"):
+        if element.text is not None and not element.text.strip():
+            element.text = None
+        if element.tail is not None and not element.tail.strip():
+            element.tail = None
+    signer = XMLSigner(
+        method=methods.enveloped,
+        signature_algorithm="rsa-sha256",
+        digest_algorithm="sha256",
+        c14n_algorithm=C14N_ALG,
+    )
+    signer.excise_empty_xmlns_declarations = True
+    cert_pem = certificado.cert_chave()[0]
+    signed_root = signer.sign(
+        root,
+        key=certificado.key,
+        cert=cert_pem,
+        reference_uri=f"#{reference}",
+        id_attribute="id",
+    )
+    event_node = signed_root.find(f".//*[@id='{reference}']")
+    signature = signed_root.find(f".//{{{DS_NS}}}Signature")
+    if event_node is not None and signature is not None:
+        parent = event_node.getparent()
+        if parent is not None and signature.getparent() is not parent:
+            parent.append(signature)
+    return etree.tostring(signed_root, encoding="unicode")

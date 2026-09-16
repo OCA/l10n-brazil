@@ -1,5 +1,7 @@
 1. Create a monthly declaration (`perApur` = `YYYY-MM`).
-2. Generate table events: D-1001 then D-1011. Send them in their own batch.
+2. Generate table events: D-1001 then D-1011. The stored XML stays unsigned.
+   Sending signs each event (XML-DSig RSA-SHA256) and posts one type per
+   batch.
 3. After the D-9001 receipt, generate the trial balance (D-1101) from posted
    `account.move.line` records.
 4. Close the period with D-1199 (`tpOper` inclusion only). Send periodics in a
@@ -35,7 +37,9 @@ moves.
    `YYYY-MM-DD`; `perApur` uses `YYYY-MM`.
 6. **Close Period** (D-1199). Leave *Declare no deductions* unset unless the
    company is subject to D-1121.
-7. Do **not** send tables and periodics in the same batch. Do not send D-1011
+7. Confirm the company has an A1 certificate. Sending signs the payload;
+   the event form still shows the unsigned XML.
+8. Do **not** send tables and periodics in the same batch. Do not send D-1011
    before D-1001 is accepted, nor D-1199 before D-1101 has a processing
    receipt.
 

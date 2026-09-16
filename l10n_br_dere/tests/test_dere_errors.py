@@ -110,6 +110,20 @@ class TestDereErrors(DereCommon):
             with self.assertRaises(UserError):
                 declaration.action_send_tables()
 
+    def test_send_without_certificate(self):
+        declaration = self._create_declaration("2026-03")
+        declaration.action_generate_d1001()
+        self.company.certificate_nfe_id = False
+        self.company.certificate_ecnpj_id = False
+        with patch(
+            "odoo.addons.l10n_br_dere.models.receita_integra.requests.post",
+            return_value=_FakeResponse(),
+        ) as mocked:
+            with self.assertRaises(UserError) as error:
+                declaration.action_send_tables()
+            self.assertIn("A1", str(error.exception))
+            mocked.assert_not_called()
+
     def test_send_batch_http_error(self):
         declaration = self._create_declaration("2025-12")
         declaration.action_generate_d1001()
