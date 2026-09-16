@@ -140,7 +140,13 @@
         <field name="arch" type="xml">
             <page name="others" position="inside">
                 <group name="nfe_autxml" invisible="document_type not in ['55', '65']">
-                    <field name="nfe40_autXML" widget="many2many" />
+                    <field name="nfe40_autXML" nolabel="1" colspan="2">
+                        <tree editable="bottom">
+                            <field name="partner_id" />
+                            <field name="nfe40_CNPJ" />
+                            <field name="nfe40_CPF" />
+                        </tree>
+                    </field>
                 </group>
             </page>
             <xpath
