@@ -23,7 +23,7 @@
                         name="mde_ids"
                         nolabel="1"
                         readonly="1"
-                        context="{'tree_view_ref': 'l10n_br_fiscal.dfe_manifestacao_tree'}"
+                        context="{'list_view_ref': 'l10n_br_fiscal.dfe_manifestacao_tree'}"
                     />
                 </page>
             </xpath>
