@@ -17,7 +17,6 @@
         "l10n_br_coa",
         "l10n_br_dere_spec",
         "l10n_br_fiscal",
-        "l10n_br_fiscal_certificate",
         "mail",
     ],
     "data": [

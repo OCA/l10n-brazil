@@ -128,6 +128,17 @@ class TestDereErrors(DereCommon):
             with self.assertRaises(UserError):
                 declaration.action_send_tables()
 
+    def test_regenerate_after_reject_creates_new_event(self):
+        declaration = self._create_declaration("2025-10")
+        declaration.action_generate_d1001()
+        event = declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1001")
+        declaration.apply_return(event, "0", desc_retorno="Erro")
+        declaration.action_generate_d1001()
+        events = declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1001")
+        self.assertEqual(len(events), 2)
+        self.assertTrue(events.filtered(lambda ev: ev.state == "rejected"))
+        self.assertTrue(events.filtered(lambda ev: ev.state == "generated"))
+
     def test_apply_return_xml_and_builder_errors(self):
         declaration = self._create_declaration("2025-11")
         declaration.action_generate_d1001()

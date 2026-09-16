@@ -105,7 +105,7 @@ class DerePgccAccount(models.Model):
     dere12_codTrib = fields.Char(
         related="tax_code_id.code",
         store=True,
-        string="Taxation code",
+        string="Official taxation code",
         help="Official DeRE field codTrib.",
     )
     dere12_indTribISS = fields.Selection(

@@ -13,6 +13,7 @@
                 <field name="dere12_cCtaRef" />
                 <field name="dere12_codNat" />
                 <field name="tax_code_id" />
+                <field name="dere12_codTrib" column_invisible="1" />
             </list>
         </field>
     </record>

@@ -70,6 +70,19 @@ class TestDereTransmit(DereCommon):
         self.assertEqual(event.protocol, "PROT-2026-0000000001")
         self.assertEqual(event.cd_retorno, "1")
         self.assertTrue(declaration.batch_ids)
+        self.assertEqual(declaration.batch_ids.protocol, "PROT-2026-0000000001")
+        self.assertNotIn("evtRetorno", declaration.batch_ids.protocol)
+
+    def test_refuse_regenerate_after_accept(self):
+        declaration = self._create_declaration()
+        declaration.action_generate_tables()
+        with patch(
+            "odoo.addons.l10n_br_dere.models.receita_integra.requests.post",
+            side_effect=self._fake_post,
+        ):
+            declaration.action_send_tables()
+        with self.assertRaises(UserError):
+            declaration.action_generate_tables()
 
     def test_refuse_mixed_table_and_periodic_batch(self):
         declaration = self._create_declaration()

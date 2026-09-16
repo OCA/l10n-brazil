@@ -142,9 +142,13 @@ class DereDeclaration(models.Model):
 
     def _get_or_create_event(self, event_type):
         self.ensure_one()
-        event = self.event_ids.filtered(
-            lambda ev: ev.event_type == event_type and ev.state != "rejected"
-        )[:1]
+        events = self.event_ids.filtered(lambda ev: ev.event_type == event_type)
+        if events.filtered(lambda ev: ev.state in ("sent", "accepted")):
+            raise UserError(
+                _("Event %s was already sent or accepted and cannot be regenerated.")
+                % event_type
+            )
+        event = events.filtered(lambda ev: ev.state in ("draft", "generated"))[:1]
         if event:
             return event
         company = self.company_id
@@ -583,7 +587,10 @@ class DereDeclaration(models.Model):
         return True
 
     def _extract_protocol(self, text):
-        if not text:
+        if not text or "<" not in text:
             return False
-        match = re.search(r"[0-9A-Za-z-]{10,28}", text)
-        return match.group(0) if match else False
+        try:
+            parsed = xml_builder.parse_return(text)
+        except etree.XMLSyntaxError:
+            return False
+        return parsed.get("protocoloLote") or False

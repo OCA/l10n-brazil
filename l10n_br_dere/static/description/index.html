@@ -433,8 +433,9 @@ periodics in a separate batch. Table and periodic events in the same
 batch are rejected.</li>
 </ol>
 <p>Receipt (<tt class="docutils literal">nrRecibo</tt>) and batch protocol are stored separately on each
-event. D-1106 and D-1121 are only flagged on the company in this
-version; they are not generated yet.</p>
+event. Do not regenerate an event that is already sent or accepted; Wave
+1 only supports inclusion (<tt class="docutils literal">tpOper</tt> 1). D-1106 and D-1121 are only
+flagged on the company in this version; they are not generated yet.</p>
 <div class="section" id="homologation-checklist-wave-1">
 <h2><a class="toc-backref" href="#toc-entry-3">Homologation checklist (Wave 1)</a></h2>
 <p>Use a company whose chart already maps at least one administration-fee

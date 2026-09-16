@@ -6,8 +6,9 @@
    separate batch. Table and periodic events in the same batch are rejected.
 
 Receipt (`nrRecibo`) and batch protocol are stored separately on each event.
-D-1106 and D-1121 are only flagged on the company in this version; they are
-not generated yet.
+Do not regenerate an event that is already sent or accepted; Wave 1 only
+supports inclusion (`tpOper` 1). D-1106 and D-1121 are only flagged on the
+company in this version; they are not generated yet.
 
 ## Homologation checklist (Wave 1)
 
