@@ -15,7 +15,6 @@ from odoo.exceptions import UserError
 
 from ..constants import (
     BR_CODES_PAYMENT_ORDER,
-    CODE_MANUAL_TEST,
     FORMA_LANCAMENTO,
     INDICATIVO_FORMA_PAGAMENTO,
     TIPO_SERVICO,
@@ -74,7 +73,6 @@ class AccountPaymentOrder(models.Model):
     # os campos relacionados ao CNAB
     payment_method_code = fields.Char(
         related="payment_method_id.code",
-        readonly=True,
         store=True,
         string="Payment Method Code",
     )
@@ -89,7 +87,7 @@ class AccountPaymentOrder(models.Model):
         today = fields.Date.context_today(self)
         for order in self:
             # TODO - Por enquanto no caso do CNAB esse metodo está sendo
-            #  sobreescrito para não criar o account.payment(abaixo no fim
+            #  sobrescrito para não criar o account.payment(abaixo no fim
             #  do metodo), dessa forma será possível atualizar os modulos da
             #  localização com account_payment_order mantendo o mesmo
             #  funcionamento, e depois em outro PR especifico tratar essa
@@ -171,7 +169,7 @@ class AccountPaymentOrder(models.Model):
                         "paylines": payline,
                         "total": payline.amount_currency,
                     }
-            order.recompute()
+            order.flush()
             # Create account payments
             payment_vals = []
             for paydict in list(group_paylines.values()):
@@ -224,7 +222,7 @@ class AccountPaymentOrder(models.Model):
         alteração, baixa e etc."""
 
         self.ensure_one()
-        if self.payment_method_id.code == CODE_MANUAL_TEST:
+        if self.env.context.get("test_not_create_file"):
             return (False, False)
         else:
             return super().generate_payment_file()

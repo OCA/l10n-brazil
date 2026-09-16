@@ -4,9 +4,9 @@ O módulo implementa a parte comum da infra-estrutura necessária para o uso do 
 
 - **Configuração CNAB** - onde serão salvas as informações específicas de cada caso como Convênio, Código do Beneficiário, Modalidade, Percentual de Multa, códigos de Instrução do Movimento de Liquidação de Alteração de Vencimento e etc.
 
-- **Modo de Pagamento** - localiza o módulo `account_payment_mode <https://github.com/OCA/bank-payment/tree/14.0/account_payment_mode>`_ para associar o **Diário Contábil** referente a **Conta Bancária** do CNAB e informar a **Configuração do CNAB** que será usada, assim ao informar o Modo de Pagamento em um Pedido de Venda, Compras ou Faturamento o programa identifica como sendo um caso CNAB.
+- **Modo de Pagamento** - localiza o módulo [account_payment_mode]( https://github.com/OCA/bank-payment/tree/16.0/account_payment_mode) para associar o **Diário Contábil** referente a **Conta Bancária** do CNAB e informar a **Configuração do CNAB** que será usada, assim ao informar o Modo de Pagamento em um Pedido de Venda, Compras ou Faturamento o programa identifica como sendo um caso CNAB.
 
-- **Ordem de Pagamento** - localiza o módulo `account_payment_order <https://github.com/OCA/bank-payment/tree/14.0/account_payment_order>`_ que usa a **Ordem de Pagamento**, débito ou crédito, para registrar as **Instruções de Movimento** e onde será criado o **Arquivo CNAB Remessa**.
+- **Ordem de Pagamento** - localiza o módulo [account_payment_order](https://github.com/OCA/bank-payment/tree/16.0/account_payment_order) que usa a **Ordem de Pagamento**, débito ou crédito, para registrar as **Instruções de Movimento** e onde será criado o **Arquivo CNAB Remessa**.
 
 - **Registro do LOG de Eventos** - ao importar um arquivo de retorno CNAB.
 
