@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_dere_pgcc_account_tree" model="ir.ui.view">
+        <field name="name">l10n_br_dere.pgcc.account.list</field>
+        <field name="model">l10n_br_dere.pgcc.account</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="c_cta" />
+                <field name="nome_cta" />
+                <field name="ind_cta" />
+                <field name="c_cta_ref" />
+                <field name="cod_nat" />
+                <field name="tax_code_id" />
+            </list>
+        </field>
+    </record>
+</odoo>

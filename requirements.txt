@@ -6,10 +6,12 @@ erpbrasil.assinatura
 erpbrasil.base
 erpbrasil.edoc
 erpbrasil.transmissao
+lxml
 nfelib
 nfselib.paulistana
 num2words
 phonenumbers
+requests
 transitions
 unidecode
 workalendar
