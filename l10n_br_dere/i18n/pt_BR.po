@@ -1,0 +1,1912 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_dere
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-16 02:59+0000\n"
+"PO-Revision-Date: 2026-09-16 03:00+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"Language-Team: none\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__res_company__dere_plano_cta_ref__2
+msgid "ANS"
+msgstr "ANS"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__state__accepted
+msgid "Accepted"
+msgstr "Aceito"
+
+#. module: l10n_br_dere
+#: model:ir.model,name:l10n_br_dere.model_account_account
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_cCta
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_trial_line__dere12_cCta
+msgid "Account"
+msgstr "Conta"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_nomeCta
+msgid "Account name"
+msgstr "Nome da conta"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_indCta
+msgid "Account type"
+msgstr "Tipo de conta"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__account_id
+msgid "Accounting account"
+msgstr "Conta contábil"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__message_needaction
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__message_needaction
+msgid "Action Needed"
+msgstr "Ação necessária"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_activity__active
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_tax_code__active
+msgid "Active"
+msgstr "Ativo"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__activity_ids
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__activity_ids
+#: model:ir.ui.menu,name:l10n_br_dere.menu_dere_activity
+msgid "Activities"
+msgstr "Atividades"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__activity_exception_decoration
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Decoração de exceção da atividade"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__activity_state
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__activity_state
+msgid "Activity State"
+msgstr "Situação da atividade"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__activity_type_icon
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Ícone do tipo de atividade"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120110006
+msgid "Administration fees received"
+msgstr "Taxas de administração recebidas"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_account_account__l10n_br_dere_cta_interna
+msgid "Alphanumeric internal code without dots or dashes."
+msgstr "Código interno alfanumérico, sem pontos ou traços."
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120110007
+msgid "Amounts received from other sector entities"
+msgstr "Valores recebidos de outras entidades do setor"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__account_account__l10n_br_dere_ind_cta__a
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_pgcc_account__dere12_indCta__a
+msgid "Analytic"
+msgstr "Analítica"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_31_07a
+msgid "Animal health-care plans"
+msgstr "Planos de saúde animal"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__res_company__dere_freq_encerr__a
+msgid "Annual"
+msgstr "Anual"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__ver_aplic
+msgid "Application version"
+msgstr "Versão do aplicativo"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__per_apur
+msgid "Assessment period"
+msgstr "Período de apuração"
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "Assessment period must use the YYYY-MM mask."
+msgstr "O período de apuração deve usar a máscara AAAA-MM."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__account_account__l10n_br_dere_cod_nat__1
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_pgcc_account__dere12_codNat__1
+msgid "Asset"
+msgstr "Ativo"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_08a
+msgid "Asset and fund management"
+msgstr "Administração de recursos e fundos"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__message_attachment_count
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__message_attachment_count
+msgid "Attachment Count"
+msgstr "Contagem de anexos"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_natCta
+msgid "Balance nature"
+msgstr "Natureza do saldo"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__batch_ids
+msgid "Batch"
+msgstr "Lote"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_batch__protocol
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__protocol
+msgid "Batch protocol"
+msgstr "Protocolo do lote"
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+msgid "Batches"
+msgstr "Lotes"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_31_02a
+msgid "Benefit administrators"
+msgstr "Administradoras de benefícios"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__res_company__dere_freq_encerr__b
+msgid "Bimonthly"
+msgstr "Bimestral"
+
+#. module: l10n_br_dere
+#: model:ir.module.category,description:l10n_br_dere.module_category_l10n_br_dere
+msgid "Brazilian specific-regime declaration (DeRE)"
+msgstr "Declaração de Regimes Específicos (DeRE)"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__res_company__dere_plano_cta_ref__1
+msgid "COSIF"
+msgstr "COSIF"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_14a
+msgid "Capitalization"
+msgstr "Capitalização"
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_company_form
+msgid "Chart of accounts"
+msgstr "Plano de contas"
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+msgid "Close Period"
+msgstr "Encerrar Período"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_declaration__state__closed
+msgid "Closed"
+msgstr "Encerrada"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_13b
+msgid "Closed complementary pension"
+msgstr "Previdência complementar fechada"
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+msgid "Closing"
+msgstr "Encerramento"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_trial_line__dere12_vSaldoFinal
+msgid "Closing balance"
+msgstr "Saldo final"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_trial_line__dere12_natSaldoFinal
+msgid "Closing nature"
+msgstr "Natureza do encerramento"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_activity__code
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event_occurrence__codigo
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_tax_code__code
+msgid "Code"
+msgstr "Código"
+
+#. module: l10n_br_dere
+#: model:ir.model,name:l10n_br_dere.model_res_company
+msgid "Companies"
+msgstr "Empresas"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_batch__company_id
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__company_id
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__company_id
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__company_id
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_trial_line__company_id
+msgid "Company"
+msgstr "Empresa"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__aplic_emi__1
+msgid "Company application"
+msgstr "Aplicativo do contribuinte"
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_company_form
+msgid "Conditional events"
+msgstr "Eventos condicionais"
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/receita_integra.py:0
+msgid "Configure the Receita Integra client id and secret on the company."
+msgstr "Configure o client id e o client secret da Receita Integra na empresa."
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_07a
+msgid "Consortium administration"
+msgstr "Administração de consórcio"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_activity__create_uid
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_batch__create_uid
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__create_uid
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__create_uid
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event_occurrence__create_uid
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__create_uid
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_tax_code__create_uid
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_trial_line__create_uid
+msgid "Created by"
+msgstr "Criado por"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_activity__create_date
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_batch__create_date
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__create_date
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__create_date
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event_occurrence__create_date
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__create_date
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_tax_code__create_date
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_trial_line__create_date
+msgid "Created on"
+msgstr "Criado em"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_trial_line__dere12_vMovCred
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__account_account__l10n_br_dere_nat_cta__c
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_pgcc_account__dere12_natCta__c
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_trial_line__dere12_natSaldoFinal__c
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_trial_line__dere12_natSaldoInic__c
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_trial_line__dere12_natVApur__c
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+msgid "Credit"
+msgstr "Crédito"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_trial_line__dere12_vAjusteCred
+msgid "Credit adjustment"
+msgstr "Ajuste a crédito"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_01a
+msgid "Credit operations"
+msgstr "Operações de crédito"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_trial_line__brl_currency_id
+msgid "Currency"
+msgstr "Moeda"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__event_type__d-1001
+msgid "D-1001 Taxpayer information"
+msgstr "D-1001 Informações do contribuinte"
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "D-1001 must be accepted before sending D-1011."
+msgstr "O D-1001 precisa estar aceito antes de transmitir o D-1011."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__event_type__d-1011
+msgid "D-1011 Commented chart of accounts"
+msgstr "D-1011 Plano geral de contas comentado"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__event_type__d-1101
+msgid "D-1101 Monthly trial balance"
+msgstr "D-1101 Balancete mensal"
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "D-1101 must exist before D-1199."
+msgstr "O D-1101 precisa existir antes do D-1199."
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "D-1101 processing receipt is required before sending D-1199."
+msgstr "O recibo de processamento do D-1101 é obrigatório antes de transmitir o D-1199."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__event_type__d-1106
+msgid "D-1106 Technical-reserve investments"
+msgstr "D-1106 Aplicações das reservas técnicas"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__event_type__d-1121
+msgid "D-1121 Deductions"
+msgstr "D-1121 Deduções"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__event_type__d-1198
+msgid "D-1198 Period reopening"
+msgstr "D-1198 Reabertura do período"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__event_type__d-1199
+msgid "D-1199 Monthly closing"
+msgstr "D-1199 Encerramento mensal"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__event_type__d-9001
+msgid "D-9001 Table-event return"
+msgstr "D-9001 Retorno de evento de tabela"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__event_type__d-9101
+msgid "D-9101 Trial-balance return"
+msgstr "D-9101 Retorno do balancete"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__event_type__d-9199
+msgid "D-9199 Closing return"
+msgstr "D-9199 Retorno do encerramento"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__date_from
+msgid "Date From"
+msgstr "Data inicial"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__date_to
+msgid "Date To"
+msgstr "Data final"
+
+#. module: l10n_br_dere
+#: model:ir.module.category,name:l10n_br_dere.module_category_l10n_br_dere
+#: model:ir.ui.menu,name:l10n_br_dere.menu_dere_root
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_account_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_company_form
+msgid "DeRE"
+msgstr "DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.actions.act_window,name:l10n_br_dere.action_dere_activity
+msgid "DeRE Activities"
+msgstr "Atividades DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.actions.act_window,name:l10n_br_dere.action_dere_declaration
+msgid "DeRE Declarations"
+msgstr "Declarações DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.actions.act_window,name:l10n_br_dere.action_dere_event
+msgid "DeRE Events"
+msgstr "Eventos DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_account_account__l10n_br_dere_ind_trib_iss
+msgid "DeRE ISS indicator"
+msgstr "Indicador de ISS da DeRE"
+
+#. module: l10n_br_dere
+#: model:res.groups,name:l10n_br_dere.group_manager
+msgid "DeRE Manager"
+msgstr "Gerente DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model,name:l10n_br_dere.model_l10n_br_dere_pgcc_account
+msgid "DeRE PGCC snapshot account"
+msgstr "Conta do snapshot do PGCC da DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.actions.act_window,name:l10n_br_dere.action_dere_tax_code
+msgid "DeRE Taxation Codes"
+msgstr "Códigos de tributação DeRE"
+
+#. module: l10n_br_dere
+#: model:res.groups,name:l10n_br_dere.group_user
+msgid "DeRE User"
+msgstr "Usuário DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_account_account__l10n_br_dere_desc_cta
+msgid "DeRE account description"
+msgstr "Descrição da conta DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_account_account__l10n_br_dere_ind_cta
+msgid "DeRE account indicator"
+msgstr "Indicador da conta DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_account_account__l10n_br_dere_nivel_cta
+msgid "DeRE account level"
+msgstr "Nível da conta DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_account_account__l10n_br_dere_nat_cta
+msgid "DeRE account nature"
+msgstr "Natureza da conta DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_res_company__dere_activity_ids
+msgid "DeRE activities"
+msgstr "Atividades DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model,name:l10n_br_dere.model_l10n_br_dere_activity
+msgid "DeRE activity code"
+msgstr "Código de atividade DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_res_company__dere_ver_aplic
+msgid "DeRE application version"
+msgstr "Versão do aplicativo DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_res_company__dere_api_path
+msgid "DeRE batch path"
+msgstr "Caminho do lote DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_res_company__dere_freq_encerr
+msgid "DeRE closing frequency"
+msgstr "Frequência de encerramento DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_res_company__dere_tp_amb
+msgid "DeRE environment"
+msgstr "Ambiente DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model,name:l10n_br_dere.model_l10n_br_dere_event
+msgid "DeRE event"
+msgstr "Evento DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model,name:l10n_br_dere.model_l10n_br_dere_event_occurrence
+msgid "DeRE event occurrence"
+msgstr "Ocorrência de evento DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_account_account__l10n_br_dere_cta
+msgid "DeRE full account"
+msgstr "Conta completa DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_account_account__l10n_br_dere_cta_interna
+msgid "DeRE internal account"
+msgstr "Conta interna DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_res_company__dere_reg_trib_princ
+msgid "DeRE main tax regime"
+msgstr "Regime tributário principal DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_account_account__l10n_br_dere_dbr_mista
+msgid "DeRE mixed-account split"
+msgstr "Desdobramento de conta mista DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model,name:l10n_br_dere.model_l10n_br_dere_declaration
+msgid "DeRE monthly declaration"
+msgstr "Declaração mensal DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_account_account__l10n_br_dere_cod_nat
+msgid "DeRE nature code"
+msgstr "Código da natureza DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_account_account__l10n_br_dere_cta_sup_id
+msgid "DeRE parent account"
+msgstr "Conta superior DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_account_account__l10n_br_dere_cta_ref
+msgid "DeRE referential account"
+msgstr "Conta referencial DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_res_company__dere_plano_cta_ref
+msgid "DeRE referential chart"
+msgstr "Plano referencial DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_res_company__dere_reg_trib_secund
+msgid "DeRE secondary tax regime"
+msgstr "Regime tributário secundário DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_res_company__dere_ind_nat_trib
+msgid "DeRE tax nature"
+msgstr "Natureza tributária DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_account_account__l10n_br_dere_cod_trib
+msgid "DeRE taxation code"
+msgstr "Código de tributação DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model,name:l10n_br_dere.model_l10n_br_dere_tax_code
+msgid "DeRE taxation code (codTrib)"
+msgstr "Código de tributação DeRE (codTrib)"
+
+#. module: l10n_br_dere
+#: model:ir.model,name:l10n_br_dere.model_l10n_br_dere_batch
+msgid "DeRE transmission batch"
+msgstr "Lote de transmissão DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model,name:l10n_br_dere.model_l10n_br_dere_trial_line
+msgid "DeRE trial-balance line"
+msgstr "Linha do balancete DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_trial_line__dere12_vMovDebt
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__account_account__l10n_br_dere_nat_cta__d
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_pgcc_account__dere12_natCta__d
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_trial_line__dere12_natSaldoFinal__d
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_trial_line__dere12_natSaldoInic__d
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_trial_line__dere12_natVApur__d
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+msgid "Debit"
+msgstr "Débito"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_trial_line__dere12_vAjusteDebt
+msgid "Debit adjustment"
+msgstr "Ajuste a débito"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_batch__declaration_id
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__declaration_id
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__declaration_id
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_trial_line__declaration_id
+msgid "Declaration"
+msgstr "Declaração"
+
+#. module: l10n_br_dere
+#: model:ir.ui.menu,name:l10n_br_dere.menu_dere_declaration
+msgid "Declarations"
+msgstr "Declarações"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__ind_inexist_dedu
+msgid "Declare no deductions"
+msgstr "Declarar inexistência de deduções"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event_occurrence__descricao
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_descCta
+msgid "Description"
+msgstr "Descrição"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_activity__display_name
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_batch__display_name
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__display_name
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__display_name
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event_occurrence__display_name
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__display_name
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_tax_code__display_name
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_trial_line__display_name
+msgid "Display Name"
+msgstr "Nome exibido"
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "Do not send table events and periodic events in the same batch."
+msgstr "Não transmita eventos de tabela e eventos periódicos no mesmo lote."
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid ""
+"Do not set the no-deductions flag if the company is not subject to D-1121."
+msgstr "Não marque a inexistência de deduções se a empresa não estiver sujeita ao D-1121."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_batch__state__done
+msgid "Done"
+msgstr "Concluído"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_batch__state__draft
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_declaration__state__draft
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__state__draft
+msgid "Draft"
+msgstr "Rascunho"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_batch__tp_amb
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__tp_amb
+msgid "Environment"
+msgstr "Ambiente"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__account_account__l10n_br_dere_cod_nat__3
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_pgcc_account__dere12_codNat__3
+msgid "Equity"
+msgstr "Patrimônio líquido"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_batch__state__error
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__cd_retorno__0
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event_occurrence__tipo__1
+msgid "Error"
+msgstr "Erro"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__event_ids
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event_occurrence__event_id
+msgid "Event"
+msgstr "Evento"
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "Event %s was already sent or accepted and cannot be regenerated."
+msgstr "O evento %s já foi transmitido ou aceito e não pode ser regenerado."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__event_type
+msgid "Event Type"
+msgstr "Tipo de evento"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_batch__event_ids
+#: model:ir.ui.menu,name:l10n_br_dere.menu_dere_event
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+msgid "Events"
+msgstr "Eventos"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__tp_oper__3
+msgid "Exclusion"
+msgstr "Exclusão"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__mot_excl
+msgid "Exclusion reason"
+msgstr "Motivo da exclusão"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__account_account__l10n_br_dere_cod_nat__5
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_pgcc_account__dere12_codNat__5
+msgid "Expense"
+msgstr "Despesa"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_05a
+msgid "Factoring"
+msgstr "Fomento mercantil (factoring)"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_41_01e
+msgid "Fantasy sport"
+msgstr "Fantasy sport"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_06b
+msgid "Finance lease"
+msgstr "Arrendamento mercantil financeiro"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__res_company__dere_reg_trib_secund__1
+msgid "Financial services"
+msgstr "Serviços financeiros"
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "Financial-services activities are required."
+msgstr "As atividades de serviços financeiros são obrigatórias."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__message_follower_ids
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__message_follower_ids
+msgid "Followers"
+msgstr "Seguidores"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__message_partner_ids
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Seguidores (parceiros)"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_declaration__activity_type_icon
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_event__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Ícone Font Awesome, por exemplo fa-tasks"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_02a
+msgid "Foreign-exchange operations"
+msgstr "Operações de câmbio"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_declaration__per_apur
+msgid "Format YYYY-MM."
+msgstr "Formato AAAA-MM."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__res_company__dere_freq_encerr__q
+msgid "Four-monthly"
+msgstr "Quadrimestral"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_31_06a
+msgid "Funeral assistance plans"
+msgstr "Planos de assistência funerária"
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+msgid "Generate Tables"
+msgstr "Gerar Tabelas"
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+msgid "Generate Trial Balance"
+msgstr "Gerar Balancete"
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "Generate the trial balance before closing."
+msgstr "Gere o balancete antes do encerramento."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__state__generated
+msgid "Generated"
+msgstr "Gerado"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__aplic_emi__2
+msgid "Government application"
+msgstr "Aplicativo do governo"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__has_message
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__has_message
+msgid "Has Message"
+msgstr "Tem mensagem"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_31_01a
+msgid "Health insurers"
+msgstr "Seguradoras de saúde"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__res_company__dere_reg_trib_secund__2
+msgid "Health-care plans"
+msgstr "Planos de assistência à saúde"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_31_04a
+msgid "Health-insurance cooperatives"
+msgstr "Cooperativas de seguros de saúde"
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "Health-plan activities are required."
+msgstr "As atividades de planos de saúde são obrigatórias."
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_31_03a
+msgid "Health-plan operator cooperatives"
+msgstr "Cooperativas de operadoras de planos de saúde"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_activity__id
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_batch__id
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__id
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__id
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event_occurrence__id
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__id
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_tax_code__id
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_trial_line__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_indTribISS
+msgid "ISS indicator"
+msgstr "Indicador de ISS"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__activity_exception_icon
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__activity_exception_icon
+msgid "Icon"
+msgstr "Ícone"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_declaration__activity_exception_icon
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_event__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ícone para indicar uma atividade de exceção."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__mot_excl__3
+msgid "Identification error (CNPJ/period)"
+msgstr "Erro de identificação (CNPJ/período)"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_declaration__message_needaction
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_event__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Se marcado, novas mensagens requerem sua atenção."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_declaration__message_has_error
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_event__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Se marcado, algumas mensagens têm erro de entrega."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__res_company__dere_ind_nat_trib__1
+msgid "Immunity or non-incidence"
+msgstr "Imunidade ou não incidência"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__mot_excl__2
+msgid "Improper submission (inexistent fact)"
+msgstr "Transmissão indevida (fato inexistente)"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__tp_oper__1
+msgid "Inclusion"
+msgstr "Inclusão"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_15a
+msgid "Intermediation of consortium insurance pension and capitalization"
+msgstr "Intermediação de consórcio, seguro, previdência e capitalização"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_cCtaInterna
+msgid "Internal account"
+msgstr "Conta interna"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__message_is_follower
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__message_is_follower
+msgid "Is Follower"
+msgstr "É seguidor"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__aplic_emi
+msgid "Issuer"
+msgstr "Emissor"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__mot_excl__1
+msgid "Judicial or administrative order"
+msgstr "Determinação judicial ou administrativa"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_activity__write_uid
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_batch__write_uid
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__write_uid
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__write_uid
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event_occurrence__write_uid
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__write_uid
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_tax_code__write_uid
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_trial_line__write_uid
+msgid "Last Updated by"
+msgstr "Última atualização por"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_activity__write_date
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_batch__write_date
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__write_date
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__write_date
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event_occurrence__write_date
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__write_date
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_tax_code__write_date
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_trial_line__write_date
+msgid "Last Updated on"
+msgstr "Última atualização em"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_tax_code__legal_ref
+msgid "Legal reference"
+msgstr "Referência legal"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_idLeiDisp
+msgid "Legal-provision id"
+msgstr "Id da disposição legal"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_nivelCta
+msgid "Level"
+msgstr "Nível"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__account_account__l10n_br_dere_cod_nat__2
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_pgcc_account__dere12_codNat__2
+msgid "Liability"
+msgstr "Passivo"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event_occurrence__localizacao
+msgid "Location"
+msgstr "Localização"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_41_01c
+msgid "Lottery products"
+msgstr "Produtos lotéricos"
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "Map at least one account with a DeRE referential code."
+msgstr "Mapeie ao menos uma conta com código referencial DeRE."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__message_has_error
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__message_has_error
+msgid "Message Delivery error"
+msgstr "Erro de entrega da mensagem"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__message_ids
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__message_ids
+msgid "Messages"
+msgstr "Mensagens"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_cDbrMista
+msgid "Mixed-account split"
+msgstr "Desdobramento de conta mista"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__res_company__dere_freq_encerr__m
+msgid "Monthly"
+msgstr "Mensal"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_17a
+msgid "Mutual patrimonial protection"
+msgstr "Proteção patrimonial mutualista"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__my_activity_date_deadline
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Prazo da minha atividade"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_activity__name
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_batch__name
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__name
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__name
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_tax_code__name
+msgid "Name"
+msgstr "Nome"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_codNat
+msgid "Nature"
+msgstr "Natureza"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__activity_date_deadline
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Prazo da próxima atividade"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__activity_summary
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__activity_summary
+msgid "Next Activity Summary"
+msgstr "Resumo da próxima atividade"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__activity_type_id
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__activity_type_id
+msgid "Next Activity Type"
+msgstr "Tipo da próxima atividade"
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "No analytic DeRE movement found for this period."
+msgstr "Nenhum movimento analítico DeRE foi encontrado neste período."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__account_account__l10n_br_dere_ind_trib_iss__0
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_pgcc_account__dere12_indTribISS__0
+msgid "Not subject to ISS"
+msgstr "Não sujeito ao ISS"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__message_needaction_counter
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Número de ações"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__message_has_error_counter
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__message_has_error_counter
+msgid "Number of errors"
+msgstr "Número de erros"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_declaration__message_needaction_counter
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_event__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Número de mensagens que requerem ação"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_declaration__message_has_error_counter
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_event__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Número de mensagens com erro de entrega"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__occurrence_ids
+msgid "Occurrence"
+msgstr "Ocorrência"
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_event_form
+msgid "Occurrences"
+msgstr "Ocorrências"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_cCta
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_trial_line__dere12_cCta
+msgid "Official DeRE field cCta."
+msgstr "Campo oficial da DeRE cCta."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_cCtaInterna
+msgid "Official DeRE field cCtaInterna."
+msgstr "Campo oficial da DeRE cCtaInterna."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_cCtaRef
+msgid "Official DeRE field cCtaRef."
+msgstr "Campo oficial da DeRE cCtaRef."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_cCtaSup
+msgid "Official DeRE field cCtaSup."
+msgstr "Campo oficial da DeRE cCtaSup."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_cDbrMista
+msgid "Official DeRE field cDbrMista."
+msgstr "Campo oficial da DeRE cDbrMista."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_codNat
+msgid "Official DeRE field codNat."
+msgstr "Campo oficial da DeRE codNat."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_codTrib
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_pgcc_account__tax_code_id
+msgid "Official DeRE field codTrib."
+msgstr "Campo oficial da DeRE codTrib."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_descCta
+msgid "Official DeRE field descCta."
+msgstr "Campo oficial da DeRE descCta."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_fimVig
+msgid "Official DeRE field fimVig."
+msgstr "Campo oficial da DeRE fimVig."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_idLeiDisp
+msgid "Official DeRE field idLeiDisp."
+msgstr "Campo oficial da DeRE idLeiDisp."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_indCta
+msgid "Official DeRE field indCta."
+msgstr "Campo oficial da DeRE indCta."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_indTribISS
+msgid "Official DeRE field indTribISS."
+msgstr "Campo oficial da DeRE indTribISS."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_iniVig
+msgid "Official DeRE field iniVig."
+msgstr "Campo oficial da DeRE iniVig."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_natCta
+msgid "Official DeRE field natCta."
+msgstr "Campo oficial da DeRE natCta."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_trial_line__dere12_natSaldoFinal
+msgid "Official DeRE field natSaldoFinal."
+msgstr "Campo oficial da DeRE natSaldoFinal."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_trial_line__dere12_natSaldoInic
+msgid "Official DeRE field natSaldoInic."
+msgstr "Campo oficial da DeRE natSaldoInic."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_trial_line__dere12_natVApur
+msgid "Official DeRE field natVApur."
+msgstr "Campo oficial da DeRE natVApur."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_nivelCta
+msgid "Official DeRE field nivelCta."
+msgstr "Campo oficial da DeRE nivelCta."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_nomeCta
+msgid "Official DeRE field nomeCta."
+msgstr "Campo oficial da DeRE nomeCta."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_trial_line__dere12_vAjusteCred
+msgid "Official DeRE field vAjusteCred."
+msgstr "Campo oficial da DeRE vAjusteCred."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_trial_line__dere12_vAjusteDebt
+msgid "Official DeRE field vAjusteDebt."
+msgstr "Campo oficial da DeRE vAjusteDebt."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_trial_line__dere12_vApur
+msgid "Official DeRE field vApur."
+msgstr "Campo oficial da DeRE vApur."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_trial_line__dere12_vMovCred
+msgid "Official DeRE field vMovCred."
+msgstr "Campo oficial da DeRE vMovCred."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_trial_line__dere12_vMovDebt
+msgid "Official DeRE field vMovDebt."
+msgstr "Campo oficial da DeRE vMovDebt."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_trial_line__dere12_vSaldoFinal
+msgid "Official DeRE field vSaldoFinal."
+msgstr "Campo oficial da DeRE vSaldoFinal."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_trial_line__dere12_vSaldoInic
+msgid "Official DeRE field vSaldoInic."
+msgstr "Campo oficial da DeRE vSaldoInic."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__event_id_attr
+msgid "Official event id"
+msgstr "Id oficial do evento"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_codTrib
+msgid "Official taxation code"
+msgstr "Código oficial de tributação"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_41_01d
+msgid "Online games (iGaming)"
+msgstr "Jogos online (iGaming)"
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "Only a closed period can be reopened."
+msgstr "Somente um período encerrado pode ser reaberto."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_declaration__ind_inexist_dedu
+msgid "Only if the company is subject to D-1121 and has no deductions."
+msgstr "Somente se a empresa estiver sujeita ao D-1121 e não tiver deduções."
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_13a
+msgid "Open complementary pension"
+msgstr "Previdência complementar aberta"
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+msgid "Opening"
+msgstr "Abertura"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_trial_line__dere12_vSaldoInic
+msgid "Opening balance"
+msgstr "Saldo inicial"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_trial_line__dere12_natSaldoInic
+msgid "Opening nature"
+msgstr "Natureza da abertura"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_06a
+msgid "Operating lease"
+msgstr "Arrendamento mercantil operacional"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__tp_oper
+msgid "Operation type"
+msgstr "Tipo de operação"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_10a
+msgid "Organized-market and central-depositary entities"
+msgstr "Entidades de mercado organizado e depositário central"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__mot_excl__9
+msgid "Other"
+msgstr "Outro"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_41_01g
+msgid "Other bets"
+msgstr "Demais apostas"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_31_05a
+msgid "Other health-plan operators"
+msgstr "Demais operadoras de planos de saúde"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__res_company__dere_reg_trib_princ__9
+msgid "Other taxation regimes"
+msgstr "Outros regimes de tributação"
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+msgid "PGCC"
+msgstr "PGCC"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_trial_line__pgcc_account_id
+msgid "PGCC account"
+msgstr "Conta do PGCC"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__res_company__dere_plano_cta_ref__5
+msgid "PREVIC"
+msgstr "PREVIC"
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "Parent DeRE accounts are missing from the chart: %s"
+msgstr "Contas superiores DeRE estão ausentes no plano: %s"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_cCtaSup
+msgid "Parent account"
+msgstr "Conta superior"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_res_company__dere_api_path
+msgid "Path appended to the API URL when posting a batch."
+msgstr "Caminho concatenado à URL da API ao transmitir um lote."
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_09a
+msgid "Payment arrangements - acquirer"
+msgstr "Arranjos de pagamento - credenciador"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_09c
+msgid "Payment arrangements - card issuer"
+msgstr "Arranjos de pagamento - emissor de instrumento de pagamento"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_09d
+msgid "Payment arrangements - loyalty administration"
+msgstr "Arranjos de pagamento - administração de programa de fidelidade"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_09f
+msgid "Payment arrangements - meal food or transport voucher"
+msgstr "Arranjos de pagamento - vale-refeição, alimentação ou transporte"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_09z
+msgid "Payment arrangements - other"
+msgstr "Arranjos de pagamento - outros"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_09e
+msgid "Payment arrangements - own loyalty program"
+msgstr "Arranjos de pagamento - programa de fidelidade próprio"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_09b
+msgid "Payment arrangements - scheme owner"
+msgstr "Arranjos de pagamento - instituidor de arranjo"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_11b
+msgid "Personal insurance with survival cover"
+msgstr "Seguros de pessoas com cobertura de sobrevivência"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__pgcc_account_ids
+msgid "Pgcc Account"
+msgstr "Contas do PGCC"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120110004
+msgid "Premiums received - assumed co-responsibility"
+msgstr "Contraprestações recebidas - corresponsabilidade assumida"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120110003
+msgid "Premiums received - collective plans with stipulators"
+msgstr "Contraprestações recebidas - planos coletivos com estipulante"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120110002
+msgid "Premiums received - collective plans without stipulators"
+msgstr "Contraprestações recebidas - planos coletivos sem estipulante"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120110005
+msgid "Premiums received - contracts without per-holder amount"
+msgstr "Contraprestações recebidas - contratos sem valor por titular"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120110001
+msgid "Premiums received - individual plans"
+msgstr "Contraprestações recebidas - planos individuais"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__nr_recibo_prev
+msgid "Previous receipt"
+msgstr "Recibo anterior"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__res_company__dere_reg_trib_secund__3
+msgid "Prize contests"
+msgstr "Concursos de prognósticos"
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "Prize-contest activities are required."
+msgstr "As atividades de concursos de prognósticos são obrigatórias."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__nr_proc
+msgid "Process number"
+msgstr "Número do processo"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__nr_recibo
+msgid "Processing receipt"
+msgstr "Recibo de processamento"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_batch__tp_amb__1
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__tp_amb__1
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__res_company__dere_tp_amb__1
+msgid "Production"
+msgstr "Produção"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_11a
+msgid "Property and personal insurance without survival cover"
+msgstr "Seguros de danos e de pessoas sem cobertura de sobrevivência"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__res_company__dere_freq_encerr__t
+msgid "Quarterly"
+msgstr "Trimestral"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_res_company__dere_api_url
+msgid "Receita Integra API URL"
+msgstr "URL da API da Receita Integra"
+
+#. module: l10n_br_dere
+#: model:ir.model,name:l10n_br_dere.model_l10n_br_dere_receita_integra
+msgid "Receita Integra client for DeRE"
+msgstr "Cliente da Receita Integra para DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_res_company__dere_client_id
+msgid "Receita Integra client id"
+msgstr "Client id da Receita Integra"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_res_company__dere_client_secret
+msgid "Receita Integra client secret"
+msgstr "Client secret da Receita Integra"
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "Receita Integra rejected the batch: %s"
+msgstr "A Receita Integra rejeitou o lote: %s"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_res_company__dere_token_url
+msgid "Receita Integra token URL"
+msgstr "URL do token da Receita Integra"
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/receita_integra.py:0
+msgid "Receita Integra token error %(code)s: %(body)s"
+msgstr "Erro de token da Receita Integra %(code)s: %(body)s"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_cCtaRef
+msgid "Referential account"
+msgstr "Conta referencial"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__res_company__dere_ind_nat_trib__0
+msgid "Regular taxation"
+msgstr "Tributação regular"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_12a
+msgid "Reinsurance"
+msgstr "Resseguro"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__state__rejected
+msgid "Rejected"
+msgstr "Rejeitado"
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+msgid "Reopen Period"
+msgstr "Reabrir Período"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_declaration__state__reopened
+msgid "Reopened"
+msgstr "Reaberta"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__tp_oper__2
+msgid "Replacement"
+msgstr "Substituição"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_batch__response_text
+msgid "Response"
+msgstr "Resposta"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__activity_user_id
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__activity_user_id
+msgid "Responsible User"
+msgstr "Usuário responsável"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_batch__tp_amb__2
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__tp_amb__2
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__res_company__dere_tp_amb__2
+msgid "Restricted production"
+msgstr "Produção restrita"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__cd_retorno
+msgid "Return code"
+msgstr "Código de retorno"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__desc_retorno
+msgid "Return description"
+msgstr "Descrição do retorno"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__account_account__l10n_br_dere_cod_nat__4
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_pgcc_account__dere12_codNat__4
+msgid "Revenue"
+msgstr "Receita"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__res_company__dere_plano_cta_ref__4
+msgid "SPED"
+msgstr "SPED"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__res_company__dere_plano_cta_ref__3
+msgid "SUSEP"
+msgstr "SUSEP"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_03a
+msgid "Securities operations"
+msgstr "Operações com títulos e valores mobiliários"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_04a
+msgid "Securitization"
+msgstr "Securitização"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_31_08a
+msgid "Self-management health-care plans"
+msgstr "Autogestão de planos de saúde"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__res_company__dere_freq_encerr__s
+msgid "Semiannual"
+msgstr "Semestral"
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+msgid "Send Periodics"
+msgstr "Transmitir Periódicos"
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+msgid "Send Tables"
+msgstr "Transmitir Tabelas"
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "Send one DeRE event type per batch."
+msgstr "Transmita apenas um tipo de evento DeRE por lote."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_batch__state__sent
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__state__sent
+msgid "Sent"
+msgstr "Transmitido"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120150001
+msgid "Service export"
+msgstr "Exportação de serviços"
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "Set a valid 8-digit CNPJ root on the company."
+msgstr "Informe uma raiz de CNPJ válida de 8 dígitos na empresa."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_res_company__dere_subject_d1121
+msgid "Set if the taxpayer must send the deduction event when it applies."
+msgstr "Marque se o contribuinte deve transmitir o evento de deduções quando aplicável."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_res_company__dere_subject_d1106
+msgid "Set if the taxpayer must send the technical-reserve investment event."
+msgstr "Marque se o contribuinte deve transmitir o evento de aplicações das reservas técnicas."
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "Set the DeRE closing frequency on the company."
+msgstr "Informe a frequência de encerramento DeRE na empresa."
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "Set the DeRE main tax regime on the company."
+msgstr "Informe o regime tributário principal DeRE na empresa."
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "Set the DeRE referential chart on the company."
+msgstr "Informe o plano referencial DeRE na empresa."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__res_company__dere_reg_trib_princ__1
+msgid "Specific regime - Financial services"
+msgstr "Regime específico - Serviços financeiros"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__res_company__dere_reg_trib_princ__2
+msgid "Specific regime - Health-care plans"
+msgstr "Regime específico - Planos de assistência à saúde"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__res_company__dere_reg_trib_princ__3
+msgid "Specific regime - Prize contests"
+msgstr "Regime específico - Concursos de prognósticos"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_41_01a
+msgid "Sports betting"
+msgstr "Apostas esportivas"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_batch__state
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__state
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__state
+msgid "State"
+msgstr "Situação"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_declaration__activity_state
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_event__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Situação com base nas atividades\n"
+"Atrasada: a data limite já passou\n"
+"Hoje: a data da atividade é hoje\n"
+"Planejada: atividades futuras."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_res_company__dere_subject_d1106
+msgid "Subject to D-1106"
+msgstr "Sujeito ao D-1106"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_res_company__dere_subject_d1121
+msgid "Subject to D-1121"
+msgstr "Sujeito ao D-1121"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__account_account__l10n_br_dere_ind_trib_iss__1
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_pgcc_account__dere12_indTribISS__1
+msgid "Subject to ISS"
+msgstr "Sujeito ao ISS"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__cd_retorno__1
+msgid "Success"
+msgstr "Sucesso"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_41_01f
+msgid "Sweepstakes"
+msgstr "Sorteios"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__account_account__l10n_br_dere_ind_cta__s
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_pgcc_account__dere12_indCta__s
+msgid "Synthetic"
+msgstr "Sintética"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_activity__table_code__21
+msgid "Table 21 - Financial services"
+msgstr "Tabela 21 - Serviços financeiros"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_activity__table_code__31
+msgid "Table 31 - Health-care plans"
+msgstr "Tabela 31 - Planos de assistência à saúde"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_activity__table_code__41
+msgid "Table 41 - Prize contests"
+msgstr "Tabela 41 - Concursos de prognósticos"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_activity__table_code
+msgid "Table Code"
+msgstr "Código da tabela"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__fim_valid
+msgid "Table validity end"
+msgstr "Fim de vigência da tabela"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__ini_valid
+msgid "Table validity start"
+msgstr "Início de vigência da tabela"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_declaration__state__tables_ok
+msgid "Tables ready"
+msgstr "Tabelas prontas"
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_company_form
+msgid "Tax regime"
+msgstr "Regime tributário"
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+msgid "Taxable"
+msgstr "Tributável"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_trial_line__dere12_vApur
+msgid "Taxable amount"
+msgstr "Valor tributável"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_trial_line__dere12_natVApur
+msgid "Taxable nature"
+msgstr "Natureza tributável"
+
+#. module: l10n_br_dere
+#: model:ir.ui.menu,name:l10n_br_dere.menu_dere_tax_code
+msgid "Taxation Codes"
+msgstr "Códigos de tributação"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__tax_code_id
+msgid "Taxation code"
+msgstr "Código de tributação"
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/account_account.py:0
+msgid "The DeRE mixed-account split must use three digits (000-999)."
+msgstr "O desdobramento de conta mista DeRE deve ter três dígitos (000-999)."
+
+#. module: l10n_br_dere
+#: model:ir.model.constraint,message:l10n_br_dere.constraint_l10n_br_dere_activity_code_table_uniq
+msgid "The activity code must be unique per official table."
+msgstr "O código da atividade deve ser exclusivo por tabela oficial."
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "The secondary tax regime cannot repeat the main regime."
+msgstr "O regime tributário secundário não pode repetir o regime principal."
+
+#. module: l10n_br_dere
+#: model:ir.model.constraint,message:l10n_br_dere.constraint_l10n_br_dere_tax_code_code_uniq
+msgid "The taxation code must be unique."
+msgstr "O código de tributação deve ser exclusivo."
+
+#. module: l10n_br_dere
+#: model:ir.model.constraint,message:l10n_br_dere.constraint_l10n_br_dere_declaration_company_period_uniq
+msgid "There is already a DeRE declaration for this company and period."
+msgstr "Já existe uma declaração DeRE para esta empresa e período."
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "There is no generated event to send."
+msgstr "Não há evento gerado para transmitir."
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_company_form
+msgid "Transmission"
+msgstr "Transmissão"
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+msgid "Trial Balance"
+msgstr "Balancete"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__trial_line_ids
+msgid "Trial Line"
+msgstr "Linhas do balancete"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_declaration__state__trial_ok
+msgid "Trial balance ready"
+msgstr "Balancete pronto"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_41_01b
+msgid "Turf betting"
+msgstr "Apostas hípicas"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event_occurrence__tipo
+msgid "Type"
+msgstr "Tipo"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_declaration__activity_exception_decoration
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_event__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Tipo da atividade de exceção no registro."
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_fimVig
+msgid "Validity end"
+msgstr "Fim da vigência"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_iniVig
+msgid "Validity start"
+msgstr "Início da vigência"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__account_account__l10n_br_dere_nat_cta__v
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_pgcc_account__dere12_natCta__v
+msgid "Variable"
+msgstr "Variável"
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_16a
+msgid "Virtual-asset services"
+msgstr "Serviços de ativos virtuais"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event_occurrence__tipo__2
+msgid "Warning"
+msgstr "Aviso"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__website_message_ids
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__website_message_ids
+msgid "Website Messages"
+msgstr "Mensagens do site"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_declaration__website_message_ids
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_event__website_message_ids
+msgid "Website communication history"
+msgstr "Histórico de comunicação do site"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_batch__xml_content
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__xml_content
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_event_form
+msgid "XML"
+msgstr "XML"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__xml_hash
+msgid "XML hash"
+msgstr "Hash do XML"
