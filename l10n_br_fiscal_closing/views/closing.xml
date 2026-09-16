@@ -103,7 +103,7 @@
                             <page string="NFe">
                                 <field
                                     name="document_nfe_ids"
-                                    context="{'tree_view_ref': 'l10n_br_fiscal.document_tree'}"
+                                    context="{'list_view_ref': 'l10n_br_fiscal.document_tree'}"
                                     readonly="1"
                                 />
                             </page>

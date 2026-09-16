@@ -38,7 +38,7 @@
                             <field
                                 name="imported_document_ids"
                                 nolabel="1"
-                                context="{'tree_view_ref': 'l10n_br_fiscal.dfe_documents_tree'}"
+                                context="{'list_view_ref': 'l10n_br_fiscal.dfe_documents_tree'}"
                             />
                         </page>
                     </notebook>
