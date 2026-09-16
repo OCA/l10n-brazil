@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_dere_event_tree" model="ir.ui.view">
+        <field name="name">l10n_br_dere.event.list</field>
+        <field name="model">l10n_br_dere.event</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="event_type" />
+                <field name="declaration_id" />
+                <field name="state" />
+                <field name="event_id_attr" />
+                <field name="protocol" />
+                <field name="nr_recibo" />
+                <field name="cd_retorno" />
+            </list>
+        </field>
+    </record>
+    <record id="view_dere_event_form" model="ir.ui.view">
+        <field name="name">l10n_br_dere.event.form</field>
+        <field name="model">l10n_br_dere.event</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="declaration_id" />
+                            <field name="event_type" />
+                            <field name="tp_oper" />
+                            <field name="tp_amb" />
+                            <field name="ver_aplic" />
+                        </group>
+                        <group>
+                            <field name="event_id_attr" />
+                            <field name="protocol" />
+                            <field name="nr_recibo" />
+                            <field name="cd_retorno" />
+                            <field name="desc_retorno" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="XML" name="xml">
+                            <field name="xml_content" widget="text" />
+                            <field name="xml_hash" />
+                        </page>
+                        <page string="Occurrences" name="occurrences">
+                            <field name="occurrence_ids">
+                                <list>
+                                    <field name="codigo" />
+                                    <field name="tipo" />
+                                    <field name="descricao" />
+                                    <field name="localizacao" />
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter />
+            </form>
+        </field>
+    </record>
+    <record id="action_dere_event" model="ir.actions.act_window">
+        <field name="name">DeRE Events</field>
+        <field name="res_model">l10n_br_dere.event</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

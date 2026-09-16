@@ -1,0 +1,9 @@
+id,name,code,legal_ref
+tax_120110001,Premiums received - individual plans,120110001,"LC 214/2025 Art. 235, I, a"
+tax_120110002,Premiums received - collective plans without stipulators,120110002,"LC 214/2025 Art. 235, I, a"
+tax_120110003,Premiums received - collective plans with stipulators,120110003,"LC 214/2025 Art. 235, I, a"
+tax_120110004,Premiums received - assumed co-responsibility,120110004,"LC 214/2025 Art. 235, I, a"
+tax_120110005,Premiums received - contracts without per-holder amount,120110005,"LC 214/2025 Art. 239, § 1º"
+tax_120110006,Administration fees received,120110006,"LC 214/2025 Art. 235, I, b"
+tax_120110007,Amounts received from other sector entities,120110007,"LC 214/2025 Art. 235, I, b"
+tax_120150001,Service export,120150001,LC 214/2025 Art. 242
