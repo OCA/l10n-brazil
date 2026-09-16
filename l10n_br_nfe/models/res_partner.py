@@ -19,7 +19,6 @@ class ResPartner(spec_models.SpecModel):
         "nfe.40.tenderemi",
         "nfe.40.tinfresptec",
         "nfe.40.transporta",
-        "nfe.40.autxml",
     ]
     _nfe_search_keys = ["cnpj_cpf_stripped", "nfe40_xNome"]
 
@@ -156,14 +155,6 @@ class ResPartner(spec_models.SpecModel):
         string="CNPJ/CPF/idEstrangeiro",
     )
 
-    # nfe.40.autXML
-    nfe40_choice_autxml = fields.Selection(
-        selection=[("nfe40_CNPJ", "CNPJ"), ("nfe40_CPF", "CPF")],
-        string="CNPJ/CPF do Parceiro Autorizado",
-        compute="_compute_nfe_data",
-        compute_sudo=True,
-    )
-
     # nfe.40.transporta
     nfe40_choice_transporta = fields.Selection(
         selection=[
@@ -211,7 +202,6 @@ class ResPartner(spec_models.SpecModel):
                     rec.nfe40_choice_tlocal = "nfe40_CNPJ"
                     rec.nfe40_choice_emit = "nfe40_CNPJ"
                     rec.nfe40_choice_dest = "nfe40_CNPJ"
-                    rec.nfe40_choice_autxml = "nfe40_CNPJ"
                     rec.nfe40_choice_transporta = "nfe40_CNPJ"
                     rec.nfe40_CNPJ = rec.cnpj_cpf_stripped
                     rec.nfe40_CPF = None
@@ -219,7 +209,6 @@ class ResPartner(spec_models.SpecModel):
                     rec.nfe40_choice_tlocal = "nfe40_CPF"
                     rec.nfe40_choice_emit = "nfe40_CPF"
                     rec.nfe40_choice_dest = "nfe40_CPF"
-                    rec.nfe40_choice_autxml = "nfe40_CPF"
                     rec.nfe40_choice_transporta = "nfe40_CPF"
                     rec.nfe40_CPF = rec.cnpj_cpf_stripped
                     rec.nfe40_CNPJ = None
@@ -227,7 +216,6 @@ class ResPartner(spec_models.SpecModel):
                 rec.nfe40_choice_tlocal = False
                 rec.nfe40_choice_emit = False
                 rec.nfe40_choice_dest = False
-                rec.nfe40_choice_autxml = False
                 rec.nfe40_choice_transporta = False
                 rec.nfe40_CNPJ = ""
                 rec.nfe40_CPF = ""
@@ -255,7 +243,6 @@ class ResPartner(spec_models.SpecModel):
                 else:
                     rec.nfe40_choice_dest = "nfe40_CNPJ"
                 rec.nfe40_choice_dest = "nfe40_CPF"
-                rec.nfe40_choice_autxml = "nfe40_CPF"
                 rec.nfe40_choice_transporta = "nfe40_CPF"
                 rec.cnpj_cpf = cnpj_cpf.formata(str(rec.nfe40_CNPJ))
 
@@ -269,7 +256,6 @@ class ResPartner(spec_models.SpecModel):
                     rec.nfe40_choice_dest = "nfe40_idEstrangeiro"
                 else:
                     rec.nfe40_choice_dest = "nfe40_CPF"
-                rec.nfe40_choice_autxml = "nfe40_CNPJ"
                 rec.nfe40_choice_transporta = "nfe40_CNPJ"
                 rec.cnpj_cpf = cnpj_cpf.formata(str(rec.nfe40_CPF))
 
