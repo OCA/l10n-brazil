@@ -57,7 +57,7 @@ class DereBatch(models.Model):
                 self.company_id, self.protocol
             )
         except UserError:
-            _logger.warning(
+            _logger.info(
                 "DeRE consult skipped for batch %s (%s)",
                 self.id,
                 self.protocol,
@@ -73,7 +73,7 @@ class DereBatch(models.Model):
                 raise UserError(
                     _("Receita Integra rejected the batch query: %s") % result["text"]
                 )
-            _logger.warning(
+            _logger.info(
                 "DeRE consult HTTP %s for batch %s: %s",
                 result["status_code"],
                 self.id,
