@@ -11,6 +11,7 @@ from . import cest
 from . import tax_ipi_guideline
 from . import document_type
 from . import document_related
+from . import nfe_autxml
 from . import document
 from . import document_line
 from . import document_supplement
