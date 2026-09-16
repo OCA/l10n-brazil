@@ -2,8 +2,9 @@
 2. Generate table events: D-1001 then D-1011. The stored XML stays unsigned.
    Sending signs each event (XML-DSig RSA-SHA256) and posts one type per
    batch.
-3. After the D-9001 receipt, generate the trial balance (D-1101) from posted
-   `account.move.line` records.
+3. After sending, use **Consult Results** until the D-9001 receipt arrives.
+   Then generate the trial balance (D-1101) from posted `account.move.line`
+   records.
 4. Close the period with D-1199 (`tpOper` inclusion only). Send periodics in a
    separate batch. Table and periodic events in the same batch are rejected.
 
@@ -39,7 +40,9 @@ moves.
    company is subject to D-1121.
 7. Confirm the company has an A1 certificate. Sending signs the payload;
    the event form still shows the unsigned XML.
-8. Do **not** send tables and periodics in the same batch. Do not send D-1011
+8. **Consult Results** after each send. The POST only returns a protocol;
+   acceptance and `nrRecibo` come from the later GET.
+9. Do **not** send tables and periodics in the same batch. Do not send D-1011
    before D-1001 is accepted, nor D-1199 before D-1101 has a processing
    receipt.
 

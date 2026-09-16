@@ -37,8 +37,8 @@ It lets an Odoo company:
 - map ``account.account`` lines to PGCC fields (``cCtaRef``,
   ``codTrib``, ``codNat``)
 - generate local XML for D-1001, D-1011, D-1101 and D-1199
-- send signed batches to Receita Integra and store protocol, receipt and
-  D-9xxx returns
+- send signed batches to Receita Integra, consult processing and store
+  protocol, receipt and D-9xxx returns
 
 It does **not** implement sector-specific rules (for example health-plan
 premium vs administration-fee reconciliation). Those stay in company
@@ -58,7 +58,8 @@ On the company form, open the **DeRE** tab and set:
 2. Activities from official tables 21, 31 or 41
 3. Referential chart (``planoCtaRef``) and closing frequency
    (``freqEncerr``)
-4. Receita Integra environment, token URL and OAuth client credentials
+4. Receita Integra environment, token URL, OAuth client credentials and
+   the batch consult path (``{protocol}`` placeholder)
 5. An ICP-Brasil A1 certificate on the Fiscal tab (NFe or e-CNPJ).
    Generation does not need it; sending does.
 
@@ -77,8 +78,9 @@ Usage
 2. Generate table events: D-1001 then D-1011. The stored XML stays
    unsigned. Sending signs each event (XML-DSig RSA-SHA256) and posts
    one type per batch.
-3. After the D-9001 receipt, generate the trial balance (D-1101) from
-   posted ``account.move.line`` records.
+3. After sending, use **Consult Results** until the D-9001 receipt
+   arrives. Then generate the trial balance (D-1101) from posted
+   ``account.move.line`` records.
 4. Close the period with D-1199 (``tpOper`` inclusion only). Send
    periodics in a separate batch. Table and periodic events in the same
    batch are rejected.
@@ -123,7 +125,9 @@ typed: it is rebuilt from those moves.
    the company is subject to D-1121.
 7. Confirm the company has an A1 certificate. Sending signs the payload;
    the event form still shows the unsigned XML.
-8. Do **not** send tables and periodics in the same batch. Do not send
+8. **Consult Results** after each send. The POST only returns a
+   protocol; acceptance and ``nrRecibo`` come from the later GET.
+9. Do **not** send tables and periodics in the same batch. Do not send
    D-1011 before D-1001 is accepted, nor D-1199 before D-1101 has a
    processing receipt.
 
@@ -138,8 +142,6 @@ Known issues / Roadmap
 - Do not inherit event mixins (D-1001 / D-1011 / D-1101 / D-1199) on
   ``l10n_br_dere.declaration`` or ``l10n_br_dere.event``: those
   abstracts share ``dere12_id`` and ``dere12_tpOper``.
-- Consult batch processing (``GET /v1/consulta/lotes/{protocolo}``) and
-  apply D-9xxx returns without relying on the immediate POST body
 - Send D-1198 reopening to Receita Integra
 - Full D-1106 and D-1121 business rules
 - Transactional events (D-3201 and remaining D-22xx / D-32xx) after

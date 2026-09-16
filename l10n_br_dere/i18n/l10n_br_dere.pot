@@ -170,6 +170,12 @@ msgid "Batches"
 msgstr ""
 
 #. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_batch.py:0
+msgid "Batch %s has no protocol to consult."
+msgstr ""
+
+#. module: l10n_br_dere
 #: model:l10n_br_dere.activity,name:l10n_br_dere.activity_31_02a
 msgid "Benefit administrators"
 msgstr ""
@@ -227,6 +233,16 @@ msgstr ""
 #. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_trial_line__dere12_natSaldoFinal
 msgid "Closing nature"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+msgid "Consult"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+msgid "Consult Results"
 msgstr ""
 
 #. module: l10n_br_dere
@@ -491,6 +507,11 @@ msgstr ""
 #. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_res_company__dere_api_path
 msgid "DeRE batch path"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_res_company__dere_consult_path
+msgid "DeRE consult path"
 msgstr ""
 
 #. module: l10n_br_dere
@@ -1350,6 +1371,11 @@ msgid "Path appended to the API URL when posting a batch."
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_res_company__dere_consult_path
+msgid "Path appended to the API URL when consulting a batch. Use {protocol}."
+msgstr ""
+
+#. module: l10n_br_dere
 #: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_09a
 msgid "Payment arrangements - acquirer"
 msgstr ""
@@ -1486,6 +1512,12 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_dere/models/dere_declaration.py:0
 msgid "Receita Integra rejected the batch: %s"
+msgstr ""
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_batch.py:0
+msgid "Receita Integra rejected the batch query: %s"
 msgstr ""
 
 #. module: l10n_br_dere
@@ -1824,6 +1856,12 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_dere/models/dere_declaration.py:0
 msgid "There is no generated event to send."
+msgstr ""
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "There is no sent batch with a protocol to consult."
 msgstr ""
 
 #. module: l10n_br_dere

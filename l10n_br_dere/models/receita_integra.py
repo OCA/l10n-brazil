@@ -9,6 +9,8 @@ import requests
 from odoo import _, fields, models
 from odoo.exceptions import UserError
 
+from ..constants import DEFAULT_CONSULT_PATH
+
 _logger = logging.getLogger(__name__)
 
 
@@ -59,6 +61,25 @@ class DereReceitaIntegra(models.AbstractModel):
             headers={
                 "Authorization": f"Bearer {token}",
                 "Content-Type": "application/xml",
+            },
+            timeout=120,
+        )
+        return {
+            "status_code": response.status_code,
+            "text": response.text,
+            "ok": 200 <= response.status_code < 300,
+            "sent_at": datetime.now(timezone.utc),
+        }
+
+    def consult_batch(self, company, protocol):
+        token = self._get_token(company)
+        path = company.dere_consult_path or DEFAULT_CONSULT_PATH
+        url = (company.dere_api_url or "").rstrip("/") + path.format(protocol=protocol)
+        response = requests.get(
+            url,
+            headers={
+                "Authorization": f"Bearer {token}",
+                "Accept": "application/xml",
             },
             timeout=120,
         )

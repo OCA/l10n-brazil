@@ -171,6 +171,12 @@ msgid "Batches"
 msgstr "Lotes"
 
 #. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_batch.py:0
+msgid "Batch %s has no protocol to consult."
+msgstr "O lote %s não tem protocolo para consultar."
+
+#. module: l10n_br_dere
 #: model:l10n_br_dere.activity,name:l10n_br_dere.activity_31_02a
 msgid "Benefit administrators"
 msgstr "Administradoras de benefícios"
@@ -229,6 +235,16 @@ msgstr "Saldo final"
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_trial_line__dere12_natSaldoFinal
 msgid "Closing nature"
 msgstr "Natureza do encerramento"
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+msgid "Consult"
+msgstr "Consultar"
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+msgid "Consult Results"
+msgstr "Consultar Resultados"
 
 #. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_activity__code
@@ -494,6 +510,11 @@ msgstr "Versão do aplicativo DeRE"
 #: model:ir.model.fields,field_description:l10n_br_dere.field_res_company__dere_api_path
 msgid "DeRE batch path"
 msgstr "Caminho do lote DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_res_company__dere_consult_path
+msgid "DeRE consult path"
+msgstr "Caminho de consulta DeRE"
 
 #. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_res_company__dere_freq_encerr
@@ -1352,6 +1373,12 @@ msgid "Path appended to the API URL when posting a batch."
 msgstr "Caminho concatenado à URL da API ao transmitir um lote."
 
 #. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_res_company__dere_consult_path
+msgid "Path appended to the API URL when consulting a batch. Use {protocol}."
+msgstr ""
+"Caminho concatenado à URL da API ao consultar um lote. Use {protocol}."
+
+#. module: l10n_br_dere
 #: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_09a
 msgid "Payment arrangements - acquirer"
 msgstr "Arranjos de pagamento - credenciador"
@@ -1489,6 +1516,12 @@ msgstr "Client secret da Receita Integra"
 #: code:addons/l10n_br_dere/models/dere_declaration.py:0
 msgid "Receita Integra rejected the batch: %s"
 msgstr "A Receita Integra rejeitou o lote: %s"
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_batch.py:0
+msgid "Receita Integra rejected the batch query: %s"
+msgstr "A Receita Integra rejeitou a consulta do lote: %s"
 
 #. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_res_company__dere_token_url
@@ -1831,6 +1864,12 @@ msgstr "Já existe uma declaração DeRE para esta empresa e período."
 #: code:addons/l10n_br_dere/models/dere_declaration.py:0
 msgid "There is no generated event to send."
 msgstr "Não há evento gerado para transmitir."
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "There is no sent batch with a protocol to consult."
+msgstr "Não há lote transmitido com protocolo para consultar."
 
 #. module: l10n_br_dere
 #: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_company_form

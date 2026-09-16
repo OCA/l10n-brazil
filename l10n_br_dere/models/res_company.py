@@ -13,7 +13,12 @@ from odoo.addons.l10n_br_dere_spec.models.v1_2.types import (
     TP_AMB,
 )
 
-from ..constants import DEFAULT_API_URL, DEFAULT_VER_APLIC, TOKEN_URL_PROD
+from ..constants import (
+    DEFAULT_API_URL,
+    DEFAULT_CONSULT_PATH,
+    DEFAULT_VER_APLIC,
+    TOKEN_URL_PROD,
+)
 
 
 class ResCompany(models.Model):
@@ -79,6 +84,11 @@ class ResCompany(models.Model):
         string="DeRE batch path",
         default="/dere/v1/lotes",
         help="Path appended to the API URL when posting a batch.",
+    )
+    dere_consult_path = fields.Char(
+        string="DeRE consult path",
+        default=DEFAULT_CONSULT_PATH,
+        help="Path appended to the API URL when consulting a batch. Use {protocol}.",
     )
     dere_client_id = fields.Char(string="Receita Integra client id")
     dere_client_secret = fields.Char(string="Receita Integra client secret")

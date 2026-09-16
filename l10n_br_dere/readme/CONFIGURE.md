@@ -3,7 +3,8 @@ On the company form, open the **DeRE** tab and set:
 1. Main tax regime (`regTribPrinc`) and optional secondary regime
 2. Activities from official tables 21, 31 or 41
 3. Referential chart (`planoCtaRef`) and closing frequency (`freqEncerr`)
-4. Receita Integra environment, token URL and OAuth client credentials
+4. Receita Integra environment, token URL, OAuth client credentials and the
+   batch consult path (`{protocol}` placeholder)
 5. An ICP-Brasil A1 certificate on the Fiscal tab (NFe or e-CNPJ). Generation
    does not need it; sending does.
 

@@ -378,8 +378,8 @@ Específicos (DeRE)</strong> layout <strong>1.2.0</strong>.</p>
 <li>map <tt class="docutils literal">account.account</tt> lines to PGCC fields (<tt class="docutils literal">cCtaRef</tt>,
 <tt class="docutils literal">codTrib</tt>, <tt class="docutils literal">codNat</tt>)</li>
 <li>generate local XML for D-1001, D-1011, D-1101 and D-1199</li>
-<li>send signed batches to Receita Integra and store protocol, receipt and
-D-9xxx returns</li>
+<li>send signed batches to Receita Integra, consult processing and store
+protocol, receipt and D-9xxx returns</li>
 </ul>
 <p>It does <strong>not</strong> implement sector-specific rules (for example health-plan
 premium vs administration-fee reconciliation). Those stay in company
@@ -410,7 +410,8 @@ data or in a dedicated extra addon.</p>
 <li>Activities from official tables 21, 31 or 41</li>
 <li>Referential chart (<tt class="docutils literal">planoCtaRef</tt>) and closing frequency
 (<tt class="docutils literal">freqEncerr</tt>)</li>
-<li>Receita Integra environment, token URL and OAuth client credentials</li>
+<li>Receita Integra environment, token URL, OAuth client credentials and
+the batch consult path (<tt class="docutils literal">{protocol}</tt> placeholder)</li>
 <li>An ICP-Brasil A1 certificate on the Fiscal tab (NFe or e-CNPJ).
 Generation does not need it; sending does.</li>
 </ol>
@@ -429,8 +430,9 @@ DeRE.</p>
 <li>Generate table events: D-1001 then D-1011. The stored XML stays
 unsigned. Sending signs each event (XML-DSig RSA-SHA256) and posts
 one type per batch.</li>
-<li>After the D-9001 receipt, generate the trial balance (D-1101) from
-posted <tt class="docutils literal">account.move.line</tt> records.</li>
+<li>After sending, use <strong>Consult Results</strong> until the D-9001 receipt
+arrives. Then generate the trial balance (D-1101) from posted
+<tt class="docutils literal">account.move.line</tt> records.</li>
 <li>Close the period with D-1199 (<tt class="docutils literal">tpOper</tt> inclusion only). Send
 periodics in a separate batch. Table and periodic events in the same
 batch are rejected.</li>
@@ -473,6 +475,8 @@ dates use <tt class="docutils literal"><span class="pre">YYYY-MM-DD</span></tt>;
 the company is subject to D-1121.</li>
 <li>Confirm the company has an A1 certificate. Sending signs the payload;
 the event form still shows the unsigned XML.</li>
+<li><strong>Consult Results</strong> after each send. The POST only returns a
+protocol; acceptance and <tt class="docutils literal">nrRecibo</tt> come from the later GET.</li>
 <li>Do <strong>not</strong> send tables and periodics in the same batch. Do not send
 D-1011 before D-1001 is accepted, nor D-1199 before D-1101 has a
 processing receipt.</li>
@@ -489,8 +493,6 @@ nfelib plays for NF-e / CT-e / MDF-e). Do not introduce
 <li>Do not inherit event mixins (D-1001 / D-1011 / D-1101 / D-1199) on
 <tt class="docutils literal">l10n_br_dere.declaration</tt> or <tt class="docutils literal">l10n_br_dere.event</tt>: those
 abstracts share <tt class="docutils literal">dere12_id</tt> and <tt class="docutils literal">dere12_tpOper</tt>.</li>
-<li>Consult batch processing (<tt class="docutils literal">GET <span class="pre">/v1/consulta/lotes/{protocolo}</span></tt>) and
-apply D-9xxx returns without relying on the immediate POST body</li>
 <li>Send D-1198 reopening to Receita Integra</li>
 <li>Full D-1106 and D-1121 business rules</li>
 <li>Transactional events (D-3201 and remaining D-22xx / D-32xx) after

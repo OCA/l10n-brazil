@@ -39,3 +39,4 @@ NS = {
 TOKEN_URL_PROD = "https://api.receitafederal.gov.br/token"
 DEFAULT_API_URL = "https://api.receitafederal.gov.br"
 DEFAULT_VER_APLIC = "odoo-l10n-br-dere-18.0"
+DEFAULT_CONSULT_PATH = "/dere/v1/consulta/lotes/{protocol}"

@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import calendar
+import json
 import re
 from collections import defaultdict
 from datetime import date
@@ -540,18 +541,21 @@ class DereDeclaration(models.Model):
                 "protocol": batch.protocol,
             }
         )
-        if result["ok"] and result.get("text") and "<" in result["text"]:
-            try:
-                parsed = xml_builder.parse_return(result["text"])
-            except etree.XMLSyntaxError:
-                parsed = {}
-            if parsed:
-                self._apply_parsed_return(events, parsed, batch.protocol)
         if not result["ok"]:
             raise UserError(
                 _("Receita Integra rejected the batch: %s") % result["text"]
             )
         return batch
+
+    def action_consult_results(self):
+        for rec in self:
+            batches = rec.batch_ids.filtered(
+                lambda batch: batch.protocol and batch.state == "sent"
+            )
+            if not batches:
+                raise UserError(_("There is no sent batch with a protocol to consult."))
+            batches.action_consult()
+        return True
 
     def action_apply_return_xml(self, xml_content):
         self.ensure_one()
@@ -607,11 +611,43 @@ class DereDeclaration(models.Model):
             )
         return True
 
+    def _apply_consult_result(self, batch, xml_content):
+        self.ensure_one()
+        if not xml_content or "<" not in xml_content:
+            return False
+        try:
+            parsed = xml_builder.parse_return(xml_content)
+        except etree.XMLSyntaxError:
+            return False
+        cd_resposta = str(parsed.get("cdResposta") or "")
+        if cd_resposta == "1":
+            return False
+        if parsed.get("cdRetorno"):
+            self._apply_parsed_return(
+                batch.event_ids, parsed, parsed.get("protocoloLote") or batch.protocol
+            )
+        if cd_resposta in ("4", "5", "7", "9"):
+            batch.state = "error"
+            return False
+        pending = batch.event_ids.filtered(lambda ev: ev.state == "sent")
+        if cd_resposta in ("2", "3") or (batch.event_ids and not pending):
+            batch.state = "done"
+        return True
+
     def _extract_protocol(self, text):
-        if not text or "<" not in text:
+        if not text:
+            return False
+        stripped = text.strip()
+        if stripped.startswith("{"):
+            try:
+                payload = json.loads(stripped)
+            except json.JSONDecodeError:
+                return False
+            return payload.get("protocoloLote") or payload.get("protocolo") or False
+        if "<" not in stripped:
             return False
         try:
             parsed = xml_builder.parse_return(text)
         except etree.XMLSyntaxError:
             return False
-        return parsed.get("protocoloLote") or False
+        return parsed.get("protocoloLote") or parsed.get("protocolo") or False

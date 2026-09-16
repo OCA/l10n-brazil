@@ -29,6 +29,20 @@ RETURN_D9001 = """<?xml version="1.0" encoding="utf-8"?>
 </DeRE>
 """
 
+PROCESSING_LOTE = """<?xml version="1.0" encoding="utf-8"?>
+<DeRE xmlns="http://www.dere.gov.br/schemas/retornoLoteDere/v1_0_1">
+  <retornoLoteEventos>
+    <status>
+      <cdResposta>1</cdResposta>
+      <descResposta>Waiting</descResposta>
+    </status>
+    <dadosRecepcaoLote>
+      <protocolo>PROT-2026-0000000001</protocolo>
+    </dadosRecepcaoLote>
+  </retornoLoteEventos>
+</DeRE>
+"""
+
 
 class _FakeResponse:
     def __init__(self, status_code=200, text="", payload=None):
@@ -47,7 +61,33 @@ class TestDereTransmit(DereCommon):
             return _FakeResponse(
                 payload={"access_token": "demo-token", "expires_in": 3600}
             )
+        return _FakeResponse(
+            text='{"protocolo": "PROT-2026-0000000001"}',
+            payload={"protocolo": "PROT-2026-0000000001"},
+        )
+
+    def _fake_get(self, url, **_kwargs):
         return _FakeResponse(text=RETURN_D9001)
+
+    def _send_tables(self, declaration):
+        with patch(
+            "odoo.addons.l10n_br_dere.models.receita_integra.requests.post",
+            side_effect=self._fake_post,
+        ):
+            declaration.action_send_tables()
+
+    def _consult_results(self, declaration, get_side_effect=None):
+        with (
+            patch(
+                "odoo.addons.l10n_br_dere.models.receita_integra.requests.post",
+                side_effect=self._fake_post,
+            ),
+            patch(
+                "odoo.addons.l10n_br_dere.models.receita_integra.requests.get",
+                side_effect=get_side_effect or self._fake_get,
+            ),
+        ):
+            declaration.action_consult_results()
 
     def test_parse_return_keeps_receipt_and_protocol_apart(self):
         parsed = xml_builder.parse_return(RETURN_D9001)
@@ -59,28 +99,42 @@ class TestDereTransmit(DereCommon):
     def test_send_tables_with_http_mock(self):
         declaration = self._create_declaration()
         declaration.action_generate_tables()
-        with patch(
-            "odoo.addons.l10n_br_dere.models.receita_integra.requests.post",
-            side_effect=self._fake_post,
-        ):
-            declaration.action_send_tables()
+        self._send_tables(declaration)
         event = declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1001")
-        self.assertEqual(event.state, "accepted")
-        self.assertEqual(event.nr_recibo, "REC-D1001-000000000000001")
+        self.assertEqual(event.state, "sent")
+        self.assertFalse(event.nr_recibo)
         self.assertEqual(event.protocol, "PROT-2026-0000000001")
-        self.assertEqual(event.cd_retorno, "1")
         self.assertTrue(declaration.batch_ids)
         self.assertEqual(declaration.batch_ids.protocol, "PROT-2026-0000000001")
         self.assertNotIn("evtRetorno", declaration.batch_ids.protocol)
+        self._consult_results(declaration)
+        self.assertEqual(event.state, "accepted")
+        self.assertEqual(event.nr_recibo, "REC-D1001-000000000000001")
+        self.assertEqual(event.cd_retorno, "1")
+        self.assertEqual(declaration.batch_ids.state, "done")
+
+    def test_consult_keeps_sent_while_processing(self):
+        declaration = self._create_declaration()
+        declaration.action_generate_tables()
+        self._send_tables(declaration)
+        self._consult_results(
+            declaration,
+            get_side_effect=lambda url, **_kw: _FakeResponse(text=PROCESSING_LOTE),
+        )
+        event = declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1001")
+        self.assertEqual(event.state, "sent")
+        self.assertEqual(declaration.batch_ids.state, "sent")
+
+    def test_consult_without_protocol(self):
+        declaration = self._create_declaration()
+        with self.assertRaises(UserError):
+            declaration.action_consult_results()
 
     def test_refuse_regenerate_after_accept(self):
         declaration = self._create_declaration()
         declaration.action_generate_tables()
-        with patch(
-            "odoo.addons.l10n_br_dere.models.receita_integra.requests.post",
-            side_effect=self._fake_post,
-        ):
-            declaration.action_send_tables()
+        self._send_tables(declaration)
+        self._consult_results(declaration)
         with self.assertRaises(UserError):
             declaration.action_generate_tables()
 
@@ -139,11 +193,7 @@ class TestDereTransmit(DereCommon):
         declaration.action_generate_tables()
         event = declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1001")
         self.assertNotIn("Signature", event.xml_content)
-        with patch(
-            "odoo.addons.l10n_br_dere.models.receita_integra.requests.post",
-            side_effect=self._fake_post,
-        ):
-            declaration.action_send_tables()
+        self._send_tables(declaration)
         lote = declaration.batch_ids.xml_content
         self.assertIn("Signature", lote)
         self.assertIn("rsa-sha256", lote)

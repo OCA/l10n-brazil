@@ -53,6 +53,11 @@
                         invisible="state not in ('trial_ok', 'closed', 'reopened')"
                     />
                     <button
+                        name="action_consult_results"
+                        type="object"
+                        string="Consult Results"
+                    />
+                    <button
                         name="action_mark_reopened"
                         type="object"
                         string="Reopen Period"
@@ -128,6 +133,13 @@
                                     <field name="name" />
                                     <field name="state" />
                                     <field name="protocol" />
+                                    <button
+                                        name="action_consult"
+                                        type="object"
+                                        string="Consult"
+                                        icon="fa-refresh"
+                                        invisible="state != 'sent' or not protocol"
+                                    />
                                 </list>
                             </field>
                         </page>
