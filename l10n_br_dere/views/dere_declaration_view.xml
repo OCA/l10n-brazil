@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_dere_declaration_tree" model="ir.ui.view">
+        <field name="name">l10n_br_dere.declaration.list</field>
+        <field name="model">l10n_br_dere.declaration</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+                <field name="per_apur" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="state" />
+            </list>
+        </field>
+    </record>
+    <record id="view_dere_declaration_form" model="ir.ui.view">
+        <field name="name">l10n_br_dere.declaration.form</field>
+        <field name="model">l10n_br_dere.declaration</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="action_generate_tables"
+                        type="object"
+                        string="Generate Tables"
+                        class="btn-primary"
+                        invisible="state not in ('draft', 'reopened')"
+                    />
+                    <button
+                        name="action_generate_d1101"
+                        type="object"
+                        string="Generate Trial Balance"
+                        class="btn-primary"
+                        invisible="state not in ('tables_ok', 'reopened')"
+                    />
+                    <button
+                        name="action_generate_d1199"
+                        type="object"
+                        string="Close Period"
+                        invisible="state != 'trial_ok'"
+                    />
+                    <button
+                        name="action_send_tables"
+                        type="object"
+                        string="Send Tables"
+                        invisible="state not in ('tables_ok', 'trial_ok', 'reopened')"
+                    />
+                    <button
+                        name="action_send_periodics"
+                        type="object"
+                        string="Send Periodics"
+                        invisible="state not in ('trial_ok', 'closed', 'reopened')"
+                    />
+                    <button
+                        name="action_mark_reopened"
+                        type="object"
+                        string="Reopen Period"
+                        invisible="state != 'closed'"
+                    />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                            <field name="per_apur" />
+                            <field name="date_from" />
+                            <field name="date_to" />
+                        </group>
+                        <group>
+                            <field name="ini_valid" />
+                            <field name="fim_valid" />
+                            <field name="ind_inexist_dedu" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Events" name="events">
+                            <field name="event_ids">
+                                <list>
+                                    <field name="event_type" />
+                                    <field name="state" />
+                                    <field name="event_id_attr" />
+                                    <field name="protocol" />
+                                    <field name="nr_recibo" />
+                                    <field name="cd_retorno" />
+                                </list>
+                            </field>
+                        </page>
+                        <page string="PGCC" name="pgcc">
+                            <field name="pgcc_account_ids">
+                                <list>
+                                    <field name="dere12_cCta" />
+                                    <field name="dere12_nomeCta" />
+                                    <field name="dere12_indCta" />
+                                    <field name="dere12_cCtaRef" />
+                                    <field name="dere12_codNat" />
+                                    <field name="tax_code_id" />
+                                    <field name="dere12_cDbrMista" />
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Trial Balance" name="trial">
+                            <field name="trial_line_ids">
+                                <list>
+                                    <field
+                                        name="brl_currency_id"
+                                        column_invisible="1"
+                                    />
+                                    <field name="dere12_cCta" />
+                                    <field name="dere12_natSaldoInic" />
+                                    <field name="dere12_vSaldoInic" sum="Opening" />
+                                    <field name="dere12_vMovDebt" sum="Debit" />
+                                    <field name="dere12_vMovCred" sum="Credit" />
+                                    <field name="dere12_natSaldoFinal" />
+                                    <field name="dere12_vSaldoFinal" sum="Closing" />
+                                    <field name="dere12_vApur" sum="Taxable" />
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Batches" name="batches">
+                            <field name="batch_ids">
+                                <list>
+                                    <field name="name" />
+                                    <field name="state" />
+                                    <field name="protocol" />
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter />
+            </form>
+        </field>
+    </record>
+    <record id="action_dere_declaration" model="ir.actions.act_window">
+        <field name="name">DeRE Declarations</field>
+        <field name="res_model">l10n_br_dere.declaration</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
