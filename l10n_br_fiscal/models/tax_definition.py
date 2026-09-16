@@ -56,7 +56,8 @@ class TaxDefinition(models.Model):
     _description = "Tax Definition"
 
     def _get_complete_name(self):
-        return f"{self.tax_group_id.name}-{self.tax_id.name}-{self.cst_code}"
+        parts = [self.tax_group_id.name, self.tax_id.name, self.cst_code]
+        return "-".join(part for part in parts if part)
 
     @api.depends("tax_group_id", "tax_id", "cst_code")
     def _compute_display_name(self):
