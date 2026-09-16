@@ -2,9 +2,13 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import hashlib
+import re
+import secrets
 import uuid
+from datetime import datetime, timezone
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_dere_spec.models.v1_2.types import (
     APLIC_EMI,
@@ -14,7 +18,7 @@ from odoo.addons.l10n_br_dere_spec.models.v1_2.types import (
     TP_OPER,
 )
 
-from ..constants import EVENT_TYPES
+from ..constants import EVENT_TYPES, STRUCTURED_EVENT_ID
 
 
 class DereEvent(models.Model):
@@ -71,8 +75,25 @@ class DereEvent(models.Model):
             rec.name = f"{rec.event_type or ''} {rec.declaration_id.per_apur or ''}"
 
     @api.model
-    def _generate_event_id(self):
-        return uuid.uuid4().hex[:42].ljust(42, "0")
+    def _generate_event_id(self, event_type=None, company=None, tp_amb=None):
+        if self and not event_type:
+            event_type = self.event_type
+            company = company or self.company_id
+            tp_amb = tp_amb or self.tp_amb
+        if event_type not in STRUCTURED_EVENT_ID:
+            return uuid.uuid4().hex[:42].ljust(42, "0")
+        code = event_type.replace("D-", "")
+        environment = str(tp_amb or (company.dere_tp_amb if company else "2") or "2")
+        if environment not in ("1", "2"):
+            environment = "2"
+        cnpj = (company._dere_cnpj() if company else "").upper()
+        if not re.fullmatch(r"[0-9A-Z]{14}", cnpj):
+            raise UserError(_("Set a valid 14-character CNPJ on the company."))
+        seq = (
+            f"{datetime.now(timezone.utc):%Y%m%d%H%M%S}"
+            f"{secrets.randbelow(100000):05d}"
+        )
+        return f"DeRE{code}{environment}{cnpj}{seq}"
 
     def _store_xml(self, xml):
         self.ensure_one()

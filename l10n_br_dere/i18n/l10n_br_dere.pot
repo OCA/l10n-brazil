@@ -1664,6 +1664,12 @@ msgid "Set a valid 8-digit CNPJ root on the company."
 msgstr ""
 
 #. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_event.py:0
+msgid "Set a valid 14-character CNPJ on the company."
+msgstr ""
+
+#. module: l10n_br_dere
 #: model:ir.model.fields,help:l10n_br_dere.field_res_company__dere_subject_d1121
 msgid "Set if the taxpayer must send the deduction event when it applies."
 msgstr ""

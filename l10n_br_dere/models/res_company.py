@@ -93,7 +93,7 @@ class ResCompany(models.Model):
     dere_client_id = fields.Char(string="Receita Integra client id")
     dere_client_secret = fields.Char(string="Receita Integra client secret")
 
-    def _dere_cnpj_root(self):
+    def _dere_cnpj(self):
         self.ensure_one()
         vat = ""
         partner = self.partner_id
@@ -101,4 +101,8 @@ class ResCompany(models.Model):
             vat = partner.cnpj_cpf_stripped or ""
         if not vat:
             vat = re.sub(r"[^0-9A-Z]", "", (self.vat or "").upper())
-        return vat[:8]
+        return vat[:14]
+
+    def _dere_cnpj_root(self):
+        self.ensure_one()
+        return self._dere_cnpj()[:8]

@@ -1,11 +1,15 @@
 # Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from unittest.mock import patch
+
 from lxml import etree
 
 from odoo import Command
 from odoo.exceptions import UserError
 from odoo.tests import tagged
+
+from odoo.addons.l10n_br_dere.constants import STRUCTURED_EVENT_ID_RE
 
 from .common import DereCommon
 
@@ -49,7 +53,9 @@ class TestDereMonthly(DereCommon):
             ).xml_content.encode("utf-8")
         )
         self.assertEqual(root.findtext(".//{*}perApur"), "2026-10")
-        self.assertEqual(len(root.find(".//{*}evtBalancete").get("id") or ""), 42)
+        event_id = root.find(".//{*}evtBalancete").get("id") or ""
+        self.assertRegex(event_id, STRUCTURED_EVENT_ID_RE)
+        self.assertTrue(event_id.startswith("DeRE11012"))
 
     def test_d1101_fee_vs_pass_through(self):
         fee = self.env["account.account"].create(
@@ -169,3 +175,22 @@ class TestDereMonthly(DereCommon):
         self.assertEqual(declaration.state, "closed")
         self.assertIn("<perApur>2026-10</perApur>", event.xml_content)
         self.assertNotIn("indInexistDedu", event.xml_content)
+        self.assertRegex(event.event_id_attr, STRUCTURED_EVENT_ID_RE)
+        self.assertTrue(event.event_id_attr.startswith("DeRE11992"))
+
+    def test_d1101_requires_full_cnpj(self):
+        declaration = self._create_declaration()
+        declaration.action_generate_tables()
+        self._post_entry(
+            "2026-10-20",
+            self.receivable,
+            self.fee_account,
+            100.0,
+        )
+        with (
+            patch.object(type(self.company), "_dere_cnpj", return_value="12345678"),
+            self.assertRaises(UserError) as error,
+        ):
+            declaration.action_generate_d1101()
+        self.assertIn("14", error.exception.args[0])
+        self.assertIn("CNPJ", error.exception.args[0])

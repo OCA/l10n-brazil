@@ -119,8 +119,10 @@ typed: it is rebuilt from those moves.
    - Pass-through line: movement present and ``vApur`` = 0.00 (no
      ``natVApur``).
 
-5. Open each event form and check the XML: ``id`` is 42 characters;
-   dates use ``YYYY-MM-DD``; ``perApur`` uses ``YYYY-MM``.
+5. Open each event form and check the XML: dates use ``YYYY-MM-DD``;
+   ``perApur`` uses ``YYYY-MM``. Table ``id`` is 42 alphanumeric
+   characters. D-1101 / D-1199 ``id`` follows ``DeRE`` + event code +
+   environment + CNPJ + 19 digits.
 6. **Close Period** (D-1199). Leave *Declare no deductions* unset unless
    the company is subject to D-1121.
 7. Confirm the company has an A1 certificate. Sending signs the payload;

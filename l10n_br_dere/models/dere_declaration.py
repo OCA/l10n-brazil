@@ -119,11 +119,15 @@ class DereDeclaration(models.Model):
             ):
                 raise ValidationError(_("Assessment period must use the YYYY-MM mask."))
 
-    def _header_vals(self, extra=None):
+    def _header_vals(self, extra=None, event_type=None):
         self.ensure_one()
         company = self.company_id
         vals = {
-            "id": self.env["l10n_br_dere.event"]._generate_event_id(),
+            "id": self.env["l10n_br_dere.event"]._generate_event_id(
+                event_type=event_type,
+                company=company,
+                tp_amb=company.dere_tp_amb or "2",
+            ),
             "tpOper": "1",
             "tpAmb": company.dere_tp_amb or "2",
             "aplicEmi": "1",
@@ -190,7 +194,8 @@ class DereDeclaration(models.Model):
                 "tpAtividadeFinanc": self._activity_codes("21"),
                 "tpAtividadeSaude": self._activity_codes("31"),
                 "tpAtividadeProg": self._activity_codes("41"),
-            }
+            },
+            event_type=EVENT_D1001,
         )
         regimes = {company.dere_reg_trib_princ, *secund}
         if "1" in regimes and not vals["tpAtividadeFinanc"]:
@@ -286,7 +291,8 @@ class DereDeclaration(models.Model):
             {
                 "planoCtaRef": company.dere_plano_cta_ref,
                 "freqEncerr": company.dere_freq_encerr,
-            }
+            },
+            event_type=EVENT_D1011,
         )
         event = self._get_or_create_event(EVENT_D1011)
         vals["id"] = event.event_id_attr or vals["id"]
@@ -392,7 +398,7 @@ class DereDeclaration(models.Model):
         if not rows:
             raise UserError(_("No analytic DeRE movement found for this period."))
         self.env["l10n_br_dere.trial.line"].create(rows)
-        vals = self._header_vals()
+        vals = self._header_vals(event_type=EVENT_D1101)
         event = self._get_or_create_event(EVENT_D1101)
         vals["id"] = event.event_id_attr or vals["id"]
         event.event_id_attr = vals["id"]
@@ -426,7 +432,7 @@ class DereDeclaration(models.Model):
                     )
                 )
             extra["indInexistDedu"] = "1"
-        vals = self._header_vals(extra)
+        vals = self._header_vals(extra, event_type=EVENT_D1199)
         event = self._get_or_create_event(EVENT_D1199)
         vals["id"] = event.event_id_attr or vals["id"]
         event.event_id_attr = vals["id"]
