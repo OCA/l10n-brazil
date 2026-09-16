@@ -49,8 +49,14 @@
             action="action_cnab_line_fields_group_condition"
             sequence="60"
         />
-    </menuitem>
+        <menuitem
+            id="menu_cnab_data_management"
+            name="CNAB Data Management"
+            action="action_cnab_data_management"
+            sequence="70"
+        />
 
+    </menuitem>
     <!-- TODO Por enquanto não há a implementação para cobrança, então está comentado -->
     <!-- <menuitem
         name="CNAB"
@@ -69,7 +75,6 @@
         action="l10n_br_inbound_cnab_import_action"
         />
     </menuitem> -->
-
     <menuitem
         name="CNAB"
         id="cnab_payables"
@@ -88,5 +93,4 @@
             action="l10n_br_outbound_cnab_import_action"
         />
     </menuitem>
-
 </odoo>

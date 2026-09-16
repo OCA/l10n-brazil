@@ -6,9 +6,9 @@
     "summary": """
         This module allows defining the structure for generating the CNAB file.
         Used to exchange information with Brazilian banks.""",
-    "version": "14.0.1.3.2",
+    "version": "14.0.2.0.0",
     "author": "Engenere, Escodoo, Odoo Community Association (OCA)",
-    "maintainers": ["antoniospneto", "felipemotter"],
+    "maintainers": ["antoniospneto", "felipemotter", "marcelsavegnago", "kaynnan"],
     "website": "https://github.com/OCA/l10n-brazil",
     "license": "AGPL-3",
     "depends": [
@@ -16,6 +16,16 @@
         "l10n_br_coa_generic",
     ],
     "data": [
+        "data/l10n_br_cnab.structure.csv",
+        "data/l10n_br_cnab.batch.csv",
+        "data/cnab.payment.way.csv",
+        "data/l10n_br_cnab.line.csv",
+        "data/cnab.line.field.group.csv",
+        "data/l10n_br_cnab.line.field.csv",
+        "data/cnab.line.group.field.condition.csv",
+        "data/cnab.occurrence.csv",
+        "data/cnab.pix.key.type.csv",
+        "data/cnab.pix.transfer.type.csv",
         "wizard/field_select_wizard.xml",
         "wizard/cnab_preview_wizard.xml",
         "wizard/cnab_import_wizard.xml",
@@ -29,11 +39,17 @@
         "views/cnab_line_field_group.xml",
         "views/cnab_line_field_group_condition.xml",
         "views/journal_view.xml",
+        "views/cnab_data_management.xml",
         "security/cnab_security.xml",
         "security/ir.model.access.csv",
         "views/cnab_menu.xml",
     ],
-    "demo": [],
-    "post_init_hook": "post_init_hook",
+    "demo": [
+        "demo/account_account.xml",
+        "demo/account_journal.xml",
+        "demo/payment_mode.xml",
+        "demo/res_partner_bank.xml",
+        "demo/account_invoice.xml",
+    ],
     "external_dependencies": {"python": ["pyyaml", "unidecode"]},
 }
