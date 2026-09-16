@@ -105,6 +105,19 @@ class TestDereTransmit(DereCommon):
         ):
             declaration.action_consult_results()
 
+    def _cron_consult(self, get_side_effect=None):
+        with (
+            patch(
+                "odoo.addons.l10n_br_dere.models.receita_integra.requests.post",
+                side_effect=self._fake_post,
+            ),
+            patch(
+                "odoo.addons.l10n_br_dere.models.receita_integra.requests.get",
+                side_effect=get_side_effect or self._fake_get,
+            ),
+        ):
+            self.env["l10n_br_dere.batch"]._cron_consult_batches()
+
     def test_parse_return_keeps_receipt_and_protocol_apart(self):
         parsed = xml_builder.parse_return(RETURN_D9001)
         self.assertEqual(parsed["cdRetorno"], "1")
@@ -139,6 +152,38 @@ class TestDereTransmit(DereCommon):
         )
         event = declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1001")
         self.assertEqual(event.state, "sent")
+        self.assertEqual(declaration.batch_ids.state, "sent")
+
+    def test_cron_consult_applies_return(self):
+        declaration = self._create_declaration()
+        declaration.action_generate_tables()
+        self._send_tables(declaration)
+        self._cron_consult()
+        event = declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1001")
+        self.assertEqual(event.state, "accepted")
+        self.assertEqual(event.nr_recibo, "REC-D1001-000000000000001")
+        self.assertEqual(declaration.batch_ids.state, "done")
+
+    def test_cron_consult_keeps_sent_while_processing(self):
+        declaration = self._create_declaration()
+        declaration.action_generate_tables()
+        self._send_tables(declaration)
+        self._cron_consult(
+            get_side_effect=lambda url, **_kw: _FakeResponse(text=PROCESSING_LOTE),
+        )
+        event = declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1001")
+        self.assertEqual(event.state, "sent")
+        self.assertEqual(declaration.batch_ids.state, "sent")
+
+    def test_cron_consult_http_error_does_not_fail(self):
+        declaration = self._create_declaration()
+        declaration.action_generate_tables()
+        self._send_tables(declaration)
+        self._cron_consult(
+            get_side_effect=lambda url, **_kw: _FakeResponse(
+                status_code=503, text="unavailable"
+            )
+        )
         self.assertEqual(declaration.batch_ids.state, "sent")
 
     def test_consult_without_protocol(self):

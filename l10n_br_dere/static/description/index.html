@@ -378,8 +378,8 @@ Específicos (DeRE)</strong> layout <strong>1.2.0</strong>.</p>
 <li>map <tt class="docutils literal">account.account</tt> lines to PGCC fields (<tt class="docutils literal">cCtaRef</tt>,
 <tt class="docutils literal">codTrib</tt>, <tt class="docutils literal">codNat</tt>)</li>
 <li>generate local XML for D-1001, D-1011, D-1101, D-1198 and D-1199</li>
-<li>send signed batches to Receita Integra, consult processing and store
-protocol, receipt and D-9xxx returns</li>
+<li>send signed batches to Receita Integra, consult processing (manually
+or via cron) and store protocol, receipt and D-9xxx returns</li>
 </ul>
 <p>It does <strong>not</strong> implement sector-specific rules (for example health-plan
 premium vs administration-fee reconciliation). Those stay in company
@@ -414,6 +414,9 @@ data or in a dedicated extra addon.</p>
 the batch consult path (<tt class="docutils literal">{protocol}</tt> placeholder)</li>
 <li>An ICP-Brasil A1 certificate on the Fiscal tab (NFe or e-CNPJ).
 Generation does not need it; sending does.</li>
+<li>Leave the scheduled action <strong>DeRE: consult sent batch results</strong>
+enabled (every 2 minutes). The form button still consults
+immediately.</li>
 </ol>
 <p>On each account used in the declaration, fill the <strong>DeRE</strong> tab:</p>
 <ul class="simple">
@@ -430,9 +433,9 @@ DeRE.</p>
 <li>Generate table events: D-1001 then D-1011. The stored XML stays
 unsigned. Sending signs each event (XML-DSig RSA-SHA256) and posts
 one type per batch.</li>
-<li>After sending, use <strong>Consult Results</strong> until the D-9001 receipt
-arrives. Then generate the trial balance (D-1101) from posted
-<tt class="docutils literal">account.move.line</tt> records.</li>
+<li>After sending, use <strong>Consult Results</strong> or wait for the two-minute
+cron until the D-9001 receipt arrives. Then generate the trial
+balance (D-1101) from posted <tt class="docutils literal">account.move.line</tt> records.</li>
 <li>Close the period with D-1199 (<tt class="docutils literal">tpOper</tt> inclusion only). Send
 periodics in a separate batch. Table and periodic events in the same
 batch are rejected.</li>
@@ -481,8 +484,11 @@ code + environment + CNPJ + 19 digits.</li>
 unless the company is subject to D-1121.</li>
 <li>Confirm the company has an A1 certificate. Sending signs the
 payload; the event form still shows the unsigned XML.</li>
-<li><strong>Consult Results</strong> after each send. The POST only returns a
-protocol; acceptance and <tt class="docutils literal">nrRecibo</tt> come from the later GET.</li>
+<li><strong>Consult Results</strong> after each send, or wait for the scheduled job
+<strong>DeRE: consult sent batch results</strong>. The POST only returns a
+protocol; acceptance and <tt class="docutils literal">nrRecibo</tt> come from the later GET.
+Processing (<tt class="docutils literal">cdResposta</tt> 1) leaves the batch sent so the cron
+retries.</li>
 <li>Do <strong>not</strong> send tables and periodics in the same batch. Do not send
 D-1011 before D-1001 is accepted, nor D-1199 before D-1101 has a
 processing receipt.</li>

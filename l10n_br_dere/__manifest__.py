@@ -25,6 +25,7 @@
         "security/ir.model.access.csv",
         "data/l10n_br_dere.activity.csv",
         "data/l10n_br_dere.tax.code.csv",
+        "data/ir_cron.xml",
         "views/res_company_view.xml",
         "views/account_account_view.xml",
         "views/dere_activity_view.xml",

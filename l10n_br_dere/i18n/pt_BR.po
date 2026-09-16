@@ -247,6 +247,11 @@ msgid "Consult Results"
 msgstr "Consultar Resultados"
 
 #. module: l10n_br_dere
+#: model:ir.cron,name:l10n_br_dere.ir_cron_consult_batches
+msgid "DeRE: consult sent batch results"
+msgstr "DeRE: consultar resultados dos lotes enviados"
+
+#. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_activity__code
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event_occurrence__codigo
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_tax_code__code

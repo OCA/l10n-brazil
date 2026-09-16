@@ -7,6 +7,8 @@ On the company form, open the **DeRE** tab and set:
    batch consult path (`{protocol}` placeholder)
 5. An ICP-Brasil A1 certificate on the Fiscal tab (NFe or e-CNPJ). Generation
    does not need it; sending does.
+6. Leave the scheduled action **DeRE: consult sent batch results** enabled
+   (every 2 minutes). The form button still consults immediately.
 
 On each account used in the declaration, fill the **DeRE** tab:
 

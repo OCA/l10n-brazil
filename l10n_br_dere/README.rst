@@ -37,8 +37,8 @@ It lets an Odoo company:
 - map ``account.account`` lines to PGCC fields (``cCtaRef``,
   ``codTrib``, ``codNat``)
 - generate local XML for D-1001, D-1011, D-1101, D-1198 and D-1199
-- send signed batches to Receita Integra, consult processing and store
-  protocol, receipt and D-9xxx returns
+- send signed batches to Receita Integra, consult processing (manually
+  or via cron) and store protocol, receipt and D-9xxx returns
 
 It does **not** implement sector-specific rules (for example health-plan
 premium vs administration-fee reconciliation). Those stay in company
@@ -62,6 +62,9 @@ On the company form, open the **DeRE** tab and set:
    the batch consult path (``{protocol}`` placeholder)
 5. An ICP-Brasil A1 certificate on the Fiscal tab (NFe or e-CNPJ).
    Generation does not need it; sending does.
+6. Leave the scheduled action **DeRE: consult sent batch results**
+   enabled (every 2 minutes). The form button still consults
+   immediately.
 
 On each account used in the declaration, fill the **DeRE** tab:
 
@@ -78,9 +81,9 @@ Usage
 2. Generate table events: D-1001 then D-1011. The stored XML stays
    unsigned. Sending signs each event (XML-DSig RSA-SHA256) and posts
    one type per batch.
-3. After sending, use **Consult Results** until the D-9001 receipt
-   arrives. Then generate the trial balance (D-1101) from posted
-   ``account.move.line`` records.
+3. After sending, use **Consult Results** or wait for the two-minute
+   cron until the D-9001 receipt arrives. Then generate the trial
+   balance (D-1101) from posted ``account.move.line`` records.
 4. Close the period with D-1199 (``tpOper`` inclusion only). Send
    periodics in a separate batch. Table and periodic events in the same
    batch are rejected.
@@ -131,8 +134,11 @@ typed: it is rebuilt from those moves.
     unless the company is subject to D-1121.
 7.  Confirm the company has an A1 certificate. Sending signs the
     payload; the event form still shows the unsigned XML.
-8.  **Consult Results** after each send. The POST only returns a
+8.  **Consult Results** after each send, or wait for the scheduled job
+    **DeRE: consult sent batch results**. The POST only returns a
     protocol; acceptance and ``nrRecibo`` come from the later GET.
+    Processing (``cdResposta`` 1) leaves the batch sent so the cron
+    retries.
 9.  Do **not** send tables and periodics in the same batch. Do not send
     D-1011 before D-1001 is accepted, nor D-1199 before D-1101 has a
     processing receipt.
