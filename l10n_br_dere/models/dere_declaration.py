@@ -96,6 +96,41 @@ class DereDeclaration(models.Model):
         )
     ]
 
+    _IDENTITY_FIELDS = frozenset({"company_id", "per_apur"})
+    _CLOSED_PROTECTED_FIELDS = frozenset(
+        {
+            "company_id",
+            "per_apur",
+            "ini_valid",
+            "fim_valid",
+            "ind_inexist_dedu",
+            "pgcc_account_ids",
+            "trial_line_ids",
+            "event_ids",
+            "batch_ids",
+        }
+    )
+
+    def write(self, vals):
+        if not self.env.context.get("dere_force_declaration_write"):
+            identity = set(vals) & self._IDENTITY_FIELDS
+            if identity and self.filtered(lambda rec: rec.state != "draft"):
+                raise UserError(
+                    _(
+                        "Company and period cannot be changed after the "
+                        "declaration leaves draft."
+                    )
+                )
+            protected = set(vals) & self._CLOSED_PROTECTED_FIELDS
+            if protected and self.filtered(lambda rec: rec.state == "closed"):
+                raise UserError(
+                    _(
+                        "Closed DeRE declarations cannot be modified. "
+                        "Reopen the period first."
+                    )
+                )
+        return super().write(vals)
+
     @api.depends("company_id", "per_apur")
     def _compute_name(self):
         for rec in self:
@@ -243,6 +278,13 @@ class DereDeclaration(models.Model):
             rec._generate_d1011()
         return True
 
+    def _account_name_for_xml(self, account):
+        """Return the account name in the company language for official XML."""
+        self.ensure_one()
+        lang = self.company_id.partner_id.lang or "en_US"
+        name = account.with_context(lang=lang).name or account.name or ""
+        return name[:100]
+
     def _sync_pgcc_from_accounts(self):
         self.ensure_one()
         self.pgcc_account_ids.unlink()
@@ -262,6 +304,7 @@ class DereDeclaration(models.Model):
                 continue
             codes.add(c_cta)
             parent = account.l10n_br_dere_cta_sup_id
+            account_name = self._account_name_for_xml(account)
             rows.append(
                 {
                     "declaration_id": self.id,
@@ -270,9 +313,9 @@ class DereDeclaration(models.Model):
                     "dere12_cCtaInterna": account.l10n_br_dere_cta_interna
                     or re.sub(r"[^0-9A-Za-z]", "", account.code or ""),
                     "dere12_cDbrMista": account.l10n_br_dere_dbr_mista or "000",
-                    "dere12_nomeCta": (account.name or "")[:100],
+                    "dere12_nomeCta": account_name,
                     "dere12_indCta": account.l10n_br_dere_ind_cta or "A",
-                    "dere12_descCta": account.l10n_br_dere_desc_cta or account.name,
+                    "dere12_descCta": account.l10n_br_dere_desc_cta or account_name,
                     "dere12_cCtaSup": parent.l10n_br_dere_cta if parent else False,
                     "dere12_cCtaRef": account.l10n_br_dere_cta_ref,
                     "dere12_nivelCta": account.l10n_br_dere_nivel_cta or 1,

@@ -1,7 +1,8 @@
 # Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models
+from odoo import _, fields, models
+from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_dere_spec.models.v1_2.types import (
     COD_NAT,
@@ -31,6 +32,11 @@ class DerePgccAccount(models.Model):
         comodel_name="account.account",
         string="Accounting account",
         ondelete="restrict",
+    )
+    account_name = fields.Char(
+        related="account_id.name",
+        string="Account name",
+        help="Accounting account name, translated for the current user.",
     )
     tax_code_id = fields.Many2one(
         comodel_name="l10n_br_dere.tax.code",
@@ -127,6 +133,30 @@ class DerePgccAccount(models.Model):
         string="Validity end",
         help="Official DeRE field fimVig.",
     )
+
+    def write(self, vals):
+        if not self.env.context.get(
+            "dere_force_declaration_write"
+        ) and self.declaration_id.filtered(lambda rec: rec.state == "closed"):
+            raise UserError(
+                _(
+                    "Closed DeRE declarations cannot be modified. "
+                    "Reopen the period first."
+                )
+            )
+        return super().write(vals)
+
+    def unlink(self):
+        if not self.env.context.get(
+            "dere_force_declaration_write"
+        ) and self.declaration_id.filtered(lambda rec: rec.state == "closed"):
+            raise UserError(
+                _(
+                    "Closed DeRE declarations cannot be modified. "
+                    "Reopen the period first."
+                )
+            )
+        return super().unlink()
 
     def _to_xml_vals(self):
         self.ensure_one()

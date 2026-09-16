@@ -41,6 +41,7 @@ class TestDereMonthly(DereCommon):
         equity_line = declaration.trial_line_ids.filtered(
             lambda line: line.pgcc_account_id.account_id == self.equity_account
         )
+        self.assertEqual(fee_line.account_name, self.fee_account.name)
         self.assertEqual(fee_line.dere12_vMovCred, 1000.0)
         self.assertEqual(fee_line.dere12_vApur, 1000.0)
         self.assertEqual(equity_line.dere12_vSaldoInic, 250.0)

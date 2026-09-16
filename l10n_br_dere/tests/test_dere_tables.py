@@ -67,6 +67,30 @@ class TestDereTables(DereCommon):
         self.assertTrue(all(len(code) == 3 for code in splits))
         self.assertEqual(declaration.state, "tables_ok")
 
+    def test_d1011_uses_company_language_account_name(self):
+        self.env["res.lang"]._activate_lang("pt_BR")
+        self.company.partner_id.lang = "pt_BR"
+        self.fee_account.update_field_translations(
+            "name", {"pt_BR": "Administration fees PT"}
+        )
+        declaration = self._create_declaration("2026-08")
+        declaration.action_generate_tables()
+        fee_pgcc = declaration.pgcc_account_ids.filtered(
+            lambda rec: rec.account_id == self.fee_account
+        )
+        self.assertEqual(fee_pgcc.dere12_nomeCta, "Administration fees PT")
+        root = self._event_xml(declaration, "D-1011")
+        names = [node.text for node in root.findall(".//{*}nomeCta")]
+        self.assertIn("Administration fees PT", names)
+        self.assertEqual(
+            fee_pgcc.with_context(lang="en_US").account_name,
+            "Administration fees",
+        )
+        self.assertEqual(
+            fee_pgcc.with_context(lang="pt_BR").account_name,
+            "Administration fees PT",
+        )
+
     def test_mixed_account_split_must_have_three_digits(self):
         with self.assertRaises(ValidationError):
             self.fee_account.l10n_br_dere_dbr_mista = "00"
@@ -81,6 +105,11 @@ class TestDereTables(DereCommon):
         trial_fields = views["models"]["l10n_br_dere.trial.line"]["fields"]
         self.assertIn("dere12_cCta", pgcc_fields)
         self.assertIn("dere12_nomeCta", pgcc_fields)
+        self.assertIn("account_name", pgcc_fields)
         self.assertIn("dere12_cCta", trial_fields)
+        self.assertIn("account_name", trial_fields)
         self.assertIn("dere12_vApur", trial_fields)
         self.assertIn('name="dere12_cCta"', views["views"]["form"]["arch"])
+        self.assertIn('name="account_name"', views["views"]["form"]["arch"])
+        self.assertIn("state != 'draft'", views["views"]["form"]["arch"])
+        self.assertIn("state == 'closed'", views["views"]["form"]["arch"])

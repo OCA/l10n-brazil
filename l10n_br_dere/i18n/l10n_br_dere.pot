@@ -33,7 +33,9 @@ msgid "Account"
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__account_name
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_nomeCta
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_trial_line__account_name
 msgid "Account name"
 msgstr ""
 
@@ -221,6 +223,12 @@ msgid "Closed complementary pension"
 msgstr ""
 
 #. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "Closed DeRE declarations cannot be modified. Reopen the period first."
+msgstr ""
+
+#. module: l10n_br_dere
 #: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
 msgid "Closing"
 msgstr ""
@@ -269,6 +277,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__company_id
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_trial_line__company_id
 msgid "Company"
+msgstr ""
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid ""
+"Company and period cannot be changed after the declaration leaves draft."
 msgstr ""
 
 #. module: l10n_br_dere
@@ -1081,6 +1096,12 @@ msgid "Name"
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_pgcc_account__account_name
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_trial_line__account_name
+msgid "Accounting account name, translated for the current user."
+msgstr ""
+
+#. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_codNat
 msgid "Nature"
 msgstr ""
@@ -1304,6 +1325,12 @@ msgstr ""
 
 #. module: l10n_br_dere
 #. odoo-python
+#: code:addons/l10n_br_dere/models/dere_event.py:0
+msgid "Only draft events can be deleted."
+msgstr ""
+
+#. module: l10n_br_dere
+#. odoo-python
 #: code:addons/l10n_br_dere/models/dere_declaration.py:0
 msgid "Reopening requires an accepted D-1199 receipt 1199-%s-... for this period."
 msgstr ""
@@ -1477,6 +1504,12 @@ msgstr ""
 #. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__nr_recibo_prev
 msgid "Previous receipt"
+msgstr ""
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_event.py:0
+msgid "Processed DeRE events cannot be modified."
 msgstr ""
 
 #. module: l10n_br_dere
@@ -1679,6 +1712,12 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_batch__state__sent
 #: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__state__sent
 msgid "Sent"
+msgstr ""
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_event.py:0
+msgid "Sent DeRE events can only be updated with the consult result."
 msgstr ""
 
 #. module: l10n_br_dere
