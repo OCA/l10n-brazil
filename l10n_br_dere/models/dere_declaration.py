@@ -18,6 +18,7 @@ from odoo.addons.l10n_br_dere_spec.models.v1_2.types import (
 )
 
 from ..constants import (
+    D1199_RECEIPT_RE,
     DEFAULT_VER_APLIC,
     EVENT_D1001,
     EVENT_D1011,
@@ -145,10 +146,31 @@ class DereDeclaration(models.Model):
             raise UserError(_("Set a valid 8-digit CNPJ root on the company."))
         return vals
 
+    def _latest_event(self, event_type):
+        self.ensure_one()
+        events = self.event_ids.filtered(lambda ev: ev.event_type == event_type)
+        return events.sorted("id")[-1:]
+
+    def _can_create_next_event(self, event_type):
+        self.ensure_one()
+        if event_type == EVENT_D1198:
+            return self.state == "closed"
+        if event_type in (EVENT_D1101, EVENT_D1199):
+            latest = self._latest_event(EVENT_D1198)
+            return bool(latest and latest.state == "accepted")
+        return False
+
     def _get_or_create_event(self, event_type):
         self.ensure_one()
         events = self.event_ids.filtered(lambda ev: ev.event_type == event_type)
-        if events.filtered(lambda ev: ev.state in ("sent", "accepted")):
+        if events.filtered(
+            lambda ev: ev.state in ("sent", "accepted")
+        ) and not self._can_create_next_event(event_type):
+            if event_type in (EVENT_D1101, EVENT_D1199):
+                raise UserError(
+                    _("D-1198 must be accepted before generating a new %s.")
+                    % event_type
+                )
             raise UserError(
                 _("Event %s was already sent or accepted and cannot be regenerated.")
                 % event_type
@@ -419,9 +441,14 @@ class DereDeclaration(models.Model):
         self.ensure_one()
         if self.state not in ("trial_ok", "reopened", "closed"):
             raise UserError(_("Generate the trial balance before closing."))
-        trial = self.event_ids.filtered(lambda ev: ev.event_type == EVENT_D1101)
+        trial = self._latest_event(EVENT_D1101)
         if not trial:
             raise UserError(_("D-1101 must exist before D-1199."))
+        d1198 = self._latest_event(EVENT_D1198)
+        if d1198 and d1198.state == "accepted" and trial.id < d1198.id:
+            raise UserError(
+                _("Generate a new trial balance after reopening before closing.")
+            )
         extra = {}
         if self.ind_inexist_dedu:
             if not self.company_id.dere_subject_d1121:
@@ -442,11 +469,44 @@ class DereDeclaration(models.Model):
 
     def action_mark_reopened(self):
         for rec in self:
-            if rec.state != "closed":
-                raise UserError(_("Only a closed period can be reopened."))
-            rec._get_or_create_event(EVENT_D1198)
-            rec.state = "reopened"
+            rec._generate_d1198()
         return True
+
+    def _d1199_reopen_receipt(self):
+        self.ensure_one()
+        closing = self._latest_event(EVENT_D1199)
+        receipt = (closing.nr_recibo or "").strip() if closing else ""
+        expected = (self.per_apur or "").replace("-", "")
+        if (
+            not closing
+            or closing.state != "accepted"
+            or not re.fullmatch(D1199_RECEIPT_RE, receipt)
+            or receipt[:4] != "1199"
+            or receipt[5:11] != expected
+        ):
+            raise UserError(
+                _(
+                    "Reopening requires an accepted D-1199 receipt "
+                    "1199-%s-... for this period."
+                )
+                % expected
+            )
+        return receipt
+
+    def _generate_d1198(self):
+        self.ensure_one()
+        if self.state != "closed":
+            raise UserError(_("Only a closed period can be reopened."))
+        vals = self._header_vals(
+            {"nrReciboReab": self._d1199_reopen_receipt()},
+            event_type=EVENT_D1198,
+        )
+        event = self._get_or_create_event(EVENT_D1198)
+        vals["id"] = event.event_id_attr or vals["id"]
+        event.event_id_attr = vals["id"]
+        event._store_xml(xml_builder.build_d1198(vals))
+        self.state = "reopened"
+        return event
 
     def _assert_send_order(self, event_types):
         self.ensure_one()
@@ -458,14 +518,18 @@ class DereDeclaration(models.Model):
                 _("Do not send table events and periodic events in the same batch.")
             )
         if EVENT_D1011 in types:
-            d1001 = self.event_ids.filtered(lambda ev: ev.event_type == EVENT_D1001)
-            if not d1001 or d1001[0].state != "accepted":
+            d1001 = self._latest_event(EVENT_D1001)
+            if not d1001 or d1001.state != "accepted":
                 raise UserError(_("D-1001 must be accepted before sending D-1011."))
+        if EVENT_D1198 in types:
+            closing = self._latest_event(EVENT_D1199)
+            if not closing or closing.state != "accepted" or not closing.nr_recibo:
+                raise UserError(_("D-1199 must be accepted before sending D-1198."))
         if EVENT_D1199 in types:
-            d1101 = self.event_ids.filtered(lambda ev: ev.event_type == EVENT_D1101)
+            d1101 = self._latest_event(EVENT_D1101)
             if not d1101:
                 raise UserError(_("D-1101 must exist before D-1199."))
-            if not d1101[0].nr_recibo:
+            if not d1101.nr_recibo:
                 raise UserError(
                     _("D-1101 processing receipt is required before sending D-1199.")
                 )

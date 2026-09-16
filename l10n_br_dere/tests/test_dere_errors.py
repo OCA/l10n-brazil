@@ -89,14 +89,34 @@ class TestDereErrors(DereCommon):
         declaration.action_generate_tables()
         self._post_entry("2026-02-10", self.receivable, self.fee_account, 10.0)
         declaration.action_generate_d1101()
-        declaration.action_generate_d1199()
-        declaration.action_mark_reopened()
-        self.assertEqual(declaration.state, "reopened")
-        self.assertTrue(
-            declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1198")
+        declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1101").write(
+            {
+                "state": "accepted",
+                "nr_recibo": "1101-202602-0000000000000000001",
+                "cd_retorno": "1",
+            }
         )
+        declaration.action_generate_d1199()
         with self.assertRaises(UserError):
             declaration.action_mark_reopened()
+        self._accept_closing(declaration)
+        declaration.action_mark_reopened()
+        self.assertEqual(declaration.state, "reopened")
+        event = declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1198")
+        self.assertTrue(event.xml_content)
+        self.assertIn("<evtReabertMensal", event.xml_content)
+        self.assertIn(self._closing_receipt("2026-02"), event.xml_content)
+        self.assertTrue(event.event_id_attr.startswith("DeRE11982"))
+        with self.assertRaises(UserError):
+            declaration.action_mark_reopened()
+        with self.assertRaises(UserError):
+            declaration.action_generate_d1101()
+        event.write({"state": "accepted", "cd_retorno": "1"})
+        declaration.action_generate_d1101()
+        self.assertEqual(
+            len(declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1101")),
+            2,
+        )
 
     def test_send_without_events_or_token_error(self):
         declaration = self._create_declaration("2026-01")

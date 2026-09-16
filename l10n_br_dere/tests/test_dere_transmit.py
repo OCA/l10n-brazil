@@ -29,6 +29,22 @@ RETURN_D9001 = """<?xml version="1.0" encoding="utf-8"?>
 </DeRE>
 """
 
+RETURN_D1198 = """<?xml version="1.0" encoding="utf-8"?>
+<DeRE xmlns="http://www.dere.gov.br/schemas/evtRetornoReabert/v0_0_1">
+  <evtRetornoReabert>
+    <ideStatus>
+      <cdRetorno>1</cdRetorno>
+      <descRetorno>Sucesso</descRetorno>
+    </ideStatus>
+    <infoRecEv>
+      <nrRecibo>1198-202610-0000000000000000001</nrRecibo>
+      <protocoloLote>PROT-2026-0000000002</protocoloLote>
+      <tpEv>D-1198</tpEv>
+    </infoRecEv>
+  </evtRetornoReabert>
+</DeRE>
+"""
+
 PROCESSING_LOTE = """<?xml version="1.0" encoding="utf-8"?>
 <DeRE xmlns="http://www.dere.gov.br/schemas/retornoLoteDere/v1_0_1">
   <retornoLoteEventos>
@@ -145,6 +161,29 @@ class TestDereTransmit(DereCommon):
         declaration.action_generate_d1101()
         with self.assertRaises(UserError):
             declaration._send_events(declaration.event_ids)
+
+    def test_send_d1198_after_accepted_closing(self):
+        declaration = self._create_declaration()
+        declaration.action_generate_tables()
+        self._post_entry("2026-10-10", self.receivable, self.fee_account, 50.0)
+        declaration.action_generate_d1101()
+        declaration.action_generate_d1199()
+        self._accept_closing(declaration)
+        declaration.action_mark_reopened()
+        event = declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1198")
+        with patch(
+            "odoo.addons.l10n_br_dere.models.receita_integra.requests.post",
+            side_effect=self._fake_post,
+        ):
+            declaration.action_send_periodics()
+        self.assertEqual(event.state, "sent")
+        self.assertIn("evtReabertMensal", declaration.batch_ids[:1].xml_content)
+        self._consult_results(
+            declaration,
+            get_side_effect=lambda url, **_kw: _FakeResponse(text=RETURN_D1198),
+        )
+        self.assertEqual(event.state, "accepted")
+        self.assertEqual(event.nr_recibo, "1198-202610-0000000000000000001")
 
     def test_d1199_send_requires_d1101_receipt(self):
         declaration = self._create_declaration()

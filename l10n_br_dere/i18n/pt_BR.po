@@ -379,6 +379,18 @@ msgid "D-1101 processing receipt is required before sending D-1199."
 msgstr "O recibo de processamento do D-1101 é obrigatório antes de transmitir o D-1199."
 
 #. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "D-1198 must be accepted before generating a new %s."
+msgstr "O D-1198 precisa ser aceito antes de gerar um novo %s."
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "D-1199 must be accepted before sending D-1198."
+msgstr "O D-1199 precisa ser aceito antes de transmitir o D-1198."
+
+#. module: l10n_br_dere
 #: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__event_type__d-1106
 msgid "D-1106 Technical-reserve investments"
 msgstr "D-1106 Aplicações das reservas técnicas"
@@ -826,6 +838,12 @@ msgstr "Gerar Balancete"
 #: code:addons/l10n_br_dere/models/dere_declaration.py:0
 msgid "Generate the trial balance before closing."
 msgstr "Gere o balancete antes do encerramento."
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "Generate a new trial balance after reopening before closing."
+msgstr "Gere um novo balancete após a reabertura antes de encerrar."
 
 #. module: l10n_br_dere
 #: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__state__generated
@@ -1280,6 +1298,13 @@ msgstr "Jogos online (iGaming)"
 #: code:addons/l10n_br_dere/models/dere_declaration.py:0
 msgid "Only a closed period can be reopened."
 msgstr "Somente um período encerrado pode ser reaberto."
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "Reopening requires an accepted D-1199 receipt 1199-%s-... for this period."
+msgstr ""
+"A reabertura exige um recibo aceito do D-1199 1199-%s-... para este período."
 
 #. module: l10n_br_dere
 #: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_declaration__ind_inexist_dedu

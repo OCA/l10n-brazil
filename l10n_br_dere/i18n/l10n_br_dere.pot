@@ -377,6 +377,18 @@ msgid "D-1101 processing receipt is required before sending D-1199."
 msgstr ""
 
 #. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "D-1198 must be accepted before generating a new %s."
+msgstr ""
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "D-1199 must be accepted before sending D-1198."
+msgstr ""
+
+#. module: l10n_br_dere
 #: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__event_type__d-1106
 msgid "D-1106 Technical-reserve investments"
 msgstr ""
@@ -823,6 +835,12 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_dere/models/dere_declaration.py:0
 msgid "Generate the trial balance before closing."
+msgstr ""
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "Generate a new trial balance after reopening before closing."
 msgstr ""
 
 #. module: l10n_br_dere
@@ -1277,6 +1295,12 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_dere/models/dere_declaration.py:0
 msgid "Only a closed period can be reopened."
+msgstr ""
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "Reopening requires an accepted D-1199 receipt 1199-%s-... for this period."
 msgstr ""
 
 #. module: l10n_br_dere

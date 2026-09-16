@@ -138,6 +138,22 @@ class DereCommon(TransactionCase):
                 }
             )
 
+    def _closing_receipt(self, period="2026-10"):
+        return f"1199-{period.replace('-', '')}-{'0' * 19}"
+
+    def _accept_closing(self, declaration):
+        event = declaration.event_ids.filtered(
+            lambda ev: ev.event_type == "D-1199"
+        ).sorted("id")[-1:]
+        event.write(
+            {
+                "state": "accepted",
+                "nr_recibo": self._closing_receipt(declaration.per_apur),
+                "cd_retorno": "1",
+            }
+        )
+        return event
+
     def _create_declaration(self, period="2026-10"):
         vals = {
             "company_id": self.company.id,

@@ -26,14 +26,16 @@ EVENT_TYPES = [
 ]
 
 TABLE_EVENTS = (EVENT_D1001, EVENT_D1011)
-PERIODIC_EVENTS = (EVENT_D1101, EVENT_D1106, EVENT_D1121, EVENT_D1199)
+PERIODIC_EVENTS = (EVENT_D1198, EVENT_D1101, EVENT_D1106, EVENT_D1121, EVENT_D1199)
 STRUCTURED_EVENT_ID = (EVENT_D1101, EVENT_D1198, EVENT_D1199)
 STRUCTURED_EVENT_ID_RE = r"^DeRE[0-9]{4}[1-2][0-9A-Z]{14}[0-9]{19}$"
+D1199_RECEIPT_RE = r"^[0-9]{4}-20[0-9]{2}(?:0[1-9]|1[0-2])-[0-9A-Z]{19}$"
 
 NS = {
     EVENT_D1001: "http://www.dere.gov.br/schemas/evtInfoContrib/v1_0_1",
     EVENT_D1011: "http://www.dere.gov.br/schemas/evtPGCC/v1_0_3",
     EVENT_D1101: "http://www.dere.gov.br/schemas/evtBalancete/v1_0_1",
+    EVENT_D1198: "http://www.dere.gov.br/schemas/evtReabertMensal/v0_0_1",
     EVENT_D1199: "http://www.dere.gov.br/schemas/evtFechMensal/v0_0_2",
     "lote": "http://www.dere.gov.br/schemas/envioLoteDere/v1_0_1",
 }

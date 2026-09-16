@@ -4,7 +4,14 @@
 from lxml import etree
 from signxml import XMLSigner, methods
 
-from ..constants import EVENT_D1001, EVENT_D1011, EVENT_D1101, EVENT_D1199, NS
+from ..constants import (
+    EVENT_D1001,
+    EVENT_D1011,
+    EVENT_D1101,
+    EVENT_D1198,
+    EVENT_D1199,
+    NS,
+)
 
 DS_NS = "http://www.w3.org/2000/09/xmldsig#"
 C14N_ALG = "http://www.w3.org/TR/2001/REC-xml-c14n-20010315"
@@ -141,6 +148,17 @@ def build_d1101(vals, lines):
         if float(line.get("vApur") or 0) > 0:
             _text(node, "natVApur", line["natVApur"], required=True)
         _text(node, "vApur", _money(line.get("vApur") or 0), required=True)
+    return etree.tostring(root, encoding="unicode", pretty_print=True)
+
+
+def build_d1198(vals):
+    root, event = _envelope(NS[EVENT_D1198], "evtReabertMensal", vals["id"])
+    _ide_evento(event, vals, close=True)
+    _ide_contrib(event, vals["nrInsc"])
+    periodo = etree.SubElement(event, "idePeriodo")
+    _text(periodo, "perApur", vals["perApur"], required=True)
+    info = etree.SubElement(event, "infoReabertura")
+    _text(info, "nrReciboReab", vals["nrReciboReab"], required=True)
     return etree.tostring(root, encoding="unicode", pretty_print=True)
 
 

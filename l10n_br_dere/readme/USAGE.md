@@ -7,11 +7,14 @@
    records.
 4. Close the period with D-1199 (`tpOper` inclusion only). Send periodics in a
    separate batch. Table and periodic events in the same batch are rejected.
+5. To reopen, wait for the D-1199 receipt, then **Reopen Period**. That builds
+   D-1198 (`nrReciboReab`). **Send Periodics** and consult until D-1198 is
+   accepted before generating a new trial balance.
 
 Receipt (`nrRecibo`) and batch protocol are stored separately on each event.
-Do not regenerate an event that is already sent or accepted; Wave 1 only
-supports inclusion (`tpOper` 1). D-1106 and D-1121 are only flagged on the
-company in this version; they are not generated yet.
+Do not regenerate an event that is already sent or accepted unless D-1198
+was accepted. Wave 1 only supports inclusion (`tpOper` 1). D-1106 and D-1121
+are only flagged on the company in this version; they are not generated yet.
 
 ## Homologation checklist (Wave 1)
 
@@ -35,8 +38,8 @@ moves.
    - Fee line: credit = own revenue and `vApur` equals that net amount.
    - Pass-through line: movement present and `vApur` = 0.00 (no `natVApur`).
 5. Open each event form and check the XML: dates use `YYYY-MM-DD`; `perApur`
-   uses `YYYY-MM`. Table `id` is 42 alphanumeric characters. D-1101 / D-1199
-   `id` follows `DeRE` + event code + environment + CNPJ + 19 digits.
+   uses `YYYY-MM`. Table `id` is 42 alphanumeric characters. D-1101 / D-1198
+   / D-1199 `id` follows `DeRE` + event code + environment + CNPJ + 19 digits.
 6. **Close Period** (D-1199). Leave *Declare no deductions* unset unless the
    company is subject to D-1121.
 7. Confirm the company has an A1 certificate. Sending signs the payload;
@@ -46,5 +49,7 @@ moves.
 9. Do **not** send tables and periodics in the same batch. Do not send D-1011
    before D-1001 is accepted, nor D-1199 before D-1101 has a processing
    receipt.
+10. **Reopen Period** only after D-1199 is accepted with a receipt
+    `1199-YYYYMM-...`. Then send D-1198 and consult before a new D-1101.
 
 D-3201, D-1106 and D-1121 are out of this checklist.

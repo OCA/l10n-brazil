@@ -36,7 +36,7 @@ It lets an Odoo company:
 - store the DeRE tax regime, activities and referential chart
 - map ``account.account`` lines to PGCC fields (``cCtaRef``,
   ``codTrib``, ``codNat``)
-- generate local XML for D-1001, D-1011, D-1101 and D-1199
+- generate local XML for D-1001, D-1011, D-1101, D-1198 and D-1199
 - send signed batches to Receita Integra, consult processing and store
   protocol, receipt and D-9xxx returns
 
@@ -84,11 +84,15 @@ Usage
 4. Close the period with D-1199 (``tpOper`` inclusion only). Send
    periodics in a separate batch. Table and periodic events in the same
    batch are rejected.
+5. To reopen, wait for the D-1199 receipt, then **Reopen Period**. That
+   builds D-1198 (``nrReciboReab``). **Send Periodics** and consult
+   until D-1198 is accepted before generating a new trial balance.
 
 Receipt (``nrRecibo``) and batch protocol are stored separately on each
-event. Do not regenerate an event that is already sent or accepted; Wave
-1 only supports inclusion (``tpOper`` 1). D-1106 and D-1121 are only
-flagged on the company in this version; they are not generated yet.
+event. Do not regenerate an event that is already sent or accepted
+unless D-1198 was accepted. Wave 1 only supports inclusion (``tpOper``
+1). D-1106 and D-1121 are only flagged on the company in this version;
+they are not generated yet.
 
 Homologation checklist (Wave 1)
 -------------------------------
@@ -99,39 +103,42 @@ account (``codTrib`` 120110006) and one pass-through liability (no
 **own fee** vs **operator remittance**. The trial balance is never
 typed: it is rebuilt from those moves.
 
-1. Switch to the company and open **Fiscal → DeRE → Declarations**.
-2. Open (or create) the month. Confirm ``perApur`` is ``YYYY-MM`` and
-   ``iniValid`` matches the first day of the table validity.
-3. **Generate Tables**. Events D-1001 and D-1011 must exist with XML.
+1.  Switch to the company and open **Fiscal → DeRE → Declarations**.
+2.  Open (or create) the month. Confirm ``perApur`` is ``YYYY-MM`` and
+    ``iniValid`` matches the first day of the table validity.
+3.  **Generate Tables**. Events D-1001 and D-1011 must exist with XML.
 
-   - D-1001: ``regTribPrinc`` = 2 and ``tpAtividade`` = ``02A`` for a
-     benefit administrator. No ``servFinanc`` / ``prognosticos`` unless
-     a secondary regime requires them.
-   - D-1011: ``planoCtaRef`` and ``freqEncerr`` present; ``cDbrMista``
-     has three digits; fee account has ``codTrib`` 120110006;
-     pass-through has no ``codTrib``.
+    - D-1001: ``regTribPrinc`` = 2 and ``tpAtividade`` = ``02A`` for a
+      benefit administrator. No ``servFinanc`` / ``prognosticos`` unless
+      a secondary regime requires them.
+    - D-1011: ``planoCtaRef`` and ``freqEncerr`` present; ``cDbrMista``
+      has three digits; fee account has ``codTrib`` 120110006;
+      pass-through has no ``codTrib``.
 
-4. **Generate Trial Balance**. Footer totals need the hidden
-   ``brl_currency_id``.
+4.  **Generate Trial Balance**. Footer totals need the hidden
+    ``brl_currency_id``.
 
-   - Fee line: credit = own revenue and ``vApur`` equals that net
-     amount.
-   - Pass-through line: movement present and ``vApur`` = 0.00 (no
-     ``natVApur``).
+    - Fee line: credit = own revenue and ``vApur`` equals that net
+      amount.
+    - Pass-through line: movement present and ``vApur`` = 0.00 (no
+      ``natVApur``).
 
-5. Open each event form and check the XML: dates use ``YYYY-MM-DD``;
-   ``perApur`` uses ``YYYY-MM``. Table ``id`` is 42 alphanumeric
-   characters. D-1101 / D-1199 ``id`` follows ``DeRE`` + event code +
-   environment + CNPJ + 19 digits.
-6. **Close Period** (D-1199). Leave *Declare no deductions* unset unless
-   the company is subject to D-1121.
-7. Confirm the company has an A1 certificate. Sending signs the payload;
-   the event form still shows the unsigned XML.
-8. **Consult Results** after each send. The POST only returns a
-   protocol; acceptance and ``nrRecibo`` come from the later GET.
-9. Do **not** send tables and periodics in the same batch. Do not send
-   D-1011 before D-1001 is accepted, nor D-1199 before D-1101 has a
-   processing receipt.
+5.  Open each event form and check the XML: dates use ``YYYY-MM-DD``;
+    ``perApur`` uses ``YYYY-MM``. Table ``id`` is 42 alphanumeric
+    characters. D-1101 / D-1198 / D-1199 ``id`` follows ``DeRE`` + event
+    code + environment + CNPJ + 19 digits.
+6.  **Close Period** (D-1199). Leave *Declare no deductions* unset
+    unless the company is subject to D-1121.
+7.  Confirm the company has an A1 certificate. Sending signs the
+    payload; the event form still shows the unsigned XML.
+8.  **Consult Results** after each send. The POST only returns a
+    protocol; acceptance and ``nrRecibo`` come from the later GET.
+9.  Do **not** send tables and periodics in the same batch. Do not send
+    D-1011 before D-1001 is accepted, nor D-1199 before D-1101 has a
+    processing receipt.
+10. **Reopen Period** only after D-1199 is accepted with a receipt
+    ``1199-YYYYMM-...``. Then send D-1198 and consult before a new
+    D-1101.
 
 D-3201, D-1106 and D-1121 are out of this checklist.
 
@@ -144,7 +151,6 @@ Known issues / Roadmap
 - Do not inherit event mixins (D-1001 / D-1011 / D-1101 / D-1199) on
   ``l10n_br_dere.declaration`` or ``l10n_br_dere.event``: those
   abstracts share ``dere12_id`` and ``dere12_tpOper``.
-- Send D-1198 reopening to Receita Integra
 - Full D-1106 and D-1121 business rules
 - Transactional events (D-3201 and remaining D-22xx / D-32xx) after
   CGIBS publishes a stable transactional layout

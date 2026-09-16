@@ -5,7 +5,7 @@ It lets an Odoo company:
 
 - store the DeRE tax regime, activities and referential chart
 - map `account.account` lines to PGCC fields (`cCtaRef`, `codTrib`, `codNat`)
-- generate local XML for D-1001, D-1011, D-1101 and D-1199
+- generate local XML for D-1001, D-1011, D-1101, D-1198 and D-1199
 - send signed batches to Receita Integra, consult processing and store
   protocol, receipt and D-9xxx returns
 
