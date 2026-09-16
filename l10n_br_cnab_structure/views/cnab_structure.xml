@@ -6,7 +6,6 @@
     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 -->
 <odoo>
-
     <record id="cnab_preview_action" model="ir.actions.act_window">
         <field name="name">CNAB Preview</field>
         <field name="res_model">cnab.preview.wizard</field>
@@ -59,7 +58,6 @@
                     />
                     <field name="state" widget="statusbar" />
                 </header>
-
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button
@@ -75,16 +73,16 @@
                         <group>
                             <field name="name" />
                             <field name="bank_id" />
+                            <field name="unique_seq_per_segment" />
                         </group>
                         <group>
                             <field name="payment_method_id" />
                             <field name="cnab_format" invisible="True" />
                             <field name="payment_type" invisible="True" />
-                            <field name="batch_ids" invisible="True" />
+                            <field name="batch_ids" />
                             <field name="content_source_model_id" invisible="True" />
                         </group>
                     </group>
-
                     <notebook>
                         <page name="lines" string="Lines">
                             <field
@@ -103,7 +101,7 @@
                                         name="batch_id"
                                         attrs="{'column_invisible': [('parent.cnab_format', '!=', '240')]}"
                                     />
-                                    <field name="cnab_structure_id" invisible="1" />
+                                    <field name="cnab_structure_id" />
                                 </tree>
                             </field>
                         </page>
@@ -255,13 +253,32 @@
                             </field>
                         </page>
                         <page
+                            name="payment_rules"
+                            string="Payment Rules"
+                            attrs="{'invisible': [('payment_type', '!=', 'outbound')]}"
+                        >
+                            <field
+                                name="cnab_payment_rule_ids"
+                                mode='tree'
+                                widget='one2many'
+                                context="{'default_cnab_structure_id': id}"
+                            >
+                                <tree default_order="sequence" editable="bottom">
+                                    <field name="cnab_structure_id" invisible="1" />
+                                    <field name="sequence" widget="handle" />
+                                    <field name="match_bank_type" />
+                                    <field name="match_partner_type" />
+                                    <field name="payment_way_id" />
+                                    <field name="service_type" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page
                             name="pix_config"
                             string="PIX"
                             attrs="{'invisible': [('payment_type', '!=', 'outbound')]}"
                         >
-                            <span class="o_form_label" modifiers="{}">
-                                Key Types
-                            </span>
+                            <span class="o_form_label" modifiers="{}">Key Types</span>
                             <field
                                 name="cnab_pix_key_type_ids"
                                 mode='tree'
@@ -274,9 +291,10 @@
                                     <field name="key_type" />
                                 </tree>
                             </field>
-                            <span class="o_form_label" modifiers="{}">
-                                Transfer Types
-                            </span>
+                            <span
+                                class="o_form_label"
+                                modifiers="{}"
+                            >Transfer Types</span>
                             <field
                                 name="cnab_pix_transfer_type_ids"
                                 mode='tree'
@@ -304,7 +322,6 @@
                                 </tree>
                             </field>
                         </page>
-
                     </notebook>
                 </sheet>
             </form>

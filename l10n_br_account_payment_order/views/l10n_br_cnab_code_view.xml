@@ -5,7 +5,6 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
-
     <record id="l10n_br_cnab_code_tree_view" model="ir.ui.view">
         <field name="name">l10n_br_cnab.code.tree</field>
         <field name="model">l10n_br_cnab.code</field>
@@ -30,23 +29,18 @@
                 <field name="code_type" />
                 <field name="bank_ids" />
                 <field name="payment_method_ids" />
-                <!-- TODO: Não é possivel fazer Group By em campos many2many,
-                 a solução são os campos compute abaixo, parece ser possivel na
-                 v15 validar na migração -->
-                <field name="bank_id" />
-                <field name="payment_method_id" />
                 <group expand='0' string='Group By...'>
                     <filter
                         string='Bank'
-                        name="bank_id"
+                        name="bank_ids"
                         domain="[]"
-                        context="{'group_by' : 'bank_id'}"
+                        context="{'group_by' : 'bank_ids'}"
                     />
                     <filter
                         string='CNAB Type'
-                        name="payment_method_id"
+                        name="payment_method_ids"
                         domain="[]"
-                        context="{'group_by' : 'payment_method_id'}"
+                        context="{'group_by' : 'payment_method_ids'}"
                     />
                     <filter
                         string="Code Type"
@@ -87,9 +81,8 @@
         <field name="view_mode">tree,form</field>
         <field
             name="context"
-        >{'group_by':['bank_id', 'payment_method_id', 'code_type']}</field>
+        >{'group_by':['bank_ids', 'payment_method_ids', 'code_type']}</field>
     </record>
-
     <menuitem
         id="menu_l10n_br_cnab_code"
         parent="account.account_management_menu"
@@ -97,5 +90,4 @@
         sequence="999"
         action="l10n_br_cnab_code_action"
     />
-
 </odoo>
