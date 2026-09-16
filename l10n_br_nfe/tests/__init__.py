@@ -13,3 +13,4 @@ from . import test_nfe_mde
 from . import test_nfe_danfe
 from . import test_nfe_ibscbs
 from . import test_nfe_workflow
+from . import test_nfe_import_declaration
