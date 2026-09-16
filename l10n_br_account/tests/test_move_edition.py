@@ -763,6 +763,108 @@ class TestMoveEdition(TransactionCase):
         move_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
         return move_form
 
+    def test_lines_added_after_first_save_book_fiscal_amounts(self):
+        self._setup_fiscal_user()
+        partner = self.env.ref("l10n_br_base.res_partner_cliente1_sp")
+        move = self._create_fiscal_invoice_form(partner).save()
+
+        move.write(
+            {
+                "invoice_line_ids": [
+                    Command.create(
+                        {
+                            "product_id": self.product_id.id,
+                            "quantity": 2.0,
+                            "price_unit": 1000.0,
+                            "fiscal_operation_id": move.fiscal_operation_id.id,
+                            "fiscal_operation_line_id": self.env.ref(
+                                "l10n_br_fiscal.fo_venda_venda"
+                            ).id,
+                        }
+                    )
+                ],
+            }
+        )
+
+        product_line = move.line_ids.filtered(
+            lambda line: line.display_type == "product"
+        )
+        term_lines = move.line_ids.filtered(
+            lambda line: line.display_type == "payment_term"
+        )
+        self.assertTrue(product_line.tax_ids)
+        expected_product = move.direction_sign * (
+            product_line.fiscal_amount_total
+            - product_line.amount_tax_included
+            - product_line.amount_tax_not_included
+        )
+        self.assertAlmostEqual(product_line.balance, expected_product, places=2)
+        self.assertAlmostEqual(
+            sum(term_lines.mapped("balance")),
+            -move.direction_sign * move.amount_total,
+            places=2,
+        )
+        self.assertAlmostEqual(move.amount_residual, move.amount_total, places=2)
+
+    def test_line_added_after_first_save_keeps_balance(self):
+        """A fiscal invoice saved header first and lines later must balance,
+        even though the web client sends its own tax_totals along."""
+        self._setup_fiscal_user()
+        partner = self.env.ref("l10n_br_base.res_partner_cliente1_sp")
+        move = self._create_fiscal_invoice_form(partner).save()
+        self.assertFalse(move.invoice_line_ids)
+
+        move.write(
+            {
+                "invoice_line_ids": [
+                    Command.create(
+                        {
+                            "product_id": self.product_id.id,
+                            "quantity": 1.0,
+                            "price_unit": 100.0,
+                            "fiscal_operation_id": move.fiscal_operation_id.id,
+                            "fiscal_operation_line_id": self.env.ref(
+                                "l10n_br_fiscal.fo_venda_venda"
+                            ).id,
+                        }
+                    )
+                ],
+            }
+        )
+        tax_lines = move.line_ids.filtered(lambda line: line.display_type == "tax")
+        self.assertTrue(tax_lines)
+        tax_amounts = {line.id: line.amount_currency for line in tax_lines}
+
+        move.write(
+            {
+                "tax_totals": {
+                    "subtotals": [
+                        {
+                            "tax_groups": [
+                                {
+                                    "id": line.tax_group_id.id,
+                                    "tax_amount_currency": abs(line.amount_currency)
+                                    + 100.0,
+                                }
+                                for line in tax_lines
+                            ]
+                        }
+                    ],
+                    "base_amount_currency": move.amount_untaxed,
+                    "tax_amount_currency": move.amount_tax + 100.0,
+                    "total_amount_currency": move.amount_total + 100.0,
+                },
+            }
+        )
+
+        self.assertAlmostEqual(
+            sum(move.line_ids.mapped("debit")),
+            sum(move.line_ids.mapped("credit")),
+            places=2,
+        )
+        for line in tax_lines:
+            self.assertEqual(line.amount_currency, tax_amounts[line.id])
+
     def test_ind_final_propagation_on_manual_change(self):
         """Changing ind_final directly on a saved invoice must propagate
         to the fiscal document lines."""

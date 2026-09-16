@@ -251,6 +251,30 @@ class AccountMoveLine(models.Model):
 
         return result
 
+    def _fiscal_unsigned_amount_currency(self):
+        self.ensure_one()
+        operation = self.move_id.fiscal_operation_id
+        if self.cfop_id and not self.cfop_id.finance_move:
+            if operation.deductible_taxes:
+                return 0
+            # When there is no financial amount but there are non
+            # dectutible taxes, then we should take the total tax
+            # amount into account here to keep the move balanced.
+            # (In v14 that was done automatically in the payment terms)
+            return -(
+                self.amount_tax_included
+                + self.amount_tax_not_included
+                - self.amount_tax_withholding
+            )
+        amount_total = self.fiscal_amount_total + self.amount_tax_withholding
+        if operation.deductible_taxes:
+            return amount_total
+        if not self.tax_ids:
+            return self.currency_id.round(amount_total)
+        return self.currency_id.round(
+            amount_total - self.amount_tax_included - self.amount_tax_not_included
+        )
+
     @contextmanager
     def _sync_invoice(self, container):
         """
@@ -295,34 +319,7 @@ class AccountMoveLine(models.Model):
                         line.price_subtotal
                     )
                 else:  # BRAZIL CASE:
-                    if line.cfop_id and not line.cfop_id.finance_move:
-                        unsigned_amount_currency = 0
-                        if not line.move_id.fiscal_operation_id.deductible_taxes:
-                            # When there is no financial amount but there are non
-                            # dectutible taxes, then we should take the total tax
-                            # amount into account here to keep the move balanced.
-                            # (In v14 that was done automatically in the payment terms)
-                            unsigned_amount_currency = -(
-                                line.amount_tax_included
-                                + line.amount_tax_not_included
-                                - line.amount_tax_withholding
-                            )
-                    else:
-                        if line.move_id.fiscal_operation_id.deductible_taxes:
-                            unsigned_amount_currency = (
-                                line.fiscal_amount_total + line.amount_tax_withholding
-                            )
-                        else:
-                            amount_total = (
-                                line.fiscal_amount_total + line.amount_tax_withholding
-                            )
-                            unsigned_amount_currency = line.currency_id.round(
-                                amount_total
-                                - line.amount_tax_included
-                                - line.amount_tax_not_included
-                                if line.tax_ids
-                                else amount_total
-                            )
+                    unsigned_amount_currency = line._fiscal_unsigned_amount_currency()
 
                 amount_currency = unsigned_amount_currency * line.move_id.direction_sign
 
