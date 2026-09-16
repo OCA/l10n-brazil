@@ -126,16 +126,20 @@ class AccountMove(models.Model):
         return res
 
     def _inverse_tax_totals(self):
-        # Never let the tax_totals widget override the exact tax values
-        # of an imported fiscal document.
+        # Never let the tax_totals widget override the tax values of a fiscal
+        # document: the widget's total is the base plus every tax, so applying
+        # it rebuilds the payment term line from a total that no longer matches
+        # the fiscal one and the entry stops balancing.
         if self.env.context.get("force_fiscal_amount_recompute"):
             # Import flow: the move is still being assembled and
             # imported_document may not be written yet, so skip the
             # inverse for the whole batch.
             return
         # Regular (UI) flow: run the standard inverse only for the moves
-        # that are not the mirror of an imported fiscal document.
-        moves = self.filtered(lambda move: not move.imported_document)
+        # that carry no fiscal document.
+        moves = self.filtered(
+            lambda move: not move.fiscal_operation_id and not move.imported_document
+        )
         return super(AccountMove, moves)._inverse_tax_totals()
 
     @api.constrains("fiscal_document_id", "document_type_id")
