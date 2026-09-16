@@ -9,7 +9,7 @@
             <page name="import_declaration" position="inside">
                 <field
                     name="nfe40_DI"
-                    context="{'form_view_ref': 'l10n_br_nfe.nfe_di_form', 'tree_view_ref': 'l10n_br_nfe.nfe_di_tree'}"
+                    context="{'form_view_ref': 'l10n_br_nfe.nfe_di_form', 'list_view_ref': 'l10n_br_nfe.nfe_di_tree'}"
                 />
             </page>
         </field>
