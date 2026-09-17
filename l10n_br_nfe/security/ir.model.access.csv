@@ -1,3 +1,5 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
 access_l10n_br_nfe_mde_user,access_l10n_br_nfe_mde_user,model_l10n_br_nfe_mde,l10n_br_nfe.group_user,1,0,0,0
 access_l10n_br_nfe_mde_manager,access_l10n_br_nfe_mde_manager,model_l10n_br_nfe_mde,l10n_br_nfe.group_manager,1,1,1,1
+"l10n_br_nfe_autxml_user","NFe autXML for User","model_l10n_br_nfe_autxml","l10n_br_fiscal.group_user",1,1,1,0
+"l10n_br_nfe_autxml_manager","NFe autXML for Manager","model_l10n_br_nfe_autxml","l10n_br_fiscal.group_manager",1,1,1,1
