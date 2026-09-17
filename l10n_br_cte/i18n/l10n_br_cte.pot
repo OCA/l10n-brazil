@@ -373,7 +373,7 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_choice_autxml
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_choice_autxml
-msgid "CNPJ/CPF do Parceiro Autorizado (cte_choice_autxml)"
+msgid "CNPJ/CPF do Parceiro Autorizado"
 msgstr ""
 
 #. module: l10n_br_cte
