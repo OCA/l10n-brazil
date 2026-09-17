@@ -4,7 +4,7 @@
         <field name="name">l10n_br_nfe.document.form.inherit</field>
         <field name="model">l10n_br_fiscal.document</field>
         <field name="priority">5</field>
-        <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
+        <field name="inherit_id" ref="l10n_br_fiscal_edi.document_form" />
         <field name="arch" type="xml">
             <xpath expr="//sheet" position="before">
                 <div
@@ -103,7 +103,7 @@
             >
                 <attribute
                     name="invisible"
-                >state_edoc == 'em_digitacao' or imported_document</attribute>
+                >state_edoc in ('em_digitacao', 'autorizada') or imported_document</attribute>
             </xpath>
             <xpath
                 expr="//header/button[@name='action_document_correction']"
@@ -140,7 +140,13 @@
         <field name="arch" type="xml">
             <page name="others" position="inside">
                 <group name="nfe_autxml" invisible="document_type not in ['55', '65']">
-                    <field name="nfe40_autXML" widget="many2many" />
+                    <field name="nfe40_autXML" nolabel="1" colspan="2">
+                        <list editable="bottom">
+                            <field name="partner_id" />
+                            <field name="nfe40_CNPJ" />
+                            <field name="nfe40_CPF" />
+                        </list>
+                    </field>
                 </group>
             </page>
             <xpath

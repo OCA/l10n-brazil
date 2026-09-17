@@ -86,6 +86,11 @@
                     options="{'no_create': True}"
                     invisible="tax_icms_or_issqn == 'icms' or not parent.fiscal_operation_id"
                 />
+                <field
+                    name="nbs_id"
+                    invisible="tax_icms_or_issqn == 'icms' or country_id != %(base.br)d"
+                    options="{'no_create': True}"
+                />
             </xpath>
 
             <xpath expr="//page[@name='sale_lines']" position="before">
