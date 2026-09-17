@@ -45,6 +45,7 @@ setuptools.setup(
         'odoo-addon-l10n_br_mdfe_spec>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_mis_report>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_nfe>=16.0dev,<16.1dev',
+        'odoo-addon-l10n_br_nfe_dfe>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_nfe_spec>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_nfse>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_nfse_focus>=16.0dev,<16.1dev',
