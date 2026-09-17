@@ -187,8 +187,8 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__key
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_form
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__access_key
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_recipient_manifestation_event_wizard__access_key
 msgid "Access Key"
 msgstr ""
 
@@ -268,21 +268,6 @@ msgid "Armamentos"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__attachment_id
-msgid "Attachment"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__authorization_datetime
-msgid "Authorization Date"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__authorization_protocol
-msgid "Authorization Protocol"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_autxml__partner_id
 msgid "Authorized Partner"
 msgstr ""
@@ -293,12 +278,7 @@ msgid "Autorizacao:"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_mde__document_state__1
-msgid "Autorizada"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_filter
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_recipient_manifestation_event_filter
 msgid "Aware"
 msgstr ""
 
@@ -468,11 +448,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__cnpj_cpf
-msgid "CNPJ/CPF"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice_emit
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice_emit
 msgid "CNPJ/CPF do Emitente (nfe_choice_emit)"
@@ -566,21 +541,6 @@ msgid "CSC Token"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_mde__document_state__2
-msgid "Cancelada"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__cancellation_datetime
-msgid "Cancellation Date"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__cancellation_protocol
-msgid "Cancellation Protocol"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_veicprod__nfe40_cilin
 msgid "Capacidade voluntária do motor expressa"
 msgstr ""
@@ -663,7 +623,7 @@ msgid "Choose to generate a full or incomplete invoice frame in the DANFE."
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_mde__state__ciente
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__nfe_recipient_manifestation_event_wizard__event_type__ciente
 msgid "Ciente da Operação"
 msgstr ""
 
@@ -673,13 +633,13 @@ msgid "City"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_form
-msgid "Ciência da Emissão"
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_md_event__event_type__ciente
+msgid "Ciência da Operação"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_filter
-msgid "Cnpj supplier"
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_nfe_recipient_manifestation_event_wizard_form
+msgid "Close"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -701,7 +661,7 @@ msgid "Companies"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__company_id
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__company_id
 msgid "Company"
 msgstr ""
 
@@ -727,23 +687,23 @@ msgid "Config Settings"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_mde__state__confirmado
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.l10n_br_nfe_recipient_manifestation_event_form
+msgid "Confirm"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__nfe_recipient_manifestation_event_wizard__event_type__confirmado
 msgid "Confirmada operação"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_form
-msgid "Confirmar Operação"
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_md_event__event_type__confirmado
+msgid "Confirmação da Operação"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_filter
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_recipient_manifestation_event_filter
 msgid "Confirmed"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_dfe
-msgid "Consult DF-e"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -825,13 +785,15 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_autxml__create_uid
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__create_uid
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__create_uid
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_recipient_manifestation_event_wizard__create_uid
 msgid "Created by"
 msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_autxml__create_date
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__create_date
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__create_date
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_recipient_manifestation_event_wizard__create_date
 msgid "Created on"
 msgstr ""
 
@@ -1114,11 +1076,6 @@ msgid "DANFE normal, Retrato;"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__dfe_id
-msgid "DF-e"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_nfe_40_rettransp
 msgid "Dados da retenção ICMS do Transporte"
 msgstr ""
@@ -1313,6 +1270,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.l10n_br_nfe_recipient_manifestation_event_tree
+msgid "Date"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_nfe_40_di
 msgid "Declaração de Importação (NT 2011/004)"
 msgstr ""
@@ -1330,18 +1292,13 @@ msgid "Defensivo Agrícola / Agrotóxico"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_mde__document_state__3
-msgid "Denegada"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_form
-msgid "Desconhecer Operação"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_mde__state__desconhecido
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__nfe_recipient_manifestation_event_wizard__event_type__desconhecido
 msgid "Desconhecimento"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_md_event__event_type__desconhecido
+msgid "Desconhecimento da Operação"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1418,11 +1375,6 @@ msgid "Detalhe da exportação"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__digest_value
-msgid "Digest Value"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_infprot__nfe40_digVal
 msgid "Digest Value da NF-e processada"
 msgstr ""
@@ -1436,7 +1388,8 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_autxml__display_name
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_recipient_manifestation_event_wizard__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -1446,18 +1399,13 @@ msgid "Distância entre eixos"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.l10n_br_nfe_recipient_manifestation_event_form
 msgid "Document Info"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__number
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__document_number
 msgid "Document Number"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__document_state
-msgid "Document State"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1466,8 +1414,8 @@ msgid "Document Supplement Data"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__document_value
-msgid "Document Total Value"
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__document_type
+msgid "Document Type"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1476,9 +1424,13 @@ msgid "Documento Auxiliar da Nota Fiscal do Consumidor Eletrônica"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_tree
-msgid "Download XML"
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_md_event__state__done
+msgid "Done"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_md_event__state__draft
+msgid "Draft"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1499,11 +1451,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
 msgid "Emissao:"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__emission_datetime
-msgid "Emission Date"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1539,11 +1486,6 @@ msgid "Emitida em Contingência"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__emitter
-msgid "Emitter"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_company_form
 msgid "Enable Sync Transmission"
 msgstr ""
@@ -1570,28 +1512,13 @@ msgid "Endereço do emitente (nfe_enderEmit)"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_mde__operation_type__0
-msgid "Entrada"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_entrega
 msgid "Entrega"
 msgstr ""
 
 #. module: l10n_br_nfe
 #. odoo-python
-#: code:addons/l10n_br_nfe/models/mde.py:0
-#, python-format
-msgid ""
-"Error importing document: \n"
-"\n"
-" %(error)s"
-msgstr ""
-
-#. module: l10n_br_nfe
-#. odoo-python
-#: code:addons/l10n_br_nfe/models/mde.py:0
+#: code:addons/l10n_br_nfe/models/nfe_md_event.py:0
 #, python-format
 msgid "Error on validating event: %(code)s - %(msg)s"
 msgstr ""
@@ -1625,13 +1552,8 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_mde__schema__proceventonfe
-msgid "Evento de NFe Completo"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_mde__schema__resevento
-msgid "Evento de NFe Resumido"
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_recipient_manifestation_event_wizard__event_type
+msgid "Event Type"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1669,7 +1591,7 @@ msgid "Fatura"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_filter
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_recipient_manifestation_event_filter
 msgid "Filter"
 msgstr ""
 
@@ -1688,11 +1610,6 @@ msgid ""
 "4 - Devolução/Retorno\n"
 "5 - Nota de crédito\n"
 "6 - Nota de débito"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__document_id
-msgid "Fiscal Document"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -2056,7 +1973,8 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_autxml__id
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__id
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__id
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_recipient_manifestation_event_wizard__id
 msgid "ID"
 msgstr ""
 
@@ -2202,6 +2120,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.ui.menu,name:l10n_br_nfe.nfe_import_document
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.l10n_br_nfe_product_supplierinfo_form_view
 msgid "Import"
 msgstr ""
@@ -2209,22 +2128,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_import_wizard
 msgid "Import Document Wizard"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_dfe_form
-msgid "Import Documents"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.ui.menu,name:l10n_br_nfe.nfe_import_document
-msgid "Import NF-e"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_tree
-msgid "Importar Documento"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -2251,16 +2154,6 @@ msgstr ""
 msgid ""
 "Include Technical Support Partner data in persons authorized to download NFe"
 " XML"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__inclusion_datetime
-msgid "Inclusion Date"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__inclusion_mode
-msgid "Inclusion Mode"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -2559,11 +2452,6 @@ msgid "Inscrição Municipal do tomador do serviço"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__ie
-msgid "Inscrição estadual"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_partner__nfe40_ISUF
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_users__nfe40_ISUF
 msgid ""
@@ -2606,19 +2494,22 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_autxml____last_update
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde____last_update
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event____last_update
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_recipient_manifestation_event_wizard____last_update
 msgid "Last Modified on"
 msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_autxml__write_uid
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__write_uid
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__write_uid
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_recipient_manifestation_event_wizard__write_uid
 msgid "Last Updated by"
 msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_autxml__write_date
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__write_date
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__write_date
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_recipient_manifestation_event_wizard__write_date
 msgid "Last Updated on"
 msgstr ""
 
@@ -2639,24 +2530,18 @@ msgid "Logradouro (nfe_xLgr)"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.actions.act_window,name:l10n_br_nfe.l10n_br_nfe_mde_action
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_nfe_recipient_manifestation_event_wizard_form
+msgid "Manifest"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_nfe_recipient_manifestation_event_wizard_form
 msgid "Manifestation"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__state
-msgid "Manifestation State"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_dfe_form
-msgid "Manifestations"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_dfe__mde_ids
-msgid "Manifestações do Destinatário Importadas"
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__event_type
+msgid "Manifestation Type"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -2841,7 +2726,9 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.actions.act_window,name:l10n_br_nfe.nfe_document_action
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_md_event__document_type__nfe
 #: model:ir.module.category,name:l10n_br_nfe.module_category_l10n_br_nfe
+#: model:ir.ui.menu,name:l10n_br_nfe.nfe_sub_menu
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_company_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
 msgid "NF-e"
@@ -2858,8 +2745,18 @@ msgid "NF-e Default Settings"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.actions.act_window,name:l10n_br_nfe.l10n_br_nfe_recipient_manifestation_event_action
+msgid "NF-e Recipient Manifestation"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__nfe_version
 msgid "NF-e Version"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_md_event__document_type__nfce
+msgid "NFC-e"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -2879,12 +2776,8 @@ msgid "NFe"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_mde__schema__procnfe
-msgid "NFe Completa"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe_environment
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__environment
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_environment
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__nfe_environment
 msgid "NFe Environment"
@@ -2907,8 +2800,8 @@ msgid "NFe Proc Version"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_mde__schema__resnfe
-msgid "NFe Resumida"
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_nfe_recipient_manifestation_event_wizard_form
+msgid "NFe Recipient's Manifestation"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -2931,11 +2824,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.document_import_wizard_form
 msgid "NFe XML Products"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__nsu
-msgid "NSU"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -3182,7 +3070,7 @@ msgid "Numero:"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_mde__state__nao_realizado
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__nfe_recipient_manifestation_event_wizard__event_type__nao_realizado
 msgid "Não realizado"
 msgstr ""
 
@@ -3398,12 +3286,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__operation_type
-msgid "Operation Type"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_form
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_md_event__event_type__nao_realizado
 msgid "Operação não Realizada"
 msgstr ""
 
@@ -3485,11 +3368,6 @@ msgid "Partner Unit of Measure"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_mde__state__pendente
-msgid "Pendente"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
 msgid "Pendente de Autorizacao"
 msgstr ""
@@ -3500,7 +3378,7 @@ msgid "Pendente de Autorização"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_filter
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_recipient_manifestation_event_filter
 msgid "Pending"
 msgstr ""
 
@@ -3697,6 +3575,11 @@ msgid "Produção"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__protocol
+msgid "Protocol"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretconsrecinfe__nfe40_protNFe
 msgid "Protocolo de status resultado"
 msgstr ""
@@ -3799,7 +3682,7 @@ msgid "Quantity Trib"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_filter
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_recipient_manifestation_event_filter
 msgid "Razão Social"
 msgstr ""
 
@@ -3821,8 +3704,17 @@ msgid "Razão Social ou Nome do emitente"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model,name:l10n_br_nfe.model_l10n_br_nfe_mde
+#: model:ir.model,name:l10n_br_nfe.model_l10n_br_nfe_md_event
+#: model:ir.ui.menu,name:l10n_br_nfe.mde_consult_menu
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.l10n_br_nfe_recipient_manifestation_event_form
 msgid "Recipient Manifestation"
+msgstr ""
+
+#. module: l10n_br_nfe
+#. odoo-python
+#: code:addons/l10n_br_nfe/wizards/nfe_md_event_wizard.py:0
+#, python-format
+msgid "Recipient Manifestation created successfully"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -3842,6 +3734,11 @@ msgstr ""
 #: model:ir.model,name:l10n_br_nfe.model_nfe_40_dfereferenciado
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_DFeReferenciado
 msgid "Referenciamento de item de outros DFe"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__protocol_date
+msgid "Registration Date"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -3870,6 +3767,11 @@ msgid "Report Action"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__response_xml
+msgid "Response XML"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_veicprod__nfe40_tpRest
 msgid "Restrição"
 msgstr ""
@@ -3889,16 +3791,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_company__danfe_margin_right
 msgid "Right margin in mm for the DANFE layout."
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_mde__operation_type__1
-msgid "Saída"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__schema
-msgid "Schema"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -3924,7 +3816,7 @@ msgid "Serial (série)"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__serie
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__serie
 msgid "Serie"
 msgstr ""
 
@@ -3969,7 +3861,7 @@ msgid "Solicitação do pedido de emissão da NFF"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_filter
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__state
 msgid "State"
 msgstr ""
 
@@ -3984,8 +3876,10 @@ msgid "State Customs Clearance"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__partner_id
-msgid "Supplier (partner)"
+#. odoo-python
+#: code:addons/l10n_br_nfe/wizards/nfe_md_event_wizard.py:0
+#, python-format
+msgid "Success"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -4324,6 +4218,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.l10n_br_nfe_recipient_manifestation_event_form
+msgid "Transmission"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_transmission
 msgid "Transmission Type"
 msgstr ""
@@ -4383,12 +4282,12 @@ msgid "Unidade de Medida da Embalagem"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_filter
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_recipient_manifestation_event_filter
 msgid "Unknown"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_filter
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_recipient_manifestation_event_filter
 msgid "Unrealized"
 msgstr ""
 
@@ -4967,6 +4866,11 @@ msgid ""
 "please ensure that the SEFAZ in your state supports synchronous processing "
 "for NFe submissions. Failure to verify compatibility may result in "
 "transmission errors or rejections."
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model,name:l10n_br_nfe.model_nfe_recipient_manifestation_event_wizard
+msgid "Wizard to manifest"
 msgstr ""
 
 #. module: l10n_br_nfe
