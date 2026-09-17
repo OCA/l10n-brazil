@@ -138,8 +138,38 @@ class DereCommon(TransactionCase):
                 }
             )
 
+    def _event_receipt(self, event_type, period="2026-10"):
+        code = event_type.replace("D-", "")
+        return f"{code}-{period.replace('-', '')}-{'0' * 19}"
+
+    def _accept_event(self, declaration, event_type):
+        event = declaration.event_ids.filtered(
+            lambda ev: ev.event_type == event_type
+        ).sorted("id")[-1:]
+        event.write(
+            {
+                "state": "accepted",
+                "nr_recibo": self._event_receipt(event_type, declaration.per_apur),
+                "cd_retorno": "1",
+            }
+        )
+        return event
+
+    def _nfe_access_key(self, number=1):
+        cnpj = re.sub(r"[^0-9]", "", self.company._dere_cnpj() or "12345678000195")
+        cnpj = cnpj.zfill(14)[:14]
+        body = f"352611{cnpj}55" + "001" + f"{number:09d}" + "1" + "12345678"
+        total = 0
+        weight = 2
+        for digit in reversed(body):
+            total += int(digit) * weight
+            weight = 2 if weight == 9 else weight + 1
+        rest = total % 11
+        check = 0 if rest < 2 else 11 - rest
+        return f"{body}{check}"
+
     def _closing_receipt(self, period="2026-10"):
-        return f"1199-{period.replace('-', '')}-{'0' * 19}"
+        return self._event_receipt("D-1199", period)
 
     def _accept_closing(self, declaration):
         event = declaration.event_ids.filtered(

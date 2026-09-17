@@ -15,3 +15,11 @@ access_dere_trial_user,l10n_br_dere.trial.line.user,model_l10n_br_dere_trial_lin
 access_dere_trial_manager,l10n_br_dere.trial.line.manager,model_l10n_br_dere_trial_line,l10n_br_dere.group_manager,1,1,1,1
 access_dere_batch_user,l10n_br_dere.batch.user,model_l10n_br_dere_batch,l10n_br_dere.group_user,1,1,1,0
 access_dere_batch_manager,l10n_br_dere.batch.manager,model_l10n_br_dere_batch,l10n_br_dere.group_manager,1,1,1,1
+access_dere_reserve_asset_user,l10n_br_dere.reserve.asset.user,model_l10n_br_dere_reserve_asset,l10n_br_dere.group_user,1,0,0,0
+access_dere_reserve_asset_manager,l10n_br_dere.reserve.asset.manager,model_l10n_br_dere_reserve_asset,l10n_br_dere.group_manager,1,1,1,1
+access_dere_reserve_line_user,l10n_br_dere.reserve.line.user,model_l10n_br_dere_reserve_line,l10n_br_dere.group_user,1,1,1,0
+access_dere_reserve_line_manager,l10n_br_dere.reserve.line.manager,model_l10n_br_dere_reserve_line,l10n_br_dere.group_manager,1,1,1,1
+access_dere_deduction_line_user,l10n_br_dere.deduction.line.user,model_l10n_br_dere_deduction_line,l10n_br_dere.group_user,1,1,1,0
+access_dere_deduction_line_manager,l10n_br_dere.deduction.line.manager,model_l10n_br_dere_deduction_line,l10n_br_dere.group_manager,1,1,1,1
+access_dere_deduction_item_user,l10n_br_dere.deduction.item.user,model_l10n_br_dere_deduction_item,l10n_br_dere.group_user,1,1,1,0
+access_dere_deduction_item_manager,l10n_br_dere.deduction.item.manager,model_l10n_br_dere_deduction_item,l10n_br_dere.group_manager,1,1,1,1

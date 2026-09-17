@@ -57,4 +57,28 @@
         <field name="global" eval="True" />
         <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
     </record>
+    <record id="reserve_asset_company_rule" model="ir.rule">
+        <field name="name">DeRE reserve asset multi-company</field>
+        <field name="model_id" ref="model_l10n_br_dere_reserve_asset" />
+        <field name="global" eval="True" />
+        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+    </record>
+    <record id="reserve_line_company_rule" model="ir.rule">
+        <field name="name">DeRE reserve line multi-company</field>
+        <field name="model_id" ref="model_l10n_br_dere_reserve_line" />
+        <field name="global" eval="True" />
+        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+    </record>
+    <record id="deduction_line_company_rule" model="ir.rule">
+        <field name="name">DeRE deduction line multi-company</field>
+        <field name="model_id" ref="model_l10n_br_dere_deduction_line" />
+        <field name="global" eval="True" />
+        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+    </record>
+    <record id="deduction_item_company_rule" model="ir.rule">
+        <field name="name">DeRE deduction item multi-company</field>
+        <field name="model_id" ref="model_l10n_br_dere_deduction_item" />
+        <field name="global" eval="True" />
+        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+    </record>
 </odoo>

@@ -27,7 +27,13 @@ EVENT_TYPES = [
 
 TABLE_EVENTS = (EVENT_D1001, EVENT_D1011)
 PERIODIC_EVENTS = (EVENT_D1198, EVENT_D1101, EVENT_D1106, EVENT_D1121, EVENT_D1199)
-STRUCTURED_EVENT_ID = (EVENT_D1101, EVENT_D1198, EVENT_D1199)
+STRUCTURED_EVENT_ID = (
+    EVENT_D1101,
+    EVENT_D1106,
+    EVENT_D1121,
+    EVENT_D1198,
+    EVENT_D1199,
+)
 STRUCTURED_EVENT_ID_RE = r"^DeRE[0-9]{4}[1-2][0-9A-Z]{14}[0-9]{19}$"
 D1199_RECEIPT_RE = r"^[0-9]{4}-20[0-9]{2}(?:0[1-9]|1[0-2])-[0-9A-Z]{19}$"
 
@@ -35,10 +41,37 @@ NS = {
     EVENT_D1001: "http://www.dere.gov.br/schemas/evtInfoContrib/v1_0_1",
     EVENT_D1011: "http://www.dere.gov.br/schemas/evtPGCC/v1_0_3",
     EVENT_D1101: "http://www.dere.gov.br/schemas/evtBalancete/v1_0_1",
+    EVENT_D1106: "http://www.dere.gov.br/schemas/evtAplicResTec/v1_0_0",
+    EVENT_D1121: "http://www.dere.gov.br/schemas/evtRelDeducoes/v0_0_1",
     EVENT_D1198: "http://www.dere.gov.br/schemas/evtReabertMensal/v0_0_1",
     EVENT_D1199: "http://www.dere.gov.br/schemas/evtFechMensal/v0_0_2",
     "lote": "http://www.dere.gov.br/schemas/envioLoteDere/v1_0_1",
 }
+
+DFE_TYPE_BY_DOCUMENT = {
+    "55": "03",
+    "65": "04",
+    "SE": "02",
+}
+TP_ATIV = [
+    ("01", "Credit, FX, securities, securitization and factoring"),
+    ("02", "Leasing"),
+    ("03", "Insurance except health"),
+    ("04", "Pension"),
+    ("05", "Capitalization"),
+    ("06", "Health-care plans"),
+    ("07", "Prize contests"),
+]
+DEFAULT_TP_ATIV_BY_REGIME = {
+    "2": "06",
+    "3": "07",
+}
+DEDUCTION_DOCUMENT_EXCLUDED_STATES = (
+    "cancelada",
+    "denegada",
+    "rejeitada",
+    "inutilizada",
+)
 
 TOKEN_URL_PROD = "https://api.receitafederal.gov.br/token"
 DEFAULT_API_URL = "https://api.receitafederal.gov.br"

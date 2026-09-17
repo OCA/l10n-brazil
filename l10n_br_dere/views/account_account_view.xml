@@ -25,6 +25,7 @@
                             <field name="l10n_br_dere_cod_trib" />
                             <field name="l10n_br_dere_ind_trib_iss" />
                             <field name="l10n_br_dere_desc_cta" />
+                            <field name="l10n_br_dere_reserve_invest" />
                         </group>
                     </group>
                 </page>

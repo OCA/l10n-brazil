@@ -14,8 +14,10 @@
 
 Receipt (`nrRecibo`) and batch protocol are stored separately on each event.
 Do not regenerate an event that is already sent or accepted unless D-1198
-was accepted. Wave 1 only supports inclusion (`tpOper` 1). D-1106 and D-1121
-are only flagged on the company in this version; they are not generated yet.
+was accepted. Wave 1 only supports inclusion (`tpOper` 1). If the company is
+subject to D-1106, generate that event after the trial balance (use
+`semAplic` when there are no reserve assets). If it is subject to D-1121,
+load inbound deductible documents or set *Declare no deductions*.
 
 ## Homologation checklist (Wave 1)
 
@@ -39,20 +41,28 @@ moves.
    - Fee line: credit = own revenue and `vApur` equals that net amount.
    - Pass-through line: movement present and `vApur` = 0.00 (no `natVApur`).
 5. Open each event form and check the XML: dates use `YYYY-MM-DD`; `perApur`
-   uses `YYYY-MM`. Table `id` is 42 alphanumeric characters. D-1101 / D-1198
-   / D-1199 `id` follows `DeRE` + event code + environment + CNPJ + 19 digits.
-6. **Close Period** (D-1199). Leave *Declare no deductions* unset unless the
-   company is subject to D-1121.
-7. Confirm the company has an A1 certificate. Sending signs the payload;
+   uses `YYYY-MM`. Table `id` is 42 alphanumeric characters. D-1101 / D-1106
+   / D-1121 / D-1198 / D-1199 `id` follows `DeRE` + event code + environment
+   + CNPJ + 19 digits.
+6. If the company is subject to D-1106, **Generate D-1106** before closing.
+   Register technical-reserve assets under Fiscal configuration, or the event
+   is sent with `semAplic=1`. If it is subject to D-1121, **Load Deductions**
+   from inbound operations marked as DeRE deductible, then **Generate D-1121**,
+   or leave the period without documents so closing sets `indInexistDedu`.
+7. **Close Period** (D-1199). Send periodics one type at a time: D-1101, then
+   D-1106 (if any), then D-1121 (if any), then D-1199. Each auxiliary event
+   needs the previous processing receipt.
+8. Confirm the company has an A1 certificate. Sending signs the payload;
    the event form still shows the unsigned XML.
-8. **Consult Results** after each send, or wait for the scheduled job
+9. **Consult Results** after each send, or wait for the scheduled job
    **DeRE: consult sent batch results**. The POST only returns a protocol;
    acceptance and `nrRecibo` come from the later GET. Processing
    (`cdResposta` 1) leaves the batch sent so the cron retries.
-9. Do **not** send tables and periodics in the same batch. Do not send D-1011
-   before D-1001 is accepted, nor D-1199 before D-1101 has a processing
-   receipt.
-10. **Reopen Period** only after D-1199 is accepted with a receipt
+10. Do **not** send tables and periodics in the same batch. Do not send D-1011
+    before D-1001 is accepted, nor D-1199 before D-1101 has a processing
+    receipt.
+11. **Reopen Period** only after D-1199 is accepted with a receipt
     `1199-YYYYMM-...`. Then send D-1198 and consult before a new D-1101.
 
-D-3201, D-1106 and D-1121 are out of this checklist.
+D-3201 remains out of this checklist. `tpOper` 2/3/4 and real-estate
+deductions (`infoImovel`) are not generated yet.

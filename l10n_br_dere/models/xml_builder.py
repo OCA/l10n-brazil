@@ -8,6 +8,8 @@ from ..constants import (
     EVENT_D1001,
     EVENT_D1011,
     EVENT_D1101,
+    EVENT_D1106,
+    EVENT_D1121,
     EVENT_D1198,
     EVENT_D1199,
     NS,
@@ -17,8 +19,13 @@ DS_NS = "http://www.w3.org/2000/09/xmldsig#"
 C14N_ALG = "http://www.w3.org/TR/2001/REC-xml-c14n-20010315"
 
 
-def _money(value):
-    return f"{abs(float(value or 0.0)):.2f}"
+def _money(value, signed=False):
+    amount = float(value or 0.0)
+    if abs(amount) < 0.005:
+        return "0.00"
+    if signed:
+        return f"{amount:.2f}"
+    return f"{abs(amount):.2f}"
 
 
 def _text(parent, tag, value, required=False):
@@ -148,6 +155,71 @@ def build_d1101(vals, lines):
         if float(line.get("vApur") or 0) > 0:
             _text(node, "natVApur", line["natVApur"], required=True)
         _text(node, "vApur", _money(line.get("vApur") or 0), required=True)
+    return etree.tostring(root, encoding="unicode", pretty_print=True)
+
+
+def build_d1106(vals, lines=None):
+    root, event = _envelope(NS[EVENT_D1106], "evtAplicResTec", vals["id"])
+    _ide_evento(event, vals, with_recibo=True)
+    _ide_contrib(event, vals["nrInsc"])
+    periodo = etree.SubElement(event, "idePeriodo")
+    _text(periodo, "perApur", vals["perApur"], required=True)
+    info = etree.SubElement(event, "infoAplicResTec")
+    if vals.get("semAplic"):
+        _text(info, "semAplic", vals["semAplic"], required=True)
+        return etree.tostring(root, encoding="unicode", pretty_print=True)
+    grouped = {}
+    for line in lines or []:
+        grouped.setdefault(line["cCta"], []).append(line)
+    if not grouped:
+        raise ValueError("Missing required DeRE field infoAplic")
+    for c_cta, assets in grouped.items():
+        aplic = etree.SubElement(info, "infoAplic")
+        _text(aplic, "cCta", c_cta, required=True)
+        for asset in assets:
+            det = etree.SubElement(aplic, "detAtivo", idAtivo=asset["idAtivo"])
+            _text(det, "descAtivo", asset["descAtivo"], required=True)
+            _text(det, "vSaldoInic", _money(asset["vSaldoInic"]), required=True)
+            if float(asset.get("vRendPerReceb") or 0):
+                _text(det, "vRendPerReceb", _money(asset["vRendPerReceb"]))
+            if float(asset.get("vVarMensal") or 0):
+                _text(det, "vVarMensal", _money(asset["vVarMensal"], signed=True))
+            _text(det, "vPrincLiqResg", _money(asset["vPrincLiqResg"]), required=True)
+            if float(asset.get("vRendLiqResg") or 0):
+                _text(det, "vRendLiqResg", _money(asset["vRendLiqResg"]))
+            _text(det, "vSaldoFinal", _money(asset["vSaldoFinal"]), required=True)
+            _text(det, "vApur", _money(asset["vApur"]), required=True)
+    return etree.tostring(root, encoding="unicode", pretty_print=True)
+
+
+def build_d1121(vals, lines):
+    root, event = _envelope(NS[EVENT_D1121], "evtRelDeducoes", vals["id"])
+    _ide_evento(event, vals, with_recibo=True)
+    _ide_contrib(event, vals["nrInsc"])
+    periodo = etree.SubElement(event, "idePeriodo")
+    _text(periodo, "perApur", vals["perApur"], required=True)
+    info = etree.SubElement(event, "infoDeducoes")
+    if not lines:
+        raise ValueError("Missing required DeRE field infoDeducao")
+    for line in lines:
+        node = etree.SubElement(info, "infoDeducao")
+        dfe = etree.SubElement(node, "infoDFe")
+        _text(dfe, "tpDFe", line["tpDFe"], required=True)
+        _text(dfe, "chDFe", line["chDFe"], required=True)
+        _text(dfe, "dtEmi", line["dtEmi"], required=True)
+        _text(dfe, "tpAtiv", line["tpAtiv"], required=True)
+        det = etree.SubElement(node, "detDeducao")
+        _text(det, "vOper", _money(line["vOper"]), required=True)
+        if line.get("vDedTotal"):
+            _text(det, "vDedTotal", _money(line["vDedTotal"]))
+        _text(det, "vDed", _money(line["vDed"]), required=True)
+        for item in line.get("items") or []:
+            item_node = etree.SubElement(node, "itemDFe")
+            _text(item_node, "nItem", item["nItem"], required=True)
+            _text(item_node, "vItem", _money(item["vItem"]), required=True)
+            if item.get("vItemDedTotal"):
+                _text(item_node, "vItemDedTotal", _money(item["vItemDedTotal"]))
+            _text(item_node, "vItemDed", _money(item["vItemDed"]), required=True)
     return etree.tostring(root, encoding="unicode", pretty_print=True)
 
 

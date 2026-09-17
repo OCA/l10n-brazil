@@ -10,6 +10,11 @@ On the company form, open the **DeRE** tab and set:
 6. Leave the scheduled action **DeRE: consult sent batch results** enabled
    (every 2 minutes). The form button still consults immediately.
 
+7. If the taxpayer must send D-1106, enable **Subject to D-1106**, mark the
+   investment accounts as technical-reserve and register each `idAtivo`.
+8. If the taxpayer must send D-1121, enable **Subject to D-1121** and mark
+   inbound fiscal operations as DeRE deductible.
+
 On each account used in the declaration, fill the **DeRE** tab:
 
 - internal code and 3-digit mixed-account split (`cDbrMista`)

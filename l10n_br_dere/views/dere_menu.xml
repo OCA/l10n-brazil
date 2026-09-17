@@ -39,4 +39,12 @@
         groups="l10n_br_dere.group_manager"
         sequence="81"
     />
+    <menuitem
+        id="menu_dere_reserve_asset"
+        name="Technical-reserve Assets"
+        parent="l10n_br_fiscal.configuration_menu"
+        action="action_dere_reserve_asset"
+        groups="l10n_br_dere.group_manager"
+        sequence="82"
+    />
 </odoo>

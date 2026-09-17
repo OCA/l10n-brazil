@@ -2035,3 +2035,71 @@ msgstr "XML"
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__xml_hash
 msgid "XML hash"
 msgstr "Hash do XML"
+
+#. module: l10n_br_dere
+#: model:ir.actions.act_window,name:l10n_br_dere.action_dere_reserve_asset
+#: model:ir.ui.menu,name:l10n_br_dere.menu_dere_reserve_asset
+msgid "Technical-reserve Assets"
+msgstr "Ativos de reserva técnica"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_account_account__l10n_br_dere_reserve_invest
+msgid "DeRE technical-reserve investment"
+msgstr "Investimento de reserva técnica DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_fiscal_operation__l10n_br_dere_deductible
+msgid "DeRE deductible"
+msgstr "Dedutível na DeRE"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_fiscal_operation__l10n_br_dere_tp_ativ
+msgid "DeRE deduction activity"
+msgstr "Atividade da dedução DeRE"
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+msgid "Generate D-1106"
+msgstr "Gerar D-1106"
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+msgid "Load Deductions"
+msgstr "Carregar deduções"
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+msgid "Generate D-1121"
+msgstr "Gerar D-1121"
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+msgid "Reserve Investments"
+msgstr "Aplicações da reserva"
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+msgid "Deductions"
+msgstr "Deduções"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_reserve_asset__id_ativo
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_reserve_line__id_ativo
+msgid "Asset id"
+msgstr "Id do ativo"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_reserve_asset__desc_ativo
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_reserve_line__desc_ativo
+msgid "Asset description"
+msgstr "Descrição do ativo"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_deduction_line__ch_dfe
+msgid "Access key"
+msgstr "Chave de acesso"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_deduction_line__v_ded
+msgid "Deduction this period"
+msgstr "Dedução no período"

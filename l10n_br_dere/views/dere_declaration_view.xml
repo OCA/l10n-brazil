@@ -35,6 +35,24 @@
                         invisible="state not in ('tables_ok', 'reopened')"
                     />
                     <button
+                        name="action_generate_d1106"
+                        type="object"
+                        string="Generate D-1106"
+                        invisible="state not in ('trial_ok', 'reopened') or not subject_d1106"
+                    />
+                    <button
+                        name="action_load_deductions"
+                        type="object"
+                        string="Load Deductions"
+                        invisible="state not in ('trial_ok', 'reopened') or not subject_d1121"
+                    />
+                    <button
+                        name="action_generate_d1121"
+                        type="object"
+                        string="Generate D-1121"
+                        invisible="state not in ('trial_ok', 'reopened') or not subject_d1121"
+                    />
+                    <button
                         name="action_generate_d1199"
                         type="object"
                         string="Close Period"
@@ -80,9 +98,12 @@
                         <group>
                             <field name="ini_valid" readonly="state != 'draft'" />
                             <field name="fim_valid" readonly="state != 'draft'" />
+                            <field name="subject_d1106" invisible="1" />
+                            <field name="subject_d1121" invisible="1" />
                             <field
                                 name="ind_inexist_dedu"
                                 readonly="state == 'closed'"
+                                invisible="not subject_d1121"
                             />
                         </group>
                     </group>
@@ -130,6 +151,54 @@
                                     <field name="dere12_natSaldoFinal" />
                                     <field name="dere12_vSaldoFinal" sum="Closing" />
                                     <field name="dere12_vApur" sum="Taxable" />
+                                </list>
+                            </field>
+                        </page>
+                        <page
+                            string="Reserve Investments"
+                            name="reserve"
+                            invisible="not subject_d1106"
+                        >
+                            <field name="reserve_line_ids" readonly="state == 'closed'">
+                                <list>
+                                    <field
+                                        name="brl_currency_id"
+                                        column_invisible="1"
+                                    />
+                                    <field name="c_cta" />
+                                    <field name="id_ativo" />
+                                    <field name="desc_ativo" />
+                                    <field name="v_saldo_inic" sum="Opening" />
+                                    <field name="v_rend_per_receb" />
+                                    <field name="v_var_mensal" />
+                                    <field name="v_princ_liq_resg" />
+                                    <field name="v_rend_liq_resg" />
+                                    <field name="v_saldo_final" sum="Closing" />
+                                    <field name="v_apur" sum="Taxable" />
+                                </list>
+                            </field>
+                        </page>
+                        <page
+                            string="Deductions"
+                            name="deductions"
+                            invisible="not subject_d1121"
+                        >
+                            <field
+                                name="deduction_line_ids"
+                                readonly="state == 'closed'"
+                            >
+                                <list>
+                                    <field
+                                        name="brl_currency_id"
+                                        column_invisible="1"
+                                    />
+                                    <field name="tp_dfe" />
+                                    <field name="ch_dfe" />
+                                    <field name="dt_emi" />
+                                    <field name="tp_ativ" />
+                                    <field name="v_oper" sum="Operation" />
+                                    <field name="v_ded_total" />
+                                    <field name="v_ded" sum="Deducted" />
                                 </list>
                             </field>
                         </page>

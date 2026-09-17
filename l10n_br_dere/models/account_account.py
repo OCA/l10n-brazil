@@ -54,6 +54,11 @@ class AccountAccount(models.Model):
     )
     l10n_br_dere_nivel_cta = fields.Integer(string="DeRE account level", default=1)
     l10n_br_dere_desc_cta = fields.Char(string="DeRE account description", size=600)
+    l10n_br_dere_reserve_invest = fields.Boolean(
+        string="DeRE technical-reserve investment",
+        help="Mark analytic accounts that hold technical-reserve investments "
+        "reported on D-1106.",
+    )
 
     @api.depends("l10n_br_dere_cta_interna", "l10n_br_dere_dbr_mista", "code")
     def _compute_l10n_br_dere_cta(self):

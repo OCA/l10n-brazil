@@ -5,7 +5,7 @@ import calendar
 import json
 import re
 from collections import defaultdict
-from datetime import date
+from datetime import date, timedelta
 
 from lxml import etree
 
@@ -19,10 +19,15 @@ from odoo.addons.l10n_br_dere_spec.models.v1_2.types import (
 
 from ..constants import (
     D1199_RECEIPT_RE,
+    DEDUCTION_DOCUMENT_EXCLUDED_STATES,
+    DEFAULT_TP_ATIV_BY_REGIME,
     DEFAULT_VER_APLIC,
+    DFE_TYPE_BY_DOCUMENT,
     EVENT_D1001,
     EVENT_D1011,
     EVENT_D1101,
+    EVENT_D1106,
+    EVENT_D1121,
     EVENT_D1198,
     EVENT_D1199,
     PERIODIC_EVENTS,
@@ -79,6 +84,14 @@ class DereDeclaration(models.Model):
         comodel_name="l10n_br_dere.trial.line",
         inverse_name="declaration_id",
     )
+    reserve_line_ids = fields.One2many(
+        comodel_name="l10n_br_dere.reserve.line",
+        inverse_name="declaration_id",
+    )
+    deduction_line_ids = fields.One2many(
+        comodel_name="l10n_br_dere.deduction.line",
+        inverse_name="declaration_id",
+    )
     batch_ids = fields.One2many(
         comodel_name="l10n_br_dere.batch",
         inverse_name="declaration_id",
@@ -86,6 +99,12 @@ class DereDeclaration(models.Model):
     ind_inexist_dedu = fields.Boolean(
         string="Declare no deductions",
         help="Only if the company is subject to D-1121 and has no deductions.",
+    )
+    subject_d1106 = fields.Boolean(
+        related="company_id.dere_subject_d1106",
+    )
+    subject_d1121 = fields.Boolean(
+        related="company_id.dere_subject_d1121",
     )
 
     _sql_constraints = [
@@ -106,6 +125,8 @@ class DereDeclaration(models.Model):
             "ind_inexist_dedu",
             "pgcc_account_ids",
             "trial_line_ids",
+            "reserve_line_ids",
+            "deduction_line_ids",
             "event_ids",
             "batch_ids",
         }
@@ -190,7 +211,7 @@ class DereDeclaration(models.Model):
         self.ensure_one()
         if event_type == EVENT_D1198:
             return self.state == "closed"
-        if event_type in (EVENT_D1101, EVENT_D1199):
+        if event_type in (EVENT_D1101, EVENT_D1106, EVENT_D1121, EVENT_D1199):
             latest = self._latest_event(EVENT_D1198)
             return bool(latest and latest.state == "accepted")
         return False
@@ -201,7 +222,7 @@ class DereDeclaration(models.Model):
         if events.filtered(
             lambda ev: ev.state in ("sent", "accepted")
         ) and not self._can_create_next_event(event_type):
-            if event_type in (EVENT_D1101, EVENT_D1199):
+            if event_type in (EVENT_D1101, EVENT_D1106, EVENT_D1121, EVENT_D1199):
                 raise UserError(
                     _("D-1198 must be accepted before generating a new %s.")
                     % event_type
@@ -475,12 +496,269 @@ class DereDeclaration(models.Model):
         self.state = "trial_ok"
         return event
 
+    def _previous_declaration(self):
+        self.ensure_one()
+        return self.search(
+            [
+                ("company_id", "=", self.company_id.id),
+                ("per_apur", "<", self.per_apur),
+                ("id", "!=", self.id),
+            ],
+            order="per_apur desc, id desc",
+            limit=1,
+        )
+
+    def _sync_reserve_lines_from_assets(self):
+        self.ensure_one()
+        assets = self.env["l10n_br_dere.reserve.asset"].search(
+            [("company_id", "=", self.company_id.id), ("active", "=", True)]
+        )
+        if not self.pgcc_account_ids:
+            self._sync_pgcc_from_accounts()
+        pgcc_by_account = {line.account_id.id: line for line in self.pgcc_account_ids}
+        previous = self._previous_declaration()
+        prev_by_id = {line.id_ativo: line for line in previous.reserve_line_ids}
+        asset_count_by_account = {}
+        for asset in assets:
+            asset_count_by_account[asset.account_id.id] = (
+                asset_count_by_account.get(asset.account_id.id, 0) + 1
+            )
+        opening, _period = self._account_balances()
+        existing = {line.id_ativo: line for line in self.reserve_line_ids}
+        for asset in assets:
+            pgcc = pgcc_by_account.get(asset.account_id.id)
+            if not pgcc or pgcc.dere12_indCta != "A":
+                raise UserError(
+                    _(
+                        "Technical-reserve asset %s must use an analytic "
+                        "account mapped on the PGCC."
+                    )
+                    % asset.id_ativo
+                )
+            if asset.id_ativo in existing:
+                continue
+            prev = prev_by_id.get(asset.id_ativo)
+            if prev:
+                open_bal = prev.v_saldo_final
+            elif asset_count_by_account.get(asset.account_id.id) == 1:
+                open_bal = abs(opening.get(asset.account_id.id, 0.0))
+            else:
+                open_bal = 0.0
+            self.env["l10n_br_dere.reserve.line"].create(
+                {
+                    "declaration_id": self.id,
+                    "asset_id": asset.id,
+                    "id_ativo": asset.id_ativo,
+                    "desc_ativo": asset.desc_ativo,
+                    "pgcc_account_id": pgcc.id,
+                    "c_cta": pgcc.dere12_cCta,
+                    "v_saldo_inic": open_bal,
+                    "v_princ_liq_resg": 0.0,
+                }
+            )
+        return self.reserve_line_ids
+
+    def action_generate_d1106(self):
+        for rec in self:
+            rec._generate_d1106()
+        return True
+
+    def _generate_d1106(self):
+        self.ensure_one()
+        if not self.company_id.dere_subject_d1106:
+            raise UserError(_("The company is not subject to D-1106."))
+        if self.state not in ("trial_ok", "reopened", "closed"):
+            raise UserError(_("Generate the trial balance before D-1106."))
+        self._sync_reserve_lines_from_assets()
+        extra = {}
+        lines = []
+        if self.reserve_line_ids:
+            extra["semAplic"] = False
+            lines = [line._to_xml_vals() for line in self.reserve_line_ids]
+        else:
+            extra["semAplic"] = "1"
+        vals = self._header_vals(extra, event_type=EVENT_D1106)
+        event = self._get_or_create_event(EVENT_D1106)
+        vals["id"] = event.event_id_attr or vals["id"]
+        event.event_id_attr = vals["id"]
+        event._store_xml(xml_builder.build_d1106(vals, lines))
+        return event
+
+    def _default_tp_ativ(self, operation=None):
+        self.ensure_one()
+        if operation and operation.l10n_br_dere_tp_ativ:
+            return operation.l10n_br_dere_tp_ativ
+        return DEFAULT_TP_ATIV_BY_REGIME.get(self.company_id.dere_reg_trib_princ or "")
+
+    def _dfe_type_from_document(self, document):
+        return DFE_TYPE_BY_DOCUMENT.get(document.document_type or "")
+
+    def _inbound_deduction_documents(self):
+        self.ensure_one()
+        return self.env["l10n_br_fiscal.document"].search(
+            [
+                ("company_id", "=", self.company_id.id),
+                ("fiscal_operation_type", "=", "in"),
+                ("fiscal_operation_id.l10n_br_dere_deductible", "=", True),
+                ("state_edoc", "not in", DEDUCTION_DOCUMENT_EXCLUDED_STATES),
+                ("document_date", ">=", self.date_from),
+                ("document_date", "<", self.date_to + timedelta(days=1)),
+                ("document_key", "!=", False),
+            ]
+        )
+
+    def _deduction_vals_from_document(self, document):
+        self.ensure_one()
+        tp_dfe = self._dfe_type_from_document(document)
+        tp_ativ = self._default_tp_ativ(document.fiscal_operation_id)
+        if not tp_dfe:
+            raise UserError(
+                _("Unsupported fiscal document type %s for D-1121.")
+                % (document.document_type or document.display_name)
+            )
+        if not tp_ativ:
+            raise UserError(
+                _(
+                    "Set the DeRE deduction activity on the fiscal operation "
+                    "or use a health-care / prize-contest regime."
+                )
+            )
+        amount = document.fiscal_amount_total or 0.0
+        issue_date = fields.Date.to_date(document.document_date)
+        issue_month = fields.Date.to_string(issue_date)[:7] if issue_date else False
+        vals = {
+            "declaration_id": self.id,
+            "document_id": document.id,
+            "tp_dfe": tp_dfe,
+            "ch_dfe": (document.document_key or "").replace(" ", "").upper(),
+            "dt_emi": issue_date,
+            "tp_ativ": tp_ativ,
+            "v_oper": amount,
+            "v_ded": amount,
+        }
+        if issue_month == self.per_apur:
+            vals["v_ded_total"] = amount
+        return vals
+
+    def action_load_deductions(self):
+        for rec in self:
+            rec._load_deductions()
+        return True
+
+    def _load_deductions(self):
+        self.ensure_one()
+        if not self.company_id.dere_subject_d1121:
+            raise UserError(_("The company is not subject to D-1121."))
+        if self.state not in ("trial_ok", "reopened"):
+            raise UserError(_("Generate the trial balance before loading deductions."))
+        self.deduction_line_ids.unlink()
+        rows = [
+            self._deduction_vals_from_document(document)
+            for document in self._inbound_deduction_documents()
+        ]
+        if rows:
+            self.env["l10n_br_dere.deduction.line"].create(rows)
+            if self.ind_inexist_dedu:
+                self.ind_inexist_dedu = False
+        return self.deduction_line_ids
+
+    def _ensure_deduction_items(self, line):
+        if not line._needs_items():
+            return
+        if line.item_ids:
+            return
+        document = line.document_id
+        if not document:
+            raise UserError(
+                _(
+                    "Deduction %s has vDedTotal lower than vOper and needs "
+                    "item breakdown."
+                )
+                % (line.ch_dfe or line.id)
+            )
+        items = []
+        for index, fiscal_line in enumerate(document.fiscal_line_ids, start=1):
+            n_item = False
+            if "nfe40_nItem" in fiscal_line._fields and fiscal_line.nfe40_nItem:
+                n_item = str(fiscal_line.nfe40_nItem)
+            items.append(
+                {
+                    "line_id": line.id,
+                    "n_item": n_item or str(index),
+                    "v_item": fiscal_line.fiscal_amount_total or 0.0,
+                    "v_item_ded_total": fiscal_line.fiscal_amount_total or 0.0,
+                    "v_item_ded": fiscal_line.fiscal_amount_total or 0.0,
+                }
+            )
+        if not items:
+            raise UserError(
+                _("Fiscal document %s has no lines to build D-1121 items.")
+                % line.ch_dfe
+            )
+        self.env["l10n_br_dere.deduction.item"].create(items)
+
+    def _assert_deduction_current_account(self, line):
+        issue_month = line._issue_period()
+        if issue_month == self.per_apur:
+            return
+        if line.v_ded_total:
+            raise UserError(
+                _("Do not set vDedTotal after the issue month of key %s.") % line.ch_dfe
+            )
+        previous = self.search(
+            [
+                ("company_id", "=", self.company_id.id),
+                ("per_apur", "<", self.per_apur),
+                ("deduction_line_ids.ch_dfe", "=", line.ch_dfe),
+            ],
+            limit=1,
+        )
+        if not previous:
+            raise UserError(
+                _(
+                    "Key %s must be opened in its issue month before later "
+                    "D-1121 deductions."
+                )
+                % line.ch_dfe
+            )
+
+    def action_generate_d1121(self):
+        for rec in self:
+            rec._generate_d1121()
+        return True
+
+    def _generate_d1121(self):
+        self.ensure_one()
+        if not self.company_id.dere_subject_d1121:
+            raise UserError(_("The company is not subject to D-1121."))
+        if self.state not in ("trial_ok", "reopened", "closed"):
+            raise UserError(_("Generate the trial balance before D-1121."))
+        if self.ind_inexist_dedu:
+            raise UserError(
+                _("Do not generate D-1121 when the no-deductions flag is set.")
+            )
+        if not self.deduction_line_ids:
+            raise UserError(_("Load or enter D-1121 deductions before generating."))
+        for line in self.deduction_line_ids:
+            self._assert_deduction_current_account(line)
+            self._ensure_deduction_items(line)
+        vals = self._header_vals(event_type=EVENT_D1121)
+        event = self._get_or_create_event(EVENT_D1121)
+        vals["id"] = event.event_id_attr or vals["id"]
+        event.event_id_attr = vals["id"]
+        event._store_xml(
+            xml_builder.build_d1121(
+                vals, [line._to_xml_vals() for line in self.deduction_line_ids]
+            )
+        )
+        return event
+
     def action_generate_d1199(self):
         for rec in self:
             rec._generate_d1199()
         return True
 
-    def _generate_d1199(self):
+    def _assert_d1199_prerequisites(self):
         self.ensure_one()
         if self.state not in ("trial_ok", "reopened", "closed"):
             raise UserError(_("Generate the trial balance before closing."))
@@ -492,7 +770,23 @@ class DereDeclaration(models.Model):
             raise UserError(
                 _("Generate a new trial balance after reopening before closing.")
             )
+        if self.company_id.dere_subject_d1106:
+            d1106 = self._latest_event(EVENT_D1106)
+            if not d1106 or not d1106.xml_content:
+                raise UserError(_("Generate D-1106 before closing."))
+
+    def _d1199_info_vals(self):
+        self.ensure_one()
         extra = {}
+        d1121 = self._latest_event(EVENT_D1121)
+        if self.ind_inexist_dedu and self.deduction_line_ids:
+            raise UserError(
+                _("Do not set the no-deductions flag when D-1121 lines exist.")
+            )
+        if self.ind_inexist_dedu and d1121 and d1121.xml_content:
+            raise UserError(
+                _("Do not set the no-deductions flag when D-1121 was generated.")
+            )
         if self.ind_inexist_dedu:
             if not self.company_id.dere_subject_d1121:
                 raise UserError(
@@ -502,6 +796,18 @@ class DereDeclaration(models.Model):
                     )
                 )
             extra["indInexistDedu"] = "1"
+        elif self.company_id.dere_subject_d1121 and self.deduction_line_ids:
+            if not d1121 or not d1121.xml_content:
+                raise UserError(_("Generate D-1121 before closing."))
+        elif self.company_id.dere_subject_d1121:
+            self.ind_inexist_dedu = True
+            extra["indInexistDedu"] = "1"
+        return extra
+
+    def _generate_d1199(self):
+        self.ensure_one()
+        self._assert_d1199_prerequisites()
+        extra = self._d1199_info_vals()
         vals = self._header_vals(extra, event_type=EVENT_D1199)
         event = self._get_or_create_event(EVENT_D1199)
         vals["id"] = event.event_id_attr or vals["id"]
@@ -551,6 +857,42 @@ class DereDeclaration(models.Model):
         self.state = "reopened"
         return event
 
+    def _require_processing_receipt(self, event_type, message):
+        event = self._latest_event(event_type)
+        if not event or not event.nr_recibo:
+            raise UserError(message)
+        return event
+
+    def _assert_d1121_send_order(self):
+        self._require_processing_receipt(
+            EVENT_D1101,
+            _("D-1101 processing receipt is required before sending D-1121."),
+        )
+        if self.company_id.dere_subject_d1106:
+            self._require_processing_receipt(
+                EVENT_D1106,
+                _("D-1106 processing receipt is required before sending D-1121."),
+            )
+
+    def _assert_d1199_send_order(self):
+        d1101 = self._latest_event(EVENT_D1101)
+        if not d1101:
+            raise UserError(_("D-1101 must exist before D-1199."))
+        if not d1101.nr_recibo:
+            raise UserError(
+                _("D-1101 processing receipt is required before sending D-1199.")
+            )
+        if self.company_id.dere_subject_d1106:
+            self._require_processing_receipt(
+                EVENT_D1106,
+                _("D-1106 processing receipt is required before sending D-1199."),
+            )
+        d1121 = self._latest_event(EVENT_D1121)
+        if d1121 and d1121.xml_content and not d1121.nr_recibo:
+            raise UserError(
+                _("D-1121 processing receipt is required before sending D-1199.")
+            )
+
     def _assert_send_order(self, event_types):
         self.ensure_one()
         types = set(event_types)
@@ -568,14 +910,15 @@ class DereDeclaration(models.Model):
             closing = self._latest_event(EVENT_D1199)
             if not closing or closing.state != "accepted" or not closing.nr_recibo:
                 raise UserError(_("D-1199 must be accepted before sending D-1198."))
+        if EVENT_D1106 in types:
+            self._require_processing_receipt(
+                EVENT_D1101,
+                _("D-1101 processing receipt is required before sending D-1106."),
+            )
+        if EVENT_D1121 in types:
+            self._assert_d1121_send_order()
         if EVENT_D1199 in types:
-            d1101 = self._latest_event(EVENT_D1101)
-            if not d1101:
-                raise UserError(_("D-1101 must exist before D-1199."))
-            if not d1101.nr_recibo:
-                raise UserError(
-                    _("D-1101 processing receipt is required before sending D-1199.")
-                )
+            self._assert_d1199_send_order()
 
     def _next_events(self, event_types):
         self.ensure_one()
