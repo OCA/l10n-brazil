@@ -1,0 +1,290 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_fiscal_dfe_mock
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_banner_warning
+msgid ""
+"<i class=\"fa fa-flask text-warning me-2 fs-4\"/>\n"
+"                <span class=\"fw-bold text-warning\">\n"
+"                    MOCK MODE ATIVO\n"
+"                </span>\n"
+"                <span class=\"ms-2 text-muted\">\n"
+"                    — Consultas DF-e estão sendo respondidas pelo pool local,\n"
+"                    sem comunicação com a SEFAZ.\n"
+"                </span>"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__access_key
+msgid "Access Key"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_generate_wizard_form
+msgid "Cancel"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model,name:l10n_br_fiscal_dfe_mock.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard__company_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__consumed
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_search
+msgid "Consumed"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard__create_uid
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard__create_date
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_res_company__dfe_mock_mode
+msgid "DF-e Mock Mode"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model,name:l10n_br_fiscal_dfe_mock.model_dfe_mock_nsu
+msgid "DF-e Mock NSU"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard__display_name
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_generate_wizard_form
+msgid "Document Types"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_generate_wizard_form
+msgid "Generate"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.actions.act_window,name:l10n_br_fiscal_dfe_mock.action_generate_mock_nsu
+#: model:ir.ui.menu,name:l10n_br_fiscal_dfe_mock.dfe_mock_generate_menu
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_generate_wizard_form
+msgid "Generate Mock NSU"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model,name:l10n_br_fiscal_dfe_mock.model_dfe_mock_generate_wizard
+msgid "Generate Mock NSU Records"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard__generate_proc_evento_nfe
+msgid "Generate procEventoNFe"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard__generate_proc_nfe
+msgid "Generate procNFe"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard__generate_res_evento
+msgid "Generate resEvento"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard__generate_res_nfe
+msgid "Generate resNFe"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe_mock/wizards/dfe_mock_generate_wizard.py:0
+#, python-format
+msgid "Generated Mock NSUs"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_search
+msgid "Group By"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard__id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard____last_update
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard__write_uid
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard__write_date
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.ui.menu,name:l10n_br_fiscal_dfe_mock.dfe_mock_separator
+msgid "Mock"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.actions.act_window,name:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_action
+#: model:ir.ui.menu,name:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_menu
+msgid "Mock NSU Pool"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__nsu
+msgid "NSU"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.constraint,message:l10n_br_fiscal_dfe_mock.constraint_dfe_mock_nsu_nsu_company_unique
+msgid "NSU must be unique per company."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe_mock/wizards/dfe_mock_generate_wizard.py:0
+#, python-format
+msgid "No demo partners found. Install l10n_br_base demo data."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model_terms:ir.actions.act_window,help:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_action
+msgid "No mock NSUs yet"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard__quantity
+msgid "Quantity"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe_mock/wizards/dfe_mock_generate_wizard.py:0
+#, python-format
+msgid "Quantity must be at least 1."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model,name:l10n_br_fiscal_dfe_mock.model_l10n_br_nfe_md_event
+msgid "Recipient Manifestation"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.actions.server,name:l10n_br_fiscal_dfe_mock.action_reset_consumed_multi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_form
+msgid "Reset Consumed"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.actions.server,name:l10n_br_fiscal_dfe_mock.action_reset_dfe_cooldown
+#: model:ir.ui.menu,name:l10n_br_fiscal_dfe_mock.dfe_mock_reset_cooldown_menu
+msgid "Reset Query Cooldown"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__schema_type
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_search
+msgid "Schema Type"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe_mock/wizards/dfe_mock_generate_wizard.py:0
+#, python-format
+msgid "Select at least one document type to generate."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.actions.server,name:l10n_br_fiscal_dfe_mock.action_toggle_dfe_mock_mode
+msgid "Toggle DF-e Mock Mode"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.ui.menu,name:l10n_br_fiscal_dfe_mock.dfe_mock_toggle_menu
+msgid "Toggle Mock Mode"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_search
+msgid "Unconsumed"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model_terms:ir.actions.act_window,help:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_action
+msgid ""
+"Use the menu <b>Generate Mock NSU</b> to create fake\n"
+"                NSU records for testing DF-e distribution."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe_mock.field_res_company__dfe_mock_mode
+msgid ""
+"When enabled, DF-e distribution queries are answered from the local mock NSU"
+" pool instead of SEFAZ."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__xml_content
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_form
+msgid "XML Content"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe_mock.selection__dfe_mock_nsu__schema_type__proceventonfe
+msgid "procEventoNFe"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe_mock.selection__dfe_mock_nsu__schema_type__procnfe
+msgid "procNFe"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe_mock.selection__dfe_mock_nsu__schema_type__resevento
+msgid "resEvento"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe_mock.selection__dfe_mock_nsu__schema_type__resnfe
+msgid "resNFe"
+msgstr ""
