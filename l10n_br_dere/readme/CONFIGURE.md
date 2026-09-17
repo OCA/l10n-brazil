@@ -12,6 +12,9 @@ On the company form, open the **DeRE** tab and set:
 
 7. If the taxpayer must send D-1106, enable **Subject to D-1106**, mark the
    investment accounts as technical-reserve and register each `idAtivo`.
+   Keep one asset per account so **Generate D-1106** can fill amounts from
+   posted journal items. Optionally set **DeRE reserve income account** for
+   cash coupons that never hit the investment account.
 8. If the taxpayer must send D-1121, enable **Subject to D-1121** and mark
    inbound fiscal operations as DeRE deductible.
 

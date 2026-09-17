@@ -59,6 +59,13 @@ class AccountAccount(models.Model):
         help="Mark analytic accounts that hold technical-reserve investments "
         "reported on D-1106.",
     )
+    l10n_br_dere_reserve_income_account_id = fields.Many2one(
+        comodel_name="account.account",
+        string="DeRE reserve income account",
+        ondelete="restrict",
+        help="Optional income account whose period credits fill D-1106 "
+        "vRendPerReceb when the coupon does not hit the investment account.",
+    )
 
     @api.depends("l10n_br_dere_cta_interna", "l10n_br_dere_dbr_mista", "code")
     def _compute_l10n_br_dere_cta(self):

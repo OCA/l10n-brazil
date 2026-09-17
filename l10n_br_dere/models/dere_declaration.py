@@ -508,6 +508,91 @@ class DereDeclaration(models.Model):
             limit=1,
         )
 
+    def _reserve_opening(self, asset, prev_by_id, opening, one_to_one):
+        prev = prev_by_id.get(asset.id_ativo)
+        if prev:
+            return prev.v_saldo_final
+        if one_to_one:
+            return abs(opening.get(asset.account_id.id, 0.0))
+        return 0.0
+
+    def _reserve_counterpart_income(self, account):
+        self.ensure_one()
+        MoveLine = self.env["account.move.line"]
+        reserve_lines = MoveLine.search(
+            [
+                ("move_id.company_id", "=", self.company_id.id),
+                ("parent_state", "=", "posted"),
+                ("account_id", "=", account.id),
+                ("move_id.date", ">=", self.date_from),
+                ("move_id.date", "<=", self.date_to),
+                ("display_type", "not in", ("line_section", "line_note")),
+            ]
+        )
+        move_ids = reserve_lines.mapped("move_id").ids
+        received = 0.0
+        redeemed = 0.0
+        if move_ids:
+            income_lines = MoveLine.search(
+                [
+                    ("move_id", "in", move_ids),
+                    ("account_id.account_type", "=", "income"),
+                    ("account_id", "!=", account.id),
+                    ("display_type", "not in", ("line_section", "line_note")),
+                ]
+            )
+            for income in income_lines:
+                amount = income.credit - income.debit
+                if amount <= 0.005:
+                    continue
+                move_reserve = reserve_lines.filtered(
+                    lambda line, current=income: line.move_id == current.move_id
+                )
+                if sum(move_reserve.mapped("debit")) >= sum(
+                    move_reserve.mapped("credit")
+                ):
+                    received += amount
+                else:
+                    redeemed += amount
+        mapped = account.l10n_br_dere_reserve_income_account_id
+        if mapped:
+            extra_domain = [
+                ("move_id.company_id", "=", self.company_id.id),
+                ("parent_state", "=", "posted"),
+                ("account_id", "=", mapped.id),
+                ("move_id.date", ">=", self.date_from),
+                ("move_id.date", "<=", self.date_to),
+                ("display_type", "not in", ("line_section", "line_note")),
+            ]
+            if move_ids:
+                extra_domain.append(("move_id", "not in", move_ids))
+            extra = MoveLine.search(extra_domain)
+            received += sum(extra.mapped("credit")) - sum(extra.mapped("debit"))
+        return received, redeemed
+
+    def _reserve_gl_vals(self, asset, opening, period, prev_by_id, one_to_one):
+        vals = {
+            "v_saldo_inic": self._reserve_opening(
+                asset, prev_by_id, opening, one_to_one
+            ),
+            "v_var_mensal": 0.0,
+            "v_princ_liq_resg": 0.0,
+            "v_rend_per_receb": 0.0,
+            "v_rend_liq_resg": 0.0,
+        }
+        if self.env.context.get("dere_skip_reserve_gl") or not one_to_one:
+            return vals
+        account_period = period.get(asset.account_id.id) or {
+            "debit": 0.0,
+            "credit": 0.0,
+        }
+        vals["v_var_mensal"] = account_period["debit"]
+        vals["v_princ_liq_resg"] = account_period["credit"]
+        received, redeemed = self._reserve_counterpart_income(asset.account_id)
+        vals["v_rend_per_receb"] = received
+        vals["v_rend_liq_resg"] = redeemed
+        return vals
+
     def _sync_reserve_lines_from_assets(self):
         self.ensure_one()
         assets = self.env["l10n_br_dere.reserve.asset"].search(
@@ -523,7 +608,7 @@ class DereDeclaration(models.Model):
             asset_count_by_account[asset.account_id.id] = (
                 asset_count_by_account.get(asset.account_id.id, 0) + 1
             )
-        opening, _period = self._account_balances()
+        opening, period = self._account_balances()
         existing = {line.id_ativo: line for line in self.reserve_line_ids}
         for asset in assets:
             pgcc = pgcc_by_account.get(asset.account_id.id)
@@ -535,27 +620,25 @@ class DereDeclaration(models.Model):
                     )
                     % asset.id_ativo
                 )
-            if asset.id_ativo in existing:
-                continue
-            prev = prev_by_id.get(asset.id_ativo)
-            if prev:
-                open_bal = prev.v_saldo_final
-            elif asset_count_by_account.get(asset.account_id.id) == 1:
-                open_bal = abs(opening.get(asset.account_id.id, 0.0))
-            else:
-                open_bal = 0.0
-            self.env["l10n_br_dere.reserve.line"].create(
-                {
-                    "declaration_id": self.id,
-                    "asset_id": asset.id,
-                    "id_ativo": asset.id_ativo,
-                    "desc_ativo": asset.desc_ativo,
-                    "pgcc_account_id": pgcc.id,
-                    "c_cta": pgcc.dere12_cCta,
-                    "v_saldo_inic": open_bal,
-                    "v_princ_liq_resg": 0.0,
-                }
+            one_to_one = asset_count_by_account.get(asset.account_id.id) == 1
+            gl_vals = self._reserve_gl_vals(
+                asset, opening, period, prev_by_id, one_to_one
             )
+            line_vals = {
+                "asset_id": asset.id,
+                "id_ativo": asset.id_ativo,
+                "desc_ativo": asset.desc_ativo,
+                "pgcc_account_id": pgcc.id,
+                "c_cta": pgcc.dere12_cCta,
+                **gl_vals,
+            }
+            existing_line = existing.get(asset.id_ativo)
+            if existing_line:
+                if one_to_one and not self.env.context.get("dere_skip_reserve_gl"):
+                    existing_line.write(line_vals)
+                continue
+            line_vals["declaration_id"] = self.id
+            self.env["l10n_br_dere.reserve.line"].create(line_vals)
         return self.reserve_line_ids
 
     def action_generate_d1106(self):

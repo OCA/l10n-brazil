@@ -74,7 +74,10 @@ On the company form, open the **DeRE** tab and set:
 
 7. If the taxpayer must send D-1106, enable **Subject to D-1106**, mark
    the investment accounts as technical-reserve and register each
-   ``idAtivo``.
+   ``idAtivo``. Keep one asset per account so **Generate D-1106** can
+   fill amounts from posted journal items. Optionally set **DeRE reserve
+   income account** for cash coupons that never hit the investment
+   account.
 
 8. If the taxpayer must send D-1121, enable **Subject to D-1121** and
    mark inbound fiscal operations as DeRE deductible.
@@ -150,10 +153,16 @@ typed: it is rebuilt from those moves.
 
 6.  If the company is subject to D-1106, **Generate D-1106** before
     closing. Register technical-reserve assets under Fiscal
-    configuration, or the event is sent with ``semAplic=1``. If it is
-    subject to D-1121, **Load Deductions** from inbound operations
-    marked as DeRE deductible, then **Generate D-1121**, or leave the
-    period without documents so closing sets ``indInexistDedu``.
+    configuration, or the event is sent with ``semAplic=1``. With
+    exactly one asset per account the period amounts come from posted
+    moves: debits become ``vVarMensal``, credits become
+    ``vPrincLiqResg``, and income on the same entry (or on the mapped
+    reserve income account) fills ``vRendPerReceb`` / ``vRendLiqResg``.
+    Several assets on the same account stay manual. Regenerating
+    rebuilds those 1:1 amounts. If it is subject to D-1121, **Load
+    Deductions** from inbound operations marked as DeRE deductible, then
+    **Generate D-1121**, or leave the period without documents so
+    closing sets ``indInexistDedu``.
 7.  **Close Period** (D-1199). Send periodics one type at a time:
     D-1101, then D-1106 (if any), then D-1121 (if any), then D-1199.
     Each auxiliary event needs the previous processing receipt.

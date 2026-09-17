@@ -2103,3 +2103,8 @@ msgstr "Chave de acesso"
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_deduction_line__v_ded
 msgid "Deduction this period"
 msgstr "Dedução no período"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_account_account__l10n_br_dere_reserve_income_account_id
+msgid "DeRE reserve income account"
+msgstr "Conta de rendimento da reserva DeRE"

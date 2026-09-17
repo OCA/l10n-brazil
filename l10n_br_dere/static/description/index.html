@@ -420,7 +420,10 @@ enabled (every 2 minutes). The form button still consults
 immediately.</li>
 <li>If the taxpayer must send D-1106, enable <strong>Subject to D-1106</strong>, mark
 the investment accounts as technical-reserve and register each
-<tt class="docutils literal">idAtivo</tt>.</li>
+<tt class="docutils literal">idAtivo</tt>. Keep one asset per account so <strong>Generate D-1106</strong> can
+fill amounts from posted journal items. Optionally set <strong>DeRE reserve
+income account</strong> for cash coupons that never hit the investment
+account.</li>
 <li>If the taxpayer must send D-1121, enable <strong>Subject to D-1121</strong> and
 mark inbound fiscal operations as DeRE deductible.</li>
 </ol>
@@ -493,10 +496,16 @@ follows <tt class="docutils literal">DeRE</tt> + event code + environment<ul>
 </li>
 <li>If the company is subject to D-1106, <strong>Generate D-1106</strong> before
 closing. Register technical-reserve assets under Fiscal
-configuration, or the event is sent with <tt class="docutils literal">semAplic=1</tt>. If it is
-subject to D-1121, <strong>Load Deductions</strong> from inbound operations
-marked as DeRE deductible, then <strong>Generate D-1121</strong>, or leave the
-period without documents so closing sets <tt class="docutils literal">indInexistDedu</tt>.</li>
+configuration, or the event is sent with <tt class="docutils literal">semAplic=1</tt>. With
+exactly one asset per account the period amounts come from posted
+moves: debits become <tt class="docutils literal">vVarMensal</tt>, credits become
+<tt class="docutils literal">vPrincLiqResg</tt>, and income on the same entry (or on the mapped
+reserve income account) fills <tt class="docutils literal">vRendPerReceb</tt> / <tt class="docutils literal">vRendLiqResg</tt>.
+Several assets on the same account stay manual. Regenerating
+rebuilds those 1:1 amounts. If it is subject to D-1121, <strong>Load
+Deductions</strong> from inbound operations marked as DeRE deductible, then
+<strong>Generate D-1121</strong>, or leave the period without documents so
+closing sets <tt class="docutils literal">indInexistDedu</tt>.</li>
 <li><strong>Close Period</strong> (D-1199). Send periodics one type at a time:
 D-1101, then D-1106 (if any), then D-1121 (if any), then D-1199.
 Each auxiliary event needs the previous processing receipt.</li>

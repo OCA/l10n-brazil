@@ -3,6 +3,7 @@
 
 from lxml import etree
 
+from odoo import Command
 from odoo.exceptions import UserError
 from odoo.tests import tagged
 
@@ -59,7 +60,7 @@ class TestDereAuxiliaryEvents(DereCommon):
                 "v_rend_liq_resg": 2.0,
             }
         )
-        declaration.action_generate_d1106()
+        declaration.with_context(dere_skip_reserve_gl=True).action_generate_d1106()
         self.assertEqual(line.v_saldo_final, 985.0)
         self.assertEqual(line.v_apur, 12.0)
         root = etree.fromstring(
@@ -72,6 +73,113 @@ class TestDereAuxiliaryEvents(DereCommon):
         self.assertEqual(root.findtext(".//{*}vSaldoFinal"), "985.00")
         self.assertEqual(root.findtext(".//{*}vApur"), "12.00")
         self.assertIsNone(root.find(".//{*}semAplic"))
+
+    def _create_reserve_asset(self, account, id_ativo="CDB2026001"):
+        account.l10n_br_dere_reserve_invest = True
+        return self.env["l10n_br_dere.reserve.asset"].create(
+            {
+                "company_id": self.company.id,
+                "id_ativo": id_ativo,
+                "desc_ativo": "Bank certificate",
+                "account_id": account.id,
+            }
+        )
+
+    def test_d1106_fills_from_gl_one_asset(self):
+        self.company.dere_subject_d1106 = True
+        self._create_reserve_asset(self.equity_account)
+        self._post_entry("2026-10-31", self.equity_account, self.receivable, 1000.0)
+        self._post_entry("2026-11-12", self.equity_account, self.fee_account, 10.0)
+        declaration = self._prepare_trial()
+        declaration.action_generate_d1106()
+        line = declaration.reserve_line_ids
+        self.assertEqual(line.v_saldo_inic, 1000.0)
+        self.assertEqual(line.v_var_mensal, 10.0)
+        self.assertEqual(line.v_rend_per_receb, 10.0)
+        self.assertEqual(line.v_princ_liq_resg, 0.0)
+        self.assertEqual(line.v_apur, 10.0)
+        self.assertEqual(line.v_saldo_final, 1010.0)
+
+    def test_d1106_fills_redemption_income_from_same_move(self):
+        self.company.dere_subject_d1106 = True
+        self._create_reserve_asset(self.equity_account)
+        self._post_entry("2026-10-31", self.equity_account, self.receivable, 100.0)
+        self.env["account.move"].create(
+            {
+                "move_type": "entry",
+                "date": "2026-11-20",
+                "journal_id": self.journal.id,
+                "company_id": self.company.id,
+                "ref": "DeRE reserve redemption",
+                "line_ids": [
+                    Command.create(
+                        {
+                            "account_id": self.receivable.id,
+                            "name": "Redemption",
+                            "debit": 22.0,
+                            "credit": 0.0,
+                        }
+                    ),
+                    Command.create(
+                        {
+                            "account_id": self.equity_account.id,
+                            "name": "Principal",
+                            "debit": 0.0,
+                            "credit": 20.0,
+                        }
+                    ),
+                    Command.create(
+                        {
+                            "account_id": self.fee_account.id,
+                            "name": "Gain",
+                            "debit": 0.0,
+                            "credit": 2.0,
+                        }
+                    ),
+                ],
+            }
+        ).action_post()
+        declaration = self._prepare_trial()
+        declaration.action_generate_d1106()
+        line = declaration.reserve_line_ids
+        self.assertEqual(line.v_princ_liq_resg, 20.0)
+        self.assertEqual(line.v_rend_liq_resg, 2.0)
+        self.assertEqual(line.v_apur, 2.0)
+        self.assertEqual(line.v_saldo_final, 80.0)
+
+    def test_d1106_fills_mapped_income_account(self):
+        self.company.dere_subject_d1106 = True
+        income = self.env["account.account"].create(
+            {
+                "name": "Reserve coupon income",
+                "code": "DEREINC",
+                "account_type": "income",
+                "company_ids": [Command.set(self.company.ids)],
+            }
+        )
+        self.equity_account.l10n_br_dere_reserve_income_account_id = income.id
+        self._create_reserve_asset(self.equity_account)
+        self._post_entry("2026-11-18", self.receivable, income, 15.0)
+        declaration = self._prepare_trial()
+        declaration.action_generate_d1106()
+        line = declaration.reserve_line_ids
+        self.assertEqual(line.v_rend_per_receb, 15.0)
+        self.assertEqual(line.v_var_mensal, 0.0)
+        self.assertEqual(line.v_apur, 15.0)
+
+    def test_d1106_skips_gl_when_two_assets_share_account(self):
+        self.company.dere_subject_d1106 = True
+        self._create_reserve_asset(self.equity_account, "CDB2026001")
+        self._create_reserve_asset(self.equity_account, "CDB2026002")
+        self._post_entry("2026-11-12", self.equity_account, self.fee_account, 50.0)
+        declaration = self._prepare_trial()
+        declaration.action_generate_d1106()
+        self.assertEqual(
+            declaration.reserve_line_ids.mapped("v_var_mensal"), [0.0, 0.0]
+        )
+        self.assertEqual(
+            declaration.reserve_line_ids.mapped("v_rend_per_receb"), [0.0, 0.0]
+        )
 
     def test_close_requires_d1106_when_subject(self):
         self.company.dere_subject_d1106 = True

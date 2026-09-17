@@ -46,7 +46,12 @@ moves.
    + CNPJ + 19 digits.
 6. If the company is subject to D-1106, **Generate D-1106** before closing.
    Register technical-reserve assets under Fiscal configuration, or the event
-   is sent with `semAplic=1`. If it is subject to D-1121, **Load Deductions**
+   is sent with `semAplic=1`. With exactly one asset per account the period
+   amounts come from posted moves: debits become `vVarMensal`, credits become
+   `vPrincLiqResg`, and income on the same entry (or on the mapped reserve
+   income account) fills `vRendPerReceb` / `vRendLiqResg`. Several assets on
+   the same account stay manual. Regenerating rebuilds those 1:1 amounts.
+   If it is subject to D-1121, **Load Deductions**
    from inbound operations marked as DeRE deductible, then **Generate D-1121**,
    or leave the period without documents so closing sets `indInexistDedu`.
 7. **Close Period** (D-1199). Send periodics one type at a time: D-1101, then
