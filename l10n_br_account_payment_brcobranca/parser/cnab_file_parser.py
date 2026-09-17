@@ -439,9 +439,9 @@ class CNABFileParser(FileParser):
     def _get_accounting_entries(self, linha_cnab, account_move_line, payment_lines):
         row_list = []
         bank_name_brcobranca = dict_brcobranca_bank[self.bank.code_bc]
-        valor_recebido = (
-            valor_desconto
-        ) = valor_juros_mora = valor_abatimento = valor_tarifa = 0.0
+        valor_recebido = valor_desconto = valor_juros_mora = valor_abatimento = (
+            valor_tarifa
+        ) = 0.0
 
         if linha_cnab["valor_recebido"]:
             # Campo Valor Recebido vem com o Valor da Tarifa:

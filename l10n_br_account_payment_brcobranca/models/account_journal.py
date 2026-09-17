@@ -118,15 +118,11 @@ class AccountJournal(models.Model):
                 "bank_account_id": parser.journal.bank_account_id.id,
             }
         )
-        qty_cnab_return_events = (
-            amount_total_title
-        ) = (
-            amount_total_received
-        ) = (
+        qty_cnab_return_events = amount_total_title = amount_total_received = (
             amount_total_tariff_charge
-        ) = (
-            amount_total_interest_fee
-        ) = amount_total_discount = amount_total_rebate = 0.0
+        ) = amount_total_interest_fee = amount_total_discount = amount_total_rebate = (
+            0.0
+        )
 
         for cnab_return_event in parser.cnab_return_events:
             amount_total_title += cnab_return_event.get("title_value")

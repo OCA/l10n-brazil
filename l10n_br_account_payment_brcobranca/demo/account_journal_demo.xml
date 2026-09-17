@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
-
     <!-- CNAB Return Configuration -->
     <!-- Diario Unicred -->
     <record id="l10n_br_account_payment_order.unicred_journal" model="account.journal">
@@ -45,5 +44,4 @@
         />
         <field name="return_auto_reconcile">True</field>
     </record>
-
 </odoo>

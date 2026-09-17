@@ -62,9 +62,9 @@ class AccountPaymentLine(models.Model):
             dv = modulo11(nosso_numero, 9, 0)
             linhas_pagamentos["nosso_numero"] = str(nosso_numero) + str(dv)
         elif cnab_config.payment_method_id.code == "240":
-            linhas_pagamentos[
-                "codigo_baixa"
-            ] = cnab_config.write_off_devolution_code_id.code
+            linhas_pagamentos["codigo_baixa"] = (
+                cnab_config.write_off_devolution_code_id.code
+            )
             linhas_pagamentos["dias_baixa"] = str(
                 cnab_config.write_off_devolution_number_of_days
             )
@@ -132,9 +132,9 @@ class AccountPaymentLine(models.Model):
             # Juros Mora
             # Casos Isento podem não ter boleto_interest_perc
             if cnab_config.boleto_interest_code_id:
-                linhas_pagamentos[
-                    "tipo_mora"
-                ] = cnab_config.boleto_interest_code_id.code
+                linhas_pagamentos["tipo_mora"] = (
+                    cnab_config.boleto_interest_code_id.code
+                )
             if cnab_config.boleto_interest_perc:
                 # Padrão 'Valor por Dia', porque os casos Itau, Santander e Nordeste
                 # 400 pelas Documentações não tem um 'Código Mora' mas pelo código
@@ -155,9 +155,9 @@ class AccountPaymentLine(models.Model):
 
             # Protesto
             if cnab_config.boleto_protest_code_id:
-                linhas_pagamentos[
-                    "codigo_protesto"
-                ] = cnab_config.boleto_protest_code_id.code
+                linhas_pagamentos["codigo_protesto"] = (
+                    cnab_config.boleto_protest_code_id.code
+                )
                 if cnab_config.boleto_days_protest:
                     linhas_pagamentos["dias_protesto"] = cnab_config.boleto_days_protest
 
