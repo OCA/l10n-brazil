@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.actions.act_window" id="wizard_document_status_act_multi">
+        <field name="name">Document Status</field>
+        <field name="res_model">l10n_br_fiscal.document.status.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="binding_model_id" ref="model_account_move" />
+        <field name="target">new</field>
+    </record>
+</odoo>
