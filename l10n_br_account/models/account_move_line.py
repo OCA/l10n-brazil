@@ -375,7 +375,7 @@ class AccountMoveLine(models.Model):
 
         insurance_value = self.env.context.get("insurance_value", 0)
         other_value = self.env.context.get("other_value", 0)
-        freight_value = self.env.context.get("other_value", 0)
+        freight_value = self.env.context.get("freight_value", 0)
         ii_customhouse_charges = self.env.context.get("ii_customhouse_charges", 0)
         icms_relief_value = self.env.context.get("icms_relief_value", 0)
 
