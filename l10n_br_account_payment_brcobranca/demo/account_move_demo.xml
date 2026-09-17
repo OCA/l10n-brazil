@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
-
     <!-- Invoice Unicred 400 -->
     <record id="demo_invoice_brcobranca_unicred_cnab400" model="account.move">
         <field name="name">Teste Unicred CNAB400 - BRCobranca</field>
@@ -23,5 +22,4 @@
         ]"
         />
     </record>
-
 </odoo>
