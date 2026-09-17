@@ -290,6 +290,11 @@ msgid "Authorization Protocol"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_autxml__partner_id
+msgid "Authorized Partner"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
 msgid "Autorizacao:"
 msgstr ""
@@ -419,12 +424,16 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_CNPJ
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_CNPJ
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe40_choice_emit__nfe40_cnpj
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice_autxml__nfe40_cnpj
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice_dest__nfe40_cnpj
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice_emit__nfe40_cnpj
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice_tlocal__nfe40_cnpj
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice_transporta__nfe40_cnpj
 msgid "CNPJ"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_autxml__nfe40_CNPJ
+msgid "CNPJ Autorizado"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -535,12 +544,6 @@ msgid "CNPJ/CPF do Parceiro"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice_autxml
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice_autxml
-msgid "CNPJ/CPF do Parceiro Autorizado"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice_dest
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice_dest
 msgid "CNPJ/CPF/idEstrangeiro"
@@ -579,7 +582,6 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe40_choice_emit__nfe40_cpf
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice_autxml__nfe40_cpf
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice_dest__nfe40_cpf
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice_emit__nfe40_cpf
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice_tlocal__nfe40_cpf
@@ -591,6 +593,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_CPF
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_CPF
 msgid "CPF (v2.0)"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_autxml__nfe40_CPF
+msgid "CPF Autorizado"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -947,12 +954,14 @@ msgid "Country state"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_autxml__create_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__create_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__create_uid
 msgid "Created by"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_autxml__create_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__create_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__create_date
 msgid "Created on"
@@ -1732,6 +1741,7 @@ msgid "Digito Verificador da Chave de Acesso da NF-e"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_autxml__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__display_name
 msgid "Display Name"
@@ -2393,6 +2403,7 @@ msgid "ICMSST"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_autxml__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__id
 msgid "ID"
@@ -3097,12 +3108,14 @@ msgid "Justificativa da entrada"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_autxml__write_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__write_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__write_uid
 msgid "Last Updated by"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_autxml__write_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__write_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__write_date
 msgid "Last Updated on"
@@ -3269,6 +3282,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_supplement__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_autxml__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_adi__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_agropecuario__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_arma__brl_currency_id
@@ -3495,7 +3509,7 @@ msgid "Nfe40 Arma Prod"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_autXML_infNFe_id
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_autxml__nfe40_autXML_infNFe_id
 msgid "Nfe40 Autxml Infnfe"
 msgstr ""
 
@@ -4223,6 +4237,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model,name:l10n_br_nfe.model_l10n_br_nfe_autxml
+msgid "Person Authorized to Download the NF-e XML"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_veicprod__nfe40_pesoB
 msgid "Peso bruto"
 msgstr ""
@@ -4781,6 +4800,11 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_di__nfe40_UFDesemb
 #: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_di__nfe40_UFTerceiro
 msgid "The state code."
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.constraint,message:l10n_br_nfe.constraint_l10n_br_nfe_autxml_autxml_partner_document_uniq
+msgid "This partner is already authorized to download this document XML."
 msgstr ""
 
 #. module: l10n_br_nfe
