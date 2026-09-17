@@ -1604,13 +1604,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__dfe_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__dfe_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__dfe_id
-msgid "DF-e Consult"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_cobr
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_cobr
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_cobr
