@@ -2,5 +2,8 @@ from . import types
 from . import evt_info_contrib
 from . import evt_pgcc
 from . import evt_balancete
+from . import evt_aplic_res_tec
+from . import evt_rel_deducoes
+from . import evt_reabert_mensal
 from . import evt_fech_mensal
 from . import evt_retorno

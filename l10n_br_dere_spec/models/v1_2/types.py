@@ -7,6 +7,13 @@ TP_OPER = [
     ("3", "Exclusion"),
 ]
 
+TP_OPER_DEDUCAO = [
+    ("1", "Inclusion"),
+    ("2", "Replacement"),
+    ("3", "Exclusion"),
+    ("4", "Rectification after monthly closing"),
+]
+
 TP_OPER_CLOSE = [
     ("1", "Inclusion"),
 ]
@@ -110,4 +117,32 @@ USAR_BCN = [
 METODO_APROVEIT = [
     ("0", "FIFO computed by the tax authority"),
     ("1", "Manual amounts by origin period"),
+]
+
+SEM_APLIC = [
+    ("1", "No technical-reserve investments in this period"),
+]
+
+TP_DFE = [
+    ("01", "DeRE"),
+    ("02", "NFS-e"),
+    ("03", "NF-e"),
+    ("04", "NFC-e"),
+    ("05", "NF-e ABI"),
+]
+
+TP_ATIV = [
+    ("01", "Credit, FX, securities, securitization and factoring"),
+    ("02", "Leasing"),
+    ("03", "Insurance except health"),
+    ("04", "Pension"),
+    ("05", "Capitalization"),
+    ("06", "Health-care plans"),
+    ("07", "Prize contests"),
+]
+
+FIN_EVT = [
+    ("1", "Include record"),
+    ("2", "Change record"),
+    ("3", "Exclude record"),
 ]
