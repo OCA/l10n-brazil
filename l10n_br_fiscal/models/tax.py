@@ -423,8 +423,6 @@ class Tax(models.Model):
         cfop = kwargs.get("cfop")
         fiscal_operation_type = operation_line.fiscal_operation_type or FISCAL_OUT
         ind_final = kwargs.get("ind_final", FINAL_CUSTOMER_NO)
-        cst = kwargs.get("icms_cst_id", self.env["l10n_br_fiscal.cst"])
-
         # Get Computed IPI Tax
         tax_dict_ipi = taxes_dict.get("ipi", {})
 
@@ -548,14 +546,15 @@ class Tax(models.Model):
                 }
             )
 
-        if kwargs.get("icms_relief_id") and cst["code"] in ICMS_CST_RELIEF:
+        cst = tax_dict.get("cst_id") or self.env["l10n_br_fiscal.cst"]
+        if kwargs.get("icms_relief_id") and cst.code in ICMS_CST_RELIEF:
             icms_base = kwargs.get("price_unit", 0.00) * kwargs.get("quantity", 0.00)
             icms_percent = tax_dict.get("percent_amount", 0.00) / 100
             icms_reduction = tax_dict.get("percent_reduction", 0.00) / 100
-            if cst["code"] in ["30", "40"]:
+            if cst.code in ["30", "40"]:
                 icms_relief = icms_base * icms_percent
                 tax_dict.update({"icms_relief": icms_relief})
-            elif cst["code"] in ["20", "70"]:
+            elif cst.code in ["20", "70"]:
                 icms_relief = (
                     icms_base
                     * (1 - (icms_percent * (1 - icms_reduction)))
@@ -577,7 +576,11 @@ class Tax(models.Model):
         tax_dict = taxes_dict.get(tax.tax_domain)
         partner = kwargs.get("partner")
         company = kwargs.get("company")
-        icms_cst_id = kwargs.get("icms_cst_id")
+        icms_cst = (
+            taxes_dict.get("icms", {}).get("cst_id")
+            or taxes_dict.get("icmssn", {}).get("cst_id")
+            or self.env["l10n_br_fiscal.cst"]
+        )
 
         if taxes_dict.get("icms"):
             if company.state_id != partner.state_id:
@@ -596,7 +599,7 @@ class Tax(models.Model):
         tax_dict["fcpst_base"] = taxes_dict.get("icmsst", {}).get("base", 0.00)
 
         # TODO Improve this condition
-        if icms_cst_id.code in ICSM_CST_CSOSN_ST_BASE:
+        if icms_cst.code in ICSM_CST_CSOSN_ST_BASE:
             tax_dict["fcpst_value"] = tax_dict["fcpst_base"] * (
                 tax_dict["percent_amount"] / 100
             )
@@ -887,7 +890,6 @@ class Tax(models.Model):
         :param icmssn_range: l10n_br_fiscal.simplified.tax.range record for
             Simples Nacional ICMS calculation.
         :param icms_origin: str, ICMS origin code for the product.
-        :param icms_cst_id: l10n_br_fiscal.cst record, the ICMS CST code.
         :param icms_relief_id: l10n_br_fiscal.icms.relief record, if ICMS relief
             applies.
         :param ind_final: str, indicates if the operation is for a final
