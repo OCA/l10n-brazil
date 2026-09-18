@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DPS xmlns="http://www.sped.fazenda.gov.br/nfse" versao="1.00">
+  <infDPS Id="DPS420240420000000000000000007000000000000002">
+    <tpAmb>2</tpAmb>
+    <dhEmi>2023-09-09T09:42:06-03:00</dhEmi>
+    <verAplic>20220719</verAplic>
+    <serie>00007</serie>
+    <nDPS>2</nDPS>
+    <dCompet>2023-09-09</dCompet>
+    <tpEmit>1</tpEmit>
+    <cLocEmi>3550308</cLocEmi>
+    <prest>
+      <CNPJ>81583054000129</CNPJ>
+      <regTrib>
+        <opSimpNac>1</opSimpNac>
+        <regEspTrib>0</regEspTrib>
+      </regTrib>
+    </prest>
+    <toma>
+      <CNPJ>12345678000195</CNPJ>
+      <IM>987654</IM>
+      <xNome>Comércio de Alimentos Aurora Ltda ME</xNome>
+      <end>
+        <endNac>
+          <cMun>4202404</cMun>
+          <CEP>89010000</CEP>
+        </endNac>
+        <xLgr>Rua das Acácias</xLgr>
+        <nro>79</nro>
+        <xBairro>Centro</xBairro>
+      </end>
+    </toma>
+    <serv>
+      <locPrest>
+        <cLocPrestacao>4202404</cLocPrestacao>
+      </locPrest>
+      <cServ>
+        <cTribNac>010101</cTribNac>
+        <xDescServ>Teste de NF Nacional com imposto</xDescServ>
+        <cNBS>111111111</cNBS>
+      </cServ>
+    </serv>
+    <valores>
+      <vServPrest>
+        <vServ>20.00</vServ>
+      </vServPrest>
+      <vDescCondIncond />
+      <trib>
+        <tribMun>
+          <tribISSQN>1</tribISSQN>
+          <tpRetISSQN>1</tpRetISSQN>
+        </tribMun>
+        <tribFed>
+          <piscofins>
+            <CST>00</CST>
+            <tpRetPisCofins>2</tpRetPisCofins>
+          </piscofins>
+          <vRetCP>0.40</vRetCP>
+        </tribFed>
+        <totTrib>
+          <indTotTrib>0</indTotTrib>
+        </totTrib>
+      </trib>
+    </valores>
+  </infDPS>
+</DPS>

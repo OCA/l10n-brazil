@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="report_danfse_nacional" model="ir.actions.report">
+        <field name="name">DANFSe Nacional</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_br_nfse_nacional.danfse_nacional_document</field>
+        <field name="report_file">l10n_br_nfse_nacional.danfse_nacional_document</field>
+        <field
+            name="print_report_name"
+        >'DANFSe-%s' % (object.document_number or object.id)</field>
+    </record>
+
+    <template id="danfse_nacional_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <div
+                    class="page article"
+                    data-oe-model="l10n_br_fiscal.document"
+                    t-att-data-oe-id="doc.id"
+                    style="font-size:7pt; font-family: 'Microsoft Sans Serif', Arial, sans-serif;"
+                >
+                    <style type="text/css">
+.danfse-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1pt solid black;
+}
+.danfse-table td,
+.danfse-table th {
+    border: 0.5pt solid black;
+    padding: 2px 4px;
+    vertical-align: top;
+}
+.danfse-label {
+    font-family: Arial, sans-serif;
+    font-size: 6pt;
+    font-weight: bold;
+}
+.danfse-block-title {
+    font-family: Arial, sans-serif;
+    font-size: 7pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: #f2f2f2;
+}
+.danfse-shaded {
+    background-color: #f2f2f2;
+}
+                    </style>
+
+                    <t t-if="doc.state_edoc == 'cancelada'">
+                        <div
+                            style="position: fixed; top: 40%; left: 15%; font-family: Arial; font-size: 50pt; color: #b3b3b3; opacity: 0.5; transform: rotate(-30deg); z-index: 1000;"
+                        >
+                            CANCELADA
+                        </div>
+                    </t>
+
+                    <table class="danfse-table">
+                        <!-- Cabecalho -->
+                        <tr class="danfse-shaded">
+                            <td style="width: 18%;">
+                                <img
+                                    t-att-src="'/l10n_br_nfse_nacional/static/img/nfse_logo.png'"
+                                    style="max-height: 30px;"
+                                />
+                            </td>
+                            <td style="width: 47%; text-align: center;">
+                                <div
+                                    style="font-family: Arial; font-weight: bold; font-size: 9pt;"
+                                >DANFSe v2.0</div>
+                                <div
+                                    style="font-family: Arial; font-weight: bold; font-size: 9pt;"
+                                >Documento Auxiliar da NFS-e</div>
+                                <t t-if="doc.company_id.nfse_environment == '2'">
+                                    <div
+                                        style="font-family: Arial; font-weight: bold; font-size: 9pt; color: red;"
+                                    >
+                                        NFS-e SEM VALIDADE JURÍDICA
+                                    </div>
+                                </t>
+                            </td>
+                            <td style="width: 20%; font-size: 8pt;">
+                                <span t-field="doc.company_id.city_id" /> - <span
+                                    t-field="doc.company_id.state_id.code"
+                                />
+                                <br />
+                                <span
+                                    style="font-size: 6pt;"
+                                >Ambiente Gerador: Odoo OCA</span>
+                                <br />
+                                <span style="font-size: 6pt;">
+                                    Tipo de Ambiente: <span
+                                        t-field="doc.company_id.nfse_environment"
+                                    />
+                                </span>
+                            </td>
+                            <td style="width: 15%; text-align: center;">
+                                <img
+                                    t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('QR', 'https://www.nfse.gov.br/ConsultaPublica/?tpc=1&amp;chave=' + (doc.nfse_key or ''), 90, 90)"
+                                />
+                                <div style="font-size: 5pt;">
+                                    A autenticidade desta NFS-e pode ser verificada pela leitura deste código QR ou pela consulta da chave de acesso no portal nacional da NFS-e
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Identificacao da NFS-e -->
+                        <tr>
+                            <td colspan="2">
+                                <div class="danfse-label">CHAVE DE ACESSO DA NFS-e</div>
+                                <span t-field="doc.nfse_key" />
+                            </td>
+                            <td colspan="2">
+                                <div class="danfse-label">SITUAÇÃO DA NFS-e</div>
+                                <t t-if="doc.state_edoc == 'cancelada'">Cancelada</t>
+                                <t t-else="">Regular</t>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="danfse-label">NÚMERO DA NFS-e</div>
+                                <span t-field="doc.document_number" />
+                            </td>
+                            <td>
+                                <div class="danfse-label">COMPETÊNCIA DA NFS-e</div>
+                                <span t-field="doc.nfse10_dCompet" />
+                            </td>
+                            <td colspan="2">
+                                <div
+                                    class="danfse-label"
+                                >DATA E HORA DA EMISSÃO DA NFS-e</div>
+                                <span t-field="doc.authorization_date" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="danfse-label">NÚMERO DA DPS</div>
+                                <span t-field="doc.nfse10_nDPS" />
+                            </td>
+                            <td>
+                                <div class="danfse-label">SÉRIE DA DPS</div>
+                                <span t-field="doc.nfse10_serie" />
+                            </td>
+                            <td colspan="2">
+                                <div
+                                    class="danfse-label"
+                                >DATA E HORA DA EMISSÃO DA DPS</div>
+                                <span t-field="doc.nfse10_dhEmi" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="danfse-shaded">
+                                <div class="danfse-label">EMITENTE DA NFS-e</div>
+                                <span t-field="doc.nfse10_tpEmit" />
+                            </td>
+                            <td colspan="3">
+                                <div class="danfse-label">FINALIDADE</div>
+                                1 - NFS-e normal
+                            </td>
+                        </tr>
+
+                        <!-- Prestador/Fornecedor -->
+                        <tr>
+                            <td
+                                colspan="4"
+                                class="danfse-block-title"
+                            >PRESTADOR / FORNECEDOR</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="danfse-label">CNPJ / CPF / NIF</div>
+                                <span t-field="doc.company_id.nfse10_CNPJ" />
+                            </td>
+                            <td>
+                                <div
+                                    class="danfse-label"
+                                >Indicador Municipal (Inscrição)</div>
+                                <span t-field="doc.company_id.nfse10_IM" />
+                            </td>
+                            <td colspan="2">
+                                <div class="danfse-label">Telefone</div>
+                                <span t-field="doc.company_id.nfse10_fone" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div class="danfse-label">Nome / Nome Empresarial</div>
+                                <span t-field="doc.company_id.nfse10_xNome" />
+                            </td>
+                            <td>
+                                <div class="danfse-label">Município / Sigla UF</div>
+                                <span t-field="doc.company_id.city_id" /> / <span
+                                    t-field="doc.company_id.state_id.code"
+                                />
+                            </td>
+                            <td>
+                                <div class="danfse-label">Código IBGE / CEP</div>
+                                <span
+                                    t-field="doc.company_id.partner_id.city_id.ibge_code"
+                                /> / <span t-field="doc.company_id.zip" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <div class="danfse-label">Endereço</div>
+                                <span t-field="doc.company_id.street" /> - <span
+                                    t-field="doc.company_id.district"
+                                />
+                            </td>
+                            <td>
+                                <div class="danfse-label">Email</div>
+                                <span t-field="doc.company_id.nfse10_email" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div
+                                    class="danfse-label"
+                                >Simples Nacional na Data de Competência</div>
+                                <span t-field="doc.company_id.nfse10_opSimpNac" />
+                            </td>
+                            <td colspan="2">
+                                <div
+                                    class="danfse-label"
+                                >Regime de Apuração Tributária pelo SN</div>
+                                <span t-field="doc.company_id.nfse10_regApTribSN" />
+                            </td>
+                        </tr>
+
+                        <!-- Tomador/Adquirente -->
+                        <tr>
+                            <td
+                                colspan="4"
+                                class="danfse-block-title"
+                            >TOMADOR / ADQUIRENTE</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="danfse-label">CNPJ / CPF / NIF</div>
+                                <span t-field="doc.partner_id.nfse10_CNPJ" />
+                                <span t-field="doc.partner_id.nfse10_CPF" />
+                            </td>
+                            <td>
+                                <div
+                                    class="danfse-label"
+                                >Indicador Municipal (Inscrição)</div>
+                                <span t-field="doc.partner_id.nfse10_IM" />
+                            </td>
+                            <td colspan="2">
+                                <div class="danfse-label">Telefone</div>
+                                <span t-field="doc.partner_id.nfse10_fone" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div class="danfse-label">Nome / Nome Empresarial</div>
+                                <span t-field="doc.partner_id.nfse10_xNome" />
+                            </td>
+                            <td>
+                                <div class="danfse-label">Município / Sigla UF</div>
+                                <span t-field="doc.partner_id.city_id" /> / <span
+                                    t-field="doc.partner_id.state_id.code"
+                                />
+                            </td>
+                            <td>
+                                <div class="danfse-label">Código IBGE / CEP</div>
+                                <span
+                                    t-field="doc.partner_id.city_id.ibge_code"
+                                /> / <span t-field="doc.partner_id.zip" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <div class="danfse-label">Endereço</div>
+                                <span t-field="doc.partner_id.street" /> - <span
+                                    t-field="doc.partner_id.district"
+                                />
+                            </td>
+                            <td>
+                                <div class="danfse-label">Email</div>
+                                <span t-field="doc.partner_id.nfse10_email" />
+                            </td>
+                        </tr>
+
+                        <!-- Destinatario da Operacao (nao identificado no modelo atual) -->
+                        <tr>
+                            <td
+                                colspan="4"
+                                class="danfse-block-title"
+                            >DESTINATÁRIO DA OPERAÇÃO</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" style="text-align: center;">
+                                DESTINATÁRIO DA OPERAÇÃO NÃO IDENTIFICADO NA NFS-e
+                            </td>
+                        </tr>
+
+                        <!-- Intermediario da Operacao -->
+                        <tr>
+                            <td
+                                colspan="4"
+                                class="danfse-block-title"
+                            >INTERMEDIÁRIO DA OPERAÇÃO</td>
+                        </tr>
+                        <tr>
+                            <t t-if="doc.nfse10_interm">
+                                <td>
+                                    <div class="danfse-label">CNPJ / CPF / NIF</div>
+                                    <span t-field="doc.nfse10_interm.nfse10_CNPJ" />
+                                </td>
+                                <td>
+                                    <div
+                                        class="danfse-label"
+                                    >Nome / Nome Empresarial</div>
+                                    <span t-field="doc.nfse10_interm.nfse10_xNome" />
+                                </td>
+                                <td colspan="2">
+                                    <div class="danfse-label">Município / Sigla UF</div>
+                                    <span t-field="doc.nfse10_interm.city_id" />
+                                </td>
+                            </t>
+                            <t t-else="">
+                                <td colspan="4" style="text-align: center;">
+                                    INTERMEDIÁRIO DA OPERAÇÃO NÃO IDENTIFICADO NA NFS-e
+                                </td>
+                            </t>
+                        </tr>
+
+                        <!-- Servico Prestado -->
+                        <tr>
+                            <td
+                                colspan="4"
+                                class="danfse-block-title"
+                            >SERVIÇO PRESTADO</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div
+                                    class="danfse-label"
+                                >Código de Tributação Nacional / Municipal</div>
+                                <span
+                                    t-field="doc.fiscal_line_ids[0].nfse10_cTribNac"
+                                /> / <span
+                                    t-field="doc.fiscal_line_ids[0].nfse10_cTribMun"
+                                />
+                            </td>
+                            <td>
+                                <div class="danfse-label">Código da NBS</div>
+                                <span t-field="doc.fiscal_line_ids[0].nfse10_cNBS" />
+                            </td>
+                            <td colspan="2">
+                                <div
+                                    class="danfse-label"
+                                >Local da Prestação / Sigla UF / País</div>
+                                <span
+                                    t-field="doc.fiscal_line_ids[0].nfse10_cLocPrestacao"
+                                /> / <span
+                                    t-field="doc.company_id.state_id.code"
+                                /> / BR
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <div class="danfse-label">Descrição do Serviço</div>
+                                <span
+                                    t-field="doc.fiscal_line_ids[0].nfse10_xDescServ"
+                                />
+                            </td>
+                        </tr>
+
+                        <!-- Tributacao Municipal (ISSQN) -->
+                        <tr>
+                            <td
+                                colspan="4"
+                                class="danfse-block-title"
+                            >TRIBUTAÇÃO MUNICIPAL (ISSQN)</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div
+                                    class="danfse-label"
+                                >Tipo de Tributação do ISSQN</div>
+                                <span
+                                    t-field="doc.fiscal_line_ids[0].nfse10_tribISSQN"
+                                />
+                            </td>
+                            <td colspan="3">
+                                <div
+                                    class="danfse-label"
+                                >Município / Sigla UF / País de Incidência do ISSQN</div>
+                                <span
+                                    t-field="doc.fiscal_line_ids[0].issqn_fg_city_id"
+                                /> / <span
+                                    t-field="doc.fiscal_line_ids[0].issqn_fg_city_id.state_id.code"
+                                /> / BR
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="danfse-label">BC ISSQN</div>
+                                <span t-field="doc.amount_issqn_base" />
+                            </td>
+                            <td>
+                                <div class="danfse-label">Alíquota Aplicada</div>
+                                <span t-field="doc.fiscal_line_ids[0].nfse10_pAliq" />
+                            </td>
+                            <td>
+                                <div class="danfse-label">Retenção do ISSQN</div>
+                                <span
+                                    t-field="doc.fiscal_line_ids[0].nfse10_tpRetISSQN"
+                                />
+                            </td>
+                            <td>
+                                <div class="danfse-label">ISSQN Apurado</div>
+                                <span t-field="doc.amount_issqn_value" />
+                            </td>
+                        </tr>
+
+                        <!-- Tributacao Federal (exceto CBS) -->
+                        <tr>
+                            <td
+                                colspan="4"
+                                class="danfse-block-title"
+                            >TRIBUTAÇÃO FEDERAL (EXCETO CBS)</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="danfse-label">IRRF</div>
+                                <span
+                                    t-field="doc.fiscal_line_ids[0].nfse10_vRetIRRF"
+                                />
+                            </td>
+                            <td>
+                                <div
+                                    class="danfse-label"
+                                >Contribuição Previdenciária - Retida</div>
+                                <span t-field="doc.fiscal_line_ids[0].nfse10_vRetCP" />
+                            </td>
+                            <td>
+                                <div
+                                    class="danfse-label"
+                                >Contribuições Sociais - Retidas</div>
+                                <span
+                                    t-field="doc.fiscal_line_ids[0].nfse10_vRetCSLL"
+                                />
+                            </td>
+                            <td>
+                                <div
+                                    class="danfse-label"
+                                >PIS / COFINS - Débito Apuração Própria</div>
+                                <span
+                                    t-field="doc.fiscal_line_ids[0].nfse10_vPis"
+                                /> / <span
+                                    t-field="doc.fiscal_line_ids[0].nfse10_vCofins"
+                                />
+                            </td>
+                        </tr>
+
+                        <!-- Tributacao IBS/CBS: motor fiscal ainda nao calcula, mantem estrutura com tracos -->
+                        <tr>
+                            <td
+                                colspan="4"
+                                class="danfse-block-title"
+                            >TRIBUTAÇÃO IBS / CBS</td>
+                        </tr>
+                        <tr>
+                            <td>CST / cClassTrib<br />-</td>
+                            <td>Alíquota IBS / CBS<br />-</td>
+                            <td>Valor Apurado IBS<br />-</td>
+                            <td>Valor Apurado CBS<br />-</td>
+                        </tr>
+
+                        <!-- Valor Total da NFS-E -->
+                        <tr>
+                            <td
+                                colspan="4"
+                                class="danfse-block-title"
+                            >VALOR TOTAL DA NFS-E</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div
+                                    class="danfse-label"
+                                >Valor da Operação / Serviço</div>
+                                <span t-field="doc.fiscal_line_ids[0].nfse10_vServ" />
+                            </td>
+                            <td>
+                                <div
+                                    class="danfse-label"
+                                >Total das Retenções (ISSQN / Federais)</div>
+                                <span t-field="doc.amount_tax_withholding" />
+                            </td>
+                            <td class="danfse-shaded">
+                                <div class="danfse-label">Valor Líquido da NFS-e</div>
+                                <span t-field="doc.amount_financial_total" />
+                            </td>
+                            <td class="danfse-shaded">
+                                <div
+                                    class="danfse-label"
+                                >Valor Líquido da NFS-e + IBS/CBS</div>
+                                <span t-field="doc.amount_financial_total" />
+                            </td>
+                        </tr>
+
+                        <!-- Informacoes Complementares -->
+                        <tr>
+                            <td
+                                colspan="4"
+                                class="danfse-block-title"
+                            >INFORMAÇÕES COMPLEMENTARES</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" style="min-height: 60px;">
+                                <t t-if="doc.customer_additional_data">
+                                    <span t-field="doc.customer_additional_data" /><br
+                                    />
+                                </t>
+                                <t t-if="doc.fiscal_additional_data">
+                                    <span t-field="doc.fiscal_additional_data" /><br />
+                                </t>
+                                Totais Aproximados dos Tributos cfe. Lei nº 12.741/2012:
+                                <span t-field="doc.amount_estimate_tax" /> / IBPT
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
