@@ -42,10 +42,12 @@ class TestCTeSerialize(TransactionCase):
             line.price_unit = 100
         cte.fiscal_line_ids.cfop_id = cte.env.ref("l10n_br_fiscal.cfop_5352")
 
-        cte.action_document_confirm()
+        # Set the document date while still in draft: identity fields are
+        # locked once the document is confirmed (state 'a_enviar').
         cte.document_date = datetime.strptime(
             "2020-01-01T11:00:00", "%Y-%m-%dT%H:%M:%S"
         )
+        cte.action_document_confirm()
         cte.cte40_cCT = "57000111"
 
         if cte.cte40_modal == "01":
