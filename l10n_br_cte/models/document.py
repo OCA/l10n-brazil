@@ -1873,12 +1873,32 @@ class CTe(spec_models.StackedModel):
             fiscal_tax_ids += [Command.link(tax_id) for tax_id in tax_ids]
             line_attrs["fiscal_tax_ids"] = fiscal_tax_ids
 
+    # Models that may NEVER be auto-created during supplier CTe imports.
+    # These are reference/master data that should exist before import.
+    CTE_IMPORT_FORBIDDEN_MODELS = [
+        "res.country",
+        "res.country.state",
+        "res.city",
+    ]
+
+    def _cte_import_context(self, edoc_type, dry_run=False):
+        """Build the context with the appropriate spec import create policy."""
+        ctx = {
+            "tracking_disable": True,
+            "edoc_type": edoc_type,
+        }
+        if edoc_type == "in":
+            ctx["spec_create_forbidden_models"] = {
+                name: "skip" for name in self.CTE_IMPORT_FORBIDDEN_MODELS
+            }
+        return ctx
+
     def import_binding_cte(self, binding, edoc_type="in", dry_run=False):
         if hasattr(binding, "CTe"):
             binding = binding.CTe
         document = (
             self.env["cte.40.tcte_infcte"]
-            .with_context(tracking_disable=True, edoc_type=edoc_type)
+            .with_context(**self._cte_import_context(edoc_type, dry_run))
             .build_from_binding("cte", "40", binding.infCte, dry_run=dry_run)
         )
 
