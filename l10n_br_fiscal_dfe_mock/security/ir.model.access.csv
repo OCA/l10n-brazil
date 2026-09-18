@@ -1,0 +1,5 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+dfe_mock_nsu_user,Mock NSU for User,model_dfe_mock_nsu,l10n_br_fiscal.group_user,1,0,0,0
+dfe_mock_nsu_manager,Mock NSU for Manager,model_dfe_mock_nsu,l10n_br_fiscal.group_manager,1,1,1,1
+dfe_mock_generate_wizard_user,Mock Generate Wizard for User,model_dfe_mock_generate_wizard,l10n_br_fiscal.group_user,1,1,1,0
+dfe_mock_generate_wizard_manager,Mock Generate Wizard for Manager,model_dfe_mock_generate_wizard,l10n_br_fiscal.group_manager,1,1,1,1
