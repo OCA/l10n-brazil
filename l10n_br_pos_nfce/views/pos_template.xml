@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+        <template
+        id="pos_l10n_br_assets_backend"
+        name="pos_l10n_br_assets_backend"
+        inherit_id="point_of_sale.assets"
+    >
+            <xpath expr="." position="inside">
+                <script
+                src="/l10n_br_pos_nfce/static/src/js/models.js"
+                type="text/javascript"
+            />
+            <script
+                src="/l10n_br_pos_nfce/static/src/js/Screens/OrderManagementScreen/ControlButtons/CancelOrderButton.js"
+                type="text/javascript"
+            />
+            <script
+                src="/l10n_br_pos_nfce/static/src/js/Screens/ReceiptScreen/NfceOrderReceipt.js"
+                type="text/javascript"
+            />
+            <script
+                src="/l10n_br_pos_nfce/static/src/js/Screens/ReceiptScreen/NfceHeaderReceipt.js"
+                type="text/javascript"
+            />
+            <script
+                src="/l10n_br_pos_nfce/static/src/js/Screens/ReceiptScreen/NfceFooterReceipt.js"
+                type="text/javascript"
+            />
+            <script
+                src="/l10n_br_pos_nfce/static/src/js/Screens/ReceiptScreen/NfceFiscalInfoReceipt.js"
+                type="text/javascript"
+            />
+            <script
+                src="/l10n_br_pos_nfce/static/src/js/Screens/ReceiptScreen/NfceTotalsReceipt.js"
+                type="text/javascript"
+            />
+            <script
+                src="/l10n_br_pos_nfce/static/src/js/Screens/ReceiptScreen/NfcePaymentlineReceipt.js"
+                type="text/javascript"
+            />
+            <script
+                src="/l10n_br_pos_nfce/static/src/js/Screens/ReceiptScreen/NfceItemReceipt.js"
+                type="text/javascript"
+            />
+            <script
+                src="/l10n_br_pos_nfce/static/src/js/Screens/ReceiptScreen/ReceiptScreen.js"
+                type="text/javascript"
+            />
+            </xpath>
+
+            <xpath expr="//link[@id='pos-stylesheet']" position="after">
+                <link
+                rel="stylesheet"
+                href="/l10n_br_pos_nfce/static/src/css/ReceiptOrder.css"
+            />
+            <script
+                src="/l10n_br_pos_nfce/static/src/js/utils.js"
+                type="text/javascript"
+            />
+            <script
+                src="/l10n_br_pos_nfce/static/src/js/nfe-xml.js"
+                type="text/javascript"
+            />
+            <script
+                src="/l10n_br_pos_nfce/static/src/lib/xmlbuilder2.min.js"
+                type="text/javascript"
+            />
+            </xpath>
+        </template>
+</odoo>

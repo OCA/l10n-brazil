@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+    <t t-name="l10n_br_pos_nfce.ReceiptScreen" t-inherit="point_of_sale.ReceiptScreen" t-inherit-mode="extension" owl="1">
+        <xpath
+            expr="//div[hasclass('pos-receipt-container')]" position="replace">
+            <t t-if="isNFCe()">
+                <div class="pos-receipt-container-nfce" t-ref="nfce-order-receipt">
+                    <NFCeOrderReceipt order="currentOrder"/>
+                </div>
+            </t>
+
+            <t t-else="">
+                <div class="pos-receipt-container" t-ref="order-receipt">
+                    <OrderReceipt order="currentOrder"/>
+                </div>
+            </t>
+        </xpath>
+    </t>
+</templates>
+
