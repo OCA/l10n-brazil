@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="1">
+    <!--
+      Demonstração do Valor Adicionado (CPC 09). O art. 176, inciso V da Lei
+      6.404/76 a exige da companhia aberta.
+
+      Ela reclassifica a DRE por uma pergunta diferente: em vez de quanto sobrou
+      para o acionista, quanta riqueza a empresa gerou e para quem ela foi. Por
+      isso a mesma despesa aparece aqui noutra linha: salário é pessoal,
+      aluguel é remuneração de capital de terceiros, IPTU é imposto, e energia
+      é insumo. É a terceira dimensão de classificação das contas.
+
+      A IDENTIDADE QUE ELA TEM QUE SATISFAZER: o total distribuído (8) é igual
+      ao valor adicionado a distribuir (7). Isso não é coincidência nem sorte de
+      arredondamento: é a própria DRE rearranjada, e só fecha se a classificação
+      cobrir todas as contas de resultado uma vez cada. Uma conta sem
+      classificação, ou com duas, quebra a igualdade, e é isso que o teste
+      verifica.
+
+      A remuneração de capitais próprios (8.4) é o resultado do exercício, lido
+      da DRE por subrelatório: é o que sobra para o acionista, retido ou
+      distribuído.
+
+      A DEPRECIAÇÃO tem linha própria (item 4) e por isso não entra nos insumos:
+      contá-la nos dois lugares tiraria duas vezes a mesma riqueza.
+
+      LIMITAÇÃO. As devoluções de venda estão classificadas junto com os
+      tributos sobre o faturamento, porque as duas reduzem a receita bruta pelo
+      mesmo grupo de contas do plano. O CPC 09 quer a devolução reduzindo a
+      receita e o tributo na distribuição. Separá-las exige contas próprias, e o
+      total a distribuir não muda por causa disso.
+    -->
+    <record id="dva" model="mis.report">
+        <field name="name">DVA - Demonstração do Valor Adicionado</field>
+        <field name="description">Demonstração do Valor Adicionado</field>
+        <field name="move_lines_source" ref="account.model_account_move_line" />
+    </record>
+
+    <record id="dva_subreport_dre" model="mis.report.subreport">
+        <field name="name">dre</field>
+        <field name="report_id" ref="dva" />
+        <field name="subreport_id" ref="l10n_br_mis_report.dre" />
+    </record>
+
+    <record id="dva_header_receitas" model="mis.report.kpi">
+        <field name="sequence">10</field>
+        <field name="report_id" ref="dva" />
+        <field name="description">1 - RECEITAS</field>
+        <field name="name">header_receitas</field>
+        <field name="type">str</field>
+        <field name="style_id"
+            ref="l10n_br_mis_report.mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="dva_vendas" model="mis.report.kpi">
+        <field name="sequence">20</field>
+        <field name="report_id" ref="dva" />
+        <field name="description">1.1) Vendas de mercadorias, produtos e serviços</field>
+        <field name="name">vendas</field>
+        <field name="expression">-bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_revenue').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="dva_outras_receitas" model="mis.report.kpi">
+        <field name="sequence">30</field>
+        <field name="report_id" ref="dva" />
+        <field name="description">1.2) Outras receitas</field>
+        <field name="name">outras_receitas</field>
+        <field name="expression">-bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_other_operating_results').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="dva_receitas" model="mis.report.kpi">
+        <field name="sequence">40</field>
+        <field name="report_id" ref="dva" />
+        <field name="description">= Total das receitas</field>
+        <field name="name">receitas</field>
+        <field name="expression">vendas+outras_receitas</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="style_id"
+            ref="l10n_br_mis_report.mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="dva_header_insumos" model="mis.report.kpi">
+        <field name="sequence">50</field>
+        <field name="report_id" ref="dva" />
+        <field name="description">2 - INSUMOS ADQUIRIDOS DE TERCEIROS</field>
+        <field name="name">header_insumos</field>
+        <field name="type">str</field>
+        <field name="style_id"
+            ref="l10n_br_mis_report.mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="dva_insumos" model="mis.report.kpi">
+        <field name="sequence">60</field>
+        <field name="report_id" ref="dva" />
+        <field name="description">2.1) Custos, materiais, energia e serviços de terceiros</field>
+        <field name="name">insumos</field>
+        <field name="expression">+bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_dva_inputs').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="dva_valor_bruto" model="mis.report.kpi">
+        <field name="sequence">70</field>
+        <field name="report_id" ref="dva" />
+        <field name="description">3 - VALOR ADICIONADO BRUTO</field>
+        <field name="name">valor_bruto</field>
+        <field name="expression">receitas-insumos</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="style_id"
+            ref="l10n_br_mis_report.mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="dva_depreciacao" model="mis.report.kpi">
+        <field name="sequence">80</field>
+        <field name="report_id" ref="dva" />
+        <field name="description">4 - DEPRECIAÇÃO, AMORTIZAÇÃO E EXAUSTÃO</field>
+        <field name="name">depreciacao</field>
+        <field name="expression">+bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_depreciation_expense').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="dva_valor_liquido" model="mis.report.kpi">
+        <field name="sequence">90</field>
+        <field name="report_id" ref="dva" />
+        <field name="description">5 - VALOR ADICIONADO LÍQUIDO PRODUZIDO</field>
+        <field name="name">valor_liquido</field>
+        <field name="expression">valor_bruto-depreciacao</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="style_id"
+            ref="l10n_br_mis_report.mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="dva_transferencia" model="mis.report.kpi">
+        <field name="sequence">100</field>
+        <field name="report_id" ref="dva" />
+        <field name="description">6 - VALOR ADICIONADO RECEBIDO EM TRANSFERÊNCIA</field>
+        <field name="name">transferencia</field>
+        <field name="expression">-bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_dva_transfer').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="dva_valor_distribuir" model="mis.report.kpi">
+        <field name="sequence">110</field>
+        <field name="report_id" ref="dva" />
+        <field name="description">7 - VALOR ADICIONADO TOTAL A DISTRIBUIR</field>
+        <field name="name">valor_distribuir</field>
+        <field name="expression">valor_liquido+transferencia</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="style_id"
+            ref="l10n_br_mis_report.mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="dva_header_distribuicao" model="mis.report.kpi">
+        <field name="sequence">120</field>
+        <field name="report_id" ref="dva" />
+        <field name="description">8 - DISTRIBUIÇÃO DO VALOR ADICIONADO</field>
+        <field name="name">header_distribuicao</field>
+        <field name="type">str</field>
+        <field name="style_id"
+            ref="l10n_br_mis_report.mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="dva_pessoal" model="mis.report.kpi">
+        <field name="sequence">130</field>
+        <field name="report_id" ref="dva" />
+        <field name="description">8.1) Pessoal</field>
+        <field name="name">pessoal</field>
+        <field name="expression">+bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_dva_personnel').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="dva_impostos" model="mis.report.kpi">
+        <field name="sequence">140</field>
+        <field name="report_id" ref="dva" />
+        <field name="description">8.2) Impostos, taxas e contribuições</field>
+        <field name="name">impostos</field>
+        <field name="expression">+bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_dva_taxes').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="dva_impostos_federais" model="mis.report.kpi">
+        <field name="sequence">150</field>
+        <field name="report_id" ref="dva" />
+        <field name="description">8.2.1) Federais</field>
+        <field name="name">impostos_federais</field>
+        <field name="expression">+bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_dva_taxes_federal').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="dva_impostos_estaduais" model="mis.report.kpi">
+        <field name="sequence">160</field>
+        <field name="report_id" ref="dva" />
+        <field name="description">8.2.2) Estaduais</field>
+        <field name="name">impostos_estaduais</field>
+        <field name="expression">+bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_dva_taxes_state').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="dva_impostos_municipais" model="mis.report.kpi">
+        <field name="sequence">170</field>
+        <field name="report_id" ref="dva" />
+        <field name="description">8.2.3) Municipais</field>
+        <field name="name">impostos_municipais</field>
+        <field name="expression">+bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_dva_taxes_municipal').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="dva_terceiros" model="mis.report.kpi">
+        <field name="sequence">180</field>
+        <field name="report_id" ref="dva" />
+        <field name="description">8.3) Remuneração de capitais de terceiros</field>
+        <field name="name">terceiros</field>
+        <field name="expression">+bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_dva_third_party_capital').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="dva_proprios" model="mis.report.kpi">
+        <field name="sequence">190</field>
+        <field name="report_id" ref="dva" />
+        <field name="description">8.4) Remuneração de capitais próprios</field>
+        <field name="name">proprios</field>
+        <field name="expression">dre.resultado_liquido</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="dva_distribuido" model="mis.report.kpi">
+        <field name="sequence">200</field>
+        <field name="report_id" ref="dva" />
+        <field name="description">= Total distribuído</field>
+        <field name="name">distribuido</field>
+        <field name="expression">pessoal+impostos+terceiros+proprios</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="style_id"
+            ref="l10n_br_mis_report.mis_report_style_l10n_br_negrito" />
+    </record>
+
+</odoo>
