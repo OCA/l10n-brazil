@@ -35,7 +35,7 @@ class DerePgccAccount(models.Model):
     )
     account_name = fields.Char(
         related="account_id.name",
-        string="Account name",
+        string="Chart account name",
         help="Accounting account name, translated for the current user.",
     )
     tax_code_id = fields.Many2one(

@@ -34,11 +34,15 @@ msgid "Account"
 msgstr "Conta"
 
 #. module: l10n_br_dere
-#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__account_name
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_nomeCta
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_trial_line__account_name
 msgid "Account name"
 msgstr "Nome da conta"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__account_name
+msgid "Chart account name"
+msgstr "Nome da conta do plano"
 
 #. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_indCta
