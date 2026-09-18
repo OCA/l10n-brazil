@@ -221,9 +221,14 @@ class ICMSRegulation(models.Model):
 
         return domain
 
-    def _tax_definition_search(self, domain, ncm, nbm, cest, product, ind_final=None):
+    def _tax_definition_search(
+        self, domain, ncm, nbm, cest, product, ind_final=None, exclude_benefit=False
+    ):
         tax_definitions = self.env["l10n_br_fiscal.tax.definition"]
         icms_defs = tax_definitions.search(domain)
+
+        if exclude_benefit:
+            icms_defs = icms_defs.filtered(lambda d: not d.is_benefit)
 
         if len(icms_defs) == 1:
             tax_definitions |= icms_defs
@@ -283,6 +288,7 @@ class ICMSRegulation(models.Model):
         cest=None,
         operation_line=None,
         ind_final=None,
+        exclude_benefit=False,
     ):
         self.ensure_one()
         icms_taxes = self.env["l10n_br_fiscal.tax"]
@@ -305,7 +311,13 @@ class ICMSRegulation(models.Model):
             )
 
             tax_definitions = self._tax_definition_search(
-                domain, ncm, nbm, cest, product, ind_final
+                domain,
+                ncm,
+                nbm,
+                cest,
+                product,
+                ind_final,
+                exclude_benefit=exclude_benefit,
             )
         return icms_taxes, tax_definitions
 
