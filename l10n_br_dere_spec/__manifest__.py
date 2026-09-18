@@ -9,6 +9,9 @@
     "license": "LGPL-3",
     "category": "Accounting",
     "depends": [],
+    "external_dependencies": {
+        "python": ["lxml"],
+    },
     "installable": True,
     "application": False,
     "development_status": "Beta",

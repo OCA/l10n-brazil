@@ -419,8 +419,8 @@ official <tt class="docutils literal">DeRE</tt> root is namespaced per event (se
 <li>Regenerate the Wave 1 abstract models with <tt class="docutils literal"><span class="pre">xsdata-odoo</span></tt> only after
 the official XSD roots are namespaced per event. A raw generate today
 creates four models named <tt class="docutils literal">dere.12.dere</tt>, skips anonymous
-<tt class="docutils literal">regTribSecund</tt>, and treats <tt class="docutils literal">Signature</tt> as required. Ship
-<tt class="docutils literal"><span class="pre">xmldsig-core-schema.xsd</span></tt> next to the event schemas before retrying
+<tt class="docutils literal">regTribSecund</tt>, and treats <tt class="docutils literal">Signature</tt> as required.
+<tt class="docutils literal"><span class="pre">xmldsig-core-schema.xsd</span></tt> is already next to the event schemas
 (<tt class="docutils literal">XSDATA_SCHEMA=dere</tt>, <tt class="docutils literal">XSDATA_VERSION=12</tt>,
 <tt class="docutils literal">xsdata generate schemas/v1_2_0 <span class="pre">--output=odoo</span></tt>).</li>
 <li>Add transactional event mixins (D-32xx / D-22xx) after CGIBS
