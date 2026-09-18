@@ -43,6 +43,34 @@
             </field>
         </field>
     </record>
+    <record id="invoice_tree_download_buttons" model="ir.ui.view">
+        <field name="name">l10n_br_account.invoice.tree.download</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//list/header" position="inside">
+                <button
+                    name="action_download_xml"
+                    string="Download XML"
+                    type="object"
+                    display="always"
+                />
+                <button
+                    name="action_download_report"
+                    string="Download DANFE"
+                    type="object"
+                    display="always"
+                />
+                <button
+                    name="action_download_xml_and_report"
+                    string="Download both"
+                    type="object"
+                    display="always"
+                />
+            </xpath>
+        </field>
+    </record>
+
     <!-- Customer Invoice views -->
 
     <record id="invoice_form" model="ir.ui.view">
@@ -51,6 +79,15 @@
         <field name="inherit_id" ref="account.view_move_form" />
         <field name="priority">200</field>
         <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button
+                    name="action_download_xml_and_report"
+                    type="object"
+                    string="Download XML and DANFE"
+                    groups="l10n_br_fiscal.group_user"
+                    invisible="not document_type_id"
+                />
+            </xpath>
             <div name="button_box" position="inside">
                 <button
                     name="open_fiscal_document"
