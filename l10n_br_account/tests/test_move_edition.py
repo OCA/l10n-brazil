@@ -349,6 +349,14 @@ class TestMoveEdition(TransactionCase):
             aml.fiscal_document_line_id.uot_id, self.env.ref("uom.product_uom_unit")
         )
 
+        self.assertTrue(move.tax_totals, "tax_totals must not be empty.")
+        self.assertAlmostEqual(
+            move.tax_totals["total_amount_currency"],
+            move.amount_total,
+            places=2,
+            msg="tax_totals widget total should match the invoice amount_total.",
+        )
+
         move.action_post()
         self.assertEqual(move.state, "posted")
         move.button_cancel()
