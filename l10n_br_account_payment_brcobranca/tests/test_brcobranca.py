@@ -2,8 +2,6 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import os
-
 from odoo.exceptions import UserError
 from odoo.tests import tagged
 
@@ -42,15 +40,9 @@ class TestPaymentOrder(TestBRCobrancaCommon):
         """Teste Boleto e Remessa Banco Santander - CNAB 240"""
         self._run_invoice_and_order_brcobranca(self.invoice_santander_240)
 
-    def test_bank_cnab_not_implement_brcobranca(self):
-        """Test Bank CNAB not implemented in BRCobranca."""
-        self.invoice_itau_240.action_post()
-        self.assertEqual(self.invoice_itau_240.state, "posted")
-        # O Banco Itau CNAB 240 não está implementado no BRCobranca
-        # por isso deve gerar erro.
-        if not os.environ.get("CI_NO_BRCOBRANCA"):
-            with self.assertRaises(UserError):
-                self.invoice_itau_240.view_boleto_pdf()
+    def test_banco_itau_cnab_240(self):
+        """Teste Boleto e Remessa Banco Itau - CNAB 240"""
+        self._run_invoice_and_order_brcobranca(self.invoice_itau_240)
 
     def test_payment_order_invoice_cancel_process(self):
         """Test Payment Order and Invoice Cancel process."""
