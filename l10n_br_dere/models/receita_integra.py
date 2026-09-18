@@ -20,7 +20,9 @@ class DereReceitaIntegra(models.AbstractModel):
 
     def _get_token(self, company):
         now = fields.Datetime.now()
-        cache = self.env.context.get("dere_token_cache") or {}
+        cache = self.env.context.get("dere_token_cache")
+        if cache is None:
+            cache = {}
         key = company.id
         cached = cache.get(key)
         if cached and cached["expires"] > now:
