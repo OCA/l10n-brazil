@@ -30,7 +30,7 @@ class CreditPartnerStatementImporter(models.TransientModel):
             if len(moves) > 1:
                 action["domain"] = [("id", "in", moves.ids)]
                 ref = self.env.ref("account.view_move_tree")
-                action["views"] = [(ref.id, "tree")]
+                action["views"] = [(ref.id, "list")]
                 action["res_id"] = moves.ids[0] if moves else False
                 # Removendo Filtros da Visão, valor padrão vem
                 # {'search_default_misc_filter':1, 'view_no_maturity': True}

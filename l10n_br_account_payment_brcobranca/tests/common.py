@@ -5,11 +5,14 @@
 import base64
 import logging
 import os
+import urllib.parse
 
 from odoo import Command
-from odoo.modules import get_resource_path
 from odoo.tests import tagged
+from odoo.tests.common import _super_send
+from odoo.tools import file_path
 
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 from odoo.addons.l10n_br_account_payment_order.tests.common import (
     CNABTestCommon,
 )
@@ -36,6 +39,16 @@ _logger = logging.getLogger(__name__)
 @tagged("post_install", "-at_install")
 class TestBRCobrancaCommon(CNABTestCommon):
     @classmethod
+    def _request_handler(cls, s, r, /, **kw):
+        """Allow the requests to the BRCobranca microservice started as a
+        sidecar container in CI (see .github/workflows/test.yml)."""
+        url = urllib.parse.urlparse(r.url)
+        if url.hostname == "boleto_cnab_api":
+            return _super_send(s, r, **kw)
+        return super()._request_handler(s, r, **kw)
+
+    @classmethod
+    @AccountTestInvoicingCommon.setup_country("us")
     def setUpClass(cls):
         super().setUpClass()
 
@@ -44,7 +57,7 @@ class TestBRCobrancaCommon(CNABTestCommon):
         # l10n_br_account_payment_brcobranca/models/account_payment_order.py",
         # line 150, in generate_payment_file
         cls.env.company.partner_id.legal_name = "Company A LTDA"
-        cls.env.company.cnpj_cpf = "47.906.085/0001-35"
+        cls.env.company.partner_id.vat = "47.906.085/0001-35"
         # l10n_br_account_payment_brcobranca/models/account_move_line.py",
         # line 62, in send_payment
         cls.env.company.partner_id.zip = "01234-123"
@@ -65,7 +78,7 @@ class TestBRCobrancaCommon(CNABTestCommon):
         # raise UserError(res.text.encode("utf-8"))
         # odoo.exceptions.UserError: b'{"error":
         # [{"sacado_documento":["Sacado documento n\xc3\xa3o pode estar em branco."]},
-        cls.partner_a.cnpj_cpf = "66.793.591/0001-00"
+        cls.partner_a.vat = "66.793.591/0001-00"
         # l10n_br_account_payment_brcobranca/models/account_payment_order.py",
         # line 209, in _get_brcobranca_remessa
         # raise ValidationError(res.text)
@@ -1007,11 +1020,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
             self._run_payment_order_workflow(payment_order, test_not_create_file=False)
 
     def _run_import_return_file(self, test_file, journal):
-        file_name = get_resource_path(
-            "l10n_br_account_payment_brcobranca",
-            "tests",
-            "data",
-            test_file,
+        file_name = file_path(
+            "l10n_br_account_payment_brcobranca/tests/data/" + test_file
         )
 
         with open(file_name, "rb") as f:

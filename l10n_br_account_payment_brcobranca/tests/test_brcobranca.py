@@ -291,12 +291,32 @@ class TestPaymentOrder(TestBRCobrancaCommon):
             # geração do sequencial .RM1; Retorna ex: CCCCCMDD.REM
             base_file_name = payment_order.get_file_name("240")
 
-            # Simula a existência de um arquivo gerado anteriormente no mesmo dia
+            # Garante um estado conhecido: remove eventuais anexos de
+            # decoração de outros testes com o mesmo prefixo de nome
+            self.env["ir.attachment"].search(
+                [
+                    ("res_model", "=", "account.payment.order"),
+                    ("name", "like", base_file_name.split(".")[0]),
+                    ("res_id", "!=", payment_order.id),
+                ]
+            ).unlink()
+
+            # Simula a existência de um arquivo gerado anteriormente no mesmo
+            # dia. O anexo é vinculado a um Pedido de Pagamento real porque,
+            # desde o Odoo 18, anexos cujo res_id não aponta para um registro
+            # que o usuário pode ler não aparecem na busca (o que deixaria o
+            # teste sem o arquivo que ele pensa ter criado).
+            other_order = self.env["account.payment.order"].create(
+                {
+                    "payment_mode_id": payment_order.payment_mode_id.id,
+                    "journal_id": payment_order.journal_id.id,
+                }
+            )
             self.env["ir.attachment"].create(
                 {
                     "name": base_file_name,
                     "res_model": "account.payment.order",
-                    "res_id": payment_order.id + 999,
+                    "res_id": other_order.id,
                     "datas": False,
                 }
             )
@@ -366,8 +386,10 @@ class TestPaymentOrder(TestBRCobrancaCommon):
 
             # 1. Testa (valor_recebido_calculado > 0 -> CRIA a linha de crédito)
             liquidation_line_paid = all_move_lines.filtered(
-                lambda line: line.account_id == receivable_account
-                and line.cnab_returned_ref == "1"
+                lambda line: (
+                    line.account_id == receivable_account
+                    and line.cnab_returned_ref == "1"
+                )
             )
             self.assertTrue(
                 liquidation_line_paid,
@@ -378,8 +400,10 @@ class TestPaymentOrder(TestBRCobrancaCommon):
 
             # 2. Testa (valor_recebido_calculado == 0 -> NÃO CRIA a linha de crédito)
             liquidation_line_0_val = all_move_lines.filtered(
-                lambda line: line.account_id == receivable_account
-                and line.cnab_returned_ref == "2"
+                lambda line: (
+                    line.account_id == receivable_account
+                    and line.cnab_returned_ref == "2"
+                )
             )
             self.assertFalse(
                 liquidation_line_0_val,

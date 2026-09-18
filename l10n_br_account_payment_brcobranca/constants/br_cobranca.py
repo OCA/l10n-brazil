@@ -7,7 +7,6 @@
 import os
 from collections import namedtuple
 
-from odoo import _
 from odoo.exceptions import UserError
 from odoo.tools import config
 
@@ -53,7 +52,7 @@ def get_brcobranca_bank(bank_account_id, payment_method_code):
     if not bank_name_brcobranca or payment_method_code not in cnab_remessa:
         # Lista de bancos não implentados no BRCobranca
         raise UserError(
-            _(
+            bank_account_id.env._(
                 "The Bank %(bank)s CNAB %(cnab_code)s is not implemented "
                 "in BRCobranca.",
                 bank=bank_account_id.bank_id.name,
@@ -72,7 +71,7 @@ def get_brcobranca_api_url(env):
 
     if not brcobranca_api_url:
         raise UserError(
-            _(
+            env._(
                 "BRCobranca API URL is not configured.\n\n"
                 " Set the URL using one of the these methods:\n\n"
                 "1. Set the environment variable:"

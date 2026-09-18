@@ -47,7 +47,7 @@ class AccountMoveLine(models.Model):
 
             boleto_cnab_api_data = {
                 "bank": bank_name_brcobranca[0],
-                "valor": str("%.2f" % move_line.debit),
+                "valor": f"{move_line.debit:.2f}",
                 "cedente": move_line.company_id.partner_id.legal_name,
                 "cedente_endereco": (move_line.company_id.partner_id.street_name or "")
                 + " "
@@ -60,9 +60,9 @@ class AccountMoveLine(models.Model):
                 + (move_line.company_id.partner_id.state_id.code or "")
                 + " "
                 + ("CEP:" + move_line.company_id.partner_id.zip or ""),
-                "documento_cedente": move_line.company_id.cnpj_cpf,
+                "documento_cedente": move_line.company_id.partner_id.vat,
                 "sacado": move_line.partner_id.legal_name,
-                "sacado_documento": move_line.partner_id.cnpj_cpf,
+                "sacado_documento": move_line.partner_id.vat,
                 "agencia": bank_account_id.bra_number,
                 "conta_corrente": bank_account_id.acc_number,
                 "convenio": cnab_config.cnab_company_bank_code,

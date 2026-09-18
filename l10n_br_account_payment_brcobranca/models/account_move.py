@@ -9,7 +9,7 @@ import tempfile
 
 import requests
 
-from odoo import _, models
+from odoo import models
 from odoo.exceptions import UserError
 
 from ..constants.br_cobranca import TIMEOUT, get_brcobranca_api_url
@@ -33,7 +33,7 @@ class AccountMove(models.Model):
         boletos = receivable_ids.send_payment()
         if not boletos:
             raise UserError(
-                _(
+                self.env._(
                     "It is not possible generated boletos\n"
                     "Make sure the Invoice are in Confirm state and "
                     "Payment Mode method are CNAB."
@@ -112,7 +112,7 @@ class AccountMove(models.Model):
                 if self.journal_id.return_auto_reconcile:
                     if line_to_reconcile.reconciled:
                         raise UserError(
-                            _(
+                            self.env._(
                                 "The invoice line %(name)s is already reconciled.\n\n"
                                 "Invoice: %(invoice)s\n"
                                 "Account: %(account)s\n"
