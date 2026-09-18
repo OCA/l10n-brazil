@@ -118,7 +118,6 @@ class SaleOrder(models.Model):
         lines_doc_type |= other_lines
         return lines_doc_type
 
-    # pylint: disable=except-pass
     def _create_invoices(self, grouped=False, final=False, date=None):
         if not self.fiscal_operation_id:
             return super()._create_invoices(grouped=grouped, final=final, date=date)
@@ -132,19 +131,17 @@ class SaleOrder(models.Model):
 
         moves = self.env["account.move"]
         for document_type in document_types:
-            self = self.with_context(
-                document_type_id=document_type.id, l10n_br_fiscal_active=True
+            # Um tipo de documento sem nada a faturar deve ser ignorado, e para
+            # isso usamos a flag prevista pelo core: comparar a mensagem do
+            # UserError nao funciona porque ela e traduzida.
+            order = self.with_context(
+                document_type_id=document_type.id,
+                l10n_br_fiscal_active=True,
+                raise_if_nothing_to_invoice=False,
             )
-            try:
-                moves |= super()._create_invoices(
-                    grouped=grouped, final=final, date=date
-                )
-            except UserError as e:
-                if "There is nothing to invoice!" in str(e):
-                    # Skip for now, will review later
-                    pass
-                else:
-                    raise
+            moves |= super(SaleOrder, order)._create_invoices(
+                grouped=grouped, final=final, date=date
+            )
 
         if not moves and self._context.get("raise_if_nothing_to_invoice", True):
             raise UserError(self._nothing_to_invoice_error_message())
