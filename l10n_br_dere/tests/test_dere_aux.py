@@ -17,6 +17,7 @@ class TestDereAuxiliaryEvents(DereCommon):
     def _prepare_trial(self, period="2026-11"):
         declaration = self._create_declaration(period)
         declaration.action_generate_tables()
+        self._accept_tables(declaration)
         self._post_entry(
             f"{period}-10",
             self.receivable,
@@ -25,6 +26,23 @@ class TestDereAuxiliaryEvents(DereCommon):
         )
         declaration.action_generate_d1101()
         return declaration
+
+    def test_primary_action_follows_d1106_when_company_is_subject(self):
+        self.company.dere_subject_d1106 = True
+        declaration = self._prepare_trial()
+        self.assertEqual(declaration.primary_action, "send_periodics")
+        declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1101").write(
+            {
+                "state": "accepted",
+                "nr_recibo": "1101-202611-0000000000000000001",
+                "cd_retorno": "1",
+            }
+        )
+        self.assertTrue(declaration.can_generate_d1106)
+        self.assertFalse(declaration.can_close_period)
+        self.assertEqual(declaration.primary_action, "generate_d1106")
+        declaration.action_generate_d1106()
+        self.assertEqual(declaration.primary_action, "send_periodics")
 
     def test_d1106_sem_aplic_when_subject_without_assets(self):
         self.company.dere_subject_d1106 = True
@@ -236,6 +254,26 @@ class TestDereAuxiliaryEvents(DereCommon):
         self.assertIsNone(root.find(".//{*}itemDFe"))
         self.assertRegex(event.event_id_attr, STRUCTURED_EVENT_ID_RE)
         self.assertTrue(event.event_id_attr.startswith("DeRE11212"))
+
+    def test_load_deductions_without_documents_reports_absence(self):
+        self.company.dere_subject_d1121 = True
+        declaration = self._prepare_trial()
+        self._accept_event(declaration, "D-1101")
+        self.assertEqual(declaration.primary_action, "load_deductions")
+        action = declaration.action_load_deductions()
+        self.assertEqual(action["tag"], "display_notification")
+        self.assertFalse(declaration.deduction_line_ids)
+        self.assertTrue(declaration.ind_inexist_dedu)
+        self.assertTrue(declaration.can_close_period)
+        self.assertEqual(declaration.primary_action, "close_period")
+
+    def test_closing_waits_for_the_deduction_load(self):
+        self.company.dere_subject_d1121 = True
+        declaration = self._prepare_trial()
+        self._accept_event(declaration, "D-1101")
+        self.assertFalse(declaration.can_close_period)
+        declaration.action_load_deductions()
+        self.assertTrue(declaration.can_close_period)
 
     def test_d1199_auto_ind_inexist_dedu_without_documents(self):
         self.company.dere_subject_d1106 = False

@@ -160,6 +160,11 @@ class DereCommon(TransactionCase):
         )
         return event
 
+    def _accept_tables(self, declaration):
+        for event_type in ("D-1001", "D-1011"):
+            self._accept_event(declaration, event_type)
+        return declaration
+
     def _nfe_access_key(self, number=1):
         cnpj = re.sub(r"[^0-9]", "", self.company._dere_cnpj() or "12345678000195")
         cnpj = cnpj.zfill(14)[:14]
@@ -184,6 +189,17 @@ class DereCommon(TransactionCase):
             event,
             "1",
             nr_recibo=self._closing_receipt(declaration.per_apur),
+        )
+        return event
+
+    def _accept_reopening(self, declaration):
+        event = declaration.event_ids.filtered(
+            lambda ev: ev.event_type == "D-1198"
+        ).sorted("id")[-1:]
+        declaration.apply_return(
+            event,
+            "1",
+            nr_recibo=self._event_receipt("D-1198", declaration.per_apur),
         )
         return event
 

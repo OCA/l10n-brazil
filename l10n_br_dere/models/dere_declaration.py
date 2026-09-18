@@ -3,6 +3,7 @@
 
 import calendar
 import json
+import logging
 import re
 from collections import defaultdict
 from datetime import date, timedelta
@@ -32,9 +33,12 @@ from ..constants import (
     EVENT_D1198,
     EVENT_D1199,
     PERIODIC_EVENTS,
+    PRIMARY_ACTIONS,
     TABLE_EVENTS,
 )
 from . import xml_builder
+
+_logger = logging.getLogger(__name__)
 
 
 class DereDeclaration(models.Model):
@@ -111,8 +115,53 @@ class DereDeclaration(models.Model):
         string="Can discard local closing",
         compute="_compute_closing_actions",
     )
+    can_discard_local_reopening = fields.Boolean(
+        string="Can discard local reopening",
+        compute="_compute_closing_actions",
+    )
     can_reopen_period = fields.Boolean(
         string="Can reopen period",
+        compute="_compute_closing_actions",
+    )
+    can_consult_results = fields.Boolean(
+        string="Can consult results",
+        compute="_compute_closing_actions",
+    )
+    can_generate_tables = fields.Boolean(
+        string="Can generate tables",
+        compute="_compute_closing_actions",
+    )
+    can_send_tables = fields.Boolean(
+        string="Can send tables",
+        compute="_compute_closing_actions",
+    )
+    can_generate_trial = fields.Boolean(
+        string="Can generate trial balance",
+        compute="_compute_closing_actions",
+    )
+    can_generate_d1106 = fields.Boolean(
+        string="Can generate D-1106",
+        compute="_compute_closing_actions",
+    )
+    can_load_deductions = fields.Boolean(
+        string="Can load deductions",
+        compute="_compute_closing_actions",
+    )
+    can_generate_d1121 = fields.Boolean(
+        string="Can generate D-1121",
+        compute="_compute_closing_actions",
+    )
+    can_close_period = fields.Boolean(
+        string="Can close period",
+        compute="_compute_closing_actions",
+    )
+    can_send_periodics = fields.Boolean(
+        string="Can send periodics",
+        compute="_compute_closing_actions",
+    )
+    primary_action = fields.Selection(
+        selection=PRIMARY_ACTIONS,
+        string="Primary action",
         compute="_compute_closing_actions",
     )
 
@@ -216,16 +265,157 @@ class DereDeclaration(models.Model):
         events = self.event_ids.filtered(lambda ev: ev.event_type == event_type)
         return events.sorted("id")[-1:]
 
-    @api.depends("state", "event_ids.event_type", "event_ids.state")
+    @api.depends(
+        "state",
+        "event_ids.event_type",
+        "event_ids.state",
+        "batch_ids.state",
+        "batch_ids.protocol",
+        "subject_d1106",
+        "subject_d1121",
+        "ind_inexist_dedu",
+        "deduction_line_ids",
+    )
     def _compute_closing_actions(self):
         for rec in self:
             closing = rec._latest_event(EVENT_D1199)
+            reopening = rec._latest_event(EVENT_D1198)
+            # A local or transmitted D-1199 freezes the data it was built from.
+            closing_pending = bool(
+                closing and closing.state in ("draft", "generated", "sent")
+            )
             rec.can_discard_local_closing = bool(
                 closing and closing.state in ("draft", "generated")
+            )
+            rec.can_discard_local_reopening = bool(
+                reopening and reopening.state in ("draft", "generated")
             )
             rec.can_reopen_period = rec.state == "closed" and bool(
                 closing and closing.state == "accepted"
             )
+            rec.can_consult_results = bool(
+                rec.batch_ids.filtered(
+                    lambda batch: batch.protocol and batch.state == "sent"
+                )
+            )
+            rec.can_generate_tables = rec.state != "closed" and all(
+                rec._event_can_be_generated(event_type) for event_type in TABLE_EVENTS
+            )
+            rec.can_send_tables = rec.state != "closed" and bool(
+                rec._next_events(TABLE_EVENTS)
+            )
+            rec.can_generate_trial = (
+                rec.state
+                in (
+                    "tables_ok",
+                    "trial_ok",
+                    "reopened",
+                )
+                and not closing_pending
+                and rec._event_can_be_generated(EVENT_D1101)
+            )
+            rec.can_generate_d1106 = (
+                rec.state in ("trial_ok", "reopened")
+                and not closing_pending
+                and rec.subject_d1106
+                and rec._event_can_be_generated(EVENT_D1106)
+            )
+            rec.can_load_deductions = (
+                rec.state in ("trial_ok", "reopened")
+                and not closing_pending
+                and rec.subject_d1121
+                and rec._event_can_be_generated(EVENT_D1121)
+            )
+            rec.can_generate_d1121 = (
+                rec.can_load_deductions
+                and bool(rec.deduction_line_ids)
+                and not rec.ind_inexist_dedu
+            )
+            rec.can_close_period = rec._can_prepare_closing()
+            if rec.state in ("trial_ok", "reopened"):
+                rec.can_send_periodics = bool(rec._next_events(PERIODIC_EVENTS))
+            elif rec.state == "closed":
+                # A closed period only transmits the reopening request.
+                rec.can_send_periodics = bool(rec._next_events((EVENT_D1198,)))
+            else:
+                rec.can_send_periodics = False
+            rec.primary_action = rec._next_primary_action()
+
+    def _event_can_be_generated(self, event_type):
+        self.ensure_one()
+        latest = self._latest_event(event_type)
+        if not latest or latest.state in ("draft", "generated", "rejected"):
+            return True
+        return self._can_create_next_event(event_type)
+
+    def _event_needs_new_generation(self, event_type):
+        self.ensure_one()
+        latest = self._latest_event(event_type)
+        if not latest or latest.state == "rejected":
+            return True
+        if latest.state in ("sent", "accepted"):
+            return self._can_create_next_event(event_type)
+        return False
+
+    def _needs_trial_after_reopening(self, trial):
+        self.ensure_one()
+        reopening = self._latest_event(EVENT_D1198)
+        return bool(
+            reopening and reopening.state == "accepted" and trial.id < reopening.id
+        )
+
+    def _can_prepare_closing(self):
+        self.ensure_one()
+        if self.state not in ("trial_ok", "reopened"):
+            return False
+        if not self._event_can_be_generated(EVENT_D1199):
+            return False
+        trial = self._latest_event(EVENT_D1101)
+        if not trial:
+            return False
+        if self._needs_trial_after_reopening(trial):
+            return False
+        if self.subject_d1106:
+            d1106 = self._latest_event(EVENT_D1106)
+            if not d1106 or not d1106.xml_content:
+                return False
+        if self.subject_d1121:
+            if not self.deduction_line_ids:
+                # Closing without loading deductions would silently declare their
+                # absence, so wait for the load to confirm it.
+                return self.ind_inexist_dedu
+            d1121 = self._latest_event(EVENT_D1121)
+            if not d1121 or not d1121.xml_content:
+                return False
+        return True
+
+    def _next_primary_action(self):
+        self.ensure_one()
+        if self.can_consult_results:
+            return "consult"
+        if self.can_send_tables:
+            return "send_tables"
+        if self.can_send_periodics:
+            return "send_periodics"
+        if self.can_generate_tables and self._event_needs_new_generation(EVENT_D1001):
+            return "generate_tables"
+        if self.can_generate_trial and self._event_needs_new_generation(EVENT_D1101):
+            return "generate_trial"
+        if self.can_generate_d1106 and self._event_needs_new_generation(EVENT_D1106):
+            return "generate_d1106"
+        if (
+            self.can_load_deductions
+            and not self.deduction_line_ids
+            and not self.ind_inexist_dedu
+        ):
+            return "load_deductions"
+        if self.can_generate_d1121 and self._event_needs_new_generation(EVENT_D1121):
+            return "generate_d1121"
+        if self.can_close_period and self._event_needs_new_generation(EVENT_D1199):
+            return "close_period"
+        if self.can_reopen_period:
+            return "reopen"
+        return False
 
     def _can_create_next_event(self, event_type):
         self.ensure_one()
@@ -514,7 +704,9 @@ class DereDeclaration(models.Model):
                 vals, [line._to_xml_vals() for line in self.trial_line_ids]
             )
         )
-        self.state = "trial_ok"
+        if self.state != "reopened":
+            # A reopened period keeps its state until the new closing is accepted.
+            self.state = "trial_ok"
         return event
 
     def _previous_declaration(self):
@@ -745,8 +937,18 @@ class DereDeclaration(models.Model):
         return vals
 
     def action_load_deductions(self):
+        empty = self.env["l10n_br_dere.declaration"]
         for rec in self:
-            rec._load_deductions()
+            if not rec._load_deductions():
+                empty |= rec
+        if empty == self:
+            return self._notify_and_reload(
+                _("No deductible document"),
+                _(
+                    "No deductible fiscal document was found for the period. "
+                    "The declaration now reports the absence of deductions."
+                ),
+            )
         return True
 
     def _load_deductions(self):
@@ -764,6 +966,9 @@ class DereDeclaration(models.Model):
             self.env["l10n_br_dere.deduction.line"].create(rows)
             if self.ind_inexist_dedu:
                 self.ind_inexist_dedu = False
+        elif not self.ind_inexist_dedu:
+            # Without documents the period can only be closed as deduction-free.
+            self.ind_inexist_dedu = True
         return self.deduction_line_ids
 
     def _ensure_deduction_items(self, line):
@@ -870,8 +1075,7 @@ class DereDeclaration(models.Model):
         trial = self._latest_event(EVENT_D1101)
         if not trial:
             raise UserError(_("D-1101 must exist before D-1199."))
-        d1198 = self._latest_event(EVENT_D1198)
-        if d1198 and d1198.state == "accepted" and trial.id < d1198.id:
+        if self._needs_trial_after_reopening(trial):
             raise UserError(
                 _("Generate a new trial balance after reopening before closing.")
             )
@@ -969,7 +1173,7 @@ class DereDeclaration(models.Model):
 
     def _generate_d1198(self):
         self.ensure_one()
-        if self.state != "closed":
+        if self.state not in ("closed", "reopened"):
             raise UserError(_("Only a closed period can be reopened."))
         vals = self._header_vals(
             {"nrReciboReab": self._d1199_reopen_receipt()},
@@ -979,8 +1183,28 @@ class DereDeclaration(models.Model):
         vals["id"] = event.event_id_attr or vals["id"]
         event.event_id_attr = vals["id"]
         event._store_xml(xml_builder.build_d1198(vals))
-        self.state = "reopened"
+        if self.state == "reopened" and event.state in ("draft", "generated"):
+            self.state = "closed"
         return event
+
+    def action_discard_local_reopening(self):
+        for rec in self:
+            rec._discard_local_reopening()
+        return True
+
+    def _discard_local_reopening(self):
+        self.ensure_one()
+        reopening = self._latest_event(EVENT_D1198)
+        if not reopening:
+            raise UserError(_("There is no local D-1198 to discard."))
+        if reopening.state in ("sent", "accepted"):
+            raise UserError(
+                _("An official D-1198 cannot be discarded. The period stays reopened.")
+            )
+        reopening.unlink()
+        if self.state == "reopened":
+            self.state = "closed"
+        return True
 
     def _require_processing_receipt(self, event_type, message):
         event = self._latest_event(event_type)
@@ -1128,17 +1352,45 @@ class DereDeclaration(models.Model):
             raise UserError(
                 _("Receita Integra rejected the batch: %s") % result["text"]
             )
+        self._consult_after_send(batch)
+        return batch
+
+    def _consult_after_send(self, batch):
+        """Fetch the result at once. The cron retries while it is processing."""
+        try:
+            batch._consult(raise_error=False)
+        except Exception:
+            _logger.exception("DeRE consult after send failed for batch %s", batch.id)
         return batch
 
     def action_consult_results(self):
+        consulted = self.env["l10n_br_dere.batch"]
         for rec in self:
-            batches = rec.batch_ids.filtered(
-                lambda batch: batch.protocol and batch.state == "sent"
-            )
-            if not batches:
+            transmitted = rec.batch_ids.filtered(lambda batch: batch.protocol)
+            if not transmitted:
                 raise UserError(_("There is no sent batch with a protocol to consult."))
+            batches = transmitted.filtered(lambda batch: batch.state == "sent")
             batches.action_consult()
+            consulted |= batches
+        if not consulted:
+            # The scheduled consult job may have processed the batch already.
+            return self._notify_and_reload(
+                _("Nothing to consult"),
+                _("Every transmitted batch was already processed."),
+            )
         return True
+
+    def _notify_and_reload(self, title, message, notification_type="info"):
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": title,
+                "message": message,
+                "type": notification_type,
+                "next": {"type": "ir.actions.client", "tag": "soft_reload"},
+            },
+        }
 
     def action_apply_return_xml(self, xml_content):
         self.ensure_one()
@@ -1180,6 +1432,8 @@ class DereDeclaration(models.Model):
         )
         if event.event_type == EVENT_D1199 and event.state == "accepted":
             event.declaration_id.state = "closed"
+        if event.event_type == EVENT_D1198 and event.state == "accepted":
+            event.declaration_id.state = "reopened"
         if occurrences:
             event.occurrence_ids.unlink()
             self.env["l10n_br_dere.event.occurrence"].create(

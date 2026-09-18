@@ -29,6 +29,18 @@ EVENT_TYPES = [
 
 TABLE_EVENTS = (EVENT_D1001, EVENT_D1011)
 PERIODIC_EVENTS = (EVENT_D1198, EVENT_D1101, EVENT_D1106, EVENT_D1121, EVENT_D1199)
+PRIMARY_ACTIONS = [
+    ("generate_tables", "Generate Tables"),
+    ("send_tables", "Send Tables"),
+    ("generate_trial", "Generate Trial Balance"),
+    ("generate_d1106", "Generate D-1106"),
+    ("load_deductions", "Load Deductions"),
+    ("generate_d1121", "Generate D-1121"),
+    ("close_period", "Close Period"),
+    ("send_periodics", "Send Periodics"),
+    ("consult", "Consult Results"),
+    ("reopen", "Reopen Period"),
+]
 STRUCTURED_EVENT_ID = (
     EVENT_D1101,
     EVENT_D1106,

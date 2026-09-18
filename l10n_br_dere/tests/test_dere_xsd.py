@@ -55,9 +55,15 @@ class TestDereXsd(DereCommon):
                 payload={"protocolo": "PROT-2026-0000000001"},
             )
 
-        with patch(
-            "odoo.addons.l10n_br_dere.models.receita_integra.requests.post",
-            side_effect=fake_post,
+        with (
+            patch(
+                "odoo.addons.l10n_br_dere.models.receita_integra.requests.post",
+                side_effect=fake_post,
+            ),
+            patch(
+                "odoo.addons.l10n_br_dere.models.receita_integra.requests.get",
+                side_effect=lambda url, **_kw: _FakeResponse(status_code=503, text=""),
+            ),
         ):
             batch = declaration._send_events(
                 declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1001")

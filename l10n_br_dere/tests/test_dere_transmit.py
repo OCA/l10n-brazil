@@ -85,10 +85,19 @@ class TestDereTransmit(DereCommon):
     def _fake_get(self, url, **_kwargs):
         return _FakeResponse(text=RETURN_D9001)
 
+    def _processing_get(self, url, **_kwargs):
+        return _FakeResponse(text=PROCESSING_LOTE)
+
     def _send_tables(self, declaration):
-        with patch(
-            "odoo.addons.l10n_br_dere.models.receita_integra.requests.post",
-            side_effect=self._fake_post,
+        with (
+            patch(
+                "odoo.addons.l10n_br_dere.models.receita_integra.requests.post",
+                side_effect=self._fake_post,
+            ),
+            patch(
+                "odoo.addons.l10n_br_dere.models.receita_integra.requests.get",
+                side_effect=self._processing_get,
+            ),
         ):
             declaration.action_send_tables()
 
@@ -103,7 +112,7 @@ class TestDereTransmit(DereCommon):
                 side_effect=get_side_effect or self._fake_get,
             ),
         ):
-            declaration.action_consult_results()
+            return declaration.action_consult_results()
 
     def _cron_consult(self, get_side_effect=None):
         with (
@@ -136,11 +145,49 @@ class TestDereTransmit(DereCommon):
         self.assertTrue(declaration.batch_ids)
         self.assertEqual(declaration.batch_ids.protocol, "PROT-2026-0000000001")
         self.assertNotIn("evtRetorno", declaration.batch_ids.protocol)
+        self.assertTrue(declaration.can_consult_results)
         self._consult_results(declaration)
+        self.assertFalse(declaration.can_consult_results)
         self.assertEqual(event.state, "accepted")
         self.assertEqual(event.nr_recibo, "REC-D1001-000000000000001")
         self.assertEqual(event.cd_retorno, "1")
         self.assertEqual(declaration.batch_ids.state, "done")
+
+    def test_send_consults_the_batch_right_away(self):
+        declaration = self._create_declaration()
+        declaration.action_generate_tables()
+        with (
+            patch(
+                "odoo.addons.l10n_br_dere.models.receita_integra.requests.post",
+                side_effect=self._fake_post,
+            ),
+            patch(
+                "odoo.addons.l10n_br_dere.models.receita_integra.requests.get",
+                side_effect=self._fake_get,
+            ),
+        ):
+            declaration.action_send_tables()
+        event = declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1001")
+        self.assertEqual(event.state, "accepted")
+        self.assertEqual(declaration.batch_ids.state, "done")
+
+    def test_send_survives_a_failing_consult(self):
+        declaration = self._create_declaration()
+        declaration.action_generate_tables()
+        with (
+            patch(
+                "odoo.addons.l10n_br_dere.models.receita_integra.requests.post",
+                side_effect=self._fake_post,
+            ),
+            patch(
+                "odoo.addons.l10n_br_dere.models.receita_integra.requests.get",
+                side_effect=OSError("network down"),
+            ),
+        ):
+            declaration.action_send_tables()
+        event = declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1001")
+        self.assertEqual(event.state, "sent")
+        self.assertEqual(declaration.batch_ids.state, "sent")
 
     def test_consult_keeps_sent_while_processing(self):
         declaration = self._create_declaration()
@@ -191,11 +238,26 @@ class TestDereTransmit(DereCommon):
         with self.assertRaises(UserError):
             declaration.action_consult_results()
 
+    def test_consult_notifies_when_cron_already_processed_batch(self):
+        declaration = self._create_declaration()
+        declaration.action_generate_tables()
+        self._send_tables(declaration)
+        self._cron_consult()
+        self.assertEqual(declaration.batch_ids.state, "done")
+        action = self._consult_results(declaration)
+        self.assertEqual(action["tag"], "display_notification")
+        self.assertEqual(action["params"]["next"]["tag"], "soft_reload")
+
     def test_refuse_regenerate_after_accept(self):
         declaration = self._create_declaration()
         declaration.action_generate_tables()
         self._send_tables(declaration)
         self._consult_results(declaration)
+        declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1011").write(
+            {"state": "accepted", "cd_retorno": "1"}
+        )
+        self.assertFalse(declaration.can_generate_tables)
+        self.assertFalse(declaration.can_send_tables)
         with self.assertRaises(UserError):
             declaration.action_generate_tables()
 
@@ -215,10 +277,17 @@ class TestDereTransmit(DereCommon):
         declaration.action_generate_d1199()
         self._accept_closing(declaration)
         declaration.action_mark_reopened()
+        self.assertEqual(declaration.state, "closed")
         event = declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1198")
-        with patch(
-            "odoo.addons.l10n_br_dere.models.receita_integra.requests.post",
-            side_effect=self._fake_post,
+        with (
+            patch(
+                "odoo.addons.l10n_br_dere.models.receita_integra.requests.post",
+                side_effect=self._fake_post,
+            ),
+            patch(
+                "odoo.addons.l10n_br_dere.models.receita_integra.requests.get",
+                side_effect=self._processing_get,
+            ),
         ):
             declaration.action_send_periodics()
         self.assertEqual(event.state, "sent")
@@ -229,6 +298,7 @@ class TestDereTransmit(DereCommon):
         )
         self.assertEqual(event.state, "accepted")
         self.assertEqual(event.nr_recibo, "1198-202610-0000000000000000001")
+        self.assertEqual(declaration.state, "reopened")
 
     def test_d1199_send_requires_d1101_receipt(self):
         declaration = self._create_declaration()

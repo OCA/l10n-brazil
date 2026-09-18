@@ -87,6 +87,7 @@ class TestDereErrors(DereCommon):
     def test_reopen_closed_period(self):
         declaration = self._create_declaration("2026-02")
         declaration.action_generate_tables()
+        self._accept_tables(declaration)
         self._post_entry("2026-02-10", self.receivable, self.fee_account, 10.0)
         declaration.action_generate_d1101()
         declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1101").write(
@@ -98,25 +99,42 @@ class TestDereErrors(DereCommon):
         )
         declaration.action_generate_d1199()
         self.assertEqual(declaration.state, "trial_ok")
+        self.assertFalse(declaration.can_generate_trial)
+        self.assertTrue(declaration.can_send_periodics)
+        self.assertEqual(declaration.primary_action, "send_periodics")
         with self.assertRaises(UserError):
             declaration.action_mark_reopened()
         self._accept_closing(declaration)
         self.assertEqual(declaration.state, "closed")
         self.assertTrue(declaration.can_reopen_period)
         self.assertFalse(declaration.can_discard_local_closing)
+        self.assertFalse(declaration.can_consult_results)
         declaration.action_mark_reopened()
-        self.assertEqual(declaration.state, "reopened")
+        self.assertEqual(declaration.state, "closed")
         event = declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1198")
         self.assertTrue(event.xml_content)
         self.assertIn("<evtReabertMensal", event.xml_content)
         self.assertIn(self._closing_receipt("2026-02"), event.xml_content)
         self.assertTrue(event.event_id_attr.startswith("DeRE11982"))
-        with self.assertRaises(UserError):
-            declaration.action_mark_reopened()
+        self.assertTrue(declaration.can_discard_local_reopening)
+        self.assertTrue(declaration.can_send_periodics)
+        self.assertEqual(declaration.primary_action, "send_periodics")
+        declaration.action_mark_reopened()
+        self.assertEqual(
+            declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1198"),
+            event,
+        )
         with self.assertRaises(UserError):
             declaration.action_generate_d1101()
-        event.write({"state": "accepted", "cd_retorno": "1"})
+        self._accept_reopening(declaration)
+        self.assertEqual(declaration.state, "reopened")
+        self.assertFalse(declaration.can_discard_local_reopening)
+        self.assertTrue(declaration.can_generate_trial)
+        self.assertFalse(declaration.can_close_period)
+        self.assertEqual(declaration.primary_action, "generate_trial")
         declaration.action_generate_d1101()
+        self.assertEqual(declaration.state, "reopened")
+        self.assertTrue(declaration.can_close_period)
         self.assertEqual(
             len(declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1101")),
             2,
@@ -199,6 +217,65 @@ class TestDereErrors(DereCommon):
             declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1199")
         )
 
+    def test_local_closing_blocks_input_regeneration(self):
+        declaration = self._create_declaration("2026-06")
+        declaration.action_generate_tables()
+        self._post_entry("2026-06-10", self.receivable, self.fee_account, 10.0)
+        declaration.action_generate_d1101()
+        declaration.action_generate_d1199()
+        self.assertFalse(declaration.can_generate_trial)
+        declaration.action_discard_local_closing()
+        self.assertTrue(declaration.can_generate_trial)
+
+    def test_discard_local_reopening_restores_closed_state(self):
+        declaration = self._create_declaration("2026-12")
+        declaration.action_generate_tables()
+        self._post_entry("2026-12-10", self.receivable, self.fee_account, 10.0)
+        declaration.action_generate_d1101()
+        declaration.action_generate_d1199()
+        self._accept_closing(declaration)
+        declaration.action_mark_reopened()
+        self.assertEqual(declaration.state, "closed")
+        declaration.action_discard_local_reopening()
+        self.assertEqual(declaration.state, "closed")
+        self.assertFalse(
+            declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1198")
+        )
+        self.assertFalse(declaration.can_discard_local_reopening)
+        self.assertTrue(declaration.can_reopen_period)
+        self.assertEqual(declaration.primary_action, "reopen")
+
+    def test_discard_local_reopening_heals_stale_reopened_state(self):
+        declaration = self._create_declaration("2025-09")
+        declaration.action_generate_tables()
+        self._post_entry("2025-09-10", self.receivable, self.fee_account, 10.0)
+        declaration.action_generate_d1101()
+        declaration.action_generate_d1199()
+        self._accept_closing(declaration)
+        declaration.action_mark_reopened()
+        declaration.write({"state": "reopened"})
+        self.assertTrue(declaration.can_discard_local_reopening)
+        declaration.action_discard_local_reopening()
+        self.assertEqual(declaration.state, "closed")
+
+    def test_discard_official_d1198_is_blocked(self):
+        declaration = self._create_declaration("2025-08")
+        declaration.action_generate_tables()
+        self._post_entry("2025-08-10", self.receivable, self.fee_account, 10.0)
+        declaration.action_generate_d1101()
+        declaration.action_generate_d1199()
+        self._accept_closing(declaration)
+        declaration.action_mark_reopened()
+        self._accept_reopening(declaration)
+        self.assertEqual(declaration.state, "reopened")
+        with self.assertRaises(UserError):
+            declaration.action_discard_local_reopening()
+
+    def test_discard_local_reopening_without_event(self):
+        declaration = self._create_declaration("2025-07")
+        with self.assertRaises(UserError):
+            declaration.action_discard_local_reopening()
+
     def test_discard_official_d1199_is_blocked(self):
         declaration = self._create_declaration("2026-09")
         declaration.action_generate_tables()
@@ -209,6 +286,7 @@ class TestDereErrors(DereCommon):
         with self.assertRaises(UserError):
             declaration.action_discard_local_closing()
         self.assertEqual(declaration.state, "closed")
+        self.assertFalse(declaration.can_consult_results)
 
     def test_send_without_events_or_token_error(self):
         declaration = self._create_declaration("2026-01")
@@ -259,6 +337,7 @@ class TestDereErrors(DereCommon):
         declaration.action_generate_d1001()
         event = declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1001")
         declaration.apply_return(event, "0", desc_retorno="Erro")
+        self.assertTrue(declaration.can_generate_tables)
         declaration.action_generate_d1001()
         events = declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1001")
         self.assertEqual(len(events), 2)

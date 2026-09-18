@@ -66,6 +66,10 @@ class TestDereTables(DereCommon):
         splits = {node.text for node in root.findall(".//{*}cDbrMista")}
         self.assertTrue(all(len(code) == 3 for code in splits))
         self.assertEqual(declaration.state, "tables_ok")
+        self.assertTrue(declaration.can_generate_tables)
+        self.assertTrue(declaration.can_send_tables)
+        self.assertTrue(declaration.can_generate_trial)
+        self.assertEqual(declaration.primary_action, "send_tables")
 
     def test_d1011_uses_company_language_account_name(self):
         self.env["res.lang"]._activate_lang("pt_BR")

@@ -159,6 +159,7 @@ class TestDereMonthly(DereCommon):
         with self.assertRaises(UserError):
             declaration.action_generate_d1199()
         declaration.action_generate_tables()
+        self._accept_tables(declaration)
         self._post_entry(
             "2026-10-20",
             self.receivable,
@@ -166,6 +167,9 @@ class TestDereMonthly(DereCommon):
             100.0,
         )
         declaration.action_generate_d1101()
+        self.assertTrue(declaration.can_generate_trial)
+        self.assertTrue(declaration.can_send_periodics)
+        self.assertEqual(declaration.primary_action, "send_periodics")
         declaration.ind_inexist_dedu = True
         with self.assertRaises(UserError):
             declaration.action_generate_d1199()

@@ -25,55 +25,117 @@
                         type="object"
                         string="Generate Tables"
                         class="btn-primary"
-                        invisible="state not in ('draft', 'tables_ok', 'trial_ok', 'reopened')"
+                        invisible="not can_generate_tables or primary_action != 'generate_tables'"
+                    />
+                    <button
+                        name="action_generate_tables"
+                        type="object"
+                        string="Generate Tables"
+                        invisible="not can_generate_tables or primary_action == 'generate_tables'"
                     />
                     <button
                         name="action_generate_d1101"
                         type="object"
                         string="Generate Trial Balance"
                         class="btn-primary"
-                        invisible="state not in ('tables_ok', 'trial_ok', 'reopened')"
+                        invisible="not can_generate_trial or primary_action != 'generate_trial'"
+                    />
+                    <button
+                        name="action_generate_d1101"
+                        type="object"
+                        string="Generate Trial Balance"
+                        invisible="not can_generate_trial or primary_action == 'generate_trial'"
                     />
                     <button
                         name="action_generate_d1106"
                         type="object"
                         string="Generate D-1106"
-                        invisible="state not in ('trial_ok', 'reopened') or not subject_d1106"
+                        class="btn-primary"
+                        invisible="not can_generate_d1106 or primary_action != 'generate_d1106'"
+                    />
+                    <button
+                        name="action_generate_d1106"
+                        type="object"
+                        string="Generate D-1106"
+                        invisible="not can_generate_d1106 or primary_action == 'generate_d1106'"
                     />
                     <button
                         name="action_load_deductions"
                         type="object"
                         string="Load Deductions"
-                        invisible="state not in ('trial_ok', 'reopened') or not subject_d1121"
+                        class="btn-primary"
+                        invisible="not can_load_deductions or primary_action != 'load_deductions'"
+                    />
+                    <button
+                        name="action_load_deductions"
+                        type="object"
+                        string="Load Deductions"
+                        invisible="not can_load_deductions or primary_action == 'load_deductions'"
                     />
                     <button
                         name="action_generate_d1121"
                         type="object"
                         string="Generate D-1121"
-                        invisible="state not in ('trial_ok', 'reopened') or not subject_d1121"
+                        class="btn-primary"
+                        invisible="not can_generate_d1121 or primary_action != 'generate_d1121'"
+                    />
+                    <button
+                        name="action_generate_d1121"
+                        type="object"
+                        string="Generate D-1121"
+                        invisible="not can_generate_d1121 or primary_action == 'generate_d1121'"
                     />
                     <button
                         name="action_generate_d1199"
                         type="object"
                         string="Close Period"
-                        invisible="state not in ('trial_ok', 'reopened')"
+                        class="btn-primary"
+                        invisible="not can_close_period or primary_action != 'close_period'"
+                    />
+                    <button
+                        name="action_generate_d1199"
+                        type="object"
+                        string="Close Period"
+                        invisible="not can_close_period or primary_action == 'close_period'"
                     />
                     <button
                         name="action_send_tables"
                         type="object"
                         string="Send Tables"
-                        invisible="state not in ('tables_ok', 'trial_ok', 'reopened')"
+                        class="btn-primary"
+                        invisible="not can_send_tables or primary_action != 'send_tables'"
+                    />
+                    <button
+                        name="action_send_tables"
+                        type="object"
+                        string="Send Tables"
+                        invisible="not can_send_tables or primary_action == 'send_tables'"
                     />
                     <button
                         name="action_send_periodics"
                         type="object"
                         string="Send Periodics"
-                        invisible="state not in ('trial_ok', 'closed', 'reopened')"
+                        class="btn-primary"
+                        invisible="not can_send_periodics or primary_action != 'send_periodics'"
+                    />
+                    <button
+                        name="action_send_periodics"
+                        type="object"
+                        string="Send Periodics"
+                        invisible="not can_send_periodics or primary_action == 'send_periodics'"
                     />
                     <button
                         name="action_consult_results"
                         type="object"
                         string="Consult Results"
+                        class="btn-primary"
+                        invisible="not can_consult_results or primary_action != 'consult'"
+                    />
+                    <button
+                        name="action_consult_results"
+                        type="object"
+                        string="Consult Results"
+                        invisible="not can_consult_results or primary_action == 'consult'"
                     />
                     <button
                         name="action_discard_local_closing"
@@ -82,13 +144,37 @@
                         invisible="not can_discard_local_closing"
                     />
                     <button
+                        name="action_discard_local_reopening"
+                        type="object"
+                        string="Discard Local Reopening"
+                        invisible="not can_discard_local_reopening"
+                    />
+                    <button
                         name="action_mark_reopened"
                         type="object"
                         string="Reopen Period"
-                        invisible="not can_reopen_period"
+                        class="btn-primary"
+                        invisible="not can_reopen_period or primary_action != 'reopen'"
+                    />
+                    <button
+                        name="action_mark_reopened"
+                        type="object"
+                        string="Reopen Period"
+                        invisible="not can_reopen_period or primary_action == 'reopen'"
                     />
                     <field name="can_discard_local_closing" invisible="1" />
+                    <field name="can_discard_local_reopening" invisible="1" />
                     <field name="can_reopen_period" invisible="1" />
+                    <field name="can_consult_results" invisible="1" />
+                    <field name="can_generate_tables" invisible="1" />
+                    <field name="can_send_tables" invisible="1" />
+                    <field name="can_generate_trial" invisible="1" />
+                    <field name="can_generate_d1106" invisible="1" />
+                    <field name="can_load_deductions" invisible="1" />
+                    <field name="can_generate_d1121" invisible="1" />
+                    <field name="can_close_period" invisible="1" />
+                    <field name="can_send_periodics" invisible="1" />
+                    <field name="primary_action" invisible="1" />
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
