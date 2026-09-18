@@ -324,12 +324,12 @@ class DereDeclaration(models.Model):
                 rec.state in ("trial_ok", "reopened")
                 and not closing_pending
                 and rec.subject_d1121
+                # Loading contradicts the declared absence of deductions.
+                and not rec.ind_inexist_dedu
                 and rec._event_can_be_generated(EVENT_D1121)
             )
-            rec.can_generate_d1121 = (
-                rec.can_load_deductions
-                and bool(rec.deduction_line_ids)
-                and not rec.ind_inexist_dedu
+            rec.can_generate_d1121 = rec.can_load_deductions and bool(
+                rec.deduction_line_ids
             )
             rec.can_close_period = rec._can_prepare_closing()
             if rec.state in ("trial_ok", "reopened"):
@@ -403,11 +403,7 @@ class DereDeclaration(models.Model):
             return "generate_trial"
         if self.can_generate_d1106 and self._event_needs_new_generation(EVENT_D1106):
             return "generate_d1106"
-        if (
-            self.can_load_deductions
-            and not self.deduction_line_ids
-            and not self.ind_inexist_dedu
-        ):
+        if self.can_load_deductions and not self.deduction_line_ids:
             return "load_deductions"
         if self.can_generate_d1121 and self._event_needs_new_generation(EVENT_D1121):
             return "generate_d1121"

@@ -264,8 +264,12 @@ class TestDereAuxiliaryEvents(DereCommon):
         self.assertEqual(action["tag"], "display_notification")
         self.assertFalse(declaration.deduction_line_ids)
         self.assertTrue(declaration.ind_inexist_dedu)
+        self.assertFalse(declaration.can_load_deductions)
         self.assertTrue(declaration.can_close_period)
         self.assertEqual(declaration.primary_action, "close_period")
+        declaration.ind_inexist_dedu = False
+        self.assertTrue(declaration.can_load_deductions)
+        self.assertEqual(declaration.primary_action, "load_deductions")
 
     def test_closing_waits_for_the_deduction_load(self):
         self.company.dere_subject_d1121 = True
