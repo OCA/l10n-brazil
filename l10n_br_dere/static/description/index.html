@@ -445,12 +445,16 @@ one type per batch.</li>
 <li>After sending, use <strong>Consult Results</strong> or wait for the two-minute
 cron until the D-9001 receipt arrives. Then generate the trial
 balance (D-1101) from posted <tt class="docutils literal">account.move.line</tt> records.</li>
-<li>Close the period with D-1199 (<tt class="docutils literal">tpOper</tt> inclusion only). Send
-periodics in a separate batch. Table and periodic events in the same
-batch are rejected.</li>
-<li>To reopen, wait for the D-1199 receipt, then <strong>Reopen Period</strong>. That
-builds D-1198 (<tt class="docutils literal">nrReciboReab</tt>). <strong>Send Periodics</strong> and consult
-until D-1198 is accepted before generating a new trial balance.</li>
+<li>Generate D-1199 with <strong>Close Period</strong> (<tt class="docutils literal">tpOper</tt> inclusion only).
+That only stores the XML; the declaration stays in <em>Trial balance
+ready</em>. Use <strong>Discard Local Closing</strong> to drop a D-1199 that was never
+sent. Send periodics in a separate batch. Table and periodic events
+in the same batch are rejected. The declaration becomes <em>Closed</em> when
+the D-1199 return is accepted.</li>
+<li>To reopen an officially closed period, wait for the D-1199 receipt,
+then <strong>Reopen Period</strong>. That builds D-1198 (<tt class="docutils literal">nrReciboReab</tt>). <strong>Send
+Periodics</strong> and consult until D-1198 is accepted before generating a
+new trial balance.</li>
 </ol>
 <p>Receipt (<tt class="docutils literal">nrRecibo</tt>) and batch protocol are stored separately on each
 event. Do not regenerate an event that is already sent or accepted
@@ -506,16 +510,19 @@ rebuilds those 1:1 amounts. If it is subject to D-1121, <strong>Load
 Deductions</strong> from inbound operations marked as DeRE deductible, then
 <strong>Generate D-1121</strong>, or leave the period without documents so
 closing sets <tt class="docutils literal">indInexistDedu</tt>.</li>
-<li><strong>Close Period</strong> (D-1199). Send periodics one type at a time:
-D-1101, then D-1106 (if any), then D-1121 (if any), then D-1199.
-Each auxiliary event needs the previous processing receipt.</li>
+<li><strong>Close Period</strong> generates D-1199 but does not lock the month. Send
+periodics one type at a time: D-1101, then D-1106 (if any), then
+D-1121 (if any), then D-1199. Each auxiliary event needs the
+previous processing receipt. If the XML is wrong and still
+<tt class="docutils literal">generated</tt>, <strong>Discard Local Closing</strong> and generate again.</li>
 <li>Confirm the company has an A1 certificate. Sending signs the
 payload; the event form still shows the unsigned XML.</li>
 <li><strong>Consult Results</strong> after each send, or wait for the scheduled job
 <strong>DeRE: consult sent batch results</strong>. The POST only returns a
 protocol; acceptance and <tt class="docutils literal">nrRecibo</tt> come from the later GET.
 Processing (<tt class="docutils literal">cdResposta</tt> 1) leaves the batch sent so the cron
-retries.</li>
+retries. A successful D-1199 return sets the declaration to
+<em>Closed</em>.</li>
 <li>Do <strong>not</strong> send tables and periodics in the same batch. Do not send
 D-1011 before D-1001 is accepted, nor D-1199 before D-1101 has a
 processing receipt.</li>

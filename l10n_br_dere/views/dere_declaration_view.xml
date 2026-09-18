@@ -25,14 +25,14 @@
                         type="object"
                         string="Generate Tables"
                         class="btn-primary"
-                        invisible="state not in ('draft', 'reopened')"
+                        invisible="state not in ('draft', 'tables_ok', 'trial_ok', 'reopened')"
                     />
                     <button
                         name="action_generate_d1101"
                         type="object"
                         string="Generate Trial Balance"
                         class="btn-primary"
-                        invisible="state not in ('tables_ok', 'reopened')"
+                        invisible="state not in ('tables_ok', 'trial_ok', 'reopened')"
                     />
                     <button
                         name="action_generate_d1106"
@@ -56,7 +56,7 @@
                         name="action_generate_d1199"
                         type="object"
                         string="Close Period"
-                        invisible="state != 'trial_ok'"
+                        invisible="state not in ('trial_ok', 'reopened')"
                     />
                     <button
                         name="action_send_tables"
@@ -76,11 +76,19 @@
                         string="Consult Results"
                     />
                     <button
+                        name="action_discard_local_closing"
+                        type="object"
+                        string="Discard Local Closing"
+                        invisible="not can_discard_local_closing"
+                    />
+                    <button
                         name="action_mark_reopened"
                         type="object"
                         string="Reopen Period"
-                        invisible="state != 'closed'"
+                        invisible="not can_reopen_period"
                     />
+                    <field name="can_discard_local_closing" invisible="1" />
+                    <field name="can_reopen_period" invisible="1" />
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>

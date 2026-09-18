@@ -106,6 +106,14 @@ class DereDeclaration(models.Model):
     subject_d1121 = fields.Boolean(
         related="company_id.dere_subject_d1121",
     )
+    can_discard_local_closing = fields.Boolean(
+        string="Can discard local closing",
+        compute="_compute_closing_actions",
+    )
+    can_reopen_period = fields.Boolean(
+        string="Can reopen period",
+        compute="_compute_closing_actions",
+    )
 
     _sql_constraints = [
         (
@@ -206,6 +214,17 @@ class DereDeclaration(models.Model):
         self.ensure_one()
         events = self.event_ids.filtered(lambda ev: ev.event_type == event_type)
         return events.sorted("id")[-1:]
+
+    @api.depends("state", "event_ids.event_type", "event_ids.state")
+    def _compute_closing_actions(self):
+        for rec in self:
+            closing = rec._latest_event(EVENT_D1199)
+            rec.can_discard_local_closing = bool(
+                closing and closing.state in ("draft", "generated")
+            )
+            rec.can_reopen_period = rec.state == "closed" and bool(
+                closing and closing.state == "accepted"
+            )
 
     def _can_create_next_event(self, event_type):
         self.ensure_one()
@@ -397,7 +416,8 @@ class DereDeclaration(models.Model):
         for rec in self:
             rec._generate_d1001()
             rec._generate_d1011()
-            rec.state = "tables_ok"
+            if rec.state == "draft":
+                rec.state = "tables_ok"
         return True
 
     def _reset_months(self, freq):
@@ -896,8 +916,28 @@ class DereDeclaration(models.Model):
         vals["id"] = event.event_id_attr or vals["id"]
         event.event_id_attr = vals["id"]
         event._store_xml(xml_builder.build_d1199(vals))
-        self.state = "closed"
+        if self.state == "closed" and event.state in ("draft", "generated"):
+            self.state = "trial_ok"
         return event
+
+    def action_discard_local_closing(self):
+        for rec in self:
+            rec._discard_local_closing()
+        return True
+
+    def _discard_local_closing(self):
+        self.ensure_one()
+        closing = self._latest_event(EVENT_D1199)
+        if not closing:
+            raise UserError(_("There is no local D-1199 to discard."))
+        if closing.state in ("sent", "accepted"):
+            raise UserError(
+                _("An official D-1199 cannot be discarded. Reopen the period.")
+            )
+        closing.unlink()
+        if self.state == "closed":
+            self.state = "trial_ok"
+        return True
 
     def action_mark_reopened(self):
         for rec in self:
@@ -1134,6 +1174,8 @@ class DereDeclaration(models.Model):
                 "state": "accepted" if cd_retorno == "1" else "rejected",
             }
         )
+        if event.event_type == EVENT_D1199 and event.state == "accepted":
+            event.declaration_id.state = "closed"
         if occurrences:
             event.occurrence_ids.unlink()
             self.env["l10n_br_dere.event.occurrence"].create(

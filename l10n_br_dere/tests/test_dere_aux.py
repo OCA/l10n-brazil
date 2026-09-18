@@ -188,7 +188,9 @@ class TestDereAuxiliaryEvents(DereCommon):
             declaration.action_generate_d1199()
         declaration.action_generate_d1106()
         declaration.action_generate_d1199()
-        self.assertEqual(declaration.state, "closed")
+        self.assertEqual(declaration.state, "trial_ok")
+        self.assertTrue(declaration.can_discard_local_closing)
+        self.assertFalse(declaration.can_reopen_period)
 
     def test_d1121_from_inbound_fiscal_document(self):
         self.company.dere_subject_d1121 = True

@@ -92,8 +92,8 @@ class DereEvent(models.Model):
         return super().write(vals)
 
     def unlink(self):
-        if self.filtered(lambda ev: ev.state != "draft"):
-            raise UserError(_("Only draft events can be deleted."))
+        if self.filtered(lambda ev: ev.state not in ("draft", "generated")):
+            raise UserError(_("Only draft or generated events can be deleted."))
         return super().unlink()
 
     @api.depends("event_type", "declaration_id.per_apur")

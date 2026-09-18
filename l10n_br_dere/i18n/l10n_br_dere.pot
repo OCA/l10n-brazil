@@ -1326,7 +1326,7 @@ msgstr ""
 #. module: l10n_br_dere
 #. odoo-python
 #: code:addons/l10n_br_dere/models/dere_event.py:0
-msgid "Only draft events can be deleted."
+msgid "Only draft or generated events can be deleted."
 msgstr ""
 
 #. module: l10n_br_dere

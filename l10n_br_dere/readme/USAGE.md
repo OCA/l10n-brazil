@@ -6,11 +6,15 @@
    until the D-9001 receipt arrives.
    Then generate the trial balance (D-1101) from posted `account.move.line`
    records.
-4. Close the period with D-1199 (`tpOper` inclusion only). Send periodics in a
-   separate batch. Table and periodic events in the same batch are rejected.
-5. To reopen, wait for the D-1199 receipt, then **Reopen Period**. That builds
-   D-1198 (`nrReciboReab`). **Send Periodics** and consult until D-1198 is
-   accepted before generating a new trial balance.
+4. Generate D-1199 with **Close Period** (`tpOper` inclusion only). That only
+   stores the XML; the declaration stays in *Trial balance ready*. Use
+   **Discard Local Closing** to drop a D-1199 that was never sent. Send
+   periodics in a separate batch. Table and periodic events in the same batch
+   are rejected. The declaration becomes *Closed* when the D-1199 return is
+   accepted.
+5. To reopen an officially closed period, wait for the D-1199 receipt, then
+   **Reopen Period**. That builds D-1198 (`nrReciboReab`). **Send Periodics**
+   and consult until D-1198 is accepted before generating a new trial balance.
 
 Receipt (`nrRecibo`) and batch protocol are stored separately on each event.
 Do not regenerate an event that is already sent or accepted unless D-1198
@@ -54,15 +58,18 @@ moves.
    If it is subject to D-1121, **Load Deductions**
    from inbound operations marked as DeRE deductible, then **Generate D-1121**,
    or leave the period without documents so closing sets `indInexistDedu`.
-7. **Close Period** (D-1199). Send periodics one type at a time: D-1101, then
-   D-1106 (if any), then D-1121 (if any), then D-1199. Each auxiliary event
-   needs the previous processing receipt.
+7. **Close Period** generates D-1199 but does not lock the month. Send
+   periodics one type at a time: D-1101, then D-1106 (if any), then D-1121
+   (if any), then D-1199. Each auxiliary event needs the previous processing
+   receipt. If the XML is wrong and still `generated`, **Discard Local
+   Closing** and generate again.
 8. Confirm the company has an A1 certificate. Sending signs the payload;
    the event form still shows the unsigned XML.
 9. **Consult Results** after each send, or wait for the scheduled job
    **DeRE: consult sent batch results**. The POST only returns a protocol;
    acceptance and `nrRecibo` come from the later GET. Processing
-   (`cdResposta` 1) leaves the batch sent so the cron retries.
+   (`cdResposta` 1) leaves the batch sent so the cron retries. A successful
+   D-1199 return sets the declaration to *Closed*.
 10. Do **not** send tables and periodics in the same batch. Do not send D-1011
     before D-1001 is accepted, nor D-1199 before D-1101 has a processing
     receipt.

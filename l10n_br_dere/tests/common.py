@@ -175,12 +175,10 @@ class DereCommon(TransactionCase):
         event = declaration.event_ids.filtered(
             lambda ev: ev.event_type == "D-1199"
         ).sorted("id")[-1:]
-        event.write(
-            {
-                "state": "accepted",
-                "nr_recibo": self._closing_receipt(declaration.per_apur),
-                "cd_retorno": "1",
-            }
+        declaration.apply_return(
+            event,
+            "1",
+            nr_recibo=self._closing_receipt(declaration.per_apur),
         )
         return event
 

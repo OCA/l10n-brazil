@@ -214,6 +214,21 @@ msgid "Close Period"
 msgstr "Encerrar Período"
 
 #. module: l10n_br_dere
+#: model:ir.model.fields,name:l10n_br_dere.field_l10n_br_dere_declaration__can_discard_local_closing
+msgid "Can discard local closing"
+msgstr "Pode desfazer encerramento local"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,name:l10n_br_dere.field_l10n_br_dere_declaration__can_reopen_period
+msgid "Can reopen period"
+msgstr "Pode reabrir o período"
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+msgid "Discard Local Closing"
+msgstr "Desfazer encerramento local"
+
+#. module: l10n_br_dere
 #: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_declaration__state__closed
 msgid "Closed"
 msgstr "Encerrada"
@@ -222,6 +237,18 @@ msgstr "Encerrada"
 #: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_13b
 msgid "Closed complementary pension"
 msgstr "Previdência complementar fechada"
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "An official D-1199 cannot be discarded. Reopen the period."
+msgstr "Um D-1199 oficial não pode ser desfeito. Reabra o período."
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid "There is no local D-1199 to discard."
+msgstr "Não há D-1199 local para desfazer."
 
 #. module: l10n_br_dere
 #. odoo-python
@@ -1332,8 +1359,8 @@ msgstr "Somente um período encerrado pode ser reaberto."
 #. module: l10n_br_dere
 #. odoo-python
 #: code:addons/l10n_br_dere/models/dere_event.py:0
-msgid "Only draft events can be deleted."
-msgstr "Somente eventos em rascunho podem ser excluídos."
+msgid "Only draft or generated events can be deleted."
+msgstr "Somente eventos em rascunho ou gerados podem ser excluídos."
 
 #. module: l10n_br_dere
 #. odoo-python

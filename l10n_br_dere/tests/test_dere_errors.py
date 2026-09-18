@@ -97,9 +97,13 @@ class TestDereErrors(DereCommon):
             }
         )
         declaration.action_generate_d1199()
+        self.assertEqual(declaration.state, "trial_ok")
         with self.assertRaises(UserError):
             declaration.action_mark_reopened()
         self._accept_closing(declaration)
+        self.assertEqual(declaration.state, "closed")
+        self.assertTrue(declaration.can_reopen_period)
+        self.assertFalse(declaration.can_discard_local_closing)
         declaration.action_mark_reopened()
         self.assertEqual(declaration.state, "reopened")
         event = declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1198")
@@ -126,6 +130,8 @@ class TestDereErrors(DereCommon):
             declaration.write({"per_apur": "2026-06"})
         declaration.action_generate_d1101()
         declaration.action_generate_d1199()
+        self.assertEqual(declaration.state, "trial_ok")
+        self._accept_closing(declaration)
         self.assertEqual(declaration.state, "closed")
         with self.assertRaises(UserError):
             declaration.write({"company_id": declaration.company_id.id})
@@ -147,6 +153,62 @@ class TestDereErrors(DereCommon):
             event.write({"tp_oper": "2"})
         with self.assertRaises(UserError):
             event.unlink()
+
+    def test_generated_event_can_be_deleted(self):
+        declaration = self._create_declaration("2026-05")
+        declaration.action_generate_d1001()
+        event = declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1001")
+        self.assertEqual(event.state, "generated")
+        event.unlink()
+        self.assertFalse(
+            declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1001")
+        )
+
+    def test_discard_local_closing_unlocks_generated_d1199(self):
+        declaration = self._create_declaration("2026-07")
+        declaration.action_generate_tables()
+        self._post_entry("2026-07-10", self.receivable, self.fee_account, 10.0)
+        declaration.action_generate_d1101()
+        declaration.action_generate_d1199()
+        self.assertEqual(declaration.state, "trial_ok")
+        declaration.action_discard_local_closing()
+        self.assertFalse(
+            declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1199")
+        )
+        self.assertEqual(declaration.state, "trial_ok")
+        self.assertFalse(declaration.can_discard_local_closing)
+        declaration.action_generate_d1199()
+        self.assertTrue(
+            declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1199")
+        )
+
+    def test_discard_local_closing_heals_stale_closed_state(self):
+        declaration = self._create_declaration("2026-08")
+        declaration.action_generate_tables()
+        self._post_entry("2026-08-10", self.receivable, self.fee_account, 10.0)
+        declaration.action_generate_d1101()
+        declaration.action_generate_d1199()
+        declaration.write({"state": "closed"})
+        self.assertTrue(declaration.can_discard_local_closing)
+        self.assertFalse(declaration.can_reopen_period)
+        with self.assertRaises(UserError):
+            declaration.action_mark_reopened()
+        declaration.action_discard_local_closing()
+        self.assertEqual(declaration.state, "trial_ok")
+        self.assertFalse(
+            declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1199")
+        )
+
+    def test_discard_official_d1199_is_blocked(self):
+        declaration = self._create_declaration("2026-09")
+        declaration.action_generate_tables()
+        self._post_entry("2026-09-10", self.receivable, self.fee_account, 10.0)
+        declaration.action_generate_d1101()
+        declaration.action_generate_d1199()
+        self._accept_closing(declaration)
+        with self.assertRaises(UserError):
+            declaration.action_discard_local_closing()
+        self.assertEqual(declaration.state, "closed")
 
     def test_send_without_events_or_token_error(self):
         declaration = self._create_declaration("2026-01")
