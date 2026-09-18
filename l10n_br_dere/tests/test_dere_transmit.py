@@ -5,6 +5,7 @@ from unittest.mock import Mock, patch
 
 from odoo.exceptions import UserError
 from odoo.tests import tagged
+from odoo.tools import mute_logger
 
 from odoo.addons.l10n_br_dere.models import xml_builder
 
@@ -171,6 +172,7 @@ class TestDereTransmit(DereCommon):
         self.assertEqual(event.state, "accepted")
         self.assertEqual(declaration.batch_ids.state, "done")
 
+    @mute_logger("odoo.addons.l10n_br_dere.models.dere_declaration")
     def test_send_survives_a_failing_consult(self):
         declaration = self._create_declaration()
         declaration.action_generate_tables()

@@ -1356,7 +1356,12 @@ class DereDeclaration(models.Model):
         try:
             batch._consult(raise_error=False)
         except Exception:
-            _logger.exception("DeRE consult after send failed for batch %s", batch.id)
+            # The batch is already transmitted, so a failed query is not fatal.
+            _logger.warning(
+                "DeRE consult after send failed for batch %s",
+                batch.id,
+                exc_info=True,
+            )
         return batch
 
     def action_consult_results(self):
