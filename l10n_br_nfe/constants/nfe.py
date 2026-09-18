@@ -13,6 +13,18 @@ DANFE_INVOICE_DISPLAY = [
 
 DANFE_INVOICE_DISPLAY_DEFAULT = "full_details"
 
+DANFE_RECEIPT_POSITIONS = [("top", "Top"), ("bottom", "Bottom")]
+
+DANFE_RECEIPT_POSITION_DEFAULT = "top"
+
+DANFE_FONT_TYPES = [("times", "Times"), ("courier", "Courier")]
+
+DANFE_FONT_TYPE_DEFAULT = "times"
+
+DANFE_FONT_SIZES = [("small", "Small"), ("big", "Big")]
+
+DANFE_FONT_SIZE_DEFAULT = "small"
+
 NFE_ENVIRONMENTS = [("1", "Produção"), ("2", "Homologação")]
 
 

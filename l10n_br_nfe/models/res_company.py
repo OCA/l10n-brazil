@@ -7,8 +7,6 @@ from odoo import api, fields
 from odoo.addons.spec_driven_model.models import spec_models
 
 from ..constants.nfe import (
-    DANFE_INVOICE_DISPLAY,
-    DANFE_INVOICE_DISPLAY_DEFAULT,
     NFCE_DANFE_LAYOUT_DEFAULT,
     NFCE_DANFE_LAYOUTS,
     NFE_DANFE_LAYOUT_DEFAULT,
@@ -164,31 +162,14 @@ class ResCompany(spec_models.SpecModel):
         "fornecido pela SEFAZ para a NFC-e",
     )
 
-    danfe_invoice_display = fields.Selection(
-        selection=DANFE_INVOICE_DISPLAY,
-        default=DANFE_INVOICE_DISPLAY_DEFAULT,
-        help="Choose to generate a full or incomplete invoice frame in the DANFE.",
-    )
-
-    danfe_display_pis_cofins = fields.Boolean(
-        default=False,
-        help="Select whether PIS and COFINS should be displayed in DANFE.",
-    )
-
-    danfe_margin_top = fields.Integer(
-        default=5, help="Top margin in mm for the DANFE layout."
-    )
-
-    danfe_margin_right = fields.Integer(
-        default=5, help="Right margin in mm for the DANFE layout."
-    )
-
-    danfe_margin_bottom = fields.Integer(
-        default=5, help="Bottom margin in mm for the DANFE layout."
-    )
-
-    danfe_margin_left = fields.Integer(
-        default=5, help="Left margin in mm for the DANFE layout."
+    danfe_profile_id = fields.Many2one(
+        comodel_name="l10n_br_nfe.danfe.profile",
+        string="DANFE Profile",
+        default=lambda self: self.env.ref(
+            "l10n_br_nfe.danfe_profile_default", raise_if_not_found=False
+        ),
+        help="Printing options of the DANFE. When empty, the DANFE is printed "
+        "with the default options.",
     )
 
     def _compute_nfe_data(self):
