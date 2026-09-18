@@ -440,8 +440,10 @@ DeRE.</p>
 <ol class="arabic simple">
 <li>Create a monthly declaration (<tt class="docutils literal">perApur</tt> = <tt class="docutils literal"><span class="pre">YYYY-MM</span></tt>).</li>
 <li>Generate table events: D-1001 then D-1011. The stored XML stays
-unsigned. Sending signs each event (XML-DSig RSA-SHA256) and posts
-one type per batch.</li>
+unsigned and is checked against the official XSD (a placeholder
+<tt class="docutils literal">ds:Signature</tt> is attached only for that check). Sending signs each
+event (XML-DSig RSA-SHA256), validates the signed event and the lote,
+then posts one type per batch.</li>
 <li>After sending, use <strong>Consult Results</strong> or wait for the two-minute
 cron until the D-9001 receipt arrives. Then generate the trial
 balance (D-1101) from posted <tt class="docutils literal">account.move.line</tt> records.</li>
@@ -493,11 +495,10 @@ amount.</li>
 </li>
 <li>Open each event form and check the XML: dates use <tt class="docutils literal"><span class="pre">YYYY-MM-DD</span></tt>;
 <tt class="docutils literal">perApur</tt> uses <tt class="docutils literal"><span class="pre">YYYY-MM</span></tt>. Table <tt class="docutils literal">id</tt> is 42 alphanumeric
-characters. D-1101 / D-1106 / D-1121 / D-1198 / D-1199 <tt class="docutils literal">id</tt>
-follows <tt class="docutils literal">DeRE</tt> + event code + environment<ul>
-<li>CNPJ + 19 digits.</li>
-</ul>
-</li>
+characters and starts with a letter (lote <tt class="docutils literal">xs:ID</tt>). D-1101 /
+D-1106 / D-1121 / D-1198 / D-1199 <tt class="docutils literal">id</tt> follows <tt class="docutils literal">DeRE</tt> + event
+code + environment + CNPJ + 19 digits. Generation already rejects
+XML that fails the official XSD.</li>
 <li>If the company is subject to D-1106, <strong>Generate D-1106</strong> before
 closing. Register technical-reserve assets under Fiscal
 configuration, or the event is sent with <tt class="docutils literal">semAplic=1</tt>. With
@@ -539,7 +540,8 @@ deductions (<tt class="docutils literal">infoImovel</tt>) are not generated yet.
 <ul class="simple">
 <li>Keep <tt class="docutils literal">xml_builder</tt> until a xsdata binding exists for DeRE (same role
 nfelib plays for NF-e / CT-e / MDF-e). Do not introduce
-<tt class="docutils literal">spec_driven_model.StackedModel</tt> before that binding.</li>
+<tt class="docutils literal">spec_driven_model.StackedModel</tt> before that binding. Generated and
+signed XML is already validated against the official 1.2.0 XSD.</li>
 <li>Do not inherit event mixins (D-1001 / D-1011 / D-1101 / D-1199) on
 <tt class="docutils literal">l10n_br_dere.declaration</tt> or <tt class="docutils literal">l10n_br_dere.event</tt>: those
 abstracts share <tt class="docutils literal">dere12_id</tt> and <tt class="docutils literal">dere12_tpOper</tt>.</li>

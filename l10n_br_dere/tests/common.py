@@ -8,6 +8,8 @@ from erpbrasil.assinatura import misc
 from odoo import Command
 from odoo.tests import TransactionCase
 
+from odoo.addons.l10n_br_dere.constants import DEFAULT_VER_APLIC
+
 
 class DereCommon(TransactionCase):
     @classmethod
@@ -29,6 +31,7 @@ class DereCommon(TransactionCase):
                 "dere_freq_encerr": "M",
                 "dere_tp_amb": "2",
                 "dere_activity_ids": [Command.set(cls.activity_admin.ids)],
+                "dere_ver_aplic": DEFAULT_VER_APLIC,
                 "dere_client_id": "demo-client",
                 "dere_client_secret": "demo-secret",
             }

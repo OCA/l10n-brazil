@@ -1,6 +1,7 @@
 - Keep `xml_builder` until a xsdata binding exists for DeRE (same role nfelib
   plays for NF-e / CT-e / MDF-e). Do not introduce
-  `spec_driven_model.StackedModel` before that binding.
+  `spec_driven_model.StackedModel` before that binding. Generated and signed
+  XML is already validated against the official 1.2.0 XSD.
 - Do not inherit event mixins (D-1001 / D-1011 / D-1101 / D-1199) on
   `l10n_br_dere.declaration` or `l10n_br_dere.event`: those abstracts share
   `dere12_id` and `dere12_tpOper`.

@@ -10,6 +10,7 @@ from datetime import datetime, timezone
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
+from odoo.addons.l10n_br_dere_spec.models import xsd_validator
 from odoo.addons.l10n_br_dere_spec.models.v1_2.types import (
     APLIC_EMI,
     CD_RETORNO,
@@ -108,7 +109,8 @@ class DereEvent(models.Model):
             company = company or self.company_id
             tp_amb = tp_amb or self.tp_amb
         if event_type not in STRUCTURED_EVENT_ID:
-            return uuid.uuid4().hex[:42].ljust(42, "0")
+            # loteEventos/@id is xs:ID, so the value must start with a letter.
+            return ("A" + uuid.uuid4().hex)[:42].ljust(42, "0")
         code = event_type.replace("D-", "")
         environment = str(tp_amb or (company.dere_tp_amb if company else "2") or "2")
         if environment not in ("1", "2"):
@@ -122,8 +124,27 @@ class DereEvent(models.Model):
         )
         return f"DeRE{code}{environment}{cnpj}{seq}"
 
+    def _format_xsd_errors(self, errors):
+        return "\n".join(errors[:8])
+
+    def _assert_valid_xml(self, xml, signed=False):
+        self.ensure_one()
+        if self.event_type not in xsd_validator.EVENT_SCHEMA:
+            return True
+        errors = xsd_validator.validate(xml, self.event_type, signed=signed)
+        if errors:
+            raise UserError(
+                _("DeRE %(event)s XML failed official XSD validation:\n%(errors)s")
+                % {
+                    "event": self.event_type,
+                    "errors": self._format_xsd_errors(errors),
+                }
+            )
+        return True
+
     def _store_xml(self, xml):
         self.ensure_one()
+        self._assert_valid_xml(xml, signed=False)
         digest = hashlib.sha256(xml.encode("utf-8")).hexdigest()
         self.write(
             {

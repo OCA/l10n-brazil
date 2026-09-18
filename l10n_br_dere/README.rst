@@ -95,8 +95,10 @@ Usage
 
 1. Create a monthly declaration (``perApur`` = ``YYYY-MM``).
 2. Generate table events: D-1001 then D-1011. The stored XML stays
-   unsigned. Sending signs each event (XML-DSig RSA-SHA256) and posts
-   one type per batch.
+   unsigned and is checked against the official XSD (a placeholder
+   ``ds:Signature`` is attached only for that check). Sending signs each
+   event (XML-DSig RSA-SHA256), validates the signed event and the lote,
+   then posts one type per batch.
 3. After sending, use **Consult Results** or wait for the two-minute
    cron until the D-9001 receipt arrives. Then generate the trial
    balance (D-1101) from posted ``account.move.line`` records.
@@ -150,11 +152,10 @@ typed: it is rebuilt from those moves.
 
 5.  Open each event form and check the XML: dates use ``YYYY-MM-DD``;
     ``perApur`` uses ``YYYY-MM``. Table ``id`` is 42 alphanumeric
-    characters. D-1101 / D-1106 / D-1121 / D-1198 / D-1199 ``id``
-    follows ``DeRE`` + event code + environment
-
-    - CNPJ + 19 digits.
-
+    characters and starts with a letter (lote ``xs:ID``). D-1101 /
+    D-1106 / D-1121 / D-1198 / D-1199 ``id`` follows ``DeRE`` + event
+    code + environment + CNPJ + 19 digits. Generation already rejects
+    XML that fails the official XSD.
 6.  If the company is subject to D-1106, **Generate D-1106** before
     closing. Register technical-reserve assets under Fiscal
     configuration, or the event is sent with ``semAplic=1``. With
@@ -195,7 +196,8 @@ Known issues / Roadmap
 
 - Keep ``xml_builder`` until a xsdata binding exists for DeRE (same role
   nfelib plays for NF-e / CT-e / MDF-e). Do not introduce
-  ``spec_driven_model.StackedModel`` before that binding.
+  ``spec_driven_model.StackedModel`` before that binding. Generated and
+  signed XML is already validated against the official 1.2.0 XSD.
 - Do not inherit event mixins (D-1001 / D-1011 / D-1101 / D-1199) on
   ``l10n_br_dere.declaration`` or ``l10n_br_dere.event``: those
   abstracts share ``dere12_id`` and ``dere12_tpOper``.

@@ -12,6 +12,7 @@ from lxml import etree
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
+from odoo.addons.l10n_br_dere_spec.models import xsd_validator
 from odoo.addons.l10n_br_dere_spec.models.v1_2.types import (
     FREQ_ENCERR,
     PLANO_CTA_REF,
@@ -1083,18 +1084,20 @@ class DereDeclaration(models.Model):
             raise UserError(_("There is no generated event to send."))
         self._assert_send_order(events.mapped("event_type"))
         certificado = self._get_dere_certificate()
-        xml = xml_builder.build_lote(
-            self.company_id._dere_cnpj_root(),
-            [
-                {
-                    "id": ev.event_id_attr,
-                    "xml": xml_builder.sign_event(
-                        ev.xml_content, certificado, ev.event_id_attr
-                    ),
-                }
-                for ev in events
-            ],
-        )
+        signed_events = []
+        for ev in events:
+            signed_xml = xml_builder.sign_event(
+                ev.xml_content, certificado, ev.event_id_attr
+            )
+            ev._assert_valid_xml(signed_xml, signed=True)
+            signed_events.append({"id": ev.event_id_attr, "xml": signed_xml})
+        xml = xml_builder.build_lote(self.company_id._dere_cnpj_root(), signed_events)
+        lote_errors = xsd_validator.validate_lote(xml)
+        if lote_errors:
+            raise UserError(
+                _("DeRE batch XML failed official XSD validation:\n%s")
+                % "\n".join(lote_errors[:8])
+            )
         batch = self.env["l10n_br_dere.batch"].create(
             {
                 "name": f"{self.per_apur} {', '.join(events.mapped('event_type'))}",
