@@ -1297,6 +1297,40 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         readonly=False,
     )
 
+    # cLocPrestacao. The city where the service was PERFORMED, which is not
+    # the city of the ISSQN taxable event: under article 3 of LC 116 the tax is
+    # due at the provider's establishment, and the service may be performed
+    # anywhere. The national NFS-e asks for both, and the national environment
+    # derives the incidence from what is sent here.
+    #
+    # It is a field of its own because `issqn_fg_city_id` already feeds cMunFG
+    # on the NF-e, which is the taxable event. One field cannot serve both when
+    # they differ, and differing is the common case for whoever provides a
+    # service at the customer's plant.
+    issqn_service_city_id = fields.Many2one(
+        comodel_name="res.city",
+        compute="_compute_issqn_service_city_id",
+        string="Service City",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
+
+    @api.depends("partner_id.city_id", "issqn_fg_city_id", "tax_icms_or_issqn")
+    def _compute_issqn_service_city_id(self):
+        """A service tends to be performed in the taker's city.
+
+        Only for a service line: goods have no place of performance. Anywhere
+        else it falls back to the city of the taxable event, which is the old
+        behavior. The field stays editable, because whoever performed the
+        service is the one who knows where.
+        """
+        for line in self:
+            city = False
+            if line.tax_icms_or_issqn == "issqn" and line.partner_id.city_id:
+                city = line.partner_id.city_id
+            line.issqn_service_city_id = city or line.issqn_fg_city_id
+
     # vDeducao
     issqn_deduction_amount = fields.Monetary(string="ISSQN Deduction Value")
 
