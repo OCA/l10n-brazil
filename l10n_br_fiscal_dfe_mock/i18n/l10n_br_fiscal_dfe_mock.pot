@@ -264,9 +264,13 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
-#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__xml_content
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_form
 msgid "XML Content"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__xml_content
+msgid "Xml Content"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
