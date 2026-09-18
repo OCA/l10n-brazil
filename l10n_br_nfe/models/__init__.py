@@ -3,6 +3,7 @@
 from . import uom
 from . import res_country_state
 from . import res_partner
+from . import danfe_profile
 from . import res_company
 from . import product_product
 from . import product_supplierinfo
