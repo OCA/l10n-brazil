@@ -1,7 +1,9 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 from datetime import datetime
 from unittest import mock
+
 import odoo
+
 from odoo.addons.l10n_br_fiscal.models.document import Document
 from odoo.addons.l10n_br_nfe.models.document import NFe
 
@@ -10,7 +12,6 @@ from .common import TestNFCePosOrderCommon
 
 @odoo.tests.tagged("post_install", "-at_install")
 class TestNFCePosOrder(TestNFCePosOrderCommon):
-
     def test_nfce_order_creation(self):
         self.env = self.env(user=self.env.ref("base.user_admin"))
         self.env.user.company_ids = [(4, self.company.id)]
@@ -22,7 +23,7 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
 
         order_data = self.create_ui_order_data(
             [(self.product1, 5)],
-            payments=[(self.cash_pm, 50)],
+            payments=[(self.cash_pm1, 50)],
             customer=self.customer,
         )
 
@@ -33,18 +34,12 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
         contingency_order_data["data"]["authorization_protocol"] = False
         contingency_order_data["data"]["document_key"] = "dummy"
         contingency_order_data["data"]["document_number"] = 1000
-        contingency_order_data["data"]["company_id"] = (
-            self.env.user.company_id.id
-        )
+        contingency_order_data["data"]["company_id"] = self.env.user.company_id.id
         contingency_order_data["data"]["to_invoice"] = True
 
-        res = self.env["pos.order"].create_from_ui(
-            [contingency_order_data]
-        )
+        res = self.env["pos.order"].create_from_ui([contingency_order_data])
 
-        contingency_order = self.env["pos.order"].browse(
-            res[0].get("id")
-        )
+        contingency_order = self.env["pos.order"].browse(res[0].get("id"))
 
         self.assertTrue(contingency_order.is_contingency)
         self.assertEqual(contingency_order.document_number, "1000")
@@ -61,9 +56,7 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
 
         res = self.env["pos.order"].create_from_ui([order_data])
 
-        cnpj_order = self.env["pos.order"].browse(
-            res[0].get("id")
-        )
+        cnpj_order = self.env["pos.order"].browse(res[0].get("id"))
 
         self.assertFalse(cnpj_order.partner_id.cnpj_cpf)
         self.assertEqual(cnpj_order.document_number, "1000")
@@ -78,9 +71,7 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
         with mock.patch.object(Document, "action_document_confirm"):
             res = self.env["pos.order"].create_from_ui([order_data])
 
-        cpf_order = self.env["pos.order"].browse(
-            res[0].get("id")
-        )
+        cpf_order = self.env["pos.order"].browse(res[0].get("id"))
 
         self.assertFalse(cpf_order.partner_id.cnpj_cpf)
 
@@ -91,9 +82,7 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
 
         self.assertEqual(vals, {})
 
-        document = self.env.ref(
-            "l10n_br_nfe.demo_nfce_same_state"
-        )
+        document = self.env.ref("l10n_br_nfe.demo_nfce_same_state")
 
         cpf_order.account_move.fiscal_document_id = document
         document.authorization_date = datetime.now()
@@ -123,7 +112,7 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
 
         order_data = self.create_ui_order_data(
             [(self.product1, 5)],
-            payments=[(self.cash_pm, 50)],
+            payments=[(self.cash_pm1, 50)],
             customer=self.customer,
         )
 
@@ -131,9 +120,7 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
 
         res = self.env["pos.order"].create_from_ui([order_data])
 
-        pos_order = self.env["pos.order"].browse(
-            res[0].get("id")
-        )
+        pos_order = self.env["pos.order"].browse(res[0].get("id"))
 
         document = pos_order.account_move.fiscal_document_id
 
@@ -171,7 +158,7 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
 
         order_data = self.create_ui_order_data(
             [(self.product1, 5)],
-            payments=[(self.cash_pm, 50)],
+            payments=[(self.cash_pm1, 50)],
             customer=self.customer,
         )
 
@@ -179,9 +166,7 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
 
         res = self.env["pos.order"].create_from_ui([order_data])
 
-        pos_order = self.env["pos.order"].browse(
-            res[0].get("id")
-        )
+        pos_order = self.env["pos.order"].browse(res[0].get("id"))
 
         document = pos_order.account_move.fiscal_document_id
 
@@ -193,9 +178,7 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
 
         nfe = edocs[0]
 
-        self.assertFalse(
-            hasattr(nfe.infNFe.dest, "enderDest")
-        )
+        self.assertFalse(hasattr(nfe.infNFe.dest, "enderDest"))
 
     def test_nfce_serialize_homologation_product_description(self):
         self.env = self.env(user=self.env.ref("base.user_admin"))
@@ -206,7 +189,7 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
 
         order_data = self.create_ui_order_data(
             [(self.product1, 5)],
-            payments=[(self.cash_pm, 50)],
+            payments=[(self.cash_pm1, 50)],
             customer=self.customer,
         )
 
@@ -214,9 +197,7 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
 
         res = self.env["pos.order"].create_from_ui([order_data])
 
-        pos_order = self.env["pos.order"].browse(
-            res[0].get("id")
-        )
+        pos_order = self.env["pos.order"].browse(res[0].get("id"))
 
         document = pos_order.account_move.fiscal_document_id
 
@@ -234,10 +215,7 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
 
         self.assertEqual(
             nfe.infNFe.det[0].prod.xProd,
-            (
-                "NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO "
-                "- SEM VALOR FISCAL"
-            ),
+            ("NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO " "- SEM VALOR FISCAL"),
         )
 
     def test_cancel_nfce_from_ui(self):
@@ -249,7 +227,7 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
 
         order_data = self.create_ui_order_data(
             [(self.product1, 5)],
-            payments=[(self.cash_pm, 50)],
+            payments=[(self.cash_pm1, 50)],
             customer=self.customer,
         )
 
@@ -257,9 +235,7 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
 
         res = self.env["pos.order"].create_from_ui([order_data])
 
-        order = self.env["pos.order"].browse(
-            res[0].get("id")
-        )
+        order = self.env["pos.order"].browse(res[0].get("id"))
 
         self.env["pos.order"].cancel_nfce_from_ui(
             order.pos_reference,
@@ -284,38 +260,37 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
         self.env.user.company_ids = [(4, self.company.id)]
         self.env.user.company_id = self.company
 
-        def_next_number = self.config._default_next_number()
+        serie = self.env.ref("l10n_br_pos_nfce.document_65_serie_2")
 
-        self.assertEqual(def_next_number, 1)
-
-        serie_id = self.env.ref(
-            "l10n_br_pos_nfce.document_65_serie_2"
-        )
-
-        serie_id.internal_sequence_id = self.env[
-            "ir.sequence"
-        ].create(
+        serie.internal_sequence_id = self.env["ir.sequence"].create(
             {
                 "name": "NFCe SERIE",
                 "code": "l10n_br_fiscal.document.serie",
                 "prefix": "SERIE",
+                "number_next": 1,
             }
         )
 
-        self.config.nfce_document_serie_id = serie_id
-
-        def_next_number = self.config._default_next_number()
+        self.config.nfce_document_serie_id = serie
 
         self.assertEqual(
-            def_next_number,
-            serie_id.internal_sequence_id.number_next_actual,
+            self.config.nfce_document_serie_id,
+            serie,
         )
 
-        new_number = self.config.update_nfce_serie_number(2000)
+        self.assertEqual(
+            self.config.nfce_document_serie_id.sequence_number_next,
+            1,
+        )
 
-        self.assertEqual(new_number, 2000)
+        new_number = serie.next_seq_number()
 
-        new_number = self.config.update_nfce_serie_number(500)
+        self.assertEqual(
+            new_number,
+            "SERIE1",
+        )
 
-        self.assertEqual(new_number, 2000)
-
+        self.assertEqual(
+            serie.sequence_number_next,
+            2,
+        )

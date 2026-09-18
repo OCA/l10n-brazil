@@ -72,17 +72,12 @@ export class ChaveEdoc {
                     numeroDocumento
                 )
             ) {
-                throw new Error(
-                    "ChaveEdoc: Parâmetros insuficientes para gerar chave"
-                );
+                throw new Error("ChaveEdoc: Parâmetros insuficientes para gerar chave");
             }
 
             let campos = codigoUF.toString().padStart(2, "0");
             campos += anoMes.toString();
-            campos += cnpjCpfEmitente
-                .toString()
-                .replace(/^\d]/g, "")
-                .padStart(14, "0");
+            campos += cnpjCpfEmitente.toString().replace(/^\d]/g, "").padStart(14, "0");
             campos += modeloDocumento.toString().padStart(2, "0");
             campos += numeroSerie.toString().padStart(3, "0");
             campos += numeroDocumento.toString().padStart(9, "0");
@@ -96,10 +91,7 @@ export class ChaveEdoc {
             campos += aleatorio.toString().padStart(8, "0");
             campos += modulo11(campos).toString();
 
-            this.modeloDocumento = parseInt(
-                campos.substring(...ChaveEdoc.MODELO),
-                10
-            );
+            this.modeloDocumento = parseInt(campos.substring(...ChaveEdoc.MODELO), 10);
             this.prefixo = EDOC_PREFIXO[this.modeloDocumento] || "";
             this.chaveGerada = campos;
 

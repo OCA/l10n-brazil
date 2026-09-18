@@ -155,9 +155,9 @@
                     <div>
                         <t t-if="document_qrcode">
                                 <img
-                                    t-att-src="'/report/barcode/?barcode_type=QR&amp;value=%s&amp;width=150&amp;height=150' % document_qrcode"
-                                    style="width: 120px; height: 120px;"
-                                />
+                                t-att-src="'/report/barcode/?barcode_type=QR&amp;value=%s&amp;width=150&amp;height=150' % document_qrcode"
+                                style="width: 120px; height: 120px;"
+                            />
                             </t>
                     </div>
                 </div>

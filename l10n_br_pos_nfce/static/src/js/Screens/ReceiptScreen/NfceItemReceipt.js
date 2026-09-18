@@ -13,8 +13,7 @@ class NfceItemReceipt extends PosComponent {
     get id() {
         const lineCollections = this.env.pos.get_order().get_orderlines();
 
-        const index =
-            lineCollections.findIndex((line) => line.id === this.line.id) + 1;
+        const index = lineCollections.findIndex((line) => line.id === this.line.id) + 1;
 
         if (index < 100) {
             return String(index).padStart(3, "0");

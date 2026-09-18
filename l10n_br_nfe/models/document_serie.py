@@ -1,7 +1,8 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, api, fields, models
 from erpbrasil.base.misc import punctuation_rm
+
+from odoo import models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFCE,
@@ -9,7 +10,6 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     PROCESSADOR_OCA,
 )
 
-from nfelib.nfe.bindings.v4_0.nfe_v4_00 import Nfe
 
 def filter_processador_edoc_nfe(record):
     if record.processador_edoc == PROCESSADOR_OCA and record.document_type_id.code in [
@@ -18,6 +18,7 @@ def filter_processador_edoc_nfe(record):
     ]:
         return True
     return False
+
 
 class Document(models.Model):
     _inherit = "l10n_br_fiscal.document"
@@ -38,18 +39,16 @@ class Document(models.Model):
             return self._setup_no_dest(field_name, xsd_required, class_obj)
 
         return super()._export_many2one(field_name, xsd_required, class_obj)
-    
+
     def _setup_minimal_dest(self, field_name, xsd_required, class_obj):
         """
         Minimal setup dest  for cases with VAT specification
-        commonly known as 'CPF na nota'. 
-        """  
-        res = super(Document, self)._export_many2one(
-            field_name,
-            xsd_required,
-            class_obj
-        )
-        if (self.partner_cnpj_cpf and len(self.partner_cnpj_cpf) <= 11) or (self.partner_id.vat and len(punctuation_rm(self.partner_id.vat)) <= 11):
+        commonly known as 'CPF na nota'.
+        """
+        res = super()._export_many2one(field_name, xsd_required, class_obj)
+        if (self.partner_cnpj_cpf and len(self.partner_cnpj_cpf) <= 11) or (
+            self.partner_id.vat and len(punctuation_rm(self.partner_id.vat)) <= 11
+        ):
             # CPF
             res.CPF = self.partner_cnpj_cpf or punctuation_rm(self.partner_id.vat)
             res.CNPJ = None
@@ -96,9 +95,7 @@ class Document(models.Model):
             inf_nfe_supl = None
 
             if record.nfe40_infNFeSupl:
-                inf_nfe_supl = record.nfe40_infNFeSupl._build_binding(
-                    "nfe", "40"
-                )
+                inf_nfe_supl = record.nfe40_infNFeSupl._build_binding("nfe", "40")
 
             if record.document_type == MODELO_FISCAL_NFCE:
                 if hasattr(inf_nfe.dest, "enderDest"):
@@ -106,7 +103,6 @@ class Document(models.Model):
 
             for nfe in edocs:
                 if nfe.infNFe.ide.nNF == inf_nfe.ide.nNF:
-
                     nfe.infNFe = inf_nfe
                     nfe.infNFeSupl = inf_nfe_supl
 
@@ -124,16 +120,16 @@ class Document(models.Model):
                     break
 
         return edocs
-    
+
     def _prepare_nfce_send(self):
         self.ensure_one()
-        #self._prepare_payments_for_nfce()
-        #self.nfe40_infNFeSupl = self.env["l10n_br_fiscal.document.supplement"].create(
+        # self._prepare_payments_for_nfce()
+        # self.nfe40_infNFeSupl = self.env["l10n_br_fiscal.document.supplement"].create(
         #    {
         #        "nfe40_qrCode": self.get_nfce_qrcode(),
         #        "nfe40_urlChave": self.get_nfce_qrcode_url(),
         #    }
-        #)
+        # )
         self.nfe40_detPag.filtered(lambda p: p.nfe40_tPag == "99").write(
             {"nfe40_xPag": "Outros"}
         )

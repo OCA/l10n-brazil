@@ -7,16 +7,16 @@ from odoo import api, models
 class ProductProduct(models.Model):
     _inherit = "product.product"
 
-    @api.depends_context("company") #patch feito para fazer o mapa fiscal, chamo esse metodo em l10n_br_pos_nfce/models/pos_order.py para mapear corretamente os impostos (necessario para odoo16)
+    @api.depends_context(
+        "company"
+    )  # patch feito para fazer o mapa fiscal, chamo esse metodo em l10n_br_pos_nfce/models/pos_order.py para mapear corretamente os impostos (necessario para odoo16)
     def update_pos_fiscal_map(self):
         for record in self:
-            pos_config_ids = self.env["pos.config"].search([
-                ("company_id", "=", self.env.company.id)
-            ])
-
-            with_maps_pos_config_id = record.pos_fiscal_map_ids.mapped(
-                "pos_config_id"
+            pos_config_ids = self.env["pos.config"].search(
+                [("company_id", "=", self.env.company.id)]
             )
+
+            with_maps_pos_config_id = record.pos_fiscal_map_ids.mapped("pos_config_id")
 
             to_create_ids = pos_config_ids - with_maps_pos_config_id
 
@@ -24,12 +24,13 @@ class ProductProduct(models.Model):
                 if not pos_config_id.partner_id:
                     continue
 
-                pos_fiscal_map_id = record.pos_fiscal_map_ids.create({
-                    "pos_config_id": pos_config_id.id,
-                    "product_tmpl_id": record.product_tmpl_id.id,
-                    "partner_id": pos_config_id.partner_id.id,
-                    "company_id": self.env.company.id,
-                })
+                pos_fiscal_map_id = record.pos_fiscal_map_ids.create(
+                    {
+                        "pos_config_id": pos_config_id.id,
+                        "product_tmpl_id": record.product_tmpl_id.id,
+                        "partner_id": pos_config_id.partner_id.id,
+                        "company_id": self.env.company.id,
+                    }
+                )
 
                 pos_fiscal_map_id._onchange_fiscal_taxes()
-

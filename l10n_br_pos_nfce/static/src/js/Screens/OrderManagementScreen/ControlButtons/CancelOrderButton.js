@@ -6,14 +6,9 @@ import Registries from "point_of_sale.Registries";
 const L10nBrPosNFCeTicketScreen = (OriginalTicketScreen) =>
     class extends OriginalTicketScreen {
         async _show_edit_reason_popup() {
-            const { confirmed, payload } = await this.showPopup(
-                "TextInputPopup",
-                {
-                    title: this.env._t(
-                        "Enter reason for cancellation!"
-                    ),
-                }
-            );
+            const {confirmed, payload} = await this.showPopup("TextInputPopup", {
+                title: this.env._t("Enter reason for cancellation!"),
+            });
 
             if (confirmed) {
                 return {
@@ -48,27 +43,20 @@ const L10nBrPosNFCeTicketScreen = (OriginalTicketScreen) =>
                 },
             ];
 
-            const { confirmed, payload } = await this.showPopup(
-                "SelectionPopup",
-                {
-                    title: this.env._t(
-                        "Reason for Cancellation?"
-                    ),
-                    list: selectionList,
-                }
-            );
+            const {confirmed, payload} = await this.showPopup("SelectionPopup", {
+                title: this.env._t("Reason for Cancellation?"),
+                list: selectionList,
+            });
 
             if (!confirmed) {
                 return false;
             }
 
             if (payload.id === 999999) {
-                cancel_reason =
-                    await this._show_edit_reason_popup();
+                cancel_reason = await this._show_edit_reason_popup();
 
                 if (!cancel_reason) {
-                    cancel_reason =
-                        await this._show_selection_popup();
+                    cancel_reason = await this._show_selection_popup();
                 }
             } else {
                 cancel_reason = payload;
@@ -77,13 +65,9 @@ const L10nBrPosNFCeTicketScreen = (OriginalTicketScreen) =>
             return cancel_reason;
         }
 
-        async _onDeleteOrder({ detail: order }) {
-            if (
-                order &&
-                order.document_type === "65"
-            ) {
-                const cancelReason =
-                    await this._show_selection_popup();
+        async _onDeleteOrder({detail: order}) {
+            if (order && order.document_type === "65") {
+                const cancelReason = await this._show_selection_popup();
 
                 if (!cancelReason) {
                     return;
@@ -93,21 +77,14 @@ const L10nBrPosNFCeTicketScreen = (OriginalTicketScreen) =>
                     const result = await this.rpc({
                         model: "pos.order",
                         method: "cancel_nfce_from_ui",
-                        args: [
-                            {},
-                            order.name,
-                            cancelReason.cancel_reason,
-                        ],
+                        args: [{}, order.name, cancelReason.cancel_reason],
                     });
 
                     order.state_edoc = result;
 
                     return;
                 } catch (error) {
-                    console.error(
-                        "Erro ao cancelar NFC-e:",
-                        error
-                    );
+                    console.error("Erro ao cancelar NFC-e:", error);
 
                     return;
                 }
@@ -117,7 +94,4 @@ const L10nBrPosNFCeTicketScreen = (OriginalTicketScreen) =>
         }
     };
 
-Registries.Component.extend(
-    TicketScreen,
-    L10nBrPosNFCeTicketScreen
-);
+Registries.Component.extend(TicketScreen, L10nBrPosNFCeTicketScreen);

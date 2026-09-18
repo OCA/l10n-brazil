@@ -5,7 +5,6 @@ import Registries from "point_of_sale.Registries";
 
 const L10nBrPosNfcePaymentScreen = (OriginalPaymentScreen) =>
     class extends OriginalPaymentScreen {
-
         check_valid_cpf_cnpj(order) {
             const partner = order.get_partner();
             if (partner && partner.is_anonymous_consumer) {
@@ -17,12 +16,7 @@ const L10nBrPosNfcePaymentScreen = (OriginalPaymentScreen) =>
         }
 
         shouldDownloadInvoice() {
-
-            if (
-                this.env.pos.config.simplified_document_type === "65"
-            ) {
-               
-
+            if (this.env.pos.config.simplified_document_type === "65") {
                 return false;
             }
 
@@ -34,16 +28,11 @@ const L10nBrPosNfcePaymentScreen = (OriginalPaymentScreen) =>
         }
 
         get nextScreen() {
-            if (
-                this.env.pos.config.simplified_document_type === "65"
-            ) {
+            if (this.env.pos.config.simplified_document_type === "65") {
                 console.log("### NFCe -> ReceiptScreen ###");
                 return "ReceiptScreen";
             }
             return super.nextScreen;
         }
     };
-Registries.Component.extend(
-    PaymentScreen,
-    L10nBrPosNfcePaymentScreen
-);
+Registries.Component.extend(PaymentScreen, L10nBrPosNfcePaymentScreen);

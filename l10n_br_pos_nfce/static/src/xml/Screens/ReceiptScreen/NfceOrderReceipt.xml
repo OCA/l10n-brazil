@@ -3,10 +3,7 @@
 
     <t t-name="NfceOrderReceipt" owl="1">
         <div class="pos-receipt">
-            <NfceHeaderReceipt
-                company="receipt.company"
-                receipt="receipt"
-            />
+            <NfceHeaderReceipt company="receipt.company" receipt="receipt" />
             <hr class="nfceSeparator" />
             <t t-if="isHomologationEnvironment">
                 <div>
@@ -18,31 +15,20 @@
                 <hr class="nfceSeparator" />
             </t>
             <div class="nfceItems">
-                <p
-                    class="nfcePTag itemsTitle"
-                    style="font-weight: bold;"
-                >
+                <p class="nfcePTag itemsTitle" style="font-weight: bold;">
                     # | COD | DESCRICAO | QUANTIDADE | UN | VL UNIT | VL TOTAL
                 </p>
 
                 <ul>
-                    <t
-                        t-foreach="receipt.orderlines"
-                        t-as="line"
-                        t-key="line.id"
-                    >
-                        <NfceItemReceipt line="line"/>
+                    <t t-foreach="receipt.orderlines" t-as="line" t-key="line.id">
+                        <NfceItemReceipt line="line" />
                     </t>
                 </ul>
             </div>
             <hr class="nfceSeparator" />
-            <NfceTotalsReceipt receipt="receipt"/>
-            <t
-                t-foreach="receipt.paymentlines"
-                t-as="payment"
-                t-key="payment.cid"
-            >
-                <NfcePaymentlineReceipt payment="payment"/>
+            <NfceTotalsReceipt receipt="receipt" />
+            <t t-foreach="receipt.paymentlines" t-as="payment" t-key="payment.cid">
+                <NfcePaymentlineReceipt payment="payment" />
             </t>
 
             <t t-if="hasChange">
@@ -51,16 +37,13 @@
                         TROCO
                     </p>
                     <p class="nfcePTag nfceTotalPayement">
-                        <t t-esc="orderChange"/>
+                        <t t-esc="orderChange" />
                     </p>
                 </div>
             </t>
             <hr class="nfceSeparator" />
-            <NfceFiscalInfoReceipt receipt="receipt"/>
-            <NfceFooterReceipt
-                receipt="receipt"
-                payments="receipt.paymentlines"
-            />
+            <NfceFiscalInfoReceipt receipt="receipt" />
+            <NfceFooterReceipt receipt="receipt" payments="receipt.paymentlines" />
         </div>
     </t>
 </templates>

@@ -4,7 +4,6 @@ import ReceiptScreen from "point_of_sale.ReceiptScreen";
 import Registries from "point_of_sale.Registries";
 import {useRef} from "@odoo/owl";
 
-
 const L10nBrPosNfceReceiptScreen = (OriginalReceiptScreen) =>
     class extends OriginalReceiptScreen {
         setup() {
@@ -15,7 +14,6 @@ const L10nBrPosNfceReceiptScreen = (OriginalReceiptScreen) =>
             } else {
                 this.orderReceipt = useRef("order-receipt");
             }
-
         }
 
         isNFCe() {
@@ -27,4 +25,3 @@ const L10nBrPosNfceReceiptScreen = (OriginalReceiptScreen) =>
     };
 
 Registries.Component.extend(ReceiptScreen, L10nBrPosNfceReceiptScreen);
-

@@ -33,9 +33,7 @@ class PosOrder(models.Model):
                     }
                 )
             else:
-                next_number = (
-                    pos_config_id.nfce_document_serie_id.next_seq_number()
-                )
+                next_number = pos_config_id.nfce_document_serie_id.next_seq_number()
                 nfce_vals.update({"document_number": next_number})
 
             vals.update(nfce_vals)
@@ -186,7 +184,7 @@ class PosOrderLine(models.Model):
 
     def _prepare_nfce_tax_dict(self):
         # Ensure that the fiscal map exists for this POS configuration
-        self.product_id.update_pos_fiscal_map() #chamaos essa funcao que foi alterada no codigo do l10n_br_pos para mapear corretamente os impostos
+        self.product_id.update_pos_fiscal_map()  # chamaos essa funcao que foi alterada no codigo do l10n_br_pos para mapear corretamente os impostos
 
         # Get fiscal map for this product
         fiscal_map_id = self.product_id.pos_fiscal_map_ids.filtered(
@@ -202,32 +200,20 @@ class PosOrderLine(models.Model):
             "fiscal_operation_line_id": fiscal_map_id.fiscal_operation_line_id.id,
             "cfop_id": fiscal_map_id.cfop_id.id,
             "uot_id": (
-                    fiscal_map_id.uot_id.id
-                    or self.product_id.uom_id.id
-                ), #patch para corrigir o erro  Element '{http://www.portalfiscal.inf.br/nfe}qTrib': This element is not expected. Expected is one of ( {http://www.portalfiscal.inf.br/nfe}cBarraTrib, {http://www.portalfiscal.inf.br/nfe}uTrib ).
+                fiscal_map_id.uot_id.id or self.product_id.uom_id.id
+            ),  # patch para corrigir o erro  Element '{http://www.portalfiscal.inf.br/nfe}qTrib': This element is not expected. Expected is one of ( {http://www.portalfiscal.inf.br/nfe}cBarraTrib, {http://www.portalfiscal.inf.br/nfe}uTrib ).
             "fiscal_genre_id": self.product_id.fiscal_genre_id.id,
-            "discount_value": (
-                self.price_unit * self.qty * self.discount
-            ) / 100,   #corrigido calculo do desconto
+            "discount_value": (self.price_unit * self.qty * self.discount)
+            / 100,  # corrigido calculo do desconto
             "uom_id": self.product_id.uom_id.id,
             "ncm_id": self.product_id.ncm_id.id,
         }
 
-        tax_dict.update(
-            self._prepare_nfce_icms_dict(fiscal_map_id)
-        )
-        tax_dict.update(
-            self._prepare_nfce_ipi_dict(fiscal_map_id)
-        )
-        tax_dict.update(
-            self._prepare_nfce_cofins_dict(fiscal_map_id)
-        )
-        tax_dict.update(
-            self._prepare_pis_icms_dict(fiscal_map_id)
-        )
-        tax_dict.update(
-            self._prepare_nfce_fiscal_tax_ids(fiscal_map_id)
-        )
+        tax_dict.update(self._prepare_nfce_icms_dict(fiscal_map_id))
+        tax_dict.update(self._prepare_nfce_ipi_dict(fiscal_map_id))
+        tax_dict.update(self._prepare_nfce_cofins_dict(fiscal_map_id))
+        tax_dict.update(self._prepare_pis_icms_dict(fiscal_map_id))
+        tax_dict.update(self._prepare_nfce_fiscal_tax_ids(fiscal_map_id))
 
         return tax_dict
 

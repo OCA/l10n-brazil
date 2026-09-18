@@ -3,9 +3,7 @@
 import OrderReceipt from "point_of_sale.OrderReceipt";
 import Registries from "point_of_sale.Registries";
 
-
 class NFCeOrderReceipt extends OrderReceipt {
-
     setup() {
         super.setup();
 
@@ -25,10 +23,8 @@ class NFCeOrderReceipt extends OrderReceipt {
             minimumFractionDigits: 2,
         });
     }
-
 }
 
 NFCeOrderReceipt.template = "NfceOrderReceipt";
 
 Registries.Component.add(NFCeOrderReceipt);
-

@@ -1,6 +1,6 @@
 /** @odoo-module **/
 
-import { ESTADOS_IBGE } from "@l10n_br_pos_nfce/js/utils";
+import {ESTADOS_IBGE} from "@l10n_br_pos_nfce/js/utils";
 
 const BRAZILIAN_STATES_IBGE_CODE_MAP = {
     "Acre (BR)": "12",
@@ -354,44 +354,39 @@ export class NFeXML {
     }
 
     mountProductTag(line) {
-    const product = line.product;
+        const product = line.product;
 
-    const taxes =
-        this.pos.fiscal_map_by_template_id[
-            product.product_tmpl_id
-        ];
+        const taxes = this.pos.fiscal_map_by_template_id[product.product_tmpl_id];
 
-    console.log("### NFC-e PRODUTO ###", {
-        product: product,
-        uom_id: product.uom_id,
-        uom: this.getUOMCode(product),
-    });
+        console.log("### NFC-e PRODUTO ###", {
+            product: product,
+            uom_id: product.uom_id,
+            uom: this.getUOMCode(product),
+        });
 
-    const uom = this.getUOMCode(product);
+        const uom = this.getUOMCode(product);
 
-    return {
-        cProd: product.default_code || String(product.id),
-        cEAN: "SEM GTIN",
-        xProd: product.display_name,
-        NCM: product.ncm_id?.code || "",
-        CFOP: taxes.cfop_code,
+        return {
+            cProd: product.default_code || String(product.id),
+            cEAN: "SEM GTIN",
+            xProd: product.display_name,
+            NCM: product.ncm_id?.code || "",
+            CFOP: taxes.cfop_code,
 
-        uCom: uom ? uom.code : "UN",
-        qCom: line.quantity.toFixed(4),
-        vUnCom: product.lst_price.toFixed(10),
+            uCom: uom ? uom.code : "UN",
+            qCom: line.quantity.toFixed(4),
+            vUnCom: product.lst_price.toFixed(10),
 
-        vProd: (
-            line.quantity * product.lst_price
-        ).toFixed(2),
+            vProd: (line.quantity * product.lst_price).toFixed(2),
 
-        cEANTrib: "SEM GTIN",
-        uTrib: uom ? uom.code : "UN",
-        qTrib: line.quantity.toFixed(4),
-        vUnTrib: product.lst_price.toFixed(10),
+            cEANTrib: "SEM GTIN",
+            uTrib: uom ? uom.code : "UN",
+            qTrib: line.quantity.toFixed(4),
+            vUnTrib: product.lst_price.toFixed(10),
 
-        indTot: "1",
-    };
-}
+            indTot: "1",
+        };
+    }
 
     getUOMCode(product) {
         const foundUOM = this.pos.uoms.find((uom) => {

@@ -2,11 +2,10 @@ from odoo import models
 
 
 class PosSession(models.Model):
-
     _inherit = "pos.session"
-#carrega pro js os dados da empresa, patch necessário nessa versão do Odoo16
-    def _loader_params_res_partner(self):
 
+    # carrega pro js os dados da empresa, patch necessário nessa versão do Odoo16
+    def _loader_params_res_partner(self):
         result = super()._loader_params_res_partner()
 
         result["search_params"]["fields"].append("is_anonymous_consumer")
@@ -24,7 +23,7 @@ class PosSession(models.Model):
 
         return result
 
-#carrega pro js os dados da empresa, patch necessário nessa versão do Odoo16
+    # carrega pro js os dados da empresa, patch necessário nessa versão do Odoo16
     def _loader_params_res_company(self):
         result = super()._loader_params_res_company()
 
@@ -43,7 +42,6 @@ class PosSession(models.Model):
 
     # patch para resolver o erro Element qTrib...
     def _loader_params_uom_uom(self):
-
         result = super()._loader_params_uom_uom()
 
         result["search_params"]["fields"].append("code")
