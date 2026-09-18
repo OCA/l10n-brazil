@@ -12,6 +12,11 @@ _logger = logging.getLogger(__name__)
 
 
 def post_init_hook(env):
+    # The companies created before the install don't get the field default,
+    # as the profile record didn't exist yet when the column was created.
+    env["res.company"].with_context(active_test=False).search(
+        [("danfe_profile_id", "=", False)]
+    ).danfe_profile_id = env.ref("l10n_br_nfe.danfe_profile_default")
     if env.ref("base.module_l10n_br_nfe").demo:
         res_items = (
             "nfe",
