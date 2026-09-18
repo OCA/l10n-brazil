@@ -1,0 +1,580 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
+<title>SPED - ECF</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 9511 2024-01-13 09:50:07Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+Despite the name, some widely supported CSS2 features are used.
+
+See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: gray; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic, pre.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="sped-ecf">
+<h1 class="title">SPED - ECF</h1>
+
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! This file is generated by oca-gen-addon-readme !!
+!! changes will be overwritten.                   !!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! source digest: sha256:c114f93207c339b53752a9cd987b5995398fe769ec5cfaf1adbe71fe8b71590b
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Alpha" src="https://img.shields.io/badge/maturity-Alpha-red.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_sped_ecf"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-l10n_br_sped_ecf"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=16.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
+<div class="section" id="arquivo-ecf-do-sped">
+<h1>Arquivo ECF do SPED</h1>
+<p>Este módulo contém toda a estrutura dos registros da ECF do SPED e o
+mapeamento a partir das transações do Odoo. <strong>O regime coberto de ponta
+a ponta é o lucro presumido com escrituração contábil</strong>: a escrituração
+sai com identificação, plano de contas (inclusive o de-para para o plano
+referencial da RFB), saldos contábeis e a apuração trimestral do IRPJ e
+da CSLL.</p>
+<p>Registros gerados a partir do Odoo:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="41%" />
+<col width="52%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Bloco</th>
+<th class="head">Registros</th>
+<th class="head">De onde vêm</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>0</td>
+<td>0000, 0010, 0020, 0030, 0930</td>
+<td>empresa, regime e signatários</td>
+</tr>
+<tr><td>J</td>
+<td>J050, J051</td>
+<td>plano de contas e conta referencial</td>
+</tr>
+<tr><td>K</td>
+<td>K030, K155, K156, K355, K356</td>
+<td>saldos das contas no ano</td>
+</tr>
+<tr><td>P</td>
+<td>P030, P100, P150</td>
+<td>balanço e DRE em contas referenciais</td>
+</tr>
+<tr><td>P</td>
+<td>P200, P300, P400, P500</td>
+<td>apuração do lucro presumido</td>
+</tr>
+<tr><td>Y</td>
+<td>Y600, Y672</td>
+<td>sócios e outras informações</td>
+</tr>
+</tbody>
+</table>
+<p>Os registros de abertura e fechamento de bloco e o bloco 9 inteiro são
+gerados pela máquina do <tt class="docutils literal">l10n_br_sped_base</tt>.</p>
+<p>A apuração do bloco P segue as tabelas dinâmicas publicadas pela Receita
+Federal: cada linha calculada traz a fórmula oficial no código, ao lado
+da implementação, e o módulo traz um validador que confere o arquivo
+gerado contra o leiaute (blocos, hierarquia, campos, contagens do bloco
+9 e a aritmética das linhas calculadas).</p>
+<p>O que <strong>não</strong> é gerado a partir do Odoo: os blocos do lucro real (L, M,
+N), do lucro arbitrado (T), das imunes e isentas (U) e das operações com
+o exterior (X, W), além do livro caixa (Q100) e da atividade incentivada
+(P130/P230). Esses registros existem na estrutura e podem ser
+preenchidos na interface, importados de outro arquivo ou completados no
+validador da Receita. Contribuições com esses mapeamentos são
+bem-vindas.</p>
+<p>Tudo o que a apuração usa vem da <strong>contabilidade</strong>, que é o que a ECF
+escritura: as mesmas linhas do razão que alimentam o P100 e o P150
+alimentam o bloco P, então a apuração fecha com o balanço do próprio
+arquivo e com o balancete do contador. O que muda de conta para conta é
+a classificação, e ela é declarada no plano:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="52%" />
+<col width="48%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Campo em <tt class="docutils literal">account.account</tt></th>
+<th class="head">Alimenta</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal">l10n_br_sped_referential_code</tt></td>
+<td>J051, K156, K356, P100, P150</td>
+</tr>
+<tr><td><tt class="docutils literal">l10n_br_ecf_revenue_line</tt></td>
+<td>P200 (natureza da receita)</td>
+</tr>
+<tr><td><tt class="docutils literal">l10n_br_ecf_csll_line</tt></td>
+<td>P400 (presunção da CSLL)</td>
+</tr>
+<tr><td><tt class="docutils literal">l10n_br_ecf_withholding_line</tt></td>
+<td>P300 e P500 (retenção na fonte)</td>
+</tr>
+</tbody>
+</table>
+<p>A linha da retenção depende de <strong>quem reteve</strong>, e não só do imposto:
+retenção por pessoa jurídica de direito privado, por órgão federal e por
+órgão estadual ou municipal vão para linhas diferentes do P300 e do
+P500. Quem atende a administração pública precisa das contas segregadas
+no plano.</p>
+<p>Limitações conhecidas da apuração do presumido, nesta versão:</p>
+<ul class="simple">
+<li><strong>exclusões da base</strong> (P200 linhas 22 a 25.02, como a variação cambial
+pelo regime de caixa) são de preenchimento manual;</li>
+<li>a apuração é pelo <strong>regime de competência</strong>, declarado no
+<tt class="docutils literal">0010.IND_REC_RECEITA = 2</tt>; a empresa optante pelo regime de caixa
+(IN RFB 1700/2017, art. 215, § 9º) tem a geração <strong>recusada</strong> com
+mensagem clara, porque o arquivo contradiria os recolhimentos. A opção
+pelo caixa exige conta contábil específica de controle dos
+recebimentos, com a nota fiscal indicada em cada lançamento (art. 223,
+§ 1º), que o módulo ainda não lê. O livro caixa (bloco Q) é outra
+hipótese, exclusiva de quem não mantém escrituração contábil
+(<tt class="docutils literal">TIP_ESC_PRE = L</tt>);</li>
+<li><strong>devolução de venda em conta retificadora própria</strong> entra hoje como
+receita negativa na linha 20; o correto é classificar a conta
+retificadora com a mesma natureza da receita que ela reduz.</li>
+</ul>
+<p>Você pode se referir à documentação do módulo <tt class="docutils literal">l10n_br_sped_base</tt> para
+ver como o sistema de mapeamento funciona.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">This is an alpha version, the data model and design can change at any time without warning.
+Only for development or testing purpose, do not use in production.
+<a class="reference external" href="https://odoo-community.org/page/development-status">More details on development status</a></p>
+</div>
+<p><strong>Table of contents</strong></p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#usage" id="toc-entry-1">Usage</a></li>
+<li><a class="reference internal" href="#bug-tracker" id="toc-entry-2">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-3">Credits</a></li>
+</ul>
+</div>
+<div class="section" id="usage">
+<h2><a class="toc-backref" href="#toc-entry-1">Usage</a></h2>
+<p>Antes da primeira escrituração, configure:</p>
+<ol class="arabic simple">
+<li><strong>Signatários</strong> (registro 0930), na empresa: no mínimo o responsável
+legal e o contabilista, que precisa do número de inscrição no CRC.</li>
+<li><strong>Sócios</strong> (registro Y600), na empresa: percentual do capital e o que
+cada um recebeu no ano.</li>
+<li><strong>Natureza da receita na ECF</strong>, em cada conta de receita: é a linha
+do registro P200 em que ela é apurada (receita bruta pelos
+percentuais de presunção, rendimentos de aplicações, juros sobre o
+capital próprio e assim por diante). Conta de receita sem
+classificação entra em “Demais Receitas e Ganhos de Capital”, que é o
+tratamento mais oneroso, e a apuração registra o aviso no chatter da
+declaração.</li>
+<li><strong>Conta referencial da RFB</strong>, em cada conta do plano: é o que
+alimenta os registros J051, K156, K356, P100 e P150. Sem ela, o
+balanço e a DRE em contas referenciais saem vazios.</li>
+</ol>
+<p>Depois:</p>
+<ol class="arabic simple">
+<li>Entre no menu SPED&gt;ECF e crie uma Declaração do SPED para a empresa e
+o período desejado. Preencha os dados (que são o registro 0000).</li>
+<li>Clique no botão “Puxar os registros do Odoo” para popular os
+registros do SPED.</li>
+<li>Complete na interface o que o Odoo não tem como saber (atividade
+incentivada, operações com o exterior, livro caixa) ou importe de
+outro arquivo.</li>
+<li>Clique no botão “Gerar arquivo do SPED” e baixe o arquivo que foi
+adicionado no chatter. Transmita com o validador da Receita.</li>
+</ol>
+</div>
+<div class="section" id="bug-tracker">
+<h2><a class="toc-backref" href="#toc-entry-2">Bug Tracker</a></h2>
+<p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-brazil/issues">GitHub Issues</a>.
+In case of trouble, please check there if your issue has already been reported.
+If you spotted it first, help us to smash it by providing a detailed and welcomed
+<a class="reference external" href="https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_sped_ecf%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
+<p>Do not contact contributors directly about support or help with technical issues.</p>
+</div>
+<div class="section" id="credits">
+<h2><a class="toc-backref" href="#toc-entry-3">Credits</a></h2>
+</div>
+</div>
+<div class="section" id="authors">
+<h1>Authors</h1>
+<ul class="simple">
+<li>Akretion</li>
+<li>KMEE</li>
+</ul>
+</div>
+<div class="section" id="contributors">
+<h1>Contributors</h1>
+<ul class="simple">
+<li><a class="reference external" href="https://akretion.com/pt-BR/">AKRETION</a>:<ul>
+<li>Raphaël Valyi &lt;<a class="reference external" href="mailto:raphael.valyi&#64;akretion.com.br">raphael.valyi&#64;akretion.com.br</a>&gt;</li>
+<li>Clement Monbereau &lt;<a class="reference external" href="mailto:clement.mombereau&#64;akretion.com.br">clement.mombereau&#64;akretion.com.br</a>&gt;</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="maintainers">
+<h1>Maintainers</h1>
+<p>This module is maintained by the OCA.</p>
+<a class="reference external image-reference" href="https://odoo-community.org">
+<img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" />
+</a>
+<p>OCA, or the Odoo Community Association, is a nonprofit organization whose
+mission is to support the collaborative development of Odoo features and
+promote its widespread use.</p>
+<p>Current <a class="reference external" href="https://odoo-community.org/page/maintainer-role">maintainers</a>:</p>
+<p><a class="reference external image-reference" href="https://github.com/rvalyi"><img alt="rvalyi" src="https://github.com/rvalyi.png?size=40px" /></a> <a class="reference external image-reference" href="https://github.com/renatonlima"><img alt="renatonlima" src="https://github.com/renatonlima.png?size=40px" /></a></p>
+<p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_sped_ecf">OCA/l10n-brazil</a> project on GitHub.</p>
+<p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
+</div>
+</div>
+</body>
+</html>
