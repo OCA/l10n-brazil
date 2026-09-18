@@ -51,6 +51,9 @@
         "data/l10n_br_fiscal.operation.indicator.csv",
         "data/simplified_tax_data.xml",
         "data/operation_data.xml",
+        "data/fiscal_operation_ativo.xml",
+        "data/fiscal_operation_demonstracao.xml",
+        "data/fiscal_operation_transferencia.xml",
         "data/l10n_br_fiscal_tax_icms_data.xml",
         # the following csv data files will be loaded as noupdate=True
         # and will be trimmed down when demo mode is True (faster):
