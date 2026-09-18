@@ -3,10 +3,12 @@
 import base64
 from io import BytesIO
 
-from brazilfiscalreport.danfe import Danfe, DanfeConfig, InvoiceDisplay, Margins
+from brazilfiscalreport.danfe import Danfe
 
 from odoo import _, api, models
 from odoo.exceptions import UserError
+
+from odoo.addons.l10n_br_fiscal.constants.fiscal import SITUACAO_EDOC_CANCELADA
 
 
 class IrActionsReport(models.Model):
@@ -54,8 +56,9 @@ class IrActionsReport(models.Model):
         else:
             tmpLogo = False
         config = self._get_danfe_config(tmpLogo, nfe.company_id)
-        if nfe.company_id.danfe_display_pis_cofins:
-            config.display_pis_cofins = True
+        # The cancellation is not in the authorization XML: only the document
+        # knows about it.
+        config.watermark_cancelled = nfe.state_edoc == SITUACAO_EDOC_CANCELADA
 
         danfe = Danfe(xml=nfe_xml, config=config)
 
@@ -68,16 +71,4 @@ class IrActionsReport(models.Model):
 
     @api.model
     def _get_danfe_config(self, tmpLogo, company):
-        margins = Margins(
-            top=company.danfe_margin_top,
-            right=company.danfe_margin_right,
-            bottom=company.danfe_margin_bottom,
-            left=company.danfe_margin_left,
-        )
-        danfe_config = {
-            "logo": tmpLogo,
-            "margins": margins,
-        }
-        if company.danfe_invoice_display == "duplicates_only":
-            danfe_config["invoice_display"] = InvoiceDisplay.DUPLICATES_ONLY
-        return DanfeConfig(**danfe_config)
+        return company.danfe_profile_id._get_danfe_config(logo=tmpLogo)
