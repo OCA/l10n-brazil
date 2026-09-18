@@ -1,0 +1,671 @@
+|0000|LECF|0009|91827364000103|ECF Comercio e Servicos Ltda|0|0|||01012022|31122022|N||0||
+|0001|0|
+|0010||N|5|T|01|PPPP||C||||2|
+|0020|1|0|N|N|N|N|N|N|N|N|N|N|N|N|N|N|N|N|N|N|N|N|N|N|N|N|N|N|N|
+|0030|1015|0111301|Rua das Escrituracoes|1000||Centro|SP|3500105|01310100|11 33334444|contato@exemplo.com.br|
+|0930|Maria de Souza|19180847005|203||diretoria@exemplo.com.br|1133334444|
+|0930|Joao Pereira|74685175093|309|1SP123456/O-1|contabilidade@exemplo.com.br|1133335555|
+|0990|8|
+|J001|0|
+|J050|01012022|01|S|1|1||ATIVO|
+|J050|01012022|01|S|2|1.01|1|ATIVO CIRCULANTE|
+|J050|01012022|01|S|3|1.01.01|1.01|DISPONIBILIDADES|
+|J050|01012022|01|A|4|1.01.01.01|1.01.01|Bancos Conta Movimento|
+|J051||1.01.01.02.01|
+|J050|01012022|01|S|3|1.01.02|1.01|CREDITOS|
+|J050|01012022|01|A|4|1.01.02.01|1.01.02|Duplicatas a Receber|
+|J051||1.01.02.02.01|
+|J050|01012022|01|S|3|1.01.03|1.01|ESTOQUES|
+|J050|01012022|01|A|4|1.01.03.01|1.01.03|Mercadorias para Revenda|
+|J051||1.01.03.01.01|
+|J050|01012022|01|A|3|1.01.04.01|1.01|IRRF a Compensar|
+|J051||1.01.02.04.01|
+|J050|01012022|01|A|3|1.01.04.02|1.01|CSLL Retida a Compensar|
+|J051||1.01.02.04.04|
+|J050|01012022|02|S|1|2||PASSIVO|
+|J050|01012022|02|S|2|2.01|2|PASSIVO CIRCULANTE|
+|J050|01012022|02|S|3|2.01.01|2.01|FORNECEDORES|
+|J050|01012022|02|A|4|2.01.01.01|2.01.01|Fornecedores|
+|J051||2.01.01.03.01|
+|J050|01012022|02|S|3|2.01.02|2.01|OBRIGACOES FISCAIS|
+|J050|01012022|02|A|4|2.01.02.01|2.01.02|IRPJ a Recolher|
+|J051||2.01.01.09.13|
+|J050|01012022|02|A|4|2.01.02.02|2.01.02|CSLL a Recolher|
+|J051||2.01.01.09.14|
+|J050|01012022|03|S|2|2.03|2|PATRIMONIO LIQUIDO|
+|J050|01012022|03|S|3|2.03.01|2.03|CAPITAL SOCIAL|
+|J050|01012022|03|A|4|2.03.01.01|2.03.01|Capital Social|
+|J051||2.03.01.01.01|
+|J050|01012022|03|S|3|2.03.02|2.03|LUCROS ACUMULADOS|
+|J050|01012022|03|A|4|2.03.02.01|2.03.02|Lucros Acumulados|
+|J051||2.03.04.01.01|
+|J050|01012022|04|S|1|3||RECEITAS|
+|J050|01012022|04|S|2|3.01|3|RECEITA OPERACIONAL|
+|J050|01012022|04|S|3|3.01.01|3.01|RECEITA BRUTA|
+|J050|01012022|04|A|4|3.01.01.01|3.01.01|Receita de Revenda|
+|J051||3.01.01.01.01.05|
+|J050|01012022|04|A|4|3.01.01.02|3.01.01|Receita de Servicos|
+|J051||3.01.01.01.01.06|
+|J050|01012022|04|S|3|3.01.02|3.01|OUTRAS RECEITAS|
+|J050|01012022|04|A|4|3.01.02.01|3.01.02|Rendimentos de Aplicacoes|
+|J051||3.01.01.05.01.05|
+|J050|01012022|04|S|1|4||CUSTOS E DESPESAS|
+|J050|01012022|04|S|2|4.01|4|CUSTOS E DESPESAS OPERACIONAIS|
+|J050|01012022|04|S|3|4.01.01|4.01|CUSTO DAS MERCADORIAS|
+|J050|01012022|04|A|4|4.01.01.01|4.01.01|Custo das Mercadorias|
+|J051||3.01.01.03.01.02|
+|J050|01012022|04|S|3|4.01.02|4.01|DESPESAS OPERACIONAIS|
+|J050|01012022|04|A|4|4.01.02.01|4.01.02|Despesas Operacionais|
+|J051||3.01.01.09.01.99|
+|J990|52|
+|K001|0|
+|K030|01012022|31032022|T01|
+|K155|1.01.01.01||0|D|504000,00|0|504000,00|D|
+|K156|1.01.01.02.01|0|D|504000,00|0|504000,00|D|
+|K155|1.01.02.01||0|D|417000,00|0|417000,00|D|
+|K156|1.01.02.02.01|0|D|417000,00|0|417000,00|D|
+|K155|1.01.03.01||0|D|180000,00|180000,00|0|D|
+|K156|1.01.03.01.01|0|D|180000,00|180000,00|0|D|
+|K155|1.01.04.01||0|D|1800,00|0|1800,00|D|
+|K156|1.01.02.04.01|0|D|1800,00|0|1800,00|D|
+|K155|1.01.04.02||0|D|1200,00|0|1200,00|D|
+|K156|1.01.02.04.04|0|D|1200,00|0|1200,00|D|
+|K155|2.01.01.01||0|D|0|240000,00|240000,00|C|
+|K156|2.01.01.03.01|0|D|0|240000,00|240000,00|C|
+|K155|2.03.01.01||0|D|0|500000,00|500000,00|C|
+|K156|2.03.01.01.01|0|D|0|500000,00|500000,00|C|
+|K355|3.01.01.01||300000,00|C|
+|K356|3.01.01.01.01.05|300000,00|C|
+|K355|3.01.01.02||120000,00|C|
+|K356|3.01.01.01.01.06|120000,00|C|
+|K355|3.01.02.01||4000,00|C|
+|K356|3.01.01.05.01.05|4000,00|C|
+|K355|4.01.01.01||180000,00|D|
+|K356|3.01.01.03.01.02|180000,00|D|
+|K355|4.01.02.01||60000,00|D|
+|K356|3.01.01.09.01.99|60000,00|D|
+|K030|01042022|30062022|T02|
+|K155|1.01.01.01||504000,00|D|5000,00|0|509000,00|D|
+|K156|1.01.01.02.01|504000,00|D|5000,00|0|509000,00|D|
+|K155|1.01.02.01||417000,00|D|506250,00|0|923250,00|D|
+|K156|1.01.02.02.01|417000,00|D|506250,00|0|923250,00|D|
+|K155|1.01.03.01||0|D|210000,00|210000,00|0|D|
+|K156|1.01.03.01.01|0|D|210000,00|210000,00|0|D|
+|K155|1.01.04.01||1800,00|D|2250,00|0|4050,00|D|
+|K156|1.01.02.04.01|1800,00|D|2250,00|0|4050,00|D|
+|K155|1.01.04.02||1200,00|D|1500,00|0|2700,00|D|
+|K156|1.01.02.04.04|1200,00|D|1500,00|0|2700,00|D|
+|K155|2.01.01.01||240000,00|C|0|280000,00|520000,00|C|
+|K156|2.01.01.03.01|240000,00|C|0|280000,00|520000,00|C|
+|K355|3.01.01.01||360000,00|C|
+|K356|3.01.01.01.01.05|360000,00|C|
+|K355|3.01.01.02||150000,00|C|
+|K356|3.01.01.01.01.06|150000,00|C|
+|K355|3.01.02.01||5000,00|C|
+|K356|3.01.01.05.01.05|5000,00|C|
+|K355|4.01.01.01||210000,00|D|
+|K356|3.01.01.03.01.02|210000,00|D|
+|K355|4.01.02.01||70000,00|D|
+|K356|3.01.01.09.01.99|70000,00|D|
+|K030|01072022|30092022|T03|
+|K155|1.01.01.01||509000,00|D|6000,00|0|515000,00|D|
+|K156|1.01.01.02.01|509000,00|D|6000,00|0|515000,00|D|
+|K155|1.01.02.01||923250,00|D|595500,00|0|1518750,00|D|
+|K156|1.01.02.02.01|923250,00|D|595500,00|0|1518750,00|D|
+|K155|1.01.03.01||0|D|250000,00|250000,00|0|D|
+|K156|1.01.03.01.01|0|D|250000,00|250000,00|0|D|
+|K155|1.01.04.01||4050,00|D|2700,00|0|6750,00|D|
+|K156|1.01.02.04.01|4050,00|D|2700,00|0|6750,00|D|
+|K155|1.01.04.02||2700,00|D|1800,00|0|4500,00|D|
+|K156|1.01.02.04.04|2700,00|D|1800,00|0|4500,00|D|
+|K155|2.01.01.01||520000,00|C|0|330000,00|850000,00|C|
+|K156|2.01.01.03.01|520000,00|C|0|330000,00|850000,00|C|
+|K355|3.01.01.01||420000,00|C|
+|K356|3.01.01.01.01.05|420000,00|C|
+|K355|3.01.01.02||180000,00|C|
+|K356|3.01.01.01.01.06|180000,00|C|
+|K355|3.01.02.01||6000,00|C|
+|K356|3.01.01.05.01.05|6000,00|C|
+|K355|4.01.01.01||250000,00|D|
+|K356|3.01.01.03.01.02|250000,00|D|
+|K355|4.01.02.01||80000,00|D|
+|K356|3.01.01.09.01.99|80000,00|D|
+|K030|01102022|31122022|T04|
+|K155|1.01.01.01||515000,00|D|7000,00|0|522000,00|D|
+|K156|1.01.01.02.01|515000,00|D|7000,00|0|522000,00|D|
+|K155|1.01.02.01||1518750,00|D|695000,00|0|2213750,00|D|
+|K156|1.01.02.02.01|1518750,00|D|695000,00|0|2213750,00|D|
+|K155|1.01.03.01||0|D|300000,00|300000,00|0|D|
+|K156|1.01.03.01.01|0|D|300000,00|300000,00|0|D|
+|K155|1.01.04.01||6750,00|D|3000,00|0|9750,00|D|
+|K156|1.01.02.04.01|6750,00|D|3000,00|0|9750,00|D|
+|K155|1.01.04.02||4500,00|D|2000,00|0|6500,00|D|
+|K156|1.01.02.04.04|4500,00|D|2000,00|0|6500,00|D|
+|K155|2.01.01.01||850000,00|C|0|390000,00|1240000,00|C|
+|K156|2.01.01.03.01|850000,00|C|0|390000,00|1240000,00|C|
+|K355|3.01.01.01||500000,00|C|
+|K356|3.01.01.01.01.05|500000,00|C|
+|K355|3.01.01.02||200000,00|C|
+|K356|3.01.01.01.01.06|200000,00|C|
+|K355|3.01.02.01||7000,00|C|
+|K356|3.01.01.05.01.05|7000,00|C|
+|K355|4.01.01.01||300000,00|D|
+|K356|3.01.01.03.01.02|300000,00|D|
+|K355|4.01.02.01||90000,00|D|
+|K356|3.01.01.09.01.99|90000,00|D|
+|K990|96|
+|P001|0|
+|P030|01012022|31032022|T01|
+|P100|1|1|S|1|01||0|D|1104000,00|180000,00|924000,00|D|
+|P100|1.01|1.01|S|2|01|1|0|D|1104000,00|180000,00|924000,00|D|
+|P100|1.01.01|1.01.01|S|3|01|1.01|0|D|504000,00|0|504000,00|D|
+|P100|1.01.01.02|1.01.01.02|S|4|01|1.01.01|0|D|504000,00|0|504000,00|D|
+|P100|1.01.01.02.01|Bancos Conta Movimento|A|5|01|1.01.01.02|0|D|504000,00|0|504000,00|D|
+|P100|1.01.02|1.01.02|S|3|01|1.01|0|D|420000,00|0|420000,00|D|
+|P100|1.01.02.02|1.01.02.02|S|4|01|1.01.02|0|D|417000,00|0|417000,00|D|
+|P100|1.01.02.02.01|Duplicatas a Receber|A|5|01|1.01.02.02|0|D|417000,00|0|417000,00|D|
+|P100|1.01.02.04|1.01.02.04|S|4|01|1.01.02|0|D|3000,00|0|3000,00|D|
+|P100|1.01.02.04.01|IRRF a Compensar|A|5|01|1.01.02.04|0|D|1800,00|0|1800,00|D|
+|P100|1.01.02.04.04|CSLL Retida a Compensar|A|5|01|1.01.02.04|0|D|1200,00|0|1200,00|D|
+|P100|1.01.03|1.01.03|S|3|01|1.01|0|D|180000,00|180000,00|0,00|D|
+|P100|1.01.03.01|1.01.03.01|S|4|01|1.01.03|0|D|180000,00|180000,00|0,00|D|
+|P100|1.01.03.01.01|Mercadorias para Revenda|A|5|01|1.01.03.01|0|D|180000,00|180000,00|0,00|D|
+|P100|2|2|S|1|02||0|D|0|740000,00|740000,00|C|
+|P100|2.01|2.01|S|2|02|2|0|D|0|240000,00|240000,00|C|
+|P100|2.01.01|2.01.01|S|3|02|2.01|0|D|0|240000,00|240000,00|C|
+|P100|2.01.01.03|2.01.01.03|S|4|02|2.01.01|0|D|0|240000,00|240000,00|C|
+|P100|2.01.01.03.01|Fornecedores|A|5|02|2.01.01.03|0|D|0|240000,00|240000,00|C|
+|P100|2.03|2.03|S|2|03|2|0|D|0|500000,00|500000,00|C|
+|P100|2.03.01|2.03.01|S|3|03|2.03|0|D|0|500000,00|500000,00|C|
+|P100|2.03.01.01|2.03.01.01|S|4|03|2.03.01|0|D|0|500000,00|500000,00|C|
+|P100|2.03.01.01.01|Capital Social|A|5|03|2.03.01.01|0|D|0|500000,00|500000,00|C|
+|P150|3|3|S|1|04||184000,00|C|
+|P150|3.01|3.01|S|2|04|3|184000,00|C|
+|P150|3.01.01|3.01.01|S|3|04|3.01|184000,00|C|
+|P150|3.01.01.01|3.01.01.01|S|4|04|3.01.01|420000,00|C|
+|P150|3.01.01.01.01|3.01.01.01.01|S|5|04|3.01.01.01|420000,00|C|
+|P150|3.01.01.01.01.05|Receita de Revenda|A|6|04|3.01.01.01.01|300000,00|C|
+|P150|3.01.01.01.01.06|Receita de Servicos|A|6|04|3.01.01.01.01|120000,00|C|
+|P150|3.01.01.03|3.01.01.03|S|4|04|3.01.01|180000,00|D|
+|P150|3.01.01.03.01|3.01.01.03.01|S|5|04|3.01.01.03|180000,00|D|
+|P150|3.01.01.03.01.02|Custo das Mercadorias|A|6|04|3.01.01.03.01|180000,00|D|
+|P150|3.01.01.05|3.01.01.05|S|4|04|3.01.01|4000,00|C|
+|P150|3.01.01.05.01|3.01.01.05.01|S|5|04|3.01.01.05|4000,00|C|
+|P150|3.01.01.05.01.05|Rendimentos de Aplicacoes|A|6|04|3.01.01.05.01|4000,00|C|
+|P150|3.01.01.09|3.01.01.09|S|4|04|3.01.01|60000,00|D|
+|P150|3.01.01.09.01|3.01.01.09.01|S|5|04|3.01.01.09|60000,00|D|
+|P150|3.01.01.09.01.99|Despesas Operacionais|A|6|04|3.01.01.09.01|60000,00|D|
+|P200|1|DISCRIMINAÇÃO DA RECEITA BRUTA||
+|P200|2|Receita Bruta Sujeita ao Percentual de 1,6%|0,00|
+|P200|4|Receita Bruta Sujeita ao Percentual de 8%|300000,00|
+|P200|6|Receita Bruta Sujeita ao Percentual de 16%|0,00|
+|P200|8|Receita Bruta Sujeita ao Percentual de 32%|120000,00|
+|P200|9|Receita Bruta Sujeita ao Percentual de 38,4%|0,00|
+|P200|10|RESULTADO DA APLICAÇÃO DOS PERCENTUAIS SOBRE A RECEITA BRUTA AJUSTADO|62400,00|
+|P200|11|Rendimentos e Ganhos Líquidos de Aplicações de Renda Fixa e Renda Variável|4000,00|
+|P200|12|Juros sobre o Capital Próprio|0,00|
+|P200|13|Realização de Valores cuja Tributação Tenha Sido Diferida|0,00|
+|P200|14|Recuperação de Custos e Despesas|0,00|
+|P200|15|Ajustes Decorrentes de Métodos - Preços de Transferências|0,00|
+|P200|16|Multas e Vantagens Decorrentes de Rescisão Contratual|0,00|
+|P200|17|Lucros Disponibilizados no Exterior|0,00|
+|P200|18|Rendimentos e Ganhos de Capital Auferidos no Exterior|0,00|
+|P200|19|Variações Cambiais Ativas - Operações Liquidadas (MP nº 1.858-10/1999, art. 30)|0,00|
+|P200|20|Demais Receitas e Ganhos de Capital|0,00|
+|P200|20.01|Valor da Contraprestação de Arrendamento Mercantil (Art. 46, § 4º, da Lei nº 12.973/2014).|0,00|
+|P200|22|(-) Excedente de Variação Cambial (MP nº 1.858-10/1999, art. 31)|0,00|
+|P200|23|(-) Variações Cambiais Ativas (MP nº 1.858-10/1999, art. 30)|0,00|
+|P200|24|(-) Resultados Não Tributáveis de Sociedades Cooperativas|0,00|
+|P200|25|(-) Divulgação Eleitoral e Partidária Gratuita|0,00|
+|P200|25.01|(-) Receitas Financeiras Relativas às Variações Monetárias dos Direitos de Crédito e Obrigações do Contribuinte Decorrentes de Ajuste a Valor Presente (Art. 8º da Lei nº 12.973/2014)|0,00|
+|P200|25.02|(-) Receita Reconhecida pela Construção, Recuperação, Reforma, Ampliação ou Melhoramento da Infraestrutura, cuja Contrapartida Seja Ativo Intangível Representativo do Direito de Exploração (Art. 44 da Lei nº 12.973/2014)|0,00|
+|P200|26|BASE DE CÁLCULO DO IMPOSTO SOBRE O LUCRO PRESUMIDO|66400,00|
+|P300|1|BASE DE CÁLCULO DO IMPOSTO SOBRE O LUCRO PRESUMIDO|66400,00|
+|P300|2|IMPOSTO APURADO COM BASE NO LUCRO PRESUMIDO||
+|P300|3|À Alíquota de 15%|9960,00|
+|P300|4|Adicional|640,00|
+|P300|5|Diferença de IR Devida pela Mudança de Coeficiente sobre a Receita Bruta|0,00|
+|P300|6|DEDUÇÕES||
+|P300|7|(-) Isenção de Empresas Estrangeiras de Transporte|0,00|
+|P300|8|(-) Isenção e Redução do Imposto|0,00|
+|P300|9|(-) Redução por Reinvestimento|0,00|
+|P300|10|(-) Imposto de Renda Retido na Fonte|1800,00|
+|P300|11|(-) Imposto Pago no Exterior sobre Lucros, Rendimentos e Ganhos de Capital|0,00|
+|P300|11.20|(-) Programa Emergencial de Retomada do Setor de Eventos (Perse) e o Programa de Garantia aos Setores Críticos (PGSC) (Art. 4º, Lei nº 14.148/2021).|0,00|
+|P300|12|(-) Imposto de Renda Retido na Fonte por Órgãos, Autarquias e Fundações Federais (Lei nº 9.430/1996, art. 64)|0,00|
+|P300|13|(-) Imposto de Renda Retido na Fonte pelas Demais Entidades da Administração Pública Federal (Lei n° 10.833/2003, art. 34)|0,00|
+|P300|14|(-) Imposto Pago Incidente sobre Ganhos no Mercado de Renda Variável|0,00|
+|P300|15|IMPOSTO DE RENDA A PAGAR|8800,00|
+|P300|16|RECEITAS DA ATIVIDADE IMOBILIÁRIA TRIBUTADAS PELO RET|0,00|
+|P300|17|IMPOSTO DE RENDA POSTERGADO DE PERÍODOS DE APURAÇÃO ANTERIORES|0,00|
+|P400|1|CÁLCULO DA CSLL||
+|P400|2|Receita Bruta Sujeita ao Percentual de 12%|300000,00|
+|P400|4|Receita Bruta Sujeita ao Percentual de 32%|120000,00|
+|P400|5|Receita Bruta Sujeita ao Percentual de 38,4%|0,00|
+|P400|6|RESULTADO DA APLICAÇÃO DOS PERCENTUAIS SOBRE A RECEITA BRUTA AJUSTADO|74400,00|
+|P400|7|Rendimentos e Ganhos Líquidos de Aplicações de Renda Fixa e Renda Variável|4000,00|
+|P400|8|Juros sobre o Capital Próprio|0,00|
+|P400|9|Realização de Valores cuja Tributação Tenha Sido Diferida|0,00|
+|P400|10|Recuperação de Custos e Despesas|0,00|
+|P400|11|Ajustes Decorrentes de Métodos - Preços de Transferências|0,00|
+|P400|12|Multas e Vantagens Decorrentes de Rescisão Contratual|0,00|
+|P400|13|Lucros Disponibilizados no Exterior|0,00|
+|P400|14|Rendimentos e Ganhos de Capital Auferidos no Exterior|0,00|
+|P400|15|Variações Cambiais Ativas - Operações Liquidadas (MP nº 1.858-10/1999, art. 30)|0,00|
+|P400|16|Demais Receitas e Ganhos de Capital|0,00|
+|P400|16.01|Valor da Contraprestação de Arrendamento Mercantil (Art. 46, § 4º, da Lei nº 12.973/2014)|0,00|
+|P400|18|(-) Excedente de Variação Cambial (MP nº 1.858-10/1999, art. 31)|0,00|
+|P400|19|(-) Variações Cambiais Ativas (MP nº 1.858-10/1999, art. 30)|0,00|
+|P400|19.01|(-) Receitas Financeiras Relativas às Variações Monetárias dos Direitos de Crédito e Obrigações do Contribuinte Decorrentes de Ajuste a Valor Presente (Art. 8º da Lei nº 12.973/2014)|0,00|
+|P400|19.02|(-) Receita Reconhecida pela Construção, Recuperação, Reforma, Ampliação ou Melhoramento da Infraestrutura, cuja Contrapartida Seja Ativo Intangível Representativo do Direito de Exploração (Art. 44 da Lei nº 12.973/2014)|0,00|
+|P400|20|(-) Resultados Não Tributáveis de Sociedades Cooperativas|0,00|
+|P400|21|BASE DE CÁLCULO DA CSLL|78400,00|
+|P500|1|BASE DE CÁLCULO DA CSLL|78400,00|
+|P500|2|CSLL Apurada|7056,00|
+|P500|3|Adição de Créditos de CSLL sobre Depreciação Utilizados no Regime de Lucro Real (Lei nº 11.051/2004, art. 1º, § 9º)|0,00|
+|P500|4|TOTAL DA CONTRIBUIÇÃO SOCIAL SOBRE O LUCRO LÍQUIDO|7056,00|
+|P500|5|DEDUÇÕES||
+|P500|6|(-) Bônus de Adimplência Fiscal (Lei nº 10.637/2002, art. 38)|0,00|
+|P500|7|(-) Isenção sobre o Lucro Relativo ao Prouni|0,00|
+|P500|8|(-) Imposto Pago no Exterior sobre Lucros, Rendimentos e Ganhos de Capital (MP nº 1.858-6/1999, art. 19)|0,00|
+|P500|9|(-) CSLL Retida na Fonte por Órgãos, Autarquias e Fundações Federais (Lei nº 9.430/1996, art. 64)|0,00|
+|P500|10|(-) CSLL Retida na Fonte pelas Demais Entidades da Administração Pública Federal (Lei n° 10.833/2003, art. 34)|0,00|
+|P500|11|(-) CSLL Retida na Fonte por Pessoas Jurídicas de Direito Privado (Lei n° 10.833/2003, art. 30)|1200,00|
+|P500|11.20|(-) Programa Emergencial de Retomada do Setor de Eventos (Perse) e o Programa de Garantia aos Setores Críticos (PGSC) (Art. 4º, Lei nº 14.148/2021).|0,00|
+|P500|12|(-) CSLL Retida na Fonte por Órgãos, Autarquias e Fundações dos Estados, Distrito Federal e Municípios (Lei n° 10.833/2003, art. 33)|0,00|
+|P500|13|CSLL A PAGAR|5856,00|
+|P500|14|RECEITAS DA ATIVIDADE IMOBILIÁRIA TRIBUTADAS PELO RET|0,00|
+|P500|15|CSLL POSTERGADA DE PERÍODOS DE APURAÇÃO ANTERIORES|0,00|
+|P030|01042022|30062022|T02|
+|P100|1|1|S|1|01||924000,00|D|725000,00|210000,00|1439000,00|D|
+|P100|1.01|1.01|S|2|01|1|924000,00|D|725000,00|210000,00|1439000,00|D|
+|P100|1.01.01|1.01.01|S|3|01|1.01|504000,00|D|5000,00|0|509000,00|D|
+|P100|1.01.01.02|1.01.01.02|S|4|01|1.01.01|504000,00|D|5000,00|0|509000,00|D|
+|P100|1.01.01.02.01|Bancos Conta Movimento|A|5|01|1.01.01.02|504000,00|D|5000,00|0|509000,00|D|
+|P100|1.01.02|1.01.02|S|3|01|1.01|420000,00|D|510000,00|0|930000,00|D|
+|P100|1.01.02.02|1.01.02.02|S|4|01|1.01.02|417000,00|D|506250,00|0|923250,00|D|
+|P100|1.01.02.02.01|Duplicatas a Receber|A|5|01|1.01.02.02|417000,00|D|506250,00|0|923250,00|D|
+|P100|1.01.02.04|1.01.02.04|S|4|01|1.01.02|3000,00|D|3750,00|0|6750,00|D|
+|P100|1.01.02.04.01|IRRF a Compensar|A|5|01|1.01.02.04|1800,00|D|2250,00|0|4050,00|D|
+|P100|1.01.02.04.04|CSLL Retida a Compensar|A|5|01|1.01.02.04|1200,00|D|1500,00|0|2700,00|D|
+|P100|1.01.03|1.01.03|S|3|01|1.01|0|D|210000,00|210000,00|0,00|D|
+|P100|1.01.03.01|1.01.03.01|S|4|01|1.01.03|0|D|210000,00|210000,00|0,00|D|
+|P100|1.01.03.01.01|Mercadorias para Revenda|A|5|01|1.01.03.01|0|D|210000,00|210000,00|0,00|D|
+|P100|2|2|S|1|02||240000,00|C|0|280000,00|520000,00|C|
+|P100|2.01|2.01|S|2|02|2|240000,00|C|0|280000,00|520000,00|C|
+|P100|2.01.01|2.01.01|S|3|02|2.01|240000,00|C|0|280000,00|520000,00|C|
+|P100|2.01.01.03|2.01.01.03|S|4|02|2.01.01|240000,00|C|0|280000,00|520000,00|C|
+|P100|2.01.01.03.01|Fornecedores|A|5|02|2.01.01.03|240000,00|C|0|280000,00|520000,00|C|
+|P150|3|3|S|1|04||235000,00|C|
+|P150|3.01|3.01|S|2|04|3|235000,00|C|
+|P150|3.01.01|3.01.01|S|3|04|3.01|235000,00|C|
+|P150|3.01.01.01|3.01.01.01|S|4|04|3.01.01|510000,00|C|
+|P150|3.01.01.01.01|3.01.01.01.01|S|5|04|3.01.01.01|510000,00|C|
+|P150|3.01.01.01.01.05|Receita de Revenda|A|6|04|3.01.01.01.01|360000,00|C|
+|P150|3.01.01.01.01.06|Receita de Servicos|A|6|04|3.01.01.01.01|150000,00|C|
+|P150|3.01.01.03|3.01.01.03|S|4|04|3.01.01|210000,00|D|
+|P150|3.01.01.03.01|3.01.01.03.01|S|5|04|3.01.01.03|210000,00|D|
+|P150|3.01.01.03.01.02|Custo das Mercadorias|A|6|04|3.01.01.03.01|210000,00|D|
+|P150|3.01.01.05|3.01.01.05|S|4|04|3.01.01|5000,00|C|
+|P150|3.01.01.05.01|3.01.01.05.01|S|5|04|3.01.01.05|5000,00|C|
+|P150|3.01.01.05.01.05|Rendimentos de Aplicacoes|A|6|04|3.01.01.05.01|5000,00|C|
+|P150|3.01.01.09|3.01.01.09|S|4|04|3.01.01|70000,00|D|
+|P150|3.01.01.09.01|3.01.01.09.01|S|5|04|3.01.01.09|70000,00|D|
+|P150|3.01.01.09.01.99|Despesas Operacionais|A|6|04|3.01.01.09.01|70000,00|D|
+|P200|1|DISCRIMINAÇÃO DA RECEITA BRUTA||
+|P200|2|Receita Bruta Sujeita ao Percentual de 1,6%|0,00|
+|P200|4|Receita Bruta Sujeita ao Percentual de 8%|360000,00|
+|P200|6|Receita Bruta Sujeita ao Percentual de 16%|0,00|
+|P200|8|Receita Bruta Sujeita ao Percentual de 32%|150000,00|
+|P200|9|Receita Bruta Sujeita ao Percentual de 38,4%|0,00|
+|P200|10|RESULTADO DA APLICAÇÃO DOS PERCENTUAIS SOBRE A RECEITA BRUTA AJUSTADO|76800,00|
+|P200|11|Rendimentos e Ganhos Líquidos de Aplicações de Renda Fixa e Renda Variável|5000,00|
+|P200|12|Juros sobre o Capital Próprio|0,00|
+|P200|13|Realização de Valores cuja Tributação Tenha Sido Diferida|0,00|
+|P200|14|Recuperação de Custos e Despesas|0,00|
+|P200|15|Ajustes Decorrentes de Métodos - Preços de Transferências|0,00|
+|P200|16|Multas e Vantagens Decorrentes de Rescisão Contratual|0,00|
+|P200|17|Lucros Disponibilizados no Exterior|0,00|
+|P200|18|Rendimentos e Ganhos de Capital Auferidos no Exterior|0,00|
+|P200|19|Variações Cambiais Ativas - Operações Liquidadas (MP nº 1.858-10/1999, art. 30)|0,00|
+|P200|20|Demais Receitas e Ganhos de Capital|0,00|
+|P200|20.01|Valor da Contraprestação de Arrendamento Mercantil (Art. 46, § 4º, da Lei nº 12.973/2014).|0,00|
+|P200|22|(-) Excedente de Variação Cambial (MP nº 1.858-10/1999, art. 31)|0,00|
+|P200|23|(-) Variações Cambiais Ativas (MP nº 1.858-10/1999, art. 30)|0,00|
+|P200|24|(-) Resultados Não Tributáveis de Sociedades Cooperativas|0,00|
+|P200|25|(-) Divulgação Eleitoral e Partidária Gratuita|0,00|
+|P200|25.01|(-) Receitas Financeiras Relativas às Variações Monetárias dos Direitos de Crédito e Obrigações do Contribuinte Decorrentes de Ajuste a Valor Presente (Art. 8º da Lei nº 12.973/2014)|0,00|
+|P200|25.02|(-) Receita Reconhecida pela Construção, Recuperação, Reforma, Ampliação ou Melhoramento da Infraestrutura, cuja Contrapartida Seja Ativo Intangível Representativo do Direito de Exploração (Art. 44 da Lei nº 12.973/2014)|0,00|
+|P200|26|BASE DE CÁLCULO DO IMPOSTO SOBRE O LUCRO PRESUMIDO|81800,00|
+|P300|1|BASE DE CÁLCULO DO IMPOSTO SOBRE O LUCRO PRESUMIDO|81800,00|
+|P300|2|IMPOSTO APURADO COM BASE NO LUCRO PRESUMIDO||
+|P300|3|À Alíquota de 15%|12270,00|
+|P300|4|Adicional|2180,00|
+|P300|5|Diferença de IR Devida pela Mudança de Coeficiente sobre a Receita Bruta|0,00|
+|P300|6|DEDUÇÕES||
+|P300|7|(-) Isenção de Empresas Estrangeiras de Transporte|0,00|
+|P300|8|(-) Isenção e Redução do Imposto|0,00|
+|P300|9|(-) Redução por Reinvestimento|0,00|
+|P300|10|(-) Imposto de Renda Retido na Fonte|2250,00|
+|P300|11|(-) Imposto Pago no Exterior sobre Lucros, Rendimentos e Ganhos de Capital|0,00|
+|P300|11.20|(-) Programa Emergencial de Retomada do Setor de Eventos (Perse) e o Programa de Garantia aos Setores Críticos (PGSC) (Art. 4º, Lei nº 14.148/2021).|0,00|
+|P300|12|(-) Imposto de Renda Retido na Fonte por Órgãos, Autarquias e Fundações Federais (Lei nº 9.430/1996, art. 64)|0,00|
+|P300|13|(-) Imposto de Renda Retido na Fonte pelas Demais Entidades da Administração Pública Federal (Lei n° 10.833/2003, art. 34)|0,00|
+|P300|14|(-) Imposto Pago Incidente sobre Ganhos no Mercado de Renda Variável|0,00|
+|P300|15|IMPOSTO DE RENDA A PAGAR|12200,00|
+|P300|16|RECEITAS DA ATIVIDADE IMOBILIÁRIA TRIBUTADAS PELO RET|0,00|
+|P300|17|IMPOSTO DE RENDA POSTERGADO DE PERÍODOS DE APURAÇÃO ANTERIORES|0,00|
+|P400|1|CÁLCULO DA CSLL||
+|P400|2|Receita Bruta Sujeita ao Percentual de 12%|360000,00|
+|P400|4|Receita Bruta Sujeita ao Percentual de 32%|150000,00|
+|P400|5|Receita Bruta Sujeita ao Percentual de 38,4%|0,00|
+|P400|6|RESULTADO DA APLICAÇÃO DOS PERCENTUAIS SOBRE A RECEITA BRUTA AJUSTADO|91200,00|
+|P400|7|Rendimentos e Ganhos Líquidos de Aplicações de Renda Fixa e Renda Variável|5000,00|
+|P400|8|Juros sobre o Capital Próprio|0,00|
+|P400|9|Realização de Valores cuja Tributação Tenha Sido Diferida|0,00|
+|P400|10|Recuperação de Custos e Despesas|0,00|
+|P400|11|Ajustes Decorrentes de Métodos - Preços de Transferências|0,00|
+|P400|12|Multas e Vantagens Decorrentes de Rescisão Contratual|0,00|
+|P400|13|Lucros Disponibilizados no Exterior|0,00|
+|P400|14|Rendimentos e Ganhos de Capital Auferidos no Exterior|0,00|
+|P400|15|Variações Cambiais Ativas - Operações Liquidadas (MP nº 1.858-10/1999, art. 30)|0,00|
+|P400|16|Demais Receitas e Ganhos de Capital|0,00|
+|P400|16.01|Valor da Contraprestação de Arrendamento Mercantil (Art. 46, § 4º, da Lei nº 12.973/2014)|0,00|
+|P400|18|(-) Excedente de Variação Cambial (MP nº 1.858-10/1999, art. 31)|0,00|
+|P400|19|(-) Variações Cambiais Ativas (MP nº 1.858-10/1999, art. 30)|0,00|
+|P400|19.01|(-) Receitas Financeiras Relativas às Variações Monetárias dos Direitos de Crédito e Obrigações do Contribuinte Decorrentes de Ajuste a Valor Presente (Art. 8º da Lei nº 12.973/2014)|0,00|
+|P400|19.02|(-) Receita Reconhecida pela Construção, Recuperação, Reforma, Ampliação ou Melhoramento da Infraestrutura, cuja Contrapartida Seja Ativo Intangível Representativo do Direito de Exploração (Art. 44 da Lei nº 12.973/2014)|0,00|
+|P400|20|(-) Resultados Não Tributáveis de Sociedades Cooperativas|0,00|
+|P400|21|BASE DE CÁLCULO DA CSLL|96200,00|
+|P500|1|BASE DE CÁLCULO DA CSLL|96200,00|
+|P500|2|CSLL Apurada|8658,00|
+|P500|3|Adição de Créditos de CSLL sobre Depreciação Utilizados no Regime de Lucro Real (Lei nº 11.051/2004, art. 1º, § 9º)|0,00|
+|P500|4|TOTAL DA CONTRIBUIÇÃO SOCIAL SOBRE O LUCRO LÍQUIDO|8658,00|
+|P500|5|DEDUÇÕES||
+|P500|6|(-) Bônus de Adimplência Fiscal (Lei nº 10.637/2002, art. 38)|0,00|
+|P500|7|(-) Isenção sobre o Lucro Relativo ao Prouni|0,00|
+|P500|8|(-) Imposto Pago no Exterior sobre Lucros, Rendimentos e Ganhos de Capital (MP nº 1.858-6/1999, art. 19)|0,00|
+|P500|9|(-) CSLL Retida na Fonte por Órgãos, Autarquias e Fundações Federais (Lei nº 9.430/1996, art. 64)|0,00|
+|P500|10|(-) CSLL Retida na Fonte pelas Demais Entidades da Administração Pública Federal (Lei n° 10.833/2003, art. 34)|0,00|
+|P500|11|(-) CSLL Retida na Fonte por Pessoas Jurídicas de Direito Privado (Lei n° 10.833/2003, art. 30)|1500,00|
+|P500|11.20|(-) Programa Emergencial de Retomada do Setor de Eventos (Perse) e o Programa de Garantia aos Setores Críticos (PGSC) (Art. 4º, Lei nº 14.148/2021).|0,00|
+|P500|12|(-) CSLL Retida na Fonte por Órgãos, Autarquias e Fundações dos Estados, Distrito Federal e Municípios (Lei n° 10.833/2003, art. 33)|0,00|
+|P500|13|CSLL A PAGAR|7158,00|
+|P500|14|RECEITAS DA ATIVIDADE IMOBILIÁRIA TRIBUTADAS PELO RET|0,00|
+|P500|15|CSLL POSTERGADA DE PERÍODOS DE APURAÇÃO ANTERIORES|0,00|
+|P030|01072022|30092022|T03|
+|P100|1|1|S|1|01||1439000,00|D|856000,00|250000,00|2045000,00|D|
+|P100|1.01|1.01|S|2|01|1|1439000,00|D|856000,00|250000,00|2045000,00|D|
+|P100|1.01.01|1.01.01|S|3|01|1.01|509000,00|D|6000,00|0|515000,00|D|
+|P100|1.01.01.02|1.01.01.02|S|4|01|1.01.01|509000,00|D|6000,00|0|515000,00|D|
+|P100|1.01.01.02.01|Bancos Conta Movimento|A|5|01|1.01.01.02|509000,00|D|6000,00|0|515000,00|D|
+|P100|1.01.02|1.01.02|S|3|01|1.01|930000,00|D|600000,00|0|1530000,00|D|
+|P100|1.01.02.02|1.01.02.02|S|4|01|1.01.02|923250,00|D|595500,00|0|1518750,00|D|
+|P100|1.01.02.02.01|Duplicatas a Receber|A|5|01|1.01.02.02|923250,00|D|595500,00|0|1518750,00|D|
+|P100|1.01.02.04|1.01.02.04|S|4|01|1.01.02|6750,00|D|4500,00|0|11250,00|D|
+|P100|1.01.02.04.01|IRRF a Compensar|A|5|01|1.01.02.04|4050,00|D|2700,00|0|6750,00|D|
+|P100|1.01.02.04.04|CSLL Retida a Compensar|A|5|01|1.01.02.04|2700,00|D|1800,00|0|4500,00|D|
+|P100|1.01.03|1.01.03|S|3|01|1.01|0|D|250000,00|250000,00|0,00|D|
+|P100|1.01.03.01|1.01.03.01|S|4|01|1.01.03|0|D|250000,00|250000,00|0,00|D|
+|P100|1.01.03.01.01|Mercadorias para Revenda|A|5|01|1.01.03.01|0|D|250000,00|250000,00|0,00|D|
+|P100|2|2|S|1|02||520000,00|C|0|330000,00|850000,00|C|
+|P100|2.01|2.01|S|2|02|2|520000,00|C|0|330000,00|850000,00|C|
+|P100|2.01.01|2.01.01|S|3|02|2.01|520000,00|C|0|330000,00|850000,00|C|
+|P100|2.01.01.03|2.01.01.03|S|4|02|2.01.01|520000,00|C|0|330000,00|850000,00|C|
+|P100|2.01.01.03.01|Fornecedores|A|5|02|2.01.01.03|520000,00|C|0|330000,00|850000,00|C|
+|P150|3|3|S|1|04||276000,00|C|
+|P150|3.01|3.01|S|2|04|3|276000,00|C|
+|P150|3.01.01|3.01.01|S|3|04|3.01|276000,00|C|
+|P150|3.01.01.01|3.01.01.01|S|4|04|3.01.01|600000,00|C|
+|P150|3.01.01.01.01|3.01.01.01.01|S|5|04|3.01.01.01|600000,00|C|
+|P150|3.01.01.01.01.05|Receita de Revenda|A|6|04|3.01.01.01.01|420000,00|C|
+|P150|3.01.01.01.01.06|Receita de Servicos|A|6|04|3.01.01.01.01|180000,00|C|
+|P150|3.01.01.03|3.01.01.03|S|4|04|3.01.01|250000,00|D|
+|P150|3.01.01.03.01|3.01.01.03.01|S|5|04|3.01.01.03|250000,00|D|
+|P150|3.01.01.03.01.02|Custo das Mercadorias|A|6|04|3.01.01.03.01|250000,00|D|
+|P150|3.01.01.05|3.01.01.05|S|4|04|3.01.01|6000,00|C|
+|P150|3.01.01.05.01|3.01.01.05.01|S|5|04|3.01.01.05|6000,00|C|
+|P150|3.01.01.05.01.05|Rendimentos de Aplicacoes|A|6|04|3.01.01.05.01|6000,00|C|
+|P150|3.01.01.09|3.01.01.09|S|4|04|3.01.01|80000,00|D|
+|P150|3.01.01.09.01|3.01.01.09.01|S|5|04|3.01.01.09|80000,00|D|
+|P150|3.01.01.09.01.99|Despesas Operacionais|A|6|04|3.01.01.09.01|80000,00|D|
+|P200|1|DISCRIMINAÇÃO DA RECEITA BRUTA||
+|P200|2|Receita Bruta Sujeita ao Percentual de 1,6%|0,00|
+|P200|4|Receita Bruta Sujeita ao Percentual de 8%|420000,00|
+|P200|6|Receita Bruta Sujeita ao Percentual de 16%|0,00|
+|P200|8|Receita Bruta Sujeita ao Percentual de 32%|180000,00|
+|P200|9|Receita Bruta Sujeita ao Percentual de 38,4%|0,00|
+|P200|10|RESULTADO DA APLICAÇÃO DOS PERCENTUAIS SOBRE A RECEITA BRUTA AJUSTADO|91200,00|
+|P200|11|Rendimentos e Ganhos Líquidos de Aplicações de Renda Fixa e Renda Variável|6000,00|
+|P200|12|Juros sobre o Capital Próprio|0,00|
+|P200|13|Realização de Valores cuja Tributação Tenha Sido Diferida|0,00|
+|P200|14|Recuperação de Custos e Despesas|0,00|
+|P200|15|Ajustes Decorrentes de Métodos - Preços de Transferências|0,00|
+|P200|16|Multas e Vantagens Decorrentes de Rescisão Contratual|0,00|
+|P200|17|Lucros Disponibilizados no Exterior|0,00|
+|P200|18|Rendimentos e Ganhos de Capital Auferidos no Exterior|0,00|
+|P200|19|Variações Cambiais Ativas - Operações Liquidadas (MP nº 1.858-10/1999, art. 30)|0,00|
+|P200|20|Demais Receitas e Ganhos de Capital|0,00|
+|P200|20.01|Valor da Contraprestação de Arrendamento Mercantil (Art. 46, § 4º, da Lei nº 12.973/2014).|0,00|
+|P200|22|(-) Excedente de Variação Cambial (MP nº 1.858-10/1999, art. 31)|0,00|
+|P200|23|(-) Variações Cambiais Ativas (MP nº 1.858-10/1999, art. 30)|0,00|
+|P200|24|(-) Resultados Não Tributáveis de Sociedades Cooperativas|0,00|
+|P200|25|(-) Divulgação Eleitoral e Partidária Gratuita|0,00|
+|P200|25.01|(-) Receitas Financeiras Relativas às Variações Monetárias dos Direitos de Crédito e Obrigações do Contribuinte Decorrentes de Ajuste a Valor Presente (Art. 8º da Lei nº 12.973/2014)|0,00|
+|P200|25.02|(-) Receita Reconhecida pela Construção, Recuperação, Reforma, Ampliação ou Melhoramento da Infraestrutura, cuja Contrapartida Seja Ativo Intangível Representativo do Direito de Exploração (Art. 44 da Lei nº 12.973/2014)|0,00|
+|P200|26|BASE DE CÁLCULO DO IMPOSTO SOBRE O LUCRO PRESUMIDO|97200,00|
+|P300|1|BASE DE CÁLCULO DO IMPOSTO SOBRE O LUCRO PRESUMIDO|97200,00|
+|P300|2|IMPOSTO APURADO COM BASE NO LUCRO PRESUMIDO||
+|P300|3|À Alíquota de 15%|14580,00|
+|P300|4|Adicional|3720,00|
+|P300|5|Diferença de IR Devida pela Mudança de Coeficiente sobre a Receita Bruta|0,00|
+|P300|6|DEDUÇÕES||
+|P300|7|(-) Isenção de Empresas Estrangeiras de Transporte|0,00|
+|P300|8|(-) Isenção e Redução do Imposto|0,00|
+|P300|9|(-) Redução por Reinvestimento|0,00|
+|P300|10|(-) Imposto de Renda Retido na Fonte|2700,00|
+|P300|11|(-) Imposto Pago no Exterior sobre Lucros, Rendimentos e Ganhos de Capital|0,00|
+|P300|11.20|(-) Programa Emergencial de Retomada do Setor de Eventos (Perse) e o Programa de Garantia aos Setores Críticos (PGSC) (Art. 4º, Lei nº 14.148/2021).|0,00|
+|P300|12|(-) Imposto de Renda Retido na Fonte por Órgãos, Autarquias e Fundações Federais (Lei nº 9.430/1996, art. 64)|0,00|
+|P300|13|(-) Imposto de Renda Retido na Fonte pelas Demais Entidades da Administração Pública Federal (Lei n° 10.833/2003, art. 34)|0,00|
+|P300|14|(-) Imposto Pago Incidente sobre Ganhos no Mercado de Renda Variável|0,00|
+|P300|15|IMPOSTO DE RENDA A PAGAR|15600,00|
+|P300|16|RECEITAS DA ATIVIDADE IMOBILIÁRIA TRIBUTADAS PELO RET|0,00|
+|P300|17|IMPOSTO DE RENDA POSTERGADO DE PERÍODOS DE APURAÇÃO ANTERIORES|0,00|
+|P400|1|CÁLCULO DA CSLL||
+|P400|2|Receita Bruta Sujeita ao Percentual de 12%|420000,00|
+|P400|4|Receita Bruta Sujeita ao Percentual de 32%|180000,00|
+|P400|5|Receita Bruta Sujeita ao Percentual de 38,4%|0,00|
+|P400|6|RESULTADO DA APLICAÇÃO DOS PERCENTUAIS SOBRE A RECEITA BRUTA AJUSTADO|108000,00|
+|P400|7|Rendimentos e Ganhos Líquidos de Aplicações de Renda Fixa e Renda Variável|6000,00|
+|P400|8|Juros sobre o Capital Próprio|0,00|
+|P400|9|Realização de Valores cuja Tributação Tenha Sido Diferida|0,00|
+|P400|10|Recuperação de Custos e Despesas|0,00|
+|P400|11|Ajustes Decorrentes de Métodos - Preços de Transferências|0,00|
+|P400|12|Multas e Vantagens Decorrentes de Rescisão Contratual|0,00|
+|P400|13|Lucros Disponibilizados no Exterior|0,00|
+|P400|14|Rendimentos e Ganhos de Capital Auferidos no Exterior|0,00|
+|P400|15|Variações Cambiais Ativas - Operações Liquidadas (MP nº 1.858-10/1999, art. 30)|0,00|
+|P400|16|Demais Receitas e Ganhos de Capital|0,00|
+|P400|16.01|Valor da Contraprestação de Arrendamento Mercantil (Art. 46, § 4º, da Lei nº 12.973/2014)|0,00|
+|P400|18|(-) Excedente de Variação Cambial (MP nº 1.858-10/1999, art. 31)|0,00|
+|P400|19|(-) Variações Cambiais Ativas (MP nº 1.858-10/1999, art. 30)|0,00|
+|P400|19.01|(-) Receitas Financeiras Relativas às Variações Monetárias dos Direitos de Crédito e Obrigações do Contribuinte Decorrentes de Ajuste a Valor Presente (Art. 8º da Lei nº 12.973/2014)|0,00|
+|P400|19.02|(-) Receita Reconhecida pela Construção, Recuperação, Reforma, Ampliação ou Melhoramento da Infraestrutura, cuja Contrapartida Seja Ativo Intangível Representativo do Direito de Exploração (Art. 44 da Lei nº 12.973/2014)|0,00|
+|P400|20|(-) Resultados Não Tributáveis de Sociedades Cooperativas|0,00|
+|P400|21|BASE DE CÁLCULO DA CSLL|114000,00|
+|P500|1|BASE DE CÁLCULO DA CSLL|114000,00|
+|P500|2|CSLL Apurada|10260,00|
+|P500|3|Adição de Créditos de CSLL sobre Depreciação Utilizados no Regime de Lucro Real (Lei nº 11.051/2004, art. 1º, § 9º)|0,00|
+|P500|4|TOTAL DA CONTRIBUIÇÃO SOCIAL SOBRE O LUCRO LÍQUIDO|10260,00|
+|P500|5|DEDUÇÕES||
+|P500|6|(-) Bônus de Adimplência Fiscal (Lei nº 10.637/2002, art. 38)|0,00|
+|P500|7|(-) Isenção sobre o Lucro Relativo ao Prouni|0,00|
+|P500|8|(-) Imposto Pago no Exterior sobre Lucros, Rendimentos e Ganhos de Capital (MP nº 1.858-6/1999, art. 19)|0,00|
+|P500|9|(-) CSLL Retida na Fonte por Órgãos, Autarquias e Fundações Federais (Lei nº 9.430/1996, art. 64)|0,00|
+|P500|10|(-) CSLL Retida na Fonte pelas Demais Entidades da Administração Pública Federal (Lei n° 10.833/2003, art. 34)|0,00|
+|P500|11|(-) CSLL Retida na Fonte por Pessoas Jurídicas de Direito Privado (Lei n° 10.833/2003, art. 30)|1800,00|
+|P500|11.20|(-) Programa Emergencial de Retomada do Setor de Eventos (Perse) e o Programa de Garantia aos Setores Críticos (PGSC) (Art. 4º, Lei nº 14.148/2021).|0,00|
+|P500|12|(-) CSLL Retida na Fonte por Órgãos, Autarquias e Fundações dos Estados, Distrito Federal e Municípios (Lei n° 10.833/2003, art. 33)|0,00|
+|P500|13|CSLL A PAGAR|8460,00|
+|P500|14|RECEITAS DA ATIVIDADE IMOBILIÁRIA TRIBUTADAS PELO RET|0,00|
+|P500|15|CSLL POSTERGADA DE PERÍODOS DE APURAÇÃO ANTERIORES|0,00|
+|P030|01102022|31122022|T04|
+|P100|1|1|S|1|01||2045000,00|D|1007000,00|300000,00|2752000,00|D|
+|P100|1.01|1.01|S|2|01|1|2045000,00|D|1007000,00|300000,00|2752000,00|D|
+|P100|1.01.01|1.01.01|S|3|01|1.01|515000,00|D|7000,00|0|522000,00|D|
+|P100|1.01.01.02|1.01.01.02|S|4|01|1.01.01|515000,00|D|7000,00|0|522000,00|D|
+|P100|1.01.01.02.01|Bancos Conta Movimento|A|5|01|1.01.01.02|515000,00|D|7000,00|0|522000,00|D|
+|P100|1.01.02|1.01.02|S|3|01|1.01|1530000,00|D|700000,00|0|2230000,00|D|
+|P100|1.01.02.02|1.01.02.02|S|4|01|1.01.02|1518750,00|D|695000,00|0|2213750,00|D|
+|P100|1.01.02.02.01|Duplicatas a Receber|A|5|01|1.01.02.02|1518750,00|D|695000,00|0|2213750,00|D|
+|P100|1.01.02.04|1.01.02.04|S|4|01|1.01.02|11250,00|D|5000,00|0|16250,00|D|
+|P100|1.01.02.04.01|IRRF a Compensar|A|5|01|1.01.02.04|6750,00|D|3000,00|0|9750,00|D|
+|P100|1.01.02.04.04|CSLL Retida a Compensar|A|5|01|1.01.02.04|4500,00|D|2000,00|0|6500,00|D|
+|P100|1.01.03|1.01.03|S|3|01|1.01|0|D|300000,00|300000,00|0,00|D|
+|P100|1.01.03.01|1.01.03.01|S|4|01|1.01.03|0|D|300000,00|300000,00|0,00|D|
+|P100|1.01.03.01.01|Mercadorias para Revenda|A|5|01|1.01.03.01|0|D|300000,00|300000,00|0,00|D|
+|P100|2|2|S|1|02||850000,00|C|0|390000,00|1240000,00|C|
+|P100|2.01|2.01|S|2|02|2|850000,00|C|0|390000,00|1240000,00|C|
+|P100|2.01.01|2.01.01|S|3|02|2.01|850000,00|C|0|390000,00|1240000,00|C|
+|P100|2.01.01.03|2.01.01.03|S|4|02|2.01.01|850000,00|C|0|390000,00|1240000,00|C|
+|P100|2.01.01.03.01|Fornecedores|A|5|02|2.01.01.03|850000,00|C|0|390000,00|1240000,00|C|
+|P150|3|3|S|1|04||317000,00|C|
+|P150|3.01|3.01|S|2|04|3|317000,00|C|
+|P150|3.01.01|3.01.01|S|3|04|3.01|317000,00|C|
+|P150|3.01.01.01|3.01.01.01|S|4|04|3.01.01|700000,00|C|
+|P150|3.01.01.01.01|3.01.01.01.01|S|5|04|3.01.01.01|700000,00|C|
+|P150|3.01.01.01.01.05|Receita de Revenda|A|6|04|3.01.01.01.01|500000,00|C|
+|P150|3.01.01.01.01.06|Receita de Servicos|A|6|04|3.01.01.01.01|200000,00|C|
+|P150|3.01.01.03|3.01.01.03|S|4|04|3.01.01|300000,00|D|
+|P150|3.01.01.03.01|3.01.01.03.01|S|5|04|3.01.01.03|300000,00|D|
+|P150|3.01.01.03.01.02|Custo das Mercadorias|A|6|04|3.01.01.03.01|300000,00|D|
+|P150|3.01.01.05|3.01.01.05|S|4|04|3.01.01|7000,00|C|
+|P150|3.01.01.05.01|3.01.01.05.01|S|5|04|3.01.01.05|7000,00|C|
+|P150|3.01.01.05.01.05|Rendimentos de Aplicacoes|A|6|04|3.01.01.05.01|7000,00|C|
+|P150|3.01.01.09|3.01.01.09|S|4|04|3.01.01|90000,00|D|
+|P150|3.01.01.09.01|3.01.01.09.01|S|5|04|3.01.01.09|90000,00|D|
+|P150|3.01.01.09.01.99|Despesas Operacionais|A|6|04|3.01.01.09.01|90000,00|D|
+|P200|1|DISCRIMINAÇÃO DA RECEITA BRUTA||
+|P200|2|Receita Bruta Sujeita ao Percentual de 1,6%|0,00|
+|P200|4|Receita Bruta Sujeita ao Percentual de 8%|500000,00|
+|P200|6|Receita Bruta Sujeita ao Percentual de 16%|0,00|
+|P200|8|Receita Bruta Sujeita ao Percentual de 32%|200000,00|
+|P200|9|Receita Bruta Sujeita ao Percentual de 38,4%|0,00|
+|P200|10|RESULTADO DA APLICAÇÃO DOS PERCENTUAIS SOBRE A RECEITA BRUTA AJUSTADO|104000,00|
+|P200|11|Rendimentos e Ganhos Líquidos de Aplicações de Renda Fixa e Renda Variável|7000,00|
+|P200|12|Juros sobre o Capital Próprio|0,00|
+|P200|13|Realização de Valores cuja Tributação Tenha Sido Diferida|0,00|
+|P200|14|Recuperação de Custos e Despesas|0,00|
+|P200|15|Ajustes Decorrentes de Métodos - Preços de Transferências|0,00|
+|P200|16|Multas e Vantagens Decorrentes de Rescisão Contratual|0,00|
+|P200|17|Lucros Disponibilizados no Exterior|0,00|
+|P200|18|Rendimentos e Ganhos de Capital Auferidos no Exterior|0,00|
+|P200|19|Variações Cambiais Ativas - Operações Liquidadas (MP nº 1.858-10/1999, art. 30)|0,00|
+|P200|20|Demais Receitas e Ganhos de Capital|0,00|
+|P200|20.01|Valor da Contraprestação de Arrendamento Mercantil (Art. 46, § 4º, da Lei nº 12.973/2014).|0,00|
+|P200|22|(-) Excedente de Variação Cambial (MP nº 1.858-10/1999, art. 31)|0,00|
+|P200|23|(-) Variações Cambiais Ativas (MP nº 1.858-10/1999, art. 30)|0,00|
+|P200|24|(-) Resultados Não Tributáveis de Sociedades Cooperativas|0,00|
+|P200|25|(-) Divulgação Eleitoral e Partidária Gratuita|0,00|
+|P200|25.01|(-) Receitas Financeiras Relativas às Variações Monetárias dos Direitos de Crédito e Obrigações do Contribuinte Decorrentes de Ajuste a Valor Presente (Art. 8º da Lei nº 12.973/2014)|0,00|
+|P200|25.02|(-) Receita Reconhecida pela Construção, Recuperação, Reforma, Ampliação ou Melhoramento da Infraestrutura, cuja Contrapartida Seja Ativo Intangível Representativo do Direito de Exploração (Art. 44 da Lei nº 12.973/2014)|0,00|
+|P200|26|BASE DE CÁLCULO DO IMPOSTO SOBRE O LUCRO PRESUMIDO|111000,00|
+|P300|1|BASE DE CÁLCULO DO IMPOSTO SOBRE O LUCRO PRESUMIDO|111000,00|
+|P300|2|IMPOSTO APURADO COM BASE NO LUCRO PRESUMIDO||
+|P300|3|À Alíquota de 15%|16650,00|
+|P300|4|Adicional|5100,00|
+|P300|5|Diferença de IR Devida pela Mudança de Coeficiente sobre a Receita Bruta|0,00|
+|P300|6|DEDUÇÕES||
+|P300|7|(-) Isenção de Empresas Estrangeiras de Transporte|0,00|
+|P300|8|(-) Isenção e Redução do Imposto|0,00|
+|P300|9|(-) Redução por Reinvestimento|0,00|
+|P300|10|(-) Imposto de Renda Retido na Fonte|3000,00|
+|P300|11|(-) Imposto Pago no Exterior sobre Lucros, Rendimentos e Ganhos de Capital|0,00|
+|P300|11.20|(-) Programa Emergencial de Retomada do Setor de Eventos (Perse) e o Programa de Garantia aos Setores Críticos (PGSC) (Art. 4º, Lei nº 14.148/2021).|0,00|
+|P300|12|(-) Imposto de Renda Retido na Fonte por Órgãos, Autarquias e Fundações Federais (Lei nº 9.430/1996, art. 64)|0,00|
+|P300|13|(-) Imposto de Renda Retido na Fonte pelas Demais Entidades da Administração Pública Federal (Lei n° 10.833/2003, art. 34)|0,00|
+|P300|14|(-) Imposto Pago Incidente sobre Ganhos no Mercado de Renda Variável|0,00|
+|P300|15|IMPOSTO DE RENDA A PAGAR|18750,00|
+|P300|16|RECEITAS DA ATIVIDADE IMOBILIÁRIA TRIBUTADAS PELO RET|0,00|
+|P300|17|IMPOSTO DE RENDA POSTERGADO DE PERÍODOS DE APURAÇÃO ANTERIORES|0,00|
+|P400|1|CÁLCULO DA CSLL||
+|P400|2|Receita Bruta Sujeita ao Percentual de 12%|500000,00|
+|P400|4|Receita Bruta Sujeita ao Percentual de 32%|200000,00|
+|P400|5|Receita Bruta Sujeita ao Percentual de 38,4%|0,00|
+|P400|6|RESULTADO DA APLICAÇÃO DOS PERCENTUAIS SOBRE A RECEITA BRUTA AJUSTADO|124000,00|
+|P400|7|Rendimentos e Ganhos Líquidos de Aplicações de Renda Fixa e Renda Variável|7000,00|
+|P400|8|Juros sobre o Capital Próprio|0,00|
+|P400|9|Realização de Valores cuja Tributação Tenha Sido Diferida|0,00|
+|P400|10|Recuperação de Custos e Despesas|0,00|
+|P400|11|Ajustes Decorrentes de Métodos - Preços de Transferências|0,00|
+|P400|12|Multas e Vantagens Decorrentes de Rescisão Contratual|0,00|
+|P400|13|Lucros Disponibilizados no Exterior|0,00|
+|P400|14|Rendimentos e Ganhos de Capital Auferidos no Exterior|0,00|
+|P400|15|Variações Cambiais Ativas - Operações Liquidadas (MP nº 1.858-10/1999, art. 30)|0,00|
+|P400|16|Demais Receitas e Ganhos de Capital|0,00|
+|P400|16.01|Valor da Contraprestação de Arrendamento Mercantil (Art. 46, § 4º, da Lei nº 12.973/2014)|0,00|
+|P400|18|(-) Excedente de Variação Cambial (MP nº 1.858-10/1999, art. 31)|0,00|
+|P400|19|(-) Variações Cambiais Ativas (MP nº 1.858-10/1999, art. 30)|0,00|
+|P400|19.01|(-) Receitas Financeiras Relativas às Variações Monetárias dos Direitos de Crédito e Obrigações do Contribuinte Decorrentes de Ajuste a Valor Presente (Art. 8º da Lei nº 12.973/2014)|0,00|
+|P400|19.02|(-) Receita Reconhecida pela Construção, Recuperação, Reforma, Ampliação ou Melhoramento da Infraestrutura, cuja Contrapartida Seja Ativo Intangível Representativo do Direito de Exploração (Art. 44 da Lei nº 12.973/2014)|0,00|
+|P400|20|(-) Resultados Não Tributáveis de Sociedades Cooperativas|0,00|
+|P400|21|BASE DE CÁLCULO DA CSLL|131000,00|
+|P500|1|BASE DE CÁLCULO DA CSLL|131000,00|
+|P500|2|CSLL Apurada|11790,00|
+|P500|3|Adição de Créditos de CSLL sobre Depreciação Utilizados no Regime de Lucro Real (Lei nº 11.051/2004, art. 1º, § 9º)|0,00|
+|P500|4|TOTAL DA CONTRIBUIÇÃO SOCIAL SOBRE O LUCRO LÍQUIDO|11790,00|
+|P500|5|DEDUÇÕES||
+|P500|6|(-) Bônus de Adimplência Fiscal (Lei nº 10.637/2002, art. 38)|0,00|
+|P500|7|(-) Isenção sobre o Lucro Relativo ao Prouni|0,00|
+|P500|8|(-) Imposto Pago no Exterior sobre Lucros, Rendimentos e Ganhos de Capital (MP nº 1.858-6/1999, art. 19)|0,00|
+|P500|9|(-) CSLL Retida na Fonte por Órgãos, Autarquias e Fundações Federais (Lei nº 9.430/1996, art. 64)|0,00|
+|P500|10|(-) CSLL Retida na Fonte pelas Demais Entidades da Administração Pública Federal (Lei n° 10.833/2003, art. 34)|0,00|
+|P500|11|(-) CSLL Retida na Fonte por Pessoas Jurídicas de Direito Privado (Lei n° 10.833/2003, art. 30)|2000,00|
+|P500|11.20|(-) Programa Emergencial de Retomada do Setor de Eventos (Perse) e o Programa de Garantia aos Setores Críticos (PGSC) (Art. 4º, Lei nº 14.148/2021).|0,00|
+|P500|12|(-) CSLL Retida na Fonte por Órgãos, Autarquias e Fundações dos Estados, Distrito Federal e Municípios (Lei n° 10.833/2003, art. 33)|0,00|
+|P500|13|CSLL A PAGAR|9790,00|
+|P500|14|RECEITAS DA ATIVIDADE IMOBILIÁRIA TRIBUTADAS PELO RET|0,00|
+|P500|15|CSLL POSTERGADA DE PERÍODOS DE APURAÇÃO ANTERIORES|0,00|
+|P990|474|
+|Y001|0|
+|Y600|01012022||105|01|19180847005|Maria de Souza|01|60|60|||120000,00|||||
+|Y600|01012022||105|01|52899431021|Carlos Lima|01|40|40|||90000,00|||||
+|Y990|4|
+|9001|0|
+|9900|0000|1|
+|9900|0001|1|
+|9900|0010|1|
+|9900|0020|1|
+|9900|0030|1|
+|9900|0930|2|
+|9900|0990|1|
+|9900|J001|1|
+|9900|J050|35|
+|9900|J051|15|
+|9900|J990|1|
+|9900|K001|1|
+|9900|K030|4|
+|9900|K155|25|
+|9900|K156|25|
+|9900|K355|20|
+|9900|K356|20|
+|9900|K990|1|
+|9900|P001|1|
+|9900|P030|4|
+|9900|P100|80|
+|9900|P150|64|
+|9900|P200|100|
+|9900|P300|72|
+|9900|P400|88|
+|9900|P500|64|
+|9900|P990|1|
+|9900|Y001|1|
+|9900|Y600|2|
+|9900|Y990|1|
+|9900|9001|1|
+|9900|9900|34|
+|9900|9990|1|
+|9900|9999|1|
+|9990|37|
+|9999|671|
