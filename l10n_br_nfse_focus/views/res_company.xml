@@ -49,6 +49,10 @@
                     name="focusnfe_nfse_nacional_send_im_prestador"
                     attrs="{'invisible': ['|',('provedor_nfse','!=', 'focusnfe'),('focusnfe_nfse_type', '!=', 'nfse_nacional')]}"
                 />
+                <field
+                    name="focusnfe_nfse_nacional_concat_lines_discriminacao"
+                    attrs="{'invisible': ['|',('provedor_nfse','!=', 'focusnfe'),('focusnfe_nfse_type', '!=', 'nfse_nacional')]}"
+                />
             </field>
             <xpath expr="//field[@name='nfse_ssl_verify']" position="attributes">
                 <attribute name="invisible">0</attribute>
