@@ -11,7 +11,7 @@ import tempfile
 import requests
 from erpbrasil.base import misc
 
-from odoo import _, models
+from odoo import models
 from odoo.exceptions import ValidationError
 
 from ..constants.br_cobranca import (
@@ -134,7 +134,7 @@ class PaymentOrder(models.Model):
             # Informa se o CNAB especifico de um Banco não está implementado
             # no BRCobranca, evitando a mensagem de erro mais extensa da lib
             raise ValidationError(
-                _(
+                self.env._(
                     "The CNAB %(cnab_type)s for Bank %(bank_name)s are not implemented "
                     "in BRCobranca.",
                     cnab_type=cnab_type,
@@ -152,9 +152,7 @@ class PaymentOrder(models.Model):
             "conta_corrente": int(misc.punctuation_rm(bank_account_id.acc_number)),
             "digito_conta": bank_account_id.acc_number_dig[0],
             "empresa_mae": bank_account_id.partner_id.legal_name[:30],
-            "documento_cedente": misc.punctuation_rm(
-                bank_account_id.partner_id.cnpj_cpf
-            ),
+            "documento_cedente": misc.punctuation_rm(bank_account_id.partner_id.vat),
             "pagamentos": pagamentos,
             "sequencial_remessa": self.file_number,
         }

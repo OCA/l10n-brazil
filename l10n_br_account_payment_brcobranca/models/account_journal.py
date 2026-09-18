@@ -6,7 +6,7 @@ import os
 import sys
 import traceback
 
-from odoo import _, fields, models
+from odoo import fields, models
 from odoo.exceptions import UserError, ValidationError
 
 from odoo.addons.account_move_base_import.parser.parser import new_move_parser
@@ -34,7 +34,7 @@ class AccountJournal(models.Model):
         :param char: ftype represent the file extension (csv by default)
         :return: list: list of ids of the created account.bank.statement
         """
-        filename = self._context.get("file_name", None)
+        filename = self.env.context.get("file_name", None)
         if filename:
             (filename, __) = os.path.splitext(filename)
         parser = new_move_parser(self, ftype=ftype, move_ref=filename)
@@ -76,7 +76,7 @@ class AccountJournal(models.Model):
         # if not result_row_list:
         #    raise UserError(_("Nothing to import: The file is empty"))
         if not result_row_list and not parser.cnab_return_events:
-            raise UserError(_("Nothing to import: the file is empty!"))
+            raise UserError(self.env._("Nothing to import: the file is empty!"))
 
         # Creation of CNAB Return Log
         cnab_return_log, file_name = self._create_cnab_return_log(parser)
@@ -166,11 +166,11 @@ class AccountJournal(models.Model):
             for col in parsed_cols:
                 if col not in move_line_obj._fields:
                     raise UserError(
-                        _(
-                            "Missing column! Column %s you try to import is not "
-                            "present in the move line!"
+                        self.env._(
+                            "Missing column! Column %(col)s you try to import is not "
+                            "present in the move line!",
+                            col=col,
                         )
-                        % col
                     )
 
             move_vals = self.prepare_move_vals(result_row, parser)
@@ -234,7 +234,7 @@ class AccountJournal(models.Model):
                 )
                 st += "".join(traceback.format_tb(trbk, 30))
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "Statement import error "
                         "The statement cannot be created: %(st)s",
                         st=st,
