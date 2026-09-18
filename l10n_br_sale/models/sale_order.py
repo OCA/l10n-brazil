@@ -9,6 +9,23 @@ class SaleOrder(models.Model):
     _name = "sale.order"
     _inherit = [_name, "l10n_br_fiscal.document.mixin"]
 
+    @api.depends(
+        "order_line.fiscal_amount_untaxed",
+        "order_line.fiscal_amount_tax",
+        "order_line.fiscal_amount_total",
+    )
+    def _compute_amounts(self):
+        """
+        Use fiscal line amounts for Brazilian sales orders.
+        """
+        result = super()._compute_amounts()
+        for order in self.filtered("fiscal_operation_id"):
+            lines = order.order_line
+            order.amount_untaxed = sum(lines.mapped("fiscal_amount_untaxed"))
+            order.amount_tax = sum(lines.mapped("fiscal_amount_tax"))
+            order.amount_total = sum(lines.mapped("fiscal_amount_total"))
+        return result
+
     @api.model
     def _default_fiscal_operation(self):
         return self.env.company.sale_fiscal_operation_id
@@ -108,8 +125,10 @@ class SaleOrder(models.Model):
         document_type_id = self._context.get("document_type_id")
         lines_with_fo_line = lines.filtered(lambda ln: ln.fiscal_operation_line_id)
         lines_doc_type = lines_with_fo_line.filtered(
-            lambda ln: ln.fiscal_operation_line_id.get_document_type(ln.company_id).id
-            == document_type_id
+            lambda ln: (
+                ln.fiscal_operation_line_id.get_document_type(ln.company_id).id
+                == document_type_id
+            )
         )
         other_lines = lines.filtered(lambda ln: ln.is_downpayment or ln.display_type)
         lines_doc_type |= other_lines
