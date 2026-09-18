@@ -31,6 +31,8 @@ class DereCommon(TransactionCase):
                 "dere_freq_encerr": "M",
                 "dere_tp_amb": "2",
                 "dere_activity_ids": [Command.set(cls.activity_admin.ids)],
+                "dere_subject_d1106": False,
+                "dere_subject_d1121": False,
                 "dere_ver_aplic": DEFAULT_VER_APLIC,
                 "dere_client_id": "demo-client",
                 "dere_client_secret": "demo-secret",

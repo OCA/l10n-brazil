@@ -50,25 +50,25 @@ class TestDereAuxiliaryEvents(DereCommon):
         declaration = self._prepare_trial()
         declaration.action_generate_d1106()
         line = declaration.reserve_line_ids
-        self.assertEqual(line.id_ativo, "CDB2026001")
+        self.assertEqual(line.dere12_idAtivo, "CDB2026001")
         line.write(
             {
-                "v_saldo_inic": 1000.0,
-                "v_rend_per_receb": 10.0,
-                "v_var_mensal": 5.0,
-                "v_princ_liq_resg": 20.0,
-                "v_rend_liq_resg": 2.0,
+                "dere12_vSaldoInic": 1000.0,
+                "dere12_vRendPerReceb": 10.0,
+                "dere12_vVarMensal": 5.0,
+                "dere12_vPrincLiqResg": 20.0,
+                "dere12_vRendLiqResg": 2.0,
             }
         )
         declaration.with_context(dere_skip_reserve_gl=True).action_generate_d1106()
-        self.assertEqual(line.v_saldo_final, 985.0)
-        self.assertEqual(line.v_apur, 12.0)
+        self.assertEqual(line.dere12_vSaldoFinal, 985.0)
+        self.assertEqual(line.dere12_vApur, 12.0)
         root = etree.fromstring(
             declaration.event_ids.filtered(
                 lambda ev: ev.event_type == "D-1106"
             ).xml_content.encode("utf-8")
         )
-        self.assertEqual(root.findtext(".//{*}cCta"), line.c_cta)
+        self.assertEqual(root.findtext(".//{*}cCta"), line.dere12_cCta)
         self.assertEqual(root.find(".//{*}detAtivo").get("idAtivo"), "CDB2026001")
         self.assertEqual(root.findtext(".//{*}vSaldoFinal"), "985.00")
         self.assertEqual(root.findtext(".//{*}vApur"), "12.00")
@@ -93,12 +93,12 @@ class TestDereAuxiliaryEvents(DereCommon):
         declaration = self._prepare_trial()
         declaration.action_generate_d1106()
         line = declaration.reserve_line_ids
-        self.assertEqual(line.v_saldo_inic, 1000.0)
-        self.assertEqual(line.v_var_mensal, 10.0)
-        self.assertEqual(line.v_rend_per_receb, 10.0)
-        self.assertEqual(line.v_princ_liq_resg, 0.0)
-        self.assertEqual(line.v_apur, 10.0)
-        self.assertEqual(line.v_saldo_final, 1010.0)
+        self.assertEqual(line.dere12_vSaldoInic, 1000.0)
+        self.assertEqual(line.dere12_vVarMensal, 10.0)
+        self.assertEqual(line.dere12_vRendPerReceb, 10.0)
+        self.assertEqual(line.dere12_vPrincLiqResg, 0.0)
+        self.assertEqual(line.dere12_vApur, 10.0)
+        self.assertEqual(line.dere12_vSaldoFinal, 1010.0)
 
     def test_d1106_fills_redemption_income_from_same_move(self):
         self.company.dere_subject_d1106 = True
@@ -142,10 +142,10 @@ class TestDereAuxiliaryEvents(DereCommon):
         declaration = self._prepare_trial()
         declaration.action_generate_d1106()
         line = declaration.reserve_line_ids
-        self.assertEqual(line.v_princ_liq_resg, 20.0)
-        self.assertEqual(line.v_rend_liq_resg, 2.0)
-        self.assertEqual(line.v_apur, 2.0)
-        self.assertEqual(line.v_saldo_final, 80.0)
+        self.assertEqual(line.dere12_vPrincLiqResg, 20.0)
+        self.assertEqual(line.dere12_vRendLiqResg, 2.0)
+        self.assertEqual(line.dere12_vApur, 2.0)
+        self.assertEqual(line.dere12_vSaldoFinal, 80.0)
 
     def test_d1106_fills_mapped_income_account(self):
         self.company.dere_subject_d1106 = True
@@ -163,9 +163,9 @@ class TestDereAuxiliaryEvents(DereCommon):
         declaration = self._prepare_trial()
         declaration.action_generate_d1106()
         line = declaration.reserve_line_ids
-        self.assertEqual(line.v_rend_per_receb, 15.0)
-        self.assertEqual(line.v_var_mensal, 0.0)
-        self.assertEqual(line.v_apur, 15.0)
+        self.assertEqual(line.dere12_vRendPerReceb, 15.0)
+        self.assertEqual(line.dere12_vVarMensal, 0.0)
+        self.assertEqual(line.dere12_vApur, 15.0)
 
     def test_d1106_skips_gl_when_two_assets_share_account(self):
         self.company.dere_subject_d1106 = True
@@ -175,10 +175,10 @@ class TestDereAuxiliaryEvents(DereCommon):
         declaration = self._prepare_trial()
         declaration.action_generate_d1106()
         self.assertEqual(
-            declaration.reserve_line_ids.mapped("v_var_mensal"), [0.0, 0.0]
+            declaration.reserve_line_ids.mapped("dere12_vVarMensal"), [0.0, 0.0]
         )
         self.assertEqual(
-            declaration.reserve_line_ids.mapped("v_rend_per_receb"), [0.0, 0.0]
+            declaration.reserve_line_ids.mapped("dere12_vRendPerReceb"), [0.0, 0.0]
         )
 
     def test_close_requires_d1106_when_subject(self):
@@ -217,9 +217,15 @@ class TestDereAuxiliaryEvents(DereCommon):
         declaration.action_load_deductions()
         line = declaration.deduction_line_ids
         self.assertEqual(line.document_id, document)
-        self.assertEqual(line.tp_dfe, "03")
-        self.assertEqual(line.tp_ativ, "06")
-        line.write({"v_oper": 800.0, "v_ded_total": 800.0, "v_ded": 800.0})
+        self.assertEqual(line.dere12_tpDFe, "03")
+        self.assertEqual(line.dere12_tpAtiv, "06")
+        line.write(
+            {
+                "dere12_vOper": 800.0,
+                "dere12_vDedTotal": 800.0,
+                "dere12_vDed": 800.0,
+            }
+        )
         declaration.action_generate_d1121()
         event = declaration.event_ids.filtered(lambda ev: ev.event_type == "D-1121")
         root = etree.fromstring(event.xml_content.encode("utf-8"))
@@ -232,6 +238,7 @@ class TestDereAuxiliaryEvents(DereCommon):
         self.assertTrue(event.event_id_attr.startswith("DeRE11212"))
 
     def test_d1199_auto_ind_inexist_dedu_without_documents(self):
+        self.company.dere_subject_d1106 = False
         self.company.dere_subject_d1121 = True
         declaration = self._prepare_trial()
         declaration.action_generate_d1199()
@@ -250,13 +257,13 @@ class TestDereAuxiliaryEvents(DereCommon):
         self.env["l10n_br_dere.deduction.line"].create(
             {
                 "declaration_id": declaration.id,
-                "tp_dfe": "03",
-                "ch_dfe": self._nfe_access_key(2),
-                "dt_emi": "2026-11-01",
-                "tp_ativ": "06",
-                "v_oper": 50.0,
-                "v_ded_total": 50.0,
-                "v_ded": 50.0,
+                "dere12_tpDFe": "03",
+                "dere12_chDFe": self._nfe_access_key(2),
+                "dere12_dtEmi": "2026-11-01",
+                "dere12_tpAtiv": "06",
+                "dere12_vOper": 50.0,
+                "dere12_vDedTotal": 50.0,
+                "dere12_vDed": 50.0,
             }
         )
         declaration.ind_inexist_dedu = True

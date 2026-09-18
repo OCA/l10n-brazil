@@ -2111,23 +2111,23 @@ msgstr "Deduções"
 
 #. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_reserve_asset__id_ativo
-#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_reserve_line__id_ativo
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_reserve_line__dere12_idAtivo
 msgid "Asset id"
 msgstr "Id do ativo"
 
 #. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_reserve_asset__desc_ativo
-#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_reserve_line__desc_ativo
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_reserve_line__dere12_descAtivo
 msgid "Asset description"
 msgstr "Descrição do ativo"
 
 #. module: l10n_br_dere
-#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_deduction_line__ch_dfe
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_deduction_line__dere12_chDFe
 msgid "Access key"
 msgstr "Chave de acesso"
 
 #. module: l10n_br_dere
-#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_deduction_line__v_ded
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_deduction_line__dere12_vDed
 msgid "Deduction this period"
 msgstr "Dedução no período"
 

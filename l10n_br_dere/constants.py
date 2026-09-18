@@ -1,6 +1,8 @@
 # Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from odoo.addons.l10n_br_dere_spec.models.v1_2.types import TP_ATIV  # noqa: F401
+
 EVENT_D1001 = "D-1001"
 EVENT_D1011 = "D-1011"
 EVENT_D1101 = "D-1101"
@@ -53,15 +55,6 @@ DFE_TYPE_BY_DOCUMENT = {
     "65": "04",
     "SE": "02",
 }
-TP_ATIV = [
-    ("01", "Credit, FX, securities, securitization and factoring"),
-    ("02", "Leasing"),
-    ("03", "Insurance except health"),
-    ("04", "Pension"),
-    ("05", "Capitalization"),
-    ("06", "Health-care plans"),
-    ("07", "Prize contests"),
-]
 DEFAULT_TP_ATIV_BY_REGIME = {
     "2": "06",
     "3": "07",

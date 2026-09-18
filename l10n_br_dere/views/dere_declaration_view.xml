@@ -173,16 +173,16 @@
                                         name="brl_currency_id"
                                         column_invisible="1"
                                     />
-                                    <field name="c_cta" />
-                                    <field name="id_ativo" />
-                                    <field name="desc_ativo" />
-                                    <field name="v_saldo_inic" sum="Opening" />
-                                    <field name="v_rend_per_receb" />
-                                    <field name="v_var_mensal" />
-                                    <field name="v_princ_liq_resg" />
-                                    <field name="v_rend_liq_resg" />
-                                    <field name="v_saldo_final" sum="Closing" />
-                                    <field name="v_apur" sum="Taxable" />
+                                    <field name="dere12_cCta" />
+                                    <field name="dere12_idAtivo" />
+                                    <field name="dere12_descAtivo" />
+                                    <field name="dere12_vSaldoInic" sum="Opening" />
+                                    <field name="dere12_vRendPerReceb" />
+                                    <field name="dere12_vVarMensal" />
+                                    <field name="dere12_vPrincLiqResg" />
+                                    <field name="dere12_vRendLiqResg" />
+                                    <field name="dere12_vSaldoFinal" sum="Closing" />
+                                    <field name="dere12_vApur" sum="Taxable" />
                                 </list>
                             </field>
                         </page>
@@ -200,13 +200,13 @@
                                         name="brl_currency_id"
                                         column_invisible="1"
                                     />
-                                    <field name="tp_dfe" />
-                                    <field name="ch_dfe" />
-                                    <field name="dt_emi" />
-                                    <field name="tp_ativ" />
-                                    <field name="v_oper" sum="Operation" />
-                                    <field name="v_ded_total" />
-                                    <field name="v_ded" sum="Deducted" />
+                                    <field name="dere12_tpDFe" />
+                                    <field name="dere12_chDFe" />
+                                    <field name="dere12_dtEmi" />
+                                    <field name="dere12_tpAtiv" />
+                                    <field name="dere12_vOper" sum="Operation" />
+                                    <field name="dere12_vDedTotal" />
+                                    <field name="dere12_vDed" sum="Deducted" />
                                 </list>
                             </field>
                         </page>

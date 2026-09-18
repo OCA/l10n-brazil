@@ -532,7 +532,7 @@ class DereDeclaration(models.Model):
     def _reserve_opening(self, asset, prev_by_id, opening, one_to_one):
         prev = prev_by_id.get(asset.id_ativo)
         if prev:
-            return prev.v_saldo_final
+            return prev.dere12_vSaldoFinal
         if one_to_one:
             return abs(opening.get(asset.account_id.id, 0.0))
         return 0.0
@@ -593,13 +593,13 @@ class DereDeclaration(models.Model):
 
     def _reserve_gl_vals(self, asset, opening, period, prev_by_id, one_to_one):
         vals = {
-            "v_saldo_inic": self._reserve_opening(
+            "dere12_vSaldoInic": self._reserve_opening(
                 asset, prev_by_id, opening, one_to_one
             ),
-            "v_var_mensal": 0.0,
-            "v_princ_liq_resg": 0.0,
-            "v_rend_per_receb": 0.0,
-            "v_rend_liq_resg": 0.0,
+            "dere12_vVarMensal": 0.0,
+            "dere12_vPrincLiqResg": 0.0,
+            "dere12_vRendPerReceb": 0.0,
+            "dere12_vRendLiqResg": 0.0,
         }
         if self.env.context.get("dere_skip_reserve_gl") or not one_to_one:
             return vals
@@ -607,11 +607,11 @@ class DereDeclaration(models.Model):
             "debit": 0.0,
             "credit": 0.0,
         }
-        vals["v_var_mensal"] = account_period["debit"]
-        vals["v_princ_liq_resg"] = account_period["credit"]
+        vals["dere12_vVarMensal"] = account_period["debit"]
+        vals["dere12_vPrincLiqResg"] = account_period["credit"]
         received, redeemed = self._reserve_counterpart_income(asset.account_id)
-        vals["v_rend_per_receb"] = received
-        vals["v_rend_liq_resg"] = redeemed
+        vals["dere12_vRendPerReceb"] = received
+        vals["dere12_vRendLiqResg"] = redeemed
         return vals
 
     def _sync_reserve_lines_from_assets(self):
@@ -623,14 +623,14 @@ class DereDeclaration(models.Model):
             self._sync_pgcc_from_accounts()
         pgcc_by_account = {line.account_id.id: line for line in self.pgcc_account_ids}
         previous = self._previous_declaration()
-        prev_by_id = {line.id_ativo: line for line in previous.reserve_line_ids}
+        prev_by_id = {line.dere12_idAtivo: line for line in previous.reserve_line_ids}
         asset_count_by_account = {}
         for asset in assets:
             asset_count_by_account[asset.account_id.id] = (
                 asset_count_by_account.get(asset.account_id.id, 0) + 1
             )
         opening, period = self._account_balances()
-        existing = {line.id_ativo: line for line in self.reserve_line_ids}
+        existing = {line.dere12_idAtivo: line for line in self.reserve_line_ids}
         for asset in assets:
             pgcc = pgcc_by_account.get(asset.account_id.id)
             if not pgcc or pgcc.dere12_indCta != "A":
@@ -647,10 +647,10 @@ class DereDeclaration(models.Model):
             )
             line_vals = {
                 "asset_id": asset.id,
-                "id_ativo": asset.id_ativo,
-                "desc_ativo": asset.desc_ativo,
+                "dere12_idAtivo": asset.id_ativo,
+                "dere12_descAtivo": asset.desc_ativo,
                 "pgcc_account_id": pgcc.id,
-                "c_cta": pgcc.dere12_cCta,
+                "dere12_cCta": pgcc.dere12_cCta,
                 **gl_vals,
             }
             existing_line = existing.get(asset.id_ativo)
@@ -733,15 +733,15 @@ class DereDeclaration(models.Model):
         vals = {
             "declaration_id": self.id,
             "document_id": document.id,
-            "tp_dfe": tp_dfe,
-            "ch_dfe": (document.document_key or "").replace(" ", "").upper(),
-            "dt_emi": issue_date,
-            "tp_ativ": tp_ativ,
-            "v_oper": amount,
-            "v_ded": amount,
+            "dere12_tpDFe": tp_dfe,
+            "dere12_chDFe": (document.document_key or "").replace(" ", "").upper(),
+            "dere12_dtEmi": issue_date,
+            "dere12_tpAtiv": tp_ativ,
+            "dere12_vOper": amount,
+            "dere12_vDed": amount,
         }
         if issue_month == self.per_apur:
-            vals["v_ded_total"] = amount
+            vals["dere12_vDedTotal"] = amount
         return vals
 
     def action_load_deductions(self):
@@ -778,7 +778,7 @@ class DereDeclaration(models.Model):
                     "Deduction %s has vDedTotal lower than vOper and needs "
                     "item breakdown."
                 )
-                % (line.ch_dfe or line.id)
+                % (line.dere12_chDFe or line.id)
             )
         items = []
         for index, fiscal_line in enumerate(document.fiscal_line_ids, start=1):
@@ -788,16 +788,16 @@ class DereDeclaration(models.Model):
             items.append(
                 {
                     "line_id": line.id,
-                    "n_item": n_item or str(index),
-                    "v_item": fiscal_line.fiscal_amount_total or 0.0,
-                    "v_item_ded_total": fiscal_line.fiscal_amount_total or 0.0,
-                    "v_item_ded": fiscal_line.fiscal_amount_total or 0.0,
+                    "dere12_nItem": n_item or str(index),
+                    "dere12_vItem": fiscal_line.fiscal_amount_total or 0.0,
+                    "dere12_vItemDedTotal": fiscal_line.fiscal_amount_total or 0.0,
+                    "dere12_vItemDed": fiscal_line.fiscal_amount_total or 0.0,
                 }
             )
         if not items:
             raise UserError(
                 _("Fiscal document %s has no lines to build D-1121 items.")
-                % line.ch_dfe
+                % line.dere12_chDFe
             )
         self.env["l10n_br_dere.deduction.item"].create(items)
 
@@ -805,15 +805,16 @@ class DereDeclaration(models.Model):
         issue_month = line._issue_period()
         if issue_month == self.per_apur:
             return
-        if line.v_ded_total:
+        if line.dere12_vDedTotal:
             raise UserError(
-                _("Do not set vDedTotal after the issue month of key %s.") % line.ch_dfe
+                _("Do not set vDedTotal after the issue month of key %s.")
+                % line.dere12_chDFe
             )
         previous = self.search(
             [
                 ("company_id", "=", self.company_id.id),
                 ("per_apur", "<", self.per_apur),
-                ("deduction_line_ids.ch_dfe", "=", line.ch_dfe),
+                ("deduction_line_ids.dere12_chDFe", "=", line.dere12_chDFe),
             ],
             limit=1,
         )
@@ -823,7 +824,7 @@ class DereDeclaration(models.Model):
                     "Key %s must be opened in its issue month before later "
                     "D-1121 deductions."
                 )
-                % line.ch_dfe
+                % line.dere12_chDFe
             )
 
     def action_generate_d1121(self):
