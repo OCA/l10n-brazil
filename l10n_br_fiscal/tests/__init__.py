@@ -16,5 +16,6 @@ from . import (
     test_subsequent_operation,
     test_uom_uom,
     test_operation,
+    test_operation_line_product_tag,
     test_document_email,
 )
