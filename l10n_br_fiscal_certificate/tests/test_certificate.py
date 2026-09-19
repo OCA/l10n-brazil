@@ -140,6 +140,26 @@ class TestCertificate(TransactionCase):
         with self.assertRaises(ValidationError):
             company._get_br_ecertificate()
 
+    def test_branch_uses_parent_certificate(self):
+        """A branch without certificate uses the one of its parent company"""
+        parent_cert = self.certificate_model.create(
+            self._certificate_vals(self.certificate_valid)
+        )
+        self.company.certificate_id = parent_cert
+        branch = self.company_model.create(
+            {"name": "Branch Test Fiscal BR", "parent_id": self.company.id}
+        )
+        self.assertEqual(branch.certificate, parent_cert)
+        self.assertTrue(branch._get_br_ecertificate())
+
+        branch_cert = self.certificate_model.create(
+            self._certificate_vals(self.certificate_valid, company=branch)
+        )
+        branch.certificate_id = branch_cert
+        self.assertEqual(branch.certificate, branch_cert)
+        # The parent company doesn't use the certificate of its branch
+        self.assertEqual(self.company.certificate, parent_cert)
+
     def test_only_ecnpj(self):
         """Only a certificate issued to a CNPJ is used when only_ecnpj is set"""
         company = self.env.company

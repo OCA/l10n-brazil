@@ -12,6 +12,10 @@
                             name="certificate_id"
                             context="{'default_scope': 'l10n_br', 'default_company_id': id}"
                         />
+                        <field
+                            name="certificate"
+                            invisible="certificate_id or not parent_id"
+                        />
                     </group>
                 </page>
             </xpath>
