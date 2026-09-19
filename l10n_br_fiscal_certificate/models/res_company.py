@@ -23,13 +23,20 @@ class ResCompany(models.Model):
 
     certificate = fields.Many2one(
         comodel_name="certificate.certificate",
+        string="Certificate in Use",
         compute="_compute_certificate",
+        compute_sudo=True,
+        recursive=True,
+        help="Certificate of the company or, for a branch without certificate, "
+        "the one of its closest parent company.",
     )
 
-    @api.depends("certificate_id")
+    @api.depends("certificate_id", "parent_id.certificate")
     def _compute_certificate(self):
         for record in self:
-            record.certificate = record.sudo().certificate_id
+            # A branch can sign with the certificate of its head office: the
+            # tax authorities accept a certificate with the same CNPJ root.
+            record.certificate = record.certificate_id or record.parent_id.certificate
 
     def _get_br_certificate(self, only_ecnpj=False):
         """Return the certificate to sign and transmit the fiscal documents of
