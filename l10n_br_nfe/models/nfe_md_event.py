@@ -72,7 +72,9 @@ class NfeRecipientManifestationEvent(models.Model):
             record.display_name = record.access_key
 
     def _get_processor(self):
-        certificado = self.env.company._get_br_ecertificate()
+        # Use the certificate of the company of the record, which may
+        # differ from the current user company in multi-company setups.
+        certificado = self.company_id._get_br_ecertificate()
         session = Session()
         session.verify = False
 
