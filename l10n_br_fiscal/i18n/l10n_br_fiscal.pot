@@ -360,11 +360,6 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
-msgid "<strong>Open</strong>"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "<strong>XML validation errors:</strong>"
 msgstr ""
 
@@ -2022,6 +2017,11 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.product_action
 msgid "Create new products."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__allow_product_creation
+msgid "Create unmapped products"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -5052,6 +5052,15 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_service_type__message_has_error
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__message_has_error
 msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__allow_product_creation
+msgid ""
+"If enabled, products that don't match an existing record will be "
+"automatically created during import. If disabled (default), the import will "
+"raise an error when an unmapped product is found so you can map it in the "
+"product lines above before importing."
 msgstr ""
 
 #. module: l10n_br_fiscal
