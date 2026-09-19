@@ -1,6 +1,7 @@
 # Copyright 2024 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
 
 
@@ -146,3 +147,55 @@ class TestOperation(TransactionCase):
         line = operation.line_definition(self.env.company, partner, product)
         self.assertTrue(line, "bonificação ficou sem linha de operação")
         self.assertEqual(line.cfop_internal_id.code, "5910")
+
+    def _create_line_with_tax_definition(self, operation, require, with_product):
+        line = self.env["l10n_br_fiscal.operation.line"].create(
+            {
+                "fiscal_operation_id": operation.id,
+                "name": f"Line require={require} product={with_product}",
+                "cfop_internal_id": self.env.ref("l10n_br_fiscal.cfop_5102").id,
+                "require_product_on_tax_definition": require,
+            }
+        )
+        self.env["l10n_br_fiscal.tax.definition"].create(
+            {
+                "fiscal_operation_line_id": line.id,
+                "type_in_out": "out",
+                "tax_group_id": self.env.ref("l10n_br_fiscal.tax_group_icms").id,
+                "product_ids": (
+                    [(6, 0, self.env.ref("product.product_product_1").ids)]
+                    if with_product
+                    else False
+                ),
+            }
+        )
+        return line
+
+    def test_require_product_on_tax_definition(self):
+        operation = self.env["l10n_br_fiscal.operation"].create(
+            {
+                "code": "TESTOP2",
+                "name": "Test Operation Require Product",
+                "fiscal_operation_type": "out",
+                "fiscal_type": "sale",
+                "state": "approved",
+            }
+        )
+
+        line_blocked = self._create_line_with_tax_definition(
+            operation, require=True, with_product=False
+        )
+        with self.assertRaises(ValidationError):
+            line_blocked.state = "approved"
+
+        line_allowed = self._create_line_with_tax_definition(
+            operation, require=True, with_product=True
+        )
+        line_allowed.state = "approved"
+        self.assertEqual(line_allowed.state, "approved")
+
+        line_unrestricted = self._create_line_with_tax_definition(
+            operation, require=False, with_product=False
+        )
+        line_unrestricted.state = "approved"
+        self.assertEqual(line_unrestricted.state, "approved")
