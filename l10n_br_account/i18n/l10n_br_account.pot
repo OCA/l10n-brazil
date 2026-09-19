@@ -30,6 +30,30 @@ msgid "(Discount)"
 msgstr ""
 
 #. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/document.py:0
+msgid "- %s: no product matched."
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/document.py:0
+msgid "- %s: no quantity."
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/document.py:0
+msgid "- %s: no unit of measure."
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/document.py:0
+msgid "- %s: no unit price."
+msgstr ""
+
+#. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
 msgid "<span>Fiscal Details</span>"
 msgstr ""
@@ -2490,6 +2514,14 @@ msgid "Technical mirror."
 msgstr ""
 
 #. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/document.py:0
+msgid ""
+"The document cannot be imported due to incomplete lines:\n"
+"%s"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_move_line__quantity
 msgid ""
 "The optional quantity expressed by this line, eg: number of product sold. "
@@ -2558,6 +2590,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__proxy_price_unit
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__proxy_price_unit
 msgid "Unit Price (proxy)"
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/document.py:0
+msgid "Unknown"
 msgstr ""
 
 #. module: l10n_br_account
