@@ -94,6 +94,20 @@ class TestCertificate(TransactionCase):
         # Test method write
         cert.type = "e-cnpj"
 
+    def test_default_scope(self):
+        """The certificates of a Brazilian company are fiscal certificates"""
+        vals = self._certificate_vals(self.certificate_valid)
+        del vals["scope"]
+        cert = self.certificate_model.create(vals)
+        self.assertEqual(cert.scope, "l10n_br")
+
+        other_company = self.company_model.create(
+            {"name": "Company Test US", "country_id": self.env.ref("base.us").id}
+        )
+        vals["company_id"] = other_company.id
+        cert = self.certificate_model.with_company(other_company).create(vals)
+        self.assertFalse(cert.scope)
+
     def test_certificate_wrong_password(self):
         """Write a valid certificate with wrong password"""
         with self.assertRaises(ValidationError):
