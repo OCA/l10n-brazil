@@ -11,6 +11,7 @@ from datetime import datetime
 
 from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
+from erpbrasil.base.misc import punctuation_rm
 from erpbrasil.transmissao import TransmissaoSOAP
 from lxml import etree
 from nfelib.nfe.bindings.v4_0.nfe_v4_00 import Nfe
@@ -910,9 +911,7 @@ class NFe(spec_models.StackedModel):
                     for f in comodel._fields
                     if f.startswith(self._spec_prefix())
                     and f in self._fields.keys()
-                    and f
-                    # don't try to nfe40_fat id when reading nfe40_cobr for instance
-                    not in self._get_stacking_points().keys()
+                    and f not in self._get_stacking_points().keys()
                 ]
                 sub_tag_read = self.read(fields)[0]
                 if not any(
@@ -931,6 +930,30 @@ class NFe(spec_models.StackedModel):
             res = super()._export_many2one(field_name, xsd_required, class_obj)
             if self.company_l10n_br_ie_code_st:
                 res.IEST = self.company_l10n_br_ie_code_st
+            return res
+
+        if field_name == "nfe40_dest" and self.document_type == MODELO_FISCAL_NFCE:
+            if not self.partner_id.vat:
+                return None
+
+            res = super()._export_many2one(field_name, xsd_required, class_obj)
+
+            if (
+                self.partner_cnpj_cpf
+                and len(punctuation_rm(self.partner_cnpj_cpf)) <= 11
+            ) or (
+                self.partner_id.vat and len(punctuation_rm(self.partner_id.vat)) <= 11
+            ):
+                res.CPF = self.partner_cnpj_cpf or punctuation_rm(self.partner_id.vat)
+                res.CNPJ = None
+            else:
+                res.CNPJ = self.partner_cnpj_cpf
+                res.CPF = None
+
+            res.enderDest = None
+            res.CEP = None
+            res.xNome = None
+
             return res
 
         return super()._export_many2one(field_name, xsd_required, class_obj)
@@ -1153,12 +1176,27 @@ class NFe(spec_models.StackedModel):
             self.env.invalidate_all()
             inf_nfe = record._build_binding("nfe", "40")
 
+            if record.document_type == MODELO_FISCAL_NFCE:
+                if inf_nfe.dest and hasattr(inf_nfe.dest, "enderDest"):
+                    del inf_nfe.dest.enderDest
+
+                if inf_nfe.ide.tpAmb == "2" and inf_nfe.det:
+                    inf_nfe.det[0].prod.xProd = (
+                        "NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO "
+                        "- SEM VALOR FISCAL"
+                    )
+
             inf_nfe_supl = None
             if record.nfe40_infNFeSupl:
                 inf_nfe_supl = record.nfe40_infNFeSupl._build_binding("nfe", "40")
 
-            nfe = Nfe(infNFe=inf_nfe, infNFeSupl=inf_nfe_supl, signature=None)
+            nfe = Nfe(
+                infNFe=inf_nfe,
+                infNFeSupl=inf_nfe_supl,
+                signature=None,
+            )
             edocs.append(nfe)
+
         return edocs
 
     def _edoc_processor(self):
@@ -1838,15 +1876,20 @@ class NFe(spec_models.StackedModel):
         )
 
     def _prepare_nfce_danfe_values(self):
+        date = fields.Datetime.context_timestamp(self, self.document_date).strftime(
+            "%d/%m/%Y %H:%M:%S"
+        )
         return {
             "company_ie": self.company_id.l10n_br_ie_code,
             "company_cnpj": self.company_id.cnpj_cpf,
             "company_legal_name": self.company_id.legal_name,
+            "company_name": self.company_id.name,
             "company_street": self.company_id.street,
             "company_number": self.company_id.street_number,
             "company_district": self.company_id.district,
             "company_city": self.company_id.city_id.display_name,
             "company_state": self.company_id.state_id.name,
+            "partner_cpf": self.move_ids.partner_cnpj_cpf or "",
             "lines": self._prepare_nfce_danfe_line_values(),
             "total_product_quantity": len(
                 self.fiscal_line_ids.filtered(lambda line: line.product_id)
@@ -1860,9 +1903,7 @@ class NFe(spec_models.StackedModel):
             "document_key": self.document_key,
             "document_number": self.document_number,
             "document_serie": self.document_serie,
-            "document_date": self.document_date.astimezone().strftime(
-                "%d/%m/%y %H:%M:%S"
-            ),
+            "document_date": date,
             "authorization_protocol": self.authorization_protocol,
             "document_qrcode": self.get_nfce_qrcode(),
             "system_env": self.nfe40_tpAmb,
@@ -1884,8 +1925,8 @@ class NFe(spec_models.StackedModel):
                     "product_name": product_id.name,
                     "product_quantity": line.quantity,
                     "product_uom": product_id.uom_name,
-                    "product_unit_value": product_id.lst_price,
-                    "product_unit_total": line.quantity * product_id.lst_price,
+                    "product_unit_value": line.price_unit,
+                    "product_unit_total": line.quantity * line.price_unit,
                 }
             )
         return lines_list
