@@ -1,0 +1,792 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_fiscal_dfe
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
+msgid ""
+"<i class=\"fa fa-calendar text-primary me-2\"/>\n"
+"                            <span class=\"text-muted small fw-bold\">Next Query</span>"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
+msgid ""
+"<i class=\"fa fa-clock-o text-primary me-2\"/>\n"
+"                                <span class=\"text-muted small fw-bold\">Last Query</span>"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
+msgid ""
+"<i class=\"fa fa-download text-warning me-2\"/>\n"
+"                            <span class=\"text-muted small fw-bold\">\n"
+"                                Pending Import\n"
+"                            </span>"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
+msgid ""
+"<i class=\"fa fa-exclamation-triangle me-2 fs-4\"/>\n"
+"                    <span>DF-e environment is set to <b>Homologação</b> (testing).</span>"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
+msgid ""
+"<i class=\"fa fa-file-text-o text-success me-2\"/>\n"
+"                            <span class=\"text-muted small fw-bold\">Documents Today</span>"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
+msgid "<i class=\"fa fa-key\"/> Specific Search"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
+msgid "<i class=\"fa fa-search\"/> Search All"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
+msgid ""
+"<i class=\"fa fa-signal text-info me-2\"/>\n"
+"                                <span class=\"text-muted small fw-bold\">NSU</span>"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/models/res_company.py:0
+msgid ""
+"<p>%(count)s new third-party DF-e document(s) found.</p><p><a "
+"href=\"%(url)s\">View documents</a></p>"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
+msgid ""
+"<span class=\"badge bg-secondary\">\n"
+"                                    <i class=\"fa fa-pause\"/> Auto-fetch off\n"
+"                                </span>"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
+msgid ""
+"<span class=\"badge bg-success\">\n"
+"                                    <i class=\"fa fa-check\"/> Auto-fetch active\n"
+"                                </span>"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
+msgid ""
+"<span class=\"badge bg-success\">\n"
+"                                    <i class=\"fa fa-check\"/> Synced\n"
+"                                </span>"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
+msgid ""
+"<span class=\"badge bg-warning text-dark\">\n"
+"                                    <i class=\"fa fa-refresh\"/> Pending\n"
+"                                </span>"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
+msgid "<span class=\"text-success\">0</span>"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.constraint,message:l10n_br_fiscal_dfe.constraint_l10n_br_fiscal_dfe_document_access_key_company_uniq
+msgid "A DFe with this access key already exists for this company."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_dfe_specific_search_wizard__access_key
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__access_key
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__access_key
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_form
+msgid "Access Key"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_dfe_specific_search_wizard__access_key
+msgid "Access Key of the electronic fiscal document to be searched."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_tree
+msgid "Amount"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__attachment_id
+msgid "Attachment"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__vat
+msgid "CNPJ/CPF"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__dfe_specific_search_wizard__fiscal_type__cte
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_dfe__fiscal_type__cte
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_distribution_log__fiscal_type__cte
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_document__fiscal_type__cte
+msgid "CT-e"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.view_dfe_specific_search_wizard_form
+msgid "Cancel"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_document__color_status__muted
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_search
+msgid "Cancelled/Denied"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__color_status
+msgid "Color Status"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model,name:l10n_br_fiscal_dfe.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_dfe_specific_search_wizard__company_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__company_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__company_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__company_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_search
+msgid "Company"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_dfe__document_type_dfe__complete
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_document__color_status__green
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_search
+msgid "Complete"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
+msgid "Complete documents not imported"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/models/res_company.py:0
+msgid "Cooldown active (%(code)s)"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_dfe_specific_search_wizard__create_uid
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__create_uid
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__create_uid
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_dfe_specific_search_wizard__create_date
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__create_date
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__create_date
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model,name:l10n_br_fiscal_dfe.model_l10n_br_fiscal_dfe_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_res_company_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_tree
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_form
+msgid "DF-e"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_res_company_form
+msgid "DF-e Distribution"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model,name:l10n_br_fiscal_dfe.model_l10n_br_fiscal_dfe_distribution_log
+msgid "DF-e Distribution Log"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__dfe_document_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_form
+msgid "DF-e Document"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_search
+msgid "DF-e Documents"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_res_company_form
+msgid "DF-e Logs"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_res_users__dfe_notification
+msgid "DF-e Notification"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.ui.menu,name:l10n_br_fiscal_dfe.menu_l10n_br_fiscal_dfe_root
+msgid "DF-e Queries"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.actions.act_window,name:l10n_br_fiscal_dfe.dfe_action
+#: model:ir.ui.menu,name:l10n_br_fiscal_dfe.dfe_record_menu
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_form
+msgid "DF-e Records"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__document_type_dfe
+msgid "DF-e Type"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/controllers/main.py:0
+msgid ""
+"DF-e distribution has never been queried. Configure and run the first query "
+"to start receiving documents."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__dfe_ids
+msgid "DF-e records"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_distribution_log_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_distribution_log_tree
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_tree
+msgid "Date"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_dfe_specific_search_wizard__display_name
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__display_name
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__display_name
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.actions.act_window,name:l10n_br_fiscal_dfe.dfe_distribution_log_action
+msgid "Distribution Log"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.ui.menu,name:l10n_br_fiscal_dfe.dfe_distribution_log_menu
+msgid "Distribution Logs"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/models/res_company.py:0
+msgid ""
+"Distribution query OK: %(cstat)s - %(motivo)s (ultNSU=%(ult)s, "
+"maxNSU=%(mx)s)"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_form
+msgid "Document"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_form
+msgid "Document Info"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__document_number
+msgid "Document Number"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__document_amount
+msgid "Document Total Value"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__document_state
+msgid ""
+"Document situation code as received from the distribution service (semantics"
+" depend on the fiscal document type)."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.actions.server,name:l10n_br_fiscal_dfe.action_server_download_xmls_zip
+msgid "Download XMLs (zip)"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__document_emission_date
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_search
+msgid "Emission Date"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__emitter
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_form
+msgid "Emitter"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_dfe__operation_type__0
+msgid "Entrada"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_distribution_log__log_type__error
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_distribution_log_search
+msgid "Error"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/models/res_company.py:0
+msgid ""
+"Error on searching documents.\n"
+"%(error)s"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/models/res_company.py:0
+msgid ""
+"Error validating document distribution: \n"
+"\n"
+"%(code)s - %(message)s"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__event_type_dfe_label
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_dfe__document_type_dfe__event
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_form
+msgid "Event"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__event_type_dfe
+msgid "Event Type"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_dfe_specific_search_wizard__fiscal_type
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__fiscal_type
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__fiscal_type
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__fiscal_type
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_search
+msgid "Fiscal Type"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model,name:l10n_br_fiscal_dfe.model_l10n_br_fiscal_dfe_document
+msgid "Fiscal document from distribution service"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_search
+msgid "Group By"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_dfe_specific_search_wizard__id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_tree
+msgid "Import"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_distribution_log__log_type__info
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_distribution_log_search
+msgid "Info"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/models/dfe_document.py:0
+msgid "It is only possible to download XML when DF-e is completed."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/controllers/main.py:0
+msgid ""
+"Last DF-e query was %(days)s days ago. After 60 days of inactivity, SEFAZ "
+"stops generating NSUs for this CNPJ (no retroactive recovery)."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_dfe_specific_search_wizard__write_uid
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__write_uid
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__write_uid
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_dfe_specific_search_wizard__write_date
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__write_date
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__write_date
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__log_type
+msgid "Log Type"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_form
+msgid "Match Partner"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__message
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_distribution_log_form
+msgid "Message"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__dfe_specific_search_wizard__fiscal_type__nfe
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_dfe__fiscal_type__nfe
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_distribution_log__fiscal_type__nfe
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_document__fiscal_type__nfe
+msgid "NF-e"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_dfe_specific_search_wizard__nsu
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__nsu
+msgid "NSU"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/wizards/specific_search_wizard.py:0
+msgid "NSU %(nsu)s already exists in the database (DF-e #%(dfe_id)s)."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_dfe_specific_search_wizard__nsu
+msgid ""
+"NSU (Numero Sequencial Unico) is a unique sequential number assigned to each"
+" document in the Brazilian electronic fiscal document system."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/wizards/specific_search_wizard.py:0
+msgid "NSU cannot be zero."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/wizards/specific_search_wizard.py:0
+msgid "NSU must contain only numbers."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/models/res_company.py:0
+msgid "Next query scheduled in %(minutes)s minutes."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_search
+msgid "No Partner"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/models/dfe_document.py:0
+msgid "No complete XML found in the selected documents."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/models/res_company.py:0
+msgid "No documents found: %(code)s - %(message)s"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__operation_type
+msgid "Operation Type"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/models/dfe.py:0
+msgid "Other (%(code)s)"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__is_own_document
+msgid "Own Document"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_form
+msgid "PDF"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__partner_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_search
+msgid "Partner"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/wizards/specific_search_wizard.py:0
+msgid "Please enter an NSU."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/wizards/specific_search_wizard.py:0
+msgid "Please enter an access key."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_res_users__dfe_notification
+msgid ""
+"Receive Inbox notifications when the DF-e distribution finds new third-party"
+" documents."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__request_xml
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_distribution_log_form
+msgid "SOAP Request"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__response_xml
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_distribution_log_form
+msgid "SOAP Response"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__response_xml
+msgid "SOAP envelope received from SEFAZ"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__request_xml
+msgid "SOAP envelope sent to SEFAZ"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_dfe__operation_type__1
+msgid "Saída"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__schema_type
+msgid "Schema Type"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.view_dfe_specific_search_wizard_form
+msgid "Search"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.actions.server,name:l10n_br_fiscal_dfe.action_server_search_all_dfe
+msgid "Search All DF-e"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_dfe_specific_search_wizard__search_type
+msgid "Search Type"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__dfe_specific_search_wizard__search_type__access_key
+msgid "Search by Access Key"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__dfe_specific_search_wizard__search_type__nsu
+msgid "Search by NSU"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__serie
+msgid "Serie"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.view_dfe_specific_search_wizard_form
+msgid "Specific DF-e Search"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/models/res_company.py:0
+msgid "Specific Document Search"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.actions.server,name:l10n_br_fiscal_dfe.action_server_specific_search_dfe
+msgid "Specific Search DF-e"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/models/res_company.py:0
+msgid "Specific search OK: %(cstat)s - %(motivo)s"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/wizards/specific_search_wizard.py:0
+msgid "Specific search triggered successfully"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__document_state_label
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_tree
+msgid "State"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__document_state
+msgid "State Code"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/wizards/specific_search_wizard.py:0
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_distribution_log__log_type__success
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_distribution_log_search
+msgid "Success"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_dfe__document_type_dfe__summary
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_document__color_status__blue
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_search
+msgid "Summary"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.actions.act_window,name:l10n_br_fiscal_dfe.dfe_document_action
+msgid "Third-party DF-e Documents"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.ui.menu,name:l10n_br_fiscal_dfe.dfe_document_menu
+msgid "Third-party Documents"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__is_own_document
+msgid "True when the emitter CNPJ in the access key matches the company CNPJ."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_tree
+msgid "Type"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__schema_type
+msgid "Type of the DF-e document according to the XML schema."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model,name:l10n_br_fiscal_dfe.model_res_users
+msgid "User"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
+msgid "View NSU records"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
+msgid "View query logs"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_distribution_log__log_type__warning
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_distribution_log_search
+msgid "Warning"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_distribution_log_search
+msgid "With SOAP Data"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model,name:l10n_br_fiscal_dfe.model_dfe_specific_search_wizard
+msgid "Wizard to search specific DFe"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_tree
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_tree
+msgid "XML"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_form
+msgid "XML Attachment"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__attachment_id
+msgid "XML Attachment stored in Odoo."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__xml_pretty
+msgid "XML Pretty"
+msgstr ""
