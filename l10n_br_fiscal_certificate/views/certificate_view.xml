@@ -31,16 +31,6 @@
                     column_invisible="context.get('default_scope') != 'l10n_br'"
                 />
                 <field
-                    name="type"
-                    optional="show"
-                    column_invisible="context.get('default_scope') != 'l10n_br'"
-                />
-                <field
-                    name="subtype"
-                    optional="hide"
-                    column_invisible="context.get('default_scope') != 'l10n_br'"
-                />
-                <field
                     name="date_end"
                     optional="show"
                     column_invisible="context.get('default_scope') != 'l10n_br'"
@@ -58,18 +48,6 @@
                  the Brazilian fiscal scope -->
             <field name="scope" position="attributes">
                 <attribute name="invisible">country_code != 'BR'</attribute>
-            </field>
-            <field name="scope" position="after">
-                <field
-                    name="type"
-                    invisible="scope != 'l10n_br'"
-                    required="scope == 'l10n_br'"
-                />
-                <field
-                    name="subtype"
-                    invisible="scope != 'l10n_br'"
-                    required="scope == 'l10n_br'"
-                />
             </field>
             <field name="subject_common_name" position="after">
                 <field

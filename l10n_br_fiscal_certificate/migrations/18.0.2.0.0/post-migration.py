@@ -5,8 +5,6 @@ import logging
 
 from openupgradelib import openupgrade
 
-from odoo.tools import SQL
-
 _logger = logging.getLogger(__name__)
 
 _LEGACY_MODEL = "l10n_br_fiscal.certificate"
@@ -34,7 +32,7 @@ def migrate(env, version):
     # The legacy certificates were global while certificate.certificate
     # requires a company: a legacy certificate used by several companies
     # (e.g. a head office and its branches) is recreated in each of them.
-    # Certificates not used by any company go to the main company.
+    # The ones no company used go archived to the main company.
     main_company = env.ref("base.main_company", raise_if_not_found=False)
     fallback_company_ids = main_company.ids if main_company else []
 
@@ -43,10 +41,9 @@ def migrate(env, version):
     new_ids = {}
 
     env.cr.execute(
-        f"SELECT legacy_id, password, type, subtype, active "
-        f"FROM {_TMP_TABLE} ORDER BY legacy_id"
+        f"SELECT legacy_id, password, active FROM {_TMP_TABLE} ORDER BY legacy_id"
     )
-    for legacy_id, password, ctype, subtype, active in env.cr.fetchall():
+    for legacy_id, password, active in env.cr.fetchall():
         attachment = attachment_model.search(
             [
                 ("res_model", "=", _LEGACY_MODEL),
@@ -58,12 +55,13 @@ def migrate(env, version):
         if not attachment:
             _logger.warning("Skipping legacy certificate %s: no file", legacy_id)
             continue
-        for company_id in company_ids_by_legacy.get(legacy_id, fallback_company_ids):
+        company_ids = company_ids_by_legacy.get(legacy_id)
+        if not company_ids:
+            company_ids, active = fallback_company_ids, False
+        for company_id in company_ids:
             vals = {
                 "content": attachment.datas,
                 "pkcs12_password": password,
-                "type": ctype,
-                "subtype": subtype,
                 "active": active,
                 "scope": "l10n_br",
                 "company_id": company_id,
@@ -84,20 +82,23 @@ def migrate(env, version):
                 continue
             new_ids[legacy_id, company_id] = certificate.id
 
-    # Restore the res.company links cleared by the pre-migration.
+    # The company keeps using the same certificate: the NF-e one, or the
+    # e-CNPJ one when it had no NF-e certificate.
+    certificate_by_company = {}
     for company_id, field, legacy_id in company_links:
         new_id = new_ids.get((legacy_id, company_id))
-        if new_id:
-            env.cr.execute(
-                SQL(
-                    "UPDATE res_company SET %s = %s WHERE id = %s",
-                    SQL.identifier(field),
-                    new_id,
-                    company_id,
-                )
-            )
+        if new_id and (
+            company_id not in certificate_by_company or field == "certificate_nfe_id"
+        ):
+            certificate_by_company[company_id] = new_id
+    for company_id, certificate_id in certificate_by_company.items():
+        env.cr.execute(
+            "UPDATE res_company SET certificate_id = %s WHERE id = %s",
+            (certificate_id, company_id),
+        )
 
-    # Cleanup.
+    # Cleanup. CASCADE drops the foreign keys of the removed res.company
+    # fields, whose columns are only dropped at the end of the upgrade.
     env.cr.execute(f"DROP TABLE IF EXISTS {_TMP_COMPANY_TABLE}")
     env.cr.execute(f"DROP TABLE IF EXISTS {_TMP_TABLE}")
-    env.cr.execute(f"DROP TABLE IF EXISTS {_LEGACY_TABLE}")
+    env.cr.execute(f"DROP TABLE IF EXISTS {_LEGACY_TABLE} CASCADE")
