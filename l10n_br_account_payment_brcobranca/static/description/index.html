@@ -1,0 +1,691 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
+<title>Boletos e CNAB de cobrança</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 9511 2024-01-13 09:50:07Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+Despite the name, some widely supported CSS2 features are used.
+
+See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: gray; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic, pre.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="boletos-e-cnab-de-cobranca">
+<h1 class="title">Boletos e CNAB de cobrança</h1>
+
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! This file is generated by oca-gen-addon-readme !!
+!! changes will be overwritten.                   !!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! source digest: sha256:07a8bdb3903e0e611d7ae783854201b2e999ddaddac72cb07c749a1929ac1178
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/18.0/l10n_br_account_payment_brcobranca"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-18-0/l10n-brazil-18-0-l10n_br_account_payment_brcobranca"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=18.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
+<p>O módulo implementa o CNAB, a geração do Boleto, do Arquivo de Remessa e
+importa o Arquivo de Retorno usando a <a class="reference external" href="https://github.com/kivanio/brcobranca">Biblioteca
+BRCobranca</a> através do
+Micro-Serviço
+<a class="reference external" href="https://github.com/akretion/boleto_cnab_api">Boleto_CNAB_API</a>.</p>
+<p><strong>Table of contents</strong></p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#installation" id="toc-entry-1">Installation</a></li>
+<li><a class="reference internal" href="#configuration" id="toc-entry-2">Configuration</a></li>
+<li><a class="reference internal" href="#usage" id="toc-entry-3">Usage</a></li>
+<li><a class="reference internal" href="#known-issues-roadmap" id="toc-entry-4">Known issues / Roadmap</a></li>
+<li><a class="reference internal" href="#changelog" id="toc-entry-5">Changelog</a><ul>
+<li><a class="reference internal" href="#section-1" id="toc-entry-6">16.0.4.0.0 (2025-03-06)</a></li>
+<li><a class="reference internal" href="#section-2" id="toc-entry-7">16.0.3.0.0 (2024-12-16)</a></li>
+<li><a class="reference internal" href="#section-3" id="toc-entry-8">16.0.2.0.0 (2024-12-02)</a></li>
+<li><a class="reference internal" href="#section-4" id="toc-entry-9">16.0.1.0.0 (2024-08-22)</a></li>
+<li><a class="reference internal" href="#section-5" id="toc-entry-10">14.0.9.0.0 (2024-09-19)</a></li>
+<li><a class="reference internal" href="#section-6" id="toc-entry-11">14.0.8.0.0 (2024-09-18)</a></li>
+<li><a class="reference internal" href="#section-7" id="toc-entry-12">14.0.7.0.0 (2024-09-13)</a></li>
+<li><a class="reference internal" href="#section-8" id="toc-entry-13">14.0.6.0.0 (2024-09-10)</a></li>
+<li><a class="reference internal" href="#section-9" id="toc-entry-14">14.0.1.0.0 (2022-05-26)</a></li>
+<li><a class="reference internal" href="#section-10" id="toc-entry-15">12.0.1.0.0 (2021-05-07)</a></li>
+<li><a class="reference internal" href="#section-11" id="toc-entry-16">12.0.1.0.0 (2020-06-12)</a></li>
+<li><a class="reference internal" href="#section-12" id="toc-entry-17">10.0.1.0.0 (2019-05-30)</a></li>
+<li><a class="reference internal" href="#section-13" id="toc-entry-18">8.0.1.0.0 (2018-01-29)</a></li>
+<li><a class="reference internal" href="#section-14" id="toc-entry-19">8.0.1.0.0 (2017-07-01)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bug-tracker" id="toc-entry-20">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-21">Credits</a><ul>
+<li><a class="reference internal" href="#authors" id="toc-entry-22">Authors</a></li>
+<li><a class="reference internal" href="#contributors" id="toc-entry-23">Contributors</a></li>
+<li><a class="reference internal" href="#other-credits" id="toc-entry-24">Other credits</a></li>
+<li><a class="reference internal" href="#maintainers" id="toc-entry-25">Maintainers</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="installation">
+<h1><a class="toc-backref" href="#toc-entry-1">Installation</a></h1>
+<p>O modulo depende do:</p>
+<ul class="simple">
+<li>l10n_br_account_payment_order</li>
+<li>account_move_base_import</li>
+</ul>
+</div>
+<div class="section" id="configuration">
+<h1><a class="toc-backref" href="#toc-entry-2">Configuration</a></h1>
+<p>Para configurar esse módulo é preciso:</p>
+<p>Rodar a biblioteca <strong>BRCobranca</strong> como um micro-serviço
+<strong>Boleto_CNAB_API</strong>.</p>
+<p>Informar a variável de ambiente <strong>BRCOBRANCA_API_URL</strong>, existem três
+opções:</p>
+<ul class="simple">
+<li>No arquivo de configuração do <strong>Docker Compose File</strong> na seção
+<strong>enviroment</strong>, por exemplo
+<a class="reference external" href="https://github.com/akretion/docky-odoo-brasil/blob/12.0/docker-compose.yml#L3">https://github.com/akretion/docky-odoo-brasil/blob/12.0/docker-compose.yml#L3</a>
+, incluir: <strong>BRCOBRANCA_API_URL=http://boleto_cnab_api:9292</strong></li>
+<li>No arquivo de Configuração do Odoo, incluir:
+<strong>brcobranca_api_url=http://boleto_cnab_api:9292</strong></li>
+<li>No Odoo crie um Parâmetro de Sistema como:
+<strong>brcobranca_api_url=http://boleto_cnab_api:9292</strong></li>
+</ul>
+<p>Verifique se os Códigos do CNAB do Banco que será usado existem em:</p>
+<p><strong>Faturamento &gt; Configurações &gt; Administração &gt; Códigos CNAB</strong></p>
+<p>Caso seja preciso criar por favor considere fazer um PR nesse módulo
+acrescentando os Códigos em
+<strong>l10n_br_account_payment_order/data/cnab_codes/banco_X_cnab_Y_Z.xml</strong>
+dessa forma nas próximas implementações já não será preciso cadastrar,
+isso ajuda na construção de um banco de conhecimento, salvando tanto
+horas de implementação por não ser necessário rever ou refazer o que foi
+feito como poder usar o que outros fizeram, isso também é importante
+porque permite testar e avaliar as diferenças entre cada caso tornando a
+implementação mais robusta, você pode ver os casos que já existem hoje
+no módulo
+<a class="reference external" href="https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_account_payment_order">l10n_br_account_payment_order</a>.</p>
+<p>Crie uma <strong>Configuração CNAB</strong>, é onde serão armazenadas as informações
+específicas de cada caso como a Carteira, Convênio, Código do
+Benificiário, Códigos de Instrução e Retorno do Movimento, etc, em:</p>
+<p><strong>Faturamento &gt; Configuração &gt; Administração &gt; Configurações CNAB</strong></p>
+<p>Verifique se a <strong>Conta Bancária</strong> referente ao CNAB já foi cadastrada
+em:</p>
+<p><strong>Configurações &gt; Usuários e Empresas &gt; Empresas</strong></p>
+<p>Clique no Contato associado, e na aba Faturamento veja se a <strong>Contas
+Bancária</strong> referente ao CNAB já existe e se as informações estão
+corretas, se não existir veja de criar informando os dados Número da
+Conta, Agencia, etc.</p>
+<p>Ao cadastrar a <strong>Conta Bancária</strong> deve ser criado automaticamente um
+<strong>Diário Contábil</strong>, ou se já havia sido cadastrada o Diário já deve
+existir, verifique em:</p>
+<p><strong>Faturamento &gt; Configurações &gt; Financeiro &gt; Diários</strong></p>
+<p>Confirme se as informações estão corretas, campo <strong>Tipo</strong> deve estar
+como Banco, na aba <strong>Lançamentos do Diário</strong> em <strong>Número da Conta
+Bancária</strong> deve estar preenchido com a <strong>Conta Bancária</strong> do CNAB e na
+aba <strong>Configuração de Pagamentos</strong> os Metódos que serão usados, 240 ou
+400, devem estar marcados.</p>
+<p>Na aba <strong>Informações Referentes a Importação</strong> informe as configurações
+de Retorno do CNAB nos campos <strong>Tipo de Importação</strong>, <strong>Conta de
+Recebimento/Pagamento</strong>, <strong>Criação de Contra-Partida</strong> e se deve ser
+feita a reconciliação automática ao importar o arquivo em <strong>Reconciliar
+Automaticamente o Retorno de Pagamento</strong>.</p>
+<p>Crie um <strong>Modo de Pagamento</strong> ou use um existente em:</p>
+<p><strong>Faturamento &gt; Configuração &gt; Administração &gt; Modos de Pagamento</strong></p>
+<p>Informe o <strong>Diário Contábil</strong> referente ao Banco e a <strong>Configuração
+CNAB</strong> que deverá ser utilizada, no campo <strong>Diário de Banco Fixo</strong>
+informar o Diário Contábil da Conta Bancária e se for o caso, e é
+recomendado, marcar a opção <strong>Adicionar automaticamente ao validar a
+fatura</strong> para não ser preciso fazer manualmente.</p>
+<p>Caso o CNAB e Banco escolhidos possua um campo específico que seja
+preciso implementar considere fazer um PR no módulo
+<strong>l10n_br_account_payment_order</strong> aqui
+<a class="reference external" href="https://github.com/OCA/l10n-brazil/blob/16.0/l10n_br_account_payment_order/models/l10n_br_cnab_boleto_fields.py#L307">https://github.com/OCA/l10n-brazil/blob/16.0/l10n_br_account_payment_order/models/l10n_br_cnab_boleto_fields.py#L307</a>
+.</p>
+<p>Configure as permissões de acesso dos usuários, as opções são CNAB
+<strong>Usuário</strong> e <strong>Gerente</strong>.</p>
+</div>
+<div class="section" id="usage">
+<h1><a class="toc-backref" href="#toc-entry-3">Usage</a></h1>
+<p>Ao criar e Confirmar uma <strong>Fatura</strong> que tem um <strong>Modo de Pagamento</strong> que
+tenha uma <strong>Configuração CNAB</strong> definida deverá aparecer o botão de
+<strong>Imprimir Boleto</strong>, caso esteja marcado no Modo de Pagamento a opção de
+<strong>Adicionar automaticamente ao validar a fatura</strong> será criada ou
+adicionada em uma <strong>Ordem de Pagamento</strong> as linhas de pagamentos do
+CNAB, se a opção não estiver marcada será preciso fazer isso manualmente
+podendo ser feito tanto na Fatura quanto na Ordem de Pagamento.</p>
+<p>Ao Confirmar essa <strong>Ordem de Pagamento</strong> será possível gerar o <strong>Arquivo
+de Remessa CNAB</strong> a ser enviado ao Banco, é importante confirmar o envio
+do arquivo alterando o status da ordem para <strong>Arquivo Enviado</strong>, essa
+informação é usada para validar se existe uma instrução CNAB pendente
+antes de se poder criar outra.</p>
+<p>Alterações de CNAB como Alteração da Data de Vencimento, Protesto,
+Conceder Abatimento e etc podem ser feitas na própria Fatura em:</p>
+<p><strong>Faturamento &gt; Clientes &gt; Faturas</strong></p>
+<p>Na aba <strong>Recebimentos</strong> na última coluna existe o botão <strong>Atualizar
+Informação CNAB</strong> ao clicar em uma linha essa opção também aparece, ao
+fazer uma alteração é criada ou adicionada em uma Ordem de Pagamento a
+<strong>Instrução de Movimento CNAB</strong> selecionada.</p>
+<p>A importação do <strong>Arquivo CNAB de Retorno</strong> pode ser feita em:</p>
+<p><strong>Faturamento &gt; Financeiro &gt; CNAB &gt; Importar Arquivo de Lote</strong></p>
+<p>ou no próprio Diário em:</p>
+<p><strong>Faturamento &gt; Configurações &gt; Financeiro &gt; Diários</strong></p>
+<p>Na aba <strong>Informações Referentes a Importação</strong> no botão <strong>Arquivo de
+lote de importação</strong>.</p>
+<p>Toda importação de arquivo de retorno cria um <strong>LOG</strong> que pode ser
+consultado em:</p>
+<p><strong>Faturamento &gt; Financeiro &gt; CNAB &gt; Registro de Retorno de CNAB</strong></p>
+<p>Caso o <strong>Código de Retorno CNAB</strong> recebido seja um dos <strong>Códigos de
+Liquidação do Retorno do Movimento</strong>, definidos na <strong>Configuração CNAB</strong>
+usada no <strong>Modo de Pagamento</strong>, será criada uma <strong>Entrada de Diário</strong>
+com os valores, quando existirem de <strong>Desconto, Juros/Mora, Tarifa
+Bancária, Abatimento</strong> e o <strong>Valor Recebido</strong> a ser reconciliado com a
+linha da <strong>Fatura</strong> referente, os lançamentos são separados de acordo
+com as <strong>Contas Contabéis</strong> definidas na <strong>Configuração CNAB</strong>, a linha
+para reconciliar a Fatura precisam ser iguais por isso o valor é:</p>
+<p><strong>valor_recebido_calculado = valor_recebido + valor_desconto +
+valor_abatimento - valor_juros_mora</strong></p>
+<p>Quando marcada a opção de <strong>Reconciliação Automática</strong> a <strong>Entrada de
+Diário</strong> será movida para o status <strong>Lançado</strong> automaticamente ao
+importar o arquivo, se essa opção não estiver marcada isso deverá ser
+feito manualmente.</p>
+</div>
+<div class="section" id="known-issues-roadmap">
+<h1><a class="toc-backref" href="#toc-entry-4">Known issues / Roadmap</a></h1>
+<ul class="simple">
+<li>Verificar a posssibilidade de Imprimir o <strong>Boleto</strong> pelo menu
+<strong>Imprimir</strong> da Fatura, na v16 em diante.</li>
+</ul>
+</div>
+<div class="section" id="changelog">
+<h1><a class="toc-backref" href="#toc-entry-5">Changelog</a></h1>
+<div class="section" id="section-1">
+<h2><a class="toc-backref" href="#toc-entry-6">16.0.4.0.0 (2025-03-06)</a></h2>
+<ul class="simple">
+<li>[REF] Alterado o Código de Protesto de Char para
+Objeto/l10n_br_cnab.code</li>
+</ul>
+</div>
+<div class="section" id="section-2">
+<h2><a class="toc-backref" href="#toc-entry-7">16.0.3.0.0 (2024-12-16)</a></h2>
+<ul class="simple">
+<li>[REF] “Foward Port” Separando as Configurações do CNAB do Modo de
+Pagamento.</li>
+</ul>
+</div>
+<div class="section" id="section-3">
+<h2><a class="toc-backref" href="#toc-entry-8">16.0.2.0.0 (2024-12-02)</a></h2>
+<ul class="simple">
+<li>[REF] “Foward Port” Unindo os Códigos CNAB em um mesmo objeto.</li>
+</ul>
+</div>
+<div class="section" id="section-4">
+<h2><a class="toc-backref" href="#toc-entry-9">16.0.1.0.0 (2024-08-22)</a></h2>
+<ul class="simple">
+<li>[MIG] Migração para a versão 16.0</li>
+</ul>
+</div>
+<div class="section" id="section-5">
+<h2><a class="toc-backref" href="#toc-entry-10">14.0.9.0.0 (2024-09-19)</a></h2>
+<ul class="simple">
+<li>[REM] Removendo Campos, Visões e Objetos obsoletos.</li>
+</ul>
+</div>
+<div class="section" id="section-6">
+<h2><a class="toc-backref" href="#toc-entry-11">14.0.8.0.0 (2024-09-18)</a></h2>
+<ul class="simple">
+<li>[IMP] Possibilidade de informar Códigos de Desconto além do 0 e 1.</li>
+</ul>
+</div>
+<div class="section" id="section-7">
+<h2><a class="toc-backref" href="#toc-entry-12">14.0.7.0.0 (2024-09-13)</a></h2>
+<ul class="simple">
+<li>[REF] Separando as Configurações do CNAB do Modo de Pagamento.</li>
+</ul>
+</div>
+<div class="section" id="section-8">
+<h2><a class="toc-backref" href="#toc-entry-13">14.0.6.0.0 (2024-09-10)</a></h2>
+<ul class="simple">
+<li>[REF] Unindo os Códigos CNAB em um mesmo objeto.</li>
+</ul>
+</div>
+<div class="section" id="section-9">
+<h2><a class="toc-backref" href="#toc-entry-14">14.0.1.0.0 (2022-05-26)</a></h2>
+<ul class="simple">
+<li>[MIG] Migration</li>
+</ul>
+</div>
+<div class="section" id="section-10">
+<h2><a class="toc-backref" href="#toc-entry-15">12.0.1.0.0 (2021-05-07)</a></h2>
+<ul class="simple">
+<li>[MIG] Finish migration</li>
+<li>[IMP] Integrate with module account_move_base_import used to import
+CNAB file</li>
+<li>[IMP] Make possible automatic reconciliation and register the values
+of Fees, Tariff Bank, Rebate in configured accounts.</li>
+</ul>
+</div>
+<div class="section" id="section-11">
+<h2><a class="toc-backref" href="#toc-entry-16">12.0.1.0.0 (2020-06-12)</a></h2>
+<ul class="simple">
+<li>[MIG] Start Migration</li>
+</ul>
+</div>
+<div class="section" id="section-12">
+<h2><a class="toc-backref" href="#toc-entry-17">10.0.1.0.0 (2019-05-30)</a></h2>
+<ul class="simple">
+<li>[MIG] Migration</li>
+</ul>
+</div>
+<div class="section" id="section-13">
+<h2><a class="toc-backref" href="#toc-entry-18">8.0.1.0.0 (2018-01-29)</a></h2>
+<ul class="simple">
+<li>[REF] Maked functional to print Boleto, create CNAB file and import
+CNAB as Extrat Bank the user should be resolved manully the
+divergences between the values( Fee, Tariff Bank, Rebate, etc).</li>
+</ul>
+</div>
+<div class="section" id="section-14">
+<h2><a class="toc-backref" href="#toc-entry-19">8.0.1.0.0 (2017-07-01)</a></h2>
+<ul class="simple">
+<li>[NEW] First version</li>
+</ul>
+</div>
+</div>
+<div class="section" id="bug-tracker">
+<h1><a class="toc-backref" href="#toc-entry-20">Bug Tracker</a></h1>
+<p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-brazil/issues">GitHub Issues</a>.
+In case of trouble, please check there if your issue has already been reported.
+If you spotted it first, help us to smash it by providing a detailed and welcomed
+<a class="reference external" href="https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_account_payment_brcobranca%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
+<p>Do not contact contributors directly about support or help with technical issues.</p>
+</div>
+<div class="section" id="credits">
+<h1><a class="toc-backref" href="#toc-entry-21">Credits</a></h1>
+<div class="section" id="authors">
+<h2><a class="toc-backref" href="#toc-entry-22">Authors</a></h2>
+<ul class="simple">
+<li>Akretion</li>
+</ul>
+</div>
+<div class="section" id="contributors">
+<h2><a class="toc-backref" href="#toc-entry-23">Contributors</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="https://akretion.com/pt-BR">Akretion</a>:<ul>
+<li>Raphaël Valyi &lt;<a class="reference external" href="mailto:raphael.valyi&#64;akretion.com.br">raphael.valyi&#64;akretion.com.br</a>&gt;</li>
+<li>Magno Costa &lt;<a class="reference external" href="mailto:magno.costa&#64;akretion.com.br">magno.costa&#64;akretion.com.br</a>&gt;</li>
+</ul>
+</li>
+<li><a class="reference external" href="https://engenere.one">Engenere</a>:<ul>
+<li>Antônio S. Pereira Neto &lt;<a class="reference external" href="mailto:neto&#64;engenere.one">neto&#64;engenere.one</a>&gt;</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="other-credits">
+<h2><a class="toc-backref" href="#toc-entry-24">Other credits</a></h2>
+<p>The development of this module has been financially supported by:</p>
+<ul class="simple">
+<li>AKRETION LTDA - <a class="reference external" href="https://akretion.com/pt-BR">https://akretion.com/pt-BR</a></li>
+</ul>
+</div>
+<div class="section" id="maintainers">
+<h2><a class="toc-backref" href="#toc-entry-25">Maintainers</a></h2>
+<p>This module is maintained by the OCA.</p>
+<a class="reference external image-reference" href="https://odoo-community.org">
+<img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" />
+</a>
+<p>OCA, or the Odoo Community Association, is a nonprofit organization whose
+mission is to support the collaborative development of Odoo features and
+promote its widespread use.</p>
+<p>Current <a class="reference external" href="https://odoo-community.org/page/maintainer-role">maintainers</a>:</p>
+<p><a class="reference external image-reference" href="https://github.com/rvalyi"><img alt="rvalyi" src="https://github.com/rvalyi.png?size=40px" /></a> <a class="reference external image-reference" href="https://github.com/mbcosta"><img alt="mbcosta" src="https://github.com/mbcosta.png?size=40px" /></a></p>
+<p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-brazil/tree/18.0/l10n_br_account_payment_brcobranca">OCA/l10n-brazil</a> project on GitHub.</p>
+<p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
+</div>
+</div>
+</div>
+</body>
+</html>
