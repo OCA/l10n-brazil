@@ -7,7 +7,7 @@ import logging
 import re
 import string
 import threading
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.fiscal.edoc import ChaveEdoc

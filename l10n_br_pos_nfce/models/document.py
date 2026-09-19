@@ -135,7 +135,7 @@ class Document(models.Model):
         )
 
     def _document_qrcode(self):
-        super()._document_qrcode()
+        res = super()._document_qrcode()
 
         for record in self.filtered(lambda d: d.document_type == MODELO_FISCAL_NFCE):
             if record.nfe40_infNFeSupl:
@@ -148,3 +148,5 @@ class Document(models.Model):
                     "url_key": record.get_nfce_qrcode_url(),
                 }
             )
+
+        return res
