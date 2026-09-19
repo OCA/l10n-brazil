@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -21,7 +21,6 @@ msgstr ""
 #. module: l10n_br_account_payment_brcobranca
 #. odoo-python
 #: code:addons/l10n_br_account_payment_brcobranca/constants/br_cobranca.py:0
-#, python-format
 msgid ""
 "BRCobranca API URL is not configured.\n"
 "\n"
@@ -77,7 +76,6 @@ msgstr ""
 #. module: l10n_br_account_payment_brcobranca
 #. odoo-python
 #: code:addons/l10n_br_account_payment_brcobranca/models/account_move.py:0
-#, python-format
 msgid ""
 "It is not possible generated boletos\n"
 "Make sure the Invoice are in Confirm state and Payment Mode method are CNAB."
@@ -101,15 +99,14 @@ msgstr ""
 #. module: l10n_br_account_payment_brcobranca
 #. odoo-python
 #: code:addons/l10n_br_account_payment_brcobranca/models/account_journal.py:0
-#, python-format
 msgid ""
-"Missing column! Column %s you try to import is not present in the move line!"
+"Missing column! Column %(col)s you try to import is not present in the move "
+"line!"
 msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
 #. odoo-python
 #: code:addons/l10n_br_account_payment_brcobranca/models/account_journal.py:0
-#, python-format
 msgid "Nothing to import: the file is empty!"
 msgstr ""
 
@@ -126,21 +123,18 @@ msgstr ""
 #. module: l10n_br_account_payment_brcobranca
 #. odoo-python
 #: code:addons/l10n_br_account_payment_brcobranca/models/account_journal.py:0
-#, python-format
 msgid "Statement import error The statement cannot be created: %(st)s"
 msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
 #. odoo-python
 #: code:addons/l10n_br_account_payment_brcobranca/constants/br_cobranca.py:0
-#, python-format
 msgid "The Bank %(bank)s CNAB %(cnab_code)s is not implemented in BRCobranca."
 msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
 #. odoo-python
 #: code:addons/l10n_br_account_payment_brcobranca/models/account_payment_order.py:0
-#, python-format
 msgid ""
 "The CNAB %(cnab_type)s for Bank %(bank_name)s are not implemented in "
 "BRCobranca."
@@ -149,7 +143,6 @@ msgstr ""
 #. module: l10n_br_account_payment_brcobranca
 #. odoo-python
 #: code:addons/l10n_br_account_payment_brcobranca/models/account_move.py:0
-#, python-format
 msgid ""
 "The invoice line %(name)s is already reconciled.\n"
 "\n"
