@@ -32,13 +32,9 @@ class PosOrder(models.Model):
                         "document_number": self.document_number,
                     }
                 )
-                pos_config_id.nfce_document_serie_sequence_number_next = (
-                    self.document_number
-                )
             else:
-                next_number = pos_config_id.nfce_document_serie_sequence_number_next
+                next_number = pos_config_id.nfce_document_serie_id.next_seq_number()
                 nfce_vals.update({"document_number": next_number})
-                pos_config_id.nfce_document_serie_sequence_number_next += 1
 
             vals.update(nfce_vals)
 
@@ -95,13 +91,17 @@ class PosOrder(models.Model):
                     {
                         "company_type": "company",
                         "ind_ie_dest": "9",
+                        "nfe40_CPF": "",
+                        "cnpj_cpf": self.cnpj_cpf,
                     }
                 )
-                self.partner_id.nfe40_CPF = ""
             else:
-                self.partner_id.nfe40_CNPJ = ""
-            self.partner_id.write({"cnpj_cpf": self.cnpj_cpf})
-            self.account_move.fiscal_document_id.nfe40_dest.nfe40_xNome = ""
+                self.partner_id.write(
+                    {
+                        "nfe40_CNPJ": "",
+                        "cnpj_cpf": self.cnpj_cpf,
+                    }
+                )
 
     def _clear_anonymous_consumer(self):
         if self._has_anonymous_consumer():
@@ -183,10 +183,14 @@ class PosOrderLine(models.Model):
     _inherit = "pos.order.line"
 
     def _prepare_nfce_tax_dict(self):
+        # Ensure that the fiscal map exists for this POS configuration
+        self.product_id.update_pos_fiscal_map()
+
         # Get fiscal map for this product
         fiscal_map_id = self.product_id.pos_fiscal_map_ids.filtered(
             lambda pfm: pfm.pos_config_id == self.order_id.config_id
         )
+
         if fiscal_map_id and len(fiscal_map_id) > 1:
             fiscal_map_id = fields.first(fiscal_map_id)
 
@@ -195,20 +199,18 @@ class PosOrderLine(models.Model):
             "fiscal_operation_id": fiscal_map_id.fiscal_operation_id.id,
             "fiscal_operation_line_id": fiscal_map_id.fiscal_operation_line_id.id,
             "cfop_id": fiscal_map_id.cfop_id.id,
-            "uot_id": fiscal_map_id.uot_id.id,
+            "uot_id": (fiscal_map_id.uot_id.id or self.product_id.uom_id.id),
             "fiscal_genre_id": self.product_id.fiscal_genre_id.id,
-            "discount_value": (self.discount * self.amount_total) / 100,
+            "discount_value": (self.price_unit * self.qty * self.discount)
+            / 100,  # corrigido calculo do desconto
             "uom_id": self.product_id.uom_id.id,
             "ncm_id": self.product_id.ncm_id.id,
         }
 
-        # Update tax dict for each tax domain
         tax_dict.update(self._prepare_nfce_icms_dict(fiscal_map_id))
         tax_dict.update(self._prepare_nfce_ipi_dict(fiscal_map_id))
         tax_dict.update(self._prepare_nfce_cofins_dict(fiscal_map_id))
         tax_dict.update(self._prepare_pis_icms_dict(fiscal_map_id))
-        tax_dict.update(self._prepare_pis_icms_dict(fiscal_map_id))
-        # Update tax dict with fiscal_tax_ids data
         tax_dict.update(self._prepare_nfce_fiscal_tax_ids(fiscal_map_id))
 
         return tax_dict
