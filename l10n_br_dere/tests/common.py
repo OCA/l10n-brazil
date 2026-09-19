@@ -165,10 +165,11 @@ class DereCommon(TransactionCase):
             self._accept_event(declaration, event_type)
         return declaration
 
-    def _nfe_access_key(self, number=1):
+    def _nfe_access_key(self, number=1, period="2026-11"):
         cnpj = re.sub(r"[^0-9]", "", self.company._dere_cnpj() or "12345678000195")
         cnpj = cnpj.zfill(14)[:14]
-        body = f"352611{cnpj}55" + "001" + f"{number:09d}" + "1" + "12345678"
+        year_month = f"{period[2:4]}{period[5:7]}"
+        body = f"35{year_month}{cnpj}55" + "001" + f"{number:09d}" + "1" + "12345678"
         total = 0
         weight = 2
         for digit in reversed(body):

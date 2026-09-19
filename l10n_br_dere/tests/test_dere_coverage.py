@@ -405,7 +405,7 @@ class TestDereCoverage(DereCommon):
                 "partner_id": self.env.ref("l10n_br_base.res_partner_cliente1_sp").id,
                 "fiscal_operation_id": operation.id,
                 "document_date": "2024-12-15 12:00:00",
-                "document_key": self._nfe_access_key(7),
+                "document_key": self._nfe_access_key(7, period="2024-12"),
                 "issuer": "partner",
                 "state_edoc": "a_enviar",
             }
@@ -452,7 +452,7 @@ class TestDereCoverage(DereCommon):
                 "document_type_id": self.env.ref("l10n_br_fiscal.document_01").id,
                 "partner_id": self.env.ref("l10n_br_base.res_partner_cliente1_sp").id,
                 "document_date": "2024-01-15 12:00:00",
-                "document_key": self._nfe_access_key(6),
+                "document_key": self._nfe_access_key(6, period="2024-01"),
                 "issuer": "partner",
                 "state_edoc": "a_enviar",
             }
@@ -466,7 +466,7 @@ class TestDereCoverage(DereCommon):
                 "document_type_id": self.env.ref("l10n_br_fiscal.document_SE").id,
                 "partner_id": self.env.ref("l10n_br_base.res_partner_cliente1_sp").id,
                 "document_date": "2024-01-16 12:00:00",
-                "document_key": self._nfe_access_key(5),
+                "document_key": self._nfe_access_key(5, period="2024-01"),
                 "issuer": "partner",
                 "state_edoc": "a_enviar",
             }
