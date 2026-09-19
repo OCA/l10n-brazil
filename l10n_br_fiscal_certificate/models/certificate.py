@@ -18,6 +18,7 @@ class Certificate(models.Model):
 
     scope = fields.Selection(
         selection_add=[("l10n_br", "Brazilian Fiscal")],
+        default=lambda self: self._default_scope(),
     )
 
     type = fields.Selection(
@@ -46,6 +47,12 @@ class Certificate(models.Model):
         compute="_compute_issuer_name",
         store=True,
     )
+
+    @api.model
+    def _default_scope(self):
+        # The certificates of a Brazilian company are fiscal certificates,
+        # also when they are uploaded from the Settings.
+        return "l10n_br" if self.env.company.country_code == "BR" else False
 
     @api.depends("subject_common_name")
     def _compute_owner_cnpj_cpf(self):
