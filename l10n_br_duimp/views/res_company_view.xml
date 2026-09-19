@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2026 - TODAY, Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html -->
+<odoo>
+    <record id="res_company_form_duimp" model="ir.ui.view">
+        <field name="name">l10n_br_duimp.res.company.form</field>
+        <field name="model">res.company</field>
+        <field
+            name="inherit_id"
+            ref="l10n_br_fiscal_certificate.fiscal_res_company_form"
+        />
+        <field name="arch" type="xml">
+            <group name="certificate" position="after">
+                <group name="duimp" string="DUIMP (Siscomex)">
+                    <field name="duimp_environment" />
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>

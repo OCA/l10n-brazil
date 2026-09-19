@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2026 - TODAY, Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html -->
+<odoo>
+    <record id="duimp_search_wizard_line_tree" model="ir.ui.view">
+        <field name="name">l10n_br_duimp.search_wizard.line.tree</field>
+        <field name="model">l10n_br_duimp.search_wizard.line</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom" create="0" delete="0">
+                <field name="selected" widget="boolean_toggle" />
+                <field name="duimp_number" readonly="1" />
+                <field name="duimp_version" readonly="1" />
+                <field name="registration_date" readonly="1" />
+                <field name="situation" readonly="1" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="duimp_search_wizard_form" model="ir.ui.view">
+        <field name="name">l10n_br_duimp.search_wizard.form</field>
+        <field name="model">l10n_br_duimp.search_wizard</field>
+        <field name="arch" type="xml">
+            <form string="Search DUIMP">
+                <group>
+                    <field name="company_id" />
+                    <field name="date_from" />
+                    <field name="date_to" />
+                </group>
+                <separator
+                    string="DUIMPs Found"
+                    attrs="{'invisible': [('line_ids', '=', [])]}"
+                />
+                <field name="line_ids" attrs="{'invisible': [('line_ids', '=', [])]}" />
+                <footer>
+                    <button
+                        name="action_search_duimp"
+                        string="Search"
+                        class="btn-secondary"
+                        type="object"
+                    />
+                    <button
+                        name="action_import_selected"
+                        string="Import Selected"
+                        class="btn-primary"
+                        type="object"
+                        attrs="{'invisible': [('line_ids', '=', [])]}"
+                    />
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="duimp_search_wizard_action" model="ir.actions.act_window">
+        <field name="name">Search DUIMP</field>
+        <field name="res_model">l10n_br_duimp.search_wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="duimp_search_wizard_form" />
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+        id="duimp_search_wizard_menu"
+        action="duimp_search_wizard_action"
+        name="Search DUIMP"
+        parent="account.menu_finance_payables"
+        sequence="4"
+        groups="l10n_br_fiscal.group_manager"
+    />
+</odoo>
