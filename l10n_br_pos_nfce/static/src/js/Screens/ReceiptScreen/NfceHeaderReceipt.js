@@ -51,14 +51,8 @@ odoo.define("l10n_br_pos_nfce.NfceHeaderReceipt", function (require) {
         }
 
         get fullCompanyAddress() {
-            const {
-                street_name,
-                street_number,
-                district,
-                city,
-                zip,
-                state,
-            } = this.companyAddress;
+            const {street_name, street_number, district, city, zip, state} =
+                this.companyAddress;
             return `${street_name}, ${street_number} - ${district} ${city}/${BRAZILIAN_STATES_MAP[state]} - CEP: ${zip}`;
         }
 
