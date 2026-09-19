@@ -2,18 +2,23 @@
 # Copyright 2020 - TODAY, Renato Lima - Akretion
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER,
     DOCUMENT_ISSUER_COMPANY,
-)
-from odoo.addons.l10n_br_fiscal.constants.fiscal import (
-    DOCUMENT_STATES as FISCAL_STATES,
+    DOCUMENT_STATE_CANCEL,
 )
 from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import (
-    DOCUMENT_STATES as EDI_STATES,
+    DOCUMENT_STATE_AUTHORIZED,
+    DOCUMENT_STATE_DENIED,
 )
+
+NOTIFIED_STATE_FIELDS = {
+    DOCUMENT_STATE_AUTHORIZED: "state_autorizada",
+    DOCUMENT_STATE_CANCEL: "state_cancelada",
+    DOCUMENT_STATE_DENIED: "state_denegada",
+}
 
 
 class DocumentEmail(models.Model):
@@ -49,11 +54,19 @@ class DocumentEmail(models.Model):
         required=True,
     )
 
-    state_edoc = fields.Selection(
-        selection=FISCAL_STATES + EDI_STATES,
-        string="Situação e-doc",
-        copy=False,
-        index=True,
+    state_autorizada = fields.Boolean(
+        string="Autorizada",
+        help="Notify when the fiscal document is authorized.",
+    )
+
+    state_cancelada = fields.Boolean(
+        string="Cancelada",
+        help="Notify when the fiscal document is cancelled.",
+    )
+
+    state_denegada = fields.Boolean(
+        string="Denegada",
+        help="Notify when the fiscal document is denied.",
     )
 
     email_template_id = fields.Many2one(
@@ -65,19 +78,21 @@ class DocumentEmail(models.Model):
         "this document state change.",
     )
 
-    @api.depends("document_type_id", "state_edoc")
+    @api.depends(
+        "document_type_id",
+        "state_autorizada",
+        "state_cancelada",
+        "state_denegada",
+    )
     def _compute_name(self):
         for record in self:
-            document_type = record.document_type_id.name
-            if not document_type:
-                document_type = "Others Document Types"
-            if record.state_edoc:
-                record.name = document_type + " - " + record.state_edoc
-
-    _sql_constraints = [
-        (
-            "name_company_unique",
-            "unique(name)",
-            "This name is already used by another email definition !",
-        )
-    ]
+            document_type = record.document_type_id.name or _("Others Document Types")
+            states = [
+                record._fields[field_name].string
+                for field_name in NOTIFIED_STATE_FIELDS.values()
+                if record[field_name]
+            ]
+            if states:
+                record.name = f"{document_type} - {', '.join(states)}"
+            else:
+                record.name = document_type

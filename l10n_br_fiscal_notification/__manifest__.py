@@ -9,7 +9,7 @@
     "maintainers": ["mileo"],
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Beta",
-    "version": "16.0.2.1.0",
+    "version": "16.0.4.0.0",
     "depends": [
         "l10n_br_fiscal_edi",
     ],
@@ -20,6 +20,7 @@
         "views/document_email_view.xml",
         "views/document_type_view.xml",
         "views/document_view.xml",
+        "views/res_partner_view.xml",
         "views/l10n_br_fiscal_action.xml",
         "views/l10n_br_fiscal_menu.xml",
     ],

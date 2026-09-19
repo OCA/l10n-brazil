@@ -1,37 +1,60 @@
 # Copyright (C) 2019  KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, models
+from odoo import Command, _, models
 
 from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import DOCUMENT_STATE_AUTHORIZED
+
+from .document_email import NOTIFIED_STATE_FIELDS
 
 
 class Document(models.Model):
     _inherit = "l10n_br_fiscal.document"
 
-    def _get_email_template(self, state):
+    def _get_email_template(self):
         self.ensure_one()
-        return self.document_type_id.document_email_ids.search(
+        state_field = NOTIFIED_STATE_FIELDS.get(self.state_edoc)
+        if not state_field:
+            return self.env["mail.template"]
+        definitions = self.env["l10n_br_fiscal.document.email"].search(
             [
-                "|",
-                ("state_edoc", "=", False),
-                ("state_edoc", "=", state),
+                (state_field, "=", True),
                 ("issuer", "=", self.issuer),
                 "|",
                 ("document_type_id", "=", False),
                 ("document_type_id", "=", self.document_type_id.id),
-            ],
-            limit=1,
-            order="state_edoc, document_type_id",
-        ).mapped("email_template_id")
+            ]
+        )
+        definition = definitions.filtered("document_type_id")[:1] or definitions[:1]
+        return definition.email_template_id
 
-    def send_email(self, state):
+    def _get_email_partners(self):
         self.ensure_one()
-        email_template = self._get_email_template(state)
-        if email_template:
-            email_template.with_context(
-                default_attachment_ids=self._get_mail_attachment()
-            ).send_mail(self.id)
+        partners = self.partner_id | self.partner_id.child_ids
+        return partners.filtered("edoc_send_email")
+
+    def send_email(self):
+        self.ensure_one()
+        email_template = self._get_email_template()
+        if not email_template:
+            return
+        partners = self._get_email_partners()
+        if partners:
+            self.message_subscribe(partner_ids=partners.ids)
+        mail = (
+            self.env["mail.mail"]
+            .sudo()
+            .browse(
+                email_template.with_context(
+                    default_attachment_ids=self._get_mail_attachment()
+                ).send_mail(self.id)
+            )
+        )
+        if partners:
+            mail.write(
+                {"recipient_ids": [Command.link(partner.id) for partner in partners]}
+            )
+        mail.send()
 
     def write(self, vals):
         if "state_edoc" in vals:
@@ -44,7 +67,7 @@ class Document(models.Model):
             result = super().write(vals)
 
             for record in records_changing_state:
-                record.send_email(vals["state_edoc"])
+                record.send_email()
             return result
 
         return super().write(vals)
@@ -64,7 +87,7 @@ class Document(models.Model):
         template message loaded by default
         """
         self.ensure_one()
-        template = self._get_email_template(self.state)
+        template = self._get_email_template()
         compose_form = self.env.ref("mail.email_compose_message_wizard_form", False)
         lang = self.env.context.get("lang")
         if template and template.lang:
