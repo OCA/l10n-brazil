@@ -151,12 +151,14 @@
                             </t>
                         </div>
                     </div>
-
+<!-- patch feito para o odoo16, carregando o qrcode usando a funcao declarada em models/document_series (patch feito que corrige problema de qrcode) -->
                     <div>
-                        <t t-set="qr_code" t-value="document_qrcode" />
-                        <img
-                            t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', qr_code, 150, 150)"
-                        />
+                        <t t-if="document_qrcode">
+                                <img
+                                t-att-src="'/report/barcode/?barcode_type=QR&amp;value=%s&amp;width=150&amp;height=150' % document_qrcode"
+                                style="width: 120px; height: 120px;"
+                            />
+                            </t>
                     </div>
                 </div>
             </div>

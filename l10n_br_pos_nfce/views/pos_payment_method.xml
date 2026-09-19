@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="pos_payment_method_form_view">
+        <field name="name">pos.payment.method.form (in l10n_br_pos_nfce)</field>
+        <field name="model">pos.payment.method</field>
+        <field
+            name="inherit_id"
+            ref="l10n_br_pos.view_l10n_br_pos_pos_method_term_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='l10n_br_pos']" position="after">
+                <group name="l10n_br_pos_nfce" string="NFC-e Payment Method">
+                    <field name="payment_mode_id" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
