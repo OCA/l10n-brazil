@@ -10,8 +10,6 @@ from cryptography import x509
 from odoo import api, fields, models
 from odoo.tools.misc import format_date
 
-from ..constants import CERTIFICATE_SUBTYPE, CERTIFICATE_TYPE
-
 
 class Certificate(models.Model):
     _inherit = "certificate.certificate"
@@ -19,16 +17,6 @@ class Certificate(models.Model):
     scope = fields.Selection(
         selection_add=[("l10n_br", "Brazilian Fiscal")],
         default=lambda self: self._default_scope(),
-    )
-
-    type = fields.Selection(
-        selection=CERTIFICATE_TYPE,
-        string="Certificate Type",
-    )
-
-    subtype = fields.Selection(
-        selection=CERTIFICATE_SUBTYPE,
-        string="Document SubType",
     )
 
     name = fields.Char(
@@ -78,14 +66,10 @@ class Certificate(models.Model):
                     issuer_name = self._get_common_name(x509_cert, issuer=True) or ""
             certificate.issuer_name = issuer_name
 
-    @api.depends("type", "subtype", "subject_common_name", "date_end")
+    @api.depends("subject_common_name", "date_end")
     def _compute_name(self):
         for certificate in self:
             parts = []
-            if certificate.type:
-                parts.append(certificate.type.upper())
-            if certificate.subtype:
-                parts.append(certificate.subtype.upper())
             if certificate.subject_common_name:
                 parts.append(certificate.subject_common_name)
             if certificate.date_end:

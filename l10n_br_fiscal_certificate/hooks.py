@@ -7,8 +7,6 @@ from erpbrasil.assinatura import misc
 
 from odoo import _
 
-from .constants import CERTIFICATE_TYPE_ECNPJ, CERTIFICATE_TYPE_NFE
-
 _logger = logging.getLogger(__name__)
 
 
@@ -19,11 +17,8 @@ def post_init_hook(env):
         issuer="EMISSOR A TESTE",
         country="BR",
         subject="CERTIFICADO VALIDO TESTE",
-        cert_type=CERTIFICATE_TYPE_NFE,
     ):
         return {
-            "type": cert_type,
-            "subtype": "a1",
             "scope": "l10n_br",
             "pkcs12_password": passwd,
             "content": misc.create_fake_certificate_file(
@@ -48,10 +43,7 @@ def post_init_hook(env):
                     continue
                 vals = prepare_fake_certificate_vals()
                 vals["company_id"] = company.id
-                company.certificate_nfe_id = certificate_model.create(vals)
-                vals = prepare_fake_certificate_vals(cert_type=CERTIFICATE_TYPE_ECNPJ)
-                vals["company_id"] = company.id
-                company.certificate_ecnpj_id = certificate_model.create(vals)
+                company.certificate_id = certificate_model.create(vals)
         except NameError:  # (means from erpbrasil.assinatura import misc failed)
             _logger.error(
                 _(

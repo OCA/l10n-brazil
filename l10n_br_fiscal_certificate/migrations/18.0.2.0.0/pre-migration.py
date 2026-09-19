@@ -17,10 +17,10 @@ def migrate(env, version):
     read through the ORM here: everything is done in SQL. The ``file`` binary
     lives in ``ir.attachment`` and is read in the post-migration.
 
-    ``res.company.certificate_nfe_id`` and ``certificate_ecnpj_id`` now point
-    to ``certificate.certificate``, and their new foreign keys are created
-    before the post-migration runs. The company links are stashed and cleared
-    here, otherwise the legacy ids would violate the new foreign keys.
+    The ``res.company`` fields ``certificate_nfe_id`` and
+    ``certificate_ecnpj_id`` are replaced by ``certificate_id``: their links
+    are stashed to know in which companies each certificate must be recreated
+    and which one each company uses.
     """
     cr = env.cr
     if not openupgrade.table_exists(cr, _LEGACY_TABLE):
@@ -30,7 +30,7 @@ def migrate(env, version):
         cr,
         f"""
         CREATE TABLE {_TMP_TABLE} AS
-        SELECT id AS legacy_id, password, type, subtype, active
+        SELECT id AS legacy_id, password, active
         FROM {_LEGACY_TABLE}
         """,
     )
@@ -47,13 +47,5 @@ def migrate(env, version):
         SELECT id, 'certificate_ecnpj_id', certificate_ecnpj_id
         FROM res_company
         WHERE certificate_ecnpj_id IS NOT NULL
-        """,
-    )
-    openupgrade.logged_query(
-        cr,
-        """
-        UPDATE res_company
-        SET certificate_nfe_id = NULL, certificate_ecnpj_id = NULL
-        WHERE certificate_nfe_id IS NOT NULL OR certificate_ecnpj_id IS NOT NULL
         """,
     )
