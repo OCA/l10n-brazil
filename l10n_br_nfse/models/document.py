@@ -98,7 +98,7 @@ class Document(models.Model):
             self.file_report_id = self.env["ir.attachment"].create(vals_dict)
 
     def _processador_erpbrasil_nfse(self):
-        certificado = self.env.company._get_br_ecertificate()
+        certificado = self.company_id._get_br_ecertificate()
         session = Session()
         session.verify = False
         transmissao = TransmissaoSOAP(certificado, session)
