@@ -48,8 +48,8 @@
             "l10n_br_pos_nfce/static/src/xml/Screens/ReceiptScreen/ReceiptScreen.xml",
         ],
     },
-    "demo": [
-        "demo/l10n_br_pos_nfce.xml",
-    ],
+    # "demo": [
+    #     "demo/l10n_br_pos_nfce.xml",
+    # ],
     "installable": True,
 }
