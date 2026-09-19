@@ -56,6 +56,48 @@
                                 required="cnpj_provider == 'serpro'"
                             />
                         </div>
+                        <div
+                            class="content-group mt16"
+                            invisible="cnpj_provider != 'cpfcnpj'"
+                        >
+                            <label for="cpfcnpj_token" class="o_light_label" />
+                            <field
+                                name="cpfcnpj_token"
+                                required="cnpj_provider == 'cpfcnpj'"
+                                widget="password"
+                            />
+                        </div>
+                        <div
+                            class="content-group mt16"
+                            invisible="cnpj_provider != 'cpfcnpj'"
+                        >
+                            <label for="cpfcnpj_package" class="o_light_label" />
+                            <field
+                                name="cpfcnpj_package"
+                                required="cnpj_provider == 'cpfcnpj'"
+                            />
+                        </div>
+                        <div
+                            class="content-group mt16"
+                            invisible="cnpj_provider != 'cpfcnpj'"
+                        >
+                            <field name="cpfcnpj_skip_partners" />
+                            <label for="cpfcnpj_skip_partners" class="o_light_label" />
+                        </div>
+                        <div
+                            class="content-group mt16"
+                            invisible="cnpj_provider != 'cpfcnpj'"
+                        >
+                            <field name="cpfcnpj_skip_card" />
+                            <label for="cpfcnpj_skip_card" class="o_light_label" />
+                        </div>
+                        <div
+                            class="content-group mt16"
+                            invisible="cnpj_provider != 'cpfcnpj'"
+                        >
+                            <field name="cpfcnpj_fetch_ie" />
+                            <label for="cpfcnpj_fetch_ie" class="o_light_label" />
+                        </div>
                     </div>
                 </div>
             </xpath>
