@@ -96,8 +96,8 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_fiscal_dfe/models/res_company.py:0
 msgid ""
-"<p>%(count)s new third-party DF-e document(s) found.</p><p><a "
-"href=\"%(url)s\">View documents</a></p>"
+"<p>%(count)s new third-party DF-e document(s) found.</p><p><a href=\"%"
+"(url)s\">View documents</a></p>"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
@@ -368,8 +368,8 @@ msgstr "Log de Distribuição"
 msgid ""
 "Distribution query OK: %(cstat)s - %(motivo)s (ultNSU=%(ult)s, maxNSU=%(mx)s)"
 msgstr ""
-"Consulta de distribuição OK: %(cstat)s - %(motivo)s (ultNSU=%(ult)s, "
-"maxNSU=%(mx)s)"
+"Consulta de distribuição OK: %(cstat)s - %(motivo)s (ultNSU=%(ult)s, maxNSU=%"
+"(mx)s)"
 
 #. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_form
