@@ -18,7 +18,7 @@ class InvalidateNumber(models.Model):
     _inherit = "l10n_br_fiscal.invalidate.number"
 
     def _edoc_processor(self):
-        certificado = self.env.company._get_br_ecertificate()
+        certificado = self.company_id._get_br_ecertificate()
         session = Session()
         session.verify = False
         params = {
