@@ -120,9 +120,8 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
 
             for (let i = 0; i < orderlines.length; i++) {
                 const line = orderlines[i];
-                const product_fiscal_map = this.pos.fiscal_map_by_template_id[
-                    line.product.product_tmpl_id
-                ];
+                const product_fiscal_map =
+                    this.pos.fiscal_map_by_template_id[line.product.product_tmpl_id];
                 if (product_fiscal_map && product_fiscal_map.icms_cst_code === "00") {
                     totalICMS += product_fiscal_map.icms_value;
                 }
@@ -137,9 +136,8 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
 
             for (let i = 0; i < orderlines.length; i++) {
                 const line = orderlines[i];
-                const product_fiscal_map = this.pos.fiscal_map_by_template_id[
-                    line.product.product_tmpl_id
-                ];
+                const product_fiscal_map =
+                    this.pos.fiscal_map_by_template_id[line.product.product_tmpl_id];
                 if (product_fiscal_map) {
                     totalPIS += product_fiscal_map.pis_value;
                 }
@@ -154,9 +152,8 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
 
             for (let i = 0; i < orderlines.length; i++) {
                 const line = orderlines[i];
-                const product_fiscal_map = this.pos.fiscal_map_by_template_id[
-                    line.product.product_tmpl_id
-                ];
+                const product_fiscal_map =
+                    this.pos.fiscal_map_by_template_id[line.product.product_tmpl_id];
                 if (product_fiscal_map) {
                     totalCofins += product_fiscal_map.cofins_value;
                 }
@@ -183,9 +180,8 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
 
             for (let i = 0; i < orderlines.length; i++) {
                 const line = orderlines[i];
-                const product_fiscal_map = this.pos.fiscal_map_by_template_id[
-                    line.product.product_tmpl_id
-                ];
+                const product_fiscal_map =
+                    this.pos.fiscal_map_by_template_id[line.product.product_tmpl_id];
                 if (product_fiscal_map && product_fiscal_map.icms_cst_code === "00") {
                     totalICMSBase += product_fiscal_map.icms_base;
                 }
@@ -360,11 +356,10 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
             for (let i = 0; i < orders.length; i++) {
                 const currentOrder = this.get_order();
                 if (!currentOrder.document_number) {
-                    currentOrder.document_serie = this.env.pos.config.nfce_document_serie_code.padStart(
-                        3,
-                        "0"
-                    );
-                    currentOrder.document_number = this.env.pos.config.nfce_document_serie_sequence_number_next;
+                    currentOrder.document_serie =
+                        this.env.pos.config.nfce_document_serie_code.padStart(3, "0");
+                    currentOrder.document_number =
+                        this.env.pos.config.nfce_document_serie_sequence_number_next;
                     const chaveEdoc = new ChaveEdoc(
                         false,
                         BRAZILIAN_STATES_IBGE_CODE_MAP[state],
