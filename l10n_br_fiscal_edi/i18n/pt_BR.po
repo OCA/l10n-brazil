@@ -287,9 +287,13 @@ msgid "Denegada"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
+#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_base_wizard_mixin__display_name
+#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_cancel_wizard__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_correction_wizard__display_name
+#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_invalidate_number__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_invalidate_number_wizard__display_name
+#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_operation__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -472,10 +476,14 @@ msgid "Homologation"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
+#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_base_wizard_mixin__id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_cancel_wizard__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_correction_wizard__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_invalidate_number__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_invalidate_number_wizard__id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_operation__id
 msgid "ID"
 msgstr ""
 
@@ -756,6 +764,17 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document__status_name
 msgid "Status Name"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
+msgid ""
+"The document XML does not comply with its schema, so it cannot be "
+"transmitted. Set the document back to draft, fix the data and confirm it "
+"again.\n"
+"\n"
+"%(errors)s"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
