@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_company_form" model="ir.ui.view">
+        <field name="name">res.company.form.l10n.br.dere</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page
+                    name="dere"
+                    string="DeRE"
+                    groups="l10n_br_dere.group_user"
+                    invisible="not show_l10n_br"
+                >
+                    <group string="Tax regime">
+                        <field name="dere_reg_trib_princ" />
+                        <field name="dere_reg_trib_secund" />
+                        <field name="dere_ind_nat_trib" />
+                        <field
+                            name="dere_activity_ids"
+                            widget="many2many_tags"
+                            options="{'no_create_edit': True}"
+                        />
+                    </group>
+                    <group string="Chart of accounts">
+                        <field name="dere_plano_cta_ref" />
+                        <field name="dere_freq_encerr" />
+                    </group>
+                    <group string="Conditional events">
+                        <field name="dere_subject_d1106" />
+                        <field name="dere_subject_d1121" />
+                    </group>
+                    <group string="Transmission">
+                        <field name="dere_tp_amb" />
+                        <field name="dere_ver_aplic" />
+                        <field name="dere_token_url" />
+                        <field name="dere_api_url" />
+                        <field name="dere_api_path" />
+                        <field name="dere_consult_path" />
+                        <field name="dere_client_id" />
+                        <field name="dere_client_secret" password="True" />
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

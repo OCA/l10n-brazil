@@ -1,0 +1,609 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
+<title>Brazilian DeRE</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 9511 2024-01-13 09:50:07Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+Despite the name, some widely supported CSS2 features are used.
+
+See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: gray; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic, pre.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="brazilian-dere">
+<h1 class="title">Brazilian DeRE</h1>
+
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! This file is generated by oca-gen-addon-readme !!
+!! changes will be overwritten.                   !!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! source digest: sha256:56e20cd21bb0bbed101fe71b8834418fba97e2637af885a33230bba90de5b423
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/18.0/l10n_br_dere"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-18-0/l10n-brazil-18-0-l10n_br_dere"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=18.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
+<p>This module implements Wave 1 of the Brazilian <strong>Declaração de Regimes
+Específicos (DeRE)</strong> layout <strong>1.2.0</strong>.</p>
+<p>It lets an Odoo company:</p>
+<ul class="simple">
+<li>store the DeRE tax regime, activities and referential chart</li>
+<li>map <tt class="docutils literal">account.account</tt> lines to PGCC fields (<tt class="docutils literal">cCtaRef</tt>,
+<tt class="docutils literal">codTrib</tt>, <tt class="docutils literal">codNat</tt>)</li>
+<li>generate local XML for D-1001, D-1011, D-1101, D-1106, D-1121, D-1198
+and D-1199</li>
+<li>send signed batches to Receita Integra, consult processing (manually
+or via cron) and store protocol, receipt and D-9xxx returns</li>
+</ul>
+<p>It does <strong>not</strong> implement sector-specific rules (for example health-plan
+premium vs administration-fee reconciliation). Those stay in company
+data or in a dedicated extra addon.</p>
+<p><strong>Table of contents</strong></p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#configuration" id="toc-entry-1">Configuration</a></li>
+<li><a class="reference internal" href="#usage" id="toc-entry-2">Usage</a><ul>
+<li><a class="reference internal" href="#homologation-checklist-wave-1" id="toc-entry-3">Homologation checklist (Wave 1)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#known-issues-roadmap" id="toc-entry-4">Known issues / Roadmap</a></li>
+<li><a class="reference internal" href="#bug-tracker" id="toc-entry-5">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-6">Credits</a><ul>
+<li><a class="reference internal" href="#authors" id="toc-entry-7">Authors</a></li>
+<li><a class="reference internal" href="#contributors" id="toc-entry-8">Contributors</a></li>
+<li><a class="reference internal" href="#maintainers" id="toc-entry-9">Maintainers</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="configuration">
+<h1><a class="toc-backref" href="#toc-entry-1">Configuration</a></h1>
+<p>On the company form, open the <strong>DeRE</strong> tab and set:</p>
+<ol class="arabic simple">
+<li>Main tax regime (<tt class="docutils literal">regTribPrinc</tt>) and optional secondary regime</li>
+<li>Activities from official tables 21, 31 or 41</li>
+<li>Referential chart (<tt class="docutils literal">planoCtaRef</tt>) and closing frequency
+(<tt class="docutils literal">freqEncerr</tt>)</li>
+<li>Receita Integra environment, token URL, OAuth client credentials and
+the batch consult path (<tt class="docutils literal">{protocol}</tt> placeholder)</li>
+<li>An ICP-Brasil A1 certificate on the Fiscal tab (NFe or e-CNPJ).
+Generation does not need it; sending does.</li>
+<li>Leave the scheduled action <strong>DeRE: consult sent batch results</strong>
+enabled (every 2 minutes). The form button still consults
+immediately.</li>
+<li>If the taxpayer must send D-1106, enable <strong>Subject to D-1106</strong>, mark
+the investment accounts as technical-reserve and register each
+<tt class="docutils literal">idAtivo</tt>. Keep one asset per account so <strong>Generate D-1106</strong> can
+fill amounts from posted journal items. Optionally set <strong>DeRE reserve
+income account</strong> for cash coupons that never hit the investment
+account.</li>
+<li>If the taxpayer must send D-1121, enable <strong>Subject to D-1121</strong> and
+mark inbound fiscal operations as DeRE deductible.</li>
+</ol>
+<p>On each account used in the declaration, fill the <strong>DeRE</strong> tab:</p>
+<ul class="simple">
+<li>internal code and 3-digit mixed-account split (<tt class="docutils literal">cDbrMista</tt>)</li>
+<li>parent account, referential code, nature and optional <tt class="docutils literal">codTrib</tt></li>
+</ul>
+<p>Do not reuse the ECD/ECF field <tt class="docutils literal">l10n_br_sped_referential_code</tt> for
+DeRE.</p>
+</div>
+<div class="section" id="usage">
+<h1><a class="toc-backref" href="#toc-entry-2">Usage</a></h1>
+<ol class="arabic simple">
+<li>Create a monthly declaration (<tt class="docutils literal">perApur</tt> = <tt class="docutils literal"><span class="pre">YYYY-MM</span></tt>).</li>
+<li>Generate table events: D-1001 then D-1011. The stored XML stays
+unsigned and is checked against the official XSD (a placeholder
+<tt class="docutils literal">ds:Signature</tt> is attached only for that check). Sending signs each
+event (XML-DSig RSA-SHA256), validates the signed event and the lote,
+then posts one type per batch.</li>
+<li>Sending already consults the batch once. While the return says the
+batch is still processing, use <strong>Consult Results</strong> or wait for the
+two-minute cron until the D-9001 receipt arrives. Then generate the
+trial balance (D-1101) from posted <tt class="docutils literal">account.move.line</tt> records.</li>
+<li>Generate D-1199 with <strong>Close Period</strong> (<tt class="docutils literal">tpOper</tt> inclusion only).
+That only stores the XML; the declaration stays in <em>Trial balance
+ready</em>. Use <strong>Discard Local Closing</strong> to drop a D-1199 that was never
+sent. Send periodics in a separate batch. Table and periodic events
+in the same batch are rejected. The declaration becomes <em>Closed</em> when
+the D-1199 return is accepted.</li>
+<li>To reopen an officially closed period, wait for the D-1199 receipt,
+then <strong>Reopen Period</strong>. That builds D-1198 (<tt class="docutils literal">nrReciboReab</tt>) and
+keeps the declaration <em>Closed</em>; use <strong>Discard Local Reopening</strong> to
+drop a D-1198 that was never sent. <strong>Send Periodics</strong> and consult
+until D-1198 is accepted before generating a new trial balance. The
+declaration stays <em>Reopened</em> through the rework until the new D-1199
+is accepted. A closed declaration does not offer send or consult;
+<strong>Consult Results</strong> only appears while a lote is still <tt class="docutils literal">sent</tt>.
+<strong>Generate Tables</strong> and <strong>Send Tables</strong> disappear after D-1001 and
+D-1011 are sent or accepted. The blue header button is the next
+official step: generate, send or consult, then D-1106 / D-1121 when
+the company is subject, then close. <strong>Generate Trial Balance</strong> stays
+hidden after D-1101 is sent or accepted until D-1198 is accepted.
+<strong>Send Periodics</strong> appears only while a periodic XML is
+<tt class="docutils literal">generated</tt>.</li>
+</ol>
+<p>Receipt (<tt class="docutils literal">nrRecibo</tt>) and batch protocol are stored separately on each
+event. Do not regenerate an event that is already sent or accepted
+unless D-1198 was accepted. Wave 1 only supports inclusion (<tt class="docutils literal">tpOper</tt>
+1). If the company is subject to D-1106, generate that event after the
+trial balance (use <tt class="docutils literal">semAplic</tt> when there are no reserve assets). If it
+is subject to D-1121, load inbound deductible documents or set <em>Declare
+no deductions</em>.</p>
+<div class="section" id="homologation-checklist-wave-1">
+<h2><a class="toc-backref" href="#toc-entry-3">Homologation checklist (Wave 1)</a></h2>
+<p>Use a company whose chart already maps at least one administration-fee
+account (<tt class="docutils literal">codTrib</tt> 120110006) and one pass-through liability (no
+<tt class="docutils literal">codTrib</tt>). Posted journal items in the assessment month must split
+<strong>own fee</strong> vs <strong>operator remittance</strong>. The trial balance is never
+typed: it is rebuilt from those moves.</p>
+<ol class="arabic simple">
+<li>Switch to the company and open <strong>Fiscal → DeRE → Declarations</strong>.</li>
+<li>Open (or create) the month. Confirm <tt class="docutils literal">perApur</tt> is <tt class="docutils literal"><span class="pre">YYYY-MM</span></tt> and
+<tt class="docutils literal">iniValid</tt> matches the first day of the table validity.</li>
+<li><strong>Generate Tables</strong>. Events D-1001 and D-1011 must exist with XML.<ul>
+<li>D-1001: <tt class="docutils literal">regTribPrinc</tt> = 2 and <tt class="docutils literal">tpAtividade</tt> = <tt class="docutils literal">02A</tt> for a
+benefit administrator. No <tt class="docutils literal">servFinanc</tt> / <tt class="docutils literal">prognosticos</tt> unless
+a secondary regime requires them.</li>
+<li>D-1011: <tt class="docutils literal">planoCtaRef</tt> and <tt class="docutils literal">freqEncerr</tt> present; <tt class="docutils literal">cDbrMista</tt>
+has three digits; fee account has <tt class="docutils literal">codTrib</tt> 120110006;
+pass-through has no <tt class="docutils literal">codTrib</tt>.</li>
+</ul>
+</li>
+<li><strong>Generate Trial Balance</strong>. Footer totals need the hidden
+<tt class="docutils literal">brl_currency_id</tt>.<ul>
+<li>Fee line: credit = own revenue and <tt class="docutils literal">vApur</tt> equals that net
+amount.</li>
+<li>Pass-through line: movement present and <tt class="docutils literal">vApur</tt> = 0.00 (no
+<tt class="docutils literal">natVApur</tt>).</li>
+</ul>
+</li>
+<li>Open each event form and check the XML: dates use <tt class="docutils literal"><span class="pre">YYYY-MM-DD</span></tt>;
+<tt class="docutils literal">perApur</tt> uses <tt class="docutils literal"><span class="pre">YYYY-MM</span></tt>. Table <tt class="docutils literal">id</tt> is 42 alphanumeric
+characters and starts with a letter (lote <tt class="docutils literal">xs:ID</tt>). D-1101 /
+D-1106 / D-1121 / D-1198 / D-1199 <tt class="docutils literal">id</tt> follows <tt class="docutils literal">DeRE</tt> + event
+code + environment + CNPJ + 19 digits. Generation already rejects
+XML that fails the official XSD.</li>
+<li>If the company is subject to D-1106, <strong>Generate D-1106</strong> before
+closing. Register technical-reserve assets under Fiscal
+configuration, or the event is sent with <tt class="docutils literal">semAplic=1</tt>. With
+exactly one asset per account the period amounts come from posted
+moves: debits become <tt class="docutils literal">vVarMensal</tt>, credits become
+<tt class="docutils literal">vPrincLiqResg</tt>, and income on the same entry (or on the mapped
+reserve income account) fills <tt class="docutils literal">vRendPerReceb</tt> / <tt class="docutils literal">vRendLiqResg</tt>.
+Several assets on the same account stay manual. Regenerating
+rebuilds those 1:1 amounts. If it is subject to D-1121, <strong>Load
+Deductions</strong> from inbound operations marked as DeRE deductible, then
+<strong>Generate D-1121</strong>. When the period has no deductible document the
+load reports the absence and sets <tt class="docutils literal">indInexistDedu</tt>. <strong>Close
+Period</strong> stays hidden until the load ran, so the month is never
+closed as deduction-free by accident.</li>
+<li><strong>Close Period</strong> generates D-1199 but does not lock the month. Send
+periodics one type at a time: D-1101, then D-1106 (if any), then
+D-1121 (if any), then D-1199. Each auxiliary event needs the
+previous processing receipt. If the XML is wrong and still
+<tt class="docutils literal">generated</tt>, <strong>Discard Local Closing</strong> and generate again.</li>
+<li>Confirm the company has an A1 certificate. Sending signs the
+payload; the event form still shows the unsigned XML.</li>
+<li>Each send consults the batch once. Repeat with <strong>Consult Results</strong>,
+or wait for the scheduled job <strong>DeRE: consult sent batch results</strong>.
+The POST only returns a protocol; acceptance and <tt class="docutils literal">nrRecibo</tt> come
+from the later GET. Processing (<tt class="docutils literal">cdResposta</tt> 1) leaves the batch
+sent so the cron retries. A successful D-1199 return sets the
+declaration to <em>Closed</em>.</li>
+<li>Do <strong>not</strong> send tables and periodics in the same batch. Do not send
+D-1011 before D-1001 is accepted, nor D-1199 before D-1101 has a
+processing receipt.</li>
+<li><strong>Reopen Period</strong> only after D-1199 is accepted with a receipt
+<tt class="docutils literal"><span class="pre">1199-YYYYMM-...</span></tt>. Then send D-1198 and consult before a new
+D-1101.</li>
+</ol>
+<p>D-3201 remains out of this checklist. <tt class="docutils literal">tpOper</tt> 2/3/4 and real-estate
+deductions (<tt class="docutils literal">infoImovel</tt>) are not generated yet.</p>
+</div>
+</div>
+<div class="section" id="known-issues-roadmap">
+<h1><a class="toc-backref" href="#toc-entry-4">Known issues / Roadmap</a></h1>
+<ul class="simple">
+<li>Keep <tt class="docutils literal">xml_builder</tt> until a xsdata binding exists for DeRE (same role
+nfelib plays for NF-e / CT-e / MDF-e). Do not introduce
+<tt class="docutils literal">spec_driven_model.StackedModel</tt> before that binding. Generated and
+signed XML is already validated against the official 1.2.0 XSD.</li>
+<li>Do not inherit event mixins (D-1001 / D-1011 / D-1101 / D-1199) on
+<tt class="docutils literal">l10n_br_dere.declaration</tt> or <tt class="docutils literal">l10n_br_dere.event</tt>: those
+abstracts share <tt class="docutils literal">dere12_id</tt> and <tt class="docutils literal">dere12_tpOper</tt>.</li>
+<li>D-1106 / D-1121 <tt class="docutils literal">tpOper</tt> 2/3/4 and D-1121 <tt class="docutils literal">infoImovel</tt></li>
+<li>Transactional events (D-3201 and remaining D-22xx / D-32xx) after
+CGIBS publishes a stable transactional layout</li>
+</ul>
+</div>
+<div class="section" id="bug-tracker">
+<h1><a class="toc-backref" href="#toc-entry-5">Bug Tracker</a></h1>
+<p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-brazil/issues">GitHub Issues</a>.
+In case of trouble, please check there if your issue has already been reported.
+If you spotted it first, help us to smash it by providing a detailed and welcomed
+<a class="reference external" href="https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_dere%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
+<p>Do not contact contributors directly about support or help with technical issues.</p>
+</div>
+<div class="section" id="credits">
+<h1><a class="toc-backref" href="#toc-entry-6">Credits</a></h1>
+<div class="section" id="authors">
+<h2><a class="toc-backref" href="#toc-entry-7">Authors</a></h2>
+<ul class="simple">
+<li>Escodoo</li>
+</ul>
+</div>
+<div class="section" id="contributors">
+<h2><a class="toc-backref" href="#toc-entry-8">Contributors</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="https://www.escodoo.com.br">Escodoo</a>:<ul>
+<li>Marcel Savegnago &lt;<a class="reference external" href="mailto:marcel.savegnago&#64;escodoo.com.br">marcel.savegnago&#64;escodoo.com.br</a>&gt;</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="maintainers">
+<h2><a class="toc-backref" href="#toc-entry-9">Maintainers</a></h2>
+<p>This module is maintained by the OCA.</p>
+<a class="reference external image-reference" href="https://odoo-community.org">
+<img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" />
+</a>
+<p>OCA, or the Odoo Community Association, is a nonprofit organization whose
+mission is to support the collaborative development of Odoo features and
+promote its widespread use.</p>
+<p>Current <a class="reference external" href="https://odoo-community.org/page/maintainer-role">maintainer</a>:</p>
+<p><a class="reference external image-reference" href="https://github.com/marcelsavegnago"><img alt="marcelsavegnago" src="https://github.com/marcelsavegnago.png?size=40px" /></a></p>
+<p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-brazil/tree/18.0/l10n_br_dere">OCA/l10n-brazil</a> project on GitHub.</p>
+<p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
+</div>
+</div>
+</div>
+</body>
+</html>

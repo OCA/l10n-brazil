@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <menuitem
+        id="menu_dere_root"
+        name="DeRE"
+        parent="l10n_br_fiscal.fiscal_menu"
+        groups="l10n_br_dere.group_user"
+        sequence="40"
+    />
+    <menuitem
+        id="menu_dere_declaration"
+        name="Declarations"
+        parent="menu_dere_root"
+        action="action_dere_declaration"
+        sequence="10"
+    />
+    <menuitem
+        id="menu_dere_event"
+        name="Events"
+        parent="menu_dere_root"
+        action="action_dere_event"
+        sequence="20"
+    />
+    <menuitem
+        id="menu_dere_activity"
+        name="Activities"
+        parent="l10n_br_fiscal.configuration_menu"
+        action="action_dere_activity"
+        groups="l10n_br_dere.group_manager"
+        sequence="80"
+    />
+    <menuitem
+        id="menu_dere_tax_code"
+        name="Taxation Codes"
+        parent="l10n_br_fiscal.configuration_menu"
+        action="action_dere_tax_code"
+        groups="l10n_br_dere.group_manager"
+        sequence="81"
+    />
+    <menuitem
+        id="menu_dere_reserve_asset"
+        name="Technical-reserve Assets"
+        parent="l10n_br_fiscal.configuration_menu"
+        action="action_dere_reserve_asset"
+        groups="l10n_br_dere.group_manager"
+        sequence="82"
+    />
+</odoo>

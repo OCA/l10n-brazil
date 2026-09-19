@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_dere_pgcc_account_tree" model="ir.ui.view">
+        <field name="name">l10n_br_dere.pgcc.account.list</field>
+        <field name="model">l10n_br_dere.pgcc.account</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="dere12_cCta" />
+                <field name="account_name" />
+                <field name="dere12_nomeCta" column_invisible="1" />
+                <field name="dere12_indCta" />
+                <field name="dere12_cCtaRef" />
+                <field name="dere12_codNat" />
+                <field name="tax_code_id" />
+                <field name="dere12_codTrib" column_invisible="1" />
+            </list>
+        </field>
+    </record>
+    <record id="view_dere_pgcc_account_form" model="ir.ui.view">
+        <field name="name">l10n_br_dere.pgcc.account.form</field>
+        <field name="model">l10n_br_dere.pgcc.account</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="dere12_cCta" />
+                            <field name="dere12_cDbrMista" />
+                            <field name="dere12_indCta" />
+                            <field name="dere12_cCtaSup" />
+                            <field name="dere12_nivelCta" />
+                            <field name="dere12_codNat" />
+                            <field name="dere12_indTribISS" />
+                            <field name="dere12_iniVig" />
+                            <field name="declaration_id" />
+                            <field name="account_id" />
+                        </group>
+                        <group>
+                            <field name="dere12_cCtaInterna" />
+                            <field name="account_name" />
+                            <field name="dere12_nomeCta" invisible="1" />
+                            <field name="dere12_descCta" />
+                            <field name="dere12_cCtaRef" />
+                            <field name="dere12_natCta" />
+                            <field name="dere12_codTrib" />
+                            <field name="dere12_idLeiDisp" />
+                            <field name="dere12_fimVig" />
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                            <field name="tax_code_id" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
