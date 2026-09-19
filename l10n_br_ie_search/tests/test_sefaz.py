@@ -82,8 +82,6 @@ class TestSefaz(TransactionCase):
         )
         cls.cert = cls.certificate_model.create(
             {
-                "type": "nf-e",
-                "subtype": "a1",
                 "pkcs12_password": cls.cert_passwd,
                 "content": cls.certificate_valid,
                 "company_id": cls.env.company.id,
@@ -152,7 +150,7 @@ class TestSefaz(TransactionCase):
                     {
                         "name": "Dummy",
                         "vat": "88.570.377/0001-27",
-                        "certificate_ecnpj_id": self.cert.id,
+                        "certificate_id": self.cert.id,
                     }
                 )
                 dummy._onchange_vat()

@@ -65,14 +65,12 @@ class TestCertificate(TransactionCase):
             }
         )
 
-    def _certificate_vals(self, cert_file, cert_type="nf-e", passwd=None):
+    def _certificate_vals(self, cert_file, passwd=None, company=None):
         return {
-            "type": cert_type,
-            "subtype": "a1",
             "scope": "l10n_br",
             "pkcs12_password": passwd or self.cert_passwd,
             "content": cert_file,
-            "company_id": self.company.id,
+            "company_id": (company or self.company).id,
         }
 
     def test_valid_certificate(self):
@@ -88,11 +86,7 @@ class TestCertificate(TransactionCase):
         self.assertEqual(cert.date_end.day, self.cert_date_exp.day)
         self.assertEqual(cert.is_valid, True)
         self.assertEqual(cert.owner_cnpj_cpf, "")
-        self.assertTrue(
-            cert.name.startswith("NF-E - A1 - CERTIFICADO VALIDO TESTE - Valid:")
-        )
-        # Test method write
-        cert.type = "e-cnpj"
+        self.assertTrue(cert.name.startswith("CERTIFICADO VALIDO TESTE - Valid:"))
 
     def test_default_scope(self):
         """The certificates of a Brazilian company are fiscal certificates"""
@@ -122,24 +116,50 @@ class TestCertificate(TransactionCase):
         )
         self.assertFalse(cert.is_valid)
 
-    def test_compute_field_and_method_to_get_certificate(self):
-        """Test compute field and Method to get Certificate or e-CNPJ or e-NFe"""
+    def test_company_certificate(self):
+        """The certificate set in the company is used"""
         company = self.env.company
+        self.assertFalse(company.certificate)
         with self.assertRaises(ValidationError):
-            assert company.certificate
+            company._get_br_ecertificate()
+
         cert = self.certificate_model.create(
             self._certificate_vals(self.certificate_valid)
         )
+        company.certificate_id = cert
+        self.assertEqual(company.certificate, cert)
+        self.assertEqual(company._get_br_certificate(), cert)
+        self.assertTrue(company._get_br_ecertificate())
 
-        company.certificate_nfe_id = cert
-        assert company.certificate
-
-        # Case where only e-CNPJ applies
-        with self.assertRaises(ValidationError):
-            assert company._get_br_ecertificate(only_ecnpj=True)
-        company.certificate_nfe_id = False
-        cert_ecnpj = self.certificate_model.create(
-            self._certificate_vals(self.certificate_valid, cert_type="e-cnpj")
+    def test_company_certificate_expired(self):
+        """An expired certificate can't be used"""
+        company = self.env.company
+        company.certificate_id = self.certificate_model.create(
+            self._certificate_vals(self.certificate_invalid)
         )
-        company.certificate_ecnpj_id = cert_ecnpj
-        assert company._get_br_ecertificate(only_ecnpj=True)
+        with self.assertRaises(ValidationError):
+            company._get_br_ecertificate()
+
+    def test_only_ecnpj(self):
+        """Only a certificate issued to a CNPJ is used when only_ecnpj is set"""
+        company = self.env.company
+        company.certificate_id = self.certificate_model.create(
+            self._certificate_vals(self.certificate_valid)
+        )
+        self.assertTrue(company._get_br_ecertificate())
+        with self.assertRaises(ValidationError):
+            company._get_br_ecertificate(only_ecnpj=True)
+
+        company.certificate_id = self.certificate_model.create(
+            self._certificate_vals(
+                misc.create_fake_certificate_file(
+                    valid=True,
+                    passwd=self.cert_passwd,
+                    issuer=self.cert_issuer_a,
+                    country=self.cert_country,
+                    subject="COMPANY TEST FISCAL BR:42245642000109",
+                )
+            )
+        )
+        self.assertEqual(company.certificate.owner_cnpj_cpf, "42245642000109")
+        self.assertTrue(company._get_br_ecertificate(only_ecnpj=True))
