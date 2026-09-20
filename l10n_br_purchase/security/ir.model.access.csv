@@ -4,3 +4,5 @@
 "l10n_br_account_document_serie","l10n_br_account.document.serie","l10n_br_fiscal.model_l10n_br_fiscal_document_serie","purchase.group_purchase_user",1,0,0,0
 "l10n_br_fiscal_operation","l10n_br_fiscal.operation","l10n_br_fiscal.model_l10n_br_fiscal_operation","purchase.group_purchase_user",1,0,0,0
 "l10n_br_fiscal_operation_line","l10n_br_fiscal.operation.line","l10n_br_fiscal.model_l10n_br_fiscal_operation_line","purchase.group_purchase_user",1,0,0,0
+"purchase_update_from_nfe_wizard","purchase.update.from.nfe.wizard","model_purchase_update_from_nfe_wizard","purchase.group_purchase_user",1,1,1,1
+"purchase_update_from_nfe_wizard_line","purchase.update.from.nfe.wizard.line","model_purchase_update_from_nfe_wizard_line","purchase.group_purchase_user",1,1,1,1
