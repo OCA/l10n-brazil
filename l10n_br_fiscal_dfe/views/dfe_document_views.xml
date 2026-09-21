@@ -52,6 +52,7 @@
                             <field name="document_emission_date" />
                             <field name="document_state" />
                             <field name="document_amount" widget="monetary" />
+                            <field name="currency_id" invisible="1" />
                             <field
                                 name="company_id"
                                 groups="base.group_multi_company"
@@ -116,7 +117,8 @@
                 <field name="emitter" />
                 <field name="vat" />
                 <field name="partner_id" />
-                <field name="document_amount" string="Amount" />
+                <field name="document_amount" string="Amount" widget="monetary" />
+                <field name="currency_id" invisible="1" />
                 <field name="document_state_label" string="State" />
                 <button
                     string="XML"
