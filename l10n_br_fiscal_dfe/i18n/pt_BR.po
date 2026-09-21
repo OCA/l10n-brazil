@@ -99,6 +99,8 @@ msgid ""
 "<p>%(count)s new third-party DF-e document(s) found.</p><p><a href=\"%"
 "(url)s\">View documents</a></p>"
 msgstr ""
+"<p>%(count)s novo(s) documento(s) DF-e de terceiros encontrado(s).</p><p><a "
+"href=\"%(url)s\">Ver documentos</a></p>"
 
 #. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
@@ -196,9 +198,8 @@ msgstr ""
 
 #. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.view_dfe_specific_search_wizard_form
-#, fuzzy
 msgid "Cancel"
-msgstr "Cancelada"
+msgstr "Cancelar"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_document__color_status__muted
@@ -229,15 +230,13 @@ msgstr "Empresa"
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_dfe__document_type_dfe__complete
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_document__color_status__green
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_search
-#, fuzzy
 msgid "Complete"
-msgstr "NF-e Completa"
+msgstr "Completo"
 
 #. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
-#, fuzzy
 msgid "Complete documents not imported"
-msgstr "NF-e completa não importada"
+msgstr "Documentos completos não importados"
 
 #. module: l10n_br_fiscal_dfe
 #. odoo-python
@@ -272,9 +271,8 @@ msgstr "DF-e"
 
 #. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_res_company_form
-#, fuzzy
 msgid "DF-e Distribution"
-msgstr "Log de Distribuição DF-e"
+msgstr "Distribuição DF-e"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model,name:l10n_br_fiscal_dfe.model_l10n_br_fiscal_dfe_distribution_log
@@ -294,9 +292,8 @@ msgstr "Documentos DF-e"
 
 #. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_res_company_form
-#, fuzzy
 msgid "DF-e Logs"
-msgstr "Registros DF-e"
+msgstr "Logs de Distribuição DF-e"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_res_users__dfe_notification
@@ -317,9 +314,8 @@ msgstr "Registros DF-e"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__document_type_dfe
-#, fuzzy
 msgid "DF-e Type"
-msgstr "Tipo DF-e (NF-e)"
+msgstr "Tipo DF-e"
 
 #. module: l10n_br_fiscal_dfe
 #. odoo-python
@@ -358,9 +354,8 @@ msgstr "Log de Distribuição"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.ui.menu,name:l10n_br_fiscal_dfe.dfe_distribution_log_menu
-#, fuzzy
 msgid "Distribution Logs"
-msgstr "Log de Distribuição"
+msgstr "Logs de Distribuição"
 
 #. module: l10n_br_fiscal_dfe
 #. odoo-python
@@ -397,6 +392,8 @@ msgid ""
 "Document situation code as received from the distribution service (semantics "
 "depend on the fiscal document type)."
 msgstr ""
+"Código de situação do documento conforme recebido do serviço de "
+"distribuição (o significado depende do tipo de documento fiscal)."
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.actions.server,name:l10n_br_fiscal_dfe.action_server_download_xmls_zip
@@ -466,9 +463,8 @@ msgstr "Tipo de Evento"
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__fiscal_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__fiscal_type
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_search
-#, fuzzy
 msgid "Fiscal Type"
-msgstr "Tipo de Schema"
+msgstr "Tipo Fiscal"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model,name:l10n_br_fiscal_dfe.model_l10n_br_fiscal_dfe_document
@@ -603,9 +599,9 @@ msgstr "Sem Parceiro"
 #. module: l10n_br_fiscal_dfe
 #. odoo-python
 #: code:addons/l10n_br_fiscal_dfe/models/dfe_document.py:0
-#, fuzzy
+#, python-format
 msgid "No complete XML found in the selected documents."
-msgstr "Nenhum XML de NF-e completa encontrado nos documentos selecionados."
+msgstr "Nenhum XML completo encontrado nos documentos selecionados."
 
 #. module: l10n_br_fiscal_dfe
 #. odoo-python
@@ -658,6 +654,8 @@ msgid ""
 "Receive Inbox notifications when the DF-e distribution finds new third-party "
 "documents."
 msgstr ""
+"Recebe notificações na Caixa de Entrada quando a distribuição DF-e "
+"encontra novos documentos de terceiros."
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__request_xml
@@ -723,7 +721,6 @@ msgstr "Série"
 
 #. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.view_dfe_specific_search_wizard_form
-#, fuzzy
 msgid "Specific DF-e Search"
 msgstr "Pesquisa Específica de DF-e"
 
@@ -758,7 +755,6 @@ msgstr "Estado"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__document_state
-#, fuzzy
 msgid "State Code"
 msgstr "Código de Status"
 
@@ -779,15 +775,13 @@ msgstr "Resumo"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.actions.act_window,name:l10n_br_fiscal_dfe.dfe_document_action
-#, fuzzy
 msgid "Third-party DF-e Documents"
-msgstr "NF-e de Terceiros"
+msgstr "Documentos DF-e de Terceiros"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.ui.menu,name:l10n_br_fiscal_dfe.dfe_document_menu
-#, fuzzy
 msgid "Third-party Documents"
-msgstr "NF-e de Terceiros"
+msgstr "Documentos de Terceiros"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__is_own_document
