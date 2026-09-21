@@ -14,16 +14,38 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_fiscal_dfe_mock
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_banner_warning
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_document_banner_mock
 msgid ""
-"<i class=\"fa fa-flask text-warning me-2 fs-4\"/>\n"
-"                <span class=\"fw-bold text-warning\">\n"
-"                    MOCK MODE ATIVO\n"
-"                </span>\n"
-"                <span class=\"ms-2 text-muted\">\n"
-"                    — Consultas DF-e estão sendo respondidas pelo pool local,\n"
-"                    sem comunicação com a SEFAZ.\n"
-"                </span>"
+"<i class=\"fa fa-flask me-2 fs-4\"/>\n"
+"                            <span class=\"fw-bold\">MOCK MODE ATIVO</span>\n"
+"                            <span class=\"ms-2\">\n"
+"                                — Consultas DF-e estão sendo respondidas pelo\n"
+"                                pool local, sem comunicação com a SEFAZ.\n"
+"                            </span>"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_document_banner_mock
+msgid "<i class=\"fa fa-flask\"/> Ativar Mock"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_document_banner_mock
+msgid "<i class=\"fa fa-power-off\"/> Desativar Mock"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_document_banner_mock
+msgid "<i class=\"fa fa-refresh\"/> Resetar Cooldown"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_document_banner_mock
+msgid ""
+"<span class=\"text-muted\">\n"
+"                            <i class=\"fa fa-flask me-2\"/>\n"
+"                            Modo Mock desligado — consultas DF-e usam a SEFAZ real.\n"
+"                        </span>"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
@@ -216,12 +238,6 @@ msgid "Reset Consumed"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
-#: model:ir.actions.server,name:l10n_br_fiscal_dfe_mock.action_reset_dfe_cooldown
-#: model:ir.ui.menu,name:l10n_br_fiscal_dfe_mock.dfe_mock_reset_cooldown_menu
-msgid "Reset Query Cooldown"
-msgstr ""
-
-#. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__schema_type
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_search
 msgid "Schema Type"
@@ -232,16 +248,6 @@ msgstr ""
 #: code:addons/l10n_br_fiscal_dfe_mock/wizards/dfe_mock_generate_wizard.py:0
 #, python-format
 msgid "Select at least one document type to generate."
-msgstr ""
-
-#. module: l10n_br_fiscal_dfe_mock
-#: model:ir.actions.server,name:l10n_br_fiscal_dfe_mock.action_toggle_dfe_mock_mode
-msgid "Toggle DF-e Mock Mode"
-msgstr ""
-
-#. module: l10n_br_fiscal_dfe_mock
-#: model:ir.ui.menu,name:l10n_br_fiscal_dfe_mock.dfe_mock_toggle_menu
-msgid "Toggle Mock Mode"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
