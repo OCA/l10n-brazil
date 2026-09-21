@@ -773,9 +773,9 @@ class AccountMove(models.Model):
 
     def _settled_moves_no_longer_valid(self):
         void_states = (DOCUMENT_STATE_CANCEL, SITUACAO_EDOC_DENEGADA)
-        paid_states = ("in_payment", "paid", "partial")
+        settled_payment_states = ("in_payment", "paid", "partial")
         return self.filtered(
-            lambda move: move.payment_state in paid_states
+            lambda move: move.payment_state in settled_payment_states
             and any(
                 document.state_edoc in void_states
                 for document in move.fiscal_document_ids

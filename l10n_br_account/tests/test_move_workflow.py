@@ -1,7 +1,10 @@
 # Copyright (C) 2025 Diego Paradeda - KMEE
+# Copyright 2026 KMEE (Ygor Carvalho <ygor.carvalho@kmee.com.br>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo.tests.common import tagged
+
+from odoo.addons.l10n_br_fiscal.constants.fiscal import DOCUMENT_STATE_CANCEL
 
 from .common import AccountMoveBRCommon
 
@@ -64,3 +67,29 @@ class TestMoveWorkflow(AccountMoveBRCommon):
         # in l10n_br_account cancels the linked account.move
         document_id._trigger_fsm("action_deny")
         self.assertEqual(self.move_out_venda.state, "cancel")
+
+    def _pay(self, invoice):
+        self.env["account.payment.register"].with_context(
+            active_model="account.move", active_ids=invoice.ids
+        ).create(
+            {"journal_id": self.company_data["default_journal_bank"].id}
+        )._create_payments()
+
+    def test_a_paid_invoice_the_sefaz_voided_needs_a_manual_settlement(self):
+        self.move_out_venda.action_post()
+        self._pay(self.move_out_venda)
+        self.assertEqual(self.move_out_venda.payment_state, "paid")
+
+        self.move_out_venda.fiscal_document_id.state_edoc = DOCUMENT_STATE_CANCEL
+
+        self.assertEqual(
+            self.move_out_venda._settled_moves_no_longer_valid(), self.move_out_venda
+        )
+
+    def test_an_unpaid_invoice_the_sefaz_voided_is_left_alone(self):
+        self.move_out_venda.action_post()
+        self.assertEqual(self.move_out_venda.payment_state, "not_paid")
+
+        self.move_out_venda.fiscal_document_id.state_edoc = DOCUMENT_STATE_CANCEL
+
+        self.assertFalse(self.move_out_venda._settled_moves_no_longer_valid())
