@@ -46,7 +46,12 @@ class L10nBrFiscalDfeDocument(models.Model):
 
     vat = fields.Char(string="CNPJ/CPF", size=18)
 
-    document_amount = fields.Float(string="Document Total Value", digits=(18, 2))
+    currency_id = fields.Many2one(
+        comodel_name="res.currency",
+        default=lambda self: self.env.company.currency_id,
+    )
+
+    document_amount = fields.Monetary(string="Document Total Value")
 
     document_state = fields.Char(
         string="State Code",
