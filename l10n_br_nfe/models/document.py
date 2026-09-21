@@ -1850,7 +1850,7 @@ class NFe(spec_models.StackedModel):
             "company_district": self.company_id.district,
             "company_city": self.company_id.city_id.display_name,
             "company_state": self.company_id.state_id.name,
-            "partner_cpf": self.move_ids.partner_cnpj_cpf or "",
+            "partner_cpf": self.partner_id.vat or "",
             "lines": self._prepare_nfce_danfe_line_values(),
             "total_product_quantity": len(
                 self.fiscal_line_ids.filtered(lambda line: line.product_id)
@@ -1886,8 +1886,8 @@ class NFe(spec_models.StackedModel):
                     "product_name": product_id.name,
                     "product_quantity": line.quantity,
                     "product_uom": product_id.uom_name,
-                    "product_unit_value": line.price_unit,
-                    "product_unit_total": line.quantity * line.price_unit,
+                    "product_unit_value": product_id.lst_price,
+                    "product_unit_total": line.quantity * product_id.lst_price,
                 }
             )
         return lines_list

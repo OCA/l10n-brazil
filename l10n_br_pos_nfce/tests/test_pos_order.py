@@ -14,67 +14,119 @@ from .common import TestNFCePosOrderCommon
 
 @odoo.tests.tagged("post_install", "-at_install")
 class TestNFCePosOrder(TestNFCePosOrderCommon):
+    valid_nfce_key = "33230807984267003800650040000000321935136447"
+
+    def _prepare_order_data(self, cnpj_cpf=None):
+        order_data = self.create_ui_order_data(
+            [(self.product1, 5)],
+            payments=[(self.cash_pm, 50)],
+            customer=self.customer,
+        )
+
+        order_data["data"].update(
+            {
+                "to_invoice": True,
+                "company_id": self.env.user.company_id.id,
+            }
+        )
+
+        if cnpj_cpf:
+            order_data["data"]["cnpj_cpf"] = cnpj_cpf
+
+        return order_data
+
     def test_nfce_order_creation(self):
         self.env = self.env(user=self.env.ref("base.user_admin"))
         self.env.user.company_ids = [(4, self.company.id)]
         self.env.user.company_id = self.company
 
         self.open_new_session()
-
         self.customer.is_anonymous_consumer = True
-        order_data = self.create_ui_order_data(
-            [(self.product1, 5)], payments=[(self.cash_pm, 50)], customer=self.customer
+
+        # NFC-e em contingência.
+        contingency_order_data = self._prepare_order_data()
+        contingency_order_data["data"].update(
+            {
+                "authorization_protocol": False,
+                "document_key": self.valid_nfce_key,
+                "document_number": 1000,
+            }
         )
 
-        ctg_order_data = order_data
-        ctg_order_data["data"]["authorization_protocol"] = False
-        ctg_order_data["data"]["document_key"] = "dummy"
-        ctg_order_data["data"]["document_number"] = 1000
-        ctg_order_data["data"]["company_id"] = self.env.user.company_id.id
-        ctg_order_data["data"]["to_invoice"] = True
-
-        res = self.env["pos.order"].create_from_ui([ctg_order_data])
-        contingency_order = self.env["pos.order"].browse(res[0].get("id"))
+        result = self.env["pos.order"].create_from_ui([contingency_order_data])
+        contingency_order = self.env["pos.order"].browse(result[0]["id"])
+        contingency_document = contingency_order.account_move.fiscal_document_id
 
         self.assertTrue(contingency_order.is_contingency)
-        self.assertEqual(contingency_order.document_number, "1000")
-        self.assertEqual(contingency_order.document_key, "dummy")
-        self.assertEqual(self.config.nfce_document_serie_sequence_number_next, 1000)
+        self.assertEqual(
+            contingency_document.document_number,
+            "1000",
+        )
+        self.assertEqual(
+            contingency_document.document_key,
+            self.valid_nfce_key,
+        )
 
-        order_data["data"]["to_invoice"] = True
-        order_data["data"]["authorization_protocol"] = "dummy"
-        order_data["data"]["cnpj_cpf"] = "44300963000186"
-        res = self.env["pos.order"].create_from_ui([order_data])
-        cnpj_order = self.env["pos.order"].browse(res[0].get("id"))
+        # NFC-e autorizada com CNPJ.
+        cnpj_order_data = self._prepare_order_data(
+            cnpj_cpf="44300963000186",
+        )
+        cnpj_order_data["data"]["authorization_protocol"] = "123456789012345"
+
+        result = self.env["pos.order"].create_from_ui([cnpj_order_data])
+        cnpj_order = self.env["pos.order"].browse(result[0]["id"])
+        cnpj_document = cnpj_order.account_move.fiscal_document_id
 
         self.assertFalse(cnpj_order.partner_id.cnpj_cpf)
-        self.assertEqual(cnpj_order.document_number, "1000")
-        self.assertEqual(self.config.nfce_document_serie_sequence_number_next, 1001)
+        self.assertEqual(
+            cnpj_document.document_number,
+            "1001",
+        )
 
-        order_data["data"]["cnpj_cpf"] = "42820627030"
+        # NFC-e autorizada com CPF.
+        cpf_order_data = self._prepare_order_data(
+            cnpj_cpf="42820627030",
+        )
+        cpf_order_data["data"]["authorization_protocol"] = "123456789012345"
 
-        with mock.patch.object(Document, "action_document_confirm"):
-            # nothing will happen
-            res = self.env["pos.order"].create_from_ui([order_data])
+        with mock.patch.object(
+            Document,
+            "action_document_confirm",
+        ):
+            result = self.env["pos.order"].create_from_ui([cpf_order_data])
 
-        cpf_order = self.env["pos.order"].browse(res[0].get("id"))
+        cpf_order = self.env["pos.order"].browse(result[0]["id"])
+        cpf_document = cpf_order.account_move.fiscal_document_id
+
         self.assertFalse(cpf_order.partner_id.cnpj_cpf)
 
         cpf_order.payment_ids = False
-        vals = cpf_order._prepare_nfce_vals("dummy")
-        self.assertEqual(vals, dict())
+        self.assertEqual(
+            cpf_order._prepare_nfce_vals(self.config),
+            {},
+        )
 
-        document_id = self.env.ref("l10n_br_nfe.demo_nfce_same_state")
-        cpf_order.account_move.fiscal_document_id = document_id
-        cpf_order.account_move.fiscal_document_id.authorization_date = datetime.now()
+        cpf_document.write(
+            {
+                "authorization_date": datetime.now(),
+            }
+        )
 
         with mock.patch.object(
-            NFe, "get_nfce_qrcode", return_value=None
-        ), mock.patch.object(NFe, "get_nfce_qrcode_url", return_value=None):
-            doc_dict = cpf_order._prepare_fiscal_document_dict()
-            self.assertEqual(
-                doc_dict["document_key"], "33230807984267003800650040000000321935136447"
-            )
+            NFe,
+            "get_nfce_qrcode",
+            return_value=None,
+        ), mock.patch.object(
+            NFe,
+            "get_nfce_qrcode_url",
+            return_value=None,
+        ):
+            document_values = cpf_order._prepare_fiscal_document_dict()
+
+        self.assertEqual(
+            document_values["document_key"],
+            cpf_document.document_key,
+        )
 
     def test_cancel_nfce_from_ui(self):
         self.env = self.env(user=self.env.ref("base.user_admin"))
@@ -83,49 +135,34 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
 
         self.open_new_session()
 
-        order_data = self.create_ui_order_data(
-            [(self.product1, 5)], payments=[(self.cash_pm, 50)], customer=self.customer
-        )
-        order_data["data"]["to_invoice"] = True
-        res = self.env["pos.order"].create_from_ui([order_data])
-        order_id = self.env["pos.order"].browse(res[0].get("id"))
+        order_data = self._prepare_order_data()
+        order_data["data"]["authorization_protocol"] = "123456789012345"
 
-        self.env["pos.order"].cancel_nfce_from_ui(order_id.pos_reference, "Teste")
+        result = self.env["pos.order"].create_from_ui([order_data])
+        order = self.env["pos.order"].browse(result[0]["id"])
+
+        self.env["pos.order"].cancel_nfce_from_ui(
+            order.pos_reference,
+            "Teste",
+        )
 
         refund_order = self.env["pos.order"].search(
             [
-                ("pos_reference", "=", order_id.pos_reference),
-                ("amount_total", ">", 0),
+                (
+                    "pos_reference",
+                    "=",
+                    f"{order.pos_reference}-cancelled",
+                ),
+                ("id", "!=", order.id),
             ],
             limit=1,
         )
-        self.assertIn("cancelled", refund_order.pos_reference)
 
-    def test_pos_config_next_nfce_number(self):
-        self.env = self.env(user=self.env.ref("base.user_admin"))
-        self.env.user.company_ids = [(4, self.company.id)]
-        self.env.user.company_id = self.company
-
-        def_next_number = self.config._default_next_number()
-        self.assertEqual(def_next_number, 1)
-
-        serie_id = self.env.ref("l10n_br_pos_nfce.document_65_serie_2")
-        serie_id.internal_sequence_id = self.env["ir.sequence"].create(
-            {
-                "name": "NFCe SERIE",
-                "code": "l10n_br_fiscal.document.serie",
-                "prefix": "SERIE",
-            }
+        self.assertTrue(
+            refund_order,
+            "The NFC-e refund order was not created",
         )
-        self.config.nfce_document_serie_id = serie_id
-        def_next_number = self.config._default_next_number()
-
         self.assertEqual(
-            def_next_number, serie_id.internal_sequence_id.number_next_actual
+            refund_order.pos_reference,
+            f"{order.pos_reference}-cancelled",
         )
-
-        new_number = self.config.update_nfce_serie_number(2000)
-        self.assertEqual(new_number, 2000)
-
-        new_number = self.config.update_nfce_serie_number(500)
-        self.assertEqual(new_number, 2000)

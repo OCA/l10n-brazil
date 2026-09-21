@@ -20,24 +20,34 @@ class PosOrder(models.Model):
     def _prepare_invoice_vals(self):
         vals = super()._prepare_invoice_vals()
 
-        pos_config_id = self.session_id.config_id
-        if pos_config_id.simplified_document_type == MODELO_FISCAL_NFCE:
-            nfce_vals = self._prepare_nfce_vals(pos_config_id)
+        pos_config = self.session_id.config_id
+        if pos_config.simplified_document_type != MODELO_FISCAL_NFCE:
+            return vals
 
-            if self.document_key and not self.authorization_protocol:
-                self.is_contingency = True
-                nfce_vals.update(
-                    {
-                        "document_key": self.document_key,
-                        "document_number": self.document_number,
-                    }
-                )
-            else:
-                next_number = pos_config_id.nfce_document_serie_id.next_seq_number()
-                nfce_vals.update({"document_number": next_number})
+        nfce_vals = self._prepare_nfce_vals(pos_config)
 
-            vals.update(nfce_vals)
+        if self.document_key and not self.authorization_protocol:
+            self.is_contingency = True
 
+            document_number = int(self.document_number)
+            sequence = pos_config.nfce_document_serie_id.internal_sequence_id
+
+            # O número informado em contingência também precisa reservar
+            # o próximo número da série.
+            if sequence and sequence.number_next <= document_number:
+                sequence.number_next = document_number + 1
+
+            nfce_vals.update(
+                {
+                    "document_key": self.document_key,
+                    "document_number": document_number,
+                }
+            )
+        else:
+            next_number = pos_config.nfce_document_serie_id.next_seq_number()
+            nfce_vals["document_number"] = next_number
+
+        vals.update(nfce_vals)
         return vals
 
     def _prepare_nfce_vals(self, pos_config_id):
@@ -76,36 +86,49 @@ class PosOrder(models.Model):
             created_order._setup_anonymous_consumer()
 
             try:
-                fiscal_document_id.action_document_send()
-            except Exception as e:
-                _logger.error("Error sending NFCe document: %s" % e)
+                # O documento recém-criado começa em "em_digitacao".
+                # Primeiro confirma para passar a "a_enviar".
+                if fiscal_document_id.state_edoc == "em_digitacao":
+                    fiscal_document_id.action_document_confirm()
+
+                # Só envia depois que o documento estiver pronto para transmissão.
+                if fiscal_document_id.state_edoc == "a_enviar":
+                    fiscal_document_id.action_document_send()
+
+            except Exception:
+                _logger.exception(
+                    "Error sending NFC-e document %s",
+                    fiscal_document_id.display_name,
+                )
+                raise
+
             finally:
                 created_order._clear_anonymous_consumer()
 
         return res
 
     def _setup_anonymous_consumer(self):
-        if self._has_anonymous_consumer():
-            if len(self.cnpj_cpf) == 14:
-                self.partner_id.write(
-                    {
-                        "company_type": "company",
-                        "ind_ie_dest": "9",
-                        "nfe40_CPF": "",
-                        "cnpj_cpf": self.cnpj_cpf,
-                    }
-                )
-            else:
-                self.partner_id.write(
-                    {
-                        "nfe40_CNPJ": "",
-                        "cnpj_cpf": self.cnpj_cpf,
-                    }
-                )
+        if not self._has_anonymous_consumer():
+            return
+
+        self.partner_id.write(
+            {
+                "company_type": ("company" if len(self.cnpj_cpf) == 14 else "person"),
+                "ind_ie_dest": "9",
+                "cnpj_cpf": self.cnpj_cpf,
+            }
+        )
 
     def _clear_anonymous_consumer(self):
-        if self._has_anonymous_consumer():
-            self.partner_id.write({"company_type": "person", "cnpj_cpf": False})
+        if not self._has_anonymous_consumer():
+            return
+
+        self.partner_id.write(
+            {
+                "company_type": "person",
+                "cnpj_cpf": False,
+            }
+        )
 
     def _has_anonymous_consumer(self):
         return self.cnpj_cpf and self.partner_id.is_anonymous_consumer
@@ -151,32 +174,58 @@ class PosOrder(models.Model):
         }
 
     def cancel_nfce_from_ui(self, order_id, cancel_reason):
-        order = self.env["pos.order"].search([("pos_reference", "=", order_id)])
+        order = self.search(
+            [("pos_reference", "=", order_id)],
+            limit=1,
+        )
+
+        if not order:
+            return False
+
+        fiscal_document = order.account_move.fiscal_document_id
 
         try:
-            order.account_move.fiscal_document_id._document_cancel(cancel_reason)
-        except Exception as e:
-            _logger.error("Error cancelling NFCe document: %s" % e)
+            fiscal_document._document_cancel(cancel_reason)
+        except Exception:
+            _logger.exception("Error cancelling NFC-e document")
         finally:
             order.write(
                 {
-                    "state_edoc": order.account_move.fiscal_document_id.state_edoc,
+                    "state_edoc": fiscal_document.state_edoc,
                 }
             )
-            order.with_context(
+
+            existing_order_ids = self.search(
+                [("pos_reference", "=", order.pos_reference)]
+            ).ids
+
+            refund_result = order.with_context(
                 mail_create_nolog=True,
                 tracking_disable=True,
                 mail_create_nosubscribe=True,
                 mail_notrack=True,
             ).refund()
-            refund_order = self.search(
-                [
-                    ("pos_reference", "=", order.pos_reference),
-                    ("amount_total", ">", 0),
-                ]
-            )
-            refund_order.pos_reference = f"{order.pos_reference}-cancelled"
-        return order.account_move.fiscal_document_id.state_edoc
+
+            # Em algumas versões, refund() retorna um recordset.
+            refund_order = refund_result
+            if not getattr(refund_order, "_name", None) == "pos.order":
+                refund_order = self.search(
+                    [
+                        ("id", "not in", existing_order_ids),
+                        ("pos_reference", "=", order.pos_reference),
+                    ],
+                    order="id desc",
+                    limit=1,
+                )
+
+            if refund_order:
+                refund_order.write(
+                    {
+                        "pos_reference": f"{order.pos_reference}-cancelled",
+                    }
+                )
+
+        return fiscal_document.state_edoc
 
 
 class PosOrderLine(models.Model):
