@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://www.dere.gov.br/schemas/evtAplicResTec/v1_0_0"
+           targetNamespace="http://www.dere.gov.br/schemas/evtAplicResTec/v1_0_0"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema.xsd"/>
+	<xs:element name="DeRE">
+		<xs:annotation>
+			<xs:documentation>Envelope raiz dos eventos da DeRE.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="evtAplicResTec">
+					<xs:annotation>
+						<xs:documentation>Evento de identificação e detalhamento de aplicações financeiras sobre reserva técnica.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ideEvento" minOccurs="1" maxOccurs="1">
+								<xs:annotation>
+									<xs:documentation>Informações de identificação do evento.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="tpOper" minOccurs="1" maxOccurs="1">
+											<xs:annotation>
+												<xs:documentation>Tipo de operação do evento. Nota: A alteração substitui integralmente as informações do evento enviado anteriormente.</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:whiteSpace value="preserve"/>
+													<xs:enumeration value="1">
+														<xs:annotation>
+															<xs:documentation>Inclusão</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="2">
+														<xs:annotation>
+															<xs:documentation>Alteração</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="3">
+														<xs:annotation>
+															<xs:documentation>Exclusão</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="motExcl" minOccurs="0" maxOccurs="1">
+											<xs:annotation>
+												<xs:documentation>Motivo da Exclusão. Código do motivo que justifica a exclusão do evento. Validação: Obrigatório se {tpOper} = [3].</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:whiteSpace value="preserve"/>
+													<xs:enumeration value="1">
+														<xs:annotation>
+															<xs:documentation>Determinação judicial ou administrativa</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="2">
+														<xs:annotation>
+															<xs:documentation>Envio indevido (fato inexistente)</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="3">
+														<xs:annotation>
+															<xs:documentation>Erro na identificação (CNPJ/período incorretos)</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="9">
+														<xs:annotation>
+															<xs:documentation>Outro</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="nrProc" minOccurs="0" maxOccurs="1">
+											<xs:annotation>
+												<xs:documentation>Informar o número do processo administrativo/judicial. Validação: Obrigatório se {motExcl} = [1]. Deve ser um número de processo válido e existente no evento D-1021.</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:whiteSpace value="preserve"/>
+													<xs:maxLength value="21"/>
+													<xs:pattern value="[A-Za-z0-9]+"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="nrRecibo" minOccurs="0" maxOccurs="1">
+											<xs:annotation>
+												<xs:documentation>Caso seja um evento de alteração/retificação ou exclusão, preencher com o número do recibo do arquivo a ser alterado/retificado ou excluído.</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:whiteSpace value="preserve"/>
+													<xs:length value="31"/>
+													<xs:pattern value="[0-9]{4}-20[0-9]{2}(0[1-9]|1[0-2])-[0-9A-Z]{19}"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="tpAmb" minOccurs="1" maxOccurs="1">
+											<xs:annotation>
+												<xs:documentation>Identificação do ambiente para o qual os dados estão sendo transmitidos.</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:whiteSpace value="preserve"/>
+													<xs:enumeration value="1">
+														<xs:annotation>
+															<xs:documentation>Produção</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="2">
+														<xs:annotation>
+															<xs:documentation>Produção restrita</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="aplicEmi" minOccurs="1" maxOccurs="1">
+											<xs:annotation>
+												<xs:documentation>Identificação do aplicativo emissor do evento.</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:whiteSpace value="preserve"/>
+													<xs:enumeration value="1">
+														<xs:annotation>
+															<xs:documentation>Emissão com aplicativo da empresa</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="2">
+														<xs:annotation>
+															<xs:documentation>Aplicativo governamental</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="verAplic" minOccurs="1" maxOccurs="1">
+											<xs:annotation>
+												<xs:documentation>Versão do aplicativo emissor do evento.</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:whiteSpace value="preserve"/>
+													<xs:maxLength value="20"/>
+													<xs:pattern value="([!-ÿ][ -ÿ]*[!-ÿ]|[!-ÿ])"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ideContrib" minOccurs="1" maxOccurs="1">
+								<xs:annotation>
+									<xs:documentation>Informações de identificação do contribuinte.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="nrInsc" minOccurs="1" maxOccurs="1">
+											<xs:annotation>
+												<xs:documentation>Número de inscrição do contribuinte (CNPJ raiz). Validação: Deve ser um CNPJ raiz válido de 8 posições.</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:whiteSpace value="preserve"/>
+													<xs:length value="8"/>
+													<xs:pattern value="[0-9A-Z]{8}"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="idePeriodo" minOccurs="1" maxOccurs="1">
+								<xs:annotation>
+									<xs:documentation>Período de referência das informações do evento.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="perApur" minOccurs="1" maxOccurs="1">
+											<xs:annotation>
+												<xs:documentation>Informar o período de apuração, sendo o ano e mês da competência da declaração. Máscara: AAAA-MM Validação: Se {tpOper} = [1], só pode existir um único {perApur} para cada {nrInsc}. Quando informado {nrRecibo}, o {perApur} deve ser exatamento ao mesmo existente no {nrRecibo} (caracteres 6 a 11 do recibo).</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:whiteSpace value="preserve"/>
+													<xs:length value="7"/>
+													<xs:pattern value="20[0-9]{2}-(0[1-9]|1[0-2])"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="infoAplicResTec" minOccurs="0" maxOccurs="1">
+								<xs:annotation>
+									<xs:documentation>Informações de aplicações financeiras sobre reserva técnica.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="semAplic" minOccurs="0" maxOccurs="1">
+											<xs:annotation>
+												<xs:documentation>Indicação da inexistência de aplicações financeiras sobre reserva técnica. Preenchimento: Deve ser preenchido exclusivamente quando o contribuinte não possuir ativos financeiros vinculados à reserva técnica a detalhar no período de apuração {perApur}.</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:whiteSpace value="preserve"/>
+													<xs:enumeration value="1">
+														<xs:annotation>
+															<xs:documentation>Não existem informações de aplicações financeiras a declarar para este período</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="infoAplic" minOccurs="0" maxOccurs="100">
+											<xs:annotation>
+												<xs:documentation>Detalhamento das informações da aplicação financeira sobre reserva técnica.</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="cCta" minOccurs="1" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>Código da Conta Analítica (como informada no evento D-1011.{cCta}). Nota: Devem estar no PGCC vigente no último dia do {perApur} todas as contas que tiveram movimentação no período, ainda que tenham sido criadas ou encerradas no período. Validação: Não informar contas sintéticas. O {cCta} deve existir e estar vigente na tabela PGCC do contribuinte no último dia do {perApur} correspondente.</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:whiteSpace value="preserve"/>
+																<xs:maxLength value="53"/>
+																<xs:pattern value="[0-9A-Za-z]+"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="detAtivo" minOccurs="1" maxOccurs="500">
+														<xs:annotation>
+															<xs:documentation>Detalhamento do título/ativo.</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="descAtivo" minOccurs="1" maxOccurs="1">
+																	<xs:annotation>
+																		<xs:documentation>Descrição da denominação do ativo financeiro vinculado a reserva técnica.</xs:documentation>
+																	</xs:annotation>
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:whiteSpace value="preserve"/>
+																			<xs:maxLength value="255"/>
+																			<xs:pattern value="([!-ÿ][ -ÿ]*[!-ÿ]|[!-ÿ])"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="vSaldoInic" minOccurs="1" maxOccurs="1">
+																	<xs:annotation>
+																		<xs:documentation>Valor do título em 01/01/2026 ou na data da aquisição, se esta for posterior a esta data. Preenchimento: Deve ser igual ao {vSaldoFinal} do período anterior para o mesmo {idAtivo} (exceto na primeira competência do declarante).</xs:documentation>
+																	</xs:annotation>
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:whiteSpace value="preserve"/>
+																			<xs:minLength value="4"/>
+																			<xs:maxLength value="18"/>
+																			<xs:pattern value="(0|[1-9][0-9]{0,14})\.[0-9]{2}"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="vRendPerReceb" minOccurs="0" maxOccurs="1">
+																	<xs:annotation>
+																		<xs:documentation>Valor de rendimentos periódicos recebidos no período de apuração (cupons, dividentos, etc).</xs:documentation>
+																	</xs:annotation>
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:whiteSpace value="preserve"/>
+																			<xs:minLength value="4"/>
+																			<xs:maxLength value="18"/>
+																			<xs:pattern value="(0|[1-9][0-9]{0,14})\.[0-9]{2}"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="vVarMensal" minOccurs="0" maxOccurs="1">
+																	<xs:annotation>
+																		<xs:documentation>Valores de variação mensal a serem incorporados ao saldo do ativo. Nota: Valores podem ser positivos ou negativos.</xs:documentation>
+																	</xs:annotation>
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:whiteSpace value="preserve"/>
+																			<xs:minLength value="4"/>
+																			<xs:maxLength value="19"/>
+																			<xs:pattern value="-?(0|[1-9][0-9]{0,14})\.[0-9]{2}"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="vPrincLiqResg" minOccurs="1" maxOccurs="1">
+																	<xs:annotation>
+																		<xs:documentation>Valor do principal liquidado ou resgatado do ativo financeiro.</xs:documentation>
+																	</xs:annotation>
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:whiteSpace value="preserve"/>
+																			<xs:minLength value="4"/>
+																			<xs:maxLength value="18"/>
+																			<xs:pattern value="(0|[1-9][0-9]{0,14})\.[0-9]{2}"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="vRendLiqResg" minOccurs="0" maxOccurs="1">
+																	<xs:annotation>
+																		<xs:documentation>Valor dos rendimentos recebidos na liquidação ou resgate do ativo financeiro.</xs:documentation>
+																	</xs:annotation>
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:whiteSpace value="preserve"/>
+																			<xs:minLength value="4"/>
+																			<xs:maxLength value="18"/>
+																			<xs:pattern value="(0|[1-9][0-9]{0,14})\.[0-9]{2}"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="vSaldoFinal" minOccurs="1" maxOccurs="1">
+																	<xs:annotation>
+																		<xs:documentation>Valor do título no último dia do período de apuração {perApur}. Cálculo: {vSaldoInic} + {vVarMensal} - {vPrincLiqResg}</xs:documentation>
+																	</xs:annotation>
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:whiteSpace value="preserve"/>
+																			<xs:minLength value="4"/>
+																			<xs:maxLength value="18"/>
+																			<xs:pattern value="(0|[1-9][0-9]{0,14})\.[0-9]{2}"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="vApur" minOccurs="1" maxOccurs="1">
+																	<xs:annotation>
+																		<xs:documentation>Valor base sobre o qual serão aplicadas as regras definidas pelo código de tributação ({codTrib}). Cálculo: {vRendPerReceb} + {vRendLiqResg}</xs:documentation>
+																	</xs:annotation>
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:whiteSpace value="preserve"/>
+																			<xs:minLength value="4"/>
+																			<xs:maxLength value="18"/>
+																			<xs:pattern value="(0|[1-9][0-9]{0,14})\.[0-9]{2}"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="idAtivo" use="required">
+																<xs:annotation>
+																	<xs:documentation>Número de identificação do título/ativo.</xs:documentation>
+																</xs:annotation>
+																<xs:simpleType>
+																	<xs:restriction base="xs:string">
+																		<xs:whiteSpace value="preserve"/>
+																		<xs:maxLength value="30"/>
+																		<xs:pattern value="[0-9A-Za-z]{1,30}"/>
+																	</xs:restriction>
+																</xs:simpleType>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="id" use="required">
+							<xs:annotation>
+								<xs:documentation>Identificador que representa unicamente o evento.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:whiteSpace value="preserve"/>
+									<xs:length value="42"/>
+									<xs:pattern value="DeRE[0-9]{4}[1-2][A-Z0-9]{14}[0-9]{19}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element ref="ds:Signature"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

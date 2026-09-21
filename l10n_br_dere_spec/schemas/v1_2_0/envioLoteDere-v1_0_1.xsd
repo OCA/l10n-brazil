@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://www.dere.gov.br/schemas/envioLoteDere/v1_0_1"
+           targetNamespace="http://www.dere.gov.br/schemas/envioLoteDere/v1_0_1"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+
+  <xs:element name="DeRE">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="loteEventos">
+          <xs:annotation>
+            <xs:documentation>Lote de eventos da DERE</xs:documentation>
+          </xs:annotation>
+
+          <xs:complexType>
+            <xs:sequence>
+
+              <xs:element name="ideContrib" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Identificacao do Contribuinte</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="nrInsc" minOccurs="1" maxOccurs="1">
+                      <xs:simpleType>
+                        <xs:annotation>
+                          <xs:documentation>Informar o número de inscrição do contribuinte (CNPJ base com 8 dígitos alfanuméricos)</xs:documentation>
+                        </xs:annotation>
+                        <xs:restriction base="xs:string">
+                          <xs:pattern value="[0-9A-Z]{8}"/>
+                          <xs:maxLength value="8"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+
+              <xs:element name="eventos">
+                <xs:annotation>
+                  <xs:documentation>Relacao de eventos que compoe o lote</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence maxOccurs="50">
+                    <xs:element name="evento" type="TEventoDere" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+
+            </xs:sequence>
+          </xs:complexType>
+
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+
+  <xs:complexType name="TEventoDere">
+    <xs:annotation>
+      <xs:documentation>
+        Define os dados de um evento da DERE
+      </xs:documentation>
+    </xs:annotation>
+
+    <xs:sequence>
+      <xs:any processContents="skip">
+        <xs:annotation>
+          <xs:documentation>Contem o xml do evento</xs:documentation>
+        </xs:annotation>
+      </xs:any>
+    </xs:sequence>
+
+    <xs:attribute name="id" use="required" type="xs:ID">
+      <xs:annotation>
+        <xs:documentation>
+          Contem a chave de acesso do evento
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+</xs:schema>
