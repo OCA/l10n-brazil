@@ -35,7 +35,8 @@
                 <field name="emitter" />
                 <field name="vat" />
                 <field name="partner_id" />
-                <field name="document_amount" string="Amount" />
+                <field name="document_amount" string="Amount" widget="monetary" />
+                <field name="currency_id" invisible="1" />
                 <field name="cfop_ids" widget="many2many_tags" string="CFOPs" />
                 <field
                     name="manifestation_status"
