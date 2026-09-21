@@ -23,6 +23,11 @@ class ContractContract(models.Model):
         related="company_id.country_id", store=True, precompute=True
     )
 
+    contract_recalculate_taxes_before_invoice = fields.Boolean(
+        string="Recalculate Fiscal Operation Line Before Invoicing",
+        default=True,
+    )
+
     @api.model
     def _fiscal_operation_domain(self):
         domain = [("state", "=", "approved")]
