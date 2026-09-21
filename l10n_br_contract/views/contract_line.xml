@@ -39,11 +39,6 @@
                         invisible="tax_icms_or_issqn == 'issqn' or country_id != %(base.br)d or not fiscal_operation_id"
                     />
                     <field
-                        name="service_type_id"
-                        options="{'no_create': True}"
-                        invisible="tax_icms_or_issqn == 'icms' or country_id != %(base.br)d or not fiscal_operation_id"
-                    />
-                    <field
                         name="city_taxation_code_id"
                         invisible="tax_icms_or_issqn == 'icms' or country_id != %(base.br)d or not fiscal_operation_id"
                         options="{'no_create': True}"
@@ -54,6 +49,11 @@
                         options="{'no_create': True}"
                     />
                     <field
+                        name="service_type_id"
+                        options="{'no_create': True}"
+                        invisible="tax_icms_or_issqn == 'icms' or country_id != %(base.br)d or not fiscal_operation_id"
+                    />
+                    <field
                         name="cnae_id"
                         invisible="tax_icms_or_issqn == 'icms' or country_id != %(base.br)d or not fiscal_operation_id"
                         options="{'no_create': True}"
@@ -62,6 +62,11 @@
                         name="nbs_id"
                         attrs="{'invisible': ['|', '|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d), ('fiscal_operation_id', '=', False)]}"
                         options="{'no_create': True}"
+                    />
+                    <field
+                        name="operation_indicator_id"
+                        options="{'no_create': True}"
+                        invisible="tax_icms_or_issqn == 'icms' or country_id != %(base.br)d or not fiscal_operation_id"
                     />
                 </group>
             </xpath>
