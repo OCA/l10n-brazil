@@ -13,12 +13,42 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     TAX_FRAMEWORK_SIMPLES_ALL,
 )
 
+from .tools import load_purchase_fixture_files
+
 
 class L10nBrPurchaseBaseTest(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+
+        # Load demo data as fixtures if not already present
+        if not cls.env.ref(
+            "l10n_br_purchase.lp_po_only_products", raise_if_not_found=False
+        ):
+            load_purchase_fixture_files(cls.env)
+
+        # Ensure parent-child relationships for address contacts used by
+        # address_get() in the partner_to_invoice / partner_to_shipping tests.
+        # The l10n_br_base post_init_hook sets these during installation with
+        # demo data, but some CI environments may not run it (or may use a
+        # different Odoo version where address_get behaves differently), so
+        # we enforce the relationships explicitly here for test robustness.
+        for child_xmlid, parent_xmlid in [
+            (
+                "l10n_br_base.res_partner_cliente7_rs_end_cobranca",
+                "l10n_br_base.res_partner_cliente7_rs",
+            ),
+            (
+                "l10n_br_base.res_partner_cliente2_sp_end_entrega",
+                "l10n_br_base.res_partner_cliente2_sp",
+            ),
+        ]:
+            child = cls.env.ref(child_xmlid, raise_if_not_found=False)
+            parent = cls.env.ref(parent_xmlid, raise_if_not_found=False)
+            if child and parent and child.parent_id != parent:
+                child.parent_id = parent
+
         cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
         cls.po_products = cls.env.ref("l10n_br_purchase.lp_po_only_products")
         # cls.po_services = cls.env.ref(
