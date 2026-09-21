@@ -4,6 +4,8 @@
 from odoo.tests import Form, TransactionCase
 from odoo.tests.common import tagged
 
+from .tools import load_sale_fixture_files
+
 
 @tagged("post_install", "-at_install")
 class TestSaleOrderIndFinal(TransactionCase):
@@ -11,6 +13,11 @@ class TestSaleOrderIndFinal(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+        # Load demo data as fixtures if not already present
+        if not cls.env.ref(
+            "l10n_br_base.empresa_lucro_presumido", raise_if_not_found=False
+        ):
+            load_sale_fixture_files(cls.env)
         cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
         cls.user = cls.env.user
         cls.user.company_ids |= cls.company

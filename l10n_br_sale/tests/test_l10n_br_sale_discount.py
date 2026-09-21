@@ -5,12 +5,19 @@
 from odoo import Command
 from odoo.tests import Form, TransactionCase
 
+from .tools import load_sale_fixture_files
+
 
 class L10nBrSaleDiscount(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+        # Load demo data as fixtures if not already present
+        if not cls.env.ref(
+            "l10n_br_base.empresa_simples_nacional", raise_if_not_found=False
+        ):
+            load_sale_fixture_files(cls.env)
         cls.company = cls.env.ref("l10n_br_base.empresa_simples_nacional")
         cls.group_total_discount_id = cls.env.ref(
             "l10n_br_sale.group_total_discount"
