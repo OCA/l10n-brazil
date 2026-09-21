@@ -4,7 +4,6 @@
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <odoo>
-
     <!-- NF-e specific tree: same as the generic one plus the KPI banner,
          CFOP tags, manifestation badge and NF-e buttons. Referenced
          explicitly by action_nfe_dfe_document. -->
