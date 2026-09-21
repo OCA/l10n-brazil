@@ -82,12 +82,24 @@ class ResCompany(models.Model):
                 "message": f"Mock mode is now {label} for {self.name}.",
                 "type": "info",
                 "sticky": False,
+                "next": {"type": "ir.actions.client", "tag": "soft_reload"},
             },
         }
 
     def action_reset_dfe_cooldown(self):
         self.ensure_one()
         self._dfe_write_typed("nfe", {"dfe_next_query": False})
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": "DF-e Query Cooldown Reset",
+                "message": f"Query cooldown cleared for {self.name}.",
+                "type": "info",
+                "sticky": False,
+                "next": {"type": "ir.actions.client", "tag": "soft_reload"},
+            },
+        }
 
     def _dfe_get_processor(self, fiscal_type):
         self.ensure_one()
