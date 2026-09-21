@@ -15,6 +15,7 @@ from xsdata.formats.dataclass.transports import DefaultTransport
 from odoo import fields
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests.common import TransactionCase
+from odoo.tools import mute_logger
 
 from odoo.addons.l10n_br_fiscal_dfe.constants.dfe import (
     DFE_INTERVAL_ERROR,
@@ -537,7 +538,8 @@ class TestDFe(TransactionCase):
         inf_evento.cStat = "573"
         inf_evento.xMotivo = "Duplicidade de Evento"
 
-        mde.validate_event_response(result, ["135"])
+        with mute_logger("odoo.addons.l10n_br_nfe.models.nfe_md_event"):
+            mde.validate_event_response(result, ["135"])
         self.assertEqual(mde.state, "done")
         self.assertIn("573", mde.response_xml)
 
@@ -595,7 +597,7 @@ class TestDFe(TransactionCase):
     def test_wizard_rejects_empty_access_key(self):
         """Wizard should raise UserError when access key is empty."""
         wizard = self._create_wizard(access_key="")
-        with self.assertRaises(UserError):
+        with self.assertRaises(UserError), mute_logger("odoo.tools.translate"):
             wizard.action_confirm_search()
 
     def test_wizard_rejects_invalid_check_digit(self):
@@ -767,7 +769,7 @@ class TestDFe(TransactionCase):
         partner = self.env["res.partner"].create(
             {
                 "name": "Late Partner DFe",
-                "cnpj_cpf": "12.345.678/0001-95",
+                "vat": "12.345.678/0001-95",
             }
         )
         dfe_doc.action_match_partner()
@@ -862,8 +864,8 @@ class TestDFe(TransactionCase):
 
     # ── Distribution log tests ────────────────────────────────────────────
 
-    def test_distribution_log_name_get(self):
-        """Distribution log name_get should show [type] date format."""
+    def test_distribution_log_display_name(self):
+        """Distribution log display_name should show [type] date format."""
         log = self.env["l10n_br_fiscal_dfe.distribution_log"].create(
             {
                 "company_id": self.company.id,
@@ -871,7 +873,7 @@ class TestDFe(TransactionCase):
                 "message": "Test log",
             }
         )
-        name = log.name_get()[0][1]
+        name = log.display_name
         self.assertIn("Success", name)
 
     # ── DFe document compute tests ────────────────────────────────────────
@@ -1192,8 +1194,9 @@ class TestDFe(TransactionCase):
                 "res_id": dfe.id,
             }
         )
-        doc.invalidate_cache(["cfop_ids"])
-        self.assertFalse(doc.cfop_ids)
+        with mute_logger("odoo.addons.l10n_br_nfe_dfe.models.dfe_document"):
+            doc.invalidate_recordset(["cfop_ids"])
+            self.assertFalse(doc.cfop_ids)
 
     def test_cfop_ids_complete_dfe_without_attachment(self):
         """cfop_ids handles complete DFe without attachment data."""
@@ -1213,7 +1216,7 @@ class TestDFe(TransactionCase):
                 "schema_type": "procNFe",
             }
         )
-        doc.invalidate_cache(["cfop_ids"])
+        doc.invalidate_recordset(["cfop_ids"])
         self.assertFalse(doc.cfop_ids)
 
     def test_make_pdf_without_complete_dfe(self):
@@ -1391,17 +1394,17 @@ class TestDFe(TransactionCase):
             "Metadata should not be updated when complete DFe already exists",
         )
 
-    # ── Coverage: DFe name_get without type ──────────────────────────────
+    # ── Coverage: DFe display_name without type ──────────────────────────
 
-    def test_dfe_name_get_without_type(self):
-        """name_get handles DFe record without document_type_dfe."""
+    def test_dfe_display_name_without_type(self):
+        """display_name handles DFe record without document_type_dfe."""
         dfe = self.env["l10n_br_fiscal_dfe.dfe"].create(
             {
                 "access_key": "35200199999999999999550010000000019999999991",
                 "company_id": self.company.id,
             }
         )
-        name = dfe.name_get()[0][1]
+        name = dfe.display_name
         self.assertIn("35200199999999999999550010000000019999999991", name)
 
     # ── Coverage: notify fallback URL ────────────────────────────────────

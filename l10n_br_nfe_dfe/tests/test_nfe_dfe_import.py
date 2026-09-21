@@ -11,6 +11,7 @@ from xsdata.formats.dataclass.transports import DefaultTransport
 
 from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
+from odoo.tools import mute_logger
 
 from .test_nfe_dfe import (
     response_sucesso_individual,
@@ -114,7 +115,11 @@ class TestNFeDFe(TransactionCase):
         self.company.nfe_dfe_search_documents()
         dfe_record = self._search_dfe()[0]
 
-        result = dfe_record.dfe_document_id.make_pdf()
+        # brazilfiscalreport truth-tests an ElementTree element while drawing
+        # the watermark; the stdlib DeprecationWarning (py3.12+) is not
+        # actionable here, so keep the CI log clean.
+        with mute_logger("py.warnings"):
+            result = dfe_record.dfe_document_id.make_pdf()
 
         self.assertEqual(result["type"], "ir.actions.act_url")
         self.assertTrue(result["url"].startswith("/web/content/"))
