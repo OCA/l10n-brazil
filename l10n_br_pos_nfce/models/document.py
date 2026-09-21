@@ -26,14 +26,14 @@ class Document(models.Model):
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
         if (
             field_name == "nfe40_dest"
-            and ((self.has_vat_specification) or (self.partner_id.vat))
+            and self.partner_id.vat
             and self.document_type == MODELO_FISCAL_NFCE
         ):
             return self._setup_minimal_dest(field_name, xsd_required, class_obj)
+
         if (
             field_name == "nfe40_dest"
-            and (not self.has_vat_specification)
-            and (not self.partner_id.vat)
+            and not self.partner_id.vat
             and self.document_type == MODELO_FISCAL_NFCE
         ):
             return self._setup_no_dest(field_name, xsd_required, class_obj)
@@ -82,8 +82,8 @@ class Document(models.Model):
         ):
             processor = record.processador_edoc
 
-            record.flush()
-            record.invalidate_cache()
+            record.flush_recordset()
+            record.invalidate_recordset()
 
             inf_nfe = record._build_binding("nfe", "40")
 

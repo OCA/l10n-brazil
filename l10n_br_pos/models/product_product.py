@@ -7,9 +7,7 @@ from odoo import api, models
 class ProductProduct(models.Model):
     _inherit = "product.product"
 
-    @api.depends_context(
-        "company"
-    )  # patch feito para fazer o mapa fiscal, chamo esse metodo em l10n_br_pos_nfce/models/pos_order.py para mapear corretamente os impostos (necessario para odoo16)
+    @api.depends_context("company")
     def update_pos_fiscal_map(self):
         for record in self:
             pos_config_ids = self.env["pos.config"].search(
