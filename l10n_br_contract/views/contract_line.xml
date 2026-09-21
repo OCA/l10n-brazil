@@ -39,11 +39,6 @@
                         attrs="{'invisible': ['|', '|', ('tax_icms_or_issqn', '=', 'issqn'), ('country_id', '!=', %(base.br)d), ('fiscal_operation_id', '=', False)]}"
                     />
                     <field
-                        name="service_type_id"
-                        options="{'no_create': True}"
-                        attrs="{'invisible': ['|', '|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d), ('fiscal_operation_id', '=', False)]}"
-                    />
-                    <field
                         name="city_taxation_code_id"
                         attrs="{'invisible': ['|', '|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d), ('fiscal_operation_id', '=', False)]}"
                         options="{'no_create': True}"
@@ -54,12 +49,22 @@
                         options="{'no_create': True}"
                     />
                     <field
+                        name="service_type_id"
+                        options="{'no_create': True}"
+                        attrs="{'invisible': ['|', '|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d), ('fiscal_operation_id', '=', False)]}"
+                    />
+                    <field
                         name="cnae_id"
                         attrs="{'invisible': ['|', '|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d), ('fiscal_operation_id', '=', False)]}"
                         options="{'no_create': True}"
                     />
                     <field
                         name="nbs_id"
+                        attrs="{'invisible': ['|', '|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d), ('fiscal_operation_id', '=', False)]}"
+                        options="{'no_create': True}"
+                    />
+                    <field
+                        name="operation_indicator_id"
                         attrs="{'invisible': ['|', '|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d), ('fiscal_operation_id', '=', False)]}"
                         options="{'no_create': True}"
                     />
