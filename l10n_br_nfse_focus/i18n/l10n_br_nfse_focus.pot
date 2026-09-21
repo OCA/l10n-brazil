@@ -51,6 +51,11 @@ msgid "Companies"
 msgstr ""
 
 #. module: l10n_br_nfse_focus
+#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_nacional_concat_lines_discriminacao
+msgid "Concatenate All Lines in Discriminação (NFSe Nacional)"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
 #: model:ir.model.fields.selection,name:l10n_br_nfse_focus.selection__res_company__focusnfe_tax_rate_format__decimal
 msgid "Decimal"
 msgstr ""
@@ -114,6 +119,14 @@ msgid ""
 "wizard. The system will verify the status of the documents with Focus NFE, "
 "and if there are discrepancies with the status in Odoo, it will "
 "automatically update the status in the system."
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: model:ir.model.fields,help:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_nacional_concat_lines_discriminacao
+msgid ""
+"If checked, the Discriminação do Serviço sent to NFSe Nacional will "
+"concatenate the description of every fiscal line in the document, instead of"
+" using only the description of the first line."
 msgstr ""
 
 #. module: l10n_br_nfse_focus
