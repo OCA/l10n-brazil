@@ -160,7 +160,7 @@
                 >parent.fiscal_operation_id</attribute>
             </xpath>
             <xpath
-                expr="//field[@name='order_line']/list/field[@name='tax_id']"
+                expr="//field[@name='order_line']/list/field[@name='tax_ids']"
                 position="attributes"
             >
                 <attribute
@@ -303,7 +303,7 @@
                 />
             </xpath>
             <xpath
-                expr="//field[@name='order_line']/form//field[@name='tax_id']"
+                expr="//field[@name='order_line']/form//field[@name='tax_ids']"
                 position="attributes"
             >
                 <attribute name="invisible">parent.fiscal_operation_id</attribute>
@@ -398,7 +398,7 @@
                     <page name="accounting" string="Accounting">
                         <group>
                             <field
-                                name="tax_id"
+                                name="tax_ids"
                                 widget="many2many_tags"
                                 options="{'no_create': True}"
                                 context="{'search_view_ref': 'account.account_tax_view_search'}"

@@ -51,7 +51,7 @@ class SaleOrder(models.Model):
     fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
         readonly=True,
-        default=_default_fiscal_operation,
+        default=lambda self: self._default_fiscal_operation(),
         domain=lambda self: self._fiscal_operation_domain(),
     )
 
@@ -61,7 +61,7 @@ class SaleOrder(models.Model):
 
     copy_note = fields.Boolean(
         string="Copy Sale note on invoice",
-        default=_default_copy_note,
+        default=lambda self: self._default_copy_note(),
     )
 
     discount_rate = fields.Float(
@@ -125,7 +125,7 @@ class SaleOrder(models.Model):
         if not self.fiscal_operation_id:
             # O caso Brasil se caracteriza por ter a Operação Fiscal
             return lines
-        document_type_id = self._context.get("document_type_id")
+        document_type_id = self.env.context.get("document_type_id")
         lines_with_fo_line = lines.filtered(lambda ln: ln.fiscal_operation_line_id)
         lines_doc_type = lines_with_fo_line.filtered(
             lambda ln: (
@@ -162,7 +162,7 @@ class SaleOrder(models.Model):
                 grouped=grouped, final=final, date=date
             )
 
-        if not moves and self._context.get("raise_if_nothing_to_invoice", True):
+        if not moves and self.env.context.get("raise_if_nothing_to_invoice", True):
             raise UserError(self._nothing_to_invoice_error_message())
 
         return moves
@@ -170,7 +170,7 @@ class SaleOrder(models.Model):
     def _prepare_invoice(self):
         self.ensure_one()
         result = super()._prepare_invoice()
-        if self._context.get("l10n_br_fiscal_active"):
+        if self.env.context.get("l10n_br_fiscal_active"):
             fiscal_values = self._prepare_br_fiscal_dict()
             # unlike super()._prepare_invoice(), prepare_fiscal_dict doesn't consider
             # partner_invoice_id, so we adjust the partner_id eventually:
@@ -178,7 +178,7 @@ class SaleOrder(models.Model):
                 fiscal_values["partner_id"] = result.get("partner_id")
             result.update(fiscal_values)
 
-            document_type_id = self._context.get("document_type_id")
+            document_type_id = self.env.context.get("document_type_id")
             if not document_type_id:
                 # Quando ocorre esse caso? Os Testes não estão passando aqui
                 document_type_id = self.company_id.document_type_id.id

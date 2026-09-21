@@ -52,8 +52,15 @@ class TestSaleOrderEdition(TransactionCase):
                 )
 
     def _open_sale_order_form(self):
+        # The Brazilian fiscal fields of the form (e.g. fiscal_operation_id)
+        # are only visible when the form company is a Brazilian company, so
+        # the demo company has to be the active company of the form env too
+        # (env.company does not follow default_company_id).
         return Form(
-            self.env["sale.order"].with_context(default_company_id=self.company.id)
+            self.env["sale.order"].with_context(
+                allowed_company_ids=self.company.ids,
+                default_company_id=self.company.id,
+            )
         )
 
     def _assert_widget_icms_matches_line(self, sale_order):
@@ -65,7 +72,7 @@ class TestSaleOrderEdition(TransactionCase):
         carries account taxes.
         """
         line = sale_order.order_line.filtered(lambda ln: not ln.display_type)
-        if line.tax_id:
+        if line.tax_ids:
             self.assertAlmostEqual(
                 _get_widget_icms(sale_order.tax_totals),
                 line.icms_value,

@@ -13,9 +13,34 @@ class TestSaleReport(TestSaleCommon):
     def setUpClass(cls):
         super().setUpClass()
 
-        sale_form = Form(cls.env["sale.order"])
+        # TestSaleCommon enables the pricelists group on the user, but the
+        # group membership cache (res.users has_group / _get_group_ids) is a
+        # registry level cache: without clearing it the Form still considers
+        # pricelist_id as invisible (groups="product.group_product_pricelist")
+        # and refuses to write it.
+        cls.env.registry.clear_all_caches()
+
+        # The Brazilian fiscal fields of the sale order form are injected and
+        # displayed only for a Brazilian company: Odoo 19 stores the company
+        # country on the company partner, so set the Brazilian address there.
+        company = cls.company_data["company"]
+        company.partner_id.write(
+            {
+                "country_id": cls.env.ref("base.br").id,
+                "state_id": cls.env.ref("base.state_br_sp").id,
+            }
+        )
+
+        # The Brazilian fiscal fields of the sale order form are only visible
+        # when the form company is a Brazilian company, and the sale order has
+        # to be created in the Brazilian test company (env.company is the main
+        # company of the test user).
+        sale_form = Form(
+            cls.env["sale.order"].with_context(
+                allowed_company_ids=cls.company_data["company"].ids
+            )
+        )
         sale_form.partner_id = cls.partner_a
-        sale_form.pricelist_id = cls.company_data["default_pricelist"]
         sale_form.fiscal_operation_id = cls.env.ref("l10n_br_fiscal.fo_venda")
         with sale_form.order_line.new() as line:
             line.name = cls.company_data["product_order_no"].name
@@ -28,8 +53,8 @@ class TestSaleReport(TestSaleCommon):
 
     def test_sale_br_report_sale_order(self):
         """Test Sale Report for Brazil Case"""
-        self.env["sale.report"].read_group(
-            domain=[],
-            fields=["product_id, quantity, type_id"],
-            groupby="fiscal_operation_id",
+        self.env["sale.report"]._read_group(
+            [("product_id", "!=", False)],
+            ["fiscal_operation_id"],
+            ["product_uom_qty:sum", "price_total:sum"],
         )

@@ -24,7 +24,15 @@ class L10nBrSaleDiscount(TransactionCase):
         sale_manager_user = cls.env.ref("sales_team.group_sale_manager")
         fiscal_user = cls.env.ref("l10n_br_fiscal.group_user")
         line_fiscal_detail = cls.env.ref("l10n_br_sale.group_line_fiscal_detail")
-        user_groups = [sale_manager_user.id, fiscal_user.id, line_fiscal_detail.id]
+        # Odoo 19: creating a product requires the Products/Create group, the
+        # sales manager group does not imply it anymore.
+        product_manager = cls.env.ref("product.group_product_manager")
+        user_groups = [
+            sale_manager_user.id,
+            fiscal_user.id,
+            line_fiscal_detail.id,
+            product_manager.id,
+        ]
         cls.user = (
             cls.env["res.users"]
             .with_user(cls.env.user)
@@ -36,7 +44,7 @@ class L10nBrSaleDiscount(TransactionCase):
                     "email": "test@oca.com",
                     "company_id": cls.company.id,
                     "company_ids": [Command.link(cls.company.id)],
-                    "groups_id": [Command.set(user_groups)],
+                    "group_ids": [Command.set(user_groups)],
                 }
             )
         )
@@ -44,7 +52,14 @@ class L10nBrSaleDiscount(TransactionCase):
         cls.env = cls.env(user=cls.user)
         cls.cr = cls.env.cr
 
-        cls.partner = cls.env["res.partner"].create({"name": "Test"})
+        # Odoo 19 propagates partner fields upstream to the company on create:
+        # as a restricted user that raises an AccessError on res.company, so
+        # skip the sync for this fixture partner.
+        cls.partner = (
+            cls.env["res.partner"]
+            .with_context(_partners_skip_fields_sync=True)
+            .create({"name": "Test"})
+        )
         cls.product = cls.env["product.product"].create(
             {
                 "name": "test_product",
@@ -65,7 +80,7 @@ class L10nBrSaleDiscount(TransactionCase):
                 "name": cls.product.name,
                 "product_id": cls.product.id,
                 "product_uom_qty": 1,
-                "product_uom": cls.product.uom_id.id,
+                "product_uom_id": cls.product.uom_id.id,
                 "price_unit": 1000.00,
                 "order_id": cls.order.id,
                 "fiscal_operation_id": cls.env.ref("l10n_br_fiscal.fo_venda").id,
@@ -88,7 +103,7 @@ class L10nBrSaleDiscount(TransactionCase):
           which is a registry-level LRU cache keyed by user id
         """
         for group in groups:
-            self.user.groups_id |= group
+            self.user.group_ids |= group
         self.order_line.invalidate_recordset(
             ["user_discount_value", "user_total_discount"]
         )
