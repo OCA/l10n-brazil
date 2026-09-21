@@ -858,6 +858,15 @@ class Document(models.Model):
             changed, kept, failed, without_key, skipped + overflow
         )
 
+    NOTIFICATION_NAMES_LIMIT = 10
+
+    def _truncated_names(self, names):
+        shown = names[: self.NOTIFICATION_NAMES_LIMIT]
+        hidden = len(names) - len(shown)
+        if hidden:
+            shown = shown + [_("+%s more") % hidden]
+        return "; ".join(shown)
+
     def _notify_status_check(self, changed, kept, failed, without_key, skipped):
         labels = dict(self._fields["state_edoc"]._description_selection(self.env))
         changed = [
@@ -866,13 +875,15 @@ class Document(models.Model):
         ]
         lines = []
         if changed:
-            lines.append(_("Changed: %s") % "; ".join(changed))
+            lines.append(_("Changed: %s") % self._truncated_names(changed))
         if kept:
             lines.append(_("Unchanged: %s") % len(kept))
         if failed:
-            lines.append(_("Failed: %s") % "; ".join(failed))
+            lines.append(_("Failed: %s") % self._truncated_names(failed))
         if without_key:
-            lines.append(_("Without a key to ask about: %s") % "; ".join(without_key))
+            lines.append(
+                _("Without a key to ask about: %s") % self._truncated_names(without_key)
+            )
         if skipped:
             lines.append(_("Not asked about this time: %s") % len(skipped))
         return {

@@ -110,3 +110,11 @@ class TestCheckStatus(TransactionCase):
             action = (self.with_key | self.without_key).action_check_status()
         self.assertEqual(action["type"], "ir.actions.client")
         self.assertEqual(action["tag"], "display_notification")
+
+    def test_a_long_name_list_is_truncated_with_a_remainder_count(self):
+        documents = self.with_key
+        for _ in range(self.with_key.NOTIFICATION_NAMES_LIMIT + 4):
+            documents |= self._create_document(False, state=DOCUMENT_STATE_SENDING)
+        with patch(f"{FROM_THE_DOCUMENT}._document_status", autospec=True):
+            action = documents.action_check_status()
+        self.assertIn("+4 more", action["params"]["message"])
