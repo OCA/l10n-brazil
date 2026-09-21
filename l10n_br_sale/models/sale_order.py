@@ -43,7 +43,10 @@ class SaleOrder(models.Model):
         ]
         return domain
 
-    company_country_id = fields.Many2one(related="company_id.country_id")
+    # Odoo 19 turned res.company.country_id into a computed address field that
+    # reads empty, so the country of the company is read from its partner
+    # (where the address is actually stored).
+    company_country_id = fields.Many2one(related="company_id.partner_id.country_id")
 
     fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
@@ -83,9 +86,9 @@ class SaleOrder(models.Model):
     @api.model
     def _get_view(self, view_id=None, view_type="form", **options):
         arch, view = super()._get_view(view_id, view_type, **options)
-        if self.env.company.country_id.code != "BR":
+        if self.env.company.partner_id.country_id.code != "BR":
             return arch, view
-        if view_type == "form" and self.env.company.country_id.code == "BR":
+        if view_type == "form" and self.env.company.partner_id.country_id.code == "BR":
             arch = self.env["sale.order.line"].inject_fiscal_fields(arch)
         for tax_totals_node in arch.xpath(
             "//field[@name='tax_totals'][@widget='account-tax-totals-field']"
