@@ -54,7 +54,7 @@ class SaleOrderLine(models.Model):
     )
 
     uom_id = fields.Many2one(
-        related="product_uom",
+        related="product_uom_id",
     )
 
     tax_framework = fields.Selection(
@@ -177,7 +177,7 @@ class SaleOrderLine(models.Model):
         "freight_value",
         "insurance_value",
         "other_value",
-        "tax_id",
+        "tax_ids",
     )
     def _compute_amount(self):
         """Compute the amounts of the SO line."""
@@ -315,7 +315,7 @@ class SaleOrderLine(models.Model):
         "fiscal_operation_id",
         "fiscal_operation_line_id",
     )
-    def _compute_tax_id(self):
+    def _compute_tax_ids(self):
         """Compute taxes based on fiscal operation or fallback to default behavior."""
         lines_with_fiscal_operation = self.filtered(
             lambda line: line.fiscal_operation_line_id
@@ -323,7 +323,7 @@ class SaleOrderLine(models.Model):
         lines_without_fiscal_operation = self - lines_with_fiscal_operation
 
         for line in lines_with_fiscal_operation:
-            line.tax_id = line.fiscal_tax_ids.account_taxes(
+            line.tax_ids = line.fiscal_tax_ids.account_taxes(
                 user_type="sale",
                 fiscal_operation=line.fiscal_operation_id,
                 company=line.company_id,
@@ -332,7 +332,7 @@ class SaleOrderLine(models.Model):
         if lines_without_fiscal_operation:
             return super(
                 SaleOrderLine, lines_without_fiscal_operation
-            )._compute_tax_id()
+            )._compute_tax_ids()
 
     @api.model
     def _get_total_for_tax_totals(self):

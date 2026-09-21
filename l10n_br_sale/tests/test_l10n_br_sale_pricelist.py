@@ -9,11 +9,34 @@ class TestSaleOrderPriceList(TestSaleCommon):
     def setUpClass(cls):
         super().setUpClass()
 
-        cls.env.user.groups_id |= cls.env.ref("l10n_br_fiscal.group_manager")
+        # TestSaleCommon enables the pricelists group on the user, but the
+        # group membership cache (res.users has_group / _get_group_ids) is a
+        # registry level cache: without clearing it the Form still considers
+        # pricelist_id as invisible (groups="product.group_product_pricelist")
+        # and refuses to write it.
+        cls.env.registry.clear_all_caches()
+
+        # The Brazilian fiscal fields of the sale order form are injected and
+        # displayed only for a Brazilian company: Odoo 19 stores the company
+        # country on the company partner, so set the Brazilian address there.
+        cls.company_data["company"].partner_id.write(
+            {
+                "country_id": cls.env.ref("base.br").id,
+                "state_id": cls.env.ref("base.state_br_sp").id,
+            }
+        )
+
+        cls.env.user.group_ids |= cls.env.ref("l10n_br_fiscal.group_manager")
 
         Pricelist = cls.env["product.pricelist"]
         PricelistItem = cls.env["product.pricelist.item"]
-        SaleOrder = cls.env["sale.order"].with_context(tracking_disable=True)
+        # The Brazilian fiscal fields of the sale order form are only visible
+        # when the form company is a Brazilian company: create the order in
+        # the Brazilian test company instead of the main company of the user.
+        SaleOrder = cls.env["sale.order"].with_context(
+            tracking_disable=True,
+            allowed_company_ids=cls.company_data["company"].ids,
+        )
 
         # Create a pricelist with especial price for partner_a
         cls.pricelist_partner_a = Pricelist.create(

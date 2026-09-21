@@ -35,7 +35,7 @@
                 class="text-right"
             >
                 <span
-                    t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_id))"
+                    t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_ids))"
                 />
             </td>
         </xpath>
