@@ -10,6 +10,7 @@ from xsdata.formats.dataclass.transports import DefaultTransport
 import odoo.http
 from odoo import fields
 from odoo.tests.common import TransactionCase
+from odoo.tools import mute_logger
 
 from odoo.addons.l10n_br_fiscal_dfe.controllers.main import DfeDocumentBannerController
 
@@ -38,7 +39,7 @@ class TestDfeController(TransactionCase):
 
     def _call_banner(self):
         env = self.env(context={"allowed_company_ids": [self.company.id]})
-        with mock_request(env):
+        with mock_request(env), mute_logger("odoo.tools.translate"):
             return self.controller.document_banner()
 
     def test_banner_never_queried(self):
