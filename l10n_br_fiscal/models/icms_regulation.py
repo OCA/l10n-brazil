@@ -181,7 +181,7 @@ class ICMSRegulation(models.Model):
 
         if tax_group_icms.tax_domain in (TAX_DOMAIN_ICMS, TAX_DOMAIN_ICMS_ST):
             domain += [
-                ("state_from_id", "=", company.state_id.id),
+                ("state_from_id", "=", company.partner_id.state_id.id),
                 ("state_to_ids", "=", partner.state_id.id),
             ]
 
@@ -189,7 +189,7 @@ class ICMSRegulation(models.Model):
             domain += [
                 "|",
                 ("state_to_ids", "=", partner.state_id.id),
-                ("state_to_ids", "=", company.state_id.id),
+                ("state_to_ids", "=", company.partner_id.state_id.id),
                 "|",
                 ("ncm_ids", "=", False),
                 ("ncm_ids", "=", ncm.id),
@@ -206,7 +206,7 @@ class ICMSRegulation(models.Model):
 
         if tax_group_icms.tax_domain == TAX_DOMAIN_ICMS_FCP_ST:
             domain += [
-                ("state_from_id", "=", company.state_id.id),
+                ("state_from_id", "=", company.partner_id.state_id.id),
                 ("state_to_ids", "=", partner.state_id.id),
                 "|",
                 ("ncm_ids", "=", False),
@@ -298,7 +298,7 @@ class ICMSRegulation(models.Model):
         # ICMS tax imported
         if (
             product.icms_origin in ICMS_ORIGIN_TAX_IMPORTED
-            and company.state_id != partner.state_id
+            and company.partner_id.state_id != partner.state_id
             and operation_line.fiscal_operation_type == FISCAL_OUT
             or operation_line.fiscal_operation_id.fiscal_type == "return_in"
             and operation_line.fiscal_operation_type == FISCAL_IN
@@ -355,7 +355,7 @@ class ICMSRegulation(models.Model):
         tax_group_icms = self.env.ref("l10n_br_fiscal.tax_group_icms")
 
         if (
-            company.state_id != partner.state_id
+            company.partner_id.state_id != partner.state_id
             and partner.ind_ie_dest == NFE_IND_IE_DEST_9
             and operation_line.fiscal_operation_type == FISCAL_OUT
             or operation_line.fiscal_operation_id.fiscal_type != "return_in"
@@ -387,7 +387,7 @@ class ICMSRegulation(models.Model):
 
         # ICMS FCP for DIFAL
         if (
-            company.state_id != partner.state_id
+            company.partner_id.state_id != partner.state_id
             and partner.ind_ie_dest == NFE_IND_IE_DEST_9
             and operation_line.fiscal_operation_type == FISCAL_OUT
             or operation_line.fiscal_operation_id.fiscal_type == "return_in"

@@ -90,7 +90,7 @@ class DataNcmNbsAbstract(models.AbstractModel):
                 config = DeOlhoNoImposto(
                     company.ibpt_token,
                     misc.punctuation_rm(company.vat),
-                    company.state_id.code,
+                    company.partner_id.state_id.code,
                     odooconfig.get("ibpt_request_timeout")
                     or self.env["ir.config_parameter"]
                     .sudo()
@@ -105,7 +105,7 @@ class DataNcmNbsAbstract(models.AbstractModel):
                         "key": result.chave,
                         "origin": result.fonte,
                         "version": result.versao,
-                        "state_id": company.state_id.id,
+                        "state_id": company.partner_id.state_id.id,
                         "state_taxes": result.estadual,
                         "federal_taxes_national": result.nacional,
                         "federal_taxes_import": result.importado,

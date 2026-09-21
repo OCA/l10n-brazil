@@ -192,11 +192,18 @@ class OperationLine(models.Model):
 
     def _get_cfop(self, company, partner):
         cfop = self.env["l10n_br_fiscal.cfop"]
-        if partner.state_id == company.state_id:
+        # Odoo 19 turned res.company.country_id/state_id into computed address
+        # fields that read empty (the company address is stored on
+        # company.partner_id), so use the address of the company partner:
+        # with an empty company country every line would resolve to an export
+        # CFOP.
+        company_state = company.partner_id.state_id
+        company_country = company.partner_id.country_id
+        if partner.state_id == company_state:
             cfop = self.cfop_internal_id
-        if partner.state_id != company.state_id:
+        if partner.state_id != company_state:
             cfop = self.cfop_external_id
-        if partner.country_id != company.country_id:
+        if partner.country_id != company_country:
             cfop = self.cfop_export_id
         return cfop
 
