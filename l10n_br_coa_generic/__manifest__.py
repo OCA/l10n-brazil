@@ -11,7 +11,7 @@
     "maintainers": ["mileo"],
     "development_status": "Production/Stable",
     "website": "https://github.com/OCA/l10n-brazil",
-    "version": "19.0.1.1.0",
+    "version": "19.0.1.2.0",
     "depends": ["l10n_br_coa"],
     "data": [],
     "post_init_hook": "_post_init_hook",
