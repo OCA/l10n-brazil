@@ -13,7 +13,7 @@
         >
             <!-- Pedido referente a uma Empresa Brasileira altera os impostos padrões para os do Brasil. -->
             <td
-                t-if="doc.company_id.country_id.phone_code == 55"
+                t-if="doc.company_id.partner_id.country_id.phone_code == 55"
                 name="td_taxes"
                 class="text-right"
             >
@@ -30,7 +30,7 @@
             </td>
             <!-- Pedido de empresas de outros países mantem o campo padrão de impostos-->
             <td
-                t-if="doc.company_id.country_id.phone_code != 55"
+                t-if="doc.company_id.partner_id.country_id.phone_code != 55"
                 name="td_taxes"
                 class="text-right"
             >
