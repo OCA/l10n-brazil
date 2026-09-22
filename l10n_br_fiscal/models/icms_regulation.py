@@ -170,6 +170,14 @@ class ICMSRegulation(models.Model):
         ind_final=None,
     ):
         self.ensure_one()
+        # ``company`` can be a partner: the DIFAL and FCP lookups use the
+        # destination state (the partner state) as the origin of the definition
+        # to find. The company address is read on its partner on Odoo 19.
+        company_state = (
+            company.partner_id.state_id
+            if company._name == "res.company"
+            else company.state_id
+        )
         domain = [
             ("icms_regulation_id", "=", self.id),
             ("state", "=", "approved"),
@@ -181,7 +189,7 @@ class ICMSRegulation(models.Model):
 
         if tax_group_icms.tax_domain in (TAX_DOMAIN_ICMS, TAX_DOMAIN_ICMS_ST):
             domain += [
-                ("state_from_id", "=", company.partner_id.state_id.id),
+                ("state_from_id", "=", company_state.id),
                 ("state_to_ids", "=", partner.state_id.id),
             ]
 
