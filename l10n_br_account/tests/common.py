@@ -29,7 +29,9 @@ def load_demo_company_chart(env, company_xmlid="l10n_br_base.empresa_lucro_presu
     """
     company = env.ref(company_xmlid)
     if not company.chart_template:
-        env["account.chart.template"].try_loading("generic_coa", company)
+        # _load() is what try_loading() wraps: it does not warn about a not
+        # fully loaded registry, which is the case while the tests are running.
+        env["account.chart.template"]._load("generic_coa", company, install_demo=False)
     env["account.chart.template"].load_fiscal_taxes([company])
     company.currency_id = env.ref("base.BRL")
 
