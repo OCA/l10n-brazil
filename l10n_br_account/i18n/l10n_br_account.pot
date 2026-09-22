@@ -187,6 +187,14 @@ msgid "Amounts"
 msgstr ""
 
 #. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/account_move.py:0
+msgid ""
+"Asking the SEFAZ about a document needs the electronic fiscal document "
+"module installed."
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields.selection,name:l10n_br_account.selection__account_invoice_report__fiscal_type__08
 msgid "Ativo Imobilizado"
 msgstr ""
@@ -563,6 +571,11 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_account/models/account_move.py:0
 msgid "Cannot import in non draft Account Move!"
+msgstr ""
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_tree
+msgid "Check status at the SEFAZ"
 msgstr ""
 
 #. module: l10n_br_account
@@ -2068,6 +2081,12 @@ msgid "PIS WH Base Type"
 msgstr ""
 
 #. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/account_move.py:0
+msgid "Paid and no longer valid at the SEFAZ, settle by hand: %s"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__partner_id
 #: model:ir.model.fields.selection,name:l10n_br_account.selection__account_invoice_report__issuer__partner
 msgid "Partner"
@@ -2619,6 +2638,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__document_version
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__document_version
 msgid "Version"
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/account_move.py:0
+msgid "Without a fiscal document: %s"
 msgstr ""
 
 #. module: l10n_br_account
