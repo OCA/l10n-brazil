@@ -27,6 +27,16 @@ class L10nBRZipTest(TransactionCase):
             )
         )
         cls.company = cls.env.ref("base.main_company")
+        # Without the demo data the main company has no address: the zip search
+        # needs a country, a state, a city and a street name.
+        cls.company.partner_id.write(
+            {
+                "country_id": cls.env.ref("base.br").id,
+                "state_id": cls.env.ref("base.state_br_sp").id,
+                "city_id": cls.env.ref("l10n_br_base.city_3550308").id,
+                "street_name": "Avenida Paulista",
+            }
+        )
         cls.company_1 = cls.env["res.company"].create(
             dict(
                 name="teste",
