@@ -191,7 +191,11 @@ def _setup_main_company(env):
             }
         )
     if not main_company.chart_template:
-        env["account.chart.template"].try_loading("generic_coa", main_company)
+        # _load() is what try_loading() wraps: it does not warn about a not
+        # fully loaded registry, which is the case while the tests are running.
+        env["account.chart.template"]._load(
+            "generic_coa", main_company, install_demo=False
+        )
     chart_mapping = env["account.chart.template"]._get_chart_template_mapping()
     if chart_mapping.get(main_company.chart_template):
         # load_fiscal_taxes needs a known chart template: it creates the
