@@ -14,6 +14,12 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
+msgid "+%s more"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event
 msgid "<strong style=\"font-size:18px;\">CNPJ:</strong>"
 msgstr ""
@@ -174,6 +180,17 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.document_correction_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.document_form
 msgid "Carta de Correção"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
+msgid "Changed: %s"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.document_tree
+msgid "Check status at the SEFAZ"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
@@ -391,6 +408,12 @@ msgid "Exception"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
+msgid "Failed: %s"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__file_path
 msgid "File Path"
 msgstr ""
@@ -593,6 +616,12 @@ msgstr ""
 
 #. module: l10n_br_fiscal_edi
 #. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
+msgid "Not asked about this time: %s"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#. odoo-python
 #: code:addons/l10n_br_fiscal_edi/models/document_event.py:0
 msgid ""
 "Não foi possível salvar o arquivo\n"
@@ -754,6 +783,12 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #. odoo-python
 #: code:addons/l10n_br_fiscal_edi/models/document.py:0
+msgid "Status checked at the SEFAZ"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
 msgid ""
 "The document XML does not comply with its schema, so it cannot be transmitted. Set the document back to draft, fix the data and confirm it again.\n"
 "\n"
@@ -764,6 +799,12 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_fiscal_edi/models/document.py:0
 msgid "The field 'Issuer' is required for brazilian electronic documents!"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
+msgid "Unchanged: %s"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
@@ -784,6 +825,12 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_edi.selection__l10n_br_fiscal_event__state__wait
 msgid "Waiting Response"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
+msgid "Without a key to ask about: %s"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
