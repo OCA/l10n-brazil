@@ -101,7 +101,7 @@ class PartyMixin(models.AbstractModel):
         """
         return (
             self.env.ref("base.br")
-            if self.env.company.country_id.code == "BR"
+            if self.env.company.partner_id.country_id.code == "BR"
             else False
         )
 
@@ -183,7 +183,7 @@ class PartyMixin(models.AbstractModel):
 
     @api.depends_context("company")
     def _compute_show_br_vat_format(self):
-        br_company = self.env.company.country_id.code == "BR"
+        br_company = self.env.company.partner_id.country_id.code == "BR"
         for record in self:
             record.show_br_vat_format = br_company
 
@@ -230,7 +230,7 @@ class PartyMixin(models.AbstractModel):
         elif self and len(self) == 1:
             country = self.country_id
         else:
-            country = self.env.company.country_id
+            country = self.env.company.partner_id.country_id
         if country and country.code == "BR":
             vals["vat"] = misc.punctuation_rm(str(vat))
 
