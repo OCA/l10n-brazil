@@ -670,6 +670,12 @@ class L10nBrPurchaseBaseTest(TransactionCase):
         for line in po_international.order_line:
             line.product_id.purchase_method = "purchase"
             self._run_purchase_line_onchanges(line)
+        # An international purchase order carries no Brazilian fiscal
+        # operation, so its invoice must not get a fiscal document. The vendor
+        # is a fixture partner (not Brazilian), so dropping the fiscal
+        # operation is enough to make the case explicit and independent from
+        # the way the demo purchase order was created.
+        po_international.fiscal_operation_id = False
         po_international.with_context(tracking_disable=True).button_confirm()
         po_international.action_create_invoice()
         for invoice in po_international.invoice_ids:
