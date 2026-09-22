@@ -7,7 +7,7 @@
     Generic framework to monitor incoming electronic fiscal documents
     via the Sefaz DF-e distribution web service.
     """,
-    "version": "16.0.2.1.1",
+    "version": "16.0.2.1.2",
     "license": "AGPL-3",
     "author": "Engenere, KMEE, Odoo Community Association (OCA)",
     "maintainers": ["felipemotter", "antoniospneto", "rvalyi"],
