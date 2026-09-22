@@ -12,7 +12,7 @@ class FormatAddressMixin(models.AbstractModel):
         # only works for the `res.partner`. This workaround clears the model
         # reference in the view, enabling any model that extends the abstract
         # 'format.address.mixin' to have its address view dynamically modified as well.
-        address_view_id = self.env.company.country_id.address_view_id.sudo()
+        address_view_id = self.env.company.partner_id.country_id.address_view_id.sudo()
         if address_view_id.model != self._name:
             address_view_id.model = None
         return super()._view_get_address(arch)
