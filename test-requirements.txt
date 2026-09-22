@@ -5,3 +5,9 @@ nfelib
 Setuptools<81
 signxml==3.2.2
 xmldiff
+# l10n_br_nfe_dfe needs brazil_fiscal_client (the DF-e SOAP client from
+# nfelib[soap]) which pulls requests-pkcs12. Keep it below 1.23: 1.23+
+# requires cryptography>=42, while the oca-ci 18.0 image ships
+# cryptography 3.4.8, and installing a newer cryptography there breaks
+# pyOpenSSL (oca_install_addons can no longer probe the addons path).
+requests_pkcs12<1.23
