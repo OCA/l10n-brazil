@@ -24,7 +24,7 @@ class PurchaseOrderLine(models.Model):
     # Adapt Mixin's fields
     fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
-        default=_default_fiscal_operation,
+        default=lambda self: self._default_fiscal_operation(),
         domain=lambda self: self._fiscal_operation_domain(),
     )
 
@@ -43,7 +43,7 @@ class PurchaseOrderLine(models.Model):
 
     uom_id = fields.Many2one(
         string="Mixin UOM",
-        related="product_uom",
+        related="product_uom_id",
     )
 
     tax_framework = fields.Selection(
@@ -90,7 +90,7 @@ class PurchaseOrderLine(models.Model):
         "freight_value",
         "insurance_value",
         "other_value",
-        "taxes_id",
+        "tax_ids",
     )
     def _compute_amount(self):
         """Compute the amounts of the PO line."""
@@ -110,7 +110,7 @@ class PurchaseOrderLine(models.Model):
         for line in self:
             res = super()._compute_tax_id()
             if line.fiscal_operation_line_id:
-                line.taxes_id = line.fiscal_tax_ids.account_taxes(
+                line.tax_ids = line.fiscal_tax_ids.account_taxes(
                     user_type="purchase",
                     fiscal_operation=line.fiscal_operation_id,
                     company=line.company_id,
@@ -120,7 +120,7 @@ class PurchaseOrderLine(models.Model):
     @api.onchange("fiscal_tax_ids")
     def _onchange_fiscal_tax_ids(self):
         if self.fiscal_operation_line_id:
-            self.taxes_id = self.fiscal_tax_ids.account_taxes(
+            self.tax_ids = self.fiscal_tax_ids.account_taxes(
                 user_type="purchase",
                 fiscal_operation=self.fiscal_operation_id,
                 company=self.company_id,
@@ -154,13 +154,14 @@ class PurchaseOrderLine(models.Model):
             )
         return partner
 
-    def _setup_complete(self):
+    def _post_model_setup__(self):
         # /!\ LOW-LEVEL OVERRIDE (registry setup) /!\
         # The BR fiscal mixin uses many fields with precompute=True,
         # but purchase does not have all dependencies ready at create time.
         # Since we have hundreds of fields, instead of overriding each one,
         # we set precompute=False dynamically here.
-        res = super()._setup_complete()
+        # Odoo 19 replaced _setup_complete() by _post_model_setup__().
+        res = super()._post_model_setup__()
         mixin = self.env["l10n_br_fiscal.document.line.mixin"]
         mixin_fields = mixin._fields
         for name, field in self._fields.items():

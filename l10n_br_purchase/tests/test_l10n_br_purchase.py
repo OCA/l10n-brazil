@@ -522,10 +522,10 @@ class L10nBrPurchaseBaseTest(TransactionCase):
 
     def test_purchase_report(self):
         """Test Purchase Report"""
-        self.env["purchase.report"].read_group(
+        self.env["purchase.report"]._read_group(
             [("product_id", "=", self.env.ref("product.product_product_12").id)],
-            ["qty_ordered", "price_average:avg"],
             ["product_id"],
+            ["qty_ordered:sum", "price_average:avg"],
         )
         # TODO: Algo a ser validado?
 
