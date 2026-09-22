@@ -1,17 +1,10 @@
-/* eslint no-unused-vars: "off", no-undef: "off" */
+/** @odoo-module **/
 
-odoo.define("l10n_br_website_sale.l10n_br_address", function (require) {
-    "use strict";
+import ajax from "web.ajax";
 
-    require("web.dom_ready");
-    var ajax = require("web.ajax");
+var $checkout_autoformat_selector = $(".checkout_autoformat");
 
-    var $checkout_autoformat_selector = $(".checkout_autoformat");
-
-    if (!$checkout_autoformat_selector.length) {
-        return $.Deferred().reject("DOM doesn't contain '.checkout_autoformat'");
-    }
-
+if ($checkout_autoformat_selector.length) {
     function formatCpfCnpj(inputValue) {
         // Remove non-numeric characters
         let value = inputValue.replace(/\D/g, "");
@@ -51,82 +44,80 @@ odoo.define("l10n_br_website_sale.l10n_br_address", function (require) {
         numericOnly: true,
     });
 
-    if ($checkout_autoformat_selector.length) {
-        $checkout_autoformat_selector.on(
-            "change",
-            "select[name='country_id']",
-            function () {
-                var country_id = $("select[name='country_id']") || false;
+    $checkout_autoformat_selector.on(
+        "change",
+        "select[name='country_id']",
+        function () {
+            var country_id = $("select[name='country_id']") || false;
 
-                ajax.jsonRpc("/shop/country_infos/" + country_id.val(), "call", {
-                    mode: $("#country_id").attr("mode"),
-                }).then(function (data) {
-                    if (data.country_code) {
-                        setTimeout(() => {
-                            if (data.country_code === "BR") {
-                                $("input[name='city']").parent("div").hide();
-                                $("select[name='city_id']").parent("div").show();
-                            } else {
-                                $("select[name='city_id']").parent("div").hide();
-                                $("input[name='city']").parent("div").show();
-                            }
-                        }, 1000);
-                    }
-                });
-            }
-        );
-        $checkout_autoformat_selector.on(
-            "change",
-            "select[name='state_id']",
-            function () {
-                var state_id = $("#state_id").val();
-                if (!state_id) {
-                    return;
-                }
-                ajax.jsonRpc("/shop/state_infos/" + state_id, "call").then(function (
-                    data
-                ) {
-                    var city_id_selector = $("select[name='city_id']");
-                    city_id_selector.empty();
-                    if (data.cities.length) {
-                        data.cities.forEach(function (city) {
-                            city_id_selector.append(
-                                new Option(city[1], city[0], false, false)
-                            );
-                        });
-                        city_id_selector.parent("div").show();
-                        $("input[name='city']").parent("div").hide();
-                    } else {
-                        city_id_selector.parent("div").hide();
-                        $("input[name='city']").parent("div").show();
-                    }
-                });
-            }
-        );
-        $checkout_autoformat_selector.on("change", "input[name='zip']", function () {
-            var vals = {zipcode: $('input[name="zip"]').val()};
-            console.log("Changing ZIP code");
-            $('a:contains("Next")').css("display", "none");
-            ajax.jsonRpc("/l10n_br/zip_search_public", "call", vals).then(function (
-                data
-            ) {
-                if (data.error) {
-                    console.log("Failed to query zip code");
-                } else {
-                    var state_id_selector = $('select[name="state_id"]');
-                    var city_id_selector = $('select[name="city_id"]');
-                    // Set the district and street name based on the ZIP code data
-                    $('input[name="district"]').val(data.district);
-                    $('input[name="street_name"]').val(data.street_name);
-                    // Set the value of the state selector and trigger its change event
-                    state_id_selector.val(data.state_id).change();
-                    // Wait for the city selector to be populated, then set its value and trigger its change event
+            ajax.jsonRpc("/shop/country_infos/" + country_id.val(), "call", {
+                mode: $("#country_id").attr("mode"),
+            }).then(function (data) {
+                if (data.country_code) {
                     setTimeout(() => {
-                        city_id_selector.val(data.city_id).change();
+                        if (data.country_code === "BR") {
+                            $("input[name='city']").parent("div").hide();
+                            $("select[name='city_id']").parent("div").show();
+                        } else {
+                            $("select[name='city_id']").parent("div").hide();
+                            $("input[name='city']").parent("div").show();
+                        }
                     }, 1000);
-                    $('a:contains("Next")').css("display", "block");
                 }
             });
+        }
+    );
+    $checkout_autoformat_selector.on(
+        "change",
+        "select[name='state_id']",
+        function () {
+            var state_id = $("#state_id").val();
+            if (!state_id) {
+                return;
+            }
+            ajax.jsonRpc("/shop/state_infos/" + state_id, "call").then(function (
+                data
+            ) {
+                var city_id_selector = $("select[name='city_id']");
+                city_id_selector.empty();
+                if (data.cities.length) {
+                    data.cities.forEach(function (city) {
+                        city_id_selector.append(
+                            new Option(city[1], city[0], false, false)
+                        );
+                    });
+                    city_id_selector.parent("div").show();
+                    $("input[name='city']").parent("div").hide();
+                } else {
+                    city_id_selector.parent("div").hide();
+                    $("input[name='city']").parent("div").show();
+                }
+            });
+        }
+    );
+    $checkout_autoformat_selector.on("change", "input[name='zip']", function () {
+        var vals = {zipcode: $('input[name="zip"]').val()};
+        console.log("Changing ZIP code");
+        $('a:contains("Next")').css("display", "none");
+        ajax.jsonRpc("/l10n_br/zip_search_public", "call", vals).then(function (
+            data
+        ) {
+            if (data.error) {
+                console.log("Failed to query zip code");
+            } else {
+                var state_id_selector = $('select[name="state_id"]');
+                var city_id_selector = $('select[name="city_id"]');
+                // Set the district and street name based on the ZIP code data
+                $('input[name="district"]').val(data.district);
+                $('input[name="street_name"]').val(data.street_name);
+                // Set the value of the state selector and trigger its change event
+                state_id_selector.val(data.state_id).change();
+                // Wait for the city selector to be populated, then set its value and trigger its change event
+                setTimeout(() => {
+                    city_id_selector.val(data.city_id).change();
+                }, 1000);
+                $('a:contains("Next")').css("display", "block");
+            }
         });
-    }
-});
+    });
+}
