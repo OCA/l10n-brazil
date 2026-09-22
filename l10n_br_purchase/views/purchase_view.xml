@@ -46,7 +46,7 @@
                 <field name="other_value" column_invisible="1" />
             </xpath>
             <xpath
-                expr="//field[@name='order_line']/list/field[@name='taxes_id']"
+                expr="//field[@name='order_line']/list/field[@name='tax_ids']"
                 position="attributes"
             >
                 <attribute
@@ -54,7 +54,7 @@
                 >parent.fiscal_operation_id</attribute>
             </xpath>
             <xpath
-                expr="//field[@name='order_line']/list/field[@name='taxes_id']"
+                expr="//field[@name='order_line']/list/field[@name='tax_ids']"
                 position="before"
             >
                 <field
@@ -84,7 +84,7 @@
                     <!-- this is a dynamic fiscal fields placeholder-->
                     <field name="fiscal_operation_type" invisible="1" readonly="1" />
                     <field name="tax_icms_or_issqn" invisible="1" />
-                    <field name="product_uom" invisible="1" />
+                    <field name="product_uom_id" invisible="1" />
                 </group>
             </xpath>
             <xpath
@@ -97,10 +97,10 @@
                 <attribute name="required">not display_type</attribute>
                 <attribute
                     name="context"
-                >{ 'partner_id':parent.partner_id, 'quantity':product_qty, 'uom':product_uom, 'company_id': parent.company_id }</attribute>
+                >{ 'partner_id':parent.partner_id, 'quantity':product_qty, 'uom':product_uom_id, 'company_id': parent.company_id }</attribute>
             </xpath>
             <xpath
-                expr="//field[@name='order_line']/form//field[@name='product_uom']"
+                expr="//field[@name='order_line']/form//field[@name='product_uom_id']"
                 position="attributes"
             >
                 <attribute
@@ -109,13 +109,13 @@
                 <attribute name="required">not display_type</attribute>
             </xpath>
             <xpath
-                expr="//field[@name='order_line']/form//field[@name='taxes_id']"
+                expr="//field[@name='order_line']/form//field[@name='tax_ids']"
                 position="attributes"
             >
                 <attribute name="invisible">fiscal_operation_id</attribute>
             </xpath>
             <xpath
-                expr="//field[@name='order_line']/form//field[@name='taxes_id']"
+                expr="//field[@name='order_line']/form//field[@name='tax_ids']"
                 position="after"
             >
                 <field
@@ -191,7 +191,7 @@
                     >
                         <group>
                             <field
-                                name="taxes_id"
+                                name="tax_ids"
                                 widget="many2many_tags"
                                 options="{'no_create': True}"
                                 context="{'search_view_ref': 'account.account_tax_view_search'}"

@@ -30,8 +30,8 @@ class TestPurchaseEdition(TransactionCase):
                 "name": "Purchase Fiscal Editor",
                 "login": "po_fiscal_editor",
                 "password": "po_fiscal_editor",
-                "groups_id": [
-                    Command.set(cls.env.user.groups_id.ids),
+                "group_ids": [
+                    Command.set(cls.env.user.group_ids.ids),
                     Command.link(cls.env.ref("purchase.group_purchase_manager").id),
                     Command.link(cls.env.ref("l10n_br_fiscal.group_user").id),
                     Command.link(cls.env.ref("uom.group_uom").id),

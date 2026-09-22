@@ -16,7 +16,7 @@
         <field name="name">Office Chair Black</field>
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_qty">4</field>
-        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
         <field name="price_unit">25.0</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -31,7 +31,7 @@
         <field name="name">Drawer Black</field>
         <field name="product_id" ref="product.product_product_16" />
         <field name="product_qty">2</field>
-        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
         <field name="price_unit">50.00</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -61,7 +61,7 @@
         <field name="name">Office Chair Black</field>
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_qty">4</field>
-        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
         <field name="price_unit">25.0</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -76,7 +76,7 @@
         <field name="name">Drawer Black</field>
         <field name="product_id" ref="product.product_product_16" />
         <field name="product_qty">2</field>
-        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
         <field name="price_unit">50.00</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -106,7 +106,7 @@
         <field name="name">Office Chair Black</field>
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_qty">4</field>
-        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
         <field name="price_unit">25.0</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -121,7 +121,7 @@
         <field name="name">Drawer Black</field>
         <field name="product_id" ref="product.product_product_16" />
         <field name="product_qty">2</field>
-        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
         <field name="price_unit">50.00</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -153,7 +153,7 @@
         <field name="name">Office Chair Black</field>
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_qty">4</field>
-        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
         <field name="price_unit">25.0</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -168,7 +168,7 @@
         <field name="name">Drawer Black</field>
         <field name="product_id" ref="product.product_product_16" />
         <field name="product_qty">2</field>
-        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
         <field name="price_unit">50.00</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -196,7 +196,7 @@
         <field name="name">Office Chair Black</field>
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_qty">4</field>
-        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
         <field name="price_unit">25.0</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -211,7 +211,7 @@
         <field name="name">Drawer Black</field>
         <field name="product_id" ref="product.product_product_16" />
         <field name="product_qty">2</field>
-        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
         <field name="price_unit">50.00</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -237,7 +237,7 @@
         <field name="name">Office Chair Black</field>
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_qty">4</field>
-        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
         <field name="price_unit">25.00</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -252,7 +252,7 @@
         <field name="name">Drawer Black</field>
         <field name="product_id" ref="product.product_product_16" />
         <field name="product_qty">2</field>
-        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
         <field name="price_unit">50.00</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -278,7 +278,7 @@
         <field name="name">Office Chair Black</field>
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_qty">4</field>
-        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
         <field name="price_unit">25.00</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -293,7 +293,7 @@
         <field name="name">Drawer Black</field>
         <field name="product_id" ref="product.product_product_16" />
         <field name="product_qty">2</field>
-        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
         <field name="price_unit">50.00</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -319,7 +319,7 @@
         <field name="name">Office Chair Black</field>
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_qty">4</field>
-        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
         <field name="price_unit">25.00</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -334,7 +334,7 @@
         <field name="name">Drawer Black</field>
         <field name="product_id" ref="product.product_product_16" />
         <field name="product_qty">2</field>
-        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
         <field name="price_unit">50.00</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -360,7 +360,7 @@
         <field name="name">Desenvolvimento Odoo</field>
         <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
         <field name="product_qty">1</field>
-        <field name="product_uom" ref="uom.product_uom_hour" />
+        <field name="product_uom_id" ref="uom.product_uom_hour" />
         <field name="price_unit">250</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -388,7 +388,7 @@
         <field name="name">Desenvolvimento Odoo</field>
         <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
         <field name="product_qty">1</field>
-        <field name="product_uom" ref="uom.product_uom_hour" />
+        <field name="product_uom_id" ref="uom.product_uom_hour" />
         <field name="price_unit">250</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -405,7 +405,7 @@
         <field name="name">Gaveta Preta</field>
         <field name="product_id" ref="product.product_product_16" />
         <field name="product_qty">2</field>
-        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
         <field name="price_unit">500</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
