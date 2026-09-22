@@ -79,12 +79,16 @@ class ResCompany(models.Model):
         if fiscal_type != "nfe":
             return super()._dfe_get_processor(fiscal_type)
         self.ensure_one()
-        cert = base64.b64decode(self.certificate.file)
+        # l10n_br_fiscal_certificate maps res.company.certificate to the
+        # core certificate.certificate record (Binary ``content`` +
+        # ``pkcs12_password``), selected with the multi-company fallback
+        # of _get_br_certificate().
+        certificate = self._get_br_certificate()
         return DfeClient(
             ambiente=self.nfe_environment,
             uf=self.state_id.ibge_code,
-            pkcs12_data=cert,
-            pkcs12_password=self.certificate.password,
+            pkcs12_data=base64.b64decode(certificate.content),
+            pkcs12_password=certificate.pkcs12_password,
             wrap_response=True,
         )
 

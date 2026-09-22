@@ -9,6 +9,7 @@ from datetime import timedelta
 from io import BytesIO
 from unittest import mock
 
+from erpbrasil.assinatura import misc
 from requests.exceptions import RequestException
 from xsdata.formats.dataclass.transports import DefaultTransport
 
@@ -199,6 +200,28 @@ class TestDFe(TransactionCase):
                 queue_job__no_delay=True,
             )._cron_nfe_dfe_search_documents()
             self.assertEqual(self.company.nfe_last_nsu, "000000000000201")
+
+    def test_get_processor_uses_company_certificate(self):
+        """The DFe processor takes the certificate of the company record,
+        not the one of the current user company (multi-company)."""
+        other_company = self.env["res.company"].create({"name": "DFe Co"})
+        other_company.certificate_id = self.env["certificate.certificate"].create(
+            {
+                "pkcs12_password": "123456",
+                "content": misc.create_fake_certificate_file(
+                    valid=True,
+                    passwd="123456",
+                    issuer="EMISSOR A TESTE",
+                    country="BR",
+                    subject="CERTIFICADO VALIDO TESTE",
+                ),
+                "company_id": other_company.id,
+            }
+        )
+        self.assertNotEqual(other_company, self.env.company)
+        self.env.company.certificate_id = False
+        processor = other_company.with_user(self.env.user)._dfe_get_processor("nfe")
+        self.assertTrue(processor)
 
     def test_utils(self):
         # format_nsu with valid values
