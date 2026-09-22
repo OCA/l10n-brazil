@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- TODO: Encontrar uma forma de resolver e retirar o disable abaixo até para manter a compatibilidade com caso internacional e assim tirar esse replace -->
+<!-- oca-hooks:disable=xml-dangerous-qweb-replace-low-priority  -->
+<odoo>
+
+    <template
+        id="portal_address"
+        name="Address Management in (l10n_br_website_sale)"
+        inherit_id="website_sale.address"
+    >
+        <xpath expr="//div[@id='div_email']" position="after">
+            <div
+                t-attf-class="form-group #{error.get('cnpj_cpf') and 'o_has_error' or ''} col-xl-6"
+                id="cnpj_cpf"
+            >
+                <label class="col-form-label" for="contact_name">
+                    CPF</label>
+                <input
+                    type="text"
+                    id="input_cnpj_cpf"
+                    name="cnpj_cpf"
+                    t-attf-class="form-control #{error.get('cnpj_cpf') and 'is-invalid' or ''}"
+                    t-att-value="'cnpj_cpf' in checkout and checkout['cnpj_cpf']"
+                />
+            </div>
+        </xpath>
+
+        <xpath expr="//div[@id='div_phone']" position="before">
+            <div
+                t-attf-class="form-group #{error.get('mobile') and 'o_has_error' or ''} col-lg-6"
+                id="div_mobile"
+            >
+                <label class="col-form-label" for="mobile">Mobile</label>
+                <input
+                    type="tel"
+                    name="mobile"
+                    t-attf-class="form-control #{error.get('mobile') and 'is-invalid' or ''}"
+                    t-att-value="'mobile' in checkout and checkout['mobile']"
+                />
+            </div>
+        </xpath>
+
+        <xpath expr="//div[contains(@t-attf-class, 'div_street')]" position="before">
+            <xpath
+                expr="//div[contains(@t-attf-class, 'div_country')]"
+                position="move"
+            />
+            <xpath expr="//t[contains(@t-set,'zip_city')]" position="move" />
+            <xpath
+                expr="//t[contains(@t-if,'zip_city and zip_city')]"
+                position="move"
+            />
+
+            <div class="w-100" />
+            <div
+                t-attf-class="form-group #{error.get('street_name') and 'o_has_error' or ''} col-lg-8"
+            >
+                <label class="col-form-label" for="street_name">
+                    Street</label>
+                <input
+                    type="text"
+                    name="street_name"
+                    t-attf-class="form-control #{error.get('street_name') and 'is-invalid' or ''}"
+                    t-att-value="'street_name' in checkout and checkout['street_name']"
+                />
+            </div>
+            <div
+                t-attf-class="form-group #{error.get('street_number') and 'o_has_error' or ''} col-lg-4"
+            >
+                <label class="col-form-label" for="street_number">
+                    Nº</label>
+                <input
+                    type="text"
+                    name="street_number"
+                    t-attf-class="form-control #{error.get('street_number') and 'is-invalid' or ''}"
+                    t-att-value="'street_number' in checkout and checkout['street_number']"
+                />
+            </div>
+            <xpath
+                expr="//div[contains(@t-attf-class, 'div_street2')]"
+                position="move"
+            />
+            <div
+                t-attf-class="form-group #{error.get('district') and 'o_has_error' or ''} col-lg-12 div_disctrict"
+            >
+                <label class="col-form-label" for="district">
+                    District</label>
+                <input
+                    type="text"
+                    name="district"
+                    t-attf-class="form-control #{error.get('district') and 'is-invalid' or ''}"
+                    t-att-value="'district' in checkout and checkout['district']"
+                />
+            </div>
+        </xpath>
+
+        <xpath
+            expr="//div[contains(concat(' ', normalize-space(@t-attf-class), ' '), ' div_street ')]"
+            position="attributes"
+        >
+            <attribute name="hidden">true</attribute>
+        </xpath>
+
+        <xpath expr="//t[contains(@t-if,'zip_city and zip_city')]" position="replace">
+            <t t-if="'zip' in zip_city">
+                <div
+                    t-attf-class="form-group #{error.get('zip') and 'o_has_error' or ''} col-lg-6 div_zip"
+                >
+                    <label class="col-form-label" for="zip">
+                        Zip Code</label>
+                    <input
+                        type="text"
+                        name="zip"
+                        t-attf-class="input-zipcode form-control #{error.get('zip') and 'is-invalid' or ''}"
+                        t-att-value="'zip' in checkout and checkout['zip']"
+                    />
+                </div>
+            </t>
+        </xpath>
+
+        <xpath expr="//div[contains(@t-attf-class, 'div_state')]" position="replace">
+            <div
+                id="div_state"
+                t-attf-class="form-group #{error.get('state_id') and 'o_has_error' or ''} col-lg-6 div_state"
+                t-att-style="(not country or not country.state_ids) and 'display: none'"
+            >
+                <label class="col-form-label" for="state_id">State /
+                    Province</label>
+                <select
+                    id="state_id"
+                    name="state_id"
+                    t-attf-class="form-control #{error.get('state_id') and 'is-invalid' or ''}"
+                    data-init="1"
+                >
+                    <option value="">State / Province...</option>
+                    <t t-foreach="country and country.state_ids or []" t-as="s">
+                        <option
+                            t-att-value="s.id"
+                            t-att-selected="s.id == ('state_id' in checkout and country and checkout['state_id'] != '' and int(checkout['state_id']))"
+                        >
+                            <t t-esc="s.name" />
+                        </option>
+                    </t>
+                </select>
+            </div>
+        </xpath>
+
+        <xpath expr="//div[contains(@t-attf-class, 'div_state')]" position="after">
+            <div
+                t-attf-class="form-group #{error.get('city_id') and 'o_has_error' or ''} col-xl-6"
+                t-att-style="(not country or not country.state_ids) and 'display: none'"
+            >
+                <label
+                    class="col-form-label"
+                    for="city_id"
+                    t-att-style="(not country or not country.state_ids) and 'display: none'"
+                >
+                    Cidade</label>
+                <select
+                    name="city_id"
+                    id="city_id"
+                    t-attf-class="form-control #{error.get('city_id') and 'is-invalid' or ''}"
+                    t-att-style="(not country or not country.state_ids) and 'display: none'"
+                >
+                    <option value="">select...</option>
+                    <t t-foreach="cities or []" t-as="citie">
+                        <option
+                            t-att-value="citie.id"
+                            style="display:none;"
+                            t-att-data-state_id="citie.state_id.id"
+                            t-att-selected="citie.id == ('city_id' in checkout and checkout['city_id'] != '' and int(checkout['city_id']))"
+                        >
+                            <t t-esc="citie.name" />
+                        </option>
+                    </t>
+                </select>
+            </div>
+            <xpath expr="//div[contains(@t-attf-class, 'div_city')]" position="move" />
+        </xpath>
+
+        <xpath expr="//div[contains(@t-attf-class, 'div_city')]" position="replace">
+            <div
+                t-attf-class="form-group #{error.get('city') and 'o_has_error' or ''} col-lg-6"
+                t-att-style="(country and not country.state_ids) and 'display: none'"
+            >
+                <label class="col-form-label" for="city">
+                    City</label>
+                <input
+                    type="text"
+                    name="city"
+                    id="city"
+                    t-attf-class="form-control #{error.get('city') and 'is-invalid' or ''}"
+                    t-att-value="'city' in checkout and checkout['city']"
+                />
+            </div>
+        </xpath>
+    </template>
+
+    <template
+        id="address_b2b"
+        name="Show b2b fields in (l10n_br_website_sale)"
+        inherit_id="website_sale.address_b2b"
+    >
+        <xpath expr="//div[contains(@t-attf-class, 'div_vat')]" position="after">
+            <div class="w-100" />
+            <div
+                t-attf-class="form-group #{error.get('inscr_est') and 'o_has_error' or ''} col-lg-6 div_inscr_est"
+            >
+                <label
+                    class="col-form-label font-weight-normal label-optional"
+                    for="inscr_est"
+                >State Tax Number</label>
+                <t
+                    t-set="vat_not_editable_message"
+                >Changing State Tax number is not allowed once document(s) have been issued for your account. Please contact us directly for this operation.</t>
+                <input
+                    type="text"
+                    name="inscr_est"
+                    t-attf-class="form-control #{error.get('inscr_est') and 'is-invalid' or ''}"
+                    t-att-value="'inscr_est' in checkout and checkout['inscr_est']"
+                    t-att-readonly="'1' if 'inscr_est' in checkout and checkout['inscr_est'] and not can_edit_vat else None"
+                    t-att-title="vat_not_editable_message if 'inscr_est' in checkout and checkout['inscr_est'] and not can_edit_vat else None"
+                />
+            </div>
+            <div
+                t-attf-class="form-group #{error.get('inscr_mun') and 'o_has_error' or ''} col-lg-6 div_inscr_mun"
+            >
+                <label
+                    class="col-form-label font-weight-normal label-optional"
+                    for="inscr_mun"
+                >State Tax Number</label>
+                <t
+                    t-set="vat_not_editable_message"
+                >Changing Municipal Tax number is not allowed once document(s) have been issued for your account. Please contact us directly for this operation.</t>
+                <input
+                    type="text"
+                    name="inscr_mun"
+                    t-attf-class="form-control #{error.get('inscr_mun') and 'is-invalid' or ''}"
+                    t-att-value="'inscr_mun' in checkout and checkout['inscr_mun']"
+                    t-att-readonly="'1' if 'inscr_mun' in checkout and checkout['inscr_mun'] and not can_edit_vat else None"
+                    t-att-title="vat_not_editable_message if 'inscr_mun' in checkout and checkout['inscr_mun'] and not can_edit_vat else None"
+                />
+            </div>
+        </xpath>
+    </template>
+
+</odoo>
