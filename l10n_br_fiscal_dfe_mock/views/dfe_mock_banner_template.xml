@@ -4,21 +4,76 @@
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <odoo>
-    <template id="dfe_mock_banner_warning" name="DF-e Mock Mode Warning">
-        <div
-            class="container-fluid border-bottom py-2 px-4"
-            style="background-color: #fff3cd;"
+    <!-- Extends the generic DF-e banner (l10n_br_fiscal_dfe) with mock-mode
+         controls. Only nfe uses dfe_mock_mode today, and only fiscal
+         managers can flip it, so everything below stays out of the way
+         otherwise. -->
+    <template
+        id="dfe_document_banner_mock"
+        inherit_id="l10n_br_fiscal_dfe.dfe_document_banner"
+        name="DF-e Document Banner Mock Controls"
+    >
+        <xpath
+            expr="//div[hasclass('o_dfe_banner')]/div[hasclass('mb-3')]"
+            position="before"
         >
-            <div class="d-flex align-items-center">
-                <i class="fa fa-flask text-warning me-2 fs-4" />
-                <span class="fw-bold text-warning">
-                    MOCK MODE ATIVO
-                </span>
-                <span class="ms-2 text-muted">
-                    — Consultas DF-e estão sendo respondidas pelo pool local,
-                    sem comunicação com a SEFAZ.
-                </span>
-            </div>
-        </div>
+            <t
+                t-if="fiscal_type == 'nfe' and company.env.user.has_group('l10n_br_fiscal.group_manager')"
+            >
+                <t t-if="company.dfe_mock_mode">
+                    <div
+                        class="alert alert-warning d-flex align-items-center justify-content-between mb-3"
+                    >
+                        <div class="d-flex align-items-center">
+                            <i class="fa fa-flask me-2 fs-4" />
+                            <span class="fw-bold">MOCK MODE ATIVO</span>
+                            <span class="ms-2">
+                                — Consultas DF-e estão sendo respondidas pelo
+                                pool local, sem comunicação com a SEFAZ.
+                            </span>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <a
+                                type="action"
+                                role="button"
+                                data-model="res.company"
+                                data-method="action_toggle_dfe_mock_mode"
+                                class="btn btn-sm btn-outline-dark text-nowrap"
+                            >
+                                <i class="fa fa-power-off" /> Desativar Mock
+                            </a>
+                            <a
+                                type="action"
+                                role="button"
+                                data-model="res.company"
+                                data-method="action_reset_dfe_cooldown"
+                                class="btn btn-sm btn-outline-dark text-nowrap"
+                            >
+                                <i class="fa fa-refresh" /> Resetar Cooldown
+                            </a>
+                        </div>
+                    </div>
+                </t>
+                <t t-else="">
+                    <div
+                        class="alert alert-light border d-flex align-items-center justify-content-between mb-3"
+                    >
+                        <span class="text-muted">
+                            <i class="fa fa-flask me-2" />
+                            Modo Mock desligado — consultas DF-e usam a SEFAZ real.
+                        </span>
+                        <a
+                            type="action"
+                            role="button"
+                            data-model="res.company"
+                            data-method="action_toggle_dfe_mock_mode"
+                            class="btn btn-sm btn-outline-secondary text-nowrap"
+                        >
+                            <i class="fa fa-flask" /> Ativar Mock
+                        </a>
+                    </div>
+                </t>
+            </t>
+        </xpath>
     </template>
 </odoo>
