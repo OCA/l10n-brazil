@@ -1,12 +1,14 @@
 # generated from manifests external_dependencies
 brazilcep
 brazilfiscalreport
+cryptography
 email-validator
 erpbrasil.assinatura
 erpbrasil.base
 erpbrasil.edoc
 erpbrasil.edoc.pdf
 erpbrasil.transmissao
+lxml
 nfelib
 nfselib.barueri
 nfselib.ginfes
@@ -14,6 +16,7 @@ nfselib.paulistana
 num2words
 phonenumbers
 pyyaml
+requests
 satcomum
 unidecode
 workalendar

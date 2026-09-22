@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Sample Paulistana RetornoConsultaNFe for received NFS-e (tomador side) -->
+<p1:RetornoConsultaNFe
+    xmlns:p1="http://www.prefeitura.sp.gov.br/nfe"
+    xmlns="http://www.prefeitura.sp.gov.br/nfe"
+>
+    <Cabecalho Versao="1" xmlns="">
+        <Sucesso>true</Sucesso>
+    </Cabecalho>
+    <NFe xmlns="">
+        <ChaveNFe>
+            <InscricaoPrestador>35172</InscricaoPrestador>
+            <NumeroNFe>67890</NumeroNFe>
+            <CodigoVerificacao>PAUL456</CodigoVerificacao>
+        </ChaveNFe>
+        <CPFCNPJPrestador>
+            <CNPJ>59594315000157</CNPJ>
+        </CPFCNPJPrestador>
+        <RazaoSocialPrestador>Empresa Prestadora Paulistana LTDA</RazaoSocialPrestador>
+        <InscricaoMunicipalPrestador>35172</InscricaoMunicipalPrestador>
+        <ValorServicos>2500.00</ValorServicos>
+        <ValorDeducoes>0.00</ValorDeducoes>
+        <ValorPIS>0.00</ValorPIS>
+        <ValorCOFINS>0.00</ValorCOFINS>
+        <ValorINSS>0.00</ValorINSS>
+        <ValorIR>0.00</ValorIR>
+        <ValorCSLL>0.00</ValorCSLL>
+        <CodigoServico>6311900</CodigoServico>
+        <AliquotaServicos>0.05</AliquotaServicos>
+        <ISSRetido>false</ISSRetido>
+        <CPFCNPJTomador>
+            <CNPJ>81493979000189</CNPJ>
+        </CPFCNPJTomador>
+        <RazaoSocialTomador>Empresa Tomadora SP LTDA</RazaoSocialTomador>
+        <DiscriminacaoServicos
+        >Desenvolvimento de software sob medida para gestão empresarial</DiscriminacaoServicos>
+        <DataEmissaoRPS>2024-03-15</DataEmissaoRPS>
+    </NFe>
+</p1:RetornoConsultaNFe>

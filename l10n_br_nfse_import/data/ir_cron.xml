@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2026 - TODAY, Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+    License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo noupdate="1">
+
+    <record forcecreate="True" id="ir_cron_sync_received_nfse" model="ir.cron">
+        <field name="name">NFS-e - Sync Received Documents</field>
+        <field name="model_id" ref="model_l10n_br_nfse_dfe" />
+        <field name="state">code</field>
+        <field name="code">model._cron_sync_received_nfse()</field>
+        <field name="user_id" ref="base.user_root" />
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="active" eval="False" />
+    </record>
+
+</odoo>

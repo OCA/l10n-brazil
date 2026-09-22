@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_nfse_dfe_user,l10n_br_nfse.dfe user,model_l10n_br_nfse_dfe,l10n_br_fiscal.group_user,1,0,0,0
+access_nfse_dfe_manager,l10n_br_nfse.dfe manager,model_l10n_br_nfse_dfe,l10n_br_fiscal.group_manager,1,1,1,1
+access_nfse_received_user,l10n_br_nfse.received user,model_l10n_br_nfse_received,l10n_br_fiscal.group_user,1,0,0,0
+access_nfse_received_manager,l10n_br_nfse.received manager,model_l10n_br_nfse_received,l10n_br_fiscal.group_manager,1,1,1,1
+access_nfse_import_wizard_user,l10n_br_nfse.import.wizard user,model_l10n_br_nfse_import_wizard,l10n_br_fiscal.group_user,1,1,1,1
