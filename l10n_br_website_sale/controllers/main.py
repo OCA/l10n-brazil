@@ -19,15 +19,6 @@ class L10nBrWebsiteSale(WebsiteSale):
         ["/shop/confirm_order"], type="http", auth="public", website=True, sitemap=False
     )
     def confirm_order(self, **post):
-        order = request.website.sale_get_order()
-
-        for line in order.order_line:
-            line._onchange_product_id_fiscal()
-            line._onchange_commercial_quantity()
-            line._onchange_fiscal_operation_id()
-            line._onchange_fiscal_operation_line_id()
-            line._onchange_fiscal_taxes()
-
         return super().confirm_order(**post)
 
     def _get_mandatory_fields_billing(self, country_id=False):
@@ -162,7 +153,7 @@ class L10nBrWebsiteSale(WebsiteSale):
 
                 if "cnpj_cpf" not in error:
                     all_form_values["cnpj_cpf"] = data["cnpj_cpf"]
-        if "vat" in data and data["vat"]:
+        if data.get("vat"):
             if (
                 "country_id" in data
                 and self._get_country_code(data["country_id"]) == "BR"
