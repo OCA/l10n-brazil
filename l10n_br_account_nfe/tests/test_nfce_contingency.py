@@ -43,15 +43,15 @@ class TestAccountNFCeContingency(AccountMoveBRCommon):
             country="BR",
             subject="CERTIFICADO VALIDO TESTE",
         )
-        certificate_id = cls.env["l10n_br_fiscal.certificate"].create(
+        cls.document_id.company_id.certificate_id = cls.env[
+            "certificate.certificate"
+        ].create(
             {
-                "type": "nf-e",
-                "subtype": "a1",
-                "password": "123456",
-                "file": certificate_valid,
+                "pkcs12_password": "123456",
+                "content": certificate_valid,
+                "company_id": cls.document_id.company_id.id,
             }
         )
-        cls.document_id.company_id.certificate_nfe_id = certificate_id
         cls.document_id.company_id.nfce_csc_token = "DUMMY"
         cls.document_id.company_id.nfce_csc_code = "DUMMY"
 
