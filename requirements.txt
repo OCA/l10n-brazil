@@ -5,6 +5,7 @@ brazilfiscalreport
 email-validator
 erpbrasil-base>=2.4.2
 erpbrasil.assinatura
+erpbrasil.base
 erpbrasil.edoc
 erpbrasil.transmissao
 nfelib
