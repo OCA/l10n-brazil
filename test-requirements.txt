@@ -1,5 +1,6 @@
 # vcrpy  # Needed by payment_pagseguro
 odoo-test-helper  # Needed by spec_driven_model
 pyopenssl==22.1.0
-nfelib[soap] @ git+https://github.com/akretion/nfelib@soap-nfe-wip
+brazil-fiscal-client @ git+https://github.com/akretion/brazil-fiscal-client@api-compat
+nfelib[soap] @ git+https://github.com/akretion/nfelib@api-compat
 xmldiff
