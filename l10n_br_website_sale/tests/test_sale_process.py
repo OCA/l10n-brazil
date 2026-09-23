@@ -31,8 +31,8 @@ class TestUi(HttpCase):
         ):
             self.browser_js(
                 url_path="/shop",
-                code="%s.run('%s')" % tour,
-                ready="%s.tours.%s.ready" % tour,
+                code="{}.run('{}')".format(*tour),
+                ready="{}.tours.{}.ready".format(*tour),
                 login="admin",
                 timeout=20000,
             )

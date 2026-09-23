@@ -153,7 +153,7 @@ class L10nBrWebsiteSale(WebsiteSale):
 
                 if "cnpj_cpf" not in error:
                     all_form_values["cnpj_cpf"] = data["cnpj_cpf"]
-        if "vat" in data and data["vat"]:
+        if data.get("vat"):
             if (
                 "country_id" in data
                 and self._get_country_code(data["country_id"]) == "BR"
