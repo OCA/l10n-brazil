@@ -256,6 +256,10 @@ class TestNFeWorkflowXmlValidation(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        # the transmission is mocked at the nfelib/xsdata transport level
+        cls.env["ir.config_parameter"].sudo().set_param(
+            "l10n_br_nfe.nfelib_soap_transmission", "True"
+        )
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
         cls.env.user.company_ids += cls.company
