@@ -42,11 +42,35 @@ class TestNFeDFe(TransactionCase):
         dfe_docs = self.env["l10n_br_fiscal_dfe.document"].search(
             [("company_id", "=", self.company.id)]
         )
+
+        access_key = "35200159594315000157550010000000012062777161"
         for doc in dfe_docs:
-            doc.import_document()
+            action = doc.import_document()
+            # The button now opens the same "Importar NF-e XML" wizard used
+            # under Documentos > NF-e > Import, pre-filled with the
+            # complete DF-e XML, instead of importing silently.
+            self.assertEqual(
+                action["res_model"], "l10n_br_fiscal.document.import.wizard"
+            )
+            self.assertEqual(action["target"], "new")
+            complete = doc._get_complete_dfe()
+            self.assertEqual(
+                action["context"]["default_file"],
+                complete.attachment_id.with_context(bin_size=False).datas,
+            )
+
+            wizard = (
+                self.env["l10n_br_fiscal.document.import.wizard"]
+                .with_context(**action["context"])
+                .create({})
+            )
+            # The webclient fires this onchange on form load to fill the
+            # wizard from the pre-set "file"; simulate it here since create()
+            # does not trigger onchange methods.
+            wizard._onchange_file()
+            wizard.action_import_and_open_document()
 
         self.assertEqual(len(self._search_dfe()), 1)
-        access_key = "35200159594315000157550010000000012062777161"
         fiscal_doc = self.env["l10n_br_fiscal.document"].search(
             [("document_key", "=", access_key)], limit=1
         )
