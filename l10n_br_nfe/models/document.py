@@ -1303,62 +1303,9 @@ class NFe(spec_models.StackedModel):
         handling different scenarios.
         """
         self.ensure_one()
-        if nfelib_soap_transmission_enabled(self.env):
-            return self._nfelib_update_status_and_save_data(process)
-
         force_change_status = False
         response = process.resposta
         webservice = process.webservice
-        if hasattr(process, "protocolo"):
-            inf_prot = process.protocolo.infProt
-        else:
-            # The ´nfeRetAutorizacaoLote´ webservice allows
-            # querying a batch of NFe, therefore in this case the return of protNFe
-            # is a list, but the localization only sends one NFe per batch.
-            if webservice == "nfeRetAutorizacaoLote":
-                inf_prot = response.protNFe[0].infProt
-            else:
-                inf_prot = response.protNFe.infProt
-        nfe_proc_xml = getattr(process, "processo_xml", None)
-        if nfe_proc_xml:
-            nfe_proc_xml = nfe_proc_xml.decode()
-        self._nfe_save_protocol(inf_prot, nfe_proc_xml)
-        # For ´nfeConsultaNF´ webservice, the status is checked in the main response.
-        # This is crucial because for canceled NFes, the current status does not
-        # reflect the authorization protocol status.
-        if webservice == "nfeConsultaNF":
-            c_stat = response.cStat
-            x_motivo = response.xMotivo
-            force_change_status = True
-        else:
-            c_stat = inf_prot.cStat
-            x_motivo = inf_prot.xMotivo
-        # update document
-        self.update(
-            {
-                "status_code": c_stat,
-                "status_name": x_motivo,
-            }
-        )
-        # change state
-        state_map = {
-            **dict.fromkeys(AUTORIZADO, SITUACAO_EDOC_AUTORIZADA),
-            **dict.fromkeys(DENEGADO, SITUACAO_EDOC_DENEGADA),
-            **dict.fromkeys(CANCELADO, SITUACAO_EDOC_CANCELADA),
-        }
-        state = state_map.get(c_stat, SITUACAO_EDOC_REJEITADA)
-        self._change_state(state, force_change_status)
-
-    def _nfelib_update_status_and_save_data(self, process):
-        """_nfe_update_status_and_save_data variant for the nfelib clients.
-
-        The nfelib responses are xsdata bindings wrapped in a
-        brazil_fiscal_client WrappedResponse: there is no `webservice` string,
-        the protNFe of a batch is always a list and processo_xml is already str.
-        """
-        self.ensure_one()
-        force_change_status = False
-        response = process.resposta
         if hasattr(process, "protocolo"):
             inf_prot = process.protocolo.infProt
         else:
@@ -1369,13 +1316,14 @@ class NFe(spec_models.StackedModel):
                 inf_prot = response.protNFe[0].infProt
             else:
                 inf_prot = response.protNFe.infProt
-
         nfe_proc_xml = getattr(process, "processo_xml", None)
+        if isinstance(nfe_proc_xml, bytes):
+            nfe_proc_xml = nfe_proc_xml.decode()
         self._nfe_save_protocol(inf_prot, nfe_proc_xml)
         # For ´nfeConsultaNF´ webservice, the status is checked in the main response.
         # This is crucial because for canceled NFes, the current status does not
         # reflect the authorization protocol status.
-        if webservice_is_consulta(process):
+        if webservice == "nfeConsultaNF":
             c_stat = response.cStat
             x_motivo = response.xMotivo
             force_change_status = True
