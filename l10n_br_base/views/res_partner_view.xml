@@ -79,7 +79,7 @@
                 <field
                     name="l10n_br_rg_code"
                     nolabel="1"
-                    invisible="is_company and not show_l10n_br"
+                    invisible="is_company or not show_l10n_br"
                 />
                 <div name="l10n_br_ie_code" invisible="not show_l10n_br">
                     <label
