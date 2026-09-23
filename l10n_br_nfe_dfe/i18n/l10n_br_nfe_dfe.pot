@@ -100,6 +100,13 @@ msgid "Import"
 msgstr ""
 
 #. module: l10n_br_nfe_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfe_dfe/models/dfe_document.py:0
+#, python-format
+msgid "Import NF-e XML"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_res_company_form
 msgid "Last Query"
 msgstr ""
@@ -124,13 +131,6 @@ msgstr ""
 #. module: l10n_br_nfe_dfe
 #: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_l10n_br_fiscal_dfe_document__manifestations_ids
 msgid "Manifestations"
-msgstr ""
-
-#. module: l10n_br_nfe_dfe
-#. odoo-python
-#: code:addons/l10n_br_nfe_dfe/models/dfe_document.py:0
-#, python-format
-msgid "Manifestação do Destinatário da NF-e"
 msgstr ""
 
 #. module: l10n_br_nfe_dfe
@@ -181,6 +181,13 @@ msgstr ""
 #. module: l10n_br_nfe_dfe
 #: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_res_company__nfe_dfe_next_query
 msgid "NF-e Next Scheduled Query"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfe_dfe/models/dfe_document.py:0
+#, python-format
+msgid "NF-e Recipient Manifestation"
 msgstr ""
 
 #. module: l10n_br_nfe_dfe
