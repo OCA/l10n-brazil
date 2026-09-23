@@ -125,5 +125,5 @@ class TestDfeMockDistribution(TransactionCase):
 
     def test_reset_cooldown_clears_typed_field(self):
         self.company.sudo().write({"nfe_dfe_next_query": fields.Datetime.now()})
-        self.company.action_reset_dfe_cooldown()
+        self.company.with_company(self.company).action_reset_dfe_cooldown()
         self.assertFalse(self.company.nfe_dfe_next_query)
