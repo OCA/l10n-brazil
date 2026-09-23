@@ -323,3 +323,48 @@ class NFeImportTest(TransactionCase):
         self.assertAlmostEqual(line.amount_tax_not_included, 3.29, places=2)
         self.assertAlmostEqual(line.fiscal_amount_tax, 3.29, places=2)
         self.assertAlmostEqual(line.amount_tax_included, 7.64, places=2)
+
+    def _sample_nfe_xml(self):
+        res_items = (
+            "nfe",
+            "samples",
+            "v4_0",
+            "leiauteNFe",
+            "35180834128745000152550010000474281920007498-nfe.xml",
+        )
+        return (
+            importlib.resources.files(nfelib.__name__)
+            .joinpath(*res_items)
+            .read_bytes()
+            .decode()
+        )
+
+    def test_import_out_nfe_foreign_recipient(self):
+        """An outbound NFe to a foreign recipient (export) identifies the
+        recipient only by idEstrangeiro: the import must not require a
+        CNPJ/CPF (it used to fail with an unbound dest_vat)."""
+        foreign_dest = (
+            "<dest>"
+            "<idEstrangeiro>US123456789</idEstrangeiro>"
+            "<xNome>FOREIGN AVIATION BUYER INC</xNome>"
+            "<enderDest>"
+            "<xLgr>MAIN STREET</xLgr><nro>100</nro><xBairro>DOWNTOWN</xBairro>"
+            "<cMun>9999999</cMun><xMun>EXTERIOR</xMun><UF>EX</UF>"
+            "<cPais>2496</cPais><xPais>ESTADOS UNIDOS</xPais>"
+            "</enderDest>"
+            "<indIEDest>9</indIEDest>"
+            "</dest>"
+        )
+        xml = re.sub(
+            r"<dest>.*?</dest>",
+            foreign_dest,
+            self._sample_nfe_xml(),
+            count=1,
+            flags=re.S,
+        )
+        binding = TnfeProc.from_xml(xml)
+        nfe = self.env["l10n_br_fiscal.document"].import_binding_nfe(
+            binding, edoc_type="out", dry_run=False
+        )
+        self.assertEqual(nfe.partner_id.name, "FOREIGN AVIATION BUYER INC")
+        self.assertFalse(nfe.partner_id.vat)
