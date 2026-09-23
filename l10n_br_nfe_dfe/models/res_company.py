@@ -14,11 +14,9 @@ from odoo.addons.l10n_br_fiscal_dfe.constants.dfe import (
 from odoo.addons.l10n_br_fiscal_dfe.tools import utils
 
 try:
-    from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
     from nfelib.nfe.client.v4_0.dfe import DfeClient
 except ImportError:
     DfeClient = None
-    TnfeProc = None
 
 ACCESS_KEY_EXTRACTORS = {
     "procNFe": lambda root: str(root.protNFe.infProt.chNFe),
@@ -267,10 +265,3 @@ class ResCompany(models.Model):
 
         dfe_document.sudo().dfe_ids = [(4, dfe_record.id)]
         return dfe_record
-
-    # ── Import ──────────────────────────────────────────────────────────
-
-    @api.model
-    def parse_procNFe(self, xml):
-        binding = TnfeProc.from_xml(xml.read().decode())
-        return self.env["l10n_br_fiscal.document"].import_binding_nfe(binding)
