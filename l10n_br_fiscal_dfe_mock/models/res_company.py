@@ -5,7 +5,7 @@ import gzip
 from dataclasses import dataclass, field
 from io import BytesIO
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 # ── Mock dataclasses imitating nfelib WrappedResponse ──────────────────
 
@@ -69,32 +69,34 @@ class ResCompany(models.Model):
         "from the local mock NSU pool instead of SEFAZ.",
     )
 
+    @api.model
     def action_toggle_dfe_mock_mode(self):
-        self.ensure_one()
-        new_state = not self.dfe_mock_mode
-        self.sudo().write({"dfe_mock_mode": new_state})
+        company = self.env.company
+        new_state = not company.dfe_mock_mode
+        company.sudo().write({"dfe_mock_mode": new_state})
         label = "ON" if new_state else "OFF"
         return {
             "type": "ir.actions.client",
             "tag": "display_notification",
             "params": {
                 "title": f"DF-e Mock Mode: {label}",
-                "message": f"Mock mode is now {label} for {self.name}.",
+                "message": f"Mock mode is now {label} for {company.name}.",
                 "type": "info",
                 "sticky": False,
                 "next": {"type": "ir.actions.client", "tag": "soft_reload"},
             },
         }
 
+    @api.model
     def action_reset_dfe_cooldown(self):
-        self.ensure_one()
-        self._dfe_write_typed("nfe", {"dfe_next_query": False})
+        company = self.env.company
+        company._dfe_write_typed("nfe", {"dfe_next_query": False})
         return {
             "type": "ir.actions.client",
             "tag": "display_notification",
             "params": {
                 "title": "DF-e Query Cooldown Reset",
-                "message": f"Query cooldown cleared for {self.name}.",
+                "message": f"Query cooldown cleared for {company.name}.",
                 "type": "info",
                 "sticky": False,
                 "next": {"type": "ir.actions.client", "tag": "soft_reload"},
