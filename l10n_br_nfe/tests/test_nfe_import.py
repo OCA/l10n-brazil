@@ -370,3 +370,59 @@ class NFeImportTest(TransactionCase):
         self.assertAlmostEqual(line.amount_tax_not_included, 3.29, places=2)
         self.assertAlmostEqual(line.fiscal_amount_tax, 3.29, places=2)
         self.assertAlmostEqual(line.amount_tax_included, 7.64, places=2)
+
+    def test_import_in_nfe_reduced_tax_other_cst(self):
+        """The reduced ICMS tax created on import is looked up by rate,
+        reduction AND CST, so its name must carry the CST: when a tax with
+        the same rate and reduction already exists for another CST, the new
+        one must not clash on the unique tax name."""
+        icms_group = self.env.ref("l10n_br_fiscal.tax_group_icms")
+        cst_70 = self.env["l10n_br_fiscal.cst"].search(
+            [("code", "=", "70"), ("tax_domain", "=", "icms")], limit=1
+        )
+        self.env["l10n_br_fiscal.tax"].create(
+            {
+                "name": "ICMS 7.0% Com Red. 33.33%",
+                "tax_group_id": icms_group.id,
+                "percent_amount": 7.0,
+                "percent_reduction": 33.33,
+                "percent_debit_credit": 0,
+                "value_amount": 0,
+                "icmsst_mva_percent": 0,
+                "icmsst_value": 0,
+                "cst_in_id": cst_70.id,
+                "cst_out_id": cst_70.id,
+            }
+        )
+        res_items = (
+            "nfe",
+            "samples",
+            "v4_0",
+            "leiauteNFe",
+            "35180834128745000152550010000474281920007498-nfe.xml",
+        )
+        icms20 = (
+            "<ICMS20>"
+            "<orig>0</orig><CST>20</CST><modBC>3</modBC>"
+            "<pRedBC>33.33</pRedBC><vBC>33.73</vBC>"
+            "<pICMS>7.00</pICMS><vICMS>2.36</vICMS>"
+            "</ICMS20>"
+        )
+        xml = re.sub(
+            r"<ICMS00>.*?</ICMS00>",
+            icms20,
+            importlib.resources.files(nfelib.__name__)
+            .joinpath(*res_items)
+            .read_bytes()
+            .decode(),
+            count=1,
+            flags=re.S,
+        )
+        binding = TnfeProc.from_xml(xml)
+        nfe = self.env["l10n_br_fiscal.document"].import_binding_nfe(
+            binding, edoc_type="in", dry_run=False
+        )
+        tax = nfe.fiscal_line_ids[0].icms_tax_id
+        self.assertEqual(tax.percent_reduction, 33.33)
+        self.assertEqual(tax.cst_in_id.code, "20")
+        self.assertEqual(tax.name, "ICMS 7.0% Com Red. 33.33% CST 20")

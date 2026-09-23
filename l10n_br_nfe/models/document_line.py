@@ -1554,9 +1554,14 @@ class NFeLine(spec_models.StackedModel):
         import (idempotent via the earlier search on percent_reduction).
         """
         cst_field = "cst_{}_id".format(self.env.context.get("edoc_type", "in"))
+        name = _("ICMS %(percent)s%% Com Red. %(red)s%%") % {
+            "percent": percent,
+            "red": percent_reduction,
+        }
+        # the CST is part of the lookup, so it is part of the unique name too
+        cst_code = self.env["l10n_br_fiscal.cst"].browse(cst_id).code
         vals = {
-            "name": _("ICMS %(percent)s%% Com Red. %(red)s%%")
-            % {"percent": percent, "red": percent_reduction},
+            "name": f"{name} CST {cst_code}" if cst_code else name,
             "tax_group_id": tax_group_id,
             "percent_amount": percent,
             "percent_reduction": percent_reduction,
