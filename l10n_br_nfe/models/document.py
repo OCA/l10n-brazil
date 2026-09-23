@@ -1215,15 +1215,12 @@ class NFe(spec_models.StackedModel):
     def _nfelib_edoc_processor(self):
         """Build the SOAP client from nfelib instead of erpbrasil.edoc."""
         self.ensure_one()
+        pkcs12_data, pkcs12_password = self.company_id._get_nfe_certificate_data()
         common_params = {
             "ambiente": self.company_id.nfe_environment,
             "uf": self.company_id.state_id.ibge_code,
-            # nb: nfelib's CommonMixin.sign_xml base64-decodes `pkcs12_data`
-            # itself, so the Odoo Binary value is passed as is; the
-            # brazil_fiscal_client transport normalizes it internally
-            # (see FiscalClient._normalize_pkcs12).
-            "pkcs12_data": self.company_id.certificate.file,
-            "pkcs12_password": self.company_id.certificate.password,
+            "pkcs12_data": pkcs12_data,
+            "pkcs12_password": pkcs12_password,
             "wrap_response": True,
         }
         if self.document_type == MODELO_FISCAL_NFE:
@@ -1274,10 +1271,11 @@ class NFe(spec_models.StackedModel):
                 document_id=self,
             )
             record.authorization_event_id = event_id
+            pkcs12_data, pkcs12_password = self.company_id._get_nfe_certificate_data()
             signed_xml = edoc.sign_xml(
                 xml_file,
-                self.company_id.certificate.file,
-                self.company_id.certificate.password,
+                pkcs12_data,
+                pkcs12_password,
                 edoc.infNFe.Id,
             )
             self._validate_xml(signed_xml)

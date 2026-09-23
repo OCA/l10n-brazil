@@ -41,14 +41,12 @@ class InvalidateNumber(models.Model):
 
             return edoc_nfe(**params)
 
+        pkcs12_data, pkcs12_password = self.company_id._get_nfe_certificate_data()
         common_params = {
             "ambiente": self.company_id.nfe_environment,
             "uf": self.company_id.state_id.ibge_code,
-            # nb: base64 value as stored in the Binary field: nfelib's
-            # CommonMixin.sign_xml base64-decodes it itself; the
-            # brazil_fiscal_client transport normalizes it internally.
-            "pkcs12_data": self.company_id.certificate.file,
-            "pkcs12_password": self.company_id.certificate.password,
+            "pkcs12_data": pkcs12_data,
+            "pkcs12_password": pkcs12_password,
             "wrap_response": True,
         }
         if self.document_type_id.code == "65":
