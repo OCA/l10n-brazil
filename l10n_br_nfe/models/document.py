@@ -15,8 +15,6 @@ from erpbrasil.transmissao import TransmissaoSOAP
 from lxml import etree
 from nfelib.nfe.bindings.v4_0.nfe_v4_00 import Nfe
 from nfelib.nfe.bindings.v4_0.proc_nfe_v4_00 import NfeProc
-from nfelib.nfe.bindings.v4_0.ret_cons_reci_nfe_v4_00 import RetConsReciNfe
-from nfelib.nfe.bindings.v4_0.ret_envi_nfe_v4_00 import RetEnviNfe
 from nfelib.nfe.client.v4_0.nfce import NfceClient
 from nfelib.nfe.client.v4_0.nfe import NfeClient
 from nfelib.nfe.ws.edoc_legacy import NFCeAdapter as edoc_nfce
@@ -95,16 +93,6 @@ def nfelib_soap_transmission_enabled(env):
         .get_param("l10n_br_nfe.nfelib_soap_transmission", "False")
         == "True"
     )
-
-
-def webservice_is_consulta(process):
-    """Is this a nfeConsultaNF response? (works for both erpbrasil.edoc and
-    brazil-fiscal-client WrappedResponse objects)."""
-    webservice = getattr(process, "webservice", None)
-    if webservice is None:
-        resposta = getattr(process, "resposta", None)
-        webservice = type(resposta).__name__
-    return webservice in ("nfeConsultaNF", "RetConsSitNfe")
 
 
 def filter_processador_edoc_nfe(record):
@@ -1231,12 +1219,10 @@ class NFe(spec_models.StackedModel):
             "ambiente": self.company_id.nfe_environment,
             "uf": self.company_id.state_id.ibge_code,
             # nb: nfelib's CommonMixin.sign_xml base64-decodes `pkcs12_data`
-            # itself, so the Odoo Binary value is passed as is.
+            # itself, so the Odoo Binary value is passed as is; the
+            # brazil_fiscal_client transport normalizes it internally
+            # (see FiscalClient._normalize_pkcs12).
             "pkcs12_data": self.company_id.certificate.file,
-            # TODO: `fake_certificate` only skips brazil_fiscal_client's
-            # requests_pkcs12 adapter, which expects raw PFX bytes. Pass decoded
-            # bytes to both APIs so real transmissions can use mTLS again.
-            "fake_certificate": True,
             "pkcs12_password": self.company_id.certificate.password,
             "wrap_response": True,
         }
@@ -1600,13 +1586,15 @@ class NFe(spec_models.StackedModel):
         """
         Serialize and send a NFe for authorizaion
         """
-        if nfelib_soap_transmission_enabled(self.env):
-            return self._nfelib_send_for_authorization()
-
+        # NOTE: serialize is a bad meth name. use _build_binding?
         serialized_nfe = self.serialize()[0]
         nfe_manager = self._edoc_processor()
         authorization_response = None
-        for service_response in nfe_manager.processar_documento(serialized_nfe):
+        if nfelib_soap_transmission_enabled(self.env):
+            service_responses = nfe_manager.processar_lote([serialized_nfe])
+        else:
+            service_responses = nfe_manager.processar_documento(serialized_nfe)
+        for service_response in service_responses:
             if service_response.webservice not in [
                 "nfeAutorizacaoLote",
                 "nfeRetAutorizacaoLote",
@@ -1627,51 +1615,6 @@ class NFe(spec_models.StackedModel):
                     # Commit to secure receipt info for future queries.
                     in_testing = getattr(threading.current_thread(), "testing", False)
                     if not in_testing:
-                        self.env.cr.commit()  # pylint: disable=invalid-commit
-
-                    # Check if 'nfe_separate_async_process' is set in the company
-                    # settings. If True, skip the receipt consultation in this
-                    # transaction. The user will need to manually trigger the
-                    # consultation later to obtain the usage protocol.
-                    skip_consult_receipt = self.env.company.nfe_separate_async_process
-                    if skip_consult_receipt:
-                        break
-                    else:
-                        continue
-            authorization_response = service_response
-        if authorization_response:
-            self._nfe_process_authorization(authorization_response)
-
-    def _nfelib_send_for_authorization(self):
-        """_nfe_send_for_authorization variant for the nfelib clients."""
-        # NOTE: serialize is a bad meth name. use _build_binding?
-        nfe_binding = self.serialize()[0]
-        nfe_manager = self._edoc_processor()
-        authorization_response = None
-        for service_response in nfe_manager.processar_lote([nfe_binding]):
-            if type(service_response.resposta) not in [
-                RetEnviNfe,
-                RetConsReciNfe,
-            ]:
-                continue
-            if isinstance(service_response.resposta, RetEnviNfe):
-                if (
-                    service_response.resposta.cStat in SERVICO_PARALIZADO
-                    and self.document_type == MODELO_FISCAL_NFCE
-                ):
-                    # Offline contingency is only allowed for NFC-e (65)
-                    self._update_nfce_for_offline_contingency()
-                    return
-                if service_response.resposta.infRec:
-                    # Only ASYNC: The receipt is only applicable for asynchronous
-                    # transmission.
-                    self._nfe_process_send_asynchronous(service_response)
-                    # Commit to secure receipt info for future queries.
-                    in_testing = getattr(threading.current_thread(), "testing", False)
-                    if not in_testing:
-                        # WTF
-                        # see https://github.com/odoo/odoo/pull/216018
-                        # https://github.com/odoo/odoo/pull/214199
                         self.env.cr.commit()  # pylint: disable=invalid-commit
 
                     # Check if 'nfe_separate_async_process' is set in the company
@@ -1942,15 +1885,7 @@ class NFe(spec_models.StackedModel):
             return processador.monta_qrcode(self.document_key)
 
         if nfelib_soap_transmission_enabled(self.env):
-            edoc = self.serialize()[0]
-            xml_file = edoc.to_xml()
-            signed_xml = edoc.sign_xml(
-                xml_file,
-                self.company_id.certificate.file,
-                self.company_id.certificate.password,
-                edoc.infNFe.Id,
-            )
-            return processador._generate_qrcode_contingency(edoc, signed_xml)
+            return processador.monta_qrcode_contingencia(self.serialize()[0])
 
         serialized_doc = self.serialize()[0]
         xml = processador.assina_raiz(serialized_doc, serialized_doc.infNFe.Id)
@@ -1960,8 +1895,6 @@ class NFe(spec_models.StackedModel):
         if self.document_type != MODELO_FISCAL_NFCE:
             return
 
-        if nfelib_soap_transmission_enabled(self.env):
-            return self._edoc_processor().get_consulta_url()
         return self._edoc_processor().consulta_qrcode_url
 
     def _prepare_payments_for_nfce(self):

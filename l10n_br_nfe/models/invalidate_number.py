@@ -45,11 +45,9 @@ class InvalidateNumber(models.Model):
             "ambiente": self.company_id.nfe_environment,
             "uf": self.company_id.state_id.ibge_code,
             # nb: base64 value as stored in the Binary field: nfelib's
-            # CommonMixin.sign_xml base64-decodes it itself.
+            # CommonMixin.sign_xml base64-decodes it itself; the
+            # brazil_fiscal_client transport normalizes it internally.
             "pkcs12_data": self.company_id.certificate.file,
-            # TODO: skips brazil_fiscal_client's requests_pkcs12 adapter, which
-            # expects raw PFX bytes (see l10n_br_nfe/models/document.py).
-            "fake_certificate": True,
             "pkcs12_password": self.company_id.certificate.password,
             "wrap_response": True,
         }
@@ -72,11 +70,7 @@ class InvalidateNumber(models.Model):
             justificativa=self.justification.replace("\n", "\\n"),
         )
 
-        if nfelib_soap_transmission_enabled(self.env):
-            # nfelib's envia_inutilizacao takes the event positionally
-            processo = processador.envia_inutilizacao(evento)
-        else:
-            processo = processador.envia_inutilizacao(evento=evento)
+        processo = processador.envia_inutilizacao(evento=evento)
 
         event_id = self.event_ids.create_event_save_xml(
             company_id=self.company_id,
