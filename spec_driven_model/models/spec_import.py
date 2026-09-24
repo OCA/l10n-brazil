@@ -8,7 +8,6 @@ import logging
 import re
 from datetime import datetime
 from enum import Enum
-from typing import ForwardRef
 
 from odoo import Command, api, models
 
@@ -78,15 +77,27 @@ class SpecMixinImport(models.AbstractModel):
         key = f"{prefix}_{attr[1].metadata.get('name', attr[0])}"
         child_path = f"{path}.{key}"
 
-        # Is attr a xsd SimpleType or a ComplexType?
-        # with xsdata a ComplexType can have a type like:
-        # typing.Union[nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00.TinfRespTec, NoneType]
-        # or typing.Union[ForwardRef('Tnfe.InfNfe.Det.Imposto'), NoneType]
-        # that's why we test if the 1st Union type is a dataclass or a ForwardRef
-        if attr[1].type is str or (
-            not isinstance(attr[1].type.__args__[0], ForwardRef)
-            and not dataclasses.is_dataclass(attr[1].type.__args__[0])
-        ):
+        # Is attr a xsd SimpleType or a ComplexType? Value-driven dispatch:
+        # classify from the runtime binding value instead of the field
+        # annotation. xsdata changed its annotation format several times
+        # (typing.List[ForwardRef('Foo.Bar')], then PEP 585 list['Foo.Bar']
+        # with bare string forward refs, then PEP 563 postponed evaluation
+        # turning every field.type into a plain string); the runtime values
+        # are stable across all these generator changes, so introspecting
+        # them keeps the import working for any xsdata version. A non-empty
+        # list of dataclasses is an o2m, a plain dataclass is an m2o,
+        # anything else (including repeated simple values such as the
+        # list[str] NVE field) is a SimpleType.
+        if isinstance(value, list):
+            items = [li for li in value if li]
+            is_list = bool(items) and dataclasses.is_dataclass(items[0])
+            is_complex = is_list
+        else:
+            items = None
+            is_list = False
+            is_complex = dataclasses.is_dataclass(value)
+
+        if not is_complex:
             # SimpleType
             if isinstance(value, Enum):
                 value = value.value
@@ -100,12 +111,11 @@ class SpecMixinImport(models.AbstractModel):
             vals[key] = value
 
         else:
-            if str(attr[1].type).startswith("typing.List") or "ForwardRef" in str(
-                attr[1].type
-            ):  # o2m
-                binding_type = attr[1].type.__args__[0].__forward_arg__
-            else:
-                binding_type = attr[1].type.__args__[0].__name__
+            # ComplexType: use the qualified binding class name of the
+            # runtime value (e.g. "Tnfe.InfNfe.Det"), which is what the
+            # xsdata-odoo generated abstract models are keyed on.
+            binding_value = items[0] if is_list else value
+            binding_type = type(binding_value).__qualname__
 
             # ComplexType
             if fields.get(key) and fields[key].related:
@@ -125,10 +135,10 @@ class SpecMixinImport(models.AbstractModel):
             if comodel is None:  # example skip ICMS100 class
                 return
 
-            if str(attr[1].type).startswith("typing.List"):
+            if is_list:
                 # o2m
                 lines = []
-                for line in [li for li in value if li]:
+                for line in items:
                     line_vals = comodel.build_attrs(
                         line, path=child_path, defaults_model=comodel
                     )
