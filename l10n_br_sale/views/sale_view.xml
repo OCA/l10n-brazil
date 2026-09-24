@@ -36,6 +36,17 @@
         <field name="priority">99</field>
         <field name="arch" type="xml">
             <!-- order top form view extensions: -->
+            <xpath expr="//group[@name='sale_total']" position="attributes">
+                <attribute
+                    name="class"
+                >oe_subtotal_footer order-0 order-lg-1</attribute>
+            </xpath>
+            <xpath
+                expr="//group[@name='sale_total']/field[@name='tax_totals']"
+                position="attributes"
+            >
+                <attribute name="colspan">2</attribute>
+            </xpath>
             <field name="tax_totals" position="before">
                 <field
                     name="amount_untaxed"
