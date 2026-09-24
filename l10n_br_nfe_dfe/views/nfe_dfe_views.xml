@@ -47,6 +47,7 @@
                     decoration-muted="manifestation_status == 'sem_manifestacao'"
                 />
                 <field name="document_state_label" string="State" />
+                <field name="fiscal_document_id" invisible="1" />
                 <button
                     string="XML"
                     name="action_download_xml"
@@ -64,6 +65,14 @@
                     string="Import"
                     type="object"
                     icon="fa-file-text-o"
+                    invisible="fiscal_document_id"
+                />
+                <button
+                    name="action_view_imported_document"
+                    string="Invoice"
+                    type="object"
+                    icon="fa-pencil-square-o"
+                    invisible="not fiscal_document_id"
                 />
                 <button
                     string="Manifest"
@@ -86,6 +95,25 @@
         <field name="arch" type="xml">
             <xpath expr="//button[@name='make_pdf']" position="attributes">
                 <attribute name="string">DANFE</attribute>
+            </xpath>
+            <xpath expr="//button[@name='import_document']" position="attributes">
+                <attribute name="invisible">fiscal_document_id</attribute>
+            </xpath>
+            <xpath expr="//div[hasclass('oe_title')]" position="before">
+                <div class="oe_button_box" name="button_box">
+                    <button
+                        name="action_view_imported_document"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-pencil-square-o"
+                        invisible="not fiscal_document_id"
+                    >
+                        <div class="o_stat_info">
+                            <span class="o_stat_text">Invoice</span>
+                        </div>
+                    </button>
+                </div>
+                <field name="fiscal_document_id" invisible="1" />
             </xpath>
             <xpath expr="//header" position="inside">
                 <button
