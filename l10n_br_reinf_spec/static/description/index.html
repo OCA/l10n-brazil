@@ -1,0 +1,558 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
+<title>EFD-Reinf abstract models</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 9511 2024-01-13 09:50:07Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+Despite the name, some widely supported CSS2 features are used.
+
+See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: gray; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic, pre.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document">
+
+
+<a class="reference external image-reference" href="https://odoo-community.org/get-involved?utm_source=readme">
+<img alt="Odoo Community Association" src="https://odoo-community.org/readme-banner-image" />
+</a>
+<div class="section" id="efd-reinf-abstract-models">
+<h1>EFD-Reinf abstract models</h1>
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! This file is generated by oca-gen-addon-readme !!
+!! changes will be overwritten.                   !!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! source digest: sha256:19641d0205d293fdcb34560e27c3127e97abc895ed2a0bfcba2d94836819f57b
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Alpha" src="https://img.shields.io/badge/maturity-Alpha-red.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/lgpl-3.0-standalone.html"><img alt="License: LGPL-3" src="https://img.shields.io/badge/license-LGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_reinf_spec"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-l10n_br_reinf_spec"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=16.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
+<p>Este módulo é a fundação de dados da <strong>EFD-Reinf</strong> (Escrituração Fiscal
+Digital de Retenções e Outras Informações Fiscais) no Odoo: uma
+biblioteca de modelos abstratos (mixins) gerada automaticamente a partir
+dos esquemas XSD oficiais publicados no portal do SPED.</p>
+<p>Ele não transmite nada e não implementa regra de negócio: quem faz a
+apuração, a montagem dos eventos e a comunicação com os web services da
+Receita é o módulo <tt class="docutils literal">l10n_br_reinf</tt>. Essa separação entre estrutura de
+dados gerada e lógica de emissão é a mesma já usada na NF-e
+(<tt class="docutils literal">l10n_br_nfe_spec</tt>), no CT-e e no MDF-e.</p>
+<div class="section" id="leiaute-coberto">
+<h2>Leiaute coberto</h2>
+<p>Leiaute <strong>2.1.2b</strong> (pacote de XSD “EFD-Reinf v2.1.2 - CNPJ
+Alfanumérico”, que incorpora a NT 03/2026 do CNPJ alfanumérico, com os
+padrões <tt class="docutils literal"><span class="pre">[0-9A-Z]{14}</span></tt> nas inscrições). Um arquivo de mixins por
+evento:</p>
+<ul class="simple">
+<li><strong>R-1000</strong> (informações do contribuinte), <strong>R-1050</strong> (tabela de
+entidades ligadas) e <strong>R-1070</strong> (tabela de processos administrativos e
+judiciais);</li>
+<li><strong>R-2010/R-2020</strong> (retenção previdenciária de serviços tomados e
+prestados), <strong>R-2030/R-2040</strong> (recursos de associação desportiva),
+<strong>R-2050/R-2055</strong> (produção rural), <strong>R-2060</strong> (CPRB),
+<strong>R-2098/R-2099</strong> (reabertura e fechamento da série R-2000);</li>
+<li><strong>R-4010/R-4020/R-4040/R-4080</strong> (pagamentos e retenções na fonte a
+pessoa física, pessoa jurídica, beneficiário não identificado e
+retenção no recebimento) e <strong>R-4099</strong> (fechamento e reabertura da
+série R-4000);</li>
+<li><strong>R-9000</strong> (exclusão de evento);</li>
+<li><strong>R-9001/R-9005/R-9011/R-9015</strong> (totalizadores devolvidos pela
+Receita, que são a fonte oficial do valor por código de receita que
+alimenta a DCTFWeb).</li>
+</ul>
+</div>
+<div class="section" id="uma-diferenca-importante-em-relacao-a-nf-e">
+<h2>Uma diferença importante em relação à NF-e</h2>
+<p>A NF-e tem um leiaute único (<tt class="docutils literal">leiauteNFe_v4.00.xsd</tt>). A EFD-Reinf
+<strong>não</strong>: cada evento é um XSD, um namespace XML e um módulo Python
+próprios. Por isso o mixin <tt class="docutils literal">spec.mixin.reinf</tt> traz apenas um par
+<tt class="docutils literal">_reinf21_odoo_module</tt> / <tt class="docutils literal">_reinf21_binding_module</tt> como valor de
+partida, e <strong>cada modelo concreto do ``l10n_br_reinf`` redeclara esse
+par com o módulo do seu evento</strong>.</p>
+<p>Os esquemas do envelope do lote assíncrono
+(<tt class="docutils literal">envioLoteEventosAssincrono</tt> v1.00.00 e
+<tt class="docutils literal">retornoLoteEventosAssincrono</tt> v1.00.00) e da consulta de recibos
+(<tt class="docutils literal">retornoRecibosChaveEvento</tt> v1.05.01) são outras famílias de esquema,
+com versões próprias, e não entram neste módulo: ver
+<tt class="docutils literal">readme/ROADMAP.md</tt>.</p>
+</div>
+<div class="section" id="prefixo-dos-campos">
+<h2>Prefixo dos campos</h2>
+<p>Todos os campos gerados têm o prefixo <tt class="docutils literal">reinf21_</tt> (nome do esquema mais
+dois dígitos da versão) e todos os modelos ficam no namespace
+<tt class="docutils literal">reinf.21.*</tt>. Os dois dígitos permitem que uma revisão menor do
+leiaute reaproveite os mesmos campos (e os mesmos dados no banco),
+resolvendo a migração com um simples <tt class="docutils literal"><span class="pre">--update</span></tt>; uma mudança maior de
+versão ganharia campos e tabelas novos. A convenção é a mesma do
+<tt class="docutils literal">nfe40_</tt> e do <tt class="docutils literal">cte40_</tt>.</p>
+</div>
+<div class="section" id="geracao-do-codigo">
+<h2>Geração do código</h2>
+<p>100% dos modelos deste módulo são gerados pelo
+<a class="reference external" href="https://github.com/akretion/xsdata-odoo">xsdata-odoo</a> a partir dos
+XSD oficiais, que ficam versionados na
+<a class="reference external" href="https://github.com/akretion/nfelib">nfelib</a> junto com os bindings de
+serialização. Para regerar:</p>
+<pre class="code bash literal-block">
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/akretion/nfelib<span class="w">
+</span><span class="nb">cd</span><span class="w"> </span>nfelib<span class="w">
+</span><span class="nb">export</span><span class="w"> </span><span class="nv">XSDATA_SCHEMA</span><span class="o">=</span>reinf<span class="w">
+</span><span class="nb">export</span><span class="w"> </span><span class="nv">XSDATA_VERSION</span><span class="o">=</span><span class="m">21</span><span class="w">
+</span><span class="nb">export</span><span class="w"> </span><span class="nv">XSDATA_LANG</span><span class="o">=</span><span class="s2">&quot;portuguese&quot;</span><span class="w">
+
+</span>xsdata<span class="w"> </span>generate<span class="w"> </span>nfelib/reinf/schemas/v2_01_02<span class="w"> </span><span class="se">\
+</span><span class="w">  </span>--package<span class="w"> </span>nfelib.reinf.odoo.v2_01_02<span class="w"> </span><span class="se">\
+</span><span class="w">  </span>--output<span class="o">=</span>odoo<span class="w">
+
+</span>cp<span class="w"> </span>nfelib/reinf/odoo/v2_01_02/*.py<span class="w"> </span><span class="se">\
+</span><span class="w">  </span>&lt;caminho_do_odoo&gt;/l10n_br_reinf_spec/models/v2_01_02/
+</pre>
+<p>Os arquivos das famílias de esquema do envelope e da consulta de recibos
+são descartados nessa cópia (ver <tt class="docutils literal">readme/ROADMAP.md</tt>), e o
+<tt class="docutils literal">models/v2_01_02/__init__.py</tt> é mantido à mão.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">This is an alpha version, the data model and design can change at any time without warning.
+Only for development or testing purpose, do not use in production.
+<a class="reference external" href="https://odoo-community.org/page/development-status">More details on development status</a></p>
+</div>
+<p><strong>Table of contents</strong></p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#known-issues-roadmap" id="toc-entry-1">Known issues / Roadmap</a></li>
+<li><a class="reference internal" href="#bug-tracker" id="toc-entry-2">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-3">Credits</a></li>
+</ul>
+</div>
+<div class="section" id="known-issues-roadmap">
+<h3><a class="toc-backref" href="#toc-entry-1">Known issues / Roadmap</a></h3>
+<ul class="simple">
+<li>As famílias de esquema do <strong>envelope do lote assíncrono</strong>
+(<tt class="docutils literal"><span class="pre">envioLoteEventosAssincrono-v1_00_00</span></tt>,
+<tt class="docutils literal"><span class="pre">retornoLoteEventosAssincrono-v1_00_00</span></tt>) e da <strong>consulta de
+recibos</strong> (<tt class="docutils literal"><span class="pre">retornoRecibosChaveEvento-v1_05_01</span></tt>) não têm mixins
+aqui. Elas têm versão própria (1.00.00 e 1.05.01), e gerá-las com o
+mesmo prefixo <tt class="docutils literal">reinf21_</tt> faria os tipos <tt class="docutils literal">Reinf</tt>, <tt class="docutils literal">TStatus</tt> e
+<tt class="docutils literal">TArquivoReinf</tt> colidirem com conteúdos diferentes no mesmo nome de
+modelo Odoo. Enquanto essas famílias não forem geradas com prefixo
+próprio, o envelope do lote e a consulta de recibos são montados
+diretamente com os bindings da <tt class="docutils literal">nfelib</tt>, no <tt class="docutils literal">l10n_br_reinf</tt>, sem
+persistência no ORM (o lote guarda apenas protocolo e recibo).</li>
+<li>O modelo raiz <tt class="docutils literal">reinf.21.reinf</tt> é a união dos 23 arquivos de evento:
+cada um declara a raiz <tt class="docutils literal">Reinf</tt> com o seu próprio filho
+(<tt class="docutils literal">reinf21_evtInfoContri</tt>, <tt class="docutils literal">reinf21_evtRetPJ</tt> e assim por diante) e
+o Odoo funde as declarações em um único modelo abstrato. Como nenhum
+campo aponta para essa raiz, ela nunca é materializada em tabela, e a
+serialização do envelope <tt class="docutils literal">&lt;Reinf&gt;</tt> é feita pelo binding. Se um dia a
+raiz precisar virar modelo concreto, ela terá de ser gerada por
+evento.</li>
+<li>Duas linhas de <tt class="docutils literal">_binding_type</tt> do R-4010 e do R-4020 (o grupo
+<tt class="docutils literal">ideAdv</tt>, com o caminho
+<tt class="docutils literal">Reinf.EvtRetPx.IdeEstab.IdeBenef.IdePgto.InfoPgto.InfoProcJud.DespProcJud.IdeAdv</tt>)
+foram quebradas à mão em concatenação implícita para caber nas 88
+colunas do <tt class="docutils literal">ruff</tt>. É a única edição manual sobre o código gerado, e
+ela volta a ser necessária a cada regeração: o correto é o
+<tt class="docutils literal"><span class="pre">xsdata-odoo</span></tt> quebrar strings longas, e a correção pertence ao
+gerador.</li>
+<li>Não há mixins de eventos da série R-2000 anteriores ao leiaute 2.1.2
+nem compatibilidade com o leiaute 1.5.x: a recepção do leiaute antigo
+foi desativada junto com o web service síncrono.</li>
+</ul>
+</div>
+<div class="section" id="bug-tracker">
+<h3><a class="toc-backref" href="#toc-entry-2">Bug Tracker</a></h3>
+<p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-brazil/issues">GitHub Issues</a>.
+In case of trouble, please check there if your issue has already been reported.
+If you spotted it first, help us to smash it by providing a detailed and welcomed
+<a class="reference external" href="https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_reinf_spec%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
+<p>Do not contact contributors directly about support or help with technical issues.</p>
+</div>
+<div class="section" id="credits">
+<h3><a class="toc-backref" href="#toc-entry-3">Credits</a></h3>
+</div>
+</div>
+<div class="section" id="authors">
+<h2>Authors</h2>
+<ul class="simple">
+<li>Akretion</li>
+<li>KMEE</li>
+</ul>
+</div>
+<div class="section" id="contributors">
+<h2>Contributors</h2>
+<ul class="simple">
+<li><a class="reference external" href="https://www.kmee.com.br">KMEE</a>:<ul>
+<li>Luis Felipe Mileo &lt;<a class="reference external" href="mailto:mileo&#64;kmee.com.br">mileo&#64;kmee.com.br</a>&gt;</li>
+</ul>
+</li>
+<li><a class="reference external" href="https://akretion.com/pt-BR">Akretion</a>:<ul>
+<li>Raphaël Valyi &lt;<a class="reference external" href="mailto:raphael.valyi&#64;akretion.com.br">raphael.valyi&#64;akretion.com.br</a>&gt;</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="maintainers">
+<h2>Maintainers</h2>
+<p>This module is maintained by the OCA.</p>
+<a class="reference external image-reference" href="https://odoo-community.org">
+<img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" />
+</a>
+<p>OCA, or the Odoo Community Association, is a nonprofit organization whose
+mission is to support the collaborative development of Odoo features and
+promote its widespread use.</p>
+<p>Current <a class="reference external" href="https://odoo-community.org/page/maintainer-role">maintainer</a>:</p>
+<p><a class="reference external image-reference" href="https://github.com/mileo"><img alt="mileo" src="https://github.com/mileo.png?size=40px" /></a></p>
+<p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_reinf_spec">OCA/l10n-brazil</a> project on GitHub.</p>
+<p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
+</div>
+</div>
+</div>
+</body>
+</html>
