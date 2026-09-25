@@ -440,7 +440,10 @@ paths only when production is published. Production (<tt class="docutils literal
 blocked while the URL still points at that restricted host. Token
 requests use HTTP Basic (<tt class="docutils literal">client_id</tt> / <tt class="docutils literal">client_secret</tt>) and
 <tt class="docutils literal">grant_type=client_credentials</tt>. Only managers can read those
-secrets. The access token is cached per company.</li>
+secrets. The access token is cached per company. Managers may enable
+<strong>Allow deleting accepted DeRE records</strong> while <tt class="docutils literal">tpAmb</tt> is 2 so
+implementation tests can wipe a month or table period. It does not
+void RFB receipts and is ignored in production (<tt class="docutils literal">tpAmb</tt> 1).</li>
 <li>Application version (<tt class="docutils literal">verAplic</tt>) sent in <tt class="docutils literal">ideEvento</tt>.</li>
 <li>An ICP-Brasil A1 certificate on the Fiscal tab (NFe or e-CNPJ).
 Generation does not need it; sending does.</li>
@@ -505,7 +508,11 @@ event and the lote, then posts one type per batch. <strong>Replace Tables</stron
 / <strong>Exclude Tables</strong> open the operation wizard (<tt class="docutils literal">tpOper</tt> 2/3).
 Replace updates the existing PGCC snapshot in place (for example a
 new <tt class="docutils literal">codTrib</tt>) so D-1101 / D-1106 lines keep their account link.
-Accounts still used by those events cannot be dropped.</li>
+Accounts still used by those events cannot be dropped. Draft or
+generated records can be deleted from the form. Sent or accepted ones
+stay until a manager enables <strong>Allow deleting accepted DeRE records</strong>
+on the company (<tt class="docutils literal">tpAmb</tt> 2 only) or uses Exclude (<tt class="docutils literal">tpOper</tt> 3) at
+the RFB.</li>
 <li>Sending does <strong>not</strong> consult immediately. Use <strong>Consult Results</strong> or
 wait for the cron (exponential backoff from 2 minutes up to 60) until
 the D-9001 receipt arrives. Then generate the trial balance (D-1101)

@@ -102,6 +102,18 @@ class ResCompany(models.Model):
         string="Receita Integra client secret",
         groups="l10n_br_dere.group_manager",
     )
+    dere_allow_force_delete = fields.Boolean(
+        string="Allow deleting accepted DeRE records",
+        groups="l10n_br_dere.group_manager",
+        help="Testing only. Managers may delete sent or accepted declarations "
+        "and table periods while the environment is restricted (tpAmb 2). "
+        "This does not void receipts at the RFB.",
+    )
+
+    def _dere_can_force_delete(self):
+        self.ensure_one()
+        company = self.sudo()
+        return bool(company.dere_allow_force_delete and company.dere_tp_amb == "2")
 
     def _dere_uses_restricted_gateway(self):
         self.ensure_one()

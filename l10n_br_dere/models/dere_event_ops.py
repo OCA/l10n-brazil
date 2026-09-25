@@ -22,6 +22,12 @@ class DereEventParentMixin(models.AbstractModel):
     _name = "l10n_br_dere.event.parent.mixin"
     _description = "DeRE event operation helpers"
 
+    def _dere_force_unlink_allowed(self):
+        self.ensure_one()
+        return self.env.context.get("dere_force_unlink") or (
+            bool(self.company_id) and self.company_id._dere_can_force_delete()
+        )
+
     def _event_records(self, event_type):
         self.ensure_one()
         return self.event_ids.filtered(lambda ev: ev.event_type == event_type)

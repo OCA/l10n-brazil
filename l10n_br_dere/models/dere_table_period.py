@@ -130,8 +130,11 @@ class DereTablePeriod(models.Model):
                 )
 
     def unlink(self):
-        locked = self.mapped("event_ids").filtered(
-            lambda ev: ev.state not in ("draft", "generated")
+        locked = self.filtered(
+            lambda rec: not rec._dere_force_unlink_allowed()
+            and rec.event_ids.filtered(
+                lambda ev: ev.state not in ("draft", "generated")
+            )
         )
         if locked:
             raise UserError(
@@ -142,7 +145,11 @@ class DereTablePeriod(models.Model):
             )
         # Reserve and trial lines keep a restrict FK on the PGCC snapshot.
         # Drop the monthly declarations first so the snapshot can go.
-        self.mapped("declaration_ids").unlink()
+        self.mapped("declaration_ids").with_context(dere_force_unlink=True).unlink()
+        self.mapped("pgcc_account_ids").with_context(
+            dere_force_declaration_write=True
+        ).unlink()
+        self.mapped("event_ids").with_context(dere_force_unlink=True).unlink()
         return super().unlink()
 
     @api.depends(

@@ -10,6 +10,10 @@
    (`tpOper` 2/3). Replace updates the existing PGCC snapshot in place
    (for example a new `codTrib`) so D-1101 / D-1106 lines keep their
    account link. Accounts still used by those events cannot be dropped.
+   Draft or generated records can be deleted from the form. Sent or
+   accepted ones stay until a manager enables **Allow deleting accepted
+   DeRE records** on the company (`tpAmb` 2 only) or uses Exclude
+   (`tpOper` 3) at the RFB.
 3. Sending does **not** consult immediately. Use **Consult Results** or wait
    for the cron (exponential backoff from 2 minutes up to 60) until the
    D-9001 receipt arrives. Then generate the trial balance (D-1101) from

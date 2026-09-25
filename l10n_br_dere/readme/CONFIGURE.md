@@ -15,6 +15,10 @@ On the company form, open the **DeRE** tab and set:
    restricted host. Token requests use HTTP Basic (`client_id` /
    `client_secret`) and `grant_type=client_credentials`. Only managers
    can read those secrets. The access token is cached per company.
+   Managers may enable **Allow deleting accepted DeRE records** while
+   `tpAmb` is 2 so implementation tests can wipe a month or table
+   period. It does not void RFB receipts and is ignored in production
+   (`tpAmb` 1).
 5. Application version (`verAplic`) sent in `ideEvento`.
 6. An ICP-Brasil A1 certificate on the Fiscal tab (NFe or e-CNPJ). Generation
    does not need it; sending does.

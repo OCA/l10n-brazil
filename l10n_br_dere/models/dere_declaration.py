@@ -239,8 +239,11 @@ class DereDeclaration(models.Model):
         return super().write(vals)
 
     def unlink(self):
-        locked = self.mapped("event_ids").filtered(
-            lambda ev: ev.state not in ("draft", "generated")
+        locked = self.filtered(
+            lambda rec: not rec._dere_force_unlink_allowed()
+            and rec.event_ids.filtered(
+                lambda ev: ev.state not in ("draft", "generated")
+            )
         )
         if locked:
             raise UserError(
@@ -258,6 +261,7 @@ class DereDeclaration(models.Model):
         self.mapped("deduction_line_ids").with_context(
             dere_force_declaration_write=True
         ).unlink()
+        self.mapped("event_ids").with_context(dere_force_unlink=True).unlink()
         return super().unlink()
 
     @api.depends("company_id", "per_apur")

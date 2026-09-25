@@ -460,3 +460,27 @@ class TestDereAuxiliaryEvents(DereCommon):
             period.unlink()
         self.assertTrue(declaration.exists())
         self.assertTrue(period.exists())
+
+    def test_force_delete_accepted_records_in_restricted_env(self):
+        self.company.dere_allow_force_delete = True
+        declaration = self._prepare_trial("2029-11")
+        self._accept_event(declaration, "D-1101")
+        period = declaration.table_period_id
+        declaration.unlink()
+        self.assertFalse(declaration.exists())
+        self.assertTrue(period.exists())
+        period.unlink()
+        self.assertFalse(period.exists())
+
+    def test_force_delete_ignored_on_production_tpamb(self):
+        declaration = self._prepare_trial("2029-12")
+        self._accept_event(declaration, "D-1101")
+        period = declaration.table_period_id
+        self.company.dere_allow_force_delete = True
+        self.company.dere_tp_amb = "1"
+        with self.assertRaises(UserError):
+            declaration.unlink()
+        with self.assertRaises(UserError):
+            period.unlink()
+        self.assertTrue(declaration.exists())
+        self.assertTrue(period.exists())

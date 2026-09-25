@@ -48,6 +48,10 @@
                             password="True"
                             groups="l10n_br_dere.group_manager"
                         />
+                        <field
+                            name="dere_allow_force_delete"
+                            groups="l10n_br_dere.group_manager"
+                        />
                     </group>
                 </page>
             </xpath>

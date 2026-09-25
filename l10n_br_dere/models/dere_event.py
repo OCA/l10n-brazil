@@ -132,7 +132,14 @@ class DereEvent(models.Model):
         return super().write(vals)
 
     def unlink(self):
-        if self.filtered(lambda ev: ev.state not in ("draft", "generated")):
+        locked = self.filtered(
+            lambda ev: ev.state not in ("draft", "generated")
+            and not (
+                ev.env.context.get("dere_force_unlink")
+                or (ev.company_id and ev.company_id._dere_can_force_delete())
+            )
+        )
+        if locked:
             raise UserError(_("Only draft or generated events can be deleted."))
         return super().unlink()
 
