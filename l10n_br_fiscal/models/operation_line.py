@@ -2,7 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 from ..constants.fiscal import (
     CFOP_DESTINATION_EXPORT,
@@ -40,6 +40,15 @@ class OperationLine(models.Model):
     name = fields.Char(required=True)
 
     document_type_id = fields.Many2one(comodel_name="l10n_br_fiscal.document.type")
+
+    require_product_on_tax_definition = fields.Boolean(
+        string="Require Product on Tax Definition",
+        help=(
+            "When enabled, every Tax Definition linked to this Operation "
+            "Line must have at least one Product before the line can be "
+            "approved."
+        ),
+    )
 
     tax_classification_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.classification",
@@ -439,6 +448,28 @@ class OperationLine(models.Model):
 
     def action_review(self):
         self.write({"state": "review"})
+
+    @api.constrains("state", "tax_definition_ids", "require_product_on_tax_definition")
+    def _check_tax_definition_products(self):
+        for line in self.filtered(
+            lambda line: line.state == "approved"
+            and line.require_product_on_tax_definition
+        ):
+            empty_tax_definitions = line.tax_definition_ids.filtered(
+                lambda tax_definition: not tax_definition.product_ids
+            )
+            if empty_tax_definitions:
+                raise ValidationError(
+                    self.env._(
+                        "Operation Line %(line)s requires every Tax "
+                        "Definition to have at least one Product. Missing "
+                        "on: %(tax_definitions)s",
+                        line=line.name,
+                        tax_definitions=", ".join(
+                            empty_tax_definitions.mapped("display_name")
+                        ),
+                    )
+                )
 
     def unlink(self):
         lines = self.filtered(lambda line: line.state == "approved")
