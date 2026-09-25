@@ -862,17 +862,40 @@ class DereDeclaration(models.Model):
             self.state = "trial_ok"
         return event
 
-    def _previous_declaration(self):
+    def _previous_period(self):
         self.ensure_one()
-        return self.search(
+        if not self.per_apur or "-" not in self.per_apur:
+            return False
+        year, month = map(int, self.per_apur.split("-"))
+        if month == 1:
+            return f"{year - 1}-12"
+        return f"{year}-{month - 1:02d}"
+
+    def _previous_declaration(self):
+        """Return the immediately previous month when its D-1101 is accepted.
+
+        CONFERIR_SALDO_INICIAL needs that month's vSaldoFinal. A draft or
+        skipped period must not seed the opening; the general ledger is used
+        instead.
+        """
+        self.ensure_one()
+        previous_period = self._previous_period()
+        if not previous_period:
+            return self.browse()
+        previous = self.search(
             [
                 ("company_id", "=", self.company_id.id),
-                ("per_apur", "<", self.per_apur),
+                ("per_apur", "=", previous_period),
                 ("id", "!=", self.id),
             ],
-            order="per_apur desc, id desc",
             limit=1,
         )
+        if not previous:
+            return self.browse()
+        trial = previous._latest_event(EVENT_D1101)
+        if trial and trial.state == "accepted":
+            return previous
+        return self.browse()
 
     def _reserve_opening(self, asset, prev_by_id, opening, one_to_one):
         prev = prev_by_id.get(asset.id_ativo)

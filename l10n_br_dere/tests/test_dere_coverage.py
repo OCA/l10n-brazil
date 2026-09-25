@@ -254,7 +254,7 @@ class TestDereCoverage(DereCommon):
                 "account_id": self.equity_account.id,
             }
         )
-        first = self._prepare_trial("2025-06")
+        first = self._prepare_trial("2029-06")
         first.action_generate_d1106()
         first.action_generate_d1106()
         first.reserve_line_ids.write(
@@ -264,10 +264,30 @@ class TestDereCoverage(DereCommon):
                 "dere12_vPrincLiqResg": 0.0,
             }
         )
-        self.assertEqual(first.reserve_line_ids.dere12_vSaldoFinal, 210.0)
-        second = self._prepare_trial("2025-07")
+        first_line = first.reserve_line_ids.filtered(
+            lambda line: line.dere12_idAtivo == "CDBPREV01"
+        )
+        self.assertEqual(first_line.dere12_vSaldoFinal, 210.0)
+        self._accept_event(first, "D-1101")
+        second = self._prepare_trial("2029-07")
         second.action_generate_d1106()
-        self.assertEqual(second.reserve_line_ids.dere12_vSaldoInic, 210.0)
+        second_line = second.reserve_line_ids.filtered(
+            lambda line: line.dere12_idAtivo == "CDBPREV01"
+        )
+        self.assertEqual(second_line.dere12_vSaldoInic, 210.0)
+
+    def test_previous_declaration_needs_adjacent_accepted_trial(self):
+        older = self._prepare_trial("2029-10")
+        self._accept_event(older, "D-1101")
+        current = self._create_declaration("2029-12")
+        self.assertFalse(current._previous_declaration())
+        adjacent = self._prepare_trial("2029-11")
+        self.assertFalse(current._previous_declaration())
+        self._accept_event(adjacent, "D-1101")
+        self.assertEqual(current._previous_declaration(), adjacent)
+        self.assertEqual(current._previous_period(), "2029-11")
+        january = self._create_declaration("2030-01")
+        self.assertEqual(january._previous_period(), "2029-12")
 
     def test_d1106_rejects_unmapped_asset_and_negative_totals(self):
         self.company.dere_subject_d1106 = True
