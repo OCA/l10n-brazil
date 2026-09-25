@@ -236,6 +236,22 @@ class StockMove(models.Model):
         values.update(super()._prepare_move_split_vals(uom_qty))
         return values
 
+    def _prepare_procurement_values(self):
+        values = {}
+        if self.fiscal_operation_id:
+            # Caso Brasil se caracteriza por ter Operação Fiscal: os dados
+            # fiscais precisam chegar no Move criado pela Regra, que copia
+            # para o novo Move os campos devolvidos por
+            # stock.rule._get_custom_move_fields
+            values = self._prepare_br_fiscal_dict()
+            # Nos `values` do procurement o `company_id` é esperado como
+            # recordset pelo core (`values['company_id'].ids` no
+            # stock.rule._get_rule_domain) e o
+            # _prepare_br_fiscal_dict devolve o id: substitui pelo recordset
+            values["company_id"] = self.company_id
+        values.update(super()._prepare_procurement_values())
+        return values
+
     def _get_price_unit_invoice(self, inv_type, partner, qty=1):
         result = super()._get_price_unit_invoice(inv_type, partner, qty)
         if not self.fiscal_operation_id:
