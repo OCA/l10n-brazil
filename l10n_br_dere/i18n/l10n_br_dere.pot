@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-25 15:09+0000\n"
-"PO-Revision-Date: 2026-09-25 15:09+0000\n"
+"POT-Creation-Date: 2026-09-25 17:47+0000\n"
+"PO-Revision-Date: 2026-09-25 17:47+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -204,16 +204,17 @@ msgid "Activity type"
 msgstr ""
 
 #. module: l10n_br_dere
-#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120110006
-msgid "Administration fees received"
-msgstr ""
-
-#. module: l10n_br_dere
 #. odoo-python
 #: code:addons/l10n_br_dere/models/dere_event_ops.py:0
 msgid ""
 "After the first accepted D-1199, D-1121 only admits rectification (tpOper "
 "4)."
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311011110
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311072107
+msgid "Ajuste para recomposição da receita (custos e despesas TJEO)"
 msgstr ""
 
 #. module: l10n_br_dere
@@ -226,11 +227,6 @@ msgstr ""
 msgid ""
 "Alphanumeric internal code without dots or dashes. Defaults to the group "
 "prefix."
-msgstr ""
-
-#. module: l10n_br_dere
-#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120110007
-msgid "Amounts received from other sector entities"
 msgstr ""
 
 #. module: l10n_br_dere
@@ -281,13 +277,38 @@ msgid "Annual"
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120130001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120230001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120330001
+msgid "Aplicações financeiras sobre reservas técnicas"
+msgstr ""
+
+#. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__ver_aplic
 msgid "Application version"
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111290001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120420001
+msgid "Aquisições de bens e serviços"
+msgstr ""
+
+#. module: l10n_br_dere
 #: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_reserve_asset_form
 msgid "Archived"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111310001
+msgid ""
+"Arrecadação com os títulos de capitalização com identificação do subscritor"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111310002
+msgid ""
+"Arrecadação com os títulos de capitalização sem identificação do subscritor"
 msgstr ""
 
 #. module: l10n_br_dere
@@ -344,6 +365,11 @@ msgid "Asset id"
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111112701
+msgid "Ativos garantidores vinculados a provisões técnicas"
+msgstr ""
+
+#. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__message_attachment_count
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__message_attachment_count
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_table_period__message_attachment_count
@@ -358,6 +384,13 @@ msgstr ""
 #. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_natCta
 msgid "Balance nature"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_119915001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_129915001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_139915001
+msgid "Base de cálculo negativa do IBS/CBS"
 msgstr ""
 
 #. module: l10n_br_dere
@@ -390,6 +423,13 @@ msgid "Benefit administrators"
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110812113
+msgid ""
+"Bens e serviços fornecidos pelos instituidores aos demais participantes do "
+"arranjo"
+msgstr ""
+
+#. module: l10n_br_dere
 #: model:ir.model.fields.selection,name:l10n_br_dere.selection__res_company__dere_freq_encerr__b
 msgid "Bimonthly"
 msgstr ""
@@ -408,12 +448,12 @@ msgstr ""
 
 #. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_tax_assessment_line__dere12_vBCApurCBS
-#: model_terms:ir.ui.view,arch_db:l10n_br_dere.report_dere_rfb_assessment
 msgid "CBS assessed base"
 msgstr ""
 
 #. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_tax_assessment_line__dere12_vBCCBS
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.report_dere_rfb_assessment
 msgid "CBS base"
 msgstr ""
 
@@ -444,7 +484,6 @@ msgstr ""
 
 #. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_tax_assessment_line__dere12_memoriaCalculo
-#: model_terms:ir.ui.view,arch_db:l10n_br_dere.report_dere_rfb_assessment
 msgid "Calculation memory"
 msgstr ""
 
@@ -653,7 +692,22 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_activity__code
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event_occurrence__codigo
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_tax_code__code
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.report_dere_rfb_assessment
 msgid "Code"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311141101
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311142101
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311143101
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311144101
+msgid "Comissões auferidas com a intermediação"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120510001
+msgid ""
+"Comissões recebidas pela administração dos Planos de Assistência à Saúde"
 msgstr ""
 
 #. module: l10n_br_dere
@@ -667,6 +721,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_deduction_item__company_id
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_deduction_line__company_id
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__company_id
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event_occurrence__company_id
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event_total__company_id
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__company_id
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_reserve_asset__company_id
@@ -735,6 +790,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_table_period_form
 msgid "Consult Results"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_220410001
+msgid "Contraprestações recebidas relativas a planos de saúde de autogestão"
 msgstr ""
 
 #. module: l10n_br_dere
@@ -810,6 +870,11 @@ msgid "Credit, FX, securities, securitization and factoring"
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411998003
+msgid "Crédito baixado como prejuízo"
+msgstr ""
+
+#. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_deduction_item__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_deduction_line__brl_currency_id
@@ -818,6 +883,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_tax_assessment_line__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_trial_line__brl_currency_id
 msgid "Currency"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110821611
+msgid "Curva de juros futuros da taxa DI - Mercado interno"
 msgstr ""
 
 #. module: l10n_br_dere
@@ -1018,6 +1088,7 @@ msgstr ""
 #. module: l10n_br_dere
 #: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_deduction_line__dere12_tpDFe__01
 #: model:ir.module.category,name:l10n_br_dere.module_category_l10n_br_dere
+#: model:ir.ui.menu,name:l10n_br_dere.menu_dere_config
 #: model:ir.ui.menu,name:l10n_br_dere.menu_dere_root
 #: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_account_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_account_group_form
@@ -1425,9 +1496,281 @@ msgid "Deductions"
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110811112
+msgid "Demais bens e serviços fornecidos ao credenciado ou destinatário"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111125003
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111350004
+msgid "Demais rendimentos de aplicações financeiras"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311012102
+msgid "Demais tarifas e comissões não acessórias"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311011108
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311072106
+msgid "Desconto condicional concedido"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311011805
+msgid "Desconto incondicional"
+msgstr ""
+
+#. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event_occurrence__descricao
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_descCta
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_tax_code__description
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.report_dere_rfb_assessment
 msgid "Description"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_220420001
+msgid ""
+"Desembolsos com planos de saúde de autogestão, não vinculados a documentos "
+"fiscais"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_220420002
+msgid ""
+"Desembolsos com planos de saúde de autogestão, vinculados a documentos "
+"fiscais"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411998006
+msgid ""
+"Despesa com correspondente bancário não vinculada a serviços de crédito, "
+"câmbio e TVM"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411011105
+msgid ""
+"Despesa com correspondente bancário vinculada aos serviços de crédito, "
+"câmbio e TVM"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411998001
+msgid ""
+"Despesa de captação de cooperativas com recursos próprios, de cooperados ou "
+"recursos públicos"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110411801
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411011201
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411021121
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411041211
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411072201
+msgid "Despesa de captação de recursos"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411998005
+msgid "Despesa já deduzida anteriormente"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411998004
+msgid "Despesas administrativas"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411012101
+msgid "Despesas com assessor de investimento e consultor TVM"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411011106
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411072103
+msgid "Despesas com derivativos contratados"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111111801
+msgid ""
+"Despesas com indenizações pagas a segurados contribuintes do regime regular "
+"do IBS/CBS"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411051101
+msgid ""
+"Despesas com intermediação de consórcio, individualizável a cada cota de "
+"consórcio"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_431710099
+msgid "Despesas com outras premiações pagas"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_431710008
+msgid ""
+"Despesas com premiações devidas aos proprietários, criadores e profissionais"
+" do turfe, relacionados com os animais classificados em cada páreo, de que "
+"trata o art. 12 da Lei nº 7.291, de 19 de dezembro de 1984"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_431800001
+msgid "Despesas com premiações incorridas e não pagas"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_431710002
+msgid "Despesas com premiações pagas em apostas de turfe"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_431710001
+msgid "Despesas com premiações pagas em apostas esportivas"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_431710009
+msgid ""
+"Despesas com premiações pagas em decorrência de valores classificados como "
+"operações de exportação"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_431710005
+msgid "Despesas com premiações pagas em fantasy sport"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_431710004
+msgid "Despesas com premiações pagas em jogos online (iGaming)"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_431710003
+msgid "Despesas com premiações pagas em modalidades lotéricas"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_431710007
+msgid "Despesas com premiações pagas em outras modalidades de apostas"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_431710006
+msgid "Despesas com premiações pagas em sweepstakes"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110324611
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411031211
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411031411
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411032411
+msgid "Despesas de arrendamento comprovadas com documentos fiscais"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110324612
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411031212
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411031412
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411032412
+msgid "Despesas de arrendamento comprovadas com registro contábil"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110323801
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411032181
+msgid ""
+"Despesas de arrendamento em operações realizadas com contribuintes do "
+"IBS/CBS"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411011101
+msgid "Despesas de câmbio"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110211611
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411021111
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411021211
+msgid "Despesas de securitização"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411011102
+msgid "Despesas financeiras resultantes de perdas em operações com TVM"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_421018001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_421028001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_421038001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_421048001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_421058001
+msgid "Despesas gerais"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411022171
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411022271
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411037001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411047001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411057001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411081171
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411081271
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411081371
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411082171
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411082271
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411082371
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411083171
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411083271
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411113701
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411121701
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411137001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_421017001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_421027001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_421037001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_421057001
+msgid "Despesas reconhecidas por competência e dedutíveis por caixa"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111270002
+msgid ""
+"Despesas vinculadas às operações da entidade de previdência complementar "
+"fechada, acobertadas por documentos fiscais idôneos"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111270001
+msgid ""
+"Despesas vinculadas às operações da entidade de previdência complementar "
+"fechada, não vinculadas a documentos fiscais"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_230161002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_431300002
+msgid ""
+"Destinações obrigatórias por lei a órgão ou fundo público e aos demais "
+"beneficiários comprovadas com documentos fiscais"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_230161001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_431300001
+msgid ""
+"Destinações obrigatórias por lei a órgão ou fundo público e aos demais "
+"beneficiários comprovadas somente com registro contábil"
 msgstr ""
 
 #. module: l10n_br_dere
@@ -1525,6 +1868,17 @@ msgid "Effective validity end"
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111121002
+msgid "Encargo do fundo decorrente de estruturação e manutenção"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411011103
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411072101
+msgid "Encargos financeiros ainda que registrados no patrimônio líquido"
+msgstr ""
+
+#. module: l10n_br_dere
 #: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_table_period__fim_valid_efetiva
 msgid ""
 "End date applied by the RFB (D-9001) when a later validity of the same table"
@@ -1549,6 +1903,12 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__cd_retorno__0
 #: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event_occurrence__tipo__1
 msgid "Error"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311011106
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311072103
+msgid "Estorno de encargos financeiros registrados no patrimônio líquido"
 msgstr ""
 
 #. module: l10n_br_dere
@@ -1608,6 +1968,12 @@ msgid "Every transmitted batch was already processed."
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311011107
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311072104
+msgid "Excesso de rendimento em função de avaliação a valor justo"
+msgstr ""
+
+#. module: l10n_br_dere
 #: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
 msgid "Exclude D-1106"
 msgstr ""
@@ -1660,6 +2026,51 @@ msgid "Expense"
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110211501
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110221501
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110222501
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110312501
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110314501
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110322501
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110324501
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110412501
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110421501
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110422501
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110550001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110811151
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110811251
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110811351
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110812151
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110812251
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110812351
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110821501
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110822501
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111112501
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111125001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111350001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120150001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120250001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120350001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120550001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311011801
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311012801
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311021181
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311061801
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311062801
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311072801
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311098001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311108001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311141801
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311142801
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311143801
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311144801
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311158001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311168001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_312180001
+msgid "Exportação de serviços"
+msgstr ""
+
+#. module: l10n_br_dere
 #: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_05a
 msgid "Factoring"
 msgstr ""
@@ -1667,6 +2078,16 @@ msgstr ""
 #. module: l10n_br_dere
 #: model:l10n_br_dere.activity,name:l10n_br_dere.activity_41_01e
 msgid "Fantasy sport"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110221102
+msgid "Faturização - Desconto aplicado - Contratos em moeda estrangeira"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110221101
+msgid "Faturização - Desconto aplicado - Contratos em moeda nacional"
 msgstr ""
 
 #. module: l10n_br_dere
@@ -1869,18 +2290,19 @@ msgid "Health-plan operator cooperatives"
 msgstr ""
 
 #. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.report_dere_rfb_assessment
 #: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
 msgid "IBS"
 msgstr ""
 
 #. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_tax_assessment_line__dere12_vBCApurIBS
-#: model_terms:ir.ui.view,arch_db:l10n_br_dere.report_dere_rfb_assessment
 msgid "IBS assessed base"
 msgstr ""
 
 #. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_tax_assessment_line__dere12_vBCIBS
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.report_dere_rfb_assessment
 msgid "IBS base"
 msgstr ""
 
@@ -1956,6 +2378,56 @@ msgid "ISS indicator"
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411011602
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411012602
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411031162
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411031262
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411031362
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411031462
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411032162
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411032262
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411032362
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411032462
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411041162
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411041262
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411042162
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411042262
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411056002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411061602
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411062602
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411071602
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411072602
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411081162
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411081262
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411081362
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411082162
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411082262
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411082362
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411083162
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411083262
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411096002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411106002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411111162
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411111262
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411112602
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411121602
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411136002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411141602
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411142602
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411143602
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411144602
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411156002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411166002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_412160002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_421016002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_421026002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_421036002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_421056002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_431600002
+msgid "ISSQN incidente sobre a operação"
+msgstr ""
+
+#. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__activity_exception_icon
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__activity_exception_icon
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_table_period__activity_exception_icon
@@ -2018,6 +2490,34 @@ msgstr ""
 #. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_reserve_line__dere12_vRendLiqResg
 msgid "Income on redemption"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120161002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120261002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120361002
+msgid "Indenizações pagas a terceiros correspondentes a eventos ocorridos"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120161003
+msgid "Indenizações pagas ao SUS por assistência aos seus conveniados"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120161001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120261001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120361001
+msgid ""
+"Indenizações pagas ao beneficiário do plano ou seguro saúde correspondentes "
+"a eventos ocorridos"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111112611
+msgid ""
+"Indenizações pagas diretamente a segurados não contribuintes do regime "
+"regular do IBS/CBS"
 msgstr ""
 
 #. module: l10n_br_dere
@@ -2228,6 +2728,11 @@ msgstr ""
 msgid ""
 "Mark analytic accounts that hold technical-reserve investments reported on "
 "D-1106."
+msgstr ""
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.report_dere_rfb_assessment
+msgid "Memory"
 msgstr ""
 
 #. module: l10n_br_dere
@@ -2659,6 +3164,12 @@ msgid "Official event id"
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_account_account__l10n_br_dere_cod_trib_description
+#: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_tax_code__description
+msgid "Official table 11 text that explains what to classify under this code."
+msgstr ""
+
+#. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_codTrib
 msgid "Official taxation code"
 msgstr ""
@@ -2738,6 +3249,22 @@ msgid "Operation type"
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311011103
+msgid "Operações com aquisição, negociação e liquidação de TVM"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311011101
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311072101
+msgid "Operações de crédito"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311011102
+msgid "Operações de câmbio"
+msgstr ""
+
+#. module: l10n_br_dere
 #: model:ir.model.fields,help:l10n_br_dere.field_account_account__l10n_br_dere_reserve_income_account_id
 msgid ""
 "Optional income account whose period credits fill D-1106 vRendPerReceb when "
@@ -2771,6 +3298,158 @@ msgid "Other taxation regimes"
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_119915099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_129915099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_139915099
+msgid "Outras contas do ativo circulante"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_119925099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_129925099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_139925099
+msgid "Outras contas do ativo não circulante"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_219910099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_229910099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_239910099
+msgid "Outras contas do passivo circulante"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_219920099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_229920099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_239920099
+msgid "Outras contas do passivo não circulante"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_219930099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_229930099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_239930099
+msgid "Outras contas do patrimônio líquido"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411011899
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411012899
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411021189
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411021289
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411022189
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411022289
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411032289
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411038099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411048099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411058099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411061899
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411062899
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411071899
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411072899
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411073899
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411081189
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411081289
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411081389
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411082189
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411082289
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411082389
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411083189
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411083289
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411098099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411108099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411113899
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411121899
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411122899
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411138099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411141899
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411142899
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411143899
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411144899
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411158099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411168099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411998099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_412180099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_419800099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_422180099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_429800099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_431800099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_432180099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_439180099
+msgid "Outras despesas não dedutíveis"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111112612
+msgid ""
+"Outras indenizações por meio do pagamento de bens ou serviços a segurados "
+"não contribuintes do regime regular do IBS/CBS"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_130161099
+msgid "Outras premiações pagas"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_312200099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_319100099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_322100099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_329100099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_332100099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_339100099
+msgid "Outras receitas amparadas por documentos fiscais"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_331100099
+msgid "Outras receitas decorrentes da atividade de concursos de prognósticos"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311988099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_331800099
+msgid "Outras receitas não tributáveis"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_130110099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_230110099
+msgid "Outros valores decorrentes da atividade de concursos de prognósticos"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111127099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_130180099
+msgid "Outros valores não dedutíveis"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_130150099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_230150099
+msgid "Outros valores não tributáveis"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120161099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120261099
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120361099
+msgid "Outros valores pagos às demais entidades"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110811319
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120410099
+msgid "Outros valores recebidos"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110811219
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110812219
+msgid "Outros valores recebidos relacionados a arranjos de pagamento"
+msgstr ""
+
+#. module: l10n_br_dere
 #: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_fiscal_operation__l10n_br_dere_tp_ativ
 msgid "Overrides the company default when loading D-1121 deductions."
 msgstr ""
@@ -2793,8 +3472,83 @@ msgid "PGCC receipt used"
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411011601
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411012601
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411021161
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411021261
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411022161
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411022261
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411031161
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411031261
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411031361
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411031461
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411032161
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411032261
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411032361
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411032461
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411041161
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411041261
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411042161
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411042261
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411056001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411061601
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411062601
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411071601
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411072601
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411081161
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411081261
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411081361
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411082161
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411082261
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411082361
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411083161
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411083261
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411096001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411106001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411111161
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411111261
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411112601
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411121601
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411136001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411141601
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411142601
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411143601
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411144601
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411156001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411166001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_412160001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_421016001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_421026001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_421036001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_421056001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_431600001
+msgid "PIS/Cofins incidente sobre a operação"
+msgstr ""
+
+#. module: l10n_br_dere
 #: model:ir.model.fields.selection,name:l10n_br_dere.selection__res_company__dere_plano_cta_ref__5
 msgid "PREVIC"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111361001
+msgid ""
+"Parcela das contribuições para constituição de provisões ou reservas "
+"técnicas, inclusive sorteios a pagar"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111126101
+msgid ""
+"Parcela dos prêmios para constituição de provisões ou reservas técnicas"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111111624
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111112616
+msgid ""
+"Parcela dos prêmios usada para provisões ou reservas técnicas referentes a "
+"seguro resgatável"
 msgstr ""
 
 #. module: l10n_br_dere
@@ -2860,6 +3614,26 @@ msgid "Pension"
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411011104
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411072102
+msgid "Perdas incorridas nas operações de crédito"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110821612
+msgid ""
+"Perdas incorridas no recebimento de créditos, concessão de descontos - "
+"Mercado interno"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110221611
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411021112
+msgid ""
+"Perdas incorridas nos recebimentos de créditos e na concessão de descontos"
+msgstr ""
+
+#. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_reserve_line__dere12_vRendPerReceb
 msgid "Period income received"
 msgstr ""
@@ -2876,28 +3650,46 @@ msgid "Pgcc Account"
 msgstr ""
 
 #. module: l10n_br_dere
-#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120110004
-msgid "Premiums received - assumed co-responsibility"
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_130161008
+msgid ""
+"Premiações devidas aos proprietários, criadores e profissionais do turfe, "
+"relacionados com os animais classificados em cada páreo, de que trata o art."
+" 12 da Lei nº 7.291, de 19 de dezembro de 1984"
 msgstr ""
 
 #. module: l10n_br_dere
-#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120110003
-msgid "Premiums received - collective plans with stipulators"
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_130161002
+msgid "Premiações pagas em apostas de turfe"
 msgstr ""
 
 #. module: l10n_br_dere
-#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120110002
-msgid "Premiums received - collective plans without stipulators"
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_130161001
+msgid "Premiações pagas em apostas esportivas"
 msgstr ""
 
 #. module: l10n_br_dere
-#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120110005
-msgid "Premiums received - contracts without per-holder amount"
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_130161005
+msgid "Premiações pagas em fantasy sport"
 msgstr ""
 
 #. module: l10n_br_dere
-#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120110001
-msgid "Premiums received - individual plans"
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_130161004
+msgid "Premiações pagas em jogos online (iGaming)"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_130161003
+msgid "Premiações pagas em modalidades lotéricas"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_130161007
+msgid "Premiações pagas em outras modalidades de apostas"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_130161006
+msgid "Premiações pagas em sweepstakes"
 msgstr ""
 
 #. module: l10n_br_dere
@@ -2962,8 +3754,93 @@ msgid "Production"
 msgstr ""
 
 #. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/res_company.py:0
+msgid ""
+"Production (tpAmb 1) cannot use the restricted Receita Integra gateway. Set "
+"a production API URL when it is published."
+msgstr ""
+
+#. module: l10n_br_dere
 #: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_11a
 msgid "Property and personal insurance without survival cover"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411998002
+msgid "Provisão para perdas"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_220110001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_220210001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_220310001
+msgid "Provisões técnicas lastreadas em ativo garantidor"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_220110002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_220210002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_220310002
+msgid "Provisões técnicas não lastreadas em ativo garantidor"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111111101
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111112101
+msgid "Prêmios de seguros, cosseguros, resseguros e retrocessão recebidos"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120410001
+msgid "Prêmios ou contraprestações recebidas - Contratos individuais"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120110005
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120210005
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120310005
+msgid ""
+"Prêmios ou contraprestações recebidas - Contratos sem individualização do "
+"valor por titular"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120110004
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120210004
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120310004
+msgid "Prêmios ou contraprestações recebidas - Corresponsabilidade assumida"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120110003
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120210003
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120310003
+msgid ""
+"Prêmios ou contraprestações recebidas - Seguros ou planos coletivos com "
+"estipulantes"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120110002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120210002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120310002
+msgid ""
+"Prêmios ou contraprestações recebidas - Seguros ou planos coletivos sem "
+"estipulantes"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120110001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120210001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120310001
+msgid "Prêmios ou contraprestações recebidas - Seguros ou planos individuais"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111121001
+msgid ""
+"Prêmios recebidos de seguros de pessoas com cobertura por sobrevivência"
 msgstr ""
 
 #. module: l10n_br_dere
@@ -3052,6 +3929,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110811113
+msgid "Recebimento por locação de terminais eletrônicos e software"
+msgstr ""
+
+#. module: l10n_br_dere
 #: model_terms:ir.ui.view,arch_db:l10n_br_dere.report_dere_rfb_assessment
 #: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
 msgid "Receipts used by the closing"
@@ -3085,8 +3967,7 @@ msgstr ""
 
 #. module: l10n_br_dere
 #. odoo-python
-#: code:addons/l10n_br_dere/models/dere_declaration.py:0
-#: code:addons/l10n_br_dere/models/dere_table_period.py:0
+#: code:addons/l10n_br_dere/models/dere_event_ops.py:0
 msgid "Receita Integra rejected the batch: %s"
 msgstr ""
 
@@ -3099,6 +3980,217 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_dere/models/receita_integra.py:0
 msgid "Receita Integra token error %(code)s: %(body)s"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311151001
+msgid "Receita com serviços remunerados por tarifa ou comissão"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311011109
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311151002
+msgid "Receita oriunda do exterior (não considerada exportação)"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311098003
+msgid "Receita reconhecida para fins contábeis"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_331200001
+msgid ""
+"Receita tributada no momento da realização da aposta, registrada em contas "
+"do ativo"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_331200002
+msgid ""
+"Receita tributada no momento da realização da aposta, registrada em contas "
+"do passivo"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_319100001
+msgid ""
+"Receitas com alienação de bens imóveis que tenham sido objeto de garantia"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_319100002
+msgid "Receitas com alienação de outros bens imóveis"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311011111
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311072105
+msgid "Receitas com derivativos contratados"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111250001
+msgid "Receitas com operações de previdência complementar fechada"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311161001
+msgid "Receitas com operações de proteção patrimonial mutualista"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311011802
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311012802
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311061802
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311062802
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311072802
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311098002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311141802
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311142802
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311143802
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311144802
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311158002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311168002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_312180002
+msgid ""
+"Receitas com operações sujeitas a alíquota zero do regime de cooperativas"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111310003
+msgid "Receitas com prescrição e penalidades"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311011104
+msgid "Receitas com títulos de dívida - Sem oferta pública"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_331100002
+msgid "Receitas de apostas de turfe"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_331100001
+msgid "Receitas de apostas esportivas"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_339100002
+msgid "Receitas decorrentes da conta de reserva técnica"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_331800001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_339100001
+msgid "Receitas decorrentes de operações de exportação"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_331100008
+msgid "Receitas decorrentes de recompensas ou vantagens oferecidas"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111350003
+msgid ""
+"Receitas financeiras sobre ativos garantidores de reservas técnicas, "
+"limitadas ao montante das provisões"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111121004
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111310005
+msgid ""
+"Receitas financeiras sobre o excedente de ativos garantidores de reservas "
+"técnicas"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311022701
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311037001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311047001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311057001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311087001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311117001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311127001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311137001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_321017001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_321027001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_321037001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_321047001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_321057001
+msgid "Receitas reconhecidas por competência e tributadas por caixa"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_331100005
+msgid "Receitas relativas a fantasy sport"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_331100004
+msgid "Receitas relativas a jogos online (iGaming)"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_331100003
+msgid "Receitas relativas a modalidades lotéricas"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_331100007
+msgid "Receitas relativas a outras modalidades de apostas"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_331100006
+msgid "Receitas relativas a sweepstakes"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311011602
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311012602
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311061602
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311062602
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311071602
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311072602
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311096002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311106002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311141602
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311142602
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311143602
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311144602
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311156002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311166002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_312160002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_331600002
+msgid ""
+"Receitas tributáveis pelo PIS/Cofins - Não tributáveis pela CBS - FG Caixa"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311011601
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311012601
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311061601
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311062601
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311071601
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311072601
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311096001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311106001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311141601
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311142601
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311143601
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311144601
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311156001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311166001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_312160001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_331600001
+msgid ""
+"Receitas tributáveis pelo PIS/Cofins - Não tributáveis pela CBS - FG "
+"Competência"
 msgstr ""
 
 #. module: l10n_br_dere
@@ -3129,8 +4221,20 @@ msgid "Rectify D-1121"
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311011105
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311011804
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311072102
+msgid "Recuperação de crédito baixado como prejuízo"
+msgstr ""
+
+#. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_cCtaRef
 msgid "Referential account"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.report_dere_rfb_assessment
+msgid "Regime"
 msgstr ""
 
 #. module: l10n_br_dere
@@ -3146,6 +4250,18 @@ msgstr ""
 #. module: l10n_br_dere
 #: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__state__rejected
 msgid "Rejected"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110822101
+msgid "Rendimentos auferidos nas contas de pagamento"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111350002
+msgid ""
+"Rendimentos de aplicações de recursos destinados ao pagamento de resgates de"
+" títulos e sorteios"
 msgstr ""
 
 #. module: l10n_br_dere
@@ -3230,6 +4346,13 @@ msgid "Responsible User"
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120161005
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120261004
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120361004
+msgid "Restituições de prêmios ou contraprestações"
+msgstr ""
+
+#. module: l10n_br_dere
 #: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_batch__tp_amb__2
 #: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__tp_amb__2
 #: model:ir.model.fields.selection,name:l10n_br_dere.selection__res_company__dere_tp_amb__2
@@ -3269,6 +4392,20 @@ msgid "Revenue"
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311011803
+msgid "Reversão de provisão"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111111102
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111112104
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111121003
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111310004
+msgid ""
+"Reversão de provisões ou reserva técnica retida pela entidade como receita"
+msgstr ""
+
+#. module: l10n_br_dere
 #: model:ir.model.fields.selection,name:l10n_br_dere.selection__res_company__dere_plano_cta_ref__4
 msgid "SPED"
 msgstr ""
@@ -3286,6 +4423,20 @@ msgstr ""
 #. module: l10n_br_dere
 #: model:l10n_br_dere.activity,name:l10n_br_dere.activity_21_04a
 msgid "Securitization"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311021112
+msgid ""
+"Securitização - Patrimônio Separado - Desconto aplicado - Contratos em moeda"
+" estrangeira"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311021111
+msgid ""
+"Securitização - Patrimônio Separado - Desconto aplicado - Contratos em moeda"
+" nacional"
 msgstr ""
 
 #. module: l10n_br_dere
@@ -3348,8 +4499,58 @@ msgid "Sent DeRE events can only be updated with the consult result."
 msgstr ""
 
 #. module: l10n_br_dere
-#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120150001
-msgid "Service export"
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311071802
+msgid ""
+"Serviços de administração e operacionalização prestados a Fundos "
+"garantidores de políticas públicas"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311071102
+msgid "Serviços de administração ou gestão de fundos"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311012101
+msgid ""
+"Serviços de custódia, corretagem, distribuição e outras formas de "
+"intermediação de TVM"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311071801
+msgid "Serviços prestados como agente operador do FGTS - Alíquota zero"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311101001
+msgid ""
+"Serviços prestados por administradoras de mercados organizados, "
+"infraestruturas de mercado e depositárias centrais"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311073801
+msgid ""
+"Serviços prestados por fundos garantidores e executores de políticas "
+"públicas"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311011701
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311012701
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311061701
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311062701
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311097001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311107001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311141701
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311142701
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311143701
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311144701
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311157001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311167001
+msgid ""
+"Serviços prestados à administração pública tributados pelo regime de caixa"
 msgstr ""
 
 #. module: l10n_br_dere
@@ -3423,7 +4624,6 @@ msgstr ""
 
 #. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_tax_assessment_line__regime
-#: model_terms:ir.ui.view,arch_db:l10n_br_dere.report_dere_rfb_assessment
 msgid "Specific regime"
 msgstr ""
 
@@ -3579,14 +4779,76 @@ msgid "Table validity start"
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_312110003
+msgid ""
+"Tarifa cobrada pela administração do benefício de vale alimentação, vale "
+"refeição e vale transporte"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110811314
+msgid "Tarifa de compensação de cheque"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110812111
+msgid "Tarifa de intercâmbio recebida"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_312110001
+msgid "Tarifas cobradas em operações tipicamente bancárias"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_312110002
+msgid "Tarifas cobradas pelos emissores de cartões"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110811311
+msgid "Tarifas de PIX"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110811312
+msgid "Tarifas de TED"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110222101
+msgid "Tarifas e comissões"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311011112
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311072108
+msgid "Tarifas e comissões acessórias"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311071101
+msgid "Tarifas e comissões cobradas por serviços prestados ao FGTS"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_112011001
+msgid ""
+"Tarifas recebidas da administração pública tributadas pelo regime de caixa"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110811313
+msgid "Tarifas relativas a boletos bancários"
+msgstr ""
+
+#. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_tax_assessment_line__dere12_codBC
-#: model_terms:ir.ui.view,arch_db:l10n_br_dere.report_dere_rfb_assessment
 msgid "Tax base code"
 msgstr ""
 
 #. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_tax_assessment_line__dere12_xDetBC
-#: model_terms:ir.ui.view,arch_db:l10n_br_dere.report_dere_rfb_assessment
 msgid "Tax base description"
 msgstr ""
 
@@ -3598,6 +4860,40 @@ msgstr ""
 #. module: l10n_br_dere
 #: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_company_form
 msgid "Tax regime"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311061101
+msgid ""
+"Taxa de administração e gestão - Serviços prestados ao fundo de investimento"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311062101
+msgid "Taxa de administração e gestão - Serviços prestados ao investidor"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120161007
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120261006
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120361006
+msgid "Taxa de administração paga às administradoras de benefícios"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110811111
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110811211
+msgid "Taxa de desconto nas transações (MDR) recebida"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110812211
+msgid "Taxa de intercâmbio - Emissão de cartão/uso portal ou aplicativo"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110812112
+msgid "Taxa de royalties ou outros valores recebidos pelo instituidor"
 msgstr ""
 
 #. module: l10n_br_dere
@@ -3617,6 +4913,18 @@ msgid "Taxable nature"
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110211101
+msgid "Taxas de administração fiduciária"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120110006
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120210006
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120310006
+msgid "Taxas de administração recebidas"
+msgstr ""
+
+#. module: l10n_br_dere
 #: model:ir.ui.menu,name:l10n_br_dere.menu_dere_tax_code
 msgid "Taxation Codes"
 msgstr ""
@@ -3626,6 +4934,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_pgcc_account__tax_code_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_dere.report_dere_rfb_assessment
 msgid "Taxation code"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_account_account__l10n_br_dere_cod_trib_description
+msgid "Taxation code description"
 msgstr ""
 
 #. module: l10n_br_dere
@@ -3675,8 +4988,7 @@ msgstr ""
 
 #. module: l10n_br_dere
 #. odoo-python
-#: code:addons/l10n_br_dere/models/dere_declaration.py:0
-#: code:addons/l10n_br_dere/models/dere_table_period.py:0
+#: code:addons/l10n_br_dere/models/dere_event_ops.py:0
 msgid ""
 "The DeRE batch request failed before a protocol was received. Check the "
 "transmission before sending again."
@@ -3880,7 +5192,6 @@ msgstr ""
 
 #. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_tax_assessment_line__dere12_vIBSTot
-#: model_terms:ir.ui.view,arch_db:l10n_br_dere.report_dere_rfb_assessment
 msgid "Total IBS"
 msgstr ""
 
@@ -3901,8 +5212,13 @@ msgstr ""
 
 #. module: l10n_br_dere
 #. odoo-python
-#: code:addons/l10n_br_dere/models/dere_declaration.py:0
-#: code:addons/l10n_br_dere/models/dere_table_period.py:0
+#: code:addons/l10n_br_dere/models/dere_event_ops.py:0
+msgid "Transmission rejected"
+msgstr ""
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_event_ops.py:0
 msgid "Transmission unknown"
 msgstr ""
 
@@ -3945,6 +5261,19 @@ msgid "Type of the exception activity on record."
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110113001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311011201
+msgid "Títulos de dívida objeto de oferta pública"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110113002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311011202
+msgid ""
+"Títulos de dívida objeto de oferta pública - Fundo de investimento exclusivo"
+msgstr ""
+
+#. module: l10n_br_dere
 #: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_batch__state__unknown
 msgid "Unknown"
 msgstr ""
@@ -3976,10 +5305,487 @@ msgid "Validity start"
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110411101
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110412101
+msgid "Valor da parcela recebida, inclusive tarifas e outros encargos"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110821101
+msgid "Valor da taxa de desconto recebida na operação"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110421102
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110422102
+msgid "Valor do bem cobrado junto com a parcela"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411031281
+msgid "Valor dos bens imóveis adquiridos para fins de arrendamento"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110324801
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411031481
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411032481
+msgid "Valor dos bens móveis adquiridos para fins de arrendamento"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311091001
+msgid "Valor dos pontos emitidos"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411091001
+msgid "Valor dos pontos pagos no resgate"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111111621
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111112613
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111126102
+msgid "Valor pago referente a restituições de prêmios"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111111623
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111112615
+msgid "Valor pago referente ao prêmio nas operações de cosseguro cedido"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111112614
+msgid "Valor pago relativo a serviços de intermediação de seguros"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111111622
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111126103
+msgid ""
+"Valor pago relativo a serviços de intermediação de seguros individualizável "
+"a cada prêmio emitido"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111111802
+msgid ""
+"Valor pago relativo a serviços de intermediação de seguros não "
+"individualizável a cada prêmio emitido"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411058001
+msgid ""
+"Valor pago relativo a serviços de intermediação não individualizável a cada "
+"cota de consórcio"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110221103
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110811114
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110812114
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110812212
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111111103
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111112105
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111121005
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111310006
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311021113
+msgid "Valor recebido do exterior (não considerado exportação)"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110321101
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110322101
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110323101
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110324101
+msgid ""
+"Valor recebido pela alienação do bem, incluindo tarifas e outros encargos"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110421101
+msgid "Valor residual recebido, relativo a bens imóveis"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110422101
+msgid "Valor residual recebido, relativo a bens móveis"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411091002
+msgid "Valor ressarcido por pontos não utilizados, computados como receita"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110311101
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110312101
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110313101
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110314101
+msgid "Valores da parcela recebida, incluindo tarifas e outros encargos"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_130110002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_230110002
+msgid "Valores de apostas de turfe"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_130110001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_230110001
+msgid "Valores de apostas esportivas"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111126104
+msgid ""
+"Valores de indenizações pagas por coberturas de risco em previdência "
+"complementar"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111127001
+msgid ""
+"Valores de indenizações pagas por coberturas de risco em seguros de pessoas "
+"com cobertura por sobrevivência"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_230150002
+msgid ""
+"Valores de recompensas ou vantagens não convertidos em produto da "
+"arrecadação"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111112103
+msgid "Valores de ressarcimentos recebidos"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111112102
+msgid "Valores de salvados recebidos"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_230150001
+msgid "Valores decorrentes de operações de exportação"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110822621
+msgid "Valores pagos como remuneração das contas de pagamento"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120161006
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120261005
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120361005
+msgid "Valores pagos pela intermediação de seguros ou planos de saúde"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120180002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120280002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120380002
+msgid "Valores pagos por atos cooperativos com opção à alíquota zero"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111361002
+msgid "Valores pagos por cancelamento e restituições de títulos"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120161004
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120261003
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120361003
+msgid "Valores pagos por corresponsabilidade cedida"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111361003
+msgid ""
+"Valores pagos relativos a serviços de intermediação na venda de títulos de "
+"capitalização"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120180001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120280001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120380001
+msgid "Valores pagos vinculados a contratos de exportação"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110111001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110121001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110611001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110621001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110711001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110721001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110910001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111010001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111411001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111421001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111431001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111441001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111510001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111610001
+msgid ""
+"Valores recebidos da administração pública tributados pelo regime de caixa"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120110007
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120210007
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120310007
+msgid "Valores recebidos de outras entidades do setor"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110812311
+msgid "Valores recebidos de outros participantes de arranjos de pagamento"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111135001
+msgid "Valores recebidos de resseguro e retrocessão - Alíquota zero"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_130150001
+msgid "Valores recebidos decorrentes de operações de exportação"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_230150003
+msgid "Valores recebidos e não convertidos em produto da arrecadação"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110510001
+msgid "Valores recebidos em função da administração de consórcios"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110112004
+msgid ""
+"Valores recebidos em operações de TVM, relativos a contratos firmados em "
+"moeda estrangeira"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110112003
+msgid ""
+"Valores recebidos em operações de TVM, relativos a contratos firmados em "
+"moeda nacional"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110112005
+msgid "Valores recebidos em operações de crédito, com recursos do FGTS"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110112002
+msgid ""
+"Valores recebidos em operações de crédito, relativos a contratos firmados em"
+" moeda estrangeira"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110112001
+msgid ""
+"Valores recebidos em operações de crédito, relativos a contratos firmados em"
+" moeda nacional"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110313411
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110314411
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110323411
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110324411
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110411411
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110412411
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110421411
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110422411
+msgid ""
+"Valores recebidos pela alienação até o limite do valor líquido de aquisição "
+"do bem"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110313412
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110314412
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110323412
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110324412
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110411412
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110412412
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110421412
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110422412
+msgid ""
+"Valores recebidos pela alienação que exceder o valor líquido de aquisição do"
+" bem"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110411501
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110412502
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110421502
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110422502
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110811152
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110811252
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110811352
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110812152
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110812252
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110812352
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110821502
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110822502
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111111501
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111112502
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111125002
+msgid "Valores recebidos por atos cooperativos com opção à alíquota zero"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_130110008
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_230110008
+msgid ""
+"Valores relativos a apostas decorrentes de recompensas ou vantagens "
+"oferecidas pelo fornecedor"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_130110005
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_230110005
+msgid "Valores relativos a fantasy sport"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_130110004
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_230110004
+msgid "Valores relativos a jogos online (iGaming)"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_130110003
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_230110003
+msgid "Valores relativos a modalidades lotéricas"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_130110007
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_230110007
+msgid "Valores relativos a outras modalidades de apostas"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_130110006
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_230110006
+msgid "Valores relativos a sweepstakes"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110211402
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110221402
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110222402
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110311402
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110312402
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110313422
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110314422
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110321402
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110322402
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110323422
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110324422
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110411422
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110412422
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110421422
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110422422
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110540002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110811142
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110811242
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110811342
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110812142
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110812242
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110812342
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110821402
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110822402
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111111402
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111112402
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111124002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111340002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120140002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120240002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120340002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120540002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_130140002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_230140002
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311021162
+msgid ""
+"Valores tributados pelo PIS/Cofins - Não tributáveis pela CBS - FG Caixa"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110211401
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110221401
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110222401
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110311401
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110312401
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110313421
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110314421
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110321401
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110322401
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110323421
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110324421
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110411421
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110412421
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110421421
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110422421
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110540001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110811141
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110811241
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110811341
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110812141
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110812241
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110812341
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110821401
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_110822401
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111111401
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111112401
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111124001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_111340001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120140001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120240001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120340001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_120540001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_130140001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_230140001
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311021161
+msgid ""
+"Valores tributados pelo PIS/Cofins - Não tributáveis pela CBS - FG "
+"Competência"
+msgstr ""
+
+#. module: l10n_br_dere
 #: model:ir.model.fields.selection,name:l10n_br_dere.selection__account_account__l10n_br_dere_nat_cta__v
 #: model:ir.model.fields.selection,name:l10n_br_dere.selection__account_group__l10n_br_dere_nat_cta__v
 #: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_pgcc_account__dere12_natCta__v
 msgid "Variable"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_411011701
+msgid "Variação negativa a valor justo em TVM"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:l10n_br_dere.tax.code,name:l10n_br_dere.tax_311011702
+msgid "Variação positiva a valor justo em TVM"
 msgstr ""
 
 #. module: l10n_br_dere
