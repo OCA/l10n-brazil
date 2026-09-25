@@ -106,6 +106,19 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_res_company__dere_allow_force_delete
+msgid "Allow deleting accepted DeRE records"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_res_company__dere_allow_force_delete
+msgid ""
+"Testing only. Managers may delete sent or accepted declarations and table "
+"periods while the environment is restricted (tpAmb 2). This does not void "
+"receipts at the RFB."
+msgstr ""
+
+#. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_deduction_line__dere12_chDFe
 msgid "Access key"
 msgstr ""
