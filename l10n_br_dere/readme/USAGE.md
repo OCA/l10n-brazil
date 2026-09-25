@@ -6,9 +6,10 @@
    XML stays unsigned and is checked
    against the official XSD. Sending signs each event (XML-DSig RSA-SHA256),
    validates the signed event and the lote, then posts one type per batch.
-   **Replace Tables** updates the existing PGCC snapshot in place (for
-   example a new `codTrib`) so D-1101 / D-1106 lines keep their account
-   link. Accounts still used by those events cannot be dropped.
+   **Replace Tables** / **Exclude Tables** open the operation wizard
+   (`tpOper` 2/3). Replace updates the existing PGCC snapshot in place
+   (for example a new `codTrib`) so D-1101 / D-1106 lines keep their
+   account link. Accounts still used by those events cannot be dropped.
 3. Sending does **not** consult immediately. Use **Consult Results** or wait
    for the cron (exponential backoff from 2 minutes up to 60) until the
    D-9001 receipt arrives. Then generate the trial balance (D-1101) from
@@ -111,7 +112,7 @@ rebuilt from those moves.
      regime requires them.
    - D-1011: `planoCtaRef` and `freqEncerr` present; `cDbrMista` has three
      digits; every analytic account has `codTrib`.
-4. Open the monthly declaration (`perApur` = `YYYY-MM`). After the tables
+4. Open **Fiscal → DeRE → Declarations** (`perApur` = `YYYY-MM`). After the tables
    are accepted, **Generate Trial Balance**. Footer totals need the hidden
    `brl_currency_id`.
    - Fee line: credit = own revenue and `vApur` equals that gross credit
@@ -128,7 +129,8 @@ rebuilt from those moves.
    (MS1135). The company flag alone does not make D-1106 official: without
    that tax code the event stays hidden and is not required before D-1121
    or D-1199 (MS1147). Register technical-reserve assets under Fiscal
-   configuration, or the event is sent with `semAplic=1` when those accounts
+   configuration (**Fiscal → Configuration → DeRE → Technical-reserve
+   Assets**), or the event is sent with `semAplic=1` when those accounts
    have no assets in the month. With exactly one asset per account the period
    amounts come from posted moves: debits become `vVarMensal`, credits become
    `vPrincLiqResg`, and income on the same entry (or on the mapped reserve
@@ -136,6 +138,9 @@ rebuilt from those moves.
    the same account stay manual. Regenerating rebuilds those 1:1 amounts.
    If it is subject to D-1121, **Load Deductions**
    from inbound operations marked as DeRE deductible, then **Generate D-1121**.
+   Draft fiscal documents (`em_digitacao`) are skipped. **Replace D-1121**,
+   **Exclude D-1121** and **Rectify D-1121** (`tpOper` 2/3/4) stay on the
+   monthly form; D-1106 has the same Replace / Exclude pair.
    When the period has no deductible document the load reports the absence and
    sets `indInexistDedu`. **Close Period** stays hidden until the load ran, so
    the month is never closed as deduction-free by accident.

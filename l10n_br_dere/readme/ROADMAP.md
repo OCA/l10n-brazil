@@ -23,3 +23,19 @@
   matching events are implemented.
 - Optional journal entry for the IBS / CBS assessed by D-9199; today the
   amounts are recorded for reference only.
+- D-1199 `gUtilizBCN` (negative-base recovery). The group is optional
+  (`usarBCNAcum` / `metodoAproveit` / `detBCNeg`). Official Tabela 12
+  (`codBC` / `codBCNRaiz`) belongs with that feature, not as a standalone
+  catalog today: D-9199 already returns `xDetBC` on each assessment line.
+- D-2101 (public-bond titles) is out of scope for health-plan operators.
+- Consult backoff has no max attempt count (manual Dev §3.3). Delay is
+  capped at 60 minutes and the batch stays `sent` until a result arrives.
+- Official Anexo I tables that stay out of this module on purpose:
+  - 13 / 15 reuse `res.country.state` / `res.country`
+  - 14 / 22 / 23 / 24 / 32 are external referential charts (SPED, COSIF,
+    SUSEP, PREVIC, ANS). They belong in a chart-of-accounts addon, not
+    here. MS1077 (account missing from the official chart) stays
+    server-side.
+  - 33 (health-premium age coefficients) belongs with D-3201
+- MS1114 (`cCtaRef` of a split account must match the parent) is only a
+  warning at the RFB and is not replicated locally.

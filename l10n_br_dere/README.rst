@@ -43,9 +43,9 @@ It lets an Odoo company:
 - send signed batches to Receita Integra, consult processing (manually
   or via cron with backoff) and store protocol, receipt and D-9xxx
   returns
-- keep the RFB totals (D-9101 / D-9106), the D-9199 IBS/CBS assessment
-  and the D-9001 validity extract next to the local data, without
-  posting a journal entry
+- keep the RFB totals (D-9101 / D-9106 / D-9112), the D-9198 reopening
+  return, the D-9199 IBS/CBS assessment and the D-9001 validity extract
+  next to the local data, without posting a journal entry
 
 It does **not** implement sector-specific rules (for example health-plan
 premium vs administration-fee reconciliation). Those stay in company
@@ -59,8 +59,9 @@ data or in a dedicated extra addon.
 Installation
 ============
 
-Install this module after the Brazilian fiscal stack
-(``l10n_br_fiscal``, ``l10n_br_fiscal_certificate``). It pulls
+Install this module after the Brazilian accounting and fiscal stack
+(``l10n_br_base``, ``l10n_br_coa``, ``l10n_br_account``,
+``l10n_br_fiscal``, ``l10n_br_fiscal_certificate``). It pulls
 ``l10n_br_dere_spec`` automatically.
 
 Sending events requires an ICP-Brasil A1 certificate on the company. XML
@@ -69,11 +70,16 @@ generation and official XSD checks do not.
 Configuration
 =============
 
+Access is split between **DeRE User** (daily work) and **DeRE Manager**
+(configuration menus and Receita Integra credentials). Grant the manager
+group only to the people who configure the gateway.
+
 On the company form, open the **DeRE** tab and set:
 
 1. Main tax regime (``regTribPrinc``) and optional secondary regime
 
-2. Activities from official tables 21, 31 or 41
+2. Tax nature (``indNatTrib``) and activities from official tables 21,
+   31 or 41
 
 3. Referential chart (``planoCtaRef``) and closing frequency
    (``freqEncerr``)
@@ -82,30 +88,39 @@ On the company form, open the **DeRE** tab and set:
    ``https://api.receitafederal.gov.br/prr-dere`` with
    ``POST /v1/recepcao/lotes`` and
    ``GET /v1/consulta/lotes/{protocol}``. Override the base URL and
-   paths only when production is published. Token requests use HTTP
-   Basic (``client_id`` / ``client_secret``) and
-   ``grant_type=client_credentials``. The access token is cached per
-   company.
+   paths only when production is published. Production (``tpAmb`` 1) is
+   blocked while the URL still points at that restricted host. Token
+   requests use HTTP Basic (``client_id`` / ``client_secret``) and
+   ``grant_type=client_credentials``. Only managers can read those
+   secrets. The access token is cached per company.
 
-5. An ICP-Brasil A1 certificate on the Fiscal tab (NFe or e-CNPJ).
+5. Application version (``verAplic``) sent in ``ideEvento``.
+
+6. An ICP-Brasil A1 certificate on the Fiscal tab (NFe or e-CNPJ).
    Generation does not need it; sending does.
 
-6. Leave the scheduled action **DeRE: consult sent batch results**
+7. Leave the scheduled action **DeRE: consult sent batch results**
    enabled (every 2 minutes). It only consults batches whose backoff
    window is due.
 
-7. If the taxpayer must send D-1106, enable **Subject to D-1106**, map
+8. If the taxpayer must send D-1106, enable **Subject to D-1106**, map
    at least one PGCC account to an official D-1106 ``codTrib``, mark the
    investment accounts as technical-reserve and register each
    ``idAtivo``. The flag only records the intention: generation, closing
    and the send order require that PGCC mapping (MS1135 / MS1147). Keep
    one asset per account so **Generate D-1106** can fill amounts from
    posted journal items. Optionally set **DeRE reserve income account**
-   for cash coupons that never hit the investment account.
+   on the investment ``account.account`` for cash coupons that never hit
+   that account.
 
-8. If the taxpayer must send D-1121, enable **Subject to D-1121** and
-   mark inbound fiscal operations as DeRE deductible. Accounts whose
-   ``codTrib`` is in the official D-1121 list also require the event.
+9. If the taxpayer must send D-1121, enable **Subject to D-1121** and
+   mark inbound fiscal operations as DeRE deductible, with the DeRE
+   deduction activity (``tpAtiv``) on the fiscal operation. Accounts
+   whose ``codTrib`` is in the official D-1121 list also require the
+   event.
+
+Catalog menus live under **Fiscal → Configuration → DeRE**: Activities,
+Taxation Codes and Technical-reserve Assets.
 
 On **Fiscal → DeRE → Table Periods**, create the validity that covers
 the months you will declare. D-1001, D-1011 and the PGCC snapshot live
@@ -148,8 +163,9 @@ Usage
    stored XML stays unsigned and is checked against the official XSD.
    Sending signs each event (XML-DSig RSA-SHA256), validates the signed
    event and the lote, then posts one type per batch. **Replace Tables**
-   updates the existing PGCC snapshot in place (for example a new
-   ``codTrib``) so D-1101 / D-1106 lines keep their account link.
+   / **Exclude Tables** open the operation wizard (``tpOper`` 2/3).
+   Replace updates the existing PGCC snapshot in place (for example a
+   new ``codTrib``) so D-1101 / D-1106 lines keep their account link.
    Accounts still used by those events cannot be dropped.
 3. Sending does **not** consult immediately. Use **Consult Results** or
    wait for the cron (exponential backoff from 2 minutes up to 60) until
@@ -260,9 +276,9 @@ typed: it is rebuilt from those moves.
     - D-1011: ``planoCtaRef`` and ``freqEncerr`` present; ``cDbrMista``
       has three digits; every analytic account has ``codTrib``.
 
-4.  Open the monthly declaration (``perApur`` = ``YYYY-MM``). After the
-    tables are accepted, **Generate Trial Balance**. Footer totals need
-    the hidden ``brl_currency_id``.
+4.  Open **Fiscal → DeRE → Declarations** (``perApur`` = ``YYYY-MM``).
+    After the tables are accepted, **Generate Trial Balance**. Footer
+    totals need the hidden ``brl_currency_id``.
 
     - Fee line: credit = own revenue and ``vApur`` equals that gross
       credit minus credit adjustments plus debit adjustments.
@@ -279,7 +295,8 @@ typed: it is rebuilt from those moves.
     ``codTrib`` (MS1135). The company flag alone does not make D-1106
     official: without that tax code the event stays hidden and is not
     required before D-1121 or D-1199 (MS1147). Register
-    technical-reserve assets under Fiscal configuration, or the event is
+    technical-reserve assets under Fiscal configuration (**Fiscal →
+    Configuration → DeRE → Technical-reserve Assets**), or the event is
     sent with ``semAplic=1`` when those accounts have no assets in the
     month. With exactly one asset per account the period amounts come
     from posted moves: debits become ``vVarMensal``, credits become
@@ -288,10 +305,13 @@ typed: it is rebuilt from those moves.
     Several assets on the same account stay manual. Regenerating
     rebuilds those 1:1 amounts. If it is subject to D-1121, **Load
     Deductions** from inbound operations marked as DeRE deductible, then
-    **Generate D-1121**. When the period has no deductible document the
-    load reports the absence and sets ``indInexistDedu``. **Close
-    Period** stays hidden until the load ran, so the month is never
-    closed as deduction-free by accident.
+    **Generate D-1121**. Draft fiscal documents (``em_digitacao``) are
+    skipped. **Replace D-1121**, **Exclude D-1121** and **Rectify
+    D-1121** (``tpOper`` 2/3/4) stay on the monthly form; D-1106 has the
+    same Replace / Exclude pair. When the period has no deductible
+    document the load reports the absence and sets ``indInexistDedu``.
+    **Close Period** stays hidden until the load ran, so the month is
+    never closed as deduction-free by accident.
 7.  **Close Period** generates D-1199 but does not lock the month. Send
     periodics one type at a time: D-1101, then D-1106 (if any), then
     D-1121 (if any), then D-1199. Each auxiliary event needs the
@@ -347,6 +367,26 @@ Known issues / Roadmap
   matching events are implemented.
 - Optional journal entry for the IBS / CBS assessed by D-9199; today the
   amounts are recorded for reference only.
+- D-1199 ``gUtilizBCN`` (negative-base recovery). The group is optional
+  (``usarBCNAcum`` / ``metodoAproveit`` / ``detBCNeg``). Official Tabela
+  12 (``codBC`` / ``codBCNRaiz``) belongs with that feature, not as a
+  standalone catalog today: D-9199 already returns ``xDetBC`` on each
+  assessment line.
+- D-2101 (public-bond titles) is out of scope for health-plan operators.
+- Consult backoff has no max attempt count (manual Dev §3.3). Delay is
+  capped at 60 minutes and the batch stays ``sent`` until a result
+  arrives.
+- Official Anexo I tables that stay out of this module on purpose:
+
+  - 13 / 15 reuse ``res.country.state`` / ``res.country``
+  - 14 / 22 / 23 / 24 / 32 are external referential charts (SPED, COSIF,
+    SUSEP, PREVIC, ANS). They belong in a chart-of-accounts addon, not
+    here. MS1077 (account missing from the official chart) stays
+    server-side.
+  - 33 (health-premium age coefficients) belongs with D-3201
+
+- MS1114 (``cCtaRef`` of a split account must match the parent) is only
+  a warning at the RFB and is not replicated locally.
 
 Bug Tracker
 ===========

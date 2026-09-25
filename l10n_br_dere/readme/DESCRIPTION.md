@@ -11,9 +11,9 @@ It lets an Odoo company:
   and D-1199
 - send signed batches to Receita Integra, consult processing (manually or
   via cron with backoff) and store protocol, receipt and D-9xxx returns
-- keep the RFB totals (D-9101 / D-9106), the D-9199 IBS/CBS assessment
-  and the D-9001 validity extract next to the local data, without posting
-  a journal entry
+- keep the RFB totals (D-9101 / D-9106 / D-9112), the D-9198 reopening
+  return, the D-9199 IBS/CBS assessment and the D-9001 validity extract
+  next to the local data, without posting a journal entry
 
 It does **not** implement sector-specific rules (for example health-plan
 premium vs administration-fee reconciliation). Those stay in company data or

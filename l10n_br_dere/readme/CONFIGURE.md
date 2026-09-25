@@ -1,30 +1,41 @@
+Access is split between **DeRE User** (daily work) and **DeRE Manager**
+(configuration menus and Receita Integra credentials). Grant the manager
+group only to the people who configure the gateway.
+
 On the company form, open the **DeRE** tab and set:
 
 1. Main tax regime (`regTribPrinc`) and optional secondary regime
-2. Activities from official tables 21, 31 or 41
+2. Tax nature (`indNatTrib`) and activities from official tables 21, 31 or 41
 3. Referential chart (`planoCtaRef`) and closing frequency (`freqEncerr`)
 4. Receita Integra environment. Restricted production uses
    `https://api.receitafederal.gov.br/prr-dere` with
    `POST /v1/recepcao/lotes` and `GET /v1/consulta/lotes/{protocol}`.
    Override the base URL and paths only when production is published.
-   Token requests use HTTP Basic (`client_id` / `client_secret`) and
-   `grant_type=client_credentials`. The access token is cached per company.
-5. An ICP-Brasil A1 certificate on the Fiscal tab (NFe or e-CNPJ). Generation
+   Production (`tpAmb` 1) is blocked while the URL still points at that
+   restricted host. Token requests use HTTP Basic (`client_id` /
+   `client_secret`) and `grant_type=client_credentials`. Only managers
+   can read those secrets. The access token is cached per company.
+5. Application version (`verAplic`) sent in `ideEvento`.
+6. An ICP-Brasil A1 certificate on the Fiscal tab (NFe or e-CNPJ). Generation
    does not need it; sending does.
-6. Leave the scheduled action **DeRE: consult sent batch results** enabled
+7. Leave the scheduled action **DeRE: consult sent batch results** enabled
    (every 2 minutes). It only consults batches whose backoff window is due.
 
-7. If the taxpayer must send D-1106, enable **Subject to D-1106**, map at
+8. If the taxpayer must send D-1106, enable **Subject to D-1106**, map at
    least one PGCC account to an official D-1106 `codTrib`, mark the
    investment accounts as technical-reserve and register each `idAtivo`.
    The flag only records the intention: generation, closing and the send
    order require that PGCC mapping (MS1135 / MS1147). Keep one asset per
    account so **Generate D-1106** can fill amounts from posted journal
-   items. Optionally set **DeRE reserve income account** for cash coupons
-   that never hit the investment account.
-8. If the taxpayer must send D-1121, enable **Subject to D-1121** and mark
-   inbound fiscal operations as DeRE deductible. Accounts whose `codTrib` is
+   items. Optionally set **DeRE reserve income account** on the investment
+   `account.account` for cash coupons that never hit that account.
+9. If the taxpayer must send D-1121, enable **Subject to D-1121** and mark
+   inbound fiscal operations as DeRE deductible, with the DeRE deduction
+   activity (`tpAtiv`) on the fiscal operation. Accounts whose `codTrib` is
    in the official D-1121 list also require the event.
+
+Catalog menus live under **Fiscal → Configuration → DeRE**: Activities,
+Taxation Codes and Technical-reserve Assets.
 
 On **Fiscal → DeRE → Table Periods**, create the validity that covers the
 months you will declare. D-1001, D-1011 and the PGCC snapshot live there and
