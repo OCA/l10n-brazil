@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_dere_table_period_tree" model="ir.ui.view">
+        <field name="name">l10n_br_dere.table.period.list</field>
+        <field name="model">l10n_br_dere.table.period</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+                <field name="ini_valid" />
+                <field name="fim_valid" />
+                <field name="fim_valid_efetiva" optional="hide" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="state" />
+            </list>
+        </field>
+    </record>
+    <record id="view_dere_table_period_form" model="ir.ui.view">
+        <field name="name">l10n_br_dere.table.period.form</field>
+        <field name="model">l10n_br_dere.table.period</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="action_generate_tables"
+                        type="object"
+                        string="Generate Tables"
+                        class="btn-primary"
+                        invisible="not can_generate_tables"
+                    />
+                    <button
+                        name="action_send_tables"
+                        type="object"
+                        string="Send Tables"
+                        class="btn-primary"
+                        invisible="not can_send_tables"
+                    />
+                    <button
+                        name="action_consult_results"
+                        type="object"
+                        string="Consult Results"
+                        class="btn-primary"
+                        invisible="not can_consult_results"
+                    />
+                    <field name="can_generate_tables" invisible="1" />
+                    <field name="can_send_tables" invisible="1" />
+                    <field name="can_consult_results" invisible="1" />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <div
+                        class="alert alert-warning"
+                        role="alert"
+                        invisible="not fim_valid_efetiva"
+                    >
+                        The RFB ended this validity on
+                        <field name="fim_valid_efetiva" class="oe_inline" />
+                        because a later validity of the same table starts
+                        after it.
+                    </div>
+                    <div
+                        class="alert alert-warning"
+                        role="alert"
+                        invisible="not rfb_gap_ids"
+                    >
+                        The RFB reports months without table validity for this
+                        company. Check the RFB Validity Extract tab.
+                    </div>
+                    <group>
+                        <group>
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                                readonly="state != 'draft'"
+                            />
+                            <field name="ini_valid" readonly="state != 'draft'" />
+                            <field name="fim_valid" readonly="state == 'accepted'" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Events" name="events">
+                            <field name="event_ids" readonly="1">
+                                <list create="0" delete="0">
+                                    <field name="event_type" />
+                                    <field name="tp_oper" optional="show" />
+                                    <field name="state" />
+                                    <field name="event_id_attr" />
+                                    <field name="protocol" />
+                                    <field name="nr_recibo" />
+                                    <field name="cd_retorno" />
+                                    <field
+                                        name="can_replace_event"
+                                        column_invisible="1"
+                                    />
+                                    <field
+                                        name="can_exclude_event"
+                                        column_invisible="1"
+                                    />
+                                    <button
+                                        name="action_replace_event"
+                                        type="object"
+                                        string="Replace"
+                                        icon="fa-refresh"
+                                        invisible="not can_replace_event"
+                                    />
+                                    <button
+                                        name="action_exclude_event"
+                                        type="object"
+                                        string="Exclude"
+                                        icon="fa-times"
+                                        invisible="not can_exclude_event"
+                                    />
+                                </list>
+                            </field>
+                        </page>
+                        <page string="PGCC" name="pgcc">
+                            <field
+                                name="pgcc_account_ids"
+                                readonly="state == 'accepted'"
+                            >
+                                <list create="0" delete="0">
+                                    <field name="dere12_cCta" />
+                                    <field name="account_name" />
+                                    <field name="dere12_nomeCta" column_invisible="1" />
+                                    <field name="dere12_indCta" />
+                                    <field name="dere12_nivelCta" optional="hide" />
+                                    <field name="dere12_cCtaSup" optional="hide" />
+                                    <field name="dere12_cCtaRef" optional="show" />
+                                    <field name="dere12_natCta" optional="hide" />
+                                    <field name="dere12_codNat" optional="show" />
+                                    <field name="tax_code_id" optional="show" />
+                                    <field name="dere12_codTrib" column_invisible="1" />
+                                    <field name="dere12_cDbrMista" optional="show" />
+                                    <field name="account_id" optional="hide" />
+                                    <field name="group_id" optional="hide" />
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Batches" name="batches">
+                            <field name="batch_ids" readonly="1">
+                                <list create="0" delete="0">
+                                    <field name="name" />
+                                    <field name="state" />
+                                    <field name="protocol" />
+                                    <field name="next_consult_at" optional="hide" />
+                                    <button
+                                        name="action_consult"
+                                        type="object"
+                                        string="Consult"
+                                        icon="fa-refresh"
+                                        invisible="state != 'sent' or not protocol"
+                                    />
+                                </list>
+                            </field>
+                        </page>
+                        <page
+                            string="RFB Validity Extract"
+                            name="rfb_extract"
+                            invisible="not rfb_extract_validity_ids and not rfb_gap_ids"
+                        >
+                            <field name="rfb_extract_validity_ids" readonly="1">
+                                <list create="0" delete="0">
+                                    <field name="event_type" />
+                                    <field name="dere12_nrRecibo" />
+                                    <field name="dere12_iniValid" />
+                                    <field name="dere12_fimValid" />
+                                    <field name="dere12_fimValidEfetiva" />
+                                    <field name="dere12_indAjusteAuto" />
+                                    <field name="table_period_id" />
+                                </list>
+                            </field>
+                            <field
+                                name="rfb_gap_ids"
+                                readonly="1"
+                                invisible="not rfb_gap_ids"
+                            >
+                                <list create="0" delete="0">
+                                    <field name="event_type" />
+                                    <field name="dere12_iniLacuna" />
+                                    <field name="dere12_fimLacuna" />
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Declarations" name="declarations">
+                            <field name="declaration_ids" readonly="1">
+                                <list create="0" delete="0">
+                                    <field name="name" />
+                                    <field name="per_apur" />
+                                    <field name="state" />
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter />
+            </form>
+        </field>
+    </record>
+    <record id="action_dere_table_period" model="ir.actions.act_window">
+        <field name="name">DeRE Table Periods</field>
+        <field name="res_model">l10n_br_dere.table.period</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_dere_declaration_tree" model="ir.ui.view">
+        <field name="name">l10n_br_dere.declaration.list</field>
+        <field name="model">l10n_br_dere.declaration</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+                <field name="per_apur" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="state" />
+            </list>
+        </field>
+    </record>
+    <record id="view_dere_declaration_form" model="ir.ui.view">
+        <field name="name">l10n_br_dere.declaration.form</field>
+        <field name="model">l10n_br_dere.declaration</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="action_generate_d1101"
+                        type="object"
+                        string="Generate Trial Balance"
+                        class="btn-primary"
+                        invisible="not can_generate_trial or primary_action != 'generate_trial'"
+                    />
+                    <button
+                        name="action_generate_d1101"
+                        type="object"
+                        string="Generate Trial Balance"
+                        invisible="not can_generate_trial or primary_action == 'generate_trial'"
+                    />
+                    <button
+                        name="action_generate_d1106"
+                        type="object"
+                        string="Generate D-1106"
+                        class="btn-primary"
+                        invisible="not can_generate_d1106 or primary_action != 'generate_d1106'"
+                    />
+                    <button
+                        name="action_generate_d1106"
+                        type="object"
+                        string="Generate D-1106"
+                        invisible="not can_generate_d1106 or primary_action == 'generate_d1106'"
+                    />
+                    <button
+                        name="action_load_deductions"
+                        type="object"
+                        string="Load Deductions"
+                        class="btn-primary"
+                        invisible="not can_load_deductions or primary_action != 'load_deductions'"
+                    />
+                    <button
+                        name="action_load_deductions"
+                        type="object"
+                        string="Load Deductions"
+                        invisible="not can_load_deductions or primary_action == 'load_deductions'"
+                    />
+                    <button
+                        name="action_generate_d1121"
+                        type="object"
+                        string="Generate D-1121"
+                        class="btn-primary"
+                        invisible="not can_generate_d1121 or primary_action != 'generate_d1121'"
+                    />
+                    <button
+                        name="action_generate_d1121"
+                        type="object"
+                        string="Generate D-1121"
+                        invisible="not can_generate_d1121 or primary_action == 'generate_d1121'"
+                    />
+                    <button
+                        name="action_generate_d1199"
+                        type="object"
+                        string="Close Period"
+                        class="btn-primary"
+                        invisible="not can_close_period or primary_action != 'close_period'"
+                    />
+                    <button
+                        name="action_generate_d1199"
+                        type="object"
+                        string="Close Period"
+                        invisible="not can_close_period or primary_action == 'close_period'"
+                    />
+                    <button
+                        name="action_send_periodics"
+                        type="object"
+                        string="Send Periodics"
+                        class="btn-primary"
+                        invisible="not can_send_periodics or primary_action != 'send_periodics'"
+                    />
+                    <button
+                        name="action_send_periodics"
+                        type="object"
+                        string="Send Periodics"
+                        invisible="not can_send_periodics or primary_action == 'send_periodics'"
+                    />
+                    <button
+                        name="action_consult_results"
+                        type="object"
+                        string="Consult Results"
+                        class="btn-primary"
+                        invisible="not can_consult_results or primary_action != 'consult'"
+                    />
+                    <button
+                        name="action_consult_results"
+                        type="object"
+                        string="Consult Results"
+                        invisible="not can_consult_results or primary_action == 'consult'"
+                    />
+                    <button
+                        name="action_discard_local_closing"
+                        type="object"
+                        string="Discard Local Closing"
+                        invisible="not can_discard_local_closing"
+                    />
+                    <button
+                        name="action_discard_local_reopening"
+                        type="object"
+                        string="Discard Local Reopening"
+                        invisible="not can_discard_local_reopening"
+                    />
+                    <button
+                        name="action_mark_reopened"
+                        type="object"
+                        string="Reopen Period"
+                        class="btn-primary"
+                        invisible="not can_reopen_period or primary_action != 'reopen'"
+                    />
+                    <button
+                        name="action_mark_reopened"
+                        type="object"
+                        string="Reopen Period"
+                        invisible="not can_reopen_period or primary_action == 'reopen'"
+                    />
+                    <field name="can_discard_local_closing" invisible="1" />
+                    <field name="can_discard_local_reopening" invisible="1" />
+                    <field name="can_reopen_period" invisible="1" />
+                    <field name="can_consult_results" invisible="1" />
+                    <field name="can_generate_trial" invisible="1" />
+                    <field name="can_generate_d1106" invisible="1" />
+                    <field name="can_load_deductions" invisible="1" />
+                    <field name="can_generate_d1121" invisible="1" />
+                    <field name="can_close_period" invisible="1" />
+                    <field name="can_send_periodics" invisible="1" />
+                    <field name="primary_action" invisible="1" />
+                    <button
+                        name="%(action_report_dere_rfb_assessment)d"
+                        type="action"
+                        string="Print RFB Assessment"
+                        groups="l10n_br_dere.group_user"
+                        invisible="not rfb_total_ids and not rfb_mismatch and not rfb_assessment_event_id"
+                    />
+                    <field name="rfb_total_ids" invisible="1" />
+                    <field name="rfb_mismatch" invisible="1" />
+                    <field name="rfb_assessment_event_id" invisible="1" />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <div
+                        class="alert alert-warning"
+                        role="alert"
+                        invisible="not rfb_mismatch"
+                    >
+                        The RFB return differs from the local data or used
+                        receipts that are no longer in force. Check the RFB
+                        Assessment tab and the chatter.
+                    </div>
+                    <group>
+                        <group>
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                                readonly="state != 'draft'"
+                            />
+                            <field name="per_apur" readonly="state != 'draft'" />
+                            <field name="date_from" />
+                            <field name="date_to" />
+                        </group>
+                        <group>
+                            <field name="table_period_id" />
+                            <field name="ini_valid" />
+                            <field name="fim_valid" />
+                            <field name="subject_d1106" invisible="1" />
+                            <field name="subject_d1121" invisible="1" />
+                            <field
+                                name="ind_inexist_dedu"
+                                readonly="state == 'closed'"
+                                invisible="not subject_d1121"
+                            />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Events" name="events">
+                            <field name="event_ids" readonly="1">
+                                <list create="0" delete="0">
+                                    <field name="event_type" />
+                                    <field name="tp_oper" optional="show" />
+                                    <field name="state" />
+                                    <field name="event_id_attr" />
+                                    <field name="protocol" />
+                                    <field name="nr_recibo" />
+                                    <field name="cd_retorno" />
+                                    <field
+                                        name="can_replace_event"
+                                        column_invisible="1"
+                                    />
+                                    <field
+                                        name="can_exclude_event"
+                                        column_invisible="1"
+                                    />
+                                    <field
+                                        name="can_rectify_event"
+                                        column_invisible="1"
+                                    />
+                                    <button
+                                        name="action_replace_event"
+                                        type="object"
+                                        string="Replace"
+                                        icon="fa-refresh"
+                                        invisible="not can_replace_event"
+                                    />
+                                    <button
+                                        name="action_exclude_event"
+                                        type="object"
+                                        string="Exclude"
+                                        icon="fa-times"
+                                        invisible="not can_exclude_event"
+                                    />
+                                    <button
+                                        name="action_rectify_event"
+                                        type="object"
+                                        string="Rectify"
+                                        icon="fa-pencil"
+                                        invisible="not can_rectify_event"
+                                    />
+                                </list>
+                            </field>
+                        </page>
+                        <page string="PGCC" name="pgcc">
+                            <field
+                                name="pgcc_account_ids"
+                                readonly="1"
+                                options="{'no_open': True}"
+                            >
+                                <list create="0" delete="0" edit="0">
+                                    <field name="dere12_cCta" />
+                                    <field name="account_name" />
+                                    <field name="dere12_nomeCta" column_invisible="1" />
+                                    <field name="dere12_indCta" />
+                                    <field name="dere12_nivelCta" optional="hide" />
+                                    <field name="dere12_cCtaSup" optional="hide" />
+                                    <field name="dere12_cCtaRef" optional="show" />
+                                    <field name="dere12_natCta" optional="hide" />
+                                    <field name="dere12_codNat" optional="show" />
+                                    <field name="tax_code_id" optional="show" />
+                                    <field name="dere12_codTrib" column_invisible="1" />
+                                    <field name="dere12_cDbrMista" optional="show" />
+                                    <field name="dere12_cCtaInterna" optional="hide" />
+                                    <field name="dere12_descCta" optional="hide" />
+                                    <field name="dere12_indTribISS" optional="hide" />
+                                    <field name="dere12_iniVig" optional="hide" />
+                                    <field name="dere12_fimVig" optional="hide" />
+                                    <field name="account_id" optional="hide" />
+                                    <field name="group_id" optional="hide" />
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Trial Balance" name="trial">
+                            <field name="trial_line_ids" readonly="state == 'closed'">
+                                <list create="0" delete="0">
+                                    <field
+                                        name="brl_currency_id"
+                                        column_invisible="1"
+                                    />
+                                    <field name="dere12_cCta" />
+                                    <field name="account_name" />
+                                    <field name="dere12_natSaldoInic" />
+                                    <field name="dere12_vSaldoInic" sum="Opening" />
+                                    <field name="dere12_vMovDebt" sum="Debit" />
+                                    <field name="dere12_vMovCred" sum="Credit" />
+                                    <field name="dere12_natSaldoFinal" />
+                                    <field name="dere12_vSaldoFinal" sum="Closing" />
+                                    <field name="dere12_vApur" sum="Taxable" />
+                                </list>
+                            </field>
+                        </page>
+                        <page
+                            string="Reserve Investments"
+                            name="reserve"
+                            invisible="not subject_d1106"
+                        >
+                            <field name="reserve_line_ids" readonly="state == 'closed'">
+                                <list>
+                                    <field
+                                        name="brl_currency_id"
+                                        column_invisible="1"
+                                    />
+                                    <field name="dere12_cCta" />
+                                    <field name="dere12_idAtivo" />
+                                    <field name="dere12_descAtivo" />
+                                    <field name="dere12_vSaldoInic" sum="Opening" />
+                                    <field name="dere12_vRendPerReceb" />
+                                    <field name="dere12_vVarMensal" />
+                                    <field name="dere12_vPrincLiqResg" />
+                                    <field name="dere12_vRendLiqResg" />
+                                    <field name="dere12_vSaldoFinal" sum="Closing" />
+                                    <field name="dere12_vApur" sum="Taxable" />
+                                </list>
+                            </field>
+                        </page>
+                        <page
+                            string="Deductions"
+                            name="deductions"
+                            invisible="not subject_d1121"
+                        >
+                            <field
+                                name="deduction_line_ids"
+                                readonly="state == 'closed'"
+                            >
+                                <list>
+                                    <field
+                                        name="brl_currency_id"
+                                        column_invisible="1"
+                                    />
+                                    <field name="dere12_tpDFe" />
+                                    <field name="dere12_chDFe" />
+                                    <field name="dere12_dtEmi" />
+                                    <field name="dere12_tpAtiv" />
+                                    <field name="dere12_vOper" sum="Operation" />
+                                    <field name="dere12_vDedTotal" />
+                                    <field name="dere12_vDed" sum="Deducted" />
+                                </list>
+                            </field>
+                        </page>
+                        <page
+                            string="RFB Assessment"
+                            name="rfb_assessment"
+                            invisible="not rfb_total_ids and not rfb_mismatch and not rfb_assessment_event_id"
+                        >
+                            <field name="rfb_mismatch" invisible="1" />
+                            <div
+                                class="alert alert-info"
+                                role="status"
+                                invisible="state != 'reopened' or not rfb_assessment_event_id"
+                            >
+                                The period was reopened. The assessment below
+                                comes from the previous closing and will be
+                                replaced by the next D-9199.
+                            </div>
+                            <group invisible="not rfb_assessment_event_id">
+                                <group string="Receipts used by the closing">
+                                    <field name="rfb_assessment_event_id" />
+                                    <field name="rfb_nr_recibo_balancete" />
+                                    <field name="rfb_nr_recibo_aplic_fin" />
+                                    <field name="rfb_nr_recibo_rel_dedu" />
+                                </group>
+                                <group string="Assessed taxes">
+                                    <field name="brl_currency_id" invisible="1" />
+                                    <field name="rfb_v_ibs_mun" />
+                                    <field name="rfb_v_ibs_uf" />
+                                    <field name="rfb_v_ibs_tot" />
+                                    <field name="rfb_v_cbs" />
+                                    <field name="rfb_v_is" />
+                                </group>
+                            </group>
+                            <field
+                                name="tax_assessment_line_ids"
+                                readonly="1"
+                                invisible="not tax_assessment_line_ids"
+                            >
+                                <list create="0" delete="0">
+                                    <field name="regime" />
+                                    <field name="dere12_codBC" />
+                                    <field name="dere12_xDetBC" />
+                                    <field
+                                        name="brl_currency_id"
+                                        column_invisible="1"
+                                    />
+                                    <field name="dere12_vBCApurIBS" />
+                                    <field name="dere12_pIBS" optional="hide" />
+                                    <field name="dere12_vIBSTot" sum="IBS" />
+                                    <field name="dere12_vBCApurCBS" />
+                                    <field name="dere12_pCBS" optional="hide" />
+                                    <field name="dere12_vCBS" sum="CBS" />
+                                    <field name="dere12_vIS" sum="IS" optional="hide" />
+                                    <field
+                                        name="dere12_memoriaCalculo"
+                                        optional="hide"
+                                    />
+                                </list>
+                            </field>
+                            <field name="rfb_total_ids" readonly="1">
+                                <list create="0" delete="0">
+                                    <field name="event_type" />
+                                    <field name="dere12_codTrib" />
+                                    <field name="dere12_indTribISS" />
+                                    <field
+                                        name="brl_currency_id"
+                                        column_invisible="1"
+                                    />
+                                    <field name="dere12_vApurTot" />
+                                    <field name="local_v_apur" />
+                                    <field
+                                        name="difference"
+                                        decoration-danger="has_difference"
+                                    />
+                                    <field name="has_difference" column_invisible="1" />
+                                    <field
+                                        name="dere12_vTotSaldoInic"
+                                        optional="hide"
+                                    />
+                                    <field
+                                        name="dere12_vTotSaldoFinal"
+                                        optional="hide"
+                                    />
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Batches" name="batches">
+                            <field name="batch_ids" readonly="1">
+                                <list create="0" delete="0">
+                                    <field name="name" />
+                                    <field name="state" />
+                                    <field name="protocol" />
+                                    <button
+                                        name="action_consult"
+                                        type="object"
+                                        string="Consult"
+                                        icon="fa-refresh"
+                                        invisible="state != 'sent' or not protocol"
+                                    />
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter />
+            </form>
+        </field>
+    </record>
+    <record id="action_dere_declaration" model="ir.actions.act_window">
+        <field name="name">DeRE Declarations</field>
+        <field name="res_model">l10n_br_dere.declaration</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
