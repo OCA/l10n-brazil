@@ -198,6 +198,15 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         arch, view = super()._get_view(view_id, view_type, **options)
         if view_type == "form":
             arch = self.inject_fiscal_fields(arch)
+            # On sale/purchase/invoice/blanket line form dialogs (NewId parent),
+            # injected comment_ids many2many_tags breaks Record.discard with
+            # "Datapoint needs load params or handle". Keep it on fiscal
+            # documents where the form is the main record, not an o2m popup.
+            if self._name != "l10n_br_fiscal.document.line":
+                for node in arch.xpath("//field[@name='comment_ids']"):
+                    parent = node.getparent()
+                    if parent is not None:
+                        parent.remove(node)
         return arch, view
 
     @api.depends(
