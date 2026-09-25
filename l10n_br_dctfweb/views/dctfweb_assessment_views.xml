@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <record id="view_dctfweb_assessment_form" model="ir.ui.view">
+        <field name="name">l10n_br_dctfweb.assessment.form</field>
+        <field name="model">l10n_br_dctfweb.assessment</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="action_assess"
+                        type="object"
+                        string="Assess"
+                        states="draft,assessed"
+                        class="oe_highlight"
+                    />
+                    <button
+                        name="action_close"
+                        type="object"
+                        string="Close"
+                        states="assessed"
+                        class="oe_highlight"
+                    />
+                    <button
+                        name="action_export_json"
+                        type="object"
+                        string="Export JSON"
+                        states="assessed,closed,transmitted"
+                    />
+                    <button
+                        name="action_rectify"
+                        type="object"
+                        string="Rectify"
+                        states="transmitted"
+                    />
+                    <button
+                        name="action_draft"
+                        type="object"
+                        string="Back to draft"
+                        states="assessed,closed"
+                    />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1" /></h1>
+                    </div>
+                    <group>
+                        <group name="period">
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                            <field name="month" />
+                            <field name="year" />
+                            <field name="no_movement" />
+                            <field name="rectification_of_id" invisible="1" />
+                            <field
+                                name="rectification_sequence"
+                                attrs="{'invisible': [('rectification_sequence', '=', 0)]}"
+                            />
+                        </group>
+                        <group name="totals">
+                            <field name="currency_id" invisible="1" />
+                            <field name="debit_total" />
+                            <field name="suspended_total" />
+                            <field name="mit_filename" invisible="1" />
+                            <field
+                                name="mit_file"
+                                filename="mit_filename"
+                                attrs="{'invisible': [('mit_file', '=', False)]}"
+                            />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="initial_data" string="Initial data">
+                            <group>
+                                <group name="qualification">
+                                    <field name="pj_qualification" />
+                                    <field
+                                        name="profit_taxation"
+                                        attrs="{'invisible': [('no_movement', '=', True)]}"
+                                    />
+                                    <field
+                                        name="monetary_variation"
+                                        attrs="{'invisible': [('no_movement', '=', True)]}"
+                                    />
+                                    <field
+                                        name="pis_cofins_regime"
+                                        attrs="{'invisible': [('no_movement', '=', True)]}"
+                                    />
+                                    <field
+                                        name="real_profit_balance"
+                                        attrs="{'invisible': ['|', ('no_movement', '=', True), ('profit_taxation', '!=', '1')]}"
+                                    />
+                                </group>
+                                <group name="responsible" string="Responsible">
+                                    <field name="responsible_cpf" />
+                                    <field name="responsible_phone_area" />
+                                    <field name="responsible_phone" />
+                                    <field name="responsible_email" />
+                                    <field name="crc_state_id" />
+                                    <field name="crc_number" />
+                                </group>
+                            </group>
+                        </page>
+                        <page name="debits" string="Debits">
+                            <field name="debit_ids">
+                                <tree editable="bottom">
+                                    <field name="debit_number" />
+                                    <field name="revenue_code_id" />
+                                    <field name="group" optional="show" />
+                                    <field name="periodicity" optional="hide" />
+                                    <field name="period" optional="show" />
+                                    <field name="establishment_cnpj" optional="show" />
+                                    <field name="incorporation_cnpj" optional="hide" />
+                                    <field name="scp_cnpj" optional="hide" />
+                                    <field name="gold_city_id" optional="hide" />
+                                    <field name="postponed_year" optional="hide" />
+                                    <field name="postponed_quarter" optional="hide" />
+                                    <field name="debit_year" optional="hide" />
+                                    <field name="special_event_id" optional="hide" />
+                                    <field name="after_special_event" optional="hide" />
+                                    <field name="source" />
+                                    <field name="tax_assessment_id" optional="show" />
+                                    <field name="amount" sum="Total" />
+                                    <field name="currency_id" invisible="1" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="suspensions" string="Suspensions">
+                            <field name="suspension_ids">
+                                <tree>
+                                    <field name="suspension_type" />
+                                    <field name="reason" optional="show" />
+                                    <field name="process_number" />
+                                    <field name="decision_date" optional="hide" />
+                                    <field name="amount_total" sum="Total" />
+                                    <field name="currency_id" invisible="1" />
+                                </tree>
+                                <form>
+                                    <group>
+                                        <group name="process">
+                                            <field name="suspension_type" />
+                                            <field name="process_number" />
+                                            <field
+                                                name="reason"
+                                                attrs="{'invisible': [('suspension_type', '!=', '2')], 'required': [('suspension_type', '=', '2')]}"
+                                            />
+                                            <field
+                                                name="with_deposit"
+                                                attrs="{'invisible': ['|', ('suspension_type', '!=', '2'), ('reason', '=', '2')]}"
+                                            />
+                                        </group>
+                                        <group
+                                            name="court"
+                                            attrs="{'invisible': [('suspension_type', '!=', '2')]}"
+                                        >
+                                            <field name="third_party_process" />
+                                            <field name="decision_date" />
+                                            <field name="court_number" />
+                                            <field name="court_city_id" />
+                                        </group>
+                                    </group>
+                                    <field name="line_ids">
+                                        <tree editable="bottom">
+                                            <field name="debit_id" />
+                                            <field name="amount" sum="Total" />
+                                            <field name="currency_id" invisible="1" />
+                                        </tree>
+                                    </field>
+                                </form>
+                            </field>
+                        </page>
+                        <page name="special_events" string="Special events">
+                            <field name="special_event_ids">
+                                <tree editable="bottom">
+                                    <field name="event_number" />
+                                    <field name="day" />
+                                    <field name="event_type" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="origin" string="Origin">
+                            <field name="tax_assessment_ids">
+                                <tree>
+                                    <field name="name" />
+                                    <field name="tax_group_id" />
+                                    <field name="date_from" />
+                                    <field name="date_to" />
+                                    <field name="assessed_balance" />
+                                    <field name="state" />
+                                    <field name="currency_id" invisible="1" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_dctfweb_assessment_tree" model="ir.ui.view">
+        <field name="name">l10n_br_dctfweb.assessment.tree</field>
+        <field name="model">l10n_br_dctfweb.assessment</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="year" />
+                <field name="month" />
+                <field name="no_movement" />
+                <field name="debit_total" sum="Total" />
+                <field name="state" />
+                <field name="currency_id" invisible="1" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_dctfweb_assessment_search" model="ir.ui.view">
+        <field name="name">l10n_br_dctfweb.assessment.search</field>
+        <field name="model">l10n_br_dctfweb.assessment</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="year" />
+                <filter
+                    name="to_close"
+                    string="To close"
+                    domain="[('state', 'in', ('draft', 'assessed'))]"
+                />
+                <filter
+                    name="transmitted"
+                    string="Transmitted"
+                    domain="[('state', '=', 'transmitted')]"
+                />
+                <filter
+                    name="group_by_year"
+                    string="Year"
+                    context="{'group_by': 'year'}"
+                />
+                <filter
+                    name="group_by_state"
+                    string="Status"
+                    context="{'group_by': 'state'}"
+                />
+            </search>
+        </field>
+    </record>
+
+    <record id="action_dctfweb_assessment" model="ir.actions.act_window">
+        <field name="name">DCTFWeb/MIT</field>
+        <field name="res_model">l10n_br_dctfweb.assessment</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="menu_dctfweb_assessment"
+        name="DCTFWeb/MIT"
+        parent="account.menu_finance_entries_actions"
+        action="action_dctfweb_assessment"
+        sequence="95"
+    />
+</odoo>
