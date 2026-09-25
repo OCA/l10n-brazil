@@ -541,6 +541,11 @@ msgid "Can Exclude Trial"
 msgstr "Pode excluir o balancete"
 
 #. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__can_exclude_event
+msgid "Can exclude event"
+msgstr "Pode excluir o evento"
+
+#. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_table_period__can_generate_tables
 msgid "Can Generate Tables"
 msgstr "Pode gerar tabelas"
@@ -570,6 +575,16 @@ msgstr "Pode substituir tabelas"
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__can_replace_trial
 msgid "Can Replace Trial"
 msgstr "Pode substituir o balancete"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__can_rectify_event
+msgid "Can rectify event"
+msgstr "Pode retificar o evento"
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__can_replace_event
+msgid "Can replace event"
+msgstr "Pode substituir o evento"
 
 #. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_table_period__can_send_tables
@@ -4398,6 +4413,29 @@ msgid "Replace Trial Balance"
 msgstr "Substituir Balancete"
 
 #. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_event_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_event_tree
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_table_period_form
+msgid "Replace"
+msgstr "Substituir"
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_event_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_event_tree
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_table_period_form
+msgid "Exclude"
+msgstr "Excluir"
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_event_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_event_tree
+msgid "Rectify"
+msgstr "Retificar"
+
+#. module: l10n_br_dere
 #. odoo-python
 #: code:addons/l10n_br_dere/models/dere_declaration.py:0
 msgid "Replace the trial balance after reopening before closing."
@@ -5414,6 +5452,30 @@ msgstr "Desconhecido"
 #: code:addons/l10n_br_dere/wizards/dere_event_operation_wizard.py:0
 msgid "Unsupported event type %s."
 msgstr "Tipo de evento %s não suportado."
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_table_period.py:0
+msgid "Unsupported table event %s."
+msgstr "Evento de tabela %s não suportado."
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_event.py:0
+msgid "This event cannot be replaced."
+msgstr "Este evento não pode ser substituído."
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_event.py:0
+msgid "This event cannot be excluded."
+msgstr "Este evento não pode ser excluído."
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_event.py:0
+msgid "This event cannot be rectified."
+msgstr "Este evento não pode ser retificado."
 
 #. module: l10n_br_dere
 #. odoo-python

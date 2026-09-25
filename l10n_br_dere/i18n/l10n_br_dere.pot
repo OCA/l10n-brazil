@@ -527,6 +527,11 @@ msgid "Can Exclude Trial"
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__can_exclude_event
+msgid "Can exclude event"
+msgstr ""
+
+#. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_table_period__can_generate_tables
 msgid "Can Generate Tables"
 msgstr ""
@@ -555,6 +560,16 @@ msgstr ""
 #. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_declaration__can_replace_trial
 msgid "Can Replace Trial"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__can_rectify_event
+msgid "Can rectify event"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_event__can_replace_event
+msgid "Can replace event"
 msgstr ""
 
 #. module: l10n_br_dere
@@ -4336,6 +4351,29 @@ msgid "Replace Trial Balance"
 msgstr ""
 
 #. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_event_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_event_tree
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_table_period_form
+msgid "Replace"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_event_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_event_tree
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_table_period_form
+msgid "Exclude"
+msgstr ""
+
+#. module: l10n_br_dere
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_event_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_event_tree
+msgid "Rectify"
+msgstr ""
+
+#. module: l10n_br_dere
 #. odoo-python
 #: code:addons/l10n_br_dere/models/dere_declaration.py:0
 msgid "Replace the trial balance after reopening before closing."
@@ -5311,6 +5349,30 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_dere/wizards/dere_event_operation_wizard.py:0
 msgid "Unsupported event type %s."
+msgstr ""
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_table_period.py:0
+msgid "Unsupported table event %s."
+msgstr ""
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_event.py:0
+msgid "This event cannot be replaced."
+msgstr ""
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_event.py:0
+msgid "This event cannot be excluded."
+msgstr ""
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_event.py:0
+msgid "This event cannot be rectified."
 msgstr ""
 
 #. module: l10n_br_dere
