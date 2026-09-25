@@ -58,7 +58,7 @@ class TestDereTablePeriod(DereCommon):
         declaration = self._create_declaration("2026-05")
         with self.assertRaises(UserError) as error:
             declaration.action_generate_d1011()
-        self.assertIn("taxation code", str(error.exception))
+        self.assertIn("DERE21", str(error.exception))
 
     def test_nbr5891_rounds_half_to_even(self):
         self.assertEqual(_money(1.225), "1.22")

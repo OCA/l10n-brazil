@@ -192,9 +192,7 @@ class TestDereReturns(DereCommon):
         return event
 
     def _schema_messages(self, event):
-        return event.message_ids.filtered(
-            lambda message: "official XSD" in (message.body or "")
-        )
+        return event.message_ids.filtered(lambda message: "XSD" in (message.body or ""))
 
     def test_parse_datetime_normalizes_fraction_and_offset(self):
         self.assertEqual(
