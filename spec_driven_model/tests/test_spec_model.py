@@ -5,6 +5,7 @@ from unittest.mock import patch
 
 from odoo_test_helper import FakeModelLoader
 
+from odoo.exceptions import UserError
 from odoo.models import MetaModel, NewId
 from odoo.tests import TransactionCase
 
@@ -218,6 +219,111 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
             imported_po.partner_id.id, self.env.ref("base.res_partner_1").id
         )
         self.assertEqual(imported_po.order_line[0].name, "Some product desc")
+
+    def _make_binding_with_new_partner(self, partner_name):
+        """Build a poxsd binding where billTo/shipTo use a brand new partner."""
+        from .purchase_order_lib import (
+            Items,
+            PurchaseOrderType,
+            Usaddress,
+        )
+
+        # Only set the name field to avoid recursively trying to create
+        # res.country.state/res.city records (which require country_id etc.)
+        new_address = Usaddress(name=partner_name)
+        return PurchaseOrderType(
+            ship_to=new_address,
+            bill_to=new_address,
+            items=Items(item=[]),
+        )
+
+    def test_import_blacklist_prevents_create(self):
+        """Blacklisting res.partner prevents creating it during import."""
+        binding = self._make_binding_with_new_partner("Brand New Partner X")
+
+        partner_before = self.env["res.partner"].search_count(
+            [("name", "=", "Brand New Partner X")]
+        )
+        self.assertEqual(partner_before, 0)
+
+        # dry_run=True so the fake.purchase.order isn't persisted
+        # (partner_id is required but we intentionally leave it unset)
+        imported_po = self.env["fake.purchase.order"].with_context(
+            spec_create_forbidden_models=["res.partner"],
+        ).build_from_binding("poxsd", "10", binding, dry_run=True)
+
+        # partner was NOT created
+        partner_after = self.env["res.partner"].search_count(
+            [("name", "=", "Brand New Partner X")]
+        )
+        self.assertEqual(partner_after, 0)
+        # the m2o is left empty (False)
+        self.assertFalse(imported_po.partner_id)
+
+    def test_import_blacklist_allows_existing_match(self):
+        """Blacklisting still allows matching an existing record."""
+        existing = self.env["res.partner"].create(
+            {"name": "Existing Match Partner", "street": "Existing St"}
+        )
+
+        binding = self._make_binding_with_new_partner("Existing Match Partner")
+
+        imported_po = self.env["fake.purchase.order"].with_context(
+            spec_create_forbidden_models=["res.partner"],
+        ).build_from_binding("poxsd", "10", binding)
+
+        # the existing partner was matched, not created
+        self.assertEqual(imported_po.partner_id, existing)
+
+    def test_import_whitelist_restricts_create(self):
+        """Whitelisting only allows creating the listed models."""
+        binding = self._make_binding_with_new_partner("Whitelist Test Partner")
+
+        # dry_run=True so the PO isn't persisted without its required partner
+        imported_po = self.env["fake.purchase.order"].with_context(
+            spec_create_allowed_models=["fake.purchase.order.line"],
+        ).build_from_binding("poxsd", "10", binding, dry_run=True)
+
+        # res.partner is NOT in the whitelist -> creation forbidden
+        self.assertFalse(imported_po.partner_id)
+        partner_count = self.env["res.partner"].search_count(
+            [("name", "=", "Whitelist Test Partner")]
+        )
+        self.assertEqual(partner_count, 0)
+
+    def test_import_forbidden_action_raise(self):
+        """spec_create_forbidden_action='raise' triggers a UserError.
+
+        The error message must be clear about what model was searched and with
+        which keys/domain so the user can create/map the record manually.
+        """
+        binding = self._make_binding_with_new_partner("Raise Test Partner")
+
+        with self.assertRaises(UserError) as ctx:
+            self.env["fake.purchase.order"].with_context(
+                spec_create_forbidden_models=["res.partner"],
+                spec_create_forbidden_action="raise",
+            ).build_from_binding("poxsd", "10", binding, dry_run=True)
+
+        message = str(ctx.exception)
+        # the model is mentioned (res.partner description)
+        self.assertIn("Contact", message)
+        # the search keys/domain used are described
+        self.assertIn("Searched using:", message)
+        # the XML values that failed to match are echoed
+        self.assertIn("Raise Test Partner", message)
+
+    def test_import_default_allows_create(self):
+        """Without any policy context, creation still works (backward compat)."""
+        binding = self._make_binding_with_new_partner("Default Create Partner")
+
+        imported_po = self.env["fake.purchase.order"].build_from_binding(
+            "poxsd", "10", binding
+        )
+
+        # partner WAS created (no policy set = historical behaviour)
+        self.assertTrue(imported_po.partner_id)
+        self.assertEqual(imported_po.partner_id.name, "Default Create Partner")
 
     def test_polymorphic_comodel_from_binding_type(self):
         binding_type = "Cte.Tcte.Ide"
