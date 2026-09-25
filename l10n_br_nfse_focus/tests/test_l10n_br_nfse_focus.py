@@ -766,15 +766,37 @@ class TestL10nBrNfseFocus(common.TransactionCase):
 
         self.assertNotIn("inscricao_municipal_prestador", payload)
 
-    def test_prepare_payload_nacional_sends_aliquota_non_simples_no_special_regime(
+    def test_prepare_payload_nacional_sends_aliquota_simples_optante(self):
+        """Tests aliquota is sent for a Simples Nacional optante provider.
+
+        percentual_aliquota_relativa_municipio must be informed when the
+        provider is optante do Simples Nacional (codigo_opcao_simples_nacional
+        == 2), matching the Sistema Nacional NFS-e requirement.
+        """
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        edoc = {
+            "rps": dict(PAYLOAD[0]["rps"], optante_simples_nacional="1"),
+            "service": PAYLOAD[1]["service"],
+            "recipient": PAYLOAD[2]["recipient"],
+        }
+
+        self.company.city_id = self.env.ref("l10n_br_base.city_3550308")
+
+        payload = nfse_nacional._prepare_payload_nacional(edoc, self.company)
+
+        self.assertEqual(payload.get("codigo_opcao_simples_nacional"), 2)
+        self.assertIn("percentual_aliquota_relativa_municipio", payload)
+
+    def test_prepare_payload_nacional_suppresses_aliquota_non_simples_no_special_regime(
         self,
     ):
-        """Tests aliquota is sent for a non-Simples provider without special regime.
+        """Tests aliquota is omitted for a non-Simples provider without special regime.
 
-        Some municipalities require percentual_aliquota_relativa_municipio even
-        for providers that are not optante do Simples Nacional, as long as they
-        have no special municipal taxation regime (regime_especial_tributacao
-        == 0) and ISS is normally taxable.
+        The Sistema Nacional NFS-e rejects percentual_aliquota_relativa_municipio
+        (error E0617) whenever the provider is not optante do Simples Nacional
+        (codigo_opcao_simples_nacional == 1), regardless of
+        regime_especial_tributacao, for municipalities active in the national
+        system.
         """
         nfse_nacional = self.env["focusnfe.nfse.nacional"]
         edoc = {
@@ -792,7 +814,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         payload = nfse_nacional._prepare_payload_nacional(edoc, self.company)
 
         self.assertEqual(payload.get("codigo_opcao_simples_nacional"), 1)
-        self.assertIn("percentual_aliquota_relativa_municipio", payload)
+        self.assertNotIn("percentual_aliquota_relativa_municipio", payload)
 
     def test_prepare_payload_nacional_suppresses_aliquota_special_regime(self):
         """Tests aliquota is omitted for a non-Simples provider with special regime.
