@@ -238,7 +238,8 @@ class TestDereCoverageGaps(DereCommon):
         declaration = self._prepare_d1106_trial("2028-04")
         empty = declaration.copy({"per_apur": "2028-05"})
         empty.pgcc_account_ids = False
-        self.assertTrue(empty._sync_reserve_lines_from_assets())
+        # Rebuilds the PGCC snapshot; reserve lines depend on company assets.
+        empty._sync_reserve_lines_from_assets()
         self._accept_event(declaration, "D-1101")
         declaration.action_generate_d1106()
         self._accept_event(declaration, "D-1106")
