@@ -50,6 +50,12 @@ class L10nBrFiscalDfeDocument(models.Model):
         compute="_compute_manifestation_status",
     )
 
+    fiscal_document_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document",
+        string="Imported Document",
+        readonly=True,
+    )
+
     @api.depends("manifestations_ids.state")
     def _compute_manifestation_status(self):
         """Compute manifestation status efficiently with batched queries."""
@@ -116,6 +122,23 @@ class L10nBrFiscalDfeDocument(models.Model):
             "context": {
                 "default_access_key": self.access_key,
             },
+        }
+
+    def action_view_imported_document(self):
+        """Open the invoice created from this DF-e.
+
+        Falls back to the fiscal document itself when accounting is not
+        installed, as this module does not depend on l10n_br_account.
+        """
+        self.ensure_one()
+        document = self.fiscal_document_id
+        moves = document.move_ids if "move_ids" in document._fields else document
+        record = moves[:1] or document
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": record._name,
+            "res_id": record.id,
+            "view_mode": "form",
         }
 
     def import_document(self):
