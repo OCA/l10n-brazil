@@ -281,3 +281,4 @@ class NFeImportWizardTest(TransactionCase):
         self.assertEqual(taxes["vICMS"], 100)
         self.assertEqual(taxes["pIPI"], 5)
         self.assertEqual(taxes["vIPI"], 100)
+        self.assertEqual(self.wizard.amount_total, 14.00)
