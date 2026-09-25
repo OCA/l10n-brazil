@@ -3,6 +3,24 @@
 
 from odoo import fields, models
 
+VEHICLE_WHEEL_TYPE = [
+    ("01", "Truck"),
+    ("02", "Toco"),
+    ("03", "Cavalo Mecânico"),
+    ("04", "VAN"),
+    ("05", "Utilitário"),
+    ("06", "Outros"),
+]
+
+VEHICLE_BODY_TYPE = [
+    ("00", "Não aplicável"),
+    ("01", "Aberta"),
+    ("02", "Fechada/Baú"),
+    ("03", "Granelera"),
+    ("04", "Porta Container"),
+    ("05", "Sider"),
+]
+
 
 class CarrierVehicle(models.Model):
     _name = "l10n_br_delivery.carrier.vehicle"
@@ -19,9 +37,23 @@ class CarrierVehicle(models.Model):
         unaccent=False,
     )
 
+    owner_id = fields.Many2one(
+        comodel_name="res.partner",
+        string="Owner",
+    )
+
     plate = fields.Char(
         string="Placa",
         size=7,
+    )
+
+    vehicle_code = fields.Char(
+        size=10,
+    )
+
+    renavam = fields.Char(
+        string="RENAVAM",
+        size=11,
     )
 
     driver = fields.Char(
@@ -66,6 +98,26 @@ class CarrierVehicle(models.Model):
     type = fields.Selection(
         selection=[("bau", "Caminhão Baú")],
         string="Model Type",
+    )
+
+    wheel_type = fields.Selection(
+        selection=VEHICLE_WHEEL_TYPE,
+    )
+
+    body_type = fields.Selection(
+        selection=VEHICLE_BODY_TYPE,
+    )
+
+    tara = fields.Char(
+        string="Tara (KG)",
+    )
+
+    capacity_kg = fields.Char(
+        string="Capacity (KG)",
+    )
+
+    capacity_m3 = fields.Char(
+        string="Capacity (M3)",
     )
 
     carrier_id = fields.Many2one(
