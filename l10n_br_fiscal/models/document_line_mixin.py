@@ -336,6 +336,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                 line.ipi_guideline_id = mapping_result["ipi_guideline"]
                 line.tax_classification_id = mapping_result["tax_classification"]
                 line.icms_tax_benefit_id = mapping_result["icms_tax_benefit_id"]
+                line.icms_relief_id = mapping_result["icms_relief_id"]
+                line.icms_relief_type = mapping_result["icms_relief_type"]
 
                 if line._is_imported():
                     continue
@@ -717,6 +719,11 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     def _onchange_icms_fields(self):
         if self.icms_tax_benefit_id:
             self.icms_tax_id = self.icms_tax_benefit_id.tax_id
+            self.icms_relief_id = self.icms_tax_benefit_id.icms_relief_id
+            self.icms_relief_type = self.icms_tax_benefit_id.icms_relief_type
+        else:
+            self.icms_relief_id = False
+            self.icms_relief_type = "0"
 
     @api.onchange("tax_classification_id")
     def _onchange_tax_classification_id(self):
@@ -924,7 +931,10 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     @api.model
     def _rm_fields_to_amount(self):
-        return ["icms_relief_value"]
+        fields_to_remove = []
+        if self.icms_relief_type == "1":
+            fields_to_remove.append("icms_relief_value")
+        return fields_to_remove
 
     def _is_imported(self):
         # When the mixin is used for instance
@@ -1490,7 +1500,24 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     # motDesICMS - Motivo da desoneração do ICMS
     icms_relief_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.icms.relief", string="ICMS Relief"
+        comodel_name="l10n_br_fiscal.icms.relief",
+        string="ICMS Relief",
+        compute="_compute_fiscal_tax_ids",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
+
+    # indDeduzDeson - Indicador de dedução do valor do ICMS desonerado
+    icms_relief_type = fields.Selection(
+        selection=[
+            ("0", "0 - Do not deduct the ICMS Relief"),
+            ("1", "1 -  Deduct ICMS Relief from Product Amount"),
+        ],
+        compute="_compute_fiscal_tax_ids",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # vICMSDeson - Valor do ICMS desonerado
