@@ -111,4 +111,10 @@
         <field name="global" eval="True" />
         <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
     </record>
+    <record id="event_occurrence_company_rule" model="ir.rule">
+        <field name="name">DeRE event occurrence multi-company</field>
+        <field name="model_id" ref="model_l10n_br_dere_event_occurrence" />
+        <field name="global" eval="True" />
+        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+    </record>
 </odoo>

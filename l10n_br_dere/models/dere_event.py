@@ -270,6 +270,12 @@ class DereEventOccurrence(models.Model):
     event_id = fields.Many2one(
         comodel_name="l10n_br_dere.event", required=True, ondelete="cascade"
     )
+    company_id = fields.Many2one(
+        comodel_name="res.company",
+        related="event_id.company_id",
+        store=True,
+        index=True,
+    )
     codigo = fields.Char(string="Code", required=True, size=6)
     descricao = fields.Char(string="Description", required=True)
     tipo = fields.Selection(

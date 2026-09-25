@@ -420,6 +420,7 @@ class TestDereTransmit(DereCommon):
         )
         self.assertEqual(event.state, "rejected")
         self.assertEqual(event.occurrence_ids.codigo, "12")
+        self.assertEqual(event.occurrence_ids.company_id, declaration.company_id)
 
     def test_missing_credentials(self):
         self.company.dere_client_id = False
