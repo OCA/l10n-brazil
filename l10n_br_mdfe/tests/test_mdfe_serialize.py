@@ -319,3 +319,13 @@ class TestMDFeRequiredFields(TransactionCase):
         with self.assertRaises(UserError) as cm:
             self.mdfe.action_document_confirm()
         self.assertIn("Owner RNTRC must contain exactly 8 digits", str(cm.exception))
+
+    def test_missing_certificate(self):
+        # The company has a single fiscal certificate (certificate_id) and
+        # this one is not a branch of another company: the MDF-e cannot be
+        # sent without it.
+        self.mdfe.company_id.certificate_id = False
+        self.mdfe.company_id.invalidate_recordset()
+        with self.assertRaises(UserError) as cm:
+            self.mdfe.action_document_confirm()
+        self.assertIn("Digital Certificate", str(cm.exception))
