@@ -1,41 +1,46 @@
-- Migrate `xml_builder` to [derelib](https://github.com/Escodoo/derelib)
-  (xsdata binding for DeRE 1.2.0, same role nfelib plays for NF-e /
-  CT-e / MDF-e): build, sign, batch and parse returns through the
-  library, keeping business rules (`tpOper`, MS1135 / MS1147, PGCC
-  checks) in this module. Do not introduce
-  `spec_driven_model.StackedModel` before that migration.
-- Do not inherit event mixins (D-1001 / D-1011 / D-1101 / D-1199) on
-  `l10n_br_dere.declaration`, `l10n_br_dere.table.period` or
-  `l10n_br_dere.event`: those abstracts share `dere12_id` and `dere12_tpOper`.
-- Official `tpOper` 1/2/3 (and D-1121 `4` after the first D-1199) is
-  implemented. D-1198 / D-1199 stay inclusion-only.
-- D-1121 `infoImovel` and D-1021 (required before `motExcl` 1)
-- Local replica of MS1155 (future `perApur`): the official rule does not
-  interrupt processing, and the test suite uses future months
-- Transactional events (D-3201 and remaining D-22xx / D-32xx) after CGIBS
-  publishes a stable transactional layout
-- D-9199 content not stored yet: `gCoeficientes` (financial services and
-  prize contests) and the `infoBCN` / `detBCN` breakdown of the negative
-  base carried forward per origin. Only the final negative balances are
-  kept on the assessment lines.
-- D-9121 (public-bond operations) and D-9209 (transactional) returns are
-  recognized and validated, but their content is not applied until the
-  matching events are implemented.
-- Optional journal entry for the IBS / CBS assessed by D-9199; today the
-  amounts are recorded for reference only.
-- D-1199 `gUtilizBCN` (negative-base recovery). The group is optional
-  (`usarBCNAcum` / `metodoAproveit` / `detBCNeg`). Official Tabela 12
-  (`codBC` / `codBCNRaiz`) belongs with that feature, not as a standalone
-  catalog today: D-9199 already returns `xDetBC` on each assessment line.
-- D-2101 (public-bond titles) is out of scope for health-plan operators.
-- Consult backoff has no max attempt count (manual Dev §3.3). Delay is
-  capped at 60 minutes and the batch stays `sent` until a result arrives.
-- Official Anexo I tables that stay out of this module on purpose:
-  - 13 / 15 reuse `res.country.state` / `res.country`
-  - 14 / 22 / 23 / 24 / 32 are external referential charts (SPED, COSIF,
-    SUSEP, PREVIC, ANS). They belong in a chart-of-accounts addon, not
-    here. MS1077 (account missing from the official chart) stays
-    server-side.
-  - 33 (health-premium age coefficients) belongs with D-3201
-- MS1114 (`cCtaRef` of a split account must match the parent) is only a
-  warning at the RFB and is not replicated locally.
+- Migrar o `xml_builder` para a [derelib](https://github.com/Escodoo/derelib)
+  (binding xsdata do DeRE 1.2.0, o mesmo papel da nfelib na NF-e /
+  CT-e / MDF-e): montar, assinar, lotear e ler retornos pela
+  biblioteca, mantendo as regras de negócio (`tpOper`, MS1135 /
+  MS1147, checagens de PGCC) neste módulo. Não introduzir
+  `spec_driven_model.StackedModel` antes dessa migração.
+- Não herdar mixins de evento (D-1001 / D-1011 / D-1101 / D-1199) em
+  `l10n_br_dere.declaration`, `l10n_br_dere.table.period` ou
+  `l10n_br_dere.event`: esses abstracts compartilham `dere12_id` e
+  `dere12_tpOper`.
+- O `tpOper` oficial 1/2/3 (e o `4` do D-1121 depois do primeiro
+  D-1199) está implementado. D-1198 / D-1199 permanecem só inclusão.
+- `infoImovel` do D-1121 e D-1021 (exigido antes de `motExcl` 1)
+- Réplica local da MS1155 (`perApur` futuro): a regra oficial não
+  interrompe o processamento, e a suíte de testes usa meses futuros
+- Eventos transacionais (D-3201 e demais D-22xx / D-32xx) depois que
+  o CGIBS publicar um leiaute transacional estável
+- Conteúdo do D-9199 ainda não gravado: `gCoeficientes` (serviços
+  financeiros e concursos de prognósticos) e o detalhe `infoBCN` /
+  `detBCN` da base negativa acumulada por origem. Só os saldos
+  negativos finais ficam nas linhas de apuração.
+- Os retornos D-9121 (operações com títulos públicos) e D-9209
+  (transacional) são reconhecidos e validados, mas o conteúdo não é
+  aplicado até os eventos correspondentes existirem.
+- Lançamento contábil opcional do IBS / CBS apurado no D-9199; hoje
+  os valores são gravados só para referência.
+- `gUtilizBCN` do D-1199 (aproveitamento de base negativa). O grupo é
+  opcional (`usarBCNAcum` / `metodoAproveit` / `detBCNeg`). A Tabela
+  12 oficial (`codBC` / `codBCNRaiz`) entra com essa funcionalidade,
+  não como catálogo avulso agora: o D-9199 já devolve `xDetBC` em
+  cada linha de apuração.
+- D-2101 (títulos públicos) fica fora do escopo de operadoras de
+  planos de saúde.
+- O backoff da consulta não tem número máximo de tentativas (manual
+  Dev §3.3). O atraso é limitado a 60 minutos e o lote permanece
+  `sent` até chegar um resultado.
+- Tabelas oficiais do Anexo I que ficam de fora deste módulo de
+  propósito:
+  - 13 / 15 reutilizam `res.country.state` / `res.country`
+  - 14 / 22 / 23 / 24 / 32 são planos referenciais externos (SPED,
+    COSIF, SUSEP, PREVIC, ANS). Pertencem a um módulo de plano de
+    contas, não aqui. A MS1077 (conta ausente do plano oficial)
+    permanece no servidor.
+  - 33 (coeficientes etários de contraprestação) entra com o D-3201
+- A MS1114 (`cCtaRef` de conta desmembrada deve coincidir com o pai)
+  é só aviso na RFB e não é replicada localmente.

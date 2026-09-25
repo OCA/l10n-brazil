@@ -1,20 +1,23 @@
-This module implements Wave 1 of the Brazilian **Declaração de Regimes
-Específicos (DeRE)** layout **1.2.0**.
+Este módulo implementa a Onda 1 da **Declaração de Regimes Específicos
+(DeRE)** brasileira, leiaute **1.2.0**.
 
-It lets an Odoo company:
+Ele permite que uma empresa no Odoo:
 
-- store the DeRE tax regime, activities and referential chart
-- map `account.group` (synthetic) and `account.account` (analytic) PGCC fields
-- keep D-1001 / D-1011 and the PGCC snapshot on a company table-validity
-  period reused by monthly declarations
-- generate local XML for D-1001, D-1011, D-1101, D-1106, D-1121, D-1198
-  and D-1199
-- send signed batches to Receita Integra, consult processing (manually or
-  via cron with backoff) and store protocol, receipt and D-9xxx returns
-- keep the RFB totals (D-9101 / D-9106 / D-9112), the D-9198 reopening
-  return, the D-9199 IBS/CBS assessment and the D-9001 validity extract
-  next to the local data, without posting a journal entry
+- grave o regime tributário DeRE, as atividades e o plano referencial
+- mapeie os campos do PGCC em `account.group` (sintético) e
+  `account.account` (analítico)
+- mantenha D-1001 / D-1011 e o snapshot do PGCC em um período de
+  vigência da empresa, reutilizado pelas declarações mensais
+- gere o XML local de D-1001, D-1011, D-1101, D-1106, D-1121, D-1198 e
+  D-1199
+- envie lotes assinados à Receita Integra, consulte o processamento
+  (manual ou por cron com backoff) e grave protocolo, recibo e retornos
+  D-9xxx
+- mantenha os totais da RFB (D-9101 / D-9106 / D-9112), o retorno de
+  reabertura D-9198, a apuração IBS/CBS do D-9199 e o extrato de
+  vigência do D-9001 ao lado dos dados locais, sem lançar um
+  `account.move`
 
-It does **not** implement sector-specific rules (for example health-plan
-premium vs administration-fee reconciliation). Those stay in company data or
-in a dedicated extra addon.
+Não implementa regras setoriais (por exemplo conciliação de
+contraprestação versus taxa de administração em planos de saúde). Isso
+fica nos dados da empresa ou em um módulo extra dedicado.

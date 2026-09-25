@@ -1,174 +1,191 @@
-1. Open **Fiscal → DeRE → Table Periods** and create a company-level validity
-   (`iniValid` / optional `fimValid`). Monthly declarations pick the period
-   that covers `perApur`.
-2. Generate table events D-1001 then D-1011 from the table period. The
-   monthly declaration does not create or replace those events. The stored
-   XML stays unsigned and is checked
-   against the official XSD. Sending signs each event (XML-DSig RSA-SHA256),
-   validates the signed event and the lote, then posts one type per batch.
-   **Replace** / **Exclude** on the accepted event row open the operation
-   wizard (`tpOper` 2/3) for that event only, so a PGCC change can
-   replace D-1011 without resending D-1001. Replace updates the existing
-   PGCC snapshot in place (for example a new `codTrib`) so D-1101 /
-   D-1106 lines keep their account link. Accounts still used by those
-   events cannot be dropped.
-   Draft or generated records can be deleted from the form. Sent or
-   accepted ones stay until a manager enables **Allow deleting accepted
-   DeRE records** on the company (`tpAmb` 2 only) or uses Exclude
-   (`tpOper` 3) at the RFB.
-3. Sending does **not** consult immediately. Use **Consult Results** or wait
-   for the cron (exponential backoff from 2 minutes up to 60) until the
-   D-9001 receipt arrives. Then generate the trial balance (D-1101) from
-   posted `account.move.line` records. The trial button stays hidden until
-   D-1001 and D-1011 are accepted.
-4. Generate D-1199 with **Close Period** (`tpOper` inclusion only). That only
-   stores the XML; the declaration stays in *Trial balance ready*. Use
-   **Discard Local Closing** to drop a D-1199 that was never sent. Send
-   periodics in a separate batch. Table and periodic events in the same batch
-   are rejected. The declaration becomes *Closed* when the D-1199 return is
-   accepted.
-5. To reopen an officially closed period, wait for the D-1199 receipt, then
-   **Reopen Period**. That builds D-1198 (`nrReciboReab`) and keeps the
-   declaration *Closed*; use **Discard Local Reopening** to drop a D-1198 that
-   was never sent. **Send Periodics** and consult until D-1198 is accepted
-   before replacing the trial balance (`tpOper` 2 + the last D-1101 receipt).
-   A second inclusion (`tpOper` 1) is rejected while that D-1101 is still
-   active. Exclude (`tpOper` 3) first if the month must start over. The
-   declaration stays *Reopened* through the rework until the new D-1199 is
-   accepted.
-   **Consult Results** only appears while a lote is still `sent`.
-   The blue header button is the next official monthly step: generate the
-   trial, send or consult periodics, then D-1106 / D-1121 when the company
-   is subject, then close. Table generate / send stay on the table period.
-   **Generate Trial Balance** stays hidden after D-1101 is sent or accepted.
-   While the month is open, **Replace** / **Exclude** on the accepted
-   event row (`tpOper` 2/3) rebuild or drop that event. After D-1198 is
-   accepted the primary action is **Replace Trial Balance** (use Replace
-   on the D-1101 row). **Send Periodics** appears only while a periodic
-   XML is `generated`.
+1. Abra **Fiscal → DeRE → Períodos de Tabela** e crie uma vigência da
+   empresa (`iniValid` / `fimValid` opcional). As declarações mensais
+   escolhem o período que cobre o `perApur`.
+2. Gere os eventos de tabela D-1001 e depois D-1011 a partir do período
+   de tabela. A declaração mensal não cria nem substitui esses eventos.
+   O XML gravado permanece sem assinatura e é conferido contra o XSD
+   oficial. O envio assina cada evento (XML-DSig RSA-SHA256), valida o
+   evento assinado e o lote, e posta um tipo por lote. **Substituir** /
+   **Excluir** na linha do evento aceito abrem o assistente (`tpOper`
+   2/3) só daquele evento, para uma mudança de PGCC substituir o D-1011
+   sem reenviar o D-1001. A substituição atualiza o snapshot do PGCC no
+   lugar (por exemplo um `codTrib` novo) para as linhas de D-1101 /
+   D-1106 manterem o vínculo da conta. Contas ainda usadas por esses
+   eventos não podem ser removidas.
+   Registros em rascunho ou gerados podem ser apagados no formulário.
+   Enviados ou aceitos só saem se um gerente ligar **Permitir excluir
+   registros DeRE aceitos** na empresa (`tpAmb` 2) ou usar Excluir
+   (`tpOper` 3) na RFB.
+3. O envio **não** consulta na hora. Use **Consultar Resultados** ou
+   aguarde o cron (backoff exponencial de 2 até 60 minutos) até chegar
+   o recibo D-9001. Depois gere o balancete (D-1101) a partir dos
+   `account.move.line` lançados. O botão do balancete fica oculto até
+   D-1001 e D-1011 serem aceitos.
+4. Gere o D-1199 com **Encerrar Período** (`tpOper` só inclusão). Isso
+   só grava o XML; a declaração permanece em *Balancete pronto*. Use
+   **Descartar Encerramento Local** para dropar um D-1199 que nunca foi
+   enviado. Transmita os periódicos em lote separado. Eventos de tabela
+   e periódicos no mesmo lote são rejeitados. A declaração vira
+   *Encerrada* quando o retorno do D-1199 é aceito.
+5. Para reabrir um período oficialmente encerrado, aguarde o recibo do
+   D-1199 e então **Reabrir Período**. Isso monta o D-1198
+   (`nrReciboReab`) e mantém a declaração *Encerrada*; use **Descartar
+   Reabertura Local** para dropar um D-1198 que nunca foi enviado.
+   **Transmitir Periódicos** e consulte até o D-1198 ser aceito antes
+   de substituir o balancete (`tpOper` 2 + o último recibo do D-1101).
+   Uma segunda inclusão (`tpOper` 1) é rejeitada enquanto esse D-1101
+   estiver ativo. Exclua (`tpOper` 3) primeiro se o mês precisar
+   recomeçar. A declaração permanece *Reaberta* no retrabalho até o
+   novo D-1199 ser aceito.
+   **Consultar Resultados** só aparece enquanto um lote estiver
+   `sent`.
+   O botão azul do cabeçalho é o próximo passo oficial do mês: gerar o
+   balancete, transmitir ou consultar periódicos, depois D-1106 /
+   D-1121 quando a empresa for sujeita, e encerrar. Geração e envio de
+   tabelas ficam no período de tabela.
+   **Gerar Balancete** some depois que o D-1101 é enviado ou aceito.
+   Enquanto o mês está aberto, **Substituir** / **Excluir** na linha
+   do evento aceito (`tpOper` 2/3) refazem ou baixam aquele evento.
+   Depois do D-1198 aceito a ação primária é substituir o balancete
+   (use Substituir na linha do D-1101). **Transmitir Periódicos**
+   aparece só enquanto um XML periódico estiver `generated`.
 
-Receipt (`nrRecibo`) and batch protocol are stored separately on each event.
-Do not send a second inclusion of an active event. Replace or exclude it
-(`tpOper` 2/3) while the month is open; D-1198/D-1199 stay inclusion-only.
-After the first accepted D-1199, D-1121 only admits rectification (`tpOper`
-4) on the reopened month. If the company is
-subject to D-1106, generate that event after the trial balance (use
-`semAplic` when there are no reserve assets). If it is subject to D-1121,
-load inbound deductible documents or set *Declare no deductions*.
+O recibo (`nrRecibo`) e o protocolo do lote ficam separados em cada
+evento. Não envie uma segunda inclusão de um evento ativo. Substitua
+ou exclua (`tpOper` 2/3) enquanto o mês estiver aberto; D-1198/D-1199
+permanecem só inclusão. Depois do primeiro D-1199 aceito, o D-1121 só
+admite retificação (`tpOper` 4) no mês reaberto. Se a empresa for
+sujeita ao D-1106, gere esse evento depois do balancete (use
+`semAplic` quando não houver ativos de reserva). Se for sujeita ao
+D-1121, carregue os documentos de entrada dedutíveis ou marque
+*Declarar inexistência de deduções*.
 
-Every analytic DeRE account must have `codTrib` before D-1011 is generated.
-Taxation codes show as `code - name` and can be searched by either value.
-`vApur` on D-1101 follows the official movement formula (gross nature-side
-amount plus adjustments). Variable-nature accounts (`natCta` V) take
-`natVApur` from the period closing side. Reversal moves are reported as
-`vAjusteDebt` / `vAjusteCred`. Closing D-1199 is blocked when D-1106 closing
-balances do not match D-1101, or when the D-1011 receipt used to build
-D-1101 changed. A fiscal document key (`chDFe`) cannot be repeated in the
-same `perApur`. Table replacement may change validity only when the new
-dates differ from the current period. D-1121 rectification after reopening
-requires an explicit `finEvt` and the documents to rectify.
+Toda conta analítica DeRE precisa de `codTrib` antes de gerar o
+D-1011. Os códigos de tributação aparecem como `código - nome` e
+aceitam busca por qualquer um dos dois. O `vApur` do D-1101 segue a
+fórmula oficial de movimento (valor bruto do lado da natureza mais
+ajustes). Contas de natureza variável (`natCta` V) tomam `natVApur` do
+lado de fechamento do período. Estornos entram como `vAjusteDebt` /
+`vAjusteCred`. O encerramento D-1199 é bloqueado quando os saldos
+finais do D-1106 não batem com o D-1101, ou quando o recibo do D-1011
+usado para montar o D-1101 mudou. Uma chave de documento fiscal
+(`chDFe`) não pode se repetir no mesmo `perApur`. A substituição de
+tabela só altera a vigência quando as datas novas diferem do período
+atual. A retificação do D-1121 após a reabertura exige um `finEvt`
+explícito e os documentos a retificar.
 
-## Return events (D-9xxx)
+## Eventos de retorno (D-9xxx)
 
-Each consulted event keeps its own return. The **Return** tab of the event
-shows the return type (D-9001, D-9101, D-9106, D-9112, D-9198 or D-9199),
-the version sequence (`seqEvento`), reception and processing times, the
-D-1011 receipt used by the RFB (`nrReciboPGCC`) and the return XML. The
-return is checked against its official XSD: differences are posted on the
-event chatter and never undo the RFB decision.
+Cada evento consultado guarda o próprio retorno. A aba **Retorno** do
+evento mostra o tipo (D-9001, D-9101, D-9106, D-9112, D-9198 ou
+D-9199), a sequência de versão (`seqEvento`), os horários de recepção
+e processamento, o recibo do D-1011 usado pela RFB (`nrReciboPGCC`) e
+o XML de retorno. O retorno é conferido contra o XSD oficial:
+diferenças vão para o chatter do evento e nunca desfazem a decisão da
+RFB.
 
-The **RFB Assessment** tab of the declaration lists the D-9101 totals per
-`codTrib` / `indTribISS` and the D-9106 total next to the `vApur` sent in
-D-1101 / D-1106. A warning banner and a chatter note appear when a total
-differs or when D-9101, D-9106 or D-9112 used another PGCC receipt than
-the D-1011 in force.
+A aba **Apuração da RFB** da declaração lista os totais D-9101 por
+`codTrib` / `indTribISS` e o total D-9106 ao lado do `vApur` enviado
+no D-1101 / D-1106. Um aviso e uma nota no chatter aparecem quando um
+total difere ou quando D-9101, D-9106 ou D-9112 usaram outro recibo de
+PGCC que o D-1011 em vigor.
 
-When D-1199 is accepted, the same tab shows the D-9199 assessment: the
-IBS/CBS bases per specific regime (`detBC`), the general totals
-(`totalTributosGeral`) and the D-1101, D-1106 and D-1121 receipts used by
-the closing. The banner also appears when those receipts are not the
-events in force. The amounts are recorded for reference only; no journal
-entry is created. After D-1198 reopens the period, the previous assessment
-stays visible and is replaced by the next D-9199. **Print RFB Assessment**
-(and the Print menu) builds a landscape PDF of that tab.
+Quando o D-1199 é aceito, a mesma aba mostra a apuração D-9199: as
+bases IBS/CBS por regime específico (`detBC`), os totais gerais
+(`totalTributosGeral`) e os recibos de D-1101, D-1106 e D-1121 usados
+no encerramento. O aviso também aparece quando esses recibos não são
+os eventos em vigor. Os valores são gravados só para referência; não
+se cria lançamento contábil. Depois que o D-1198 reabre o período, a
+apuração anterior permanece visível e é substituída pelo próximo
+D-9199. **Imprimir apuração da RFB** (e o menu Imprimir) gera um PDF
+paisagem dessa aba.
 
-D-9001 carries the RFB validity extract of the table (D-1001 or D-1011):
-every validity in force and every month without coverage. The latest
-extract of each table replaces the previous one and is shown on the **RFB
-Validity Extract** tab of the table periods. Each validity is linked to
-the local table period by its receipt. When the RFB cut a period because a
-later validity starts after it (`indAjusteAuto` = 1), the period gets an
-**Effective validity end** and stops covering later months. A banner
-shows the cut and the gaps, and the chatter lists receipts that belong to
-no local table period.
+O D-9001 traz o extrato de vigência da tabela (D-1001 ou D-1011):
+todas as vigências em vigor e cada mês sem cobertura. O extrato mais
+recente de cada tabela substitui o anterior e aparece na aba
+**Extrato de vigência da RFB** dos períodos de tabela. Cada vigência
+é ligada ao período local pelo recibo. Quando a RFB corta um período
+porque uma vigência posterior começa depois dele (`indAjusteAuto` =
+1), o período ganha um **Fim da vigência efetiva** e deixa de cobrir
+meses seguintes. Um aviso mostra o corte e as lacunas, e o chatter
+lista recibos que não pertencem a nenhum período local.
 
-## Homologation checklist
+## Checklist de homologação
 
-Use a company whose chart already maps at least one administration-fee
-account (`codTrib` 120110006) and one pass-through liability (also with
-`codTrib`). Posted journal items in the assessment month must split **own
-fee** vs **operator remittance**. The trial balance is never typed: it is
-rebuilt from those moves.
+Use uma empresa cujo plano já mapeie ao menos uma conta de taxa de
+administração (`codTrib` 120110006) e um passivo de repasse (também
+com `codTrib`). Os lançamentos do mês de apuração devem separar **taxa
+própria** versus **repasse da operadora**. O balancete nunca é
+digitado: ele é reconstruído a partir desses movimentos.
 
-1. Switch to the company and open **Fiscal → DeRE → Table Periods**.
-2. Create or reuse the validity that covers the month. Confirm `iniValid`.
-3. **Generate Tables**. Events D-1001 and D-1011 must exist with XML.
-   - D-1001: `regTribPrinc` = 2 and `tpAtividade` = `02A` for a benefit
-     administrator. No `servFinanc` / `prognosticos` unless a secondary
-     regime requires them.
-   - D-1011: `planoCtaRef` and `freqEncerr` present; `cDbrMista` has three
-     digits; every analytic account has `codTrib`.
-4. Open **Fiscal → DeRE → Declarations** (`perApur` = `YYYY-MM`). After the tables
-   are accepted, **Generate Trial Balance**. Footer totals need the hidden
-   `brl_currency_id`.
-   - Fee line: credit = own revenue and `vApur` equals that gross credit
-     minus credit adjustments plus debit adjustments.
-   - Pass-through line: movement present and `vApur` follows the same rule
-     for the account nature.
-5. Open each event form and check the XML: dates use `YYYY-MM-DD`; `perApur`
-   uses `YYYY-MM`. Every event `id` follows
-   `DeRE` + event code + `1` + zero-padded CNPJ root + Brasília timestamp +
-   sequential `QQQQQ`. Generation already rejects XML that fails the official
-   XSD.
-6. If the company is subject to D-1106, **Generate D-1106** before closing.
-   The PGCC must include at least one account with a D-1106 `codTrib`
-   (MS1135). The company flag alone does not make D-1106 official: without
-   that tax code the event stays hidden and is not required before D-1121
-   or D-1199 (MS1147). Register technical-reserve assets under Fiscal
-   configuration (**Fiscal → Configuration → DeRE → Technical-reserve
-   Assets**), or the event is sent with `semAplic=1` when those accounts
-   have no assets in the month. With exactly one asset per account the period
-   amounts come from posted moves: debits become `vVarMensal`, credits become
-   `vPrincLiqResg`, and income on the same entry (or on the mapped reserve
-   income account) fills `vRendPerReceb` / `vRendLiqResg`. Several assets on
-   the same account stay manual. Regenerating rebuilds those 1:1 amounts.
-   If it is subject to D-1121, **Load Deductions**
-   from inbound operations marked as DeRE deductible, then **Generate D-1121**.
-   Draft fiscal documents (`em_digitacao`) are skipped. **Replace**,
-   **Exclude** and **Rectify** (`tpOper` 2/3/4) stay on the accepted
-   event row; D-1106 has the same Replace / Exclude pair.
-   When the period has no deductible document the load reports the absence and
-   sets `indInexistDedu`. **Close Period** stays hidden until the load ran, so
-   the month is never closed as deduction-free by accident.
-7. **Close Period** generates D-1199 but does not lock the month. Send
-   periodics one type at a time: D-1101, then D-1106 (if any), then D-1121
-   (if any), then D-1199. Each auxiliary event needs the previous processing
-   receipt. If the XML is wrong and still `generated`, **Discard Local
-   Closing** and generate again.
-8. Confirm the company has an A1 certificate. Sending signs the payload;
-   the event form still shows the unsigned XML.
-9. Repeat with **Consult Results**, or wait for the scheduled job
-   **DeRE: consult sent batch results**. The POST only returns a protocol
-   (`1.NNNNNN.N` or `2.NNNNNN.N`); acceptance and `nrRecibo` come from the
-   later GET. Processing (`cdResposta` 1) leaves the batch sent so the cron
-   retries with backoff. Lot errors (`cdResposta` 4, 5, 7 or 9) reject the
-   events. A successful D-1199 return sets the declaration to *Closed*.
-10. Do **not** send tables and periodics in the same batch. Do not send D-1011
-    before D-1001 is accepted, nor D-1199 before D-1101 has a processing
-    receipt.
-11. **Reopen Period** only after D-1199 is accepted with a receipt
-    `1199-YYYYMM-...`. Then send D-1198 and consult. The next D-1101 is a
-    replacement (`tpOper` 2 + last active receipt), not a second inclusion.
+1. Troque para a empresa e abra **Fiscal → DeRE → Períodos de Tabela**.
+2. Crie ou reutilize a vigência que cobre o mês. Confira o `iniValid`.
+3. **Gerar Tabelas**. Os eventos D-1001 e D-1011 precisam existir com
+   XML.
+   - D-1001: `regTribPrinc` = 2 e `tpAtividade` = `02A` para
+     administradora de benefícios. Sem `servFinanc` / `prognosticos`
+     salvo se um regime secundário exigir.
+   - D-1011: `planoCtaRef` e `freqEncerr` presentes; `cDbrMista` com
+     três dígitos; toda conta analítica com `codTrib`.
+4. Abra **Fiscal → DeRE → Declarações** (`perApur` = `YYYY-MM`). Depois
+   que as tabelas forem aceitas, **Gerar Balancete**. Os totais do
+   rodapé precisam do `brl_currency_id` oculto.
+   - Linha de taxa: crédito = receita própria e `vApur` igual a esse
+     crédito bruto menos ajustes a crédito mais ajustes a débito.
+   - Linha de repasse: movimento presente e `vApur` segue a mesma
+     regra da natureza da conta.
+5. Abra cada formulário de evento e confira o XML: datas em
+   `YYYY-MM-DD`; `perApur` em `YYYY-MM`. Todo `id` de evento segue
+   `DeRE` + código do evento + `1` + raiz do CNPJ com zeros +
+   timestamp de Brasília + sequencial `QQQQQ`. A geração já rejeita
+   XML que falha o XSD oficial.
+6. Se a empresa for sujeita ao D-1106, **Gerar D-1106** antes de
+   encerrar. O PGCC precisa incluir ao menos uma conta com `codTrib`
+   de D-1106 (MS1135). A flag da empresa sozinha não torna o D-1106
+   oficial: sem esse código o evento fica oculto e não é exigido
+   antes do D-1121 ou do D-1199 (MS1147). Cadastre os ativos de
+   reserva técnica em **Fiscal → Configuração → DeRE → Ativos de
+   Reserva Técnica**, ou o evento sai com `semAplic=1` quando essas
+   contas não tiverem ativos no mês. Com exatamente um ativo por
+   conta, os valores do período vêm dos lançamentos: débitos viram
+   `vVarMensal`, créditos viram `vPrincLiqResg`, e o rendimento no
+   mesmo lançamento (ou na conta de rendimento de reserva mapeada)
+   preenche `vRendPerReceb` / `vRendLiqResg`. Vários ativos na mesma
+   conta continuam manuais. Regenerar refaz esses valores 1:1.
+   Se for sujeita ao D-1121, **Carregar Deduções** a partir das
+   operações de entrada marcadas como dedutíveis DeRE e então **Gerar
+   D-1121**. Documentos fiscais em `em_digitacao` são ignorados.
+   **Substituir**, **Excluir** e **Retificar** (`tpOper` 2/3/4) ficam
+   na linha do evento aceito; o D-1106 tem o mesmo par Substituir /
+   Excluir.
+   Quando o período não tem documento dedutível, a carga informa a
+   ausência e grava `indInexistDedu`. **Encerrar Período** fica oculto
+   até a carga rodar, para o mês não ser encerrado sem dedução por
+   acidente.
+7. **Encerrar Período** gera o D-1199 mas não trava o mês. Transmita
+   os periódicos um tipo por vez: D-1101, depois D-1106 (se houver),
+   depois D-1121 (se houver), depois D-1199. Cada evento auxiliar
+   precisa do recibo de processamento anterior. Se o XML estiver
+   errado e ainda `generated`, **Descartar Encerramento Local** e gere
+   de novo.
+8. Confirme que a empresa tem certificado A1. O envio assina o
+   payload; o formulário do evento continua mostrando o XML sem
+   assinatura.
+9. Repita com **Consultar Resultados**, ou aguarde o job **DeRE:
+   consultar resultados dos lotes enviados**. O POST só devolve um
+   protocolo (`1.NNNNNN.N` ou `2.NNNNNN.N`); aceite e `nrRecibo` vêm
+   do GET posterior. Processamento (`cdResposta` 1) deixa o lote
+   enviado para o cron repetir com backoff. Erros de lote
+   (`cdResposta` 4, 5, 7 ou 9) rejeitam os eventos. Um retorno D-1199
+   bem-sucedido coloca a declaração em *Encerrada*.
+10. **Não** envie tabelas e periódicos no mesmo lote. Não envie D-1011
+    antes do D-1001 ser aceito, nem D-1199 antes do D-1101 ter recibo
+    de processamento.
+11. **Reabrir Período** só depois que o D-1199 for aceito com recibo
+    `1199-YYYYMM-...`. Então envie o D-1198 e consulte. O próximo
+    D-1101 é uma substituição (`tpOper` 2 + último recibo ativo), não
+    uma segunda inclusão.
 
-D-3201 remains out of this checklist. D-1121 `infoImovel` and judicial
-exclusions (`motExcl` 1, event D-1021) are not generated yet.
+O D-3201 fica de fora deste checklist. `infoImovel` do D-1121 e
+exclusões judiciais (`motExcl` 1, evento D-1021) ainda não são
+gerados.
