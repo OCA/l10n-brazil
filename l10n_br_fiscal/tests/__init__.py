@@ -19,4 +19,5 @@ from . import (
     test_operation,
     test_company_tax_domain,
     test_comment,
+    test_document_import_wizard,
 )
