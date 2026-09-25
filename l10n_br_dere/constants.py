@@ -95,6 +95,7 @@ DEFAULT_TP_ATIV_BY_REGIME = {
     "3": "07",
 }
 DEDUCTION_DOCUMENT_EXCLUDED_STATES = (
+    "em_digitacao",
     "cancelada",
     "denegada",
     "rejeitada",

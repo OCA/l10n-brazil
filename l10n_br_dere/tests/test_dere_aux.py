@@ -308,6 +308,47 @@ class TestDereAuxiliaryEvents(DereCommon):
         self.assertRegex(event.event_id_attr, STRUCTURED_EVENT_ID_RE)
         self.assertTrue(event.event_id_attr.startswith("DeRE11211"))
 
+    def test_load_deductions_skips_draft_documents(self):
+        self.company.dere_subject_d1121 = True
+        operation = self.env.ref("l10n_br_fiscal.fo_compras")
+        operation.write(
+            {
+                "l10n_br_dere_deductible": True,
+                "l10n_br_dere_tp_ativ": "06",
+            }
+        )
+        partner = self.env.ref(
+            "l10n_br_base.res_partner_cliente1_sp", raise_if_not_found=False
+        ) or self.env["res.partner"].create({"name": "DeRE draft customer"})
+        document_type = self.env.ref("l10n_br_fiscal.document_55")
+        self.env["l10n_br_fiscal.document"].create(
+            {
+                "company_id": self.company.id,
+                "document_type_id": document_type.id,
+                "partner_id": partner.id,
+                "fiscal_operation_id": operation.id,
+                "document_date": "2029-03-10 12:00:00",
+                "document_key": self._nfe_access_key(8, "2029-03"),
+                "issuer": "partner",
+                "state_edoc": "em_digitacao",
+            }
+        )
+        ready = self.env["l10n_br_fiscal.document"].create(
+            {
+                "company_id": self.company.id,
+                "document_type_id": document_type.id,
+                "partner_id": partner.id,
+                "fiscal_operation_id": operation.id,
+                "document_date": "2029-03-11 12:00:00",
+                "document_key": self._nfe_access_key(9, "2029-03"),
+                "issuer": "partner",
+                "state_edoc": "a_enviar",
+            }
+        )
+        declaration = self._prepare_trial("2029-03")
+        declaration.action_load_deductions()
+        self.assertEqual(declaration.deduction_line_ids.document_id, ready)
+
     def test_load_deductions_without_documents_reports_absence(self):
         self.company.dere_subject_d1121 = True
         declaration = self._prepare_trial()
