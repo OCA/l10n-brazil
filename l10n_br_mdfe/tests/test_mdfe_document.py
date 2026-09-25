@@ -69,14 +69,13 @@ class MDFeDocumentTest(TransactionCase):
 
         self.mdfe_id.document_type_id = self.mdfe_document_type_id
 
-        self.mdfe_id.company_id.certificate_nfe_id = False
-        processor = self.mdfe_id._edoc_processor()
-        self.assertTrue(isinstance(processor, MDFeAdapter))
-
-        self.mdfe_id.company_id.certificate_ecnpj_id = False
+        # The certificate is the single one of the document company: without
+        # it the processor cannot be built (no other company selected here,
+        # so there is no parent company certificate to fall back on).
+        self.mdfe_id.company_id.certificate_id = False
         self.mdfe_id.company_id.invalidate_recordset()
         with self.assertRaises(ValidationError):
-            processor = self.mdfe_id._edoc_processor()
+            self.mdfe_id._edoc_processor()
 
     def test_generate_key(self):
         self.mdfe_id._generate_key()
