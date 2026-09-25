@@ -1,5 +1,6 @@
 from odoo.tests import TransactionCase
 from odoo.tests.common import Form, tagged
+from odoo.tools import DotDict
 
 
 @tagged("post_install", "-at_install")
@@ -109,3 +110,37 @@ class TestTaxClassification(TransactionCase):
             self.assertIn(
                 self.classification_company.tax_ibs_id, line_form.fiscal_tax_ids
             )
+
+    def _ibscbs_binding(self, c_class_trib):
+        """The XML IBSCBS group, as the document parser yields it."""
+        return DotDict(
+            {
+                "CST": "000",
+                "cClassTrib": c_class_trib,
+                "gIBSCBS": {
+                    "vBC": "2767.46",
+                    "gIBSUF": {"pIBSUF": "0.1000", "vIBSUF": "2.77"},
+                    "gCBS": {"pCBS": "0.9000", "vCBS": "24.91"},
+                },
+            }
+        )
+
+    def test_import_ibscbs_sets_tax_classification_from_cclasstrib(self):
+        """The cClassTrib sent in the document must fill the line classification."""
+        vals = {}
+        self.env["l10n_br_fiscal.document.line"]._add_imported_ibscbs_vals(
+            self._ibscbs_binding("000001"), vals
+        )
+
+        self.assertEqual(
+            vals.get("tax_classification_id"), self.classification_company.id
+        )
+
+    def test_import_ibscbs_ignores_unknown_cclasstrib(self):
+        """An unregistered classification code must not break the import."""
+        vals = {}
+        self.env["l10n_br_fiscal.document.line"]._add_imported_ibscbs_vals(
+            self._ibscbs_binding("999999"), vals
+        )
+
+        self.assertNotIn("tax_classification_id", vals)
