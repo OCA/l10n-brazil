@@ -423,3 +423,40 @@ class TestDereAuxiliaryEvents(DereCommon):
             declaration._send_events(d1199)
         self._accept_event(declaration, "D-1106")
         declaration._assert_send_order(["D-1199"])
+
+    def test_unlink_declaration_drops_reserve_lines(self):
+        self.company.dere_subject_d1106 = True
+        self._create_reserve_asset(self.equity_account, "CDBUNLINK01")
+        declaration = self._prepare_d1106_trial("2029-08")
+        declaration.action_generate_d1106()
+        period = declaration.table_period_id
+        reserves = declaration.reserve_line_ids
+        self.assertTrue(reserves)
+        declaration.unlink()
+        self.assertFalse(reserves.exists())
+        self.assertTrue(period.exists())
+
+    def test_unlink_table_period_drops_reserve_lines(self):
+        self.company.dere_subject_d1106 = True
+        self._map_d1106_codtrib()
+        self._create_reserve_asset(self.equity_account, "CDBUNLINK02")
+        declaration = self._create_declaration("2029-09")
+        declaration.action_generate_tables()
+        self._post_entry("2029-09-10", self.receivable, self.fee_account, 100.0)
+        declaration.action_generate_d1101()
+        declaration.action_generate_d1106()
+        period = declaration.table_period_id
+        reserves = declaration.reserve_line_ids
+        self.assertTrue(reserves)
+        period.unlink()
+        self.assertFalse(declaration.exists())
+        self.assertFalse(reserves.exists())
+        self.assertFalse(period.exists())
+
+    def test_unlink_accepted_table_period_is_blocked(self):
+        declaration = self._prepare_trial("2029-10")
+        period = declaration.table_period_id
+        with self.assertRaises(UserError):
+            period.unlink()
+        self.assertTrue(declaration.exists())
+        self.assertTrue(period.exists())

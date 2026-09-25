@@ -238,6 +238,28 @@ class DereDeclaration(models.Model):
                 )
         return super().write(vals)
 
+    def unlink(self):
+        locked = self.mapped("event_ids").filtered(
+            lambda ev: ev.state not in ("draft", "generated")
+        )
+        if locked:
+            raise UserError(
+                _(
+                    "Cannot delete a DeRE declaration after events were sent "
+                    "or accepted. Exclude or rectify those events first."
+                )
+            )
+        self.mapped("reserve_line_ids").with_context(
+            dere_force_declaration_write=True
+        ).unlink()
+        self.mapped("trial_line_ids").with_context(
+            dere_force_declaration_write=True
+        ).unlink()
+        self.mapped("deduction_line_ids").with_context(
+            dere_force_declaration_write=True
+        ).unlink()
+        return super().unlink()
+
     @api.depends("company_id", "per_apur")
     def _compute_name(self):
         for rec in self:

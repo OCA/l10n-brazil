@@ -129,6 +129,22 @@ class DereTablePeriod(models.Model):
                     _("Table validity end must be on or after the start date.")
                 )
 
+    def unlink(self):
+        locked = self.mapped("event_ids").filtered(
+            lambda ev: ev.state not in ("draft", "generated")
+        )
+        if locked:
+            raise UserError(
+                _(
+                    "Cannot delete a table period after D-1001 or D-1011 was "
+                    "sent or accepted. Use Exclude Tables instead."
+                )
+            )
+        # Reserve and trial lines keep a restrict FK on the PGCC snapshot.
+        # Drop the monthly declarations first so the snapshot can go.
+        self.mapped("declaration_ids").unlink()
+        return super().unlink()
+
     @api.depends(
         "rfb_validity_ids.dere12_fimValidEfetiva",
         "rfb_validity_ids.dere12_indAjusteAuto",
