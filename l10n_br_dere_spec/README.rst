@@ -28,23 +28,23 @@ DeRE abstract models
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This module provides abstract Odoo models mapped from the official DeRE
-(Declaração de Regimes Específicos) XSD package **1.2.0**, published by
-CGIBS/RFB.
+Este módulo fornece modelos abstratos Odoo mapeados a partir do pacote
+XSD oficial da DeRE (Declaração de Regimes Específicos) **1.2.0**,
+publicado pelo CGIBS/RFB.
 
-It does not generate or transmit declarations. The implementation module
-``l10n_br_dere`` maps these mixins onto concrete records and talks to
-Receita Integra.
+Ele não gera nem transmite declarações. O módulo de implementação
+``l10n_br_dere`` aplica esses mixins em registros concretos e conversa
+com a Receita Integra.
 
-Official schemas shipped under ``schemas/v1_2_0/`` come from:
+Os schemas oficiais em ``schemas/v1_2_0/`` vêm de:
 
 https://cgibs.gov.br/declaracao-de-regimes-especificos-dere
 
-Wave 1 covers D-1001, D-1011, D-1101, D-1106, D-1121, D-1198, D-1199 and
-the official return events D-9001, D-9101, D-9106, D-9112, D-9198 and
-D-9199. The D-9121 and D-9209 schemas are shipped so later events can
-reuse them. Transactional events (D-3201 and others) remain out of this
-first version because their layouts are still preliminary.
+A Onda 1 cobre D-1001, D-1011, D-1101, D-1106, D-1121, D-1198, D-1199 e
+os eventos oficiais de retorno D-9001, D-9101, D-9106, D-9112, D-9198 e
+D-9199. Os schemas D-9121 e D-9209 vêm no pacote para eventos
+posteriores reutilizá-los. Eventos transacionais (D-3201 e outros) ficam
+de fora desta primeira versão porque os leiautes ainda são preliminares.
 
 **Table of contents**
 
@@ -54,45 +54,45 @@ first version because their layouts are still preliminary.
 Installation
 ============
 
-Install this module as a dependency of ``l10n_br_dere``. It has no user
-interface of its own.
+Instale este módulo como dependência de ``l10n_br_dere``. Ele não tem
+interface própria.
 
 Usage
 =====
 
-Install this module only as a dependency of ``l10n_br_dere``.
+Instale este módulo só como dependência de ``l10n_br_dere``.
 
-Field names use the ``dere12_`` prefix (layout 1.2.x). A later major
-layout would introduce a new prefix, following the same convention used
-by ``l10n_br_nfe_spec``.
+Os nomes de campo usam o prefixo ``dere12_`` (leiaute 1.2.x). Um leiaute
+major posterior introduziria um prefixo novo, na mesma convenção de
+``l10n_br_nfe_spec``.
 
-Wave 1 mixins under ``models/v1_2/`` are the curated flat abstracts used
-by ``l10n_br_dere`` (``dere.12.infoconta``, ``dere.12.balanceteconta``,
-``dere.12.evtretornostabela``, ``dere.12.gtotalcodtrib``,
-``dere.12.detbc``, …). Do not replace them with a raw ``xsdata-odoo``
-dump until the official ``DeRE`` root is namespaced per event (see
-ROADMAP).
+Os mixins da Onda 1 em ``models/v1_2/`` são os abstracts planos curados
+usados por ``l10n_br_dere`` (``dere.12.infoconta``,
+``dere.12.balanceteconta``, ``dere.12.evtretornostabela``,
+``dere.12.gtotalcodtrib``, ``dere.12.detbc``, …). Não os substitua por
+um dump cru do ``xsdata-odoo`` até a raiz oficial ``DeRE`` ser
+namespaced por evento (veja o ROADMAP).
 
-``validate()`` checks outbound events against ``EVENT_SCHEMA``.
-``validate_return()`` picks the XSD from the return namespace
-(``RETURN_SCHEMA``) so D-9xxx XML is checked without guessing the event
-type.
+``validate()`` confere os eventos de saída contra ``EVENT_SCHEMA``.
+``validate_return()`` escolhe o XSD pelo namespace do retorno
+(``RETURN_SCHEMA``), para o XML D-9xxx ser validado sem adivinhar o tipo
+do evento.
 
 Known issues / Roadmap
 ======================
 
-- Regenerate the Wave 1 abstract models with ``xsdata-odoo`` only after
-  the official XSD roots are namespaced per event. A raw generate today
-  creates four models named ``dere.12.dere``, skips anonymous
-  ``regTribSecund``, and treats ``Signature`` as required.
-  ``xmldsig-core-schema.xsd`` is already next to the event schemas
+- Regenerar os modelos abstratos da Onda 1 com ``xsdata-odoo`` só depois
+  que as raízes oficiais do XSD forem namespaced por evento. Um generate
+  cru hoje cria quatro modelos chamados ``dere.12.dere``, ignora o
+  ``regTribSecund`` anônimo e trata ``Signature`` como obrigatório. O
+  ``xmldsig-core-schema.xsd`` já está ao lado dos schemas de evento
   (``XSDATA_SCHEMA=dere``, ``XSDATA_VERSION=12``,
   ``xsdata generate schemas/v1_2_0 --output=odoo``).
-- Return abstracts in ``evt_retorno.py`` were curated by hand (D-9001,
-  D-9101, D-9106, D-9199). Keep them until the same namespaced generate
-  can replace the outbound mixins.
-- Add transactional event mixins (D-32xx / D-22xx) after CGIBS
-  stabilizes those layouts and the user manual.
+- Os abstracts de retorno em ``evt_retorno.py`` foram curados à mão
+  (D-9001, D-9101, D-9106, D-9199). Mantenha-os até o mesmo generate
+  namespaced poder substituir os mixins de saída.
+- Incluir mixins de eventos transacionais (D-32xx / D-22xx) depois que o
+  CGIBS estabilizar esses leiautes e o manual do usuário.
 
 Bug Tracker
 ===========

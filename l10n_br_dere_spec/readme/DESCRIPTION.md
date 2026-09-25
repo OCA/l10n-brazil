@@ -1,17 +1,18 @@
-This module provides abstract Odoo models mapped from the official DeRE
-(Declaração de Regimes Específicos) XSD package **1.2.0**, published by
-CGIBS/RFB.
+Este módulo fornece modelos abstratos Odoo mapeados a partir do pacote
+XSD oficial da DeRE (Declaração de Regimes Específicos) **1.2.0**,
+publicado pelo CGIBS/RFB.
 
-It does not generate or transmit declarations. The implementation module
-`l10n_br_dere` maps these mixins onto concrete records and talks to
-Receita Integra.
+Ele não gera nem transmite declarações. O módulo de implementação
+`l10n_br_dere` aplica esses mixins em registros concretos e conversa
+com a Receita Integra.
 
-Official schemas shipped under `schemas/v1_2_0/` come from:
+Os schemas oficiais em `schemas/v1_2_0/` vêm de:
 
 https://cgibs.gov.br/declaracao-de-regimes-especificos-dere
 
-Wave 1 covers D-1001, D-1011, D-1101, D-1106, D-1121, D-1198, D-1199 and
-the official return events D-9001, D-9101, D-9106, D-9112, D-9198 and
-D-9199. The D-9121 and D-9209 schemas are shipped so later events can
-reuse them. Transactional events (D-3201 and others) remain out of this
-first version because their layouts are still preliminary.
+A Onda 1 cobre D-1001, D-1011, D-1101, D-1106, D-1121, D-1198, D-1199
+e os eventos oficiais de retorno D-9001, D-9101, D-9106, D-9112,
+D-9198 e D-9199. Os schemas D-9121 e D-9209 vêm no pacote para
+eventos posteriores reutilizá-los. Eventos transacionais (D-3201 e
+outros) ficam de fora desta primeira versão porque os leiautes ainda
+são preliminares.
