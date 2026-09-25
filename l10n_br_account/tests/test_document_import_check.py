@@ -53,3 +53,22 @@ class TestDocumentImportCheck(TransactionCase):
         self.line.product_id = False
         with self.assertRaises(UserError):
             self.document._check_document_import()
+
+    def test_second_import_of_the_same_document_is_blocked(self):
+        """Re-importing a key already turned into an invoice must be refused,
+        otherwise the reused fiscal document silently gets a duplicated bill."""
+        self.env["account.move"].create(
+            {
+                "move_type": "in_invoice",
+                "fiscal_document_id": self.document.id,
+            }
+        )
+
+        with self.assertRaises(UserError):
+            self.document._check_document_import()
+
+    def test_document_without_invoice_is_allowed(self):
+        """A document imported on its own must still be able to become an
+        invoice later, which is the two step import flow."""
+        self.assertFalse(self.document.move_ids)
+        self.document._check_document_import()  # must not raise
