@@ -1073,17 +1073,18 @@ class MDFe(spec_models.StackedModel):
                 missing_fields.append(label)
 
         company = self.company_id
-        certificate = (
-            company.sudo().certificate_nfe_id or company.sudo().certificate_ecnpj_id
-        )
+        certificate = company.sudo().certificate
 
         check(company, _("Company"))
         check(company.vat, _("Company CNPJ/CPF"))
         check(company.state_id, _("Company State"))
         check(certificate, _("Digital Certificate"))
         if certificate:
-            check(certificate.file, _("Digital Certificate File"))
-            check(certificate.password, _("Digital Certificate Password"))
+            check(
+                certificate.with_context(bin_size=False).content,
+                _("Digital Certificate File"),
+            )
+            check(certificate.pkcs12_password, _("Digital Certificate Password"))
 
         check(self.document_type_id, _("Document Type"))
         check(self.document_serie, _("Document Serie"))
@@ -1202,10 +1203,11 @@ class MDFe(spec_models.StackedModel):
                 document_id=self,
             )
             record.authorization_event_id = event_id
+            certificate = self.company_id._get_br_certificate()
             signed_xml = edoc.sign_xml(
                 xml_file,
-                self.company_id.certificate.file,
-                self.company_id.certificate.password,
+                certificate.with_context(bin_size=False).content,
+                certificate.pkcs12_password,
                 edoc.infMDFe.Id,
             )
             self._validate_xml(signed_xml)

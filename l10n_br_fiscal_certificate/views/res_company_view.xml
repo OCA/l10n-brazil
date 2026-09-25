@@ -7,13 +7,15 @@
         <field name="arch" type="xml">
             <xpath expr="//page[@name='taxes']" position="after">
                 <page name="certificate" string="Certificates">
-                    <group name="certificate" string="Certificate">
-                        <group>
-                            <field name="certificate_ecnpj_id" />
-                        </group>
-                        <group>
-                            <field name="certificate_nfe_id" />
-                        </group>
+                    <group name="certificate">
+                        <field
+                            name="certificate_id"
+                            context="{'default_scope': 'l10n_br', 'default_company_id': id}"
+                        />
+                        <field
+                            name="certificate"
+                            invisible="certificate_id or not parent_id"
+                        />
                     </group>
                 </page>
             </xpath>

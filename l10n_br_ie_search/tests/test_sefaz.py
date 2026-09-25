@@ -51,7 +51,7 @@ class TestSefaz(TransactionCase):
         cls.set_param("ie_search", "sefaz")
         cls.model = cls.env["res.company"]
         cls.company_model = cls.env["res.company"]
-        cls.certificate_model = cls.env["l10n_br_fiscal.certificate"]
+        cls.certificate_model = cls.env["certificate.certificate"]
         cls.cert_passwd = "123456"
         cls.cert_country = "BR"
         cls.cert_issuer_a = "EMISSOR A TESTE"
@@ -82,10 +82,9 @@ class TestSefaz(TransactionCase):
         )
         cls.cert = cls.certificate_model.create(
             {
-                "type": "nf-e",
-                "subtype": "a1",
-                "password": cls.cert_passwd,
-                "file": cls.certificate_valid,
+                "pkcs12_password": cls.cert_passwd,
+                "content": cls.certificate_valid,
+                "company_id": cls.env.company.id,
             }
         )
 
@@ -151,7 +150,7 @@ class TestSefaz(TransactionCase):
                     {
                         "name": "Dummy",
                         "vat": "88.570.377/0001-27",
-                        "certificate_ecnpj_id": self.cert.id,
+                        "certificate_id": self.cert.id,
                     }
                 )
                 dummy._onchange_vat()
