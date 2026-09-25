@@ -6130,6 +6130,7 @@ msgstr "Ciríaco"
 
 #. module: l10n_br_base
 #: model:ir.model,name:l10n_br_base.model_res_city
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__city
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_company_form
 msgid "City"
 msgstr "Cidade"
@@ -8666,6 +8667,11 @@ msgstr "Fazenda Rio Grande"
 #: model:res.city,name:l10n_br_base.city_4308078
 msgid "Fazenda Vilanova"
 msgstr "Fazenda Vilanova"
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__state_id
+msgid "Fed. State"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1200302
@@ -23345,6 +23351,11 @@ msgid "State..."
 msgstr "Estado..."
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__street
+msgid "Street"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__street_name
 msgid "Street Name"
 msgstr ""
@@ -23369,6 +23380,11 @@ msgstr "Número da Rua..."
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
 msgid "Street..."
 msgstr "Rua…"
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__street2
+msgid "Street2"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1720853
@@ -27450,6 +27466,11 @@ msgstr "Zabelê"
 #: model:res.city,name:l10n_br_base.city_3557154
 msgid "Zacarias"
 msgstr "Zacarias"
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__zip
+msgid "Zip"
+msgstr ""
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_contact_form
