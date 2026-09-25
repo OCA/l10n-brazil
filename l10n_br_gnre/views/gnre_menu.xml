@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <menuitem
+        id="gnre_obligation_menu"
+        name="Obrigações de GNRE"
+        action="gnre_obligation_action"
+        groups="l10n_br_fiscal.group_user"
+        parent="l10n_br_fiscal.document_menu"
+        sequence="60"
+    />
+    <menuitem
+        id="gnre_generate_menu"
+        name="Gerar Guias GNRE"
+        action="gnre_generate_wizard_action"
+        groups="l10n_br_fiscal.group_user"
+        parent="l10n_br_fiscal.document_menu"
+        sequence="61"
+    />
+    <menuitem
+        id="gnre_state_config_menu"
+        name="Regras de GNRE por UF"
+        action="gnre_state_config_action"
+        groups="l10n_br_fiscal.group_manager"
+        parent="l10n_br_fiscal.configuration_menu"
+        sequence="60"
+    />
+</odoo>
