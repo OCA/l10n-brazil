@@ -140,7 +140,8 @@ class NFe(spec_models.StackedModel):
     - <cana>
     - <infRespTec> res.partner
     - <infSolicNFF>
-    - <agropecuario>"""
+    - <agropecuario>
+    - <infPAA>"""
 
     ##########################
     # NF-e spec related fields
