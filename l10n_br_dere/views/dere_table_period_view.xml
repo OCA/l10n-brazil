@@ -30,18 +30,6 @@
                         invisible="not can_generate_tables"
                     />
                     <button
-                        name="action_replace_tables"
-                        type="object"
-                        string="Replace Tables"
-                        invisible="not can_replace_tables"
-                    />
-                    <button
-                        name="action_exclude_tables"
-                        type="object"
-                        string="Exclude Tables"
-                        invisible="not can_exclude_tables"
-                    />
-                    <button
                         name="action_send_tables"
                         type="object"
                         string="Send Tables"
@@ -56,8 +44,6 @@
                         invisible="not can_consult_results"
                     />
                     <field name="can_generate_tables" invisible="1" />
-                    <field name="can_replace_tables" invisible="1" />
-                    <field name="can_exclude_tables" invisible="1" />
                     <field name="can_send_tables" invisible="1" />
                     <field name="can_consult_results" invisible="1" />
                     <field name="state" widget="statusbar" />
@@ -103,6 +89,28 @@
                                     <field name="protocol" />
                                     <field name="nr_recibo" />
                                     <field name="cd_retorno" />
+                                    <field
+                                        name="can_replace_event"
+                                        column_invisible="1"
+                                    />
+                                    <field
+                                        name="can_exclude_event"
+                                        column_invisible="1"
+                                    />
+                                    <button
+                                        name="action_replace_event"
+                                        type="object"
+                                        string="Replace"
+                                        icon="fa-refresh"
+                                        invisible="not can_replace_event"
+                                    />
+                                    <button
+                                        name="action_exclude_event"
+                                        type="object"
+                                        string="Exclude"
+                                        icon="fa-times"
+                                        invisible="not can_exclude_event"
+                                    />
                                 </list>
                             </field>
                         </page>

@@ -23,6 +23,10 @@ from odoo.addons.l10n_br_dere_spec.models.v1_2.types import (
 
 from ..constants import (
     BRASILIA_TZ,
+    EVENT_D1001,
+    EVENT_D1011,
+    EVENT_D1101,
+    EVENT_D1106,
     EVENT_D1121,
     EVENT_D1198,
     EVENT_D1199,
@@ -33,6 +37,10 @@ from ..constants import (
     STRUCTURED_EVENT_ID,
 )
 from . import xml_builder
+
+OPERABLE_EVENT_TYPES = frozenset(
+    {EVENT_D1001, EVENT_D1011, EVENT_D1101, EVENT_D1106, EVENT_D1121}
+)
 
 
 class DereEvent(models.Model):
@@ -102,6 +110,15 @@ class DereEvent(models.Model):
         inverse_name="event_id",
         string="RFB totals",
     )
+    can_replace_event = fields.Boolean(
+        string="Can replace event", compute="_compute_event_operations"
+    )
+    can_exclude_event = fields.Boolean(
+        string="Can exclude event", compute="_compute_event_operations"
+    )
+    can_rectify_event = fields.Boolean(
+        string="Can rectify event", compute="_compute_event_operations"
+    )
 
     _SENT_WRITE_FIELDS = frozenset(
         {
@@ -149,6 +166,99 @@ class DereEvent(models.Model):
             rec.company_id = (
                 rec.declaration_id.company_id or rec.table_period_id.company_id
             )
+
+    @api.depends(
+        "event_type",
+        "state",
+        "tp_oper",
+        "declaration_id.can_replace_trial",
+        "declaration_id.can_replace_d1106",
+        "declaration_id.can_replace_d1121",
+        "declaration_id.can_rectify_d1121",
+        "declaration_id.event_ids.state",
+        "declaration_id.event_ids.tp_oper",
+        "table_period_id.event_ids.state",
+        "table_period_id.event_ids.tp_oper",
+    )
+    def _compute_event_operations(self):
+        for rec in self:
+            rec.can_replace_event = False
+            rec.can_exclude_event = False
+            rec.can_rectify_event = False
+            parent = rec.declaration_id or rec.table_period_id
+            if (
+                not parent
+                or rec.event_type not in OPERABLE_EVENT_TYPES
+                or parent._active_event(rec.event_type).id != rec.id
+            ):
+                continue
+            if rec.declaration_id:
+                allowed = {
+                    EVENT_D1101: rec.declaration_id.can_replace_trial,
+                    EVENT_D1106: rec.declaration_id.can_replace_d1106,
+                    EVENT_D1121: rec.declaration_id.can_replace_d1121,
+                }
+                rec.can_replace_event = allowed.get(rec.event_type, False)
+                rec.can_exclude_event = rec.can_replace_event
+                rec.can_rectify_event = (
+                    rec.event_type == EVENT_D1121
+                    and rec.declaration_id.can_rectify_d1121
+                )
+                continue
+            rec.can_replace_event = parent._can_replace_or_exclude(rec.event_type)
+            rec.can_exclude_event = rec.can_replace_event
+
+    def action_replace_event(self):
+        self.ensure_one()
+        if not self.can_replace_event:
+            raise UserError(_("This event cannot be replaced."))
+        if self.table_period_id:
+            return self._open_operation_wizard("2")
+        generators = {
+            EVENT_D1101: self.declaration_id._generate_d1101,
+            EVENT_D1106: self.declaration_id._generate_d1106,
+            EVENT_D1121: self.declaration_id._generate_d1121,
+        }
+        method = generators.get(self.event_type)
+        if not method:
+            raise UserError(_("This event cannot be replaced."))
+        method(tp_oper="2")
+        return True
+
+    def action_exclude_event(self):
+        self.ensure_one()
+        if not self.can_exclude_event:
+            raise UserError(_("This event cannot be excluded."))
+        return self._open_operation_wizard("3")
+
+    def action_rectify_event(self):
+        self.ensure_one()
+        if not self.can_rectify_event:
+            raise UserError(_("This event cannot be rectified."))
+        return self._open_operation_wizard("4")
+
+    def _open_operation_wizard(self, tp_oper):
+        self.ensure_one()
+        period = self.table_period_id
+        wizard = self.env["l10n_br_dere.event.operation.wizard"].create(
+            {
+                "declaration_id": self.declaration_id.id,
+                "table_period_id": period.id,
+                "event_type": self.event_type,
+                "tp_oper": tp_oper,
+                "nova_ini_valid": period.ini_valid if period else False,
+                "nova_fim_valid": period.fim_valid if period else False,
+                "fin_evt": "1" if tp_oper == "4" else False,
+            }
+        )
+        return {
+            "type": "ir.actions.act_window",
+            "name": _("DeRE event operation"),
+            "res_model": "l10n_br_dere.event.operation.wizard",
+            "res_id": wizard.id,
+            "view_mode": "form",
+            "target": "new",
+        }
 
     @api.depends(
         "event_type",

@@ -148,9 +148,10 @@ tab:
 - parent group only when the chart is not prefix-based
 
 After remapping ``codTrib`` on an account that already belongs to an
-accepted D-1011, use **Replace Tables** on the table period. The
-snapshot row is updated and the new code goes in the next D-1011;
-monthly lines that already point to that row are kept.
+accepted D-1011, use **Replace** on that D-1011 row. The snapshot row is
+updated and the new code goes in the next D-1011; monthly lines that
+already point to that row are kept. D-1001 stays as it is unless you
+replace that row too.
 
 Do not reuse the ECD/ECF field ``l10n_br_sped_referential_code`` for
 DeRE.
@@ -165,15 +166,16 @@ Usage
    monthly declaration does not create or replace those events. The
    stored XML stays unsigned and is checked against the official XSD.
    Sending signs each event (XML-DSig RSA-SHA256), validates the signed
-   event and the lote, then posts one type per batch. **Replace Tables**
-   / **Exclude Tables** open the operation wizard (``tpOper`` 2/3).
-   Replace updates the existing PGCC snapshot in place (for example a
-   new ``codTrib``) so D-1101 / D-1106 lines keep their account link.
-   Accounts still used by those events cannot be dropped. Draft or
-   generated records can be deleted from the form. Sent or accepted ones
-   stay until a manager enables **Allow deleting accepted DeRE records**
-   on the company (``tpAmb`` 2 only) or uses Exclude (``tpOper`` 3) at
-   the RFB.
+   event and the lote, then posts one type per batch. **Replace** /
+   **Exclude** on the accepted event row open the operation wizard
+   (``tpOper`` 2/3) for that event only, so a PGCC change can replace
+   D-1011 without resending D-1001. Replace updates the existing PGCC
+   snapshot in place (for example a new ``codTrib``) so D-1101 / D-1106
+   lines keep their account link. Accounts still used by those events
+   cannot be dropped. Draft or generated records can be deleted from the
+   form. Sent or accepted ones stay until a manager enables **Allow
+   deleting accepted DeRE records** on the company (``tpAmb`` 2 only) or
+   uses Exclude (``tpOper`` 3) at the RFB.
 3. Sending does **not** consult immediately. Use **Consult Results** or
    wait for the cron (exponential backoff from 2 minutes up to 60) until
    the D-9001 receipt arrives. Then generate the trial balance (D-1101)
@@ -197,13 +199,13 @@ Usage
    **Consult Results** only appears while a lote is still ``sent``. The
    blue header button is the next official monthly step: generate the
    trial, send or consult periodics, then D-1106 / D-1121 when the
-   company is subject, then close. Table generate / replace / send stay
-   on the table period. **Generate Trial Balance** stays hidden after
-   D-1101 is sent or accepted. While the month is open, **Replace Trial
-   Balance** / **Exclude Trial Balance** appear instead (``tpOper``
-   2/3). After D-1198 is accepted the primary action is **Replace Trial
-   Balance**. **Send Periodics** appears only while a periodic XML is
-   ``generated``.
+   company is subject, then close. Table generate / send stay on the
+   table period. **Generate Trial Balance** stays hidden after D-1101 is
+   sent or accepted. While the month is open, **Replace** / **Exclude**
+   on the accepted event row (``tpOper`` 2/3) rebuild or drop that
+   event. After D-1198 is accepted the primary action is **Replace Trial
+   Balance** (use Replace on the D-1101 row). **Send Periodics** appears
+   only while a periodic XML is ``generated``.
 
 Receipt (``nrRecibo``) and batch protocol are stored separately on each
 event. Do not send a second inclusion of an active event. Replace or
@@ -313,12 +315,12 @@ typed: it is rebuilt from those moves.
     rebuilds those 1:1 amounts. If it is subject to D-1121, **Load
     Deductions** from inbound operations marked as DeRE deductible, then
     **Generate D-1121**. Draft fiscal documents (``em_digitacao``) are
-    skipped. **Replace D-1121**, **Exclude D-1121** and **Rectify
-    D-1121** (``tpOper`` 2/3/4) stay on the monthly form; D-1106 has the
-    same Replace / Exclude pair. When the period has no deductible
-    document the load reports the absence and sets ``indInexistDedu``.
-    **Close Period** stays hidden until the load ran, so the month is
-    never closed as deduction-free by accident.
+    skipped. **Replace**, **Exclude** and **Rectify** (``tpOper`` 2/3/4)
+    stay on the accepted event row; D-1106 has the same Replace /
+    Exclude pair. When the period has no deductible document the load
+    reports the absence and sets ``indInexistDedu``. **Close Period**
+    stays hidden until the load ran, so the month is never closed as
+    deduction-free by accident.
 7.  **Close Period** generates D-1199 but does not lock the month. Send
     periodics one type at a time: D-1101, then D-1106 (if any), then
     D-1121 (if any), then D-1199. Each auxiliary event needs the

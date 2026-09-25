@@ -61,8 +61,9 @@ On each **analytic account** used in the declaration, fill the **DeRE** tab:
 - parent group only when the chart is not prefix-based
 
 After remapping `codTrib` on an account that already belongs to an
-accepted D-1011, use **Replace Tables** on the table period. The snapshot
+accepted D-1011, use **Replace** on that D-1011 row. The snapshot
 row is updated and the new code goes in the next D-1011; monthly lines
-that already point to that row are kept.
+that already point to that row are kept. D-1001 stays as it is unless
+you replace that row too.
 
 Do not reuse the ECD/ECF field `l10n_br_sped_referential_code` for DeRE.

@@ -580,6 +580,17 @@ class DereTablePeriod(models.Model):
             "target": "new",
         }
 
+    def _generate_table_event(self, event_type, tp_oper="1", extra=None):
+        self.ensure_one()
+        generators = {
+            EVENT_D1001: self._generate_d1001,
+            EVENT_D1011: self._generate_d1011,
+        }
+        method = generators.get(event_type)
+        if not method:
+            raise UserError(_("Unsupported table event %s.") % event_type)
+        return method(tp_oper=tp_oper, extra=extra)
+
     def _generate_table_operation(self, tp_oper="2", extra=None):
         self.ensure_one()
         self._generate_d1001(tp_oper=tp_oper, extra=extra)

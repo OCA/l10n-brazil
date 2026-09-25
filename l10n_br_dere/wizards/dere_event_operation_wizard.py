@@ -82,8 +82,8 @@ class DereEventOperationWizard(models.TransientModel):
                     if self.nova_fim_valid
                     else False,
                 }
-            self.table_period_id._generate_table_operation(
-                tp_oper=self.tp_oper, extra=extra
+            self.table_period_id._generate_table_event(
+                self.event_type, tp_oper=self.tp_oper, extra=extra
             )
             return {"type": "ir.actions.act_window_close"}
         declaration = self.declaration_id

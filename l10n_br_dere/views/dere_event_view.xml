@@ -16,6 +16,30 @@
                 <field name="protocol" />
                 <field name="nr_recibo" />
                 <field name="cd_retorno" />
+                <field name="can_replace_event" column_invisible="1" />
+                <field name="can_exclude_event" column_invisible="1" />
+                <field name="can_rectify_event" column_invisible="1" />
+                <button
+                    name="action_replace_event"
+                    type="object"
+                    string="Replace"
+                    icon="fa-refresh"
+                    invisible="not can_replace_event"
+                />
+                <button
+                    name="action_exclude_event"
+                    type="object"
+                    string="Exclude"
+                    icon="fa-times"
+                    invisible="not can_exclude_event"
+                />
+                <button
+                    name="action_rectify_event"
+                    type="object"
+                    string="Rectify"
+                    icon="fa-pencil"
+                    invisible="not can_rectify_event"
+                />
                 <field name="seq_evento" optional="hide" />
                 <field name="dh_process" optional="hide" />
             </list>
@@ -27,6 +51,27 @@
         <field name="arch" type="xml">
             <form create="0">
                 <header>
+                    <button
+                        name="action_replace_event"
+                        type="object"
+                        string="Replace"
+                        invisible="not can_replace_event"
+                    />
+                    <button
+                        name="action_exclude_event"
+                        type="object"
+                        string="Exclude"
+                        invisible="not can_exclude_event"
+                    />
+                    <button
+                        name="action_rectify_event"
+                        type="object"
+                        string="Rectify"
+                        invisible="not can_rectify_event"
+                    />
+                    <field name="can_replace_event" invisible="1" />
+                    <field name="can_exclude_event" invisible="1" />
+                    <field name="can_rectify_event" invisible="1" />
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
