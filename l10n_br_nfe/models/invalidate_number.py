@@ -5,6 +5,8 @@ from datetime import datetime
 
 from erpbrasil.base.misc import punctuation_rm
 from erpbrasil.transmissao import TransmissaoSOAP
+from nfelib.nfe.client.v4_0.nfce import NfceClient
+from nfelib.nfe.client.v4_0.nfe import NfeClient
 from nfelib.nfe.ws.edoc_legacy import NFCeAdapter as edoc_nfce
 from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
 from requests import Session
@@ -13,29 +15,47 @@ from odoo import fields, models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import EVENT_ENV_HML, EVENT_ENV_PROD
 
+from ..models.document import nfelib_soap_transmission_enabled
+
 
 class InvalidateNumber(models.Model):
     _inherit = "l10n_br_fiscal.invalidate.number"
 
     def _edoc_processor(self):
-        certificado = self.env.company._get_br_ecertificate()
-        session = Session()
-        session.verify = False
-        params = {
-            "transmissao": TransmissaoSOAP(certificado, session),
-            "uf": self.company_id.state_id.ibge_code,
-            "versao": "4.00",
-            "ambiente": self.company_id.nfe_environment,
-        }
+        if not nfelib_soap_transmission_enabled(self.env):
+            certificado = self.env.company._get_br_ecertificate()
+            session = Session()
+            session.verify = False
+            params = {
+                "transmissao": TransmissaoSOAP(certificado, session),
+                "uf": self.company_id.state_id.ibge_code,
+                "versao": "4.00",
+                "ambiente": self.company_id.nfe_environment,
+            }
+            if self.document_type_id.code == "65":
+                params.update(
+                    csc_token=self.company_id.nfce_csc_token,
+                    csc_code=self.company_id.nfce_csc_code,
+                )
+                return edoc_nfce(**params)
 
+            return edoc_nfe(**params)
+
+        pkcs12_data, pkcs12_password = self.company_id._get_nfe_certificate_data()
+        common_params = {
+            "ambiente": self.company_id.nfe_environment,
+            "uf": self.company_id.state_id.ibge_code,
+            "pkcs12_data": pkcs12_data,
+            "pkcs12_password": pkcs12_password,
+            "wrap_response": True,
+        }
         if self.document_type_id.code == "65":
-            params.update(
+            return NfceClient(
+                **common_params,
                 csc_token=self.company_id.nfce_csc_token,
                 csc_code=self.company_id.nfce_csc_code,
             )
-            return edoc_nfce(**params)
-
-        return edoc_nfe(**params)
+        return NfeClient(**common_params)
 
     def _invalidate(self, document_id=False):
         processador = self._edoc_processor()

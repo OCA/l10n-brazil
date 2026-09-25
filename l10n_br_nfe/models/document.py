@@ -15,6 +15,8 @@ from erpbrasil.transmissao import TransmissaoSOAP
 from lxml import etree
 from nfelib.nfe.bindings.v4_0.nfe_v4_00 import Nfe
 from nfelib.nfe.bindings.v4_0.proc_nfe_v4_00 import NfeProc
+from nfelib.nfe.client.v4_0.nfce import NfceClient
+from nfelib.nfe.client.v4_0.nfe import NfeClient
 from nfelib.nfe.ws.edoc_legacy import NFCeAdapter as edoc_nfce
 from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
 from requests import Session
@@ -75,6 +77,22 @@ PRODUCT_CODE_FISCAL_DOCUMENT_TYPES = ["55", "01"]
 NFE_XML_NAMESPACE = {"nfe": "http://www.portalfiscal.inf.br/nfe"}
 
 _logger = logging.getLogger(__name__)
+
+
+def nfelib_soap_transmission_enabled(env):
+    """Is the NF-e/NFC-e SOAP transmission done by nfelib instead of erpbrasil.edoc?
+
+    Until the nfelib SOAP clients fully replace erpbrasil.edoc, the legacy
+    erpbrasil.edoc transmission remains the default. Set this system parameter
+    to switch to the nfelib clients (see PR 4147). On Odoo 18 the default
+    should be flipped to nfelib.
+    """
+    return (
+        env["ir.config_parameter"]
+        .sudo()
+        .get_param("l10n_br_nfe.nfelib_soap_transmission", "False")
+        == "True"
+    )
 
 
 def filter_processador_edoc_nfe(record):
@@ -1166,6 +1184,9 @@ class NFe(spec_models.StackedModel):
             return super()._edoc_processor()
 
         self._check_nfe_environment()
+        if nfelib_soap_transmission_enabled(self.env):
+            return self._nfelib_edoc_processor()
+
         certificado = self.company_id._get_br_ecertificate()
         session = Session()
         session.verify = False
@@ -1190,6 +1211,31 @@ class NFe(spec_models.StackedModel):
                 csc_code=self.company_id.nfce_csc_code,
             )
             return edoc_nfce(**params)
+
+    def _nfelib_edoc_processor(self):
+        """Build the SOAP client from nfelib instead of erpbrasil.edoc."""
+        self.ensure_one()
+        pkcs12_data, pkcs12_password = self.company_id._get_nfe_certificate_data()
+        common_params = {
+            "ambiente": self.company_id.nfe_environment,
+            "uf": self.company_id.state_id.ibge_code,
+            "pkcs12_data": pkcs12_data,
+            "pkcs12_password": pkcs12_password,
+            "wrap_response": True,
+        }
+        if self.document_type == MODELO_FISCAL_NFE:
+            return NfeClient(
+                **common_params,
+                envio_sincrono=self.company_id.nfe_enable_sync_transmission,
+                contingencia=self.company_id.nfe_enable_contingency_ws,
+            )
+
+        if self.document_type == MODELO_FISCAL_NFCE:
+            return NfceClient(
+                **common_params,
+                csc_token=self.company_id.nfce_csc_token,
+                csc_code=self.company_id.nfce_csc_code,
+            )
 
     def _check_nfe_environment(self):
         self.ensure_one()
@@ -1225,10 +1271,11 @@ class NFe(spec_models.StackedModel):
                 document_id=self,
             )
             record.authorization_event_id = event_id
+            pkcs12_data, pkcs12_password = self.company_id._get_nfe_certificate_data()
             signed_xml = edoc.sign_xml(
                 xml_file,
-                self.company_id.certificate.file,
-                self.company_id.certificate.password,
+                pkcs12_data,
+                pkcs12_password,
                 edoc.infNFe.Id,
             )
             self._validate_xml(signed_xml)
@@ -1249,12 +1296,12 @@ class NFe(spec_models.StackedModel):
             # The ´nfeRetAutorizacaoLote´ webservice allows
             # querying a batch of NFe, therefore in this case the return of protNFe
             # is a list, but the localization only sends one NFe per batch.
-            if webservice == "nfeRetAutorizacaoLote":
+            if isinstance(response.protNFe, list):
                 inf_prot = response.protNFe[0].infProt
             else:
                 inf_prot = response.protNFe.infProt
         nfe_proc_xml = getattr(process, "processo_xml", None)
-        if nfe_proc_xml:
+        if isinstance(nfe_proc_xml, bytes):
             nfe_proc_xml = nfe_proc_xml.decode()
         self._nfe_save_protocol(inf_prot, nfe_proc_xml)
         # For ´nfeConsultaNF´ webservice, the status is checked in the main response.
@@ -1388,6 +1435,9 @@ class NFe(spec_models.StackedModel):
         """
         Inject the final NF-e, tag `nfeProc`, into the response.
         """
+        if nfelib_soap_transmission_enabled(self.env):
+            return self._nfelib_response_add_proc(ws_response_process)
+
         xml_soap = ws_response_process.retorno.content
         tree_soap = etree.fromstring(xml_soap)
         prot_nfe_element = tree_soap.xpath(
@@ -1398,6 +1448,24 @@ class NFe(spec_models.StackedModel):
             # it is not always possible to create nfeProc.
             parser = XmlParser()
             nfe_proc = parser.from_string(proc_nfe_xml.decode(), NfeProc)
+            ws_response_process.processo = nfe_proc
+            ws_response_process.processo_xml = proc_nfe_xml
+
+    def _nfelib_response_add_proc(self, ws_response_process):
+        """_nfe_response_add_proc variant for the nfelib clients.
+
+        The response already carries the parsed protNFe binding: no need to
+        xpath it out of the raw SOAP envelope.
+        """
+        if isinstance(ws_response_process.resposta.protNFe, list):
+            prot_nfe = ws_response_process.resposta.protNFe[0]
+        else:
+            prot_nfe = ws_response_process.resposta.protNFe
+        proc_nfe_xml = self._nfe_create_proc(prot_nfe)
+        if proc_nfe_xml:
+            # it is not always possible to create nfeProc.
+            parser = XmlParser()
+            nfe_proc = parser.from_string(proc_nfe_xml, NfeProc)
             ws_response_process.processo = nfe_proc
             ws_response_process.processo_xml = proc_nfe_xml
 
@@ -1435,8 +1503,6 @@ class NFe(spec_models.StackedModel):
         nfe_send_xml = base64.b64decode(self.send_file_id.datas)
         tree_envi_nfe = etree.fromstring(nfe_send_xml)
         element_nfe = tree_envi_nfe.xpath("//nfe:NFe", namespaces=NFE_XML_NAMESPACE)[0]
-
-        # Assemble the `nfeProc` using the erpbrasil.edoc library.
         proc_nfe_xml = processor.monta_nfe_proc(
             nfe=element_nfe, prot_nfe=prot_nfe_element
         )
@@ -1518,10 +1584,15 @@ class NFe(spec_models.StackedModel):
         """
         Serialize and send a NFe for authorizaion
         """
+        # NOTE: serialize is a bad meth name. use _build_binding?
         serialized_nfe = self.serialize()[0]
         nfe_manager = self._edoc_processor()
         authorization_response = None
-        for service_response in nfe_manager.processar_documento(serialized_nfe):
+        if nfelib_soap_transmission_enabled(self.env):
+            service_responses = nfe_manager.processar_lote([serialized_nfe])
+        else:
+            service_responses = nfe_manager.processar_documento(serialized_nfe)
+        for service_response in service_responses:
             if service_response.webservice not in [
                 "nfeAutorizacaoLote",
                 "nfeRetAutorizacaoLote",
@@ -1810,6 +1881,9 @@ class NFe(spec_models.StackedModel):
         processador = self._edoc_processor()
         if self.nfe_transmission == "1":
             return processador.monta_qrcode(self.document_key)
+
+        if nfelib_soap_transmission_enabled(self.env):
+            return processador.monta_qrcode_contingencia(self.serialize()[0])
 
         serialized_doc = self.serialize()[0]
         xml = processador.assina_raiz(serialized_doc, serialized_doc.infNFe.Id)
