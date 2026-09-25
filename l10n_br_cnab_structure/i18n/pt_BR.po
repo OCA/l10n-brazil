@@ -1,0 +1,1824 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_cnab_structure
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2024-09-17 20:06+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"Language-Team: none\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.6.2\n"
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
+msgid ""
+"<span class=\"o_form_label\" modifiers=\"{}\">\n"
+"                                Key Types\n"
+"                            </span>"
+msgstr ""
+"<span class=\"o_form_label\" modifiers=\"{}\">\n"
+"                                Tipos de chaves\n"
+"                            </span>"
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
+msgid ""
+"<span class=\"o_form_label\" modifiers=\"{}\">\n"
+"                                Transfer Types\n"
+"                            </span>"
+msgstr ""
+"<span class=\"o_form_label\" modifiers=\"{}\">\n"
+"                                Tipos de Transferência\n"
+"                            </span>"
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_line_form_view
+msgid ""
+"<span class=\"o_form_label\" modifiers=\"{}\">\n"
+"                            Payment Ways\n"
+"                        </span>"
+msgstr ""
+"<span class=\"o_form_label\" modifiers=\"{}\">\n"
+"                            Formas de Pagamento\n"
+"                        </span>"
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_line_field_group_form_view
+msgid ""
+"<span class=\"o_form_label\" modifiers=\"{}\">\n"
+"                        Conditions\n"
+"                    </span>"
+msgstr ""
+"<span class=\"o_form_label\" modifiers=\"{}\">\n"
+"                        Condições\n"
+"                    </span>"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model,name:l10n_br_cnab_structure.model_l10n_br_cnab_batch
+msgid "A batch of lines in a CNAB structure."
+msgstr "Um lote de linhas em uma estrutura CNAB."
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_line_field_group_form_view
+msgid ""
+"A field group will be informed in the cnab file based on the condition of a "
+"value of another field."
+msgstr ""
+"Um grupo de campo será informado no arquivo CNAB baseado na condição do "
+"valor de outro campo."
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.field_select_wizard_form
+msgid "Add Sub-Field"
+msgstr "Adicionar Sub-Campo"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__additional_info
+msgid "Additional Info"
+msgstr "Informação Adicional"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_mode__cnab_structure_ok
+msgid "Allowed in CNAB (OCA Processor)"
+msgstr "Permitido no CNAB (Processador OCA)"
+
+#. module: l10n_br_cnab_structure
+#. odoo-python
+#: code:addons/l10n_br_cnab_structure/models/cnab_line_field.py:0
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_line_field__type__alpha
+#, python-format
+msgid "Alphanumeric"
+msgstr "Alfanumérico"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model,name:l10n_br_cnab_structure.model_l10n_br_cnab_structure
+msgid ""
+"An structure with header, body and trailer that make up the CNAB structure."
+msgstr ""
+"Uma estrutura com cabeçalho, corpo e trailer que compõe a estrutura CNAB."
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.l10n_br_cnab_return_event_form_view_structure
+msgid ""
+"Any automatic move this event might generate will be ignored. If so, you "
+"will need to handle it manually."
+msgstr ""
+"Qualquer movimento automático que este evento possa gerar será ignorado. "
+"Nesse caso, você precisará lidar com isso manualmente."
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
+msgid "Approve"
+msgstr "Aprovar"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_batch__state__approved
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_line__state__approved
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_line_field__state__approved
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_structure__state__approved
+msgid "Approved"
+msgstr "Aprovado"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__assumed_comma
+msgid "Assumed Comma"
+msgstr "Vírgula Assumida"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__balance
+msgid "Balance"
+msgstr "Saldo"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__balance
+msgid "Balance = Payment Value + Discount Value + Rebate Value - Fees"
+msgstr ""
+"Saldo = Valor do Pagamento + Valor do Desconto + Valor do Reembolso - Taxas"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard__bank_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_log__bank_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__bank_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
+msgid "Bank"
+msgstr "Banco"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_log__bank_acc_number
+msgid "Bank Acc Number"
+msgstr "Número da Conta Bancária"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__bank_code
+msgid "Bank Code"
+msgstr "Código do Banco"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_bank_end_pos
+msgid "Bank Last Position"
+msgstr "Posição Final do Banco"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_bank_start_pos
+msgid "Bank Start Position"
+msgstr "Posição Inicial do Banco"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__batch_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__batch_ids
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
+msgid "Batch"
+msgstr "Lote"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__batch_code
+msgid "Batch Code"
+msgstr "Código do Lote"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__record_type_batch_header_id
+msgid "Batch Header Type ID"
+msgstr "ID do Tipo do Cabeçalho do Lote"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_batch_end_pos
+msgid "Batch Last Position"
+msgstr "Posição Final do Lote"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_batch_start_pos
+msgid "Batch Start Position"
+msgstr "Posição inicial do Lote"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_line__batch_template_id
+msgid "Batch Template"
+msgstr "Modelo de Lote"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__record_type_batch_trailer_id
+msgid "Batch Trailer Type ID"
+msgstr "ID do Tipo Trailer do Lote"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.ui.menu,name:l10n_br_cnab_structure.cnab_payables
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_preview_wizard_form
+msgid "CNAB"
+msgstr "CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.journal_cnab_import_view_form
+msgid "CNAB Accounts"
+msgstr "Contas CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.actions.act_window,name:l10n_br_cnab_structure.action_cnab_batch
+#: model:ir.ui.menu,name:l10n_br_cnab_structure.menu_cnab_batch
+msgid "CNAB Batches"
+msgstr "Lotes CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.journal_cnab_import_view_form
+msgid "CNAB Configuration"
+msgstr "Configuração CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model:res.groups,name:l10n_br_cnab_structure.group_cnab_constructor
+msgid "CNAB Constructor"
+msgstr "Construtor CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_field_select_wizard__cnab_field_id
+msgid "CNAB Field"
+msgstr "Campo CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.actions.act_window,name:l10n_br_cnab_structure.action_cnab_line_field
+#: model:ir.ui.menu,name:l10n_br_cnab_structure.menu_cnab_line_fields
+msgid "CNAB Fields"
+msgstr "Campos CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.actions.act_window,name:l10n_br_cnab_structure.action_cnab_line_fields_group
+#: model:ir.ui.menu,name:l10n_br_cnab_structure.menu_cnab_line_fields_group
+msgid "CNAB Fields Group"
+msgstr "Grupo de Campos CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.actions.act_window,name:l10n_br_cnab_structure.action_cnab_line_fields_group_condition
+#: model:ir.ui.menu,name:l10n_br_cnab_structure.menu_cnab_line_fields_group_condition
+msgid "CNAB Fields Group Condition"
+msgstr "Condição do Grupo de Campos do CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_preview_wizard__cnab_file
+msgid "CNAB File"
+msgstr "Arquivo CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model,name:l10n_br_cnab_structure.model_cnab_import_wizard
+msgid "CNAB Import Wizard"
+msgstr "Assistente de Importação CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.actions.act_window,name:l10n_br_cnab_structure.action_cnab_line
+#: model:ir.ui.menu,name:l10n_br_cnab_structure.menu_cnab_line
+msgid "CNAB Lines"
+msgstr "Linhas CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model,name:l10n_br_cnab_structure.model_cnab_occurrence
+msgid "CNAB Occurence Code"
+msgstr "Código de Ocorrência do CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model,name:l10n_br_cnab_structure.model_cnab_payment_way
+msgid "CNAB Payment Way Code"
+msgstr "Código da Forma de Pagamento CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_mode__cnab_payment_way_ids
+msgid "CNAB Payment Ways"
+msgstr "Formas de Pagamento CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model,name:l10n_br_cnab_structure.model_cnab_pix_key_type
+msgid "CNAB Pix Key Type"
+msgstr "Tipo de Chave PIX do CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model,name:l10n_br_cnab_structure.model_cnab_pix_transfer_type
+msgid "CNAB Pix Transfer Type"
+msgstr "Tipo de Transferência PIX do CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.actions.act_window,name:l10n_br_cnab_structure.cnab_preview_action
+#: model:ir.actions.act_window,name:l10n_br_cnab_structure.line_cnab_preview_action
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_line_form_view
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_preview_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
+msgid "CNAB Preview"
+msgstr "Pré-visualização do CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model,name:l10n_br_cnab_structure.model_cnab_preview_wizard
+msgid "CNAB Preview Wizard"
+msgstr "Assistente de Visualização do CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_journal__default_outbound_cnab_processor
+msgid "CNAB Processor"
+msgstr "Processador CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_account_journal__default_outbound_cnab_processor
+msgid ""
+"CNAB Processor to be used in a payment order when it is not defined in the "
+"payment mode"
+msgstr ""
+"Processador CNAB a ser utilizado em uma ordem de pagamento quando não é "
+"definido em um modo de pagamento"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model,name:l10n_br_cnab_structure.model_l10n_br_cnab_return_event
+msgid "CNAB Return Event"
+msgstr "Evento de Retorno CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model,name:l10n_br_cnab_structure.model_l10n_br_cnab_return_log
+msgid "CNAB Return Log"
+msgstr "Registro de Retorno de CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model,name:l10n_br_cnab_structure.model_l10n_br_cnab_return_lot
+msgid "CNAB Return Lot"
+msgstr "Lote de Retorno de CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.ui.menu,name:l10n_br_cnab_structure.l10n_br_outbound_cnab_return_log_menu
+msgid "CNAB Returns"
+msgstr "Retornos CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_journal__default_outbound_cnab_structure_id
+#: model:ir.ui.menu,name:l10n_br_cnab_structure.cnab_structure
+msgid "CNAB Structure"
+msgstr "Estruturas CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_account_journal__default_outbound_cnab_structure_id
+msgid ""
+"CNAB Structure to be used in a payment order when it is not defined in the "
+"payment mode."
+msgstr ""
+"Estrutura CNAB a ser utilizado em uma ordem de pagamento quando não é "
+"definido em um modo de pagamento."
+
+#. module: l10n_br_cnab_structure
+#: model:ir.actions.act_window,name:l10n_br_cnab_structure.action_cnab_structure
+#: model:ir.ui.menu,name:l10n_br_cnab_structure.menu_cnab_structure
+msgid "CNAB Structures"
+msgstr "Estruturas CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_preview_wizard__output
+msgid "CNAB Text Output"
+msgstr "Saída de Texto CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_preview_wizard_form
+msgid "CNAB YAML"
+msgstr "YAML CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_preview_wizard__output_yaml
+msgid "CNAB YAML Output"
+msgstr "Saída YAML CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__cnab_pix_key_type__key_type__cnpj_cpf
+msgid "CPF or CNPJ"
+msgstr "CPF ou CNPJ"
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_import_wizard
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_preview_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.field_select_wizard_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__centralizing_chamber_code
+msgid "Centralizing Chamber Code"
+msgstr "Código da Câmara Centralizadora"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_cnab_payment_way__clearinghouse_code
+msgid ""
+"Centralizing Clearing House Code\n"
+"(Código da Câmara Centralizadora)"
+msgstr "Código da Câmara Centralizadora"
+
+#. module: l10n_br_cnab_structure
+#. odoo-python
+#: code:addons/l10n_br_cnab_structure/models/cnab_line_field.py:0
+#, python-format
+msgid "Change Dot Notation Field"
+msgstr "Alterar Campo de Notação de Ponto"
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_line_form_view
+msgid "Change Field"
+msgstr "Mudar Campo"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__cnab_pix_transfer_type__type_domain__checking
+msgid "Checking Account (Conta Corrente)"
+msgstr "Conta Corrente"
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_line_form_view
+msgid "Choose the payment ways that are required to inform this line."
+msgstr ""
+"Escolha as formas de pagamento que são necessárias para informar esta linha."
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_payment_way__clearinghouse_code
+msgid "Clearinghouse Code"
+msgstr "Código da Câmara"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_payment_way__batch_id
+msgid "Cnab Batch"
+msgstr "Lote CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_line__cnab_beneficiary_name
+msgid "Cnab Beneficiary Name"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model,name:l10n_br_cnab_structure.model_cnab_line_group_field_condition
+msgid "Cnab Field Condition"
+msgstr "Condição de Campo Cnab"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model,name:l10n_br_cnab_structure.model_cnab_line_field_group
+msgid "Cnab Field Group"
+msgstr "Grupo de Campo Cnab"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_preview_wizard__cnab_file_name
+msgid "Cnab File Name"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_group_field_condition__cnab_group_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__cnab_group_id
+msgid "Cnab Group"
+msgstr "Grupo Cnab"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_field_group__cnab_line_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_group_field_condition__cnab_line_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__cnab_line_id
+msgid "Cnab Line"
+msgstr "Linha Cnab"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__cnab_occurrence_ids
+msgid "Cnab Occurrence"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_line__cnab_payment_way_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__cnab_payment_way_ids
+msgid "Cnab Payment Way"
+msgstr "Forma de Pagamento da Cnab"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__cnab_pix_key_type_ids
+msgid "Cnab Pix Key Type"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_line__cnab_pix_transfer_type_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__cnab_pix_transfer_type_ids
+msgid "Cnab Pix Transfer Type"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_line__cnab_pix_type_id
+msgid "Cnab Pix Type"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_order__cnab_processor
+msgid "Cnab Processor"
+msgstr "Processador Cnab"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_mode__cnab_structure_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_order__cnab_structure_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard__cnab_structure_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_occurrence__cnab_structure_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_payment_way__cnab_structure_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_key_type__cnab_structure_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_transfer_type__cnab_structure_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_preview_wizard__cnab_structure_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_batch__cnab_structure_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__cnab_structure_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__cnab_structure_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_log__cnab_structure_id
+msgid "Cnab Structure"
+msgstr "Estrutura da Cnab"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_log__cnpj_cpf
+msgid "Cnpj Cpf"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_occurrence__code
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_payment_way__code
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_key_type__code
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_transfer_type__code
+msgid "Code"
+msgstr "Código"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard__cnab_format
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__cnab_format
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__cnab_format
+msgid "Code (Do Not Modify)"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__communication_flow
+msgid "Communication Flow"
+msgstr "Fluxo de Comunicação"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard__company_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_log__company_id
+msgid "Company"
+msgstr "Empresa"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_field_group__condition_ids
+msgid "Condition"
+msgstr "Condição"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_detail_end_pos
+msgid "Conf Detail End Pos"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_detail_start_pos
+msgid "Conf Detail Start Pos"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_payment_way_end_pos
+msgid "Conf Payment Way End Pos"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_payment_way_start_pos
+msgid "Conf Payment Way Start Pos"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_segment_end_pos
+msgid "Conf Segment End Pos"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_segment_start_pos
+msgid "Conf Segment Start Pos"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
+msgid "Configuration Fields"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.field_select_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.l10n_br_cnab_return_log_form_view_structure
+msgid "Confirm"
+msgstr "Confirmar"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_return_event__state__confirmed
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_return_log__state__confirmed
+msgid "Confirmed"
+msgstr "Confirmado"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__content_dest_model_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__content_dest_model_id
+msgid "Content Destination"
+msgstr "Destino do Conteúdo"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__content_dest_field
+msgid "Content Destination Field"
+msgstr "Campo de Destino do Conteúdo"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__content_source_model_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__content_source_model_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__content_source_model_id
+msgid "Content Source"
+msgstr "Fonte do Conteúdo"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__content_source_field
+msgid "Content Source Field"
+msgstr "Campo da Fonte de Conteúdo"
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.l10n_br_cnab_return_event_form_view_structure
+msgid "Control"
+msgstr "Controle"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard__create_uid
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_field_group__create_uid
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_group_field_condition__create_uid
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_occurrence__create_uid
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_payment_way__create_uid
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_key_type__create_uid
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_transfer_type__create_uid
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_preview_wizard__create_uid
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_field_select_wizard__create_uid
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_batch__create_uid
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__create_uid
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__create_uid
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__create_uid
+msgid "Created by"
+msgstr "Criado por"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard__create_date
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_field_group__create_date
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_group_field_condition__create_date
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_occurrence__create_date
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_payment_way__create_date
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_key_type__create_date
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_transfer_type__create_date
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_preview_wizard__create_date
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_field_select_wizard__create_date
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_batch__create_date
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__create_date
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__create_date
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__create_date
+msgid "Created on"
+msgstr "Criado em"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_field_select_wizard__current_view
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__current_view
+msgid "Current View"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard__bank_account_cnab_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_log__bank_account_cnab_id
+msgid "Default Account"
+msgstr "Conta Padrão"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__default_value
+msgid "Default Value"
+msgstr "Valor Padrão"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_account_journal__tariff_charge_account_id
+msgid "Default account for bank tariff."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.journal_cnab_import_view_form
+msgid ""
+"Default setting when used in payment order, when not informed in payment "
+"mode."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_occurrence__description
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_payment_way__description
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_key_type__description
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_transfer_type__description
+msgid "Description"
+msgstr "Descrição"
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
+msgid "Detail"
+msgstr "Detalhe"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__record_type_detail_id
+msgid "Detail Type ID"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_account_journal__inbound_discount_account_id
+msgid "Discount Account for CNAB inbound payments."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_account_journal__outbound_discount_account_id
+msgid "Discount Account for CNAB outbound payments."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard__display_name
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_field_group__display_name
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_group_field_condition__display_name
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_occurrence__display_name
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_payment_way__display_name
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_key_type__display_name
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_transfer_type__display_name
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_preview_wizard__display_name
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_field_select_wizard__display_name
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_batch__display_name
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__display_name
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__display_name
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__display_name
+msgid "Display Name"
+msgstr "Nome Exibido"
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.l10n_br_cnab_return_event_form_view_structure
+msgid "Do you want to ignore this event?"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__doc_purpose
+msgid "Doc Purpose"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_preview_wizard_form
+msgid "Download File"
+msgstr "Baixar Arquivo"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_batch__state__draft
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_line__state__draft
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_line_field__state__draft
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_return_log__state__draft
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_structure__state__draft
+msgid "Draft"
+msgstr "Rascunho"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__cnab_pix_key_type__key_type__email
+msgid "E-mail"
+msgstr "E-mail"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__end_pos
+msgid "End Position"
+msgstr "Posição Final"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_return_event__state__error
+msgid "Error"
+msgstr "Erro"
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.l10n_br_cnab_return_log_form_view_structure
+msgid "Events"
+msgstr "Eventos"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__expected_payment_date
+msgid "Expected Payment Date"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__sending_dynamic_content
+msgid ""
+"Expression in Python to define the final value of the content,you can use "
+"the following predefined words:\n"
+"\n"
+"'content' returns the value of the mapped content source field.\n"
+"'time' class to handle date.\n"
+"'seq_batch' returns the batch sequence.\n"
+"'seq_record_detail' returns the sequence for detail record in the batch.\n"
+"'payment_way_code' return the batch payment way\n"
+"'patment_type_code' return the batch payment type\n"
+"'qty_batches' returns the number of batches\n"
+"'qty_records' returns the number of records\n"
+"'batch_detail_lines' returns a list of batch detail records.'segment_code' "
+"returns the code of the segment defined in the header of the line."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_field_group__field_ids
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_group_field_condition__field_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__field_ids
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__computed_name
+msgid "Field"
+msgstr "Campo"
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_line_form_view
+msgid "Field Groups"
+msgstr "Grupos de Campos"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model,name:l10n_br_cnab_structure.model_field_select_wizard
+msgid "Field Select Wizard"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_line_field_form_view
+msgid "Field Setting"
+msgstr "Configuração do Campo"
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_line_form_view
+msgid "Fields"
+msgstr "Campos"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model,name:l10n_br_cnab_structure.model_l10n_br_cnab_line_field
+msgid "Fields in CNAB lines."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__record_type_file_header_id
+msgid "File Header Type ID"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__record_type_file_trailer_id
+msgid "File Trailer Type ID"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard__filename
+msgid "Filename"
+msgstr "Nome do Arquivo"
+
+#. module: l10n_br_cnab_structure
+#. odoo-python
+#: code:addons/l10n_br_cnab_structure/wizard/field_select_wizard.py:0
+#, python-format
+msgid ""
+"For the return it is not allowed to map sub-fields in more than one level."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_line__current_view__general
+msgid "General"
+msgstr "Geral"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_occurrence__gen_liquidation_move
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__gen_liquidation_move
+msgid "Generate Liquidation Move"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__generated_move_id
+msgid "Generated Move"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__group_ids
+msgid "Group"
+msgstr "Grupo"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_line__type__header
+msgid "Header"
+msgstr "Cabeçalho"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_log__header_file
+msgid "Header File"
+msgstr "Arquivo de Cabeçalho"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard__id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_field_group__id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_group_field_condition__id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_occurrence__id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_payment_way__id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_key_type__id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_transfer_type__id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_preview_wizard__id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_field_select_wizard__id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_batch__id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__gen_liquidation_move
+msgid "If check, this CNAB Event will generate a liquidity move line."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.l10n_br_cnab_return_event_form_view_structure
+msgid "Ignore This Event"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_return_event__state__ignored
+msgid "Ignored"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_import_wizard
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.journal_cnab_import_view_form
+msgid "Import CNAB"
+msgstr "Importar CNAB"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.ui.menu,name:l10n_br_cnab_structure.l10n_br_outbound_cnab_import_menu
+msgid "Import CNAB Returns"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.actions.act_window,name:l10n_br_cnab_structure.l10n_br_inbound_cnab_import_action
+msgid "Import Inbound Payment CNAB Return"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.actions.act_window,name:l10n_br_cnab_structure.l10n_br_outbound_cnab_import_action
+msgid "Import Outbound Payment CNAB Return"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_import_wizard
+msgid "Import Parameters Summary"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_journal__inbound_discount_account_id
+msgid "Inbound Discount Account"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_journal__inbound_interest_fee_account_id
+msgid "Inbound Interest and Fees Account"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__cnab_import_wizard__type__inbound
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_return_log__type__inbound
+msgid "Inbound Payment"
+msgstr "Pagamento Recebido"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.actions.act_window,name:l10n_br_cnab_structure.l10n_br_inbound_cnab_return_log_action
+msgid "Inbound Payment CNAB Returns"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.journal_cnab_import_view_form
+msgid "Inbound Payments"
+msgstr "Pagamentos Recebidos"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_journal__inbound_rebate_account_id
+msgid "Inbound Rebate Account"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__content_dest_field
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__content_source_field
+msgid ""
+"Inform the field with the origin of the content, expressed with dot notation."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__cnab_pix_transfer_type__type_domain__pix_key
+msgid "Instant Payment Key (Chave Pix)"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_account_journal__inbound_interest_fee_account_id
+msgid "Interest and Fees Account for CNAB inbound payments."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_account_journal__outbound_interest_fee_account_id
+msgid "Interest and Fees Account for CNAB outbound payments."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model,name:l10n_br_cnab_structure.model_account_journal
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard__journal_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__journal_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_log__journal_id
+msgid "Journal"
+msgstr "Diário"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_journal__used_to_import_cnab
+msgid "Journal used for import CNAB"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard____last_update
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_field_group____last_update
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_group_field_condition____last_update
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_occurrence____last_update
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_payment_way____last_update
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_key_type____last_update
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_transfer_type____last_update
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_preview_wizard____last_update
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_field_select_wizard____last_update
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_batch____last_update
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line____last_update
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field____last_update
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure____last_update
+msgid "Last Modified on"
+msgstr "Última Modificação em"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard__write_uid
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_field_group__write_uid
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_group_field_condition__write_uid
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_occurrence__write_uid
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_payment_way__write_uid
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_key_type__write_uid
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_transfer_type__write_uid
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_preview_wizard__write_uid
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_field_select_wizard__write_uid
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_batch__write_uid
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__write_uid
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__write_uid
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__write_uid
+msgid "Last Updated by"
+msgstr "Última Atualização por"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard__write_date
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_field_group__write_date
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_group_field_condition__write_date
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_occurrence__write_date
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_payment_way__write_date
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_key_type__write_date
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_transfer_type__write_date
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_preview_wizard__write_date
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_field_select_wizard__write_date
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_batch__write_date
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__write_date
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__write_date
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__write_date
+msgid "Last Updated on"
+msgstr "Última Atualização em"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_segment_end_pos
+msgid "Last position of segment of an detail record. Only for detail records."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_detail_end_pos
+msgid ""
+"Last position of sequencial identification of Detail Records. Only for "
+"detail records."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_batch__line_ids
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__line_ids
+msgid "Line"
+msgstr "Linha"
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_batch_form_view
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
+msgid "Lines"
+msgstr "Linhas"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model,name:l10n_br_cnab_structure.model_l10n_br_cnab_line
+msgid "Lines that make up the CNAB."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#. odoo-python
+#: code:addons/l10n_br_cnab_structure/hooks.py:0
+#, python-format
+msgid "Loading l10n_br_cnab_structure data files."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#. odoo-python
+#: code:addons/l10n_br_cnab_structure/hooks.py:0
+#, python-format
+msgid "Loading l10n_br_cnab_structure demo files."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.l10n_br_cnab_return_event_form_view_structure
+msgid "Main"
+msgstr "Principal"
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_line_form_view
+msgid "Map Return"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_line_form_view
+msgid "Map Sending"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#. odoo-python
+#: code:addons/l10n_br_cnab_structure/models/account_payment_line.py:0
+#, python-format
+msgid "Mapping for batch template not found"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_cnab_occurrence__gen_liquidation_move
+msgid "Mark this option if this occurrence corresponds to a liquidation move."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__meaning
+msgid "Meaning"
+msgstr "Significado"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__move_line_ids
+msgid "Move Line"
+msgstr "Linha de Movimento"
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.l10n_br_cnab_return_event_form_view_structure
+msgid "Move Lines"
+msgstr "Linhas de Movimentação"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__move_type_code
+msgid "Move Type Code"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_field_group__name
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_occurrence__name
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_payment_way__name
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_key_type__name
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_transfer_type__name
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_batch__name
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__name
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__name
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__name
+msgid "Name"
+msgstr "Nome"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_account_payment_line__cnab_beneficiary_name
+msgid ""
+"Name of the beneficiary (Nome do Favorecido) that will be informed in the "
+"CNAB."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_field_select_wizard__new_field_id
+msgid "New Field"
+msgstr "Novo Campo"
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.field_select_wizard_form
+msgid "New Sub-Field"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_field_select_wizard__notation_field
+msgid "Notation Field"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_field_select_wizard__notation_field_view
+msgid "Notation Field View"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__notes
+msgid "Notes"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_line_field_form_view
+msgid "Notes.."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#. odoo-python
+#: code:addons/l10n_br_cnab_structure/models/cnab_line_field.py:0
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_line_field__type__num
+#, python-format
+msgid "Numeric"
+msgstr "Numérico"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__account_journal__default_outbound_cnab_processor__oca_processor
+msgid "OCA Processor"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__occurrence_code_1
+msgid "Occurrence Code 1"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__occurrence_code_2
+msgid "Occurrence Code 2"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__occurrence_code_3
+msgid "Occurrence Code 3"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__occurrence_code_4
+msgid "Occurrence Code 4"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__occurrence_code_5
+msgid "Occurrence Code 5"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
+msgid "Ocurrences"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_cnab_import_wizard__journal_id
+msgid "Only journals where the CNAB Import is allowed."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_batch__cnab_structure_id
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_batch__line_ids
+msgid "Only structures with code equal to 240 is allowed."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_group_field_condition__operator
+msgid "Operator"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_line_form_view
+msgid "Optional Rules"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.l10n_br_cnab_return_event_form_view_structure
+msgid "Other Infos"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_journal__outbound_discount_account_id
+msgid "Outbound Discount Account"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_journal__outbound_interest_fee_account_id
+msgid "Outbound Interest and Fees Account"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__cnab_import_wizard__type__outbound
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_return_log__type__outbound
+msgid "Outbound Payment"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.actions.act_window,name:l10n_br_cnab_structure.l10n_br_outbound_cnab_return_log_action
+msgid "Outbound Payment CNAB Returns"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.journal_cnab_import_view_form
+msgid "Outbound Payments"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_journal__outbound_rebate_account_id
+msgid "Outbound Rebate Account"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.journal_cnab_import_view_form
+msgid "Outgoing Payments"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
+msgid "PIX"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_key_type__key_type
+msgid "PIX Key Type"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:account.payment.mode,name:l10n_br_cnab_structure.payment_mode_sispag_pix_trasfer
+msgid "PIX Transferência - SISPAG Itaú"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_field_select_wizard__parent_model_id
+msgid "Parent Model"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.l10n_br_cnab_return_event_form_view_structure
+msgid "Partner"
+msgstr "Parceiro"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__partner_bank_account
+msgid "Partner Bank Account"
+msgstr "Conta Bancária Parceira"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__partner_bank_account_dac
+msgid "Partner Bank Account Dac"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__partner_bank_branch
+msgid "Partner Bank Branch"
+msgstr "Agência Bancária Parceira"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__partner_bank_code
+msgid "Partner Bank Code"
+msgstr "Código do Banco Parceiro"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__partner_document
+msgid "Partner Document"
+msgstr "Documento do Parceiro"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__partner_name
+msgid "Partner Name"
+msgstr "Nome do Parceiro"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__partner_notification
+msgid "Partner Notification"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__partner_document
+msgid "Partners's document number, it can be a CNPJ or CPF."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model,name:l10n_br_cnab_structure.model_account_payment_line
+msgid "Payment Lines"
+msgstr "Linhas de Pagamento"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard__payment_method_ids
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__payment_method_id
+msgid "Payment Method"
+msgstr "Método de Pagamento"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model,name:l10n_br_cnab_structure.model_account_payment_mode
+msgid "Payment Modes"
+msgstr "Modos de Pagamento"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model,name:l10n_br_cnab_structure.model_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_preview_wizard__payment_order_id
+msgid "Payment Order"
+msgstr "Ordem de Pagamento"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__payment_type
+msgid "Payment Type"
+msgstr "Tipo de Pagamento"
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
+msgid "Payment Way"
+msgstr "Forma de Pagamento"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_payment_way_end_pos
+msgid ""
+"Payment Way last position in Header Batch Records. Only for Header Batch "
+"Records."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_payment_way_start_pos
+msgid ""
+"Payment Way start position in Header Batch Records. Only for Header Batch "
+"Records."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_line__cnab_payment_way_ids
+msgid "Payment Ways that must use this segment."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_batch__cnab_payment_way_ids
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__cnab_payment_way_ids
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_batch_form_view
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
+msgid "Payments Ways"
+msgstr "Formas de Pagamento"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_batch__cnab_payment_way_ids
+msgid "Payments ways that use the structure of this batch."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__cnab_pix_key_type__key_type__phone
+msgid "Phone Number"
+msgstr "Número de Telefone"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_detail_start_pos
+msgid ""
+"Position of sequencial identification of Detail Records. Only for detail "
+"records."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
+msgid "Positions"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__cnab_pix_transfer_type__type_domain__payment
+msgid "Prepaid Payment Account (Conta Pagamento)"
+msgstr "Conta Pagamento Pré-pago (Conta Pagamento)"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__preview_field
+msgid "Preview Field"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__cnab_pix_key_type__key_type__evp
+msgid "Random Key"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_return_event__state__ready
+msgid "Ready to Genereta Move"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_account_journal__inbound_rebate_account_id
+msgid "Rebate Account for CNAB inbound payments."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_account_journal__outbound_rebate_account_id
+msgid "Rebate Account for CNAB outbound payments."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__record_type
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
+msgid "Record Type"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_record_type_end_pos
+msgid "Record Type Last Position"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_record_type_start_pos
+msgid "Record Type Start Position"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__resource_ref
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__resource_ref
+msgid "Reference"
+msgstr "Referência"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__ref_name
+msgid "Reference Name"
+msgstr "Nome de Referência"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__related_field_id
+msgid "Related Field"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_field_select_wizard__model_id
+msgid "Related Model"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_line__content_dest_model_id
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__content_dest_model_id
+msgid ""
+"Related model that will provide the destination of the contents of return "
+"CNAB files."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_structure__content_source_model_id
+msgid ""
+"Related model that will provide the origin of the contents of CNAB files."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_line__content_source_model_id
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__content_source_model_id
+msgid ""
+"Related model that will provide the origin of the contents of CNABfiles."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.field_select_wizard_form
+msgid "Remove Last Field"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__requerid
+msgid "Requerid"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
+msgid "Reset To Draft"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_line__communication_flow__return
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_line__current_view__return
+msgid "Return"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__return_dynamic_content
+msgid "Return Dynamic Content"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard__return_file
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_log__return_file
+msgid "Return File"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_line_field_form_view
+msgid "Return Mapping"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_batch__state__review
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_line__state__review
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_line_field__state__review
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_structure__state__review
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
+msgid "Review"
+msgstr "Revisar"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__cnab_pix_transfer_type__type_domain__saving
+msgid "Saving Account (Conta Poupança)"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_line__type__segment
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
+msgid "Segment"
+msgstr "Seguimento"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__segment_code
+msgid "Segment Code"
+msgstr "Código do Segmento"
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_line_field_form_view
+msgid "Select Field Wizard"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_line_field_form_view
+msgid "Send Mapping"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_line__communication_flow__sending
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_line__current_view__sending
+msgid "Sending"
+msgstr "Enviando"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__sending_dynamic_content
+msgid "Sending Dynamic Content"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_line__communication_flow__both
+msgid "Sending and Return"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__seq_number
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_lot__seq_number
+msgid "Seq Number"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__sequence
+msgid "Sequence"
+msgstr "Sequência"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__size
+msgid "Size"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__start_pos
+msgid "Start Position"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_segment_start_pos
+msgid "Start position of segment of an detail record. Only for detail records."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_field_group__state
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_group_field_condition__state
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_batch__state
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__state
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__state
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__state
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_log__state
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__state
+msgid "State"
+msgstr "Estado"
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_line_form_view
+msgid "Structure"
+msgstr "Estrutura"
+
+#. module: l10n_br_cnab_structure
+#: model:account.payment.mode,name:l10n_br_cnab_structure.payment_mode_sispag_ted
+msgid "TED - SISPAG Itaú "
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_journal__tariff_charge_account_id
+msgid "Tariff Account"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__ted_purpose
+msgid "Ted Purpose"
+msgstr "Objetivo do Ted"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_cnab_import_wizard__cnab_format
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_line__cnab_format
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_structure__cnab_format
+msgid ""
+"This code is used in the code of the Odoo module that handles this payment "
+"method. Therefore, if you change it, the generation of the payment file may "
+"fail."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_line__type__trailer
+msgid "Trailer"
+msgstr "Trailer"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_transfer_type__type_domain
+msgid "Transfer Type"
+msgstr "Tipo de Transferência"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard__type
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__type
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__type
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_log__type
+msgid "Type"
+msgstr "Tipo"
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
+msgid "Types Identification"
+msgstr "Tipos de Identificação"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__ref_name
+msgid ""
+"Unique reference name to identify the cnab field, can be used to search the "
+"field content in python expressions in 'Dynamic Content'. It is generated "
+"automatically by aggregating the field name, starting position and ending "
+"position. ex:. 'field_name_001-015'"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_group_field_condition__json_value
+msgid "Value (JSON format)"
+msgstr "Valor (formato JSON)"
+
+#. module: l10n_br_cnab_structure
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.l10n_br_cnab_return_event_form_view_structure
+msgid "Values"
+msgstr "Valores"
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_structure__record_type_detail_id
+msgid "What`s the identification for detail type?"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_structure__record_type_batch_header_id
+msgid "What`s the identification for header of batch type?"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_structure__record_type_file_header_id
+msgid "What`s the identification for header of file type?"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_structure__record_type_batch_trailer_id
+msgid "What`s the identification for trailer of batch type?"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_structure__record_type_file_trailer_id
+msgid "What`s the identification for trailer of file type?"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#. odoo-python
+#: code:addons/l10n_br_cnab_structure/models/l10n_br_cnab_return_log.py:0
+#, python-format
+msgid "You cannot delete Return Log in confirmed state."
+msgstr "Você não pode excluir o Log de Retorno em estado confirmado."
+
+#. module: l10n_br_cnab_structure
+#. odoo-python
+#: code:addons/l10n_br_cnab_structure/models/cnab_batch.py:0
+#, python-format
+msgid "You cannot delete an CNAB Batch which is not draft !"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#. odoo-python
+#: code:addons/l10n_br_cnab_structure/models/cnab_line_field.py:0
+#, python-format
+msgid "You cannot delete an CNAB Field which is not draft !"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#. odoo-python
+#: code:addons/l10n_br_cnab_structure/models/cnab_line.py:0
+#, python-format
+msgid "You cannot delete an CNAB Line which is not draft !"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#. odoo-python
+#: code:addons/l10n_br_cnab_structure/models/cnab_structure.py:0
+#, python-format
+msgid "You cannot delete an CNAB Structure which is not draft !"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__cnab_line_group_field_condition__operator__in
+msgid "in"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__assumed_comma
+msgid "indicates the position of the comma within a numeric field."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__cnab_line_group_field_condition__operator__not_in
+msgid "not in"
+msgstr ""
+
+#~ msgid "Bank Payment Lines"
+#~ msgstr "Linhas de Pagamento Bancário"
