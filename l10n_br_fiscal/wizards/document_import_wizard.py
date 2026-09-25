@@ -68,6 +68,12 @@ class DocumentImportWizard(models.TransientModel):
 
     document_type = fields.Char()
 
+    currency_id = fields.Many2one(related="company_id.currency_id")
+
+    amount_total = fields.Monetary(
+        string="Document Total",
+    )
+
     fiscal_operation_type = fields.Selection(
         selection=FISCAL_IN_OUT,
         compute="_compute_fiscal_operation_type",
