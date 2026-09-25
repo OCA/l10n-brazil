@@ -11,6 +11,7 @@ from ..constants import (
     EVENT_D1121,
     EVENT_D1198,
     EVENT_D1199,
+    TRANSIENT_HTTP_CODES,
 )
 
 ALLOWED_MOT_EXCL = frozenset({"2", "3", "9"})
@@ -221,3 +222,70 @@ class DereEventParentMixin(models.AbstractModel):
         if self._active_event(event_type):
             return "2"
         return "1"
+
+    def _unknown_transmission_action(self):
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("Transmission unknown"),
+                "message": _(
+                    "The DeRE batch request failed before a protocol was "
+                    "received. Check the transmission before sending again."
+                ),
+                "type": "warning",
+                "sticky": True,
+                "next": {"type": "ir.actions.client", "tag": "soft_reload"},
+            },
+        }
+
+    def _apply_send_result(self, batch, events, result):
+        """Persist the send outcome without losing generated events on retries.
+
+        A 2xx response without a protocol, or a transient HTTP error, leaves
+        the batch unknown so the user can inspect the gateway before resending.
+        Only a definitive application error marks the events as rejected.
+        """
+        protocol = self._extract_protocol(result.get("text") or "")
+        status = result.get("status_code") or 0
+        accepted = bool(result.get("ok") and protocol)
+        if accepted:
+            batch.write(
+                {
+                    "state": "sent",
+                    "response_text": result.get("text"),
+                    "protocol": protocol,
+                }
+            )
+            batch._schedule_next_consult()
+            events.write({"state": "sent", "protocol": protocol})
+            return batch
+        if result.get("ok") or status in TRANSIENT_HTTP_CODES:
+            batch.write(
+                {
+                    "state": "unknown",
+                    "response_text": result.get("text"),
+                    "protocol": protocol or False,
+                }
+            )
+            return self._unknown_transmission_action()
+        batch.write(
+            {
+                "state": "error",
+                "response_text": result.get("text"),
+                "protocol": protocol or False,
+            }
+        )
+        events.write({"state": "rejected", "protocol": protocol or False})
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("Transmission rejected"),
+                "message": _("Receita Integra rejected the batch: %s")
+                % (result.get("text") or ""),
+                "type": "danger",
+                "sticky": True,
+                "next": {"type": "ir.actions.client", "tag": "soft_reload"},
+            },
+        }

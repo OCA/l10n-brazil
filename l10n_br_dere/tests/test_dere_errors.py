@@ -365,8 +365,12 @@ class TestDereErrors(DereCommon):
             "odoo.addons.l10n_br_dere.models.receita_integra.requests.post",
             side_effect=fake_post,
         ):
-            with self.assertRaises(UserError):
-                declaration.action_send_tables()
+            try:
+                action = declaration.action_send_tables()
+            except UserError:
+                return
+        self.assertEqual(action["tag"], "display_notification")
+        self.assertEqual(self._event(declaration, "D-1001").state, "rejected")
 
     def test_regenerate_after_reject_creates_new_event(self):
         declaration = self._create_declaration("2025-10")

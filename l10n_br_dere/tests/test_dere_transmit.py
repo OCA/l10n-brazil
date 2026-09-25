@@ -212,6 +212,60 @@ class TestDereTransmit(DereCommon):
         self.assertEqual(period.batch_ids.state, "unknown")
         self.assertEqual(events.state, "generated")
 
+    def test_send_without_protocol_keeps_unknown_batch(self):
+        declaration = self._create_declaration("2025-03")
+        declaration.action_generate_tables()
+        period = self._table_period(declaration)
+        events = period._next_events(("D-1001",))
+        with patch.object(
+            type(self.env["l10n_br_dere.receita.integra"]),
+            "send_batch",
+            return_value={"ok": True, "status_code": 200, "text": "accepted"},
+        ):
+            action = period._send_events(events)
+        self.assertEqual(action["tag"], "display_notification")
+        self.assertEqual(period.batch_ids.state, "unknown")
+        self.assertFalse(period.batch_ids.protocol)
+        self.assertEqual(events.state, "generated")
+
+    def test_send_application_error_rejects_events(self):
+        declaration = self._create_declaration("2025-05")
+        declaration.action_generate_tables()
+        period = self._table_period(declaration)
+        events = period._next_events(("D-1001",))
+        with patch.object(
+            type(self.env["l10n_br_dere.receita.integra"]),
+            "send_batch",
+            return_value={
+                "ok": False,
+                "status_code": 400,
+                "text": "batch rejected",
+            },
+        ):
+            action = period._send_events(events)
+        self.assertEqual(action["tag"], "display_notification")
+        self.assertEqual(period.batch_ids.state, "error")
+        self.assertEqual(events.state, "rejected")
+
+    def test_send_transient_http_keeps_generated_events(self):
+        declaration = self._create_declaration("2025-04")
+        declaration.action_generate_tables()
+        period = self._table_period(declaration)
+        events = period._next_events(("D-1001",))
+        with patch.object(
+            type(self.env["l10n_br_dere.receita.integra"]),
+            "send_batch",
+            return_value={
+                "ok": False,
+                "status_code": 503,
+                "text": "unavailable",
+            },
+        ):
+            action = period._send_events(events)
+        self.assertEqual(action["tag"], "display_notification")
+        self.assertEqual(period.batch_ids.state, "unknown")
+        self.assertEqual(events.state, "generated")
+
     def test_consult_keeps_sent_while_processing(self):
         declaration = self._create_declaration()
         declaration.action_generate_tables()

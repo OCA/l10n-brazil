@@ -641,40 +641,8 @@ class DereTablePeriod(models.Model):
             )
         except (requests.Timeout, requests.ConnectionError) as exc:
             batch.write({"state": "unknown", "response_text": str(exc)})
-            return {
-                "type": "ir.actions.client",
-                "tag": "display_notification",
-                "params": {
-                    "title": _("Transmission unknown"),
-                    "message": _(
-                        "The DeRE batch request failed before a protocol was "
-                        "received. Check the transmission before sending again."
-                    ),
-                    "type": "warning",
-                    "sticky": True,
-                    "next": {"type": "ir.actions.client", "tag": "soft_reload"},
-                },
-            }
-        batch.write(
-            {
-                "state": "sent" if result["ok"] else "error",
-                "response_text": result["text"],
-                "protocol": self._extract_protocol(result["text"]),
-            }
-        )
-        if result["ok"]:
-            batch._schedule_next_consult()
-        events.write(
-            {
-                "state": "sent" if result["ok"] else "rejected",
-                "protocol": batch.protocol,
-            }
-        )
-        if not result["ok"]:
-            raise UserError(
-                _("Receita Integra rejected the batch: %s") % result["text"]
-            )
-        return batch
+            return self._unknown_transmission_action()
+        return self._apply_send_result(batch, events, result)
 
     def action_consult_results(self):
         consulted = self.env["l10n_br_dere.batch"]

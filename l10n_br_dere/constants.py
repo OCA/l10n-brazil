@@ -109,6 +109,7 @@ DEFAULT_API_PATH = "/v1/recepcao/lotes"
 DEFAULT_CONSULT_PATH = "/v1/consulta/lotes/{protocol}"
 DEFAULT_VER_APLIC = "odoo-dere-18.0"
 PROTOCOL_RE = r"^[12]\.\d{6}\.\d{1,19}$"
+TRANSIENT_HTTP_CODES = frozenset({429, 502, 503, 504})
 EVENT_ID_INSCRIPTION_TYPE = "1"
 BRASILIA_TZ = "America/Sao_Paulo"
 
