@@ -3,7 +3,8 @@
 
 import re
 
-from odoo import fields, models
+from odoo import _, fields, models
+from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_dere_spec.models.v1_2.types import (
     FREQ_ENCERR,
@@ -93,11 +94,29 @@ class ResCompany(models.Model):
         default=DEFAULT_CONSULT_PATH,
         help="Path appended to the API URL when consulting a batch. Use {protocol}.",
     )
-    dere_client_id = fields.Char(string="Receita Integra client id")
-    dere_client_secret = fields.Char(string="Receita Integra client secret")
+    dere_client_id = fields.Char(
+        string="Receita Integra client id",
+        groups="l10n_br_dere.group_manager",
+    )
+    dere_client_secret = fields.Char(
+        string="Receita Integra client secret",
+        groups="l10n_br_dere.group_manager",
+    )
+
+    def _dere_uses_restricted_gateway(self):
+        self.ensure_one()
+        base = (self.dere_api_url or DEFAULT_API_URL).rstrip("/")
+        return base == API_URL_RESTRICTED.rstrip("/")
 
     def _dere_api_base_url(self):
         self.ensure_one()
+        if self.dere_tp_amb == "1" and self._dere_uses_restricted_gateway():
+            raise UserError(
+                _(
+                    "Production (tpAmb 1) cannot use the restricted Receita "
+                    "Integra gateway. Set a production API URL when it is published."
+                )
+            )
         if self.dere_api_url:
             return self.dere_api_url.rstrip("/")
         if self.dere_tp_amb == "1":

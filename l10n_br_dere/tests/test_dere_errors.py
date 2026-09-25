@@ -4,7 +4,7 @@
 from unittest.mock import patch
 
 from odoo import Command
-from odoo.exceptions import UserError
+from odoo.exceptions import AccessError, UserError
 from odoo.tests import tagged
 
 from odoo.addons.l10n_br_dere.models import xml_builder
@@ -405,3 +405,46 @@ class TestDereErrors(DereCommon):
                     "iniValid": False,
                 }
             )
+
+    def test_production_blocked_on_restricted_gateway(self):
+        self.company.dere_api_url = "https://api.receitafederal.gov.br/prr-dere"
+        self.company.dere_tp_amb = "1"
+        with self.assertRaises(UserError):
+            self.company._dere_api_base_url()
+        self.company.dere_api_url = "https://api.receitafederal.gov.br/dere"
+        self.assertEqual(
+            self.company._dere_api_base_url(),
+            "https://api.receitafederal.gov.br/dere",
+        )
+
+    def test_credentials_hidden_from_user_and_readable_with_sudo(self):
+        user = self.env["res.users"].create(
+            {
+                "name": "DeRE clerk",
+                "login": "dere.clerk",
+                "company_id": self.company.id,
+                "company_ids": [Command.set(self.company.ids)],
+                "groups_id": [Command.set(self.env.ref("l10n_br_dere.group_user").ids)],
+            }
+        )
+        company = self.env["res.company"].with_user(user).browse(self.company.id)
+        self.assertFalse(user.has_group("l10n_br_dere.group_manager"))
+        with self.assertRaises(AccessError):
+            self.assertFalse(company.dere_client_id)
+        self.assertTrue(company.sudo().dere_client_id)
+        self.env["l10n_br_dere.receita.integra"]._clear_token(self.company)
+        with patch(
+            "odoo.addons.l10n_br_dere.models.receita_integra.requests.post",
+            return_value=_FakeResponse(
+                payload={"access_token": "tok", "expires_in": 3600}
+            ),
+        ) as mocked:
+            token = (
+                self.env["l10n_br_dere.receita.integra"]
+                .with_user(user)
+                ._get_token(company)
+            )
+        self.assertEqual(token, "tok")
+        self.assertEqual(
+            mocked.call_args.kwargs.get("auth"), ("demo-client", "demo-secret")
+        )

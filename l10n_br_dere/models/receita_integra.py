@@ -56,6 +56,7 @@ class DereReceitaIntegra(models.AbstractModel):
         )
 
     def _request_token(self, company):
+        company = company.sudo()
         if not company.dere_client_id or not company.dere_client_secret:
             raise UserError(
                 _("Configure the Receita Integra client id and secret on the company.")

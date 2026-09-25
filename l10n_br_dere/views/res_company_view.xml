@@ -39,8 +39,15 @@
                         <field name="dere_api_url" />
                         <field name="dere_api_path" />
                         <field name="dere_consult_path" />
-                        <field name="dere_client_id" />
-                        <field name="dere_client_secret" password="True" />
+                        <field
+                            name="dere_client_id"
+                            groups="l10n_br_dere.group_manager"
+                        />
+                        <field
+                            name="dere_client_secret"
+                            password="True"
+                            groups="l10n_br_dere.group_manager"
+                        />
                     </group>
                 </page>
             </xpath>
