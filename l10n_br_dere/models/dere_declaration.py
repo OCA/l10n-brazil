@@ -722,27 +722,44 @@ class DereDeclaration(models.Model):
         )
         prev_closing = self._previous_trial_closing()
         if self.date_from:
-            for line in AccountMoveLine.search(
-                domain_base + [("date", "<", self.date_from)]
+            for account, balance in AccountMoveLine._read_group(
+                domain_base + [("date", "<", self.date_from)],
+                groupby=["account_id"],
+                aggregates=["balance:sum"],
             ):
-                opening[line.account_id.id] += line.balance
-                if cycle_start and line.date >= cycle_start:
-                    opening_cycle[line.account_id.id] += line.balance
-        for line in AccountMoveLine.search(
-            domain_base
-            + [
-                ("date", ">=", self.date_from),
-                ("date", "<=", self.date_to),
-            ]
+                opening[account.id] = balance or 0.0
+            if cycle_start:
+                for account, balance in AccountMoveLine._read_group(
+                    domain_base
+                    + [
+                        ("date", ">=", cycle_start),
+                        ("date", "<", self.date_from),
+                    ],
+                    groupby=["account_id"],
+                    aggregates=["balance:sum"],
+                ):
+                    opening_cycle[account.id] = balance or 0.0
+        period_domain = domain_base
+        if self.date_from:
+            period_domain = period_domain + [("date", ">=", self.date_from)]
+        if self.date_to:
+            period_domain = period_domain + [("date", "<=", self.date_to)]
+        for account, debit, credit in AccountMoveLine._read_group(
+            period_domain,
+            groupby=["account_id"],
+            aggregates=["debit:sum", "credit:sum"],
         ):
-            values = period[line.account_id.id]
-            values["debit"] += line.debit
-            values["credit"] += line.credit
-            if line.move_id.reversed_entry_id:
-                if line.debit:
-                    values["ajuste_cred"] += line.debit
-                if line.credit:
-                    values["ajuste_debt"] += line.credit
+            values = period[account.id]
+            values["debit"] = debit or 0.0
+            values["credit"] = credit or 0.0
+        for account, debit, credit in AccountMoveLine._read_group(
+            period_domain + [("move_id.reversed_entry_id", "!=", False)],
+            groupby=["account_id"],
+            aggregates=["debit:sum", "credit:sum"],
+        ):
+            values = period[account.id]
+            values["ajuste_cred"] = debit or 0.0
+            values["ajuste_debt"] = credit or 0.0
         return opening, opening_cycle, period, prev_closing, cycle_start
 
     def action_generate_d1101(self):
