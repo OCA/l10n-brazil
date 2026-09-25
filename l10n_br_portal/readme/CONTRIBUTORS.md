@@ -1,0 +1,5 @@
+- [KMEE](https://kmee.com.br):
+  - Luis Felipe Mileo \<mileo@kmee.com.br\> (<https://www.kmee.com.br>)
+- [ESCODOO](https://escodoo.com.br):
+  - Marcel Savegnago \<<marcel.savegnago@escodoo.com.br>\>
+  - Cristiano Mafra Junior \<<cristiano.mafra@escodoo.com.br>\>
