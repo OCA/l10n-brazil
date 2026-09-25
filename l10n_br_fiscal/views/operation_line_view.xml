@@ -39,18 +39,42 @@
                         <label for="name" />
                         <field name="name" />
                     </h2>
+                    <div class="alert alert-info" role="status">
+                        The fields below define
+                        <strong>when</strong>
+                        this line is selected (matching criteria). The tabs
+                        below define
+                        <strong>what</strong>
+                        is applied to the fiscal record once this line is
+                        chosen.
+                    </div>
+                    <separator string="Matching Criteria (when to apply this line)" />
                     <group>
-                        <group string="Company and Partner" name="tax_framework">
+                        <group
+                            string="Selection Criteria: Company &amp; Partner"
+                            name="tax_framework"
+                        >
                             <field name="company_tax_framework" />
                             <field name="partner_tax_framework" />
                             <field name="ind_ie_dest" />
                         </group>
-                        <group string="Product Information">
+                        <group string="Selection Criteria: Product">
                             <field name="product_type" />
+                            <field name="categ_id" />
                             <field name="tax_icms_or_issqn" />
                             <field name="icms_origin" />
+                            <field name="nbs_id" />
+                            <field name="operation_indicator_id" />
+                        </group>
+                        <group
+                            string="Selection Criteria: Validity Period"
+                            name="validity_period"
+                        >
+                            <field name="date_start" />
+                            <field name="date_end" />
                         </group>
                     </group>
+                    <separator string="Applied Values (what this line applies)" />
                     <notebook>
                         <page name="general" string="General">
                             <group name="gereral_settings">
@@ -87,14 +111,6 @@
                             />
                         </page>
                         <page name="extra_info" string="Extra Info">
-                            <group>
-                                <group>
-                                    <field name="date_start" />
-                                </group>
-                                <group>
-                                    <field name="date_end" />
-                                </group>
-                            </group>
                             <group>
                                 <field name="comment_ids" widget="many2many_tags" />
                             </group>
