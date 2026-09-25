@@ -8,6 +8,7 @@ erpbrasil.assinatura
 erpbrasil.edoc
 erpbrasil.transmissao
 nfelib
+nfelib>=2.6.0
 nfselib.paulistana
 num2words
 phonenumbers
