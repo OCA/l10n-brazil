@@ -37,6 +37,21 @@ odoo.define("l10n_br_portal.l10n_br_portal", function (require) {
     }
 
     if ($(".o_portal_details").length) {
+        var toggleStateTaxFields = function () {
+            var $companyName = $("input[name='company_name']");
+            if (!$companyName.length) {
+                return;
+            }
+            var hasCompanyName = Boolean($companyName.val().trim());
+            $(".div_l10n_br_ie_code, .div_l10n_br_im_code").toggle(hasCompanyName);
+        };
+        toggleStateTaxFields();
+        $(".o_portal_details").on(
+            "input",
+            "input[name='company_name']",
+            toggleStateTaxFields
+        );
+
         var state_options = $("select[name='city_id']:enabled option:not(:first)");
         $(".o_portal_details").on("change", "select[name='state_id']", function () {
             var select = $("select[name='city_id']");
