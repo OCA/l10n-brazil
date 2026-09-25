@@ -610,6 +610,22 @@ msgid "Can send tables"
 msgstr ""
 
 #. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_declaration.py:0
+msgid ""
+"Cannot delete a DeRE declaration after events were sent or accepted. Exclude "
+"or rectify those events first."
+msgstr ""
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/dere_table_period.py:0
+msgid ""
+"Cannot delete a table period after D-1001 or D-1011 was sent or accepted. "
+"Use Exclude Tables instead."
+msgstr ""
+
+#. module: l10n_br_dere
 #: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_event_operation_wizard_form
 msgid "Cancel"
 msgstr ""
