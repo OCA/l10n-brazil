@@ -250,12 +250,16 @@ class StockMove(models.Model):
         # ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
         # Mas o valor informado pelo usuário tem prioridade
         price_unit = self.mapped("price_unit")[0]
-        if inv_type in ("out_invoice", "out_refund") and price_unit == 0.0:
-            result = product.with_company(self.company_id).standard_price
-        else:
+        if price_unit:
             # Caso do Valor Informado pelo usuário tem prioridade
-            result = price_unit
+            return price_unit
 
+        if inv_type in ("out_invoice", "out_refund"):
+            result = product.with_company(self.company_id).standard_price
+
+        # Entrada sem valor informado no Stock Move (0.0 é o default do campo):
+        # mantém o preço calculado pelo super() - Vendedor/Preço de Custo -
+        # em vez de faturar com 0.
         return result
 
     def _get_price_unit(self):
