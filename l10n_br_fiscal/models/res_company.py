@@ -66,6 +66,27 @@ class ResCompany(models.Model):
         for c in self:
             c.partner_id.tax_framework = c.tax_framework
 
+    @api.depends(
+        "partner_id.legal_nature_id",
+        "partner_id.cnae_main_id",
+        "partner_id.tax_framework",
+    )
+    def _compute_fiscal_address(self):
+        """Mirror the fiscal attributes stored on the company partner.
+
+        These fields used to point at the core ``res.company._compute_address``,
+        which was a placeholder back when ``res.company`` inherited
+        ``res.partner``. Odoo 19 turned that method into a real address compute
+        which writes the company: any read of these fields therefore wrote on
+        ``res.company`` (an AccessError for restricted users such as a sales
+        person) without ever assigning them. The inverse methods write on the
+        partner, so the values are read from there.
+        """
+        for c in self:
+            c.legal_nature_id = c.partner_id.legal_nature_id
+            c.cnae_main_id = c.partner_id.cnae_main_id
+            c.tax_framework = c.partner_id.tax_framework or TAX_FRAMEWORK_NORMAL
+
     @api.depends("cnae_main_id", "annual_revenue", "payroll_amount")
     def _compute_simplified_tax(self):
         for record in self:
@@ -116,13 +137,13 @@ class ResCompany(models.Model):
     legal_nature_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.legal.nature",
         string="Legal Nature",
-        compute="_compute_address",
+        compute="_compute_fiscal_address",
         inverse="_inverse_legal_nature_id",
     )
 
     cnae_main_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cnae",
-        compute="_compute_address",
+        compute="_compute_fiscal_address",
         inverse="_inverse_cnae_main_id",
         domain="[('internal_type', '=', 'normal'), "
         "('id', 'not in', cnae_secondary_ids)]",
@@ -138,7 +159,7 @@ class ResCompany(models.Model):
     tax_framework = fields.Selection(
         selection=TAX_FRAMEWORK,
         default=TAX_FRAMEWORK_NORMAL,
-        compute="_compute_address",
+        compute="_compute_fiscal_address",
         inverse="_inverse_tax_framework",
     )
 
