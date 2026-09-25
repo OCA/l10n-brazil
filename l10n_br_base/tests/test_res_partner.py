@@ -9,6 +9,8 @@ from .common import (
     CPF_1,
     CPF_1_FORMATTED,
     CPF_2,
+    CPF_3,
+    CPF_4,
     FOREIGN_VAT,
     IE_BA,
     IE_SP,
@@ -247,6 +249,16 @@ class PartnerCopyTest(L10nBrBaseCase):
     def test_copy_with_explicit_vat(self):
         copied = self._person(vat=CPF_1).copy({"vat": CPF_2})
         self.assertEqual(copied.vat, CPF_2)
+
+    def test_copy_multi_br_partners(self):
+        """Copying several Brazilian partners at once (Duplicate action of the
+        list) works and does not duplicate the CPF/CNPJ."""
+        partners = self._person(name="Person 1", vat=CPF_3) | self._person(
+            name="Person 2", vat=CPF_4
+        )
+        copies = partners.copy()
+        self.assertEqual(len(copies), 2)
+        self.assertFalse(any(copies.mapped("vat")))
 
 
 class StateTaxNumberTest(L10nBrBaseCase):

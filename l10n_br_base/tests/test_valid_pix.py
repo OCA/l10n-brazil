@@ -172,6 +172,32 @@ class ValidCreatePIXTest(TransactionCase):
                 pix_vals
             )
 
+    def test_write_several_pix_keys(self):
+        """Writing on several keys at once (e.g. a mass edit) works."""
+        keys = self.env.ref("l10n_br_base.res_partner_amd_pix_cnpj") | self.env.ref(
+            "l10n_br_base.res_partner_amd_pix_phone"
+        )
+        keys.write({"sequence": 5})
+        self.assertEqual(keys.mapped("sequence"), [5, 5])
+        self.assertEqual(keys.mapped("key"), ["62228384000151", "+551144576060"])
+
+    def test_write_key_on_several_pix_keys(self):
+        """A new key is normalized for each record written."""
+        other_partner = self.env["res.partner"].create({"name": "Other Pix Partner"})
+        keys = self.env.ref(
+            "l10n_br_base.res_partner_amd_pix_email"
+        ) | self.res_partner_pix_model.create(
+            {
+                "partner_id": other_partner.id,
+                "key_type": "email",
+                "key": "other@example.com",
+            }
+        )
+        keys.write({"key": "Pix.Key@Example.com"})
+        self.assertEqual(
+            keys.mapped("key"), ["pix.key@example.com", "pix.key@example.com"]
+        )
+
     def test_repeated_pix_key(self):
         pix_vals = {
             "partner_id": self.partner_id.id,
