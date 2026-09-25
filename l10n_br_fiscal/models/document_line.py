@@ -166,6 +166,13 @@ class DocumentLine(models.Model):
         if cst_cbs:
             vals["cbs_cst_id"] = cst_cbs.id
 
+        if ibscbs.cClassTrib:
+            tax_classification = self.env["l10n_br_fiscal.tax.classification"].search(
+                [("code", "=", ibscbs.cClassTrib)], limit=1
+            )
+            if tax_classification:
+                vals["tax_classification_id"] = tax_classification.id
+
         vals.update(
             ibs_base=base,
             ibs_percent=ibs_percent,
