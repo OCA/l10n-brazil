@@ -2,7 +2,7 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import models
+from odoo import api, models
 
 
 class StockMove(models.Model):
@@ -18,3 +18,14 @@ class StockMove(models.Model):
                 result = self.purchase_line_id.price_unit
 
         return result
+
+    @api.model
+    def _get_bill_matching_reference_sql(self, alias):
+        """
+        Duck-typing hook picked up dynamically by `stock_picking_bill_matching`.
+        The `alias` argument (e.g., 'aml' or 'sm') is passed by the SQL view builder.
+        """
+        return (
+            f"NULLIF(COALESCE({alias}.partner_order, '') || '-' "
+            f"|| COALESCE({alias}.partner_order_line, ''), '-')"
+        )
