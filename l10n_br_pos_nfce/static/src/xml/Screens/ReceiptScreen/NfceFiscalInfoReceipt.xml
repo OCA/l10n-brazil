@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+    <t t-name="NfceFiscalInfoReceipt" owl="1">
+        <div class="nfceFiscalInfo">
+            <p class="nfcePTag">Consulte pela chave de acesso em:</p>
+            <p class="nfcePTag"><t t-esc="urlConsulta" /> </p>
+            <p class="nfcePTag nfceDocumentKey"><t t-esc="documentKeyFormatted" /></p>
+            <!-- TODO: Pode haver ou não o código de barras -->
+        </div>
+    </t>
+</templates>

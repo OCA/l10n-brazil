@@ -7,7 +7,7 @@ import logging
 import re
 import string
 import threading
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
@@ -1838,15 +1838,19 @@ class NFe(spec_models.StackedModel):
         )
 
     def _prepare_nfce_danfe_values(self):
+        data = self.document_date.astimezone() - timedelta(hours=3)
+        date = data.strftime("%d/%m/%y %H:%M:%S")
         return {
-            "company_ie": self.company_id.l10n_br_ie_code,
+            "company_ie": self.company_id.inscr_est,
             "company_cnpj": self.company_id.cnpj_cpf,
             "company_legal_name": self.company_id.legal_name,
+            "company_name": self.company_id.name,
             "company_street": self.company_id.street,
             "company_number": self.company_id.street_number,
             "company_district": self.company_id.district,
             "company_city": self.company_id.city_id.display_name,
             "company_state": self.company_id.state_id.name,
+            "partner_cpf": self.partner_id.vat or "",
             "lines": self._prepare_nfce_danfe_line_values(),
             "total_product_quantity": len(
                 self.fiscal_line_ids.filtered(lambda line: line.product_id)
@@ -1860,9 +1864,7 @@ class NFe(spec_models.StackedModel):
             "document_key": self.document_key,
             "document_number": self.document_number,
             "document_serie": self.document_serie,
-            "document_date": self.document_date.astimezone().strftime(
-                "%d/%m/%y %H:%M:%S"
-            ),
+            "document_date": date,
             "authorization_protocol": self.authorization_protocol,
             "document_qrcode": self.get_nfce_qrcode(),
             "system_env": self.nfe40_tpAmb,
