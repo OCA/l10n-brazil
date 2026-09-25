@@ -180,7 +180,12 @@ class Registro0000(models.Model):
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
         return {
-            "COD_VER": LAYOUT_VERSIONS["efd_icms_ipi"],
+            # EFD ICMS/IPI COD_VER has THREE positions ("020"), while
+            # `LAYOUT_VERSIONS` holds the number that composes the spec model
+            # names ("20"). Writing the raw number makes the PVA reject the
+            # file with "the layout version presented is not valid for the
+            # reported period".
+            "COD_VER": LAYOUT_VERSIONS["efd_icms_ipi"].zfill(3),
             # "COD_FIN": (will use declaration field directly),
             # "DT_INI": (will use declaration field directly),
             # "DT_FIN": (will use declaration field directly),
@@ -204,6 +209,19 @@ class Registro0002(models.Model):
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0002"
     _inherit = "l10n_br_sped.efd_icms_ipi.20.0002"
+    _odoo_model = "res.company"
+
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        """Only exists for industry or the equivalent.
+
+        `IND_ATIV` equal to "0" means industrial; any other activity must not
+        report this record, and the PVA rejects the import with "the record
+        must not be reported for this profile and/or operation type".
+        """
+        if declaration.IND_ATIV != "0":
+            return [(0, "=", 1)]
+        return [("id", "=", declaration.company_id.id)]
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -226,10 +244,13 @@ class Registro0005(models.Model):
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        # TODO melhorar isso
-        phone = record.phone.split(",")[0].strip()
+        phone = (record.phone or "").split(",")[0].strip()
         phone = misc.punctuation_rm(phone).replace(" ", "")
-        if len(phone) == 13:
+        # The layout reserves 11 positions (area code plus number) and the
+        # partner record usually also stores the country code, which does not
+        # fit and is not asked for. Only Brazil's 55 is dropped, and only when
+        # the number would not fit.
+        if len(phone) > 11 and phone.startswith("55"):
             phone = phone[2:]
         return {
             "FANTASIA": record.name,
@@ -4488,6 +4509,23 @@ class RegistroK010(models.Model):
     _inherit = "l10n_br_sped.efd_icms_ipi.20.k010"
 
     @api.model
+    def _pull_records_from_odoo(
+        self, kind, level, parent_register=None, parent_record=None, log_msg=None
+    ):
+        """Block K covers production and stock control.
+
+        It only applies to industry or the equivalent (`IND_ATIV` = "0").
+        Writing it for any other activity makes the PVA reject every K200 item
+        missing from 0200, because 0200 only carries what had fiscal movement
+        while stock carries the whole catalogue.
+        """
+        if self._context["declaration"].IND_ATIV != "0":
+            return
+        return super()._pull_records_from_odoo(
+            kind, level, parent_register, parent_record, log_msg
+        )
+
+    @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
         return {
             "IND_TP_LEIAUTE": declaration.ind_tp_leiaute or "2",
@@ -4500,6 +4538,23 @@ class RegistroK100(models.Model):
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k100"
     _inherit = "l10n_br_sped.efd_icms_ipi.20.k100"
+
+    @api.model
+    def _pull_records_from_odoo(
+        self, kind, level, parent_register=None, parent_record=None, log_msg=None
+    ):
+        """O bloco K e do controle da producao e do estoque.
+
+        So se aplica a industria ou equiparado a industria (`IND_ATIV` = "0").
+        Escritura-lo para outra atividade faz o PVA recusar cada item do K200
+        que nao esteja no 0200, porque o 0200 so traz o que teve movimento
+        fiscal enquanto o estoque traz o catalogo inteiro.
+        """
+        if self._context["declaration"].IND_ATIV != "0":
+            return
+        return super()._pull_records_from_odoo(
+            kind, level, parent_register, parent_record, log_msg
+        )
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4870,8 +4925,33 @@ class Registro1010(models.Model):
     _name = "l10n_br_sped.efd_icms_ipi.1010"
     _inherit = "l10n_br_sped.efd_icms_ipi.20.1010"
 
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        """Mandatoriness of the block 1 records.
+
+        The record is required even when the block has no movement: without it
+        the PVA rejects the file with "a mandatory child record was not
+        reported". Each indicator answers for one block 1 record, and while
+        none of them is written the answer is "N" for all.
+        """
+        return {
+            "IND_EXP": "N",
+            "IND_CCRF": "N",
+            "IND_COMB": "N",
+            "IND_USINA": "N",
+            "IND_VA": "N",
+            "IND_EE": "N",
+            "IND_CART": "N",
+            "IND_FORM": "N",
+            "IND_AER": "N",
+            "IND_GIAF1": "N",
+            "IND_GIAF3": "N",
+            "IND_GIAF4": "N",
+            "IND_REST_RESSARC_COMPL_ICMS": "N",
+        }
+
     # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    # def _map_from_odoo_original(self, record, parent_record, declaration, index=0):
     #     return {
     #         "IND_EXP": 0,  # Reg. 1100 - Ocorreu averbação (conclusão) de exporta...
     #         "IND_CCRF": 0,  # Reg 1200 - Existem informações acerca de créditos d...
