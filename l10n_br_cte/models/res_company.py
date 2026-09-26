@@ -2,6 +2,8 @@
 # Copyright 2024 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import base64
+
 from odoo import api, fields
 
 from odoo.addons.spec_driven_model.models import spec_models
@@ -131,6 +133,23 @@ class ResCompany(spec_models.SpecModel):
                 rec.cte40_choice_emit = "cte40_CNPJ"
             else:
                 rec.cte40_choice_emit = "cte40_CPF"
+
+    def _get_nfe_certificate_data(self):
+        """Return the (pkcs12 bytes, password) pair of the company certificate.
+
+        Single point of access to the company certificate for the CT-e SOAP
+        client, mirror of l10n_br_nfe / l10n_br_mdfe (see PR 4147).
+
+        The PKCS12 is returned decoded: nfelib re-encodes it for
+        erpbrasil.assinatura before signing and brazil_fiscal_client
+        normalizes it for the mTLS transport.
+        """
+        self.ensure_one()
+        certificate = self.certificate
+        return (
+            base64.b64decode(certificate.with_context(bin_size=False).file),
+            certificate.password,
+        )
 
     def _build_attr(self, node, fields, vals, path, attr):
         if attr[0] == "enderEmit" and self.env.context.get("edoc_type") == "in":

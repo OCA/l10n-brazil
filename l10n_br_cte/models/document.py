@@ -22,6 +22,7 @@ from nfelib.cte.bindings.v4_0.proc_cte_v4_00 import CteProc
 
 # TODO: precisa tratar nfelib
 # from nfelib.nfe.ws.edoc_legacy import CTeAdapter as edoc_cte
+from nfelib.cte.client.v4_0.cte import CteClient
 from xsdata.formats.dataclass.parsers import XmlParser
 
 from odoo import Command, _, api, fields
@@ -102,6 +103,22 @@ def filter_processador_edoc_cte(record):
     ]:
         return True
     return False
+
+
+def nfelib_soap_transmission_enabled(env):
+    """Is the CT-e SOAP transmission done by nfelib instead of erpbrasil.edoc?
+
+    The legacy erpbrasil.edoc CT-e transmission was never functional (the
+    CTeAdapter is gone), so the nfelib client is the only working
+    transmission. The system parameter keeps the door open for other
+    backends and mirrors l10n_br_nfe / l10n_br_mdfe (see PR 4147).
+    """
+    return (
+        env["ir.config_parameter"]
+        .sudo()
+        .get_param("l10n_br_cte.nfelib_soap_transmission", "False")
+        == "True"
+    )
 
 
 class CTe(spec_models.StackedModel):
@@ -1562,6 +1579,29 @@ class CTe(spec_models.StackedModel):
     def _edoc_processor(self):
         pass
 
+    def _nfelib_edoc_processor(self):
+        """Build the SOAP client from nfelib."""
+        self.ensure_one()
+        pkcs12_data, pkcs12_password = self.company_id._get_nfe_certificate_data()
+        return CteClient(
+            ambiente=self.cte_environment,
+            uf=self.company_id.state_id.ibge_code,
+            # nb: CteClient pins versao="4.00" itself.
+            # brazil_fiscal_client normalizes the PKCS12 bytes for the
+            # mTLS transport; nfelib re-encodes them for erpbrasil.assinatura.
+            pkcs12_data=pkcs12_data,
+            pkcs12_password=pkcs12_password,
+            wrap_response=True,
+        )
+
+    def _cte_send_for_authorization(self):
+        """Serialize and send a CT-e for authorization via nfelib."""
+        self.ensure_one()
+        cte_binding = self.serialize()[0]
+        cte_manager = self._nfelib_edoc_processor()
+        service_response = cte_manager.envia_documento(cte_binding)
+        self.update_status_cte(service_response)
+
     def _document_export(self, pretty_print=True):
         result = super()._document_export()
         for record in self.filtered(filter_processador_edoc_cte):
@@ -1599,16 +1639,23 @@ class CTe(spec_models.StackedModel):
         if hasattr(process, "protocolo"):
             infProt = process.protocolo.infProt
         else:
-            infProt = process.resposta.protCTe.infProt
+            # nfelib WrappedResponse: resposta is a RetCte binding whose
+            # protCTe may be absent on straight rejections.
+            resposta = process.resposta
+            infProt = resposta.protCTe.infProt if resposta.protCTe else None
 
-        if infProt.cStat in AUTORIZADO:
-            state = SITUACAO_EDOC_AUTORIZADA
-            self._cte_response_add_proc(process)
-        elif infProt.cStat in DENEGADO:
-            state = SITUACAO_EDOC_DENEGADA
+        if infProt is not None:
+            if infProt.cStat in AUTORIZADO:
+                state = SITUACAO_EDOC_AUTORIZADA
+                self._cte_response_add_proc(process)
+            elif infProt.cStat in DENEGADO:
+                state = SITUACAO_EDOC_DENEGADA
+            else:
+                state = SITUACAO_EDOC_REJEITADA
         else:
             state = SITUACAO_EDOC_REJEITADA
-        if self.authorization_event_id and infProt.nProt:
+            infProt = process.resposta
+        if self.authorization_event_id and getattr(infProt, "nProt", None):
             if isinstance(infProt.dhRecbto, datetime):
                 protocol_date = fields.Datetime.to_string(infProt.dhRecbto)
             else:
@@ -1616,12 +1663,15 @@ class CTe(spec_models.StackedModel):
                     datetime.fromisoformat(infProt.dhRecbto)
                 )
 
+            processo_xml = getattr(process, "processo_xml", None)
+            if isinstance(processo_xml, bytes):
+                processo_xml = processo_xml.decode("utf-8")
             self.authorization_event_id.set_done(
                 status_code=infProt.cStat,
                 response=infProt.xMotivo,
                 protocol_date=protocol_date,
                 protocol_number=infProt.nProt,
-                file_response_xml=process.processo_xml.decode("utf-8"),
+                file_response_xml=processo_xml,
             )
         self.write(
             {
@@ -1634,8 +1684,11 @@ class CTe(spec_models.StackedModel):
     def _eletronic_document_send(self):
         super()._eletronic_document_send()
         for record in self.filtered(filter_processador_edoc_cte):
-            if record.xml_error_message:
-                return
+            if nfelib_soap_transmission_enabled(self.env):
+                if record.xml_error_message:
+                    return  # Skip
+                record._cte_send_for_authorization()
+                continue
             processador = record._edoc_processor()
             for edoc in record.serialize():
                 process = None
@@ -1849,17 +1902,23 @@ class CTe(spec_models.StackedModel):
             )
             return None
 
-        processor = self._edoc_processor()
-
         # Extract the <CTe> tag from the `enviCTe` message, which represents the CT-e
         xml_send = base64.b64decode(self.send_file_id.datas)
         tree_send = etree.fromstring(xml_send)
         doc_element = tree_send.xpath("//cte:CTe", namespaces=CTE_XML_NAMESPACE)[0]
 
-        # Assemble the `cteProc` using the erpbrasil.edoc library.
-        proc_xml = processor.monta_cte_proc(doc=doc_element, prot=prot_element)
+        # Assemble the `cteProc` (CT-e + authorization protocol), same as
+        # erpbrasil.edoc's monta_cte_proc.
+        namespace = "http://www.portalfiscal.inf.br/cte"
+        proc = etree.Element(
+            f"{{{namespace}}}cteProc",
+            versao=self.cte_version,
+            nsmap={None: namespace},
+        )
+        proc.append(doc_element)
+        proc.append(prot_element)
 
-        return proc_xml
+        return etree.tostring(proc)
 
     def _add_ibscbs_line_attrs(self, binding, line_attrs):
         """Extract IBS/CBS values from the binding and update line_attrs."""
