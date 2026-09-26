@@ -47,8 +47,12 @@
                         </group>
                         <group string="Product Information">
                             <field name="product_type" />
+                            <field name="categ_id" />
+                            <field name="product_ids" widget="many2many_tags" />
                             <field name="tax_icms_or_issqn" />
                             <field name="icms_origin" />
+                            <field name="nbs_id" />
+                            <field name="operation_indicator_id" />
                         </group>
                     </group>
                     <notebook>
