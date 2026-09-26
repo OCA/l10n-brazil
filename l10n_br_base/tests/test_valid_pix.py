@@ -115,6 +115,57 @@ class ValidCreatePIXTest(TransactionCase):
         }
         self.check_validation_error_on_create(pix_vals)
 
+    def test_invalid_pix_EVP_wrong_block_sizes(self):
+        """36 characters, 5 hexadecimal blocks, but not 8-4-4-4-12."""
+        pix_vals = {
+            "partner_id": self.partner_id.id,
+            "key_type": "evp",
+            "key": "123456789-abc-1234-abcd-123456789abc",
+        }
+        self.check_validation_error_on_create(pix_vals)
+
+    def test_invalid_pix_EVP_not_hexadecimal_digit(self):
+        """Python's int(block, 16) accepted an underscore between digits."""
+        pix_vals = {
+            "partner_id": self.partner_id.id,
+            "key_type": "evp",
+            "key": "123e4567-e12b-12d1-a456-4266_5440000",
+        }
+        self.check_validation_error_on_create(pix_vals)
+
+    def test_invalid_pix_EVP_without_hyphens_wrong_size(self):
+        """Without hyphens, the key must still have 32 digits (31 here)."""
+        pix_vals = {
+            "partner_id": self.partner_id.id,
+            "key_type": "evp",
+            "key": "0123456789abcdef0123456789abcde",
+        }
+        self.check_validation_error_on_create(pix_vals)
+
+    def test_valid_pix_EVP_normalized(self):
+        """32 hexadecimal digits in 8-4-4-4-12 blocks, stored in lower case,
+        without spaces, and with the hyphens when typed without them."""
+        for typed, stored in (
+            (
+                "12345678-abcd-1234-abcd-123456789abc",
+                "12345678-abcd-1234-abcd-123456789abc",
+            ),
+            (
+                " ABCDEF12-3456-7890-ABCD-EF1234567890 ",
+                "abcdef12-3456-7890-abcd-ef1234567890",
+            ),
+            (
+                "0123456789ABCDEF0123456789abcdef",
+                "01234567-89ab-cdef-0123-456789abcdef",
+            ),
+        ):
+            with self.subTest(typed=typed):
+                pix = self.res_partner_pix_model.create(
+                    {"partner_id": self.partner_id.id, "key_type": "evp", "key": typed}
+                )
+                self.assertEqual(pix.key, stored)
+                pix.unlink()
+
     def check_validation_error_on_create(self, pix_vals):
         with self.assertRaises(ValidationError):
             self.res_partner_pix_model.with_context(tracking_disable=True).create(
