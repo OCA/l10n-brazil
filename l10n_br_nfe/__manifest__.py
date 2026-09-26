@@ -31,6 +31,7 @@
         "views/nfe_di_view.xml",
         "views/res_config_settings_view.xml",
         "views/nfe_md_event_view.xml",
+        "views/nfe_operation_view.xml",
         "views/supplier_info_view.xml",
         # Report
         "report/reports.xml",
