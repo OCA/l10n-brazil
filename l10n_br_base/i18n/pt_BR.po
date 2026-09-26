@@ -10969,21 +10969,14 @@ msgstr "Inocência"
 #. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_pix.py:0
 msgid ""
-"Invalid Random Key: %(key)s \n"
-"the block %(block)s is not a valid hexadecimal format."
+"Invalid Random Key: %(key)s. Make sure the whole key was copied. It must "
+"have exactly 36 characters (letters from a to f, digits and hyphens). "
+"Example of the correct format: 12345678-abcd-1234-abcd-123456789abc"
 msgstr ""
-
-#. module: l10n_br_base
-#. odoo-python
-#: code:addons/l10n_br_base/models/res_partner_pix.py:0
-msgid "Invalid Random Key: %(key)s , cannot be longer than 35 characters"
-msgstr ""
-
-#. module: l10n_br_base
-#. odoo-python
-#: code:addons/l10n_br_base/models/res_partner_pix.py:0
-msgid "Invalid Random Key: %(key)s, the key must consist of five blocks."
-msgstr ""
+"Chave aleatória inválida: %(key)s. Certifique-se de que a chave foi copiada "
+"por completo. Ela deve conter exatamente 36 caracteres (letras de a a f, "
+"números e hífens). Exemplo de formato correto: "
+"12345678-abcd-1234-abcd-123456789abc"
 
 #. module: l10n_br_base
 #. odoo-python
