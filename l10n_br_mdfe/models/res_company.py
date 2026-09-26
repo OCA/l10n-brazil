@@ -1,6 +1,8 @@
 # Copyright 2023 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import base64
+
 from odoo import api, fields
 
 from odoo.addons.spec_driven_model.models import spec_models
@@ -110,6 +112,26 @@ class ResCompany(spec_models.SpecModel):
                 rec.mdfe30_choice_emit = "mdfe30_CNPJ"
             else:
                 rec.mdfe30_choice_emit = "mdfe30_CPF"
+
+    def _get_nfe_certificate_data(self):
+        """Return the (pkcs12 bytes, password) pair of the company certificate.
+
+        Single point of access to the company certificate for the MDF-e SOAP
+        client and for signing, mirror of l10n_br_nfe (see PR 4147): on 16.0
+        this reads the l10n_br_fiscal.certificate record, and once
+        l10n_br_fiscal_certificate reuses the core certificate.certificate
+        model (PR 5107, 18.0) only this method changes.
+
+        The PKCS12 is returned decoded: nfelib re-encodes it for
+        erpbrasil.assinatura before signing and brazil_fiscal_client
+        normalizes it for the mTLS transport.
+        """
+        self.ensure_one()
+        certificate = self.certificate
+        return (
+            base64.b64decode(certificate.with_context(bin_size=False).file),
+            certificate.password,
+        )
 
     def _build_attr(self, node, fields, vals, path, attr):
         if attr[0] == "enderEmit" and self.env.context.get("edoc_type") == "in":
