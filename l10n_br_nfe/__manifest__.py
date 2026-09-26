@@ -54,7 +54,7 @@
     "auto_install": False,
     "external_dependencies": {
         "python": [
-            "nfelib",
+            "nfelib>=2.6.0",
             "erpbrasil.assinatura",
             "erpbrasil.transmissao",
             "erpbrasil.edoc",
