@@ -109,6 +109,7 @@
                     </group>
                 </group>
                 <group name="tax_settings" string="Taxes Settings">
+                    <field name="tax_classification_id" colspan="2" />
                     <field
                         name="tax_definition_ids"
                         nolabel="1"
