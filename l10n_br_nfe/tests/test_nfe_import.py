@@ -287,3 +287,40 @@ class NFeImportTest(TransactionCase):
 
     def test_import_out_nfe(self):
         "(can be useful after an ERP migration)"
+
+    def test_import_in_nfe_reuses_the_authorized_partner(self):
+        res_items = (
+            "nfe",
+            "samples",
+            "v4_0",
+            "leiauteNFe",
+            "35180834128745000152550010000474281920007498-nfe.xml",
+        )
+        xml = (
+            importlib.resources.files(nfelib.__name__)
+            .joinpath(*res_items)
+            .read_bytes()
+            .decode()
+        )
+        accountant = self.env["res.partner"].create(
+            {
+                "name": "Escritorio Contabil Exemplo",
+                "vat": "09270492000100",
+                "is_company": True,
+                "country_id": self.env.ref("base.br").id,
+            }
+        )
+        xml = xml.replace(
+            "</dest>",
+            "</dest><autXML><CNPJ>09270492000100</CNPJ></autXML>",
+            1,
+        )
+        binding = TnfeProc.from_xml(xml)
+        nfe = self.env["l10n_br_fiscal.document"].import_binding_nfe(
+            binding, edoc_type="in", dry_run=False
+        )
+        self.assertEqual(nfe.nfe40_autXML.ids, accountant.ids)
+        self.assertEqual(
+            self.env["res.partner"].search_count([("vat", "=", "09270492000100")]),
+            1,
+        )
