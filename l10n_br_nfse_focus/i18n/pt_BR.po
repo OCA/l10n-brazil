@@ -6,31 +6,35 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-07-28 20:46+0000\n"
-"Last-Translator: Cristiano Mafra Junior <cristiano.mafracontanto@gmail.com>\n"
+"PO-Revision-Date: 2026-09-23 00:00+0000\n"
+"Last-Translator: Rodrigo Macedo <sottomaiormacedotec@users.noreply."
+"translation.odoo-community.org>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: l10n_br_nfse_focus
 #. odoo-python
 #: code:addons/l10n_br_nfse_focus/models/document.py:0
+#, python-format
 msgid "%(code)s - %(msg)s"
 msgstr "%(code)s - %(msg)s"
 
 #. module: l10n_br_nfse_focus
 #. odoo-python
 #: code:addons/l10n_br_nfse_focus/models/document.py:0
+#, python-format
 msgid "%(code)s - %(status)s"
 msgstr "%(code)s - %(status)s"
 
 #. module: l10n_br_nfse_focus
 #. odoo-python
 #: code:addons/l10n_br_nfse_focus/models/document.py:0
+#, python-format
 msgid "Authorization error"
 msgstr "Erro de autorização"
 
@@ -51,20 +55,21 @@ msgid "Companies"
 msgstr "Empresas"
 
 #. module: l10n_br_nfse_focus
+#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_nacional_concat_lines_discriminacao
+msgid "Concatenate All Lines in Discriminação (NFSe Nacional)"
+msgstr "Concatenar Todas as Linhas na Discriminação (NFSe Nacional)"
+
+#. module: l10n_br_nfse_focus
 #: model:ir.model.fields.selection,name:l10n_br_nfse_focus.selection__res_company__focusnfe_tax_rate_format__decimal
 msgid "Decimal"
-msgstr ""
+msgstr "Decimal"
 
 #. module: l10n_br_nfse_focus
 #. odoo-python
 #: code:addons/l10n_br_nfse_focus/models/base.py:0
+#, python-format
 msgid "Error communicating with %(service)s service: %(error)s%(detail)s"
-msgstr ""
-
-#. module: l10n_br_nfse_focus
-#: model:ir.model,name:l10n_br_nfse_focus.model_l10n_br_fiscal_document
-msgid "Fiscal Document"
-msgstr "Documento Fiscal"
+msgstr "Erro na comunicação com o serviço %(service)s: %(error)s%(detail)s"
 
 #. module: l10n_br_nfse_focus
 #: model:ir.model,name:l10n_br_nfse_focus.model_focusnfe_nfse
@@ -74,12 +79,12 @@ msgstr "FocusNFE NFSE"
 #. module: l10n_br_nfse_focus
 #: model:ir.model,name:l10n_br_nfse_focus.model_focusnfe_nfse_base
 msgid "FocusNFE NFSE Base"
-msgstr ""
+msgstr "FocusNFE NFSE Base"
 
 #. module: l10n_br_nfse_focus
 #: model:ir.model,name:l10n_br_nfse_focus.model_focusnfe_nfse_nacional
 msgid "FocusNFE NFSe Nacional"
-msgstr ""
+msgstr "FocusNFE NFSe Nacional"
 
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields.selection,name:l10n_br_nfse_focus.selection__res_company__provedor_nfse__focusnfe
@@ -94,7 +99,7 @@ msgstr "Token de homologação FocusNFe"
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_type
 msgid "FocusNFe NFSe Type"
-msgstr ""
+msgstr "Tipo de NFSe FocusNFe"
 
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__focusnfe_production_token
@@ -109,7 +114,7 @@ msgstr "Formato da Alíquota Focusnfe"
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_force_odoo_danfse
 msgid "Force Odoo DANFSE"
-msgstr ""
+msgstr "Forçar DANFSE do Odoo"
 
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields,help:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_update_authorized_document_status
@@ -120,9 +125,20 @@ msgid ""
 "automatically update the status in the system."
 msgstr ""
 "Se marcado, os documentos autorizados serão incluídos no assistente de "
-"verificação de status. O sistema irá verificar o status dos documentos com a "
-"Focus NFE e, caso haja divergências com o status no Odoo, atualizará "
-"automaticamente o status no sistema."
+"verificação de status. O sistema verificará o status dos documentos junto "
+"à Focus NFE e, caso haja divergências em relação ao status no Odoo, "
+"atualizará automaticamente o status no sistema."
+
+#. module: l10n_br_nfse_focus
+#: model:ir.model.fields,help:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_nacional_concat_lines_discriminacao
+msgid ""
+"If checked, the Discriminação do Serviço sent to NFSe Nacional will "
+"concatenate the description of every fiscal line in the document, instead of"
+" using only the description of the first line."
+msgstr ""
+"Se marcado, a Discriminação do Serviço enviada para a NFSe Nacional "
+"concatenará a descrição de todas as linhas fiscais do documento, em vez de "
+"utilizar apenas a descrição da primeira linha."
 
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields,help:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_force_odoo_danfse
@@ -130,13 +146,18 @@ msgid ""
 "If checked, the system will always use the Odoo DANFSE instead of the Focus "
 "DANFSE."
 msgstr ""
-"Se marcado, o sistema sempre usará o DANFSE do Odoo em vez do DANFSE da "
-"Focus."
+"Se marcado, o sistema utilizará sempre o DANFSE do Odoo em vez do DANFSE "
+"da Focus."
 
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_update_authorized_document_status
 msgid "Include Authorized Documents in Status Check"
 msgstr "Incluir Documentos Autorizados na Verificação de Status"
+
+#. module: l10n_br_nfse_focus
+#: model:ir.model,name:l10n_br_nfse_focus.model_l10n_br_fiscal_document
+msgid "Informações de exportação"
+msgstr "Informações de exportação"
 
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_cnae_code_value
@@ -151,10 +172,11 @@ msgstr "Valor do tipo de serviço NFSE"
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields.selection,name:l10n_br_nfse_focus.selection__res_company__focusnfe_nfse_type__nfse
 msgid "NFSe"
-msgstr ""
+msgstr "NFSe"
 
 #. module: l10n_br_nfse_focus
 #: model:ir.actions.server,name:l10n_br_nfse_focus.l10n_br_nfse_focus_cron_ir_actions_server
+#: model:ir.cron,cron_name:l10n_br_nfse_focus.l10n_br_nfse_focus_cron
 msgid "NFSe FocusNFe: Check status and update status of submitted documents."
 msgstr ""
 "NFSe FocusNFe: Verifique o status e atualize o status dos documentos "
@@ -163,7 +185,7 @@ msgstr ""
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields.selection,name:l10n_br_nfse_focus.selection__res_company__focusnfe_nfse_type__nfse_nacional
 msgid "NFSe Nacional"
-msgstr ""
+msgstr "NFSe Nacional"
 
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__provedor_nfse
@@ -178,13 +200,13 @@ msgstr "Código de Tributação Nacional"
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields.selection,name:l10n_br_nfse_focus.selection__res_company__focusnfe_tax_rate_format__percentage
 msgid "Percentage"
-msgstr ""
+msgstr "Porcentagem"
 
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields,help:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_type
 msgid "Select whether to use NFSe (municipal) or NFSe Nacional (national) API"
 msgstr ""
-"Selecione se deve usar a API da NFSe (municipal) ou da NFSe Nacional "
+"Selecione se deseja utilizar a API da NFSe (municipal) ou da NFSe Nacional "
 "(nacional)"
 
 #. module: l10n_br_nfse_focus
@@ -200,34 +222,15 @@ msgstr "Tipo de Serviço"
 #. module: l10n_br_nfse_focus
 #. odoo-python
 #: code:addons/l10n_br_nfse_focus/models/document.py:0
+#: code:addons/l10n_br_nfse_focus/models/document.py:0
+#, python-format
 msgid "Successfully Processed"
-msgstr ""
+msgstr "Processado com Sucesso"
 
 #. module: l10n_br_nfse_focus
 #. odoo-python
 #: code:addons/l10n_br_nfse_focus/models/document.py:0
+#: code:addons/l10n_br_nfse_focus/models/document.py:0
+#, python-format
 msgid "status"
 msgstr "situação"
-
-#~ msgid "Error communicating with %(service)s service: %(error)s"
-#~ msgstr "\"Erro na comunicação com o serviço %(service)s: %(error)s\""
-
-#, python-format
-#~ msgid "Error communicating with NFSe service: %s"
-#~ msgstr "Erro na comunicação com o serviço NFSe: %s"
-
-#, python-format
-#~ msgid "HTTP status is 200 or 400 but unable to read error code"
-#~ msgstr "O status HTTP é 200 ou 400, mas não é possível ler o código de erro"
-
-#, python-format
-#~ msgid "HTTP status is 200 or 400 but unable to read json['codigo']"
-#~ msgstr "O status HTTP é 200 ou 400, mas não é possível ler json['codigo']"
-
-#, python-format
-#~ msgid "HTTP status is 200 or 400 but unable to read json['status']"
-#~ msgstr "O status HTTP é 200 ou 400, mas não é possível ler json['status']"
-
-#, python-format
-#~ msgid "Processado com Sucesso"
-#~ msgstr "Processado com Sucesso"

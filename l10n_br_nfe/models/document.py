@@ -1655,7 +1655,30 @@ class NFe(spec_models.StackedModel):
         online_event = self.filtered(filter_processador_edoc_nfe)
         if online_event:
             online_event._nfe_cancel()
+            online_event._make_cancelled_danfe()
         return result
+
+    def _make_cancelled_danfe(self):
+        """Regenerate the DANFE with the cancellation watermark.
+
+        The stored DANFE was printed at the authorization, and view_pdf()
+        does not print it again once the document is authorized.
+        """
+        self.ensure_one()
+        if (
+            self.document_type_id.code != MODELO_FISCAL_NFE
+            or self.issuer != DOCUMENT_ISSUER_COMPANY
+            or self.state_edoc != SITUACAO_EDOC_CANCELADA
+        ):
+            return
+        try:
+            self.make_pdf()
+        except Exception:
+            # The SEFAZ already accepted the cancellation: it must not be
+            # rolled back because of the DANFE.
+            _logger.exception(
+                "Error printing the DANFE of the cancelled NF-e %s", self.document_key
+            )
 
     def _need_compute_nfe_tags(self):
         if (
