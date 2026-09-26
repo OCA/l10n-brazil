@@ -22,13 +22,19 @@ from odoo.exceptions import UserError, ValidationError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     AUTORIZADO,
+    CANCELADO,
+    CANCELADO_DENTRO_PRAZO,
+    CANCELADO_FORA_PRAZO,
     DENEGADO,
     DOCUMENT_ISSUER_COMPANY,
+    DOCUMENT_STATE_CANCEL,
     DOCUMENT_STATE_OPEN,
     EVENT_ENV_HML,
     EVENT_ENV_PROD,
     MODELO_FISCAL_MDFE,
     PROCESSADOR_OCA,
+    SITUACAO_FISCAL_CANCELADO,
+    SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
 )
 from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import (
     DOCUMENT_STATE_AUTHORIZED,
@@ -1087,6 +1093,61 @@ class MDFe(spec_models.StackedModel):
                 record._mdfe_send_for_authorization()
             # else: legacy erpbrasil.edoc transmission not implemented yet
             # for MDF-e; l10n_br_fiscal_edi auto-authorizes as before.
+
+    def _document_cancel(self, justificative=None):
+        result = super()._document_cancel(justificative)
+        online_event = self.filtered(filtered_processador_edoc_mdfe)
+        if online_event and nfelib_soap_transmission_enabled(self.env):
+            online_event._mdfe_cancel()
+        return result
+
+    def _mdfe_cancel(self):
+        """Cancel an authorized MDF-e through the nfelib client."""
+        self.ensure_one()
+        if not self.authorization_protocol:
+            raise UserError(_("Authorization Protocol Not Found!"))
+
+        mdfe_manager = self._nfelib_edoc_processor()
+        process = mdfe_manager.cancela_documento(
+            chave=self.document_key,
+            protocolo_autorizacao=self.authorization_protocol,
+            justificativa=self.cancel_reason.replace("\n", "\\n"),
+            cnpj_cpf=self.company_id.cnpj_cpf or self.company_id.vat,
+        )
+        resposta = process.resposta.infEvento
+
+        if resposta.cStat not in CANCELADO:
+            raise UserError(
+                _("Error cancelling the MDF-e\nCode: %(cStat)s\nReason: %(xMotivo)s")
+                % {"cStat": resposta.cStat, "xMotivo": resposta.xMotivo}
+            )
+
+        self.cancel_event_id = self.event_ids.create_event_save_xml(
+            company_id=self.company_id,
+            environment=(
+                EVENT_ENV_PROD if self.mdfe_environment == "1" else EVENT_ENV_HML
+            ),
+            event_type="2",
+            xml_file=process.envio_xml,
+            document_id=self,
+        )
+
+        if resposta.chMDFe == self.document_key:
+            if resposta.cStat in CANCELADO_FORA_PRAZO:
+                self.state_fiscal = SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO
+            elif resposta.cStat in CANCELADO_DENTRO_PRAZO:
+                self.state_fiscal = SITUACAO_FISCAL_CANCELADO
+
+            self.state_edoc = DOCUMENT_STATE_CANCEL
+            self.cancel_event_id.set_done(
+                status_code=resposta.cStat,
+                response=resposta.xMotivo,
+                protocol_date=fields.Datetime.to_string(
+                    datetime.fromisoformat(resposta.dhRegEvento)
+                ),
+                protocol_number=resposta.nProt,
+                file_response_xml=process.retorno.content.decode("utf-8"),
+            )
 
     def _generate_key(self):
         if self.document_type_id.code not in [MODELO_FISCAL_MDFE]:

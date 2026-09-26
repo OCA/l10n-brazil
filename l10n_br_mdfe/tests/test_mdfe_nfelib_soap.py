@@ -8,6 +8,10 @@ from xsdata.formats.dataclass.transports import DefaultTransport
 
 from odoo.tests import TransactionCase
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    DOCUMENT_STATE_CANCEL,
+    SITUACAO_FISCAL_CANCELADO,
+)
 from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import (
     DOCUMENT_STATE_AUTHORIZED,
     DOCUMENT_STATE_REJECTED,
@@ -64,6 +68,34 @@ RESPONSE_REJEITADA = b"""<?xml version="1.0" encoding="utf-8"?>
                 <xMotivo>Rejeicao: Falha no schema XML</xMotivo>
             </retEnviMDFe>
         </mdfeRecepcaoResult>
+    </soap12:Body>
+</soap12:Envelope>
+"""
+
+
+RESPONSE_CANCELADA = b"""<?xml version="1.0" encoding="utf-8"?>
+<soap12:Envelope
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:soap12="http://www.w3.org/2003/05/soap-envelope"
+>
+    <soap12:Body>
+        <mdfeRecepcaoEventoResult xmlns="http://www.portalfiscal.inf.br/mdfe/wsdl/MDFeRecepcaoEvento">
+            <retEventoMDFe versao="3.00" xmlns="http://www.portalfiscal.inf.br/mdfe">
+                <infEvento>
+                    <tpAmb>2</tpAmb>
+                    <verAplic>MDFe_2.2.2</verAplic>
+                    <cOrgao>41</cOrgao>
+                    <cStat>135</cStat>
+                    <xMotivo>Evento registrado e vinculado ao MDF-e</xMotivo>
+                    <chMDFe>{chave}</chMDFe>
+                    <tpEvento>110111</tpEvento>
+                    <nSeqEvento>1</nSeqEvento>
+                    <dhRegEvento>2024-02-15T15:10:00-03:00</dhRegEvento>
+                    <nProt>141240000000002</nProt>
+                </infEvento>
+            </retEventoMDFe>
+        </mdfeRecepcaoEventoResult>
     </soap12:Body>
 </soap12:Envelope>
 """
@@ -137,3 +169,26 @@ class MDFeNfelibSoapTest(TestMDFeSerialize, TransactionCase):
         self._send_with_response(RESPONSE_REJEITADA)
         self.assertEqual(self.mdfe.state_edoc, DOCUMENT_STATE_REJECTED)
         self.assertEqual(self.mdfe.status_code, "215")
+
+    def test_cancel(self):
+        """Cancel an authorized MDF-e through the nfelib event service."""
+        # authorize first so there is a protocol to cancel
+        self._send_with_response(RESPONSE_AUTORIZADA)
+        self.assertEqual(self.mdfe.state_edoc, DOCUMENT_STATE_AUTHORIZED)
+
+        response = RESPONSE_CANCELADA.replace(
+            b"{chave}", self.mdfe.document_key.encode()
+        )
+        with mock.patch.object(DefaultTransport, "post") as mock_post:
+            mock_post.return_value = response
+            self.mdfe.cancel_reason = "Cancelamento de teste com justificativa valida"
+            self.mdfe._mdfe_cancel()
+
+            # the signed event must be injected raw in the payload
+            sent = mock_post.call_args.kwargs["data"]
+            self.assertIn("Signature", sent)
+            self.assertIn("110111", sent)  # tpEvento cancelamento
+
+        self.assertEqual(self.mdfe.state_edoc, DOCUMENT_STATE_CANCEL)
+        self.assertEqual(self.mdfe.state_fiscal, SITUACAO_FISCAL_CANCELADO)
+        self.assertEqual(self.mdfe.cancel_event_id.protocol_number, "141240000000002")
