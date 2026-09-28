@@ -17,65 +17,15 @@ msgstr ""
 "X-Generator: Weblate 5.6.2\n"
 
 #. module: l10n_br_mdfe
-#: model:ir.actions.report,print_report_name:l10n_br_mdfe.report_damdfe
+#: model:ir.actions.report,print_report_name:l10n_br_mdfe.main_template_damdfe
 msgid "'%s' % (object.document_key)"
 msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_categCombVeic__02
-msgid "02"
-msgstr "02"
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_categCombVeic__04
-msgid "04"
-msgstr "04"
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_categCombVeic__06
-msgid "06"
-msgstr "06"
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_categCombVeic__07
-msgid "07"
-msgstr "07"
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_categCombVeic__08
-msgid "08"
-msgstr "08"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe_emit_type__1
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__res_company__mdfe_emit_type__1
 msgid "1 - Prestador de serviço de transporte"
 msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_categCombVeic__10
-msgid "10"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_categCombVeic__11
-msgid "11"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_categCombVeic__12
-msgid "12"
-msgstr "12"
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_categCombVeic__13
-msgid "13"
-msgstr "13"
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_categCombVeic__14
-msgid "14"
-msgstr "14"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe_emit_type__2
@@ -87,11 +37,6 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe_emit_type__3
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__res_company__mdfe_emit_type__3
 msgid "3 - Prestador de serviço de transporte que emitirá CT-e Globalizado"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__res_company__mdfe_version__3_00
-msgid "3.00"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -303,6 +248,8 @@ msgid "Add a new MDF-e"
 msgstr "Adicionar a um novo MDF-e"
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_cAerDes
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_cAerDes
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_cAerDes
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aereo__mdfe30_cAerDes
 msgid "Aeródromo de Destino"
@@ -317,6 +264,8 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_cAerEmb
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_cAerEmb
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_cAerEmb
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aereo__mdfe30_cAerEmb
 msgid "Aeródromo de Embarque"
@@ -341,11 +290,39 @@ msgid "Aquaviário"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tmdfe_infpaa__mdfe30_PAASignature
+msgid "Assinatura RSA do Emitente"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model,name:l10n_br_mdfe.model_mdfe_30_tmdfe_paasignature
+#: model:ir.model.fields,help:l10n_br_mdfe.field_mdfe_30_tmdfe_infpaa__mdfe30_PAASignature
+msgid "Assinatura RSA do Emitente para DFe gerados por PAA"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tmdfe_paasignature__mdfe30_signatureValue
+msgid "Assinatura digital padrão RSA"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_mdfe_30_tmdfe_paasignature__mdfe30_signatureValue
+msgid ""
+"Assinatura digital padrão RSA\n"
+"Converter o atributo Id do DFe para array de bytes e assinar com a chave "
+"privada do RSA com algoritmo SHA1 gerando um valor no formato base64."
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_autXML
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_autXML
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_autXML
 msgid "Autorizados para download do XML do DF-e"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_autXML
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_autXML
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_autXML
 msgid ""
 "Autorizados para download do XML do DF-e\n"
@@ -592,7 +569,6 @@ msgid "BUZIOS"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_xBairro
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_xBairro
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_xBairro
 msgid "Bairro - MDFe"
@@ -790,7 +766,6 @@ msgid "CEP"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,help:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_CEP
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_partner__mdfe30_CEP
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_users__mdfe30_CEP
 msgid ""
@@ -799,7 +774,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_CEP
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_CEP
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_CEP
 msgid "CEP - MDFe"
@@ -888,14 +862,12 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_CNPJ
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_CNPJ
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_CNPJ
 msgid "CNPJ do Destinatário"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,help:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_CNPJ
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_partner__mdfe30_CNPJ
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_users__mdfe30_CNPJ
 msgid ""
@@ -903,6 +875,16 @@ msgid ""
 "Informar o CNPJ ou o CPF do destinatário, preenchendo os\n"
 "zeros não significativos.\n"
 "Não informar o conteúdo da TAG se a operação for realizada com o Exterior."
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tmdfe_infpaa__mdfe30_CNPJPAA
+msgid "CNPJ do Provedor de Assinatura"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_mdfe_30_tmdfe_infpaa__mdfe30_CNPJPAA
+msgid "CNPJ do Provedor de Assinatura e Autorização"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -945,35 +927,30 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_choice_contractor
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_choice_contractor
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_choice_contractor
 msgid "CNPJ/CPF do Contratante"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_choice_emit
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_choice_emit
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_choice_emit
 msgid "CNPJ/CPF do Emitente - MDFe"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_choice_autxml
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_choice_autxml
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_choice_autxml
 msgid "CNPJ/CPF do Parceiro Autorizado - MDFe"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_choice_trailer_owner
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_choice_trailer_owner
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_choice_trailer_owner
 msgid "CNPJ/CPF do Proprietário do Reboque"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_choice_insurer
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_choice_insurer
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_choice_insurer
 msgid "CNPJ/CPF do Responsável pelo Seguro da Carga"
@@ -985,7 +962,6 @@ msgid "CNPJ/CPF do responsável"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_choice_tcontractor
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_choice_tcontractor
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_choice_tcontractor
 msgid "CNPJ/CPF/Id Estrangeiro do Contratante"
@@ -1047,14 +1023,12 @@ msgid "CPF do Condutor"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_CPF
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_CPF
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_CPF
 msgid "CPF do Destinatário"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,help:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_CPF
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_partner__mdfe30_CPF
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_users__mdfe30_CPF
 msgid ""
@@ -1102,6 +1076,12 @@ msgid "CT-e"
 msgstr "CT-e"
 
 #. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "CT-e documents for unloading city %s"
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_cPrtDest__br035
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_cPrtEmb__br035
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_mdfe_modal_aquaviario_carregamento__loading_harbor__br035
@@ -1131,6 +1111,8 @@ msgid "Cabotagem"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_capKG
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_capKG
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_capKG
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario__mdfe30_capKG
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_capKG
@@ -1138,6 +1120,8 @@ msgid "Capacidade em KG"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_capM3
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_capM3
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_capM3
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario__mdfe30_capM3
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_capM3
@@ -1160,6 +1144,8 @@ msgid "Carregamento no Modal Aquaviário MDFe"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_categCombVeic
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_categCombVeic
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_categCombVeic
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario__mdfe30_categCombVeic
 msgid "Categoria de Combinação Veicular"
@@ -1213,6 +1199,7 @@ msgid "Chave de acesso do MDF-e"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model,name:l10n_br_mdfe.model_res_city
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_municipio_descarga__city_id
 msgid "City"
 msgstr "Cidade"
@@ -1230,6 +1217,8 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_mod
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_mod
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_mod
 msgid "Code"
 msgstr "Cõdigo"
@@ -1245,7 +1234,24 @@ msgid "Companies"
 msgstr "Empresas"
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_xCpl
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "Company"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "Company CNPJ/CPF"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "Company State"
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_xCpl
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_xCpl
 msgid "Complemento - MDFe"
@@ -1253,7 +1259,7 @@ msgstr ""
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_pagamento__mdfe30_comp
-msgid "Componentes do Pagamentoi do Frete"
+msgid "Componentes do Pagamentoi do Contrato"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -1326,9 +1332,9 @@ msgid "Coordenadas"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_municipio_descarga__country_id
-msgid "Country"
-msgstr "País"
+#: model:ir.model,name:l10n_br_mdfe.model_res_country_state
+msgid "Country state"
+msgstr ""
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aereo__create_uid
@@ -1359,19 +1365,6 @@ msgstr "País"
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_inf__create_uid
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_lacre__create_uid
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_perigoso__create_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_emi__create_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infentregaparcial__create_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_inffisco__create_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infmuncarrega__create_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infnf__create_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infpercurso__create_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infprot__create_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infrec__create_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infsolicnff__create_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_lacres__create_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tmdfe__create_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tnfenf_infnfe__create_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tprotmdfe__create_uid
 msgid "Created by"
 msgstr "Criado por"
 
@@ -1404,19 +1397,6 @@ msgstr "Criado por"
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_inf__create_date
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_lacre__create_date
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_perigoso__create_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_emi__create_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infentregaparcial__create_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_inffisco__create_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infmuncarrega__create_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infnf__create_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infpercurso__create_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infprot__create_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infrec__create_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infsolicnff__create_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_lacres__create_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tmdfe__create_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tnfenf_infnfe__create_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tprotmdfe__create_date
 msgid "Created on"
 msgstr "Criado em"
 
@@ -1454,21 +1434,34 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_product_product__mdfe30_NCM
+msgid "Código NCM"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_cMDF
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_cMDF
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_cMDF
 msgid "Código Numérico MDFe"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_cEmbar
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_cEmbar
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_cEmbar
 msgid "Código da Embarcação"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_cUF
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_cUF
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_cUF
 msgid "Código da UF do emitente do MDF-e"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_cUF
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_cUF
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_cUF
 msgid ""
 "Código da UF do emitente do MDF-e\n"
@@ -1487,11 +1480,15 @@ msgid "Código da embarcação do comboio"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_cUnid
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_cUnid
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_cUnid
 msgid "Código da unidade de medida"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_cUnid
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_cUnid
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_cUnid
 msgid ""
 "Código da unidade de medida do Peso Bruto da Carga / Mercadorias "
@@ -1500,6 +1497,8 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_codAgPorto
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_codAgPorto
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_codAgPorto
 msgid "Código de Agendamento"
 msgstr ""
@@ -1510,7 +1509,6 @@ msgid "Código de Agendamento no porto"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_cMun
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_cMun
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_cMun
 msgid "Código do Município - MDFe"
@@ -1527,7 +1525,6 @@ msgid "Código do Município de Descarregamento"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_cPais
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_cPais
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_cPais
 msgid "Código do País - MDFe"
@@ -1586,12 +1583,13 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_cInt
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_cInt
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_cInt
 msgid "Código do Veículo"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,help:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_cMun
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_partner__mdfe30_cMun
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_users__mdfe30_cMun
 msgid ""
@@ -1600,7 +1598,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,help:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_cPais
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_partner__mdfe30_cPais
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_users__mdfe30_cPais
 msgid ""
@@ -1638,6 +1635,8 @@ msgid "Código interno do veículo"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_cMDF
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_cMDF
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_cMDF
 msgid ""
 "Código numérico que compõe a Chave de Acesso.\n"
@@ -1646,7 +1645,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.actions.report,name:l10n_br_mdfe.report_damdfe
+#: model:ir.actions.report,name:l10n_br_mdfe.main_template_damdfe
 msgid "DAMDFE"
 msgstr ""
 
@@ -1742,6 +1741,8 @@ msgid "Data de vencimento da Parcela (AAAA-MM-DD)"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_dVoo
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_dVoo
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_dVoo
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aereo__mdfe30_dVoo
 msgid "Data do Voo"
@@ -1755,11 +1756,15 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_dhEmi
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_dhEmi
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_dhEmi
 msgid "Data e hora de emissão do Manifesto"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_dhEmi
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_dhEmi
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_dhEmi
 msgid ""
 "Data e hora de emissão do Manifesto\n"
@@ -1797,6 +1802,20 @@ msgid "Data e hora do recebimento, no formato AAAA-MM-DDTHH:MM:SS"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_dhIniViagem
+msgid "Data e hora previstos de inicio"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_dhIniViagem
+msgid ""
+"Data e hora previstos de inicio da viagem\n"
+"Formato AAAA-MM-DDTHH:MM:DD TZD"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_dhTrem
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_dhTrem
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_dhTrem
 msgid "Data/hora de Liberação do Trem"
 msgstr ""
@@ -1827,6 +1846,8 @@ msgid "Descrição literal do status do MDF-e"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_xDest
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_xDest
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_xDest
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_ferroviario__mdfe30_xDest
 msgid "Destino do Trem"
@@ -1852,11 +1873,33 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "Digital Certificate"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "Digital Certificate File"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "Digital Certificate Password"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_cDV
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_cDV
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_cDV
 msgid "Digito verificador da chave de acesso"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_cDV
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_cDV
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_cDV
 msgid ""
 "Digito verificador da chave de acesso do Manifesto\n"
@@ -1866,11 +1909,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_ir_actions_report__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document_related__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document_supplement__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document_type__display_name
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aereo__display_name
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario__display_name
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario_carga_vazia__display_name
@@ -1899,23 +1937,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_inf__display_name
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_lacre__display_name
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_perigoso__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_emi__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infentregaparcial__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_inffisco__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infmuncarrega__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infnf__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infpercurso__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infprot__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infrec__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infsolicnff__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_lacres__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tmdfe__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tnfenf_infnfe__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tprotmdfe__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_product_product__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_company__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_config_settings__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__display_name
 msgid "Display Name"
 msgstr "Nome Exibido"
 
@@ -1944,18 +1965,62 @@ msgid "Document"
 msgstr "Documento"
 
 #. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "Document Date"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "Document Key for %s"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "Document Number"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "Document Serie"
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model,name:l10n_br_mdfe.model_l10n_br_fiscal_document_supplement
 msgid "Document Supplement Data"
 msgstr "Dados do Documento Suplementar"
 
 #. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_municipio_descarga__document_type
 msgid "Document Type"
 msgstr "Tipo de Documento"
 
 #. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "Document Type is not defined."
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_mdfe.nfe_document_edi_form_inherit
 msgid "Documents"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "Driver CPF"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "Driver Name"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -2016,6 +2081,8 @@ msgid "Embarcação"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_procEmi
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_procEmi
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_procEmi
 msgid "Emission Process"
 msgstr "Processo de Emissão"
@@ -2032,6 +2099,8 @@ msgid "Emissão de MDFe com aplicativo do contribuinte"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe_emit_type
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe_emit_type
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_emit_type
 msgid "Emit Type"
 msgstr "Tipo de Emitente"
@@ -2048,13 +2117,14 @@ msgid "Endereço Emitente - MDFe"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_email
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_email
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_email
 msgid "Endereço de E-mail"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe_environment
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe_environment
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_environment
 msgid "Environment"
 msgstr ""
@@ -2174,6 +2244,16 @@ msgid "Ferroviário"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid ""
+"Fill in the required MDF-e fields before sending:\n"
+"- %s"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe_final_state_id
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe_final_state_id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_final_state_id
 msgid "Final State"
 msgstr "Estado Final"
@@ -2194,11 +2274,15 @@ msgid "Fiscal Document Type"
 msgstr "Tipo de Documento Fiscal"
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_tpEmis
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_tpEmis
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_tpEmis
 msgid "Forma de emissão do Manifesto"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_tpEmis
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_tpEmis
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_tpEmis
 msgid ""
 "Forma de emissão do Manifesto\n"
@@ -2308,6 +2392,17 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_infPAA
+msgid "Grupo de Informação do Provedor (mdfe_infPAA)"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model,name:l10n_br_mdfe.model_mdfe_30_tmdfe_infpaa
+#: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_infPAA
+msgid "Grupo de Informação do Provedor de Assinatura e Autorização"
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document_related__mdfe30_infEntregaParcial
 msgid "Grupo de informações da Entrega Parcial"
 msgstr ""
@@ -2319,12 +2414,33 @@ msgid "Grupo de informações da Entrega Parcial (Corte de Voo)"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document_related__mdfe30_infNFePrestParcial
+msgid "Grupo de informações das NFe"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model,name:l10n_br_mdfe.model_mdfe_30_infnfeprestparcial
+#: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document_related__mdfe30_infNFePrestParcial
+msgid "Grupo de informações das NFe que foram entregues do CTe relacionado"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_contratante__mdfe30_infContrato
+msgid "Grupo de informações do contrato"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_contratante__mdfe30_infContrato
+msgid "Grupo de informações do contrato entre transportador e contratante"
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_infSolicNFF
 msgid "Grupo de informações do pedido"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model,name:l10n_br_mdfe.model_mdfe_30_infsolicnff
+#: model:ir.model,name:l10n_br_mdfe.model_mdfe_30_tmdfe_infsolicnff
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_infSolicNFF
 msgid "Grupo de informações do pedido de emissão da Nota Fiscal Fácil"
 msgstr ""
@@ -2393,11 +2509,6 @@ msgid "IAURETÊ"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_ir_actions_report__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document_related__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document_supplement__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document_type__id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aereo__id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario__id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario_carga_vazia__id
@@ -2426,23 +2537,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_inf__id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_lacre__id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_perigoso__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_emi__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infentregaparcial__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_inffisco__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infmuncarrega__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infnf__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infpercurso__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infprot__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infrec__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infsolicnff__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_lacres__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tmdfe__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tnfenf_infnfe__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tprotmdfe__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_product_product__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_company__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_config_settings__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__id
 msgid "ID"
 msgstr "ID"
 
@@ -2487,6 +2581,8 @@ msgid "IPIXUNA"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_irin
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_irin
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_irin
 msgid "IRIN da Embarcação"
 msgstr ""
@@ -2553,16 +2649,25 @@ msgid "Id"
 msgstr "Id"
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_vale_pedagio_dispositivo__mdfe30_nCompra
+msgid "Identificador"
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario_comboio__mdfe30_xBalsa
 msgid "Identificador da Balsa"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_Id
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_Id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_Id
 msgid "Identificador da tag a ser assinada"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_Id
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_Id
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_Id
 msgid ""
 "Identificador da tag a ser assinada\n"
@@ -2599,6 +2704,11 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_pagamento__mdfe30_idEstrangeiro
 msgid "Identificador do responsável pelo pgto em caso de ser estrangeiro"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_vale_pedagio_dispositivo__mdfe30_nCompra
+msgid "Identificador do vale pedagio obrigatório - IDVPO"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -2657,15 +2767,24 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_emit
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_emit
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_emit
 msgid "Identificação do Emitente do Manifesto"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_procEmi
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_procEmi
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_procEmi
 msgid ""
 "Identificação do processo de emissão do Manifesto\n"
 "0 - emissão de MDF-e com aplicativo do contribuinte"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model,name:l10n_br_mdfe.model_l10n_br_fiscal_document_import_wizard
+msgid "Import Document Wizard"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -2683,6 +2802,23 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_pagamento__mdfe30_indPag
 msgid ""
 "Indicador da Forma de Pagamento:0-Pagamento à Vista;1-Pagamento à Prazo;"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_indCarregaPosterior
+msgid "Indicador de MDF-e com inclusão"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_indCarregaPosterior
+msgid ""
+"Indicador de MDF-e com inclusão da Carga posterior a emissão por evento de "
+"inclusão de DF-e"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document_related__mdfe30_indPrestacaoParcial
+msgid "Indicador de Prestação parcial"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -2707,11 +2843,32 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_indCanalVerde
+msgid "Indicador de participação do Canal Verde"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_pagamento__mdfe30_indAntecipaAdiant
+msgid "Indicador para declarar concordância"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_pagamento__mdfe30_indAntecipaAdiant
+msgid ""
+"Indicador para declarar concordância em antecipar o adiantamento\n"
+"Informar a tag somente se for autorizado antecipar o adiantamento"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_infAdFisco
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_infAdFisco
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_infAdFisco
 msgid "Informações Adicionais Fiscais MDFe"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_infCpl
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_infCpl
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_infCpl
 msgid "Informações Complementares MDFE"
 msgstr ""
@@ -2727,6 +2884,8 @@ msgid "Informações De Lotação MDFe"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_infAdFisco
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_infAdFisco
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_infAdFisco
 msgid ""
 "Informações adicionais de interesse do Fisco\n"
@@ -2734,6 +2893,8 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_infCpl
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_infCpl
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_infCpl
 msgid "Informações complementares de interesse do Contribuinte"
 msgstr ""
@@ -2908,7 +3069,7 @@ msgstr ""
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario__mdfe30_infPag
-msgid "Informações do Pagamento do Frete"
+msgid "Informações do Pagamento do Contrato"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -2918,6 +3079,8 @@ msgstr ""
 
 #. module: l10n_br_mdfe
 #: model:ir.model,name:l10n_br_mdfe.model_mdfe_30_infpercurso
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_infPercurso
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_infPercurso
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_infPercurso
 msgid "Informações do Percurso do MDF-e"
 msgstr ""
@@ -2928,6 +3091,8 @@ msgid "Informações do Prazo"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_infRespTec
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_infRespTec
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_infRespTec
 msgid "Informações do Responsável Técnico pela emissão do DF-e"
 msgstr ""
@@ -2970,22 +3135,30 @@ msgid "Informações do(s) Condutor(es) do veículo"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_infMunCarrega
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_infMunCarrega
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_infMunCarrega
 msgid "Informações dos Municipios de Carregamento"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_infMunDescarga
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_infMunDescarga
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_infMunDescarga
 msgid "Informações dos Municípios"
 msgstr ""
 
 #. module: l10n_br_mdfe
 #: model:ir.model,name:l10n_br_mdfe.model_mdfe_30_infmuncarrega
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_infMunCarrega
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_infMunCarrega
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_infMunCarrega
 msgid "Informações dos Municípios de Carregamento"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_infMunDescarga
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_infMunDescarga
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_infMunDescarga
 msgid "Informações dos Municípios de descarregamento"
 msgstr ""
@@ -3006,12 +3179,13 @@ msgid "Informações suplementares do MDF-e"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe_initial_state_id
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe_initial_state_id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_initial_state_id
 msgid "Initial State"
 msgstr "Estado Inicial"
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_IE
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_IE
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_IE
 msgid "Inscrição Estadual"
@@ -3175,71 +3349,21 @@ msgid "Lacres das Unidades de Transporte"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_lacres
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_lacres
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_lacres
 msgid "Lacres do MDF-e"
 msgstr ""
 
 #. module: l10n_br_mdfe
 #: model:ir.model,name:l10n_br_mdfe.model_mdfe_30_lacres
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_lacres
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_lacres
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_lacres
 msgid ""
 "Lacres do MDF-e\n"
 "Preechimento opcional para os modais Rodoviário e Ferroviário"
 msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_ir_actions_report____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document_related____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document_supplement____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document_type____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aereo____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario_carga_vazia____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario_carregamento____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario_comboio____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario_descarregamento____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario_transporte_vazio____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_ferroviario____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_ferroviario_vagao____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_ciot____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_contratante____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_lacre____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_pagamento____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_pagamento_frete____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_pagamento_prazo____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_reboque____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_vale_pedagio_dispositivo____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_veiculo_condutor____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_municipio_descarga____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_product_lotacao____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_product_lotacao_local____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_seguro_carga____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_carga_inf____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_inf____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_lacre____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_perigoso____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_emi____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infentregaparcial____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_inffisco____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infmuncarrega____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infnf____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infpercurso____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infprot____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infrec____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infsolicnff____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_lacres____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tmdfe____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tnfenf_infnfe____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tprotmdfe____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_product_product____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_company____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_config_settings____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner____last_update
-msgid "Last Modified on"
-msgstr "Última Modificação em"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aereo__write_uid
@@ -3270,19 +3394,6 @@ msgstr "Última Modificação em"
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_inf__write_uid
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_lacre__write_uid
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_perigoso__write_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_emi__write_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infentregaparcial__write_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_inffisco__write_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infmuncarrega__write_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infnf__write_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infpercurso__write_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infprot__write_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infrec__write_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infsolicnff__write_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_lacres__write_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tmdfe__write_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tnfenf_infnfe__write_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tprotmdfe__write_uid
 msgid "Last Updated by"
 msgstr "Última Atualização por"
 
@@ -3315,19 +3426,6 @@ msgstr "Última Atualização por"
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_inf__write_date
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_lacre__write_date
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_perigoso__write_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_emi__write_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infentregaparcial__write_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_inffisco__write_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infmuncarrega__write_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infnf__write_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infpercurso__write_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infprot__write_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infrec__write_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infsolicnff__write_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_lacres__write_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tmdfe__write_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tnfenf_infnfe__write_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tprotmdfe__write_date
 msgid "Last Updated on"
 msgstr "Última Atualização em"
 
@@ -3353,6 +3451,8 @@ msgid "Left margin in mm for the DAMDFE layout."
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe_loading_city_ids
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe_loading_city_ids
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_loading_city_ids
 #: model_terms:ir.ui.view,arch_db:l10n_br_mdfe.mdfe_document_form_view
 msgid "Loading Cities"
@@ -3369,7 +3469,6 @@ msgid "Local Type"
 msgstr "Tipo de Local"
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_xLgr
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_xLgr
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_xLgr
 msgid "Logradouro - MDFe"
@@ -3515,9 +3614,41 @@ msgid "MDF-e Default Settings"
 msgstr "Configurações Padrões do MDF-e"
 
 #. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "MDF-e Emit Type"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_config_settings__mdfe_environment
 msgid "MDF-e Environment"
 msgstr "Ambiente do MDF-e"
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "MDF-e Final State"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "MDF-e Initial State"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "MDF-e Loading City"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "MDF-e Modal"
+msgstr ""
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_config_settings__mdfe_version_name
@@ -3525,15 +3656,33 @@ msgid "MDF-e Proc Version"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_config_settings__mdfe_transmission
 msgid "MDF-e Transmission"
 msgstr "Transmissão do MDF-e"
 
 #. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "MDF-e Unloading City"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe_version
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe_version
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_version
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_config_settings__mdfe_version
 msgid "MDF-e Version"
 msgstr "Versão do MDF-e"
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "MDF-e transport documents for unloading city %s"
+msgstr ""
 
 #. module: l10n_br_mdfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_mdfe.mdfe_product_product_form_view
@@ -3708,6 +3857,21 @@ msgid "Margin Top"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario__mdfe30_MMSI
+msgid "Maritime Mobile Service Identify"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario__mdfe30_MMSI
+msgid ""
+"Maritime Mobile Service Identify\n"
+"Preencher com o MMSI (Maritime Mobile Service Identify) fornecido pela "
+"ANATEL ou autoridade de telecomunicações de origem da embarcação"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_matr
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_matr
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_matr
 msgid "Matrícula da Aeronave"
 msgstr ""
@@ -3718,21 +3882,29 @@ msgid "Mdfe"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe_modal_aereo_id
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe_modal_aereo_id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_modal_aereo_id
 msgid "Mdfe Modal Aereo"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe_modal_aquaviario_id
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe_modal_aquaviario_id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_modal_aquaviario_id
 msgid "Mdfe Modal Aquaviario"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe_modal_ferroviario_id
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe_modal_ferroviario_id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_modal_ferroviario_id
 msgid "Mdfe Modal Ferroviario"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe_modal_rodoviario_id
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe_modal_rodoviario_id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_modal_rodoviario_id
 msgid "Mdfe Modal Rodoviario"
 msgstr ""
@@ -3748,6 +3920,8 @@ msgid "Mdfe30 Comp Infpag"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_condutor
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_condutor
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_condutor
 msgid "Mdfe30 Condutor"
 msgstr ""
@@ -3758,6 +3932,8 @@ msgid "Mdfe30 Condutor Veictracao"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_disp
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_disp
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_disp
 msgid "Mdfe30 Disp"
 msgstr ""
@@ -3768,13 +3944,14 @@ msgid "Mdfe30 Disp Valeped"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_idEstrangeiro
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_idEstrangeiro
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_idEstrangeiro
 msgid "Mdfe30 Idestrangeiro"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_infCIOT
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_infCIOT
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_infCIOT
 msgid "Mdfe30 Infciot"
 msgstr ""
@@ -3785,6 +3962,8 @@ msgid "Mdfe30 Infciot Infantt"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_infContratante
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_infContratante
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_infContratante
 msgid "Mdfe30 Infcontratante"
 msgstr ""
@@ -3800,6 +3979,8 @@ msgid "Mdfe30 Infcte Infmundescarga"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_infEmbComb
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_infEmbComb
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_infEmbComb
 msgid "Mdfe30 Infembcomb"
 msgstr ""
@@ -3810,6 +3991,8 @@ msgid "Mdfe30 Infembcomb Aquav"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_infMDFeSupl
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_infMDFeSupl
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_infMDFeSupl
 msgid "Mdfe30 Infmdfesupl"
 msgstr ""
@@ -3836,6 +4019,13 @@ msgid "Mdfe30 Infnfe Infmundescarga"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infnfeprestparcial__mdfe30_infNFePrestParcial_infCTe_id
+msgid "Mdfe30 Infnfeprestparcial Infcte"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_infPag
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_infPag
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_infPag
 msgid "Mdfe30 Infpag"
 msgstr ""
@@ -3856,6 +4046,8 @@ msgid "Mdfe30 Infprazo Infpag"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_infTermCarreg
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_infTermCarreg
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_infTermCarreg
 msgid "Mdfe30 Inftermcarreg"
 msgstr ""
@@ -3866,6 +4058,8 @@ msgid "Mdfe30 Inftermcarreg Aquav"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_infTermDescarreg
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_infTermDescarreg
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_infTermDescarreg
 msgid "Mdfe30 Inftermdescarreg"
 msgstr ""
@@ -3881,6 +4075,8 @@ msgid "Mdfe30 Infunidcarga Tunidadetransp"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_infUnidCargaVazia
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_infUnidCargaVazia
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_infUnidCargaVazia
 msgid "Mdfe30 Infunidcargavazia"
 msgstr ""
@@ -3906,6 +4102,8 @@ msgid "Mdfe30 Infunidtransp Infnfe"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_infUnidTranspVazia
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_infUnidTranspVazia
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_infUnidTranspVazia
 msgid "Mdfe30 Infunidtranspvazia"
 msgstr ""
@@ -3921,6 +4119,8 @@ msgid "Mdfe30 Lacres Infmdfe"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_lacRodo
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_lacRodo
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_lacRodo
 msgid "Mdfe30 Lacrodo"
 msgstr ""
@@ -3956,12 +4156,34 @@ msgid "Mdfe30 Peri Infnfe"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_qCTe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_qCTe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_qCTe
+msgid "Mdfe30 Qcte"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_qMDFe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_qMDFe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_qMDFe
+msgid "Mdfe30 Qmdfe"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_qNFe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_qNFe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_qNFe
+msgid "Mdfe30 Qnfe"
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_seguro_carga__mdfe30_seg_infMDFe_id
 msgid "Mdfe30 Seg Infmdfe"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_UF
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_UF
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_UF
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_UF
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_UF
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_UF
@@ -3969,6 +4191,8 @@ msgid "Mdfe30 Uf"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_vag
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_vag
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_vag
 msgid "Mdfe30 Vag"
 msgstr ""
@@ -3979,11 +4203,15 @@ msgid "Mdfe30 Vag Ferrov"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_vCarga
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_vCarga
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_vCarga
 msgid "Mdfe30 Vcarga"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_veicReboque
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_veicReboque
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_veicReboque
 msgid "Mdfe30 Veicreboque"
 msgstr ""
@@ -4031,11 +4259,15 @@ msgid "Modal Rodoviário MDFe"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_modal
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_modal
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_modal
 msgid "Modalidade de transporte"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_modal
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_modal
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_modal
 msgid ""
 "Modalidade de transporte\n"
@@ -4080,12 +4312,15 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_inffisco__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infmuncarrega__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infnf__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infnfeprestparcial__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infpercurso__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infprot__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infrec__brl_currency_id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infsolicnff__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_lacres__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tmdfe__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tmdfe_infpaa__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tmdfe_infsolicnff__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tmdfe_paasignature__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tnfenf_infnfe__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tprotmdfe__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_product_product__brl_currency_id
@@ -4128,6 +4363,12 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_mdfe_municipio_descarga__document_type__nfe
 msgid "NF-e"
 msgstr "NF-e"
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "NF-e documents for unloading city %s"
+msgstr ""
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_cPrtDest__br067
@@ -4190,6 +4431,8 @@ msgid "NOVO REMANSO"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_nac
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_nac
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_nac
 msgid "Nacionalidade da Aeronave"
 msgstr ""
@@ -4200,20 +4443,18 @@ msgid "Nfe"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#. odoo-python
 #: code:addons/l10n_br_mdfe/report/ir_actions_report.py:0
-#, python-format
 msgid "No xml file was found."
 msgstr "Nenhum arquivo xml foi encontrado."
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_xNome
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_xNome
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_xNome
 msgid "Nome - MDFe"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_xFant
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_xFant
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_xFant
 msgid "Nome Fantasia - MDFe"
@@ -4233,12 +4474,13 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_xEmbar
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_xEmbar
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_xEmbar
 msgid "Nome da Embarcação"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_xSeg
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_xSeg
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_xSeg
 msgid "Nome da Seguradora"
@@ -4250,14 +4492,12 @@ msgid "Nome da embarcação"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_xContato
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_xContato
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_xContato
 msgid "Nome da pessoa a ser contatada"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,help:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_xContato
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_partner__mdfe30_xContato
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_users__mdfe30_xContato
 msgid ""
@@ -4273,7 +4513,6 @@ msgid "Nome do Condutor"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_xMun
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_xMun
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_xMun
 msgid "Nome do Município - MDFe"
@@ -4290,7 +4529,6 @@ msgid "Nome do Município de Descarregamento"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_xPais
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_xPais
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_xPais
 msgid "Nome do País - MDFe"
@@ -4307,7 +4545,6 @@ msgid "Nome do Terminal de Descarregamento"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,help:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_xMun
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_partner__mdfe30_xMun
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_users__mdfe30_xMun
 msgid "Nome do município, informar EXTERIOR para operações com o exterior."
@@ -4326,6 +4563,7 @@ msgstr ""
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document_related__mdfe30_chNFe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infnfeprestparcial__mdfe30_chNFe
 msgid "Nota Fiscal Eletrônica"
 msgstr ""
 
@@ -4335,7 +4573,6 @@ msgid "Número"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_nro
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_nro
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_nro
 msgid "Número - MDFe"
@@ -4383,6 +4620,8 @@ msgid "Número da Parcela"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_nViag
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_nViag
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_nViag
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario__mdfe30_nViag
 msgid "Número da Viagem"
@@ -4478,11 +4717,15 @@ msgid "Número do Lacre"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_nMDF
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_nMDF
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_nMDF
 msgid "Número do Manifesto"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_nMDF
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_nMDF
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_nMDF
 msgid ""
 "Número do Manifesto\n"
@@ -4500,6 +4743,8 @@ msgid "Número do Recibo"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_nVoo
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_nVoo
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_nVoo
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aereo__mdfe30_nVoo
 msgid "Número do Voo"
@@ -4517,19 +4762,6 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_pagamento__mdfe30_codBanco
 msgid "Número do banco"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_vale_pedagio_dispositivo__mdfe30_nCompra
-msgid "Número do comprovante de compra"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_vale_pedagio_dispositivo__mdfe30_nCompra
-msgid ""
-"Número do comprovante de compra\n"
-"Número de ordem do comprovante de compra do Vale-Pedágio fornecido para cada "
-"veículo ou combinação veicular, por viagem."
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -4567,6 +4799,8 @@ msgid "OUTROS"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_xOri
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_xOri
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_xOri
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_ferroviario__mdfe30_xOri
 msgid "Origem do Trem"
@@ -4582,6 +4816,12 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_tpRod__06
 msgid "Outros."
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "Owner RNTRC must contain exactly 8 digits."
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -4958,6 +5198,14 @@ msgid "Payment"
 msgstr "Pagamento"
 
 #. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid ""
+"Payment information (infPag) must be provided when the MDF-e contains only "
+"one DF-e (full load)."
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_ferroviario_vagao__mdfe30_pesoBC
 msgid "Peso Base de Cálculo de Frete"
 msgstr ""
@@ -4968,11 +5216,15 @@ msgid "Peso Base de Cálculo de Frete em Toneladas"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_qCarga
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_qCarga
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_qCarga
 msgid "Peso Bruto Total"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_qCarga
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_qCarga
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_qCarga
 msgid "Peso Bruto Total da Carga / Mercadorias transportadas"
 msgstr ""
@@ -4983,6 +5235,8 @@ msgid "Peso Real em Toneladas"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_placa
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_placa
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_placa
 msgid "Placa do Veículo"
 msgstr ""
@@ -4999,16 +5253,22 @@ msgid "Porta Container"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_cPrtDest
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_cPrtDest
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_cPrtDest
 msgid "Porto de Destino"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_cPrtEmb
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_cPrtEmb
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_cPrtEmb
 msgid "Porto de Embarque"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_prtTrans
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_prtTrans
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_prtTrans
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario__mdfe30_prtTrans
 msgid "Porto de Transbordo"
@@ -5029,26 +5289,38 @@ msgid "Preenchido quando for transporte"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_xPref
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_xPref
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_xPref
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_ferroviario__mdfe30_xPref
 msgid "Prefixo do Trem"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model,name:l10n_br_mdfe.model_product_product
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_product_lotacao__product_id
 msgid "Product"
 msgstr "Produto"
 
 #. module: l10n_br_mdfe
+#: model:ir.model,name:l10n_br_mdfe.model_product_product
+msgid "Product Variant"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_prodPred
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_prodPred
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_prodPred
 msgid "Produto predominante"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_prodPred
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_prodPred
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_prodPred
 msgid ""
 "Produto predominante\n"
-"Informar a descrição do produto predominante"
+"Informar a descrição do produto predominante, conforme o item de maior valor "
+"financeiro conforme Resolução ANTT n° 5.867 de 2020)."
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -5058,6 +5330,8 @@ msgid "Produção"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_prop
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_prop
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_prop
 msgid "Proprietário do Veículo"
 msgstr ""
@@ -5087,6 +5361,8 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_qVag
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_qVag
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_qVag
 msgid "Quantidade de Vagões"
 msgstr ""
@@ -5121,36 +5397,6 @@ msgid "Quantidade rateada (Peso,Volume)"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_qCTe
-msgid "Quantidade total de CT-e relacionados"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_qCTe
-msgid "Quantidade total de CT-e relacionados no Manifesto"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_qMDFe
-msgid "Quantidade total de MDF-e relacionados"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_qMDFe
-msgid "Quantidade total de MDF-e relacionados no Manifesto Aquaviário"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_qNFe
-msgid "Quantidade total de NF-e relacionadas"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_qNFe
-msgid "Quantidade total de NF-e relacionadas no Manifesto"
-msgstr ""
-
-#. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infentregaparcial__mdfe30_qtdTotal
 msgid "Quantidade total de volumes"
 msgstr ""
@@ -5182,6 +5428,8 @@ msgid "RECIFE"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_RENAVAM
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_RENAVAM
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_RENAVAM
 msgid "RENAVAM"
 msgstr ""
@@ -5235,6 +5483,8 @@ msgid "RN"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_RNTRC
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_RNTRC
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_RNTRC
 msgid "RNTRC"
 msgstr ""
@@ -5335,6 +5585,8 @@ msgid "Report Action"
 msgstr "Ação de Relatório"
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_infRespTec
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_infRespTec
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_infRespTec
 msgid "Responsável Técnico MDFe"
 msgstr ""
@@ -5345,14 +5597,12 @@ msgid "Responsável pelo pagamento"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_respSeg
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_respSeg
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_respSeg
 msgid "Responsável pelo seguro"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,help:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_respSeg
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_partner__mdfe30_respSeg
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_users__mdfe30_respSeg
 msgid ""
@@ -5378,6 +5628,8 @@ msgid "Rodoviário"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe_route_state_ids
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe_route_state_ids
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_route_state_ids
 #: model_terms:ir.ui.view,arch_db:l10n_br_mdfe.mdfe_document_form_view
 msgid "Route States"
@@ -5684,6 +5936,8 @@ msgid "Seguro"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_seg
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_seg
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_seg
 #: model_terms:ir.ui.view,arch_db:l10n_br_mdfe.nfe_document_edi_form_inherit
 msgid "Seguros da Carga"
@@ -5705,11 +5959,15 @@ msgid "Sider"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_UFIni
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_UFIni
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_UFIni
 msgid "Sigla da UF do Carregamento"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_UFIni
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_UFIni
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_UFIni
 msgid ""
 "Sigla da UF do Carregamento\n"
@@ -5718,11 +5976,15 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_UFFim
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_UFFim
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_UFFim
 msgid "Sigla da UF do Descarregamento"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_UFFim
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_UFFim
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_UFFim
 msgid ""
 "Sigla da UF do Descarregamento\n"
@@ -5743,12 +6005,12 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infsolicnff__mdfe30_xSolic
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tmdfe_infsolicnff__mdfe30_xSolic
 msgid "Solicitação do pedido de emissão da NFF"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,help:l10n_br_mdfe.field_mdfe_30_infsolicnff__mdfe30_xSolic
+#: model:ir.model.fields,help:l10n_br_mdfe.field_mdfe_30_tmdfe_infsolicnff__mdfe30_xSolic
 msgid ""
 "Solicitação do pedido de emissão da NFF.\n"
 "Será preenchido com a totalidade de campos informados no aplicativo emissor "
@@ -5814,11 +6076,15 @@ msgid "Série"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_serie
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_serie
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_serie
 msgid "Série do Manifesto"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_serie
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_serie
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_serie
 msgid ""
 "Série do Manifesto\n"
@@ -6029,6 +6295,8 @@ msgid "TURIAÇU"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_tara
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_tara
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_tara
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario__mdfe30_tara
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_tara
@@ -6036,7 +6304,13 @@ msgid "Tara em KG"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_fone
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_emit
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_emit
+#: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_emit
+msgid "Technical Field."
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_company__mdfe30_fone
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_fone
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_fone
@@ -6044,7 +6318,6 @@ msgid "Telefone MDFe"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,help:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_fone
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_company__mdfe30_fone
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_partner__mdfe30_fone
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_users__mdfe30_fone
@@ -6074,19 +6347,23 @@ msgid "Texto com o QR-Code para consulta do MDF-e"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "The field %(label)s must contain only numbers. Found: '%(value)s'"
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model,name:l10n_br_mdfe.model_mdfe_30_tmdfe
 msgid "Tipo Manifesto de Documentos Fiscais Eletrônicos"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_tpProp
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_tpProp
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_tpProp
 msgid "Tipo Proprietário ou possuidor"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,help:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_tpProp
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_partner__mdfe30_tpProp
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_users__mdfe30_tpProp
 msgid ""
@@ -6103,6 +6380,8 @@ msgid "Tipo Protocolo de status resultado do processamento do MDF-e"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_tpEmb
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_tpEmb
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_tpEmb
 msgid "Tipo da Embarcação"
 msgstr ""
@@ -6195,10 +6474,13 @@ msgid ""
 "08-Perigosa (granel líquido);\n"
 "09-Perigosa (carga frigorificada);\n"
 "10-Perigosa (conteinerizada);\n"
-"11-Perigosa (carga geral)."
+"11-Perigosa (carga geral).\n"
+"12-Granel pressurizada"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_tpCar
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_tpCar
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_tpCar
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario__mdfe30_tpCar
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_tpCar
@@ -6225,6 +6507,8 @@ msgid "Tipo de Local"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_tpNav
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_tpNav
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_tpNav
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario__mdfe30_tpNav
 msgid "Tipo de Navegação"
@@ -6237,6 +6521,22 @@ msgid ""
 "Preencher com: \n"
 "\t\t\t\t\t\t0 - Interior;\n"
 "\t\t\t\t\t\t1 - Cabotagem"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_pagamento__mdfe30_tpAntecip
+msgid "Tipo de Permissão em relação"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_pagamento__mdfe30_tpAntecip
+msgid ""
+"Tipo de Permissão em relação a antecipação das parcelas\n"
+"0 - Não permite antecipar\n"
+"\n"
+"1 - Permite antecipar as parcelas\n"
+"\n"
+"2 - Permite antecipar as parcelas mediante confirmação"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -6263,11 +6563,15 @@ msgid "Tipo de Vagão"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_tpAmb
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_tpAmb
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_tpAmb
 msgid "Tipo do Ambiente"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_tpAmb
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_tpAmb
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_tpAmb
 msgid ""
 "Tipo do Ambiente\n"
@@ -6284,18 +6588,24 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_pagamento_frete__mdfe30_tpComp
 msgid ""
 "Tipo do Componente\n"
-"Preencher com: 01 - Vale Pedágio; \n"
+"Preencher com: \n"
+"01 - Vale Pedágio; \n"
 "02 - Impostos, taxas e contribuições; \n"
-"03 - Despesas (bancárias, meios de pagamento, outras)\n"
-"; 99 - Outros"
+"03 - Despesas (bancárias, meios de pagamento, outras);\n"
+"04 - Frete\n"
+"99 - Outros"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_tpEmit
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_tpEmit
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_tpEmit
 msgid "Tipo do Emitente"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_tpEmit
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_tpEmit
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_tpEmit
 msgid ""
 "Tipo do Emitente\n"
@@ -6310,16 +6620,22 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_tpRod
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_tpRod
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_tpRod
 msgid "Tipo do Rodado"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_tpTransp
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_tpTransp
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_tpTransp
 msgid "Tipo do Transportador"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_tpTransp
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_tpTransp
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_tpTransp
 msgid ""
 "Tipo do Transportador\n"
@@ -6339,7 +6655,38 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_vale_pedagio_dispositivo__mdfe30_tpValePed
 msgid ""
 "Tipo do Vale Pedagio\n"
-"01 - TAG; 02 - Cupom; 03 - Cartão"
+"01 - TAG; 04 - Leitura de placa (pela placa de identificação veicular)"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid ""
+"To Generate EDoc Key, you need to fill the CNPJ/CPF field on company %s."
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "To Generate EDoc Key, you need to fill the Document Number."
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "To Generate EDoc Key, you need to fill the Document Serie."
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "To Generate EDoc Key, you need to fill the MDFe Transmission field."
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "To Generate EDoc Key, you need to fill the State on company %s."
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -6381,19 +6728,33 @@ msgid "Tow"
 msgstr "Reboque"
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe_transmission
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe_transmission
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_transmission
 msgid "Transmission"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe_transp_type
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe_transp_type
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_transp_type
 msgid "Transp Type"
 msgstr "Tipo de Transporte"
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe_modal
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe_modal
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_modal
 msgid "Transport Modal"
 msgstr "Modelo de Transporte"
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid ""
+"Transport Type must be informed when a third-party vehicle owner is "
+"specified."
+msgstr ""
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe_transp_type__2
@@ -6450,6 +6811,8 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__rodo_vehicle_state_id
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__rodo_vehicle_state_id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__rodo_vehicle_state_id
 msgid "UF do Veículo"
 msgstr ""
@@ -6507,13 +6870,17 @@ msgid "UT 750"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "Unloading City"
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario_descarregamento__unloading_harbor
 msgid "Unloading Harbor"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,help:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_xNome
-#: model:ir.model.fields,help:l10n_br_mdfe.field_hr_employee_dependent__mdfe30_xSeg
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_contratante__mdfe30_xNome
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_company__mdfe30_xNome
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_partner__mdfe30_xNome
@@ -6627,6 +6994,59 @@ msgid "Vehicle"
 msgstr "Veículo"
 
 #. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "Vehicle Body Type"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "Vehicle Driver"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "Vehicle Owner RNTRC"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid ""
+"Vehicle Owner is required when Transport Type is informed. If the vehicle "
+"belongs to your company, clear the Transport Type field."
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid ""
+"Vehicle Owner must be different from the MDF-e issuer. If the vehicle "
+"belongs to your company, clear the Transport Type field instead of filling "
+"an owner."
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "Vehicle Plate"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "Vehicle Tare in KG"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+msgid "Vehicle Wheel Type"
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infprot__mdfe30_verAplic
 msgid "Versão do Aplicativo que processou"
 msgstr ""
@@ -6637,11 +7057,15 @@ msgid "Versão do Aplicativo que processou a NF-3e"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_versao
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_versao
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_versao
 msgid "Versão do leiaute"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_versao
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_versao
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_versao
 msgid ""
 "Versão do leiaute\n"
@@ -6649,21 +7073,29 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_versaoModal
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_versaoModal
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_versaoModal
 msgid "Versão do leiaute específico"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_versaoModal
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_versaoModal
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_versaoModal
 msgid "Versão do leiaute específico para o Modal"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_verProc
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_verProc
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_verProc
 msgid "Versão do processo de emissão"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_verProc
+#: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_verProc
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_verProc
 msgid ""
 "Versão do processo de emissão\n"
@@ -6676,20 +7108,32 @@ msgid "Veículo"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#. odoo-python
 #: code:addons/l10n_br_mdfe/models/modal_ferroviario.py:0
-#, python-format
 msgid "Wagon serie must have exactly 3 digits."
 msgstr "A série do vagão deve ter exatamente 3 dígitos."
 
 #. module: l10n_br_mdfe
+#. odoo-python
 #: code:addons/l10n_br_mdfe/models/modal_ferroviario.py:0
-#, python-format
 msgid "Wagon type must have exactly 3 digits."
 msgstr "O tipo do vagão deve ter exatamente 3 dígitos."
 
 #. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/modal_aquaviario.py:0
+msgid "You can only add up to 5 loading terminals for the same MDF-e."
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/modal_aquaviario.py:0
+msgid "You can only add up to 5 unloading terminals for the same MDF-e."
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
 #: code:addons/l10n_br_mdfe/report/ir_actions_report.py:0
-#, python-format
 msgid "You can only print a DAMDFE of a MDFe(58)."
 msgstr ""
 
@@ -6720,11 +7164,6 @@ msgid "longitude"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_product_product__mdfe30_NCM
-msgid "ncm_id.code"
-msgstr ""
-
-#. module: l10n_br_mdfe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_tpCar__00
 msgid "não aplicável"
 msgstr ""
@@ -6751,3 +7190,33 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_mdfe_modal_aquaviario_descarregamento__unloading_harbor__brobi
 msgid "ÓBIDOS"
 msgstr ""
+
+#~ msgid "02"
+#~ msgstr "02"
+
+#~ msgid "04"
+#~ msgstr "04"
+
+#~ msgid "06"
+#~ msgstr "06"
+
+#~ msgid "07"
+#~ msgstr "07"
+
+#~ msgid "08"
+#~ msgstr "08"
+
+#~ msgid "12"
+#~ msgstr "12"
+
+#~ msgid "13"
+#~ msgstr "13"
+
+#~ msgid "14"
+#~ msgstr "14"
+
+#~ msgid "Country"
+#~ msgstr "País"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificação em"
