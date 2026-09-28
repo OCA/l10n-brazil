@@ -1155,6 +1155,12 @@ class TcteOsInfCte(models.AbstractModel):
         xsd_required=True,
     )
 
+    cte40_pgtoVinc = fields.Many2one(
+        comodel_name="cte.40.tcteos_pgtovinc",
+        string="Grupo de informações da vínculação",
+        help=("Grupo de informações da vínculação com a transação de pagamento"),
+    )
+
     cte40_infCTeNorm = fields.Many2one(
         comodel_name="cte.40.tcteos_infctenorm",
         string="Grupo de informações do CT-e OS Normal",
@@ -1849,6 +1855,22 @@ class InfTribFed(models.AbstractModel):
 
     cte40_vCSLL = fields.Monetary(
         string="Valor do CSLL", xsd_type="TDec_1302", currency_field="brl_currency_id"
+    )
+
+
+class TcteOsPgtoVinc(models.AbstractModel):
+    "Grupo de informações da vínculação com a transação de pagamento"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "cte.40.tcteos_pgtovinc"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteOs.InfCte.PgtoVinc"
+
+    cte40_pgto = fields.One2many(
+        "cte.40.tpagamentortc",
+        "cte40_pgto_pgtoVinc_id",
+        string="Dados de cada pagamento previsto",
+        xsd_type="TPagamentoRTC",
     )
 
 
@@ -3476,6 +3498,12 @@ class TcteInfCte(models.AbstractModel):
         xsd_required=True,
     )
 
+    cte40_pgtoVinc = fields.Many2one(
+        comodel_name="cte.40.tcte_pgtovinc",
+        string="Grupo de informações da vínculação",
+        help=("Grupo de informações da vínculação com a transação de pagamento"),
+    )
+
     cte40_infCTeNorm = fields.Many2one(
         comodel_name="cte.40.tcte_infctenorm",
         string="Grupo de informações do CT-e Normal",
@@ -4724,6 +4752,22 @@ class TcteImp(models.AbstractModel):
     )
 
 
+class TctePgtoVinc(models.AbstractModel):
+    "Grupo de informações da vínculação com a transação de pagamento"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "cte.40.tcte_pgtovinc"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "Tcte.InfCte.PgtoVinc"
+
+    cte40_pgto = fields.One2many(
+        "cte.40.tpagamentortc",
+        "cte40_pgto_pgtoVinc_id",
+        string="Dados de cada pagamento previsto",
+        xsd_type="TPagamentoRTC",
+    )
+
+
 class TcteAutXml(models.AbstractModel):
     """Autorizados para download do XML do DF-e
     Informar CNPJ ou CPF. Preencher os zeros não significativos."""
@@ -5837,6 +5881,12 @@ class TcteSimpInfCte(models.AbstractModel):
         xsd_required=True,
     )
 
+    cte40_pgtoVinc = fields.Many2one(
+        comodel_name="cte.40.tctesimp_pgtovinc",
+        string="Grupo de informações da vínculação",
+        help=("Grupo de informações da vínculação com a transação de pagamento"),
+    )
+
     cte40_total = fields.Many2one(
         comodel_name="cte.40.total", string="Valores Totais do CTe", xsd_required=True
     )
@@ -6930,6 +6980,22 @@ class TcteSimpImp(models.AbstractModel):
         comodel_name="cte.40.ttribcte",
         string="Grupo de informações do IBS e CBS",
         xsd_type="TTribCTe",
+    )
+
+
+class TcteSimpPgtoVinc(models.AbstractModel):
+    "Grupo de informações da vínculação com a transação de pagamento"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "cte.40.tctesimp_pgtovinc"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte.PgtoVinc"
+
+    cte40_pgto = fields.One2many(
+        "cte.40.tpagamentortc",
+        "cte40_pgto_pgtoVinc_id",
+        string="Dados de cada pagamento previsto",
+        xsd_type="TPagamentoRTC",
     )
 
 
