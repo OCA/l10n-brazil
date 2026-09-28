@@ -41,40 +41,6 @@ TTPCREDPRESIBSZFM = [
 ]
 
 
-class Talczfmcbs(models.AbstractModel):
-    "Tipo Operações em areas incentivadas com CBS Zero"
-
-    _description = textwrap.dedent(f"    {__doc__}")
-    _name = "cte.40.talczfmcbs"
-    _inherit = "spec.mixin.cte"
-    _binding_type = "Talczfmcbs"
-
-    cte40_pAliqEfetRegCBS = fields.Float(
-        string="Percentual efetivo sem a redução",
-        xsd_required=True,
-        xsd_type="TDec_0302_04RTC",
-        digits=(
-            3,
-            2,
-        ),
-        help=(
-            "Percentual efetivo sem a redução\nAlíquota efetiva de referência "
-            "da CBS aplicável à operação fora de áreas ou regimes "
-            "incentivados."
-        ),
-    )
-
-    cte40_vTribRegCBS = fields.Char(
-        string="Valor efetivo sem a redução",
-        xsd_required=True,
-        xsd_type="TDec1302RTC",
-        help=(
-            "Valor efetivo sem a redução\nValor da CBS calculado para a "
-            "operação fora de áreas ou regimes incentivado"
-        ),
-    )
-
-
 class TajusteCompet(models.AbstractModel):
     "Tipo Ajuste de Competência"
 
@@ -137,23 +103,14 @@ class TdevTrib(models.AbstractModel):
     _inherit = "spec.mixin.cte"
     _binding_type = "TdevTrib"
 
-    cte40_pDevTrib = fields.Float(
-        string="Percentual de devolução do tributo",
-        xsd_type="TDec_0302_04RTC",
-        digits=(
-            3,
-            2,
-        ),
-        help=("Percentual de devolução do tributo, conforme LC 214/25 art. 118."),
-    )
-
     cte40_vDevTrib = fields.Char(
         string="Valor do tributo devolvido",
         xsd_required=True,
         xsd_type="TDec1302RTC",
         help=(
-            "Valor do tributo devolvido. (“cashback” de desconto na própria "
-            "Nota Fiscal / Fatura)"
+            "Valor do tributo devolvido. No fornecimento de energia elétrica, "
+            "água, esgoto e\ngás natural e em outras hipóteses definidas no "
+            "regulamento"
         ),
     )
 
@@ -1227,20 +1184,6 @@ class TcibsGCbs(models.AbstractModel):
         comodel_name="cte.40.tred",
         string="Grupo de campos da redução de aliquota",
         xsd_type="TRed",
-    )
-
-    cte40_gALCZFMCBS = fields.Many2one(
-        comodel_name="cte.40.talczfmcbs",
-        string="Grupo de operações em áreas incentivadas",
-        xsd_type="TALCZFMCBS",
-        help=(
-            "Grupo de operações em áreas incentivadas (ALC/ZFM) - CBS "
-            "(alíquota zero)\nGrupo de informações para identificação de "
-            "operações em áreas incentivadas (ALC/ZFM) com alíquota zero da "
-            "CBS, conforme arts. 451 e 466 da LC 214/2025, quando fornecedor e"
-            " destinatário estiverem nessas áreas, distinguindo a existência "
-            "de processo aprovado na Suframa."
-        ),
     )
 
     cte40_vCBS = fields.Char(
