@@ -8,6 +8,11 @@ from odoo import fields, models
 
 __NAMESPACE__ = "http://www.portalfiscal.inf.br/cte"
 
+TALCZFMCBS_NFE_TPALCZFMCBS = [
+    ("1", "1"),
+    ("2", "2"),
+]
+
 # Tipo de Ente Governamental
 TENTEGOV = [
     ("1", "1"),
@@ -31,6 +36,17 @@ TOPERCOMPRAGOV = [
     ("4", "4"),
 ]
 
+# Tipo de Receita Bruta do SN
+TRBSN = [
+    ("0", "0"),
+    ("1", "1"),
+    ("2", "2"),
+    ("3", "3"),
+    ("4", "4"),
+    ("5", "5"),
+    ("9", "9"),
+]
+
 # Tipo de classificação do Crédito Presumido IBS ZFM
 TTPCREDPRESIBSZFM = [
     ("0", "0"),
@@ -39,6 +55,40 @@ TTPCREDPRESIBSZFM = [
     ("3", "3"),
     ("4", "4"),
 ]
+
+
+class Talczfmcbs(models.AbstractModel):
+    "Tipo Operações em areas incentivadas com CBS Zero"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "cte.40.talczfmcbs"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "Talczfmcbs"
+
+    cte40_pAliqEfetRegCBS = fields.Float(
+        string="Percentual efetivo sem a redução",
+        xsd_required=True,
+        xsd_type="TDec_0302_04RTC",
+        digits=(
+            3,
+            2,
+        ),
+        help=(
+            "Percentual efetivo sem a redução\nAlíquota efetiva de referência "
+            "da CBS aplicável à operação fora de áreas ou regimes "
+            "incentivados."
+        ),
+    )
+
+    cte40_vTribRegCBS = fields.Char(
+        string="Valor efetivo sem a redução",
+        xsd_required=True,
+        xsd_type="TDec1302RTC",
+        help=(
+            "Valor efetivo sem a redução\nValor da CBS calculado para a "
+            "operação fora de áreas ou regimes incentivado"
+        ),
+    )
 
 
 class TajusteCompet(models.AbstractModel):
@@ -103,14 +153,23 @@ class TdevTrib(models.AbstractModel):
     _inherit = "spec.mixin.cte"
     _binding_type = "TdevTrib"
 
+    cte40_pDevTrib = fields.Float(
+        string="Percentual de devolução do tributo",
+        xsd_type="TDec_0302_04RTC",
+        digits=(
+            3,
+            2,
+        ),
+        help=("Percentual de devolução do tributo, conforme LC 214/25 art. 118."),
+    )
+
     cte40_vDevTrib = fields.Char(
         string="Valor do tributo devolvido",
         xsd_required=True,
         xsd_type="TDec1302RTC",
         help=(
-            "Valor do tributo devolvido. No fornecimento de energia elétrica, "
-            "água, esgoto e\ngás natural e em outras hipóteses definidas no "
-            "regulamento"
+            "Valor do tributo devolvido ('cashback' de desconto na própria "
+            "Nota Fiscal / Fatura)"
         ),
     )
 
@@ -544,13 +603,10 @@ class Tis(models.AbstractModel):
         help="Alíquota do Imposto Seletivo (percentual)",
     )
 
-    cte40_pISEspec = fields.Float(
-        string="Alíquota do Imposto Seletivo (pISEspec)",
+    cte40_adRemIS = fields.Monetary(
+        string="Alíquota do Imposto Seletivo (adRemIS)",
         xsd_type="TDec_0302_04RTC",
-        digits=(
-            3,
-            2,
-        ),
+        currency_field="brl_currency_id",
         help="Alíquota do Imposto Seletivo (por valor)",
     )
 
@@ -816,10 +872,20 @@ class TpagRef(models.AbstractModel):
     _inherit = "spec.mixin.cte"
     _binding_type = "TpagRef"
 
+    cte40_refDFe = fields.Char(
+        string="Chave de acesso do documento fiscal",
+        xsd_type="TChDFeRTC",
+        help=(
+            "Chave de acesso do documento fiscal de antecipação de "
+            "pagamento\n\nObs: esse DFe deverá ter o indAntecipacaoPgto "
+            "marcado no grupo ide"
+        ),
+    )
+
 
 class TpagamentoRtc(models.AbstractModel):
     """Tipo dados do pagamento para o sistema de arrecadação
-    Cada DFe que utilizar deverá utilizar esses tipo no grupo ide"""
+    Estrutura a ser utilizada no grupo ide"""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "cte.40.tpagamentortc"
@@ -845,10 +911,9 @@ class TpagamentoRtc(models.AbstractModel):
         index=True,
     )
     cte40_tpMeioPgto = fields.Char(
-        string="",
+        string="Código do meio de pagamento",
         xsd_required=True,
-        xsd_type="TMeioPgto",
-        help="(Meio de pagamento utilizado (ver IT DFe 2026.001)",
+        help="Código do meio de pagamento (ver IT DFe 2026.001)",
     )
 
     cte40_CNPJReceb = fields.Char(
@@ -862,7 +927,10 @@ class TpagamentoRtc(models.AbstractModel):
         string="CNPJ base da instituição financeira",
         xsd_required=True,
         xsd_type="TCnpjBaseRTC",
-        help=("CNPJ base da instituição financeira\nInformar zeros não significativos"),
+        help=(
+            "CNPJ base da instituição financeira ou de pagamento\nInformar "
+            "zeros não significativos"
+        ),
     )
 
     cte40_nPag = fields.Char(string="Número sequencial do pagamento", xsd_required=True)
@@ -902,6 +970,55 @@ class Tred(models.AbstractModel):
             2,
         ),
         help=("Aliquota Efetiva que será aplicada a Base de Calculo (em percentual)"),
+    )
+
+
+class TtotalSn(models.AbstractModel):
+    "Tipo dados de totais do SN"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "cte.40.ttotalsn"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TtotalSn"
+
+    cte40_vRBSNTot = fields.Char(
+        string="Valor total da receita bruta",
+        xsd_required=True,
+        xsd_type="TDec1302RTC",
+        help=(
+            "Valor total da receita bruta do Simples Nacional, correspondente "
+            "ao somatório dos valores atribuídos aos itens do DFe"
+        ),
+    )
+
+    cte40_vIBSSNTot = fields.Char(
+        string="Valor total do IBS devido",
+        xsd_type="TDec1302RTC",
+        help=("Valor total do IBS devido pelo Simples Nacional \napurado no documento"),
+    )
+
+    cte40_vIBSSNtotPendSusp = fields.Char(
+        string="vIBSSNtotPendSusp",
+        xsd_type="TDec1302RTC",
+        help=(
+            "Valor total do IBS devido pelo Simples Nacional cuja apropriação "
+            "encontra-se pendente ou com \nexigibilidade suspensa"
+        ),
+    )
+
+    cte40_vCBSSNTot = fields.Char(
+        string="Valor total da CBS devido",
+        xsd_type="TDec1302RTC",
+        help=("Valor total da CBS devido pelo Simples Nacional \napurado no documento"),
+    )
+
+    cte40_vCBSSNtotPendSusp = fields.Char(
+        string="Valor total do CBS devido",
+        xsd_type="TDec1302RTC",
+        help=(
+            "Valor total do CBS devido pelo Simples Nacional cuja apropriação "
+            "encontra-se pendente ou com \nexigibilidade suspensa"
+        ),
     )
 
 
@@ -1092,6 +1209,52 @@ class TtribRegular(models.AbstractModel):
     )
 
 
+class TalczfmcbsNfe(models.AbstractModel):
+    """Tipo Operações em áreas incentivadas (ALC/ZFM) - CBS (alíquota zero)"""
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "cte.40.talczfmcbsnfe"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TalczfmcbsNfe"
+
+    cte40_tpALCZFMCBS = fields.Selection(
+        TALCZFMCBS_NFE_TPALCZFMCBS,
+        string="Tipo de aplicação da alíquota zero",
+        xsd_required=True,
+        help="Tipo de aplicação da alíquota zero da CBS.",
+    )
+
+    cte40_nProcSuframa = fields.Char(
+        string="Número do processo na Suframa",
+        help="Número do processo na Suframa para o item \ncomercializado.",
+    )
+
+    cte40_pAliqEfetRegCBS = fields.Float(
+        string="Percentual efetivo sem a redução",
+        xsd_required=True,
+        xsd_type="TDec_0302_04RTC",
+        digits=(
+            3,
+            2,
+        ),
+        help=(
+            "Percentual efetivo sem a redução\nAlíquota efetiva de referência "
+            "da CBS aplicável à operação fora de áreas ou regimes "
+            "incentivados."
+        ),
+    )
+
+    cte40_vTribRegCBS = fields.Char(
+        string="Valor efetivo sem a redução",
+        xsd_required=True,
+        xsd_type="TDec1302RTC",
+        help=(
+            "Valor efetivo sem a redução\nValor da CBS calculado para a "
+            "operação fora de áreas ou regimes incentivado"
+        ),
+    )
+
+
 class Tcibs(models.AbstractModel):
     "Tipo CBS IBS Completo"
 
@@ -1184,6 +1347,20 @@ class TcibsGCbs(models.AbstractModel):
         comodel_name="cte.40.tred",
         string="Grupo de campos da redução de aliquota",
         xsd_type="TRed",
+    )
+
+    cte40_gALCZFMCBS = fields.Many2one(
+        comodel_name="cte.40.talczfmcbs",
+        string="Grupo de operações em áreas incentivadas",
+        xsd_type="TALCZFMCBS",
+        help=(
+            "Grupo de operações em áreas incentivadas (ALC/ZFM) - CBS "
+            "(alíquota zero)\nGrupo de informações para identificação de "
+            "operações em áreas incentivadas (ALC/ZFM) com alíquota zero da "
+            "CBS, conforme arts. 451 e 466 da LC 214/2025, quando fornecedor e"
+            " destinatário estiverem nessas áreas, distinguindo a existência "
+            "de processo aprovado na Suframa."
+        ),
     )
 
     cte40_vCBS = fields.Char(
@@ -1302,14 +1479,14 @@ class TcompraGov(models.AbstractModel):
     )
 
     cte40_pRedutor = fields.Float(
-        string="Percentual de redução de aliquota",
+        string="Percentual de redução de alíquota",
         xsd_required=True,
         xsd_type="TDec_0302_04RTC",
         digits=(
             3,
             2,
         ),
-        help="Percentual de redução de aliquota em compra governamental",
+        help="Percentual de redução de alíquota em compra governamental",
     )
 
     cte40_tpOperGov = fields.Selection(
@@ -1319,10 +1496,22 @@ class TcompraGov(models.AbstractModel):
         xsd_type="TOperCompraGov",
         help=(
             "Tipo da operação com ente governamental:\n1 – Fornecimento com "
-            "pagamento posterior;\n\n2 - Recebimento do pagamento com "
-            "fornecimento já realizado;\n\n3 – Fornecimento com pagamento já "
-            "realizado;\n\n4 – Recebimento do pagamento com fornecimento "
+            "pagamento posterior;\n2 - Recebimento do pagamento com "
+            "fornecimento já realizado;\n3 – Fornecimento com pagamento já "
+            "realizado;\n4 – Recebimento do pagamento com fornecimento "
             "posterior;"
+        ),
+    )
+
+    cte40_refDFeAnt = fields.Char(
+        string="Chave de acesso",
+        xsd_type="TChDFeRTC",
+        help=(
+            "Chave de acesso do documento fiscal anterior.\n\nDeverá ser "
+            "informado para tpOperGov 2 e 3 e vedado para os tipos 1 e "
+            "4.\n\nNo caso do tpOperGov 2 aceitará apenas uma chave "
+            "referenciada, no tipo 3 poderá aceitar múltiplas chaves\n\nObs: a"
+            " chave de acesso deverá ser de um emitente com o mesmo CNPJ base"
         ),
     )
 
@@ -1371,6 +1560,18 @@ class TcompraGovReduzido(models.AbstractModel):
             "fornecimento já realizado;\n\n3 – Fornecimento com pagamento já "
             "realizado;\n\n4 – Recebimento do pagamento com fornecimento "
             "posterior;"
+        ),
+    )
+
+    cte40_refDFeAnt = fields.Char(
+        string="Chave de acesso",
+        xsd_type="TChDFeRTC",
+        help=(
+            "Chave de acesso do documento fiscal anterior.\n\nDeverá ser "
+            "informado para tpOperGov 2 e 3 e vedado para os tipos 1 e "
+            "4.\n\nNo caso do tpOperGov 2 aceitará apenas uma chave "
+            "referenciada, no tipo 3 poderá aceitar múltiplas chaves\n\nObs: a"
+            " chave de acesso deverá ser de um emitente com o mesmo CNPJ base"
         ),
     )
 
@@ -1448,6 +1649,288 @@ class TcredPresOper(models.AbstractModel):
             "Grupo de Informações do Crédito Presumido referente a CBS, quando"
             " aproveitado pelo emitente do documento."
         ),
+    )
+
+
+class TtribItemSn(models.AbstractModel):
+    "Tipo Detalhamento dos Tributos por Item"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "cte.40.ttribitemsn"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TtribItemSn"
+
+    cte40_vRBSNItem = fields.Char(
+        string="Valor da receita bruta",
+        xsd_required=True,
+        xsd_type="TDec1302RTC",
+        help=(
+            "Valor da receita bruta do Simples Nacional atribuída ao item. "
+            "\nSe item tributável, RBSNitem = vTPrest"
+        ),
+    )
+
+    cte40_tpRBSN = fields.Selection(
+        TRBSN,
+        string="Tipo de Receita Bruta",
+        xsd_required=True,
+        xsd_type="TRBSN",
+        help=(
+            "Tipo de Receita Bruta do Simples Nacional\nTipo de Receita Bruta "
+            "do Simples Nacional \nreferente ao cClassTrib do item \n0 - Não é"
+            " receita bruta \n1 - Receita bruta - interna \n2 - Receita bruta "
+            "- interna sem cálculo de IBS e CBS \n3 - Receita bruta – "
+            "exportação direta \n4 - Receita bruta - exportação indireta \n5 -"
+            " Receita bruta - mercado interno e exportação \n9 - Fornecimento "
+            "incompatível com SN"
+        ),
+    )
+
+    cte40_pIBSSN = fields.Float(
+        string="Alíquota aplicável de cálculo",
+        xsd_type="TDec_0302_04RTC",
+        digits=(
+            3,
+            2,
+        ),
+        help="Alíquota aplicável de cálculo do IBS referente ao \nitem",
+    )
+
+    cte40_vIBSSN = fields.Char(
+        string="Valor do IBS devido",
+        xsd_type="TDec1302RTC",
+        help="Valor do IBS devido pelo Simples Nacional.",
+    )
+
+    cte40_pCBSSN = fields.Float(
+        string="Alíquota aplicável de cálculo (pCBSSN)",
+        xsd_type="TDec_0302_04RTC",
+        digits=(
+            3,
+            2,
+        ),
+        help="Alíquota aplicável de cálculo da CBS referente ao \nitem",
+    )
+
+    cte40_vCBSSN = fields.Char(
+        string="Valor da CBS devido",
+        xsd_type="TDec1302RTC",
+        help="Valor da CBS devido pelo Simples Nacional.",
+    )
+
+    cte40_vIBSPendSusp = fields.Char(
+        string="Valor do IBS pendente",
+        xsd_type="TDec1302RTC",
+        help="Valor do IBS pendente ou suspenso referente ao \nitem",
+    )
+
+    cte40_vCBSPendSusp = fields.Char(
+        string="Valor da CBS pendente",
+        xsd_type="TDec1302RTC",
+        help="Valor da CBS pendente ou suspenso referente ao \nitem",
+    )
+
+    cte40_nItem = fields.Char(string="Número do item", xsd_required=True)
+
+
+class TcibsNfe(models.AbstractModel):
+    "Tipo CBS IBS Completo NFe"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "cte.40.tcibsnfe"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcibsNfe"
+
+    cte40_vBC = fields.Char(
+        string="Valor do BC", xsd_required=True, xsd_type="TDec1302RTC"
+    )
+
+    cte40_gIBSUF = fields.Many2one(
+        comodel_name="cte.40.tcibsnfe_gibsuf",
+        string="Grupo de informações do IBS na UF",
+        xsd_required=True,
+    )
+
+    cte40_gIBSMun = fields.Many2one(
+        comodel_name="cte.40.tcibsnfe_gibsmun",
+        string="Grupo de Informações do IBS no Município",
+        xsd_required=True,
+    )
+
+    cte40_vIBS = fields.Char(
+        string="Valor do IBS", xsd_required=True, xsd_type="TDec1302RTC"
+    )
+
+    cte40_gCBS = fields.Many2one(
+        comodel_name="cte.40.tcibsnfe_gcbs",
+        string="Grupo de Tributação da CBS",
+        xsd_required=True,
+    )
+
+    cte40_gTribRegular = fields.Many2one(
+        comodel_name="cte.40.ttribregular",
+        string="Grupo de informações",
+        xsd_type="TTribRegular",
+        help=(
+            "Grupo de informações da Tributação Regular. Informar como seria a"
+            " tributação caso não cumprida a condição resolutória/suspensiva. "
+            "Exemplo 1: Art. 442, §4. Operações com ZFM e ALC. Exemplo 2: "
+            "Operações com suspensão do tributo."
+        ),
+    )
+
+    cte40_gTribCompraGov = fields.Many2one(
+        comodel_name="cte.40.ttribcompragov",
+        string="Grupo de informações da composição",
+        xsd_type="TTribCompraGov",
+        help=(
+            "Grupo de informações da composição do valor do IBS e da CBS em "
+            "compras governamental"
+        ),
+    )
+
+
+class TcibsNfeGCbs(models.AbstractModel):
+    "Totalização da CBS"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "cte.40.tcibsnfe_gcbs"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcibsNfe.GCbs"
+
+    cte40_pCBS = fields.Float(
+        string="Aliquota da CBS (em percentual)",
+        xsd_required=True,
+        xsd_type="TDec_0302_04RTC",
+        digits=(
+            3,
+            2,
+        ),
+    )
+
+    cte40_gDif = fields.Many2one(
+        comodel_name="cte.40.tdif",
+        string="Grupo de campos do Diferimento",
+        xsd_type="TDif",
+    )
+
+    cte40_gDevTrib = fields.Many2one(
+        comodel_name="cte.40.tdevtrib",
+        string="Grupo de Informações da devolução",
+        xsd_type="TDevTrib",
+        help="Grupo de Informações da devolução de tributos",
+    )
+
+    cte40_gRed = fields.Many2one(
+        comodel_name="cte.40.tred",
+        string="Grupo de campos da redução de aliquota",
+        xsd_type="TRed",
+    )
+
+    cte40_gALCZFMCBS = fields.Many2one(
+        comodel_name="cte.40.talczfmcbsnfe",
+        string="Grupo de operações em áreas incentivadas",
+        xsd_type="TALCZFMCBS",
+        help=(
+            "Grupo de operações em áreas incentivadas (ALC/ZFM) - CBS "
+            "(alíquota zero)\nGrupo de informações para identificação de "
+            "operações em áreas incentivadas (ALC/ZFM) com alíquota zero da "
+            "CBS, conforme arts. 451 e 466 da LC 214/2025, quando fornecedor e"
+            " destinatário estiverem nessas áreas, distinguindo a existência "
+            "de processo aprovado na Suframa."
+        ),
+    )
+
+    cte40_vCBS = fields.Char(
+        string="Valor da CBS", xsd_required=True, xsd_type="TDec1302RTC"
+    )
+
+
+class TcibsNfeGIbsuf(models.AbstractModel):
+    "Totalização do IBS de competência da UF"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "cte.40.tcibsnfe_gibsuf"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcibsNfe.GIbsuf"
+
+    cte40_pIBSUF = fields.Float(
+        string="Aliquota do IBS de competência das UF",
+        xsd_required=True,
+        xsd_type="TDec_0302_04RTC",
+        digits=(
+            3,
+            2,
+        ),
+        help="Aliquota do IBS de competência das UF (em percentual)",
+    )
+
+    cte40_gDif = fields.Many2one(
+        comodel_name="cte.40.tdif",
+        string="Grupo de campos do Diferimento",
+        xsd_type="TDif",
+    )
+
+    cte40_gDevTrib = fields.Many2one(
+        comodel_name="cte.40.tdevtrib",
+        string="Grupo de Informações da devolução",
+        xsd_type="TDevTrib",
+        help="Grupo de Informações da devolução de tributos",
+    )
+
+    cte40_gRed = fields.Many2one(
+        comodel_name="cte.40.tred",
+        string="Grupo de campos da redução de aliquota",
+        xsd_type="TRed",
+    )
+
+    cte40_vIBSUF = fields.Char(
+        string="Valor do IBS de competência das UF",
+        xsd_required=True,
+        xsd_type="TDec1302RTC",
+    )
+
+
+class TcibsNfeGIbsmun(models.AbstractModel):
+    "Totalização do IBS de competência Municipal"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "cte.40.tcibsnfe_gibsmun"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcibsNfe.GIbsmun"
+
+    cte40_pIBSMun = fields.Float(
+        string="Aliquota do IBS Municipal",
+        xsd_required=True,
+        xsd_type="TDec_0302_04RTC",
+        digits=(
+            3,
+            2,
+        ),
+        help="Aliquota do IBS Municipal (em percentual)",
+    )
+
+    cte40_gDif = fields.Many2one(
+        comodel_name="cte.40.tdif",
+        string="Grupo de campos do Diferimento",
+        xsd_type="TDif",
+    )
+
+    cte40_gDevTrib = fields.Many2one(
+        comodel_name="cte.40.tdevtrib",
+        string="Grupo de Informações da devolução",
+        xsd_type="TDevTrib",
+        help="Grupo de Informações da devolução de tributos",
+    )
+
+    cte40_gRed = fields.Many2one(
+        comodel_name="cte.40.tred",
+        string="Grupo de campos da redução de aliquota",
+        xsd_type="TRed",
+    )
+
+    cte40_vIBSMun = fields.Char(
+        string="Valor do IBS Municipal", xsd_required=True, xsd_type="TDec1302RTC"
     )
 
 
@@ -1587,43 +2070,6 @@ class TtribNfag(models.AbstractModel):
     )
 
 
-class TtribNfce(models.AbstractModel):
-    "Grupo de informações da Tributação da NFCe"
-
-    _description = textwrap.dedent(f"    {__doc__}")
-    _name = "cte.40.ttribnfce"
-    _inherit = "spec.mixin.cte"
-    _binding_type = "TtribNfce"
-
-    cte40_CST = fields.Char(
-        string="Código Situação Tributária do IBS/CBS",
-        xsd_required=True,
-        xsd_type="TCST",
-    )
-
-    cte40_cClassTrib = fields.Char(
-        string="cClassTrib", xsd_required=True, xsd_type="TcClassTrib"
-    )
-
-    cte40_indDoacao = fields.Selection(
-        TINDDOACAO, string="Indica se a operação é de doação", xsd_type="TIndDoacao"
-    )
-
-    cte40_gIBSCBS = fields.Many2one(
-        comodel_name="cte.40.tcibs",
-        string="gIBSCBS",
-        choice="ttribnfce",
-        xsd_type="TCIBS",
-    )
-
-    cte40_gIBSCBSMono = fields.Many2one(
-        comodel_name="cte.40.tmonofasia",
-        string="gIBSCBSMono",
-        choice="ttribnfce",
-        xsd_type="TMonofasia",
-    )
-
-
 class TtribNfcom(models.AbstractModel):
     "Grupo de informações da Tributação da NFCom"
 
@@ -1692,6 +2138,43 @@ class TtribNfgas(models.AbstractModel):
     )
 
 
+class TtribNfce(models.AbstractModel):
+    "Grupo de informações da Tributação da NFCe"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "cte.40.ttribnfce"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TtribNfce"
+
+    cte40_CST = fields.Char(
+        string="Código Situação Tributária do IBS/CBS",
+        xsd_required=True,
+        xsd_type="TCST",
+    )
+
+    cte40_cClassTrib = fields.Char(
+        string="cClassTrib", xsd_required=True, xsd_type="TcClassTrib"
+    )
+
+    cte40_indDoacao = fields.Selection(
+        TINDDOACAO, string="Indica se a operação é de doação", xsd_type="TIndDoacao"
+    )
+
+    cte40_gIBSCBS = fields.Many2one(
+        comodel_name="cte.40.tcibsnfe",
+        string="gIBSCBS",
+        choice="ttribnfce",
+        xsd_type="TCIBS_NFe",
+    )
+
+    cte40_gIBSCBSMono = fields.Many2one(
+        comodel_name="cte.40.tmonofasia",
+        string="gIBSCBSMono",
+        choice="ttribnfce",
+        xsd_type="TMonofasia",
+    )
+
+
 class TtribNfe(models.AbstractModel):
     "Grupo de informações da Tributação da NFe"
 
@@ -1715,10 +2198,10 @@ class TtribNfe(models.AbstractModel):
     )
 
     cte40_gIBSCBS = fields.Many2one(
-        comodel_name="cte.40.tcibs",
+        comodel_name="cte.40.tcibsnfe",
         string="gIBSCBS",
         choice="ttribnfe",
-        xsd_type="TCIBS",
+        xsd_type="TCIBS_NFe",
     )
 
     cte40_gIBSCBSMono = fields.Many2one(
