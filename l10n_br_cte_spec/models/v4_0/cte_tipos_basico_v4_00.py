@@ -132,6 +132,13 @@ TPROCEMI = [
     ("3", "3"),
 ]
 
+# Tipo processo de emissão do CTe e CTe Simplificado
+TPROCEMICTE = [
+    ("0", "0"),
+    ("3", "3"),
+    ("4", "4"),
+]
+
 # Tipo de data/período programado para entrega
 COMDATA_TPPER = [
     ("1", "Na data"),
@@ -772,7 +779,9 @@ class TprotCteInfProt(models.AbstractModel):
         ),
     )
 
-    cte40_cStat = fields.Char(string="Código do status do CT-e", xsd_required=True)
+    cte40_cStat = fields.Char(
+        string="Código do status do CT-e", xsd_required=True, xsd_type="TStat"
+    )
 
     cte40_xMotivo = fields.Char(
         string="Descrição literal do status do CT-e",
@@ -792,7 +801,9 @@ class TprotCteInfFisco(models.AbstractModel):
     _binding_type = "TprotCte.InfFisco"
 
     cte40_cMsg = fields.Char(
-        string="Código do status da mensagem do fisco", xsd_required=True
+        string="Código do status da mensagem do fisco",
+        xsd_required=True,
+        xsd_type="TStat",
     )
 
     cte40_xMsg = fields.Char(
@@ -869,7 +880,9 @@ class TprotCteOsInfProt(models.AbstractModel):
         ),
     )
 
-    cte40_cStat = fields.Char(string="Código do status do CT-e", xsd_required=True)
+    cte40_cStat = fields.Char(
+        string="Código do status do CT-e", xsd_required=True, xsd_type="TStat"
+    )
 
     cte40_xMotivo = fields.Char(
         string="Descrição literal do status do CT-e",
@@ -889,7 +902,9 @@ class TprotCteOsInfFisco(models.AbstractModel):
     _binding_type = "TprotCteOs.InfFisco"
 
     cte40_cMsg = fields.Char(
-        string="Código do status da mensagem do fisco", xsd_required=True
+        string="Código do status da mensagem do fisco",
+        xsd_required=True,
+        xsd_type="TStat",
     )
 
     cte40_xMsg = fields.Char(
@@ -966,7 +981,9 @@ class TprotGtveInfProt(models.AbstractModel):
         ),
     )
 
-    cte40_cStat = fields.Char(string="Código do status da GTV-e", xsd_required=True)
+    cte40_cStat = fields.Char(
+        string="Código do status da GTV-e", xsd_required=True, xsd_type="TStat"
+    )
 
     cte40_xMotivo = fields.Char(
         string="Descrição literal do status da GTV-e",
@@ -986,7 +1003,9 @@ class TprotGtveInfFisco(models.AbstractModel):
     _binding_type = "TprotGtve.InfFisco"
 
     cte40_cMsg = fields.Char(
-        string="Código do status da mensagem do fisco", xsd_required=True
+        string="Código do status da mensagem do fisco",
+        xsd_required=True,
+        xsd_type="TStat",
     )
 
     cte40_xMsg = fields.Char(
@@ -1155,6 +1174,12 @@ class TcteOsInfCte(models.AbstractModel):
         xsd_required=True,
     )
 
+    cte40_pgtoVinc = fields.Many2one(
+        comodel_name="cte.40.tcteos_pgtovinc",
+        string="Grupo de informações da vínculação",
+        help=("Grupo de informações da vínculação com a transação de pagamento"),
+    )
+
     cte40_infCTeNorm = fields.Many2one(
         comodel_name="cte.40.tcteos_infctenorm",
         string="Grupo de informações do CT-e OS Normal",
@@ -1320,12 +1345,12 @@ class TcteOsIde(models.AbstractModel):
         TPROCEMI,
         string="Identificador do processo de emissão",
         xsd_required=True,
-        xsd_type="TProcEmi",
+        xsd_type="TProcEmiCTe",
         help=(
-            "Identificador do processo de emissão do CT-e OS\nPreencher com: "
-            "\n\t\t\t\t\t\t\t\t\t\t\t0 - emissão de CT-e com aplicativo do "
-            "contribuinte;\n\t\t\t\t\t\t\t\t\t\t\t3- emissão CT-e pelo "
-            "contribuinte com aplicativo fornecido pelo Fisco."
+            "Identificador do processo de emissão do CTe OS\nPreencher com: "
+            "\t\t\t\t\t\t\t\t0 - emissão de CTe com aplicativo do "
+            "contribuinte;\n3 - emissão CTe pelo contribuinte com aplicativo "
+            "fornecido pelo Fisco."
         ),
     )
 
@@ -1852,6 +1877,22 @@ class InfTribFed(models.AbstractModel):
     )
 
 
+class TcteOsPgtoVinc(models.AbstractModel):
+    "Grupo de informações da vínculação com a transação de pagamento"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "cte.40.tcteos_pgtovinc"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteOs.InfCte.PgtoVinc"
+
+    cte40_pgto = fields.One2many(
+        "cte.40.tpagamentortc",
+        "cte40_pgto_pgtoVinc_id",
+        string="Dados de cada pagamento previsto",
+        xsd_type="TPagamentoRTC",
+    )
+
+
 class TcteOsAutXml(models.AbstractModel):
     """Autorizados para download do XML do DF-e
     Informar CNPJ ou CPF. Preencher os zeros não significativos."""
@@ -2095,6 +2136,7 @@ class TcteOsInfCteSub(models.AbstractModel):
     cte40_chCte = fields.Char(
         string="Chave de acesso do CT-e",
         xsd_required=True,
+        xsd_type="TChDFe",
         help="Chave de acesso do CT-e a ser substituído (original)",
     )
 
@@ -3112,7 +3154,9 @@ class TretCte(models.AbstractModel):
     )
 
     cte40_cStat = fields.Char(
-        string="código do status do retorno da consulta", xsd_required=True
+        string="código do status do retorno da consulta",
+        xsd_required=True,
+        xsd_type="TStat",
     )
 
     cte40_xMotivo = fields.Char(
@@ -3476,6 +3520,12 @@ class TcteInfCte(models.AbstractModel):
         xsd_required=True,
     )
 
+    cte40_pgtoVinc = fields.Many2one(
+        comodel_name="cte.40.tcte_pgtovinc",
+        string="Grupo de informações da vínculação",
+        help=("Grupo de informações da vínculação com a transação de pagamento"),
+    )
+
     cte40_infCTeNorm = fields.Many2one(
         comodel_name="cte.40.tcte_infctenorm",
         string="Grupo de informações do CT-e Normal",
@@ -3647,15 +3697,15 @@ class TcteIde(models.AbstractModel):
     )
 
     cte40_procEmi = fields.Selection(
-        TPROCEMI,
+        TPROCEMICTE,
         string="Identificador do processo de emissão",
         xsd_required=True,
-        xsd_type="TProcEmi",
+        xsd_type="TProcEmiCTe",
         help=(
-            "Identificador do processo de emissão do CT-e\nPreencher com: "
-            "\n\t\t\t\t\t\t\t\t\t\t\t0 - emissão de CT-e com aplicativo do "
-            "contribuinte;\n\t\t\t\t\t\t\t\t\t\t\t3- emissão CT-e pelo "
-            "contribuinte com aplicativo fornecido pelo SEBRAE."
+            "Identificador do processo de emissão do CTe\nPreencher com: \n0 "
+            "-emissão de CTe com aplicativo do contribuinte;\n3- emissão CTe "
+            "pelo contribuinte com aplicativo fornecido pelo SEBRAE.\n4- "
+            "emissão de CTe por Provedor de Assinatura e Autorização - PAA"
         ),
     )
 
@@ -4724,6 +4774,22 @@ class TcteImp(models.AbstractModel):
     )
 
 
+class TctePgtoVinc(models.AbstractModel):
+    "Grupo de informações da vínculação com a transação de pagamento"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "cte.40.tcte_pgtovinc"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "Tcte.InfCte.PgtoVinc"
+
+    cte40_pgto = fields.One2many(
+        "cte.40.tpagamentortc",
+        "cte40_pgto_pgtoVinc_id",
+        string="Dados de cada pagamento previsto",
+        xsd_type="TPagamentoRTC",
+    )
+
+
 class TcteAutXml(models.AbstractModel):
     """Autorizados para download do XML do DF-e
     Informar CNPJ ou CPF. Preencher os zeros não significativos."""
@@ -5656,6 +5722,7 @@ class TcteInfCteSub(models.AbstractModel):
     cte40_chCte = fields.Char(
         string="Chave de acesso do CT-e",
         xsd_required=True,
+        xsd_type="TChDFe",
         help="Chave de acesso do CT-e a ser substituído (original)",
     )
 
@@ -5837,6 +5904,12 @@ class TcteSimpInfCte(models.AbstractModel):
         xsd_required=True,
     )
 
+    cte40_pgtoVinc = fields.Many2one(
+        comodel_name="cte.40.tctesimp_pgtovinc",
+        string="Grupo de informações da vínculação",
+        help=("Grupo de informações da vínculação com a transação de pagamento"),
+    )
+
     cte40_total = fields.Many2one(
         comodel_name="cte.40.total", string="Valores Totais do CTe", xsd_required=True
     )
@@ -5996,15 +6069,15 @@ class TcteSimpIde(models.AbstractModel):
     )
 
     cte40_procEmi = fields.Selection(
-        TPROCEMI,
+        TPROCEMICTE,
         string="Identificador do processo de emissão",
         xsd_required=True,
-        xsd_type="TProcEmi",
+        xsd_type="TProcEmiCTe",
         help=(
-            "Identificador do processo de emissão do CT-e\nPreencher com: "
-            "\n\t\t\t\t\t\t\t\t\t\t\t0 - emissão de CT-e com aplicativo do "
-            "contribuinte;\n\t\t\t\t\t\t\t\t\t\t\t3- emissão CT-e pelo "
-            "contribuinte com aplicativo fornecido pelo SEBRAE."
+            "Identificador do processo de emissão do CT-e\nPreencher com: \n0 "
+            "- emissão de CTe com aplicativo do contribuinte;\n3 - emissão CTe"
+            " pelo contribuinte com aplicativo fornecido pelo SEBRAE.\n4 - "
+            "emissão CTe pelo Provedor de Autorização e assinatura - PAA"
         ),
     )
 
@@ -6889,6 +6962,7 @@ class TcteSimpInfCteSub(models.AbstractModel):
     cte40_chCte = fields.Char(
         string="Chave de acesso do CT-e",
         xsd_required=True,
+        xsd_type="TChDFe",
         help="Chave de acesso do CT-e a ser substituído (original)",
     )
 
@@ -6930,6 +7004,22 @@ class TcteSimpImp(models.AbstractModel):
         comodel_name="cte.40.ttribcte",
         string="Grupo de informações do IBS e CBS",
         xsd_type="TTribCTe",
+    )
+
+
+class TcteSimpPgtoVinc(models.AbstractModel):
+    "Grupo de informações da vínculação com a transação de pagamento"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "cte.40.tctesimp_pgtovinc"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte.PgtoVinc"
+
+    cte40_pgto = fields.One2many(
+        "cte.40.tpagamentortc",
+        "cte40_pgto_pgtoVinc_id",
+        string="Dados de cada pagamento previsto",
+        xsd_type="TPagamentoRTC",
     )
 
 
