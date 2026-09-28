@@ -126,6 +126,12 @@ TMODTRANSPSIMP = [
     ("03", "03"),
 ]
 
+# Tipo Pagamento ou Pagamento Antecipado
+TPAGANT = [
+    ("1", "1"),
+    ("3", "3"),
+]
+
 # Tipo processo de emissão do CT-e
 TPROCEMI = [
     ("0", "0"),
@@ -1502,6 +1508,30 @@ class TcteOsIde(models.AbstractModel):
         xsd_type="TCompraGovReduzido",
     )
 
+    cte40_tpPagAnt = fields.Selection(
+        TPAGANT,
+        string="Tipo Pagamento ou Pagamento Antecipado",
+        xsd_type="TPagAnt",
+        help=(
+            "Tipo Pagamento ou Pagamento Antecipado\nInformar:\n1 - Pagamento "
+            "Antecipado \n3 - Fornecimento com pagamento realizado "
+            "anteriormente\n\nEste campo é opcional e apenas deve ser "
+            "informado quando pagamento que ocorre antes da prestação do "
+            "serviço e na DFe de fornecimento associada a esses pagamentos, "
+            "demais hipóteses de prestação de serviço sem antecipação não "
+            "devem preencher."
+        ),
+    )
+
+    cte40_gPagAntecipado = fields.Many2one(
+        comodel_name="cte.40.tcteos_gpagantecipado",
+        string="Grupo de antecipação de pagamento",
+        help=(
+            "Grupo de antecipação de pagamento\nInformado para abater as "
+            "parcelas de antecipação de\npagamento, conforme Art. 10. § 4º"
+        ),
+    )
+
 
 class InfPercurso(models.AbstractModel):
     "Informações do Percurso do CT-e Outros Serviços"
@@ -1525,6 +1555,27 @@ class InfPercurso(models.AbstractModel):
         help=(
             "Sigla das Unidades da Federação do percurso do veículo.\nNão é "
             "necessário repetir as UF de Início e Fim"
+        ),
+    )
+
+
+class TcteOsGPagAntecipado(models.AbstractModel):
+    """Grupo de antecipação de pagamento
+    Permite informar apenas quando tpPagAnt=3
+    Informado para abater as parcelas de antecipação de
+    pagamento, conforme Art. 10. § 4º"""
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "cte.40.tcteos_gpagantecipado"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteOs.InfCte.Ide.GPagAntecipado"
+
+    cte40_chDFePagAnt = fields.Char(
+        string="Chave de acesso do CTe de antecipação",
+        xsd_type="TChDFe",
+        help=(
+            "Chave de acesso do CTe de antecipação de pagamento\nReferência a "
+            "CTe emitido anteriormente, referente a pagamento antecipado"
         ),
     )
 
@@ -1663,6 +1714,17 @@ class TcteOsEmit(models.AbstractModel):
             "\n2=Simples Nacional, excesso sublimite de receita "
             "bruta;\n3=Regime Normal;\n4=Simples Nacional - Microempreendedor "
             "Individual – MEI."
+        ),
+    )
+
+    cte40_ISUFEmit = fields.Char(
+        string="Inscrição do emitente da Suframa",
+        help=(
+            "Inscrição do emitente da Suframa\nInformar o número do Cadastro "
+            "do emitente na Suframa. Campo obrigatório nas operações que se "
+            "beneficiam de incentivos fiscais existentes nas áreas sob "
+            "controle da SUFRAMA com alíquota zero da CBS referente aos arts. "
+            "451 e 466 da LC 214/25"
         ),
     )
 
@@ -2855,6 +2917,17 @@ class TgtveEmit(models.AbstractModel):
         xsd_type="TEndeEmi",
     )
 
+    cte40_ISUFEmit = fields.Char(
+        string="Inscrição do emitente da Suframa",
+        help=(
+            "Inscrição do emitente da Suframa\nInformar o número do Cadastro "
+            "do emitente na Suframa. Campo obrigatório nas operações que se "
+            "beneficiam de incentivos fiscais existentes nas áreas sob "
+            "controle da SUFRAMA com alíquota zero da CBS referente aos arts. "
+            "451 e 466 da LC 214/25"
+        ),
+    )
+
 
 class TgtveRem(models.AbstractModel):
     """Informações do Remetente
@@ -3898,6 +3971,51 @@ class TcteIde(models.AbstractModel):
         xsd_type="TCompraGovReduzido",
     )
 
+    cte40_tpPagAnt = fields.Selection(
+        TPAGANT,
+        string="Tipo Pagamento ou Pagamento Antecipado",
+        xsd_type="TPagAnt",
+        help=(
+            "Tipo Pagamento ou Pagamento Antecipado\nInformar:\n1 - Pagamento "
+            "Antecipado \n3 - Fornecimento com pagamento realizado "
+            "anteriormente\n\nEste campo é opcional e apenas deve ser "
+            "informado quando pagamento que ocorre antes da prestação do "
+            "serviço e na DFe de fornecimento associada a esses pagamentos, "
+            "demais hipóteses de prestação de serviço sem antecipação não "
+            "devem preencher."
+        ),
+    )
+
+    cte40_gPagAntecipado = fields.Many2one(
+        comodel_name="cte.40.tcte_gpagantecipado",
+        string="Grupo de antecipação de pagamento",
+        help=(
+            "Grupo de antecipação de pagamento\nInformado para abater as "
+            "parcelas de antecipação de\npagamento, conforme Art. 10. § 4º"
+        ),
+    )
+
+
+class TcteGPagAntecipado(models.AbstractModel):
+    """Grupo de antecipação de pagamento
+    Permite informar apenas quando tpPagAnt=3
+    Informado para abater as parcelas de antecipação de
+    pagamento, conforme Art. 10. § 4º"""
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "cte.40.tcte_gpagantecipado"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "Tcte.InfCte.Ide.GPagAntecipado"
+
+    cte40_chDFePagAnt = fields.Char(
+        string="Chave de acesso do CTe de antecipação",
+        xsd_type="TChDFe",
+        help=(
+            "Chave de acesso do CTe de antecipação de pagamento\nReferência a "
+            "CTe emitido anteriormente, referente a pagamento antecipado"
+        ),
+    )
+
 
 class Toma3(models.AbstractModel):
     """Indicador do "papel" do tomador do serviço no CT-e"""
@@ -4432,6 +4550,17 @@ class TcteEmit(models.AbstractModel):
             "\n2=Simples Nacional, excesso sublimite de receita "
             "bruta;\n3=Regime Normal. \n4=Simples Nacional - Microempreendedor"
             " Individual – MEI."
+        ),
+    )
+
+    cte40_ISUFEmit = fields.Char(
+        string="Inscrição do emitente da Suframa",
+        help=(
+            "Inscrição do emitente da Suframa\nInformar o número do Cadastro "
+            "do emitente na Suframa. Campo obrigatório nas operações que se "
+            "beneficiam de incentivos fiscais existentes nas áreas sob "
+            "controle da SUFRAMA com alíquota zero da CBS referente aos arts. "
+            "451 e 466 da LC 214/25"
         ),
     )
 
@@ -6190,6 +6319,53 @@ class TcteSimpIde(models.AbstractModel):
         xsd_type="TCompraGovReduzido",
     )
 
+    cte40_tpPagAnt = fields.Selection(
+        TPAGANT,
+        string="Tipo Pagamento ou Pagamento Antecipado",
+        xsd_type="TPagAnt",
+        help=(
+            "Tipo Pagamento ou Pagamento Antecipado\nInformar:\n1 - Pagamento "
+            "Antecipado \n3 - Fornecimento com pagamento realizado "
+            "anteriormente\n\nEste campo é opcional e apenas deve ser "
+            "informado em caso de Antecipação de Pagamento e no CTe de "
+            "fornecimento associada a esses pagamentos antecipados, demais "
+            "hipóteses de prestação de serviço sem antecipação não devem "
+            "preencher."
+        ),
+    )
+
+    cte40_gPagAntecipado = fields.Many2one(
+        comodel_name="cte.40.tctesimp_gpagantecipado",
+        string="Grupo de antecipação de pagamento",
+        help=(
+            "Grupo de antecipação de pagamento\n\nPermite informar apenas "
+            "quando tpPagAnt=3\nInformado para abater as parcelas de "
+            "antecipação de\npagamento, conforme Art. 10. § 4º"
+        ),
+    )
+
+
+class TcteSimpGPagAntecipado(models.AbstractModel):
+    """Grupo de antecipação de pagamento
+    Permite informar apenas quando tpPagAnt=3
+    Informado para abater as parcelas de antecipação de
+    pagamento, conforme Art. 10. § 4º"""
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "cte.40.tctesimp_gpagantecipado"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte.Ide.GPagAntecipado"
+
+    cte40_chDFePagAnt = fields.Char(
+        string="Chave de acesso do DFe de antecipação",
+        xsd_type="TChDFe",
+        help=(
+            "Chave de acesso do DFe de antecipação de pagamento (com "
+            "tpPagAnt=1)\nReferência a CTe emitido anteriormente, referente a "
+            "pagamento antecipado"
+        ),
+    )
+
 
 class TcteSimpCompl(models.AbstractModel):
     "Dados complementares da GTV-e para fins operacionais ou comerciais"
@@ -6415,6 +6591,17 @@ class TcteSimpEmit(models.AbstractModel):
             "\n2=Simples Nacional, excesso sublimite de receita "
             "bruta;\n3=Regime Normal. \n4=Simples Nacional - Microempreendedor"
             " Individual – MEI."
+        ),
+    )
+
+    cte40_ISUFEmit = fields.Char(
+        string="Inscrição do emitente da Suframa",
+        help=(
+            "Inscrição do emitente da Suframa\nInformar o número do Cadastro "
+            "do emitente na Suframa. Campo obrigatório nas operações que se "
+            "beneficiam de incentivos fiscais existentes nas áreas sob "
+            "controle da SUFRAMA com alíquota zero da CBS referente aos arts. "
+            "451 e 466 da LC 214/25"
         ),
     )
 
