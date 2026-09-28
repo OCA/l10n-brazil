@@ -1412,6 +1412,11 @@ msgid "Quantity"
 msgstr ""
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__contract_recalculate_taxes_before_invoice
+msgid "Recalculate Fiscal Operation Line Before Invoicing"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__partner_receivering_id
 msgid "Receiver Address"
 msgstr ""
