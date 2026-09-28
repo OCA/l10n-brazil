@@ -1563,6 +1563,20 @@ msgid "Código do serviço prestado dentro do município"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_cIndOp
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_cIndOp
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_cIndOp
+msgid "Código indicador do local da operação"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__nfe40_cIndOp
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__nfe40_cIndOp
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__nfe40_cIndOp
+msgid "Código indicador do local da operação de fornecimento"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_cCT
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_cCT
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_cCT
@@ -2643,15 +2657,15 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__nfe40_tpEmis
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__nfe40_tpEmis
 msgid ""
-"Forma de emissão da NF-e\n"
+"Forma de emissão da NF-e:\n"
 "1 - Normal;\n"
-"2 - Contingência FS\n"
-"3 - Regime Especial NFF (NT 2021.002)\n"
-"4 - Contingência DPEC\n"
-"5 - Contingência FSDA\n"
-"6 - Contingência SVC - AN\n"
-"7 - Contingência SVC - RS\n"
-"9 - Contingência off-line NFC-e"
+"2 - Contingência FS;\n"
+"3 - Regime Especial NFF (NT 2021.002);\n"
+"4 - Contingência DPEC;\n"
+"5 - Contingência FSDA;\n"
+"6 - Contingência SVC - AN;\n"
+"7 - Contingência SVC - RS;\n"
+"9 - Contingência off-line da NFC-e e da NF-e com DANFE Simplificado Tipo 2."
 msgstr ""
 
 #. module: l10n_br_account
@@ -2719,8 +2733,14 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__nfe40_tpImp
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__nfe40_tpImp
 msgid ""
-"Formato de impressão do DANFE (0-sem DANFE;1-DANFe Retrato; 2-DANFe Paisagem;3-DANFe Simplificado;\n"
-"\t\t\t\t\t\t\t\t\t\t\t4-DANFe NFC-e;5-DANFe NFC-e em mensagem eletrônica)"
+"Formato de impressão do DANFE:\n"
+"0 - Sem DANFE;\n"
+"1 - DANFE Retrato;\n"
+"2 - DANFE Paisagem;\n"
+"3 - DANFE Simplificado;\n"
+"4 - DANFE NFC-e;\n"
+"5 - DANFE NFC-e em mensagem eletrônica;\n"
+"6 - DANFE Simplificado Tipo 2 (nas condições do Ajuste SINIEF 13/26)."
 msgstr ""
 
 #. module: l10n_br_account
@@ -2804,12 +2824,22 @@ msgid "Grupo de Informação do Provedor (mdfe_infPAA)"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_infPAA
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_infPAA
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_infPAA
+msgid "Grupo de Informação do Provedor (nfe_infPAA)"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__cte40_infPAA
 #: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__mdfe30_infPAA
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__nfe40_infPAA
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__cte40_infPAA
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__mdfe30_infPAA
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__nfe40_infPAA
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__cte40_infPAA
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__mdfe30_infPAA
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__nfe40_infPAA
 msgid "Grupo de Informação do Provedor de Assinatura e Autorização"
 msgstr ""
 
@@ -3775,6 +3805,19 @@ msgid "Indica se o valor da COFINS ST compõe o valor total da NFe"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_indDeduzDeson
+msgid "Indica se o valor do ICMS desonerado"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__nfe40_indDeduzDeson
+msgid ""
+"Indica se o valor do ICMS desonerado (vICMSDeson) deduz do valor do item (vProd):\n"
+"0=Valor do ICMS desonerado (vICMSDeson) não deduz do valor do item (vProd) / total da NF-e;\n"
+"1=Valor do ICMS desonerado (vICMSDeson) deduz do valor do item (vProd) / total da NF-e."
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_indSomaPISST
 msgid "Indica se o valor do PISST compõe"
 msgstr ""
@@ -3872,8 +3915,14 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__nfe40_indPres
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__nfe40_indPres
 msgid ""
-"Indicador de presença do comprador no estabelecimento comercial no momento da oepração\n"
-"\t\t\t\t\t\t\t\t\t\t\t(0-Não se aplica (ex.: Nota Fiscal complementar ou de ajuste;1-Operação presencial;2-Não presencial, internet;3-Não presencial, teleatendimento;4-NFC-e entrega em domicílio;5-Operação presencial, fora do estabelecimento;9-Não presencial, outros)"
+"Indicador de presença do comprador no estabelecimento comercial no momento da oepração:\n"
+"0 - Não se aplica (ex.: Nota Fiscal complementar ou de ajuste);\n"
+"1 - Operação presencial;\n"
+"2 - Operação não presencial, internet;\n"
+"3 - Operação não presencial, teleatendimento;\n"
+"4 - Operação não presencial com NFC-e e NFe com DANFE Simplificado Tipo 2 (com entrega);\n"
+"5 - Operação presencial, fora do estabelecimento;\n"
+"9 - Operação não presencial, outros."
 msgstr ""
 
 #. module: l10n_br_account
@@ -4859,6 +4908,18 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_motDesICMS
+msgid "Motivo da desoneração do ICMS"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__nfe40_motDesICMS
+msgid ""
+"Motivo da desoneração do ICMS:9-Outros;10=Deficiente Condutor (Convênio ICMS"
+" 38/12) 11=Deficiente Não Condutor (Convênio ICMS 38/12)"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_destCalc
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_destCalc
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_destCalc
@@ -5719,7 +5780,8 @@ msgid ""
 "1 - emissão de NF-e avulsa pelo Fisco;\n"
 "2 - emissão de NF-e avulsa, pelo contribuinte com seu certificado digital, através do site\n"
 "do Fisco;\n"
-"3- emissão de NF-e pelo contribuinte com aplicativo fornecido pelo Fisco."
+"3 - emissão de NF-e pelo contribuinte com aplicativo fornecido pelo Fisco;\n"
+"4 - emissão de NF-e por Provedor de Assinatura e Autorização - PAA."
 msgstr ""
 
 #. module: l10n_br_account
@@ -6218,17 +6280,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_serie
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_serie
 msgid "Série do Documento Fiscal"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__nfe40_serie
-#: model:ir.model.fields,help:l10n_br_account.field_account_move__nfe40_serie
-#: model:ir.model.fields,help:l10n_br_account.field_account_payment__nfe40_serie
-msgid ""
-"Série do Documento Fiscal\n"
-"série normal 0-889\n"
-"Avulsa Fisco 890-899\n"
-"SCAN 900-999"
 msgstr ""
 
 #. module: l10n_br_account
@@ -7551,6 +7602,11 @@ msgid "Valor do ICMS ST"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_vICMSDeson
+msgid "Valor do ICMS de desoneração"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_vICMSUFDest
 msgid "Valor do ICMS de partilha para a UF"
 msgstr ""
@@ -8156,7 +8212,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__nfe40_cMunFGIBS
 msgid ""
 "município de ocorrência do fato gerador do fato gerador do IBS / CBS.\n"
-"Campo preenchido somente quando “indPres = 5 (Operação presencial, fora do estabelecimento) ”, e não tiver endereço do destinatário (Grupo: E05) ou local de entrega (Grupo: G01)."
+"Campo preenchido somente quando 'indPres = 5 (Operação presencial, fora do estabelecimento)', e não estiver preenchido o endereço do destinatário (grupo: E05) nem o local de entrega (grupo: G01)."
 msgstr ""
 
 #. module: l10n_br_account
