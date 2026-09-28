@@ -381,7 +381,7 @@ class InfContratante(models.AbstractModel):
         string="Número do CNPJ do contratante do serviço",
         choice="infcontratante",
         xsd_choice_required=True,
-        xsd_type="TCnpjOpc",
+        xsd_type="TCnpj",
         help=(
             "Número do CNPJ do contratante do serviço\nInformar os zeros não "
             "significativos."
@@ -501,7 +501,7 @@ class RodoInfPag(models.AbstractModel):
 
     mdfe30_indPag = fields.Selection(
         INFPAG_INDPAG_2,
-        string="Indicador da Forma",
+        string="Indicador da Forma de Pagamento",
         xsd_required=True,
         help=(
             "Indicador da Forma de Pagamento:0-Pagamento à Vista;1-Pagamento à Prazo;"

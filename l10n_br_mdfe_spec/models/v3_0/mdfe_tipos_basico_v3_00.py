@@ -30,6 +30,7 @@ TMODALMD = [
 # Tipo processo de emissão do MDF-e
 TPROCEMI = [
     ("0", "0"),
+    ("4", "4"),
 ]
 
 # Indicador de participação do Canal Verde
@@ -1259,7 +1260,8 @@ class Ide(models.AbstractModel):
         xsd_required=True,
         help=(
             "Identificação do processo de emissão do Manifesto\n0 - emissão de"
-            " MDF-e com aplicativo do contribuinte"
+            " MDFe com aplicativo do contribuinte\n4- emissão de MDFe por "
+            "Provedor de Assinatura e Autorização - PAA"
         ),
     )
 
