@@ -21,16 +21,6 @@ TINDDOACAO = [
     ("1", "1"),
 ]
 
-# Tipo de meio de Pagamento do arranjo financeiro
-TMEIOPGTO = [
-    ("01", "01"),
-    ("02", "02"),
-    ("03", "03"),
-    ("04", "04"),
-    ("05", "05"),
-    ("06", "06"),
-]
-
 # Tipo da Operação com Ente Governamental
 TOPERCOMPRAGOV = [
     ("1", "1"),
@@ -812,6 +802,75 @@ class GMonoDif(models.AbstractModel):
     )
 
 
+class TpagAntecipado(models.AbstractModel):
+    """Tipo Pagamento Antecipado
+    Informado para abater as parcelas de antecipação de pagamento, conforme art. 10
+    §4
+    Cada DFe que utilizar deverá utilizar esses tipo no grupo ide"""
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "cte.40.tpagantecipado"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TpagAntecipado"
+
+
+class TpagamentoRtc(models.AbstractModel):
+    """Tipo dados do pagamento para o sistema de arrecadação
+    Cada DFe que utilizar deverá utilizar esses tipo no grupo ide"""
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "cte.40.tpagamentortc"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TpagamentoRtc"
+
+    cte40_pgto_pgtoVinc_id = fields.Many2one(
+        comodel_name="cte.40.tctesimp_pgtovinc",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
+    )
+    cte40_pgto_pgtoVinc_id = fields.Many2one(
+        comodel_name="cte.40.tcte_pgtovinc",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
+    )
+    cte40_pgto_pgtoVinc_id = fields.Many2one(
+        comodel_name="cte.40.tcteos_pgtovinc",
+        xsd_implicit=True,
+        ondelete="cascade",
+        index=True,
+    )
+    cte40_tpMeioPgto = fields.Char(
+        string="",
+        xsd_required=True,
+        xsd_type="TMeioPgto",
+        help="(Meio de pagamento utilizado (ver IT DFe 2026.001)",
+    )
+
+    cte40_CNPJReceb = fields.Char(
+        string="CNPJ do recebedor do pagamento",
+        xsd_required=True,
+        xsd_type="TCnpjRTC",
+        help=("CNPJ do recebedor do pagamento\nInformar zeros não significativos"),
+    )
+
+    cte40_CNPJBasePSP = fields.Char(
+        string="CNPJ base da instituição financeira",
+        xsd_required=True,
+        xsd_type="TCnpjBaseRTC",
+        help=("CNPJ base da instituição financeira\nInformar zeros não significativos"),
+    )
+
+    cte40_nPag = fields.Char(string="Número sequencial do pagamento", xsd_required=True)
+
+    cte40_idTransacao = fields.Char(
+        string="ID específico",
+        xsd_required=True,
+        help=("ID específico da transação financeira conforme o meio de pagamento"),
+    )
+
+
 class Tred(models.AbstractModel):
     "Tipo Redução Base de Cálculo"
 
@@ -1291,6 +1350,17 @@ class TcompraGovReduzido(models.AbstractModel):
         help="Percentual de redução de aliquota em compra governamental",
     )
 
+    cte40_tpOperGov = fields.Selection(
+        TOPERCOMPRAGOV,
+        string="Tipo da operação com ente governamental",
+        xsd_required=True,
+        xsd_type="TOperCompraGov",
+        help=(
+            "Tipo da operação com ente governamental:\n1 - Fornecimento\n2 - "
+            "Recebimento do Pagamento"
+        ),
+    )
+
 
 class TcredPresIbszfm(models.AbstractModel):
     """Tipo Informações do crédito presumido de IBS para fornecimentos a partir
@@ -1365,68 +1435,6 @@ class TcredPresOper(models.AbstractModel):
             "Grupo de Informações do Crédito Presumido referente a CBS, quando"
             " aproveitado pelo emitente do documento."
         ),
-    )
-
-
-class TpagamentoRtc(models.AbstractModel):
-    """Tipo dados do pagamento para o sistema de arrecadação
-    Cada DFe que utilizar deverá utilizar esses tipo no grupo ide"""
-
-    _description = textwrap.dedent(f"    {__doc__}")
-    _name = "cte.40.tpagamentortc"
-    _inherit = "spec.mixin.cte"
-    _binding_type = "TpagamentoRtc"
-
-    cte40_pgto_pgtoVinc_id = fields.Many2one(
-        comodel_name="cte.40.tctesimp_pgtovinc",
-        xsd_implicit=True,
-        ondelete="cascade",
-        index=True,
-    )
-    cte40_pgto_pgtoVinc_id = fields.Many2one(
-        comodel_name="cte.40.tcte_pgtovinc",
-        xsd_implicit=True,
-        ondelete="cascade",
-        index=True,
-    )
-    cte40_pgto_pgtoVinc_id = fields.Many2one(
-        comodel_name="cte.40.tcteos_pgtovinc",
-        xsd_implicit=True,
-        ondelete="cascade",
-        index=True,
-    )
-    cte40_tpMeioPgto = fields.Selection(
-        TMEIOPGTO,
-        string="Meio de pagamento",
-        xsd_required=True,
-        xsd_type="TMeioPgto",
-        help=(
-            "Meio de pagamento:\n01-Boleto\n02-Pix QRCode dinâmico\n03-Pix "
-            "automático\n04-Pix chave ou QRCode estático\n05-TED\n06-TEF / "
-            "booktransfer"
-        ),
-    )
-
-    cte40_CNPJReceb = fields.Char(
-        string="CNPJ do recebedor do pagamento",
-        xsd_required=True,
-        xsd_type="TCnpjRTC",
-        help=("CNPJ do recebedor do pagamento\nInformar zeros não significativos"),
-    )
-
-    cte40_CNPJBasePSP = fields.Char(
-        string="CNPJ base da instituição financeira",
-        xsd_required=True,
-        xsd_type="TCnpjBaseRTC",
-        help=("CNPJ base da instituição financeira\nInformar zeros não significativos"),
-    )
-
-    cte40_nPag = fields.Char(string="Número sequencial do pagamento", xsd_required=True)
-
-    cte40_idTransacao = fields.Char(
-        string="ID específico",
-        xsd_required=True,
-        help=("ID específico da transação financeira conforme o meio de pagamento"),
     )
 
 
