@@ -14,6 +14,8 @@ TENTEGOV = [
     ("2", "2"),
     ("3", "3"),
     ("4", "4"),
+    ("5", "5"),
+    ("6", "6"),
 ]
 
 # Tipo Indicador de Doação
@@ -25,6 +27,8 @@ TINDDOACAO = [
 TOPERCOMPRAGOV = [
     ("1", "1"),
     ("2", "2"),
+    ("3", "3"),
+    ("4", "4"),
 ]
 
 # Tipo de classificação do Crédito Presumido IBS ZFM
@@ -802,16 +806,15 @@ class GMonoDif(models.AbstractModel):
     )
 
 
-class TpagAntecipado(models.AbstractModel):
-    """Tipo Pagamento Antecipado
+class TpagRef(models.AbstractModel):
+    """Tipo Pagamento que ocorre em DFe emitdo anteriormente
     Informado para abater as parcelas de antecipação de pagamento, conforme art. 10
-    §4
-    Cada DFe que utilizar deverá utilizar esses tipo no grupo ide"""
+    §4"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "cte.40.tpagantecipado"
+    _name = "cte.40.tpagref"
     _inherit = "spec.mixin.cte"
-    _binding_type = "TpagAntecipado"
+    _binding_type = "TpagRef"
 
 
 class TpagamentoRtc(models.AbstractModel):
@@ -823,24 +826,6 @@ class TpagamentoRtc(models.AbstractModel):
     _inherit = "spec.mixin.cte"
     _binding_type = "TpagamentoRtc"
 
-    cte40_pgto_pgtoVinc_id = fields.Many2one(
-        comodel_name="cte.40.tctesimp_pgtovinc",
-        xsd_implicit=True,
-        ondelete="cascade",
-        index=True,
-    )
-    cte40_pgto_pgtoVinc_id = fields.Many2one(
-        comodel_name="cte.40.tcte_pgtovinc",
-        xsd_implicit=True,
-        ondelete="cascade",
-        index=True,
-    )
-    cte40_pgto_pgtoVinc_id = fields.Many2one(
-        comodel_name="cte.40.tcteos_pgtovinc",
-        xsd_implicit=True,
-        ondelete="cascade",
-        index=True,
-    )
     cte40_tpMeioPgto = fields.Char(
         string="",
         xsd_required=True,
@@ -1292,7 +1277,9 @@ class TcompraGov(models.AbstractModel):
         xsd_type="TEnteGov",
         help=(
             "Para administração pública direta e suas autarquias e "
-            "fundações:\n1=União\n2=Estados\n3=Distrito Federal\n4=Municípios"
+            "fundações:\n1=União\n2=Estados\n3=Distrito "
+            "Federal\n4=Municípios\n5=Consórcio Público\n6=Comitê Gestor do "
+            "IBS"
         ),
     )
 
@@ -1313,8 +1300,11 @@ class TcompraGov(models.AbstractModel):
         xsd_required=True,
         xsd_type="TOperCompraGov",
         help=(
-            "Tipo da operação com ente governamental:\n1 - Fornecimento\n2 - "
-            "Recebimento do Pagamento"
+            "Tipo da operação com ente governamental:\n1 – Fornecimento com "
+            "pagamento posterior;\n\n2 - Recebimento do pagamento com "
+            "fornecimento já realizado;\n\n3 – Fornecimento com pagamento já "
+            "realizado;\n\n4 – Recebimento do pagamento com fornecimento "
+            "posterior;"
         ),
     )
 
@@ -1335,7 +1325,9 @@ class TcompraGovReduzido(models.AbstractModel):
         xsd_type="TEnteGov",
         help=(
             "Para administração pública direta e suas autarquias e "
-            "fundações:\n1=União\n2=Estados\n3=Distrito Federal\n4=Municípios"
+            "fundações:\n1=União\n2=Estados\n3=Distrito "
+            "Federal\n4=Municípios\n5=Consórcio Público\n6=Comitê Gestor do "
+            "IBS"
         ),
     )
 
@@ -1356,8 +1348,11 @@ class TcompraGovReduzido(models.AbstractModel):
         xsd_required=True,
         xsd_type="TOperCompraGov",
         help=(
-            "Tipo da operação com ente governamental:\n1 - Fornecimento\n2 - "
-            "Recebimento do Pagamento"
+            "Tipo da operação com ente governamental:\n1 – Fornecimento com "
+            "pagamento posterior;\n\n2 - Recebimento do pagamento com "
+            "fornecimento já realizado;\n\n3 – Fornecimento com pagamento já "
+            "realizado;\n\n4 – Recebimento do pagamento com fornecimento "
+            "posterior;"
         ),
     )
 
