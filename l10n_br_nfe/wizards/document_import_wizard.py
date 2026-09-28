@@ -39,6 +39,7 @@ class DocumentImportWizard(models.TransientModel):
             self._extract_key_information(binding.infNFe.Id[3:])
             infNFe = binding.infNFe
             self.nat_op = infNFe.ide.natOp
+            self.amount_total = infNFe.total.ICMSTot.vNF
             self.fiscal_operation_id = self._find_fiscal_operation(
                 self._most_common_cfop(infNFe),
                 self.nat_op,

@@ -273,6 +273,7 @@ class NFeImportWizardTest(TransactionCase):
         self.assertEqual(taxes["vICMS"], 100)
         self.assertEqual(taxes["pIPI"], 5)
         self.assertEqual(taxes["vIPI"], 100)
+        self.assertEqual(self.wizard.amount_total, 14.00)
 
     def test_cfop_warning(self):
         """The wizard line flags a CFOP whose scope (intra/interstate) is
