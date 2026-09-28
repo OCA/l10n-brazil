@@ -291,6 +291,29 @@ msgid "Armamentos"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_infpaa__nfe40_PAASignature
+msgid "Assinatura RSA do Emitente"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model,name:l10n_br_nfe.model_nfe_40_paasignature
+#: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_infpaa__nfe40_PAASignature
+msgid "Assinatura RSA do Emitente para DFe gerados por PAA"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_paasignature__nfe40_signatureValue
+msgid "Assinatura digital padrão RSA"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_paasignature__nfe40_signatureValue
+msgid ""
+"Assinatura digital padrão RSA\n"
+"Converter o atributo Id do DFe para array de bytes e assinar com a chave privada do RSA com algoritmo SHA1 gerando um valor no formato base64."
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_autxml__partner_id
 msgid "Authorized Partner"
 msgstr ""
@@ -445,6 +468,16 @@ msgstr ""
 msgid ""
 "CNPJ do Intermediador da Transação (agenciador, plataforma de delivery, "
 "marketplace e similar) de serviços e de negócios."
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_infpaa__nfe40_CNPJPAA
+msgid "CNPJ do Provedor de Assinatura"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_infpaa__nfe40_CNPJPAA
+msgid "CNPJ do Provedor de Assinatura e Autorização"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -647,18 +680,6 @@ msgid ""
 "Chave de acesso das NF-e referenciadas. Chave de acesso compostas por Código"
 " da UF (tabela do IBGE) + AAMM da emissão + CNPJ do Emitente + modelo, série"
 " e número da NF-e Referenciada + Código Numérico + DV."
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_infprot__nfe40_chNFe
-msgid "Chaves de acesso da NF-e"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_infprot__nfe40_chNFe
-msgid ""
-"Chaves de acesso da NF-e, compostas por: UF do emitente, AAMM da emissão da "
-"NFe, CNPJ do emitente, modelo, série e número da NF-e e código numérico+DV."
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -927,11 +948,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_infprot__nfe40_cMsg
-msgid "Código da Mensagem"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretconsrecinfe__nfe40_cMsg
 msgid "Código da Mensagem (v2.0)"
 msgstr ""
@@ -1089,7 +1105,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_infprot__nfe40_cStat
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretconsrecinfe__nfe40_cStat
 msgid "Código do status da mensagem enviada"
 msgstr ""
@@ -1165,12 +1180,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_enderDest
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_enderDest
 msgid "Dados do endereço (nfe_enderDest)"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model,name:l10n_br_nfe.model_nfe_40_infprot
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tprotnfe__nfe40_infProt
-msgid "Dados do protocolo de status"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1290,17 +1299,8 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_infprot__nfe40_dhRecbto
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretconsrecinfe__nfe40_dhRecbto
 msgid "Data e hora de processamento"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_infprot__nfe40_dhRecbto
-msgid ""
-"Data e hora de processamento, no formato AAAA-MM-DDTHH:MM:SSTZD. Deve ser "
-"preenchida com data e hora da gravação no Banco em caso de Confirmação. Em "
-"caso de Rejeição, com data e hora do recebimento do Lote de NF-e enviado."
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1399,13 +1399,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_infprot__nfe40_xMotivo
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretconsrecinfe__nfe40_xMotivo
 msgid "Descrição literal do status"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_infprot__nfe40_xMotivo
 #: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_tretconsrecinfe__nfe40_xMotivo
 msgid "Descrição literal do status do serviço solicitado."
 msgstr ""
@@ -1418,18 +1416,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_nfe_40_detexport
 msgid "Detalhe da exportação"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_infprot__nfe40_digVal
-msgid "Digest Value da NF-e processada"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_infprot__nfe40_digVal
-msgid ""
-"Digest Value da NF-e processada. Utilizado para conferir a integridade da "
-"NF-e original."
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1764,15 +1750,15 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_tpEmis
 msgid ""
-"Forma de emissão da NF-e\n"
+"Forma de emissão da NF-e:\n"
 "1 - Normal;\n"
-"2 - Contingência FS\n"
-"3 - Regime Especial NFF (NT 2021.002)\n"
-"4 - Contingência DPEC\n"
-"5 - Contingência FSDA\n"
-"6 - Contingência SVC - AN\n"
-"7 - Contingência SVC - RS\n"
-"9 - Contingência off-line NFC-e"
+"2 - Contingência FS;\n"
+"3 - Regime Especial NFF (NT 2021.002);\n"
+"4 - Contingência DPEC;\n"
+"5 - Contingência FSDA;\n"
+"6 - Contingência SVC - AN;\n"
+"7 - Contingência SVC - RS;\n"
+"9 - Contingência off-line da NFC-e e da NF-e com DANFE Simplificado Tipo 2."
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1783,8 +1769,14 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_tpImp
 msgid ""
-"Formato de impressão do DANFE (0-sem DANFE;1-DANFe Retrato; 2-DANFe Paisagem;3-DANFe Simplificado;\n"
-"\t\t\t\t\t\t\t\t\t\t\t4-DANFe NFC-e;5-DANFe NFC-e em mensagem eletrônica)"
+"Formato de impressão do DANFE:\n"
+"0 - Sem DANFE;\n"
+"1 - DANFE Retrato;\n"
+"2 - DANFE Paisagem;\n"
+"3 - DANFE Simplificado;\n"
+"4 - DANFE NFC-e;\n"
+"5 - DANFE NFC-e em mensagem eletrônica;\n"
+"6 - DANFE Simplificado Tipo 2 (nas condições do Ajuste SINIEF 13/26)."
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1848,6 +1840,17 @@ msgstr ""
 #: model:ir.model,name:l10n_br_nfe.model_nfe_40_card
 #: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_detpag__nfe40_card
 msgid "Grupo de Cartões, PIX, Boletos e outros Pagamentos Eletrônicos"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_infPAA
+msgid "Grupo de Informação do Provedor (nfe_infPAA)"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model,name:l10n_br_nfe.model_nfe_40_infpaa
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_infPAA
+msgid "Grupo de Informação do Provedor de Assinatura e Autorização"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -2117,11 +2120,6 @@ msgid "ISSQN"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_infprot__nfe40_Id
-msgid "Id"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_infintermed__nfe40_idCadIntTran
 msgid "Identificador cadastrado"
 msgstr ""
@@ -2175,14 +2173,12 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_tpAmb
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_infprot__nfe40_tpAmb
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretconsrecinfe__nfe40_tpAmb
 msgid "Identificação do Ambiente"
 msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_tpAmb
-#: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_infprot__nfe40_tpAmb
 #: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_tretconsrecinfe__nfe40_tpAmb
 msgid ""
 "Identificação do Ambiente:\n"
@@ -2325,8 +2321,14 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_indPres
 msgid ""
-"Indicador de presença do comprador no estabelecimento comercial no momento da oepração\n"
-"\t\t\t\t\t\t\t\t\t\t\t(0-Não se aplica (ex.: Nota Fiscal complementar ou de ajuste;1-Operação presencial;2-Não presencial, internet;3-Não presencial, teleatendimento;4-NFC-e entrega em domicílio;5-Operação presencial, fora do estabelecimento;9-Não presencial, outros)"
+"Indicador de presença do comprador no estabelecimento comercial no momento da oepração:\n"
+"0 - Não se aplica (ex.: Nota Fiscal complementar ou de ajuste);\n"
+"1 - Operação presencial;\n"
+"2 - Operação não presencial, internet;\n"
+"3 - Operação não presencial, teleatendimento;\n"
+"4 - Operação não presencial com NFC-e e NFe com DANFE Simplificado Tipo 2 (com entrega);\n"
+"5 - Operação presencial, fora do estabelecimento;\n"
+"9 - Operação não presencial, outros."
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -2550,6 +2552,11 @@ msgid "Inscrição Municipal do tomador do serviço"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe40_ISUFEmit
+msgid "Inscrição do emitente na Suframa"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_partner__nfe40_ISUF
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_users__nfe40_ISUF
 msgid ""
@@ -2716,7 +2723,6 @@ msgid "Meio de Pagamento"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_infprot__nfe40_xMsg
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretconsrecinfe__nfe40_xMsg
 msgid "Mensagem da SEFAZ para o emissor"
 msgstr ""
@@ -2810,9 +2816,9 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_infadic_obscont__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_infadic_obsfisco__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_infintermed__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_infpaa__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_infprodemb__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_infprodnff__brl_currency_id
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_infprot__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_infrec__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_infsolicnff__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_ipi__brl_currency_id
@@ -2820,12 +2826,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_med__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_obsitem__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_origcomb__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_paasignature__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_procref__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_rastro__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_rettransp__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tenvinfe__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tnfe__brl_currency_id
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tprotnfe__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretconsrecinfe__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tveiculo__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_veicprod__brl_currency_id
@@ -3099,11 +3105,6 @@ msgid "Nfe40 Procref Infadic"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tprotnfe__nfe40_protNFe_TRetConsReciNFe_id
-msgid "Nfe40 Protnfe Tretconsrecinfe"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_rastro__nfe40_rastro_prod_id
 msgid "Nfe40 Rastro Prod"
 msgstr ""
@@ -3318,19 +3319,6 @@ msgstr ""
 msgid ""
 "Número do Item do Pedido de Compra - Identificação do número do item do "
 "pedido de Compra"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_infprot__nfe40_nProt
-msgid "Número do Protocolo de Status da NF-e"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_infprot__nfe40_nProt
-msgid ""
-"Número do Protocolo de Status da NF-e. 1 posição (1 – Secretaria de Fazenda "
-"Estadual 2 – Receita Federal); 2 - códiga da UF - 2 posições ano; 10 "
-"seqüencial no ano."
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -3730,7 +3718,8 @@ msgid ""
 "1 - emissão de NF-e avulsa pelo Fisco;\n"
 "2 - emissão de NF-e avulsa, pelo contribuinte com seu certificado digital, através do site\n"
 "do Fisco;\n"
-"3- emissão de NF-e pelo contribuinte com aplicativo fornecido pelo Fisco."
+"3 - emissão de NF-e pelo contribuinte com aplicativo fornecido pelo Fisco;\n"
+"4 - emissão de NF-e por Provedor de Assinatura e Autorização - PAA."
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -4126,15 +4115,6 @@ msgid "Série do Documento Fiscal"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_serie
-msgid ""
-"Série do Documento Fiscal\n"
-"série normal 0-889\n"
-"Avulsa Fisco 890-899\n"
-"SCAN 900-999"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
 msgid "TROCO"
 msgstr ""
@@ -4232,11 +4212,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_nfe_40_tenvinfe
 msgid "Tipo Pedido de Concessão de Autorização da Nota Fiscal Eletrônica"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model,name:l10n_br_nfe.model_nfe_40_tprotnfe
-msgid "Tipo Protocolo de status resultado do processamento da NF-e"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -5062,13 +5037,11 @@ msgid "Vencimento"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_infprot__nfe40_verAplic
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretconsrecinfe__nfe40_verAplic
 msgid "Versão do Aplicativo que processou"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_infprot__nfe40_verAplic
 #: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_tretconsrecinfe__nfe40_verAplic
 msgid "Versão do Aplicativo que processou a NF-e"
 msgstr ""
@@ -5418,7 +5391,6 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tenvinfe__nfe40_versao
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tprotnfe__nfe40_versao
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretconsrecinfe__nfe40_versao
 msgid "versao"
 msgstr ""
