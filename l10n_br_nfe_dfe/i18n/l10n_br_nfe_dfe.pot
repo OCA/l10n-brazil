@@ -19,6 +19,11 @@ msgid "1.01"
 msgstr ""
 
 #. module: l10n_br_nfe_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.view_l10n_br_fiscal_dfe_document_form_nfe
+msgid "<span class=\"o_stat_text\">Invoice</span>"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_document_tree
 msgid "Amount"
 msgstr ""
@@ -100,10 +105,25 @@ msgid "Import"
 msgstr ""
 
 #. module: l10n_br_nfe_dfe
+#: model:ir.model,name:l10n_br_nfe_dfe.model_l10n_br_fiscal_document_import_wizard
+msgid "Import Document Wizard"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfe_dfe/models/dfe_document.py:0
 #, python-format
 msgid "Import NF-e XML"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_l10n_br_fiscal_dfe_document__fiscal_document_id
+msgid "Imported Document"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_document_tree
+msgid "Invoice"
 msgstr ""
 
 #. module: l10n_br_nfe_dfe
