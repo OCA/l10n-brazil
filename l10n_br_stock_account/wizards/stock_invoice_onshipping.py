@@ -153,16 +153,19 @@ class StockInvoiceOnshipping(models.TransientModel):
 
         # A Fatura não pode ser criada com os campos price_unit e fiscal_price
         # negativos, o metodo _prepare_br_fiscal_dict retorna o price_unit
-        # negativo, por isso é preciso tira-lo antes do update, e no caso do
-        # fiscal_price é feito um update para caso do valor ser diferente do
-        # price_unit
-        del fiscal_values["price_unit"]
-        fiscal_values["fiscal_price"] = abs(fiscal_values.get("fiscal_price"))
+        # negativo, por isso é preciso tira-los antes do update. O fiscal_price
+        # também não deve ser o valor do Stock Move: ele precisa ser um espelho
+        # do price_unit da linha da Fatura e é calculado pelo
+        # _compute_fiscal_price do l10n_br_fiscal (usar o valor do move deixa 0
+        # quando o preço da Fatura vem de um valor calculado, ex.: Entrada sem
+        # valor informado no Stock Move).
+        fiscal_values.pop("price_unit", None)
+        fiscal_values.pop("fiscal_price", None)
 
         # Como é usada apenas uma move para chamar o _prepare_br_fiscal_dict
         # a quantidade/quantity do dicionario traz a quantidade referente a
         # apenas a essa linha por isso é removido aqui.
-        del fiscal_values["quantity"]
+        fiscal_values.pop("quantity", None)
 
         # Mesmo a quantidade estando errada por ser chamada apenas por uma move
         # no caso das stock.move agrupadas e os valores fiscais e de totais
