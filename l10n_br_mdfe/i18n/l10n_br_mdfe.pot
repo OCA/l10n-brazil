@@ -2371,7 +2371,7 @@ msgstr ""
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_infPAA
-msgid "Grupo de Informação do Provedor"
+msgid "Grupo de Informação do Provedor (mdfe_infPAA)"
 msgstr ""
 
 #. module: l10n_br_mdfe
