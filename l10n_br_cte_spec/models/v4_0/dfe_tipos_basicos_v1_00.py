@@ -826,24 +826,6 @@ class TpagamentoRtc(models.AbstractModel):
     _inherit = "spec.mixin.cte"
     _binding_type = "TpagamentoRtc"
 
-    cte40_pgto_pgtoVinc_id = fields.Many2one(
-        comodel_name="cte.40.tctesimp_pgtovinc",
-        xsd_implicit=True,
-        ondelete="cascade",
-        index=True,
-    )
-    cte40_pgto_pgtoVinc_id = fields.Many2one(
-        comodel_name="cte.40.tcte_pgtovinc",
-        xsd_implicit=True,
-        ondelete="cascade",
-        index=True,
-    )
-    cte40_pgto_pgtoVinc_id = fields.Many2one(
-        comodel_name="cte.40.tcteos_pgtovinc",
-        xsd_implicit=True,
-        ondelete="cascade",
-        index=True,
-    )
     cte40_tpMeioPgto = fields.Char(
         string="",
         xsd_required=True,

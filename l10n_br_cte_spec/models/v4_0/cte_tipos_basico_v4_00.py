@@ -132,13 +132,6 @@ TPROCEMI = [
     ("3", "3"),
 ]
 
-# Tipo processo de emissão do CTe e CTe Simplificado
-TPROCEMICTE = [
-    ("0", "0"),
-    ("3", "3"),
-    ("4", "4"),
-]
-
 # Tipo de data/período programado para entrega
 COMDATA_TPPER = [
     ("1", "Na data"),
@@ -1174,12 +1167,6 @@ class TcteOsInfCte(models.AbstractModel):
         xsd_required=True,
     )
 
-    cte40_pgtoVinc = fields.Many2one(
-        comodel_name="cte.40.tcteos_pgtovinc",
-        string="Grupo de informações da vínculação",
-        help=("Grupo de informações da vínculação com a transação de pagamento"),
-    )
-
     cte40_infCTeNorm = fields.Many2one(
         comodel_name="cte.40.tcteos_infctenorm",
         string="Grupo de informações do CT-e OS Normal",
@@ -1345,12 +1332,12 @@ class TcteOsIde(models.AbstractModel):
         TPROCEMI,
         string="Identificador do processo de emissão",
         xsd_required=True,
-        xsd_type="TProcEmiCTe",
+        xsd_type="TProcEmi",
         help=(
-            "Identificador do processo de emissão do CTe OS\nPreencher com: "
-            "\t\t\t\t\t\t\t\t0 - emissão de CTe com aplicativo do "
-            "contribuinte;\n3 - emissão CTe pelo contribuinte com aplicativo "
-            "fornecido pelo Fisco."
+            "Identificador do processo de emissão do CT-e OS\nPreencher com: "
+            "\n\t\t\t\t\t\t\t\t\t\t\t0 - emissão de CT-e com aplicativo do "
+            "contribuinte;\n\t\t\t\t\t\t\t\t\t\t\t3- emissão CT-e pelo "
+            "contribuinte com aplicativo fornecido pelo Fisco."
         ),
     )
 
@@ -1877,22 +1864,6 @@ class InfTribFed(models.AbstractModel):
     )
 
 
-class TcteOsPgtoVinc(models.AbstractModel):
-    "Grupo de informações da vínculação com a transação de pagamento"
-
-    _description = textwrap.dedent(f"    {__doc__}")
-    _name = "cte.40.tcteos_pgtovinc"
-    _inherit = "spec.mixin.cte"
-    _binding_type = "TcteOs.InfCte.PgtoVinc"
-
-    cte40_pgto = fields.One2many(
-        "cte.40.tpagamentortc",
-        "cte40_pgto_pgtoVinc_id",
-        string="Dados de cada pagamento previsto",
-        xsd_type="TPagamentoRTC",
-    )
-
-
 class TcteOsAutXml(models.AbstractModel):
     """Autorizados para download do XML do DF-e
     Informar CNPJ ou CPF. Preencher os zeros não significativos."""
@@ -1964,6 +1935,7 @@ class TcteOsInfCteNorm(models.AbstractModel):
 
     cte40_refCTeCanc = fields.Char(
         string="Chave de acesso do CT-e Cancelado",
+        xsd_type="TChDFe",
         help=("Chave de acesso do CT-e Cancelado\nSomente para Transporte de Valores"),
     )
 
@@ -3520,12 +3492,6 @@ class TcteInfCte(models.AbstractModel):
         xsd_required=True,
     )
 
-    cte40_pgtoVinc = fields.Many2one(
-        comodel_name="cte.40.tcte_pgtovinc",
-        string="Grupo de informações da vínculação",
-        help=("Grupo de informações da vínculação com a transação de pagamento"),
-    )
-
     cte40_infCTeNorm = fields.Many2one(
         comodel_name="cte.40.tcte_infctenorm",
         string="Grupo de informações do CT-e Normal",
@@ -3697,15 +3663,15 @@ class TcteIde(models.AbstractModel):
     )
 
     cte40_procEmi = fields.Selection(
-        TPROCEMICTE,
+        TPROCEMI,
         string="Identificador do processo de emissão",
         xsd_required=True,
-        xsd_type="TProcEmiCTe",
+        xsd_type="TProcEmi",
         help=(
-            "Identificador do processo de emissão do CTe\nPreencher com: \n0 "
-            "-emissão de CTe com aplicativo do contribuinte;\n3- emissão CTe "
-            "pelo contribuinte com aplicativo fornecido pelo SEBRAE.\n4- "
-            "emissão de CTe por Provedor de Assinatura e Autorização - PAA"
+            "Identificador do processo de emissão do CT-e\nPreencher com: "
+            "\n\t\t\t\t\t\t\t\t\t\t\t0 - emissão de CT-e com aplicativo do "
+            "contribuinte;\n\t\t\t\t\t\t\t\t\t\t\t3- emissão CT-e pelo "
+            "contribuinte com aplicativo fornecido pelo SEBRAE."
         ),
     )
 
@@ -4771,22 +4737,6 @@ class TcteImp(models.AbstractModel):
         help=(
             "Valor total do documento fiscal \n(vTPrest + total do IBS + total da CBS)"
         ),
-    )
-
-
-class TctePgtoVinc(models.AbstractModel):
-    "Grupo de informações da vínculação com a transação de pagamento"
-
-    _description = textwrap.dedent(f"    {__doc__}")
-    _name = "cte.40.tcte_pgtovinc"
-    _inherit = "spec.mixin.cte"
-    _binding_type = "Tcte.InfCte.PgtoVinc"
-
-    cte40_pgto = fields.One2many(
-        "cte.40.tpagamentortc",
-        "cte40_pgto_pgtoVinc_id",
-        string="Dados de cada pagamento previsto",
-        xsd_type="TPagamentoRTC",
     )
 
 
@@ -5904,12 +5854,6 @@ class TcteSimpInfCte(models.AbstractModel):
         xsd_required=True,
     )
 
-    cte40_pgtoVinc = fields.Many2one(
-        comodel_name="cte.40.tctesimp_pgtovinc",
-        string="Grupo de informações da vínculação",
-        help=("Grupo de informações da vínculação com a transação de pagamento"),
-    )
-
     cte40_total = fields.Many2one(
         comodel_name="cte.40.total", string="Valores Totais do CTe", xsd_required=True
     )
@@ -6069,15 +6013,15 @@ class TcteSimpIde(models.AbstractModel):
     )
 
     cte40_procEmi = fields.Selection(
-        TPROCEMICTE,
+        TPROCEMI,
         string="Identificador do processo de emissão",
         xsd_required=True,
-        xsd_type="TProcEmiCTe",
+        xsd_type="TProcEmi",
         help=(
-            "Identificador do processo de emissão do CT-e\nPreencher com: \n0 "
-            "- emissão de CTe com aplicativo do contribuinte;\n3 - emissão CTe"
-            " pelo contribuinte com aplicativo fornecido pelo SEBRAE.\n4 - "
-            "emissão CTe pelo Provedor de Autorização e assinatura - PAA"
+            "Identificador do processo de emissão do CT-e\nPreencher com: "
+            "\n\t\t\t\t\t\t\t\t\t\t\t0 - emissão de CT-e com aplicativo do "
+            "contribuinte;\n\t\t\t\t\t\t\t\t\t\t\t3- emissão CT-e pelo "
+            "contribuinte com aplicativo fornecido pelo SEBRAE."
         ),
     )
 
@@ -7004,22 +6948,6 @@ class TcteSimpImp(models.AbstractModel):
         comodel_name="cte.40.ttribcte",
         string="Grupo de informações do IBS e CBS",
         xsd_type="TTribCTe",
-    )
-
-
-class TcteSimpPgtoVinc(models.AbstractModel):
-    "Grupo de informações da vínculação com a transação de pagamento"
-
-    _description = textwrap.dedent(f"    {__doc__}")
-    _name = "cte.40.tctesimp_pgtovinc"
-    _inherit = "spec.mixin.cte"
-    _binding_type = "TcteSimp.InfCte.PgtoVinc"
-
-    cte40_pgto = fields.One2many(
-        "cte.40.tpagamentortc",
-        "cte40_pgto_pgtoVinc_id",
-        string="Dados de cada pagamento previsto",
-        xsd_type="TPagamentoRTC",
     )
 
 
