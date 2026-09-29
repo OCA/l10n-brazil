@@ -16,14 +16,14 @@ class AccountChartTemplate(models.AbstractModel):
             "name": self.env._("Plano de Contas para empresas do Regime normal"),
             "parent": "br_oca",
             "visible": True,
-            "property_account_receivable_id": "coa_generic_112101",
-            "property_account_payable_id": "coa_generic_211101",
         }
 
     @template("br_oca_generic", "res.company")
     def _get_br_oca_generic_res_company(self):
         return {
             self.env.company.id: {
+                "receivable_account_id": "coa_generic_112101",
+                "payable_account_id": "coa_generic_211101",
                 "account_default_pos_receivable_account_id": "coa_generic_112102",
                 "income_account_id": "coa_generic_611101",
                 "expense_account_id": "coa_generic_511101",

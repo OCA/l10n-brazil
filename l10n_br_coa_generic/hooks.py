@@ -26,5 +26,4 @@ def _post_init_hook(env):
             None,
             mode="init",
             noupdate=True,
-            kind="init",
         )

@@ -58,3 +58,9 @@ analíticas:**
 - Criação do Grupo de Compensação, para o controle de remessas/retornos
   de itens/bens sem valor financeiro, de acordo com as práticas
   contábeis brasileiras.
+
+**Na versão 20.0.1.0.0** os grupos de contas (`account.group`) deixaram de
+existir no Odoo. As contas sintéticas do plano passaram a ser contas
+inativas, ligadas às analíticas pela conta superior (`parent_id`), com o
+mesmo código e nome do grupo que substituem. Grupos sem nenhuma conta
+analítica abaixo deles não foram mantidos.
