@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_account_form" model="ir.ui.view">
+        <field name="name">account.account.form.l10n.br.dere</field>
+        <field name="model">account.account</field>
+        <field name="inherit_id" ref="account.view_account_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="dere" string="DeRE" groups="l10n_br_dere.group_user">
+                    <group>
+                        <group>
+                            <field name="l10n_br_dere_cta_interna" />
+                            <field name="l10n_br_dere_dbr_mista" />
+                            <field name="l10n_br_dere_cta" />
+                            <field name="group_id" readonly="1" />
+                            <field name="l10n_br_dere_cta_sup_id" />
+                            <field name="l10n_br_dere_nivel_cta" />
+                            <field name="l10n_br_dere_ind_cta" />
+                        </group>
+                        <group>
+                            <field name="l10n_br_dere_cta_ref" />
+                            <field name="l10n_br_dere_nat_cta" />
+                            <field name="l10n_br_dere_cod_nat" />
+                            <field name="l10n_br_dere_cod_trib" />
+                            <field
+                                name="l10n_br_dere_cod_trib_description"
+                                invisible="not l10n_br_dere_cod_trib"
+                            />
+                            <field name="l10n_br_dere_ind_trib_iss" />
+                            <field name="l10n_br_dere_desc_cta" />
+                            <field name="l10n_br_dere_reserve_invest" />
+                            <field
+                                name="l10n_br_dere_reserve_income_account_id"
+                                invisible="not l10n_br_dere_reserve_invest"
+                            />
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_account_list" model="ir.ui.view">
+        <field name="name">account.account.list.l10n.br.dere</field>
+        <field name="model">account.account</field>
+        <field name="inherit_id" ref="account.view_account_list" />
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="inside">
+                <field name="l10n_br_dere_cta_ref" optional="hide" />
+                <field name="l10n_br_dere_cod_trib" optional="hide" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
