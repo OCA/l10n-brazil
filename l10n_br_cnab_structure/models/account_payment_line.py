@@ -49,7 +49,7 @@ class AccountPaymentLine(models.Model):
 
     service_type = fields.Selection(
         selection=TIPO_SERVICO,
-        compute="_compute_cnab_payment_way_id",
+        compute="_compute_service_type",
         store=True,
     )
 
@@ -93,38 +93,46 @@ class AccountPaymentLine(models.Model):
                 raise UserError(_("Mapping for batch template not found"))
             bline.batch_template_id = bline.cnab_payment_way_id.batch_id
 
+    def _get_cnab_payment_way_and_service_type(self):
+        """Payment way and service type (G025) of the line.
+
+        A matching payment rule wins; otherwise the first payment way of the
+        payment mode for the CNAB structure is used with service type 20.
+        """
+        self.ensure_one()
+        rule = self._get_matching_rule()
+        if rule:
+            return rule.payment_way_id, rule.service_type
+        ways = self.order_id.payment_mode_id.cnab_payment_way_ids.filtered(
+            lambda w, s=self.order_id.cnab_structure_id: w.cnab_structure_id == s
+        )
+        if ways:
+            return ways[0], "20"
+        return self.env["cnab.payment.way"], False
+
     @api.depends("payment_mode_id", "partner_id", "partner_bank_id")
     def _compute_cnab_payment_way_id(self):
         for line in self:
+            payment_way = line._get_cnab_payment_way_and_service_type()[0]
+            line.cnab_payment_way_id = payment_way
             mode = line.order_id.payment_mode_id
-            cnab_structure = line.order_id.cnab_structure_id
-            rule = line._get_matching_rule()
-
-            if rule:
-                line.cnab_payment_way_id = rule.payment_way_id
-                line.service_type = rule.service_type
-            else:
-                ways = mode.cnab_payment_way_ids.filtered(
-                    lambda w, s=cnab_structure: w.cnab_structure_id == s
+            if not payment_way and mode.cnab_structure_ok:
+                raise UserError(
+                    _(
+                        "CNAB payment way not found.\n"
+                        "Payment Mode: %(payment_mode)s\n"
+                        "CNAB Structure: %(cnab_structure)s"
+                    )
+                    % {
+                        "payment_mode": mode.name,
+                        "cnab_structure": line.order_id.cnab_structure_id.name,
+                    }
                 )
-                if ways:
-                    line.cnab_payment_way_id = ways[0]
-                    line.service_type = "20"
-                else:
-                    line.cnab_payment_way_id = False
-                    line.service_type = False
-                    if mode.cnab_structure_ok:
-                        raise UserError(
-                            _(
-                                "CNAB payment way not found.\n"
-                                "Payment Mode: %(payment_mode)s\n"
-                                "CNAB Structure: %(cnab_structure)s"
-                            )
-                            % {
-                                "payment_mode": mode.name,
-                                "cnab_structure": cnab_structure.name,
-                            }
-                        )
+
+    @api.depends("payment_mode_id", "partner_id", "partner_bank_id")
+    def _compute_service_type(self):
+        for line in self:
+            line.service_type = line._get_cnab_payment_way_and_service_type()[1]
 
     def _get_matching_rule(self):
         """Finds the best matching CNAB rule based on bank and partner attributes."""
@@ -154,34 +162,3 @@ class AccountPaymentLine(models.Model):
                 continue
             return rule
         return False
-
-    def _compute_cnab_payment_way_id(self):
-        for line in self:
-            mode = line.order_id.payment_mode_id
-            cnab_structure = line.order_id.cnab_structure_id
-
-            rule = line._get_matching_rule()
-
-            if rule:
-                line.cnab_payment_way_id = rule.payment_way_id
-                line.service_type = rule.service_type
-            else:
-                ways = mode.cnab_payment_way_ids.filtered(
-                    lambda w, s=cnab_structure: w.cnab_structure_id == s
-                )
-
-                if ways:
-                    line.cnab_payment_way_id = ways[0]
-                else:
-                    line.cnab_payment_way_id = False
-                    raise UserError(
-                        _(
-                            "CNAB payment way not found.\n"
-                            "Payment Mode: %(payment_mode)s\n"
-                            "CNAB Structure: %(cnab_structure)s"
-                        )
-                        % {
-                            "payment_mode": mode.name,
-                            "cnab_structure": cnab_structure.name,
-                        }
-                    )
