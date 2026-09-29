@@ -23,6 +23,7 @@ class TestImportedDocumentTaxAmounts(TransactionCase):
         cls.operation_line = cls.env.ref("l10n_br_fiscal.fo_compras_compras")
         cls.ipi_tax = cls.env.ref("l10n_br_fiscal.tax_ipi_6_5")
         cls.icms_tax = cls.env.ref("l10n_br_fiscal.tax_icms_18")
+        cls.cofins_wh_tax = cls.env.ref("l10n_br_fiscal.tax_cofins_wh_3")
 
     def _create_imported_document(self, tax_values):
         line_values = {
@@ -115,6 +116,25 @@ class TestImportedDocumentTaxAmounts(TransactionCase):
         self.assertEqual(line.amount_tax_not_included, 20.0)
         self.assertEqual(line.fiscal_amount_tax, 20.0)
         self.assertEqual(document.fiscal_amount_tax, 20.0)
+
+    def test_a_withheld_tax_from_the_file_lands_on_its_own_total(self):
+        """Withholding does not raise the note total: it is retained from the payment,
+        so it belongs to amount_tax_withholding and to neither of the other two."""
+        document = self._create_imported_document(
+            {
+                "cofins_wh_tax_id": self.cofins_wh_tax.id,
+                "cofins_wh_base": 210.0,
+                "cofins_wh_percent": 3.0,
+                "cofins_wh_value": 6.3,
+            }
+        )
+        line = document.fiscal_line_ids
+        self.assertEqual(line.amount_tax_withholding, 6.3)
+        self.assertEqual(line.amount_tax_included, 0.0)
+        self.assertEqual(line.amount_tax_not_included, 0.0)
+        self.assertEqual(
+            document.fiscal_amount_total, document.fiscal_amount_untaxed - 6.3
+        )
 
     def test_every_line_tax_field_has_a_value_field(self):
         line_fields = self.env["l10n_br_fiscal.document.line"]._fields
