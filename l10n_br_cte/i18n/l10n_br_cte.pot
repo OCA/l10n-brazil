@@ -120,38 +120,6 @@ msgid "Aliquota IBS UF"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_icmsuffim__cte40_pICMSInter
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_icmsuffim__cte40_pICMSInter
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_icmsuffim__cte40_pICMSInter
-msgid "Alíquota interestadual das UF envolvidas"
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcte_icmsuffim__cte40_pICMSInter
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_icmsuffim__cte40_pICMSInter
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_icmsuffim__cte40_pICMSInter
-msgid ""
-"Alíquota interestadual das UF envolvidas\n"
-"Alíquota interestadual das UF envolvidas"
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_icmsuffim__cte40_pICMSUFFim
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_icmsuffim__cte40_pICMSUFFim
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_icmsuffim__cte40_pICMSUFFim
-msgid "Alíquota interna da UF de término"
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcte_icmsuffim__cte40_pICMSUFFim
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_icmsuffim__cte40_pICMSUFFim
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_icmsuffim__cte40_pICMSUFFim
-msgid ""
-"Alíquota interna da UF de término da prestação do serviço de transporte\n"
-"Alíquota adotada nas operações internas na UF do destinatário"
-msgstr ""
-
-#. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vRec
 msgid "Amount without discount."
 msgstr ""
@@ -691,6 +659,32 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_cte_modal_ferrov__cte40_chCTeFerroOrigem
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_chCTeFerroOrigem
 msgid "Chave de acesso do CT-e emitido pelo ferrovia de origem"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_gpagantecipado__cte40_chDFePagAnt
+#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_gpagantecipado__cte40_chDFePagAnt
+msgid "Chave de acesso do CTe de antecipação"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcte_gpagantecipado__cte40_chDFePagAnt
+#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_gpagantecipado__cte40_chDFePagAnt
+msgid ""
+"Chave de acesso do CTe de antecipação de pagamento\n"
+"Referência a CTe emitido anteriormente, referente a pagamento antecipado"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_gpagantecipado__cte40_chDFePagAnt
+msgid "Chave de acesso do DFe de antecipação"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_gpagantecipado__cte40_chDFePagAnt
+msgid ""
+"Chave de acesso do DFe de antecipação de pagamento (com tpPagAnt=1)\n"
+"Referência a CTe emitido anteriormente, referente a pagamento antecipado"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -1595,6 +1589,13 @@ msgid "Dados das duplicatas"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_pgtovinc__cte40_pgto
+#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_pgtovinc__cte40_pgto
+#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_pgtovinc__cte40_pgto
+msgid "Dados de cada pagamento previsto"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_peri
 msgid "Dados de carga perigosa"
 msgstr ""
@@ -2355,8 +2356,60 @@ msgid "Grupo de Informação do Provedor de Assinatura e Autorização"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_ide__cte40_gPagAntecipado
+#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_gPagAntecipado
+msgid "Grupo de antecipação de pagamento"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_gPagAntecipado
+msgid ""
+"Grupo de antecipação de pagamento\n"
+"\n"
+"Permite informar apenas quando tpPagAnt=3\n"
+"Informado para abater as parcelas de antecipação de\n"
+"pagamento, conforme Art. 10. § 4º"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_ide__cte40_gPagAntecipado
+msgid ""
+"Grupo de antecipação de pagamento\n"
+"Informado para abater as parcelas de antecipação de\n"
+"pagamento, conforme Art. 10. § 4º"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model,name:l10n_br_cte.model_cte_40_tcte_gpagantecipado
+#: model:ir.model,name:l10n_br_cte.model_cte_40_tcteos_gpagantecipado
+#: model:ir.model,name:l10n_br_cte.model_cte_40_tctesimp_gpagantecipado
+msgid ""
+"Grupo de antecipação de pagamento\n"
+"Permite informar apenas quando tpPagAnt=3\n"
+"Informado para abater as parcelas de antecipação de\n"
+"pagamento, conforme Art. 10. § 4º"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_detgtv__cte40_infVeiculo
 msgid "Grupo de informações"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_infcte__cte40_pgtoVinc
+#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_infcte__cte40_pgtoVinc
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_pgtoVinc
+msgid "Grupo de informações da vínculação"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model,name:l10n_br_cte.model_cte_40_tcte_pgtovinc
+#: model:ir.model,name:l10n_br_cte.model_cte_40_tcteos_pgtovinc
+#: model:ir.model,name:l10n_br_cte.model_cte_40_tctesimp_pgtovinc
+#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_infcte__cte40_pgtoVinc
+#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_infcte__cte40_pgtoVinc
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_pgtoVinc
+msgid "Grupo de informações da vínculação com a transação de pagamento"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -2605,21 +2658,30 @@ msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_procEmi
-#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_procEmi
 msgid ""
 "Identificador do processo de emissão do CT-e\n"
 "Preencher com: \n"
-"\t\t\t\t\t\t\t\t\t\t\t0 - emissão de CT-e com aplicativo do contribuinte;\n"
-"\t\t\t\t\t\t\t\t\t\t\t3- emissão CT-e pelo contribuinte com aplicativo fornecido pelo SEBRAE."
+"0 - emissão de CTe com aplicativo do contribuinte;\n"
+"3 - emissão CTe pelo contribuinte com aplicativo fornecido pelo SEBRAE.\n"
+"4 - emissão CTe pelo Provedor de Autorização e assinatura - PAA"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_procEmi
+msgid ""
+"Identificador do processo de emissão do CTe\n"
+"Preencher com: \n"
+"0 -emissão de CTe com aplicativo do contribuinte;\n"
+"3- emissão CTe pelo contribuinte com aplicativo fornecido pelo SEBRAE.\n"
+"4- emissão de CTe por Provedor de Assinatura e Autorização - PAA"
 msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_ide__cte40_procEmi
 msgid ""
-"Identificador do processo de emissão do CT-e OS\n"
-"Preencher com: \n"
-"\t\t\t\t\t\t\t\t\t\t\t0 - emissão de CT-e com aplicativo do contribuinte;\n"
-"\t\t\t\t\t\t\t\t\t\t\t3- emissão CT-e pelo contribuinte com aplicativo fornecido pelo Fisco."
+"Identificador do processo de emissão do CTe OS\n"
+"Preencher com: \t\t\t\t\t\t\t\t0 - emissão de CTe com aplicativo do contribuinte;\n"
+"3 - emissão CTe pelo contribuinte com aplicativo fornecido pelo Fisco."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3063,31 +3125,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_imp__cte40_ICMSUFFim
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_imp__cte40_ICMSUFFim
-msgid "Informações do ICMS de partilha com a UF"
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model,name:l10n_br_cte.model_cte_40_tcte_icmsuffim
-#: model:ir.model,name:l10n_br_cte.model_cte_40_tcteos_icmsuffim
-#: model:ir.model,name:l10n_br_cte.model_cte_40_tctesimp_icmsuffim
-msgid ""
-"Informações do ICMS de partilha com a UF de término do serviço de\n"
-"transporte na operação interestadual\n"
-"Grupo a ser informado nas prestações interestaduais para consumidor final, não\n"
-"contribuinte do ICMS"
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_imp__cte40_ICMSUFFim
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_imp__cte40_ICMSUFFim
-msgid ""
-"Informações do ICMS de partilha com a UF de término do serviço de transporte na operação interestadual\n"
-"Grupo a ser informado nas prestações interestaduais para consumidor final, não contribuinte do ICMS"
-msgstr ""
-
-#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_ide__cte40_infPercurso
 msgid "Informações do Percurso"
 msgstr ""
@@ -3345,6 +3382,24 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tgtve_emit__cte40_IEST
 #: model:ir.model.fields,help:l10n_br_cte.field_res_company__cte40_IEST
 msgid "Inscrição Estadual do Substituto Tributário"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_emit__cte40_ISUFEmit
+#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_emit__cte40_ISUFEmit
+#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_emit__cte40_ISUFEmit
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte40_ISUFEmit
+msgid "Inscrição do emitente da Suframa"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_emit__cte40_ISUFEmit
+#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_emit__cte40_ISUFEmit
+#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tgtve_emit__cte40_ISUFEmit
+#: model:ir.model.fields,help:l10n_br_cte.field_res_company__cte40_ISUFEmit
+msgid ""
+"Inscrição do emitente da Suframa\n"
+"Informar o número do Cadastro do emitente na Suframa. Campo obrigatório nas operações que se beneficiam de incentivos fiscais existentes nas áreas sob controle da SUFRAMA com alíquota zero da CBS referente aos arts. 451 e 466 da LC 214/25"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3694,7 +3749,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_cobr__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_dup__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_fat__brl_currency_id
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_icmsuffim__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_gpagantecipado__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_infctesub__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_infnf__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_infnfe__brl_currency_id
@@ -3702,13 +3757,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_infsolicnff__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_paasignature__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_pass__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_pgtovinc__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_autxml__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_cobr__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_compl__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_dup__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_emit__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_fat__brl_currency_id
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_icmsuffim__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_gpagantecipado__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_ide__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_imp__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_infcte__brl_currency_id
@@ -3721,6 +3777,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_infq__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_obscont__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_obsfisco__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_pgtovinc__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_seg__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_toma__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_vprest__brl_currency_id
@@ -3733,7 +3790,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_emit__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_fat__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_fluxo__brl_currency_id
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_icmsuffim__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_gpagantecipado__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_ide__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_imp__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_infcarga__brl_currency_id
@@ -3749,6 +3806,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_obsfisco__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_paasignature__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_pass__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_pgtovinc__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_toma__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_autxml__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_compl__brl_currency_id
@@ -4343,22 +4401,6 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__cte40_tpImp__2
 msgid "Paisagem."
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_icmsuffim__cte40_pFCPUFFim
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_icmsuffim__cte40_pFCPUFFim
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_icmsuffim__cte40_pFCPUFFim
-msgid "Percentual do ICMS relativo ao Fundo"
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcte_icmsuffim__cte40_pFCPUFFim
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_icmsuffim__cte40_pFCPUFFim
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_icmsuffim__cte40_pFCPUFFim
-msgid ""
-"Percentual do ICMS relativo ao Fundo de Combate à pobreza (FCP) na UF de término da prestação do serviço de transporte\n"
-"Alíquota adotada nas operações internas na UF do destinatário"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -5002,6 +5044,34 @@ msgid "Tipo Dados do Imposto para CT-e OS"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_ide__cte40_tpPagAnt
+#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_tpPagAnt
+msgid "Tipo Pagamento ou Pagamento Antecipado"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_tpPagAnt
+msgid ""
+"Tipo Pagamento ou Pagamento Antecipado\n"
+"Informar:\n"
+"1 - Pagamento Antecipado \n"
+"3 - Fornecimento com pagamento realizado anteriormente\n"
+"\n"
+"Este campo é opcional e apenas deve ser informado em caso de Antecipação de Pagamento e no CTe de fornecimento associada a esses pagamentos antecipados, demais hipóteses de prestação de serviço sem antecipação não devem preencher."
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_ide__cte40_tpPagAnt
+msgid ""
+"Tipo Pagamento ou Pagamento Antecipado\n"
+"Informar:\n"
+"1 - Pagamento Antecipado \n"
+"3 - Fornecimento com pagamento realizado anteriormente\n"
+"\n"
+"Este campo é opcional e apenas deve ser informado quando pagamento que ocorre antes da prestação do serviço e na DFe de fornecimento associada a esses pagamentos, demais hipóteses de prestação de serviço sem antecipação não devem preencher."
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model,name:l10n_br_cte.model_cte_40_tprotcte
 msgid "Tipo Protocolo de status resultado do processamento da CT-e"
 msgstr ""
@@ -5596,21 +5666,6 @@ msgid "Valor a Receber"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_icmsuffim__cte40_vBCUFFim
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_icmsuffim__cte40_vBCUFFim
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_icmsuffim__cte40_vBCUFFim
-msgid "Valor da BC do ICMS na UF de término"
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcte_icmsuffim__cte40_vBCUFFim
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_icmsuffim__cte40_vBCUFFim
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_icmsuffim__cte40_vBCUFFim
-msgid ""
-"Valor da BC do ICMS na UF de término da prestação do serviço de transporte"
-msgstr ""
-
-#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_infnf__cte40_vBC
 msgid "Valor da Base de Cálculo do ICMS"
 msgstr ""
@@ -5685,47 +5740,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_ferrov__cte40_vFrete
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vFrete
 msgid "Valor do Frete do Tráfego Mútuo"
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_icmsuffim__cte40_vICMSUFFim
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_icmsuffim__cte40_vICMSUFFim
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_icmsuffim__cte40_vICMSUFFim
-msgid "Valor do ICMS de partilha para a UF"
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcte_icmsuffim__cte40_vICMSUFIni
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_icmsuffim__cte40_vICMSUFIni
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_icmsuffim__cte40_vICMSUFIni
-msgid ""
-"Valor do ICMS de partilha para a UF de início da prestação do serviço de "
-"transporte"
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcte_icmsuffim__cte40_vICMSUFFim
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_icmsuffim__cte40_vICMSUFFim
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_icmsuffim__cte40_vICMSUFFim
-msgid ""
-"Valor do ICMS de partilha para a UF de término da prestação do serviço de "
-"transporte"
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_icmsuffim__cte40_vFCPUFFim
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_icmsuffim__cte40_vFCPUFFim
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_icmsuffim__cte40_vFCPUFFim
-msgid "Valor do ICMS relativo ao Fundo"
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcte_icmsuffim__cte40_vFCPUFFim
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_icmsuffim__cte40_vFCPUFFim
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_icmsuffim__cte40_vFCPUFFim
-msgid ""
-"Valor do ICMS relativo ao Fundo de Combate á Pobreza (FCP) da UF de término "
-"da prestação"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -6060,13 +6074,6 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_ide__cte40_tomaTerceiro
 msgid "tomaTerceiro"
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_icmsuffim__cte40_vICMSUFIni
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_icmsuffim__cte40_vICMSUFIni
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_icmsuffim__cte40_vICMSUFIni
-msgid "vICMSUFIni"
 msgstr ""
 
 #. module: l10n_br_cte
