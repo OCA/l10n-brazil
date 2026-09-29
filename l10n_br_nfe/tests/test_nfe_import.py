@@ -310,33 +310,34 @@ class NFeImportTest(TransactionCase):
         self.assertEqual(nfe.partner_id.vat, "68161525650")
 
     def test_import_out_nfe_of_a_recipient_abroad(self):
-        """A recipient abroad carries idEstrangeiro instead of CNPJ or CPF."""
+        """An export NF-e: the recipient abroad carries idEstrangeiro instead of
+        CNPJ or CPF, and its address follows the MOC convention for abroad."""
         xml = self._sample_xml()
-        dest = xml[xml.index("<dest>") : xml.index("</dest>")]
-        dest_abroad = re.sub(
-            r"<(CNPJ|CPF)>[^<]*</(CNPJ|CPF)>",
-            "<idEstrangeiro>EXTERIOR</idEstrangeiro>",
-            dest,
-            count=1,
-        )
-        for tag, value in (
-            ("cMun", "9999999"),
-            ("xMun", "EXTERIOR"),
-            ("UF", "EX"),
-            ("cPais", "2496"),
-            ("xPais", "ESTADOS UNIDOS"),
-        ):
-            dest_abroad = re.sub(
-                rf"<{tag}>[^<]*</{tag}>", f"<{tag}>{value}</{tag}>", dest_abroad
-            )
-        dest_abroad = re.sub(r"<CEP>[^<]*</CEP>", "", dest_abroad)
-        xml = xml.replace(dest, dest_abroad, 1)
+        dest_abroad = """<dest>
+        <idEstrangeiro>123456789</idEstrangeiro>
+        <xNome>ACME IMPORTS LLC</xNome>
+        <enderDest>
+          <xLgr>MAIN STREET</xLgr>
+          <nro>100</nro>
+          <xBairro>EX</xBairro>
+          <cMun>9999999</cMun>
+          <xMun>EXTERIOR</xMun>
+          <UF>EX</UF>
+          <cPais>2496</cPais>
+          <xPais>ESTADOS UNIDOS</xPais>
+        </enderDest>
+        <indIEDest>9</indIEDest>
+      </dest>"""
+        xml = re.sub(r"<dest>.*?</dest>", dest_abroad, xml, count=1, flags=re.S)
+        xml = re.sub(r"<idDest>\d</idDest>", "<idDest>3</idDest>", xml, count=1)
+        self.assertNotIn("<CPF>", xml[xml.index("<dest>") : xml.index("</dest>")])
 
         binding = TnfeProc.from_xml(xml)
         nfe = self.env["l10n_br_fiscal.document"].import_binding_nfe(
             binding, edoc_type="out", dry_run=True
         )
         self.assertTrue(nfe.partner_id)
+        self.assertEqual(nfe.partner_id.legal_name, "ACME IMPORTS LLC")
         self.assertFalse(nfe.partner_id.vat)
 
     def test_import_in_nfe_ipi_reaches_the_totals(self):
