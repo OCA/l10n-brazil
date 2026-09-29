@@ -16,6 +16,7 @@ nfselib.paulistana
 num2words
 phonenumbers
 requests
+signxml
 transitions
 unidecode
 workalendar
