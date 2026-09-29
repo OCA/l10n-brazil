@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <record id="cest_search" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.cest.search</field>
@@ -43,9 +43,9 @@
             <group name="group_code_name" position="before">
                 <div class="oe_button_box" name="button_box">
                     <button
-                        type="action"
-                        class="oe_stat_button"
                         id="product_tmpl_button"
+                        class="oe_stat_button"
+                        type="action"
                         icon="fa-bars"
                         name="%(product.product_template_action_all)d"
                         context="{'search_default_cest_id': id}"
