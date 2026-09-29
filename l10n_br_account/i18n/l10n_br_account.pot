@@ -2858,6 +2858,23 @@ msgid "Grupo de Informações do Intermediador da Transação"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_gPagAntecipado
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_gPagAntecipado
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_gPagAntecipado
+msgid "Grupo de antecipação de pagamento"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__cte40_gPagAntecipado
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__cte40_gPagAntecipado
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__cte40_gPagAntecipado
+msgid ""
+"Grupo de antecipação de pagamento\n"
+"Informado para abater as parcelas de antecipação de\n"
+"pagamento, conforme Art. 10. § 4º"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_detPag
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_detPag
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_detPag
@@ -2876,6 +2893,20 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_procRef
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_procRef
 msgid "Grupo de informações"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_pgtoVinc
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_pgtoVinc
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_pgtoVinc
+msgid "Grupo de informações da vínculação"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__cte40_pgtoVinc
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__cte40_pgtoVinc
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__cte40_pgtoVinc
+msgid "Grupo de informações da vínculação com a transação de pagamento"
 msgstr ""
 
 #. module: l10n_br_account
@@ -3629,10 +3660,11 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__cte40_procEmi
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__cte40_procEmi
 msgid ""
-"Identificador do processo de emissão do CT-e\n"
+"Identificador do processo de emissão do CTe\n"
 "Preencher com: \n"
-"\t\t\t\t\t\t\t\t\t\t\t0 - emissão de CT-e com aplicativo do contribuinte;\n"
-"\t\t\t\t\t\t\t\t\t\t\t3- emissão CT-e pelo contribuinte com aplicativo fornecido pelo SEBRAE."
+"0 -emissão de CTe com aplicativo do contribuinte;\n"
+"3- emissão CTe pelo contribuinte com aplicativo fornecido pelo SEBRAE.\n"
+"4- emissão de CTe por Provedor de Assinatura e Autorização - PAA"
 msgstr ""
 
 #. module: l10n_br_account
@@ -4165,22 +4197,6 @@ msgstr ""
 msgid ""
 "Informações do Destinatário do CT-e\n"
 "Poderá não ser informado para os CT-e de redespacho intermediário e serviço vinculado a multimodal. Nos demais casos deverá sempre ser informado."
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_ICMSUFFim
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_ICMSUFFim
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_ICMSUFFim
-msgid "Informações do ICMS de partilha com a UF"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__cte40_ICMSUFFim
-#: model:ir.model.fields,help:l10n_br_account.field_account_move__cte40_ICMSUFFim
-#: model:ir.model.fields,help:l10n_br_account.field_account_payment__cte40_ICMSUFFim
-msgid ""
-"Informações do ICMS de partilha com a UF de término do serviço de transporte na operação interestadual\n"
-"Grupo a ser informado nas prestações interestaduais para consumidor final, não contribuinte do ICMS"
 msgstr ""
 
 #. module: l10n_br_account
@@ -6636,6 +6652,26 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__nfe40_transporta
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__nfe40_transporta
 msgid "The partner that is doing the delivery service."
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_tpPagAnt
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_tpPagAnt
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_tpPagAnt
+msgid "Tipo Pagamento ou Pagamento Antecipado"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__cte40_tpPagAnt
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__cte40_tpPagAnt
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__cte40_tpPagAnt
+msgid ""
+"Tipo Pagamento ou Pagamento Antecipado\n"
+"Informar:\n"
+"1 - Pagamento Antecipado \n"
+"3 - Fornecimento com pagamento realizado anteriormente\n"
+"\n"
+"Este campo é opcional e apenas deve ser informado quando pagamento que ocorre antes da prestação do serviço e na DFe de fornecimento associada a esses pagamentos, demais hipóteses de prestação de serviço sem antecipação não devem preencher."
 msgstr ""
 
 #. module: l10n_br_account
