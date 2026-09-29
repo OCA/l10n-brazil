@@ -288,9 +288,7 @@ class ResourceCalendar(models.Model):
         """
         if not date:
             date = datetime.now()
-        if date.weekday() >= 5:
-            return False
-        elif self.is_bank_holiday(date):
+        if date.weekday() >= 5 or self.is_bank_holiday(date):
             return False
         return True
 

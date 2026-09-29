@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!-- Copyright 2016 KMEE - Luis Felipe Miléo <mileo@kmee.com.br>
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
@@ -10,8 +10,8 @@
         <field name="target">new</field>
     </record>
     <menuitem
-        action="action_workalendar_holiday_import"
         id="sub_menu_impotigrt_holidays"
+        action="action_workalendar_holiday_import"
         name="Import Brazilian Holidays"
         parent="resource.menu_resource_config"
         sequence="11"
