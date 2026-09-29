@@ -1,10 +1,11 @@
 # Copyright (C) 2012 - TODAY  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from erpbrasil.base import misc
+from erpbrasil.base.fiscal import cnpj_cpf
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools import clean_context, parse_contact_from_email
 
 from odoo.addons.l10n_br_base.tools import check_cnpj_cpf, check_ie
 
@@ -25,42 +26,15 @@ class Lead(models.Model):
         string="Name and Surname", help="Name used in fiscal documents"
     )
 
-    show_l10n_br = fields.Boolean(
-        compute="_compute_show_l10n_br",
-        help="Indicates if Brazilian localization fields should be displayed.",
-    )
-
-    @api.depends("country_id")
+    @api.depends("country_id", "partner_id.country_id")
     def _compute_show_l10n_br(self):
-        """
-        Defines when Brazilian localization fields should be displayed.
-        """
+        """Show the Brazilian fields when the Lead or its Customer is Brazilian."""
+        br_country = self.env.ref("base.br")
         for record in self:
-            show_l10n_br = False
-            if (
-                record.partner_id
-                and record.partner_id.country_id == self.env.ref("base.br")
-                or record.country_id == self.env.ref("base.br")
-            ):
-                show_l10n_br = True
-
-            record.show_l10n_br = show_l10n_br
-
-            # Apesar do metodo create ter os campos informados
-            # o metodo _prepare_address_values_from_partner esta sendo
-            # chamado com o partner vazio e os campos abaixo com False
-            # o que acaba apagando os campos, por enquanto essa é a forma
-            # encontrada para contornar o problema.
-            # TODO: revalidar nas migrações
-            partner = record.partner_id
-            if partner:
-                result = {
-                    "street_name": partner.street_name,
-                    "street_number": partner.street_number,
-                    "district": partner.district,
-                    "city_id": partner.city_id.id,
-                }
-                record.update(result)
+            record.show_l10n_br = bool(
+                record.country_id == br_country
+                or record.partner_id.country_id == br_country
+            )
 
     @api.onchange("contact_name")
     def _onchange_contact_name(self):
@@ -100,56 +74,113 @@ class Lead(models.Model):
             self.city_id = self.partner_id.city_id
             self.city = self.partner_id.city_id.name
 
-    @api.onchange("zip")
-    def _onchange_zip(self):
-        self.zip = misc.format_zipcode(self.zip, self.country_id.code)
-
     @api.onchange("partner_id")
     def _onchange_partner_id(self):
+        """Fill the Lead with the Customer data, Brazilian fiscal data included.
+
+        Odoo 20.0 computes the core Lead fields from ``partner_id`` (see
+        ``_compute_partner_address_values``), the Brazilian ones still need
+        this sync. A contact of a company takes the fiscal data of its
+        company, as the Brazilian documents are issued to the company.
+        """
         result = super()._prepare_values_from_partner(self.partner_id)
 
         if self.partner_id:
-            result["street_name"] = self.partner_id.street_name
-            result["street_number"] = self.partner_id.street_number
-            result["street2"] = self.partner_id.street2
-            result["district"] = self.partner_id.district
-            result["city_id"] = self.partner_id.city_id.id
-            result["country_id"] = self.partner_id.country_id.id
-            result["vat"] = self.partner_id.vat
+            partner = self.partner_id
+            parent = partner.parent_id
+            result.update(
+                {
+                    "street_name": partner.street_name,
+                    "street_number": partner.street_number,
+                    "street2": partner.street2,
+                    "district": partner.district,
+                    "city_id": partner.city_id.id,
+                    "country_id": partner.country_id.id,
+                    "vat": partner.vat
+                    if partner.is_company
+                    else parent.vat or partner.vat,
+                }
+            )
             result = self._convert_to_write(result)
-            if self.partner_id.country_id.code == "BR":
+            if partner.country_id.code == "BR":
                 self._normalize_vat(result)
-            if self.partner_id.is_company:
-                result["legal_name"] = self.partner_id.legal_name
-                result["l10n_br_ie_code"] = self.partner_id.l10n_br_ie_code
-                result["l10n_br_im_code"] = self.partner_id.l10n_br_im_code
-                result["l10n_br_isuf_code"] = self.partner_id.l10n_br_isuf_code
+            if partner.is_company:
+                result["legal_name"] = partner.legal_name
+                result["l10n_br_ie_code"] = partner.l10n_br_ie_code
+                result["l10n_br_im_code"] = partner.l10n_br_im_code
+                result["l10n_br_isuf_code"] = partner.l10n_br_isuf_code
             else:
-                result["partner_name"] = self.partner_id.parent_id.name or False
-                result["legal_name"] = self.partner_id.parent_id.legal_name or False
-                result["l10n_br_ie_code"] = (
-                    self.partner_id.parent_id.l10n_br_ie_code or False
-                )
-                result["l10n_br_im_code"] = (
-                    self.partner_id.parent_id.l10n_br_im_code or False
-                )
-                result["l10n_br_isuf_code"] = (
-                    self.partner_id.parent_id.l10n_br_isuf_code or False
-                )
-                result["website"] = self.partner_id.parent_id.website or False
-                result["l10n_br_rg_code"] = self.partner_id.l10n_br_rg_code
-                result["name_surname"] = self.partner_id.legal_name
+                result["partner_name"] = parent.name or False
+                result["legal_name"] = parent.legal_name or False
+                result["l10n_br_ie_code"] = parent.l10n_br_ie_code or False
+                result["l10n_br_im_code"] = parent.l10n_br_im_code or False
+                result["l10n_br_isuf_code"] = parent.l10n_br_isuf_code or False
+                result["website"] = parent.website or False
+                result["l10n_br_rg_code"] = partner.l10n_br_rg_code
+                result["name_surname"] = partner.legal_name
         self.update(result)
         return result
 
-    def _prepare_customer_values(self, name, is_company, parent_id=False):
+    def _is_br_company(self):
+        """Whether the Lead holds a CNPJ, i.e. is a company in Brazil."""
+        return bool(self.vat and cnpj_cpf.validar_cnpj(self.vat))
+
+    def _create_customer(self):
+        """Create a partner from the Lead data and link it to the Lead.
+
+        Same as the core method, except that in Brazil the customer company is
+        created before the contact person: Odoo 20.0 creates the contact first
+        and lets it create its company from ``parent_name``, both carrying the
+        ``vat`` of the Lead, which cannot be done here as the CNPJ identifies
+        the company and two partners cannot share it (see l10n_br_base).
+        """
+        self.ensure_one()
+        Partner = self.env["res.partner"].with_context(clean_context(self.env.context))
+        contact_name = self.contact_name
+        if not contact_name:
+            contact_name = (
+                parse_contact_from_email(self.email_from)[0]
+                if self.email_from
+                else False
+            )
+
+        partner_company = self.partner_id
+        if not partner_company and self.partner_name and self._is_br_company():
+            partner_company = Partner.create(
+                self._prepare_customer_values(self.partner_name)
+            )
+
+        if contact_name:
+            return Partner.create(
+                self._prepare_customer_values(
+                    contact_name, parent_id=partner_company.id
+                )
+            )
+        if partner_company:
+            return partner_company
+        return Partner.create(self._prepare_customer_values(self.name))
+
+    def _prepare_customer_values(self, partner_name, parent_id=False):
         """Extract data from lead to create a partner.
-        :param name : future name of the partner
-        :param is_company : True if the partner is a company
+
+        :param partner_name : future name of the partner
         :param parent_id : id of the parent partner (False if no parent)
         :return: dictionary of values to give at res_partner.create()
         """
-        values = super()._prepare_customer_values(name, is_company, parent_id)
+        values = super()._prepare_customer_values(partner_name, parent_id=parent_id)
+        # A Brazilian company is created from its own CNPJ and company name,
+        # never from the free text ``partner_name`` of the Lead: another
+        # partner would hold the same CNPJ, which l10n_br_base forbids.
+        values.pop("parent_name", None)
+        # Odoo 20.0 removed the Person/Company switch, the company case is
+        # deduced from the CNPJ and the individual case from the CPF (same
+        # rule as res.partner._compute_is_company in l10n_br_base). A partner
+        # created under another one is a contact, not the company itself.
+        is_company = self._is_br_company() and not parent_id
+        vat = self.vat
+        if parent_id and self._is_br_company():
+            # the CNPJ belongs to the company (the parent partner)
+            vat = False
         values.update(
             {
                 "legal_name": self.legal_name if is_company else self.name_surname,
@@ -157,7 +188,7 @@ class Lead(models.Model):
                 "street_number": self.street_number,
                 "district": self.district,
                 "city_id": self.city_id.id,
-                "vat": self.vat,
+                "vat": vat,
             }
         )
         if self.vat and not values.get("country_id"):
@@ -212,9 +243,9 @@ class Lead(models.Model):
 
     @api.model
     def cnpj_validation_disabled(self):
-        cnpj_validation_disabled = (
-            self.env["ir.config_parameter"]
-            .sudo()
-            .get_param("l10n_br_base.disable_cpf_cnpj_validation")
-        )
-        return cnpj_validation_disabled
+        """Whether the CPF/CNPJ validation is disabled.
+
+        Kept for the users of this method (l10n_br_cnpj_search wizards), the
+        setting itself is handled by the l10n_br_base mixin.
+        """
+        return self._l10n_br_disable_vat_validation()

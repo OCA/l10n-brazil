@@ -334,3 +334,44 @@ class CrmLeadTest(TransactionCase):
             inter_lead.show_l10n_br,
             "Field show_l10n_br should be False in International case.",
         )
+
+    def test_create_company_and_contact(self):
+        """A Brazilian Lead holds the company data: the partner created is the
+        company (CNPJ holder) and the contact person is created under it,
+        without the CNPJ (two partners cannot share the same CNPJ).
+        """
+        lead = self.env["crm.lead"].create(
+            {
+                "name": "Test Company and Contact",
+                "partner_name": "Teste Empresa Contato",
+                "contact_name": "Teste Contato",
+                "legal_name": "Teste Empresa Contato",
+                "name_surname": "Teste Contato",
+                "vat": "57.240.310/0001-09",
+                "l10n_br_ie_code": "041.092.540.590",
+                "state_id": self.env.ref("base.state_br_sp").id,
+                "country_id": self.env.ref("base.br").id,
+            }
+        )
+
+        contact = lead._create_customer()
+        company = contact.parent_id
+
+        self.assertEqual(company.name, "Teste Empresa Contato", "Wrong company.")
+        self.assertEqual(
+            company.legal_name, "Teste Empresa Contato", "Wrong company legal name."
+        )
+        self.assertEqual(company.vat, "57240310000109", "Wrong company CNPJ.")
+        self.assertTrue(company.is_company, "The CNPJ holder should be a company.")
+        self.assertEqual(
+            company.l10n_br_ie_code,
+            "041.092.540.590",
+            "The company should hold the State Tax Number.",
+        )
+        self.assertEqual(contact.name, "Teste Contato", "Wrong contact name.")
+        self.assertFalse(
+            contact.vat, "The contact person should not hold the CNPJ of the company."
+        )
+        self.assertFalse(
+            contact.is_company, "The contact person should not be a company."
+        )
