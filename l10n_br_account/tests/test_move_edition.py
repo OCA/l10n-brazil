@@ -251,7 +251,6 @@ class TestMoveEdition(TransactionCase):
             self.assertEqual(line_form.uot_id, self.env.ref("uom.product_uom_unit"))
             line_form.product_uom_id = self.env.ref("l10n_br_fiscal.UOM_PC")
             self.assertEqual(line_form.uot_id, self.env.ref("l10n_br_fiscal.UOM_PC"))
-            line_form.uot_id = self.env.ref("uom.product_uom_unit")
 
             line_form.price_unit = 42
             line_form.quantity = 5
@@ -281,6 +280,12 @@ class TestMoveEdition(TransactionCase):
 
             # ensure manually setting a ncm_id is properly saved (not recomputed):
             line_form.ncm_id = self.env.ref("l10n_br_fiscal.ncm_94013090")
+
+            # the taxable unit depends on the NCM: this NCM fixes none, so it
+            # falls back to the commercial unit.
+            self.assertEqual(line_form.uot_id, self.env.ref("l10n_br_fiscal.UOM_PC"))
+            # ensure manually setting a uot_id is properly saved (not recomputed):
+            line_form.uot_id = self.env.ref("uom.product_uom_unit")
 
             # ensure manually setting a xx_tax_id is properly saved (not recomputed):
             line_form.icms_tax_id = self.env.ref("l10n_br_fiscal.tax_icms_18")
@@ -340,15 +345,13 @@ class TestMoveEdition(TransactionCase):
         )
         self.assertNotEqual(aml.ncm_id.code, self.product_id.ncm_id.code)
 
-        # Neither the product nor the NCM fixes a taxable unit here, so the
-        # taxable unit is the commercial one.
         self.assertEqual(aml.uom_id, self.env.ref("l10n_br_fiscal.UOM_PC"))
-        self.assertEqual(aml.uot_id, self.env.ref("l10n_br_fiscal.UOM_PC"))
+        self.assertEqual(aml.uot_id, self.env.ref("uom.product_uom_unit"))
         self.assertEqual(
             aml.fiscal_document_line_id.uom_id, self.env.ref("l10n_br_fiscal.UOM_PC")
         )
         self.assertEqual(
-            aml.fiscal_document_line_id.uot_id, self.env.ref("l10n_br_fiscal.UOM_PC")
+            aml.fiscal_document_line_id.uot_id, self.env.ref("uom.product_uom_unit")
         )
 
         self.assertTrue(move.tax_totals, "tax_totals must not be empty.")
