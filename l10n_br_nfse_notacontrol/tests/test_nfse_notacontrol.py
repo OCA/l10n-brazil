@@ -38,7 +38,13 @@ class TestNfseNotaControl(TransactionCase):
                 "l10n_br_im_code": "778151",
             }
         )
-        cls.company.write({"processador_edoc": "oca", "nfse_environment": "2"})
+        cls.company.write(
+            {
+                "processador_edoc": "oca",
+                "provedor_nfse": "nacional",
+                "nfse_environment": "2",
+            }
+        )
         doc_type = cls.env["l10n_br_fiscal.document.type"].search(
             [("code", "=", "SE")], limit=1
         )
