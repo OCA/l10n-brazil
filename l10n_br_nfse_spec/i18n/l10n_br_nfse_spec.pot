@@ -14,7 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_nfse_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__00
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexP__00
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexT__00
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tcexploracaorodoviaria__nfse10_categVeic__00
@@ -23,7 +22,6 @@ msgid "00"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__01
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexP__01
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexT__01
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tcexploracaorodoviaria__nfse10_categVeic__01
@@ -33,7 +31,6 @@ msgid "01"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__02
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexP__02
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexT__02
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tcexploracaorodoviaria__nfse10_categVeic__02
@@ -43,7 +40,6 @@ msgid "02"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__03
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexP__03
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexT__03
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tcexploracaorodoviaria__nfse10_categVeic__03
@@ -53,7 +49,6 @@ msgid "03"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__04
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexP__04
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexT__04
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tcexploracaorodoviaria__nfse10_categVeic__04
@@ -63,7 +58,6 @@ msgid "04"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__05
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexP__05
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexT__05
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tcexploracaorodoviaria__nfse10_categVeic__05
@@ -73,7 +67,6 @@ msgid "05"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__06
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexP__06
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexT__06
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tcexploracaorodoviaria__nfse10_categVeic__06
@@ -82,7 +75,6 @@ msgid "06"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__07
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexP__07
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexT__07
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tcexploracaorodoviaria__nfse10_categVeic__07
@@ -91,7 +83,6 @@ msgid "07"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__08
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexP__08
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexT__08
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tcexploracaorodoviaria__nfse10_categVeic__08
@@ -100,7 +91,6 @@ msgid "08"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__09
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexT__09
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tcexploracaorodoviaria__nfse10_categVeic__09
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__09
@@ -135,7 +125,6 @@ msgstr ""
 
 #. module: l10n_br_nfse_spec
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexT__11
-#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tcexploracaorodoviaria__nfse10_categVeic__11
 msgid "11"
 msgstr ""
 
@@ -215,8 +204,124 @@ msgid "26"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__49
+msgid "49"
+msgstr ""
+
+#. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__50
+msgid "50"
+msgstr ""
+
+#. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__51
+msgid "51"
+msgstr ""
+
+#. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__52
+msgid "52"
+msgstr ""
+
+#. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__53
+msgid "53"
+msgstr ""
+
+#. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__54
+msgid "54"
+msgstr ""
+
+#. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__55
+msgid "55"
+msgstr ""
+
+#. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__56
+msgid "56"
+msgstr ""
+
+#. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__60
+msgid "60"
+msgstr ""
+
+#. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__61
+msgid "61"
+msgstr ""
+
+#. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__62
+msgid "62"
+msgstr ""
+
+#. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__63
+msgid "63"
+msgstr ""
+
+#. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__64
+msgid "64"
+msgstr ""
+
+#. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__65
+msgid "65"
+msgstr ""
+
+#. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__66
+msgid "66"
+msgstr ""
+
+#. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__67
+msgid "67"
+msgstr ""
+
+#. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__70
+msgid "70"
+msgstr ""
+
+#. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__71
+msgid "71"
+msgstr ""
+
+#. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__72
+msgid "72"
+msgstr ""
+
+#. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__73
+msgid "73"
+msgstr ""
+
+#. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__74
+msgid "74"
+msgstr ""
+
+#. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__75
+msgid "75"
+msgstr ""
+
+#. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__98
+msgid "98"
+msgstr ""
+
+#. module: l10n_br_nfse_spec
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tcdocdedred__nfse10_tpDedRed__99
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tcsubstituicao__nfse10_cMotivo__99
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__99
 msgid "99"
 msgstr ""
 
@@ -270,6 +375,26 @@ msgid "Alíquota aplicada sobre a base de cálculo para apuração do ISSQN."
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tctriboutrospiscofins__nfse10_pAliqCofins
+msgid "Alíquota da COFINS"
+msgstr ""
+
+#. module: l10n_br_nfse_spec
+#: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tctriboutrospiscofins__nfse10_pAliqCofins
+msgid "Alíquota da COFINS, relativa à apuração própria (%)."
+msgstr ""
+
+#. module: l10n_br_nfse_spec
+#: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tctriboutrospiscofins__nfse10_pAliqPis
+msgid "Alíquota do PIS"
+msgstr ""
+
+#. module: l10n_br_nfse_spec
+#: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tctriboutrospiscofins__nfse10_pAliqPis
+msgid "Alíquota do PIS, relativa à apuração própria (%)."
+msgstr ""
+
+#. module: l10n_br_nfse_spec
 #: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tcinfnfse__nfse10_ambGer
 msgid "Ambiente gerador da NFS-e"
 msgstr ""
@@ -306,18 +431,17 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tcexploracaorodoviaria__nfse10_categVeic
 msgid ""
 "Categorias de veículos para cobrança:\n"
-"00 - Categoria de Veículos (tipo não informado na nota de origem);\n"
+"00 - Categoria de veículos (tipo não informado na nota de origem)\n"
 "01 - Automóvel, caminhonete e furgão;\n"
 "02 - Caminhão leve, ônibus, caminhão trator e furgão;\n"
 "03 - Automóvel e caminhonete com semireboque;\n"
 "04 - Caminhão, caminhão-trator, caminhão-trator com semi-reboque e ônibus;\n"
 "05 - Automóvel e caminhonete com reboque;\n"
-"06 - Caminhão com reboque e caminhãotrator com semi-reboque;\n"
-"07 - Caminhão com reboque e caminhãotrator com semi-reboque;\n"
-"08 - Caminhão com reboque e caminhãotrator com semi-reboque;\n"
-"09 - Motocicletas, motonetas e bicicletas motorizadas;\n"
-"10 - Veículo especial;\n"
-"11 - Veículo Isento;"
+"06 - Caminhão com reboque;\n"
+"07 - Caminhão trator com semi-reboque;\n"
+"08 - Motocicletas, motonetas e bicicletas motorizadas;\n"
+"09 - Veículo especial;\n"
+"10 - Veículo Isento;"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
@@ -446,7 +570,31 @@ msgid ""
 "06 - Operação Tributável a Alíquota Zero;\n"
 "07 - Operação Tributável da Contribuição;\n"
 "08 - Operação sem Incidência da Contribuição;\n"
-"09 - Operação com Suspensão da Contribuição;"
+"09 - Operação com Suspensão da Contribuição;\n"
+"49 - Outras Operações de Saída;\n"
+"50 - Operação com Direito a Crédito – Vinculada Exclusivamente a Receita Tributada no Mercado Interno;\n"
+"51 - Operação com Direito a Crédito – Vinculada Exclusivamente a Receita Não-Tributada no Mercado Interno;\n"
+"52 - Operação com Direito a Crédito – Vinculada Exclusivamente a Receita de Exportação;\n"
+"53 - Operação com Direito a Crédito – Vinculada a Receitas Tributadas e Não-Tributadas no Mercado Interno;\n"
+"54 - Operação com Direito a Crédito – Vinculada a Receitas Tributadas no Mercado Interno e de Exportação;\n"
+"55 - Operação com Direito a Crédito – Vinculada a Receitas Não Tributadas no Mercado Interno e de Exportação;\n"
+"56 - Operação com Direito a Crédito – Vinculada a Receitas Tributadas e Não-Tributadas no Mercado Interno e de Exportação;\n"
+"60 - Crédito Presumido – Operação de Aquisição Vinculada Exclusivamente a Receita Tributada no Mercado Interno;\n"
+"61 - Crédito Presumido – Operação de Aquisição Vinculada Exclusivamente a Receita Não-Tributada no Mercado Interno;\n"
+"62 - Crédito Presumido – Operação de Aquisição Vinculada Exclusivamente a Receita de Exportação;\n"
+"63 - Crédito Presumido – Operação de Aquisição Vinculada a Receitas Tributadas e Não-Tributadas no Mercado Interno;\n"
+"64 - Crédito Presumido – Operação de Aquisição Vinculada a Receitas Tributadas no Mercado Interno e de Exportação;\n"
+"65 - Crédito Presumido – Operação de Aquisição Vinculada a Receitas Não-Tributadas no Mercado Interno e de Exportação;\n"
+"66 - Crédito Presumido – Operação de Aquisição Vinculada a Receitas Tributadas e Não-Tributadas no Mercado Interno e de Exportação;\n"
+"67 - Crédito Presumido – Outras Operações;\n"
+"70 - Operação de Aquisição sem Direito a Crédito;\n"
+"71 - Operação de Aquisição com Isenção;\n"
+"72 - Operação de Aquisição com Suspensão;\n"
+"73 - Operação de Aquisição a Alíquota Zero;\n"
+"74 - Operação de Aquisição sem Incidência da Contribuição;\n"
+"75 - Operação de Aquisição por Substituição Tributária;\n"
+"98 - Outras Operações de Entrada;\n"
+"99 - Outras Operações;"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
@@ -820,7 +968,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tcinfodedred__nfse10_documentos
 #: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tcinfotributacao__nfse10_tribFed
 #: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tclistadocdedred__nfse10_docDedRed
-#: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tctribnacional__nfse10_piscofins
+#: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tctribfederal__nfse10_piscofins
 msgid "Grupo de informações"
 msgstr ""
 
@@ -947,7 +1095,7 @@ msgid "Grupo de informações do endereço nacional do Emitente da NFS-e"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
-#: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tctribnacional__nfse10_piscofins
+#: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tctribfederal__nfse10_piscofins
 msgid "Grupo de informações dos tributos PIS/COFINS"
 msgstr ""
 
@@ -1171,6 +1319,7 @@ msgid ""
 "6 – Repasse plano de saúde;\n"
 "7 – Serviços;\n"
 "8 – Subempreitada de mão de obra;\n"
+"9 - Profissional parceiro;\n"
 "99 – Outras deduções;"
 msgstr ""
 
@@ -1206,7 +1355,7 @@ msgstr ""
 
 #. module: l10n_br_nfse_spec
 #: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tcinfdps__nfse10_tpAmb
-msgid "Identificação do Ambiente: 1"
+msgid "Identificação do Ambiente"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
@@ -1402,8 +1551,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tcregtrib__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tcserv__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tcsubstituicao__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tctribfederal__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tctribmunicipal__brl_currency_id
-#: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tctribnacional__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tctriboutrospiscofins__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tctribtotal__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tctribtotalmonet__brl_currency_id
@@ -1729,11 +1878,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfse_spec
-#: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tclocprest__nfse10_opConsumServ
-msgid "Opção"
-msgstr ""
-
-#. module: l10n_br_nfse_spec
 #: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tcexigsuspensa__nfse10_tpSusp
 msgid "Opção para Exigibilidade Suspensa"
 msgstr ""
@@ -1757,15 +1901,7 @@ msgid ""
 "Opção para que o contribuinte optante pelo Simples Nacional ME/EPP (opSimpNac = 3) possa indicar, ao emitir o documento fiscal, em qual regime de apuração os tributos federais e municipal estão inseridos, caso tenha ultrapassado algum sublimite ou limite definido para o Simples Nacional.\n"
 "1 – Regime de apuração dos tributos federais e municipal pelo SN;\n"
 "2 – Regime de apuração dos tributos federais pelo SN e ISSQN  por fora do SN conforme respectiva legislação municipal do tributo;\n"
-"3 – Regime de apuração dos tributos federais e municipal por fora do SN conforme respectivas legilações federal e municipal de cada tributo;"
-msgstr ""
-
-#. module: l10n_br_nfse_spec
-#: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tclocprest__nfse10_opConsumServ
-msgid ""
-"Opção para que o emitente informe onde ocorreu o consumo do serviço prestado.\n"
-"0 - Consumo do serviço prestado ocorrido no município do local da prestação;\n"
-"1 - Consumo do serviço prestado ocorrido ocorrido no exterior ;"
+"3 – Regime de apuração dos tributos federais e municipal por fora do SN conforme respectivas legislações federal e municipal de cada tributo;"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
@@ -2053,13 +2189,13 @@ msgid "TCSubstituicao"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
-#: model:ir.model,name:l10n_br_nfse_spec.model_nfse_10_tctribmunicipal
-msgid "TCTribMunicipal"
+#: model:ir.model,name:l10n_br_nfse_spec.model_nfse_10_tctribfederal
+msgid "TCTribFederal"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
-#: model:ir.model,name:l10n_br_nfse_spec.model_nfse_10_tctribnacional
-msgid "TCTribNacional"
+#: model:ir.model,name:l10n_br_nfse_spec.model_nfse_10_tctribmunicipal
+msgid "TCTribMunicipal"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
@@ -2135,15 +2271,23 @@ msgstr ""
 
 #. module: l10n_br_nfse_spec
 #: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tctriboutrospiscofins__nfse10_tpRetPisCofins
-msgid "Tipo de retencao do Pis/Cofins"
+msgid "Tipo de retenção do PIS/COFINS"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
 #: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tctriboutrospiscofins__nfse10_tpRetPisCofins
 msgid ""
-"Tipo de retencao do Pis/Cofins:\n"
-"1 - Retido;\n"
-"2 - Não Retido;"
+"Tipo de retenção do PIS/COFINS:\n"
+"0 - PIS/COFINS/CSLL Não Retidos;\n"
+"1 - PIS/COFINS Retidos;\n"
+"2 - PIS/COFINS Não Retidos;\n"
+"3 - PIS/COFINS/CSLL Retidos;\n"
+"4 - PIS/COFINS Retidos, CSLL Não Retido;\n"
+"5 - PIS Retido, COFINS/CSLL Não Retido;\n"
+"6 - COFINS Retido, PIS/CSLL Não Retido;\n"
+"7 - PIS Não Retido, COFINS/CSLL Retidos;\n"
+"8 - PIS/COFINS Não Retidos, CSLL Retido;\n"
+"9 - COFINS Não Retido, PIS/CSLL Retidos;"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
@@ -2217,23 +2361,14 @@ msgid "Uso da Administração Tributária Municipal."
 msgstr ""
 
 #. module: l10n_br_nfse_spec
-#: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tctriboutrospiscofins__nfse10_pAliqCofins
-msgid "Valor da Alíquota da COFINS (%)"
-msgstr ""
-
-#. module: l10n_br_nfse_spec
-#: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tctriboutrospiscofins__nfse10_pAliqPis
-msgid "Valor da Alíquota do PIS (%)"
-msgstr ""
-
-#. module: l10n_br_nfse_spec
 #: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tctriboutrospiscofins__nfse10_vBCPisCofins
 msgid "Valor da Base de Cálculo do PIS/COFINS"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
 #: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tctriboutrospiscofins__nfse10_vBCPisCofins
-msgid "Valor da Base de Cálculo do PIS/COFINS (R$)."
+msgid ""
+"Valor da Base de Cálculo do PIS/COFINS, relativo à apuração própria (R$)."
 msgstr ""
 
 #. module: l10n_br_nfse_spec
@@ -2262,6 +2397,26 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tctriboutrospiscofins__nfse10_vCofins
+msgid "Valor do débito"
+msgstr ""
+
+#. module: l10n_br_nfse_spec
+#: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tctriboutrospiscofins__nfse10_vCofins
+msgid "Valor do débito de COFINS apuração própria (R$)."
+msgstr ""
+
+#. module: l10n_br_nfse_spec
+#: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tctriboutrospiscofins__nfse10_vPis
+msgid "Valor do débito de PIS apuração própria"
+msgstr ""
+
+#. module: l10n_br_nfse_spec
+#: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tctriboutrospiscofins__nfse10_vPis
+msgid "Valor do débito de PIS apuração própria (R$)."
+msgstr ""
+
+#. module: l10n_br_nfse_spec
 #: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tccomexterior__nfse10_vServMoeda
 msgid "Valor do serviço prestado expresso"
 msgstr ""
@@ -2280,14 +2435,14 @@ msgstr ""
 
 #. module: l10n_br_nfse_spec
 #: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tcvaloresnfse__nfse10_vLiq
-msgid "Valor líquido = Valor do serviço"
+msgid "Valor líquido da NFS-e"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
 #: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tcvaloresnfse__nfse10_vLiq
 msgid ""
-"Valor líquido = Valor do serviço - Desconto condicionado - Desconto incondicionado - Valores retidos (CP, IRRF, CSLL)* - Valores, se retidos (ISSQN, PIS, COFINS)**\n"
-"Valor Líquido (R$) = vServ – vDescIncond – vDescCond – (vRetCP + vRetIRRF + vRetCSLL)* – (vISSQN - vPIS + vCOFINS)**"
+"Valor líquido da NFS-e.\n"
+"Valor líquido (R$) = Valor do serviço - Desconto condicionado - Desconto incondicionado - Valores retidos"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
@@ -2321,28 +2476,18 @@ msgid "Valor monetário (vCalcBM)"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
-#: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tctriboutrospiscofins__nfse10_vCofins
-msgid "Valor monetário do COFINS (R$)"
-msgstr ""
-
-#. module: l10n_br_nfse_spec
-#: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tctribnacional__nfse10_vRetCP
+#: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tctribfederal__nfse10_vRetCP
 msgid "Valor monetário do CP(R$)"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
-#: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tctribnacional__nfse10_vRetCSLL
+#: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tctribfederal__nfse10_vRetCSLL
 msgid "Valor monetário do CSLL (R$)"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
-#: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tctribnacional__nfse10_vRetIRRF
+#: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tctribfederal__nfse10_vRetIRRF
 msgid "Valor monetário do IRRF (R$)"
-msgstr ""
-
-#. module: l10n_br_nfse_spec
-#: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tctriboutrospiscofins__nfse10_vPis
-msgid "Valor monetário do PIS (R$)"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
@@ -2503,14 +2648,14 @@ msgstr ""
 
 #. module: l10n_br_nfse_spec
 #: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tcvaloresnfse__nfse10_vTotalRet
-msgid "Valor total"
+msgid "Valor total das retenções de tributos"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
 #: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tcvaloresnfse__nfse10_vTotalRet
 msgid ""
-"Valor total de retenções = Σ(CP + IRRF + CSLL  + ISSQN* +  (PIS + COFINS)**)\n"
-"vTotalRet (R$) = (vRetCP + vRetIRRF + vRetCSLL) + vISSQN* + (vPIS + vCOFINS)**"
+"Valor total das retenções de tributos da NFS-e.\n"
+"Valor total de retenções (R$) = Σ(vRetCP + vRetIRRF+ vRetCSLL + ISSQN*)"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
@@ -2532,13 +2677,14 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tccomexterior__nfse10_vincPrest
 msgid ""
 "Vínculo entre as partes no negócio:\n"
-"0 - Sem vínculo com o tomador/ Prestador\n"
+"0 - Sem vínculo com o Tomador/Prestador\n"
 "1 - Controlada;\n"
 "2 - Controladora;\n"
 "3 - Coligada;\n"
 "4 - Matriz;\n"
 "5 - Filial ou sucursal;\n"
-"6 - Outro vínculo;"
+"6 - Outro vínculo;\n"
+"9 - Desconhecido;"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
