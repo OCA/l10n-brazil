@@ -2,18 +2,10 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from erpbrasil.base.fiscal import cnpj_cpf
-from erpbrasil.base.fiscal.edoc import ChaveEdoc
 
 from odoo import api, fields, models
 
 from odoo.addons.l10n_br_base.tools import check_cnpj_cpf, check_ie
-
-from ..constants.fiscal import (
-    MODELO_FISCAL_CTE,
-    MODELO_FISCAL_NFCE,
-    MODELO_FISCAL_NFE,
-    MODELO_FISCAL_NFSE,
-)
 
 
 class DocumentRelated(models.Model):
@@ -68,19 +60,6 @@ class DocumentRelated(models.Model):
     document_total_amount = fields.Monetary(
         string="Valor Total", currency_field="currency_id"
     )
-
-    @api.constrains("document_key")
-    def _check_key(self):
-        for record in self:
-            if not record.document_key:
-                return
-            if record.document_type_id.code in (
-                MODELO_FISCAL_CTE,
-                MODELO_FISCAL_NFCE,
-                MODELO_FISCAL_NFE,
-                MODELO_FISCAL_NFSE,
-            ):
-                ChaveEdoc(chave=record.document_key, validar=True)
 
     @api.constrains("cnpj_cpf")
     def _check_cnpj_cpf(self):
