@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <menuitem
+        id="menu_assessment_root"
+        name="Assisted Assessment"
+        sequence="96"
+        groups="l10n_br_assisted_assessment.group_user"
+    />
+    <menuitem
+        id="menu_assessment_period"
+        name="Assessments"
+        parent="menu_assessment_root"
+        action="action_assessment_period"
+        sequence="10"
+    />
+    <menuitem
+        id="menu_assessment_request"
+        name="Requests"
+        parent="menu_assessment_root"
+        action="action_assessment_request"
+        sequence="15"
+    />
+    <menuitem
+        id="menu_assessment_divergence"
+        name="Divergences"
+        parent="menu_assessment_root"
+        action="action_assessment_divergence"
+        sequence="20"
+    />
+</odoo>
