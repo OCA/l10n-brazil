@@ -2,6 +2,7 @@
 brazilcep
 email-validator
 erpbrasil-base>=2.4.2
+erpbrasil.assinatura
 num2words
 phonenumbers
 transitions
