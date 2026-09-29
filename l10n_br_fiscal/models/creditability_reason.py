@@ -48,8 +48,7 @@ class CreditabilityReason(models.Model):
     )
 
     date_start = fields.Date(
-        help="First day this reason may be applied. Empty means no start"
-        " limit.",
+        help="First day this reason may be applied. Empty means no start" " limit.",
     )
 
     date_end = fields.Date(
@@ -88,6 +87,4 @@ class CreditabilityReason(models.Model):
         return True
 
     def name_get(self):
-        return [
-            (record.id, f"[{record.code}] {record.name}") for record in self
-        ]
+        return [(record.id, f"[{record.code}] {record.name}") for record in self]
