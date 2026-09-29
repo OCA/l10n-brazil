@@ -205,12 +205,6 @@ class Document(models.Model):
 
     imported_document = fields.Boolean(string="Imported", copy=False)
 
-    xml_error_message = fields.Text(
-        readonly=True,
-        string="XML validation errors",
-        copy=False,
-    )
-
     currency_id = fields.Many2one(
         related="company_id.currency_id",
         comodel_name="res.currency",
