@@ -370,33 +370,34 @@ ul.auto-toc {
 !! source digest: sha256:62f9f517b5330b247f660fecfc7c6eadeae05e3a515bbfdaa853b8390cf529f4
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/18.0/l10n_br_assisted_assessment"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-18-0/l10n-brazil-18-0-l10n_br_assisted_assessment"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=18.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
-<p>Core of the Brazilian IBS/CBS assisted assessment (<em>apuração assistida</em>)
-introduced by article 46 of Complementary Law 214/2025 and regulated by
-Decree 12,955/2026 (CBS) and CGIBS Resolution 6/2026 (IBS).</p>
-<p>Under the new model the tax administration calculates the monthly
-balance from the taxpayer’s electronic fiscal documents and presents it
-for confirmation. The taxpayer can no longer assess from scratch: the
-own assessment exists only as an adjustment of the presented one, and
-confirming, adjusting or <strong>staying silent</strong> all constitute the tax
-credit.</p>
-<p>This module provides the tribute-agnostic part of that cycle:</p>
+<p>Núcleo da apuração assistida de IBS/CBS instituída pelo artigo 46 da Lei
+Complementar 214/2025 e regulamentada pelo Decreto 12.955/2026 (CBS) e
+pela Resolução CGIBS 6/2026 (IBS).</p>
+<p>No novo modelo a administração tributária calcula o saldo mensal a
+partir dos documentos fiscais eletrônicos do contribuinte e o apresenta
+para confirmação. O contribuinte não apura mais do zero: a apuração
+própria existe só como ajuste da que foi apresentada, e confirmar,
+ajustar ou <strong>ficar em silêncio</strong> constituem o crédito tributário.</p>
+<p>Este módulo cobre a parte independente do tributo desse ciclo:</p>
 <ul class="simple">
-<li>monthly assessment periods per company and tribute, with the
-regulatory deadlines (presentation by the 15th, or the 20th when the
-taxpayer is required to file the DeRE, and confirmation by the last
-business day of the following month);</li>
-<li>the asynchronous request lifecycle, including the daily call quota
-imposed by the gateway;</li>
-<li>reconciliation of the presented lines against the booked fiscal
-documents, classifying every difference and suggesting how to repair
-it;</li>
-<li>deadline warnings and automatic expiration, so that silence is never
-silent.</li>
+<li>períodos mensais de apuração por empresa e tributo, com os prazos
+regulamentares (apresentação até o dia 15, ou até o dia 20 quando o
+contribuinte está obrigado à DeRE, e confirmação até o último dia útil
+do mês seguinte);</li>
+<li>o ciclo assíncrono das solicitações, inclusive a cota diária imposta
+pelo gateway;</li>
+<li>conciliação das linhas apresentadas com os documentos fiscais
+escriturados, classificando cada diferença e sugerindo como
+corrigi-la;</li>
+<li>inventário do escriturado, visível mesmo antes do download, com o
+CBS/IBS esperado de cada documento autorizado do período;</li>
+<li>avisos de prazo e expiração automática, para que o silêncio nunca
+passe despercebido.</li>
 </ul>
-<p>The HTTP transport is not part of this module. The CBS is served by the
-Receita Federal and the IBS by the CGIBS, each with its own endpoints,
-so transmission and payload parsing are provided by separate transport
-addons that implement the <tt class="docutils literal">_transmit</tt> and <tt class="docutils literal">_parse_payload</tt> hooks.</p>
+<p>O transporte HTTP não faz parte deste módulo. A CBS é servida pela
+Receita Federal e o IBS pelo CGIBS, cada um com os seus endpoints, então
+a transmissão e o parse do arquivo ficam em addons de transporte que
+implementam os hooks <tt class="docutils literal">_transmit</tt> e <tt class="docutils literal">_parse_payload</tt>.</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
@@ -413,51 +414,54 @@ addons that implement the <tt class="docutils literal">_transmit</tt> and <tt cl
 </div>
 <div class="section" id="configuration">
 <h1><a class="toc-backref" href="#toc-entry-1">Configuration</a></h1>
-<p>Go to <em>Settings &gt; Companies</em>, open the company and use the <strong>Assisted
-Assessment</strong> tab:</p>
+<p>Em <em>Configurações &gt; Empresas</em>, abra a empresa e use a aba <strong>Apuração
+Assistida</strong>:</p>
 <ul class="simple">
-<li><strong>Subject to DeRE</strong>: enable it for taxpayers required to file the
-Specific Regimes Declaration. The assessment is then presented by the
-20th instead of the 15th of the following month.</li>
-<li><strong>Assessment Calendar</strong>: the calendar holding the national, state and
-municipal holidays of the head office domicile, used to find the last
-business day of the deadline. Without a calendar only weekends are
-skipped. Holidays can be loaded with the wizard provided by
+<li><strong>Sujeito à DeRE</strong>: ative para contribuintes obrigados à Declaração de
+Regimes Específicos. A apuração passa a ser apresentada até o dia 20,
+e não até o dia 15 do mês seguinte.</li>
+<li><strong>Calendário da Apuração</strong>: calendário com os feriados nacionais,
+estaduais e municipais do domicílio da matriz, usado para achar o
+último dia útil do prazo. Sem calendário, só os fins de semana são
+pulados. Os feriados podem ser carregados com o assistente do
 <tt class="docutils literal">l10n_br_resource</tt>.</li>
-<li><strong>Reconciliation Tolerance</strong>: absolute difference below which a line
-is considered reconciled. Defaults to one cent.</li>
+<li><strong>Tolerância da Conciliação</strong>: diferença absoluta abaixo da qual a
+linha é considerada conciliada. O padrão é um centavo.</li>
 </ul>
-<p>Holidays added to the calendar after an assessment has been created do
-not recompute its deadline. Save the assessment again to refresh it.</p>
+<p>Feriados incluídos no calendário depois que a apuração já existe não
+recalculam o prazo. Salve a apuração de novo para atualizá-lo.</p>
 </div>
 <div class="section" id="usage">
 <h1><a class="toc-backref" href="#toc-entry-2">Usage</a></h1>
-<p>Open <em>Assisted Assessment &gt; Assessments</em> and create one record per
-tribute and period, using the <tt class="docutils literal"><span class="pre">YYYY-MM</span></tt> format. The presentation date
-and the deadline are computed from the period and the company
-configuration.</p>
-<p>The monthly routine has three steps:</p>
+<p>Abra <em>Apuração Assistida &gt; Apurações</em> e crie um registro por tributo e
+período, no formato <tt class="docutils literal"><span class="pre">YYYY-MM</span></tt>. A data de apresentação e o prazo são
+calculados a partir do período e da configuração da empresa.</p>
+<p>A rotina mensal tem três passos:</p>
 <ol class="arabic simple">
-<li><strong>Download</strong> the assessment presented by the tax administration, with
-<em>Request Debits</em> and <em>Request Credits</em>. Both buttons require a
-transport addon; without one, paste the payload into the request and
-apply it. Debits and credits are separate services, so a direction
-that has not been downloaded yet never produces divergences.</li>
-<li><strong>Reconcile</strong> against the bookkeeping. Every assessment line is
-matched by access key to an authorised fiscal document and classified
-as a different value, a document only in the assessment, a document
-only in the bookkeeping or a credit that was not granted. Each
-divergence carries the action that repairs it, since adjustments are
-made by issuing fiscal documents.</li>
-<li><strong>Confirm</strong> the assessment. Confirming requires every divergence to
-be handled or ignored, because it constitutes the tax credit and
-implies acknowledgement of debt.</li>
+<li><strong>Baixar</strong> a apuração apresentada pela administração tributária, com
+<em>Solicitar Débitos</em> e <em>Solicitar Créditos</em>. Os dois botões exigem um
+addon de transporte; sem ele, cole o arquivo na solicitação e
+aplique. Débitos e créditos são serviços separados, então uma direção
+que ainda não foi baixada (nem marcada como ausente) não gera
+divergência de documento só na escrituração.</li>
+<li><strong>Conciliar</strong> com o escriturado. Cada linha da apuração é casada pela
+chave de acesso a um documento fiscal autorizado e classificada como
+valor diferente, documento só na apuração, documento só na
+escrituração ou crédito não concedido. A aba <em>Escrituração</em> lista o
+lado do ERP: valor esperado, valor do fisco e situação (aguardando
+download, confere, só no ERP ou valor diferente). Cada divergência
+traz a ação que a corrige, porque os ajustes se fazem emitindo
+documentos fiscais.</li>
+<li><strong>Confirmar</strong> a apuração. A confirmação exige que toda divergência
+esteja tratada ou ignorada, porque constitui o crédito tributário e
+implica reconhecimento da dívida. Tratar um documento só na apuração
+exige vincular o documento fiscal; ignorar exige uma nota.</li>
 </ol>
-<p>A daily scheduled action warns the responsible users as the deadline
-approaches and marks the period as expired once it passes. An expired
-period means the balance presented by the tax administration was
-presumed correct and the tax credit was constituted without any
-manifestation.</p>
+<p>Uma ação agendada diária avisa os responsáveis quando o prazo se
+aproxima e marca o período como expirado depois que ele passa. Período
+expirado significa que o saldo apresentado pela administração tributária
+foi tido como correto e o crédito tributário foi constituído sem
+manifestação.</p>
 </div>
 <div class="section" id="bug-tracker">
 <h1><a class="toc-backref" href="#toc-entry-3">Bug Tracker</a></h1>

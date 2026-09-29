@@ -1,22 +1,28 @@
-Open _Assisted Assessment > Assessments_ and create one record per tribute and period,
-using the `YYYY-MM` format. The presentation date and the deadline are computed from the
-period and the company configuration.
+Abra _Apuração Assistida > Apurações_ e crie um registro por tributo e período,
+no formato `YYYY-MM`. A data de apresentação e o prazo são calculados a partir
+do período e da configuração da empresa.
 
-The monthly routine has three steps:
+A rotina mensal tem três passos:
 
-1. **Download** the assessment presented by the tax administration, with _Request
-   Debits_ and _Request Credits_. Both buttons require a transport addon; without one,
-   paste the payload into the request and apply it. Debits and credits are separate
-   services, so a direction that has not been downloaded yet never produces divergences.
-2. **Reconcile** against the bookkeeping. Every assessment line is matched by access key
-   to an authorised fiscal document and classified as a different value, a document only
-   in the assessment, a document only in the bookkeeping or a credit that was not
-   granted. Each divergence carries the action that repairs it, since adjustments are
-   made by issuing fiscal documents.
-3. **Confirm** the assessment. Confirming requires every divergence to be handled or
-   ignored, because it constitutes the tax credit and implies acknowledgement of debt.
+1. **Baixar** a apuração apresentada pela administração tributária, com
+   _Solicitar Débitos_ e _Solicitar Créditos_. Os dois botões exigem um addon
+   de transporte; sem ele, cole o arquivo na solicitação e aplique. Débitos e
+   créditos são serviços separados, então uma direção que ainda não foi
+   baixada (nem marcada como ausente) não gera divergência de documento só na
+   escrituração.
+2. **Conciliar** com o escriturado. Cada linha da apuração é casada pela chave
+   de acesso a um documento fiscal autorizado e classificada como valor
+   diferente, documento só na apuração, documento só na escrituração ou
+   crédito não concedido. A aba _Escrituração_ lista o lado do ERP: valor
+   esperado, valor do fisco e situação (aguardando download, confere, só no
+   ERP ou valor diferente). Cada divergência traz a ação que a corrige, porque
+   os ajustes se fazem emitindo documentos fiscais.
+3. **Confirmar** a apuração. A confirmação exige que toda divergência esteja
+   tratada ou ignorada, porque constitui o crédito tributário e implica
+   reconhecimento da dívida. Tratar um documento só na apuração exige
+   vincular o documento fiscal; ignorar exige uma nota.
 
-A daily scheduled action warns the responsible users as the deadline approaches and
-marks the period as expired once it passes. An expired period means the balance
-presented by the tax administration was presumed correct and the tax credit was
-constituted without any manifestation.
+Uma ação agendada diária avisa os responsáveis quando o prazo se aproxima e
+marca o período como expirado depois que ele passa. Período expirado significa
+que o saldo apresentado pela administração tributária foi tido como correto e
+o crédito tributário foi constituído sem manifestação.

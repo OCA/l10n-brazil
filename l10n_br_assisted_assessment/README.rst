@@ -28,35 +28,36 @@ Brazilian IBS/CBS Assisted Assessment
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Core of the Brazilian IBS/CBS assisted assessment (*apuração assistida*)
-introduced by article 46 of Complementary Law 214/2025 and regulated by
-Decree 12,955/2026 (CBS) and CGIBS Resolution 6/2026 (IBS).
+Núcleo da apuração assistida de IBS/CBS instituída pelo artigo 46 da Lei
+Complementar 214/2025 e regulamentada pelo Decreto 12.955/2026 (CBS) e
+pela Resolução CGIBS 6/2026 (IBS).
 
-Under the new model the tax administration calculates the monthly
-balance from the taxpayer's electronic fiscal documents and presents it
-for confirmation. The taxpayer can no longer assess from scratch: the
-own assessment exists only as an adjustment of the presented one, and
-confirming, adjusting or **staying silent** all constitute the tax
-credit.
+No novo modelo a administração tributária calcula o saldo mensal a
+partir dos documentos fiscais eletrônicos do contribuinte e o apresenta
+para confirmação. O contribuinte não apura mais do zero: a apuração
+própria existe só como ajuste da que foi apresentada, e confirmar,
+ajustar ou **ficar em silêncio** constituem o crédito tributário.
 
-This module provides the tribute-agnostic part of that cycle:
+Este módulo cobre a parte independente do tributo desse ciclo:
 
-- monthly assessment periods per company and tribute, with the
-  regulatory deadlines (presentation by the 15th, or the 20th when the
-  taxpayer is required to file the DeRE, and confirmation by the last
-  business day of the following month);
-- the asynchronous request lifecycle, including the daily call quota
-  imposed by the gateway;
-- reconciliation of the presented lines against the booked fiscal
-  documents, classifying every difference and suggesting how to repair
-  it;
-- deadline warnings and automatic expiration, so that silence is never
-  silent.
+- períodos mensais de apuração por empresa e tributo, com os prazos
+  regulamentares (apresentação até o dia 15, ou até o dia 20 quando o
+  contribuinte está obrigado à DeRE, e confirmação até o último dia útil
+  do mês seguinte);
+- o ciclo assíncrono das solicitações, inclusive a cota diária imposta
+  pelo gateway;
+- conciliação das linhas apresentadas com os documentos fiscais
+  escriturados, classificando cada diferença e sugerindo como
+  corrigi-la;
+- inventário do escriturado, visível mesmo antes do download, com o
+  CBS/IBS esperado de cada documento autorizado do período;
+- avisos de prazo e expiração automática, para que o silêncio nunca
+  passe despercebido.
 
-The HTTP transport is not part of this module. The CBS is served by the
-Receita Federal and the IBS by the CGIBS, each with its own endpoints,
-so transmission and payload parsing are provided by separate transport
-addons that implement the ``_transmit`` and ``_parse_payload`` hooks.
+O transporte HTTP não faz parte deste módulo. A CBS é servida pela
+Receita Federal e o IBS pelo CGIBS, cada um com os seus endpoints, então
+a transmissão e o parse do arquivo ficam em addons de transporte que
+implementam os hooks ``_transmit`` e ``_parse_payload``.
 
 **Table of contents**
 
@@ -66,53 +67,56 @@ addons that implement the ``_transmit`` and ``_parse_payload`` hooks.
 Configuration
 =============
 
-Go to *Settings > Companies*, open the company and use the **Assisted
-Assessment** tab:
+Em *Configurações > Empresas*, abra a empresa e use a aba **Apuração
+Assistida**:
 
-- **Subject to DeRE**: enable it for taxpayers required to file the
-  Specific Regimes Declaration. The assessment is then presented by the
-  20th instead of the 15th of the following month.
-- **Assessment Calendar**: the calendar holding the national, state and
-  municipal holidays of the head office domicile, used to find the last
-  business day of the deadline. Without a calendar only weekends are
-  skipped. Holidays can be loaded with the wizard provided by
+- **Sujeito à DeRE**: ative para contribuintes obrigados à Declaração de
+  Regimes Específicos. A apuração passa a ser apresentada até o dia 20,
+  e não até o dia 15 do mês seguinte.
+- **Calendário da Apuração**: calendário com os feriados nacionais,
+  estaduais e municipais do domicílio da matriz, usado para achar o
+  último dia útil do prazo. Sem calendário, só os fins de semana são
+  pulados. Os feriados podem ser carregados com o assistente do
   ``l10n_br_resource``.
-- **Reconciliation Tolerance**: absolute difference below which a line
-  is considered reconciled. Defaults to one cent.
+- **Tolerância da Conciliação**: diferença absoluta abaixo da qual a
+  linha é considerada conciliada. O padrão é um centavo.
 
-Holidays added to the calendar after an assessment has been created do
-not recompute its deadline. Save the assessment again to refresh it.
+Feriados incluídos no calendário depois que a apuração já existe não
+recalculam o prazo. Salve a apuração de novo para atualizá-lo.
 
 Usage
 =====
 
-Open *Assisted Assessment > Assessments* and create one record per
-tribute and period, using the ``YYYY-MM`` format. The presentation date
-and the deadline are computed from the period and the company
-configuration.
+Abra *Apuração Assistida > Apurações* e crie um registro por tributo e
+período, no formato ``YYYY-MM``. A data de apresentação e o prazo são
+calculados a partir do período e da configuração da empresa.
 
-The monthly routine has three steps:
+A rotina mensal tem três passos:
 
-1. **Download** the assessment presented by the tax administration, with
-   *Request Debits* and *Request Credits*. Both buttons require a
-   transport addon; without one, paste the payload into the request and
-   apply it. Debits and credits are separate services, so a direction
-   that has not been downloaded yet never produces divergences.
-2. **Reconcile** against the bookkeeping. Every assessment line is
-   matched by access key to an authorised fiscal document and classified
-   as a different value, a document only in the assessment, a document
-   only in the bookkeeping or a credit that was not granted. Each
-   divergence carries the action that repairs it, since adjustments are
-   made by issuing fiscal documents.
-3. **Confirm** the assessment. Confirming requires every divergence to
-   be handled or ignored, because it constitutes the tax credit and
-   implies acknowledgement of debt.
+1. **Baixar** a apuração apresentada pela administração tributária, com
+   *Solicitar Débitos* e *Solicitar Créditos*. Os dois botões exigem um
+   addon de transporte; sem ele, cole o arquivo na solicitação e
+   aplique. Débitos e créditos são serviços separados, então uma direção
+   que ainda não foi baixada (nem marcada como ausente) não gera
+   divergência de documento só na escrituração.
+2. **Conciliar** com o escriturado. Cada linha da apuração é casada pela
+   chave de acesso a um documento fiscal autorizado e classificada como
+   valor diferente, documento só na apuração, documento só na
+   escrituração ou crédito não concedido. A aba *Escrituração* lista o
+   lado do ERP: valor esperado, valor do fisco e situação (aguardando
+   download, confere, só no ERP ou valor diferente). Cada divergência
+   traz a ação que a corrige, porque os ajustes se fazem emitindo
+   documentos fiscais.
+3. **Confirmar** a apuração. A confirmação exige que toda divergência
+   esteja tratada ou ignorada, porque constitui o crédito tributário e
+   implica reconhecimento da dívida. Tratar um documento só na apuração
+   exige vincular o documento fiscal; ignorar exige uma nota.
 
-A daily scheduled action warns the responsible users as the deadline
-approaches and marks the period as expired once it passes. An expired
-period means the balance presented by the tax administration was
-presumed correct and the tax credit was constituted without any
-manifestation.
+Uma ação agendada diária avisa os responsáveis quando o prazo se
+aproxima e marca o período como expirado depois que ele passa. Período
+expirado significa que o saldo apresentado pela administração tributária
+foi tido como correto e o crédito tributário foi constituído sem
+manifestação.
 
 Bug Tracker
 ===========

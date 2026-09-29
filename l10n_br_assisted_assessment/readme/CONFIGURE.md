@@ -1,14 +1,15 @@
-Go to _Settings > Companies_, open the company and use the **Assisted Assessment** tab:
+Em _Configurações > Empresas_, abra a empresa e use a aba **Apuração
+Assistida**:
 
-- **Subject to DeRE**: enable it for taxpayers required to file the Specific Regimes
-  Declaration. The assessment is then presented by the 20th instead of the 15th of the
-  following month.
-- **Assessment Calendar**: the calendar holding the national, state and municipal
-  holidays of the head office domicile, used to find the last business day of the
-  deadline. Without a calendar only weekends are skipped. Holidays can be loaded with
-  the wizard provided by `l10n_br_resource`.
-- **Reconciliation Tolerance**: absolute difference below which a line is considered
-  reconciled. Defaults to one cent.
+- **Sujeito à DeRE**: ative para contribuintes obrigados à Declaração de
+  Regimes Específicos. A apuração passa a ser apresentada até o dia 20, e não
+  até o dia 15 do mês seguinte.
+- **Calendário da Apuração**: calendário com os feriados nacionais,
+  estaduais e municipais do domicílio da matriz, usado para achar o último
+  dia útil do prazo. Sem calendário, só os fins de semana são pulados. Os
+  feriados podem ser carregados com o assistente do `l10n_br_resource`.
+- **Tolerância da Conciliação**: diferença absoluta abaixo da qual a linha é
+  considerada conciliada. O padrão é um centavo.
 
-Holidays added to the calendar after an assessment has been created do not recompute its
-deadline. Save the assessment again to refresh it.
+Feriados incluídos no calendário depois que a apuração já existe não
+recalculam o prazo. Salve a apuração de novo para atualizá-lo.
