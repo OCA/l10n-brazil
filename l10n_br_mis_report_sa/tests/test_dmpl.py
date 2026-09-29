@@ -40,31 +40,46 @@ class EquityCommon(AccountTestInvoicingCommon):
             )
 
         cls.caixa = account(
-            "DMP10", "Caixa", "asset_cash",
+            "DMP10",
+            "Caixa",
+            "asset_cash",
             "account_tag_current_assets_cash",
             "account_tag_cash_and_equivalents",
         )
         cls.capital = account(
-            "DMP24", "Capital Social", "equity",
-            "account_tag_equity_capital", "account_tag_cash_flow_financing",
+            "DMP24",
+            "Capital Social",
+            "equity",
+            "account_tag_equity_capital",
+            "account_tag_cash_flow_financing",
         )
         cls.reserva = account(
-            "DMP25", "Reserva Legal", "equity",
-            "account_tag_equity_profit_reserve", "account_tag_cash_flow_non_cash",
+            "DMP25",
+            "Reserva Legal",
+            "equity",
+            "account_tag_equity_profit_reserve",
+            "account_tag_cash_flow_non_cash",
         )
         cls.lucros = account(
-            "DMP26", "Lucros Acumulados", "equity",
+            "DMP26",
+            "Lucros Acumulados",
+            "equity",
             "account_tag_equity_accumulated_profits",
             "account_tag_cash_flow_non_cash",
         )
         cls.dividendos = account(
-            "DMP21", "Dividendos a Pagar", "liability_current",
+            "DMP21",
+            "Dividendos a Pagar",
+            "liability_current",
             "account_tag_current_liabilities_payable",
             "account_tag_cash_flow_financing",
         )
         cls.receita = account(
-            "DMP90", "Vendas", "income",
-            "account_tag_revenue", "account_tag_result",
+            "DMP90",
+            "Vendas",
+            "income",
+            "account_tag_revenue",
+            "account_tag_result",
         )
 
         cls.date_from = "2026-01-01"
@@ -135,9 +150,9 @@ class TestDmpl(EquityCommon):
                 inicial + movimentos,
                 final,
                 places=2,
-                msg="a coluna %s não fecha: %.2f de saldo inicial mais %.2f de "
-                "movimento não dá os %.2f do saldo final"
-                % (index, inicial, movimentos, final),
+                msg=f"a coluna {index} não fecha: {inicial:.2f} de saldo inicial "
+                f"mais {movimentos:.2f} de movimento não dá os {final:.2f} do "
+                "saldo final",
             )
 
     def test_the_total_column_reproduces_the_equity_of_the_balance_sheet(self):

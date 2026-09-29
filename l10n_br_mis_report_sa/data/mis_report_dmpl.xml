@@ -97,40 +97,54 @@
         <field name="multi" eval="True" />
         <field name="type">num</field>
         <field name="compare_method">pct</field>
-        <field name="style_id"
-            ref="l10n_br_mis_report.mis_report_style_l10n_br_negrito" />
+        <field
+            name="style_id"
+            ref="l10n_br_mis_report.mis_report_style_l10n_br_negrito"
+        />
         <field name="expression_ids" eval="[(5, 0, 0)]" />
     </record>
 
     <record id="dmpl_saldo_inicial_capital" model="mis.report.kpi.expression">
         <field name="kpi_id" ref="dmpl_saldo_inicial" />
         <field name="subkpi_id" ref="dmpl_col_capital" />
-        <field name="name">-bali[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_capital').id)]</field>
+        <field
+            name="name"
+        >-bali[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_capital').id)]</field>
     </record>
     <record id="dmpl_saldo_inicial_reservas_capital" model="mis.report.kpi.expression">
         <field name="kpi_id" ref="dmpl_saldo_inicial" />
         <field name="subkpi_id" ref="dmpl_col_reservas_capital" />
-        <field name="name">-bali[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_capital_reserve').id)]</field>
+        <field
+            name="name"
+        >-bali[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_capital_reserve').id)]</field>
     </record>
     <record id="dmpl_saldo_inicial_reservas_lucros" model="mis.report.kpi.expression">
         <field name="kpi_id" ref="dmpl_saldo_inicial" />
         <field name="subkpi_id" ref="dmpl_col_reservas_lucros" />
-        <field name="name">-bali[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_profit_reserve').id)]</field>
+        <field
+            name="name"
+        >-bali[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_profit_reserve').id)]</field>
     </record>
     <record id="dmpl_saldo_inicial_lucros" model="mis.report.kpi.expression">
         <field name="kpi_id" ref="dmpl_saldo_inicial" />
         <field name="subkpi_id" ref="dmpl_col_lucros" />
-        <field name="name">-bali[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_accumulated_profits').id)] - bali[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_accumulated_losses').id)]</field>
+        <field
+            name="name"
+        >-bali[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_accumulated_profits').id)] - bali[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_accumulated_losses').id)]</field>
     </record>
     <record id="dmpl_saldo_inicial_ajustes" model="mis.report.kpi.expression">
         <field name="kpi_id" ref="dmpl_saldo_inicial" />
         <field name="subkpi_id" ref="dmpl_col_ajustes" />
-        <field name="name">-bali[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_valuation_adjustment').id)]</field>
+        <field
+            name="name"
+        >-bali[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_valuation_adjustment').id)]</field>
     </record>
     <record id="dmpl_saldo_inicial_total" model="mis.report.kpi.expression">
         <field name="kpi_id" ref="dmpl_saldo_inicial" />
         <field name="subkpi_id" ref="dmpl_col_total" />
-        <field name="name">(-bali[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_capital').id)]) + (-bali[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_capital_reserve').id)]) + (-bali[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_profit_reserve').id)]) + (-bali[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_accumulated_profits').id)] - bali[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_accumulated_losses').id)]) + (-bali[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_valuation_adjustment').id)])</field>
+        <field
+            name="name"
+        >(-bali[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_capital').id)]) + (-bali[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_capital_reserve').id)]) + (-bali[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_profit_reserve').id)]) + (-bali[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_accumulated_profits').id)] - bali[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_accumulated_losses').id)]) + (-bali[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_valuation_adjustment').id)])</field>
     </record>
 
     <record id="dmpl_aumento_capital" model="mis.report.kpi">
@@ -147,9 +161,14 @@
     <record id="dmpl_aumento_capital_capital" model="mis.report.kpi.expression">
         <field name="kpi_id" ref="dmpl_aumento_capital" />
         <field name="subkpi_id" ref="dmpl_col_capital" />
-        <field name="name">+crd[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_capital').id)]</field>
+        <field
+            name="name"
+        >+crd[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_capital').id)]</field>
     </record>
-    <record id="dmpl_aumento_capital_reservas_capital" model="mis.report.kpi.expression">
+    <record
+        id="dmpl_aumento_capital_reservas_capital"
+        model="mis.report.kpi.expression"
+    >
         <field name="kpi_id" ref="dmpl_aumento_capital" />
         <field name="subkpi_id" ref="dmpl_col_reservas_capital" />
         <field name="name">0.0</field>
@@ -172,7 +191,9 @@
     <record id="dmpl_aumento_capital_total" model="mis.report.kpi.expression">
         <field name="kpi_id" ref="dmpl_aumento_capital" />
         <field name="subkpi_id" ref="dmpl_col_total" />
-        <field name="name">(+crd[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_capital').id)]) + (0.0) + (0.0) + (0.0) + (0.0)</field>
+        <field
+            name="name"
+        >(+crd[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_capital').id)]) + (0.0) + (0.0) + (0.0) + (0.0)</field>
     </record>
 
     <record id="dmpl_reducao_capital" model="mis.report.kpi">
@@ -189,9 +210,14 @@
     <record id="dmpl_reducao_capital_capital" model="mis.report.kpi.expression">
         <field name="kpi_id" ref="dmpl_reducao_capital" />
         <field name="subkpi_id" ref="dmpl_col_capital" />
-        <field name="name">-deb[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_capital').id)]</field>
+        <field
+            name="name"
+        >-deb[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_capital').id)]</field>
     </record>
-    <record id="dmpl_reducao_capital_reservas_capital" model="mis.report.kpi.expression">
+    <record
+        id="dmpl_reducao_capital_reservas_capital"
+        model="mis.report.kpi.expression"
+    >
         <field name="kpi_id" ref="dmpl_reducao_capital" />
         <field name="subkpi_id" ref="dmpl_col_reservas_capital" />
         <field name="name">0.0</field>
@@ -214,7 +240,9 @@
     <record id="dmpl_reducao_capital_total" model="mis.report.kpi.expression">
         <field name="kpi_id" ref="dmpl_reducao_capital" />
         <field name="subkpi_id" ref="dmpl_col_total" />
-        <field name="name">(-deb[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_capital').id)]) + (0.0) + (0.0) + (0.0) + (0.0)</field>
+        <field
+            name="name"
+        >(-deb[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_capital').id)]) + (0.0) + (0.0) + (0.0) + (0.0)</field>
     </record>
 
     <record id="dmpl_resultado" model="mis.report.kpi">
@@ -256,7 +284,9 @@
     <record id="dmpl_resultado_total" model="mis.report.kpi.expression">
         <field name="kpi_id" ref="dmpl_resultado" />
         <field name="subkpi_id" ref="dmpl_col_total" />
-        <field name="name">(0.0) + (0.0) + (0.0) + (dre.resultado_liquido) + (0.0)</field>
+        <field
+            name="name"
+        >(0.0) + (0.0) + (0.0) + (dre.resultado_liquido) + (0.0)</field>
     </record>
 
     <record id="dmpl_abrangente" model="mis.report.kpi">
@@ -293,12 +323,16 @@
     <record id="dmpl_abrangente_ajustes" model="mis.report.kpi.expression">
         <field name="kpi_id" ref="dmpl_abrangente" />
         <field name="subkpi_id" ref="dmpl_col_ajustes" />
-        <field name="name">-bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_valuation_adjustment').id)]</field>
+        <field
+            name="name"
+        >-bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_valuation_adjustment').id)]</field>
     </record>
     <record id="dmpl_abrangente_total" model="mis.report.kpi.expression">
         <field name="kpi_id" ref="dmpl_abrangente" />
         <field name="subkpi_id" ref="dmpl_col_total" />
-        <field name="name">(0.0) + (0.0) + (0.0) + (0.0) + (-bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_valuation_adjustment').id)])</field>
+        <field
+            name="name"
+        >(0.0) + (0.0) + (0.0) + (0.0) + (-bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_valuation_adjustment').id)])</field>
     </record>
 
     <record id="dmpl_reservas_movimento" model="mis.report.kpi">
@@ -317,15 +351,25 @@
         <field name="subkpi_id" ref="dmpl_col_capital" />
         <field name="name">0.0</field>
     </record>
-    <record id="dmpl_reservas_movimento_reservas_capital" model="mis.report.kpi.expression">
+    <record
+        id="dmpl_reservas_movimento_reservas_capital"
+        model="mis.report.kpi.expression"
+    >
         <field name="kpi_id" ref="dmpl_reservas_movimento" />
         <field name="subkpi_id" ref="dmpl_col_reservas_capital" />
-        <field name="name">-bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_capital_reserve').id)]</field>
+        <field
+            name="name"
+        >-bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_capital_reserve').id)]</field>
     </record>
-    <record id="dmpl_reservas_movimento_reservas_lucros" model="mis.report.kpi.expression">
+    <record
+        id="dmpl_reservas_movimento_reservas_lucros"
+        model="mis.report.kpi.expression"
+    >
         <field name="kpi_id" ref="dmpl_reservas_movimento" />
         <field name="subkpi_id" ref="dmpl_col_reservas_lucros" />
-        <field name="name">-bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_profit_reserve').id)]</field>
+        <field
+            name="name"
+        >-bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_profit_reserve').id)]</field>
     </record>
     <record id="dmpl_reservas_movimento_lucros" model="mis.report.kpi.expression">
         <field name="kpi_id" ref="dmpl_reservas_movimento" />
@@ -340,13 +384,17 @@
     <record id="dmpl_reservas_movimento_total" model="mis.report.kpi.expression">
         <field name="kpi_id" ref="dmpl_reservas_movimento" />
         <field name="subkpi_id" ref="dmpl_col_total" />
-        <field name="name">(0.0) + (-bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_capital_reserve').id)]) + (-bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_profit_reserve').id)]) + (0.0) + (0.0)</field>
+        <field
+            name="name"
+        >(0.0) + (-bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_capital_reserve').id)]) + (-bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_profit_reserve').id)]) + (0.0) + (0.0)</field>
     </record>
 
     <record id="dmpl_destinacao" model="mis.report.kpi">
         <field name="sequence">70</field>
         <field name="report_id" ref="dmpl" />
-        <field name="description">Destinação do resultado, dividendos e juros sobre capital próprio</field>
+        <field
+            name="description"
+        >Destinação do resultado, dividendos e juros sobre capital próprio</field>
         <field name="name">destinacao</field>
         <field name="multi" eval="True" />
         <field name="type">num</field>
@@ -372,7 +420,9 @@
     <record id="dmpl_destinacao_lucros" model="mis.report.kpi.expression">
         <field name="kpi_id" ref="dmpl_destinacao" />
         <field name="subkpi_id" ref="dmpl_col_lucros" />
-        <field name="name">-deb[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_accumulated_profits').id)] + crd[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_accumulated_profits').id)]</field>
+        <field
+            name="name"
+        >-deb[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_accumulated_profits').id)] + crd[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_accumulated_profits').id)]</field>
     </record>
     <record id="dmpl_destinacao_ajustes" model="mis.report.kpi.expression">
         <field name="kpi_id" ref="dmpl_destinacao" />
@@ -382,7 +432,9 @@
     <record id="dmpl_destinacao_total" model="mis.report.kpi.expression">
         <field name="kpi_id" ref="dmpl_destinacao" />
         <field name="subkpi_id" ref="dmpl_col_total" />
-        <field name="name">(0.0) + (0.0) + (0.0) + (-deb[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_accumulated_profits').id)] + crd[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_accumulated_profits').id)]) + (0.0)</field>
+        <field
+            name="name"
+        >(0.0) + (0.0) + (0.0) + (-deb[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_accumulated_profits').id)] + crd[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_accumulated_profits').id)]) + (0.0)</field>
     </record>
 
     <record id="dmpl_saldo_final" model="mis.report.kpi">
@@ -393,40 +445,54 @@
         <field name="multi" eval="True" />
         <field name="type">num</field>
         <field name="compare_method">pct</field>
-        <field name="style_id"
-            ref="l10n_br_mis_report.mis_report_style_l10n_br_negrito" />
+        <field
+            name="style_id"
+            ref="l10n_br_mis_report.mis_report_style_l10n_br_negrito"
+        />
         <field name="expression_ids" eval="[(5, 0, 0)]" />
     </record>
 
     <record id="dmpl_saldo_final_capital" model="mis.report.kpi.expression">
         <field name="kpi_id" ref="dmpl_saldo_final" />
         <field name="subkpi_id" ref="dmpl_col_capital" />
-        <field name="name">-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_capital').id)]</field>
+        <field
+            name="name"
+        >-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_capital').id)]</field>
     </record>
     <record id="dmpl_saldo_final_reservas_capital" model="mis.report.kpi.expression">
         <field name="kpi_id" ref="dmpl_saldo_final" />
         <field name="subkpi_id" ref="dmpl_col_reservas_capital" />
-        <field name="name">-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_capital_reserve').id)]</field>
+        <field
+            name="name"
+        >-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_capital_reserve').id)]</field>
     </record>
     <record id="dmpl_saldo_final_reservas_lucros" model="mis.report.kpi.expression">
         <field name="kpi_id" ref="dmpl_saldo_final" />
         <field name="subkpi_id" ref="dmpl_col_reservas_lucros" />
-        <field name="name">-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_profit_reserve').id)]</field>
+        <field
+            name="name"
+        >-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_profit_reserve').id)]</field>
     </record>
     <record id="dmpl_saldo_final_lucros" model="mis.report.kpi.expression">
         <field name="kpi_id" ref="dmpl_saldo_final" />
         <field name="subkpi_id" ref="dmpl_col_lucros" />
-        <field name="name">-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_accumulated_profits').id)] - bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_accumulated_losses').id)] + dre.resultado_liquido</field>
+        <field
+            name="name"
+        >-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_accumulated_profits').id)] - bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_accumulated_losses').id)] + dre.resultado_liquido</field>
     </record>
     <record id="dmpl_saldo_final_ajustes" model="mis.report.kpi.expression">
         <field name="kpi_id" ref="dmpl_saldo_final" />
         <field name="subkpi_id" ref="dmpl_col_ajustes" />
-        <field name="name">-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_valuation_adjustment').id)]</field>
+        <field
+            name="name"
+        >-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_valuation_adjustment').id)]</field>
     </record>
     <record id="dmpl_saldo_final_total" model="mis.report.kpi.expression">
         <field name="kpi_id" ref="dmpl_saldo_final" />
         <field name="subkpi_id" ref="dmpl_col_total" />
-        <field name="name">(-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_capital').id)]) + (-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_capital_reserve').id)]) + (-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_profit_reserve').id)]) + (-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_accumulated_profits').id)] - bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_accumulated_losses').id)] + dre.resultado_liquido) + (-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_valuation_adjustment').id)])</field>
+        <field
+            name="name"
+        >(-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_capital').id)]) + (-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_capital_reserve').id)]) + (-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_profit_reserve').id)]) + (-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_accumulated_profits').id)] - bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_accumulated_losses').id)] + dre.resultado_liquido) + (-bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_equity_valuation_adjustment').id)])</field>
     </record>
 
 </odoo>
