@@ -15,7 +15,9 @@
             <field name="vat" position="after">
                 <field name="vat_formatted_cnpj" invisible="not show_l10n_br" />
             </field>
-            <field name="company_registry" position="after">
+            <!-- Odoo 20.0 removed the company_registry field: the Brazilian
+                 fiscal numbers are now added after the identifiers block -->
+            <xpath expr="//div[@name='identifiers']" position="after">
                 <field
                     name="legal_name"
                     placeholder="Legal Name..."
@@ -48,7 +50,7 @@
                         />
                     </list>
                 </field>
-            </field>
+            </xpath>
             <!-- TODO: Na v12 era desnecessario incluir o codigo abaixo para
                   tornar invisivel o campo City/Char e incluir City_id/m2o,
                   teria outra forma de fazer isso? -->

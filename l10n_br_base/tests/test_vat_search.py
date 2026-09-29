@@ -49,3 +49,16 @@ class VatSearchTest(TransactionCase):
             .search([("vat", "ilike", "56.647.352/0001-98")])
         )
         self.assertNotIn(self.partner, matches)
+
+    def test_name_search_by_name_and_cnpj(self):
+        """The many2one autocomplete (name_search) finds the partner by its
+        name and by its CNPJ without punctuation (_rec_names_search)."""
+        Partner = self.env["res.partner"]
+        self.assertIn(
+            self.partner.id,
+            [pid for pid, _name in Partner.name_search("VAT Search Test Company")],
+        )
+        self.assertIn(
+            self.partner.id,
+            [pid for pid, _name in Partner.name_search("56647352000198")],
+        )

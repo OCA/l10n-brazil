@@ -25,7 +25,7 @@ class PartnerConstraintsQueryCountTest(TransactionCase):
                 cls.env.context, tracking_disable=True, disable_ie_validation=True
             )
         )
-        cls.env["ir.config_parameter"].sudo().set_param(
+        cls.env["ir.config_parameter"].sudo().set_bool(
             "l10n_br_base.allow_cnpj_multi_ie", False
         )
         cls.state_ba = cls.env.ref("base.state_br_ba")

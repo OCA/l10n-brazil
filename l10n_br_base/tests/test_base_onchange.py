@@ -33,10 +33,6 @@ class L10nBrBaseOnchangeTest(TransactionCase):
             )
         )
 
-        cls.bank_01 = cls.env["res.bank"].create(
-            {"name": "Bank Test 1", "zip": "29161-695"}
-        )
-
         cls.partner_01 = (
             cls.env["res.partner"]
             .with_context(tracking_disable=True)
@@ -84,14 +80,14 @@ class L10nBrBaseOnchangeTest(TransactionCase):
         )
 
     def test_display_address(self):
+        # Odoo 20.0 only prefixes the name of the commercial entity on the
+        # addresses of its own contacts, not on the entity itself.
         partner = self.env.ref("l10n_br_base.res_partner_akretion")
         partner._onchange_city_id()
         display_address = partner._display_address()
         self.assertEqual(
             display_address,
-            "Akretion Sao Paulo\n"
-            "Avenida Paulista, 807 CJ 2315\nCentro"
-            "\n01311-915 - São Paulo-SP\nBrazil",
+            "Avenida Paulista, 807 CJ 2315\nCentro\n01311-915 - São Paulo-SP\nBrazil",
             "The function _display_address failed.",
         )
 
@@ -101,7 +97,7 @@ class L10nBrBaseOnchangeTest(TransactionCase):
         display_address = partner._display_address()
         self.assertEqual(
             display_address,
-            "Akretion Rio de Janeiro\n"
+            "Akretion Sao Paulo\n"
             "Rua Acre, 47 sala 1310\nCentro"
             "\n20081-000 - Rio de Janeiro-RJ\nBrazil",
             "The function _display_address with parent_id failed.",
@@ -112,18 +108,16 @@ class L10nBrBaseOnchangeTest(TransactionCase):
         display_address = partner._display_address()
         self.assertEqual(
             display_address,
-            "Cliente Exterior\n3404  Edgewood"
-            " Road\n\nJonesboro"
-            " AR 72401\nUnited States",
+            "3404 Edgewood Road\nJonesboro AR 72401\nUnited States",
             "The function _display_address for other country failed.",
         )
 
     def test_display_address_without_company(self):
         partner = self.env.ref("l10n_br_base.res_partner_akretion")
         partner._onchange_city_id()
-        display_address = partner._display_address(without_company=True)
+        display_address = partner._display_address(without_name=True)
         self.assertEqual(
             display_address,
             "Avenida Paulista, 807 CJ 2315\nCentro\n01311-915 - São Paulo-SP\nBrazil",
-            "The function _display_address with parameter without_company failed.",
+            "The function _display_address with parameter without_name failed.",
         )

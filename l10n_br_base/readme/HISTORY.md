@@ -1,3 +1,14 @@
+## 20.0.2.2.1 (2026)
+
+O Odoo 20.0 removeu o campo `company_type` dos parceiros e o modelo
+`res.bank` (e com ele o diretório de bancos):
+
+- `is_company` passou a ser calculado a partir do campo `vat`, que continua
+  armazenando tanto o CPF (pessoa física) quanto o CNPJ (pessoa jurídica) sem
+  formatação;
+- o código do banco (COMPE) agora é informado diretamente na conta bancária
+  (`res.partner.bank.code_bc`), no lugar de vir do modelo `res.bank`.
+
 ## 12.0.1.0.0 (2019)
 
 A partir da versão 12.0 foi extraído o pacote de validações cadastrais

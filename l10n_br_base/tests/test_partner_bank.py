@@ -21,15 +21,15 @@ class PartnerBankTest(TransactionCase):
         )
         cls.partner_bank_model = cls.env["res.partner.bank"]
         cls.partner_id = cls.env.ref("l10n_br_base.res_partner_amd")
-        cls.bank_id = cls.env.ref("l10n_br_base.res_bank_001")
+        cls.code_bc = "001"
 
     def test_ok_transactional_acc_type(self):
         ok_bank_vals = {
             "partner_id": self.partner_id.id,
             "transactional_acc_type": "checking",
-            "bank_id": self.bank_id.id,
+            "code_bc": self.code_bc,
             "bra_number": "1020",
-            "acc_number": "102030",
+            "account_number": "102030",
             "acc_number_dig": "9",
         }
         ok_acc_bank = self.partner_bank_model.with_context(
@@ -52,7 +52,7 @@ class PartnerBankTest(TransactionCase):
     def test_bra_number_empty_does_not_raise(self):
         bank_vals = {
             "partner_id": self.partner_id.id,
-            "bank_id": self.bank_id.id,
+            "code_bc": self.code_bc,
         }
         bank = self.partner_bank_model.with_context(tracking_disable=True).create(
             bank_vals

@@ -28,6 +28,16 @@ class ResPartnerBank(models.Model):
 
     _inherit = "res.partner.bank"
 
+    # Odoo 20.0 removed the res.bank model and its bank directory: the bank is
+    # now described on the account itself (bank_name, bank_bic) and the
+    # Brazilian bank code (COMPE) that used to live on res.bank.code_bc is
+    # entered directly on the account.
+    code_bc = fields.Char(
+        string="Brazilian Bank Code",
+        size=3,
+        help="Brazilian Bank Code (COMPE) ex.: 001 is the code of Banco do Brasil",
+    )
+
     bank_account_type = fields.Selection(
         selection=BANK_ACCOUNT_TYPE,
         default="01",
@@ -46,9 +56,10 @@ class ResPartnerBank(models.Model):
         string="Pix Keys",
     )
 
-    acc_number = fields.Char(
-        string="Account Number",
-        size=64,
+    # Odoo 20.0 enforces the `size` of Char fields on the SQL column again (a
+    # 19.0 value longer than `size` used to be silently truncated), so the
+    # account number is left unlimited like in the core model.
+    account_number = fields.Char(
         required=False,
     )
 
@@ -82,20 +93,20 @@ class ResPartnerBank(models.Model):
     @api.constrains("bra_number")
     def _check_bra_number(self):
         for bank in self:
-            if bank.bank_id.code_bc and bank.bra_number and len(bank.bra_number) > 4:
+            if bank.code_bc and bank.bra_number and len(bank.bra_number) > 4:
                 raise UserError(self.env._("Bank branch code must be four characters."))
 
     @api.constrains(
         "transactional_acc_type",
-        "bank_id",
-        "acc_number",
+        "code_bc",
+        "account_number",
         "bra_number",
         "acc_number_dig",
     )
     def _check_transc_acc_type(self):
         for rec in self:
             if rec.transactional_acc_type:
-                if not rec.bank_id or not rec.bank_id.code_bc or not rec.acc_number:
+                if not rec.code_bc or not rec.account_number:
                     raise UserError(
                         self.env._(
                             "a transactional account must contain the bank "

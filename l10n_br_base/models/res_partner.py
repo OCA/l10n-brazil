@@ -21,9 +21,9 @@ class Partner(models.Model):
 
     @property
     def _rec_names_search(self):
-        names = super()._rec_names_search
-        # not "names +=": that would extend the parent class attribute in place
-        return names + ["cnpj_cpf_stripped", "legal_name", "l10n_br_ie_code"]
+        # a tuple in base since 20.0: build a new one (never extend in place)
+        names = tuple(super()._rec_names_search or ())
+        return (*names, "cnpj_cpf_stripped", "legal_name", "l10n_br_ie_code")
 
     def _inverse_street_data(self):
         """In Brazil the address format is street_name, street_number
@@ -63,8 +63,11 @@ class Partner(models.Model):
         return super().copy(default)
 
     def _commercial_sync_from_company(self):
-        """
-        Overriden to avoid copying the CNPJ (vat field) to children companies
+        """Overridden to avoid copying the CNPJ (vat field) to child partners.
+
+        Odoo 20.0 renamed ``_commercial_sync_to_children`` into
+        ``_commercial_sync_to_descendants`` and routes the values through
+        ``_write_commercial_sync``.
         """
         if not self.is_br_partner:
             return super()._commercial_sync_from_company()
@@ -73,25 +76,26 @@ class Partner(models.Model):
         if commercial_partner != self:
             sync_vals = commercial_partner._get_commercial_values()
             sync_vals.pop("vat", None)
-            self.write(sync_vals)
-            self._commercial_sync_to_children()
+            if sync_vals:
+                self._write_commercial_sync(sync_vals)
+                self._commercial_sync_to_descendants()
+            self._company_dependent_commercial_sync()
 
-    def _commercial_sync_to_children(self, fields_to_sync=None):
-        """
-        Overriden to avoid copying the CNPJ (vat field) to parent partners
-        """
+    def _commercial_sync_to_descendants(self, fields_to_sync=None):
+        """Overridden to avoid copying the CNPJ (vat field) to parent partners."""
         if not self.is_br_partner:
-            return super()._commercial_sync_to_children(fields_to_sync)
+            return super()._commercial_sync_to_descendants(fields_to_sync)
 
+        if fields_to_sync is None:
+            fields_to_sync = self._commercial_fields()
+        fields_to_sync = [fname for fname in fields_to_sync if fname != "vat"]
         commercial_partner = self.commercial_partner_id
-        sync_vals = commercial_partner._get_commercial_values()
-        sync_vals.pop("vat", None)
+        sync_vals = commercial_partner._convert_fields_to_values(fields_to_sync)
         sync_children = self.child_ids.filtered(lambda c: not c.is_company)
         for child in sync_children:
-            child._commercial_sync_to_children(fields_to_sync)
-        res = sync_children.write(sync_vals)
-        sync_children._compute_commercial_partner()
-        return res
+            child._commercial_sync_to_descendants(fields_to_sync)
+        if sync_vals:
+            sync_children._write_commercial_sync(sync_vals)
 
     @api.constrains("vat", "l10n_br_ie_code")
     def _check_cnpj_l10n_br_ie_code(self):
@@ -108,14 +112,14 @@ class Partner(models.Model):
         if not records:
             return
 
-        # allow_cnpj_multi_ie is a res.config.settings boolean: it is stored
-        # as "True" when enabled and removed entirely when disabled
-        # (set_param deletes on a False bool), so a plain bool() reads it
-        # correctly (absent -> strict), matching base_setup.show_effect.
-        allow_cnpj_multi_ie = bool(
+        # allow_cnpj_multi_ie is a res.config.settings boolean: the
+        # parameter is absent (or stored as "False") when the setting is
+        # disabled, so get_bool() reads it correctly (absent -> strict),
+        # matching base_setup.show_effect.
+        allow_cnpj_multi_ie = (
             self.env["ir.config_parameter"]
             .sudo()
-            .get_param("l10n_br_base.allow_cnpj_multi_ie")
+            .get_bool("l10n_br_base.allow_cnpj_multi_ie")
         )
 
         # 18.0+ stores `vat` unformatted (OCA/l10n-brazil#4671) and compares by
@@ -284,28 +288,60 @@ class Partner(models.Model):
     def _onchange_city_id(self):
         self.city = self.city_id.name
 
-    def create_company(self):
-        self.ensure_one()
-        res = super(
+    def _create_parent_from_name(self, parent_name, additional_values=None):
+        """The core copies the contact VAT to the new parent company: allow
+        the duplicated CNPJ and copy the Brazilian fiscal data too."""
+        if not self.is_br_partner:
+            return super()._create_parent_from_name(parent_name, additional_values)
+        parent = super(
             Partner, self.with_context(allow_vat_duplicate=True)
-        ).create_company()
-        if res and self.is_br_partner:
-            parent = self.parent_id
-            parent.legal_name = parent.name
-            parent.l10n_br_ie_code = self.l10n_br_ie_code
-            parent.l10n_br_im_code = self.l10n_br_im_code
-        return res
+        )._create_parent_from_name(parent_name, additional_values)
+        parent.legal_name = parent.name
+        parent.l10n_br_ie_code = self.l10n_br_ie_code
+        parent.l10n_br_im_code = self.l10n_br_im_code
+        return parent
+
+    @api.depends("has_vat", "vat", "commercial_partner_id")
+    def _compute_is_company(self):
+        """Refine the core heuristic for Brazil.
+
+        Odoo 20.0 dropped the Person/Company switch and computes ``is_company``
+        from the commercial entity and a non void ``vat``. In Brazil the CPF
+        (individual) and the CNPJ (company) share the same ``vat`` field, so
+        every individual holding a CPF would otherwise be flagged as a company.
+        The CPF only identifies individuals in Brazil: a partner of another
+        country keeps the core behaviour, even when its VAT happens to be a
+        valid CPF.
+        """
+        cpf_partners = self.filtered(
+            lambda partner: (
+                (not partner.country_id or partner.country_id.code == "BR")
+                and cnpj_cpf.validar_cpf(partner.vat or "")
+            )
+        )
+        for partner in cpf_partners:
+            partner.is_company = False
+        return super(Partner, self - cpf_partners)._compute_is_company()
+
+    def _check_vat(self, validation="error"):
+        """Skip the core VAT check when the Brazilian validation is disabled.
+
+        Odoo 20.0 validates the VAT itself in ``base`` (``check_vat_br``
+        accepts both the CPF and the CNPJ), so the l10n_br_base setting that
+        disables the validation must also bypass the core check.
+        """
+        if self._l10n_br_disable_vat_validation():
+            return
+        return super()._check_vat(validation=validation)
 
     def _is_br_partner(self):
         """Check if is a Brazilian Partner."""
-        if (
+        return bool(
             self.country_id
             and self.country_id.code == "BR"
             or self.vat
             and (cnpj_cpf.validar_cnpj(self.vat) or cnpj_cpf.validar_cpf(self.vat))
-        ):
-            return True
-        return False
+        )
 
     def _compute_br_partner(self):
         """Check if is a Brazilian Partner."""
