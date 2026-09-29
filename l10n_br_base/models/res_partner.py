@@ -103,8 +103,12 @@ class Partner(models.Model):
         for record in self:
             domain = []
 
+            # `continue`, not `return`: this is a per-record check, and
+            # returning would silently skip every remaining record of the
+            # recordset -- on a batch create, a single partner without a vat
+            # would disable the check for all the ones after it.
             if not record.vat:
-                return
+                continue
 
             if self.env.context.get(
                 "disable_allow_cnpj_multi_ie"
@@ -127,16 +131,46 @@ class Partner(models.Model):
                     ("parent_id", "not in", record.parent_id.ids),
                 ]
 
-            # Compare by the normalized CNPJ/CPF (cnpj_cpf_stripped, without mask)
-            # so the same number typed with a different mask is still detected as
-            # a duplicate: `vat` is only normalized when written through the
+            # Compare by the normalized CNPJ/CPF (without mask) so the same
+            # number typed with a different mask is still detected as a
+            # duplicate: `vat` is only normalized when written through the
             # `cnpj_cpf` alias, so a direct `vat` write could store a different
             # mask and slip past a raw `vat` comparison.
+            #
+            # Normalize from `vat` instead of reading the stored
+            # `cnpj_cpf_stripped`: the latter is a stored computed field, so a
+            # raw SQL write on `vat` (a data migration, a bulk import) leaves it
+            # out of sync. An empty value would turn the clause below into
+            # ("cnpj_cpf_stripped", "=", False) and match every *other*
+            # out-of-sync record, reporting an unrelated partner as a duplicate.
+            #
+            # An empty normalized document is not only an out-of-sync value:
+            # `base` documents `vat = "/"` as "this partner is not subject to
+            # tax", and no character of it is alphanumeric, so the compute
+            # legitimately stores an empty string. The clause would then read
+            # ("cnpj_cpf_stripped", "=", "") and match every *other* tax-exempt
+            # partner, reporting two of them as duplicates of each other. Skip
+            # the record instead of searching for an empty document.
             # NOTE for the v19 migration: once `vat` is stored unformatted and
             # `cnpj_cpf_stripped` is retired, comparing by `vat` directly here is
             # enough.
+            stripped_vat = "".join(char for char in record.vat if char.isalnum())
+            if not stripped_vat:
+                continue
+
+            # Match the raw `vat` as well: normalizing from `vat` only fixes
+            # this side of the comparison, and the searched column is still the
+            # stored `cnpj_cpf_stripped`. A *counterpart* left out of sync by a
+            # raw SQL write would otherwise be invisible here, so a real
+            # duplicate would go through. `vat` is indexed in `base`, and both
+            # spellings are needed because the counterpart may hold the
+            # document either as typed or already unmasked. A counterpart
+            # out of sync *and* holding a different mask is only reachable
+            # through raw SQL, and is what the 16.0.6.6.0 migration repairs.
             domain += [
-                ("cnpj_cpf_stripped", "=", record.cnpj_cpf_stripped),
+                "|",
+                ("cnpj_cpf_stripped", "=", stripped_vat),
+                ("vat", "in", [record.vat, stripped_vat]),
                 ("id", "!=", record.id),
                 ("parent_id", "!=", record.id),
             ]
