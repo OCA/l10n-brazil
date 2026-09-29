@@ -22,6 +22,7 @@ num2words
 phonenumbers
 pyyaml
 requests
+signxml
 transitions
 unidecode
 workalendar
