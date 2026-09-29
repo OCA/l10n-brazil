@@ -5,7 +5,6 @@ import logging
 from datetime import timedelta
 
 from erpbrasil.base import misc
-from lxml import etree
 
 from odoo import api, fields, models
 from odoo.tools import config as odooconfig
@@ -78,7 +77,7 @@ class DataNcmNbsAbstract(models.AbstractModel):
         the system parameter, else 30 seconds."""
         return (
             odooconfig.get("ibpt_request_timeout")
-            or self.env["ir.config_parameter"].sudo().get_param("ibpt_request_timeout")
+            or self.env["ir.config_parameter"].sudo().get_int("ibpt_request_timeout")
             or 30
         )
 
@@ -131,7 +130,7 @@ class DataNcmNbsAbstract(models.AbstractModel):
                         ),
                     )
 
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001 - one record must not stop the rest
                 _logger.warning(
                     self.env._(
                         "%(name)s Tax Estimate Failure: %(error)s",
@@ -160,6 +159,7 @@ class DataNcmNbsAbstract(models.AbstractModel):
         data_max = today - timedelta(days=config_date)
 
         # product_tmpl_qty is not stored, so it cannot go in the domain
+
         not_estimated = (
             self.env[self._name]
             .search([("tax_estimate_ids", "=", False)])
@@ -191,8 +191,14 @@ class DataNcmNbsAbstract(models.AbstractModel):
         for record in not_estimated + record_past_estimated:
             try:
                 record.action_ibpt_inquiry()
-            except Exception:
-                continue
+            except Exception as e:  # noqa: BLE001 - one record must not stop the rest
+                _logger.warning(
+                    self.env._(
+                        "%(name)s Tax Estimate Failure: %(error)s",
+                        name=object_name,
+                        error=e,
+                    )
+                )
 
         _logger.info(
             self.env._(
@@ -202,14 +208,19 @@ class DataNcmNbsAbstract(models.AbstractModel):
         )
 
     @api.model
-    def get_view(self, view_id=None, view_type="form", **options):
-        res = super().get_view(view_id, view_type, **options)
+    def _get_view(self, view_id=None, view_type="form", **options):
+        arch, view = super()._get_view(view_id, view_type, **options)
         if view_type == "form":
-            xml = etree.XML(res["arch"])
-            xml_button = xml.xpath("//button[@name='action_ibpt_inquiry']")
+            xml_button = arch.xpath("//button[@name='action_ibpt_inquiry']")
             if xml_button and not self.env.company.ibpt_api:
                 xml_button[0].set("invisible", "1")
-                res["arch"] = etree.tostring(xml, pretty_print=True)
-        if res.get("toolbar") and not self.env.company.ibpt_api:
-            res["toolbar"]["action"] = []
+        return arch, view
+
+    @api.model
+    def get_views(self, views, options=None):
+        res = super().get_views(views, options)
+        if not self.env.company.ibpt_api:
+            for view in res.get("views", {}).values():
+                if view.get("toolbar"):
+                    view["toolbar"]["action"] = []
         return res

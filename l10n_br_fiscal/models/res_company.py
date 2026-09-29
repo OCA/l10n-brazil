@@ -220,7 +220,9 @@ class ResCompany(models.Model):
     # Computed domains replace parent.tax_framework (Odoo 17 client-side JS).
     # Odoo 18 evaluates Many2one domains server-side; parent. is invalid there.
     piscofins_id_domain = fields.Json(compute="_compute_piscofins_id_domain")
+
     tax_ipi_id_domain = fields.Json(compute="_compute_tax_ipi_id_domain")
+
     tax_icms_id_domain = fields.Json(compute="_compute_tax_icms_id_domain")
 
     tax_cofins_wh_id = fields.Many2one(

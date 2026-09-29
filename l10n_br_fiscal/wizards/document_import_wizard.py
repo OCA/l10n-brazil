@@ -10,6 +10,7 @@ from erpbrasil.base.misc import punctuation_rm
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools import BinaryValue
 
 from ..constants.fiscal import (
     FISCAL_IN,
@@ -196,7 +197,10 @@ class DocumentImportWizard(models.TransientModel):
         with (the_fiscal_document_type_code, the_name_of_the_importation_wizard)
         """
         raise UserError(
-            self.env._("Importation not implemented for %s!", type(binding))
+            self.env._(
+                "Importation not implemented for %(binding_type)s!",
+                binding_type=type(binding),
+            )
         )
 
     def action_open_document(self):
@@ -293,6 +297,9 @@ class DocumentImportWizard(models.TransientModel):
     @api.model
     def _parse_file_data(self, file_data):
         try:
+            if isinstance(file_data, BinaryValue):
+                # a Binary field is read as its raw content since 20.0
+                return XmlParser().from_bytes(file_data.content)
             return XmlParser().from_bytes(base64.b64decode(file_data))
         except ParserError as parser_error:
             # the stacktrace still reaches the log, it does help for support

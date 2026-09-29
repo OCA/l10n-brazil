@@ -115,7 +115,7 @@ class SimplifiedTax(models.Model):
     def _get_range(self, revenue):
         """Range of the annex a gross revenue of the last 12 months falls into."""
         return self.simplified_tax_range_ids.filtered(
-            lambda tax_range: tax_range.inital_revenue
-            <= revenue
-            <= tax_range.final_revenue
+            lambda tax_range: (
+                tax_range.inital_revenue <= revenue <= tax_range.final_revenue
+            )
         )[:1]

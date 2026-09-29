@@ -46,7 +46,7 @@
                                 <div t-if="record.product_tmpl_qty.value &gt;= 1">
                                     <strong>
                                     <t
-                                        t-esc="record.product_tmpl_qty.value"
+                                        t-out="record.product_tmpl_qty.value"
                                     />Product(s)</strong>
                                 </div>
                             </div>
@@ -70,7 +70,7 @@
                             invisible="0"
                             type="object"
                             class="oe_stat_button"
-                            icon="fa-file"
+                            icon="description"
                         />
                         <!--button
                             type="action"

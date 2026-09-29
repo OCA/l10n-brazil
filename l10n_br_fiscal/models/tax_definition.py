@@ -393,11 +393,11 @@ class TaxDefinition(models.Model):
         for index, values in enumerate(vals_list):
             if set(ncm_fields_list).intersection(values.keys()):
                 create_super[index].with_context(do_not_write=True).action_search_ncms()
-            if "cests" in values.keys():
+            if "cests" in values:
                 create_super[index].with_context(
                     do_not_write=True
                 ).action_search_cests()
-            if "nbms" in values.keys():
+            if "nbms" in values:
                 create_super[index].with_context(do_not_write=True).action_search_nbms()
         return create_super
 
@@ -407,9 +407,9 @@ class TaxDefinition(models.Model):
         do_not_write = self.env.context.get("do_not_write")
         if set(ncm_fields_list).intersection(values.keys()) and not do_not_write:
             self.with_context(do_not_write=True).action_search_ncms()
-        if "cests" in values.keys() and not do_not_write:
+        if "cests" in values and not do_not_write:
             self.with_context(do_not_write=True).action_search_cests()
-        if "nbms" in values.keys() and not do_not_write:
+        if "nbms" in values and not do_not_write:
             self.with_context(do_not_write=True).action_search_nbms()
         return write_super
 

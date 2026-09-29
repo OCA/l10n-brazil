@@ -46,7 +46,7 @@
                         id="product_tmpl_button"
                         class="oe_stat_button"
                         type="action"
-                        icon="fa-bars"
+                        icon="menu"
                         name="%(product.product_template_action_all)d"
                         context="{'search_default_cest_id': id}"
                         invisible="product_tmpl_qty == 0"

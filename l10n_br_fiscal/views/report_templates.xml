@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!-- Copyright 2026 KMEE
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
@@ -8,8 +8,8 @@
     <template id="report_company_fiscal_data">
         <li
             t-if="company._get_report_option('report_company_fiscal_data')"
-            name="l10n_br_company_fiscal_data"
             class="small mt-1"
+            name="l10n_br_company_fiscal_data"
         >
             <t
                 t-foreach="company.partner_id._get_report_fiscal_data(tax_framework=company.report_tax_framework)"
@@ -102,98 +102,11 @@
         </t>
     </template>
 
-    <!-- Company fiscal data in the header of every layout -->
-    <template id="external_layout_standard" inherit_id="web.external_layout_standard">
-        <!-- the company tax ID is already in the company fiscal data -->
-        <xpath
-            expr="//li[@t-if='not forced_vat']/t[@t-if='company.vat']"
-            position="attributes"
-        >
-            <attribute
-                name="t-if"
-            >company.vat and not company._get_report_option('report_company_fiscal_data')</attribute>
-        </xpath>
-        <xpath expr="//ul[@name='company_address_list']" position="inside">
-            <t t-call="l10n_br_fiscal.report_company_fiscal_data" />
-        </xpath>
-    </template>
-
-    <template id="external_layout_boxed" inherit_id="web.external_layout_boxed">
-        <!-- the company tax ID is already in the company fiscal data -->
-        <xpath
-            expr="//li[@t-if='not forced_vat']/t[@t-if='company.vat']"
-            position="attributes"
-        >
-            <attribute
-                name="t-if"
-            >company.vat and not company._get_report_option('report_company_fiscal_data')</attribute>
-        </xpath>
-        <xpath expr="//ul[@name='company_address_list']" position="inside">
-            <t t-call="l10n_br_fiscal.report_company_fiscal_data" />
-        </xpath>
-    </template>
-
-    <template id="external_layout_bold" inherit_id="web.external_layout_bold">
-        <!-- the company tax ID is already in the company fiscal data -->
-        <xpath
-            expr="//li[@t-if='not forced_vat']/t[@t-if='company.vat']"
-            position="attributes"
-        >
-            <attribute
-                name="t-if"
-            >company.vat and not company._get_report_option('report_company_fiscal_data')</attribute>
-        </xpath>
-        <xpath expr="//ul[@name='company_address_list']" position="inside">
-            <t t-call="l10n_br_fiscal.report_company_fiscal_data" />
-        </xpath>
-    </template>
-
-    <template id="external_layout_striped" inherit_id="web.external_layout_striped">
-        <!-- the company tax ID is already in the company fiscal data -->
-        <xpath
-            expr="//li[@t-if='not forced_vat']/t[@t-if='company.vat']"
-            position="attributes"
-        >
-            <attribute
-                name="t-if"
-            >company.vat and not company._get_report_option('report_company_fiscal_data')</attribute>
-        </xpath>
-        <xpath expr="//ul[@name='company_address_list']" position="inside">
-            <t t-call="l10n_br_fiscal.report_company_fiscal_data" />
-        </xpath>
-    </template>
-
-    <template id="external_layout_folder" inherit_id="web.external_layout_folder">
-        <!-- the company tax ID is already in the company fiscal data -->
-        <xpath
-            expr="//li[@t-if='not forced_vat']/t[@t-if='company.vat']"
-            position="attributes"
-        >
-            <attribute
-                name="t-if"
-            >company.vat and not company._get_report_option('report_company_fiscal_data')</attribute>
-        </xpath>
-        <xpath expr="//ul[@name='company_address_list']" position="inside">
-            <t t-call="l10n_br_fiscal.report_company_fiscal_data" />
-        </xpath>
-    </template>
-
-    <template id="external_layout_wave" inherit_id="web.external_layout_wave">
-        <!-- the company tax ID is already in the company fiscal data -->
-        <xpath
-            expr="//li[@t-if='not forced_vat']/t[@t-if='company.vat']"
-            position="attributes"
-        >
-            <attribute
-                name="t-if"
-            >company.vat and not company._get_report_option('report_company_fiscal_data')</attribute>
-        </xpath>
-        <xpath expr="//ul[@name='company_address_list']" position="inside">
-            <t t-call="l10n_br_fiscal.report_company_fiscal_data" />
-        </xpath>
-    </template>
-
-    <template id="external_layout_bubble" inherit_id="web.external_layout_bubble">
+    <!-- Company fiscal data in the header of every layout.
+         Since 20.0 the address block lives in the shared web.company_address_list
+         template (19.0 duplicated it in each of the external layouts), so a
+         single inheritance covers every layout. -->
+    <template id="company_address_list" inherit_id="web.company_address_list">
         <!-- the company tax ID is already in the company fiscal data -->
         <xpath
             expr="//li[@t-if='not forced_vat']/t[@t-if='company.vat']"

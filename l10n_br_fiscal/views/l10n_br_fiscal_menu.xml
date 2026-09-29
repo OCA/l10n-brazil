@@ -180,7 +180,7 @@
     <!-- Product UOM -->
     <menuitem
         id="uom_menu"
-        action="uom.product_uom_form_action"
+        action="uom.uom_uom_action_list"
         groups="l10n_br_fiscal.group_manager"
         parent="product_service_menu"
         sequence="40"

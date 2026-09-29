@@ -109,7 +109,7 @@ class InvalidateNumber(models.Model):
 
     @api.ondelete(at_uninstall=False)
     def _unlink_except_not_draft(self):
-        if self.filtered(lambda n: not n.state == "draft"):
+        if self.filtered(lambda n: n.state != "draft"):
             raise UserError(
                 self.env._("You can delete only draft Invalidate Number Range !")
             )

@@ -312,7 +312,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         vals.pop("id", None)
 
         if default:  # in case you want to use new rather than write later
-            return {f"default_{k}": vals[k] for k in vals.keys()}
+            return {f"default_{k}": vals[k] for k in vals}
         return vals
 
     @api.depends("fiscal_operation_id", "partner_id", "product_id")
@@ -550,10 +550,15 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         groups = self.env["l10n_br_fiscal.tax.group"].search([])
         return {group.tax_domain: group for group in groups}
 
-    def _update_imported_tax_amounts(self, tax_groups):
+    def _imported_tax_amounts(self, tax_groups):
+        """Amounts of an imported document, from the tax values of the file."""
         self.ensure_one()
         empty_group = self.env["l10n_br_fiscal.tax.group"]
-        amount_included = amount_not_included = amount_withholding = 0.0
+        amounts = {
+            "amount_tax_included": 0.0,
+            "amount_tax_not_included": 0.0,
+            "amount_tax_withholding": 0.0,
+        }
         for tax_field in FISCAL_TAX_ID_FIELDS:
             tax_domain = tax_field[: -len("_tax_id")]
             tax_value = self[TAX_VALUE_FIELDS[tax_domain]]
@@ -563,20 +568,38 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                 tax_domain, empty_group
             )
             if tax_group.tax_withholding:
-                amount_withholding += tax_value
+                amounts["amount_tax_withholding"] += tax_value
             elif tax_group.tax_include:
-                amount_included += tax_value
+                amounts["amount_tax_included"] += tax_value
             else:
-                amount_not_included += tax_value
-        to_update = {
-            "amount_tax_included": amount_included,
-            "amount_tax_not_included": amount_not_included,
-            "amount_tax_withholding": amount_withholding,
-        }
+                amounts["amount_tax_not_included"] += tax_value
+        return amounts
+
+    def _update_imported_tax_amounts(self, tax_groups):
+        self.ensure_one()
+        to_update = self._imported_tax_amounts(tax_groups)
         if self != self._origin:
             self.update(to_update)
         else:
             self.write(to_update)
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        """Derive the amounts of the imported documents.
+
+        Since 20.0, when the create() values carry one of the fields computed
+        by ``_compute_tax_fields``, the ORM leaves every other field of the
+        same compute to False instead of computing them. An imported document
+        gives the tax values read from the file, so its amounts would stay at
+        zero: derive them from those values once the record exists.
+        """
+        records = super().create(vals_list)
+        for record in records:
+            if record._is_imported():
+                record.write(
+                    record._imported_tax_amounts(record._tax_groups_by_domain())
+                )
+        return records
 
     def _prepare_tax_fields(self, compute_result):
         self.ensure_one()
@@ -1099,7 +1122,28 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             if line.ind_final != doc.ind_final:
                 line.ind_final = doc.ind_final
 
-    partner_company_type = fields.Selection(related="partner_id.company_type")
+    partner_company_type = fields.Selection(
+        selection=[("person", "Individual"), ("company", "Company")],
+        compute="_compute_partner_company_type",
+    )
+
+    @api.depends("partner_id.is_company")
+    def _compute_partner_company_type(self):
+        """Tell whether the document partner is a company or an individual.
+
+        Odoo 20.0 removed `res.partner.company_type`: the partner type is now
+        derived from the computed `is_company` (which l10n_br_base refines so
+        that a CPF holder stays an individual). Kept as a selection, with the
+        same values as the former related field, because it is part of the
+        document line API used by the fiscal views.
+        """
+        for line in self:
+            if not line.partner_id:
+                line.partner_company_type = False
+            elif line.partner_id.is_company:
+                line.partner_company_type = "company"
+            else:
+                line.partner_company_type = "person"
 
     uom_id = fields.Many2one(
         comodel_name="uom.uom",
@@ -1107,7 +1151,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
 
     quantity = fields.Float(
-        digits="Product Unit of Measure",
+        digits="Product Unit",
     )
 
     fiscal_type = fields.Selection(
@@ -1228,7 +1272,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
 
     fiscal_quantity = fields.Float(
-        digits="Product Unit of Measure",
+        digits="Product Unit",
         compute="_compute_fiscal_quantity",
         store=True,
         precompute=True,

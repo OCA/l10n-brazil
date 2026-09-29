@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
+from odoo.tools import SQL
 
 from ..constants.fiscal import (
     CFOP_DESTINATION_EXPORT,
@@ -106,7 +107,7 @@ class FiscalDocumentLineReport(models.Model):
         readonly=True,
     )
 
-    quantity = fields.Float(digits="Product Unit of Measure", readonly=True)
+    quantity = fields.Float(digits="Product Unit", readonly=True)
 
     amount_gross = fields.Float(string="Gross Amount", digits="Account")
 
@@ -241,5 +242,12 @@ class FiscalDocumentLineReport(models.Model):
         """
 
     @property
-    def _table_query(self):
-        return f"SELECT {self._select()} FROM {self._from()}"
+    def _table_sql(self):
+        """SQL source of the model.
+
+        20.0 replaced ``_table_query`` by ``_table_sql``: the ORM reads the
+        model through this query (no physical view is created any more), so it
+        is an ``SQL`` object holding the parenthesised query, as in the core
+        SQL view models.
+        """
+        return SQL(f"(SELECT {self._select()} FROM {self._from()})")

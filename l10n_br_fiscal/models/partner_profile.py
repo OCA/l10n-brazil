@@ -89,7 +89,7 @@ class PartnerProfile(models.Model):
                 len(
                     profile.search(
                         [
-                            ("default", "=", "True"),
+                            ("default", "=", True),
                             ("is_company", "=", profile.is_company),
                         ]
                     )

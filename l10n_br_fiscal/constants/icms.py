@@ -10,36 +10,48 @@ ICMS_ORIGIN = [
     ),
     (
         "3",
-        "3 – Nacional – mercadoria ou bem com Conteúdo de Importação "
-        "superior a 40% (quarenta por cento) e inferior ou igual a "
-        "70% (setenta por cento)",
+        (
+            "3 – Nacional – mercadoria ou bem com Conteúdo de Importação "
+            "superior a 40% (quarenta por cento) e inferior ou igual a "
+            "70% (setenta por cento)"
+        ),
     ),
     (
         "4",
-        "4 – Nacional – cuja produção tenha sido feita em conformidade com "
-        "os processos produtivos básicos de que tratam o Decreto-lei "
-        "n° 288/67 e as Leis (federais) nos 8.428/91, 8.397/91, "
-        "10.176/2001 e 11.484/2007",
+        (
+            "4 – Nacional – cuja produção tenha sido feita em conformidade com "
+            "os processos produtivos básicos de que tratam o Decreto-lei "
+            "n° 288/67 e as Leis (federais) nos 8.428/91, 8.397/91, "
+            "10.176/2001 e 11.484/2007"
+        ),
     ),
     (
         "5",
-        "5 – Nacional – mercadoria ou bem com Conteúdo de Importação "
-        "inferior ou igual a 40% (quarenta por cento)",
+        (
+            "5 – Nacional – mercadoria ou bem com Conteúdo de Importação "
+            "inferior ou igual a 40% (quarenta por cento)"
+        ),
     ),
     (
         "6",
-        "6 – Estrangeira – importação direta, sem similar nacional, "
-        "constante em lista de Resolução CAMEX e gás natural",
+        (
+            "6 – Estrangeira – importação direta, sem similar nacional, "
+            "constante em lista de Resolução CAMEX e gás natural"
+        ),
     ),
     (
         "7",
-        "7 – Estrangeira – adquirida no mercado interno, sem similar "
-        "nacional, constante em lista de Resolução CAMEX e gás natural",
+        (
+            "7 – Estrangeira – adquirida no mercado interno, sem similar "
+            "nacional, constante em lista de Resolução CAMEX e gás natural"
+        ),
     ),
     (
         "8",
-        "8 – Nacional – mercadoria ou bem com Conteúdo de Importação "
-        "superior a 70% (setenta por cento). (cf. Ajuste SINIEF 15/2013)",
+        (
+            "8 – Nacional – mercadoria ou bem com Conteúdo de Importação "
+            "superior a 70% (setenta por cento). (cf. Ajuste SINIEF 15/2013)"
+        ),
     ),
 ]
 

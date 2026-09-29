@@ -78,7 +78,7 @@
                                                     >
                                                         <span title="A enviar">
                                                         <t
-                                                            t-esc="dashboard.number_2confirm"
+                                                            t-out="dashboard.number_2confirm"
                                                         /> A enviar</span>
                                                     </a>
                                                 </div>
@@ -92,7 +92,7 @@
                                                         id="fiscal_dashboard_sale_pay_link"
                                                     >
                                                     <t
-                                                        t-esc="dashboard.number_authorized"
+                                                        t-out="dashboard.number_authorized"
                                                     /> Autorizados</a>
                                                 </div>
                                             </div>
@@ -105,7 +105,7 @@
                                                     >
                                                         <span title="Cancelados">
                                                         <t
-                                                            t-esc="dashboard.number_cancelled"
+                                                            t-out="dashboard.number_cancelled"
                                                         /> Cancelados</span>
                                                     </a>
                                                 </div>

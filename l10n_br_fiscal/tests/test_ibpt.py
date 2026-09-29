@@ -27,7 +27,11 @@ _logger = logging.getLogger(__name__)
 
 
 def _not_every_day_test(method, self, modulo=7, remaining=0):
-    if datetime.now().day % modulo == remaining or environ.get("CI_FORCE_IBPT"):
+    # the gate is on the local calendar day, not on a persisted timestamp
+    if (
+        datetime.now().day % modulo == remaining  # noqa: DTZ005
+        or environ.get("CI_FORCE_IBPT")
+    ):
         return method(self)
     else:
         return lambda: _logger.info(
@@ -120,14 +124,14 @@ class TestIbpt(TransactionCase):
                 odooconfig.get("ibpt_request_timeout")
                 or cls.env["ir.config_parameter"]
                 .sudo()
-                .get_param("ibpt_request_timeout"),
+                .get_int("ibpt_request_timeout"),
             )
             if ncm_nbs._name == "l10n_br_fiscal.ncm":
                 result = bool(get_ibpt_product(config, ncm_nbs.code_unmasked))
 
             if ncm_nbs._name == "l10n_br_fiscal.nbs":
                 result = bool(get_ibpt_service(config, ncm_nbs.code_unmasked))
-        except Exception:
+        except Exception:  # noqa: BLE001 - an unreachable IBPT API is not a failure
             result = False
         return result
 
@@ -176,8 +180,8 @@ class TestIbptRequestTimeout(TransactionCase):
         self.addCleanup(patcher.stop)
 
     def test_ibpt_request_timeout_parameter(self):
-        self.env["ir.config_parameter"].sudo().set_param("ibpt_request_timeout", "45")
-        self.assertEqual(self.ncm_model._get_ibpt_request_timeout(), "45")
+        self.env["ir.config_parameter"].sudo().set_int("ibpt_request_timeout", 45)
+        self.assertEqual(self.ncm_model._get_ibpt_request_timeout(), 45)
 
     def test_ibpt_request_timeout_without_parameter(self):
         """A database updated from a version without the parameter does not

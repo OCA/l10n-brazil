@@ -29,3 +29,10 @@ class TestPartnerFiscalProfile(TransactionCase):
 
         self.assertEqual(action["res_model"], "res.partner")
         self.assertEqual(self.env["res.partner"].search(action["domain"]), partner)
+
+    def test_action_view_partners(self):
+        """The smart button opens the partners of the profile."""
+        profile = self.env["l10n_br_fiscal.partner.profile"].search([], limit=1)
+        action = profile.action_view_partners()
+        self.assertEqual(action["res_model"], "res.partner")
+        self.assertEqual(action["domain"], [("fiscal_profile_id", "=", profile.id)])

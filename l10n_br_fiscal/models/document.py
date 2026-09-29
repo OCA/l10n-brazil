@@ -405,9 +405,9 @@ class Document(models.Model):
                 if not fsc_op_line:
                     raise ValidationError(
                         self.env._(
-                            "The fiscal operation %s has no return Fiscal "
-                            "Operation defined",
-                            line.fiscal_operation_id,
+                            "The fiscal operation %(fiscal_op)s has no return "
+                            "Fiscal Operation defined",
+                            fiscal_op=line.fiscal_operation_id,
                         )
                     )
                 line.fiscal_operation_id = fsc_op_line

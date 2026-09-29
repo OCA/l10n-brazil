@@ -70,5 +70,5 @@ def set_demo_product_fiscal_data(env):
             product_tmpl.with_company(company_lp).write(values)
         except ValueError:
             _logger.warning(f"Could not find record for XML ID {xml_id}, skipping.")
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001 - keep going with the other records
             _logger.error(f"Error setting fiscal data for {xml_id}: {e}")

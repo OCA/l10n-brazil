@@ -6,7 +6,7 @@
         <field name="ncm_id" ref="l10n_br_fiscal.ncm_00000000" />
         <field name="fiscal_type">09</field>
         <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_00" />
-        <field name="icms_origin" eval="" />
+        <field name="icms_origin" eval="False" />
         <field name="service_type_id" ref="l10n_br_fiscal.service_type_701" />
         <field name="nbs_id" ref="l10n_br_fiscal.nbs_114021100" />
     </record>
@@ -16,7 +16,7 @@
         <field name="ncm_id" ref="l10n_br_fiscal.ncm_00000000" />
         <field name="fiscal_type">09</field>
         <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_00" />
-        <field name="icms_origin" eval="" />
+        <field name="icms_origin" eval="False" />
         <field name="service_type_id" ref="l10n_br_fiscal.service_type_701" />
         <field name="nbs_id" ref="l10n_br_fiscal.nbs_114021100" />
     </record>
@@ -25,7 +25,7 @@
         <field name="ncm_id" ref="l10n_br_fiscal.ncm_00000000" />
         <field name="fiscal_type">09</field>
         <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_00" />
-        <field name="icms_origin" eval="" />
+        <field name="icms_origin" eval="False" />
         <field name="service_type_id" ref="l10n_br_fiscal.service_type_901" />
         <field name="nbs_id" ref="l10n_br_fiscal.nbs_114021100" />
     </record>
@@ -260,7 +260,7 @@
         <field name="fiscal_type">09</field>
         <field name="tax_icms_or_issqn">issqn</field>
         <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_00" />
-        <field name="icms_origin" eval="" />
+        <field name="icms_origin" eval="False" />
         <field name="service_type_id" ref="l10n_br_fiscal.service_type_105" />
     </record>
 </odoo>

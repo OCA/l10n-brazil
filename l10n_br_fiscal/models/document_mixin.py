@@ -71,7 +71,7 @@ class FiscalDocumentMixin(models.AbstractModel):
         vals.pop("id", None)
 
         if default:  # in case you want to use new rather than write later
-            return {f"default_{k}": vals[k] for k in vals.keys()}
+            return {f"default_{k}": vals[k] for k in vals}
         return vals
 
     @api.onchange("document_type_id")
@@ -255,10 +255,7 @@ class FiscalDocumentMixin(models.AbstractModel):
         o2m_field_name = self._get_fiscal_lines_field_name()
         target_fields = []
         for field in self._get_amount_fields():
-            if (
-                field.replace("amount_", "")
-                in getattr(self, o2m_field_name)._fields.keys()
-            ):
+            if field.replace("amount_", "") in getattr(self, o2m_field_name)._fields:
                 target_fields.append(field.replace("amount_", ""))
 
         return [o2m_field_name] + [
@@ -283,9 +280,9 @@ class FiscalDocumentMixin(models.AbstractModel):
             values = {key: 0.0 for key in fields}
             for line in doc._get_amount_lines():
                 for field in fields:
-                    if field in line._fields.keys():
+                    if field in line._fields:
                         values[field] += line[field]
-                    if field.replace("amount_", "") in line._fields.keys():
+                    if field.replace("amount_", "") in line._fields:
                         # FIXME this field creates an error in invoice form
                         if field == "amount_financial_discount_value":
                             values["amount_financial_discount_value"] += (
