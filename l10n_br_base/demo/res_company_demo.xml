@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <!-- Sua Empresa - Simples Nacional -->
     <record id="base.main_partner" model="res.partner">
