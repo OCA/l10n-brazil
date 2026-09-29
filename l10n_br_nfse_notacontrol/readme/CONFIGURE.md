@@ -3,6 +3,8 @@ On the company:
 - set the city: companies in a city served by NotaControl (see
   `erpbrasil.edoc.provedores.notacontrol.MUNICIPIOS`) get **NFS-e via
   NotaControl** checked automatically;
+- set the **NFSe Provider** to **Sefin Nacional (ADN)**, as for
+  `l10n_br_nfse_nacional`: NotaControl only replaces the transmission;
 - configure the ICP-Brasil A1 certificate and the municipal registration (IM),
   both required by the webservice;
 - choose the **NotaControl Signature** algorithm: the official batch sample
