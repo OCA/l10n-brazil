@@ -1,0 +1,9 @@
+# l10n_br_fiscal_certificate depends on erpbrasil.assinatura, which pulls in
+# signxml. Keep signxml below 4: signxml >= 4 requires cryptography >= 42,
+# while the oca-ci image runs python 3.10 where Odoo pins cryptography 3.4.8
+# (see odoo/odoo requirements.txt, "incompatibility between pyopenssl 19.0.0
+# and cryptography>=37.0.0"). Installing a newer cryptography there breaks the
+# image's pyOpenSSL, and Odoo then fails to load the `base` module with
+# `AttributeError: module 'lib' has no attribute 'GEN_EMAIL'`.
+# Drop this pin once the CI image ships cryptography >= 42 and pyOpenSSL >= 24.
+signxml==3.2.2
