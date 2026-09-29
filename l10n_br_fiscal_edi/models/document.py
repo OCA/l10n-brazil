@@ -31,6 +31,7 @@ from ..constants.fiscal import (
     DOCUMENT_STATE_REJECTED,
     DOCUMENT_STATE_SENDING,
     DOCUMENT_STATES,
+    FSM_STATE_CHANGE_CONTEXT,
 )
 
 
@@ -57,7 +58,8 @@ class FiscalDocumentStateMachine(Machine):
     Nested ``_trigger_fsm()`` calls made from those callbacks (e.g. the
     send -> authorize chain) therefore always read the up-to-date state_edoc.
     The initial ``set_state()`` done at machine construction is a no-op write
-    thanks to the value comparison.
+    thanks to the value comparison. The write carries FSM_STATE_CHANGE_CONTEXT,
+    so that extensions can defer work that needs the ``after`` callbacks.
     """
 
     def __init__(self, document, *args, **kwargs):
@@ -67,7 +69,9 @@ class FiscalDocumentStateMachine(Machine):
     def set_state(self, state, model=None):
         result = super().set_state(state, model)
         if self.state != self.document.state_edoc:
-            self.document.write({"state_edoc": self.state})
+            self.document.with_context(**{FSM_STATE_CHANGE_CONTEXT: True}).write(
+                {"state_edoc": self.state}
+            )
         return result
 
 
@@ -867,7 +871,7 @@ class Document(models.Model):
         shown = names[: self.NOTIFICATION_NAMES_LIMIT]
         hidden = len(names) - len(shown)
         if hidden:
-            shown = shown + [_("+%s more") % hidden]
+            shown = shown + [self.env._("+%s more") % hidden]
         return "; ".join(shown)
 
     def _notify_status_check(self, changed, kept, failed, without_key, skipped):
@@ -878,22 +882,23 @@ class Document(models.Model):
         ]
         lines = []
         if changed:
-            lines.append(_("Changed: %s") % self._truncated_names(changed))
+            lines.append(self.env._("Changed: %s") % self._truncated_names(changed))
         if kept:
-            lines.append(_("Unchanged: %s") % len(kept))
+            lines.append(self.env._("Unchanged: %s") % len(kept))
         if failed:
-            lines.append(_("Failed: %s") % self._truncated_names(failed))
+            lines.append(self.env._("Failed: %s") % self._truncated_names(failed))
         if without_key:
             lines.append(
-                _("Without a key to ask about: %s") % self._truncated_names(without_key)
+                self.env._("Without a key to ask about: %s")
+                % self._truncated_names(without_key)
             )
         if skipped:
-            lines.append(_("Not asked about this time: %s") % len(skipped))
+            lines.append(self.env._("Not asked about this time: %s") % len(skipped))
         return {
             "type": "ir.actions.client",
             "tag": "display_notification",
             "params": {
-                "title": _("Status checked at the SEFAZ"),
+                "title": self.env._("Status checked at the SEFAZ"),
                 "message": "\n".join(lines),
                 "type": "danger" if failed else ("success" if changed else "info"),
                 "sticky": bool(changed or failed),
