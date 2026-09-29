@@ -1,3 +1,5 @@
+# The ORM works with naive datetimes in UTC.
+# ruff: noqa: DTZ001
 from datetime import date, datetime
 
 from odoo.tests import common
@@ -167,3 +169,23 @@ class TestResourceCalendar(common.TransactionCase):
         ].get_calendar_for_country()
         self.assertTrue(calendar.exists())
         self.assertEqual(calendar.country_id.name, "Brazil")
+
+    def test_calendar_country_is_not_the_company_country(self):
+        company = self.env["res.company"].create(
+            {"name": "Calendar Company", "country_id": self.env.ref("base.us").id}
+        )
+        calendar = self.env["resource.calendar"].create(
+            {
+                "name": "Calendar Brazil Test",
+                "company_id": company.id,
+                "country_id": self.env.ref("base.br").id,
+            }
+        )
+        self.assertEqual(calendar.country_id, self.env.ref("base.br"))
+        self.assertEqual(company.country_id, self.env.ref("base.us"))
+        self.assertIn(
+            calendar,
+            self.env["resource.calendar"].search(
+                [("country_id", "=", self.env.ref("base.br").id)]
+            ),
+        )

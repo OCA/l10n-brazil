@@ -1,6 +1,8 @@
 # Copyright 2016 KMEE - Luis Felipe Miléo <mileo@kmee.com.br>
 # Copyright 2016 KMEE - Hendrix Costa <hendrix.costa@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+# The ORM works with naive datetimes in UTC.
+# ruff: noqa: DTZ005
 
 from datetime import datetime, time, timedelta
 
@@ -35,9 +37,11 @@ class ResourceCalendar(models.Model):
 
     parent_path = fields.Char(index=True)
 
-    country_id = fields.Many2one("res.country", "Country")
+    # Odoo 20 declares country_id as related to the company country: the
+    # calendar keeps its own country, as in the previous versions.
+    country_id = fields.Many2one("res.country", related=False, readonly=False)
     state_id = fields.Many2one(
-        "res.country.state", "State", domain="[('country_id','=',country_id)]"
+        "res.country.state", domain="[('country_id','=',country_id)]"
     )
     l10n_br_city_id = fields.Many2one(
         "res.city", "Municipality", domain="[('state_id','=',state_id)]"
@@ -77,7 +81,7 @@ class ResourceCalendar(models.Model):
         leaves = []
         for leave in self.leave_ids:
             if leave.resource_id and resource_id:
-                if not resource_id == leave.resource_id.id:
+                if resource_id != leave.resource_id.id:
                     continue
             elif leave.resource_id and not resource_id:
                 continue
@@ -99,10 +103,8 @@ class ResourceCalendar(models.Model):
         if not date:
             date = datetime.now()
         for leave in self.leave_ids:
-            if leave.date_from <= date:
-                if leave.date_to >= date:
-                    if leave.leave_type == "F":
-                        return True
+            if leave.date_from <= date <= leave.date_to and leave.leave_type == "F":
+                return True
         return False
 
     @staticmethod
@@ -171,11 +173,11 @@ class ResourceCalendar(models.Model):
         day_before = reference_date - timedelta(days=1)
         day_after = reference_date + timedelta(days=1)
 
-        day_before_is_monday = (
-            True if day_before.weekday() == 0 or self.is_holiday(day_before) else False
+        day_before_is_monday = bool(
+            day_before.weekday() == 0 or self.is_holiday(day_before)
         )
-        day_after_is_friday = (
-            True if day_after.weekday() == 4 or self.is_holiday(day_after) else False
+        day_after_is_friday = bool(
+            day_after.weekday() == 4 or self.is_holiday(day_after)
         )
 
         return is_holiday_result and (day_before_is_monday or day_after_is_friday)
@@ -288,9 +290,7 @@ class ResourceCalendar(models.Model):
         """
         if not date:
             date = datetime.now()
-        if date.weekday() >= 5 or self.is_bank_holiday(date):
-            return False
-        return True
+        return not (date.weekday() >= 5 or self.is_bank_holiday(date))
 
     def next_bank_business_day(self, reference_date):
         """Return the next bank business day after reference_date.

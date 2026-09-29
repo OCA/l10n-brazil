@@ -6,7 +6,7 @@ from odoo import fields
 from odoo.exceptions import UserError
 
 
-class TestResourceCalendar(test_common.SingleTransactionCase):
+class TestResourceCalendar(test_common.TransactionCase):
     def setUp(self):
         super().setUp()
 

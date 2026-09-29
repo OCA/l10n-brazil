@@ -2,8 +2,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
+from zoneinfo import ZoneInfo
 
-import pytz
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models
@@ -135,7 +135,7 @@ class WorkalendarHolidayImport(models.TransientModel):
             )[0]
 
     def holiday_import(self):
-        tz_br = pytz.timezone("America/Sao_Paulo")
+        tz_br = ZoneInfo("America/Sao_Paulo")
 
         for wiz in self:
             leaves = self.env["resource.calendar.leaves"]
@@ -170,7 +170,7 @@ class WorkalendarHolidayImport(models.TransientModel):
                     )
 
                     # Set holiday datetime with Brasilia timezone offset
-                    user_dt = tz_br.localize(utc_dt)
+                    user_dt = utc_dt.replace(tzinfo=tz_br)
                     datetime_from = utc_dt - relativedelta(
                         seconds=user_dt.utcoffset().total_seconds()
                     )
