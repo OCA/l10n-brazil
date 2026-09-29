@@ -1,0 +1,375 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_fiscal_certificate
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2024-09-17 20:06+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"Language-Team: none\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.6.2\n"
+
+#. module: l10n_br_fiscal_certificate
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_certificate.l10n_br_fiscal_res_config_settings_form
+msgid "<span>Days before</span>"
+msgstr ""
+
+#. module: l10n_br_fiscal_certificate
+#: model_terms:ir.actions.act_window,help:l10n_br_fiscal_certificate.certificate_action
+msgid "Add a new Certificate"
+msgstr "Adicionar um novo Certificado"
+
+#. module: l10n_br_fiscal_certificate
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_certificate.selection__certificate_certificate__scope__l10n_br
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_certificate.certificate_certificate_view_search
+msgid "Brazilian Fiscal"
+msgstr ""
+
+#. module: l10n_br_fiscal_certificate
+#: model_terms:ir.actions.act_window,help:l10n_br_fiscal_certificate.certificate_action
+msgid "Brazilian fiscal A1 certificates (NF-e, CT-e, MDF-e and NFS-e)."
+msgstr ""
+
+#. module: l10n_br_fiscal_certificate
+#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_certificate_certificate__owner_cnpj_cpf
+msgid "CNPJ/CPF"
+msgstr "CNPJ/CPF"
+
+#. module: l10n_br_fiscal_certificate
+#: model:ir.model,name:l10n_br_fiscal_certificate.model_certificate_certificate
+#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_res_company__certificate_id
+msgid "Certificate"
+msgstr "Certificado"
+
+#. module: l10n_br_fiscal_certificate
+#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_res_config_settings__cert_expired_alert
+msgid "Certificate Expired Alert"
+msgstr "Alerta de Certificado Expirado"
+
+#. module: l10n_br_fiscal_certificate
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_certificate.l10n_br_fiscal_res_config_settings_form
+msgid "Certificate expiration alert"
+msgstr ""
+
+#. module: l10n_br_fiscal_certificate
+#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_res_company__certificate
+msgid "Certificate in Use"
+msgstr ""
+
+#. module: l10n_br_fiscal_certificate
+#: model:ir.model.fields,help:l10n_br_fiscal_certificate.field_res_company__certificate
+msgid ""
+"Certificate of the company or, for a branch without certificate, the one of "
+"its closest parent company."
+msgstr ""
+
+#. module: l10n_br_fiscal_certificate
+#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_certificate_certificate__scope
+msgid "Certificate scope"
+msgstr ""
+
+#. module: l10n_br_fiscal_certificate
+#: model:ir.model.fields,help:l10n_br_fiscal_certificate.field_res_company__certificate_id
+msgid "Certificate used to sign and transmit the fiscal documents."
+msgstr ""
+
+#. module: l10n_br_fiscal_certificate
+#: model:ir.actions.act_window,name:l10n_br_fiscal_certificate.certificate_action
+#: model:ir.ui.menu,name:l10n_br_fiscal_certificate.certificate_menu
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_certificate.fiscal_res_company_form
+msgid "Certificates"
+msgstr "Certificados"
+
+#. module: l10n_br_fiscal_certificate
+#: model:ir.model,name:l10n_br_fiscal_certificate.model_res_company
+msgid "Companies"
+msgstr "Empresas"
+
+#. module: l10n_br_fiscal_certificate
+#: model:ir.model,name:l10n_br_fiscal_certificate.model_res_config_settings
+msgid "Config Settings"
+msgstr "Ajuste de Configurações"
+
+#. module: l10n_br_fiscal_certificate
+#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_certificate_certificate__issuer_name
+msgid "Issuer"
+msgstr ""
+
+#. module: l10n_br_fiscal_certificate
+#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_certificate_certificate__name
+msgid "Name"
+msgstr "Nome"
+
+#. module: l10n_br_fiscal_certificate
+#. odoo-python
+#: code:addons/l10n_br_fiscal_certificate/models/res_company.py:0
+msgid "No certificate set for the company %s."
+msgstr ""
+
+#. module: l10n_br_fiscal_certificate
+#. odoo-python
+#: code:addons/l10n_br_fiscal_certificate/models/res_company.py:0
+msgid "Only an e-CNPJ certificate can be used for this operation."
+msgstr ""
+
+#. module: l10n_br_fiscal_certificate
+#. odoo-python
+#: code:addons/l10n_br_fiscal_certificate/hooks.py:0
+msgid ""
+"Python Library erpbrasil.assinatura not installed!You can install it later "
+"with: pip install erpbrasil.assinatura.Demo companies fake A1 certificates "
+"were not created."
+msgstr ""
+"Biblioteca Python erpbrasil.assinatura não instalada!Você pode instalá-la "
+"posteriormente com: pip install erpbrasil.assinatura.Demo certificados A1 "
+"falsos das empresas não foram criados."
+
+#. module: l10n_br_fiscal_certificate
+#. odoo-python
+#: code:addons/l10n_br_fiscal_certificate/models/res_company.py:0
+msgid ""
+"The certificate of the company %(company)s is not valid (validity: %(start)s "
+"to %(end)s)."
+msgstr ""
+
+#~ msgid "A1"
+#~ msgstr "A1"
+
+#~ msgid "A3"
+#~ msgstr "A3"
+
+#~ msgid "Action Needed"
+#~ msgstr "Ação Necessária"
+
+#~ msgid "Active"
+#~ msgstr "Ativo"
+
+#~ msgid "Activities"
+#~ msgstr "Atividades"
+
+#~ msgid "Activity Exception Decoration"
+#~ msgstr "Decoração de Exceção de Atividade"
+
+#~ msgid "Activity State"
+#~ msgstr "Estado da Atividade"
+
+#~ msgid "Activity Type Icon"
+#~ msgstr "Ícone do Tipo de Atividade"
+
+#~ msgid ""
+#~ "All Certificate by\n"
+#~ "              Brazilian Fiscal modulo for Odoo."
+#~ msgstr ""
+#~ "Todos certificados por\n"
+#~ "                       Módulo Fiscal Brasileiro para Odoo."
+
+#~ msgid "Archived"
+#~ msgstr "Arquivado"
+
+#~ msgid "Attachment Count"
+#~ msgstr "Contagem de Anexos"
+
+#~ msgid "Cannot load Certificate !"
+#~ msgstr "Não é possível carregar o certificado !"
+
+#~ msgid ""
+#~ "Cannot load Certificate ! \n"
+#~ "\n"
+#~ " {}"
+#~ msgstr ""
+#~ "Não é possível carregar o certificado ! \n"
+#~ "\n"
+#~ " {}"
+
+#~ msgid "Certificate Infos"
+#~ msgstr "Informações do Certificado"
+
+#~ msgid "Certificate Type"
+#~ msgstr "Tipo de certificado"
+
+#~ msgid ""
+#~ "Certificate not found, you need to inform your e-CNPJ or e-NFe "
+#~ "certificate in the Company."
+#~ msgstr ""
+#~ "Certificado não encontrado, é necessário informar seu e-CNPJ ou "
+#~ "certificado e-NFe na Empresa."
+
+#~ msgid "Created by"
+#~ msgstr "Criado por"
+
+#~ msgid "Created on"
+#~ msgstr "Criado em"
+
+#~ msgid "Date Expiration"
+#~ msgstr "Data de Expiração"
+
+#~ msgid "Date Start"
+#~ msgstr "Data Inicial"
+
+#~ msgid "Display Name"
+#~ msgstr "Nome Exibido"
+
+#~ msgid "Document SubType"
+#~ msgstr "Subtipo de Documento"
+
+#~ msgid "E-CNPJ"
+#~ msgstr "E-CNPJ"
+
+#~ msgid "E-CPF"
+#~ msgstr "E-CPF"
+
+#~ msgid "File"
+#~ msgstr "Arquivo"
+
+#~ msgid "File Name"
+#~ msgstr "Nome do Arquivo"
+
+#~ msgid "Followers"
+#~ msgstr "Seguidores"
+
+#~ msgid "Followers (Partners)"
+#~ msgstr "Seguidores (Parceiros)"
+
+#~ msgid "Font awesome icon e.g. fa-tasks"
+#~ msgstr "Ícone do font awesome ex. fa-task"
+
+#~ msgid "Has Message"
+#~ msgstr "Tem mensagem"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Icon"
+#~ msgstr "Ícone"
+
+#~ msgid "Icon to indicate an exception activity."
+#~ msgstr "Ícone para indicar uma atividade excepcional."
+
+#~ msgid "If checked, new messages require your attention."
+#~ msgstr "Se marcado, novas mensagens solicitarão sua atenção."
+
+#~ msgid "If checked, some messages have a delivery error."
+#~ msgstr "Se marcado, algumas mensagens tem erro de entrega."
+
+#~ msgid "Is Follower"
+#~ msgstr "É Seguidor"
+
+#~ msgid "Is Valid?"
+#~ msgstr "É Válido?"
+
+#~ msgid "Issuer Name"
+#~ msgstr "Nome do Emissor"
+
+#~ msgid "Last Updated by"
+#~ msgstr "Última Atualização por"
+
+#~ msgid "Last Updated on"
+#~ msgstr "Última Atualização em"
+
+#~ msgid "Message Delivery error"
+#~ msgstr "Erro de Entrega da Mensagem"
+
+#~ msgid "Messages"
+#~ msgstr "Mensagens"
+
+#~ msgid "My Activity Deadline"
+#~ msgstr "Prazo Final das Minhas Atividades"
+
+#~ msgid "NF-e"
+#~ msgstr "NF-e"
+
+#~ msgid "NFe"
+#~ msgstr "NFe"
+
+#~ msgid "Next Activity Calendar Event"
+#~ msgstr "Próximo Evento do Calendário de Atividades"
+
+#~ msgid "Next Activity Deadline"
+#~ msgstr "Prazo Final da Próxima Atividade"
+
+#~ msgid "Next Activity Summary"
+#~ msgstr "Resumo da Próxima Atividade"
+
+#~ msgid "Next Activity Type"
+#~ msgstr "Tipo da Próxima Atividade"
+
+#~ msgid "Number of Actions"
+#~ msgstr "Número de Ações"
+
+#~ msgid "Number of errors"
+#~ msgstr "Número de erros"
+
+#~ msgid "Number of messages requiring action"
+#~ msgstr "Número de mensagens que exigem ação"
+
+#~ msgid "Number of messages with delivery error"
+#~ msgstr "Número de mensagens com erro de entrega"
+
+#~ msgid "Only e-CNPJ Certicate can be used for this case."
+#~ msgstr "Somente o Certificado e-CNPJ pode ser utilizado para este caso."
+
+#~ msgid "Owner"
+#~ msgstr "Proprietário"
+
+#~ msgid "Password"
+#~ msgstr "Senha"
+
+#~ msgid "Responsible User"
+#~ msgstr "Usuário Responsável"
+
+#~ msgid ""
+#~ "Status based on activities\n"
+#~ "Overdue: Due date is already passed\n"
+#~ "Today: Activity date is today\n"
+#~ "Planned: Future activities."
+#~ msgstr ""
+#~ "Status baseado em atividades\n"
+#~ "Atrasado: Data definida já passou\n"
+#~ "Hoje: Data de atividade é hoje\n"
+#~ "Planejado: Atividades futuras."
+
+#~ msgid "Type of the exception activity on record."
+#~ msgstr "Tipo da atividade de exceção no registro."
+
+#~ msgid "Website Messages"
+#~ msgstr "Mensagens do Website"
+
+#~ msgid "Website communication history"
+#~ msgstr "Histórico de comunicação do website"
+
+#~ msgid "file"
+#~ msgstr "arquivo"
+
+#~ msgid "Alert certificate expiration."
+#~ msgstr "Alerta de expiração do certificado."
+
+#~ msgid "Days Before"
+#~ msgstr "Dias Antes"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificação em"
+
+#~ msgid "Main Attachment"
+#~ msgstr "Anexo Principal"
+
+#~ msgid "Followers (Channels)"
+#~ msgstr "Seguidores (Canais)"
+
+#~ msgid "Number of messages which requires an action"
+#~ msgstr "Número de mensagens que requer uma ação"
+
+#~ msgid "Number of unread messages"
+#~ msgstr "Quantidade de mensagens não lidas"
+
+#~ msgid "Unread Messages"
+#~ msgstr "Mensagens Não Lidas"
+
+#~ msgid "Unread Messages Counter"
+#~ msgstr "Contador de Mensagens Não Lidas"

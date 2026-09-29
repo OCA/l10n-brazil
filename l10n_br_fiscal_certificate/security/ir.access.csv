@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+l10n_br_fiscal_certificate_user,Fiscal Certificate for User,certificate.certificate,l10n_br_fiscal.group_user,r,
+l10n_br_fiscal_certificate_manager,Fiscal Certificate for Manager,certificate.certificate,l10n_br_fiscal.group_manager,crud,
+l10n_br_fiscal_certificate_key_user,Fiscal Certificate Key for User,certificate.key,l10n_br_fiscal.group_user,r,
+l10n_br_fiscal_certificate_key_manager,Fiscal Certificate Key for Manager,certificate.key,l10n_br_fiscal.group_manager,crud,
