@@ -167,7 +167,6 @@ class Tax(models.Model):
     currency_id = fields.Many2one(
         comodel_name="res.currency",
         default=lambda self: self.env.ref("base.BRL"),
-        string="Currency",
     )
 
     value_amount = fields.Float(

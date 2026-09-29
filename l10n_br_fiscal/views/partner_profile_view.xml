@@ -44,7 +44,7 @@
                             id="partner_button"
                             class="oe_stat_button"
                             type="object"
-                            icon="fa-bars"
+                            icon="menu"
                             name="action_view_partners"
                             context="{'default_fiscal_profile_id': id}"
                             invisible="partner_qty == 0"

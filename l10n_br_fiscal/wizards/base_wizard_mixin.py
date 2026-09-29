@@ -16,7 +16,6 @@ class BaseWizardMixin(models.AbstractModel):
 
     document_type_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.type",
-        string="Document Type",
     )
 
     document_type = fields.Char(
@@ -27,7 +26,6 @@ class BaseWizardMixin(models.AbstractModel):
 
     partner_id = fields.Many2one(
         comodel_name="res.partner",
-        string="Partner",
     )
 
     rps_number = fields.Char()

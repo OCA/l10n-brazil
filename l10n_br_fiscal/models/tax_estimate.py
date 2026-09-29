@@ -13,9 +13,7 @@ class TaxEstimate(models.Model):
 
     nbs_id = fields.Many2one(comodel_name="l10n_br_fiscal.nbs", string="NBS")
 
-    state_id = fields.Many2one(
-        comodel_name="res.country.state", string="State", required=True
-    )
+    state_id = fields.Many2one(comodel_name="res.country.state", required=True)
 
     federal_taxes_national = fields.Float(
         string="Impostos Federais Nacional",
@@ -47,6 +45,5 @@ class TaxEstimate(models.Model):
 
     company_id = fields.Many2one(
         comodel_name="res.company",
-        string="Company",
         default=lambda self: self.env.company,
     )

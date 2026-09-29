@@ -3,8 +3,8 @@
 <odoo noupdate="1">
     <record id="dummy_file_1" model="ir.attachment">
         <field
-            name="datas"
-        >PGR1bW15PgogICAgPGJvZHk+RHVtbXkgWE1MPC9ib2R5Pgo8L2R1bW15Pg===</field>
+            name="raw"
+        >PGR1bW15PgogICAgPGJvZHk+RHVtbXkgWE1MPC9ib2R5Pgo8L2R1bW15Pg==</field>
         <field name="name">dummy.xml</field>
     </record>
 

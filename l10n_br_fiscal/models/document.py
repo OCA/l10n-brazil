@@ -99,7 +99,6 @@ class Document(models.Model):
 
     fiscal_operation_id = fields.Many2one(
         "l10n_br_fiscal.operation",
-        string="Fiscal Operation",
         domain="[('state', '=', 'approved')]",
     )
 
@@ -119,7 +118,6 @@ class Document(models.Model):
 
     user_id = fields.Many2one(
         comodel_name="res.users",
-        string="User",
         index=True,
         default=lambda self: self.env.user,
     )
@@ -143,7 +141,6 @@ class Document(models.Model):
 
     partner_id = fields.Many2one(
         comodel_name="res.partner",
-        string="Partner",
         inverse="_inverse_partner_id",
     )
 
@@ -161,7 +158,6 @@ class Document(models.Model):
 
     company_id = fields.Many2one(
         comodel_name="res.company",
-        string="Company",
         default=lambda self: self.env.company,
     )
 
@@ -410,7 +406,8 @@ class Document(models.Model):
     def _get_fiscal_lines_field_name(self):
         return "fiscal_line_ids"
 
-    def unlink(self):
+    @api.ondelete(at_uninstall=False)
+    def _unlink_except_forbidden_state(self):
         forbidden_states_unlink = [
             DOCUMENT_STATE_OPEN,
             SITUACAO_EDOC_AUTORIZADA,
@@ -428,8 +425,6 @@ class Document(models.Model):
                     state=record.state_edoc,
                 )
             )
-
-        return super().unlink()
 
     def _create_return(self):
         return_docs = self.env[self._name]
@@ -452,9 +447,10 @@ class Document(models.Model):
                 if not fsc_op_line:
                     raise ValidationError(
                         self.env._(
-                            "The fiscal operation {} has no return Fiscal "
-                            "Operation defined"
-                        ).format(line.fiscal_operation_id)
+                            "The fiscal operation %(fiscal_op)s has no return "
+                            "Fiscal Operation defined",
+                            fiscal_op=line.fiscal_operation_id,
+                        )
                     )
                 line.fiscal_operation_id = fsc_op_line
             return_docs |= new_doc

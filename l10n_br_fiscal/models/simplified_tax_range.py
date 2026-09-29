@@ -11,13 +11,9 @@ class SimplifiedTaxRange(models.Model):
 
     name = fields.Char(required=True)
 
-    simplified_tax_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.simplified.tax", string="Simplified Tax"
-    )
+    simplified_tax_id = fields.Many2one(comodel_name="l10n_br_fiscal.simplified.tax")
 
-    currency_id = fields.Many2one(
-        comodel_name="res.currency", string="Currency", required=True
-    )
+    currency_id = fields.Many2one(comodel_name="res.currency", required=True)
 
     amount_deduced = fields.Monetary(
         string="Amount to be Deducted",

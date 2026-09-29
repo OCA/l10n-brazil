@@ -186,7 +186,8 @@
                                     <button
                                         name="action_search_ncms"
                                         type="object"
-                                        class="oe_inline btn-sm btn-link mb4 fa fa-search oe_edit_only"
+                                        class="oe_inline btn-sm btn-link mb4 oi oe_edit_only"
+                                        data-icon="search"
                                         aria-label="Search NCMs"
                                         title="Search NCMs"
                                     />
@@ -219,7 +220,8 @@
                                     <button
                                         name="action_search_nbms"
                                         type="object"
-                                        class="oe_inline btn-sm btn-link mb4 fa fa-search oe_edit_only"
+                                        class="oe_inline btn-sm btn-link mb4 oi oe_edit_only"
+                                        data-icon="search"
                                         aria-label="Search NBMs"
                                         title="Search NBMs"
                                     />
@@ -248,7 +250,8 @@
                                     <button
                                         name="action_search_cests"
                                         type="object"
-                                        class="oe_inline btn-sm btn-link mb4 fa fa-search oe_edit_only"
+                                        class="oe_inline btn-sm btn-link mb4 oi oe_edit_only"
+                                        data-icon="search"
                                         aria-label="Search CESTs"
                                         title="Search CESTs"
                                     />

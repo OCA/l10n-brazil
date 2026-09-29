@@ -261,8 +261,10 @@ CEST_SEGMENT = [
     ("12", "Materiais elétricos"),
     (
         "13",
-        "Medicamentos de uso humano e outros produtos"
-        " farmacêuticos para uso humano ou veterinário",
+        (
+            "Medicamentos de uso humano e outros produtos"
+            " farmacêuticos para uso humano ou veterinário"
+        ),
     ),
     ("14", "Papéis, plásticos, produtos cerâmicos e vidros"),
     ("15", "Pneumáticos, câmaras de ar e protetores de borracha"),

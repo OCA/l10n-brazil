@@ -20,7 +20,6 @@ class SimplifiedTax(models.Model):
     simplified_tax_range_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.simplified.tax.range",
         inverse_name="simplified_tax_id",
-        string="Simplified Tax Range",
         copy=False,
     )
 

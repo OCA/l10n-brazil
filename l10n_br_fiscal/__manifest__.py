@@ -10,7 +10,7 @@
     "maintainers": ["renatonlima", "rvalyi"],
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Production/Stable",
-    "version": "19.0.2.5.0",
+    "version": "20.0.2.5.0",
     "depends": [
         "product",
         "uom_alias",
@@ -19,7 +19,7 @@
     "data": [
         # Security
         "security/fiscal_security.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         # Data
         "data/l10n_br_fiscal_data.xml",
         "data/uom_data.xml",
@@ -130,7 +130,6 @@
         "demo/icms_tax_definition_demo.xml",
         "demo/fiscal_document_demo.xml",
     ],
-    "installable": True,
     "application": True,
     "auto_install": False,
     "external_dependencies": {

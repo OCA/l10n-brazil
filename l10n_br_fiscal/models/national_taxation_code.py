@@ -13,5 +13,4 @@ class NationalTaxationCode(models.Model):
         comodel_name="l10n_br_fiscal.tax.definition",
         relation="tax_definition_national_taxation_code_rel",  # (default is too long)
         readonly=True,
-        string="Tax Definition",
     )

@@ -43,7 +43,6 @@ class OperationLine(models.Model):
 
     tax_classification_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.classification",
-        string="Tax Classification",
     )
 
     cfop_internal_id = fields.Many2one(
@@ -133,14 +132,12 @@ class OperationLine(models.Model):
     tax_definition_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.tax.definition",
         inverse_name="fiscal_operation_line_id",
-        string="Tax Definition",
         copy=True,
     )
 
     comment_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.comment",
         domain=[("object", "=", FISCAL_COMMENT_LINE)],
-        string="Comment",
     )
 
     state = fields.Selection(
@@ -444,13 +441,13 @@ class OperationLine(models.Model):
     def action_review(self):
         self.write({"state": "review"})
 
-    def unlink(self):
+    @api.ondelete(at_uninstall=False)
+    def _unlink_except_approved(self):
         lines = self.filtered(lambda line: line.state == "approved")
         if lines:
             raise UserError(
                 self.env._("You cannot delete an Operation Line which is not draft !")
             )
-        return super().unlink()
 
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):

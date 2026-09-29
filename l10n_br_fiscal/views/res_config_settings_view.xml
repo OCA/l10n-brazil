@@ -19,7 +19,8 @@
                             <field name="ibpt_api" />
                             <div id="ibpt_api_settings" class="content-group">
                                 <span
-                                    class="fa fa-lg fa-building-o"
+                                    class="oi oi-lg"
+                                    data-icon="business"
                                     title="Values set here are company-specific."
                                 />
                                 <div
@@ -46,7 +47,8 @@
                                             target="_blank"
                                         >
                                         <i
-                                            class="fa fa-arrow-right"
+                                            class="oi"
+                                            data-icon="east"
                                         />Generate an Access Key</a>
                                     </div>
                                 </div>

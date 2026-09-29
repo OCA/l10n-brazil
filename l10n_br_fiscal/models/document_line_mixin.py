@@ -115,22 +115,20 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         """
 
         # the list of computed fields we will add to the view when missing
-        missing_line_fields = set(
-            [
-                fname
-                for fname, _field in filter(
-                    lambda item: (
-                        item[1].compute
-                        in (
-                            "_compute_tax_fields",
-                            "_compute_fiscal_tax_ids",
-                            "_compute_product_fiscal_fields",
-                        )
-                    ),
-                    self.env["l10n_br_fiscal.document.line.mixin"]._fields.items(),
-                )
-            ]
-        )
+        missing_line_fields = {
+            fname
+            for fname, _field in filter(
+                lambda item: (
+                    item[1].compute
+                    in (
+                        "_compute_tax_fields",
+                        "_compute_fiscal_tax_ids",
+                        "_compute_product_fiscal_fields",
+                    )
+                ),
+                self.env["l10n_br_fiscal.document.line.mixin"]._fields.items(),
+            )
+        }
 
         fiscal_view = self.env.ref(
             "l10n_br_fiscal.document_fiscal_line_mixin_form"
@@ -290,7 +288,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         vals.pop("id", None)
 
         if default:  # in case you want to use new rather than write later
-            return {f"default_{k}": vals[k] for k in vals.keys()}
+            return {f"default_{k}": vals[k] for k in vals}
         return vals
 
     @api.depends("fiscal_operation_id", "partner_id", "product_id")
@@ -509,11 +507,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                     "estimate_tax": compute_result.get("estimate_tax", 0.0),
                 }
             )
-            in_draft_mode = line != line._origin
-            if in_draft_mode:
-                line.update(to_update)
-            else:
-                line.write(to_update)
+            line.update(to_update)
 
     def _prepare_tax_fields(self, compute_result):
         self.ensure_one()
@@ -946,13 +940,11 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     currency_id = fields.Many2one(
         comodel_name="res.currency",
-        string="Currency",
         compute="_compute_currency_id",
     )
 
     product_id = fields.Many2one(
         comodel_name="product.product",
-        string="Product",
         index=True,
     )
 
@@ -977,11 +969,10 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         store=True,
     )
 
-    partner_id = fields.Many2one(comodel_name="res.partner", string="Partner")
+    partner_id = fields.Many2one(comodel_name="res.partner")
 
     company_id = fields.Many2one(
         comodel_name="res.company",
-        string="Company",
     )
 
     ind_final = fields.Selection(
@@ -999,7 +990,28 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             if line.ind_final != doc.ind_final:
                 line.ind_final = doc.ind_final
 
-    partner_company_type = fields.Selection(related="partner_id.company_type")
+    partner_company_type = fields.Selection(
+        selection=[("person", "Individual"), ("company", "Company")],
+        compute="_compute_partner_company_type",
+    )
+
+    @api.depends("partner_id.is_company")
+    def _compute_partner_company_type(self):
+        """Tell whether the document partner is a company or an individual.
+
+        Odoo 20.0 removed `res.partner.company_type`: the partner type is now
+        derived from the computed `is_company` (which l10n_br_base refines so
+        that a CPF holder stays an individual). Kept as a selection, with the
+        same values as the former related field, because it is part of the
+        document line API used by the fiscal views.
+        """
+        for line in self:
+            if not line.partner_id:
+                line.partner_company_type = False
+            elif line.partner_id.is_company:
+                line.partner_company_type = "company"
+            else:
+                line.partner_company_type = "person"
 
     uom_id = fields.Many2one(
         comodel_name="uom.uom",
@@ -1243,7 +1255,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     city_taxation_code_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.city.taxation.code",
-        string="City Taxation Code",
         help=(
             "City Taxation Code for Municipal NFS-e or "
             "ISS Municipal Taxation Code for National NFS-e."
@@ -1266,7 +1277,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     operation_indicator_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation.indicator",
-        string="Operation Indicator",
         compute="_compute_product_fiscal_fields",
         store=True,
         readonly=False,
@@ -1727,7 +1737,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     icmssn_range_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.simplified.tax.range",
         string="Simplified Range Tax",
-        default=_default_icmssn_range_id,
+        default=lambda self: self._default_icmssn_range_id(),
     )
 
     icmssn_tax_id = fields.Many2one(
@@ -2020,7 +2030,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     # CBS/IBS Tax Classification
     tax_classification_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.classification",
-        string="Tax Classification",
         compute="_compute_fiscal_tax_ids",
         store=True,
         precompute=True,

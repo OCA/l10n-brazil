@@ -36,7 +36,6 @@ class ResPartner(models.Model):
 
     legal_nature_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.legal.nature",
-        string="Legal Nature",
     )
 
     cnae_main_id = fields.Many2one(
@@ -64,7 +63,7 @@ class ResPartner(models.Model):
         string="Fiscal Partner Profile",
         inverse="_inverse_fiscal_profile",
         domain="[('is_company', '=', is_company)]",
-        default=_default_fiscal_profile_id,
+        default=lambda self: self._default_fiscal_profile_id(),
         tracking=True,
     )
 

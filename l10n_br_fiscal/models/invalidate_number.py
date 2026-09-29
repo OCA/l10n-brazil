@@ -107,12 +107,12 @@ class InvalidateNumber(models.Model):
                 f"{record.number_start} - {record.number_end}"
             )
 
-    def unlink(self):
-        if self.filtered(lambda n: not n.state == "draft"):
+    @api.ondelete(at_uninstall=False)
+    def _unlink_except_not_draft(self):
+        if self.filtered(lambda n: n.state != "draft"):
             raise UserError(
                 self.env._("You can delete only draft Invalidate Number Range !")
             )
-        return super().unlink()
 
     def action_invalidate(self):
         for record in self:

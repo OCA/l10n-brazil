@@ -4,7 +4,6 @@
 import json
 
 from erpbrasil.base import misc
-from lxml import etree
 
 from odoo import api, fields, models
 from odoo.exceptions import AccessError
@@ -72,9 +71,7 @@ class DataAbstract(models.AbstractModel):
             r.code_unmasked = misc.punctuation_rm(r.code)
 
     @api.model
-    def fields_view_get(
-        self, view_id=None, view_type="form", toolbar=False, submenu=False
-    ):
+    def _get_view(self, view_id=None, view_type="form", **options):
         """
         Modify search view architecture to enhance 'code' field filtering.
 
@@ -83,12 +80,10 @@ class DataAbstract(models.AbstractModel):
         'code_unmasked' (code without punctuation), or 'name' of the
         record when typing into the 'code' filter in the search panel.
         """
-
-        model_view = super().fields_view_get(view_id, view_type, toolbar, submenu)
+        arch, view = super()._get_view(view_id, view_type, **options)
 
         if view_type == "search":
-            doc = etree.XML(model_view["arch"])
-            for node in doc.xpath("//field[@name='code']"):
+            for node in arch.xpath("//field[@name='code']"):
                 modifiers = json.loads(node.get("modifiers", "{}"))
                 modifiers["filter_domain"] = (
                     "['|', '|', ('code', 'ilike', self), "
@@ -96,9 +91,8 @@ class DataAbstract(models.AbstractModel):
                     "('name', 'ilike', self + '%')]"
                 )
                 node.set("modifiers", json.dumps(modifiers))
-            model_view["arch"] = etree.tostring(doc)
 
-        return model_view
+        return arch, view
 
     @api.model
     def _search_display_name(self, operator, value):

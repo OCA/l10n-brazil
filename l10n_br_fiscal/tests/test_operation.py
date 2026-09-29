@@ -16,7 +16,9 @@ class TestOperation(TransactionCase):
         """Test Operation copy()"""
         operation_venda = self.env.ref("l10n_br_fiscal.fo_venda")
         operation_venda_copy = operation_venda.copy()
-        self.assertEqual(operation_venda_copy.name, "Venda")
+        # Since 20.0 a Char field named "name" is copied with a " (copy)"
+        # suffix by the ORM itself, on top of the "(Copy)" added to the code.
+        self.assertEqual(operation_venda_copy.name, "Venda (copy)")
         self.assertEqual(operation_venda_copy.code, "VD (Copy)")
 
     def test_operation_line_is_icmsst_computed_field(self):

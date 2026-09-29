@@ -169,7 +169,6 @@ class Cfop(models.Model):
     tax_definition_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.tax.definition",
         inverse_name="cfop_id",
-        string="Tax Definition",
     )
 
     def _compute_is_import(self):

@@ -79,7 +79,7 @@ def build_edoc_path(
         caminho = os.path.join(caminho, str(serie) + "-" + str(numero) + "/")
     try:
         os.makedirs(caminho, exist_ok=True)
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 - the caller only needs the path
         _logger.error(f"Falha de permissão ao acessar diretorio do e-doc {e}")
     return caminho
 

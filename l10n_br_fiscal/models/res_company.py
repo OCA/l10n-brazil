@@ -136,7 +136,6 @@ class ResCompany(models.Model):
 
     legal_nature_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.legal.nature",
-        string="Legal Nature",
         compute="_compute_fiscal_address",
         inverse="_inverse_legal_nature_id",
     )
@@ -185,7 +184,6 @@ class ResCompany(models.Model):
     simplified_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.simplified.tax",
         compute="_compute_simplified_tax",
-        string="Simplified Tax",
         store=True,
         readonly=True,
     )
@@ -195,7 +193,6 @@ class ResCompany(models.Model):
         compute="_compute_simplified_tax",
         store=True,
         readonly=True,
-        string="Simplified Tax Range",
     )
 
     simplified_tax_percent = fields.Float(
@@ -228,13 +225,11 @@ class ResCompany(models.Model):
 
     ibpt_update_days = fields.Integer(string="IBPT Token Updates", default=15)
 
-    accountant_id = fields.Many2one(comodel_name="res.partner", string="Accountant")
+    accountant_id = fields.Many2one(comodel_name="res.partner")
 
     accounting_office = fields.Many2one(comodel_name="res.partner")
 
-    technical_support_id = fields.Many2one(
-        comodel_name="res.partner", string="Technical Support"
-    )
+    technical_support_id = fields.Many2one(comodel_name="res.partner")
 
     piscofins_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.pis.cofins",
@@ -334,7 +329,6 @@ class ResCompany(models.Model):
     tax_definition_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.tax.definition",
         inverse_name="company_id",
-        string="Tax Definition",
     )
 
     processador_edoc = fields.Selection(

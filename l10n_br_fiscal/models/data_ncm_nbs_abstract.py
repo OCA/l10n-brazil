@@ -6,7 +6,6 @@ import logging
 from datetime import timedelta
 
 from erpbrasil.base import misc
-from lxml import etree
 
 from odoo import api, fields, models
 from odoo.tools import config as odooconfig
@@ -94,7 +93,7 @@ class DataNcmNbsAbstract(models.AbstractModel):
                     odooconfig.get("ibpt_request_timeout")
                     or self.env["ir.config_parameter"]
                     .sudo()
-                    .get_param("ibpt_request_timeout"),
+                    .get_int("ibpt_request_timeout"),
                 )
 
                 result = self._get_ibpt(config, record.code_unmasked)
@@ -124,7 +123,7 @@ class DataNcmNbsAbstract(models.AbstractModel):
                         ),
                     )
 
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001 - one record must not stop the rest
                 _logger.warning(
                     self.env._(
                         "%(name)s Tax Estimate Failure: %(error)s",
@@ -152,10 +151,13 @@ class DataNcmNbsAbstract(models.AbstractModel):
         today = fields.Date.today()
         data_max = today - timedelta(days=config_date)
 
-        all_records = self.env[self._name].search([])
-
-        not_estimated = all_records.filtered(
-            lambda r: r.product_tmpl_qty > 0 and not r.tax_estimate_ids
+        # NCM/NBS with at least one related product and no tax estimate yet.
+        # `product_tmpl_qty` is a non-stored computed field, so it cannot appear
+        # in a search domain; filter it in Python instead.
+        not_estimated = (
+            self.env[self._name]
+            .search([("tax_estimate_ids", "=", False)])
+            .filtered("product_tmpl_qty")
         )
 
         query = f"""
@@ -183,8 +185,14 @@ class DataNcmNbsAbstract(models.AbstractModel):
         for record in not_estimated + record_past_estimated:
             try:
                 record.action_ibpt_inquiry()
-            except Exception:
-                continue
+            except Exception as e:  # noqa: BLE001 - one record must not stop the rest
+                _logger.warning(
+                    self.env._(
+                        "%(name)s Tax Estimate Failure: %(error)s",
+                        name=object_name,
+                        error=e,
+                    )
+                )
 
         _logger.info(
             self.env._(
@@ -194,18 +202,21 @@ class DataNcmNbsAbstract(models.AbstractModel):
         )
 
     @api.model
-    def fields_view_get(
-        self, view_id=None, view_type="form", toolbar=False, submenu=False
-    ):
-        res = super().fields_view_get(view_id, view_type, toolbar, submenu)
+    def _get_view(self, view_id=None, view_type="form", **options):
+        arch, view = super()._get_view(view_id, view_type, **options)
         if view_type == "form":
-            xml = etree.XML(res["arch"])
-            xml_button = xml.xpath("//button[@name='action_ibpt_inquiry']")
+            xml_button = arch.xpath("//button[@name='action_ibpt_inquiry']")
             if xml_button and not self.env.company.ibpt_api:
                 modifiers = json.loads(xml_button[0].get("modifiers", "{}"))
                 modifiers["invisible"] = 1
                 xml_button[0].set("modifiers", json.dumps(modifiers))
-                res["arch"] = etree.tostring(xml, pretty_print=True)
-        if res.get("toolbar") and not self.env.company.ibpt_api:
-            res["toolbar"]["action"] = []
+        return arch, view
+
+    @api.model
+    def get_views(self, views, options=None):
+        res = super().get_views(views, options)
+        if not self.env.company.ibpt_api:
+            for view in res.get("views", {}).values():
+                if view.get("toolbar"):
+                    view["toolbar"]["action"] = []
         return res

@@ -52,7 +52,7 @@ class PartnerProfile(models.Model):
     )
 
     partner_ids = fields.One2many(
-        comodel_name="res.partner", string="Partner", compute="_compute_partner_info"
+        comodel_name="res.partner", compute="_compute_partner_info"
     )
 
     partner_qty = fields.Integer(
@@ -62,7 +62,6 @@ class PartnerProfile(models.Model):
     tax_definition_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.tax.definition",
         inverse_name="fiscal_profile_id",
-        string="Tax Definition",
     )
 
     _fiscal_partner_profile_code_uniq = models.Constraint(
@@ -90,7 +89,7 @@ class PartnerProfile(models.Model):
                 len(
                     profile.search(
                         [
-                            ("default", "=", "True"),
+                            ("default", "=", True),
                             ("is_company", "=", profile.is_company),
                         ]
                     )

@@ -28,7 +28,7 @@ def _request(ws_url, params, ibpt_request_timeout=30):
         )
         if response.ok:
             data = response.json()
-            return namedtuple("Result", [k.lower() for k in data.keys()])(
+            return namedtuple("Result", [k.lower() for k in data])(
                 **{k.lower(): v for k, v in data.items()}
             )
         elif response.status_code == requests.codes.forbidden:

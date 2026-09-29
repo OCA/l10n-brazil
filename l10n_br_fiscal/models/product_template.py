@@ -44,7 +44,7 @@ class ProductTemplate(models.Model):
     ncm_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.ncm",
         index=True,
-        default=_get_default_ncm_id,
+        default=lambda self: self._get_default_ncm_id(),
         string="NCM",
         compute="_compute_ncm_id",
         store=True,
@@ -79,12 +79,11 @@ class ProductTemplate(models.Model):
     )
 
     city_taxation_code_ids = fields.Many2many(
-        comodel_name="l10n_br_fiscal.city.taxation.code", string="City Taxation Code"
+        comodel_name="l10n_br_fiscal.city.taxation.code"
     )
 
     national_taxation_code_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.national.taxation.code",
-        string="National Taxation Code",
     )
 
     fiscal_genre_code = fields.Char(

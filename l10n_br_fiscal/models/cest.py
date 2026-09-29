@@ -33,7 +33,6 @@ class Cest(models.Model):
     tax_definition_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.tax.definition",
         readonly=True,
-        string="Tax Definition",
     )
 
     @api.model_create_multi
@@ -45,7 +44,7 @@ class Cest(models.Model):
     def write(self, values):
         write_super = super().write(values)
         do_not_write = self.env.context.get("do_not_write")
-        if "ncms" in values.keys() and not do_not_write:
+        if "ncms" in values and not do_not_write:
             self.with_context(do_not_write=True).action_search_ncms()
         return write_super
 
