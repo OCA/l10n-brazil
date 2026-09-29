@@ -26,17 +26,18 @@ class TestDocumentImportWizardFile(TransactionCase):
         with self.assertRaises(UserError) as error:
             self._parse(pdf)
 
-        self.assertIn("not the XML", str(error.exception))
-        self.assertIn("DANFE", str(error.exception))
+        self.assertIn("Could not read this file", str(error.exception))
+        self.assertIn("printed representation (PDF)", str(error.exception))
+        self.assertNotIn("DANFE", str(error.exception))
 
     def test_an_empty_file_is_refused_with_a_readable_message(self):
         with self.assertRaises(UserError) as error:
             self._parse(b"")
 
-        self.assertIn("not the XML", str(error.exception))
+        self.assertIn("Could not read this file", str(error.exception))
 
     def test_an_xml_of_another_schema_is_refused(self):
         with self.assertRaises(UserError) as error:
             self._parse(b'<invoice xmlns="urn:example"><line/></invoice>')
 
-        self.assertIn("not the XML", str(error.exception))
+        self.assertIn("Could not read this file", str(error.exception))

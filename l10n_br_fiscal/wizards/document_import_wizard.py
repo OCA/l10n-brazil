@@ -272,9 +272,9 @@ class DocumentImportWizard(models.TransientModel):
             _logger.warning("Could not parse the imported file", exc_info=True)
             raise UserError(
                 self.env._(
-                    "This file is not the XML of an electronic fiscal document."
-                    " Upload the XML of the document itself, not its printed"
-                    " representation such as the DANFE in PDF.\n\n%(error)s",
+                    "Could not read this file as the XML of an electronic fiscal"
+                    " document. Make sure you uploaded the XML itself, not its"
+                    " printed representation (PDF).\n\n%(error)s",
                     error=parser_error,
                 )
             ) from parser_error
