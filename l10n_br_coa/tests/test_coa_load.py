@@ -23,6 +23,19 @@ class TestCoaLoad(TransactionCase):  # AccountTestInvoicingCommon):
 
         cls.env["account.chart.template"].try_loading("br_oca", cls.company)
 
+    def test_template_data_keys_are_20_0_compatible(self):
+        """The chart enables anglo-saxon accounting through the company section.
+
+        'use_anglo_saxon' is not a valid 20.0 template_data key anymore and would
+        be silently dropped in _pre_load_data, leaving the setting off.
+        """
+        data = self.env["account.chart.template"]._get_chart_template_data("br_oca")
+        template_data = data["template_data"]
+        self.assertNotIn("use_anglo_saxon", template_data)
+        self.assertTrue(template_data["visible"])
+        company_vals = data["res.company"][self.company.id]
+        self.assertTrue(company_vals["anglo_saxon_accounting"])
+
     def test_load_and_populate_coa(self):
         # Manually call and verify _populate_default_br_tax_accounts
         # This call is normally done from l10n_br_account, so we simulate it here
@@ -57,6 +70,18 @@ class TestCoaLoad(TransactionCase):  # AccountTestInvoicingCommon):
         self.assertEqual(
             len(icms_receivable_account), 1, "ICMS a Compensar account was not created."
         )
+
+    def _repartition_vals(self, tax_data, key, document_type):
+        """Return the created repartition line values of one document type.
+
+        Since 20.0 the invoice and the refund repartition lines are rows of the
+        single 'repartition_line_ids' field, discriminated by document_type.
+        """
+        return [
+            vals
+            for _command, _id, vals in tax_data[key]["repartition_line_ids"]
+            if vals["document_type"] == document_type
+        ]
 
     def test_set_tax_group_accs(self):
         """Test that _set_tax_group_accs correctly updates tax_data with accounts"""
@@ -115,7 +140,6 @@ class TestCoaLoad(TransactionCase):  # AccountTestInvoicingCommon):
                     "tax_group_id": tax_group.id,
                     "type_tax_use": "sale",
                     "repartition_line_ids": [],
-                    "refund_repartition_line_ids": [],
                     "deductible": False,
                     "withholdable": False,
                 }
@@ -123,10 +147,9 @@ class TestCoaLoad(TransactionCase):  # AccountTestInvoicingCommon):
             self.env["account.chart.template"]._set_tax_group_accs(
                 "br_oca", tax_data_sale
             )
-            tax_res = tax_data_sale["tax_1"]
-            for _cmd, _id, vals in tax_res["invoice_repartition_line_ids"]:
+            for vals in self._repartition_vals(tax_data_sale, "tax_1", "invoice"):
                 self.assertEqual(vals["account_id"], account_payable.id)
-            for _cmd, _id, vals in tax_res["refund_repartition_line_ids"]:
+            for vals in self._repartition_vals(tax_data_sale, "tax_1", "refund"):
                 self.assertEqual(vals["account_id"], account_receivable.id)
 
             # Test case 2: Purchase Tax (swaps accounts)
@@ -135,7 +158,6 @@ class TestCoaLoad(TransactionCase):  # AccountTestInvoicingCommon):
                     "tax_group_id": tax_group.id,
                     "type_tax_use": "purchase",
                     "repartition_line_ids": [],
-                    "refund_repartition_line_ids": [],
                     "deductible": False,
                     "withholdable": False,
                 }
@@ -143,12 +165,11 @@ class TestCoaLoad(TransactionCase):  # AccountTestInvoicingCommon):
             self.env["account.chart.template"]._set_tax_group_accs(
                 "br_oca", tax_data_purchase
             )
-            tax_res_p = tax_data_purchase["tax_2"]
             # Invoice uses refund_account_id (receivable)
-            for _cmd, _id, vals in tax_res_p["invoice_repartition_line_ids"]:
+            for vals in self._repartition_vals(tax_data_purchase, "tax_2", "invoice"):
                 self.assertEqual(vals["account_id"], account_receivable.id)
             # Refund uses account_id (payable)
-            for _cmd, _id, vals in tax_res_p["refund_repartition_line_ids"]:
+            for vals in self._repartition_vals(tax_data_purchase, "tax_2", "refund"):
                 self.assertEqual(vals["account_id"], account_payable.id)
 
             # Test case 3: Deductible Purchase Tax
@@ -157,7 +178,6 @@ class TestCoaLoad(TransactionCase):  # AccountTestInvoicingCommon):
                     "tax_group_id": tax_group.id,
                     "type_tax_use": "purchase",
                     "repartition_line_ids": [],
-                    "refund_repartition_line_ids": [],
                     "deductible": True,
                     "withholdable": False,
                 }
@@ -165,16 +185,15 @@ class TestCoaLoad(TransactionCase):  # AccountTestInvoicingCommon):
             self.env["account.chart.template"]._set_tax_group_accs(
                 "br_oca", tax_data_deductible
             )
-            tax_res_d = tax_data_deductible["tax_3"]
             # Deductible taxes use ded_account_id directly
             # (no swap logic in code for deductible)
-            for _cmd, _id, vals in tax_res_d["invoice_repartition_line_ids"]:
+            for vals in self._repartition_vals(tax_data_deductible, "tax_3", "invoice"):
                 self.assertEqual(vals["account_id"], account_deductible.id)
-            for _cmd, _id, vals in tax_res_d["refund_repartition_line_ids"]:
+            for vals in self._repartition_vals(tax_data_deductible, "tax_3", "refund"):
                 self.assertEqual(vals["account_id"], account_deductible_refund.id)
             # Factor percent check (deductible taxes are usually negative in repartition
             # to indicate deduction, code sets it to -100)
-            for _cmd, _id, vals in tax_res_d["invoice_repartition_line_ids"]:
+            for vals in self._repartition_vals(tax_data_deductible, "tax_3", "invoice"):
                 self.assertEqual(vals["factor_percent"], -100)
 
             # Test case 4: Withholdable Sale Tax
@@ -183,7 +202,6 @@ class TestCoaLoad(TransactionCase):  # AccountTestInvoicingCommon):
                     "tax_group_id": tax_group.id,
                     "type_tax_use": "sale",
                     "repartition_line_ids": [],
-                    "refund_repartition_line_ids": [],
                     "deductible": False,
                     "withholdable": True,
                 }
@@ -191,9 +209,8 @@ class TestCoaLoad(TransactionCase):  # AccountTestInvoicingCommon):
             self.env["account.chart.template"]._set_tax_group_accs(
                 "br_oca", tax_data_wh_sale
             )
-            tax_res_ws = tax_data_wh_sale["tax_4"]
             # Withholdable sale: accounts are set to False
-            for _cmd, _id, vals in tax_res_ws["invoice_repartition_line_ids"]:
+            for vals in self._repartition_vals(tax_data_wh_sale, "tax_4", "invoice"):
                 self.assertFalse(vals["account_id"])
 
             # Test case 5: Withholdable Purchase Tax
@@ -202,7 +219,6 @@ class TestCoaLoad(TransactionCase):  # AccountTestInvoicingCommon):
                     "tax_group_id": tax_group.id,
                     "type_tax_use": "purchase",
                     "repartition_line_ids": [],
-                    "refund_repartition_line_ids": [],
                     "deductible": False,
                     "withholdable": True,
                 }
@@ -210,11 +226,24 @@ class TestCoaLoad(TransactionCase):  # AccountTestInvoicingCommon):
             self.env["account.chart.template"]._set_tax_group_accs(
                 "br_oca", tax_data_wh_purchase
             )
-            tax_res_wp = tax_data_wh_purchase["tax_5"]
             # Withholdable purchase falls into else block, but swap is skipped.
             # So it uses account_id (payable) for invoice.
-            for _cmd, _id, vals in tax_res_wp["invoice_repartition_line_ids"]:
+            for vals in self._repartition_vals(
+                tax_data_wh_purchase, "tax_5", "invoice"
+            ):
                 self.assertEqual(vals["account_id"], account_payable.id)
             # And factor percent should be -100 for withholdable
-            for _cmd, _id, vals in tax_res_wp["invoice_repartition_line_ids"]:
+            for vals in self._repartition_vals(
+                tax_data_wh_purchase, "tax_5", "invoice"
+            ):
                 self.assertEqual(vals["factor_percent"], -100)
+
+            # Each document type gets a base and a tax repartition line
+            for document_type in ("invoice", "refund"):
+                repartition_types = sorted(
+                    vals["repartition_type"]
+                    for vals in self._repartition_vals(
+                        tax_data_sale, "tax_1", document_type
+                    )
+                )
+                self.assertEqual(repartition_types, ["base", "tax"])
