@@ -2,7 +2,6 @@
 # Copyright (C) 2024  Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import base64
 from contextlib import suppress
 
 from cryptography import x509
@@ -57,12 +56,13 @@ class Certificate(models.Model):
     def _compute_issuer_name(self):
         for certificate in self:
             issuer_name = ""
-            pem_certificate = certificate.with_context(bin_size=False).pem_certificate
+            pem_certificate = certificate.pem_certificate
             if pem_certificate:
                 with suppress(ValueError, TypeError):
-                    x509_cert = x509.load_pem_x509_certificate(
-                        base64.b64decode(pem_certificate)
-                    )
+                    # The binary value is the PEM certificate itself: Odoo 20.0
+                    # reads binary fields as BinaryValue objects whose ``content``
+                    # is the raw content (base64 is only used on the wire).
+                    x509_cert = x509.load_pem_x509_certificate(pem_certificate.content)
                     issuer_name = self._get_common_name(x509_cert, issuer=True) or ""
             certificate.issuer_name = issuer_name
 

@@ -1,9 +1,12 @@
 # Copyright (C) 2021 - Luis Felipe Mileo - KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import base64
 import logging
 
 from erpbrasil.assinatura import misc
+
+from odoo.tools import BinaryBytes
 
 _logger = logging.getLogger(__name__)
 
@@ -19,8 +22,15 @@ def post_init_hook(env):
         return {
             "scope": "l10n_br",
             "pkcs12_password": passwd,
-            "content": misc.create_fake_certificate_file(
-                valid, passwd, issuer, country, subject
+            # ``misc.create_fake_certificate_file`` returns the PKCS#12 file
+            # base64 encoded and Odoo 20.0 rejects plain bytes in binary
+            # fields: pass the decoded content as a BinaryValue.
+            "content": BinaryBytes(
+                base64.b64decode(
+                    misc.create_fake_certificate_file(
+                        valid, passwd, issuer, country, subject
+                    )
+                )
             ),
         }
 

@@ -1,6 +1,7 @@
 # Copyright 2019 Akretion - Renato Lima <renato.lima@akretion.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import base64
 from datetime import timedelta
 from time import sleep
 
@@ -9,6 +10,7 @@ from erpbrasil.assinatura import misc
 from odoo import Command, fields
 from odoo.exceptions import ValidationError
 from odoo.tests import TransactionCase
+from odoo.tools import BinaryBytes
 
 
 class TestCertificate(TransactionCase):
@@ -70,7 +72,10 @@ class TestCertificate(TransactionCase):
         return {
             "scope": "l10n_br",
             "pkcs12_password": passwd or self.cert_passwd,
-            "content": cert_file,
+            # ``misc.create_fake_certificate_file`` returns the PKCS#12 content
+            # base64 encoded and Odoo 20.0 rejects plain bytes in binary
+            # fields: pass the decoded content as a BinaryValue.
+            "content": BinaryBytes(base64.b64decode(cert_file)),
             "company_id": (company or self.company).id,
         }
 

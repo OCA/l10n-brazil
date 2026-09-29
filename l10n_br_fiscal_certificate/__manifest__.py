@@ -9,13 +9,13 @@
     "maintainers": ["renatonlima"],
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Production/Stable",
-    "version": "19.0.1.0.0",
+    "version": "20.0.1.0.0",
     "depends": [
         "l10n_br_fiscal",
         "certificate",
     ],
     "data": [
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "views/certificate_view.xml",
         "views/res_company_view.xml",
         "views/res_config_settings_view.xml",

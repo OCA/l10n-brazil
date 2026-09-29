@@ -2,6 +2,7 @@
 # Copyright (C) 2020  Luis Felipe Mileo - KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import base64
 import re
 
 from erpbrasil.assinatura import certificado as cert
@@ -17,7 +18,6 @@ class ResCompany(models.Model):
 
     certificate_id = fields.Many2one(
         comodel_name="certificate.certificate",
-        string="Certificate",
         domain="[('company_id', '=', id), ('scope', '=', 'l10n_br')]",
         help="Certificate used to sign and transmit the fiscal documents.",
     )
@@ -71,7 +71,12 @@ class ResCompany(models.Model):
         certificate = self._get_br_certificate(only_ecnpj=only_ecnpj)
         try:
             return cert.Certificado(
-                arquivo=certificate.with_context(bin_size=False).content,
+                # ``erpbrasil.assinatura`` wants the PKCS#12 file base64 encoded
+                # as ``bytes`` (a ``str`` is kept as is and rejected by
+                # ``cryptography``). Odoo 20.0 reads binary fields as
+                # ``BinaryValue`` objects instead of the old ``bin_size`` bytes,
+                # so encode the content again as the library expects it.
+                arquivo=base64.b64encode(certificate.content),
                 senha=certificate.pkcs12_password,
             )
         except CertificadoExpirado as error:
