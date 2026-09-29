@@ -1,6 +1,6 @@
 {
     "name": "NFS-e abstract models",
-    "version": "16.0.1.1.0",
+    "version": "18.0.1.1.0",
     "author": "Akretion, Odoo Community Association (OCA)",
     "license": "LGPL-3",
     "category": "Accounting",
