@@ -14,6 +14,8 @@ from odoo.tests.common import TransactionCase
 
 from odoo.addons import l10n_br_nfse_nacional
 
+from .common import set_provedor_nacional
+
 _logger = logging.getLogger(__name__)
 
 
@@ -29,6 +31,7 @@ class TestNfseSerialize(TransactionCase):
             if nfse:
                 nfse_data["nfse"] = nfse
                 cls.nfse_list.append(nfse_data)
+                set_provedor_nacional(nfse)
 
     def serialize_xml(self, nfse_data):
         nfse = nfse_data["nfse"]
