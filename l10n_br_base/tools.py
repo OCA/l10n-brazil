@@ -24,7 +24,7 @@ def check_ie(env, l10n_br_ie_code, state, country):
         if country != env.ref("base.br"):
             return  # skip check
 
-        disable_ie_validation = env["ir.config_parameter"].sudo().get_param(
+        disable_ie_validation = env["ir.config_parameter"].sudo().get_bool(
             "l10n_br_base.disable_ie_validation", default=False
         ) or env.context.get("disable_ie_validation")
 
@@ -57,7 +57,7 @@ def check_cnpj_cpf(env, cnpj_cpf_value, country, force_validation=False):
     """
     if env and cnpj_cpf_value and country:
         if country == env.ref("base.br"):
-            disable_cpf_cnpj_validation = env["ir.config_parameter"].sudo().get_param(
+            disable_cpf_cnpj_validation = env["ir.config_parameter"].sudo().get_bool(
                 "l10n_br_base.disable_cpf_cnpj_validation", default=False
             ) or env.context.get("disable_cpf_cnpj_validation")
 

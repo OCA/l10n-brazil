@@ -705,7 +705,7 @@
 
     <record id="base.mm" model="res.country">
         <field name="bc_code">0930</field>
-        <field name="siscomex_code">0930</field>
+        <field name="siscomex_code">093</field>
     </record>
 
     <record id="base.mn" model="res.country">
@@ -980,7 +980,7 @@
 
     <record id="base.sk" model="res.country">
         <field name="bc_code">2470</field>
-        <field name="siscomex_code">2470</field>
+        <field name="siscomex_code">247</field>
     </record>
 
     <record id="base.sl" model="res.country">

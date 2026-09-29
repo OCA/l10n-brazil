@@ -7,8 +7,8 @@ Endereços:
 - Formatação dos campos de endereço;
 - Código do Banco Central e Siscomex para países;
 - Código do IBGE para estados e municípios;
-- Lista dos Bancos brasileiros;
-- Contas bancarias e chaves PIX dos parceiros;
+- Contas bancarias (com o código do banco, agência e dígitos) e chaves PIX
+  dos parceiros;
 - Lista dos municípios brasileiros.
 
 Se trata de um módulo muito simples e maduro. Existem alguns outros

@@ -4,6 +4,9 @@
 
 import logging
 
+from psycopg2 import IntegrityError
+
+from odoo.exceptions import ValidationError
 from odoo.tests import TransactionCase
 from odoo.tools import mute_logger
 
@@ -58,8 +61,11 @@ class OtherIETest(TransactionCase):
                 result = True
             self.assertTrue(result, "Error in method to update other IE(s) on partner.")
 
-        try:
-            result = self.company.write(
+        # A second State Tax Number for a State the partner already has is
+        # rejected by the model constraint (unique State/partner), whereas the
+        # Python check above only covers the State of the partner address.
+        with self.assertRaises(IntegrityError):
+            self.company.write(
                 {
                     "state_tax_number_ids": [
                         (
@@ -73,16 +79,10 @@ class OtherIETest(TransactionCase):
                     ]
                 }
             )
-        except Exception:
-            result = False
-
-        self.assertFalse(
-            result, "Error to check included other IE to State already informed."
-        )
 
     def test_included_invalid_ie(self):
-        try:
-            result = self.company.write(
+        with self.assertRaises(ValidationError):
+            self.company.write(
                 {
                     "state_tax_number_ids": [
                         (
@@ -96,13 +96,10 @@ class OtherIETest(TransactionCase):
                     ]
                 }
             )
-        except Exception:
-            result = False
-        self.assertFalse(result, "Error to check included invalid IE.")
 
     def test_included_other_valid_ie_to_same_state_of_company(self):
-        try:
-            result = self.company.write(
+        with self.assertRaises(ValidationError):
+            self.company.write(
                 {
                     "state_tax_number_ids": [
                         (
@@ -116,12 +113,6 @@ class OtherIETest(TransactionCase):
                     ]
                 }
             )
-        except Exception:
-            result = False
-        self.assertFalse(
-            result,
-            "Error to check included other valid IE  in to same state of Company.",
-        )
 
     def test_included_valid_ie_on_partner(self):
         result = self.company.partner_id.write(

@@ -47,7 +47,7 @@ class ValidCreatePIXTest(TransactionCase):
     def test_invalid_pix_cnpj_wrong_value(self):
         # Desabilitando a Validação do CPF_CNPJ porque mesmo
         # nesse caso a validação da Chave PIX deve ser feita.
-        self.env["ir.config_parameter"].set_param(
+        self.env["ir.config_parameter"].sudo().set_bool(
             "l10n_br_base.disable_cpf_cnpj_validation", True
         )
 

@@ -56,7 +56,6 @@
     <!-- Empresa Simples Nacional -->
     <record id="simples_nacional_partner" model="res.partner">
         <field name="name">Empresa Simples Nacional</field>
-        <field name="company_name">Empresa Simples Nacional</field>
         <field name="street_name">Rua Paulo Dias</field>
         <field name="street_number">586</field>
         <field name="district">Vila Santa Luzia</field>

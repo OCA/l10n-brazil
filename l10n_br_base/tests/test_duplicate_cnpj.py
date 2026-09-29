@@ -20,9 +20,9 @@ class DuplicateCnpjTest(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         # allow_cnpj_multi_ie OFF: the settings field represents "off" by
-        # removing the parameter (set_param deletes on a False bool), so the
-        # default is strict and any duplicate CNPJ is blocked regardless of IE.
-        cls.env["ir.config_parameter"].sudo().set_param(
+        # storing False, so the default is strict and any duplicate CNPJ is
+        # blocked regardless of IE.
+        cls.env["ir.config_parameter"].sudo().set_bool(
             "l10n_br_base.allow_cnpj_multi_ie", False
         )
         # Real (valid) CNPJ of Google Brasil, used as an example.
@@ -70,7 +70,7 @@ class DuplicateCnpjTest(TransactionCase):
     def test_multi_ie_allows_different_ie(self):
         """With allow_cnpj_multi_ie enabled, the same CNPJ under a *different*
         State Tax Number is allowed (multi-establishment scenario)."""
-        self.env["ir.config_parameter"].sudo().set_param(
+        self.env["ir.config_parameter"].sudo().set_bool(
             "l10n_br_base.allow_cnpj_multi_ie", True
         )
         self._create_partner_with_ie("Branch 1", self.google_cnpj, "111111111")
@@ -82,7 +82,7 @@ class DuplicateCnpjTest(TransactionCase):
     def test_multi_ie_blocks_same_ie(self):
         """With allow_cnpj_multi_ie enabled, the same CNPJ under the *same*
         State Tax Number is still blocked."""
-        self.env["ir.config_parameter"].sudo().set_param(
+        self.env["ir.config_parameter"].sudo().set_bool(
             "l10n_br_base.allow_cnpj_multi_ie", True
         )
         self._create_partner_with_ie("Branch 1", self.google_cnpj, "111111111")

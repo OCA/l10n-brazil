@@ -129,17 +129,12 @@ class ValidCreateIdTest(TransactionCase):
 
     def test_comp_valid(self):
         """Try do create id with correct CNPJ and correct Inscricao Estadual"""
-        try:
-            company = (
-                self.env["res.company"]
-                .with_context(tracking_disable=True)
-                .create(self.company_valid)
-            )
-        except Exception:
-            assert company, (
-                "Error when using .create() even with valid \
-                             and Inscricao Estadual"
-            )
+        company = (
+            self.env["res.company"]
+            .with_context(tracking_disable=True)
+            .create(self.company_valid)
+        )
+        self.assertTrue(company.id, "Error when using .create() with a valid CNPJ")
 
     def test_comp_invalid_cnpj(self):
         """Test if ValidationError raised during .create() with invalid CNPJ
@@ -161,17 +156,12 @@ class ValidCreateIdTest(TransactionCase):
 
     def test_part_valid(self):
         """Try do create id with correct CPF and correct Inscricao Estadual"""
-        try:
-            partner = (
-                self.env["res.partner"]
-                .with_context(tracking_disable=True)
-                .create(self.partner_valid)
-            )
-        except Exception:
-            assert partner, (
-                "Error when using .create() even with valid CPF \
-                         and Inscricao Estadual"
-            )
+        partner = (
+            self.env["res.partner"]
+            .with_context(tracking_disable=True)
+            .create(self.partner_valid)
+        )
+        self.assertTrue(partner.id, "Error when using .create() with a valid CPF")
 
     def test_part_invalid_cpf(self):
         """Test if ValidationError raised during .create() with invalid CPF
@@ -236,13 +226,12 @@ class ValidCreateIdTest(TransactionCase):
         )
         self.assertFalse(partner.vat, "VAT should be False as registered")
 
-    def test_vat_computation_with_company_name_and_vat(self):
-        """Test VAT computation for a br partner with company_name and vat"""
+    def test_vat_computation_with_cnpj_and_vat(self):
+        """Test VAT computation for a br partner with a CNPJ"""
         partner_data = self.partner_valid.copy()
         partner_data.pop("vat")
         partner_data.update(
             {
-                "company_name": "Company Partner",
                 "vat": "93.429.799/0001-17",
             }
         )
@@ -262,12 +251,11 @@ class ValidCreateIdTest(TransactionCase):
             "The VAT/CNPJ must be formatted for display",
         )
 
-    def test_create_company_in_brazil(self):
-        """Test the creation of a company in Brazil"""
+    def test_is_company_with_cnpj(self):
+        """A partner holding a CNPJ is a company"""
         partner_data = self.partner_valid.copy()
         partner_data.update(
             {
-                "company_name": "Company Partner",
                 "vat": "93.429.799/0001-17",
             }
         )
@@ -276,50 +264,33 @@ class ValidCreateIdTest(TransactionCase):
             .with_context(tracking_disable=True)
             .create(partner_data)
         )
-        partner.create_company()
-        company = partner.parent_id
-        self.assertTrue(company, "The company was not created")
-        self.assertEqual(
-            company.legal_name,
-            company.name,
-            "The legal name must be the same as the company name",
-        )
-        self.assertEqual(
-            company.vat,
-            "93429799000117",
-            "The company CNPJ_CPF must be the same as the partner VAT",
-        )
-        self.assertEqual(
-            company.l10n_br_ie_code,
-            partner.l10n_br_ie_code,
-            "The company INSCR_EST must be the same as the partner INSCR_EST",
-        )
-        self.assertEqual(
-            company.l10n_br_im_code,
-            partner.l10n_br_im_code,
-            "The company INSCR_MUN must be the same as the partner INSCR_MUN",
+        self.assertTrue(
+            partner.is_company,
+            "A partner with a CNPJ must be considered a company",
         )
 
-    def test_create_company_outside_brazil(self):
-        """Test the creation of a company outside Brazil"""
-        partner_data = self.partner_outside_br.copy()
-        partner_data.update(
-            {
-                "company_name": "Company Partner",
-            }
-        )
+    def test_is_company_with_cpf(self):
+        """A partner holding a CPF is an individual"""
         partner = (
             self.env["res.partner"]
             .with_context(tracking_disable=True)
-            .create(partner_data)
+            .create(self.partner_valid)
         )
-        partner.create_company()
-        company = partner.parent_id
-        self.assertTrue(company, "The company was not created")
-        self.assertEqual(
-            company.vat,
-            partner.vat,
-            "The company CNPJ_CPF must be the same as the partner VAT",
+        self.assertFalse(
+            partner.is_company,
+            "A partner with a CPF must not be considered a company",
+        )
+
+    def test_is_company_outside_brazil(self):
+        """A foreign partner keeps the core behaviour (a VAT means a company)"""
+        partner = (
+            self.env["res.partner"]
+            .with_context(tracking_disable=True)
+            .create(self.partner_outside_br)
+        )
+        self.assertTrue(
+            partner.is_company,
+            "A foreign partner with a VAT must keep the core behaviour",
         )
 
 

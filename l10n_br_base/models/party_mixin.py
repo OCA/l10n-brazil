@@ -234,6 +234,21 @@ class PartyMixin(models.AbstractModel):
         if country and country.code == "BR":
             vals["vat"] = misc.punctuation_rm(str(vat))
 
+    def _l10n_br_disable_vat_validation(self):
+        """Whether the user disabled the Brazilian VAT validation.
+
+        True when the setting (or the context key) is enabled. Also used to
+        skip the VAT validation core Odoo 20.0 performs itself (see
+        ``res.partner._check_vat``), so that the Brazilian setting keeps
+        allowing legacy/foreign numbers.
+        """
+        return bool(
+            self.env.context.get("disable_cpf_cnpj_validation")
+            or self.env["ir.config_parameter"]
+            .sudo()
+            .get_bool("l10n_br_base.disable_cpf_cnpj_validation")
+        )
+
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:

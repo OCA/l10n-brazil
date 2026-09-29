@@ -255,14 +255,10 @@
         <field name="phone">(11) 7777-7777</field>
         <field name="email">cliente2@cliente2.com.br</field>
         <field name="l10n_br_ie_code">811.510.100.755</field>
-        <!-- Necessário company_type person para o metodo address_get
-        identificar como sendo o Partner to Shipping
-        TODO: A localização deveria sobreescrever o metodo address_get
-         ou criar um novo que ignore o company_type? Já que em muitos casos
-         tanto o Endereço de Entrega e Faturamento são company e não person
-         porém sem isso os Casos de Uso com endereços diferentes não funciona
-        -->
-        <field name="company_type">person</field>
+        <!-- Odoo 20.0 removeu o campo company_type: o campo is_company agora é
+        calculado e este endereço (cujo parent_id é definido no post_init_hook)
+        não é a sua própria entidade comercial, então o metodo address_get
+        o identifica como sendo o Partner to Shipping -->
         <field name="type">delivery</field>
         <!--field name="parent_id" ref="l10n_br_base.res_partner_cliente2_sp" /-->
         <field name="active" eval="1" />
@@ -407,14 +403,10 @@
         <field name="phone">(11) 7777-7777</field>
         <field name="email">cliente2@cliente7.com.br</field>
         <field name="l10n_br_ie_code">845/2345834</field>
-        <!-- Necessário company_type person para o metodo address_get
-        identificar como sendo o Partner to Invoice
-        TODO: A localização deveria sobreescrever o metodo address_get
-         ou criar um novo que ignore o company_type? Já que em muitos casos
-         tanto o Endereço de Entrega e Faturamento são company e não person
-         porém sem isso os Casos de Uso com endereços diferentes não funciona
-        -->
-        <field name="company_type">person</field>
+        <!-- Odoo 20.0 removeu o campo company_type: o campo is_company agora é
+        calculado e este endereço (cujo parent_id é definido no post_init_hook)
+        não é a sua própria entidade comercial, então o metodo address_get
+        o identifica como sendo o Partner to Invoice -->
         <field name="type">invoice</field>
         <!--field name="parent_id" ref="l10n_br_base.res_partner_cliente7_rs" /-->
         <field name="active" eval="1" />
@@ -465,7 +457,7 @@
         <field name="state_id" ref="base.state_br_sp" />
         <field
             name="image_128"
-            type="base64"
+            type="bytes"
             file="l10n_br_base/static/img/res_partner_akretion-image.jpg"
         />
     </record>
@@ -493,7 +485,7 @@
         <field name="state_id" ref="base.state_br_rj" />
         <field
             name="image_128"
-            type="base64"
+            type="bytes"
             file="l10n_br_base/static/img/res_partner_akretion-image.jpg"
         />
     </record>
@@ -522,7 +514,7 @@
         <field name="state_id" ref="base.state_br_sp" />
         <field
             name="image_128"
-            type="base64"
+            type="bytes"
             file="l10n_br_base/static/img/res_partner_akretion-image.jpg"
         />
     </record>
@@ -593,7 +585,7 @@
         <field name="state_id" ref="base.state_br_mg" />
         <field
             name="image_128"
-            type="base64"
+            type="bytes"
             file="l10n_br_base/static/img/res_partner_kmee.png"
         />
     </record>
