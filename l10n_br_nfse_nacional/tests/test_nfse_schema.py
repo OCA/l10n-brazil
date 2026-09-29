@@ -5,6 +5,8 @@ from nfelib.nfse.bindings.v1_0.dps_v1_00 import Dps
 
 from odoo.tests.common import TransactionCase, tagged
 
+from .common import set_provedor_nacional
+
 
 @tagged("post_install", "-at_install")
 class TestNfseSchema(TransactionCase):
@@ -17,6 +19,7 @@ class TestNfseSchema(TransactionCase):
         document = self.env.ref(xml_id, raise_if_not_found=False)
         if not document:
             self.skipTest("l10n_br_nfse_nacional demo data is not installed")
+        set_provedor_nacional(document)
         xml = document._serialize([])[0].to_xml()
         self.assertEqual(Dps.schema_validation(xml), [])
 
