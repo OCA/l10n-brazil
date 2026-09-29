@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <record id="service_type_search" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.service.type.search</field>
@@ -72,9 +72,9 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button
-                            type="action"
-                            class="oe_stat_button"
                             id="product_tmpl_button"
+                            class="oe_stat_button"
+                            type="action"
                             icon="fa-bars"
                             name="%(product.product_template_action_all)d"
                             context="{'search_default_service_type_id': id}"

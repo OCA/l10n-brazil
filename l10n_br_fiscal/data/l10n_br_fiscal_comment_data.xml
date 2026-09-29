@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo noupdate="0">
     <record id="fiscal_comment_dummy" model="l10n_br_fiscal.comment">
         <field name="name">Usuário emissor</field>

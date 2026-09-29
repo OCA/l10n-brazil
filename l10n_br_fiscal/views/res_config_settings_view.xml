@@ -1,4 +1,4 @@
-<?xml version="1.0" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <record id="l10n_br_fiscal_res_config_settings_form" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.res.config.settings.view.form</field>
@@ -17,7 +17,7 @@
                     <block title="Geral" name="general">
                         <setting>
                             <field name="ibpt_api" />
-                            <div class="content-group" id="ibpt_api_settings">
+                            <div id="ibpt_api_settings" class="content-group">
                                 <span
                                     class="fa fa-lg fa-building-o"
                                     title="Values set here are company-specific."

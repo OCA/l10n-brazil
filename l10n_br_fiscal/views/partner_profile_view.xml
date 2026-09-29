@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <record id="partner_profile_search" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.partner.profile.search</field>
@@ -41,9 +41,9 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button
-                            type="object"
-                            class="oe_stat_button"
                             id="partner_button"
+                            class="oe_stat_button"
+                            type="object"
                             icon="fa-bars"
                             name="action_view_partners"
                             context="{'default_fiscal_profile_id': id}"

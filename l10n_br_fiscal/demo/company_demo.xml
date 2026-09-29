@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo noupdate="1">
     <!-- Sua Empresa -->
     <record id="base.main_company" model="res.company">
@@ -193,7 +193,7 @@
         <field name="name">Série 1</field>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
-        <field name="active">True</field>
+        <field name="active" eval="True" />
     </record>
 
     <record id="empresa_lc_document_57_serie_1" model="l10n_br_fiscal.document.serie">
@@ -201,7 +201,7 @@
         <field name="name">Série 1</field>
         <field name="document_type_id" ref="l10n_br_fiscal.document_57" />
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
-        <field name="active">True</field>
+        <field name="active" eval="True" />
     </record>
 
     <record id="empresa_lc_document_58_serie_1" model="l10n_br_fiscal.document.serie">
@@ -209,7 +209,7 @@
         <field name="name">Série 1</field>
         <field name="document_type_id" ref="l10n_br_fiscal.document_58" />
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
-        <field name="active">True</field>
+        <field name="active" eval="True" />
     </record>
 
     <record id="empresa_lc_document_65_serie_1" model="l10n_br_fiscal.document.serie">
@@ -217,7 +217,7 @@
         <field name="name">Série 1</field>
         <field name="document_type_id" ref="l10n_br_fiscal.document_65" />
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
-        <field name="active">True</field>
+        <field name="active" eval="True" />
     </record>
 
     <!-- Empresa Lucro Real -->
@@ -279,7 +279,7 @@
         <field name="name">Série 1</field>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
         <field name="company_id" ref="l10n_br_base.empresa_lucro_real" />
-        <field name="active">True</field>
+        <field name="active" eval="True" />
     </record>
 
     <record id="empresa_lr_document_57_serie_1" model="l10n_br_fiscal.document.serie">
@@ -287,7 +287,7 @@
         <field name="name">Série 1</field>
         <field name="document_type_id" ref="l10n_br_fiscal.document_57" />
         <field name="company_id" ref="l10n_br_base.empresa_lucro_real" />
-        <field name="active">True</field>
+        <field name="active" eval="True" />
     </record>
 
     <record id="empresa_lr_document_58_serie_1" model="l10n_br_fiscal.document.serie">
@@ -295,7 +295,7 @@
         <field name="name">Série 1</field>
         <field name="document_type_id" ref="l10n_br_fiscal.document_58" />
         <field name="company_id" ref="l10n_br_base.empresa_lucro_real" />
-        <field name="active">True</field>
+        <field name="active" eval="True" />
     </record>
 
     <record id="empresa_lr_document_65_serie_1" model="l10n_br_fiscal.document.serie">
@@ -303,7 +303,7 @@
         <field name="name">Série 1</field>
         <field name="document_type_id" ref="l10n_br_fiscal.document_65" />
         <field name="company_id" ref="l10n_br_base.empresa_lucro_real" />
-        <field name="active">True</field>
+        <field name="active" eval="True" />
     </record>
 
     <!-- Empresa Simples Nacional -->
@@ -332,7 +332,7 @@
         <field name="name">Série 1</field>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
-        <field name="active">True</field>
+        <field name="active" eval="True" />
     </record>
 
     <record id="empresa_sn_document_57_serie_1" model="l10n_br_fiscal.document.serie">
@@ -340,7 +340,7 @@
         <field name="name">Série 1</field>
         <field name="document_type_id" ref="l10n_br_fiscal.document_57" />
         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
-        <field name="active">True</field>
+        <field name="active" eval="True" />
     </record>
 
     <record id="empresa_sn_document_58_serie_1" model="l10n_br_fiscal.document.serie">
@@ -348,7 +348,7 @@
         <field name="name">Série 1</field>
         <field name="document_type_id" ref="l10n_br_fiscal.document_58" />
         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
-        <field name="active">True</field>
+        <field name="active" eval="True" />
     </record>
 
     <record

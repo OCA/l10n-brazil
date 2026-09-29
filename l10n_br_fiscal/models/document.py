@@ -472,7 +472,6 @@ class Document(models.Model):
 
     def _document_export(self, **kwargs):
         """Placeholder for modules to implement their own export logic."""
-        pass
 
     # the following actions are meant to be implemented in other modules such as
     # l10n_br_fiscal_edi. They are defined here so they can be overriden in modules
@@ -495,28 +494,24 @@ class Document(models.Model):
         so that l10n_br_account (which does not depend on l10n_br_fiscal_edi)
         can call it without crashing.
         """
-        pass
 
     def action_document_invalidate(self):
         """Placeholder to be overridden by l10n_br_fiscal_edi. Defined here
         so that l10n_br_account (which does not depend on l10n_br_fiscal_edi)
         can call it without crashing.
         """
-        pass
 
     def view_xml(self):
         """Placeholder to be overridden by l10n_br_fiscal_edi. Defined here
         so that l10n_br_account (which does not depend on l10n_br_fiscal_edi)
         can call it without crashing.
         """
-        pass
 
     def view_pdf(self):
         """Placeholder to be overridden by l10n_br_fiscal_edi. Defined here
         so that l10n_br_account (which does not depend on l10n_br_fiscal_edi)
         can call it without crashing.
         """
-        pass
 
     @api.depends("fiscal_operation_id")
     def _compute_edoc_purpose(self):

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!-- oca-hooks:disable=xml-duplicate-record-id -->
 <odoo noupdate="1">
     <record id="document_55_serie_1" model="l10n_br_fiscal.document.serie">
@@ -6,7 +6,7 @@
         <field name="name">Série 1</field>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
         <field name="company_id" ref="base.main_company" />
-        <field name="active">True</field>
+        <field name="active" eval="True" />
     </record>
 
     <!-- l10n_br_fiscal.operation -->
@@ -745,7 +745,7 @@
         <field name="name">Série 1</field>
         <field name="document_type_id" ref="l10n_br_fiscal.document_SE" />
         <field name="company_id" ref="base.main_company" />
-        <field name="active">True</field>
+        <field name="active" eval="True" />
     </record>
 
     <!-- DEFINIÇÃO DAS TRIBUTAÇÕES -->

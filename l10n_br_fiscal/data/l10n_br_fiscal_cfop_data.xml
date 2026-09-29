@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo noupdate="1">
     <record id="cfop_5101" model="l10n_br_fiscal.cfop">
         <field name="cfop_inverse_id" ref="cfop_1102" />
