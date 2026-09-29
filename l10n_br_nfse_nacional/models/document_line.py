@@ -22,7 +22,7 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
         "nfse.10.tcvdesccondincond",
         "nfse.10.tcinfotributacao",
         "nfse.10.tctribmunicipal",
-        "nfse.10.tctribnacional",
+        "nfse.10.tctribfederal",
         "nfse.10.tctriboutrospiscofins",
         "nfse.10.tctribtotal",
     ]
@@ -40,7 +40,7 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
     _nfse10_binding_type_locPrest = "TclocPrest"
     _nfse10_binding_type_cServ = "Tccserv"
     _nfse10_binding_type_tribMun = "TctribMunicipal"
-    _nfse10_binding_type_tribFed = "TctribNacional"
+    _nfse10_binding_type_tribFed = "TctribFederal"
     _nfse10_binding_type_totTrib = "TctribTotal"
 
     nfse10_locPrest = fields.Many2one(
