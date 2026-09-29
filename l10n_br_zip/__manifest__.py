@@ -9,7 +9,7 @@
     "author": "Akretion, Odoo Community Association (OCA)",
     "maintainers": ["renatonlima"],
     "website": "https://github.com/OCA/l10n-brazil",
-    "version": "19.0.1.2.0",
+    "version": "20.0.1.2.0",
     "depends": ["l10n_br_base"],
     "data": [
         "views/l10n_br_zip_view.xml",
@@ -17,7 +17,7 @@
         "views/res_config_settings_view.xml",
         "views/res_company_views.xml",
         "wizard/l10n_br_zip_search_view.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
     ],
     "installable": True,
     "development_status": "Mature",

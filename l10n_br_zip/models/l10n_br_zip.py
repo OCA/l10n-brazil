@@ -37,17 +37,15 @@ class L10nBrZip(models.Model):
 
     district = fields.Char()
 
-    country_id = fields.Many2one(comodel_name="res.country", string="Country")
+    country_id = fields.Many2one(comodel_name="res.country")
 
     state_id = fields.Many2one(
         comodel_name="res.country.state",
-        string="State",
         domain="[('country_id','=',country_id)]",
     )
 
     city_id = fields.Many2one(
         comodel_name="res.city",
-        string="City",
         required=True,
         domain="[('state_id','=',state_id)]",
     )
@@ -89,10 +87,10 @@ class L10nBrZip(models.Model):
 
     def _zip_update(self):
         self.ensure_one()
-        cep_update_days = int(
+        cep_update_days = (
             self.env["ir.config_parameter"]
             .sudo()
-            .get_param("l10n_br_zip.cep_update_days", default=365)
+            .get_int("l10n_br_zip.cep_update_days", default=365)
         )
         date_delta = fields.Datetime.today() - self.write_date
         if date_delta.days >= cep_update_days:
@@ -124,10 +122,10 @@ class L10nBrZip(models.Model):
                 "apicep": WebService.APICEP,
                 "viacep": WebService.VIACEP,
             }
-            cep_ws_provide = str(
+            cep_ws_provide = (
                 self.env["ir.config_parameter"]
                 .sudo()
-                .get_param("l10n_zip.cep_ws_provider", default="viacep")
+                .get_str("l10n_zip.cep_ws_provider", default="viacep")
             )
             with patch("requests.Session.send", _original_send):
                 cep = get_address_from_cep(

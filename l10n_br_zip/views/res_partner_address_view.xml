@@ -11,9 +11,10 @@
                     name="zip_search"
                     type="object"
                     invisible="country_id != %(base.br)d"
-                    class="btn-sm btn-link mb4 fa fa-search oe_edit_only"
+                    class="oi btn-sm btn-link mb4 oe_edit_only"
+                    data-icon="search"
                     aria-label="Pesquisar CEP"
-                    title="Pesquisar CEP"
+                    data-tooltip="Pesquisar CEP"
                 />
             </field>
         </field>

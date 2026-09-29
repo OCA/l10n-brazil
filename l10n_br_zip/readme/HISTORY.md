@@ -1,3 +1,17 @@
+## 20.0.1.2.0 (2026)
+
+O Odoo 20.0 unificou as permissões de acesso (`ir.model.access` e `ir.rule`)
+no novo modelo `ir.access` e removeu os acessores `get_param`/`set_param`:
+
+- as permissões do módulo passaram do arquivo
+  `security/ir.model.access.csv` para o arquivo `security/ir.access.csv`,
+  que usa o nome técnico do modelo na coluna `model_id` e a nova coluna
+  `operation` (ao invés das colunas `perm_read`/`perm_write`/...);
+- a leitura das configurações agora usa os acessores tipados
+  (`get_int`/`get_str`) do `ir.config_parameter`;
+- os ícones FontAwesome foram substituídos pelos ícones Material Symbols
+  (`icon`/`data-icon`), conforme o novo padrão das views do Odoo.
+
 ## 16.0.2.0.0 (2023-06-29)
 
 > - Biblioteca PyCEP-Correios foi renomeada para BrazilCEP.

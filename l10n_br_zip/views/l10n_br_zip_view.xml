@@ -9,7 +9,8 @@
                     name="zip_select"
                     string="Selecionar"
                     type="object"
-                    icon="fa-check text-success"
+                    icon="check"
+                    class="text-success"
                 />
                 <field name="zip_code" />
                 <field name="district" />
