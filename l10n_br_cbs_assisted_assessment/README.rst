@@ -28,27 +28,28 @@ Brazilian CBS Assisted Assessment Transport
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Transport for the CBS side of the assisted assessment, consuming the
-asynchronous APIs published by the Receita Federal in September 2026.
+Transporte da CBS da apuração assistida, consumindo as APIs assíncronas
+publicadas pela Receita Federal em setembro de 2026.
 
-It implements the hooks left open by ``l10n_br_assisted_assessment``:
+Implementa os hooks deixados em aberto pelo
+``l10n_br_assisted_assessment``:
 
-- opens the debit and credit requests at ``apuracao-cbs/v2``, using the
-  8 digit CNPJ root, since the assessment is consolidated per taxpayer
-  and not per establishment;
-- exposes the callback endpoint informed as ``urlRetorno``, answering
-  the ``HEAD`` validation the gateway performs before accepting a
-  request and storing the pre-signed download URL that arrives
-  afterwards;
-- polls the status endpoint as a recovery path, because the callback is
-  not always delivered;
-- downloads and parses the returned file, dispatching its contents to
-  the right assessment period. A single answer carries the current
-  period along with adjustments to previous ones, and only what changed
-  since the previous query, so the lines are merged instead of replaced.
+- abre as solicitações de débitos e créditos em ``apuracao-cbs/v2``,
+  usando a raiz de 8 dígitos do CNPJ, porque a apuração é consolidada
+  por contribuinte e não por estabelecimento;
+- expõe o endpoint de callback informado como ``urlRetorno``,
+  respondendo à validação ``HEAD`` que o gateway faz antes de aceitar a
+  solicitação e guardando a URL pré-assinada de download que chega
+  depois;
+- consulta o endpoint de status como caminho de recuperação, porque o
+  callback nem sempre é entregue;
+- baixa e interpreta o arquivo devolvido, encaminhando o conteúdo ao
+  período certo. Uma única resposta traz o período corrente e ajustes de
+  períodos anteriores, e só o que mudou desde a consulta anterior, então
+  as linhas são mescladas e não substituídas.
 
-The IBS is served by the CGIBS with its own endpoints and is therefore
-out of scope for this addon.
+O IBS é servido pelo CGIBS com endpoints próprios e fica fora do escopo
+deste addon.
 
 **Table of contents**
 
@@ -58,72 +59,70 @@ out of scope for this addon.
 Configuration
 =============
 
-Go to *Settings > Companies*, open the company and use the **Assisted
-Assessment** tab, group **CBS Transport**:
+Em *Configurações > Empresas*, abra a empresa e use a aba **Apuração
+Assistida**, grupo **Transporte CBS**:
 
-- **Environment**: restricted production (``apuracao-cbs-prr/v2``) or
-  production (``apuracao-cbs/v2``).
-- **Client Id** and **Client Secret**: Receita Integra credentials of
-  the head office. They are requested per service, so they are not
-  necessarily the same credentials used for the DeRE. The manual for
-  generating them is published at https://arquivos.receitafederal.gov.br
-  under *Documentos > Técnicos > Receita Integra*.
-- **Callback URL**: generated on first use and shown for copying. It
-  embeds a secret and is the URL informed as ``urlRetorno``.
+- **Ambiente**: produção restrita (``apuracao-cbs-prr/v2``) ou produção
+  (``apuracao-cbs/v2``).
+- **Client Id** e **Client Secret**: credenciais Receita Integra da
+  matriz. Elas são pedidas por serviço, então não são necessariamente as
+  mesmas da DeRE. O manual para gerá-las está em
+  https://arquivos.receitafederal.gov.br em *Documentos > Técnicos >
+  Receita Integra*.
+- **URL de Callback**: gerada no primeiro uso e exibida para copiar. Ela
+  embute um segredo e é a URL informada como ``urlRetorno``.
 
-Two requirements come from the gateway and are not enforced by the
-addon:
+Dois requisitos vêm do gateway e não são impostos pelo addon:
 
-- the callback URL must be reachable from the internet over **HTTPS**
-  with a valid certificate. An instance behind a reverse proxy needs
-  ``web.base.url`` set to the public address; a plain HTTP URL is only
-  logged as a warning so that the homologation environment can be
-  exercised from a development instance;
-- the opening endpoint accepts **4 calls a day** per service, answering
-  HTTP 429 beyond that. The addon counts the calls and refuses to exceed
-  the quota.
+- a URL de callback precisa ser alcançável na internet em **HTTPS**, com
+  certificado válido. Uma instância atrás de proxy reverso precisa de
+  ``web.base.url`` apontando para o endereço público; uma URL HTTP só
+  gera um aviso no log, para a homologação poder ser exercitada numa
+  instância de desenvolvimento;
+- o endpoint de abertura aceita **4 chamadas por dia** por serviço e
+  responde HTTP 429 acima disso. O addon conta as chamadas e recusa
+  ultrapassar a cota.
 
-Two scheduled actions are provided. *Poll and download pending requests*
-runs every 15 minutes and is enabled; *Open the daily requests* is
-disabled by default and opens the debit and credit requests of the
-current period for every company holding credentials.
+Há duas ações agendadas. *Consultar e baixar solicitações pendentes*
+roda a cada 15 minutos e vem habilitada; *Abrir as solicitações diárias*
+vem desabilitada e abre as solicitações de débitos e créditos do período
+corrente para cada empresa que tiver credenciais.
 
-This Doodba development stack ships a fake gateway at
-``cbs-assessment-mock:18951`` (published on the host as
-``127.0.0.1:18951``). Point **Token URL** at
-``http://cbs-assessment-mock:18951/token`` and **API URL** at
-``http://cbs-assessment-mock:18951``. Any client id and secret are
-accepted. The returned file only contains October 2026. A callback URL
-containing ``mock-refuse`` is answered with ``APURACAO-001``.
+Neste stack Doodba de desenvolvimento há um gateway falso em
+``cbs-assessment-mock:18951`` (publicado no host como
+``127.0.0.1:18951``). Aponte a **URL do Token** para
+``http://cbs-assessment-mock:18951/token`` e a **URL da API** para
+``http://cbs-assessment-mock:18951``. Qualquer client id e secret são
+aceitos. O arquivo devolvido contém só outubro de 2026. Uma URL de
+callback com ``mock-refuse`` é respondida com ``APURACAO-001``.
 
 Usage
 =====
 
-From an assessment, *Request Debits* or *Request Credits* opens the
-request and stores the returned ticket. The rest of the cycle is
-automatic: the callback marks the request as ready to download, and the
-scheduled action downloads the file and applies it to the periods it
-carries.
+Na apuração, *Solicitar Débitos* ou *Solicitar Créditos* abre a
+solicitação e guarda o tíquete devolvido. O restante do ciclo é
+automático: o callback marca a solicitação como pronta para download, e
+a ação agendada baixa o arquivo e o aplica aos períodos que ele carrega.
 
-A refusal leaves the request in the *Error* state with the code and the
-message that came back, instead of raising a dialog: the reason has to
-survive on the record, and the call is charged by the gateway even when
-refused, so it counts against the daily quota.
+Uma recusa deixa a solicitação no estado *Erro*, com o código e a
+mensagem que voltaram, em vez de abrir um diálogo: o motivo precisa
+permanecer no registro, e a chamada é cobrada pelo gateway mesmo quando
+recusada, então conta na cota diária.
 
-When the callback does not arrive, *Check Status* polls the status
-endpoint. A request whose processing exceeded the limit of 240 minutes
-comes back with an error and has to be opened again.
+Quando o callback não chega, *Verificar Status* consulta o endpoint de
+status. Uma solicitação cujo processamento passou do limite de 240
+minutos volta com erro e precisa ser aberta de novo.
 
-The signed download URL is valid for **48 hours**. After that the addon
-refuses to download and a new request is needed. The URL authorises the
-download on its own, so it is stored as a secret, restricted to
-assessment managers and never written to the log.
+A URL assinada de download vale **48 horas**. Depois disso o addon
+recusa o download e é preciso uma nova solicitação. A URL autoriza o
+download sozinha, por isso é guardada como segredo, restrita aos
+gerentes da apuração e nunca escrita no log.
 
-Because each answer only carries what changed since the previous query,
-with a window of at most 8 days, the assessment is only complete if the
-requests are opened regularly. Enable the daily scheduled action, or
-open them by hand often enough, and never rely on a single request at
-the end of the period.
+Como cada resposta só traz o que mudou desde a consulta anterior, numa
+janela de no máximo 8 dias, a apuração só fica completa se as
+solicitações forem abertas com regularidade. Ative a ação agendada
+diária, ou abra-as à mão com frequência suficiente, e não dependa de uma
+única solicitação no fim do período.
 
 Bug Tracker
 ===========

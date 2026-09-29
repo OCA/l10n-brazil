@@ -1,32 +1,35 @@
-Go to _Settings > Companies_, open the company and use the **Assisted Assessment** tab,
-group **CBS Transport**:
+Em _Configurações > Empresas_, abra a empresa e use a aba **Apuração
+Assistida**, grupo **Transporte CBS**:
 
-- **Environment**: restricted production (`apuracao-cbs-prr/v2`) or production
+- **Ambiente**: produção restrita (`apuracao-cbs-prr/v2`) ou produção
   (`apuracao-cbs/v2`).
-- **Client Id** and **Client Secret**: Receita Integra credentials of the head office.
-  They are requested per service, so they are not necessarily the same credentials used
-  for the DeRE. The manual for generating them is published at
-  <https://arquivos.receitafederal.gov.br> under _Documentos > Técnicos > Receita
-  Integra_.
-- **Callback URL**: generated on first use and shown for copying. It embeds a secret and
-  is the URL informed as `urlRetorno`.
+- **Client Id** e **Client Secret**: credenciais Receita Integra da matriz.
+  Elas são pedidas por serviço, então não são necessariamente as mesmas da
+  DeRE. O manual para gerá-las está em
+  <https://arquivos.receitafederal.gov.br> em _Documentos > Técnicos >
+  Receita Integra_.
+- **URL de Callback**: gerada no primeiro uso e exibida para copiar. Ela
+  embute um segredo e é a URL informada como `urlRetorno`.
 
-Two requirements come from the gateway and are not enforced by the addon:
+Dois requisitos vêm do gateway e não são impostos pelo addon:
 
-- the callback URL must be reachable from the internet over **HTTPS** with a valid
-  certificate. An instance behind a reverse proxy needs `web.base.url` set to the public
-  address; a plain HTTP URL is only logged as a warning so that the homologation
-  environment can be exercised from a development instance;
-- the opening endpoint accepts **4 calls a day** per service, answering HTTP 429 beyond
-  that. The addon counts the calls and refuses to exceed the quota.
+- a URL de callback precisa ser alcançável na internet em **HTTPS**, com
+  certificado válido. Uma instância atrás de proxy reverso precisa de
+  `web.base.url` apontando para o endereço público; uma URL HTTP só gera um
+  aviso no log, para a homologação poder ser exercitada numa instância de
+  desenvolvimento;
+- o endpoint de abertura aceita **4 chamadas por dia** por serviço e responde
+  HTTP 429 acima disso. O addon conta as chamadas e recusa ultrapassar a
+  cota.
 
-Two scheduled actions are provided. _Poll and download pending requests_ runs every 15
-minutes and is enabled; _Open the daily requests_ is disabled by default and opens the
-debit and credit requests of the current period for every company holding credentials.
+Há duas ações agendadas. _Consultar e baixar solicitações pendentes_ roda a
+cada 15 minutos e vem habilitada; _Abrir as solicitações diárias_ vem
+desabilitada e abre as solicitações de débitos e créditos do período corrente
+para cada empresa que tiver credenciais.
 
-This Doodba development stack ships a fake gateway at `cbs-assessment-mock:18951`
-(published on the host as `127.0.0.1:18951`). Point **Token URL** at
-`http://cbs-assessment-mock:18951/token` and **API URL** at
-`http://cbs-assessment-mock:18951`. Any client id and secret are accepted. The
-returned file only contains October 2026. A callback URL containing `mock-refuse`
-is answered with `APURACAO-001`.
+Neste stack Doodba de desenvolvimento há um gateway falso em
+`cbs-assessment-mock:18951` (publicado no host como `127.0.0.1:18951`).
+Aponte a **URL do Token** para `http://cbs-assessment-mock:18951/token` e a
+**URL da API** para `http://cbs-assessment-mock:18951`. Qualquer client id e
+secret são aceitos. O arquivo devolvido contém só outubro de 2026. Uma URL de
+callback com `mock-refuse` é respondida com `APURACAO-001`.

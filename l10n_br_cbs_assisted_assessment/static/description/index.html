@@ -370,26 +370,27 @@ ul.auto-toc {
 !! source digest: sha256:c9f908ebc7f59c263e623ba72618e0219355697b2b65a402a886775b1a365053
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/18.0/l10n_br_cbs_assisted_assessment"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-18-0/l10n-brazil-18-0-l10n_br_cbs_assisted_assessment"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=18.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
-<p>Transport for the CBS side of the assisted assessment, consuming the
-asynchronous APIs published by the Receita Federal in September 2026.</p>
-<p>It implements the hooks left open by <tt class="docutils literal">l10n_br_assisted_assessment</tt>:</p>
+<p>Transporte da CBS da apuração assistida, consumindo as APIs assíncronas
+publicadas pela Receita Federal em setembro de 2026.</p>
+<p>Implementa os hooks deixados em aberto pelo
+<tt class="docutils literal">l10n_br_assisted_assessment</tt>:</p>
 <ul class="simple">
-<li>opens the debit and credit requests at <tt class="docutils literal"><span class="pre">apuracao-cbs/v2</span></tt>, using the
-8 digit CNPJ root, since the assessment is consolidated per taxpayer
-and not per establishment;</li>
-<li>exposes the callback endpoint informed as <tt class="docutils literal">urlRetorno</tt>, answering
-the <tt class="docutils literal">HEAD</tt> validation the gateway performs before accepting a
-request and storing the pre-signed download URL that arrives
-afterwards;</li>
-<li>polls the status endpoint as a recovery path, because the callback is
-not always delivered;</li>
-<li>downloads and parses the returned file, dispatching its contents to
-the right assessment period. A single answer carries the current
-period along with adjustments to previous ones, and only what changed
-since the previous query, so the lines are merged instead of replaced.</li>
+<li>abre as solicitações de débitos e créditos em <tt class="docutils literal"><span class="pre">apuracao-cbs/v2</span></tt>,
+usando a raiz de 8 dígitos do CNPJ, porque a apuração é consolidada
+por contribuinte e não por estabelecimento;</li>
+<li>expõe o endpoint de callback informado como <tt class="docutils literal">urlRetorno</tt>,
+respondendo à validação <tt class="docutils literal">HEAD</tt> que o gateway faz antes de aceitar a
+solicitação e guardando a URL pré-assinada de download que chega
+depois;</li>
+<li>consulta o endpoint de status como caminho de recuperação, porque o
+callback nem sempre é entregue;</li>
+<li>baixa e interpreta o arquivo devolvido, encaminhando o conteúdo ao
+período certo. Uma única resposta traz o período corrente e ajustes de
+períodos anteriores, e só o que mudou desde a consulta anterior, então
+as linhas são mescladas e não substituídas.</li>
 </ul>
-<p>The IBS is served by the CGIBS with its own endpoints and is therefore
-out of scope for this addon.</p>
+<p>O IBS é servido pelo CGIBS com endpoints próprios e fica fora do escopo
+deste addon.</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
@@ -406,66 +407,64 @@ out of scope for this addon.</p>
 </div>
 <div class="section" id="configuration">
 <h1><a class="toc-backref" href="#toc-entry-1">Configuration</a></h1>
-<p>Go to <em>Settings &gt; Companies</em>, open the company and use the <strong>Assisted
-Assessment</strong> tab, group <strong>CBS Transport</strong>:</p>
+<p>Em <em>Configurações &gt; Empresas</em>, abra a empresa e use a aba <strong>Apuração
+Assistida</strong>, grupo <strong>Transporte CBS</strong>:</p>
 <ul class="simple">
-<li><strong>Environment</strong>: restricted production (<tt class="docutils literal"><span class="pre">apuracao-cbs-prr/v2</span></tt>) or
-production (<tt class="docutils literal"><span class="pre">apuracao-cbs/v2</span></tt>).</li>
-<li><strong>Client Id</strong> and <strong>Client Secret</strong>: Receita Integra credentials of
-the head office. They are requested per service, so they are not
-necessarily the same credentials used for the DeRE. The manual for
-generating them is published at <a class="reference external" href="https://arquivos.receitafederal.gov.br">https://arquivos.receitafederal.gov.br</a>
-under <em>Documentos &gt; Técnicos &gt; Receita Integra</em>.</li>
-<li><strong>Callback URL</strong>: generated on first use and shown for copying. It
-embeds a secret and is the URL informed as <tt class="docutils literal">urlRetorno</tt>.</li>
+<li><strong>Ambiente</strong>: produção restrita (<tt class="docutils literal"><span class="pre">apuracao-cbs-prr/v2</span></tt>) ou produção
+(<tt class="docutils literal"><span class="pre">apuracao-cbs/v2</span></tt>).</li>
+<li><strong>Client Id</strong> e <strong>Client Secret</strong>: credenciais Receita Integra da
+matriz. Elas são pedidas por serviço, então não são necessariamente as
+mesmas da DeRE. O manual para gerá-las está em
+<a class="reference external" href="https://arquivos.receitafederal.gov.br">https://arquivos.receitafederal.gov.br</a> em <em>Documentos &gt; Técnicos &gt;
+Receita Integra</em>.</li>
+<li><strong>URL de Callback</strong>: gerada no primeiro uso e exibida para copiar. Ela
+embute um segredo e é a URL informada como <tt class="docutils literal">urlRetorno</tt>.</li>
 </ul>
-<p>Two requirements come from the gateway and are not enforced by the
-addon:</p>
+<p>Dois requisitos vêm do gateway e não são impostos pelo addon:</p>
 <ul class="simple">
-<li>the callback URL must be reachable from the internet over <strong>HTTPS</strong>
-with a valid certificate. An instance behind a reverse proxy needs
-<tt class="docutils literal">web.base.url</tt> set to the public address; a plain HTTP URL is only
-logged as a warning so that the homologation environment can be
-exercised from a development instance;</li>
-<li>the opening endpoint accepts <strong>4 calls a day</strong> per service, answering
-HTTP 429 beyond that. The addon counts the calls and refuses to exceed
-the quota.</li>
+<li>a URL de callback precisa ser alcançável na internet em <strong>HTTPS</strong>, com
+certificado válido. Uma instância atrás de proxy reverso precisa de
+<tt class="docutils literal">web.base.url</tt> apontando para o endereço público; uma URL HTTP só
+gera um aviso no log, para a homologação poder ser exercitada numa
+instância de desenvolvimento;</li>
+<li>o endpoint de abertura aceita <strong>4 chamadas por dia</strong> por serviço e
+responde HTTP 429 acima disso. O addon conta as chamadas e recusa
+ultrapassar a cota.</li>
 </ul>
-<p>Two scheduled actions are provided. <em>Poll and download pending requests</em>
-runs every 15 minutes and is enabled; <em>Open the daily requests</em> is
-disabled by default and opens the debit and credit requests of the
-current period for every company holding credentials.</p>
-<p>This Doodba development stack ships a fake gateway at
-<tt class="docutils literal"><span class="pre">cbs-assessment-mock:18951</span></tt> (published on the host as
-<tt class="docutils literal">127.0.0.1:18951</tt>). Point <strong>Token URL</strong> at
-<tt class="docutils literal"><span class="pre">http://cbs-assessment-mock:18951/token</span></tt> and <strong>API URL</strong> at
-<tt class="docutils literal"><span class="pre">http://cbs-assessment-mock:18951</span></tt>. Any client id and secret are
-accepted. The returned file only contains October 2026. A callback URL
-containing <tt class="docutils literal"><span class="pre">mock-refuse</span></tt> is answered with <tt class="docutils literal"><span class="pre">APURACAO-001</span></tt>.</p>
+<p>Há duas ações agendadas. <em>Consultar e baixar solicitações pendentes</em>
+roda a cada 15 minutos e vem habilitada; <em>Abrir as solicitações diárias</em>
+vem desabilitada e abre as solicitações de débitos e créditos do período
+corrente para cada empresa que tiver credenciais.</p>
+<p>Neste stack Doodba de desenvolvimento há um gateway falso em
+<tt class="docutils literal"><span class="pre">cbs-assessment-mock:18951</span></tt> (publicado no host como
+<tt class="docutils literal">127.0.0.1:18951</tt>). Aponte a <strong>URL do Token</strong> para
+<tt class="docutils literal"><span class="pre">http://cbs-assessment-mock:18951/token</span></tt> e a <strong>URL da API</strong> para
+<tt class="docutils literal"><span class="pre">http://cbs-assessment-mock:18951</span></tt>. Qualquer client id e secret são
+aceitos. O arquivo devolvido contém só outubro de 2026. Uma URL de
+callback com <tt class="docutils literal"><span class="pre">mock-refuse</span></tt> é respondida com <tt class="docutils literal"><span class="pre">APURACAO-001</span></tt>.</p>
 </div>
 <div class="section" id="usage">
 <h1><a class="toc-backref" href="#toc-entry-2">Usage</a></h1>
-<p>From an assessment, <em>Request Debits</em> or <em>Request Credits</em> opens the
-request and stores the returned ticket. The rest of the cycle is
-automatic: the callback marks the request as ready to download, and the
-scheduled action downloads the file and applies it to the periods it
-carries.</p>
-<p>A refusal leaves the request in the <em>Error</em> state with the code and the
-message that came back, instead of raising a dialog: the reason has to
-survive on the record, and the call is charged by the gateway even when
-refused, so it counts against the daily quota.</p>
-<p>When the callback does not arrive, <em>Check Status</em> polls the status
-endpoint. A request whose processing exceeded the limit of 240 minutes
-comes back with an error and has to be opened again.</p>
-<p>The signed download URL is valid for <strong>48 hours</strong>. After that the addon
-refuses to download and a new request is needed. The URL authorises the
-download on its own, so it is stored as a secret, restricted to
-assessment managers and never written to the log.</p>
-<p>Because each answer only carries what changed since the previous query,
-with a window of at most 8 days, the assessment is only complete if the
-requests are opened regularly. Enable the daily scheduled action, or
-open them by hand often enough, and never rely on a single request at
-the end of the period.</p>
+<p>Na apuração, <em>Solicitar Débitos</em> ou <em>Solicitar Créditos</em> abre a
+solicitação e guarda o tíquete devolvido. O restante do ciclo é
+automático: o callback marca a solicitação como pronta para download, e
+a ação agendada baixa o arquivo e o aplica aos períodos que ele carrega.</p>
+<p>Uma recusa deixa a solicitação no estado <em>Erro</em>, com o código e a
+mensagem que voltaram, em vez de abrir um diálogo: o motivo precisa
+permanecer no registro, e a chamada é cobrada pelo gateway mesmo quando
+recusada, então conta na cota diária.</p>
+<p>Quando o callback não chega, <em>Verificar Status</em> consulta o endpoint de
+status. Uma solicitação cujo processamento passou do limite de 240
+minutos volta com erro e precisa ser aberta de novo.</p>
+<p>A URL assinada de download vale <strong>48 horas</strong>. Depois disso o addon
+recusa o download e é preciso uma nova solicitação. A URL autoriza o
+download sozinha, por isso é guardada como segredo, restrita aos
+gerentes da apuração e nunca escrita no log.</p>
+<p>Como cada resposta só traz o que mudou desde a consulta anterior, numa
+janela de no máximo 8 dias, a apuração só fica completa se as
+solicitações forem abertas com regularidade. Ative a ação agendada
+diária, ou abra-as à mão com frequência suficiente, e não dependa de uma
+única solicitação no fim do período.</p>
 </div>
 <div class="section" id="bug-tracker">
 <h1><a class="toc-backref" href="#toc-entry-3">Bug Tracker</a></h1>
