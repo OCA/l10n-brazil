@@ -381,6 +381,12 @@
                                             readonly="icms_tax_id and icms_cst_code not in ('20', '30', '40', '41', '50', '70', '90')"
                                         />
                                         <field
+                                            name="icms_relief_type"
+                                            force_save="1"
+                                            invisible="tax_framework in ('1', '2') or icms_cst_code not in ('20', '30', '40', '41', '50', '70', '90')"
+                                            readonly="icms_tax_id and icms_cst_code not in ('20', '30', '40', '41', '50', '70', '90')"
+                                        />
+                                        <field
                                             name="icms_relief_value"
                                             force_save="1"
                                             invisible="tax_framework in ('1', '2') or icms_cst_code not in ('20', '30', '40', '41', '50', '70', '90')"

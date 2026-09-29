@@ -590,9 +590,10 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "Venda com ICMS 12 e Redução de 26,57",
         )
 
-        # vICMSDeson (icms_relief_value) is informational only, per the NFe
-        # schema, and must not be deducted from vNF / price_total.
+        # Default indDeduzDeson = 0 (NT 2023.004): the relief (vICMSDeson)
+        # is not deducted from vNF / price_total.
         # price_total deve ser vProd + vIPI = 1000.00 + 32.50 = 1032.50
+        self.assertEqual(prod_line.icms_relief_type, "0")
         price_total = 1032.5
 
         product_line_vals_1 = {
@@ -806,6 +807,29 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
                 term_line_vals_1,
             ],
             move_vals,
+        )
+
+    def test_venda_with_icms_reduction_with_relief_deducted(self):
+        # indDeduzDeson = 1 (NT 2023.004): the relief is deducted from vNF
+        prod_line = self.move_out_venda_with_icms_reduction.invoice_line_ids[0]
+        prod_line.icms_relief_id = self.env.ref("l10n_br_fiscal.icms_relief_1")
+        prod_line.icms_relief_type = "1"
+
+        self.assertAlmostEqual(prod_line.icms_relief_value, 36.23, places=2)
+        # price_total deve ser vProd + vIPI - vICMSDeson
+        # 1000.00 + 32.50 - 36.23 = 996.27
+        self.assertAlmostEqual(prod_line.price_total, 996.27, places=2)
+        self.assertAlmostEqual(prod_line.fiscal_amount_total, 996.27, places=2)
+        self.assertAlmostEqual(
+            self.move_out_venda_with_icms_reduction.amount_total, 996.27, places=2
+        )
+
+        # Back to the default: the relief is no longer deducted
+        prod_line.icms_relief_type = "0"
+        self.assertAlmostEqual(prod_line.price_total, 1032.5, places=2)
+        self.assertAlmostEqual(prod_line.fiscal_amount_total, 1032.5, places=2)
+        self.assertAlmostEqual(
+            self.move_out_venda_with_icms_reduction.amount_total, 1032.5, places=2
         )
 
     def test_simples_remessa(self):
