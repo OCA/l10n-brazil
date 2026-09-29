@@ -21,13 +21,13 @@ Plano de Contas para Pequena Empresa (ITG 1000)
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-brazil/tree/19.0/l10n_br_coa_simple
+    :target: https://github.com/OCA/l10n-brazil/tree/20.0/l10n_br_coa_simple
     :alt: OCA/l10n-brazil
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-brazil-19-0/l10n-brazil-19-0-l10n_br_coa_simple
+    :target: https://translation.odoo-community.org/projects/l10n-brazil-20-0/l10n-brazil-20-0-l10n_br_coa_simple
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=19.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=20.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
@@ -50,6 +50,12 @@ O Plano de Contas, mesmo que simplificado, deve ser elaborado
 considerando-se as especificidades e natureza das operações realizadas,
 bem como deve contemplar as necessidades de controle de informações no
 que se refere aos aspectos fiscais e gerenciais.
+
+**Na versão 20.0.1.0.0** os grupos de contas (``account.group``)
+deixaram de existir no Odoo. As contas sintéticas do plano passaram a
+ser contas inativas, ligadas às analíticas pela conta superior
+(``parent_id``), com o mesmo código e nome do grupo que substituem.
+Grupos sem nenhuma conta analítica abaixo deles não foram mantidos.
 
 **Table of contents**
 
@@ -82,7 +88,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-brazil/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_coa_simple%0Aversion:%2019.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_coa_simple%0Aversion:%2020.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -121,6 +127,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-renatonlima| 
 
-This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/19.0/l10n_br_coa_simple>`_ project on GitHub.
+This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/20.0/l10n_br_coa_simple>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.

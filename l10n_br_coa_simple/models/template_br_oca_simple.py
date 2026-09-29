@@ -16,14 +16,14 @@ class AccountChartTemplate(models.AbstractModel):
             "name": self.env._("Plano de Contas Simplificado"),
             "parent": "br_oca",
             "visible": True,
-            "property_account_receivable_id": "coa_simple_1120101",
-            "property_account_payable_id": "coa_simple_2120101",
         }
 
     @template("br_oca_simple", "res.company")
     def _get_br_oca_simple_res_company(self):
         return {
             self.env.company.id: {
+                "receivable_account_id": "coa_simple_1120101",
+                "payable_account_id": "coa_simple_2120101",
                 "account_default_pos_receivable_account_id": "coa_simple_1120101",
                 "income_account_id": "coa_simple_3110103",
                 "expense_account_id": "coa_simple_3210101",
