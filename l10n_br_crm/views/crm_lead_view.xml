@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="l10n_br_crm_leads_form" model="ir.ui.view">
+        <field name="name">l10n_br_crm.leads.form</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form" />
+        <field name="arch" type="xml">
+            <!-- Odoo 20.0 only shows the company/contact/address sections of
+                 the Lead to debug users (they are hidden by base.group_no_one),
+                 so the Brazilian fiscal data is displayed in the always
+                 visible Customer group instead. -->
+            <xpath expr="//group[@name='lead_partner']" position="inside">
+                <field name="show_l10n_br" invisible="1" />
+                <field name="l10n_br_rg_code" invisible="not show_l10n_br" />
+                <field name="name_surname" invisible="not show_l10n_br" />
+                <field name="legal_name" invisible="not show_l10n_br" />
+                <field name="vat" invisible="not show_l10n_br" />
+                <field name="l10n_br_ie_code" invisible="not show_l10n_br" />
+                <field name="l10n_br_im_code" invisible="not show_l10n_br" />
+                <field name="l10n_br_isuf_code" invisible="not show_l10n_br" />
+            </xpath>
+            <!-- Brazilian address, its format is not the native Odoo one,
+                 see l10n_br_base/views/res_partner_address_view.xml -->
+            <xpath expr="//field[@name='lost_reason_id']" position="after">
+                <div class="o_address_format" invisible="not show_l10n_br">
+                    <field name="street_name" placeholder="Street..." />
+                    <field name="street_number" placeholder="Street number..." />
+                    <field name="district" placeholder="District..." />
+                    <field
+                        name="city_id"
+                        placeholder="City..."
+                        options="{'no_open': True, 'no_create': True}"
+                    />
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

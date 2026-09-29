@@ -1,0 +1,2 @@
+# [DON'T MERGE] Temporary dependency on l10n_br_base migration PR
+odoo-addon-l10n_br_base @ git+https://github.com/OCA/l10n-brazil.git@refs/pull/5246/head#subdirectory=l10n_br_base
