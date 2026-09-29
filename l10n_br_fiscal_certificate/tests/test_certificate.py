@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from datetime import timedelta
+from time import sleep
 
 from erpbrasil.assinatura import misc
 
@@ -114,6 +115,13 @@ class TestCertificate(TransactionCase):
         cert = self.certificate_model.create(
             self._certificate_vals(self.certificate_invalid)
         )
+        # The invalid certificate of erpbrasil.assinatura expires at the very
+        # second it is created, and ``is_valid`` compares with a second-precision
+        # ``fields.Datetime.now()`` which is inclusive of that expiration second
+        # (as X.509 validity is): wait for the second to elapse, otherwise the
+        # assertion depends on when the test starts.
+        while fields.Datetime.now() <= cert.date_end:
+            sleep(0.05)
         self.assertFalse(cert.is_valid)
 
     def test_company_certificate(self):

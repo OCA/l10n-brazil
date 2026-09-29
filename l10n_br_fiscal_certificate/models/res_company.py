@@ -5,8 +5,9 @@
 import re
 
 from erpbrasil.assinatura import certificado as cert
+from erpbrasil.assinatura.excecoes import CertificadoExpirado
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 from odoo.tools.misc import format_date
 
@@ -45,11 +46,11 @@ class ResCompany(models.Model):
         certificate = self.sudo().certificate
         if not certificate:
             raise ValidationError(
-                _("No certificate set for the company %s.", self.display_name)
+                self.env._("No certificate set for the company %s.", self.display_name)
             )
         if not certificate.is_valid:
             raise ValidationError(
-                _(
+                self.env._(
                     "The certificate of the company %(company)s is not valid "
                     "(validity: %(start)s to %(end)s).",
                     company=self.display_name,
@@ -62,13 +63,29 @@ class ResCompany(models.Model):
             and len(re.sub(r"\D", "", certificate.owner_cnpj_cpf or "")) != 14
         ):
             raise ValidationError(
-                _("Only an e-CNPJ certificate can be used for this operation.")
+                self.env._("Only an e-CNPJ certificate can be used for this operation.")
             )
         return certificate
 
     def _get_br_ecertificate(self, only_ecnpj=False):
         certificate = self._get_br_certificate(only_ecnpj=only_ecnpj)
-        return cert.Certificado(
-            arquivo=certificate.with_context(bin_size=False).content,
-            senha=certificate.pkcs12_password,
-        )
+        try:
+            return cert.Certificado(
+                arquivo=certificate.with_context(bin_size=False).content,
+                senha=certificate.pkcs12_password,
+            )
+        except CertificadoExpirado as error:
+            # ``is_valid`` accepts a certificate until the end of its expiration
+            # second (X.509 validity is inclusive) and the signing library
+            # refuses it as soon as that second starts: a certificate that
+            # expires in the current second is reported by the library alone,
+            # so report it in the same way as the checks above.
+            raise ValidationError(
+                self.env._(
+                    "The certificate of the company %(company)s has expired "
+                    "(validity: %(start)s to %(end)s).",
+                    company=self.display_name,
+                    start=format_date(self.env, certificate.date_start),
+                    end=format_date(self.env, certificate.date_end),
+                )
+            ) from error
