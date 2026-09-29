@@ -169,6 +169,12 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
         if other_docs:
             return super(L10nBrFiscalDocument, other_docs)._check_key()
 
+    def _processador_erpbrasil_nfse(self):
+        # The ADN is not a municipal provider of erpbrasil.edoc.
+        if self.filtered(filter_nfse_nacional):
+            return None
+        return super()._processador_erpbrasil_nfse()
+
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)
         for record in self.with_context(lang="pt_BR").filtered(filter_nfse_nacional):
