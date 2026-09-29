@@ -37,11 +37,11 @@ class Lead(models.Model):
         """
         for record in self:
             show_l10n_br = False
-            if record.partner_id and record.partner_id.country_id == self.env.ref(
-                "base.br"
+            if (
+                record.partner_id
+                and record.partner_id.country_id == self.env.ref("base.br")
+                or record.country_id == self.env.ref("base.br")
             ):
-                show_l10n_br = True
-            elif record.country_id == self.env.ref("base.br"):
                 show_l10n_br = True
 
             record.show_l10n_br = show_l10n_br
