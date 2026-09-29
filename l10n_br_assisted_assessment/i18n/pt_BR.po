@@ -1,0 +1,842 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_assisted_assessment
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-21 00:00+0000\n"
+"PO-Revision-Date: 2026-09-21 00:00+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@escodoo.com.br>\n"
+"Language-Team: Portuguese (Brazil)\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+
+#. module: l10n_br_assisted_assessment
+#. odoo-python
+#: code:addons/l10n_br_assisted_assessment/models/assisted_assessment.py:0
+msgid ""
+"%(name)s still has %(count)s open divergences. Handle or ignore them before "
+"confirming, because confirming implies acknowledgement of debt."
+msgstr ""
+"%(name)s ainda tem %(count)s divergências em aberto. Trate ou ignore-as "
+"antes de confirmar, porque a confirmação implica reconhecimento da dívida."
+
+#. module: l10n_br_assisted_assessment
+#. odoo-python
+#: code:addons/l10n_br_assisted_assessment/models/assisted_assessment.py:0
+msgid ""
+"%(service)s increment applied. New lines: %(created)s. Updated lines: "
+"%(updated)s."
+msgstr ""
+"Incremento de %(service)s aplicado. Linhas novas: %(created)s. Linhas "
+"atualizadas: %(updated)s."
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_line__document_key
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_divergence__document_key
+msgid "Access Key"
+msgstr "Chave de Acesso"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_request__service__withholdings
+msgid "Acquirer withholdings"
+msgstr "Retenções de adquirentes"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_request__state__done
+msgid "Applied"
+msgstr "Aplicado"
+
+#. module: l10n_br_assisted_assessment
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_period_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_request_form
+msgid "Apply"
+msgstr "Aplicar"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_line__value
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_divergence__fisco_value
+msgid "Assessed Value"
+msgstr "Valor Apurado"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_res_company__assessment_calendar_id
+msgid "Assessment Calendar"
+msgstr "Calendário da Apuração"
+
+#. module: l10n_br_assisted_assessment
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_period_form
+msgid "Assessment Lines"
+msgstr "Linhas da Apuração"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_period__per_apur
+msgid "Assessment Period"
+msgstr "Período de Apuração"
+
+#. module: l10n_br_assisted_assessment
+#. odoo-python
+#: code:addons/l10n_br_assisted_assessment/models/assisted_assessment.py:0
+msgid ""
+"Assessment confirmed. Confirming constitutes the tax credit and implies "
+"acknowledgement of debt."
+msgstr ""
+"Apuração confirmada. A confirmação constitui o crédito tributário e implica "
+"reconhecimento da dívida."
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.ui.menu,name:l10n_br_assisted_assessment.menu_assessment_period
+msgid "Assessments"
+msgstr "Apurações"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.ui.menu,name:l10n_br_assisted_assessment.menu_assessment_root
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_company_form_assessment
+msgid "Assisted Assessment"
+msgstr "Apuração Assistida"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.actions.act_window,name:l10n_br_assisted_assessment.action_assessment_period
+msgid "Assisted Assessments"
+msgstr "Apurações Assistidas"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_bookkeeping_line__status__awaiting
+msgid "Awaiting Download"
+msgstr "Aguardando Download"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_divergence__local_value
+msgid "Booked Value"
+msgstr "Valor Escriturado"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,help:l10n_br_assisted_assessment.field_l10n_br_assessment_period__local_awaiting_download
+msgid ""
+"Booked totals already include every authorized document of the period. The "
+"comparison with the tax administration waits until each direction is "
+"downloaded or marked as absent."
+msgstr ""
+"Os totais escriturados já incluem todos os documentos autorizados do "
+"período. A comparação com a administração tributária espera até cada direção"
+" ser baixada ou marcada como ausente."
+
+#. module: l10n_br_assisted_assessment
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_period_form
+msgid ""
+"Booked totals include every authorized document. Comparison waits until each"
+" direction is downloaded or marked as absent."
+msgstr ""
+"Os totais escriturados incluem todos os documentos autorizados. A comparação"
+" espera até cada direção ser baixada ou marcada como ausente."
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_period__bookkeeping_line_ids
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_period_form
+msgid "Bookkeeping"
+msgstr "Escrituração"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.module.module,shortdesc:l10n_br_assisted_assessment.module_l10n_br_assisted_assessment
+msgid "Brazilian IBS/CBS Assisted Assessment"
+msgstr "Apuração Assistida de IBS/CBS"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,help:l10n_br_assisted_assessment.field_l10n_br_assessment_bookkeeping_line__expected_value
+msgid "CBS or IBS booked on the authorized fiscal document."
+msgstr "CBS ou IBS escriturado no documento fiscal autorizado."
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_request__return_url
+msgid "Callback URL"
+msgstr "URL de Retorno"
+
+#. module: l10n_br_assisted_assessment
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_request_form
+msgid "Check Status"
+msgstr "Consultar Situação"
+
+#. module: l10n_br_assisted_assessment
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_period_form
+msgid "Confirm"
+msgstr "Confirmar"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_period__state__confirmed
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_period_search
+msgid "Confirmed"
+msgstr "Confirmado"
+
+#. module: l10n_br_assisted_assessment
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_period_form
+msgid ""
+"Confirming the assessment constitutes the tax credit and implies "
+"acknowledgement of debt. Continue?"
+msgstr ""
+"A confirmação da apuração constitui o crédito tributário e implica "
+"reconhecimento da dívida. Continuar?"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_line__line_type__credit
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_divergence__line_type__credit
+msgid "Credit"
+msgstr "Crédito"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_divergence__divergence_type__credit_denied
+msgid "Credit not granted"
+msgstr "Crédito não concedido"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_period__credit_delivery
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_request__service__credits
+msgid "Credits"
+msgstr "Créditos"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_period__days_to_deadline
+msgid "Days To Deadline"
+msgstr "Dias até o Prazo"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_period__date_deadline
+msgid "Deadline"
+msgstr "Prazo"
+
+#. module: l10n_br_assisted_assessment
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_period_form
+msgid "Deadlines"
+msgstr "Prazos"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_line__line_type__debit
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_divergence__line_type__debit
+msgid "Debit"
+msgstr "Débito"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_period__debit_delivery
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_request__service__debits
+msgid "Debits"
+msgstr "Débitos"
+
+#. module: l10n_br_assisted_assessment
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_period_form
+msgid ""
+"Debits and credits arrive in separate requests. Request the missing "
+"direction, or mark it as absent, before reconciling."
+msgstr ""
+"Débitos e créditos chegam em solicitações separadas. Solicite a direção que "
+"falta, ou marque-a como ausente, antes de conciliar."
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_period__debit_delivery__received
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_period__credit_delivery__received
+msgid "Delivered"
+msgstr "Entregue"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_request__delivered_amount
+msgid "Delivered Amount"
+msgstr "Valor Entregue"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_request__delivered_line_count
+msgid "Delivered Lines"
+msgstr "Linhas Entregues"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_period__difference
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_divergence__difference
+msgid "Difference"
+msgstr "Diferença"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_bookkeeping_line__status__value
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_divergence__divergence_type__value
+msgid "Different value"
+msgstr "Valor diferente"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_divergence__divergence_type
+msgid "Divergence Type"
+msgstr "Tipo de Divergência"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.actions.act_window,name:l10n_br_assisted_assessment.action_assessment_divergence
+#: model:ir.ui.menu,name:l10n_br_assisted_assessment.menu_assessment_divergence
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_period__divergence_ids
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_period_form
+msgid "Divergences"
+msgstr "Divergências"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_period__state__diverged
+msgid "Divergences Found"
+msgstr "Divergências Encontradas"
+
+#. module: l10n_br_assisted_assessment
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_line_list
+msgid "Document Model"
+msgstr "Modelo"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_divergence__divergence_type__missing_local
+msgid "Document only in the assessment"
+msgstr "Documento só na apuração"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_divergence__divergence_type__missing_fisco
+msgid "Document only in the bookkeeping"
+msgstr "Documento só na escrituração"
+
+#. module: l10n_br_assisted_assessment
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_period_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_request_form
+msgid "Download"
+msgstr "Baixar"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_request__state__downloaded
+msgid "Downloaded"
+msgstr "Baixado"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_period__state__draft
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_request__state__draft
+msgid "Draft"
+msgstr "Rascunho"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model,name:l10n_br_assisted_assessment.model_l10n_br_assessment_bookkeeping_line
+msgid "ERP document expected in the assisted assessment"
+msgstr "Documento do ERP esperado na apuração assistida"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_line__date_emission
+msgid "Emission"
+msgstr "Emissão"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_period__date_to
+msgid "End Date"
+msgstr "Data Final"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_request__state__error
+msgid "Error"
+msgstr "Erro"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_request__estimated_seconds
+msgid "Estimated Seconds"
+msgstr "Segundos Estimados"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_bookkeeping_line__expected_value
+msgid "Expected Value"
+msgstr "Valor Esperado"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_period__state__expired
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_period_search
+msgid "Expired"
+msgstr "Expirado"
+
+#. module: l10n_br_assisted_assessment
+#. odoo-python
+#: code:addons/l10n_br_assisted_assessment/models/assisted_assessment_divergence.py:0
+msgid ""
+"Explain why this divergence is ignored before confirming the assessment "
+"without fixing it."
+msgstr ""
+"Explique por que esta divergência é ignorada antes de confirmar a apuração "
+"sem corrigi-la."
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_line__document_id
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_divergence__document_id
+msgid "Fiscal Document"
+msgstr "Documento Fiscal"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_period__fisco_balance
+msgid "Fisco Balance"
+msgstr "Saldo do Fisco"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_period__fisco_credit
+msgid "Fisco Credit"
+msgstr "Crédito do Fisco"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_period__fisco_debit
+msgid "Fisco Debit"
+msgstr "Débito do Fisco"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_divergence__suggested_action__fix_registration
+msgid "Fix the tax registration"
+msgstr "Corrigir o registro fiscal"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_divergence__state__handled
+msgid "Handled"
+msgstr "Tratada"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model,name:l10n_br_assisted_assessment.model_l10n_br_assessment_request
+msgid "IBS/CBS assisted assessment asynchronous request"
+msgstr "Solicitação assíncrona da apuração assistida de IBS/CBS"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model,name:l10n_br_assisted_assessment.model_l10n_br_assessment_divergence
+msgid "IBS/CBS assisted assessment divergence"
+msgstr "Divergência da apuração assistida de IBS/CBS"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model,name:l10n_br_assisted_assessment.model_l10n_br_assessment_line
+msgid "IBS/CBS assisted assessment line"
+msgstr "Linha da apuração assistida de IBS/CBS"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model,name:l10n_br_assisted_assessment.model_l10n_br_assessment_period
+msgid "IBS/CBS assisted assessment period"
+msgstr "Período de apuração assistida de IBS/CBS"
+
+#. module: l10n_br_assisted_assessment
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_divergence_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_divergence_list
+msgid "Ignore"
+msgstr "Ignorar"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_divergence__state__ignored
+msgid "Ignored"
+msgstr "Ignorada"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_period__debit_delivery__requested
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_period__credit_delivery__requested
+msgid "In Progress"
+msgstr "Em Andamento"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_divergence__suggested_action__credit_note
+msgid "Issue credit note"
+msgstr "Emitir nota de crédito"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_divergence__suggested_action__debit_note
+msgid "Issue debit note"
+msgstr "Emitir nota de débito"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_line__date_update
+msgid "Last Update"
+msgstr "Última Atualização"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_divergence__line_id
+msgid "Line"
+msgstr "Linha"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_line__line_type
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_divergence__line_type
+msgid "Line Type"
+msgstr "Tipo de Linha"
+
+#. module: l10n_br_assisted_assessment
+#. odoo-python
+#: code:addons/l10n_br_assisted_assessment/models/assisted_assessment_divergence.py:0
+msgid ""
+"Link the fiscal document that registers this access key before marking the "
+"divergence as handled."
+msgstr ""
+"Vincule o documento fiscal que registra esta chave de acesso antes de marcar"
+" a divergência como tratada."
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_period__local_awaiting_download
+msgid "Local Awaiting Download"
+msgstr "Escrituração Aguardando Download"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_period__local_balance
+msgid "Local Balance"
+msgstr "Saldo Escriturado"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_period__local_credit
+msgid "Local Credit"
+msgstr "Crédito Escriturado"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_period__local_debit
+msgid "Local Debit"
+msgstr "Débito Escriturado"
+
+#. module: l10n_br_assisted_assessment
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_divergence_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_divergence_list
+msgid "Mark as handled"
+msgstr "Marcar como tratada"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_bookkeeping_line__status__match
+msgid "Matches"
+msgstr "Confere"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_period__name
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_request__name
+msgid "Name"
+msgstr "Nome"
+
+#. module: l10n_br_assisted_assessment
+#. odoo-python
+#: code:addons/l10n_br_assisted_assessment/models/assisted_assessment_line.py:0
+#: code:addons/l10n_br_assisted_assessment/models/assisted_assessment_divergence.py:0
+msgid "New"
+msgstr "Novo"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_period__no_credits
+msgid "No Credits in this Period"
+msgstr "Sem créditos neste período"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_period__no_debits
+msgid "No Debits in this Period"
+msgstr "Sem débitos neste período"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_period__debit_delivery__none
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_period__credit_delivery__none
+msgid "None in this Period"
+msgstr "Nenhum neste período"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_period__debit_delivery__pending
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_period__credit_delivery__pending
+msgid "Not Requested"
+msgstr "Não solicitado"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_divergence__notes
+msgid "Notes"
+msgstr "Observações"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_bookkeeping_line__status__only_erp
+msgid "Only in the Bookkeeping"
+msgstr "Só no ERP"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_divergence__state__open
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_divergence_search
+msgid "Open"
+msgstr "Aberta"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_period__open_divergence_count
+msgid "Open Divergence Count"
+msgstr "Divergências em Aberto"
+
+#. module: l10n_br_assisted_assessment
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_period_form
+msgid ""
+"Opening a request consumes the daily quota of the tax administration. "
+"Continue?"
+msgstr ""
+"Abrir uma solicitação consome a cota diária da administração tributária. "
+"Continuar?"
+
+#. module: l10n_br_assisted_assessment
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_line_list
+msgid "Origin"
+msgstr "Origem"
+
+#. module: l10n_br_assisted_assessment
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_request_form
+msgid "Payload"
+msgstr "Conteúdo"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_request__service__payments
+msgid "Payments"
+msgstr "Pagamentos"
+
+#. module: l10n_br_assisted_assessment
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_period_search
+msgid "Pending Action"
+msgstr "Ação Pendente"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_line__period_id
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_divergence__period_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_period_form
+msgid "Period"
+msgstr "Período"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_request__period_ids
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_request_form
+msgid "Periods Delivered"
+msgstr "Períodos Entregues"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_period__date_available
+msgid "Presentation Date"
+msgstr "Data de Apresentação"
+
+#. module: l10n_br_assisted_assessment
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_period_form
+msgid "Presented by the Tax Administration"
+msgstr "Apresentado pela Administração Tributária"
+
+#. module: l10n_br_assisted_assessment
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_request_form
+msgid "Processing"
+msgstr "Processamento"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_request__state__notified
+msgid "Ready to Download"
+msgstr "Pronto para Baixar"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_period__state__received
+msgid "Received"
+msgstr "Recebido"
+
+#. module: l10n_br_assisted_assessment
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_period_form
+msgid "Reconcile"
+msgstr "Conciliar"
+
+#. module: l10n_br_assisted_assessment
+#. odoo-python
+#: code:addons/l10n_br_assisted_assessment/models/assisted_assessment.py:0
+msgid "Reconcile %s before confirming the assessment."
+msgstr "Concilie %s antes de confirmar a apuração."
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_period__state__reconciled
+msgid "Reconciled"
+msgstr "Conciliado"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_res_company__assessment_tolerance
+msgid "Reconciliation Tolerance"
+msgstr "Tolerância da Conciliação"
+
+#. module: l10n_br_assisted_assessment
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_period_form
+msgid ""
+"Reconciling again clears the open divergences and builds them once more. "
+"Handled or ignored divergences stay as they are, and reopen only when the "
+"amounts changed. Continue?"
+msgstr ""
+"Conciliar de novo apaga as divergências em aberto e gera-as outra vez. As "
+"tratadas ou ignoradas permanecem, e só reabrem se os valores tiverem mudado."
+" Continuar?"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_period__previous_balance
+msgid "Recoverable Balance"
+msgstr "Saldo Recuperável"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_divergence__suggested_action__register_document
+msgid "Register the missing document"
+msgstr "Registrar o documento faltante"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_line__date_registration
+msgid "Registration"
+msgstr "Registro"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_line__value_balance
+msgid "Remaining Balance"
+msgstr "Saldo Remanescente"
+
+#. module: l10n_br_assisted_assessment
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_request_form
+msgid "Request"
+msgstr "Solicitação"
+
+#. module: l10n_br_assisted_assessment
+#. odoo-python
+#: code:addons/l10n_br_assisted_assessment/models/assisted_assessment.py:0
+msgid ""
+"Request %(request)s did not return data for this period. The answer covered "
+"%(periods)s."
+msgstr ""
+"A solicitação %(request)s não trouxe dados para este período. A resposta "
+"cobriu %(periods)s."
+
+#. module: l10n_br_assisted_assessment
+#. odoo-python
+#: code:addons/l10n_br_assisted_assessment/models/assisted_assessment.py:0
+msgid "Request %s did not return data for this period."
+msgstr "A solicitação %s não trouxe dados para este período."
+
+#. module: l10n_br_assisted_assessment
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_period_form
+msgid "Request Credits"
+msgstr "Solicitar Créditos"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_request__request_date
+msgid "Request Date"
+msgstr "Data da Solicitação"
+
+#. module: l10n_br_assisted_assessment
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_period_form
+msgid "Request Debits"
+msgstr "Solicitar Débitos"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_request__ticket
+msgid "Request Ticket"
+msgstr "Tíquete da Solicitação"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_period__state__requested
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_request__state__requested
+msgid "Requested"
+msgstr "Solicitado"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_request__period_id
+msgid "Requested From"
+msgstr "Solicitado a partir de"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.actions.act_window,name:l10n_br_assisted_assessment.action_assessment_request
+#: model:ir.ui.menu,name:l10n_br_assisted_assessment.menu_assessment_request
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_period__all_request_ids
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_period_form
+msgid "Requests"
+msgstr "Solicitações"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,help:l10n_br_assisted_assessment.field_l10n_br_assessment_divergence__notes
+msgid ""
+"Required when the divergence is ignored, so the reason for accepting the tax"
+" administration figure stays on the record."
+msgstr ""
+"Obrigatório quando a divergência é ignorada, para que o motivo de aceitar o "
+"valor da administração tributária fique no registro."
+
+#. module: l10n_br_assisted_assessment
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_request_form
+msgid "Response"
+msgstr "Resposta"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields.selection,name:l10n_br_assisted_assessment.selection__l10n_br_assessment_divergence__suggested_action__review_credit
+msgid "Review the credit eligibility"
+msgstr "Revisar a elegibilidade do crédito"
+
+#. module: l10n_br_assisted_assessment
+#. odoo-python
+#: code:addons/l10n_br_assisted_assessment/models/assisted_assessment.py:0
+msgid "Review the increment applied after confirmation of %s"
+msgstr "Revisar o incremento aplicado após a confirmação de %s"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_request__service
+msgid "Service"
+msgstr "Serviço"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_request__signed_url_expires_at
+msgid "Signed URL Expires At"
+msgstr "URL Assinada Expira Em"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_period__date_from
+msgid "Start Date"
+msgstr "Data Inicial"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_period__state
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_request__state
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_divergence__state
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_period_search
+msgid "Status"
+msgstr "Situação"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_res_company__assessment_dere_subject
+msgid "Subject to DeRE"
+msgstr "Sujeito ao DeRE"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_divergence__suggested_action
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_divergence_search
+msgid "Suggested Action"
+msgstr "Ação Sugerida"
+
+#. module: l10n_br_assisted_assessment
+#. odoo-python
+#: code:addons/l10n_br_assisted_assessment/models/assisted_assessment_divergence.py:0
+msgid "The fiscal document access key does not match the assessment line."
+msgstr ""
+"A chave de acesso do documento fiscal não confere com a linha da apuração."
+
+#. module: l10n_br_assisted_assessment
+#. odoo-python
+#: code:addons/l10n_br_assisted_assessment/models/assisted_assessment.py:0
+msgid ""
+"The tax administration changed %(name)s after confirmation. New lines: "
+"%(created)s. Updated lines: %(updated)s."
+msgstr ""
+"A administração tributária alterou %(name)s após a confirmação. Linhas "
+"novas: %(created)s. Linhas atualizadas: %(updated)s."
+
+#. module: l10n_br_assisted_assessment
+#. odoo-python
+#: code:addons/l10n_br_assisted_assessment/models/assisted_assessment.py:0
+msgid ""
+"The tax administration sent new %(service)s data after this assessment was "
+"confirmed."
+msgstr ""
+"A administração tributária enviou novos dados de %(service)s após a "
+"confirmação desta apuração."
+
+#. module: l10n_br_assisted_assessment
+#. odoo-python
+#: code:addons/l10n_br_assisted_assessment/models/assisted_assessment.py:0
+msgid ""
+"There is already an open %(service)s request for %(tribute)s. Download or "
+"apply %(name)s before opening another one."
+msgstr ""
+"Já existe uma solicitação aberta de %(service)s para %(tribute)s. Baixe ou "
+"aplique %(name)s antes de abrir outra."
+
+#. module: l10n_br_assisted_assessment
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_request_form
+msgid "Transmit"
+msgstr "Transmitir"
+
+#. module: l10n_br_assisted_assessment
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_period__tribute
+#: model:ir.model.fields,field_description:l10n_br_assisted_assessment.field_l10n_br_assessment_request__tribute
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_period_search
+msgid "Tribute"
+msgstr "Tributo"
+
+#. module: l10n_br_assisted_assessment
+#: model_terms:ir.ui.view,arch_db:l10n_br_assisted_assessment.view_assessment_period_search
+msgid "With Divergences"
+msgstr "Com Divergências"
