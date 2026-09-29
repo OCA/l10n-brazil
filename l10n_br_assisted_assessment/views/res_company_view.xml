@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_company_form_assessment" model="ir.ui.view">
+        <field name="name">res.company.form.assisted.assessment</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="assisted_assessment" string="Assisted Assessment">
+                    <group>
+                        <field name="assessment_dere_subject" />
+                        <field name="assessment_calendar_id" />
+                        <field name="assessment_tolerance" />
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

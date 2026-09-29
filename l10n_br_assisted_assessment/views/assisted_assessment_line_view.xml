@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_assessment_line_list" model="ir.ui.view">
+        <field name="name">l10n_br_assessment.line.list</field>
+        <field name="model">l10n_br_assessment.line</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="line_type" />
+                <field name="document_model_name" string="Document Model" />
+                <field name="document_key" />
+                <field name="origin_name" string="Origin" />
+                <field name="date_emission" />
+                <field name="date_update" />
+                <field name="value" />
+                <field name="value_balance" />
+                <field name="value_suspended" optional="hide" />
+                <field name="value_excess" optional="hide" />
+                <field name="document_id" />
+                <field name="currency_id" column_invisible="1" />
+            </list>
+        </field>
+    </record>
+</odoo>

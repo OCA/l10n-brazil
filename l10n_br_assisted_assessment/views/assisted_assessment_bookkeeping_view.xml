@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_assessment_bookkeeping_list" model="ir.ui.view">
+        <field name="name">l10n_br_assessment.bookkeeping.line.list</field>
+        <field name="model">l10n_br_assessment.bookkeeping.line</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" edit="0">
+                <field name="line_type" />
+                <field name="document_key" />
+                <field name="document_id" />
+                <field name="expected_value" />
+                <field name="fisco_value" />
+                <field
+                    name="status"
+                    widget="badge"
+                    decoration-info="status == 'awaiting'"
+                    decoration-success="status == 'match'"
+                    decoration-warning="status == 'value'"
+                    decoration-danger="status == 'only_erp'"
+                />
+                <field name="currency_id" column_invisible="1" />
+            </list>
+        </field>
+    </record>
+</odoo>
