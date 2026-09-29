@@ -58,6 +58,23 @@ def _identify_cpf_cnpj(cpf, cnpj):
     return is_cpf, is_cnpj, cleaned_cpf, cleaned_cnpj
 
 
+def concat_lines_discriminacao(fiscal_line_ids, max_length=2000):
+    """Concatenate the description of every fiscal line into a single text.
+
+    Args:
+        fiscal_line_ids: recordset of l10n_br_fiscal.document.line.
+        max_length (int): maximum length allowed for the resulting text.
+
+    Returns:
+        str: descriptions of every line with a product, joined by newline
+        and truncated to max_length.
+    """
+    descricoes = [
+        line.name for line in fiscal_line_ids if line.product_id and line.name
+    ]
+    return "\n".join(descricoes)[:max_length]
+
+
 def _is_valid_pdf(content):
     """Check if content is a valid PDF.
 
