@@ -36,56 +36,88 @@ class TestDraDva(AccountTestInvoicingCommon):
             )
 
         cls.caixa = account(
-            "DVA10", "Caixa", "asset_cash",
-            "account_tag_current_assets_cash", "account_tag_cash_and_equivalents",
+            "DVA10",
+            "Caixa",
+            "asset_cash",
+            "account_tag_current_assets_cash",
+            "account_tag_cash_and_equivalents",
         )
         cls.deprec_acum = account(
-            "DVA14", "Depreciação Acumulada", "asset_fixed",
+            "DVA14",
+            "Depreciação Acumulada",
+            "asset_fixed",
             "account_tag_fixed_assets_depreciation",
             "account_tag_cash_flow_result_adjustment",
         )
         cls.ajuste_pl = account(
-            "DVA24", "Ajustes de Avaliação Patrimonial", "equity",
+            "DVA24",
+            "Ajustes de Avaliação Patrimonial",
+            "equity",
             "account_tag_equity_valuation_adjustment",
             "account_tag_cash_flow_non_cash",
         )
         cls.receita = account(
-            "DVA90", "Vendas", "income",
-            "account_tag_revenue", "account_tag_result",
+            "DVA90",
+            "Vendas",
+            "income",
+            "account_tag_revenue",
+            "account_tag_result",
         )
         cls.insumo = account(
-            "DVA91", "Energia Elétrica", "expense",
-            "account_tag_admin_expenses", "account_tag_result",
+            "DVA91",
+            "Energia Elétrica",
+            "expense",
+            "account_tag_admin_expenses",
+            "account_tag_result",
             "account_tag_dva_inputs",
         )
         cls.salario = account(
-            "DVA92", "Salários", "expense",
-            "account_tag_other_general_expenses", "account_tag_result",
+            "DVA92",
+            "Salários",
+            "expense",
+            "account_tag_other_general_expenses",
+            "account_tag_result",
             "account_tag_dva_personnel",
         )
         cls.imposto = account(
-            "DVA93", "IPTU", "expense",
-            "account_tag_other_general_expenses", "account_tag_result",
-            "account_tag_dva_taxes", "account_tag_dva_taxes_municipal",
+            "DVA93",
+            "IPTU",
+            "expense",
+            "account_tag_other_general_expenses",
+            "account_tag_result",
+            "account_tag_dva_taxes",
+            "account_tag_dva_taxes_municipal",
         )
         cls.juros = account(
-            "DVA94", "Juros Passivos", "expense",
-            "account_tag_expenses_financial", "account_tag_result",
+            "DVA94",
+            "Juros Passivos",
+            "expense",
+            "account_tag_expenses_financial",
+            "account_tag_result",
             "account_tag_dva_third_party_capital",
         )
         cls.despesa_deprec = account(
-            "DVA95", "Depreciação", "expense",
-            "account_tag_other_general_expenses", "account_tag_result",
+            "DVA95",
+            "Depreciação",
+            "expense",
+            "account_tag_other_general_expenses",
+            "account_tag_result",
             "account_tag_depreciation_expense",
         )
         cls.receita_financeira = account(
-            "DVA96", "Rendimentos de Aplicações", "income_other",
-            "account_tag_revenue_financial", "account_tag_result",
+            "DVA96",
+            "Rendimentos de Aplicações",
+            "income_other",
+            "account_tag_revenue_financial",
+            "account_tag_result",
             "account_tag_dva_transfer",
         )
         cls.oci_hedge = account(
-            "DVA97", "Hedge de Fluxo de Caixa", "income_other",
-            "account_tag_oci_hedge", "account_tag_result",
+            "DVA97",
+            "Hedge de Fluxo de Caixa",
+            "income_other",
+            "account_tag_oci_hedge",
+            "account_tag_result",
             "account_tag_dva_inputs",
         )
 
@@ -134,9 +166,11 @@ class TestDraDva(AccountTestInvoicingCommon):
         self._movimento_completo()
         r = self._evaluate(self.dva)
         self.assertAlmostEqual(
-            r["valor_distribuir"], r["distribuido"], places=2,
-            msg="há %.2f de valor adicionado a distribuir e %.2f distribuído"
-            % (r["valor_distribuir"], r["distribuido"]),
+            r["valor_distribuir"],
+            r["distribuido"],
+            places=2,
+            msg=f"há {r['valor_distribuir']:.2f} de valor adicionado a distribuir "
+            f"e {r['distribuido']:.2f} distribuído",
         )
 
     def test_each_line_of_the_value_added_carries_its_own_nature(self):
@@ -175,7 +209,7 @@ class TestDraDva(AccountTestInvoicingCommon):
         self.assertAlmostEqual(r["impostos_federais"], 0.0, places=2)
 
     def test_comprehensive_income_starts_where_the_income_statement_ends(self):
-        """The net result is the first line, and other comprehensive income adds to it."""
+        """The net result is the first line, other comprehensive income adds to it."""
         self._post([(self.caixa, 4000.0, 0.0), (self.receita, 0.0, 4000.0)])
         self._post([(self.salario, 1000.0, 0.0), (self.caixa, 0.0, 1000.0)])
         r = self._evaluate(self.dra)
