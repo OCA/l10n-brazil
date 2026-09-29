@@ -35,62 +35,88 @@ class TestDfc(AccountTestInvoicingCommon):
             )
 
         cls.caixa = account(
-            "DFC10", "Caixa", "asset_cash",
+            "DFC10",
+            "Caixa",
+            "asset_cash",
             "account_tag_current_assets_cash",
             "account_tag_cash_and_equivalents",
         )
         cls.clientes = account(
-            "DFC12", "Clientes", "asset_receivable",
+            "DFC12",
+            "Clientes",
+            "asset_receivable",
             "account_tag_current_assets_receivable",
             "account_tag_cash_flow_operating",
         )
         cls.fornecedores = account(
-            "DFC21", "Fornecedores", "liability_payable",
+            "DFC21",
+            "Fornecedores",
+            "liability_payable",
             "account_tag_current_liabilities_suppliers",
             "account_tag_cash_flow_operating",
         )
         cls.imobilizado = account(
-            "DFC13", "Imobilizado", "asset_fixed",
+            "DFC13",
+            "Imobilizado",
+            "asset_fixed",
             "account_tag_fixed_assets",
             "account_tag_cash_flow_investing",
         )
         # a contrapartida do ajuste fica fora de qualquer soma: e o ajuste ao
         # resultado que a representa
         cls.deprec_acumulada = account(
-            "DFC14", "Depreciação Acumulada", "asset_fixed",
+            "DFC14",
+            "Depreciação Acumulada",
+            "asset_fixed",
             "account_tag_fixed_assets_depreciation",
             "account_tag_cash_flow_result_adjustment",
         )
         cls.emprestimo = account(
-            "DFC22", "Empréstimos", "liability_current",
+            "DFC22",
+            "Empréstimos",
+            "liability_current",
             "account_tag_current_liabilities_financial",
             "account_tag_cash_flow_financing",
         )
         cls.capital = account(
-            "DFC24", "Capital Social", "equity",
+            "DFC24",
+            "Capital Social",
+            "equity",
             "account_tag_equity_capital",
             "account_tag_cash_flow_financing",
         )
         cls.lucros = account(
-            "DFC25", "Lucros Acumulados", "equity",
+            "DFC25",
+            "Lucros Acumulados",
+            "equity",
             "account_tag_equity_accumulated_profits",
             "account_tag_cash_flow_non_cash",
         )
         cls.dividendos = account(
-            "DFC26", "Dividendos a Pagar", "liability_current",
+            "DFC26",
+            "Dividendos a Pagar",
+            "liability_current",
             "account_tag_current_liabilities_payable",
             "account_tag_cash_flow_financing",
         )
         cls.receita = account(
-            "DFC90", "Vendas", "income",
-            "account_tag_revenue", "account_tag_result",
+            "DFC90",
+            "Vendas",
+            "income",
+            "account_tag_revenue",
+            "account_tag_result",
         )
         cls.despesa = account(
-            "DFC91", "Despesas Administrativas", "expense",
-            "account_tag_admin_expenses", "account_tag_result",
+            "DFC91",
+            "Despesas Administrativas",
+            "expense",
+            "account_tag_admin_expenses",
+            "account_tag_result",
         )
         cls.despesa_deprec = account(
-            "DFC92", "Depreciação", "expense",
+            "DFC92",
+            "Depreciação",
+            "expense",
             "account_tag_other_general_expenses",
             "account_tag_result",
             "account_tag_depreciation_expense",
@@ -126,8 +152,8 @@ class TestDfc(AccountTestInvoicingCommon):
             r["variacao_caixa"],
             r["conferencia"],
             places=2,
-            msg="a demonstração apurou %.2f de variação de caixa e as contas "
-            "de caixa mostram %.2f" % (r["variacao_caixa"], r["conferencia"]),
+            msg=f"a demonstração apurou {r['variacao_caixa']:.2f} de variação de "
+            f"caixa e as contas de caixa mostram {r['conferencia']:.2f}",
         )
 
     def test_a_full_year_reconciles_with_the_cash_accounts(self):
