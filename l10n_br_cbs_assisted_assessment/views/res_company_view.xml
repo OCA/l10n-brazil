@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_company_form_cbs_assessment" model="ir.ui.view">
+        <field name="name">res.company.form.cbs.assisted.assessment</field>
+        <field name="model">res.company</field>
+        <field
+            name="inherit_id"
+            ref="l10n_br_assisted_assessment.view_company_form_assessment"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='assisted_assessment']" position="inside">
+                <group name="cbs_transport" string="CBS Transport (Receita Federal)">
+                    <field name="cbs_assessment_environment" />
+                    <field name="cbs_assessment_client_id" />
+                    <field name="cbs_assessment_client_secret" password="True" />
+                    <field name="cbs_assessment_token_url" />
+                    <field name="cbs_assessment_api_url" />
+                    <label for="cbs_assessment_webhook_url" />
+                    <div>
+                        <field name="cbs_assessment_webhook_url" readonly="1" />
+                        <button
+                            name="action_cbs_assessment_rotate_webhook_token"
+                            type="object"
+                            string="Rotate token"
+                            class="btn-link"
+                            confirm="Rotating the token invalidates the callback URL of requests still being processed. Continue?"
+                        />
+                    </div>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
