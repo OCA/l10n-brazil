@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_dere_reserve_asset_tree" model="ir.ui.view">
+        <field name="name">l10n_br_dere.reserve.asset.list</field>
+        <field name="model">l10n_br_dere.reserve.asset</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="id_ativo" />
+                <field name="desc_ativo" />
+                <field name="account_id" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="active" column_invisible="1" />
+            </list>
+        </field>
+    </record>
+    <record id="view_dere_reserve_asset_form" model="ir.ui.view">
+        <field name="name">l10n_br_dere.reserve.asset.form</field>
+        <field name="model">l10n_br_dere.reserve.asset</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" invisible="active" />
+                    <group>
+                        <field name="id_ativo" />
+                        <field name="desc_ativo" />
+                        <field name="account_id" />
+                        <field name="company_id" groups="base.group_multi_company" />
+                        <field name="active" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_dere_reserve_asset" model="ir.actions.act_window">
+        <field name="name">Technical-reserve Assets</field>
+        <field name="res_model">l10n_br_dere.reserve.asset</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
