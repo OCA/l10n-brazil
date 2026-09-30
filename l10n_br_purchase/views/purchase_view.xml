@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!--
   Copyright 2010-TODAY Akretion (http://www.akretion.com/)
   @author: Renato Lima <renato.lima@akretion.com.br>
@@ -9,7 +9,7 @@
         <field name="name">l10n_br_purchase.order.form</field>
         <field name="model">purchase.order</field>
         <field name="inherit_id" ref="purchase.purchase_order_form" />
-        <field name="priority">100</field>
+        <field name="priority" eval="100" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_ref']" position="after">
                 <field name="active_company_country_id" invisible="True" />
