@@ -9,7 +9,6 @@ from odoo.tests.suite import OdooSuite
 _logger = logging.getLogger(__name__)
 
 
-# ruff: noqa: E501 - line too long
 def addTest(self, test):
     """
     This monkey patch is required to avoid triggering all the tests from
@@ -30,7 +29,6 @@ addTest._original_method = OdooSuite.addTest
 OdooSuite.addTest = addTest
 
 
-# flake8: noqa: E402  - module level import not at top of file
 from odoo.addons.account.tests.test_account_move_out_invoice import (
     TestAccountMoveOutInvoiceOnchanges,
 )

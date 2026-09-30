@@ -57,7 +57,7 @@ class FiscalTax(models.Model):
             if not account_taxes:
                 tax_users = {"sale": "out", "purchase": "in"}
 
-                for tax_use in tax_users.keys():
+                for tax_use in tax_users:
                     tax_values = {
                         "name": fiscal_tax.name + " " + tax_users.get(tax_use),
                         "type_tax_use": tax_use,
