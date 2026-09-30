@@ -1,0 +1,47 @@
+id,cod,desc
+serpro_qualificacao_1,5,Administrador
+serpro_qualificacao_2,8,Conselheiro de Administração
+serpro_qualificacao_3,10,Diretor
+serpro_qualificacao_4,16,Presidente
+serpro_qualificacao_5,17,Procurador
+serpro_qualificacao_6,18,Secretário
+serpro_qualificacao_7,20,Sociedade Consorciada
+serpro_qualificacao_8,21,Sociedade Filiada
+serpro_qualificacao_9,22,Sócio
+serpro_qualificacao_10,23,Sócio Capitalista
+serpro_qualificacao_11,24,Sócio Comanditado
+serpro_qualificacao_12,25,Sócio Comanditário
+serpro_qualificacao_13,26,Sócio de Indústria
+serpro_qualificacao_14,28,Sócio-Gerente
+serpro_qualificacao_15,29,Sócio Incapaz ou Relat.Incapaz (exceto menor)
+serpro_qualificacao_16,30,Sócio Menor (Assistido/Representado)
+serpro_qualificacao_17,31,Sócio Ostensivo
+serpro_qualificacao_18,33,Tesoureiro
+serpro_qualificacao_19,37,Sócio Pessoa Jurídica Domiciliado no Exterior
+serpro_qualificacao_20,38,Sócio Pessoa Física Residente ou Domiciliado no Exterior
+serpro_qualificacao_21,47,Sócio Pessoa Física Residente no Brasil
+serpro_qualificacao_22,48,Sócio Pessoa Jurídica Domiciliado no Brasil
+serpro_qualificacao_23,49,Sócio-Administrador
+serpro_qualificacao_24,52,Sócio com Capital
+serpro_qualificacao_25,53,Sócio sem Capital
+serpro_qualificacao_26,54,Fundador
+serpro_qualificacao_27,55,Sócio Comanditado Residente no Exterior
+serpro_qualificacao_28,56,Sócio Comanditário Pessoa Física Residente no Exterior
+serpro_qualificacao_29,57,Sócio Comanditário Pessoa Física Residente no Exterior
+serpro_qualificacao_30,58,Sócio Comanditário Incapaz
+serpro_qualificacao_31,59,Produtor Rural
+serpro_qualificacao_32,63,Cotas em Tesouraria
+serpro_qualificacao_33,65,Titular Pessoa Física Residente ou Domiciliado no Brasil
+serpro_qualificacao_34,66,Titular Pessoa Física Residente ou Domiciliado no Exterior
+serpro_qualificacao_35,67,Titular Pessoa Física Incapaz ou Relativamente Incapaz (exceto menor)
+serpro_qualificacao_37,68,Titular Pessoa Física Menor (Assistido/Representado)
+serpro_qualificacao_38,70,Administrador Residente ou Domiciliado no Exterior
+serpro_qualificacao_39,71,Conselheiro de Administração Residente ou Domiciliado no Exterior
+serpro_qualificacao_40,72,Diretor Residente ou Domiciliado no Exterior
+serpro_qualificacao_41,73,Presidente Residente ou Domiciliado no Exterior
+serpro_qualificacao_42,74,Sócio-Administrador Residente ou Domiciliado no Exterior
+serpro_qualificacao_43,75,Fundador Residente ou Domiciliado no Exterior
+serpro_qualificacao_44,76,Protetor
+serpro_qualificacao_45,77,Vice-Presidente
+serpro_qualificacao_46,78,Titular Pessoa Jurídica Domiciliada no Brasil
+serpro_qualificacao_47,79,Titular Pessoa Jurídica Domiciliada no Exterior
