@@ -67,7 +67,7 @@ class ResCurrencyRateProviderBCB(models.Model):
                 "CtipoBoletim"
             )
 
-            params = dict()
+            params = {}
             params["@dataInicial"] = date_from.strftime("'%m-%d-%Y'")
             params["@dataFinalCotacao"] = date_to.strftime("'%m-%d-%Y'")
 

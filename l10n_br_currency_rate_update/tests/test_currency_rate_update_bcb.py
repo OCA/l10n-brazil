@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import logging
-from datetime import datetime
+from datetime import UTC, datetime
 from os import environ
 from unittest import mock
 
@@ -20,7 +20,7 @@ _logger = logging.getLogger(__name__)
 
 
 def _not_every_day_test(method, self, modulo=7, remaining=1):
-    if datetime.now().day % modulo == remaining or environ.get("CI_FORCE_IBPT"):
+    if datetime.now(UTC).day % modulo == remaining or environ.get("CI_FORCE_IBPT"):
         return method(self)
     else:
         return lambda: _logger.info(

@@ -1,10 +1,16 @@
-Para ativar o agendador para atualizar as cotações de moedas:
+The Brazilian Central Bank service only works for companies whose currency
+is the Brazilian Real (BRL).
 
-\# Vá em *Faturamento \> Configuração \> Configurações* \# Verifique se
-a opção *Automatic Currency Rates (OCA)* esta selecionada
+To enable the automatic update of the currency rates:
 
-Para configurar os provedores de cotações de moedas:
+- Go to *Invoicing > Configuration > Settings*
+- Check the option *Automatic Currency Rates (OCA)*
 
-\# Vá em *Faturamento \> Configuração \> Currency Rates Providers* \#
-Crie e configure o provedor BCB (Banco Central do Brasil) \# Selecione
-as moedas que deseja atualizar as cotações
+To configure the provider:
+
+- Go to *Invoicing > Configuration > Accounting > Currency Rates Providers*
+- Create a provider and choose the service *Brazilian Central Bank*
+- Select the currencies you want to update (the Central Bank publishes AUD,
+  CAD, CHF, DKK, EUR, GBP, JPY, NOK, SEK and USD)
+
+![Provider form](../static/img/l10n_br_currency_rate_update_provider.png)
