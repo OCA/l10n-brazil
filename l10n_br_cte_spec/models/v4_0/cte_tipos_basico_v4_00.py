@@ -1386,12 +1386,6 @@ class TunidCarga(models.AbstractModel):
     _inherit = "spec.mixin.cte"
     _binding_type = "TunidCarga"
 
-    cte40_infUnidCarga_infNFe_id = fields.Many2one(
-        comodel_name="cte.40.tctesimp_infnfe",
-        xsd_implicit=True,
-        ondelete="cascade",
-        index=True,
-    )
     cte40_infUnidCarga_infNF_id = fields.Many2one(
         comodel_name="cte.40.tcte_infnf",
         xsd_implicit=True,
@@ -1854,10 +1848,6 @@ class TcteOsIde(models.AbstractModel):
     )
 
     cte40_xJust = fields.Char(string="Justificativa da entrada em contingência")
-
-    cte40_gCompraGov = fields.Char(
-        string="Grupo de Compras Governamentais", xsd_type="TCompraGovReduzido"
-    )
 
     cte40_gCompraGov = fields.Char(
         string="Grupo de Compras Governamentais", xsd_type="TCompraGovReduzido"
@@ -3790,12 +3780,6 @@ class TunidadeTransp(models.AbstractModel):
     _inherit = "spec.mixin.cte"
     _binding_type = "TunidadeTransp"
 
-    cte40_infUnidTransp_infNFe_id = fields.Many2one(
-        comodel_name="cte.40.tctesimp_infnfe",
-        xsd_implicit=True,
-        ondelete="cascade",
-        index=True,
-    )
     cte40_infUnidTransp_infNF_id = fields.Many2one(
         comodel_name="cte.40.tcte_infnf",
         xsd_implicit=True,
@@ -4333,10 +4317,6 @@ class TcteIde(models.AbstractModel):
     )
 
     cte40_xJust = fields.Char(string="Justificativa da entrada em contingência")
-
-    cte40_gCompraGov = fields.Char(
-        string="Grupo de Compras Governamentais", xsd_type="TCompraGovReduzido"
-    )
 
     cte40_gCompraGov = fields.Char(
         string="Grupo de Compras Governamentais", xsd_type="TCompraGovReduzido"
@@ -6712,10 +6692,6 @@ class TcteSimpIde(models.AbstractModel):
     )
 
     cte40_xJust = fields.Char(string="Justificativa da entrada em contingência")
-
-    cte40_gCompraGov = fields.Char(
-        string="Grupo de Compras Governamentais", xsd_type="TCompraGovReduzido"
-    )
 
     cte40_gCompraGov = fields.Char(
         string="Grupo de Compras Governamentais", xsd_type="TCompraGovReduzido"
