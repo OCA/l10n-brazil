@@ -65,14 +65,14 @@ an override like:
 
 .. code:: python
 
-       from odoo.addons.spec_driven_model.models import spec_models
+   from odoo.addons.spec_driven_model.models import spec_models
 
 
-       class ResPartner(spec_models.SpecModel):
-           _inherit = [
-               'res.partner',
-               'partner.binding.mixin',
-           ]
+   class ResPartner(spec_models.SpecModel):
+       _inherit = [
+           "res.partner",
+           "partner.binding.mixin",
+       ]
 
 Notice you should inherit from spec_models.SpecModel and not the usual
 models.Model.
@@ -117,22 +117,22 @@ its short version:
 
 .. code:: python
 
-       from odoo.addons.spec_driven_model.models import spec_models
+   from odoo.addons.spec_driven_model.models import spec_models
 
 
-       class InvoiceLine(spec_models.StackedModel):
-           _inherit = [
-               'account.move.line',
-               'nfe.40.det',
-           ]
-           _nfe40_spec_settings = {
-               "module": "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00",
-               "stacking_mixin": "nfe.40.det",
-               "stacking_points": {},
-               # all m2o below this level will be stacked even if not required:
-               "stacking_force_paths": ("det.imposto.",),
-               "stacking_skip_paths": ("nfe40_det_infNFe_id",),
-           }
+   class InvoiceLine(spec_models.StackedModel):
+       _inherit = [
+           "account.move.line",
+           "nfe.40.det",
+       ]
+       _nfe40_spec_settings = {
+           "module": "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00",
+           "stacking_mixin": "nfe.40.det",
+           "stacking_points": {},
+           # all m2o below this level will be stacked even if not required:
+           "stacking_force_paths": ("det.imposto.",),
+           "stacking_skip_paths": ("nfe40_det_infNFe_id",),
+       }
 
 All many2one fields that are required in the XSD (xsd_required=True)
 will get their model stacked automatically and recursively. You can also

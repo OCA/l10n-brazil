@@ -18,8 +18,10 @@ _logger = logging.getLogger(__name__)
 class SpecViewMixin(models.AbstractModel):
     _name = "spec.mixin_view"
 
+    # not imported (see models/__init__.py): kept as a reference for an
+    # automatic spec view, it still uses the pre 16.0 fields_view_get API
     @api.model
-    def fields_view_get(
+    def fields_view_get(  # pylint: disable=deprecated-odoo-model-method
         self, view_id=None, view_type="form", toolbar=False, submenu=False
     ):
         res = super(SpecViewMixin, self.with_context(no_subcall=True)).fields_view_get(

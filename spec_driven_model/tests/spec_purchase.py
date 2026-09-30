@@ -8,7 +8,7 @@ from odoo.addons.spec_driven_model.models import spec_models
 
 class ResPartner(spec_models.SpecModel):
     _name = "res.partner"
-    _inherit = ["res.partner", "poxsd.10.usaddress"]
+    _inherit = ("res.partner", "poxsd.10.usaddress")
 
     poxsd10_country = fields.Char(related="country_id.name", string="POXSD Country")
     poxsd10_name = fields.Char(related="name", string="POXSD Name")
@@ -24,7 +24,7 @@ class ResPartner(spec_models.SpecModel):
 
 class PurchaseOrderLine(spec_models.SpecModel):
     _name = "fake.purchase.order.line"
-    _inherit = ["fake.purchase.order.line", "poxsd.10.item"]
+    _inherit = ("fake.purchase.order.line", "poxsd.10.item")
 
     poxsd10_productName = fields.Char(related="name", string="POXSD Product Name")
     poxsd10_quantity = fields.Integer(
@@ -44,7 +44,7 @@ class PurchaseOrder(spec_models.StackedModel):
     """
 
     _name = "fake.purchase.order"
-    _inherit = ["fake.purchase.order", "poxsd.10.purchaseordertype"]
+    _inherit = ("fake.purchase.order", "poxsd.10.purchaseordertype")
 
     _poxsd10_odoo_module = "odoo.addons.spec_driven_model.tests.spec_poxsd"
     _poxsd10_stacking_mixin = "poxsd.10.purchaseordertype"

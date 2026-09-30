@@ -7,7 +7,7 @@ from collections import OrderedDict, defaultdict
 from importlib import import_module
 from inspect import getmembers, isclass
 
-from odoo import _, api, models
+from odoo import api, models
 from odoo.api import Environment
 from odoo.orm import model_classes
 from odoo.tools import mute_logger
@@ -59,7 +59,6 @@ def _inject_spec_mixin(registry, schema):
     parent_cls = registry["spec.mixin"]
     if parent_cls in mixin_cls._base_classes__:
         return
-    mixin_cls._inherit = list(mixin_cls._inherit) + ["spec.mixin"]
     # __bases__ is assigned from _base_classes__ when the model is set up
     # (model_classes._prepare_setup)
     mixin_cls._base_classes__ = (parent_cls,) + tuple(mixin_cls._base_classes__)
@@ -140,7 +139,7 @@ class SpecModel(models.Model):
     and not through _inherit.
     """
 
-    _inherit = ["spec.mixin"]
+    _inherit = ("spec.mixin",)
     _auto = True  # automatically create database backend
     _register = False  # not visible in ORM registry
     _abstract = False
@@ -161,7 +160,7 @@ class SpecModel(models.Model):
         res = super()._compute_display_name()
         for rec in self:
             if rec.display_name == "False" or not rec.display_name:
-                rec.display_name = _("Open...")
+                rec.display_name = self.env._("Open...")
         return res
 
     @classmethod
@@ -269,7 +268,6 @@ class SpecModel(models.Model):
     def _map_concrete(cls, dbname, key, target, quiet=False):
         if not quiet:
             _logger.debug(f"{key} ---> {target}")
-        global SPEC_MIXIN_MAPPINGS
         SPEC_MIXIN_MAPPINGS[dbname][key] = target
 
     @classmethod
@@ -348,7 +346,9 @@ class StackedModel(SpecModel):
                 registry, node, stacking_settings
             ):
                 if kind == "stacked" and klass._name not in cls._inherit:
-                    cls._inherit.append(klass._name)
+                    # Odoo 20 keeps the _inherit of a model definition in
+                    # _inherit__ (_inherit is a read-only property)
+                    cls._inherit__ = (*cls._inherit, klass._name)
         return super()._spec_before_add_to_registry(registry)
 
     @classmethod
@@ -362,7 +362,7 @@ class StackedModel(SpecModel):
                 continue
             for attr in dir(klass):
                 if attr != "_get_stacking_points" and attr.endswith("_stacking_points"):
-                    for name in getattr(klass, attr).keys():
+                    for name in getattr(klass, attr):
                         field = cls._fields.get(name)
                         if field is not None and field.type == "many2one":
                             # TODO it seems Odoo would still generate ir.model.data

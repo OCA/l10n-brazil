@@ -301,9 +301,11 @@ class TestSpecModel(TransactionCase):
             registry.__dict__.pop("_poxsd_register_hook_loaded", None)
             self.loader.update_registry((PoXsdMixin, Comment))
             registry.ready = True
-            with mock.patch.object(Registry, "init_models", failing_init_models):
-                with self.assertRaises(AttributeError):
-                    registry._setup_models__(cr)
+            with (
+                mock.patch.object(Registry, "init_models", failing_init_models),
+                self.assertRaises(AttributeError),
+            ):
+                registry._setup_models__(cr)
 
             self.assertEqual(
                 concrete_classes_left(),
@@ -388,7 +390,10 @@ class TestSpecModel(TransactionCase):
             # raise "Cannot create a consistent method resolution order".
             clear_hook_guard()
             with mock.patch.object(cr, "commit"):
+                # a registry is loaded while not ready, then its hooks run
+                registry.ready = False
                 registry.load(FakePackage("spec_driven_model"))
+                registry.ready = True
                 registry._setup_models__(cr)
         finally:
             module_to_models["spec_driven_model"] = saved_module_classes
@@ -427,7 +432,7 @@ class TestSpecModel(TransactionCase):
         (every ``Registry.new``). It must always rebuild the Python classes of
         the *remaining* spec models (poxsd.10.comment here, nfe.40.detpag/det/...
         in l10n_br_nfe) in memory, but reflecting them into the database (via
-        ``registry.init_models``, plus ir.model.access and the ir.model.data
+        ``registry.init_models``, plus ir.access and the ir.model.data
         magic-field create/unlink cycle) only has to happen on install/update.
         Once the models are reflected, a subsequent ordinary load (server boot,
         a fresh worker's own registry, a second ``Registry.new`` for another
@@ -494,7 +499,10 @@ class TestSpecModel(TransactionCase):
                 mock.patch.object(registry, "init_models", side_effect=spy_init_models),
                 mock.patch.object(cr, "commit"),
             ):
+                # a registry is loaded while not ready, then its hooks run
+                registry.ready = False
                 registry.load(FakePackage("spec_driven_model"))
+                registry.ready = True
                 registry._setup_models__(cr)
             self.assertEqual(
                 reflected,
@@ -569,12 +577,12 @@ class TestSpecModel(TransactionCase):
             ["access_spec_mixin_user", "access_spec_mixin_manager"],
         )
 
-        self.env["ir.model.access"].create(
+        self.env["ir.access"].create(
             {
                 "name": "access_spec_mixin_user",
                 "model_id": self.env["ir.model"]._get("spec.mixin").id,
                 "group_id": self.env.ref("base.group_user").id,
-                "perm_read": True,
+                "operation": "r",
             }
         )
 

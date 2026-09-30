@@ -30,7 +30,7 @@ class SpecMixin(models.AbstractModel):
 
     _description = "root abstract model meant for xsd generated fiscal models"
     _name = "spec.mixin"
-    _inherit = ["spec.mixin_export", "spec.mixin_import"]
+    _inherit = ("spec.mixin_export", "spec.mixin_import")
     _is_spec_driven = True
 
     def _valid_field_parameter(self, field, name):
@@ -279,16 +279,13 @@ class SpecMixin(models.AbstractModel):
                 "name",
                 "model_id/id",
                 "group_id/id",
-                "perm_read",
-                "perm_write",
-                "perm_create",
-                "perm_unlink",
+                "operation",
             ]
             for name in built_model_names:
                 self.env[name]._auto_fill_access_data(
                     self.env, odoo_module, access_data
                 )
-            self.env["ir.model.access"].load(access_fields, access_data)
+            self.env["ir.access"].load(access_fields, access_data)
             self.env.registry.init_models(
                 self.env.cr, remaining_models, {"module": odoo_module}
             )
@@ -355,7 +352,7 @@ class SpecMixin(models.AbstractModel):
             model_id = f"{module_name}_spec.model_{underline_name}"
         model = env["ir.model"]._get(cls._name)
         user_access_name = f"access_{underline_name}_user"
-        if not env["ir.model.access"].search(
+        if not env["ir.access"].search(
             [
                 ("name", "in", [underline_name, user_access_name]),
                 ("model_id", "=", model.id),
@@ -367,14 +364,11 @@ class SpecMixin(models.AbstractModel):
                     user_access_name,
                     model_id,
                     f"{module_name}.group_user",
-                    "1",
-                    "0",
-                    "0",
-                    "0",
+                    "r",
                 ]
             )
         manager_access_name = f"access_{underline_name}_manager"
-        if not env["ir.model.access"].search(
+        if not env["ir.access"].search(
             [
                 ("name", "in", [underline_name, manager_access_name]),
                 ("model_id", "=", model.id),
@@ -386,9 +380,6 @@ class SpecMixin(models.AbstractModel):
                     manager_access_name,
                     model_id,
                     f"{module_name}.group_manager",
-                    "1",
-                    "1",
-                    "1",
-                    "1",
+                    "crud",
                 ]
             )

@@ -33,7 +33,6 @@ class FakeRegistryLoader:
         self._models = {
             name: {
                 "bases": model_cls._base_classes__,
-                "inherit": model_cls.__dict__.get("_inherit"),
                 "inherit_module": dict(model_cls._inherit_module),
                 "inherit_children": list(model_cls._inherit_children),
                 "inherits_children": set(model_cls._inherits_children),
@@ -55,15 +54,23 @@ class FakeRegistryLoader:
         self.env.flush_all()
         module_models = models.MetaModel._module_to_models__[self.module_name]
         names = []
-        for model_def in model_defs:
-            if model_def not in module_models:
-                module_models.append(model_def)
-            # looked up at call time: spec_driven_model wraps it
-            name = model_classes.add_to_registry(registry, model_def)._name
-            if name not in names:
-                names.append(name)
+        # like a module being loaded: the registry hooks run only once the
+        # whole registry is loaded, never in the middle of the load
+        ready = registry.ready
+        registry.ready = False
+        try:
+            for model_def in model_defs:
+                if model_def not in module_models:
+                    module_models.append(model_def)
+                # looked up at call time: spec_driven_model wraps it
+                name = model_classes.add_to_registry(registry, model_def)._name
+                if name not in names:
+                    names.append(name)
+            with mock.patch.object(cr, "commit"):
+                registry._setup_models__(cr, names)
+        finally:
+            registry.ready = ready
         with mock.patch.object(cr, "commit"):
-            registry._setup_models__(cr, names)
             registry.init_models(
                 cr, names, {"module": self.module_name, "models_to_check": True}
             )
@@ -80,10 +87,6 @@ class FakeRegistryLoader:
         for name, saved in self._models.items():
             model_cls = registry.models[name]
             model_cls._base_classes__ = saved["bases"]
-            if saved["inherit"] is not None:
-                model_cls._inherit = saved["inherit"]
-            elif "_inherit" in model_cls.__dict__:
-                delattr(model_cls, "_inherit")
             model_cls._inherit_module = saved["inherit_module"]
             model_cls._inherit_children = OrderedSet(saved["inherit_children"])
             model_cls._inherits_children = saved["inherits_children"]
@@ -97,5 +100,10 @@ class FakeRegistryLoader:
         for attr in set(vars(registry)) - self._registry_attrs:
             if attr.endswith("_register_hook_loaded"):
                 delattr(registry, attr)
-        with mock.patch.object(self.env.cr, "commit"):
-            registry._setup_models__(self.env.cr)
+        ready = registry.ready
+        registry.ready = False
+        try:
+            with mock.patch.object(self.env.cr, "commit"):
+                registry._setup_models__(self.env.cr)
+        finally:
+            registry.ready = ready

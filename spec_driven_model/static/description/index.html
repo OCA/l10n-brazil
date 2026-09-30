@@ -406,8 +406,8 @@ an override like:</p>
 
 </span><span class="k">class</span><span class="w"> </span><span class="nc">ResPartner</span><span class="p">(</span><span class="n">spec_models</span><span class="o">.</span><span class="n">SpecModel</span><span class="p">):</span><span class="w">
 </span>    <span class="n">_inherit</span> <span class="o">=</span> <span class="p">[</span><span class="w">
-</span>        <span class="s1">'res.partner'</span><span class="p">,</span><span class="w">
-</span>        <span class="s1">'partner.binding.mixin'</span><span class="p">,</span><span class="w">
+</span>        <span class="s2">&quot;res.partner&quot;</span><span class="p">,</span><span class="w">
+</span>        <span class="s2">&quot;partner.binding.mixin&quot;</span><span class="p">,</span><span class="w">
 </span>    <span class="p">]</span>
 </pre>
 <p>Notice you should inherit from spec_models.SpecModel and not the usual
@@ -452,8 +452,8 @@ its short version:</p>
 
 </span><span class="k">class</span><span class="w"> </span><span class="nc">InvoiceLine</span><span class="p">(</span><span class="n">spec_models</span><span class="o">.</span><span class="n">StackedModel</span><span class="p">):</span><span class="w">
 </span>    <span class="n">_inherit</span> <span class="o">=</span> <span class="p">[</span><span class="w">
-</span>        <span class="s1">'account.move.line'</span><span class="p">,</span><span class="w">
-</span>        <span class="s1">'nfe.40.det'</span><span class="p">,</span><span class="w">
+</span>        <span class="s2">&quot;account.move.line&quot;</span><span class="p">,</span><span class="w">
+</span>        <span class="s2">&quot;nfe.40.det&quot;</span><span class="p">,</span><span class="w">
 </span>    <span class="p">]</span><span class="w">
 </span>    <span class="n">_nfe40_spec_settings</span> <span class="o">=</span> <span class="p">{</span><span class="w">
 </span>        <span class="s2">&quot;module&quot;</span><span class="p">:</span> <span class="s2">&quot;odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00&quot;</span><span class="p">,</span><span class="w">

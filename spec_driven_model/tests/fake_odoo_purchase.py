@@ -12,12 +12,6 @@ class PurchaseOrder(models.Model):
     _name = "fake.purchase.order"
     _description = "Purchase Order"
 
-    READONLY_STATES = {
-        "purchase": [("readonly", True)],
-        "done": [("readonly", True)],
-        "cancel": [("readonly", True)],
-    }
-
     name = fields.Char("Order Reference", required=True, default="New")
     date_order = fields.Datetime(
         "Order Date", required=True, default=fields.Datetime.now
@@ -35,7 +29,6 @@ class PurchaseOrder(models.Model):
     )
     currency_id = fields.Many2one(
         "res.currency",
-        "Currency",
         required=True,
         default=lambda self: self.env.ref("base.EUR").id,
     )

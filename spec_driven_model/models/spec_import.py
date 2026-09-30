@@ -42,11 +42,11 @@ class SpecMixinImport(models.AbstractModel):
 
         Defaults values and control options are meant to be passed in the context.
         """
-        self = self.with_context(
+        record = self.with_context(
             spec_schema=spec_schema, spec_version=spec_version, dry_run=dry_run
         )
-        self._register_hook()
-        model = self._get_concrete_model(self._name)
+        record._register_hook()
+        model = record._get_concrete_model(record._name)
         attrs = model.build_attrs(binding)
         if dry_run:
             return model.new(attrs)
@@ -101,13 +101,14 @@ class SpecMixinImport(models.AbstractModel):
             # SimpleType
             if isinstance(value, Enum):
                 value = value.value
-            if fields.get(key) and fields[key].type == "datetime":
-                if "T" in value:
-                    if tz_datetime.match(value):
-                        old_value = value
-                        value = old_value[:19]
-                        # TODO see python3/pysped/xml_sped/base.py#L692
-                    value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S")
+            if fields.get(key) and fields[key].type == "datetime" and "T" in value:
+                if tz_datetime.match(value):
+                    old_value = value
+                    value = old_value[:19]
+                    # TODO see python3/pysped/xml_sped/base.py#L692
+                # Odoo Datetime fields take naive values (the offset was
+                # stripped above)
+                value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S")  # noqa: DTZ007
             vals[key] = value
 
         else:
@@ -241,7 +242,7 @@ class SpecMixinImport(models.AbstractModel):
         if model is None:
             model = self
 
-        vals = {k: v for k, v in vals.items() if k in self._fields.keys()}
+        vals = {k: v for k, v in vals.items() if k in self._fields}
 
         related_many2ones = {}
         fields = model._fields
@@ -290,7 +291,7 @@ class SpecMixinImport(models.AbstractModel):
                     f
                     for f, v in defaults_model._fields.items()
                     if v.type not in ["binary", "integer", "float", "monetary"]
-                    and v.name not in vals.keys()
+                    and v.name not in vals
                 ]
             )
             vals.update(defaults)
@@ -316,7 +317,7 @@ class SpecMixinImport(models.AbstractModel):
             keys = getattr(model, search_keys) + default_key
         else:
             keys = [model._rec_name or "name"]
-        if "code" in model._fields.keys():
+        if "code" in model._fields:
             keys.append("code")
             if "code" not in rec_dict:
                 rec_dict["code"] = rec_dict.get(model._rec_name)

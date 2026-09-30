@@ -43,17 +43,11 @@ class SpecMixinExport(models.AbstractModel):
                     f"binding_type_{field_name.split('_')[1]}"
                 )
         if not binding_type:
-            binding_types = set(
-                map(
-                    lambda clazz: clazz._binding_type,
-                    list(
-                        filter(
-                            lambda clazz: hasattr(clazz, "_binding_type"),
-                            type(odoo_class).mro(),
-                        )
-                    ),
-                )
-            )
+            binding_types = {
+                clazz._binding_type
+                for clazz in type(odoo_class).mro()
+                if hasattr(clazz, "_binding_type")
+            }
             assert len(binding_types) == 1, (
                 f"Found several (or no) _binding_type attributes in {odoo_class} "
                 f"ancestors: {binding_types}. You can define a "
@@ -138,7 +132,7 @@ class SpecMixinExport(models.AbstractModel):
                 continue
             if (
                 not self._fields.get(xsd_field)
-            ) and xsd_field not in self._get_stacking_points().keys():
+            ) and xsd_field not in self._get_stacking_points():
                 continue
             field_spec_name = xsd_field.split("_")[1]  # remove schema prefix
             field_spec = False
@@ -158,7 +152,7 @@ class SpecMixinExport(models.AbstractModel):
             field_data = self._export_field(
                 xsd_field, class_obj, field_spec, export_dict.get(field_spec_name)
             )
-            if xsd_field in self._get_stacking_points().keys():
+            if xsd_field in self._get_stacking_points():
                 if not field_data:
                     # stacked nested tags are skipped if empty
                     continue
@@ -301,17 +295,16 @@ class SpecMixinExport(models.AbstractModel):
         xsd_required = field.xsd_required if hasattr(field, "xsd_required") else None
         xsd_type = field.xsd_type if hasattr(field, "xsd_type") else None
         if field.type == "many2one":
-            if (not self._get_stacking_points().get(xsd_field)) and (
-                not self[xsd_field] and not xsd_required
+            # a per tag hook can export a field with no record behind
+            # it, so let it reach _export_many2one, the single m2o
+            # entry point, which dispatches to the hooks
+            if (
+                (not self._get_stacking_points().get(xsd_field))
+                and (not self[xsd_field] and not xsd_required)
+                and field.comodel_name not in self._get_spec_classes()
+                and self._get_tag_export_hook(xsd_field) is None
             ):
-                # a per tag hook can export a field with no record behind
-                # it, so let it reach _export_many2one, the single m2o
-                # entry point, which dispatches to the hooks
-                if (
-                    field.comodel_name not in self._get_spec_classes()
-                    and self._get_tag_export_hook(xsd_field) is None
-                ):
-                    return False
+                return False
             if hasattr(field, "xsd_choice_required"):
                 xsd_required = True
             return self._export_many2one(xsd_field, xsd_required, class_obj)
@@ -337,7 +330,7 @@ class SpecMixinExport(models.AbstractModel):
 
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
         self.ensure_one()
-        if field_name in self._get_stacking_points().keys():
+        if field_name in self._get_stacking_points():
             return self._build_binding(
                 class_name=self._get_stacking_points()[field_name].comodel_name
             )
@@ -407,29 +400,32 @@ class SpecMixinExport(models.AbstractModel):
         sub binding instances already properly instanciated.
         """
         self.ensure_one()
+        record = self
         if spec_schema and spec_version:
-            self = self.with_context(spec_schema=spec_schema, spec_version=spec_version)
-            self.env[f"spec.mixin.{spec_schema}"]._register_hook()
+            record = self.with_context(
+                spec_schema=spec_schema, spec_version=spec_version
+            )
+            record.env[f"spec.mixin.{spec_schema}"]._register_hook()
         if not class_name:
-            class_name = self._get_spec_property("stacking_mixin", self._name)
+            class_name = record._get_spec_property("stacking_mixin", record._name)
 
-        class_obj = self.env[class_name]
+        class_obj = record.env[class_name]
 
         xsd_fields = (
             i
             for i in class_obj._fields
-            if class_obj._fields[i].name.startswith(f"{self._spec_prefix()}_")
+            if class_obj._fields[i].name.startswith(f"{record._spec_prefix()}_")
             and "_choice" not in class_obj._fields[i].name
         )
 
         kwargs = {}
-        binding_class = self._get_binding_class(class_obj, field_name=field_name)
-        self._export_fields(
+        binding_class = record._get_binding_class(class_obj, field_name=field_name)
+        record._export_fields(
             xsd_fields, class_obj, export_dict=kwargs, field_name=field_name
         )
         sliced_kwargs = {
             key: kwargs.get(key)
-            for key in binding_class.__dataclass_fields__.keys()
+            for key in binding_class.__dataclass_fields__
             if kwargs.get(key) is not None
         }
         return binding_class(**sliced_kwargs)
