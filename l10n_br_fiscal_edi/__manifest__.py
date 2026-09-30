@@ -9,13 +9,13 @@
     "maintainers": ["renatonlima", "rvalyi", "mileo"],
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Beta",
-    "version": "19.0.1.1.0",
+    "version": "20.0.1.0.0",
     "depends": [
         "l10n_br_fiscal",
     ],
     "data": [
         # security
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         # Views
         "views/document_view.xml",
         "views/invalidate_number_view.xml",

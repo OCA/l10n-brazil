@@ -1,3 +1,21 @@
+Na tela (Odoo 20.0): abra o documento fiscal (por exemplo em *Fiscal >
+Documentos*), com o estado mostrado na barra de status do canto direito.
+
+1. Documento em digitação (**Draft**), com o botão **Confirm**:
+
+   ![Documento em digitação](../static/img/document_draft.png)
+
+2. Depois de **Confirm**, o documento está numerado, com chave de acesso, e
+   vai para **Open** (a enviar), com o botão **Enviar**:
+
+   ![Documento a enviar](../static/img/document_open.png)
+
+3. Depois de **Enviar**: sem processador de documento configurado, o envio
+   simula a autorização e o documento vai para **Autorizada**, com os botões
+   **View PDF**, **View XML** e **Carta de Correção**:
+
+   ![Documento autorizado](../static/img/document_authorized.png)
+
 O fluxo operacional para emissão e gerenciamento de documentos fiscais
 (eletrônicos e não eletrônicos) segue as etapas abaixo.
 

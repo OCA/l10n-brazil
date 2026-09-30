@@ -35,9 +35,9 @@ from ..constants.fiscal import (
 
 
 def filter_processador(record):
-    if record.document_electronic and record.processador_edoc == PROCESSADOR_NENHUM:
-        return True
-    return False
+    return bool(
+        record.document_electronic and record.processador_edoc == PROCESSADOR_NENHUM
+    )
 
 
 class FiscalDocumentStateMachine(Machine):
@@ -121,7 +121,6 @@ class Document(models.Model):
     # Authorization Event Related Fields
     authorization_event_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.event",
-        string="Authorization Event",
         readonly=True,
         copy=False,
     )
@@ -155,7 +154,6 @@ class Document(models.Model):
     # Cancel Event Related Fields
     cancel_event_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.event",
-        string="Cancel Event",
         copy=False,
     )
 
@@ -184,7 +182,6 @@ class Document(models.Model):
     # Invalidate Event Related Fields
     invalidate_event_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.event",
-        string="Invalidate Event",
         copy=False,
     )
 
@@ -581,9 +578,7 @@ class Document(models.Model):
         Separates electronic vs non-electronic handling.
         """
         no_electronic = self.filtered(
-            lambda d: (
-                not d.document_electronic or not d.issuer == DOCUMENT_ISSUER_COMPANY
-            )
+            lambda d: not d.document_electronic or d.issuer != DOCUMENT_ISSUER_COMPANY
         )
         # Non-electronic/partner-issued docs go straight to Authorized:
         # there is nothing to transmit.
@@ -679,14 +674,14 @@ class Document(models.Model):
                 # Try to trigger the transition
                 try:
                     record._trigger_fsm(trigger)
-                except UserError as e:
+                except UserError:
                     # If transition fails (e.g. invalid source state), we might
                     # force it if the legacy code demands it (e.g. SEFAZ sync).
                     # In legacy code, _change_state often just wrote the field.
                     if force_change:
                         record.write({"state_edoc": state})
                     else:
-                        raise e
+                        raise
             else:
                 # If no transition defined, fallback to write
                 record.write({"state_edoc": state})

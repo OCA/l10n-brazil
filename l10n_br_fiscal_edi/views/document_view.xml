@@ -127,7 +127,7 @@
                                     <button
                                         name="print_document_event"
                                         title="Print Document Event"
-                                        icon="fa-print"
+                                        icon="print"
                                         type="object"
                                     />
                                 </list>

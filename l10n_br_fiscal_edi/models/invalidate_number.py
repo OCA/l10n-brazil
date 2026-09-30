@@ -18,7 +18,6 @@ class InvalidateNumber(models.Model):
     # Authorization Event Related Fields
     authorization_event_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.event",
-        string="Authorization Event",
         readonly=True,
         copy=False,
     )

@@ -2,7 +2,6 @@
 # Copyright (C) 2014  KMEE - www.kmee.com.br
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import base64
 import logging
 import os
 
@@ -118,19 +117,16 @@ class Event(models.Model):
 
     partner_id = fields.Many2one(
         comodel_name="res.partner",
-        string="Partner",
         index=True,
     )
 
     invalidate_number_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.invalidate.number",
-        string="Invalidate Number",
         index=True,
     )
 
     company_id = fields.Many2one(
         comodel_name="res.company",
-        string="Company",
         index=True,
         required=True,
     )
@@ -244,7 +240,8 @@ class Event(models.Model):
         try:
             if not os.path.exists(save_dir):
                 os.makedirs(save_dir)
-            f = open(file_path, "w")
+            with open(file_path, "w") as f:
+                f.write(arquivo)
         except OSError as e:
             raise UserError(
                 self.env._("Erro!"),
@@ -254,9 +251,6 @@ class Event(models.Model):
                     e o caminho da pasta"""
                 ),
             ) from e
-        else:
-            f.write(arquivo)
-            f.close()
         return save_dir
 
     def _compute_file_name(self):
@@ -303,7 +297,7 @@ class Event(models.Model):
                 "name": file_name,
                 "res_model": self._name,
                 "res_id": self.id,
-                "datas": base64.b64encode(file.encode("utf-8")),
+                "raw": file.encode("utf-8"),
                 "mimetype": "application/" + file_extension,
                 "type": "binary",
             }
