@@ -1019,7 +1019,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
 
     quantity = fields.Float(
-        digits="Product Unit of Measure",
+        digits="Product Unit",
     )
 
     fiscal_type = fields.Selection(
@@ -1140,7 +1140,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
 
     fiscal_quantity = fields.Float(
-        digits="Product Unit of Measure",
+        digits="Product Unit",
         compute="_compute_fiscal_quantity",
         store=True,
         precompute=True,
