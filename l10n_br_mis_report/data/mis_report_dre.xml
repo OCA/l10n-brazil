@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!-- Copyright 2019 KMEE
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo noupdate="1">
@@ -28,7 +28,7 @@
     </record>
 
     <record id="dre_header_receita" model="mis.report.kpi">
-        <field name="sequence">10</field>
+        <field name="sequence" eval="10" />
         <field name="report_id" ref="dre" />
         <field name="description">RECEITA BRUTA DE VENDAS E SERVIÇOS</field>
         <field name="name">header_receita</field>
@@ -37,7 +37,7 @@
     </record>
 
     <record id="dre_receita_bruta" model="mis.report.kpi">
-        <field name="sequence">20</field>
+        <field name="sequence" eval="20" />
         <field name="report_id" ref="dre" />
         <field name="description">Receita Bruta de Vendas e Serviços</field>
         <field name="name">receita_bruta</field>
@@ -50,7 +50,7 @@
     </record>
 
     <record id="dre_deducoes_receita" model="mis.report.kpi">
-        <field name="sequence">30</field>
+        <field name="sequence" eval="30" />
         <field name="report_id" ref="dre" />
         <field
             name="description"
@@ -65,7 +65,7 @@
     </record>
 
     <record id="dre_receita_liquida" model="mis.report.kpi">
-        <field name="sequence">40</field>
+        <field name="sequence" eval="40" />
         <field name="report_id" ref="dre" />
         <field name="description">= RECEITA LÍQUIDA</field>
         <field name="name">receita_liquida</field>
@@ -76,7 +76,7 @@
     </record>
 
     <record id="dre_header_custo" model="mis.report.kpi">
-        <field name="sequence">50</field>
+        <field name="sequence" eval="50" />
         <field name="report_id" ref="dre" />
         <field name="description">(-) CUSTO DAS VENDAS</field>
         <field name="name">header_custo</field>
@@ -85,7 +85,7 @@
     </record>
 
     <record id="dre_custo_vendas" model="mis.report.kpi">
-        <field name="sequence">60</field>
+        <field name="sequence" eval="60" />
         <field name="report_id" ref="dre" />
         <field
             name="description"
@@ -100,7 +100,7 @@
     </record>
 
     <record id="dre_lucro_bruto" model="mis.report.kpi">
-        <field name="sequence">70</field>
+        <field name="sequence" eval="70" />
         <field name="report_id" ref="dre" />
         <field name="description">= LUCRO BRUTO</field>
         <field name="name">lucro_bruto</field>
@@ -111,7 +111,7 @@
     </record>
 
     <record id="dre_header_despesas" model="mis.report.kpi">
-        <field name="sequence">80</field>
+        <field name="sequence" eval="80" />
         <field name="report_id" ref="dre" />
         <field name="description">(-) DESPESAS OPERACIONAIS</field>
         <field name="name">header_despesas</field>
@@ -120,7 +120,7 @@
     </record>
 
     <record id="dre_despesas_administrativas" model="mis.report.kpi">
-        <field name="sequence">90</field>
+        <field name="sequence" eval="90" />
         <field name="report_id" ref="dre" />
         <field name="description">Despesas Administrativas</field>
         <field name="name">despesas_administrativas</field>
@@ -133,7 +133,7 @@
     </record>
 
     <record id="dre_despesas_vendas" model="mis.report.kpi">
-        <field name="sequence">100</field>
+        <field name="sequence" eval="100" />
         <field name="report_id" ref="dre" />
         <field name="description">Despesas com Vendas</field>
         <field name="name">despesas_vendas</field>
@@ -146,7 +146,7 @@
     </record>
 
     <record id="dre_despesas_gerais" model="mis.report.kpi">
-        <field name="sequence">110</field>
+        <field name="sequence" eval="110" />
         <field name="report_id" ref="dre" />
         <field name="description">Outras Despesas Gerais</field>
         <field name="name">despesas_gerais</field>
@@ -159,7 +159,7 @@
     </record>
 
     <record id="dre_despesas_operacionais" model="mis.report.kpi">
-        <field name="sequence">120</field>
+        <field name="sequence" eval="120" />
         <field name="report_id" ref="dre" />
         <field name="description">= TOTAL DAS DESPESAS OPERACIONAIS</field>
         <field name="name">despesas_operacionais</field>
@@ -171,7 +171,7 @@
     </record>
 
     <record id="dre_resultado_operacional" model="mis.report.kpi">
-        <field name="sequence">130</field>
+        <field name="sequence" eval="130" />
         <field name="report_id" ref="dre" />
         <field name="description">= RESULTADO OPERACIONAL</field>
         <field name="name">resultado_operacional</field>
@@ -182,7 +182,7 @@
     </record>
 
     <record id="dre_header_financeiro" model="mis.report.kpi">
-        <field name="sequence">140</field>
+        <field name="sequence" eval="140" />
         <field name="report_id" ref="dre" />
         <field name="description">(+/-) RESULTADO FINANCEIRO</field>
         <field name="name">header_financeiro</field>
@@ -191,7 +191,7 @@
     </record>
 
     <record id="dre_receitas_financeiras" model="mis.report.kpi">
-        <field name="sequence">150</field>
+        <field name="sequence" eval="150" />
         <field name="report_id" ref="dre" />
         <field name="description">Receitas Financeiras</field>
         <field name="name">receitas_financeiras</field>
@@ -204,7 +204,7 @@
     </record>
 
     <record id="dre_despesas_financeiras" model="mis.report.kpi">
-        <field name="sequence">160</field>
+        <field name="sequence" eval="160" />
         <field name="report_id" ref="dre" />
         <field name="description">(-) Despesas Financeiras</field>
         <field name="name">despesas_financeiras</field>
@@ -217,7 +217,7 @@
     </record>
 
     <record id="dre_resultado_financeiro" model="mis.report.kpi">
-        <field name="sequence">170</field>
+        <field name="sequence" eval="170" />
         <field name="report_id" ref="dre" />
         <field name="description">= RESULTADO FINANCEIRO</field>
         <field name="name">resultado_financeiro</field>
@@ -227,7 +227,7 @@
     </record>
 
     <record id="dre_outras_receitas_despesas" model="mis.report.kpi">
-        <field name="sequence">180</field>
+        <field name="sequence" eval="180" />
         <field name="report_id" ref="dre" />
         <field name="description">(+/-) Outras Receitas e Despesas Operacionais</field>
         <field name="name">outras_receitas_despesas</field>
@@ -240,7 +240,7 @@
     </record>
 
     <record id="dre_resultado_antes_tributos" model="mis.report.kpi">
-        <field name="sequence">190</field>
+        <field name="sequence" eval="190" />
         <field name="report_id" ref="dre" />
         <field name="description">= RESULTADO ANTES DO IRPJ E DA CSLL</field>
         <field name="name">resultado_antes_tributos</field>
@@ -253,7 +253,7 @@
     </record>
 
     <record id="dre_csll" model="mis.report.kpi">
-        <field name="sequence">200</field>
+        <field name="sequence" eval="200" />
         <field name="report_id" ref="dre" />
         <field name="description">(-) Contribuição Social sobre o Lucro Líquido</field>
         <field name="name">csll</field>
@@ -266,7 +266,7 @@
     </record>
 
     <record id="dre_irpj" model="mis.report.kpi">
-        <field name="sequence">210</field>
+        <field name="sequence" eval="210" />
         <field name="report_id" ref="dre" />
         <field name="description">(-) Imposto de Renda da Pessoa Jurídica</field>
         <field name="name">irpj</field>
@@ -279,7 +279,7 @@
     </record>
 
     <record id="dre_resultado_liquido" model="mis.report.kpi">
-        <field name="sequence">220</field>
+        <field name="sequence" eval="220" />
         <field name="report_id" ref="dre" />
         <field name="description">= RESULTADO LÍQUIDO DO EXERCÍCIO</field>
         <field name="name">resultado_liquido</field>

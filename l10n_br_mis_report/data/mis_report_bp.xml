@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!-- Copyright 2019 KMEE
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo noupdate="1">
@@ -37,7 +37,7 @@
     </record>
 
     <record id="bp_header_ativo" model="mis.report.kpi">
-        <field name="sequence">1000</field>
+        <field name="sequence" eval="1000" />
         <field name="report_id" ref="bp" />
         <field name="description">ATIVO</field>
         <field name="name">header_ativo</field>
@@ -46,7 +46,7 @@
     </record>
 
     <record id="bp_header_circulante" model="mis.report.kpi">
-        <field name="sequence">1010</field>
+        <field name="sequence" eval="1010" />
         <field name="report_id" ref="bp" />
         <field name="description">CIRCULANTE</field>
         <field name="name">header_circulante</field>
@@ -55,7 +55,7 @@
     </record>
 
     <record id="bp_caixa" model="mis.report.kpi">
-        <field name="sequence">1020</field>
+        <field name="sequence" eval="1020" />
         <field name="report_id" ref="bp" />
         <field name="description">Caixa e Equivalentes de Caixa</field>
         <field name="name">caixa</field>
@@ -68,7 +68,7 @@
     </record>
 
     <record id="bp_contas_a_receber" model="mis.report.kpi">
-        <field name="sequence">1030</field>
+        <field name="sequence" eval="1030" />
         <field name="report_id" ref="bp" />
         <field name="description">Contas a Receber</field>
         <field name="name">contas_a_receber</field>
@@ -81,7 +81,7 @@
     </record>
 
     <record id="bp_perdas_estimadas" model="mis.report.kpi">
-        <field name="sequence">1040</field>
+        <field name="sequence" eval="1040" />
         <field name="report_id" ref="bp" />
         <field
             name="description"
@@ -96,7 +96,7 @@
     </record>
 
     <record id="bp_estoques" model="mis.report.kpi">
-        <field name="sequence">1050</field>
+        <field name="sequence" eval="1050" />
         <field name="report_id" ref="bp" />
         <field name="description">Estoques</field>
         <field name="name">estoques</field>
@@ -109,7 +109,7 @@
     </record>
 
     <record id="bp_outros_creditos" model="mis.report.kpi">
-        <field name="sequence">1060</field>
+        <field name="sequence" eval="1060" />
         <field name="report_id" ref="bp" />
         <field name="description">Outros Créditos</field>
         <field name="name">outros_creditos</field>
@@ -122,7 +122,7 @@
     </record>
 
     <record id="bp_ativo_circulante" model="mis.report.kpi">
-        <field name="sequence">1070</field>
+        <field name="sequence" eval="1070" />
         <field name="report_id" ref="bp" />
         <field name="description">= TOTAL DO ATIVO CIRCULANTE</field>
         <field name="name">ativo_circulante</field>
@@ -135,7 +135,7 @@
     </record>
 
     <record id="bp_header_nao_circulante" model="mis.report.kpi">
-        <field name="sequence">1100</field>
+        <field name="sequence" eval="1100" />
         <field name="report_id" ref="bp" />
         <field name="description">NÃO CIRCULANTE</field>
         <field name="name">header_nao_circulante</field>
@@ -144,7 +144,7 @@
     </record>
 
     <record id="bp_realizavel_longo_prazo" model="mis.report.kpi">
-        <field name="sequence">1110</field>
+        <field name="sequence" eval="1110" />
         <field name="report_id" ref="bp" />
         <field name="description">Realizável a Longo Prazo</field>
         <field name="name">realizavel_longo_prazo</field>
@@ -157,7 +157,7 @@
     </record>
 
     <record id="bp_investimentos" model="mis.report.kpi">
-        <field name="sequence">1120</field>
+        <field name="sequence" eval="1120" />
         <field name="report_id" ref="bp" />
         <field name="description">Investimentos</field>
         <field name="name">investimentos</field>
@@ -170,7 +170,7 @@
     </record>
 
     <record id="bp_imobilizado" model="mis.report.kpi">
-        <field name="sequence">1130</field>
+        <field name="sequence" eval="1130" />
         <field name="report_id" ref="bp" />
         <field name="description">Imobilizado</field>
         <field name="name">imobilizado</field>
@@ -183,7 +183,7 @@
     </record>
 
     <record id="bp_depreciacao" model="mis.report.kpi">
-        <field name="sequence">1140</field>
+        <field name="sequence" eval="1140" />
         <field name="report_id" ref="bp" />
         <field name="description">(-) Depreciação Acumulada</field>
         <field name="name">depreciacao</field>
@@ -196,7 +196,7 @@
     </record>
 
     <record id="bp_intangivel" model="mis.report.kpi">
-        <field name="sequence">1150</field>
+        <field name="sequence" eval="1150" />
         <field name="report_id" ref="bp" />
         <field name="description">Intangível</field>
         <field name="name">intangivel</field>
@@ -209,7 +209,7 @@
     </record>
 
     <record id="bp_amortizacao" model="mis.report.kpi">
-        <field name="sequence">1160</field>
+        <field name="sequence" eval="1160" />
         <field name="report_id" ref="bp" />
         <field name="description">(-) Amortização Acumulada</field>
         <field name="name">amortizacao</field>
@@ -222,7 +222,7 @@
     </record>
 
     <record id="bp_ativo_nao_circulante" model="mis.report.kpi">
-        <field name="sequence">1170</field>
+        <field name="sequence" eval="1170" />
         <field name="report_id" ref="bp" />
         <field name="description">= TOTAL DO ATIVO NÃO CIRCULANTE</field>
         <field name="name">ativo_nao_circulante</field>
@@ -235,7 +235,7 @@
     </record>
 
     <record id="bp_total_ativo" model="mis.report.kpi">
-        <field name="sequence">1999</field>
+        <field name="sequence" eval="1999" />
         <field name="report_id" ref="bp" />
         <field name="description">TOTAL DO ATIVO</field>
         <field name="name">total_ativo</field>
@@ -246,7 +246,7 @@
     </record>
 
     <record id="bp_header_passivo" model="mis.report.kpi">
-        <field name="sequence">2000</field>
+        <field name="sequence" eval="2000" />
         <field name="report_id" ref="bp" />
         <field name="description">PASSIVO E PATRIMÔNIO LÍQUIDO</field>
         <field name="name">header_passivo</field>
@@ -255,7 +255,7 @@
     </record>
 
     <record id="bp_header_passivo_circulante" model="mis.report.kpi">
-        <field name="sequence">2010</field>
+        <field name="sequence" eval="2010" />
         <field name="report_id" ref="bp" />
         <field name="description">CIRCULANTE</field>
         <field name="name">header_passivo_circulante</field>
@@ -264,7 +264,7 @@
     </record>
 
     <record id="bp_fornecedores" model="mis.report.kpi">
-        <field name="sequence">2020</field>
+        <field name="sequence" eval="2020" />
         <field name="report_id" ref="bp" />
         <field name="description">Fornecedores</field>
         <field name="name">fornecedores</field>
@@ -277,7 +277,7 @@
     </record>
 
     <record id="bp_emprestimos" model="mis.report.kpi">
-        <field name="sequence">2030</field>
+        <field name="sequence" eval="2030" />
         <field name="report_id" ref="bp" />
         <field name="description">Empréstimos e Financiamentos</field>
         <field name="name">emprestimos</field>
@@ -290,7 +290,7 @@
     </record>
 
     <record id="bp_obrigacoes_fiscais" model="mis.report.kpi">
-        <field name="sequence">2040</field>
+        <field name="sequence" eval="2040" />
         <field name="report_id" ref="bp" />
         <field name="description">Obrigações Fiscais</field>
         <field name="name">obrigacoes_fiscais</field>
@@ -303,7 +303,7 @@
     </record>
 
     <record id="bp_obrigacoes_trabalhistas" model="mis.report.kpi">
-        <field name="sequence">2050</field>
+        <field name="sequence" eval="2050" />
         <field name="report_id" ref="bp" />
         <field name="description">Obrigações Trabalhistas</field>
         <field name="name">obrigacoes_trabalhistas</field>
@@ -316,7 +316,7 @@
     </record>
 
     <record id="bp_contas_a_pagar" model="mis.report.kpi">
-        <field name="sequence">2060</field>
+        <field name="sequence" eval="2060" />
         <field name="report_id" ref="bp" />
         <field name="description">Contas a Pagar</field>
         <field name="name">contas_a_pagar</field>
@@ -329,7 +329,7 @@
     </record>
 
     <record id="bp_provisoes" model="mis.report.kpi">
-        <field name="sequence">2070</field>
+        <field name="sequence" eval="2070" />
         <field name="report_id" ref="bp" />
         <field name="description">Provisões</field>
         <field name="name">provisoes</field>
@@ -342,7 +342,7 @@
     </record>
 
     <record id="bp_passivo_circulante" model="mis.report.kpi">
-        <field name="sequence">2080</field>
+        <field name="sequence" eval="2080" />
         <field name="report_id" ref="bp" />
         <field name="description">= TOTAL DO PASSIVO CIRCULANTE</field>
         <field name="name">passivo_circulante</field>
@@ -355,7 +355,7 @@
     </record>
 
     <record id="bp_header_passivo_nao_circulante" model="mis.report.kpi">
-        <field name="sequence">2100</field>
+        <field name="sequence" eval="2100" />
         <field name="report_id" ref="bp" />
         <field name="description">NÃO CIRCULANTE</field>
         <field name="name">header_passivo_nao_circulante</field>
@@ -364,7 +364,7 @@
     </record>
 
     <record id="bp_contas_a_pagar_lp" model="mis.report.kpi">
-        <field name="sequence">2110</field>
+        <field name="sequence" eval="2110" />
         <field name="report_id" ref="bp" />
         <field name="description">Contas a Pagar a Longo Prazo</field>
         <field name="name">contas_a_pagar_lp</field>
@@ -377,7 +377,7 @@
     </record>
 
     <record id="bp_financiamentos_lp" model="mis.report.kpi">
-        <field name="sequence">2120</field>
+        <field name="sequence" eval="2120" />
         <field name="report_id" ref="bp" />
         <field name="description">Financiamentos a Longo Prazo</field>
         <field name="name">financiamentos_lp</field>
@@ -390,7 +390,7 @@
     </record>
 
     <record id="bp_passivo_nao_circulante" model="mis.report.kpi">
-        <field name="sequence">2130</field>
+        <field name="sequence" eval="2130" />
         <field name="report_id" ref="bp" />
         <field name="description">= TOTAL DO PASSIVO NÃO CIRCULANTE</field>
         <field name="name">passivo_nao_circulante</field>
@@ -401,7 +401,7 @@
     </record>
 
     <record id="bp_header_pl" model="mis.report.kpi">
-        <field name="sequence">2150</field>
+        <field name="sequence" eval="2150" />
         <field name="report_id" ref="bp" />
         <field name="description">PATRIMÔNIO LÍQUIDO</field>
         <field name="name">header_pl</field>
@@ -410,7 +410,7 @@
     </record>
 
     <record id="bp_capital_social" model="mis.report.kpi">
-        <field name="sequence">2160</field>
+        <field name="sequence" eval="2160" />
         <field name="report_id" ref="bp" />
         <field name="description">Capital Social</field>
         <field name="name">capital_social</field>
@@ -423,7 +423,7 @@
     </record>
 
     <record id="bp_reservas_capital" model="mis.report.kpi">
-        <field name="sequence">2170</field>
+        <field name="sequence" eval="2170" />
         <field name="report_id" ref="bp" />
         <field name="description">Reservas de Capital</field>
         <field name="name">reservas_capital</field>
@@ -436,7 +436,7 @@
     </record>
 
     <record id="bp_reservas_lucros" model="mis.report.kpi">
-        <field name="sequence">2180</field>
+        <field name="sequence" eval="2180" />
         <field name="report_id" ref="bp" />
         <field name="description">Reservas de Lucros</field>
         <field name="name">reservas_lucros</field>
@@ -449,7 +449,7 @@
     </record>
 
     <record id="bp_lucros_acumulados" model="mis.report.kpi">
-        <field name="sequence">2190</field>
+        <field name="sequence" eval="2190" />
         <field name="report_id" ref="bp" />
         <field name="description">Lucros Acumulados</field>
         <field name="name">lucros_acumulados</field>
@@ -462,7 +462,7 @@
     </record>
 
     <record id="bp_prejuizos_acumulados" model="mis.report.kpi">
-        <field name="sequence">2200</field>
+        <field name="sequence" eval="2200" />
         <field name="report_id" ref="bp" />
         <field name="description">(-) Prejuízos Acumulados</field>
         <field name="name">prejuizos_acumulados</field>
@@ -475,7 +475,7 @@
     </record>
 
     <record id="bp_resultado_anteriores" model="mis.report.kpi">
-        <field name="sequence">2210</field>
+        <field name="sequence" eval="2210" />
         <field name="report_id" ref="bp" />
         <field name="description">Resultado de Exercícios Anteriores a Destinar</field>
         <field name="name">resultado_anteriores</field>
@@ -488,7 +488,7 @@
     </record>
 
     <record id="bp_resultado_exercicio" model="mis.report.kpi">
-        <field name="sequence">2220</field>
+        <field name="sequence" eval="2220" />
         <field name="report_id" ref="bp" />
         <field name="description">Resultado do Exercício</field>
         <field name="name">resultado_exercicio</field>
@@ -500,7 +500,7 @@
     </record>
 
     <record id="bp_patrimonio_liquido" model="mis.report.kpi">
-        <field name="sequence">2230</field>
+        <field name="sequence" eval="2230" />
         <field name="report_id" ref="bp" />
         <field name="description">= TOTAL DO PATRIMÔNIO LÍQUIDO</field>
         <field name="name">patrimonio_liquido</field>
@@ -513,7 +513,7 @@
     </record>
 
     <record id="bp_total_passivo" model="mis.report.kpi">
-        <field name="sequence">2999</field>
+        <field name="sequence" eval="2999" />
         <field name="report_id" ref="bp" />
         <field name="description">TOTAL DO PASSIVO E DO PATRIMÔNIO LÍQUIDO</field>
         <field name="name">total_passivo</field>
