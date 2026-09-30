@@ -17,9 +17,9 @@ class Partner(models.Model):
 
     @property
     def _rec_names_search(self):
-        names = super()._rec_names_search
-        # not "names +=": that would extend the parent class attribute in place
-        return names + ["cnpj_cpf_stripped", "legal_name", "l10n_br_ie_code"]
+        # a tuple in base since 20.0: build a new one (never extend in place)
+        names = tuple(super()._rec_names_search or ())
+        return (*names, "cnpj_cpf_stripped", "legal_name", "l10n_br_ie_code")
 
     def _inverse_street_data(self):
         """In Brazil the address format is street_name, street_number
