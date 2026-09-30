@@ -2,7 +2,6 @@
 # Copyright 2026 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import logging
 import os
 
 from nfelib.nfse.bindings.v1_0.tipos_complexos_v1_00 import TcinfDps
@@ -10,15 +9,16 @@ from xmldiff import main
 from xsdata.formats.dataclass.serializers import XmlSerializer
 from xsdata.formats.dataclass.serializers.config import SerializerConfig
 
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import TransactionCase, tagged
 
 from odoo.addons import l10n_br_nfse_nacional
 
 from .common import set_provedor_nacional
 
-_logger = logging.getLogger(__name__)
 
-
+# The export builds the remaining spec models on the fly, which must not happen
+# inside an at_install test transaction: it would roll back their tables.
+@tagged("post_install", "-at_install")
 class TestNfseSerialize(TransactionCase):
     @classmethod
     def setUpClass(cls, nfse_list=None):
@@ -33,6 +33,11 @@ class TestNfseSerialize(TransactionCase):
                 cls.nfse_list.append(nfse_data)
                 set_provedor_nacional(nfse)
 
+    def setUp(self):
+        super().setUp()
+        if not self.nfse_list:
+            self.skipTest("l10n_br_nfse_nacional demo data is not installed")
+
     def serialize_xml(self, nfse_data):
         nfse = nfse_data["nfse"]
 
@@ -46,11 +51,6 @@ class TestNfseSerialize(TransactionCase):
             obj=binding, ns_map={None: "http://www.sped.fazenda.gov.br/nfse"}
         )
 
-        # Save to a temporary file
-        output_path = "/tmp/test_dps_output.xml"
-        with open(output_path, "w") as f:
-            f.write(xml_output)
-
         expected_path = os.path.join(
             l10n_br_nfse_nacional.__path__[0],
             "tests",
@@ -59,4 +59,5 @@ class TestNfseSerialize(TransactionCase):
             "DPS",
             nfse_data["xml_file"],
         )
-        return main.diff_files(output_path, expected_path)
+        with open(expected_path, "rb") as expected:
+            return main.diff_texts(xml_output.encode(), expected.read())
