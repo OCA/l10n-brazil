@@ -88,3 +88,79 @@ class DuplicateCnpjTest(TransactionCase):
         self._create_partner_with_ie("Branch 1", self.google_cnpj, "111111111")
         with self.assertRaises(ValidationError):
             self._create_partner_with_ie("Branch 2", self.google_cnpj, "111111111")
+
+    def test_batch_checks_every_record(self):
+        """A record without vat must not end the check for the rest of the
+        batch: the duplicate after it is still reported."""
+        self._create_partner("Google 1", self.google_cnpj)
+        with self.assertRaises(ValidationError):
+            self.partner_model.create(
+                [
+                    dict(self.base_vals, name="No vat"),
+                    dict(self.base_vals, name="Google 2", vat=self.google_cnpj),
+                ]
+            )
+
+    def test_batch_duplicate_message(self):
+        """On a batch the CNPJ message reads the vat of the current record,
+        instead of failing with "Expected singleton" on the recordset."""
+        self._create_partner("Google 1", self.google_cnpj)
+        with self.assertRaises(ValidationError) as capture:
+            self.partner_model.create(
+                [
+                    dict(self.base_vals, name="Other Co", vat=self.other_cnpj),
+                    dict(self.base_vals, name="Google 2", vat=self.google_cnpj),
+                ]
+            )
+        self.assertIn(self.google_cnpj, capture.exception.args[0])
+
+    def _desync_stripped(self, partner):
+        """Empty ``cnpj_cpf_stripped`` behind the ORM's back, leaving it out of
+        sync with ``vat`` as a missing recompute does."""
+        # Flush first: right after create the computed value is still pending,
+        # and the ORM would write it back over the raw UPDATE below.
+        partner.flush_recordset(["cnpj_cpf_stripped"])
+        self.env.cr.execute(
+            "UPDATE res_partner SET cnpj_cpf_stripped = NULL WHERE id = %s",
+            (partner.id,),
+        )
+        partner.invalidate_recordset(["cnpj_cpf_stripped"])
+        self.assertFalse(
+            partner.cnpj_cpf_stripped, "setup failed: the field is still in sync"
+        )
+
+    def test_out_of_sync_stripped_is_not_a_duplicate(self):
+        """Partners with distinct CNPJs and an empty stored document are not
+        duplicates of each other.
+
+        Without the guard the domain became ("cnpj_cpf_stripped", "=", False)
+        and matched every other out-of-sync partner. Writing the IE is what
+        triggers it in practice: the vat is not written, so the stored value is
+        not recomputed.
+        """
+        first = self._create_partner("Google", self.google_cnpj)
+        second = self._create_partner("Other Co", self.other_cnpj)
+        self._desync_stripped(first)
+        self._desync_stripped(second)
+
+        second.with_context(disable_ie_validation=True).write(
+            {"l10n_br_ie_code": "111111111"}
+        )
+
+    def test_tax_exempt_partners_are_not_duplicates(self):
+        """Two partners "not subject to tax" are not duplicates of each other.
+
+        ``base`` documents ``vat = "/"`` as "not subject to tax", and the
+        compute keeps only alphanumeric characters, so the stored document is
+        an empty string with the compute in sync.
+        """
+        # is_company=False: for a document that is not a valid CNPJ, the check
+        # only reports duplicates on individuals (the CPF/RG branch).
+        exempt_vals = {
+            "is_company": False,
+            "country_id": self.env.ref("base.us").id,
+            "vat": "/",
+        }
+        self.partner_model.create(dict(exempt_vals, name="Tax exempt 1"))
+        second = self.partner_model.create(dict(exempt_vals, name="Tax exempt 2"))
+        self.assertTrue(second.id)
