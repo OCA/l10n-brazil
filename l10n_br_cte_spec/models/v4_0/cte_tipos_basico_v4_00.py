@@ -2209,8 +2209,7 @@ class TcteOsImp(models.AbstractModel):
         xsd_type="TDec_1302",
         currency_field="brl_currency_id",
         help=(
-            "Valor total do documento fiscal \n(vTPrest + total do IBS + total"
-            " da CBS)"
+            "Valor total do documento fiscal \n(vTPrest + total do IBS + total da CBS)"
         ),
     )
 
@@ -2232,8 +2231,7 @@ class TcteOsIcmsuffim(models.AbstractModel):
         xsd_type="TDec_1302",
         currency_field="brl_currency_id",
         help=(
-            "Valor da BC do ICMS na UF de término da prestação do serviço de "
-            "transporte"
+            "Valor da BC do ICMS na UF de término da prestação do serviço de transporte"
         ),
     )
 
@@ -5226,8 +5224,7 @@ class TcteImp(models.AbstractModel):
         xsd_type="TDec_1302",
         currency_field="brl_currency_id",
         help=(
-            "Valor total do documento fiscal \n(vTPrest + total do IBS + total"
-            " da CBS)"
+            "Valor total do documento fiscal \n(vTPrest + total do IBS + total da CBS)"
         ),
     )
 
@@ -5249,8 +5246,7 @@ class TcteIcmsuffim(models.AbstractModel):
         xsd_type="TDec_1302",
         currency_field="brl_currency_id",
         help=(
-            "Valor da BC do ICMS na UF de término da prestação do serviço de "
-            "transporte"
+            "Valor da BC do ICMS na UF de término da prestação do serviço de transporte"
         ),
     )
 
@@ -7569,8 +7565,7 @@ class TcteSimpIcmsuffim(models.AbstractModel):
         xsd_type="TDec_1302",
         currency_field="brl_currency_id",
         help=(
-            "Valor da BC do ICMS na UF de término da prestação do serviço de "
-            "transporte"
+            "Valor da BC do ICMS na UF de término da prestação do serviço de transporte"
         ),
     )
 
@@ -7683,8 +7678,7 @@ class Total(models.AbstractModel):
         xsd_type="TDec_1302",
         currency_field="brl_currency_id",
         help=(
-            "Valor total do documento fiscal \n(vTPrest + total do IBS + total"
-            " da CBS)"
+            "Valor total do documento fiscal \n(vTPrest + total do IBS + total da CBS)"
         ),
     )
 
