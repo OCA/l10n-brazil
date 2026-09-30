@@ -111,6 +111,6 @@ class PartnerProfile(models.Model):
 
     def action_view_partners(self):
         self.ensure_one()
-        action = self.env.ref("base.action_partner_other_form").read()[0]
+        action = self.env.ref("base.action_partner_form").read()[0]
         action["domain"] = [("fiscal_profile_id", "=", self.id)]
         return action
