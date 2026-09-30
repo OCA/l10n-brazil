@@ -6,7 +6,7 @@
     "author": "Engenere, Odoo Community Association (OCA)",
     "maintainers": ["antoniospneto"],
     "website": "https://github.com/OCA/l10n-brazil",
-    "version": "19.0.1.0.0",
+    "version": "20.0.1.0.0",
     "development_status": "Beta",
     "depends": [
         "account_reconcile_oca",
