@@ -1027,12 +1027,6 @@ class TunidCarga(models.AbstractModel):
     _inherit = "spec.mixin.cte"
     _binding_type = "TunidCarga"
 
-    cte40_infUnidCarga_infNFe_id = fields.Many2one(
-        comodel_name="cte.40.tctesimp_infnfe",
-        xsd_implicit=True,
-        ondelete="cascade",
-        index=True,
-    )
     cte40_infUnidCarga_infNF_id = fields.Many2one(
         comodel_name="cte.40.tcte_infnf",
         xsd_implicit=True,
@@ -3415,12 +3409,6 @@ class TunidadeTransp(models.AbstractModel):
     _inherit = "spec.mixin.cte"
     _binding_type = "TunidadeTransp"
 
-    cte40_infUnidTransp_infNFe_id = fields.Many2one(
-        comodel_name="cte.40.tctesimp_infnfe",
-        xsd_implicit=True,
-        ondelete="cascade",
-        index=True,
-    )
     cte40_infUnidTransp_infNF_id = fields.Many2one(
         comodel_name="cte.40.tcte_infnf",
         xsd_implicit=True,
