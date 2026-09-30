@@ -10,6 +10,7 @@ from erpbrasil.base.misc import punctuation_rm
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools import BinaryValue
 
 from ..constants.fiscal import (
     FISCAL_IN,
@@ -263,4 +264,7 @@ class DocumentImportWizard(models.TransientModel):
     @api.model
     def _parse_file_data(self, file_data):
         # NOTE: no try and a stacktrace does help for debug/support
+        if isinstance(file_data, BinaryValue):
+            # a Binary field is read as its raw content since 20.0
+            return XmlParser().from_bytes(file_data.content)
         return XmlParser().from_bytes(base64.b64decode(file_data))
