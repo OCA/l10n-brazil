@@ -1,2 +1,2 @@
 # generated from manifests external_dependencies
-erpbrasil-base
+erpbrasil-base>=2.4.2
