@@ -2,11 +2,10 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import logging
-from datetime import datetime, time
+from datetime import UTC, datetime, time
+from zoneinfo import ZoneInfo
 
-from pytz import UTC, timezone
-
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -67,6 +66,7 @@ class FiscalDocument(models.Model):
 
     company_id = fields.Many2one(
         related="proxy_company_id",
+        string="Company",
         store=True,
         precompute=True,
         readonly=False,
@@ -74,6 +74,7 @@ class FiscalDocument(models.Model):
     )
     partner_id = fields.Many2one(
         related="proxy_partner_id",
+        string="Partner",
         store=True,
         precompute=True,
         readonly=False,
@@ -142,6 +143,7 @@ class FiscalDocument(models.Model):
 
     user_id = fields.Many2one(
         related="proxy_user_id",
+        string="User",
         store=True,
         precompute=True,
         readonly=False,
@@ -154,10 +156,12 @@ class FiscalDocument(models.Model):
             if record.move_ids and record.issuer == DOCUMENT_ISSUER_PARTNER:
                 move_id = record.move_ids[0]
                 if move_id.invoice_date:
-                    user_tz = timezone(self.env.user.tz or "UTC")
+                    user_tz = ZoneInfo(self.env.user.tz or "UTC")
                     doc_date = datetime.combine(move_id.invoice_date, time.min)
                     record.document_date = (
-                        user_tz.localize(doc_date).astimezone(UTC).replace(tzinfo=None)
+                        doc_date.replace(tzinfo=user_tz)
+                        .astimezone(UTC)
+                        .replace(tzinfo=None)
                     )
 
     def _inverse_document_date(self):
@@ -173,10 +177,12 @@ class FiscalDocument(models.Model):
             if record.move_ids and record.issuer == DOCUMENT_ISSUER_PARTNER:
                 move_id = record.move_ids[0]
                 if move_id.date:
-                    user_tz = timezone(self.env.user.tz or "UTC")
+                    user_tz = ZoneInfo(self.env.user.tz or "UTC")
                     doc_date = datetime.combine(move_id.date, time.min)
                     record.date_in_out = (
-                        user_tz.localize(doc_date).astimezone(UTC).replace(tzinfo=None)
+                        doc_date.replace(tzinfo=user_tz)
+                        .astimezone(UTC)
+                        .replace(tzinfo=None)
                     )
 
     def _inverse_date_in_out(self):
@@ -205,18 +211,19 @@ class FiscalDocument(models.Model):
         for record in self:
             record.move_count = len(record.move_ids)
 
-    def unlink(self):
-        non_draft_documents = self.filtered(
-            lambda d: d.state_edoc != DOCUMENT_STATE_DRAFT
-        )
+    @api.ondelete(at_uninstall=False)
+    def _unlink_except_non_draft_document(self):
+        """A fiscal document which is not in draft state must not be deleted.
 
-        if non_draft_documents:
+        Odoo 20.0 forbids raising from ``unlink()`` itself (the check has to
+        survive module uninstall), so it is done in an ``ondelete`` hook.
+        """
+        if self.filtered(lambda d: d.state_edoc != DOCUMENT_STATE_DRAFT):
             raise UserError(
                 self.env._(
                     "You cannot delete a fiscal document which is not in draft state!"
                 )
             )
-        return super().unlink()
 
     @api.model
     def _sync_shadow_fields(self, vals):
@@ -368,21 +375,28 @@ class FiscalDocument(models.Model):
         self.ensure_one()
         errors = []
         for line in self.fiscal_line_ids:
-            label = line.name or line.product_id.display_name or _("Unknown")
+            label = line.name or line.product_id.display_name or self.env._("Unknown")
             if not line.product_id:
-                errors.append(_("- %s: no product matched.") % label)
+                errors.append(
+                    self.env._("- %(label)s: no product matched.", label=label)
+                )
             if not line.uom_id:
-                errors.append(_("- %s: no unit of measure.") % label)
+                errors.append(
+                    self.env._("- %(label)s: no unit of measure.", label=label)
+                )
             if not line.quantity:
-                errors.append(_("- %s: no quantity.") % label)
+                errors.append(self.env._("- %(label)s: no quantity.", label=label))
             if not line.price_unit and line.fiscal_amount_total:
                 # A zero unit price with a zero line total is a legitimate
                 # free line (bonificação / amostra grátis declared with
                 # vUnCom=0). Only flag the inconsistent case where amounts
                 # exist but the unit price was not resolved.
-                errors.append(_("- %s: no unit price.") % label)
+                errors.append(self.env._("- %(label)s: no unit price.", label=label))
         if errors:
             raise UserError(
-                _("The document cannot be imported due to incomplete lines:\n%s")
-                % "\n".join(errors)
+                self.env._(
+                    "The document cannot be imported due to incomplete lines:"
+                    "\n%(errors)s",
+                    errors="\n".join(errors),
+                )
             )

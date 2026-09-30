@@ -88,7 +88,7 @@ class DocumentImportWizard(models.TransientModel):
                     "name": self.env._("Imported Invoices"),
                     "type": "ir.actions.act_window",
                     "target": "current",
-                    "views": [[False, "tree"], [False, "form"]],
+                    "views": [[False, "list"], [False, "form"]],
                     "res_ids": moves.ids,
                     "res_model": "account.move",
                 }
@@ -101,7 +101,7 @@ class DocumentImportWizard(models.TransientModel):
         """
         wizard = self.env["l10n_br_fiscal.document.import.wizard"].create(
             {
-                "file": attachments[0].datas,
+                "file": attachments[0].raw,
                 "first_imported_move_id": self.first_imported_move_id or move_id,
             }
         )

@@ -44,6 +44,14 @@ class AccountMove(models.Model):
     # fiscal_document_ids contains all the line fiscal documents.
     _inherits = {_fiscal_decorator_model: "fiscal_document_id"}
 
+    # The fiscal document of an account.move is optional: moves of companies
+    # without Brazilian fiscal documents have no reference at all. Odoo 20.0
+    # applies the access domain of every _inherits parent as a restriction on
+    # the child (('fiscal_document_id', 'any', <parent domain>)), which would
+    # exclude every move without a fiscal document, so the parent access is
+    # disabled here (same idiom as hr.employee or mail.mail in core).
+    _check_inherits_access = False
+
     _order = "date DESC, name DESC"
 
     document_electronic = fields.Boolean(
@@ -53,7 +61,6 @@ class AccountMove(models.Model):
 
     fiscal_document_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document",
-        string="Fiscal Document",
         copy=False,
         ondelete="cascade",
         store=True,
@@ -362,7 +369,7 @@ class AccountMove(models.Model):
 
     def _compute_imported_terms(self):
         self.ensure_one()
-        pass  # meant to be overriden
+        # meant to be overriden
 
     @api.depends(
         "invoice_payment_term_id",
@@ -386,12 +393,16 @@ class AccountMove(models.Model):
 
         for invoice in invoices_with_fiscal_op:
             is_draft = invoice.id != invoice._origin.id
-            invoice.needed_terms = {}
+            # Odoo 20.0 stores needed_terms as a Json field holding a list of
+            # (key, values) pairs, so the terms are accumulated in a local dict
+            # and written once at the end (same as the core implementation).
+            needed_terms = {}
             invoice.needed_terms_dirty = True
             sign = 1 if invoice.is_inbound(include_receipts=True) else -1
             if invoice.is_invoice(True) and invoice.invoice_line_ids:
                 if invoice.imported_document:
                     invoice._compute_imported_terms()
+                    needed_terms = dict(invoice.needed_terms or [])
                 elif invoice.invoice_payment_term_id:
                     if is_draft:
                         tax_amount_currency = 0.0
@@ -450,16 +461,15 @@ class AccountMove(models.Model):
                             #     "discount_percentage"
                             # ),
                         }
-                        if key not in invoice.needed_terms:
-                            invoice.needed_terms[key] = values
+                        if key not in needed_terms:
+                            needed_terms[key] = values
                         else:
-                            invoice.needed_terms[key]["balance"] += values["balance"]
-                            invoice.needed_terms[key]["amount_currency"] += values[
+                            needed_terms[key]["balance"] += values["balance"]
+                            needed_terms[key]["amount_currency"] += values[
                                 "amount_currency"
                             ]
-                if not invoice.needed_terms:
-                    invoice.needed_terms = {}
-                    invoice.needed_terms[
+                if not needed_terms:
+                    needed_terms[
                         frozendict(
                             {
                                 "move_id": invoice.id,
@@ -474,6 +484,7 @@ class AccountMove(models.Model):
                         "balance": invoice.amount_total_signed,
                         "amount_currency": invoice.amount_total_in_currency_signed,
                     }
+            invoice.needed_terms = list(needed_terms.items())
         return res
 
     def _get_protected_vals(self, vals, records):
@@ -487,9 +498,7 @@ class AccountMove(models.Model):
                 records._name == "account.move"
                 and records.fiscal_document_id
                 and records.fiscal_document_id._fields.get(fname)
-            ):
-                continue
-            elif (
+            ) or (
                 records._name == "account.move.line"
                 and records.fiscal_document_line_id
                 and records.fiscal_document_line_id._fields.get(fname)

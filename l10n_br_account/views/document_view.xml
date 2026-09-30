@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!--
   Copyright 2020-TODAY Akretion (http://www.akretion.com/)
   @author: Renato Lima <renato.lima@akretion.com.br>
@@ -17,7 +17,7 @@
                     type="object"
                     help="Show related invoices"
                     invisible="move_count == 0"
-                    icon="fa-pencil-square-o"
+                    icon="edit_square"
                 >
                     <field name="move_count" widget="statinfo" string="Invoices" />
                 </button>

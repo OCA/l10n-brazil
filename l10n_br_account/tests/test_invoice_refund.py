@@ -16,21 +16,21 @@ class TestInvoiceRefund(AccountMoveBRCommon):
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
 
         cls.sale_account = cls.env["account.account"].create(
-            dict(
-                code="X1020",
-                name="Product Refund Sales - (test)",
-                account_type="income",
-            )
+            {
+                "code": "X1020",
+                "name": "Product Refund Sales - (test)",
+                "account_type": "income",
+            }
         )
 
         cls.refund_journal = cls.env["account.journal"].create(
-            dict(
-                name="Refund Journal - (test)",
-                code="TREJ",
-                type="sale",
-                refund_sequence=True,
-                default_account_id=cls.sale_account.id,
-            )
+            {
+                "name": "Refund Journal - (test)",
+                "code": "TREJ",
+                "type": "sale",
+                "refund_sequence": True,
+                "default_account_id": cls.sale_account.id,
+            }
         )
 
         cls.reverse_vals = {
@@ -46,17 +46,17 @@ class TestInvoiceRefund(AccountMoveBRCommon):
     def _create_test_invoice(cls, name, line_name):
         """Helper method to create a test invoice with standard configuration"""
         return cls.env["account.move"].create(
-            dict(
-                name=name,
-                move_type="out_invoice",
-                invoice_payment_term_id=cls.env.ref(
+            {
+                "name": name,
+                "move_type": "out_invoice",
+                "invoice_payment_term_id": cls.env.ref(
                     "account.account_payment_term_immediate"
                 ).id,
-                partner_id=cls.partner_a.id,
-                journal_id=cls.refund_journal.id,
-                document_type_id=cls.env.ref("l10n_br_fiscal.document_55").id,
-                document_serie_id=cls.empresa_lc_document_55_serie_1.id,
-                invoice_line_ids=[
+                "partner_id": cls.partner_a.id,
+                "journal_id": cls.refund_journal.id,
+                "document_type_id": cls.env.ref("l10n_br_fiscal.document_55").id,
+                "document_serie_id": cls.empresa_lc_document_55_serie_1.id,
+                "invoice_line_ids": [
                     (
                         0,
                         0,
@@ -82,7 +82,7 @@ class TestInvoiceRefund(AccountMoveBRCommon):
                         },
                     )
                 ],
-            )
+            }
         )
 
     def _create_fiscal_operation(self, name, code, has_journal=False):
@@ -124,18 +124,18 @@ class TestInvoiceRefund(AccountMoveBRCommon):
 
         # Create invoice with fiscal operations already set (Odoo 17 constraint)
         invoice = self.env["account.move"].create(
-            dict(
-                name="Test Refund Invoice With Op",
-                move_type="out_invoice",
-                invoice_payment_term_id=self.env.ref(
+            {
+                "name": "Test Refund Invoice With Op",
+                "move_type": "out_invoice",
+                "invoice_payment_term_id": self.env.ref(
                     "account.account_payment_term_immediate"
                 ).id,
-                partner_id=self.partner_a.id,
-                journal_id=self.refund_journal.id,
-                document_type_id=self.env.ref("l10n_br_fiscal.document_55").id,
-                document_serie_id=self.empresa_lc_document_55_serie_1.id,
-                fiscal_operation_id=self.env.ref("l10n_br_fiscal.fo_venda").id,
-                invoice_line_ids=[
+                "partner_id": self.partner_a.id,
+                "journal_id": self.refund_journal.id,
+                "document_type_id": self.env.ref("l10n_br_fiscal.document_55").id,
+                "document_serie_id": self.empresa_lc_document_55_serie_1.id,
+                "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_venda").id,
+                "invoice_line_ids": [
                     (
                         0,
                         0,
@@ -163,7 +163,7 @@ class TestInvoiceRefund(AccountMoveBRCommon):
                         },
                     )
                 ],
-            )
+            }
         )
 
         self.assertEqual(

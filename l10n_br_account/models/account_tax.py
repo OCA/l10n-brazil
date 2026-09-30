@@ -212,8 +212,9 @@ class AccountTax(models.Model):
             self._add_br_tax_details_in_base_line(base_line, company, rounding_method)
         else:
             # Use standard tax computation
-            super()._add_tax_details_in_base_line(base_line, company, rounding_method)
-        return None
+            return super()._add_tax_details_in_base_line(
+                base_line, company, rounding_method
+            )
 
     def _add_br_tax_details_in_base_line(
         self, base_line, company, rounding_method=None
@@ -236,7 +237,10 @@ class AccountTax(models.Model):
                     base_line, company, rounding_method
                 )
                 return
-        except Exception:
+        except Exception:  # noqa: BLE001
+            # Deliberately broad: any failure to probe the record's fiscal
+            # state (missing record, access error...) must fall back on the
+            # standard tax computation instead of breaking the tax totals.
             super()._add_tax_details_in_base_line(base_line, company, rounding_method)
             return
 
@@ -374,19 +378,3 @@ class AccountTax(models.Model):
         )
 
         return res
-
-    @api.model
-    def _distribute_delta_amount_smoothly(
-        self, precision_digits, delta_amount, target_factors
-    ):
-        """Guard against empty target_factors.
-
-        In Odoo 18, _distribute_delta_amount_smoothly can receive empty
-        target_factors when Brazilian fiscal taxes interact with
-        deductible_taxes, causing an IndexError.
-        """
-        if not target_factors:
-            return []
-        return super()._distribute_delta_amount_smoothly(
-            precision_digits, delta_amount, target_factors
-        )

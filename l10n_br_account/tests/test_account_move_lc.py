@@ -175,7 +175,10 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
 
     def test_venda(self):
         product_line_vals_1 = {
-            "name": self.product_a.display_name,
+            # Odoo 20.0 computes `name` from the product description
+            # (description_sale/description_purchase), the product name is
+            # shown through the new `label` field instead (asserted below).
+            "name": "",
             "product_id": self.product_a.id,
             "account_id": self.product_a.property_account_income_id.id,
             "partner_id": self.partner_a.id,
@@ -371,10 +374,18 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             ],
             move_vals,
         )
+        # Odoo 20.0 shows the product name through `label`:
+        self.assertEqual(
+            self.move_out_venda.invoice_line_ids[0].label,
+            self.product_a.display_name,
+        )
 
     def test_venda_with_icms_reduction(self):
         product_line_vals_1 = {
-            "name": self.product_a.display_name,
+            # Odoo 20.0 computes `name` from the product description
+            # (description_sale/description_purchase), the product name is
+            # shown through the new `label` field instead (asserted below).
+            "name": "",
             "product_id": self.product_a.id,
             "account_id": self.product_a.property_account_income_id.id,
             "partner_id": self.partner_a.id,
@@ -577,6 +588,11 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
                 term_line_vals_1,
             ],
             move_vals,
+        )
+        # Odoo 20.0 shows the product name through `label`:
+        self.assertEqual(
+            self.move_out_venda_with_icms_reduction.invoice_line_ids[0].label,
+            self.product_a.display_name,
         )
 
     def FIXME_test_venda_with_icms_reduction_with_relief(self):
@@ -809,7 +825,10 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
 
     def test_simples_remessa(self):
         product_line_vals_1 = {
-            "name": self.product_a.display_name,
+            # Odoo 20.0 computes `name` from the product description
+            # (description_sale/description_purchase), the product name is
+            # shown through the new `label` field instead (asserted below).
+            "name": "",
             "product_id": self.product_a.id,
             "account_id": self.product_a.property_account_income_id.id,
             "partner_id": self.partner_a.id,
@@ -1021,6 +1040,11 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
                 term_line_vals_1,
             ],
             move_vals,
+        )
+        # Odoo 20.0 shows the product name through `label`:
+        self.assertEqual(
+            self.move_out_simples_remessa.invoice_line_ids[0].label,
+            self.product_a.display_name,
         )
 
     def FIXME_test_compra_para_revenda(self):

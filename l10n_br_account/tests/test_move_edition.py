@@ -524,7 +524,7 @@ class TestMoveEdition(TransactionCase):
         aml = move.line_ids.filtered(lambda line: line.product_id)[0]
         fisc_line = move.fiscal_line_ids[0]
         self.assertEqual(aml.product_id, fisc_line.product_id)
-        self.assertEqual(aml.name, fisc_line.name)
+        self.assertEqual(aml.label, fisc_line.name)
         self.assertEqual(aml.quantity, fisc_line.quantity)
         self.assertEqual(aml.price_unit, fisc_line.price_unit)
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!--
   Copyright 2020-TODAY Akretion (http://www.akretion.com/)
   @author: Renato Lima <renato.lima@akretion.com.br>
@@ -37,7 +37,7 @@
                     title="Open Fiscal Document"
                     type="object"
                     class="oe_stat_button"
-                    icon="fa-pencil-square-o"
+                    icon="edit_square"
                     invisible="not document_type_id"
                 />
             </field>
@@ -49,7 +49,7 @@
         <field name="name">l10n_br_account.invoice.form</field>
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_move_form" />
-        <field name="priority">200</field>
+        <field name="priority" eval="200" />
         <field name="arch" type="xml">
             <div name="button_box" position="inside">
                 <button
@@ -57,7 +57,7 @@
                     title="Open Fiscal Document"
                     type="object"
                     class="oe_stat_button"
-                    icon="fa-pencil-square-o"
+                    icon="edit_square"
                 >
                     <span>Fiscal Details</span>
                 </button>
@@ -153,7 +153,7 @@
                 </attribute>
             </field>
             <xpath
-                expr="//field[@name='invoice_line_ids']/list/field[@name='product_id']"
+                expr="//field[@name='invoice_line_ids']/list//field[@name='product_id']"
                 position="attributes"
             >
                 <attribute name="optional">show</attribute>
@@ -360,13 +360,11 @@
                 <field name="company_currency_id" invisible="1" />
                 <field name="account_internal_group" invisible="1" />
                 <field name="ind_final" invisible="1" />
-                <field name="partner_company_type" force_save="1" invisible="1" />
                 <field name="document_type_id" invisible="1" />
                 <field name="amount_tax_withholding" invisible="1" />
                 <field name="amount_tax_included" invisible="1" />
                 <field name="amount_tax_not_included" invisible="1" />
                 <field name="fiscal_operation_type" invisible="1" />
-                <field name="partner_company_type" force_save="1" invisible="1" />
                 <field name="cfop_destination" force_save="1" invisible="1" />
                 <field name="price_subtotal" force_save="1" invisible="1" />
                 <field name="price_total" force_save="1" invisible="1" />

@@ -9,7 +9,6 @@ class AccountTaxGroup(models.Model):
 
     fiscal_tax_group_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.group",
-        string="Fiscal Tax Group",
     )
 
     def deductible_tax(self, type_tax_use="sale"):
