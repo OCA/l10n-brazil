@@ -5,15 +5,18 @@
 import logging
 from unittest.mock import patch
 
-from odoo_test_helper import FakeModelLoader
-
-from odoo.models import MetaModel, NewId
+from odoo.api import NewId
+from odoo.models import MetaModel
+from odoo.orm.model_classes import is_model_definition
 from odoo.tests import TransactionCase
+from odoo.tools.sql import table_exists
+
+from .fake_registry import FakePackage, FakeRegistryLoader
 
 _logger = logging.getLogger(__name__)
 
 
-class TestSpecModel(TransactionCase, FakeModelLoader):
+class TestSpecModel(TransactionCase):
     """
     A simple usage example using the reference PurchaseOrderSchema.xsd
     https://docs.microsoft.com/en-us/visualstudio/xml-tools/sample-xsd-file-purchase-order-schema?view=vs-2019
@@ -21,8 +24,9 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
 
     def setUp(self):
         super().setUp()
-        self.loader = FakeModelLoader(self.env, self.__module__)
+        self.loader = FakeRegistryLoader(self.env, "spec_driven_model")
         self.loader.backup_registry()
+        self.addCleanup(self.loader.restore_registry)
 
         # import a simpilified equivalent of purchase module
         # a downstream _inherit extension of the remaining model poxsd.10.comment
@@ -52,6 +56,10 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
             ResPartner,
         )
 
+        # two loads, as in a real install: the spec module (e.g. l10n_br_nfe_spec)
+        # loads and sets up the generated mixins, and only then the module with
+        # the Odoo models (e.g. l10n_br_nfe) injects them, the document before
+        # its lines, so _inject_spec_mixin runs on a mixin already set up
         self.loader.update_registry(
             (
                 PoXsdMixin,
@@ -61,33 +69,17 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
                 Comment,
                 CommentExtension,
                 PurchaseOrderType,
-                ResPartner,
+            )
+        )
+        self.loader.update_registry(
+            (
                 FakePurchaseOrder,
                 FakePurchaseOrderLine,
+                ResPartner,
                 SpecPurchaseOrder,
                 SpecPurchaseOrderLine,
             )
         )
-
-        # import generated spec mixins
-        from .fake_mixin import PoXsdMixin
-        from .spec_poxsd import Item, Items, PurchaseOrderType, Usaddress
-
-        self.loader.update_registry(
-            (PoXsdMixin, Item, Items, Usaddress, PurchaseOrderType)
-        )
-
-        # inject the mixins into existing Odoo models
-        from .spec_purchase import (
-            PurchaseOrder as PurchaseOrder2,
-        )
-        from .spec_purchase import (
-            PurchaseOrderLine,
-            ResPartner,
-        )
-
-        self.loader.update_registry((ResPartner, PurchaseOrderLine, PurchaseOrder2))
-        self.addCleanup(self.loader.restore_registry)
         # the binding lib should be loaded in sys.modules:
         from . import purchase_order_lib  # NOQA
 
@@ -141,13 +133,24 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         )
 
     def test_create_export_import(self):
+        # a partner of our own (no demo data), with a name no demo partner has,
+        # so that the import below can only match this one
+        partner = self.env["res.partner"].create(
+            {
+                "name": "Wood Corner Spec",
+                "street": "1839 Arbor Way",
+                "city": "Turlock",
+                "state_id": self.env.ref("base.state_us_5").id,
+                "country_id": self.env.ref("base.us").id,
+            }
+        )
         # 1st we create an Odoo PO:
         po = self.env["fake.purchase.order"].create(
             {
                 "name": "PO XSD",
                 "date_order": "2024-10-08",
-                "partner_id": self.env.ref("base.res_partner_1").id,
-                "dest_address_id": self.env.ref("base.res_partner_1").id,
+                "partner_id": partner.id,
+                "dest_address_id": partner.id,
             }
         )
         self.env["fake.purchase.order.line"].create(
@@ -166,7 +169,7 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
             [s.__name__ for s in type(po_binding).mro()],
             ["PurchaseOrderType", "object"],
         )
-        self.assertEqual(po_binding.bill_to.name, "Wood Corner")
+        self.assertEqual(po_binding.bill_to.name, "Wood Corner Spec")
         self.assertEqual(po_binding.items.item[0].product_name, "Some product desc")
         self.assertEqual(po_binding.items.item[0].quantity, 42)
         self.assertEqual(po_binding.items.item[0].usprice, "13")  # FIXME
@@ -181,14 +184,14 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
             expected_xml = """<?xml version="1.0" encoding="UTF-8"?>
 <PurchaseOrderType orderDate="2024-10-08">
   <ns0:shipTo xmlns:ns0="http://tempuri.org/PurchaseOrderSchema.xsd" country="US">
-    <ns0:name>Wood Corner</ns0:name>
+    <ns0:name>Wood Corner Spec</ns0:name>
     <ns0:street>1839 Arbor Way</ns0:street>
     <ns0:city>Turlock</ns0:city>
     <ns0:state>California</ns0:state>
     <ns0:zip>0</ns0:zip>
   </ns0:shipTo>
   <ns0:billTo xmlns:ns0="http://tempuri.org/PurchaseOrderSchema.xsd" country="US">
-    <ns0:name>Wood Corner</ns0:name>
+    <ns0:name>Wood Corner Spec</ns0:name>
     <ns0:street>1839 Arbor Way</ns0:street>
     <ns0:city>Turlock</ns0:city>
     <ns0:state>California</ns0:state>
@@ -219,21 +222,29 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         imported_po = self.env["fake.purchase.order"].build_from_binding(
             "poxsd", "10", po_binding
         )
-        self.assertEqual(imported_po.partner_id.name, "Wood Corner")
-        self.assertEqual(
-            imported_po.partner_id.id, self.env.ref("base.res_partner_1").id
-        )
+        self.assertEqual(imported_po.partner_id.name, "Wood Corner Spec")
+        self.assertEqual(imported_po.partner_id.id, partner.id)
         self.assertEqual(imported_po.order_line[0].name, "Some product desc")
 
     def _export_po_line_name(self, line_name):
         """Export a purchase order with a single line named line_name and
         return the productName of its binding."""
+        # a partner of our own: the 19.0 CI installs without demo data
+        partner = self.env["res.partner"].create(
+            {
+                "name": "Wood Corner Spec",
+                "street": "1839 Arbor Way",
+                "city": "Turlock",
+                "state_id": self.env.ref("base.state_us_5").id,
+                "country_id": self.env.ref("base.us").id,
+            }
+        )
         po = self.env["fake.purchase.order"].create(
             {
                 "name": "PO XSD",
                 "date_order": "2024-10-08",
-                "partner_id": self.env.ref("base.res_partner_1").id,
-                "dest_address_id": self.env.ref("base.res_partner_1").id,
+                "partner_id": partner.id,
+                "dest_address_id": partner.id,
             }
         )
         self.env["fake.purchase.order.line"].create(
@@ -319,23 +330,21 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         """
         from unittest import mock
 
-        from odoo.models import MetaModel, is_definition_class
         from odoo.modules.registry import Registry
 
-        from odoo.addons.spec_driven_model.models.spec_models import SpecModel
-
+        from ..models.spec_models import SpecModel
         from .fake_mixin import PoXsdMixin
         from .spec_poxsd import Comment
 
         registry = self.env.registry
         cr = self.env.cr
-        module_to_models = MetaModel.module_to_models
+        module_to_models = MetaModel._module_to_models__
 
         def concrete_classes_left():
             return [
                 cls
                 for cls in module_to_models["spec_driven_model"]
-                if is_definition_class(cls)
+                if is_model_definition(cls)
                 and issubclass(cls, SpecModel)
                 and cls._name == "poxsd.10.comment"
             ]
@@ -355,7 +364,7 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
             registry.ready = True
             with mock.patch.object(Registry, "init_models", failing_init_models):
                 with self.assertRaises(AttributeError):
-                    registry.setup_models(cr)
+                    registry._setup_models__(cr)
 
             self.assertEqual(
                 concrete_classes_left(),
@@ -385,19 +394,14 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         """
         from unittest import mock
 
-        from odoo_test_helper.fake_model_loader import FakePackage
-
-        from odoo.models import MetaModel, is_definition_class
-
-        from odoo.addons.spec_driven_model.models.spec_models import SpecModel
-
+        from ..models.spec_models import SpecModel
         from .fake_comment_extension import CommentExtension
         from .fake_mixin import PoXsdMixin
         from .spec_poxsd import Comment
 
         registry = self.env.registry
         cr = self.env.cr
-        module_to_models = MetaModel.module_to_models
+        module_to_models = MetaModel._module_to_models__
 
         def concrete_classes_left():
             # the concrete class the hook builds for poxsd.10.comment is a
@@ -406,7 +410,7 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
             return [
                 cls
                 for cls in module_to_models["spec_driven_model"]
-                if is_definition_class(cls)
+                if is_model_definition(cls)
                 and issubclass(cls, SpecModel)
                 and cls._name == "poxsd.10.comment"
             ]
@@ -428,7 +432,7 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
             clear_hook_guard()
             self.loader.update_registry((PoXsdMixin, Comment, CommentExtension))
             registry.ready = True
-            registry.setup_models(cr)
+            registry._setup_models__(cr)
 
             self.assertEqual(
                 concrete_classes_left(),
@@ -445,8 +449,8 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
             # raise "Cannot create a consistent method resolution order".
             clear_hook_guard()
             with mock.patch.object(cr, "commit"):
-                registry.load(cr, FakePackage("spec_driven_model"))
-                registry.setup_models(cr)
+                registry.load(FakePackage("spec_driven_model"))
+                registry._setup_models__(cr)
         finally:
             module_to_models["spec_driven_model"] = saved_module_classes
             registry.ready = ready
@@ -477,6 +481,58 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         # here we clear it to run the hook again inside a single test process
         self.env.registry.__dict__.pop("_poxsd_register_hook_loaded", None)
 
+    def test_hook_reflects_again_when_the_tables_are_gone(self):
+        """A reflection done inside a transaction rolled back afterwards (an
+        at_install test importing a document, before Odoo calls _register_hook
+        once all the modules are loaded) leaves the hook guard on the registry
+        and no table. The next call must create the tables again, without
+        building the classes a second time (#4668)."""
+        registry = self.env.registry
+        cr = self.env.cr
+        mixin = self.env["spec.mixin.poxsd"]
+        registry.__dict__.pop("_poxsd_register_hook_loaded", None)
+        try:
+            mixin._register_hook()
+            self.assertTrue(table_exists(cr, "poxsd_10_comment"))
+
+            # what the rollback of that transaction leaves behind
+            cr.execute("DROP TABLE poxsd_10_comment CASCADE")
+            mixin._register_hook()
+            self.assertTrue(table_exists(cr, "poxsd_10_comment"))
+        finally:
+            registry.__dict__.pop("_poxsd_register_hook_loaded", None)
+
+    def test_check_tables_exist_recreates_the_remaining_tables(self):
+        """After that rollback, init_models() of the next module runs
+        Registry.check_tables_exist() before the hook runs again. SpecModel.init()
+        must recreate the remaining tables with their foreign keys (no "has no
+        table" error) and have the hook reflect the models again."""
+        registry = self.env.registry
+        cr = self.env.cr
+        mixin = self.env["spec.mixin.poxsd"]
+        fk_query = """SELECT conname FROM pg_constraint
+                      WHERE contype = 'f' AND conrelid = 'poxsd_10_comment'::regclass"""
+        registry.__dict__.pop("_poxsd_register_hook_loaded", None)
+        try:
+            mixin._register_hook()
+            cr.execute(fk_query)
+            foreign_keys = {row[0] for row in cr.fetchall()}
+
+            # what the rollback of that transaction leaves behind
+            cr.execute("DROP TABLE poxsd_10_comment CASCADE")
+            with self.assertNoLogs("odoo.registry", "ERROR"):
+                registry.init_models(cr, ["res.country"], {})
+            self.assertTrue(table_exists(cr, "poxsd_10_comment"))
+            cr.execute(fk_query)
+            self.assertEqual({row[0] for row in cr.fetchall()}, foreign_keys)
+            loaded = registry._poxsd_register_hook_loaded
+            self.assertTrue(loaded["reflect_again"])
+
+            mixin._register_hook()
+            self.assertFalse(loaded["reflect_again"])
+        finally:
+            registry.__dict__.pop("_poxsd_register_hook_loaded", None)
+
     def test_hook_read_only_on_ordinary_registry_load(self):
         """hook v2: an ordinary registry load performs zero reflection writes.
 
@@ -504,8 +560,6 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         """
         from unittest import mock
 
-        from odoo_test_helper.fake_model_loader import FakePackage
-
         from .fake_comment_extension import CommentExtension
         from .fake_mixin import PoXsdMixin
         from .spec_poxsd import Comment
@@ -526,7 +580,7 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
 
         ready = registry.ready
         saved_updated_modules = registry.updated_modules
-        saved_module_classes = list(MetaModel.module_to_models["spec_driven_model"])
+        saved_module_classes = list(MetaModel._module_to_models__["spec_driven_model"])
         try:
             # rebuild #1 -- install/update in progress: the hook must reflect the
             # remaining model, whatever how the test db was built
@@ -537,7 +591,7 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
             with mock.patch.object(
                 registry, "init_models", side_effect=spy_init_models
             ):
-                registry.setup_models(cr)
+                registry._setup_models__(cr)
             self.assertTrue(
                 reflected,
                 "sanity: on an install/update the hook must reflect the "
@@ -553,8 +607,8 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
                 mock.patch.object(registry, "init_models", side_effect=spy_init_models),
                 mock.patch.object(cr, "commit"),
             ):
-                registry.load(cr, FakePackage("spec_driven_model"))
-                registry.setup_models(cr)
+                registry.load(FakePackage("spec_driven_model"))
+                registry._setup_models__(cr)
             self.assertEqual(
                 reflected,
                 [],
@@ -564,7 +618,7 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
                 "ir_model_data writes on a dbfilter instance",
             )
         finally:
-            MetaModel.module_to_models["spec_driven_model"] = saved_module_classes
+            MetaModel._module_to_models__["spec_driven_model"] = saved_module_classes
             registry.updated_modules = saved_updated_modules
             registry.ready = ready
             self._clear_poxsd_hook_guard()

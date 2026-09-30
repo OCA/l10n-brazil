@@ -168,8 +168,8 @@ class SpecMixinImport(models.AbstractModel):
 
         def _comodel_from_model_suffix(model_suffix):
             comodel_name = "{}.{}.{}".format(
-                self._context["spec_schema"],
-                self._context["spec_version"].replace(".", "")[0:2],
+                self.env.context["spec_schema"],
+                self.env.context["spec_version"].replace(".", "")[0:2],
                 model_suffix,
             )
             return self._get_concrete_model(comodel_name)
@@ -311,7 +311,7 @@ class SpecMixinImport(models.AbstractModel):
         if model is None:
             model = self
         default_key = [model._rec_name or "name"]
-        search_keys = f"_{self._context['spec_schema']}_search_keys"
+        search_keys = f"_{self.env.context['spec_schema']}_search_keys"
         if hasattr(model, search_keys):
             keys = getattr(model, search_keys) + default_key
         else:
@@ -361,7 +361,7 @@ class SpecMixinImport(models.AbstractModel):
             vals = self._prepare_import_dict(
                 rec_dict, model=model, parent_dict=parent_dict, defaults_model=model
             )
-            if self._context.get("dry_run"):
+            if self.env.context.get("dry_run"):
                 rec = model.new(vals)
                 rec_id = rec.id
                 # at this point for NewId records, some fields

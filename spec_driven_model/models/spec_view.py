@@ -25,8 +25,8 @@ class SpecViewMixin(models.AbstractModel):
         res = super(SpecViewMixin, self.with_context(no_subcall=True)).fields_view_get(
             view_id, view_type, toolbar
         )
-        # _logger.info("+++++++++++++++", self, type(self), self._context)
-        if self._context.get("no_subcall"):
+        # _logger.info("+++++++++++++++", self, type(self), self.env.context)
+        if self.env.context.get("no_subcall"):
             return res
         # TODO collect class ancestors of StackedModel kind and
         # extract the different XSD schemas injected. Then add a tab/page
@@ -118,7 +118,10 @@ class SpecViewMixin(models.AbstractModel):
                     continue
                 # the following filter to fields to show
                 # when several XSD class are injected in the same object
-                if self._context.get("spec_class") and c != self._context["spec_class"]:
+                if (
+                    self.env.context.get("spec_class")
+                    and c != self.env.context["spec_class"]
+                ):
                     continue
                 lib_model = self.env[c]
                 short_desc = lib_model._description.splitlines()[0]
