@@ -1992,6 +1992,15 @@ msgid "Cost Price"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/wizards/document_import_wizard.py:0
+msgid ""
+"Could not read this file as the XML of an electronic fiscal document. Make sure you uploaded the XML itself, not its printed representation (PDF).\n"
+"\n"
+"%(error)s"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.ui.menu,name:l10n_br_fiscal.country_menu
 msgid "Country"
 msgstr ""
