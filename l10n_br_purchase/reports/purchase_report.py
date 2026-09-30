@@ -13,13 +13,11 @@ class PurchaseReport(models.Model):
 
     fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
-        string="Fiscal Operation",
         readonly=True,
     )
 
     fiscal_operation_line_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation.line",
-        string="Fiscal Operation Line",
         readonly=True,
     )
 
@@ -85,39 +83,52 @@ class PurchaseReport(models.Model):
         digits="Account",
     )
 
-    def _select(self):
-        return SQL(
-            "%s, l.fiscal_operation_id as fiscal_operation_id, "
-            "l.fiscal_operation_line_id as fiscal_operation_line_id, "
-            "l.cfop_id, l.fiscal_type, l.ncm_id, l.nbm_id, l.cest_id, "
-            "SUM(l.icms_value) as icms_value, "
-            "SUM(l.icmsst_value) as icmsst_value, "
-            "SUM(l.ipi_value) as ipi_value, "
-            "SUM(l.pis_value) as pis_value, "
-            "SUM(l.cofins_value) as cofins_value, "
-            "SUM(l.ii_value) as ii_value, "
-            "SUM(l.freight_value) as freight_value, "
-            "SUM(l.insurance_value) as insurance_value, "
-            "SUM(l.other_value) as other_value, "
-            "SUM(l.price_unit / COALESCE(NULLIF(po.currency_rate, 0), 1.0) "
-            "* l.product_qty)::decimal(16,2) "
-            "+ SUM(CASE WHEN l.ipi_value IS NULL THEN "
-            "0.00 ELSE l.ipi_value END) "
-            "+ SUM(CASE WHEN l.icmsst_value IS NULL THEN "
-            "0.00 ELSE l.icmsst_value END) "
-            "+ SUM(CASE WHEN l.freight_value IS NULL THEN "
-            "0.00 ELSE l.freight_value END) "
-            "+ SUM(CASE WHEN l.insurance_value IS NULL THEN "
-            "0.00 ELSE l.insurance_value END) "
-            "+ SUM(CASE WHEN l.other_value IS NULL THEN "
-            "0.00 ELSE l.other_value END) "
-            "as total_with_taxes",
-            super()._select(),
+    def _select_list(self, table):
+        values = (
+            "ipi_value",
+            "icmsst_value",
+            "freight_value",
+            "insurance_value",
+            "other_value",
         )
+        return [
+            *super()._select_list(table),
+            table.fiscal_operation_id,
+            table.fiscal_operation_line_id,
+            table.cfop_id,
+            table.fiscal_type,
+            table.ncm_id,
+            table.nbm_id,
+            table.cest_id,
+            SQL("SUM(%s) AS icms_value", table.icms_value),
+            SQL("SUM(%s) AS icmsst_value", table.icmsst_value),
+            SQL("SUM(%s) AS ipi_value", table.ipi_value),
+            SQL("SUM(%s) AS pis_value", table.pis_value),
+            SQL("SUM(%s) AS cofins_value", table.cofins_value),
+            SQL("SUM(%s) AS ii_value", table.ii_value),
+            SQL("SUM(%s) AS freight_value", table.freight_value),
+            SQL("SUM(%s) AS insurance_value", table.insurance_value),
+            SQL("SUM(%s) AS other_value", table.other_value),
+            SQL(
+                "SUM(%s / COALESCE(NULLIF(%s, 0), 1.0) * %s)::decimal(16,2) + %s"
+                " AS total_with_taxes",
+                table.price_unit,
+                table.order_id.currency_rate,
+                table.product_qty,
+                SQL(" + ").join(
+                    SQL("SUM(COALESCE(%s, 0.0))", table[value]) for value in values
+                ),
+            ),
+        ]
 
-    def _group_by(self):
-        return SQL(
-            "%s, l.fiscal_operation_id, l.fiscal_operation_line_id, "
-            "l.cfop_id, l.fiscal_type, l.ncm_id, l.nbm_id, l.cest_id",
-            super()._group_by(),
-        )
+    def _groupby_list(self, table):
+        return [
+            *super()._groupby_list(table),
+            table.fiscal_operation_id,
+            table.fiscal_operation_line_id,
+            table.cfop_id,
+            table.fiscal_type,
+            table.ncm_id,
+            table.nbm_id,
+            table.cest_id,
+        ]

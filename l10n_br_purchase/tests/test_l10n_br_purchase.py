@@ -522,7 +522,11 @@ class L10nBrPurchaseBaseTest(TransactionCase):
 
     def test_purchase_report(self):
         """Test Purchase Report"""
-        self.env["purchase.report"]._read_group(
+        # one company at a time: with active companies in several currencies
+        # the 20.0 core report fails (consolidation_rate out of its GROUP BY)
+        self.env["purchase.report"].with_context(
+            allowed_company_ids=self.env.company.ids
+        )._read_group(
             [("product_id", "=", self.env.ref("product.product_product_12").id)],
             ["product_id"],
             ["qty_ordered:sum", "price_average:avg"],
@@ -544,7 +548,7 @@ class L10nBrPurchaseBaseTest(TransactionCase):
         purchase_form.save()
 
     def test_get_view(self):
-        arch, models = self.po_products._get_view()
+        arch, _models = self.po_products._get_view()
         self.assertTrue(
             arch.findall(".//field[@name='fiscal_operation_id']"),
             "Error to included Operation Line from Purchase Order Line.",

@@ -84,7 +84,7 @@
                     <!-- this is a dynamic fiscal fields placeholder-->
                     <field name="fiscal_operation_type" invisible="1" readonly="1" />
                     <field name="tax_icms_or_issqn" invisible="1" />
-                    <field name="product_uom_id" invisible="1" />
+                    <field name="uom_id" invisible="1" />
                 </group>
             </xpath>
             <xpath
@@ -97,10 +97,10 @@
                 <attribute name="required">not display_type</attribute>
                 <attribute
                     name="context"
-                >{ 'partner_id':parent.partner_id, 'quantity':product_qty, 'uom':product_uom_id, 'company_id': parent.company_id }</attribute>
+                >{ 'partner_id':parent.partner_id, 'quantity':product_qty, 'uom':uom_id, 'company_id': parent.company_id }</attribute>
             </xpath>
             <xpath
-                expr="//field[@name='order_line']/form//field[@name='product_uom_id']"
+                expr="//field[@name='order_line']/form//field[@name='uom_id']"
                 position="attributes"
             >
                 <attribute
@@ -220,6 +220,9 @@
                     widget="monetary"
                     options="{'currency_field': 'currency_id'}"
                 />
+            </xpath>
+            <xpath expr="//field[@name='tax_totals']" position="attributes">
+                <attribute name="colspan">2</attribute>
             </xpath>
             <xpath expr="//field[@name='tax_totals']" position="before">
                 <field

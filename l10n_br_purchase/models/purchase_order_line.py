@@ -7,7 +7,7 @@ from odoo import api, fields, models
 
 class PurchaseOrderLine(models.Model):
     _name = "purchase.order.line"
-    _inherit = [_name, "l10n_br_fiscal.document.line.mixin"]
+    _inherit = (_name, "l10n_br_fiscal.document.line.mixin")
 
     @api.model
     def _default_fiscal_operation(self):
@@ -36,14 +36,13 @@ class PurchaseOrderLine(models.Model):
         "('state', '=', 'approved')]",
     )
 
+    # the purchase line currency is the order one (related in purchase): drop
+    # the company currency compute of the fiscal mixin
+    currency_id = fields.Many2one(compute=None)
+
     quantity = fields.Float(
         string="Mixin Quantity",
         related="product_qty",
-    )
-
-    uom_id = fields.Many2one(
-        string="Mixin UOM",
-        related="product_uom_id",
     )
 
     tax_framework = fields.Selection(

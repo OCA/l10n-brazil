@@ -7,7 +7,7 @@ from odoo import api, fields, models
 
 class PurchaseOrder(models.Model):
     _name = "purchase.order"
-    _inherit = [_name, "l10n_br_fiscal.document.mixin"]
+    _inherit = (_name, "l10n_br_fiscal.document.mixin")
 
     @api.model
     def _default_fiscal_operation(self):
@@ -23,7 +23,6 @@ class PurchaseOrder(models.Model):
 
     active_company_country_id = fields.Many2one(
         comodel_name="res.country",
-        string="Active Company Country",
         default=lambda self: self.env.company.country_id,
     )
 
