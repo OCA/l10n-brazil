@@ -13,7 +13,7 @@ class TestTaxClassification(TransactionCase):
         cls.company = cls.env["res.company"].create(
             {
                 "name": "Test Company Tax Classification",
-                "vat": "97.231.608/0001-69",
+                "vat": "11.222.333/0001-81",
                 "l10n_br_ie_code": "454.504.604.553",
                 "state_id": cls.env.ref("base.state_br_sp").id,
                 "city_id": cls.env.ref("l10n_br_base.city_3550308").id,
