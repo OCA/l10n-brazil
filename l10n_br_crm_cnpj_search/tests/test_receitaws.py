@@ -83,5 +83,5 @@ class TestCRMReceitaws(TestCnpjCommon):
             cnae.code for cnae in self.crm_lead_1.cnae_secondary_ids
         ]
         cnae_secondary_codes = sorted(cnae_secondary_codes)
-        for i in range(0, len(cnae_secondary_codes)):
+        for i in range(len(cnae_secondary_codes)):
             self.assertEqual(cnaes[i], cnae_secondary_codes[i])
