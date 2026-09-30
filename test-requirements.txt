@@ -1,0 +1,1 @@
+odoo-addon-account_due_list @ git+https://github.com/OCA/account-payment@refs/pull/981/head#subdirectory=account_due_list
