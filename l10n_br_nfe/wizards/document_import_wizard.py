@@ -251,6 +251,7 @@ class DocumentImportWizard(models.TransientModel):
         pICMS = 0
         pIPI = 0
         vIPI = 0
+        icms_choice = None
         icms_tags = [tag for tag in dir(product.imposto.ICMS) if tag.startswith("ICMS")]
         for tag in icms_tags:
             if getattr(product.imposto.ICMS, tag) is not None:
