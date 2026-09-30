@@ -38,6 +38,17 @@ msgid "%(name)s Tax Estimate Updated"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__icms_relief_type__0
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line_mixin__icms_relief_type__0
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__purchase_blanket_order_line__icms_relief_type__0
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__purchase_order_line__icms_relief_type__0
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__sale_blanket_order_line__icms_relief_type__0
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__sale_order_line__icms_relief_type__0
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__stock_move__icms_relief_type__0
+msgid "0 - Do not deduct the ICMS Relief"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__icms_origin__0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line_mixin__icms_origin__0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation_line__icms_origin__0
@@ -123,6 +134,17 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_partner_profile__ind_ie_dest__1
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_partner__ind_ie_dest__1
 msgid "1 - Contribuinte do ICMS"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__icms_relief_type__1
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line_mixin__icms_relief_type__1
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__purchase_blanket_order_line__icms_relief_type__1
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__purchase_order_line__icms_relief_type__1
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__sale_blanket_order_line__icms_relief_type__1
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__sale_order_line__icms_relief_type__1
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__stock_move__icms_relief_type__1
+msgid "1 - Deduct ICMS Relief from Product Amount"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -4360,6 +4382,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icms_relief_id
 #: model:ir.ui.menu,name:l10n_br_fiscal.tax_icms_relief_menu
 msgid "ICMS Relief"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icms_relief_type
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icms_relief_type
+msgid "ICMS Relief Deduction"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -9341,6 +9369,15 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_company__processador_edoc__oca
 msgid "erpbrasil.edoc"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icms_relief_type
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icms_relief_type
+msgid ""
+"indDeduzDeson (NT 2023.004): indicates whether the ICMS relief value "
+"(vICMSDeson) is deducted from the item value (vProd) and from the document "
+"total (vNF)."
 msgstr ""
 
 #. module: l10n_br_fiscal
