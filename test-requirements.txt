@@ -1,0 +1,2 @@
+odoo-addon-hr_employee_relative @ git+https://github.com/OCA/hr@refs/pull/1627/head#subdirectory=hr_employee_relative
+odoo-addon-l10n_br_base @ git+https://github.com/OCA/l10n-brazil@refs/pull/5246/head#subdirectory=l10n_br_base
