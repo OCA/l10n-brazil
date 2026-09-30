@@ -1,6 +1,5 @@
 # Copyright 2020 Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
-# flake8: noqa: C901
 
 import dataclasses
 import re
@@ -52,13 +51,13 @@ def build_attrs_fake(self, node, create_m2o=False):
             is_complex = dataclasses.is_dataclass(value)
         if not is_complex:
             # SimpleType
-            if fields[key]["type"] == "datetime":
-                if "T" in value:
-                    if tz_datetime.match(value):
-                        old_value = value
-                        value = old_value[:19]
-                        # TODO see python3/pysped/xml_sped/base.py#L692
-                    value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S")
+            if fields[key]["type"] == "datetime" and "T" in value:
+                if tz_datetime.match(value):
+                    old_value = value
+                    value = old_value[:19]
+                    # TODO see python3/pysped/xml_sped/base.py#L692
+                # Odoo Datetime fields take naive values
+                value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S")  # noqa: DTZ007
             vals[key] = value
 
         else:
@@ -120,11 +119,15 @@ spec_mixin.MdfeSpecMixin.match_or_create_m2o_fake = match_or_create_m2o_fake
 
 
 class NFeImportTest(TransactionCase):
-    # the generated spec models are abstract: the test builds them as new
-    # (in memory) records, which does not require concrete models
     def setUp(self):
         super().setUp()
         self.env = self.env(context=dict(self.env.context, tracking_disable=True))
+        # the generated spec models are abstract and Odoo refuses to instantiate
+        # abstract models, even as new (in memory) records: let the models of
+        # this schema build new records during the test
+        for name, model_cls in self.env.registry.items():
+            if name.startswith("mdfe.30.") and model_cls._abstract:
+                self.patch(model_cls, "_abstract", False)
 
     def test_import_mdfe1(self):
         file = (
