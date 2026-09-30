@@ -121,6 +121,12 @@ class Partner(models.Model):
                     ("parent_id", "not in", record.parent_id.ids),
                 ]
 
+            # Skip an empty normalized document (e.g. `vat = "/"`, which
+            # `base` documents as "not subject to tax" and which normalizes
+            # to an empty string): the clause below would otherwise match
+            # every other partner with an empty document.
+            if not record.cnpj_cpf_stripped:
+                continue
             domain += [
                 ("vat", "=", record.vat),
                 ("id", "!=", record.id),
