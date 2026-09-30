@@ -9,7 +9,6 @@ from ..constants.nfse_nacional import NFSE_NACIONAL_CANCEL_MOTIVES
 class DocumentCancelWizard(models.TransientModel):
     _inherit = "l10n_br_fiscal.document.cancel.wizard"
 
-    document_type_code = fields.Char(related="document_id.document_type_id.code")
     nfse_nacional_motive = fields.Selection(
         selection=NFSE_NACIONAL_CANCEL_MOTIVES,
         string="Cancellation Reason Code",
