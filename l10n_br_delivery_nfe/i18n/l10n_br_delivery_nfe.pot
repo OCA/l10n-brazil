@@ -165,6 +165,12 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_delivery_nfe
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_lacres__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__brl_currency_id
+msgid "Moeda"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_l10n_br_delivery_nfe_invoice_onshipping
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_picking_withcarrier_out_form_inherit
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_generate_volumes
