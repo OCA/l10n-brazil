@@ -293,6 +293,32 @@ class ValidCreateIdTest(TransactionCase):
             "A foreign partner with a VAT must keep the core behaviour",
         )
 
+    def test_create_company_in_brazil(self):
+        """A contact created with a parent_name creates its parent company.
+
+        The core copies the VAT of the contact to the new company
+        (_create_parent_from_name), so the duplicated CNPJ check must not
+        block it, and the Brazilian fiscal data must follow.
+        """
+        partner_data = self.partner_valid.copy()
+        partner_data.update(
+            {
+                "parent_name": "Company Partner",
+                "vat": "93.429.799/0001-17",
+            }
+        )
+        partner = (
+            self.env["res.partner"]
+            .with_context(tracking_disable=True)
+            .create(partner_data)
+        )
+        company = partner.parent_id
+        self.assertTrue(company, "The company was not created")
+        self.assertEqual(company.legal_name, company.name)
+        self.assertEqual(company.vat, "93429799000117")
+        self.assertEqual(company.l10n_br_ie_code, partner.l10n_br_ie_code)
+        self.assertEqual(company.l10n_br_im_code, partner.l10n_br_im_code)
+
 
 # No test on Inscricao Estadual for partners with CPF
 # because they haven't Inscricao Estadual

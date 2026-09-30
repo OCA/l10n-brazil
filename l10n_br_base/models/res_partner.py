@@ -239,6 +239,19 @@ class Partner(models.Model):
     def _onchange_city_id(self):
         self.city = self.city_id.name
 
+    def _create_parent_from_name(self, parent_name, additional_values=None):
+        """The core copies the contact VAT to the new parent company: allow
+        the duplicated CNPJ and copy the Brazilian fiscal data too."""
+        if not self.is_br_partner:
+            return super()._create_parent_from_name(parent_name, additional_values)
+        parent = super(
+            Partner, self.with_context(allow_vat_duplicate=True)
+        )._create_parent_from_name(parent_name, additional_values)
+        parent.legal_name = parent.name
+        parent.l10n_br_ie_code = self.l10n_br_ie_code
+        parent.l10n_br_im_code = self.l10n_br_im_code
+        return parent
+
     @api.depends("has_vat", "vat", "commercial_partner_id")
     def _compute_is_company(self):
         """Refine the core heuristic for Brazil.
