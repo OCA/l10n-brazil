@@ -64,7 +64,6 @@ class PartyMixin(models.AbstractModel):
 
     legal_nature_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.legal.nature",
-        string="Legal Nature",
     )
 
     br_currency_id = fields.Many2one(
@@ -109,6 +108,6 @@ class PartyMixin(models.AbstractModel):
         cnpj_validation_disabled = (
             self.env["ir.config_parameter"]
             .sudo()
-            .get_param("l10n_br_base.disable_cpf_cnpj_validation")
+            .get_bool("l10n_br_base.disable_cpf_cnpj_validation")
         )
         return cnpj_validation_disabled

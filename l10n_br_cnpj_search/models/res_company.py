@@ -16,7 +16,3 @@ class ResCompany(models.Model):
         string="Company Currency",
         readonly=True,
     )
-
-    company_type = fields.Selection(
-        related="partner_id.company_type",
-    )

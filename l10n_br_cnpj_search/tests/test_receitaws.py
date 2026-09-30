@@ -49,7 +49,7 @@ class TestReceitaWS(TestCnpjCommon):
             )
             wizard.action_update_partner()
 
-        self.assertEqual(kilian.company_type, "company")
+        self.assertTrue(kilian.is_company)
         self.assertEqual(kilian.legal_name, "Kilian Macedo Melcher 08777131460")
         self.assertEqual(kilian.name, "Kilian Macedo Melcher 08777131460")
         self.assertEqual(kilian.email, "kilian.melcher@gmail.com")

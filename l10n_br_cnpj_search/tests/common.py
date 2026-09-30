@@ -859,5 +859,5 @@ class TestCnpjCommon(TransactionCase):
         (
             cls.env["ir.config_parameter"]
             .sudo()
-            .set_param("l10n_br_cnpj_search." + param_name, param_value)
+            .set_str("l10n_br_cnpj_search." + param_name, param_value)
         )

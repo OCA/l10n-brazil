@@ -61,7 +61,7 @@ class TestTestSerPro(TestCnpjCommon):
                 dummy_basica.legal_name,
                 "Uhieqkx Whnhiwd Nh  Fixkhuuwphmvx Nh Nwnxu (Uhifix)",
             )
-            self.assertEqual(dummy_basica.company_type, "company")
+            self.assertTrue(dummy_basica.is_company)
             self.assertEqual(dummy_basica.name, "Uhifix Uhnh")
             self.assertEqual(dummy_basica.email, "EMPRESA@XXXXXX.BR")
             self.assertEqual(dummy_basica.street_name, "Nh Biwmnh Wihw Mxivh")
@@ -112,7 +112,7 @@ class TestTestSerPro(TestCnpjCommon):
     def assert_socios(self, partner, expected_cnpjs):
         socios = self.model.search_read(
             [("id", "in", partner.child_ids.ids)],
-            fields=["name", "vat", "company_type"],
+            fields=["name", "vat", "is_company"],
         )
 
         for s in socios:
@@ -122,27 +122,27 @@ class TestTestSerPro(TestCnpjCommon):
             {
                 "name": "Joana Alves Mundim Pena",
                 "vat": expected_cnpjs["Joana"],
-                "company_type": "person",
+                "is_company": False,
             },
             {
                 "name": "Luiza Aldenora",
                 "vat": expected_cnpjs["Aldenora"],
-                "company_type": "person",
+                "is_company": False,
             },
             {
                 "name": "Luiza Araujo De Oliveira",
                 "vat": expected_cnpjs["Araujo"],
-                "company_type": "person",
+                "is_company": False,
             },
             {
                 "name": "Luiza Barbosa Bezerra",
                 "vat": expected_cnpjs["Barbosa"],
-                "company_type": "person",
+                "is_company": False,
             },
             {
                 "name": "Marcelo Antonio Barros De Cicco",
                 "vat": expected_cnpjs["Marcelo"],
-                "company_type": "person",
+                "is_company": False,
             },
         ]
 

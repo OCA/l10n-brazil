@@ -48,18 +48,12 @@ class CNPJWebservice(models.AbstractModel):
     @api.model
     def get_provider(self):
         """Return selected provider in config"""
-        if (
+        return (
             self.env["ir.config_parameter"]
             .sudo()
-            .get_param("l10n_br_cnpj_search.cnpj_provider")
-        ):
-            return (
-                self.env["ir.config_parameter"]
-                .sudo()
-                .get_param("l10n_br_cnpj_search.cnpj_provider")
-            )
-        else:
-            return "receitaws"
+            .get_str("l10n_br_cnpj_search.cnpj_provider")
+            or "receitaws"
+        )
 
     @api.model
     def get_api_url(self, cnpj):
@@ -122,7 +116,7 @@ class CNPJWebservice(models.AbstractModel):
         return (
             self.env["ir.config_parameter"]
             .sudo()
-            .get_param("l10n_br_cnpj_search." + param_name)
+            .get_str("l10n_br_cnpj_search." + param_name)
         )
 
     @api.model
@@ -280,7 +274,7 @@ class CNPJWebservice(models.AbstractModel):
 
     @api.model
     def serpro_get_api_url(self, cnpj):
-        trial = self._get_cnpj_param("serpro_trial")
+        trial = self._cpfcnpj_get_bool_param("serpro_trial")
         schema = self._get_cnpj_param("serpro_schema")
 
         if trial:
@@ -347,7 +341,6 @@ class CNPJWebservice(models.AbstractModel):
             values = {
                 "name": partner_name,
                 "function": partner_qualification,
-                "company_type": "person",
             }
 
             if schema == "empresa":
@@ -503,7 +496,7 @@ class CNPJWebservice(models.AbstractModel):
         value = value.strip()
         for date_format in ("%Y-%m-%d", "%d/%m/%Y"):
             try:
-                return datetime.strptime(value, date_format).date()
+                return datetime.strptime(value, date_format).date()  # noqa: DTZ007
             except ValueError:
                 continue
         return False
@@ -622,12 +615,9 @@ class CNPJWebservice(models.AbstractModel):
             doc_digits = (
                 "".join(char for char in str(doc) if char.isalnum()) if doc else ""
             )
-            tipo = str(socio.get("tipo") or "").strip().lower()
-            is_person = "fisica" in tipo or len(doc_digits) == 11
-            values["company_type"] = "person" if is_person else "company"
-
             # Only a full CPF (11) or CNPJ (14) becomes a vat. The 8 digit CNPJ
             # root of a company partner is not a valid vat and is skipped.
+            # is_company is computed from the vat (CPF: person, CNPJ: company).
             if len(doc_digits) in (11, 14):
                 values["vat"] = doc_digits
 

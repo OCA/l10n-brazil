@@ -16,7 +16,8 @@
                     <button
                         name="action_open_cnpj_search_wizard"
                         type="object"
-                        class="btn-sm btn-link mb4 fa fa-search oe_edit_only oe_inline"
+                        class="btn-sm btn-link oe_inline"
+                        icon="search"
                         aria-label="Pesquisar CNPJ"
                         title="Pesquisar CNPJ"
                     />

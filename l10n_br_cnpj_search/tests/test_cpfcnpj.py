@@ -56,7 +56,7 @@ class TestCpfCnpj(TestCnpjCommon):
             partner._onchange_vat()
             self._run_wizard(partner)
 
-        self.assertEqual(partner.company_type, "company")
+        self.assertTrue(partner.is_company)
         self.assertEqual(partner.legal_name, "Token Test Ltda")
         self.assertEqual(partner.name, "Token Test")
         self.assertEqual(partner.email, "contato@empresa.com")
@@ -83,7 +83,7 @@ class TestCpfCnpj(TestCnpjCommon):
             partner._onchange_vat()
             self._run_wizard(partner)
 
-        self.assertEqual(partner.company_type, "company")
+        self.assertTrue(partner.is_company)
         self.assertEqual(partner.legal_name, "Joao Da Silva 12345678900")
         # No fantasy name, so name falls back to the legal name.
         self.assertEqual(partner.name, "Joao Da Silva 12345678900")
@@ -272,13 +272,14 @@ class TestCpfCnpj(TestCnpjCommon):
         self.assertTrue(holdings)
 
         self.assertEqual(maria.function, "Administrador")
-        self.assertEqual(maria.company_type, "person")
+        self.assertFalse(maria.is_company)
         self.assertEqual(punctuation_rm(maria.vat or ""), "11144477735")
         self.assertEqual(punctuation_rm(carlos.vat or ""), "33366699957")
 
-        # Company partner: only the 8 digit CNPJ root, so no vat, typed company.
-        self.assertEqual(holdings.company_type, "company")
+        # Company partner: only the 8 digit CNPJ root, so no vat. Since 20.0
+        # is_company is computed from the vat, so it stays a contact.
         self.assertFalse(holdings.vat)
+        self.assertFalse(holdings.is_company)
 
     def test_cpfcnpj_qsa_rerun_reuses_partners(self):
         """Running the wizard again for the same company must not duplicate
@@ -310,7 +311,7 @@ class TestCpfCnpj(TestCnpjCommon):
         """A QSA entry whose CPF already belongs to a contact of another
         company is skipped instead of being moved.
         """
-        other = self.model.create({"name": "Outra Empresa", "company_type": "company"})
+        other = self.model.create({"name": "Outra Empresa", "is_company": True})
         # Odoo 19 propagates the vat of a contact up to its company
         # (res.partner._synced_commercial_fields), which would stamp the CPF
         # below on "Outra Empresa" too: the de-duplication would then find the
@@ -321,7 +322,7 @@ class TestCpfCnpj(TestCnpjCommon):
             {
                 "name": "Maria Socia Exemplo",
                 "vat": "11144477735",
-                "company_type": "person",
+                "is_company": False,
                 "parent_id": other.id,
             }
         )
@@ -440,8 +441,8 @@ class TestCpfCnpj(TestCnpjCommon):
         """
         self.set_param("cpfcnpj_fetch_ie", "1")
         # Isolate the feature under test from l10n_br_base IE format validation.
-        self.env["ir.config_parameter"].sudo().set_param(
-            "l10n_br_base.disable_ie_validation", "True"
+        self.env["ir.config_parameter"].sudo().set_bool(
+            "l10n_br_base.disable_ie_validation", True
         )
         main_response = mock.Mock(status_code=200)
         ie_response = mock.Mock(status_code=200)

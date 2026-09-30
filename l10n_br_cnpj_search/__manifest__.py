@@ -3,9 +3,8 @@
 
 {
     "name": "Brazilian Localization CNPJ Search",
-    "summary": """
-        Integração com os Webservices da ReceitaWS, SerPro e cpfcnpj.com.br""",
-    "version": "19.0.1.1.0",
+    "summary": "Integração com os Webservices da ReceitaWS, SerPro e cpfcnpj.com.br",
+    "version": "20.0.1.0.0",
     "license": "AGPL-3",
     "development_status": "Production/Stable",
     "author": "KMEE, Odoo Community Association (OCA)",
@@ -16,7 +15,7 @@
         "contacts",
     ],
     "data": [
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "wizard/partner_cnpj_search_wizard.xml",
         "views/res_partner_view.xml",
         "views/res_company_view.xml",
@@ -24,7 +23,7 @@
     ],
     "external_dependencies": {
         "python": [
-            "erpbrasil-base>=2.4.2",
+            "erpbrasil.base",
         ]
     },
     "oca_data_manual": [

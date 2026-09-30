@@ -181,7 +181,6 @@ class PartnerCnpjSearchWizard(models.TransientModel):
             "simples_option_date": self.simples_option_date,
             "legal_responsible_name": self.legal_responsible_name,
             "legal_responsible_function": self.legal_responsible_function,
-            "company_type": "company",
         }
         if self.vat:
             values_to_update["vat"] = punctuation_rm(self.vat)
@@ -225,7 +224,7 @@ class PartnerCnpjSearchWizard(models.TransientModel):
             limit=1,
         )
         if attachment:
-            attachment.write({"datas": self.cnpj_card_pdf})
+            attachment.write({"raw": self.cnpj_card_pdf})
         else:
             self.env["ir.attachment"].create(
                 {
@@ -233,7 +232,7 @@ class PartnerCnpjSearchWizard(models.TransientModel):
                     "res_model": "res.partner",
                     "res_id": partner.id,
                     "mimetype": "application/pdf",
-                    "datas": self.cnpj_card_pdf,
+                    "raw": self.cnpj_card_pdf,
                     "type": "binary",
                 }
             )

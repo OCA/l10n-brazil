@@ -11,3 +11,15 @@ campo de CNPJ) abre um wizard que exibe os campos retornados. Ao
 confirmar, o módulo grava os dados no parceiro, cria um contato filho por
 sócio do Quadro de Sócios e Administradores (opção QSA) e anexa o Cartão
 CNPJ em PDF na aba "Anexos".
+
+Na tela (Odoo 20.0): a lupa fica ao lado do CNPJ no cadastro do contato.
+
+![Contato com a lupa ao lado do CNPJ](../static/img/partner_cnpj_search.png)
+
+O assistente mostra os dados devolvidos pelo provedor:
+
+![Assistente de busca por CNPJ](../static/img/cnpj_search_wizard.png)
+
+Em **Update Partner**, os dados são gravados no contato:
+
+![Contato atualizado](../static/img/partner_updated.png)
