@@ -1,5 +1,6 @@
 O módulo já instala os relatórios prontos. Acesse **Faturamento > Relatórios >
-Relatórios SIG** e escolha um deles:
+Relatórios SIG** (em inglês, *Invoicing > Reporting > MIS Reporting > MIS Reports*)
+e escolha um deles:
 
 - **Balanço Patrimonial - exercício atual e anterior**: a apresentação
   comparativa que a Lei 6.404/76 manda publicar (art. 176, § 1º), com a coluna
@@ -18,6 +19,8 @@ reposicionam juntas, porque são declaradas relativas a ela, não por data fixa.
 Depois clique em **Visualizar**, **Imprimir** ou **Exportar**. No modo de
 visualização, clicar no valor de uma linha detalhada abre os lançamentos que a
 compõem.
+
+![DRE - exercício atual e anterior](../static/img/l10n_br_mis_report_dre.png)
 
 ## Períodos
 
