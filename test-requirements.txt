@@ -1,0 +1,5 @@
+odoo-addon-account_reconcile_oca @ git+https://github.com/OCA/account-reconcile@refs/pull/1049/head#subdirectory=account_reconcile_oca
+odoo-addon-account_statement_base @ git+https://github.com/OCA/account-reconcile@refs/pull/1048/head#subdirectory=account_statement_base
+odoo-addon-web_responsive @ git+https://github.com/OCA/web@refs/pull/3679/head#subdirectory=web_responsive
+odoo-addon-account_usability @ git+https://github.com/OCA/account-financial-tools@refs/pull/2397/head#subdirectory=account_usability
+odoo-addon-base_technical_features @ git+https://github.com/OCA/server-ux@refs/pull/1342/head#subdirectory=base_technical_features
