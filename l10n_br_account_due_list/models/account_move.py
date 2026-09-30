@@ -34,8 +34,7 @@ class AccountMove(models.Model):
         reconciled with the receivable/payable lines of this invoice.
         """
         for move in self:
-            (
-                invoice_partials,
-                exchange_diff_moves,
-            ) = move._get_reconciled_invoices_partials()
+            invoice_partials, _exchange_diff_moves = (
+                move._get_reconciled_invoices_partials()
+            )
             move.payment_move_line_ids = [partial[2].id for partial in invoice_partials]
