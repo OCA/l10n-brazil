@@ -3,7 +3,7 @@
     <!-- João Carlos da Silva — CLT regular, 2 dep. IRRF -->
     <record id="demo_employee_joao" model="hr.employee">
         <field name="name">João Carlos da Silva</field>
-        <field name="gender">male</field>
+        <field name="sex">male</field>
         <field name="birthday">1985-03-15</field>
         <field name="marital">married</field>
         <field name="country_id" ref="base.br" />
@@ -26,7 +26,7 @@
     <!-- Maria Fernanda Santos — CLT periculosidade -->
     <record id="demo_employee_maria" model="hr.employee">
         <field name="name">Maria Fernanda Santos</field>
-        <field name="gender">female</field>
+        <field name="sex">female</field>
         <field name="birthday">1990-07-22</field>
         <field name="marital">single</field>
         <field name="country_id" ref="base.br" />
@@ -49,7 +49,7 @@
     <!-- Pedro Henrique Oliveira — CLT insalubridade -->
     <record id="demo_employee_pedro" model="hr.employee">
         <field name="name">Pedro Henrique Oliveira</field>
-        <field name="gender">male</field>
+        <field name="sex">male</field>
         <field name="birthday">1988-11-05</field>
         <field name="marital">married</field>
         <field name="country_id" ref="base.br" />
@@ -72,7 +72,7 @@
     <!-- Ana Beatriz Souza — Estatutário/RPPS -->
     <record id="demo_employee_ana" model="hr.employee">
         <field name="name">Ana Beatriz Souza</field>
-        <field name="gender">female</field>
+        <field name="sex">female</field>
         <field name="birthday">1978-01-30</field>
         <field name="marital">married</field>
         <field name="country_id" ref="base.br" />
@@ -95,7 +95,7 @@
     <!-- Lucas Gabriel Costa — CLT aprendiz -->
     <record id="demo_employee_lucas" model="hr.employee">
         <field name="name">Lucas Gabriel Costa</field>
-        <field name="gender">male</field>
+        <field name="sex">male</field>
         <field name="birthday">2005-06-12</field>
         <field name="marital">single</field>
         <field name="country_id" ref="base.br" />
@@ -118,7 +118,7 @@
     <!-- Carla Regina Pereira — CLT PCD + moléstia grave -->
     <record id="demo_employee_carla" model="hr.employee">
         <field name="name">Carla Regina Pereira</field>
-        <field name="gender">female</field>
+        <field name="sex">female</field>
         <field name="birthday">1982-09-18</field>
         <field name="marital">single</field>
         <field name="country_id" ref="base.br" />
