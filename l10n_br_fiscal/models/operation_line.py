@@ -131,7 +131,9 @@ class OperationLine(models.Model):
         default="tax",
         required=True,
         string="Include other values in tax base",
-        help="If left unset, value from tax group will be used",
+        help="Defined In Tax: use the setting of each tax group. Include or Do not "
+        "Include: override it for every tax of the line (freight, insurance and "
+        "other costs added to or removed from the base).",
     )
 
     comment_ids = fields.Many2many(
