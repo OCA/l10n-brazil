@@ -108,7 +108,6 @@ class HrEmployee(models.Model):
     )
 
     deficiency_id = fields.Many2one(
-        string="Deficiency",
         comodel_name="hr.deficiency",
         tracking=True,
         groups="hr.group_hr_user",
