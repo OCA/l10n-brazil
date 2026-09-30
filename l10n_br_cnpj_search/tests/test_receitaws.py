@@ -21,6 +21,18 @@ class TestReceitaWS(TestCnpjCommon):
         super().setUpClass()
         cls.set_param("cnpj_provider", "receitaws")
 
+    def test_receita_ws_url(self):
+        webservice = self.env["l10n_br_cnpj_search.webservice.abstract"]
+        self.assertEqual(
+            webservice.get_api_url("44356113000108"),
+            "https://www.receitaws.com.br/v1/cnpj/44356113000108",
+        )
+        self.set_param("receitaws_url", "http://localhost:8000/v1/cnpj/")
+        self.assertEqual(
+            webservice.get_api_url("44356113000108"),
+            "http://localhost:8000/v1/cnpj/44356113000108",
+        )
+
     def test_receita_ws_success(self):
         kilian = self.model.create(
             {

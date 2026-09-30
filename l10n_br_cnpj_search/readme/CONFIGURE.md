@@ -34,3 +34,8 @@ Contatos as opções a seguir:
 O provedor é auditado sob as normas ISO/IEC 27001, ISO/IEC 27701 e ISO
 37301. Consulte a documentação da API, os pacotes disponíveis e as
 credenciais em https://www.cpfcnpj.com.br/dev/.
+
+O endereço da API da ReceitaWS pode ser trocado pelo parâmetro de sistema
+`l10n_br_cnpj_search.receitaws_url` (padrão: `https://www.receitaws.com.br/v1/cnpj/`;
+o CNPJ é acrescentado ao final), por exemplo para usar um espelho ou um
+servidor simulado em testes de aceitação.

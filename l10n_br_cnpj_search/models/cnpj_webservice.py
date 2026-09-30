@@ -156,7 +156,9 @@ class CNPJWebservice(models.AbstractModel):
 
     @api.model
     def receitaws_get_api_url(self, cnpj):
-        return RECEITAWS_URL + cnpj
+        # The system parameter points the search to another endpoint (a
+        # mirror, or a local mock in acceptance tests).
+        return (self._get_cnpj_param("receitaws_url") or RECEITAWS_URL) + cnpj
 
     @api.model
     def receitaws_get_headers(self):
