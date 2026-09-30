@@ -1,0 +1,6 @@
+id,name,model_id,group_id/id,operation,domain
+l10n_br_fiscal_cfop,l10n_br_fiscal.cfop,l10n_br_fiscal.cfop,purchase.group_purchase_user,r,
+l10n_br_fiscal_document,l10n_br_fiscal.document.type,l10n_br_fiscal.document.type,purchase.group_purchase_user,r,
+l10n_br_account_document_serie,l10n_br_account.document.serie,l10n_br_fiscal.document.serie,purchase.group_purchase_user,r,
+l10n_br_fiscal_operation,l10n_br_fiscal.operation,l10n_br_fiscal.operation,purchase.group_purchase_user,r,
+l10n_br_fiscal_operation_line,l10n_br_fiscal.operation.line,l10n_br_fiscal.operation.line,purchase.group_purchase_user,r,
