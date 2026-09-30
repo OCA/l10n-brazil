@@ -5,9 +5,9 @@ import logging
 from importlib import import_module
 
 from odoo import api, models
-from odoo.models import is_definition_class
+from odoo.orm import model_classes
 from odoo.tools import mute_logger
-from odoo.tools.func import lazy_property
+from odoo.tools.func import reset_cached_properties
 from odoo.tools.sql import existing_tables
 
 from .spec_models import SPEC_MIXIN_MAPPINGS, SpecModel, StackedModel
@@ -21,10 +21,11 @@ class SpecMixin(models.AbstractModel):
     of your custom schema mixin (such as spec.mixin.nfe) without the need that
     your spec mixin depend on this mixin and on the spec_driven_model module directly
     (loose coupling).
-    This root mixin is typically injected via the _build_model method from SpecModel
-    or StackedModel that you will be using to inject some spec mixins into
-    existing Odoo objects. spec.mixin provides generic utility methods such as a
-    _register_hook, import and export methods.
+    This root mixin is typically injected by the SpecModel or StackedModel
+    classes that you will be using to inject some spec mixins into existing
+    Odoo objects, right before they are added to the registry. spec.mixin
+    provides generic utility methods such as a _register_hook, import and
+    export methods.
     """
 
     _description = "root abstract model meant for xsd generated fiscal models"
@@ -57,9 +58,9 @@ class SpecMixin(models.AbstractModel):
         """
         Get spec_schema and spec_version from context or from class module
         """
-        if self._context.get("spec_schema") and self._context.get("spec_version"):
-            spec_schema = self._context.get("spec_schema")
-            spec_version = self._context.get("spec_version")
+        if self.env.context.get("spec_schema") and self.env.context.get("spec_version"):
+            spec_schema = self.env.context.get("spec_schema")
+            spec_version = self.env.context.get("spec_version")
             if spec_schema and spec_version:
                 spec_version = spec_version.replace(".", "")[:2]
                 if split:
@@ -164,8 +165,8 @@ class SpecMixin(models.AbstractModel):
             # anywhere above -- init_models recomputing a broken field, for
             # instance -- would otherwise leak the classes and poison every
             # later registry build in the process.
-            registered = models.MetaModel.module_to_models[odoo_module]
-            models.MetaModel.module_to_models[odoo_module] = [
+            registered = models.MetaModel._module_to_models__[odoo_module]
+            models.MetaModel._module_to_models__[odoo_module] = [
                 cls for cls in registered if cls not in concrete_models
             ]
             # Rebuilt classes carry fresh field objects while identity-keyed
@@ -174,8 +175,9 @@ class SpecMixin(models.AbstractModel):
             # FIXME). Reset them like setup_models does, refreshing
             # field_depends for the rebuilt models only.
             registry = self.env.registry
-            lazy_property.reset_all(registry)
-            registry._field_trigger_trees.clear()
+            reset_cached_properties(registry)
+            if isinstance(getattr(registry, "_field_trigger_trees", None), dict):
+                registry._field_trigger_trees.clear()
             for model_name in remaining_models:
                 model = self.env.get(model_name)
                 if model is None:
@@ -214,15 +216,13 @@ class SpecMixin(models.AbstractModel):
             # alone as the base below would silently drop those extra
             # fields. Pull in every genuine definition class that
             # contributed to the merged registry class (skipping registry
-            # ("NewClass") wrappers themselves, which cannot safely be reused
-            # as a base for another _build_model() call).
+            # classes themselves, which cannot safely be reused as a base of
+            # another model definition).
             merged_class = self.env.registry[name]
-            # accessed via getattr to avoid Python's name mangling of the
-            # double-underscore "__base_classes" attribute set by Odoo's
-            # BaseModel._build_model()
-            merged_base_classes = merged_class._BaseModel__base_classes
             definition_bases = tuple(
-                base for base in merged_base_classes if is_definition_class(base)
+                base
+                for base in merged_class._base_classes__
+                if model_classes.is_model_definition(base)
             )
             fields = merged_class._fields
             rec_name = next(
@@ -244,23 +244,23 @@ class SpecMixin(models.AbstractModel):
                 },
             )
             # we set _spec_schema and _spec_version because
-            # _build_model will not have context access:
+            # _spec_before_add_to_registry will not have context access:
             # In Odoo 18+, the test framework monitors model attribute modifications
             # and logs stack traces. We suppress these during dynamic model building.
             with mute_logger("odoo.tests.common"):
                 model_type._spec_schema = spec_schema
                 model_type._spec_version = spec_version
-            models.MetaModel.module_to_models[odoo_module] += [model_type]
+            # MetaModel registered model_type in _module_to_models__ when it
+            # was created; it is dropped from there at the end of the hook
             concrete_models.append(model_type)
 
             # now we init these models properly
-            # a bit like odoo.modules.loading#load_module_graph would do
-            model = model_type._build_model(self.env.registry, self.env.cr)
-
-            self.env[name]._prepare_setup()
-            self.env[name]._setup_base()
-            self.env[name]._setup_fields()
-            self.env[name]._setup_complete()
+            # a bit like Registry._setup_models__ would do
+            model_cls = model_classes.add_to_registry(self.env.registry, model_type)
+            model_classes._prepare_setup(model_cls)
+            model_classes._setup(model_cls, self.env)
+            model_classes._setup_fields(model_cls, self.env)
+            model_cls(self.env, (), ())._post_model_setup__()
 
             built_model_names.append(name)
             built_model = self.env[name]
@@ -319,8 +319,8 @@ class SpecMixin(models.AbstractModel):
         # the model via _inherit, they break the C3 linearization and crash
         # setup_models() with an inconsistent MRO (#4668). Drop exactly the ones
         # we just built; the hook recreates them on every registry (re)load.
-        registered = models.MetaModel.module_to_models[odoo_module]
-        models.MetaModel.module_to_models[odoo_module] = [
+        registered = models.MetaModel._module_to_models__[odoo_module]
+        models.MetaModel._module_to_models__[odoo_module] = [
             cls for cls in registered if cls not in concrete_models
         ]
 

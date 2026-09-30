@@ -97,11 +97,14 @@ class SpecMixinExport(models.AbstractModel):
         for c in set(classes):
             if c is None:
                 continue
-            if not c.startswith(f"{self._context['spec_schema']}."):
+            if not c.startswith(f"{self.env.context['spec_schema']}."):
                 continue
             # the following filter to fields to show
             # when several XSD class are injected in the same object
-            if self._context.get("spec_class") and c != self._context["spec_class"]:
+            if (
+                self.env.context.get("spec_class")
+                and c != self.env.context["spec_class"]
+            ):
                 continue
             spec_classes.append(c)
         return spec_classes
