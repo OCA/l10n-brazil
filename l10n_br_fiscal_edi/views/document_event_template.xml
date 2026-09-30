@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <template id="report_document_event">
         <t t-set="o" t-value="doc" />
@@ -76,13 +76,13 @@ row {
                 </div>
             </div>
             <div id="justification" class="row bb bl br">
-                <div class="col-12" t-if="o.justification">
+                <div t-if="o.justification" class="col-12">
                     <strong style="font-size:18px;">Justification:</strong>
                     <p t-field="o.justification" />
                 </div>
             </div>
             <div id="cce_notes" class="row bb bl br">
-                <div class="col-12" style="font-size:10px;" t-if="o.type == '14'">
+                <div t-if="o.type == '14'" class="col-12" style="font-size:10px;">
                   A Carta de Correção é disciplinada pelo parágrafo 1o-A do artigo 7o do Convênio S/N, de 15 de dezembro de 1970 e pode ser utilizada para regularização de erro ocorrido na emissão de documento fiscal, desde que o erro não seja relacionado com:<br
                 />
                   <br />

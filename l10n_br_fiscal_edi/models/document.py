@@ -471,7 +471,6 @@ class Document(models.Model):
     def _after_document_authorize(self):
         """Hook called after the document is authorized. Overridden by
         transmission modules (e.g. l10n_br_nfe generates the DANFE here)."""
-        pass
 
     def _before_document_cancel(self):
         # Logic moved from _document_cancel
@@ -609,22 +608,20 @@ class Document(models.Model):
         """Return the document status as text and, when needed, update the
         document status. Hook meant to be overridden by transmission modules
         (l10n_br_nfe, l10n_br_nfse_focus...)."""
-        return None
+        return
 
     def _edoc_processor(self):
         """Hook meant to return the erpbrasil.edoc processor of the document.
         Overridden by transmission modules."""
-        return None
+        return
 
     def _document_qrcode(self):
         """Hook meant to compute the document QR Code (NFC-e, CT-e...).
         Overridden by transmission modules."""
-        pass
 
     def _validate_xml(self, xml_file):
         """Hook meant to validate the document XML against its schema.
         Overridden by transmission modules."""
-        pass
 
     def _direct_draft_send(self):
         """When it returns True, the document is sent right after being
@@ -802,7 +799,6 @@ class Document(models.Model):
 
     def _after_document_deny(self):
         """Hook called after document denial. Override in account module."""
-        pass
 
     # -------------------------------------------------------------------------
     # Misc Tools
