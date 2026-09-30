@@ -1,10 +1,12 @@
-In the invoice form view, there will be two tabs:
+Open any posted invoice (Invoicing > Customers > Invoices, or Invoicing >
+Vendors > Bills). The invoice form has two extra tabs:
 
-- Receivable in the case of customer invoices and payable in the case of
-  supplier invoices:
+- Receivables in the case of customer invoices and Payables in the case of
+  vendor bills: the installments (payment term lines) of the invoice, with
+  due date and amount.
 
-  ![image](../static/img/l10n_br_account_due_list_receivable.png)
+  ![Receivables tab](../static/img/l10n_br_account_due_list_receivable.png)
 
-- Payments with list of invoice payments:
+- Payments: the journal items of the payments reconciled with the invoice.
 
-  ![image](../static/img/l10n_br_account_due_list_payable.png)
+  ![Payments tab](../static/img/l10n_br_account_due_list_payments.png)
