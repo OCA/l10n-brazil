@@ -202,9 +202,12 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
                 document_id=record,
             )
             record.authorization_event_id = event_id
-            certificate = record.company_id.certificate
+            certificate = record.company_id._get_br_certificate()
             signed_xml = edoc.sign_xml(
-                xml_file, certificate.file, certificate.password, edoc.infDPS.Id
+                xml_file,
+                certificate.with_context(bin_size=False).content,
+                certificate.pkcs12_password,
+                edoc.infDPS.Id,
             )
             record._validate_xml(signed_xml)
         return result
@@ -287,9 +290,12 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
     def _adn_send_for_authorization(self):
         self.ensure_one()
         edoc = self.serialize()[0]
-        certificate = self.company_id.certificate
+        certificate = self.company_id._get_br_certificate()
         signed_xml = edoc.sign_xml(
-            edoc.to_xml(), certificate.file, certificate.password, edoc.infDPS.Id
+            edoc.to_xml(),
+            certificate.with_context(bin_size=False).content,
+            certificate.pkcs12_password,
+            edoc.infDPS.Id,
         )
         if not signed_xml.lstrip().startswith("<?xml"):
             signed_xml = '<?xml version="1.0" encoding="UTF-8"?>' + signed_xml
@@ -329,9 +335,9 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
             pkcs12,
         )
 
-        certificate = self.company_id.certificate
-        pfx = base64.b64decode(certificate.file)
-        password = (certificate.password or "").encode() or None
+        certificate = self.company_id._get_br_certificate()
+        pfx = base64.b64decode(certificate.with_context(bin_size=False).content)
+        password = (certificate.pkcs12_password or "").encode() or None
         key, cert, _extra = pkcs12.load_key_and_certificates(pfx, password)
         pem = key.private_bytes(
             Encoding.PEM, PrivateFormat.TraditionalOpenSSL, NoEncryption()
@@ -427,11 +433,11 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
     def _adn_cancel(self, justificative, motive):
         self.ensure_one()
         ped = self._build_cancel_pedreg(justificative, motive)
-        certificate = self.company_id.certificate
+        certificate = self.company_id._get_br_certificate()
         signed = CommonMixin.sign_xml(
             self._serialize_pedreg(ped),
-            certificate.file,
-            certificate.password,
+            certificate.with_context(bin_size=False).content,
+            certificate.pkcs12_password,
             ped.infPedReg.Id,
         )
         if not signed.lstrip().startswith("<?xml"):
