@@ -763,6 +763,11 @@ msgid "ICMS Relief"
 msgstr ""
 
 #. module: l10n_br_purchase_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__icms_relief_type
+msgid "ICMS Relief Deduction"
+msgstr ""
+
+#. module: l10n_br_purchase_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__icms_relief_value
 msgid "ICMS Relief Value"
 msgstr ""
@@ -1661,4 +1666,12 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_purchase_blanket_order/wizards/create_purchase_orders.py:0
 msgid "You can't order more than the remaining quantities"
+msgstr ""
+
+#. module: l10n_br_purchase_blanket_order
+#: model:ir.model.fields,help:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__icms_relief_type
+msgid ""
+"indDeduzDeson (NT 2023.004): indicates whether the ICMS relief value "
+"(vICMSDeson) is deducted from the item value (vProd) and from the document "
+"total (vNF)."
 msgstr ""
