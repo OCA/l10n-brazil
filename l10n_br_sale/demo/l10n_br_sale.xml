@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <!-- Main Company Simples Nacional -->
     <!-- Sale Order with only products test -->
@@ -19,9 +19,9 @@
         <field name="order_id" ref="main_so_only_products" />
         <field name="name">Laptop Customized</field>
         <field name="product_id" ref="product.product_product_27" />
-        <field name="product_uom_qty">2</field>
+        <field name="product_uom_qty" eval="2" />
         <field name="product_uom_id" ref="uom.product_uom_unit" />
-        <field name="price_unit">500</field>
+        <field name="price_unit" eval="500" />
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
@@ -31,9 +31,9 @@
         <field name="order_id" ref="main_so_only_products" />
         <field name="name">Mouse, Wireless</field>
         <field name="product_id" ref="product.product_product_12" />
-        <field name="product_uom_qty">2</field>
+        <field name="product_uom_qty" eval="2" />
         <field name="product_uom_id" ref="uom.product_uom_unit" />
-        <field name="price_unit">500</field>
+        <field name="price_unit" eval="500" />
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
@@ -62,9 +62,9 @@
         <field name="order_id" ref="main_company-sale_2" />
         <field name="name">Laptop Customized</field>
         <field name="product_id" ref="product.product_product_27" />
-        <field name="product_uom_qty">2</field>
+        <field name="product_uom_qty" eval="2" />
         <field name="product_uom_id" ref="uom.product_uom_unit" />
-        <field name="price_unit">500</field>
+        <field name="price_unit" eval="500" />
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
@@ -74,9 +74,9 @@
         <field name="order_id" ref="main_company-sale_2" />
         <field name="name">Mouse, Wireless</field>
         <field name="product_id" ref="product.product_product_12" />
-        <field name="product_uom_qty">2</field>
+        <field name="product_uom_qty" eval="2" />
         <field name="product_uom_id" ref="uom.product_uom_unit" />
-        <field name="price_unit">500</field>
+        <field name="price_unit" eval="500" />
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
@@ -103,9 +103,9 @@
         <field name="order_id" ref="main_company-sale_3" />
         <field name="name">Laptop Customized</field>
         <field name="product_id" ref="product.product_product_27" />
-        <field name="product_uom_qty">2</field>
+        <field name="product_uom_qty" eval="2" />
         <field name="product_uom_id" ref="uom.product_uom_unit" />
-        <field name="price_unit">500</field>
+        <field name="price_unit" eval="500" />
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
@@ -115,9 +115,9 @@
         <field name="order_id" ref="main_company-sale_3" />
         <field name="name">Mouse, Wireless</field>
         <field name="product_id" ref="product.product_product_12" />
-        <field name="product_uom_qty">2</field>
+        <field name="product_uom_qty" eval="2" />
         <field name="product_uom_id" ref="uom.product_uom_unit" />
-        <field name="price_unit">500</field>
+        <field name="price_unit" eval="500" />
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
@@ -141,9 +141,9 @@
         <field name="order_id" ref="main_so_only_services" />
         <field name="name">Virtual Interior Design</field>
         <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
-        <field name="product_uom_qty">15</field>
+        <field name="product_uom_qty" eval="15" />
         <field name="product_uom_id" ref="uom.product_uom_hour" />
-        <field name="price_unit">30.75</field>
+        <field name="price_unit" eval="30.75" />
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
@@ -153,9 +153,9 @@
         <field name="order_id" ref="main_so_only_services" />
         <field name="name">Virtual Home Staging</field>
         <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
-        <field name="product_uom_qty">20</field>
+        <field name="product_uom_qty" eval="20" />
         <field name="product_uom_id" ref="uom.product_uom_hour" />
-        <field name="price_unit">38.25</field>
+        <field name="price_unit" eval="38.25" />
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
@@ -179,9 +179,9 @@
         <field name="order_id" ref="main_so_product_service" />
         <field name="name">Laptop Customized</field>
         <field name="product_id" ref="product.product_product_27" />
-        <field name="product_uom_qty">2</field>
+        <field name="product_uom_qty" eval="2" />
         <field name="product_uom_id" ref="uom.product_uom_unit" />
-        <field name="price_unit">500</field>
+        <field name="price_unit" eval="500" />
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
@@ -191,9 +191,9 @@
         <field name="order_id" ref="main_so_product_service" />
         <field name="name">Customized Odoo Development</field>
         <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
-        <field name="product_uom_qty">10</field>
+        <field name="product_uom_qty" eval="10" />
         <field name="product_uom_id" ref="uom.product_uom_hour" />
-        <field name="price_unit">100</field>
+        <field name="price_unit" eval="100" />
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field
@@ -221,9 +221,9 @@
         <field name="order_id" ref="sn_so_only_products" />
         <field name="name">Laptop Customized</field>
         <field name="product_id" ref="product.product_product_27" />
-        <field name="product_uom_qty">2</field>
+        <field name="product_uom_qty" eval="2" />
         <field name="product_uom_id" ref="uom.product_uom_unit" />
-        <field name="price_unit">500</field>
+        <field name="price_unit" eval="500" />
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
@@ -233,9 +233,9 @@
         <field name="order_id" ref="sn_so_only_products" />
         <field name="name">Mouse, Wireless</field>
         <field name="product_id" ref="product.product_product_12" />
-        <field name="product_uom_qty">2</field>
+        <field name="product_uom_qty" eval="2" />
         <field name="product_uom_id" ref="uom.product_uom_unit" />
-        <field name="price_unit">500</field>
+        <field name="price_unit" eval="500" />
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
@@ -259,9 +259,9 @@
         <field name="order_id" ref="sn_so_only_services" />
         <field name="name">Virtual Interior Design</field>
         <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
-        <field name="product_uom_qty">15</field>
+        <field name="product_uom_qty" eval="15" />
         <field name="product_uom_id" ref="uom.product_uom_hour" />
-        <field name="price_unit">30.75</field>
+        <field name="price_unit" eval="30.75" />
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
@@ -271,9 +271,9 @@
         <field name="order_id" ref="sn_so_only_services" />
         <field name="name">Virtual Home Staging</field>
         <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
-        <field name="product_uom_qty">20</field>
+        <field name="product_uom_qty" eval="20" />
         <field name="product_uom_id" ref="uom.product_uom_hour" />
-        <field name="price_unit">38.25</field>
+        <field name="price_unit" eval="38.25" />
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
@@ -297,9 +297,9 @@
         <field name="order_id" ref="sn_so_product_service" />
         <field name="name">Laptop Customized</field>
         <field name="product_id" ref="product.product_product_27" />
-        <field name="product_uom_qty">2</field>
+        <field name="product_uom_qty" eval="2" />
         <field name="product_uom_id" ref="uom.product_uom_unit" />
-        <field name="price_unit">500</field>
+        <field name="price_unit" eval="500" />
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
@@ -316,9 +316,9 @@
         <field name="order_id" ref="sn_so_product_service" />
         <field name="name">Customized Odoo Development</field>
         <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
-        <field name="product_uom_qty">10</field>
+        <field name="product_uom_qty" eval="10" />
         <field name="product_uom_id" ref="uom.product_uom_hour" />
-        <field name="price_unit">100</field>
+        <field name="price_unit" eval="100" />
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
@@ -352,9 +352,9 @@
         <field name="order_id" ref="lc_so_only_products" />
         <field name="name">Laptop Customized</field>
         <field name="product_id" ref="product.product_product_27" />
-        <field name="product_uom_qty">2</field>
+        <field name="product_uom_qty" eval="2" />
         <field name="product_uom_id" ref="uom.product_uom_unit" />
-        <field name="price_unit">500</field>
+        <field name="price_unit" eval="500" />
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
@@ -364,9 +364,9 @@
         <field name="order_id" ref="lc_so_only_products" />
         <field name="name">Mouse, Wireless</field>
         <field name="product_id" ref="product.product_product_12" />
-        <field name="product_uom_qty">2</field>
+        <field name="product_uom_qty" eval="2" />
         <field name="product_uom_id" ref="uom.product_uom_unit" />
-        <field name="price_unit">500</field>
+        <field name="price_unit" eval="500" />
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
@@ -390,9 +390,9 @@
         <field name="order_id" ref="lc_so_only_services" />
         <field name="name">Customized Odoo Development</field>
         <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
-        <field name="product_uom_qty">15</field>
+        <field name="product_uom_qty" eval="15" />
         <field name="product_uom_id" ref="uom.product_uom_hour" />
-        <field name="price_unit">30.75</field>
+        <field name="price_unit" eval="30.75" />
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
@@ -402,9 +402,9 @@
         <field name="order_id" ref="lc_so_only_services" />
         <field name="name">Customized Odoo Development</field>
         <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
-        <field name="product_uom_qty">20</field>
+        <field name="product_uom_qty" eval="20" />
         <field name="product_uom_id" ref="uom.product_uom_hour" />
-        <field name="price_unit">38.25</field>
+        <field name="price_unit" eval="38.25" />
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
@@ -428,9 +428,9 @@
         <field name="order_id" ref="lc_so_product_service" />
         <field name="name">Laptop Customized</field>
         <field name="product_id" ref="product.product_product_27" />
-        <field name="product_uom_qty">2</field>
+        <field name="product_uom_qty" eval="2" />
         <field name="product_uom_id" ref="uom.product_uom_unit" />
-        <field name="price_unit">500</field>
+        <field name="price_unit" eval="500" />
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
@@ -440,9 +440,9 @@
         <field name="order_id" ref="lc_so_product_service" />
         <field name="name">Customized Odoo Development</field>
         <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
-        <field name="product_uom_qty">10</field>
+        <field name="product_uom_qty" eval="10" />
         <field name="product_uom_id" ref="uom.product_uom_hour" />
-        <field name="price_unit">100</field>
+        <field name="price_unit" eval="100" />
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
@@ -467,9 +467,9 @@
         <field name="order_id" ref="lr_so_only_products" />
         <field name="name">Laptop Customized</field>
         <field name="product_id" ref="product.product_product_27" />
-        <field name="product_uom_qty">2</field>
+        <field name="product_uom_qty" eval="2" />
         <field name="product_uom_id" ref="uom.product_uom_unit" />
-        <field name="price_unit">500</field>
+        <field name="price_unit" eval="500" />
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
@@ -479,9 +479,9 @@
         <field name="order_id" ref="lr_so_only_products" />
         <field name="name">Mouse, Wireless</field>
         <field name="product_id" ref="product.product_product_12" />
-        <field name="product_uom_qty">2</field>
+        <field name="product_uom_qty" eval="2" />
         <field name="product_uom_id" ref="uom.product_uom_unit" />
-        <field name="price_unit">500</field>
+        <field name="price_unit" eval="500" />
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
@@ -505,9 +505,9 @@
         <field name="order_id" ref="lr_so_only_services" />
         <field name="name">Customized Odoo Development</field>
         <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
-        <field name="product_uom_qty">15</field>
+        <field name="product_uom_qty" eval="15" />
         <field name="product_uom_id" ref="uom.product_uom_hour" />
-        <field name="price_unit">30.75</field>
+        <field name="price_unit" eval="30.75" />
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
@@ -517,9 +517,9 @@
         <field name="order_id" ref="lr_so_only_services" />
         <field name="name">Customized Odoo Development</field>
         <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
-        <field name="product_uom_qty">20</field>
+        <field name="product_uom_qty" eval="20" />
         <field name="product_uom_id" ref="uom.product_uom_hour" />
-        <field name="price_unit">38.25</field>
+        <field name="price_unit" eval="38.25" />
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
@@ -543,9 +543,9 @@
         <field name="order_id" ref="lr_so_product_service" />
         <field name="name">Laptop Customized</field>
         <field name="product_id" ref="product.product_product_27" />
-        <field name="product_uom_qty">2</field>
+        <field name="product_uom_qty" eval="2" />
         <field name="product_uom_id" ref="uom.product_uom_unit" />
-        <field name="price_unit">500</field>
+        <field name="price_unit" eval="500" />
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
@@ -555,9 +555,9 @@
         <field name="order_id" ref="lr_so_product_service" />
         <field name="name">Customized Odoo Development</field>
         <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
-        <field name="product_uom_qty">10</field>
+        <field name="product_uom_qty" eval="10" />
         <field name="product_uom_id" ref="uom.product_uom_hour" />
-        <field name="price_unit">100</field>
+        <field name="price_unit" eval="100" />
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />

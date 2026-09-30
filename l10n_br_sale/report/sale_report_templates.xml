@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!-- oca-hooks:disable=file-not-used -->
 <odoo>
     <template
@@ -14,8 +14,8 @@
             <!-- Pedido referente a uma Empresa Brasileira altera os impostos padrões para os do Brasil. -->
             <td
                 t-if="doc.company_id.partner_id.country_id.phone_code == 55"
-                name="td_taxes"
                 class="text-right"
+                name="td_taxes"
             >
                 <t
                     t-foreach="line.fiscal_tax_ids.filtered(lambda x: x.percent_amount or x.value_amount)"
@@ -23,7 +23,7 @@
                 >
                     <!-- Usando o phone_code porque tanto code == 'br' ou code == br não funcionaram -->
                     <small>
-                        <span t-esc="tax.name" />
+                        <span t-out="tax.name" />
                         <br />
                     </small>
                 </t>
@@ -31,11 +31,11 @@
             <!-- Pedido de empresas de outros países mantem o campo padrão de impostos-->
             <td
                 t-if="doc.company_id.partner_id.country_id.phone_code != 55"
-                name="td_taxes"
                 class="text-right"
+                name="td_taxes"
             >
                 <span
-                    t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_ids))"
+                    t-out="', '.join(map(lambda x: (x.description or x.name), line.tax_ids))"
                 />
             </td>
         </xpath>

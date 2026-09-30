@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!--
   Copyright 2010-TODAY Akretion (http://www.akretion.com/)
   @author: Renato Lima <renato.lima@akretion.com.br>
@@ -9,7 +9,7 @@
         <field name="name">l10n_br_sale.quotation.form</field>
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_quotation_tree" />
-        <field name="priority">99</field>
+        <field name="priority" eval="99" />
         <field name="arch" type="xml">
             <field name="partner_id" position="after">
                 <field name="fiscal_operation_id" readonly="1" optional="show" />
@@ -21,7 +21,7 @@
         <field name="name">l10n_br_sale.order.form</field>
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_tree" />
-        <field name="priority">99</field>
+        <field name="priority" eval="99" />
         <field name="arch" type="xml">
             <field name="partner_id" position="after">
                 <field name="fiscal_operation_id" readonly="1" optional="show" />
@@ -33,7 +33,7 @@
         <field name="name">l10n_br_sale.order.form</field>
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form" />
-        <field name="priority">99</field>
+        <field name="priority" eval="99" />
         <field name="arch" type="xml">
             <!-- order top form view extensions: -->
             <xpath expr="//group[@name='sale_total']" position="attributes">
