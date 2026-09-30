@@ -29,7 +29,7 @@ def addTest(self, test):
 addTest._original_method = OdooSuite.addTest
 OdooSuite.addTest = addTest
 
-from odoo.addons.account.tests.test_account_move_out_invoice import (  # noqa: E402
+from odoo.addons.account.tests.test_account_move_out_invoice import (
     TestAccountMoveOutInvoiceOnchanges,
 )
 

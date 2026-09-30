@@ -49,7 +49,11 @@ class TestPaymentStatusBR(AccountMoveBRCommon, MailCommon):
         inv_recv = invoice.line_ids.filtered(_is_receivable)
         pay_recv = pmt2.move_id.line_ids.filtered(_is_receivable)
         partial_to_remove = inv_recv.matched_credit_ids & pay_recv.matched_debit_ids
-        invoice.js_remove_outstanding_partial(partial_to_remove.id)
+        # Odoo 20.0 js_remove_outstanding_partial() unreconciles all the
+        # lines of the given partial (remove_move_reconcile) instead of
+        # unlinking the single partial as in 19.0: unlink the payment
+        # partial directly to keep testing the removal of one partial.
+        partial_to_remove.unlink()
 
         self.assertEqual(invoice.amount_residual, 432.5)
         self.assertEqual(invoice.payment_state, "partial")

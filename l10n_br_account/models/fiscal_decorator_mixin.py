@@ -74,5 +74,5 @@ class FiscalDecoratorMixin(models.AbstractModel):
     def create(self, vals_list):
         return super(
             FiscalDecoratorMixin,
-            self.with_context(create_from_account=True, allow_fiscal_access=True),
+            self.with_context(create_from_account=True),
         ).create(vals_list)

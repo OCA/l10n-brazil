@@ -8,7 +8,7 @@
     "license": "AGPL-3",
     "author": "Akretion, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
-    "version": "19.0.1.5.1",
+    "version": "20.0.1.0.0",
     "development_status": "Beta",
     "maintainers": ["renatonlima", "rvalyi"],
     "depends": [
@@ -17,7 +17,7 @@
     ],
     "data": [
         # security
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "security/l10n_br_account_security.xml",
         # Views
         "views/account_tax_view.xml",

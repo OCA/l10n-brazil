@@ -140,7 +140,10 @@ class AccountMoveSimpleNacional(AccountMoveBRCommon):
 
     def test_revenda(self):
         product_line_vals_1 = {
-            "name": self.product_a.display_name,
+            # Odoo 20.0 computes `name` from the product description
+            # (description_sale/description_purchase), the product name is
+            # shown through the new `label` field instead (asserted below).
+            "name": "",
             "product_id": self.product_a.id,
             "account_id": self.product_a.property_account_income_id.id,
             "partner_id": self.partner_a.id,
@@ -235,4 +238,9 @@ class AccountMoveSimpleNacional(AccountMoveBRCommon):
                 term_line_vals_1,
             ],
             move_vals,
+        )
+        # Odoo 20.0 shows the product name through `label`:
+        self.assertEqual(
+            self.move_out_revenda.invoice_line_ids[0].label,
+            self.product_a.display_name,
         )

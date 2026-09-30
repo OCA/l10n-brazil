@@ -1,12 +1,12 @@
 # Copyright 2026 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import base64
 from unittest.mock import patch
 
 from odoo import fields
 from odoo.exceptions import UserError
 from odoo.tests.common import tagged
+from odoo.tools import BinaryBytes
 
 from .common import AccountMoveBRCommon
 
@@ -236,7 +236,7 @@ class TestImportFiscalDocument(AccountMoveBRCommon):
         wizard = self.env["l10n_br_fiscal.document.import.wizard"].create(
             {
                 "company_id": self.env.company.id,
-                "file": base64.b64encode(b"<xml/>"),
+                "file": BinaryBytes(b"<xml/>"),
             }
         )
         with patch.object(type(wizard), "_onchange_file", autospec=True) as onchange:
@@ -260,7 +260,7 @@ class TestImportFiscalDocument(AccountMoveBRCommon):
             {
                 "company_id": self.env.company.id,
                 "document_key": key,
-                "file": base64.b64encode(b"<nfe/>"),
+                "file": BinaryBytes(b"<nfe/>"),
             }
         )
         with self.assertRaises(UserError) as blocked:

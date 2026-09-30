@@ -21,6 +21,13 @@ class AccountMoveLine(models.Model):
     ]
     _inherits = {_fiscal_decorator_model: "fiscal_document_line_id"}
 
+    # The fiscal document line of an account.move.line is optional (tax lines
+    # have none). Odoo 20.0 applies the access domain of every _inherits parent
+    # as a restriction on the child (('fiscal_document_line_id', 'any',
+    # <parent domain>)), which would exclude all the lines without a fiscal
+    # document line, so the parent access is disabled here.
+    _check_inherits_access = False
+
     @api.model
     def default_get(self, fields_list):
         defaults = super().default_get(fields_list)
@@ -63,7 +70,12 @@ class AccountMoveLine(models.Model):
     # methods would fail to do what we expect from them in the Odoo objects.
     # -------------------------------------------------------------------------
 
-    name = fields.Char(inverse="_inverse_name")
+    # Odoo 20.0 turned the label into a description: `name` is now a Text
+    # field holding the product description while the label moved to the new
+    # `label` field. Redeclaring it must keep the exact same field type as
+    # core, otherwise the whole definition (compute, store, precompute) is
+    # replaced by this one and `name` stops being computed.
+    name = fields.Text(inverse="_inverse_name")
     quantity = fields.Float(inverse="_inverse_quantity")
     price_unit = fields.Float(inverse="_inverse_price_unit")
     product_uom_id = fields.Many2one(inverse="_inverse_product_uom_id")
@@ -151,6 +163,15 @@ class AccountMoveLine(models.Model):
             vals["proxy_name"] = vals["name"]
         if "proxy_product_id" not in vals and "product_id" in vals:
             vals["proxy_product_id"] = vals["product_id"]
+        # Odoo 20.0 split the invoice line label in two fields: `name` only
+        # holds the description typed by the user (usually empty) while the
+        # product name is shown through the computed `label` field. The fiscal
+        # document line description must keep carrying the product name (it is
+        # what the NF-e declares as the product description), so it is filled
+        # from the label when there is no description, exactly like 19.0 did
+        # when `name` was the whole label.
+        if not vals.get("proxy_name") and not vals.get("name") and vals.get("label"):
+            vals["proxy_name"] = vals["label"]
 
     def write(self, values):
         self._sync_proxy_fields_vals(values)
@@ -453,52 +474,6 @@ class AccountMoveLine(models.Model):
                 # If no tax, just compute the total based on price_unit and quantity
                 subtotal = line.quantity * line_discount_price_unit
                 line.price_total = line.price_subtotal = subtotal
-
-    # tax_domain -> (fiscal_value_field, fiscal_base_field)
-    _IMPORTED_TAX_FIELD_MAP = {
-        "icmsst": ("icmsst_value", "icmsst_base"),
-        "icms": ("icms_value", "icms_base"),
-        "ipi": ("ipi_value", "ipi_base"),
-        "pis": ("pis_value", "pis_base"),
-        "cofins": ("cofins_value", "cofins_base"),
-        "issqn": ("issqn_value", "issqn_base"),
-        "ii": ("ii_value", "ii_base"),
-        "ibs": ("ibs_value", "ibs_base"),
-        "cbs": ("cbs_value", "cbs_base"),
-    }
-
-    def _override_taxes_from_import(self, taxes, fiscal_line, sign):
-        """Override compute_all tax amounts with the imported fiscal values.
-
-        The account.tax -> Brazilian tax mapping comes from the fiscal
-        tax group (``tax_group_id.fiscal_tax_group_id.tax_domain``), the
-        same canonical link already used by the account.tax compute_all
-        override.
-        """
-        for tax in taxes:
-            repartition_line = self.env["account.tax.repartition.line"].browse(
-                tax.get("tax_repartition_line_id") or []
-            )
-            acc_tax = (
-                self.env["account.tax"].browse(tax.get("id") or [])
-                or repartition_line.tax_id
-            )
-            fiscal_group = acc_tax.tax_group_id.fiscal_tax_group_id
-            if fiscal_group.tax_withholding:
-                # Clear withholding taxes: XML doesn't bring WH item per item
-                tax["amount"] = 0.0
-                tax["base"] = 0.0
-                continue
-            field_names = self._IMPORTED_TAX_FIELD_MAP.get(fiscal_group.tax_domain)
-            if field_names:
-                # compute_all returns one entry per tax repartition line:
-                # each entry must carry only its share (factor) of the
-                # imported tax value, otherwise taxes with more than one
-                # repartition line would be counted multiple times.
-                factor = repartition_line.factor if repartition_line else 1.0
-                fiscal_value = getattr(fiscal_line, field_names[0]) or 0.0
-                tax["amount"] = sign * fiscal_value * factor
-                tax["base"] = sign * (getattr(fiscal_line, field_names[1]) or 0.0)
 
     # tax_domain -> (fiscal_value_field, fiscal_base_field)
     _IMPORTED_TAX_FIELD_MAP = {

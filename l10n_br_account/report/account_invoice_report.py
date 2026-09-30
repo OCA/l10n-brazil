@@ -2,7 +2,7 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import fields, models
 from odoo.tools import SQL
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -33,37 +33,59 @@ class AccountInvoiceReport(models.Model):
         string="Situation",
     )
 
-    @api.model
-    def _select(self):
-        # same sign and currency rate the core applies to price_subtotal and
-        # price_total: refunds and vendor bills are negative
-        factor = (
-            "(CASE WHEN move.move_type IN ('in_invoice', 'out_refund', 'in_receipt')"
-            " THEN -1 ELSE 1 END) * account_currency_table.rate"
-        )
-        res = self._fiscal_report_select(
-            "fdl", "partner", factor=factor, aggregate=False
-        )
-        res.update(
-            {
-                "partner_state_id": (
-                    "COALESCE(partner.state_id, commercial_partner.state_id)"
-                ),
-                "issuer": "fd.issuer",
-                "document_type_id": "fd.document_type_id",
-                "document_serie_id": "fd.document_serie_id",
-                "state_edoc": "fd.state_edoc",
-            }
-        )
-        fiscal = "".join(f", {expr} AS {fname}" for fname, expr in res.items())
-        return SQL("%s" + fiscal, super()._select())
+    def _select_list(self, table):
+        """Add the Brazilian fiscal columns to the invoice statistics.
 
-    @api.model
-    def _from(self):
-        joins = (
-            " LEFT JOIN l10n_br_fiscal_document fd"
-            " ON fd.id = move.fiscal_document_id"
-            " LEFT JOIN l10n_br_fiscal_document_line fdl"
-            " ON fdl.id = line.fiscal_document_line_id"
+        Odoo 20.0 builds the report with the TableSQL API: the fiscal
+        document (line) is joined explicitly through its fields instead of
+        the removed _select()/_from() string hooks of 19.0. Every dimension
+        declared by ``l10n_br_fiscal.report.mixin`` has to be selected here,
+        otherwise the model fields have no column in the report.
+        """
+        # account.move.line -> fiscal line, account.move -> fiscal document:
+        # TableSQL joins the tables as the columns are used
+        document = table.move_id.fiscal_document_id
+        fiscal_line = table.fiscal_document_line_id
+        columns = {
+            "issuer": document.issuer,
+            "document_type_id": document.document_type_id,
+            "document_serie_id": document.document_serie_id,
+            "state_edoc": document.state_edoc,
+            "fiscal_operation_type": (
+                fiscal_line.fiscal_operation_id.fiscal_operation_type
+            ),
+            "cfop_destination": fiscal_line.cfop_id.destination,
+            "partner_state_id": table.partner_id.state_id,
+        }
+        for fname in (
+            "fiscal_operation_id",
+            "fiscal_operation_line_id",
+            "cfop_id",
+            "ncm_id",
+            "nbm_id",
+            "cest_id",
+            "nbs_id",
+            "fiscal_type",
+            "fiscal_genre_id",
+            "service_type_id",
+            "icms_cst_id",
+            "icms_origin",
+            "ind_final",
+            "tax_icms_or_issqn",
+            "tax_classification_id",
+        ):
+            columns[fname] = fiscal_line[fname]
+        # every measure the fiscal report mixin reads from the fiscal line,
+        # with the sign the core gives to price_subtotal (refunds and vendor
+        # bills are negative)
+        in_out_sign = SQL(
+            "CASE WHEN %s IN ('in_invoice', 'out_refund', 'in_receipt')"
+            " THEN -1 ELSE 1 END",
+            table.move_id.move_type,
         )
-        return SQL("%s" + joins + self._fiscal_report_from("fdl"), super()._from())
+        for fname in self._fiscal_report_measures():
+            columns[fname] = SQL("%s * %s", fiscal_line[fname], in_out_sign)
+        return super()._select_list(table) + [
+            SQL("%s AS %s", expr, SQL.identifier(fname))
+            for fname, expr in columns.items()
+        ]

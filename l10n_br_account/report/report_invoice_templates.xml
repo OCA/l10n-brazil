@@ -49,13 +49,13 @@
             </t>
         </xpath>
         <xpath
-            expr="//td[@name='account_invoice_line_name']/span[@t-field='line.name']"
+            expr="//td[@name='account_invoice_line_name']/span[@t-field='line.label']"
             position="before"
         >
             <t t-call="l10n_br_fiscal.report_line_product_code" />
         </xpath>
         <xpath
-            expr="//td[@name='account_invoice_line_name']/span[@t-field='line.name']"
+            expr="//td[@name='account_invoice_line_name']/span[@t-field='line.label']"
             position="after"
         >
             <t t-call="l10n_br_fiscal.report_line_fiscal_details" />

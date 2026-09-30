@@ -1,11 +1,11 @@
 # Copyright (C) 2026 - TODAY KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import base64
 from unittest.mock import patch
 
 from odoo.exceptions import UserError
 from odoo.tests import TransactionCase
+from odoo.tools import BinaryBytes
 
 
 class TestDocumentImportWizardAttachments(TransactionCase):
@@ -15,11 +15,12 @@ class TestDocumentImportWizardAttachments(TransactionCase):
         cls.wizard = cls.env["l10n_br_fiscal.document.import.wizard"]
 
     def _attachment(self, name, mimetype):
+        # since 20.0 the content is the raw value, `datas` (base64) is gone
         return self.env["ir.attachment"].create(
             {
                 "name": name,
                 "mimetype": mimetype,
-                "datas": base64.b64encode(b"whatever"),
+                "raw": BinaryBytes(b"whatever"),
             }
         )
 

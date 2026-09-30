@@ -15,7 +15,7 @@ class ResCompany(models.Model):
         """
         try:
             return super().write(values)
-        except UserError as e:
+        except UserError:
             brl_currency = self.env.ref("base.BRL", raise_if_not_found=False)
             usd_currency = self.env.ref("base.USD", raise_if_not_found=False)
             if (
@@ -23,7 +23,7 @@ class ResCompany(models.Model):
                 or not usd_currency
                 or values.get("currency_id") not in (brl_currency.id, usd_currency.id)
             ):
-                raise e
+                raise
 
             demo_refs = [
                 "base.main_company",
@@ -40,4 +40,4 @@ class ResCompany(models.Model):
             if allowed_companies and not (self - allowed_companies):
                 return models.Model.write(self, values)
 
-            raise e
+            raise
