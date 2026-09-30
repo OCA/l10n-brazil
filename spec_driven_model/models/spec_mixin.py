@@ -1,0 +1,385 @@
+# Copyright 2019-TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
+# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
+
+import logging
+from importlib import import_module
+
+from odoo import api, models
+from odoo.orm import model_classes
+from odoo.tools import mute_logger
+from odoo.tools.func import reset_cached_properties
+from odoo.tools.sql import existing_tables
+
+from .spec_models import SPEC_MIXIN_MAPPINGS, SpecModel, StackedModel
+
+_logger = logging.getLogger(__name__)
+
+
+class SpecMixin(models.AbstractModel):
+    """
+    This is the root "spec" mixin that will be injected dynamically as the parent
+    of your custom schema mixin (such as spec.mixin.nfe) without the need that
+    your spec mixin depend on this mixin and on the spec_driven_model module directly
+    (loose coupling).
+    This root mixin is typically injected by the SpecModel or StackedModel
+    classes that you will be using to inject some spec mixins into existing
+    Odoo objects, right before they are added to the registry. spec.mixin
+    provides generic utility methods such as a _register_hook, import and
+    export methods.
+    """
+
+    _description = "root abstract model meant for xsd generated fiscal models"
+    _name = "spec.mixin"
+    _inherit = ("spec.mixin_export", "spec.mixin_import")
+    _is_spec_driven = True
+
+    def _valid_field_parameter(self, field, name):
+        if name in (
+            "xsd_type",
+            "xsd_required",
+            "choice",
+            "xsd_choice_required",
+            "xsd_implicit",
+            "original_comodel_name",
+        ):
+            return True
+        else:
+            return super()._valid_field_parameter(field, name)
+
+    @api.model
+    def _get_concrete_model(self, model_name):
+        "Lookup for concrete models where abstract schema mixins were injected"
+        if SPEC_MIXIN_MAPPINGS[self.env.cr.dbname].get(model_name) is not None:
+            return self.env[SPEC_MIXIN_MAPPINGS[self.env.cr.dbname].get(model_name)]
+        else:
+            return self.env.get(model_name)
+
+    def _spec_prefix(self, split=False):
+        """
+        Get spec_schema and spec_version from context or from class module
+        """
+        if self.env.context.get("spec_schema") and self.env.context.get("spec_version"):
+            spec_schema = self.env.context.get("spec_schema")
+            spec_version = self.env.context.get("spec_version")
+            if spec_schema and spec_version:
+                spec_version = spec_version.replace(".", "")[:2]
+                if split:
+                    return spec_schema, spec_version
+                return f"{spec_schema}{spec_version}"
+
+        for ancestor in type(self).mro():
+            if not ancestor.__module__.startswith("odoo.addons."):
+                continue
+            mod = import_module(".".join(ancestor.__module__.split(".")[:-1]))
+            if hasattr(mod, "spec_schema"):
+                spec_schema = mod.spec_schema
+                spec_version = mod.spec_version.replace(".", "")[:2]
+                if split:
+                    return spec_schema, spec_version
+                return f"{spec_schema}{spec_version}"
+
+        return (None, None) if split else None
+
+    def _get_spec_property(self, spec_property="", fallback=None):
+        """
+        Used to access schema wise and version wise automatic mappings properties
+        """
+        return getattr(self, f"_{self._spec_prefix()}_{spec_property}", fallback)
+
+    def _get_stacking_points(self):
+        return self._get_spec_property("stacking_points", {})
+
+    def _register_hook(self):
+        res = super()._register_hook()
+        self._register_remaining_schema_models_hook()
+        return res
+
+    def _register_remaining_schema_models_hook(self):
+        """
+        Called once all modules are loaded.
+        Here we take all spec models that were not injected into existing concrete
+        Odoo models and we make them concrete automatically with
+        their _auto_init method that will create their SQL DDL structure.
+        """
+        spec_schema, spec_version = self._spec_prefix(split=True)
+        if not spec_schema:
+            return
+
+        # read before the load key below, which is claimed once per schema
+        spec_module = self._get_spec_property("odoo_module")
+        if not spec_module:
+            _logger.debug(
+                "%s: no spec module for the %s schema, "
+                "skipping the remaining schema models hook",
+                self._name,
+                spec_schema,
+            )
+            return
+
+        load_key = f"_{spec_schema}_register_hook_loaded"
+        if hasattr(self.env.registry, load_key):  # hook already called for registry
+            return
+        setattr(self.env.registry, load_key, True)
+
+        field_prefix = f"{spec_schema}{spec_version}"
+        relation_prefix = f"{spec_schema}.{spec_version}.%"
+        self.env.cr.execute(
+            """SELECT DISTINCT relation FROM ir_model_fields
+                   WHERE relation LIKE %s;""",
+            (relation_prefix,),
+        )
+        # now we will filter only the spec models not injected into some existing class:
+        remaining_models = {
+            i[0]
+            for i in self.env.cr.fetchall()
+            if self.env.registry.get(i[0])
+            and not SPEC_MIXIN_MAPPINGS[self.env.cr.dbname].get(i[0])
+        }
+        if "_spec." in spec_module:
+            odoo_module = spec_module.split("_spec.")[0].split(".")[-1]
+        else:  # for tests:
+            odoo_module = "spec_driven_model"
+        # concrete classes we build below, tracked so we can drop them
+        # from module_to_models at the end of this method
+        concrete_models = []
+        try:
+            self._build_remaining_schema_models(
+                remaining_models,
+                spec_module,
+                odoo_module,
+                spec_schema,
+                spec_version,
+                field_prefix,
+                concrete_models,
+            )
+        finally:
+            # The concrete classes we built above are rebuilt from scratch every
+            # time this hook runs, but Odoo's MetaModel registered them in
+            # module_to_models, which persists across registry rebuilds. Leaving
+            # them there would make the next Registry.new() -- triggered by any
+            # module install/update -- rebuild these *stale* classes as extra
+            # bases of their model; being subclasses of the downstream classes
+            # that extend the model via _inherit, they break the C3
+            # linearization and crash setup_models() with an inconsistent MRO
+            # (#4668). This runs in a finally block because an exception raised
+            # anywhere above -- init_models recomputing a broken field, for
+            # instance -- would otherwise leak the classes and poison every
+            # later registry build in the process.
+            registered = models.MetaModel._module_to_models__[odoo_module]
+            models.MetaModel._module_to_models__[odoo_module] = [
+                cls for cls in registered if cls not in concrete_models
+            ]
+            # Rebuilt classes carry fresh field objects while identity-keyed
+            # registry caches (field_computed, field_depends...) may hold the
+            # old ones, making computed fields KeyError (v14 brl_currency_id
+            # FIXME). Reset them like setup_models does, refreshing
+            # field_depends for the rebuilt models only.
+            registry = self.env.registry
+            reset_cached_properties(registry)
+            if isinstance(getattr(registry, "_field_trigger_trees", None), dict):
+                registry._field_trigger_trees.clear()
+            for model_name in remaining_models:
+                model = self.env.get(model_name)
+                if model is None:
+                    continue
+                for field in model._fields.values():
+                    depends, depends_context = field.get_depends(model)
+                    registry.field_depends[field] = tuple(depends)
+                    registry.field_depends_context[field] = tuple(depends_context)
+
+    def _build_remaining_schema_models(
+        self,
+        remaining_models,
+        spec_module,
+        odoo_module,
+        spec_schema,
+        spec_version,
+        field_prefix,
+        concrete_models,
+    ):
+        access_data = []
+        access_fields = []
+        # names of every remaining model we build, and the SQL tables of the
+        # concrete (non-abstract) ones, used to decide whether the DB
+        # reflection is already in place (see _spec_reflection_needed)
+        built_model_names = []
+        concrete_tables = []
+        for name in remaining_models:
+            spec_class = StackedModel._odoo_name_to_class(name, spec_module)
+            if spec_class is None:
+                continue
+            # By the time this hook runs, all modules extending this spec
+            # mixin via _inherit (e.g. custom fields added by a downstream
+            # *_nfe module) have already been merged by Odoo into the
+            # registry class for `name`. spec_class only reflects the single
+            # class literally defined in spec_module though, so using it
+            # alone as the base below would silently drop those extra
+            # fields. Pull in every genuine definition class that
+            # contributed to the merged registry class (skipping registry
+            # classes themselves, which cannot safely be reused as a base of
+            # another model definition).
+            merged_class = self.env.registry[name]
+            definition_bases = tuple(
+                base
+                for base in merged_class._base_classes__
+                if model_classes.is_model_definition(base)
+            )
+            fields = merged_class._fields
+            rec_name = next(
+                filter(
+                    lambda x: x.startswith(field_prefix) and "_choice" not in x,
+                    fields,
+                ),
+                None,
+            )
+            model_type = type(
+                name,
+                (SpecModel,) + definition_bases,
+                {
+                    "_name": name,
+                    "_inherit": spec_class._inherit,
+                    "_original_module": odoo_module,
+                    "_rec_name": rec_name,
+                    "_module": odoo_module,
+                },
+            )
+            # we set _spec_schema and _spec_version because
+            # _spec_before_add_to_registry will not have context access:
+            # In Odoo 18+, the test framework monitors model attribute modifications
+            # and logs stack traces. We suppress these during dynamic model building.
+            with mute_logger("odoo.tests.common"):
+                model_type._spec_schema = spec_schema
+                model_type._spec_version = spec_version
+            # MetaModel registered model_type in _module_to_models__ when it
+            # was created; it is dropped from there at the end of the hook
+            concrete_models.append(model_type)
+
+            # now we init these models properly
+            # a bit like Registry._setup_models__ would do
+            model_cls = model_classes.add_to_registry(self.env.registry, model_type)
+            model_classes._prepare_setup(model_cls)
+            model_classes._setup(model_cls, self.env)
+            model_classes._setup_fields(model_cls, self.env)
+            model_cls(self.env, (), ())._post_model_setup__()
+
+            built_model_names.append(name)
+            built_model = self.env[name]
+            # only concrete (non-abstract) models get an SQL table; the abstract
+            # remaining models (event and IBS/CBS reform nodes, only serialized
+            # to XML) never do, so they must not force the reflection below
+            if built_model._auto and not built_model._abstract:
+                concrete_tables.append(built_model._table)
+
+        # Now that the classes exist we know exactly which tables the reflection
+        # would create, so we can tell an ordinary (read-only) load from one that
+        # must reflect. On the read-only path we skip everything that writes.
+        if self._spec_reflection_needed(concrete_tables):
+            access_fields = [
+                "id",
+                "name",
+                "model_id/id",
+                "group_id/id",
+                "operation",
+            ]
+            for name in built_model_names:
+                self.env[name]._auto_fill_access_data(
+                    self.env, odoo_module, access_data
+                )
+            self.env["ir.access"].load(access_fields, access_data)
+            self.env.registry.init_models(
+                self.env.cr, remaining_models, {"module": odoo_module}
+            )
+
+            # init_models just created ir.model.data records for the "MAGIC FIELDS"
+            # of the remaining_models. If we let these fields, next Odoo update
+            # will decide that these MAGIC FIELDS do not match the fields of the
+            # abstract schema mixins and would take a long time to delete these records
+            # and the fields. This is not what we want, so we just remove these records:
+            imd_magic_field_names = []
+            for model in remaining_models:
+                for field in models.MAGIC_COLUMNS + ["display_name", "__last_update"]:
+                    imd_magic_field_names.append(
+                        f"field_{model.replace('.', '_')}__{field}"
+                    )
+            imd_recs = self.env["ir.model.data"].search(
+                [("name", "in", imd_magic_field_names)]
+            )
+            with mute_logger("odoo.models"):
+                imd_recs.unlink()
+
+        # The concrete classes we built above are rebuilt from scratch every
+        # time this hook runs, but Odoo's MetaModel registered them in
+        # module_to_models, which persists across registry rebuilds. Leaving
+        # them there would make the next Registry.new() -- triggered by any
+        # module install/update -- rebuild these *stale* classes as extra bases
+        # of their model; being subclasses of the downstream classes that extend
+        # the model via _inherit, they break the C3 linearization and crash
+        # setup_models() with an inconsistent MRO (#4668). Drop exactly the ones
+        # we just built; the hook recreates them on every registry (re)load.
+        registered = models.MetaModel._module_to_models__[odoo_module]
+        models.MetaModel._module_to_models__[odoo_module] = [
+            cls for cls in registered if cls not in concrete_models
+        ]
+
+    def _spec_reflection_needed(self, concrete_tables):
+        """Whether this hook run must reflect the remaining spec models into the
+        database instead of staying read-only.
+
+        True while a module install/update is in progress (``registry.updated_modules``
+        set), or when a concrete table is still missing -- e.g. a post_init_hook
+        (l10n_br_cte importing a CT-e) can exercise the ORM and run this hook before
+        STEP 8, while ``updated_modules`` is still empty. We check the SQL table, not
+        ``ir.model``, because remaining models already have an ``ir.model`` row as
+        abstract mixins long before they get a table here.
+        """
+        if self.env.registry.updated_modules:
+            return True
+        if not concrete_tables:
+            return False
+        existing = set(existing_tables(self.env.cr, list(concrete_tables)))
+        return not set(concrete_tables).issubset(existing)
+
+    @classmethod
+    def _auto_fill_access_data(cls, env, module_name: str, access_data: list):
+        """
+        Fill access_data with a default user and a default manager access.
+        """
+
+        underline_name = cls._name.replace(".", "_")
+        if module_name == "spec_driven_model":
+            model_id = f"spec_driven_model.model_{underline_name}"
+        else:
+            model_id = f"{module_name}_spec.model_{underline_name}"
+        model = env["ir.model"]._get(cls._name)
+        user_access_name = f"access_{underline_name}_user"
+        if not env["ir.access"].search(
+            [
+                ("name", "in", [underline_name, user_access_name]),
+                ("model_id", "=", model.id),
+            ]
+        ):
+            access_data.append(
+                [
+                    user_access_name,
+                    user_access_name,
+                    model_id,
+                    f"{module_name}.group_user",
+                    "r",
+                ]
+            )
+        manager_access_name = f"access_{underline_name}_manager"
+        if not env["ir.access"].search(
+            [
+                ("name", "in", [underline_name, manager_access_name]),
+                ("model_id", "=", model.id),
+            ]
+        ):
+            access_data.append(
+                [
+                    manager_access_name,
+                    manager_access_name,
+                    model_id,
+                    f"{module_name}.group_manager",
+                    "crud",
+                ]
+            )
