@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <!-- João Carlos da Silva — CLT regular, 2 dep. IRRF -->
     <record id="demo_employee_joao" model="hr.employee">

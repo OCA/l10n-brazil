@@ -1,10 +1,10 @@
-<?xml version="1.0" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <record id="view_l10n_br_hr_employee_form" model="ir.ui.view">
         <field name="name">l10n_br_hr_employee.form</field>
         <field name="model">hr.employee</field>
         <field name="inherit_id" ref="hr.view_employee_form" />
-        <field name="priority">999</field>
+        <field name="priority" eval="999" />
         <field name="arch" type="xml">
             <field name="place_of_birth" position="attributes">
                 <attribute name="invisible">1</attribute>
@@ -201,26 +201,26 @@
         groups="hr.group_hr_manager"
     />
     <menuitem
-        action="action_hr_deficiency"
         id="menu_hr_deficiency"
+        action="action_hr_deficiency"
         parent="menu_hr_employee_register"
         sequence="1"
     />
     <menuitem
-        action="action_hr_identity_type"
         id="menu_hr_identity_type"
+        action="action_hr_identity_type"
         parent="menu_hr_employee_register"
         sequence="2"
     />
     <menuitem
-        action="action_hr_civil_certificate_type"
         id="menu_hr_civil_certificate_type"
+        action="action_hr_civil_certificate_type"
         parent="menu_hr_employee_register"
         sequence="3"
     />
     <menuitem
-        action="action_hr_ethnicity"
         id="menu_hr_ethnicity"
+        action="action_hr_ethnicity"
         parent="menu_hr_employee_register"
         sequence="6"
     />
@@ -242,8 +242,8 @@
     </record>
     <!-- Sub Menu de Funcionarios -->
     <menuitem
-        action="hr.open_view_employee_list_my"
         id="hr.menu_open_view_employee_list_my"
+        action="hr.open_view_employee_list_my"
         sequence="1"
         parent="menu_hr_colaboradores"
     />
