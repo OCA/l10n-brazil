@@ -1,3 +1,5 @@
+from erpbrasil.base.misc import punctuation_rm
+
 from odoo import Command, fields, models
 
 
@@ -11,37 +13,18 @@ class Lead(models.Model):
         column2="cnae_id",
     )
 
-    def _prepare_customer_values(self, name, is_company, parent_id=False):
+    def _prepare_customer_values(self, partner_name, parent_id=False):
         self.ensure_one()
-        values = super()._prepare_customer_values(name, is_company, parent_id)
-        values.update(
-            {
-                "legal_name": self.legal_name if is_company else self.name_surname,
-                "street_name": self.street,
-                "street_number": self.street_number,
-                "district": self.district,
-                "city_id": self.city_id.id,
-            }
-        )
-        if is_company:
+        values = super()._prepare_customer_values(partner_name, parent_id)
+        # A lead with a CNPJ describes a company (l10n_br_crm): the company
+        # data found by the CNPJ search goes to the partner as well.
+        if len(punctuation_rm(self.vat or "")) == 14:
             values.update(
                 {
-                    "vat": self.vat,
-                    "l10n_br_ie_code": self.l10n_br_ie_code,
-                    "l10n_br_im_code": self.l10n_br_im_code,
-                    "l10n_br_isuf_code": self.l10n_br_isuf_code,
                     "legal_nature_id": self.legal_nature_id.id,
                     "equity_capital": self.equity_capital,
                     "cnae_main_id": self.cnae_main_id.id,
                     "cnae_secondary_ids": [Command.set(self.cnae_secondary_ids.ids)],
-                }
-            )
-        else:
-            values.update(
-                {
-                    "vat": self.vat,
-                    "l10n_br_ie_code": self.l10n_br_rg_code,
-                    "l10n_br_rg_code": self.l10n_br_rg_code,
                 }
             )
         return values

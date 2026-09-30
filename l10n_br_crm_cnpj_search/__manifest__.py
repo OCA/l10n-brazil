@@ -3,9 +3,8 @@
 
 {
     "name": "Brazilian Localization CRM CNPJ Search",
-    "summary": """
-        CNPJ search in CRM Lead""",
-    "version": "19.0.1.0.0",
+    "summary": "CNPJ search in CRM Lead",
+    "version": "20.0.1.0.0",
     "license": "AGPL-3",
     "author": "KMEE, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",

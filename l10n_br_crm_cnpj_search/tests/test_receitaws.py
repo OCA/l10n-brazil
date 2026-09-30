@@ -3,7 +3,10 @@
 
 from unittest import mock
 
+from odoo import Command
+
 from odoo.addons.l10n_br_cnpj_search.tests.common import (
+    MOCK_REQUESTS_GET,
     TestCnpjCommon,
 )
 
@@ -44,9 +47,14 @@ class TestCRMReceitaws(TestCnpjCommon):
                 "text": "Treinamento em desenvolvimento profissional e gerencial",
             },
         ]
-        with mock.patch(
-            "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
-            return_value=mocked_response,
+        # The wizard restores the real requests.Session.send: mock the request
+        # too, so that the test never reaches the ReceitaWS API.
+        with (
+            mock.patch(MOCK_REQUESTS_GET, return_value=mock.Mock(status_code=200)),
+            mock.patch(
+                "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
+                return_value=mocked_response,
+            ),
         ):
             self.crm_lead_1.write({"vat": "31.954.065/0001-08"})
             action_wizard = self.crm_lead_1.action_open_cnpj_search_wizard()
@@ -85,3 +93,23 @@ class TestCRMReceitaws(TestCnpjCommon):
         cnae_secondary_codes = sorted(cnae_secondary_codes)
         for i in range(len(cnae_secondary_codes)):
             self.assertEqual(cnaes[i], cnae_secondary_codes[i])
+
+    def test_create_customer_with_cnpj_data(self):
+        """The customer created from a lead with a CNPJ gets the company data
+        found by the CNPJ search (legal nature, equity capital and CNAE)."""
+        cnae = self.env["l10n_br_fiscal.cnae"].search([], limit=2)
+        lead = self.crm_lead_model.create(
+            {
+                "name": "Lead CNPJ",
+                "partner_name": "Empresa do Lead",
+                "vat": "31.954.065/0001-08",
+                "country_id": self.env.ref("base.br").id,
+                "equity_capital": 3000.00,
+                "cnae_main_id": cnae[0].id,
+                "cnae_secondary_ids": [Command.set(cnae[1].ids)],
+            }
+        )
+        partner = lead._create_customer()
+        self.assertEqual(partner.equity_capital, 3000.00)
+        self.assertEqual(partner.cnae_main_id, cnae[0])
+        self.assertEqual(partner.cnae_secondary_ids, cnae[1])

@@ -10,13 +10,12 @@ class PartnerCnpjSearchWizard(models.TransientModel):
         res = super().default_get(fields)
         active_model = self.env.context.get("active_model")
         lead_id = self.env.context.get("default_lead_id")
-        if active_model == "crm.lead":
-            if "currency_id" in res:
-                lead_model = self.env["crm.lead"]
-                lead = lead_model.browse(lead_id)
-                cnpj_cpf = punctuation_rm(lead.vat)
-                values = self._get_partner_values(cnpj_cpf)
-                res.update(values)
+        if active_model == "crm.lead" and "currency_id" in res:
+            lead_model = self.env["crm.lead"]
+            lead = lead_model.browse(lead_id)
+            cnpj_cpf = punctuation_rm(lead.vat)
+            values = self._get_partner_values(cnpj_cpf)
+            res.update(values)
         return res
 
     def action_update_partner(self):
