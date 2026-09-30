@@ -1,0 +1,4 @@
+odoo-addon-l10n_br_zip @ git+https://github.com/OCA/l10n-brazil@refs/pull/5247/head#subdirectory=l10n_br_zip
+odoo-addon-l10n_br_fiscal @ git+https://github.com/OCA/l10n-brazil@refs/pull/5253/head#subdirectory=l10n_br_fiscal
+odoo-addon-l10n_br_base @ git+https://github.com/OCA/l10n-brazil@refs/pull/5246/head#subdirectory=l10n_br_base
+odoo-addon-uom_alias @ git+https://github.com/OCA/product-attribute@refs/pull/2420/head#subdirectory=uom_alias
