@@ -3,10 +3,7 @@
 # pylint: disable=reimported
 
 import logging
-
 from unittest.mock import patch
-
-from odoo.tools import mute_logger
 
 from odoo_test_helper import FakeModelLoader
 
@@ -28,6 +25,9 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         self.loader.backup_registry()
 
         # import a simpilified equivalent of purchase module
+        # a downstream _inherit extension of the remaining model poxsd.10.comment
+        # (mirrors l10n_br_account_nfe extending nfe.40.detpag, see issue #4668)
+        from .fake_comment_extension import CommentExtension
         from .fake_mixin import PoXsdMixin
         from .fake_odoo_purchase import (
             PurchaseOrder as FakePurchaseOrder,
@@ -51,10 +51,6 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         from .spec_purchase import (
             ResPartner,
         )
-
-        # a downstream _inherit extension of the remaining model poxsd.10.comment
-        # (mirrors l10n_br_account_nfe extending nfe.40.detpag, see issue #4668)
-        from .fake_comment_extension import CommentExtension
 
         self.loader.update_registry(
             (
@@ -507,9 +503,10 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
             reflected.clear()
             registry.updated_modules = []
             self._clear_poxsd_hook_guard()
-            with mock.patch.object(
-                registry, "init_models", side_effect=spy_init_models
-            ), mock.patch.object(cr, "commit"):
+            with (
+                mock.patch.object(registry, "init_models", side_effect=spy_init_models),
+                mock.patch.object(cr, "commit"),
+            ):
                 registry.load(cr, FakePackage("spec_driven_model"))
                 registry.setup_models(cr)
             self.assertEqual(
@@ -548,8 +545,7 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
             registry.updated_modules = ["spec_driven_model"]
             self.assertTrue(
                 hook_model._spec_reflection_needed([existing_table]),
-                "an install/update in progress must take the full "
-                "reflection path",
+                "an install/update in progress must take the full reflection path",
             )
 
             # ordinary load with a concrete table still missing -> full path. This is
