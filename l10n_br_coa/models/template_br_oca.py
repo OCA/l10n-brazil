@@ -184,9 +184,11 @@ class AccountChartTemplate(models.AbstractModel):
         """
         Populate a default Brazilian tax accounts and configure tax repartition lines.
         """
-        if not (company.chart_template or "").startswith("br_oca"):
-            # The native 'br' localization owns its own tax accounts and taxes:
-            # never write on them from here.
+        # Only the native 'br' localization owns its own tax accounts and
+        # taxes: it must never be written on from here. Other charts (the OCA
+        # br_oca* ones, but also generic charts on which l10n_br_account loads
+        # the Brazilian taxes) still need those accounts to be created.
+        if (company.chart_template or "") == "br":
             _logger.info(
                 "Company %s: chart %s is not an OCA Brazilian chart, skipping the"
                 " default tax accounts",
