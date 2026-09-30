@@ -9,47 +9,13 @@ from importlib import resources
 
 import nfelib
 from nfelib.mdfe.bindings.v3_0.mdfe_v3_00 import Tmdfe
-from odoo_test_helper import FakeModelLoader
 
-from odoo import Command, api, models
-from odoo.models import MAGIC_COLUMNS
+from odoo import Command, api
 from odoo.tests import TransactionCase
-
-from odoo.addons.l10n_br_mdfe_spec.models.v3_0 import mdfe_tipos_basico_v3_00
 
 from ..models import spec_mixin
 
 tz_datetime = re.compile(r".*[-+]0[0-9]:00$")
-
-
-# Store the original _add_field method
-original_add_field = models.BaseModel._add_field
-
-
-# Define magic fields that should bypass validation
-MAGIC_FIELDS = MAGIC_COLUMNS + ["display_name"]
-
-
-def patched_add_field(self, name, field):
-    """
-    Patched _add_field that allows magic columns for
-    dynamically created test models.
-    """
-    if name in MAGIC_FIELDS:
-        # Allow magic fields without validation
-        cls = self.env.registry[self._name]
-        if not isinstance(getattr(cls, name, field), models.fields.Field):
-            setattr(cls, name, field)
-        field._toplevel = True
-        field.__set_name__(cls, name)
-        cls._fields[name] = field
-    else:
-        # Call original method for other fields
-        original_add_field(self, name, field)
-
-
-# Apply the patch
-models.BaseModel._add_field = patched_add_field
 
 
 @api.model
@@ -153,27 +119,12 @@ spec_mixin.MdfeSpecMixin.build_attrs_fake = build_attrs_fake
 spec_mixin.MdfeSpecMixin.match_or_create_m2o_fake = match_or_create_m2o_fake
 
 
-class NFeImportTest(TransactionCase, FakeModelLoader):
+class NFeImportTest(TransactionCase):
+    # the generated spec models are abstract: the test builds them as new
+    # (in memory) records, which does not require concrete models
     def setUp(self):
         super().setUp()
         self.env = self.env(context=dict(self.env.context, tracking_disable=True))
-        self.loader = FakeModelLoader(self.env, self.__module__)
-        self.loader.backup_registry()
-
-        # Get all classes from the module that inherit from AbstractModel
-        modified_classes = []
-        for _name, obj in vars(mdfe_tipos_basico_v3_00).items():
-            if isinstance(obj, type) and models.AbstractModel in obj.__bases__:
-                # Create new bases tuple with Model added
-                new_bases = (models.Model,) + obj.__bases__
-
-                # Create new class with same attributes but modified bases
-                modified_class = type(obj.__name__, new_bases, dict(obj.__dict__))
-
-                # Replace original class in module
-                modified_classes.append(modified_class)
-        self.loader.update_registry(modified_classes)
-        self.addCleanup(self.loader.restore_registry)
 
     def test_import_mdfe1(self):
         file = (
