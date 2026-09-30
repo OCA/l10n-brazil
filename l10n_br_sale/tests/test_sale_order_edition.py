@@ -39,17 +39,16 @@ class TestSaleOrderEdition(TransactionCase):
         cls.fiscal_operation = cls.env.ref("l10n_br_fiscal.fo_venda")
         cls.fiscal_operation_line = cls.env.ref("l10n_br_fiscal.fo_venda_venda")
         # Ensure the company has a warehouse when stock is installed.
-        if "stock.warehouse" in cls.env:
-            if not cls.env["stock.warehouse"].search(
-                [("company_id", "=", cls.company.id)], limit=1
-            ):
-                cls.env["stock.warehouse"].create(
-                    {
-                        "name": cls.company.name,
-                        "code": cls.company.name[:5],
-                        "company_id": cls.company.id,
-                    }
-                )
+        if "stock.warehouse" in cls.env and not cls.env["stock.warehouse"].search(
+            [("company_id", "=", cls.company.id)], limit=1
+        ):
+            cls.env["stock.warehouse"].create(
+                {
+                    "name": cls.company.name,
+                    "code": cls.company.name[:5],
+                    "company_id": cls.company.id,
+                }
+            )
 
     def _open_sale_order_form(self):
         # The Brazilian fiscal fields of the form (e.g. fiscal_operation_id)
@@ -193,9 +192,11 @@ class TestSaleOrderEdition(TransactionCase):
         self._assert_widget_icms_matches_line(sale_order)
 
         # --- Edit the price through the UI: totals must follow (not frozen) --
-        with Form(sale_order) as order_form:
-            with order_form.order_line.edit(0) as line_form:
-                line_form.price_unit = 700.0
+        with (
+            Form(sale_order) as order_form,
+            order_form.order_line.edit(0) as line_form,
+        ):
+            line_form.price_unit = 700.0
         self.env.flush_all()
         sale_order.invalidate_recordset()
         line.invalidate_recordset()

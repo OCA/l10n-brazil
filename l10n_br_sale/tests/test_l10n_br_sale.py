@@ -2,6 +2,7 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+from odoo.addons.l10n_br_account.tests.common import load_demo_company_chart
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     CFOP_DESTINATION_EXTERNAL,
     CFOP_DESTINATION_INTERNAL,
@@ -36,6 +37,13 @@ class L10nBrSaleBaseTest:
             load_sale_fixture_files(cls.env)
 
         cls.company = cls.env.ref(cls.company_ref)
+        # The demo data does not give a chart of accounts to every demo company
+        # (the Simples Nacional one gets it from l10n_br_coa_simple, which is not
+        # a dependency): load it when the company has no sale journal yet.
+        if not cls.env["account.journal"].search(
+            [("company_id", "=", cls.company.id), ("type", "=", "sale")], limit=1
+        ):
+            load_demo_company_chart(cls.env, cls.company_ref)
 
         # Ensure warehouse exists if stock module is installed
         if "stock.warehouse" in cls.env:

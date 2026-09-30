@@ -114,7 +114,7 @@ class L10nBrSaleDiscount(TransactionCase):
         self.order_line.invalidate_recordset(
             ["user_discount_value", "user_total_discount"]
         )
-        self.env.registry.clear_all_caches()
+        self.env.transaction.invalidate_ormcache("groups")
 
     def test_l10n_br_sale_discount_value(self):
         """User with group_discount_per_value: discount_value drives discount."""

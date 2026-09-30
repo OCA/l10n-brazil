@@ -2,6 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import fields, models
+from odoo.tools import SQL
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     NFE_IND_PRES,
@@ -15,13 +16,11 @@ class SaleReport(models.Model):
 
     fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
-        string="Fiscal Operation",
         readonly=True,
     )
 
     fiscal_operation_line_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation.line",
-        string="Fiscal Operation Line",
         readonly=True,
     )
 
@@ -96,55 +95,56 @@ class SaleReport(models.Model):
         digits="Account",
     )
 
-    def _select_additional_fields(self):
-        res = super()._select_additional_fields()
+    def _select_dict(self, table):
+        res = super()._select_dict(table)
+        order_rate = self._case_value_or_one(table.order_id.currency_rate)
+        values = (
+            "ipi_value",
+            "icmsst_value",
+            "freight_value",
+            "insurance_value",
+            "other_value",
+        )
         res.update(
             {
-                "fiscal_operation_id": "l.fiscal_operation_id",
-                "fiscal_operation_line_id": "l.fiscal_operation_line_id",
-                "ind_pres": "s.ind_pres",
-                "cfop_id": "l.cfop_id",
-                "fiscal_type": "l.fiscal_type",
-                "ncm_id": "l.ncm_id",
-                "nbm_id": "l.nbm_id",
-                "cest_id": "l.cest_id",
-                "icms_value": "SUM(l.icms_value)",
-                "icmsst_value": "SUM(l.icmsst_value)",
-                "ipi_value": "SUM(l.ipi_value)",
-                "cofins_value": "SUM(l.cofins_value)",
-                "pis_value": "SUM(l.pis_value)",
-                "ii_value": "SUM(l.ii_value)",
-                "freight_value": "SUM(l.freight_value)",
-                "insurance_value": "SUM(l.insurance_value)",
-                "other_value": "SUM(l.other_value)",
-                "total_with_taxes": """
-                    SUM(l.price_total / CASE COALESCE(s.currency_rate, 0)
-                        WHEN 0 THEN 1.0 ELSE s.currency_rate END)
-                    + SUM(CASE WHEN l.ipi_value IS NULL THEN
-                       0.00 ELSE l.ipi_value END)
-                    + SUM(CASE WHEN l.icmsst_value IS NULL THEN
-                       0.00 ELSE l.icmsst_value END)
-                    + SUM(CASE WHEN l.freight_value IS NULL THEN
-                       0.00 ELSE l.freight_value END)
-                    + SUM(CASE WHEN l.insurance_value IS NULL THEN
-                       0.00 ELSE l.insurance_value END)
-                    + SUM(CASE WHEN l.other_value IS NULL THEN
-                       0.00 ELSE l.other_value END)
-                """,
+                "fiscal_operation_id": table.fiscal_operation_id,
+                "fiscal_operation_line_id": table.fiscal_operation_line_id,
+                "ind_pres": table.order_id.ind_pres,
+                "cfop_id": table.cfop_id,
+                "fiscal_type": table.fiscal_type,
+                "ncm_id": table.ncm_id,
+                "nbm_id": table.nbm_id,
+                "cest_id": table.cest_id,
+                "icms_value": SQL("SUM(%s)", table.icms_value),
+                "icmsst_value": SQL("SUM(%s)", table.icmsst_value),
+                "ipi_value": SQL("SUM(%s)", table.ipi_value),
+                "cofins_value": SQL("SUM(%s)", table.cofins_value),
+                "pis_value": SQL("SUM(%s)", table.pis_value),
+                "ii_value": SQL("SUM(%s)", table.ii_value),
+                "freight_value": SQL("SUM(%s)", table.freight_value),
+                "insurance_value": SQL("SUM(%s)", table.insurance_value),
+                "other_value": SQL("SUM(%s)", table.other_value),
+                "total_with_taxes": SQL(
+                    "SUM(%s / %s) + %s",
+                    table.price_total,
+                    order_rate,
+                    SQL(" + ").join(
+                        SQL("SUM(COALESCE(%s, 0.0))", table[value]) for value in values
+                    ),
+                ),
             }
         )
         return res
 
-    def _group_by_sale(self):
-        res = super()._group_by_sale()
-        res += """
-            , l.fiscal_operation_id
-            , l.fiscal_operation_line_id
-            , s.ind_pres
-            , l.cfop_id
-            , l.fiscal_type
-            , l.ncm_id
-            , l.nbm_id
-            , l.cest_id
-        """
-        return res
+    def _groupby_list(self, table):
+        return [
+            *super()._groupby_list(table),
+            table.fiscal_operation_id,
+            table.fiscal_operation_line_id,
+            table.order_id.ind_pres,
+            table.cfop_id,
+            table.fiscal_type,
+            table.ncm_id,
+            table.nbm_id,
+            table.cest_id,
+        ]

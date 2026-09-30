@@ -18,7 +18,7 @@ class TestSaleReport(TestSaleCommon):
         # registry level cache: without clearing it the Form still considers
         # pricelist_id as invisible (groups="product.group_product_pricelist")
         # and refuses to write it.
-        cls.env.registry.clear_all_caches()
+        cls.env.transaction.invalidate_ormcache("groups")
 
         # The Brazilian fiscal fields of the sale order form are injected and
         # displayed only for a Brazilian company: Odoo 19 stores the company

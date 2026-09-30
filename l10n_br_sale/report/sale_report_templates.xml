@@ -39,7 +39,10 @@
                 />
             </td>
         </xpath>
-        <xpath expr="//div[@name='total']//t[@t-set='tax_totals']" position="before">
+        <xpath
+            expr="//div[@name='total']//t[@t-call='sale.document_tax_totals']"
+            position="before"
+        >
             <tr t-if="doc.amount_freight_value">
                 <td name="td_amount_freight_label">
                     <strong>Freight</strong>

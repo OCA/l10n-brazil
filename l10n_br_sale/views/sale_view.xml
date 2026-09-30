@@ -107,7 +107,10 @@
             <group name="sale_shipping" position="inside">
                 <field name="force_compute_delivery_costs_by_total" />
             </group>
-            <field name="show_update_fpos" position="before">
+            <xpath
+                expr="//group[@name='sale_info']/label[@for='fiscal_position_id']"
+                position="before"
+            >
                 <field name="company_country_id" invisible="True" />
                 <field
                     name="fiscal_operation_id"
@@ -125,7 +128,7 @@
                     required="fiscal_operation_id"
                     readonly="state != 'draft'"
                 />
-            </field>
+            </xpath>
             <!-- order lines list view extensions: -->
             <xpath expr="//field[@name='order_line']" position="attributes">
                 <attribute
@@ -168,7 +171,7 @@
                 >parent.fiscal_operation_id</attribute>
             </xpath>
             <xpath
-                expr="//field[@name='order_line']/list/field[@name='price_unit']"
+                expr="//field[@name='order_line']/list/column[@name='price_unit']"
                 position="after"
             >
                 <field
@@ -198,8 +201,8 @@
                 />
             </xpath>
             <xpath
-                expr="//field[@name='order_line']/list/field[@name='price_subtotal']"
-                position="after"
+                expr="//field[@name='order_line']/list/widget[@name='section_state']"
+                position="before"
             >
                 <field
                     name="price_total"
@@ -304,12 +307,6 @@
             </xpath>
             <xpath
                 expr="//field[@name='order_line']/form//field[@name='tax_ids']"
-                position="attributes"
-            >
-                <attribute name="invisible">parent.fiscal_operation_id</attribute>
-            </xpath>
-            <xpath
-                expr="//field[@name='order_line']/form/div[@groups='base.group_no_one' and field/@name='invoice_lines']"
                 position="attributes"
             >
                 <attribute name="invisible">parent.fiscal_operation_id</attribute>

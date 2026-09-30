@@ -14,7 +14,7 @@ class TestSaleOrderPriceList(TestSaleCommon):
         # registry level cache: without clearing it the Form still considers
         # pricelist_id as invisible (groups="product.group_product_pricelist")
         # and refuses to write it.
-        cls.env.registry.clear_all_caches()
+        cls.env.transaction.invalidate_ormcache("groups")
 
         # The Brazilian fiscal fields of the sale order form are injected and
         # displayed only for a Brazilian company: Odoo 19 stores the company
@@ -82,9 +82,11 @@ class TestSaleOrderPriceList(TestSaleCommon):
         fiscal_price_before = self.sale_order.order_line[0].fiscal_price
 
         # change product name
-        with Form(self.sale_order) as sale_form:
-            with sale_form.order_line.edit(0) as line_form:
-                line_form.product_id.name = "Test Product - New Name"
+        with (
+            Form(self.sale_order) as sale_form,
+            sale_form.order_line.edit(0) as line_form,
+        ):
+            line_form.product_id.name = "Test Product - New Name"
         self.sale_order = sale_form.save()
 
         # prices after product change.

@@ -7,7 +7,7 @@ from odoo.exceptions import UserError
 
 class SaleOrder(models.Model):
     _name = "sale.order"
-    _inherit = [_name, "l10n_br_fiscal.document.mixin"]
+    _inherit = (_name, "l10n_br_fiscal.document.mixin")
 
     @api.depends(
         "order_line.fiscal_amount_untaxed",
@@ -99,7 +99,7 @@ class SaleOrder(models.Model):
             self.env.user.has_group("l10n_br_sale.group_line_fiscal_detail")
             or self.env.context.get("force_line_fiscal_detail_edition")
         ):
-            for sub_tree_node in arch.xpath("//field[@name='order_line']/tree"):
+            for sub_tree_node in arch.xpath("//field[@name='order_line']/list"):
                 sub_tree_node.attrib["editable"] = ""
 
         return arch, view
@@ -137,9 +137,9 @@ class SaleOrder(models.Model):
         lines_doc_type |= other_lines
         return lines_doc_type
 
-    def _create_invoices(self, grouped=False, final=False, date=None):
+    def _create_invoices(self, final=False, grouped=False):
         if not self.fiscal_operation_id:
-            return super()._create_invoices(grouped=grouped, final=final, date=date)
+            return super()._create_invoices(final=final, grouped=grouped)
         lines_with_fiscal_op_line = self.order_line.filtered(
             lambda ln: ln.fiscal_operation_line_id
         )
@@ -159,7 +159,7 @@ class SaleOrder(models.Model):
                 raise_if_nothing_to_invoice=False,
             )
             moves |= super(SaleOrder, order)._create_invoices(
-                grouped=grouped, final=final, date=date
+                final=final, grouped=grouped
             )
 
         if not moves and self.env.context.get("raise_if_nothing_to_invoice", True):

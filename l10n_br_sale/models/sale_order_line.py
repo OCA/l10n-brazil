@@ -7,7 +7,7 @@ from odoo import api, fields, models
 
 class SaleOrderLine(models.Model):
     _name = "sale.order.line"
-    _inherit = [_name, "l10n_br_fiscal.document.line.mixin"]
+    _inherit = (_name, "l10n_br_fiscal.document.line.mixin")
 
     @api.model
     def _fiscal_operation_domain(self):
@@ -39,6 +39,10 @@ class SaleOrderLine(models.Model):
         column2="fiscal_tax_id",
         string="Fiscal Taxes",
     )
+
+    # the sale line currency is the order one (related in sale): drop the
+    # company currency compute of the fiscal mixin
+    currency_id = fields.Many2one(compute=None)
 
     quantity = fields.Float(
         string="Product Uom Quantity",
@@ -223,9 +227,11 @@ class SaleOrderLine(models.Model):
         result = super()._compute_qty_delivered()
         for line in self:
             line.fiscal_qty_delivered = 0.0
-            if line.product_id.invoice_policy == "delivery":
-                if line.uom_id == line.uot_id:
-                    line.fiscal_qty_delivered = line.qty_delivered
+            if (
+                line.product_id.invoice_policy == "delivery"
+                and line.uom_id == line.uot_id
+            ):
+                line.fiscal_qty_delivered = line.qty_delivered
 
             if line.uom_id != line.uot_id:
                 line.fiscal_qty_delivered = (
