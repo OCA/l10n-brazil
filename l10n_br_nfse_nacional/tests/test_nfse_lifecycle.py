@@ -2,10 +2,13 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import json
+import os
 import re
 from unittest import mock
 
+import nfelib
 import requests
+from nfelib import CommonMixin
 
 from odoo.tests.common import TransactionCase, tagged
 
@@ -16,6 +19,13 @@ SCHEMA_VALIDATION = (
     "odoo.addons.l10n_br_nfse_nacional.models.document.Dps.schema_validation"
 )
 SESSION_POST = "requests.Session.post"
+PEDREG_SCHEMA = os.path.join(
+    os.path.dirname(nfelib.__file__),
+    "nfse",
+    "schemas",
+    "v1_0",
+    "pedRegEvento_v1.00.xsd",
+)
 
 AUTHORIZED = {
     "chaveAcesso": "5" * 50,
@@ -109,11 +119,12 @@ class TestNfseLifecycle(TransactionCase):
         self.assertTrue(re.fullmatch(r"PRE[0-9]{56}", event_id))
         self.assertEqual(event_id, "PRE" + "5" * 50 + "101101")
 
-    def test_cancel_pedreg_omits_npedregevento(self):
+    def test_cancel_pedreg_validates_against_schema(self):
         self.doc.nfse_key = "5" * 50
         ped = self.doc._build_cancel_pedreg("Erro na emissao do documento.", "1")
-        self.assertFalse(ped.infPedReg.nPedRegEvento)
-        self.assertNotIn("nPedRegEvento", self.doc._serialize_pedreg(ped))
+        xml = self.doc._serialize_pedreg(ped)
+        self.assertEqual(CommonMixin.schema_validation(xml, PEDREG_SCHEMA), [])
+        self.assertIn(f"<chNFSe>{'5' * 50}</chNFSe>", xml)
 
     def test_cancellation(self):
         self.doc.nfse_key = "5" * 50
