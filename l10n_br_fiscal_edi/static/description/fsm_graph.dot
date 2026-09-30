@@ -1,0 +1,43 @@
+digraph FSM {
+    rankdir=TB;
+    node [shape=box, style="rounded,filled", fontname="Arial", fontsize=12];
+    edge [fontname="Arial", fontsize=10];
+
+    draft [fillcolor="#eeeeee", label="Draft"];
+    open [fillcolor="#87cefa", label="Open"];
+    sending [fillcolor="#ffd700", label="Sending"];
+    authorized [fillcolor="#90ee90", label="Authorized"];
+    rejected [fillcolor="#ffb6c1", label="Rejected"];
+    denied [fillcolor="#ff6347", label="Denied"];
+    cancel [fillcolor="#d3d3d3", label="Cancelled"];
+
+    # Confirm
+    draft -> open [label="Confirm (Electronic)", color="blue"];
+    draft -> authorized [label="Confirm\n(Non-electronic / Partner)", color="blue", style="bold"];
+
+    # Send / Re-send
+    open -> sending [label="Send", color="blue"];
+    rejected -> sending [label="Send (Retry)", color="blue"];
+    sending -> sending [label="Re-send /\nConsult Receipt", color="blue", style="dotted"];
+
+    # Authorization
+    sending -> authorized [label="Authorize", style="dashed", color="green"];
+    open -> authorized [label="Authorize", style="dashed", color="green"];
+
+    # Rejection / Denial
+    sending -> rejected [label="Reject", style="dashed", color="red"];
+    open -> rejected [label="Reject", style="dashed", color="red"];
+    sending -> denied [label="Deny", style="dashed", color="red"];
+    open -> denied [label="Deny", style="dashed", color="red"];
+
+    # Cancel
+    authorized -> cancel [label="Cancel", color="black"];
+    open -> cancel [label="Cancel", color="black"];
+    draft -> cancel [label="Cancel", color="black"];
+    sending -> cancel [label="Cancel\n(NFSe status sync)", color="black", style="dotted"];
+
+    # Back to Draft
+    open -> draft [label="Set to Draft", color="gray"];
+    rejected -> draft [label="Set to Draft", color="gray"];
+    cancel -> draft [label="Set to Draft", color="gray"];
+}
