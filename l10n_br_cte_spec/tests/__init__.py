@@ -1,3 +1,4 @@
-# this test is disabled once l10n_br_cte is migrated
-# because it would conflict with the l10n_br_cte module.
-# from . import test_cte_import
+# The test builds new (in memory) records of the abstract spec models, it does
+# not turn them into concrete models anymore. Disable it again if it ever
+# conflicts with l10n_br_cte once that module is migrated.
+from . import test_cte_import
