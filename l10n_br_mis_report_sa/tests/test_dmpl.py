@@ -108,8 +108,12 @@ class EquityCommon(AccountTestInvoicingCommon):
         )
 
     def _column(self, values, kpi, index):
-        """A matrix KPI comes back as one value per column, in order."""
-        return values[kpi][index]
+        """A matrix KPI comes back as one value per column, in order.
+
+        A column with no movement comes back as AccountingNone, which does not
+        accept a format spec, so it is read as a float.
+        """
+        return float(values[kpi][index])
 
 
 @tagged("post_install", "-at_install")
