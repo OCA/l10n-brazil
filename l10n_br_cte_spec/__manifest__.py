@@ -1,6 +1,6 @@
 {
     "name": "CT-e abstract models",
-    "version": "17.0.1.1.1",
+    "version": "17.0.1.2.0",
     "author": "Akretion, Odoo Community Association (OCA)",
     "license": "LGPL-3",
     "category": "Accounting",
