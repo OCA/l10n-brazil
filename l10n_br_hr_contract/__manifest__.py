@@ -7,7 +7,7 @@
     "license": "AGPL-3",
     "author": "KMEE, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
-    "version": "14.0.1.0.1",
+    "version": "14.0.1.0.2",
     "depends": ["hr_contract", "l10n_br_hr"],
     "data": [
         # Data
