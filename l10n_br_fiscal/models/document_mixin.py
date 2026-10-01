@@ -126,20 +126,32 @@ class FiscalDocumentMixin(models.AbstractModel):
         return "fiscal_line_ids"
 
     def _get_fiscal_amount_field_dependencies(self):
-        """
-        Dynamically get the list of field dependencies.
+        """Dependencies of :meth:`_compute_fiscal_amount`.
+
+        The document monetary totals are summed from ~50 line amount fields. In
+        the Form onchange cascade every one of those fields is written many
+        times (e.g. by ``_compute_tax_fields``), and each ``o2m.<field>``
+        dependency is a cross-record (reverse relation) edge that re-flags the
+        whole totals compute. Instead of ~50 such edges, depend on a single
+        per-line aggregate signal (``fiscal_amount_total_signal``): it changes
+        whenever any source line field changes, so the totals are re-triggered
+        on the same events through one reverse edge. The totals themselves are
+        still summed from the real line fields in ``_compute_fiscal_amount``, so
+        the values are unchanged -- this only narrows the trigger.
         """
         if self._abstract:
             return []
         o2m_field_name = self._get_fiscal_lines_field_name()
-        target_fields = []
-        for field in self._get_amount_fields():
-            if (
-                field.replace("amount_", "")
-                in getattr(self, o2m_field_name)._fields.keys()
-            ):
-                target_fields.append(field.replace("amount_", ""))
+        line_model = getattr(self, o2m_field_name)
+        if "fiscal_amount_total_signal" in line_model._fields:
+            return [o2m_field_name, f"{o2m_field_name}.fiscal_amount_total_signal"]
 
+        # Fallback (line model without the signal): keep the explicit edges.
+        target_fields = [
+            field.replace("amount_", "")
+            for field in self._get_amount_fields()
+            if field.replace("amount_", "") in line_model._fields.keys()
+        ]
         return [o2m_field_name] + [
             f"{o2m_field_name}.{target_field}" for target_field in target_fields
         ]
