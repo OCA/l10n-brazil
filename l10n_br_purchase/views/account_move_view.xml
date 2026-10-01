@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2026 Madooit
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="l10n_br_purchase_move_form" model="ir.ui.view">
+        <field name="name">l10n_br_purchase.move.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <xpath expr="//header/button[@name='action_post']" position="before">
+                <button
+                    name="action_update_po_from_nfe"
+                    type="object"
+                    string="Update PO from NFe"
+                    attrs="{'invisible': [('move_type', '!=', 'in_invoice'), ('fiscal_document_id', '=', False)]}"
+                />
+                <button
+                    name="action_create_po_from_nfe"
+                    type="object"
+                    string="Create PO from NFe"
+                    attrs="{'invisible': [('move_type', '!=', 'in_invoice'), ('fiscal_document_id', '=', False)]}"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

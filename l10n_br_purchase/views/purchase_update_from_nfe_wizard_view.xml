@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2026 Madooit
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="purchase_update_from_nfe_wizard_form" model="ir.ui.view">
+        <field name="name">purchase.update.from.nfe.wizard.form</field>
+        <field name="model">purchase.update.from.nfe.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Update PO from NFe">
+                <group>
+                    <field name="move_id" />
+                    <field name="partner_id" />
+                    <field name="purchase_id" />
+                </group>
+                <group string="Lines">
+                    <field name="line_ids" mode="tree,form">
+                        <tree editable="bottom" create="false" delete="false">
+                            <field name="partner_order" />
+                            <field name="partner_order_line" />
+                            <field name="nfe_quantity" />
+                            <field name="po_quantity" />
+                            <field
+                                name="new_quantity"
+                                string="Quantity"
+                                attrs="{'required': True}"
+                            />
+                            <field name="nfe_price_unit" />
+                            <field name="po_price_unit" />
+                            <field
+                                name="new_price_unit"
+                                string="Unit Price"
+                                attrs="{'required': True}"
+                            />
+                            <field name="update_taxes" />
+                        </tree>
+                        <form string="Update PO line">
+                            <group>
+                                <field name="partner_order" />
+                                <field name="partner_order_line" />
+                                <field name="nfe_line_id" />
+                                <field name="po_line_id" />
+                            </group>
+                            <group>
+                                <field name="nfe_quantity" />
+                                <field name="po_quantity" />
+                                <field name="new_quantity" />
+                            </group>
+                            <group>
+                                <field name="nfe_price_unit" />
+                                <field name="po_price_unit" />
+                                <field name="new_price_unit" />
+                            </group>
+                            <group>
+                                <field name="update_taxes" />
+                            </group>
+                        </form>
+                    </field>
+                </group>
+                <footer>
+                    <button
+                        name="action_apply"
+                        type="object"
+                        string="Apply"
+                        class="btn-primary"
+                    />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

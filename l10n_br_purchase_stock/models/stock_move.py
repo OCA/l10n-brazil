@@ -2,11 +2,18 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import models
+from odoo import api, fields, models
 
 
 class StockMove(models.Model):
     _inherit = "stock.move"
+
+    # Stored so the duck-typed SQL hook of `stock_picking_bill_matching`
+    # (`_get_bill_matching_reference_sql`) can reference them directly.
+    partner_order = fields.Char(related="purchase_line_id.partner_order", store=True)
+    partner_order_line = fields.Char(
+        related="purchase_line_id.partner_order_line", store=True
+    )
 
     def _get_price_unit_invoice(self, inv_type, partner, qty=1):
         result = super()._get_price_unit_invoice(inv_type, partner, qty)
@@ -18,3 +25,14 @@ class StockMove(models.Model):
                 result = self.purchase_line_id.price_unit
 
         return result
+
+    @api.model
+    def _get_bill_matching_reference_sql(self, alias):
+        """
+        Duck-typing hook picked up dynamically by `stock_picking_bill_matching`.
+        The `alias` argument (e.g., 'aml' or 'sm') is passed by the SQL view builder.
+        """
+        return (
+            f"NULLIF(COALESCE({alias}.partner_order, '') || '-' "
+            f"|| COALESCE({alias}.partner_order_line, ''), '-')"
+        )
