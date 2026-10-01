@@ -34,6 +34,8 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_STATE_CANCEL,
     DOCUMENT_STATE_DRAFT,
     DOCUMENT_STATE_OPEN,
+    EDOC_PURPOSE_AJUSTE,
+    EDOC_PURPOSE_DEVOLUCAO,
     EVENT_ENV_HML,
     EVENT_ENV_PROD,
     EVENTO_RECEBIDO,
@@ -1834,20 +1836,42 @@ class NFe(spec_models.StackedModel):
             )
 
     def _prepare_payments_for_nfe(self):
+        """Fill pag and cobr only when nothing filled them, as when this module
+        runs without l10n_br_account_nfe: no payment (90) and, when the
+        operation generates a financial amount, one installment due on issue.
+        """
         for rec in self.filtered(
-            lambda d: d.document_type == MODELO_FISCAL_NFE and not d.nfe40_detPag
+            lambda d: d.document_type == MODELO_FISCAL_NFE
+            and not d.nfe40_detPag
+            and not d.nfe40_dup
         ):
-            payment_type = (
-                rec.fiscal_operation_id.nfe_payment_type
-                or rec.company_id.nfe_default_payment_type
-            )
-            values = {"nfe40_tPag": payment_type}
-            if payment_type == NFE_PAYMENT_TYPE_NO_PAYMENT:
-                values["nfe40_vPag"] = 0.0
-            else:
-                values["nfe40_indPag"] = NFE_PAYMENT_INDICATOR_CASH
-                values["nfe40_vPag"] = rec.amount_financial_total
-            rec.sudo().nfe40_detPag = [(0, 0, values)]
+            values = {
+                "nfe40_detPag": [
+                    Command.create(
+                        {
+                            "nfe40_indPag": NFE_PAYMENT_INDICATOR_CASH,
+                            "nfe40_tPag": NFE_PAYMENT_TYPE_NO_PAYMENT,
+                            "nfe40_vPag": 0.0,
+                        }
+                    )
+                ]
+            }
+            if rec.amount_financial_total and rec.edoc_purpose not in (
+                EDOC_PURPOSE_DEVOLUCAO,
+                EDOC_PURPOSE_AJUSTE,
+            ):
+                values["nfe40_dup"] = [
+                    Command.create(
+                        {
+                            "nfe40_nDup": "001",
+                            "nfe40_dVenc": fields.Date.context_today(
+                                rec, rec.document_date
+                            ),
+                            "nfe40_vDup": rec.amount_financial_total,
+                        }
+                    )
+                ]
+            rec.sudo().write(values)
 
     def action_danfe_nfce_report(self):
         return (
