@@ -4,6 +4,8 @@
 from odoo.exceptions import UserError
 from odoo.tests import TransactionCase
 
+from ..constants.fiscal import DOCUMENT_STATE_OPEN
+
 
 class TestDocumentImportLine(TransactionCase):
     """Review states and persisted de-para on imported document lines."""
@@ -381,7 +383,7 @@ class TestDocumentImportLine(TransactionCase):
     def test_apply_operation_to_lines_only_on_a_draft(self):
         """The propagation rewrites the fiscal mapping of every line: it is
         refused once the document left the draft state."""
-        self.document.state_edoc = "autorizada"
+        self.document.state_edoc = DOCUMENT_STATE_OPEN
         with self.assertRaises(UserError):
             self.document.action_apply_operation_to_lines()
 
