@@ -361,15 +361,11 @@ class AccountMove(models.Model):
     def _compute_imported_terms(self):
         """Build the payment terms of an imported document from its file.
 
-        The fiscal document knows the installments the file declares. Without
-        them the compute below falls back to a single term dated by
-        invoice_date_due, and the importation never fills that field, so every
-        imported bill ends up due on the day it was imported.
-
-        The dates come from the file. The amounts are the document total split
-        by the weight of each installment, so the move keeps balancing exactly
-        like the single term fallback does even when the declared installments
-        do not add up to the document total.
+        Without the installments the file declares, the compute below falls
+        back to a single term dated by invoice_date_due, which the importation
+        never fills. The declared amounts are kept when they add up to the
+        document total; otherwise the total is split by their weight, so the
+        move still balances.
         """
         self.ensure_one()
         installments = self.fiscal_document_id._get_imported_installments()
@@ -377,9 +373,28 @@ class AccountMove(models.Model):
         if not installments or not declared:
             return
 
+        company_currency = self.company_id.currency_id
+        if (
+            self.currency_id == company_currency
+            and company_currency.compare_amounts(declared, self.amount_total) == 0
+        ):
+            sign = 1 if self.is_inbound(include_receipts=True) else -1
+            terms = {}
+            for date, amount in installments:
+                key = frozendict(
+                    {
+                        "move_id": self.id,
+                        "date_maturity": fields.Date.to_date(date),
+                        "discount_date": False,
+                    }
+                )
+                balance = terms.get(key, {}).get("balance", 0.0) + sign * amount
+                terms[key] = {"balance": balance, "amount_currency": balance}
+            self.needed_terms = terms
+            return
+
         balance_left = self.amount_total_signed
         amount_left = self.amount_total_in_currency_signed
-        company_currency = self.company_id.currency_id
         terms = {}
         for position, (date, amount) in enumerate(installments, start=1):
             if position == len(installments):
