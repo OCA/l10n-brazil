@@ -591,7 +591,7 @@ class Tax(models.Model):
         tax_dict = taxes_dict.get(tax.tax_domain)
         partner = kwargs.get("partner")
         company = kwargs.get("company")
-        icms_cst_id = kwargs.get("icms_cst_id")
+        icms_cst_id = kwargs.get("icms_cst_id") or self.env["l10n_br_fiscal.cst"]
 
         if taxes_dict.get("icms"):
             if company.state_id != partner.state_id:
