@@ -4,6 +4,7 @@
 from odoo.tests import TransactionCase, tagged
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    PROCESSADOR_NENHUM,
     SITUACAO_EDOC_A_ENVIAR,
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_EM_DIGITACAO,
@@ -15,10 +16,12 @@ from odoo.addons.queue_job.tests.common import trap_jobs
 class TestFiscalQueue(TransactionCase):
     """Envio assincrono via queue_job.
 
-    Sem l10n_br_nfe instalado, ``_eletronic_document_send`` cai na
-    implementacao base do l10n_br_fiscal_edi, que apenas muda o estado do
-    documento para AUTORIZADA (sem tocar a SEFAZ). Isso torna os testes do
-    split (send_now x with_delay) deterministicos e independentes de rede.
+    O documento usa um tipo eletronico proprio do teste, que nenhum modulo de
+    transmissao reconhece, e a empresa fica sem processador de documentos.
+    Assim o envio cai na implementacao base do l10n_br_fiscal_edi, que apenas
+    leva o documento a AUTORIZADA (sem tocar a SEFAZ), mesmo com l10n_br_nfe e
+    afins instalados. Isso torna os testes do split (send_now x with_delay)
+    deterministicos e independentes de rede.
     """
 
     @classmethod
@@ -27,7 +30,15 @@ class TestFiscalQueue(TransactionCase):
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.operation_model = cls.env["l10n_br_fiscal.operation"]
         cls.document_model = cls.env["l10n_br_fiscal.document"]
-        cls.document_type = cls.env.ref("l10n_br_fiscal.document_55_serie_1")
+        cls.env.company.processador_edoc = PROCESSADOR_NENHUM
+        cls.document_type = cls.env["l10n_br_fiscal.document.type"].create(
+            {
+                "code": "QUEUE",
+                "name": "Fiscal queue test",
+                "type": "icms",
+                "electronic": True,
+            }
+        )
 
         cls.operation_now = cls.operation_model.create(
             {
@@ -52,7 +63,6 @@ class TestFiscalQueue(TransactionCase):
                 "document_type_id": self.document_type.id,
                 "fiscal_operation_type": "out",
                 "fiscal_operation_id": operation.id,
-                "document_electronic": True,
             }
         )
 
@@ -94,19 +104,33 @@ class TestFiscalQueue(TransactionCase):
         self.assertEqual(document.state_edoc, SITUACAO_EDOC_AUTORIZADA)
 
     def test_mixed_batch_splits_by_operation(self):
-        # o workflow de confirmacao e por documento (nao aceita recordset
-        # multiplo); ja o envio (_document_send) opera sobre o recordset, e e
-        # nesse ponto que o split por operacao acontece.
+        # o envio (action_document_send) opera sobre o recordset, e e nesse
+        # ponto que o split por operacao acontece
         document_now = self._new_document(self.operation_now)
         document_later = self._new_document(self.operation_later)
-        document_now.action_document_confirm()
-        document_later.action_document_confirm()
+        self._confirm(document_now)
+        self._confirm(document_later)
         batch = document_now | document_later
         with trap_jobs() as trap:
-            batch._document_send()
+            batch.action_document_send()
             # apenas o with_delay foi enfileirado
             trap.assert_jobs_count(1)
             trap.assert_enqueued_job(document_later._job_document_send)
         # o send_now ja autorizou sincronamente; o with_delay ainda aguarda
         self.assertEqual(document_now.state_edoc, SITUACAO_EDOC_AUTORIZADA)
         self.assertEqual(document_later.state_edoc, SITUACAO_EDOC_A_ENVIAR)
+
+    def test_job_skips_a_document_no_longer_waiting(self):
+        """The job does not transmit a document sent while it waited."""
+        document = self._new_document(self.operation_later)
+        self._confirm(document)
+        with trap_jobs() as trap:
+            document.action_document_send()
+            trap.assert_jobs_count(1)
+            # someone sends it right away while the job is still queued
+            document.with_context(
+                l10n_br_fiscal_queue_send_now=True
+            ).action_document_send()
+            self.assertEqual(document.state_edoc, SITUACAO_EDOC_AUTORIZADA)
+            self.assertFalse(document._job_document_send())
+        self.assertEqual(document.state_edoc, SITUACAO_EDOC_AUTORIZADA)
