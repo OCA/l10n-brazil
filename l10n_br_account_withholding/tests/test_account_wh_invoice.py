@@ -120,6 +120,13 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
     def test_compra_para_revenda(self):
         """
         Test move with deductible taxes and withholding taxes
+
+        partner_a has the Simples Nacional fiscal profile (SNC). The buyer
+        is a Lucro Presumido industrial company buying for resale: the
+        creditability resolver gives no ICMS nor IPI credit for a purchase
+        from a Simples Nacional supplier (LC 123/2006, art. 23), so both
+        stay in the product cost and no "a Compensar" line is booked. Only
+        the PIS and COFINS withholdings remain as tax lines.
         """
         product_line_vals_1 = {
             "name": self.product_a.display_name,
@@ -173,150 +180,6 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
             "amount_currency": -30.0,
             "debit": 0.0,
             "credit": 30.0,
-            "date_maturity": False,
-        }
-
-        tax_line_vals_icms_comp = {
-            "name": "ICMS",
-            "product_id": False,
-            "account_id": self.env["account.account"]
-            .search(
-                [
-                    ("name", "=", "ICMS s/ Vendas"),
-                    ("company_id", "=", self.company_data["company"].id),
-                ],
-                limit=1,
-            )
-            .id,
-            "partner_id": self.partner_a.id,
-            "product_uom_id": False,
-            "quantity": False,
-            "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
-            "tax_ids": [],
-            "tax_line_id": self.env["account.tax"]
-            .search(
-                [
-                    ("name", "=", "ICMS Entrada Dedutível"),
-                    ("company_id", "=", self.company_data["company"].id),
-                ],
-                limit=1,
-            )
-            .id,
-            "currency_id": self.company_data["currency"].id,
-            "amount_currency": -120.0,
-            "debit": 0.0,
-            "credit": 120.0,
-            "date_maturity": False,
-        }
-
-        tax_line_vals_icms = {
-            "name": "ICMS",
-            "product_id": False,
-            "account_id": self.env["account.account"]
-            .search(
-                [
-                    ("name", "=", "ICMS a Compensar"),
-                    ("company_id", "=", self.company_data["company"].id),
-                ],
-                limit=1,
-            )
-            .id,
-            "partner_id": self.partner_a.id,
-            "product_uom_id": False,
-            "quantity": False,
-            "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
-            "tax_ids": [],
-            "tax_line_id": self.env["account.tax"]
-            .search(
-                [
-                    ("name", "=", "ICMS Entrada"),
-                    ("company_id", "=", self.company_data["company"].id),
-                ],
-                limit=1,
-            )
-            .id,
-            "currency_id": self.company_data["currency"].id,
-            "amount_currency": 120.0,
-            "debit": 120.0,
-            "credit": 0.0,
-            "date_maturity": False,
-        }
-
-        tax_line_vals_ipi_comp = {
-            "name": "IPI",
-            "product_id": False,
-            "account_id": self.env["account.account"]
-            .search(
-                [
-                    ("name", "=", "IPI s/ Vendas"),
-                    ("company_id", "=", self.company_data["company"].id),
-                ],
-                limit=1,
-            )
-            .id,
-            "partner_id": self.partner_a.id,
-            "product_uom_id": False,
-            "quantity": False,
-            "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
-            "tax_ids": [],
-            "tax_line_id": self.env["account.tax"]
-            .search(
-                [
-                    ("name", "=", "IPI Entrada Dedutível"),
-                    ("company_id", "=", self.company_data["company"].id),
-                ],
-                limit=1,
-            )
-            .id,
-            "currency_id": self.company_data["currency"].id,
-            "amount_currency": -32.5,
-            "debit": 0.0,
-            "credit": 32.5,
-            "date_maturity": False,
-        }
-
-        tax_line_vals_ipi = {
-            "name": "IPI",
-            "product_id": False,
-            "account_id": self.env["account.account"]
-            .search(
-                [
-                    ("name", "=", "IPI a Compensar"),
-                    ("company_id", "=", self.company_data["company"].id),
-                ],
-                limit=1,
-            )
-            .id,
-            "partner_id": self.partner_a.id,
-            "product_uom_id": False,
-            "quantity": False,
-            "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
-            "tax_ids": [],
-            "tax_line_id": self.env["account.tax"]
-            .search(
-                [
-                    ("name", "=", "IPI Entrada"),
-                    ("company_id", "=", self.company_data["company"].id),
-                ],
-                limit=1,
-            )
-            .id,
-            "currency_id": self.company_data["currency"].id,
-            "amount_currency": 32.5,
-            "debit": 32.5,
-            "credit": 0.0,
             "date_maturity": False,
         }
 
@@ -394,10 +257,6 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
             [
                 product_line_vals_1,
                 tax_line_vals_cofins_wh,
-                tax_line_vals_icms_comp,
-                tax_line_vals_icms,
-                tax_line_vals_ipi_comp,
-                tax_line_vals_ipi,
                 tax_line_vals_pis_wh,
                 term_line_vals_1,
             ],
