@@ -6,7 +6,11 @@
         <field name="inherit_id" ref="l10n_br_fiscal.fiscal_res_company_form" />
         <field name="arch" type="xml">
             <xpath expr="//page[@name='taxes']" position="after">
-                <page name="certificate" string="Certificates">
+                <page
+                    name="certificate"
+                    string="Certificates"
+                    groups="l10n_br_fiscal.group_manager"
+                >
                     <group name="certificate">
                         <field
                             name="certificate_id"
