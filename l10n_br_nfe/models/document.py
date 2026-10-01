@@ -1629,18 +1629,14 @@ class NFe(spec_models.StackedModel):
         self.file_report_id = self.env["ir.attachment"].create(attachment_data)
 
     def _get_imported_installments(self):
-        """Read the installments of the <cobr>/<dup> group of an imported NF-e.
-
-        The group survives the importation as nfe.40.dup records, and nothing
-        was reading it, so the payment term of an imported bill ignored the
-        due dates the supplier declared in the file.
-        """
+        """Read the installments of the <cobr>/<dup> group of an imported NF-e."""
         self.ensure_one()
         if self.document_type_id.code not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
             return super()._get_imported_installments()
+        # Whoever books the bill may have no NF-e group.
         installments = [
             (dup.nfe40_dVenc, dup.nfe40_vDup)
-            for dup in self.nfe40_dup
+            for dup in self.sudo().nfe40_dup
             if dup.nfe40_dVenc and dup.nfe40_vDup
         ]
         if not installments:
