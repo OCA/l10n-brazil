@@ -174,17 +174,27 @@ class TestStockValuationNetCost(StockValuationNetCostCase):
         # na conta de crédito do imposto (sem dupla contagem).
 
     def test_avco_incoming_net_cost(self):
-        """AVCO: custo médio do produto passa a ser o líquido."""
+        """AVCO: o custo médio absorve a entrada pelo custo líquido.
+
+        O produto pode já ter saldo valorizado na empresa (dados de demo de
+        outros módulos), então o médio esperado é a média ponderada do saldo
+        anterior com a entrada, e não o custo líquido unitário."""
         self._set_cost_method("average")
+        product = self.product.with_company(self.company)
+        qty_before = product.quantity_svl
+        price_before = product.standard_price
         picking, move = self._make_incoming(self.supplier_normal)
         self._receive(picking)
 
         svl = move.stock_valuation_layer_ids
         self.assertAlmostEqual(svl.unit_cost, move.stock_cost_unit, places=2)
+        self.assertNotEqual(svl.unit_cost, move.price_unit)
+        expected = (price_before * qty_before + svl.value) / (qty_before + svl.quantity)
         self.assertAlmostEqual(
-            self.product.with_company(self.company).standard_price,
-            move.stock_cost_unit,
+            product.standard_price,
+            expected,
             places=2,
+            msg=f"saldo anterior: {qty_before} a {price_before}",
         )
 
     def test_supplier_simples_valuation(self):
