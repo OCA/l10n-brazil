@@ -58,3 +58,46 @@ class TestNFeImportUnidentifiedPartner(TransactionCase):
         self.assertEqual(shipping.type, "delivery")
         self.assertFalse(shipping.parent_id)
         self.assertEqual(shipping.nfe40_xLgr, "Rua da Entrega")
+
+    def _import_entrega(self, entrega):
+        nfe = self._import(self.xml.replace("</dest>", "</dest>" + entrega, 1))
+        return nfe.partner_shipping_id
+
+    def test_import_entrega_without_cpais_brazilian_uf(self):
+        # cPais is optional in the layout; a Brazilian UF implies Brazil
+        shipping = self._import_entrega(
+            "<entrega><CNPJ/><xLgr>Rua da Entrega</xLgr><nro>324</nro>"
+            "<xBairro>Centro</xBairro><cMun>3550308</cMun><xMun>SAO PAULO</xMun>"
+            "<UF>SP</UF><CEP>01001000</CEP></entrega>"
+        )
+        self.assertEqual(shipping.street_name, "Rua da Entrega")
+        self.assertEqual(shipping.street_number, "324")
+        self.assertEqual(shipping.district, "Centro")
+        self.assertEqual(shipping.city_id, self.env.ref("l10n_br_base.city_3550308"))
+        self.assertEqual(shipping.state_id, self.env.ref("base.state_br_sp"))
+        self.assertEqual(shipping.country_id, self.env.ref("base.br"))
+
+    def test_import_entrega_without_cpais_foreign_uf(self):
+        # With UF=EX and no cPais the country is unknown: address is not set
+        shipping = self._import_entrega(
+            "<entrega><CNPJ/><xLgr>Foreign Street</xLgr><nro>10</nro>"
+            "<xBairro>Downtown</xBairro><cMun>9999999</cMun><xMun>EXTERIOR</xMun>"
+            "<UF>EX</UF></entrega>"
+        )
+        # country_id is not checked: l10n_br_base defaults it to Brazil when
+        # the company is Brazilian, regardless of the imported address
+        self.assertFalse(shipping.street_name)
+        self.assertFalse(shipping.street_number)
+        self.assertFalse(shipping.district)
+        self.assertFalse(shipping.state_id)
+
+    def test_import_entrega_with_cpais(self):
+        shipping = self._import_entrega(
+            "<entrega><CNPJ/><xLgr>Rua da Entrega</xLgr><nro>324</nro>"
+            "<xBairro>Centro</xBairro><cMun>3550308</cMun><xMun>SAO PAULO</xMun>"
+            "<UF>SP</UF><CEP>01001000</CEP><cPais>1058</cPais><xPais>BRASIL</xPais>"
+            "</entrega>"
+        )
+        self.assertEqual(shipping.street_name, "Rua da Entrega")
+        self.assertEqual(shipping.state_id, self.env.ref("base.state_br_sp"))
+        self.assertEqual(shipping.country_id, self.env.ref("base.br"))

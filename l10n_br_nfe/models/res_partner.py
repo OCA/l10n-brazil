@@ -408,13 +408,15 @@ class ResPartner(spec_models.SpecModel):
 
     def _inverse_nfe40_ender(self):
         for rec in self:
-            if rec.nfe40_cMun and rec.nfe40_cPais and rec.nfe40_UF:
+            cPais = rec.nfe40_cPais
+            if not cPais and rec.nfe40_UF and rec.nfe40_UF != "EX":
+                # cPais is optional in the layout; a Brazilian UF implies Brazil
+                cPais = "1058"
+            if rec.nfe40_cMun and cPais and rec.nfe40_UF:
                 city_id = self.env["res.city"].search(
                     [("ibge_code", "=", rec.nfe40_cMun)]
                 )
-                country_id = self.env["res.country"].search(
-                    [("bc_code", "=", rec.nfe40_cPais)]
-                )
+                country_id = self.env["res.country"].search([("bc_code", "=", cPais)])
                 state_id = self.env["res.country.state"].search(
                     [("code", "=", rec.nfe40_UF), ("country_id", "=", country_id.id)]
                 )
