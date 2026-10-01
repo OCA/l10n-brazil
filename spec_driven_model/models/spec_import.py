@@ -255,7 +255,7 @@ class SpecMixinImport(models.AbstractModel):
                         break
 
             # reverse map related fields as much as possible
-            elif v.related is not None and vals.get(k) is not None:
+            elif v.related and vals.get(k) is not None:
                 if not hasattr(v, "__len__"):
                     related = v.related.split(".")
                 else:
