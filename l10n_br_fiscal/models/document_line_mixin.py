@@ -1421,7 +1421,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         compute="_compute_issqn_service_city_id",
         string="Service City",
         store=True,
-        precompute=True,
         readonly=False,
     )
 
