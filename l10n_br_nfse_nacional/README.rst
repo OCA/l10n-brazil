@@ -28,23 +28,46 @@ NFS-e Nacional
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This module issues the **national NFS-e** (electronic service invoice)
-directly through the **Sefin Nacional / ADN** environment, with no paid
-gateway. From a confirmed ``l10n_br_fiscal.document`` it builds the
-**DPS**, signs it with the company ICP-Brasil A1 certificate, transmits
-it to the ADN over **REST/mTLS** and stores the authorized NFS-e and its
-50-digit access key.
+Este módulo emite a **NFS-e Nacional** (Nota Fiscal de Serviços
+eletrônica no padrão nacional) diretamente no ambiente **Sefin Nacional
+/ ADN** (Ambiente de Dados Nacional), sem gateway pago e sem passar pelo
+webservice de cada prefeitura.
 
-It builds on ``l10n_br_nfse`` for the NFS-e provider and environment
-settings, but maps the DPS straight onto ``l10n_br_fiscal.document``:
-all service and tax fields already live in the fiscal core, so nothing
-of the municipal / ABRASF flow is reused. Pick the provider **Sefin
-Nacional (ADN)** on the company to route its service documents here
-instead of to a municipal or gateway module.
+**O que é a NFS-e Nacional.** É o padrão único de NFS-e mantido pelo
+Governo Federal e pelos municípios, com leiaute e regras de validação
+comuns. O prestador não emite a nota diretamente: ele envia uma **DPS**
+(Declaração de Prestação de Serviços) assinada, e o ADN valida, autoriza
+e devolve a NFS-e com sua chave de acesso de 50 dígitos. Os municípios
+conveniados ao padrão nacional usam esse mesmo ambiente.
 
-The DPS data structure comes from ``l10n_br_nfse_spec`` (xsdata-odoo
-mixins over the official v1.00 schemas), mapped onto the document via
-``spec_driven_model``.
+**O que o módulo faz.** A partir de um ``l10n_br_fiscal.document`` de
+serviço (modelo ``SE``) confirmado:
+
+- monta a **DPS** (versão 1.00 do leiaute) e valida contra o XSD
+  oficial;
+- assina a DPS com o **certificado A1** (ICP-Brasil) da empresa;
+- envia ao ADN por **REST com mTLS** e grava a NFS-e autorizada, a chave
+  de acesso de 50 dígitos, o número e o protocolo;
+- trata a rejeição do ADN, mostrando o motivo legível no chatter e no
+  evento do documento;
+- **cancela** a NFS-e pelo evento ``101101``, com o código do motivo
+  escolhido no assistente de cancelamento;
+- **consulta** no ADN se a nota foi cancelada fora do Odoo (eventos
+  ``101101`` e ``305101``);
+- gera o **DANFSe** em PDF a partir do XML autorizado (layout v2.0 da NT
+  008/2026), sem consultar nenhum portal;
+- **importa** o XML de uma NFS-e Nacional ou de uma DPS para um
+  documento fiscal.
+
+**Como se encaixa.** Depende de ``l10n_br_nfse``, de onde vêm o campo de
+provedor e o de ambiente da NFS-e, mas mapeia a DPS direto sobre o
+``l10n_br_fiscal.document``: os campos de serviço e de impostos já estão
+no núcleo fiscal, então nada do fluxo municipal (RPS, ABRASF) é
+reaproveitado. O leiaute vem do módulo ``l10n_br_nfse_spec`` (mixins
+xsdata-odoo sobre os schemas oficiais), ligado ao documento pelo
+``spec_driven_model``. Ao escolher o provedor **Sefin Nacional (ADN)**
+na empresa, os documentos de serviço dela passam por este módulo, e os
+módulos municipais e de gateway continuam atendendo as demais empresas.
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
@@ -59,69 +82,113 @@ mixins over the official v1.00 schemas), mapped onto the document via
 Configuration
 =============
 
-On the company, set:
+**Na empresa**:
 
-- the ICP-Brasil **A1 certificate** (module
-  ``l10n_br_fiscal_certificate``);
-- **E-doc Processor** = Odoo Community (``processador_edoc = oca``);
-- **NFSe Provider** = Sefin Nacional (ADN)
-  (``provedor_nfse = nacional``);
-- **NFSe Environment** = Produção or Homologação, which the ADN calls
-  produção restrita. The document copies it on creation and you can
-  override it there.
+- **Certificado digital**: cadastre o certificado **A1** (ICP-Brasil) da
+  empresa (módulo ``l10n_br_fiscal_certificate``). Ele assina a DPS e os
+  eventos e também autentica a conexão mTLS com o ADN. A chave privada é
+  usada só em memória e em arquivo temporário com permissão restrita, e
+  não é registrada em log.
+- **Processador de documentos eletrônicos**: Odoo Community (``oca``).
+- **Provedor de NFS-e**: Sefin Nacional (ADN)
+  (``provedor_nfse = nacional``). Só as empresas com esse provedor
+  emitem pelo ADN.
+- **Ambiente da NFS-e**: Produção ou Homologação. No ADN a homologação
+  se chama produção restrita e usa outro endereço. O documento copia o
+  ambiente da empresa na criação, e você pode alterá-lo no próprio
+  documento.
+- **Cadastro da empresa**: CNPJ ou CPF, município (com código IBGE) e
+  regime tributário (MEI, Simples Nacional ou regime normal), pois a DPS
+  informa o município emissor e o regime do prestador.
+
+**Série e numeração.** A série e o número do documento vêm do documento
+fiscal (a série na linha de numeração da empresa). O número informado é
+o ``nDPS``, e não existe RPS: a numeração é livre e a chave da DPS, de
+42 dígitos, é montada com município, tipo de emissor, CNPJ/CPF, série e
+número.
+
+**Município.** O município do prestador precisa estar conveniado ao
+padrão nacional. Para testar, use o ambiente de homologação (produção
+restrita) com o certificado da empresa.
+
+**Dependências Python**: ``nfelib``, ``brazilfiscalreport``,
+``erpbrasil.assinatura``, ``requests`` e ``cryptography``.
 
 Usage
 =====
 
-Create a service fiscal document (model "SE") for a company configured
-for the national environment, confirm it and send it. The module builds
-and signs the DPS, posts it to the ADN and, on authorization, stores the
-NFS-e XML, its 50-digit access key and protocol, and renders the DANFSe.
+**Emitir**
+
+1. Crie um documento fiscal de serviço (modelo ``SE``) para uma empresa
+   configurada com o provedor Sefin Nacional (ADN), com tomador, linhas
+   de serviço (código de serviço, impostos) e a operação fiscal.
+2. Confirme o documento. O módulo monta a DPS, assina com o certificado
+   A1 e valida contra o XSD. Se houver erro de schema, ele aparece no
+   documento e nada é enviado; volte o documento para rascunho, corrija
+   e confirme de novo.
+3. Envie o documento. O módulo transmite a DPS ao ADN por REST/mTLS.
+4. Na autorização, o documento fica **Autorizada** e guarda a chave de
+   acesso de 50 dígitos, o número da NFS-e, o protocolo e o XML
+   autorizado. Na rejeição, o documento fica **Rejeitada** e o motivo
+   devolvido pelo ADN aparece no chatter e no evento.
+5. O **DANFSe** em PDF é gerado localmente a partir do XML autorizado,
+   pela ação de imprimir/gerar o PDF do documento.
+
+**Cancelar**
+
+1. No documento autorizado, use **Cancelar** e informe a justificativa.
+2. Escolha o **código do motivo** (1 - erro na emissão, 2 - serviço não
+   prestado, 9 - outros).
+3. O módulo assina e envia o evento de cancelamento ``101101`` ao ADN e,
+   aceito o evento, marca o documento como cancelado.
+
+A inutilização de numeração não existe para a NFS-e Nacional, e por isso
+o botão fica oculto nos documentos de serviço.
+
+**Consultar o status**
+
+Em documento autorizado, o botão **Consultar Status** pergunta ao ADN se
+a nota foi cancelada por fora do Odoo (evento ``101101`` ou ``305101``,
+este de ofício) e, se foi, atualiza o documento.
+
+**Importar XML**
+
+O módulo importa o XML de uma NFS-e Nacional ou de uma DPS e cria o
+documento fiscal correspondente.
 
 Known issues / Roadmap
 ======================
 
-Implemented:
+**Já implementado**
 
-- DPS document and field mapping (``SpecModel`` over
-  ``nfse.10.tcdps``/``tcinfdps``), with
-  ``prest``/``toma``/``serv``/``valores`` mapped by comodel (res.company
-  / res.partner / document.line) and regime-aware ``regTrib`` (MEI /
-  Simples Nacional / normal). Applies to service documents (``SE``)
-  whose company picked the provider Sefin Nacional (ADN), so municipal
-  and gateway modules keep their own documents.
-- REST/mTLS transport client (``transport/adn_rest.py``):
-  ``verify=True``, GET-only retry, gzip+base64 packing, no payload/key
-  logging.
-- Issuance following the NF-e pattern: ``_serialize``
-  (``_build_binding`` → ``Dps``), ``_document_export`` (build → save
-  event → sign → XSD validate), ``_eletronic_document_send`` →
-  ``_adn_send_for_authorization`` (``POST /nfse`` over mTLS, A1 derived
-  in memory to a 0600 temp PEM, explicit UTF-8 declaration) and
-  ``_adn_process_response`` (authorized → store key/number/protocol +
-  NFS-e XML + ``set_done`` + ``SITUACAO_EDOC_AUTORIZADA``; rejected →
-  readable reason on the chatter/event + ``SITUACAO_EDOC_REJEITADA``).
-- Cancellation event ``e101101``: ``_document_cancel`` → ``_adn_cancel``
-  (build ``PedRegEvento`` → sign → ``POST /nfse/{chave}/eventos``), with
-  the cancel reason code (cMotivo) collected by the extended cancel
-  wizard. Number invalidation is hidden for NFS-e (SE) documents (no
-  national service for it).
-- Cancellation registered outside Odoo is picked up by the check-status
-  button (``GET /nfse/{chave}/eventos/{tipoEvento}/1`` for ``101101``
-  and ``305101``).
-- DANFSe rendered from the authorized NFS-e XML by
-  ``brazilfiscalreport``, in the v2.0 layout of NT 008/2026, with no
-  call to any portal.
+- Mapeamento da DPS sobre o documento fiscal, com prestador, tomador,
+  serviço e valores, e o regime tributário (MEI, Simples Nacional ou
+  normal) deduzido da empresa.
+- Cliente REST/mTLS com verificação de certificado do servidor, nova
+  tentativa apenas em GET e sem registrar payload nem chaves em log.
+- Emissão, rejeição legível, cancelamento pelo evento ``101101`` e
+  consulta de cancelamento feito fora do Odoo.
+- DANFSe gerado do XML autorizado.
 
-Not yet implemented (next iteration):
+**Limitações conhecidas**
 
-- Lost-response reconciliation (``GET /nfse/{chave}`` /
-  ``GET /dps/{id}`` before any re-``POST``).
-- Substitution events (e105xxx) and the remaining event types.
+- A alíquota (``pAliq``) nunca é informada na DPS para município
+  conveniado: o ADN toma a alíquota dos parâmetros municipais e recusa a
+  alíquota informada em casos como o erro E0625.
+- Empresa fora do Simples Nacional informa o tributo aproximado em
+  ``pTotTrib``; empresa do Simples sem faixa de receita cai no indicador
+  ``indTotTrib``, pois o ADN exige uma das opções.
+- CNAB e cobrança bancária não se aplicam a este módulo.
+- Não existe inutilização de numeração para a NFS-e Nacional (a
+  numeração da DPS é livre).
 
-Out of scope here: IBS/CBS (RTC), inbound distribution, contingency,
-async / queue_job — see the project specs. Number inutilização against a
-service does not exist for the national NFS-e (free DPS numbering).
+**Ainda não implementado**
+
+- Reconciliação de resposta perdida (``GET /nfse/{chave}`` e
+  ``GET /dps/{id}`` antes de reenviar a DPS).
+- Eventos de substituição (``e105xxx``) e os demais tipos de evento.
+- IBS/CBS (reforma tributária), distribuição de documentos recebidos,
+  contingência e envio assíncrono com fila (``queue_job``).
 
 Bug Tracker
 ===========
@@ -145,10 +212,13 @@ Authors
 Contributors
 ------------
 
-- Raphael Valyi raphael.valyi@akretion.com
+- `Akretion <https://akretion.com/pt-BR>`__:
+
+  - Raphaël Valyi <raphael.valyi@akretion.com>
+
 - `KMEE <https://www.kmee.com.br>`__:
 
-  - Ygor Carvalho ygor.carvalho@kmee.com.br
+  - Ygor Carvalho <ygor.carvalho@kmee.com.br>
 
 Maintainers
 -----------
