@@ -12,6 +12,7 @@
                     type="object"
                     class="oe_stat_button"
                     icon="fa-money"
+                    groups="l10n_br_fiscal.group_user"
                     attrs="{'invisible': [('gnre_obligation_count', '=', 0)]}"
                 >
                     <field
