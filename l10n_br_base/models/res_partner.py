@@ -101,15 +101,13 @@ class Partner(models.Model):
     @api.constrains("vat", "l10n_br_ie_code")
     def _check_cnpj_l10n_br_ie_code(self):
         for record in self:
-            domain = []
-
             if not record.vat:
-                return
+                continue
 
             if self.env.context.get(
                 "disable_allow_cnpj_multi_ie"
             ) or self.env.context.get("allow_vat_duplicate"):
-                return
+                continue
 
             # allow_cnpj_multi_ie is a res.config.settings boolean: it is stored
             # as "True" when enabled and removed entirely when disabled
@@ -121,6 +119,7 @@ class Partner(models.Model):
                 .get_param("l10n_br_base.allow_cnpj_multi_ie")
             )
 
+            domain = []
             if record.parent_id:
                 domain += [
                     ("id", "not in", record.parent_id.ids),
@@ -132,9 +131,14 @@ class Partner(models.Model):
             # a duplicate: `vat` is only normalized when written through the
             # `cnpj_cpf` alias, so a direct `vat` write could store a different
             # mask and slip past a raw `vat` comparison.
-            # NOTE for the v19 migration: once `vat` is stored unformatted and
-            # `cnpj_cpf_stripped` is retired, comparing by `vat` directly here is
-            # enough.
+            # Skip an empty normalized document (e.g. `vat = "/"`, which `base`
+            # documents as "not subject to tax"): the clause below would
+            # otherwise match every other partner with an empty document.
+            # NOTE: 18.0 stores `vat` unformatted (OCA/l10n-brazil#4671) and
+            # compares by `vat` directly.
+            if not record.cnpj_cpf_stripped:
+                continue
+
             domain += [
                 ("cnpj_cpf_stripped", "=", record.cnpj_cpf_stripped),
                 ("id", "!=", record.id),
@@ -167,7 +171,7 @@ class Partner(models.Model):
                                 "(ID %(partner_id)s) with this CNPJ %(vat)s!",
                                 name=matches[0].name,
                                 partner_id=matches[0].id,
-                                vat=self.vat,
+                                vat=record.vat,
                             )
                         )
                 elif not record.is_company:
