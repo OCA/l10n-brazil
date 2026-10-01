@@ -1,6 +1,7 @@
 # Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import re
 from copy import deepcopy
 
 from lxml import etree
@@ -103,6 +104,115 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         return domain
 
     @api.model
+    def _fiscal_view_compute_methods(self):
+        """Compute methods whose (stored) fields must be kept available in the
+        business-document line views (invisible), so the fiscal onchange
+        protocol can round-trip them. Formalizes the implicit triad used by
+        ``inject_fiscal_fields``. A submodule adding a fiscal compute to the
+        line can extend it::
+
+            @api.model
+            def _fiscal_view_compute_methods(self):
+                return super()._fiscal_view_compute_methods() + [
+                    "_compute_my_tax_fields",
+                ]
+        """
+        return [
+            "_compute_tax_fields",
+            "_compute_fiscal_tax_ids",
+            "_compute_fiscal_operation_data",
+            "_compute_product_fiscal_fields",
+        ]
+
+    @api.model
+    def _fiscal_view_pruned_fields(self):
+        """Stored fiscal computes that no business-document line view reads,
+        displays, edits or references in a modifier/domain (C4 census "dead"):
+        they are *not* injected into the invisible onchange collection. They
+        keep being recomputed server-side on write, so dropping them from the
+        view is value-preserving. Override to force one back in::
+
+            @api.model
+            def _fiscal_view_pruned_fields(self):
+                return super()._fiscal_view_pruned_fields() - {"ii_percent"}
+        """
+        return {
+            "ii_percent",
+            "simple_value",
+            "simple_without_icms_value",
+            "cofins_wh_base_type",
+            "pis_wh_base_type",
+        }
+
+    @api.model
+    def _fiscal_line_view_fields(self):
+        """Fiscal ``fiscal_taxes`` fields kept in the *invisible* onchange
+        collection of the business-document line TREES.
+
+        The fiscal taxes block is ~180 fields wide. In an editable o2m tree the
+        inline onchange payload is driven by the tree fields (not the line form
+        dialog), so every extra invisible field is fetched/computed on every
+        onchange round, for every line. Keeping only the fields the inline
+        protocol actually needs shrinks that payload while the full fiscal
+        detail stays editable in the line FORM dialog (the popup opened from the
+        tree), which is a separate, isolated datapoint.
+
+        Kept here:
+
+        * the tax selector fields (``FISCAL_TAX_ID_FIELDS``);
+        * every field with an ``@api.onchange`` (its handler must keep firing on
+          inline edits);
+        * stored, non-computed fields (their client-set value is not recomputed
+          server-side, so it must round-trip through the tree onchange).
+
+        Fields referenced by a modifier/domain/context are additionally forced
+        back in by :meth:`inject_fiscal_fields` (modifier closure), so a view
+        never fails to load. Every other (compute+store) fiscal field is
+        recomputed server-side on write, hence value-preserving to drop from the
+        tree. Override to bring one back to the trees::
+
+            @api.model
+            def _fiscal_line_view_fields(self):
+                return super()._fiscal_line_view_fields() | {"icms_value"}
+        """
+        keep = set(FISCAL_TAX_ID_FIELDS)
+        keep |= set(self._onchange_methods)
+        for name, field in self._fields.items():
+            if (
+                field.store
+                and not field.compute
+                and field.type not in ("one2many", "many2many")
+            ):
+                keep.add(name)
+        return keep
+
+    @api.model
+    def _fiscal_line_modifier_refs(self, arch, field_names):
+        """Return the ``field_names`` referenced by a modifier/domain/context of
+        any node in ``arch`` (``parent.`` references are dropped, they resolve on
+        the parent record). Used to keep the modifier closure of the reduced
+        line trees, so removing a field can never raise "Unknown field ... in
+        modifier" at view load."""
+        refs = set()
+        token = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
+        for node in arch.iter():
+            for attr in (
+                "attrs",
+                "domain",
+                "context",
+                "invisible",
+                "readonly",
+                "required",
+                "column_invisible",
+            ):
+                value = node.get(attr)
+                if not value:
+                    continue
+                value = re.sub(r"parent\.[A-Za-z0-9_]+", " ", value)
+                refs.update(tok for tok in token.findall(value) if tok in field_names)
+        return refs
+
+    @api.model
     def inject_fiscal_fields(
         self,
         doc,
@@ -115,20 +225,15 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         """
 
         # the list of computed fields we will add to the view when missing
-        missing_line_fields = set(
-            [
-                fname
-                for fname, _field in filter(
-                    lambda item: item[1].compute
-                    in (
-                        "_compute_tax_fields",
-                        "_compute_fiscal_tax_ids",
-                        "_compute_product_fiscal_fields",
-                    ),
-                    self.env["l10n_br_fiscal.document.line.mixin"]._fields.items(),
-                )
-            ]
-        )
+        compute_methods = tuple(self._fiscal_view_compute_methods())
+        pruned_fields = self._fiscal_view_pruned_fields()
+        missing_line_fields = {
+            fname
+            for fname, _field in self.env[
+                "l10n_br_fiscal.document.line.mixin"
+            ]._fields.items()
+            if _field.compute in compute_methods and fname not in pruned_fields
+        }
 
         fiscal_view = self.env.ref(
             "l10n_br_fiscal.document_fiscal_line_mixin_form"
@@ -136,6 +241,32 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         fsc_doc = etree.fromstring(
             fiscal_view.with_context(inherit_branding=True).get_combined_arch()
         )
+
+        # Whitelist of fiscal_taxes fields kept in the invisible tree
+        # collection (the rest stays only in the line form dialog). The
+        # injected tree nodes carry their attrs from the fiscal source block,
+        # so its modifier closure is force-kept: a kept node can never
+        # reference a dropped field ("Unknown field ... in modifier").
+        field_names = set(self.env["l10n_br_fiscal.document.line.mixin"]._fields) | set(
+            self._fields
+        )
+        tree_keep = self._fiscal_line_view_fields()
+        tree_keep |= self._fiscal_line_modifier_refs(fsc_doc, field_names)
+
+        # Fiscal detail fields dropped from the invisible TREE collections
+        # (they stay only in the line form dialog): the fiscal_taxes page
+        # fields that are not whitelisted, plus the dead computes. The form
+        # dialog (replaced wholesale below) is never touched.
+        taxes_names = {
+            node.attrib["name"]
+            for node in fsc_doc.xpath("//page[@name='fiscal_taxes']//field")
+        }
+        # Subtract ``tree_keep`` LAST so it always wins: a field referenced in a
+        # kept node's modifier (attrs/invisible/domain) must never be dropped,
+        # even when a downstream ``_fiscal_view_pruned_fields()`` override also
+        # lists it in ``pruned_fields`` -- otherwise the kept node would point at
+        # a removed field and crash the view load ("Unknown field").
+        drop_from_tree = (taxes_names | pruned_fields) - tree_keep
 
         if xpath_mappings is None:
             xpath_mappings = (
@@ -167,26 +298,33 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             fiscal_nodes = fsc_doc.xpath(fiscal_xpath)
             for target_node in placeholder_nodes:
                 if len(fiscal_nodes) == 1:
-                    # replace unique placeholder
+                    # replace unique placeholder with the full fiscal block
+                    # (form dialog): keeps the whole fiscal detail editable.
                     # (deepcopy is required to inject fiscal nodes in possible
                     # next places)
                     replace_node = deepcopy(fiscal_nodes[0])
                     target_node.getparent().replace(target_node, replace_node)
                 else:
-                    # append multiple fields to placeholder container
+                    # append multiple (invisible) fields to a tree placeholder,
+                    # skipping the fiscal detail fields kept only in the dialog
                     existing_fields = [
                         e.attrib["name"] for e in target_node if e.tag == "field"
                     ]
                     for fiscal_node in fiscal_nodes:
-                        if fiscal_node.attrib["name"] in missing_line_fields:
-                            missing_line_fields.remove(fiscal_node.attrib["name"])
-                        if fiscal_node.attrib["name"] in existing_fields:
+                        fiscal_name = fiscal_node.attrib["name"]
+                        if fiscal_name in missing_line_fields:
+                            missing_line_fields.remove(fiscal_name)
+                        if fiscal_name in drop_from_tree:
+                            continue
+                        if fiscal_name in existing_fields:
                             continue
                         field = deepcopy(fiscal_node)
                         if not field.attrib.get("optional"):
                             field.attrib["optional"] = "hide"
                         target_node.append(field)
                     for fname in missing_line_fields:
+                        if fname in drop_from_tree:
+                            continue
                         if fname not in existing_fields:
                             target_node.append(
                                 E.field(name=fname, string=fname, optional="hide")
@@ -303,7 +441,28 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                     )
                 )
 
-    @api.depends(
+    # The fiscal operation mapping feeds two kinds of fields:
+    #
+    # * ``fiscal_tax_ids`` (the set of taxes actually applied), and
+    # * the *fiscal decoration* fields ``cfop_id``, ``ipi_guideline_id``,
+    #   ``tax_classification_id`` and ``icms_tax_benefit_id``.
+    #
+    # These used to share a single multi-field compute. That coupling made the
+    # draft correctness of ``fiscal_tax_ids`` depend on the view payload: when
+    # the user overrides a ``*_tax_id`` (e.g. ``icms_tax_id``), the onchange
+    # ``_onchange_fiscal_taxes`` reconciles the override into ``fiscal_tax_ids``,
+    # but manually assigning ONE output of a multi-field editable compute does
+    # NOT protect its siblings. If a sibling decoration field (say
+    # ``ipi_guideline_id``) was left out of the line view/onchange payload it
+    # stays flagged "to compute"; reading it later re-runs the whole compute,
+    # which re-derives ``fiscal_tax_ids`` from the operation-line mapping and
+    # silently discards the user's override (issue #4721: ICMS stuck at the
+    # mapped 7% after selecting 18%). Splitting the computes makes
+    # ``fiscal_tax_ids`` recompute *only* when its real inputs change, so the
+    # draft value is deterministic and independent of which decoration fields
+    # travel in the view. ``map_fiscal_taxes`` is memoized per transaction, so
+    # calling it from both computes is virtually free.
+    _FISCAL_MAP_DEPENDS = (
         "partner_id",
         "fiscal_operation_line_id",
         "product_id",
@@ -316,34 +475,71 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         "service_type_id",
         "ind_final",
     )
+
+    def _delta_update(self, to_update):
+        """Assign ``to_update`` on a single record, skipping fields whose cached
+        value is already equal. Re-assigning a computed field with its current
+        value still fires ``modified()`` on its dependents; on the Form onchange
+        cascade that needlessly re-flags downstream fiscal computes and, in the
+        reduced draft payload, lets a re-mapping clobber a manual tax override
+        (root cause of #4721). Mirrors the delta-write already used in
+        ``_compute_tax_fields``."""
+        self.ensure_one()
+        cache = self.env.cache
+        changed = {}
+        for field_name, value in to_update.items():
+            field = self._fields.get(field_name)
+            if (
+                field is not None
+                and cache.contains(self, field)
+                and cache.get(self, field)
+                == field.convert_to_cache(value, self, validate=False)
+            ):
+                continue
+            changed[field_name] = value
+        if not changed:
+            return
+        if self != self._origin:
+            self.update(changed)
+        else:
+            self.write(changed)
+
+    def _map_fiscal_taxes(self):
+        """Return ``map_fiscal_taxes`` for a single line (memoized upstream)."""
+        self.ensure_one()
+        return self.fiscal_operation_line_id.map_fiscal_taxes(
+            company=self.company_id,
+            partner=self._get_fiscal_partner(),
+            product=self.product_id,
+            ncm=self.ncm_id,
+            nbm=self.nbm_id,
+            nbs=self.nbs_id,
+            cest=self.cest_id,
+            city_taxation_code=self.city_taxation_code_id,
+            national_taxation_code=self.national_taxation_code_id,
+            service_type=self.service_type_id,
+            ind_final=self.ind_final,
+        )
+
+    @api.depends(*_FISCAL_MAP_DEPENDS)
     def _compute_fiscal_tax_ids(self):
         for line in self:
-            if line.fiscal_operation_line_id:
-                mapping_result = line.fiscal_operation_line_id.map_fiscal_taxes(
-                    company=line.company_id,
-                    partner=line._get_fiscal_partner(),
-                    product=line.product_id,
-                    ncm=line.ncm_id,
-                    nbm=line.nbm_id,
-                    nbs=line.nbs_id,
-                    cest=line.cest_id,
-                    city_taxation_code=line.city_taxation_code_id,
-                    national_taxation_code=line.national_taxation_code_id,
-                    service_type=line.service_type_id,
-                    ind_final=line.ind_final,
-                )
-                line.cfop_id = mapping_result["cfop"]
-                line.ipi_guideline_id = mapping_result["ipi_guideline"]
-                line.tax_classification_id = mapping_result["tax_classification"]
-                line.icms_tax_benefit_id = mapping_result["icms_tax_benefit_id"]
-
-                if line._is_imported():
-                    continue
-
+            if line.fiscal_operation_line_id and not line._is_imported():
+                mapping_result = line._map_fiscal_taxes()
                 taxes = line.env["l10n_br_fiscal.tax"]
                 for tax in mapping_result["taxes"].values():
                     taxes |= tax
                 line.fiscal_tax_ids = taxes
+
+    @api.depends(*_FISCAL_MAP_DEPENDS)
+    def _compute_fiscal_operation_data(self):
+        for line in self:
+            if line.fiscal_operation_line_id:
+                mapping_result = line._map_fiscal_taxes()
+                line.cfop_id = mapping_result["cfop"]
+                line.ipi_guideline_id = mapping_result["ipi_guideline"]
+                line.tax_classification_id = mapping_result["tax_classification"]
+                line.icms_tax_benefit_id = mapping_result["icms_tax_benefit_id"]
 
     @api.depends("fiscal_operation_line_id")
     def _compute_comment_ids(self):
@@ -497,11 +693,15 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                     "estimate_tax": compute_result.get("estimate_tax", 0.0),
                 }
             )
-            in_draft_mode = line != line._origin
-            if in_draft_mode:
-                line.update(to_update)
-            else:
-                line.write(to_update)
+            # Delta-write: only propagate the fields whose value actually
+            # changes. Re-assigning a field with its current value still fires
+            # ``modified()`` on its dependents (document monetary totals, stored
+            # ``related`` fields such as ``*_cst_code``); in the Form onchange
+            # cascade that re-triggers this very compute for the whole document,
+            # and on a persisted ``write()`` it makes the ``write`` override
+            # re-sync ``fiscal_tax_ids`` and re-run the tax engine (double-pass).
+            # See ``_delta_update`` for the full rationale.
+            line._delta_update(to_update)
 
     def _prepare_tax_fields(self, compute_result):
         self.ensure_one()
@@ -551,31 +751,43 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     def _compute_product_fiscal_fields(self):
         for line in self:
             if not line.product_id:
-                # reset to default values:
-                line.fiscal_type = False
-                line.ncm_id = False
-                line.nbm_id = False
-                line.tax_icms_or_issqn = TAX_DOMAIN_ICMS
-                line.icms_origin = ICMS_ORIGIN_DEFAULT
-                line.cest_id = False
-                line.nbs_id = False
-                line.fiscal_genre_id = False
-                line.service_type_id = False
-                line.national_taxation_code_id = False
-                line.operation_indicator_id = False
-                continue
-            p = line.product_id
-            line.fiscal_type = p.fiscal_type
-            line.ncm_id = p.ncm_id
-            line.nbm_id = p.nbm_id
-            line.tax_icms_or_issqn = p.tax_icms_or_issqn
-            line.icms_origin = p.icms_origin
-            line.cest_id = p.cest_id
-            line.nbs_id = p.nbs_id
-            line.fiscal_genre_id = p.fiscal_genre_id
-            line.service_type_id = p.service_type_id
-            line.national_taxation_code_id = p.national_taxation_code_id
-            line.operation_indicator_id = p.operation_indicator_id
+                to_update = {
+                    "fiscal_type": False,
+                    "ncm_id": False,
+                    "nbm_id": False,
+                    "tax_icms_or_issqn": TAX_DOMAIN_ICMS,
+                    "icms_origin": ICMS_ORIGIN_DEFAULT,
+                    "cest_id": False,
+                    "nbs_id": False,
+                    "fiscal_genre_id": False,
+                    "service_type_id": False,
+                    "national_taxation_code_id": False,
+                    "operation_indicator_id": False,
+                }
+            else:
+                p = line.product_id
+                to_update = {
+                    "fiscal_type": p.fiscal_type,
+                    "ncm_id": p.ncm_id.id,
+                    "nbm_id": p.nbm_id.id,
+                    "tax_icms_or_issqn": p.tax_icms_or_issqn,
+                    "icms_origin": p.icms_origin,
+                    "cest_id": p.cest_id.id,
+                    "nbs_id": p.nbs_id.id,
+                    "fiscal_genre_id": p.fiscal_genre_id.id,
+                    "service_type_id": p.service_type_id.id,
+                    "national_taxation_code_id": p.national_taxation_code_id.id,
+                    "operation_indicator_id": p.operation_indicator_id.id,
+                }
+            # Delta-write: re-assigning a field with its current value still
+            # fires ``modified()`` on its dependents. Several of these product
+            # fields are inputs of ``_compute_fiscal_tax_ids``/
+            # ``_compute_fiscal_operation_data``; a redundant re-assignment
+            # during the Form onchange cascade re-flags the fiscal tax mapping
+            # for recompute, which re-derives (and clobbers) a manual tax
+            # override in draft (part of the #4721 root cause). Only propagate
+            # the fields whose value actually changes.
+            line._delta_update(to_update)
 
     @api.depends("product_id")
     def _compute_city_taxation_code_id(self):
@@ -1079,7 +1291,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         comodel_name="l10n_br_fiscal.cfop",
         string="CFOP",
         domain="[('type_in_out', '=', fiscal_operation_type)]",
-        compute="_compute_fiscal_tax_ids",
+        compute="_compute_fiscal_operation_data",
         store=True,
         precompute=True,
         readonly=False,
@@ -1418,7 +1630,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             ("is_benefit", "=", True),
             ("tax_domain", "=", TAX_DOMAIN_ICMS),
         ],
-        compute="_compute_fiscal_tax_ids",
+        compute="_compute_fiscal_operation_data",
         store=True,
         precompute=True,
         readonly=False,
@@ -1854,7 +2066,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         comodel_name="l10n_br_fiscal.tax.ipi.guideline",
         string="IPI Guideline",
         domain="['|', ('cst_in_id', '=', ipi_cst_id),('cst_out_id', '=', ipi_cst_id)]",
-        compute="_compute_fiscal_tax_ids",
+        compute="_compute_fiscal_operation_data",
         store=True,
         precompute=True,
         readonly=False,
@@ -2009,7 +2221,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     tax_classification_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.classification",
         string="Tax Classification",
-        compute="_compute_fiscal_tax_ids",
+        compute="_compute_fiscal_operation_data",
         store=True,
         precompute=True,
         readonly=False,
