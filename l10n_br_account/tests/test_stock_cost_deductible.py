@@ -91,6 +91,13 @@ class TestStockCostDeductible(AccountMoveBRCommon):
             "IPI sem crédito deve usar apenas a variante s/ Crédito: "
             f"{self._names(ipi_taxes)}",
         )
+        # The no credit variant has a +100/-100 repartition pair: the IPI
+        # must still reach the line total exactly once.
+        self.assertAlmostEqual(
+            line.price_total,
+            line.price_subtotal + line.ipi_value,
+            places=2,
+        )
 
     def test_presumido_posted_ledger(self):
         """Razão postado (Presumido): balanceia; nenhuma conta de dedução de

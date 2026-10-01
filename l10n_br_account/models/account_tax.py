@@ -134,6 +134,10 @@ class AccountTax(models.Model):
         taxes_results["amount_estimate_tax"] = fiscal_taxes_results["estimate_tax"]
 
         account_taxes_by_domain = {}
+        # compute_all returns one entry per tax repartition line: a tax with
+        # a +100/-100 pair (the "no credit" variant) shows up twice, but its
+        # value must reach the total only once.
+        included_tax_ids = set()
 
         sign = -1 if fixed_multiplicator < 0 else 1
 
@@ -167,7 +171,12 @@ class AccountTax(models.Model):
                     sign = -1
                     fiscal_tax["base"] = -fiscal_tax.get("base")
 
-                if not fiscal_tax.get("tax_include") and not tax.deductible:
+                if (
+                    not fiscal_tax.get("tax_include")
+                    and not tax.deductible
+                    and tax.id not in included_tax_ids
+                ):
+                    included_tax_ids.add(tax.id)
                     taxes_results["total_included"] += fiscal_tax.get("tax_value")
 
                 fiscal_group = tax.tax_group_id.fiscal_tax_group_id
