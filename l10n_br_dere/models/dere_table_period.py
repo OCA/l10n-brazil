@@ -332,6 +332,7 @@ class DereTablePeriod(models.Model):
             "dere12_nivelCta": group.l10n_br_dere_nivel_cta or 1,
             "dere12_natCta": group._dere_nat_cta() or "V",
             "dere12_codNat": group._dere_cod_nat() or "1",
+            "dere12_idLeiDisp": group.l10n_br_dere_id_lei_disp,
             "dere12_iniVig": self.ini_valid,
             "dere12_fimVig": self.fim_valid,
         }
@@ -359,6 +360,7 @@ class DereTablePeriod(models.Model):
             "dere12_codNat": account._dere_cod_nat() or "1",
             "tax_code_id": account.l10n_br_dere_cod_trib.id,
             "dere12_indTribISS": account.l10n_br_dere_ind_trib_iss,
+            "dere12_idLeiDisp": account.l10n_br_dere_id_lei_disp,
             "dere12_iniVig": self.ini_valid,
             "dere12_fimVig": self.fim_valid,
         }

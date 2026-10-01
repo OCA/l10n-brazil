@@ -52,6 +52,12 @@ class AccountGroup(models.Model):
     l10n_br_dere_nat_cta = fields.Selection(NAT_CTA, string="DeRE account nature")
     l10n_br_dere_cod_nat = fields.Selection(COD_NAT, string="DeRE nature code")
     l10n_br_dere_desc_cta = fields.Char(string="DeRE account description", size=600)
+    l10n_br_dere_id_lei_disp = fields.Char(
+        string="DeRE legal-provision id",
+        size=5,
+        help="Official DeRE code idLeiDisp (mask 99-99). "
+        "Leave empty to omit it from the event.",
+    )
     l10n_br_dere_cta_sup = fields.Char(
         string="DeRE parent account",
         size=53,
@@ -86,6 +92,15 @@ class AccountGroup(models.Model):
             group.l10n_br_dere_nivel_cta = (
                 (parent.l10n_br_dere_nivel_cta or 0) + 1 if parent else 1
             )
+
+    @api.constrains("l10n_br_dere_id_lei_disp")
+    def _check_l10n_br_dere_id_lei_disp(self):
+        for group in self:
+            code = group.l10n_br_dere_id_lei_disp
+            if code and not re.fullmatch(r"\d{2}-\d{2}", code):
+                raise ValidationError(
+                    _("The DeRE legal-provision id must use the mask 99-99.")
+                )
 
     @api.constrains("l10n_br_dere_dbr_mista")
     def _check_l10n_br_dere_dbr_mista(self):

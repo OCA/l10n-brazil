@@ -111,6 +111,50 @@ class TestDereTables(DereCommon):
         self.assertEqual(line.dere12_cCtaSup, "31000")
         self.assertEqual(line.dere12_indCta, "A")
 
+    def test_d1011_emits_legal_provision_id_only_when_set(self):
+        self.parent_group.l10n_br_dere_id_lei_disp = "00-00"
+        self.fee_account.l10n_br_dere_id_lei_disp = "01-02"
+        declaration = self._create_declaration("2026-07")
+        period = self._table_period(declaration)
+        period.action_generate_d1011()
+        parent = declaration.pgcc_account_ids.filtered(
+            lambda rec: rec.group_id == self.parent_group
+        )
+        child = declaration.pgcc_account_ids.filtered(
+            lambda rec: rec.account_id == self.fee_account
+        )
+        untouched = declaration.pgcc_account_ids.filtered(
+            lambda rec: rec.account_id == self.equity_account
+        )
+        self.assertEqual(parent.dere12_idLeiDisp, "00-00")
+        self.assertEqual(child.dere12_idLeiDisp, "01-02")
+        self.assertFalse(untouched.dere12_idLeiDisp)
+        self.assertNotEqual(child.dere12_idLeiDisp, parent.dere12_idLeiDisp)
+        root = self._event_xml(declaration, "D-1011")
+        by_cta = {
+            node.findtext("{*}cCta"): node for node in root.findall(".//{*}infoConta")
+        }
+        self.assertEqual(by_cta[parent.dere12_cCta].findtext("{*}idLeiDisp"), "00-00")
+        self.assertEqual(by_cta[child.dere12_cCta].findtext("{*}idLeiDisp"), "01-02")
+        self.assertIsNone(by_cta[untouched.dere12_cCta].find("{*}idLeiDisp"))
+        self.fee_account.l10n_br_dere_id_lei_disp = False
+        period.action_generate_d1011()
+        child = declaration.pgcc_account_ids.filtered(
+            lambda rec: rec.account_id == self.fee_account
+        )
+        self.assertFalse(child.dere12_idLeiDisp)
+        root = self._event_xml(declaration, "D-1011")
+        by_cta = {
+            node.findtext("{*}cCta"): node for node in root.findall(".//{*}infoConta")
+        }
+        self.assertIsNone(by_cta[child.dere12_cCta].find("{*}idLeiDisp"))
+
+    def test_legal_provision_id_must_match_mask(self):
+        with self.assertRaises(ValidationError):
+            self.fee_account.l10n_br_dere_id_lei_disp = "0000"
+        with self.assertRaises(ValidationError):
+            self.parent_group.l10n_br_dere_id_lei_disp = "00-0"
+
     def test_d1011_emits_ancestor_groups_without_cta_ref(self):
         self.parent_group.l10n_br_dere_cta_ref = False
         self.parent_group.l10n_br_dere_nat_cta = False

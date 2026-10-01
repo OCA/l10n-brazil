@@ -1090,6 +1090,12 @@ msgid "DeRE ISS indicator"
 msgstr "Indicador de ISS da DeRE"
 
 #. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_account_account__l10n_br_dere_id_lei_disp
+#: model:ir.model.fields,field_description:l10n_br_dere.field_account_group__l10n_br_dere_id_lei_disp
+msgid "DeRE legal-provision id"
+msgstr "Id da disposição legal DeRE"
+
+#. module: l10n_br_dere
 #: model:res.groups,name:l10n_br_dere.group_manager
 msgid "DeRE Manager"
 msgstr "Gerente DeRE"
@@ -2579,6 +2585,16 @@ msgid "Official DeRE field idLeiDisp."
 msgstr "Campo oficial da DeRE idLeiDisp."
 
 #. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_account_account__l10n_br_dere_id_lei_disp
+#: model:ir.model.fields,help:l10n_br_dere.field_account_group__l10n_br_dere_id_lei_disp
+msgid ""
+"Official DeRE code idLeiDisp (mask 99-99). Leave empty to omit it from the "
+"event."
+msgstr ""
+"Código oficial da DeRE idLeiDisp (máscara 99-99). Deixe vazio para omitir do "
+"evento."
+
+#. module: l10n_br_dere
 #: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_indCta
 msgid "Official DeRE field indCta."
 msgstr "Campo oficial da DeRE indCta."
@@ -3787,6 +3803,13 @@ msgid ""
 msgstr ""
 "A requisição do lote DeRE falhou antes de receber um protocolo. Verifique a "
 "transmissão antes de enviar de novo."
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/account_account.py:0
+#: code:addons/l10n_br_dere/models/account_group.py:0
+msgid "The DeRE legal-provision id must use the mask 99-99."
+msgstr "O id da disposição legal DeRE deve usar a máscara 99-99."
 
 #. module: l10n_br_dere
 #. odoo-python

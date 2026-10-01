@@ -1059,6 +1059,12 @@ msgid "DeRE ISS indicator"
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:ir.model.fields,field_description:l10n_br_dere.field_account_account__l10n_br_dere_id_lei_disp
+#: model:ir.model.fields,field_description:l10n_br_dere.field_account_group__l10n_br_dere_id_lei_disp
+msgid "DeRE legal-provision id"
+msgstr ""
+
+#. module: l10n_br_dere
 #: model:res.groups,name:l10n_br_dere.group_manager
 msgid "DeRE Manager"
 msgstr ""
@@ -2524,6 +2530,14 @@ msgid "Official DeRE field idLeiDisp."
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_account_account__l10n_br_dere_id_lei_disp
+#: model:ir.model.fields,help:l10n_br_dere.field_account_group__l10n_br_dere_id_lei_disp
+msgid ""
+"Official DeRE code idLeiDisp (mask 99-99). Leave empty to omit it from the "
+"event."
+msgstr ""
+
+#. module: l10n_br_dere
 #: model:ir.model.fields,help:l10n_br_dere.field_l10n_br_dere_pgcc_account__dere12_indCta
 msgid "Official DeRE field indCta."
 msgstr ""
@@ -3704,6 +3718,13 @@ msgstr ""
 msgid ""
 "The DeRE batch request failed before a protocol was received. Check the "
 "transmission before sending again."
+msgstr ""
+
+#. module: l10n_br_dere
+#. odoo-python
+#: code:addons/l10n_br_dere/models/account_account.py:0
+#: code:addons/l10n_br_dere/models/account_group.py:0
+msgid "The DeRE legal-provision id must use the mask 99-99."
 msgstr ""
 
 #. module: l10n_br_dere

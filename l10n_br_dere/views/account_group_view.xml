@@ -22,6 +22,7 @@
                                 <field name="l10n_br_dere_cta_ref" />
                                 <field name="l10n_br_dere_nat_cta" />
                                 <field name="l10n_br_dere_cod_nat" />
+                                <field name="l10n_br_dere_id_lei_disp" />
                                 <field name="l10n_br_dere_desc_cta" />
                             </group>
                         </group>

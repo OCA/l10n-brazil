@@ -65,6 +65,12 @@ class AccountAccount(models.Model):
     l10n_br_dere_ind_trib_iss = fields.Selection(
         IND_TRIB_ISS, string="DeRE ISS indicator"
     )
+    l10n_br_dere_id_lei_disp = fields.Char(
+        string="DeRE legal-provision id",
+        size=5,
+        help="Official DeRE code idLeiDisp (mask 99-99). "
+        "Leave empty to omit it from the event.",
+    )
     l10n_br_dere_cta_sup_id = fields.Many2one(
         comodel_name="account.group",
         string="DeRE parent group",
@@ -112,6 +118,15 @@ class AccountAccount(models.Model):
             account.l10n_br_dere_nivel_cta = (
                 (parent.l10n_br_dere_nivel_cta or 0) + 1 if parent else 1
             )
+
+    @api.constrains("l10n_br_dere_id_lei_disp")
+    def _check_l10n_br_dere_id_lei_disp(self):
+        for account in self:
+            code = account.l10n_br_dere_id_lei_disp
+            if code and not re.fullmatch(r"\d{2}-\d{2}", code):
+                raise ValidationError(
+                    _("The DeRE legal-provision id must use the mask 99-99.")
+                )
 
     @api.constrains("l10n_br_dere_dbr_mista")
     def _check_l10n_br_dere_dbr_mista(self):
