@@ -133,9 +133,7 @@ class TestXMLValidation(TransactionCase):
         )
 
         # This test only checks tax values, which are computed by the
-        # confirmation. It does not transmit: the document carries no payment
-        # details, so its XML does not validate against the schema and
-        # _before_document_send() refuses the transmission.
+        # confirmation. It does not transmit to SEFAZ.
         document.action_document_confirm()
         # This section probably indicates an error in eiter
         #   l10n_br_account or l10n_br_fiscal
