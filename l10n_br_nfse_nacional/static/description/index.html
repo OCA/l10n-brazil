@@ -370,21 +370,44 @@ ul.auto-toc {
 !! source digest: sha256:be6f916875d72765688ec078456c22daefb73bc326ccb774436e2de718bb4507
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Alpha" src="https://img.shields.io/badge/maturity-Alpha-red.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_nfse_nacional"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-l10n_br_nfse_nacional"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=16.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
-<p>This module issues the <strong>national NFS-e</strong> (electronic service invoice)
-directly through the <strong>Sefin Nacional / ADN</strong> environment, with no paid
-gateway. From a confirmed <tt class="docutils literal">l10n_br_fiscal.document</tt> it builds the
-<strong>DPS</strong>, signs it with the company ICP-Brasil A1 certificate, transmits
-it to the ADN over <strong>REST/mTLS</strong> and stores the authorized NFS-e and its
-50-digit access key.</p>
-<p>It builds on <tt class="docutils literal">l10n_br_nfse</tt> for the NFS-e provider and environment
-settings, but maps the DPS straight onto <tt class="docutils literal">l10n_br_fiscal.document</tt>:
-all service and tax fields already live in the fiscal core, so nothing
-of the municipal / ABRASF flow is reused. Pick the provider <strong>Sefin
-Nacional (ADN)</strong> on the company to route its service documents here
-instead of to a municipal or gateway module.</p>
-<p>The DPS data structure comes from <tt class="docutils literal">l10n_br_nfse_spec</tt> (xsdata-odoo
-mixins over the official v1.00 schemas), mapped onto the document via
-<tt class="docutils literal">spec_driven_model</tt>.</p>
+<p>Este módulo emite a <strong>NFS-e Nacional</strong> (Nota Fiscal de Serviços
+eletrônica no padrão nacional) diretamente no ambiente <strong>Sefin Nacional
+/ ADN</strong> (Ambiente de Dados Nacional), sem gateway pago e sem passar pelo
+webservice de cada prefeitura.</p>
+<p><strong>O que é a NFS-e Nacional.</strong> É o padrão único de NFS-e mantido pelo
+Governo Federal e pelos municípios, com leiaute e regras de validação
+comuns. O prestador não emite a nota diretamente: ele envia uma <strong>DPS</strong>
+(Declaração de Prestação de Serviços) assinada, e o ADN valida, autoriza
+e devolve a NFS-e com sua chave de acesso de 50 dígitos. Os municípios
+conveniados ao padrão nacional usam esse mesmo ambiente.</p>
+<p><strong>O que o módulo faz.</strong> A partir de um <tt class="docutils literal">l10n_br_fiscal.document</tt> de
+serviço (modelo <tt class="docutils literal">SE</tt>) confirmado:</p>
+<ul class="simple">
+<li>monta a <strong>DPS</strong> (versão 1.00 do leiaute) e valida contra o XSD
+oficial;</li>
+<li>assina a DPS com o <strong>certificado A1</strong> (ICP-Brasil) da empresa;</li>
+<li>envia ao ADN por <strong>REST com mTLS</strong> e grava a NFS-e autorizada, a chave
+de acesso de 50 dígitos, o número e o protocolo;</li>
+<li>trata a rejeição do ADN, mostrando o motivo legível no chatter e no
+evento do documento;</li>
+<li><strong>cancela</strong> a NFS-e pelo evento <tt class="docutils literal">101101</tt>, com o código do motivo
+escolhido no assistente de cancelamento;</li>
+<li><strong>consulta</strong> no ADN se a nota foi cancelada fora do Odoo (eventos
+<tt class="docutils literal">101101</tt> e <tt class="docutils literal">305101</tt>);</li>
+<li>gera o <strong>DANFSe</strong> em PDF a partir do XML autorizado (layout v2.0 da NT
+008/2026), sem consultar nenhum portal;</li>
+<li><strong>importa</strong> o XML de uma NFS-e Nacional ou de uma DPS para um
+documento fiscal.</li>
+</ul>
+<p><strong>Como se encaixa.</strong> Depende de <tt class="docutils literal">l10n_br_nfse</tt>, de onde vêm o campo de
+provedor e o de ambiente da NFS-e, mas mapeia a DPS direto sobre o
+<tt class="docutils literal">l10n_br_fiscal.document</tt>: os campos de serviço e de impostos já estão
+no núcleo fiscal, então nada do fluxo municipal (RPS, ABRASF) é
+reaproveitado. O leiaute vem do módulo <tt class="docutils literal">l10n_br_nfse_spec</tt> (mixins
+xsdata-odoo sobre os schemas oficiais), ligado ao documento pelo
+<tt class="docutils literal">spec_driven_model</tt>. Ao escolher o provedor <strong>Sefin Nacional (ADN)</strong>
+na empresa, os documentos de serviço dela passam por este módulo, e os
+módulos municipais e de gateway continuam atendendo as demais empresas.</p>
 <div class="admonition important">
 <p class="first admonition-title">Important</p>
 <p class="last">This is an alpha version, the data model and design can change at any time without warning.
@@ -408,68 +431,106 @@ Only for development or testing purpose, do not use in production.
 </div>
 <div class="section" id="configuration">
 <h1><a class="toc-backref" href="#toc-entry-1">Configuration</a></h1>
-<p>On the company, set:</p>
+<p><strong>Na empresa</strong>:</p>
 <ul class="simple">
-<li>the ICP-Brasil <strong>A1 certificate</strong> (module
-<tt class="docutils literal">l10n_br_fiscal_certificate</tt>);</li>
-<li><strong>E-doc Processor</strong> = Odoo Community (<tt class="docutils literal">processador_edoc = oca</tt>);</li>
-<li><strong>NFSe Provider</strong> = Sefin Nacional (ADN)
-(<tt class="docutils literal">provedor_nfse = nacional</tt>);</li>
-<li><strong>NFSe Environment</strong> = Produção or Homologação, which the ADN calls
-produção restrita. The document copies it on creation and you can
-override it there.</li>
+<li><strong>Certificado digital</strong>: cadastre o certificado <strong>A1</strong> (ICP-Brasil) da
+empresa (módulo <tt class="docutils literal">l10n_br_fiscal_certificate</tt>). Ele assina a DPS e os
+eventos e também autentica a conexão mTLS com o ADN. A chave privada é
+usada só em memória e em arquivo temporário com permissão restrita, e
+não é registrada em log.</li>
+<li><strong>Processador de documentos eletrônicos</strong>: Odoo Community (<tt class="docutils literal">oca</tt>).</li>
+<li><strong>Provedor de NFS-e</strong>: Sefin Nacional (ADN)
+(<tt class="docutils literal">provedor_nfse = nacional</tt>). Só as empresas com esse provedor
+emitem pelo ADN.</li>
+<li><strong>Ambiente da NFS-e</strong>: Produção ou Homologação. No ADN a homologação
+se chama produção restrita e usa outro endereço. O documento copia o
+ambiente da empresa na criação, e você pode alterá-lo no próprio
+documento.</li>
+<li><strong>Cadastro da empresa</strong>: CNPJ ou CPF, município (com código IBGE) e
+regime tributário (MEI, Simples Nacional ou regime normal), pois a DPS
+informa o município emissor e o regime do prestador.</li>
 </ul>
+<p><strong>Série e numeração.</strong> A série e o número do documento vêm do documento
+fiscal (a série na linha de numeração da empresa). O número informado é
+o <tt class="docutils literal">nDPS</tt>, e não existe RPS: a numeração é livre e a chave da DPS, de
+42 dígitos, é montada com município, tipo de emissor, CNPJ/CPF, série e
+número.</p>
+<p><strong>Município.</strong> O município do prestador precisa estar conveniado ao
+padrão nacional. Para testar, use o ambiente de homologação (produção
+restrita) com o certificado da empresa.</p>
+<p><strong>Dependências Python</strong>: <tt class="docutils literal">nfelib</tt>, <tt class="docutils literal">brazilfiscalreport</tt>,
+<tt class="docutils literal">erpbrasil.assinatura</tt>, <tt class="docutils literal">requests</tt> e <tt class="docutils literal">cryptography</tt>.</p>
 </div>
 <div class="section" id="usage">
 <h1><a class="toc-backref" href="#toc-entry-2">Usage</a></h1>
-<p>Create a service fiscal document (model “SE”) for a company configured
-for the national environment, confirm it and send it. The module builds
-and signs the DPS, posts it to the ADN and, on authorization, stores the
-NFS-e XML, its 50-digit access key and protocol, and renders the DANFSe.</p>
+<p><strong>Emitir</strong></p>
+<ol class="arabic simple">
+<li>Crie um documento fiscal de serviço (modelo <tt class="docutils literal">SE</tt>) para uma empresa
+configurada com o provedor Sefin Nacional (ADN), com tomador, linhas
+de serviço (código de serviço, impostos) e a operação fiscal.</li>
+<li>Confirme o documento. O módulo monta a DPS, assina com o certificado
+A1 e valida contra o XSD. Se houver erro de schema, ele aparece no
+documento e nada é enviado; volte o documento para rascunho, corrija
+e confirme de novo.</li>
+<li>Envie o documento. O módulo transmite a DPS ao ADN por REST/mTLS.</li>
+<li>Na autorização, o documento fica <strong>Autorizada</strong> e guarda a chave de
+acesso de 50 dígitos, o número da NFS-e, o protocolo e o XML
+autorizado. Na rejeição, o documento fica <strong>Rejeitada</strong> e o motivo
+devolvido pelo ADN aparece no chatter e no evento.</li>
+<li>O <strong>DANFSe</strong> em PDF é gerado localmente a partir do XML autorizado,
+pela ação de imprimir/gerar o PDF do documento.</li>
+</ol>
+<p><strong>Cancelar</strong></p>
+<ol class="arabic simple">
+<li>No documento autorizado, use <strong>Cancelar</strong> e informe a justificativa.</li>
+<li>Escolha o <strong>código do motivo</strong> (1 - erro na emissão, 2 - serviço não
+prestado, 9 - outros).</li>
+<li>O módulo assina e envia o evento de cancelamento <tt class="docutils literal">101101</tt> ao ADN e,
+aceito o evento, marca o documento como cancelado.</li>
+</ol>
+<p>A inutilização de numeração não existe para a NFS-e Nacional, e por isso
+o botão fica oculto nos documentos de serviço.</p>
+<p><strong>Consultar o status</strong></p>
+<p>Em documento autorizado, o botão <strong>Consultar Status</strong> pergunta ao ADN se
+a nota foi cancelada por fora do Odoo (evento <tt class="docutils literal">101101</tt> ou <tt class="docutils literal">305101</tt>,
+este de ofício) e, se foi, atualiza o documento.</p>
+<p><strong>Importar XML</strong></p>
+<p>O módulo importa o XML de uma NFS-e Nacional ou de uma DPS e cria o
+documento fiscal correspondente.</p>
 </div>
 <div class="section" id="known-issues-roadmap">
 <h1><a class="toc-backref" href="#toc-entry-3">Known issues / Roadmap</a></h1>
-<p>Implemented:</p>
+<p><strong>Já implementado</strong></p>
 <ul class="simple">
-<li>DPS document and field mapping (<tt class="docutils literal">SpecModel</tt> over
-<tt class="docutils literal">nfse.10.tcdps</tt>/<tt class="docutils literal">tcinfdps</tt>), with
-<tt class="docutils literal">prest</tt>/<tt class="docutils literal">toma</tt>/<tt class="docutils literal">serv</tt>/<tt class="docutils literal">valores</tt> mapped by comodel (res.company
-/ res.partner / document.line) and regime-aware <tt class="docutils literal">regTrib</tt> (MEI /
-Simples Nacional / normal). Applies to service documents (<tt class="docutils literal">SE</tt>)
-whose company picked the provider Sefin Nacional (ADN), so municipal
-and gateway modules keep their own documents.</li>
-<li>REST/mTLS transport client (<tt class="docutils literal">transport/adn_rest.py</tt>):
-<tt class="docutils literal">verify=True</tt>, GET-only retry, gzip+base64 packing, no payload/key
-logging.</li>
-<li>Issuance following the NF-e pattern: <tt class="docutils literal">_serialize</tt>
-(<tt class="docutils literal">_build_binding</tt> → <tt class="docutils literal">Dps</tt>), <tt class="docutils literal">_document_export</tt> (build → save
-event → sign → XSD validate), <tt class="docutils literal">_eletronic_document_send</tt> →
-<tt class="docutils literal">_adn_send_for_authorization</tt> (<tt class="docutils literal">POST /nfse</tt> over mTLS, A1 derived
-in memory to a 0600 temp PEM, explicit UTF-8 declaration) and
-<tt class="docutils literal">_adn_process_response</tt> (authorized → store key/number/protocol +
-NFS-e XML + <tt class="docutils literal">set_done</tt> + <tt class="docutils literal">SITUACAO_EDOC_AUTORIZADA</tt>; rejected →
-readable reason on the chatter/event + <tt class="docutils literal">SITUACAO_EDOC_REJEITADA</tt>).</li>
-<li>Cancellation event <tt class="docutils literal">e101101</tt>: <tt class="docutils literal">_document_cancel</tt> → <tt class="docutils literal">_adn_cancel</tt>
-(build <tt class="docutils literal">PedRegEvento</tt> → sign → <tt class="docutils literal">POST <span class="pre">/nfse/{chave}/eventos</span></tt>), with
-the cancel reason code (cMotivo) collected by the extended cancel
-wizard. Number invalidation is hidden for NFS-e (SE) documents (no
-national service for it).</li>
-<li>Cancellation registered outside Odoo is picked up by the check-status
-button (<tt class="docutils literal">GET <span class="pre">/nfse/{chave}/eventos/{tipoEvento}/1</span></tt> for <tt class="docutils literal">101101</tt>
-and <tt class="docutils literal">305101</tt>).</li>
-<li>DANFSe rendered from the authorized NFS-e XML by
-<tt class="docutils literal">brazilfiscalreport</tt>, in the v2.0 layout of NT 008/2026, with no
-call to any portal.</li>
+<li>Mapeamento da DPS sobre o documento fiscal, com prestador, tomador,
+serviço e valores, e o regime tributário (MEI, Simples Nacional ou
+normal) deduzido da empresa.</li>
+<li>Cliente REST/mTLS com verificação de certificado do servidor, nova
+tentativa apenas em GET e sem registrar payload nem chaves em log.</li>
+<li>Emissão, rejeição legível, cancelamento pelo evento <tt class="docutils literal">101101</tt> e
+consulta de cancelamento feito fora do Odoo.</li>
+<li>DANFSe gerado do XML autorizado.</li>
 </ul>
-<p>Not yet implemented (next iteration):</p>
+<p><strong>Limitações conhecidas</strong></p>
 <ul class="simple">
-<li>Lost-response reconciliation (<tt class="docutils literal">GET <span class="pre">/nfse/{chave}</span></tt> /
-<tt class="docutils literal">GET <span class="pre">/dps/{id}</span></tt> before any re-<tt class="docutils literal">POST</tt>).</li>
-<li>Substitution events (e105xxx) and the remaining event types.</li>
+<li>A alíquota (<tt class="docutils literal">pAliq</tt>) nunca é informada na DPS para município
+conveniado: o ADN toma a alíquota dos parâmetros municipais e recusa a
+alíquota informada em casos como o erro E0625.</li>
+<li>Empresa fora do Simples Nacional informa o tributo aproximado em
+<tt class="docutils literal">pTotTrib</tt>; empresa do Simples sem faixa de receita cai no indicador
+<tt class="docutils literal">indTotTrib</tt>, pois o ADN exige uma das opções.</li>
+<li>CNAB e cobrança bancária não se aplicam a este módulo.</li>
+<li>Não existe inutilização de numeração para a NFS-e Nacional (a
+numeração da DPS é livre).</li>
 </ul>
-<p>Out of scope here: IBS/CBS (RTC), inbound distribution, contingency,
-async / queue_job — see the project specs. Number inutilização against a
-service does not exist for the national NFS-e (free DPS numbering).</p>
+<p><strong>Ainda não implementado</strong></p>
+<ul class="simple">
+<li>Reconciliação de resposta perdida (<tt class="docutils literal">GET <span class="pre">/nfse/{chave}</span></tt> e
+<tt class="docutils literal">GET <span class="pre">/dps/{id}</span></tt> antes de reenviar a DPS).</li>
+<li>Eventos de substituição (<tt class="docutils literal">e105xxx</tt>) e os demais tipos de evento.</li>
+<li>IBS/CBS (reforma tributária), distribuição de documentos recebidos,
+contingência e envio assíncrono com fila (<tt class="docutils literal">queue_job</tt>).</li>
+</ul>
 </div>
 <div class="section" id="bug-tracker">
 <h1><a class="toc-backref" href="#toc-entry-4">Bug Tracker</a></h1>
@@ -491,9 +552,12 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <div class="section" id="contributors">
 <h2><a class="toc-backref" href="#toc-entry-7">Contributors</a></h2>
 <ul class="simple">
-<li>Raphael Valyi <a class="reference external" href="mailto:raphael.valyi&#64;akretion.com">raphael.valyi&#64;akretion.com</a></li>
+<li><a class="reference external" href="https://akretion.com/pt-BR">Akretion</a>:<ul>
+<li>Raphaël Valyi &lt;<a class="reference external" href="mailto:raphael.valyi&#64;akretion.com">raphael.valyi&#64;akretion.com</a>&gt;</li>
+</ul>
+</li>
 <li><a class="reference external" href="https://www.kmee.com.br">KMEE</a>:<ul>
-<li>Ygor Carvalho <a class="reference external" href="mailto:ygor.carvalho&#64;kmee.com.br">ygor.carvalho&#64;kmee.com.br</a></li>
+<li>Ygor Carvalho &lt;<a class="reference external" href="mailto:ygor.carvalho&#64;kmee.com.br">ygor.carvalho&#64;kmee.com.br</a>&gt;</li>
 </ul>
 </li>
 </ul>
