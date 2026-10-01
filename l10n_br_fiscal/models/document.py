@@ -305,7 +305,7 @@ class Document(models.Model):
                     "its fiscal operation to the lines."
                 )
             )
-        if self.state_edoc != SITUACAO_EDOC_EM_DIGITACAO:
+        if self.state_edoc != DOCUMENT_STATE_DRAFT:
             raise UserError(
                 _(
                     "The fiscal operation can only be propagated to the lines "
