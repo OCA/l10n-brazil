@@ -221,6 +221,8 @@ class TestImportDeclarationWizard(AccountMoveBRCommon):
         recompute the fields of a compute method left out of a write() that
         already supplies some of its other fields.
         """
+        # The NCM table maps an Import Tax to the NCM of product_a.
+        self.product_a.ncm_id.sudo().tax_ii_id = False
         wizard = self._wizard()
         lines = wizard._bill_lines()
         shares = wizard._shares(lines)
