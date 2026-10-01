@@ -18,6 +18,18 @@ class AccountTaxMixin(models.AbstractModel):
         default=False,
     )
 
+    no_credit = fields.Boolean(
+        string="No Credit Variant?",
+        default=False,
+        help="Variante contábil para imposto POR FORA (ex.: IPI) numa compra"
+        " SEM direito a crédito: o valor compõe o total da fatura (o"
+        " fornecedor cobra), mas não gera lançamento contábil próprio — fica"
+        " no custo da linha do produto. Tecnicamente: par de repartições"
+        " +100/-100 sem contas (soma dos fatores 0 → amount contábil 0)."
+        " Selecionada pelo resolvedor de creditabilidade"
+        " (_get_stock_cost_tax_map) quando o imposto não credita.",
+    )
+
     @api.onchange("deductible", "withholdable")
     def _onchange_deductible(self):
         for repartition in self.invoice_repartition_line_ids.filtered(

@@ -106,6 +106,12 @@ class StockMove(models.Model):
                 user_type = USER_TYPE_MAP.get((pick_type_code, usage))
 
                 if user_type:
+                    # Escolha da variante dedutível por imposto quando a
+                    # operação de compra tem destinação (ver l10n_br_account
+                    # fiscal_tax.account_taxes).
+                    credit_map = None
+                    if user_type[0] == "purchase" and record.product_destination:
+                        credit_map = record._get_stock_cost_tax_map()
                     # Necessario usar o with_company porque sem isso, pelo menos,
                     # no caso dos Dados de Demonstração são criados sem o Tax IDs
                     # porque a empresa do self.env.company vai errado
@@ -115,6 +121,7 @@ class StockMove(models.Model):
                         user_type=user_type[0],
                         fiscal_operation=record.fiscal_operation_id,
                         company=record.company_id,
+                        credit_map=credit_map,
                     )
 
                     if tax_ids:
@@ -216,6 +223,17 @@ class StockMove(models.Model):
         #  e continua sendo feito abaixo?
         if self.fiscal_operation_id.fiscal_operation_type == "out":
             result = self.product_id.with_company(self.company_id).standard_price
+        elif self.fiscal_operation_id.fiscal_operation_type == "in":
+            # Entradas: o custo de aquisição para valorização de estoque é o
+            # custo LÍQUIDO (Art. 301 RIR/2018, CPC 16) — sem os impostos
+            # recuperáveis (ICMS/IPI/PIS/COFINS creditáveis) e com os
+            # componentes não recuperáveis (ICMS-ST, FCP-ST, II, frete,
+            # seguro, outros). O stock_cost_unit é computado pelo
+            # l10n_br_fiscal.document.line.mixin; o campo price_unit do move
+            # NÃO é alterado, pois ele alimenta a fatura/nota do picking
+            # (_get_price_unit_invoice).
+            if self.stock_cost_unit:
+                result = self.stock_cost_unit
 
         return result
 
