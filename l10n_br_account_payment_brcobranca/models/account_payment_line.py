@@ -77,6 +77,37 @@ class AccountPaymentLine(models.Model):
                 linhas_pagamentos["data_desconto"] = self.date.strftime("%Y/%m/%d")
                 linhas_pagamentos["valor_desconto"] = self.discount_value
 
+    def _prepare_bank_line_sicredi(self, cnab_config, linhas_pagamentos):
+        # TODO: O valor do Nosso Numero não é calculado dentro da biblioteca, idealmente
+        #  deveria, é necessário verificar a possibilidade, por enquanto está sendo
+        #  resolvido por aqui.
+
+        # O campo Nosso Número deve ser apresentado no formato AA/BXXXXX-D, onde:
+        # AA = Ano atual
+        # B = Byte que pode ser de 2 a 9. Somente será 1 se forem boletos pré-impressos.
+        # XXXXX = número sequencial
+        # D = dígito verificador calculado
+
+        # Data de referencia precisa ser a da Fatura e não a Atual para evitar
+        # o erro de Fim de Ano, por exemplo:
+        #   Boleto gerado no ano de 2026 será 262000025 mas se
+        #   o arquivo for Gerado em 2027 vai estar 272000021.
+
+        ano = self.move_line_id.move_id.invoice_date.strftime("%y")
+        nosso_numero = linhas_pagamentos["nosso_numero"]
+        nosso_numero = nosso_numero.zfill(5)[-5:]
+
+        nosso_numero_with_byte_idt = ano + cnab_config.boleto_byte_idt + nosso_numero
+        nosso_numero_para_calcular_dv = (
+            self.order_id.journal_id.bank_account_id.bra_number
+            + cnab_config.boleto_post.zfill(2)
+            + cnab_config.cnab_company_bank_code
+            + nosso_numero_with_byte_idt
+        )
+
+        dv = modulo11(nosso_numero_para_calcular_dv, 9, 0)
+        linhas_pagamentos["nosso_numero"] = nosso_numero_with_byte_idt + str(dv)
+
     def prepare_bank_payment_line(self, bank_name_brcobranca):
         cnab_config = self.order_id.payment_mode_id.cnab_config_id
         linhas_pagamentos = self._prepare_boleto_line_vals()
