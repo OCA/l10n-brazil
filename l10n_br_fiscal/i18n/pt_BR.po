@@ -966,6 +966,16 @@ msgid "Andresses"
 msgstr "Endereços"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax_effective__simplified_tax_id
+msgid "Annex"
+msgstr "Anexo"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax_effective__simplified_tax_id
+msgid "Annex Tax Table of Simples Nacional"
+msgstr "Tabela de impostos do anexo do Simples Nacional"
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__annual_revenue
 msgid "Annual Revenue"
 msgstr "Receita Anual"
@@ -2248,6 +2258,11 @@ msgid "Currency"
 msgstr "Moeda"
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
+msgid "Current Effective Taxes for Simples Nacional"
+msgstr "Alíquotas efetivas atuais do Simples Nacional"
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.ncm_form
 msgid "Custom PIS/COFINS"
 msgstr "PIS/COFINS personalizado"
@@ -2664,6 +2679,25 @@ msgstr "Data de Vencimento"
 #: model:uom.uom,name:l10n_br_fiscal.UOM_EMBALAGEM
 msgid "EMBALAGEM"
 msgstr "EMBALAGEM"
+
+#. module: l10n_br_fiscal
+#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_simplified_tax_effective
+msgid "Effective Tax Rate for Simples Nacional"
+msgstr "Alíquota efetiva do Simples Nacional"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__sn_effective_tax_ids
+msgid "Effective Taxes"
+msgstr "Alíquotas efetivas"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax_effective__current_effective_tax
+msgid ""
+"Effective tax of Simples Nacional, when the activity falls under this annex,"
+" based on the current range."
+msgstr ""
+"Alíquota efetiva do Simples Nacional quando a atividade se enquadra neste "
+"anexo, com base na faixa atual."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__document_electronic
@@ -3369,6 +3403,21 @@ msgstr "Dá a ordem da sequência ao exibir uma lista"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__price_gross
 msgid "Gross Product/Service Amount"
 msgstr "Valor bruto do produto/serviço"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_res_company__annual_revenue
+msgid ""
+"Gross revenue accumulated over the 12 months before the current assessment "
+"period (RBT12). Under the Simples Nacional it sets the range of each annex, "
+"hence the effective tax rates and the ICMS credit rate stated on the "
+"invoices, which is the one of the range the company was in the month before "
+"the operation (LC 123/2006, art. 18 and art. 23)."
+msgstr ""
+"Receita bruta acumulada nos 12 meses anteriores ao período de apuração "
+"(RBT12). No Simples Nacional ela define a faixa de cada anexo e, com isso, "
+"as alíquotas efetivas e a alíquota de crédito de ICMS informada nas notas, "
+"que é a da faixa em que a empresa estava no mês anterior ao da operação (LC "
+"123/2006, art. 18 e art. 23)."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_ipi_guideline__cst_group
@@ -7190,6 +7239,26 @@ msgid "RPS Number"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax_effective__current_range_id
+msgid "Range"
+msgstr "Faixa"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax_effective__current_range_id
+msgid "Range into which the company falls based on current revenue."
+msgstr "Faixa em que a empresa se enquadra com base na receita atual."
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icmssn_range_id
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icmssn_range_id
+msgid ""
+"Range of the Simples Nacional annex that taxes the operation, the one the "
+"company was in when the taxes of the line were computed."
+msgstr ""
+"Faixa do anexo do Simples Nacional que tributa a operação, aquela em que a "
+"empresa estava quando os impostos da linha foram calculados."
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cest__segment__20
 msgid "Rações para animais domésticos"
 msgstr "Rações para animais domésticos"
@@ -7604,6 +7673,15 @@ msgstr "Sim"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
 msgid "Simples Nacional"
 msgstr "Simples Nacional"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_res_company__sn_effective_tax_ids
+msgid ""
+"Simples Nacional effective tax rate for each annex, based on the range the "
+"company currently falls into."
+msgstr ""
+"Alíquota efetiva do Simples Nacional de cada anexo, com base na faixa em que"
+" a empresa se enquadra atualmente."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.simplified_tax_form
@@ -8323,6 +8401,11 @@ msgid "Tax Percent"
 msgstr "Percentual de Imposto"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax_effective__current_effective_tax
+msgid "Tax Rate %"
+msgstr "Alíquota %"
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__withholding_at_place
 msgid "Tax Retention at place of provision"
 msgstr "Retenção fiscal no local da provisão"
@@ -8488,6 +8571,15 @@ msgstr ""
 #, python-format
 msgid "There is already a fiscal document with this key: {} !"
 msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_simplified_tax_effective_sn_effective_tax_unique
+msgid ""
+"There is already an effective tax line for this company and this Simples "
+"Nacional table"
+msgstr ""
+"Já existe uma linha de alíquota efetiva para esta empresa e este anexo do "
+"Simples Nacional"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.operation_dashboard_action

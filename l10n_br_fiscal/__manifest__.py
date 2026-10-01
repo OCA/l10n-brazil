@@ -10,7 +10,7 @@
     "maintainers": ["renatonlima", "rvalyi"],
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Production/Stable",
-    "version": "16.0.24.2.1",
+    "version": "16.0.25.0.0",
     "depends": [
         "product",
         "uom_alias",
@@ -108,6 +108,7 @@
         "views/city_taxation_code.xml",
         "views/national_taxation_code.xml",
         "views/operation_dashboard_view.xml",
+        "views/simplified_tax_effective_view.xml",
         # Wizards
         "wizards/document_import_wizard.xml",
         # Actions

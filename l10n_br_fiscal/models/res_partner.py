@@ -163,3 +163,12 @@ class ResPartner(models.Model):
             "l10n_br_ie_code",
             "l10n_br_im_code",
         ]
+
+    def write(self, vals):
+        result = super().write(vals)
+        if "tax_framework" in vals:
+            # the tax framework of a company is the one of its partner
+            self.env["res.company"].sudo().search(
+                [("partner_id", "in", self.ids)]
+            )._update_effective_tax_lines()
+        return result
