@@ -1,5 +1,6 @@
 odoo_test_helper
-nfelib
+# nfelib 2.6 uses postponed annotations unsupported by spec_driven_model.
+nfelib<2.6
 xsdata
 signxml==3.2.2
 xmldiff
