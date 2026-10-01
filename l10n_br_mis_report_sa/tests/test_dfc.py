@@ -148,12 +148,16 @@ class TestDfc(AccountTestInvoicingCommon):
         )
 
     def _assert_reconciles(self, r):
+        # mis_builder returns AccountingNone when nothing moved, and it does
+        # not accept a format spec
+        variacao_caixa = float(r["variacao_caixa"])
+        conferencia = float(r["conferencia"])
         self.assertAlmostEqual(
-            r["variacao_caixa"],
-            r["conferencia"],
+            variacao_caixa,
+            conferencia,
             places=2,
-            msg=f"a demonstração apurou {r['variacao_caixa']:.2f} de variação de "
-            f"caixa e as contas de caixa mostram {r['conferencia']:.2f}",
+            msg=f"a demonstração apurou {variacao_caixa:.2f} de variação de "
+            f"caixa e as contas de caixa mostram {conferencia:.2f}",
         )
 
     def test_a_full_year_reconciles_with_the_cash_accounts(self):
