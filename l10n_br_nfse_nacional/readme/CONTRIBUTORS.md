@@ -1,3 +1,4 @@
-- Raphael Valyi <raphael.valyi@akretion.com>
+- [Akretion](https://akretion.com/pt-BR):
+  - Raphaël Valyi \<<raphael.valyi@akretion.com>\>
 - [KMEE](https://www.kmee.com.br):
-  - Ygor Carvalho <ygor.carvalho@kmee.com.br>
+  - Ygor Carvalho \<<ygor.carvalho@kmee.com.br>\>
