@@ -453,6 +453,15 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         self.assertIsNone(model._spec_prefix())
         self.assertEqual(model._spec_prefix(split=True), (None, None))
 
+    def test_import_dict_of_a_field_redefined_without_related(self):
+        """A spec field redefined with related=False is imported as a plain value."""
+        partner = self.env["res.partner"]
+        with patch.object(partner._fields["poxsd10_name"], "related", False):
+            vals = partner._prepare_import_dict(
+                {"poxsd10_name": "ACME"}, defaults_model=None
+            )
+        self.assertEqual(vals["poxsd10_name"], "ACME")
+
     def test_model_without_odoo_module_does_not_break_the_registry(self):
         """A prefix that resolves without a spec module must not abort the load."""
         model = self.env["spec.mixin"].with_context(
