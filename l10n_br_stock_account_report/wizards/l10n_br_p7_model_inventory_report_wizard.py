@@ -75,7 +75,7 @@ class L10nBRP7ModelInventoryReportWizard(models.TransientModel):
         company = self.env.company
         header = {
             "company_name": company.name,
-            "cnpj": company.partner_id.cnpj_cpf,
+            "cnpj": company.vat_formatted_cnpj,
             "l10n_br_ie_code": company.l10n_br_ie_code,
             "date": to_date_with_tz.strftime("%d/%m/%Y"),
         }
@@ -107,27 +107,23 @@ class L10nBRP7ModelInventoryReportWizard(models.TransientModel):
             "product_qty": obj_lang.format(
                 fmt.format(precision=qty_precision),
                 product.qty_available,
-                True,
-                True,
+                grouping=True,
             ),
             "price_unit": obj_lang.format(
                 fmt.format(precision=price_precision),
                 round(price_used, price_precision),
-                True,
-                True,
+                grouping=True,
             ),
             "partial_total_value": obj_lang.format(
                 fmt.format(precision=account_precision),
                 round(product_inventory_value, account_precision),
-                True,
-                True,
+                grouping=True,
             ),
             "ncm": product.ncm_id.code,
             "total_value_ncm": obj_lang.format(
                 fmt.format(precision=account_precision),
                 tmp_total_value_ncm,
-                True,
-                True,
+                grouping=True,
             ),
             "ncm_controller": tmp_ncm_controler_line,
         }
@@ -275,8 +271,7 @@ class L10nBRP7ModelInventoryReportWizard(models.TransientModel):
                     "value": obj_lang.format(
                         fmt.format(precision=account_precision),
                         fiscal_type_dict.get(fiscal_type_name),
-                        True,
-                        True,
+                        grouping=True,
                     ),
                 }
             )
@@ -284,7 +279,7 @@ class L10nBRP7ModelInventoryReportWizard(models.TransientModel):
         # Valor Total do Inventário
         total = {
             "total": obj_lang.format(
-                fmt.format(precision=account_precision), tmp_total_value, True, True
+                fmt.format(precision=account_precision), tmp_total_value, grouping=True
             )
         }
 
