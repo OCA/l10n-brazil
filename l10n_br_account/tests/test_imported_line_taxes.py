@@ -13,6 +13,8 @@ class TestImportedLineTaxes(AccountMoveBRCommon):
     def setUpClass(cls):
         super().setUpClass()
         cls.document_type_55 = cls.env.ref("l10n_br_fiscal.document_55")
+        if "l10n_latam.document.type" in cls.env:
+            cls._mirror_latam_document_type(cls.document_type_55)
         cls.operation = cls.env.ref("l10n_br_fiscal.fo_compras")
         cls.operation_line = cls.env.ref("l10n_br_fiscal.fo_compras_compras")
 
