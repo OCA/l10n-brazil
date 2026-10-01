@@ -22,10 +22,12 @@ class AccountMove(models.Model):
         inverse_name="move_id",
         string="Obrigações de GNRE",
         readonly=True,
+        groups="l10n_br_fiscal.group_user",
     )
 
     gnre_obligation_count = fields.Integer(
         compute="_compute_gnre_obligation_count",
+        groups="l10n_br_fiscal.group_user",
     )
 
     @api.depends("gnre_obligation_ids")
@@ -131,9 +133,11 @@ class AccountMove(models.Model):
 
     def _post(self, soft=True):
         posted = super()._post(soft)
-        posted._create_gnre_obligations()
+        # The obligation follows the posting even for a user without the
+        # fiscal group, so it is created as superuser.
+        posted.sudo()._create_gnre_obligations()
         return posted
 
     def button_draft(self):
-        self._gnre_undo_obligations()
+        self.sudo()._gnre_undo_obligations()
         return super().button_draft()
