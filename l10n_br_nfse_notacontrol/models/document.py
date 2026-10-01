@@ -85,6 +85,18 @@ class L10nBrFiscalDocument(models.Model):
     nfse10_nDPS = fields.Char(related=False, compute="_compute_nfse10_ndps")
     nfse10_Id = fields.Char(related=False, compute="_compute_nfse10_dps_id")
 
+    @api.model
+    def _prepare_import_dict(
+        self, vals, model=None, parent_dict=None, defaults_model=False
+    ):
+        # Without the related, the import no longer maps nDPS back to the
+        # document number.
+        if vals.get("nfse10_nDPS") and not vals.get("document_number"):
+            vals["document_number"] = vals["nfse10_nDPS"]
+        return super()._prepare_import_dict(
+            vals, model=model, parent_dict=parent_dict, defaults_model=defaults_model
+        )
+
     @api.depends("rps_number", "document_number", "company_id")
     def _compute_nfse10_ndps(self):
         for rec in self:
