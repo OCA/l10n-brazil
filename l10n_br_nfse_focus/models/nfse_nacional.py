@@ -461,7 +461,10 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
                         "aliquota_iss"
                     ]
                 }
-                if provider_data["codigo_opcao_simples_nacional"] == 2
+                if (
+                    provider_data["codigo_opcao_simples_nacional"] == 2
+                    or not regime_especial_tributacao
+                )
                 and service_basic["tributacao_iss"] not in (2, 3, 4)
                 else {}
             ),

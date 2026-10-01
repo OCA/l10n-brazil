@@ -808,16 +808,17 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         self.assertEqual(payload.get("codigo_opcao_simples_nacional"), 2)
         self.assertIn("percentual_aliquota_relativa_municipio", payload)
 
-    def test_prepare_payload_nacional_suppresses_aliquota_non_simples_no_special_regime(
+    def test_prepare_payload_nacional_sends_aliquota_non_simples_no_special_regime(
         self,
     ):
-        """Tests aliquota is omitted for a non-Simples provider without special regime.
+        """Tests aliquota is sent for a non-Simples provider without special regime.
 
-        The Sistema Nacional NFS-e rejects percentual_aliquota_relativa_municipio
-        (error E0617) whenever the provider is not optante do Simples Nacional
-        (codigo_opcao_simples_nacional == 1), regardless of
-        regime_especial_tributacao, for municipalities active in the national
-        system.
+        The Sistema Nacional NFS-e requires percentual_aliquota_relativa_municipio
+        (error E0619) whenever the provider is not optante do Simples Nacional
+        (codigo_opcao_simples_nacional == 1), there is no regime_especial_tributacao,
+        and the municipio de incidencia is not yet "ATIVO" in the national system.
+        Since the module has no way to know a municipality's activation status,
+        the aliquota is always sent in this case.
         """
         nfse_nacional = self.env["focusnfe.nfse.nacional"]
         edoc = {
@@ -835,7 +836,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         payload = nfse_nacional._prepare_payload_nacional(edoc, self.company)
 
         self.assertEqual(payload.get("codigo_opcao_simples_nacional"), 1)
-        self.assertNotIn("percentual_aliquota_relativa_municipio", payload)
+        self.assertIn("percentual_aliquota_relativa_municipio", payload)
 
     def test_prepare_payload_nacional_suppresses_aliquota_special_regime(self):
         """Tests aliquota is omitted for a non-Simples provider with special regime.
