@@ -2216,8 +2216,12 @@ msgstr "Deixe vazio para herdar a natureza do grupo de contas."
 
 #. module: l10n_br_dere
 #: model:ir.model.fields,help:l10n_br_dere.field_account_account__l10n_br_dere_cta_ref
-msgid "Leave empty to inherit the referential code from the account group."
-msgstr "Deixe vazio para herdar o código referencial do grupo de contas."
+msgid ""
+"Filled from the account group when you set the account code and this field "
+"is still empty. Clear it to keep the account out of the PGCC."
+msgstr ""
+"Preenchido com o valor do grupo de contas ao informar o código, se este "
+"campo ainda estiver vazio. Apague para deixar a conta fora do PGCC."
 
 #. module: l10n_br_dere
 #: model:ir.model.fields,help:l10n_br_dere.field_account_account__l10n_br_dere_cta_sup_id

@@ -70,10 +70,12 @@ Em cada **conta analítica** usada na declaração, preencha a aba
 
 - código interno e quebra de 3 dígitos da conta mista (`cDbrMista`)
 - código referencial, natureza e `codTrib` **obrigatório**. Natureza e
-  código de natureza vazios herdam do grupo. O `cCtaRef` vazio herda
-  só um `cCtaRef` preenchido explicitamente no grupo, nunca o prefixo:
-  uma conta sem código próprio nem no grupo fica fora do PGCC. O
-  many2one do `codTrib` mostra `código - nome`.
+  código de natureza vazios herdam do grupo. Ao informar o código na
+  tela, o `cCtaRef` da conta começa com o valor do grupo, se o campo
+  ainda estiver vazio. Apagar esse valor e gravar deixa a conta fora do
+  PGCC; o `cCtaRef` do grupo não a inclui. Importação com a coluna
+  vazia também não preenche o campo. O many2one do `codTrib` mostra
+  `código - nome`.
 - grupo pai só quando o plano não for baseado em prefixo
 
 Depois de remapear `codTrib` em uma conta que já pertence a um D-1011

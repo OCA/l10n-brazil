@@ -36,7 +36,9 @@ class AccountAccount(models.Model):
     l10n_br_dere_cta_ref = fields.Char(
         string="DeRE referential account",
         size=13,
-        help="Leave empty to inherit the referential code from the account group.",
+        help="Filled from the account group when you set the account code and "
+        "this field is still empty. Clear it to keep the account out of "
+        "the PGCC.",
     )
     l10n_br_dere_ind_cta = fields.Selection(
         IND_CTA,
@@ -108,13 +110,14 @@ class AccountAccount(models.Model):
         "l10n_br_dere_cta_sup_id",
         "l10n_br_dere_cta_sup_id.l10n_br_dere_nivel_cta",
         "group_id",
-        "group_id.l10n_br_dere_cta_ref",
         "group_id.l10n_br_dere_nivel_cta",
     )
     def _compute_l10n_br_dere_hierarchy(self):
         for account in self:
             parent = account._dere_parent_group()
-            account.l10n_br_dere_ind_cta = "A" if account._dere_cta_ref() else False
+            account.l10n_br_dere_ind_cta = (
+                "A" if account.l10n_br_dere_cta_ref else False
+            )
             account.l10n_br_dere_nivel_cta = (
                 (parent.l10n_br_dere_nivel_cta or 0) + 1 if parent else 1
             )
@@ -147,10 +150,13 @@ class AccountAccount(models.Model):
         self.ensure_one()
         return self.l10n_br_dere_cta_sup_id or self.group_id
 
-    def _dere_cta_ref(self):
-        """Own mapping or an explicit group mapping. Prefix is not enough."""
-        self.ensure_one()
-        return self.l10n_br_dere_cta_ref or self.group_id.l10n_br_dere_cta_ref
+    @api.onchange("code")
+    def _onchange_code_dere_cta_ref(self):
+        """Suggest the group referential code while the account has none."""
+        for account in self:
+            if account.l10n_br_dere_cta_ref or not account.group_id:
+                continue
+            account.l10n_br_dere_cta_ref = account.group_id.l10n_br_dere_cta_ref
 
     def _dere_nat_cta(self):
         self.ensure_one()

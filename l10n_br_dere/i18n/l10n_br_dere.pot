@@ -2167,7 +2167,9 @@ msgstr ""
 
 #. module: l10n_br_dere
 #: model:ir.model.fields,help:l10n_br_dere.field_account_account__l10n_br_dere_cta_ref
-msgid "Leave empty to inherit the referential code from the account group."
+msgid ""
+"Filled from the account group when you set the account code and this field "
+"is still empty. Clear it to keep the account out of the PGCC."
 msgstr ""
 
 #. module: l10n_br_dere

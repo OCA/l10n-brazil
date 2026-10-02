@@ -502,10 +502,12 @@ de prefixos.</p>
 <ul class="simple">
 <li>código interno e quebra de 3 dígitos da conta mista (<tt class="docutils literal">cDbrMista</tt>)</li>
 <li>código referencial, natureza e <tt class="docutils literal">codTrib</tt> <strong>obrigatório</strong>. Natureza e
-código de natureza vazios herdam do grupo. O <tt class="docutils literal">cCtaRef</tt> vazio herda
-só um <tt class="docutils literal">cCtaRef</tt> preenchido explicitamente no grupo, nunca o prefixo:
-uma conta sem código próprio nem no grupo fica fora do PGCC. O
-many2one do <tt class="docutils literal">codTrib</tt> mostra <tt class="docutils literal">código - nome</tt>.</li>
+código de natureza vazios herdam do grupo. Ao informar o código na
+tela, o <tt class="docutils literal">cCtaRef</tt> da conta começa com o valor do grupo, se o campo
+ainda estiver vazio. Apagar esse valor e gravar deixa a conta fora do
+PGCC; o <tt class="docutils literal">cCtaRef</tt> do grupo não a inclui. Importação com a coluna
+vazia também não preenche o campo. O many2one do <tt class="docutils literal">codTrib</tt> mostra
+<tt class="docutils literal">código - nome</tt>.</li>
 <li>grupo pai só quando o plano não for baseado em prefixo</li>
 </ul>
 <p>Depois de remapear <tt class="docutils literal">codTrib</tt> em uma conta que já pertence a um D-1011

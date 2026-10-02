@@ -294,7 +294,7 @@ class DereTablePeriod(models.Model):
             [("company_ids", "in", self.company_id.ids)]
         )
         return accounts.filtered(
-            lambda acc: acc._dere_cta_ref() and acc.l10n_br_dere_cta
+            lambda acc: acc.l10n_br_dere_cta_ref and acc.l10n_br_dere_cta
         )
 
     def _mapped_pgcc_groups(self, accounts):
@@ -354,7 +354,7 @@ class DereTablePeriod(models.Model):
             "dere12_indCta": "A",
             "dere12_descCta": account.l10n_br_dere_desc_cta or name,
             "dere12_cCtaSup": parent.l10n_br_dere_cta if parent else False,
-            "dere12_cCtaRef": account._dere_cta_ref(),
+            "dere12_cCtaRef": account.l10n_br_dere_cta_ref,
             "dere12_nivelCta": account.l10n_br_dere_nivel_cta or 1,
             "dere12_natCta": account._dere_nat_cta() or "V",
             "dere12_codNat": account._dere_cod_nat() or "1",

@@ -85,10 +85,37 @@ class TestDereTables(DereCommon):
         self.assertFalse(declaration.can_generate_trial)
         self.assertFalse(declaration.primary_action)
 
-    def test_d1011_inherits_group_mapping_on_analytic_account(self):
-        inherited = self.env["account.account"].create(
+    def test_code_onchange_copies_group_referential_account(self):
+        draft = self.env["account.account"].new(
             {
-                "name": "Inherited health revenue",
+                "name": "Suggested health revenue",
+                "code": "DERE312",
+                "account_type": "income",
+                "company_ids": [Command.set(self.company.ids)],
+            }
+        )
+        draft._onchange_code_dere_cta_ref()
+        self.assertEqual(draft.group_id, self.parent_group)
+        self.assertEqual(draft.l10n_br_dere_cta_ref, "12011")
+        draft.l10n_br_dere_cta_ref = "999"
+        draft._onchange_code_dere_cta_ref()
+        self.assertEqual(draft.l10n_br_dere_cta_ref, "999")
+
+    def test_d1011_skips_account_without_own_referential_code(self):
+        mapped = self.env["account.account"].create(
+            {
+                "name": "Mapped health revenue",
+                "code": "DERE313",
+                "account_type": "income",
+                "company_ids": [Command.set(self.company.ids)],
+                "l10n_br_dere_cta_interna": "313",
+                "l10n_br_dere_cta_ref": "120110006",
+                "l10n_br_dere_cod_trib": self.tax_admin_fee.id,
+            }
+        )
+        cleared = self.env["account.account"].create(
+            {
+                "name": "Cleared health revenue",
                 "code": "DERE312",
                 "account_type": "income",
                 "company_ids": [Command.set(self.company.ids)],
@@ -96,20 +123,25 @@ class TestDereTables(DereCommon):
                 "l10n_br_dere_cod_trib": self.tax_admin_fee.id,
             }
         )
-        self.assertEqual(inherited.group_id, self.parent_group)
-        self.assertEqual(inherited._dere_cta_ref(), "12011")
-        self.assertEqual(inherited._dere_nat_cta(), "C")
-        self.assertEqual(inherited._dere_cod_nat(), "4")
+        self.assertEqual(mapped.group_id, self.parent_group)
+        self.assertEqual(cleared.group_id, self.parent_group)
+        self.assertFalse(cleared.l10n_br_dere_cta_ref)
+        self.assertFalse(cleared.l10n_br_dere_ind_cta)
+        self.assertEqual(mapped._dere_nat_cta(), "C")
+        self.assertEqual(mapped._dere_cod_nat(), "4")
         declaration = self._create_declaration("2026-01")
         self._table_period(declaration).action_generate_d1011()
-        line = declaration.pgcc_account_ids.filtered(
-            lambda rec: rec.account_id == inherited
+        mapped_line = declaration.pgcc_account_ids.filtered(
+            lambda rec: rec.account_id == mapped
         )
-        self.assertEqual(line.dere12_cCtaRef, "12011")
-        self.assertEqual(line.dere12_natCta, "C")
-        self.assertEqual(line.dere12_codNat, "4")
-        self.assertEqual(line.dere12_cCtaSup, "31000")
-        self.assertEqual(line.dere12_indCta, "A")
+        self.assertFalse(
+            declaration.pgcc_account_ids.filtered(lambda rec: rec.account_id == cleared)
+        )
+        self.assertEqual(mapped_line.dere12_cCtaRef, "120110006")
+        self.assertEqual(mapped_line.dere12_natCta, "C")
+        self.assertEqual(mapped_line.dere12_codNat, "4")
+        self.assertEqual(mapped_line.dere12_cCtaSup, "31000")
+        self.assertEqual(mapped_line.dere12_indCta, "A")
 
     def test_d1011_emits_legal_provision_id_only_when_set(self):
         self.parent_group.l10n_br_dere_id_lei_disp = "00-00"
