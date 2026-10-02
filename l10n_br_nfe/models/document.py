@@ -7,6 +7,7 @@ import logging
 import re
 import string
 import threading
+from copy import deepcopy
 from datetime import datetime
 
 from erpbrasil.base.fiscal import cnpj_cpf
@@ -1986,6 +1987,50 @@ class NFe(spec_models.StackedModel):
             )
         return super().action_document_correction()
 
+    @api.model
+    def _build_proc_evento_nfe(self, processo, retevento):
+        """Assemble the procEventoNFe (signed event + retEvento) of an event.
+
+        The tax authority only answers with the retEvento; the procEventoNFe
+        is the file that proves the registration (the one that is sent to the
+        recipient and that feeds the DACCE). Returns False when the signed
+        event or its answer are not in the transmission result.
+        """
+        info = retevento.infEvento
+        try:
+            sent = etree.fromstring(processo.envio_xml)
+            answer = etree.fromstring(processo.retorno.content)
+        except (etree.XMLSyntaxError, ValueError, TypeError):
+            return False
+        ns = NFE_XML_NAMESPACE
+        evento = sent.xpath(
+            "//nfe:evento[nfe:infEvento/nfe:chNFe=$key"
+            " and nfe:infEvento/nfe:tpEvento=$type]",
+            namespaces=ns,
+            key=info.chNFe,
+            type=info.tpEvento,
+        )
+        ret_node = answer.xpath(
+            "//nfe:retEvento[nfe:infEvento/nfe:chNFe=$key"
+            " and nfe:infEvento/nfe:nProt=$protocol]",
+            namespaces=ns,
+            key=info.chNFe,
+            protocol=info.nProt,
+        )
+        if not evento or not ret_node:
+            return False
+        namespace = ns["nfe"]
+        proc = etree.Element(
+            f"{{{namespace}}}procEventoNFe",
+            nsmap={None: namespace},
+            versao="1.00",
+        )
+        # Not pretty printed: the signature is calculated over the canonical
+        # form of the infEvento.
+        proc.append(deepcopy(evento[0]))
+        proc.append(deepcopy(ret_node[0]))
+        return etree.tostring(proc, encoding="unicode")
+
     def _nfe_correction(self, justificative):
         # A refusal is recorded, not raised: a rollback would lose the sent XML.
         self.ensure_one()
@@ -2034,6 +2079,14 @@ class NFe(spec_models.StackedModel):
             status_code, response = info.cStat, info.xMotivo
             protocol_number = info.nProt or False
             protocol_date = tax_authority_date_to_utc(info.dhRegEvento)
+            if status_code in EVENTO_RECEBIDO:
+                # The registered event is stored as the procEventoNFe, the
+                # file that the DACCE and the recipient need, not as the SOAP
+                # envelope of the answer.
+                file_response_xml = (
+                    self._build_proc_evento_nfe(processo, retevento)
+                    or file_response_xml
+                )
 
         event_id.set_done(
             status_code=status_code,
