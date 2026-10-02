@@ -126,12 +126,13 @@
                                     <field name="state" />
                                     <field name="status_code" />
                                     <field name="response" />
+                                    <field name="can_print" invisible="1" />
                                     <button
                                         name="print_document_event"
                                         title="Print Document Event"
                                         icon="fa-print"
                                         type="object"
-                                        attrs="{'invisible': ['|', ('state', '!=', 'done'), ('status_code', 'not in', ['135', '136'])]}"
+                                        attrs="{'invisible': [('can_print', '=', False)]}"
                                     />
                                 </tree>
                             </field>
