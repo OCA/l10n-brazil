@@ -3,7 +3,7 @@
 
 from lxml import etree
 
-from odoo import models
+from odoo import api, fields, models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import EVENT_ENV_HML
 
@@ -68,3 +68,47 @@ class Event(models.Model):
     def _is_homologation(self):
         self.ensure_one()
         return self.environment == EVENT_ENV_HML
+
+    @api.model
+    def _reprocess_cce_protocol_date(self, apply=False):
+        """Fix protocol_date of letters stored with the local time instead of UTC.
+
+        Called by hand through scripts/reprocess_cce_protocol_date.py; without
+        apply nothing is written. Returns one line per letter.
+        """
+        events = self.search(
+            [
+                ("type", "=", "14"),
+                ("state", "=", "done"),
+                ("protocol_number", "!=", False),
+            ],
+            order="id",
+        )
+        report = []
+        for event in events:
+            line = {
+                "event_id": event.id,
+                "document_key": event.document_id.document_key,
+                "sequence": event.sequence,
+                "current": event.protocol_date
+                and fields.Datetime.to_string(event.protocol_date),
+                "expected": False,
+            }
+            registered = self._xml_values(
+                event.file_response_id, "retEvento", event.protocol_number
+            ).get("dhRegEvento")
+            if not registered:
+                line["action"] = "skipped (no dhRegEvento in the stored XML)"
+            else:
+                line["expected"] = self.env[
+                    "l10n_br_fiscal.document"
+                ]._event_registration_date(registered)
+                if line["expected"] == line["current"]:
+                    line["action"] = "ok"
+                elif apply:
+                    event.protocol_date = line["expected"]
+                    line["action"] = "fixed"
+                else:
+                    line["action"] = "fix"
+            report.append(line)
+        return report
