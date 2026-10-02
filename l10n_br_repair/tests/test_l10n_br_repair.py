@@ -325,3 +325,28 @@ class TestL10nBrRepair(L10nBrRepairBaseTest, TransactionCase):
     so_products_ref = "l10n_br_repair.main_so_only_products"
     so_services_ref = "l10n_br_repair.main_so_only_services"
     so_prod_srv_ref = "l10n_br_repair.main_so_product_service"
+
+    def test_demo_repair_invoiced(self):
+        """The demo data brings a repair with its fiscal documents posted
+        (checked in the database: a failing demo is dropped silently)."""
+        repair = self.env.ref("l10n_br_repair.main_repair_invoiced")
+        self.env.flush_all()
+        self.env.cr.execute(
+            """
+            SELECT DISTINCT am.state, dt.code
+            FROM account_move am
+            JOIN l10n_br_fiscal_document fd ON fd.id = am.fiscal_document_id
+            JOIN l10n_br_fiscal_document_type dt ON dt.id = fd.document_type_id
+            JOIN account_move_line aml ON aml.move_id = am.id
+            LEFT JOIN repair_line rl ON rl.invoice_line_id = aml.id
+            LEFT JOIN repair_fee rf ON rf.invoice_line_id = aml.id
+            WHERE rl.repair_id = %(repair)s OR rf.repair_id = %(repair)s
+            """,
+            {"repair": repair.id},
+        )
+        rows = self.env.cr.fetchall()
+        self.assertEqual({row[0] for row in rows}, {"posted"})
+        self.assertEqual(len(rows), 2)
+        self.assertIn("55", {row[1] for row in rows})
+        self.assertEqual(repair.state, "ready")
+        self.assertTrue(repair.invoiced)
