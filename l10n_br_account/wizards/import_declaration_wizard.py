@@ -761,12 +761,13 @@ class ImportDeclarationWizard(models.TransientModel):
                 + declared_taxes.get("ii_customhouse_charges", 0.0)
             )
             if declared:
-                vprod_gross = gross + declared
+                # vProd is the customs value of the addition and nothing else:
+                # the Import Tax goes in vII, and the engine adds it to vNF.
                 # freight_value and insurance_value are added back on top of
                 # vProd by _add_fields_to_amount, so they have to come out of
-                # the unit price here — otherwise the note's total counts the
-                # customs value's own freight and insurance twice.
-                vprod_gross -= line.freight_value + line.insurance_value
+                # the unit price here, otherwise the total of the note counts
+                # the freight and insurance of the customs value twice.
+                vprod_gross = gross - line.freight_value - line.insurance_value
                 values["price_unit"] = vprod_gross / line.quantity
                 values["ipi_base"] = line.ipi_base
                 values["ipi_percent"] = line.ipi_percent
@@ -777,12 +778,13 @@ class ImportDeclarationWizard(models.TransientModel):
                 values["cofins_base"] = line.cofins_base
                 values["cofins_percent"] = line.cofins_percent
                 values["cofins_value"] = line.cofins_value
-            # II sits inside vProd, PIS/COFINS inside vOutro and ICMS inside
-            # its own grossed base: the fiscal total already carries them all,
-            # and each one still gets its own tax line in the accounting. They
-            # have to be declared as included, or the goods line books them a
-            # second time and the payable overshoots the note. IBS/CBS are
-            # only stated in 2026, not charged, so they come out the same way.
+            # II rides on top of vProd as vII, PIS/COFINS inside vOutro and
+            # ICMS inside its own grossed base: the fiscal total already
+            # carries them all, and each one still gets its own tax line in
+            # the accounting. They have to be declared as included, or the
+            # goods line books them a second time and the payable overshoots
+            # the note. IBS/CBS are only stated in 2026, not charged, so they
+            # come out the same way.
             values["amount_tax_included"] = (
                 declared
                 + values.get("icms_value", line.icms_value)
