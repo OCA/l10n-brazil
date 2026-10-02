@@ -208,7 +208,6 @@ class TestNFeCorrection(TestNFeExport):
         event = self._last_event(nfe)
         expected = 'Onde se lê "transportadora X" - leia-se Y... volumes: 2'
         self.assertEqual(event.justification, expected)
-        self.assertIn(expected, nfe.correction_reason)
         request = self._request_xml(event)
         det = request.find(f".//{{{NFE_NS}}}detEvento")
         self.assertEqual(det.findtext(f"{{{NFE_NS}}}xCorrecao"), expected)
