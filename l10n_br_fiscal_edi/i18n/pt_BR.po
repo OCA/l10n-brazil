@@ -59,3 +59,9 @@ msgstr "Carta de correção registrada"
 #: code:addons/l10n_br_fiscal_edi/models/document.py:0
 msgid "Correction letter refused"
 msgstr "Carta de correção recusada"
+
+#. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document_event.py:0
+msgid "Only a correction letter registered by the tax authority can be printed."
+msgstr "Somente uma carta de correção registrada pelo fisco pode ser impressa."

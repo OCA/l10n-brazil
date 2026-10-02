@@ -5600,6 +5600,12 @@ msgstr ""
 #. module: l10n_br_nfe
 #. odoo-python
 #: code:addons/l10n_br_nfe/models/document.py:0
+msgid "The correction letter is not allowed for NFC-e documents."
+msgstr "A carta de correção não é permitida para NFC-e."
+
+#. module: l10n_br_nfe
+#. odoo-python
+#: code:addons/l10n_br_nfe/models/document.py:0
 msgid "Sequence %(sequence)s, protocol %(protocol)s: %(response)s"
 msgstr "Sequência %(sequence)s, protocolo %(protocol)s: %(response)s"
 

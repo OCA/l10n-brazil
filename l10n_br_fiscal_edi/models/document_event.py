@@ -390,6 +390,16 @@ class Event(models.Model):
         return event_id
 
     def print_document_event(self):
+        for event in self:
+            if event.type == "14" and not (
+                event.state == "done" and event.status_code in ("135", "136")
+            ):
+                raise UserError(
+                    _(
+                        "Only a correction letter registered by the tax "
+                        "authority can be printed."
+                    )
+                )
         return self.env.ref(
             "l10n_br_fiscal_edi.action_report_document_event"
         ).report_action(self)
