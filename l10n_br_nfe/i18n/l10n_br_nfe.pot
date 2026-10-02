@@ -2551,11 +2551,15 @@ msgid "Identificação da safra"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretconsrecinfe__nfe40_tpAmb
+msgid "Identificação do Ambiente"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_bank_statement_line__nfe40_tpAmb
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_move__nfe40_tpAmb
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_tpAmb
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretconsrecinfe__nfe40_tpAmb
-msgid "Identificação do Ambiente"
+msgid "Identificação do Ambiente (nfe_tpAmb)"
 msgstr ""
 
 #. module: l10n_br_nfe
