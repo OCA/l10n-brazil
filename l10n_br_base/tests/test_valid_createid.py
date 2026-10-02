@@ -322,6 +322,15 @@ class ValidCreateIdTest(TransactionCase):
             "The company CNPJ_CPF must be the same as the partner VAT",
         )
 
+    # Tests on cities
+
+    def test_city_display_name(self):
+        """Test if the city display name shows the state code"""
+        city = self.env.ref("l10n_br_base.city_3205002")
+        self.assertEqual(city.display_name, "Serra - ES")
+        city.state_id = False
+        self.assertEqual(city.display_name, "Serra")
+
 
 # No test on Inscricao Estadual for partners with CPF
 # because they haven't Inscricao Estadual
