@@ -104,3 +104,46 @@ class TestImportTaxBase(TransactionCase):
             self.currency.round(result["taxes"]["ipi"]["base"]),
             self.currency.round(CUSTOMS_VALUE),
         )
+
+    def _entry_line(self, cfop):
+        """A line kept as typed, the way an imported note keeps it."""
+        operation = self.env.ref("l10n_br_fiscal.fo_compras")
+        document = self.env["l10n_br_fiscal.document"].create(
+            {
+                "company_id": self.company.id,
+                "document_type_id": self.env.ref("l10n_br_fiscal.document_55").id,
+                "fiscal_operation_id": operation.id,
+                "fiscal_operation_type": "in",
+                "imported_document": True,
+            }
+        )
+        return self.env["l10n_br_fiscal.document.line"].create(
+            {
+                "document_id": document.id,
+                "name": "Imported goods",
+                "fiscal_operation_id": operation.id,
+                "cfop_id": self.env.ref(cfop).id,
+                "uom_id": self.env.ref("uom.product_uom_unit").id,
+                "quantity": 1.0,
+                "price_unit": CUSTOMS_VALUE,
+                "ii_value": DECLARED_II,
+            }
+        )
+
+    def test_the_import_tax_adds_to_the_total_outside_the_gross_amount(self):
+        """vProd of an import entry is the customs value, and the Import Tax
+        travels in vII, which the SEFAZ adds to vNF on its own."""
+        line = self._entry_line("l10n_br_fiscal.cfop_3101")
+        self.assertEqual(self.currency.round(line.price_gross), CUSTOMS_VALUE)
+        self.assertEqual(
+            self.currency.round(line.fiscal_amount_total),
+            self.currency.round(CUSTOMS_VALUE + DECLARED_II),
+        )
+
+    def test_the_import_tax_only_adds_to_the_total_of_an_import(self):
+        """Contraproof: a domestic entry has no vII to add."""
+        line = self._entry_line("l10n_br_fiscal.cfop_1102")
+        self.assertEqual(
+            self.currency.round(line.fiscal_amount_total),
+            self.currency.round(CUSTOMS_VALUE),
+        )
