@@ -77,7 +77,7 @@ class TaxPisCofins(models.Model):
 
     sped_table = fields.Char()
 
-    @api.depends("ncms")
+    @api.depends("ncms", "not_in_ncms", "ncm_exception")
     def _compute_ncms(self):
         ncm = self.env["l10n_br_fiscal.ncm"]
         for r in self:
