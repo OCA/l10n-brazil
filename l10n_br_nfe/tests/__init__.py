@@ -11,5 +11,6 @@ from . import test_res_partner
 from . import test_nfe_recipient_manifestation_event
 from . import test_nfe_danfe
 from . import test_nfe_ibscbs
+from . import test_nfe_intermediary
 from . import test_nfe_workflow
 from . import test_autxml
