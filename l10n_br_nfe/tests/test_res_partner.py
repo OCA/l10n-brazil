@@ -23,3 +23,30 @@ class TestNFCeResPartner(TransactionCase):
         self.assertFalse(self.partner_id.nfe40_UF)
         self.assertFalse(self.partner_id.nfe40_cPais)
         self.assertFalse(self.partner_id.nfe40_xPais)
+
+
+class TestResPartnerMatchOrCreateM2o(TransactionCase):
+    def test_match_or_create_m2o_cpf_only_carrier_not_duplicated(self):
+        """A carrier (``transporta``) identified only by CPF must be
+        matched on a second import instead of being created again."""
+        partner_model = self.env["res.partner"]
+        cpf = "11144477735"
+
+        def carrier_vals():
+            return {
+                "nfe40_CPF": cpf,
+                "nfe40_xNome": "Transportador Autonomo",
+                "is_company": False,
+                "country_id": self.env.ref("base.br").id,
+            }
+
+        partner_id_1 = partner_model.match_or_create_m2o(carrier_vals(), {})
+        partner_id_2 = partner_model.match_or_create_m2o(carrier_vals(), {})
+
+        self.assertEqual(
+            partner_id_1,
+            partner_id_2,
+            "Importing the same CPF-only carrier twice must reuse the "
+            "existing partner instead of creating a duplicate.",
+        )
+        self.assertEqual(partner_model.search_count([("vat", "=", cpf)]), 1)
