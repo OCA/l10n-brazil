@@ -22,6 +22,7 @@ from . import res_config_settings
 from . import cfop
 from . import invalidate_number
 from . import nfe_md_event
+from . import document_event
 
 spec_schema = "nfe"
 spec_version = "40"
