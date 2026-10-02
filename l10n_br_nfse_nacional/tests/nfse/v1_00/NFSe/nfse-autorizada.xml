@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<NFSe xmlns="http://www.sped.fazenda.gov.br/nfse">
+    <infNFSe versao="1.01" Id="NFS55555555555555555555555555555555555555555555555555">
+        <xLocEmi>Sao Paulo</xLocEmi>
+        <xLocPrestacao>Blumenau</xLocPrestacao>
+        <nNFSe>123</nNFSe>
+        <verAplic>SefinNacional_1.6.0</verAplic>
+        <ambGer>1</ambGer>
+        <tpEmis>1</tpEmis>
+        <procEmi>1</procEmi>
+        <cStat>100</cStat>
+        <dhProc>2023-09-09T12:45:00-03:00</dhProc>
+        <nDFSe>117997</nDFSe>
+        <emit>
+            <CNPJ>81583054000129</CNPJ>
+            <xNome>Empresa Lucro Presumido Ltda</xNome>
+        </emit>
+        <valores>
+            <vLiq>20.00</vLiq>
+        </valores>
+        <DPS versao="1.00">
+            <infDPS Id="DPS420240420000000000000000007000000000000002">
+                <tpAmb>2</tpAmb>
+                <dhEmi>2023-09-09T09:42:06-03:00</dhEmi>
+                <nDPS>2</nDPS>
+                <serie>00007</serie>
+                <dCompet>2023-09-09</dCompet>
+                <prest>
+                    <CNPJ>81583054000129</CNPJ>
+                </prest>
+                <serv>
+                    <cServ>
+                        <cTribNac>010101</cTribNac>
+                        <xDescServ>Teste de NF Nacional com imposto</xDescServ>
+                    </cServ>
+                </serv>
+                <valores>
+                    <vServPrest>
+                        <vServ>20.00</vServ>
+                    </vServPrest>
+                </valores>
+            </infDPS>
+        </DPS>
+    </infNFSe>
+</NFSe>
