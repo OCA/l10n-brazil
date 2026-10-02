@@ -7,8 +7,10 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     PROCESSADOR_NENHUM,
     SITUACAO_EDOC_A_ENVIAR,
     SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_EM_DIGITACAO,
 )
+from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import DOCUMENT_STATE_SENDING
 from odoo.addons.queue_job.tests.common import trap_jobs
 
 
@@ -134,3 +136,31 @@ class TestFiscalQueue(TransactionCase):
             self.assertEqual(document.state_edoc, SITUACAO_EDOC_AUTORIZADA)
             self.assertFalse(document._job_document_send())
         self.assertEqual(document.state_edoc, SITUACAO_EDOC_AUTORIZADA)
+
+    def test_job_transmits_a_document_in_the_sending_state(self):
+        """The job resends a document still waiting for processing."""
+        document = self._new_document(self.operation_later)
+        self._confirm(document)
+        # action_send also accepts the sending state (resend or receipt
+        # consult of an asynchronous batch)
+        document.state_edoc = DOCUMENT_STATE_SENDING
+        with trap_jobs() as trap:
+            document.action_document_send()
+            trap.assert_jobs_count(1)
+            trap.assert_enqueued_job(document._job_document_send)
+            self.assertEqual(document.state_edoc, DOCUMENT_STATE_SENDING)
+            trap.perform_enqueued_jobs()
+        # the job went through the transmission instead of skipping it
+        self.assertEqual(document.state_edoc, SITUACAO_EDOC_AUTORIZADA)
+
+    def test_job_skips_documents_that_cannot_be_sent(self):
+        """Draft, authorized and cancelled documents are still ignored."""
+        for state in (
+            SITUACAO_EDOC_EM_DIGITACAO,
+            SITUACAO_EDOC_AUTORIZADA,
+            SITUACAO_EDOC_CANCELADA,
+        ):
+            document = self._new_document(self.operation_later)
+            document.state_edoc = state
+            self.assertFalse(document._job_document_send())
+            self.assertEqual(document.state_edoc, state)

@@ -6,14 +6,22 @@ import logging
 from odoo import _, models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import DOCUMENT_STATE_OPEN
-from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import DOCUMENT_STATE_REJECTED
+from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import (
+    DOCUMENT_STATE_REJECTED,
+    DOCUMENT_STATE_SENDING,
+)
 from odoo.addons.queue_job.job import identity_exact
 
 _logger = logging.getLogger(__name__)
 
 # States from which the action_send transition of the state machine can
-# start a transmission
-SENDABLE_STATES = (DOCUMENT_STATE_OPEN, DOCUMENT_STATE_REJECTED)
+# start a transmission: SENDING is included because action_send also resends
+# or consults the receipt of a document still waiting for processing
+SENDABLE_STATES = (
+    DOCUMENT_STATE_OPEN,
+    DOCUMENT_STATE_REJECTED,
+    DOCUMENT_STATE_SENDING,
+)
 
 
 class FiscalDocument(models.Model):
