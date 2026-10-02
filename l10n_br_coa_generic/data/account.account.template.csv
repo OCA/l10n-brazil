@@ -313,7 +313,7 @@ coa_generic_511308,5.1.1.3.08,Material de Consumo,,expense,0,l10n_br_coa_generic
 coa_generic_511309,5.1.1.3.09,Material de Expediente,,expense,0,l10n_br_coa_generic_template,"l10n_br_coa.account_tag_admin_expenses,l10n_br_coa.account_tag_result,l10n_br_coa.account_tag_dva_inputs"
 coa_generic_511310,5.1.1.3.10,Correios,,expense,0,l10n_br_coa_generic_template,"l10n_br_coa.account_tag_admin_expenses,l10n_br_coa.account_tag_result,l10n_br_coa.account_tag_dva_inputs"
 coa_generic_511401,5.1.1.4.01,Fretes e Carretos,,expense,0,l10n_br_coa_generic_template,"l10n_br_coa.account_tag_sale_expenses,l10n_br_coa.account_tag_result,l10n_br_coa.account_tag_dva_inputs"
-coa_generic_511402,5.1.1.4.02,Comissões e Corretagens,,expense,0,l10n_br_coa_generic_template,"l10n_br_coa.account_tag_sale_expenses,l10n_br_coa.account_tag_result,l10n_br_coa.account_tag_dva_taxes"
+coa_generic_511402,5.1.1.4.02,Comissões e Corretagens,,expense,0,l10n_br_coa_generic_template,"l10n_br_coa.account_tag_sale_expenses,l10n_br_coa.account_tag_result,l10n_br_coa.account_tag_dva_inputs"
 coa_generic_511403,5.1.1.4.03,Despesas de Viagens e Estadas,,expense,0,l10n_br_coa_generic_template,"l10n_br_coa.account_tag_sale_expenses,l10n_br_coa.account_tag_result,l10n_br_coa.account_tag_dva_inputs"
 coa_generic_511404,5.1.1.4.04,Despesas com Marketing,,expense,0,l10n_br_coa_generic_template,"l10n_br_coa.account_tag_sale_expenses,l10n_br_coa.account_tag_result,l10n_br_coa.account_tag_dva_inputs"
 coa_generic_511405,5.1.1.4.05,Bonificações (CFOP 5.910),,expense,0,l10n_br_coa_generic_template,"l10n_br_coa.account_tag_sale_expenses,l10n_br_coa.account_tag_result,l10n_br_coa.account_tag_dva_inputs"
