@@ -1990,11 +1990,7 @@ class NFe(spec_models.StackedModel):
             )
         processador = self._edoc_processor()
 
-        numeros = self.event_ids.filtered(
-            lambda e: e.type == "14" and e.state == "done"
-        ).mapped("sequence")
-
-        sequence = str(int(max(numeros)) + 1) if numeros else "1"
+        sequence = self._next_correction_sequence()
 
         evento = processador.carta_correcao(
             chave=self.document_key,
