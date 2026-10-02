@@ -217,6 +217,20 @@ class TestDereErrors(DereCommon):
         event.unlink()
         self.assertFalse(self._event(declaration, "D-1001"))
 
+    def test_generate_tables_rebuilds_only_the_deleted_event(self):
+        declaration = self._create_declaration("2026-09")
+        period = self._table_period(declaration)
+        period.action_generate_tables()
+        self._accept_event(declaration, "D-1001")
+        self._event(declaration, "D-1011").unlink()
+        self.assertFalse(period._can_include_event("D-1001"))
+        self.assertTrue(period.can_generate_tables)
+        period.action_generate_tables()
+        d1001 = period.event_ids.filtered(lambda ev: ev.event_type == "D-1001")
+        self.assertEqual(len(d1001), 1)
+        self.assertEqual(d1001.state, "accepted")
+        self.assertEqual(self._event(declaration, "D-1011").state, "generated")
+
     def test_delete_generated_table_event_returns_empty_period_to_draft(self):
         declaration = self._create_declaration("2026-03")
         period = self._table_period(declaration)

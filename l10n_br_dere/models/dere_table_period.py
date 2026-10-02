@@ -176,7 +176,7 @@ class DereTablePeriod(models.Model):
     )
     def _compute_actions(self):
         for rec in self:
-            rec.can_generate_tables = all(
+            rec.can_generate_tables = any(
                 rec._can_include_event(event_type) for event_type in TABLE_EVENTS
             )
             rec.can_replace_tables = all(
@@ -503,8 +503,15 @@ class DereTablePeriod(models.Model):
 
     def action_generate_tables(self):
         for rec in self:
-            rec._generate_d1001()
-            rec._generate_d1011()
+            pending = [
+                event_type
+                for event_type in TABLE_EVENTS
+                if rec._can_include_event(event_type)
+            ]
+            if not pending:
+                raise UserError(_("There is no DeRE table event left to generate."))
+            for event_type in pending:
+                rec._generate_table_event(event_type)
             if rec.state == "draft":
                 rec.state = "generated"
         return True
