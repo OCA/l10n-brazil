@@ -16,25 +16,3 @@ def set_provedor_nacional(documents):
             "provedor_nfse": PROVEDOR_NFSE_NACIONAL,
         }
     )
-
-
-def set_document_serie(document):
-    # The fiscal event of the document requires a series, and the demo
-    # documents only carry the series code.
-    serie = document.env["l10n_br_fiscal.document.serie"].search(
-        [
-            ("document_type_id", "=", document.document_type_id.id),
-            ("company_id", "=", document.company_id.id),
-        ],
-        limit=1,
-    )
-    if not serie:
-        serie = serie.create(
-            {
-                "name": "NFS-e Nacional",
-                "code": "1",
-                "document_type_id": document.document_type_id.id,
-                "company_id": document.company_id.id,
-            }
-        )
-    document.document_serie_id = serie.id

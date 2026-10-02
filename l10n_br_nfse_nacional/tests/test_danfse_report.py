@@ -9,7 +9,7 @@ from odoo.tests.common import TransactionCase, tagged
 
 from odoo.addons import l10n_br_nfse_nacional
 
-from .common import set_document_serie, set_provedor_nacional
+from .common import set_provedor_nacional
 
 
 @tagged("post_install", "-at_install")
@@ -27,7 +27,6 @@ class TestDanfseReport(TransactionCase):
         if not self.doc:
             self.skipTest("l10n_br_nfse_nacional demo data is not installed")
         set_provedor_nacional(self.doc)
-        set_document_serie(self.doc)
         self.doc.nfse_key = "5" * 50
         self.doc.state_edoc = "autorizada"
 

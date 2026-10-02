@@ -14,6 +14,15 @@
 
     <!-- DEMO 1: REGIME NORMAL (MEI - LC) -->
 
+    <!-- The code 7 gives the 00007 of the key: it is padded to five digits -->
+    <record id="demo_nfse_lc_serie" model="l10n_br_fiscal.document.serie">
+        <field name="code">7</field>
+        <field name="name">NFS-e Nacional 7</field>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_SE" />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="active">True</field>
+    </record>
+
     <!-- Tomador (Customer) -->
     <record id="partner_toma_lc" model="res.partner">
         <field name="name">Comércio de Alimentos Aurora Ltda ME</field>
@@ -38,7 +47,7 @@
         <field name="document_type_id" search="[('code', '=', 'SE')]" />
 
         <field name="document_number">2</field>
-        <field name="document_serie">00007</field>
+        <field name="document_serie_id" ref="demo_nfse_lc_serie" />
         <field name="document_key">420240420000000000000000007000000000000002</field>
         <field name="document_date">2023-09-09 12:42:06</field>
         <field name="date_in_out">2023-09-09 12:42:06</field>
@@ -65,6 +74,14 @@
 
     <!-- DEMO 2: SIMPLES NACIONAL (SN) -->
 
+    <record id="demo_nfse_sn_serie" model="l10n_br_fiscal.document.serie">
+        <field name="code">900</field>
+        <field name="name">NFS-e Nacional 900</field>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_SE" />
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="active">True</field>
+    </record>
+
     <!-- Tomador (Anonymous Customer - No <toma> tag expected) -->
     <record id="partner_toma_sn" model="res.partner">
         <field name="name">Consumidor Não Identificado</field>
@@ -78,7 +95,7 @@
         <field name="document_type_id" search="[('code', '=', 'SE')]" />
 
         <field name="document_number">6</field>
-        <field name="document_serie">900</field>
+        <field name="document_serie_id" ref="demo_nfse_sn_serie" />
         <field name="document_key">140015920176113500013200900000000000000006</field>
         <field name="document_date">2022-09-28 16:50:29</field>
         <field name="date_in_out">2022-09-28 16:50:29</field>
