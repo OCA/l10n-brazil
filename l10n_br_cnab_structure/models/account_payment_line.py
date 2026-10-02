@@ -51,6 +51,7 @@ class AccountPaymentLine(models.Model):
         selection=TIPO_SERVICO,
         compute="_compute_service_type",
         store=True,
+        readonly=False,
     )
 
     @api.depends("partner_pix_id")
