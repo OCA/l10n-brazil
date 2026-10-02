@@ -66,23 +66,6 @@ class TestNfseLifecycle(TransactionCase):
                 "nfse_environment": "2",
             }
         )
-        serie = cls.env["l10n_br_fiscal.document.serie"].search(
-            [
-                ("document_type_id", "=", cls.doc.document_type_id.id),
-                ("company_id", "=", company.id),
-            ],
-            limit=1,
-        )
-        if not serie:
-            serie = cls.env["l10n_br_fiscal.document.serie"].create(
-                {
-                    "name": "NFS-e Nacional",
-                    "code": "1",
-                    "document_type_id": cls.doc.document_type_id.id,
-                    "company_id": company.id,
-                }
-            )
-        cls.doc.document_serie_id = serie.id
 
     def setUp(self):
         super().setUp()
@@ -92,6 +75,19 @@ class TestNfseLifecycle(TransactionCase):
             patcher = mock.patch(target, return_value=value)
             patcher.start()
             self.addCleanup(patcher.stop)
+
+    def test_demo_documents_carry_a_series(self):
+        """The demo documents confirm and take edits with no helper."""
+        for xmlid in ("demo_nfse_lc", "demo_nfse_sn"):
+            doc = self.env.ref(f"l10n_br_nfse_nacional.{xmlid}")
+            self.assertTrue(doc.document_serie_id)
+            self.assertEqual(doc.document_serie_id.document_type_id.code, "SE")
+            self.assertEqual(doc.document_serie_id.company_id, doc.company_id)
+            self.assertEqual(doc.document_serie, doc.document_serie_id.code)
+            doc.write({"document_number": "9"})
+            self.assertEqual(doc.document_number, "9")
+        self.doc.action_document_confirm()
+        self.assertEqual(self.doc.state_edoc, "a_enviar")
 
     def test_issuance_authorized(self):
         with mock.patch(SESSION_POST, return_value=mock_response(AUTHORIZED)):
