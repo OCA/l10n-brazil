@@ -43,6 +43,7 @@
             <field name="name" position="after">
                 <field name="cst_type" />
                 <field name="tax_group_id" />
+                <field name="default_creditable_tax" />
             </field>
         </field>
     </record>
