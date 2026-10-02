@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_l10n_br_dctfweb_transmission_user,l10n_br_dctfweb.transmission.user,model_l10n_br_dctfweb_transmission,account.group_account_invoice,1,0,0,0
+access_l10n_br_dctfweb_transmission_manager,l10n_br_dctfweb.transmission.manager,model_l10n_br_dctfweb_transmission,account.group_account_manager,1,1,1,0
+access_l10n_br_dctfweb_cost_warning_manager,l10n_br_dctfweb.cost.warning.manager,model_l10n_br_dctfweb_cost_warning,account.group_account_manager,1,1,1,1

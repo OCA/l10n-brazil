@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <record id="view_tax_group_form_dctfweb" model="ir.ui.view">
+        <field name="name">account.tax.group.form.dctfweb</field>
+        <field name="model">account.tax.group</field>
+        <field name="inherit_id" ref="account.view_tax_group_form" />
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="dctfweb_revenue_code_id" />
+            </field>
+        </field>
+    </record>
+
+    <record id="view_tax_group_tree_dctfweb" model="ir.ui.view">
+        <field name="name">account.tax.group.tree.dctfweb</field>
+        <field name="model">account.tax.group</field>
+        <field name="inherit_id" ref="account.view_tax_group_tree" />
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="dctfweb_revenue_code_id" optional="show" />
+            </field>
+        </field>
+    </record>
+</odoo>
