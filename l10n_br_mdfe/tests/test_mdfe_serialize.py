@@ -38,6 +38,13 @@ class TestMDFeSerialize(TransactionCase):
         if mdfe.state != "em_digitacao":  # 2nd test run
             mdfe.action_document_back2draft()
 
+        # Set the document date while still in draft: identity fields are
+        # locked once the document is confirmed (state 'a_enviar').
+        mdfe.document_date = datetime.strptime(
+            "2020-01-01T11:00:00", "%Y-%m-%dT%H:%M:%S"
+        )
+        mdfe.action_document_confirm()
+        mdfe.mdfe30_cMDF = "20801844"
         if mdfe.mdfe_modal == "1":
             cls.prepare_modal_rodoviario_data(mdfe)
         elif mdfe.mdfe_modal == "2":

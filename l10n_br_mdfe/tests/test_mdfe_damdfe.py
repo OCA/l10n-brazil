@@ -34,6 +34,6 @@ class TestDamdfeGeneration(TransactionCase):
         mdfe = self.env.ref("l10n_br_mdfe.demo_mdfe_lc_modal_rodoviario")
         TestMDFeSerialize.prepare_modal_rodoviario_data(mdfe)
         mdfe.action_document_confirm()
-        mdfe.issuer = "partner"
+        mdfe.with_context(skip_edoc_lock=True).issuer = "partner"
         mdfe.view_pdf()
         self.assertTrue(mdfe.file_report_id)
