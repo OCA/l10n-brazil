@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 - TODAY, Marcel Savegnago - Escodoo - https://www.escodoo.com.br
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="0">
+    <!-- Repair Order with only products test -->
+    <record id="main_so_only_products" model="repair.order">
+        <field name="product_id" ref="product.product_product_6" />
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="location_id" ref="stock.stock_location_stock" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="internal_notes">TESTE</field>
+        <field name="company_id" ref="base.main_company" />
+        <field
+            name="move_ids"
+            model="stock.move"
+            eval="[(5, 0, 0), (0, 0, {
+            'location_dest_id': obj().env.ref('product.product_product_27').with_company(obj().env.ref('base.main_company')).property_stock_production.id,
+            'location_id': obj().env['stock.warehouse'].search([('company_id', '=', obj().env.ref('base.main_company').id)]).lot_stock_id.id,
+            'name': obj().env.ref('product.product_product_27').get_product_multiline_description_sale(),
+            'product_id': obj().env.ref('product.product_product_27').id,
+            'product_uom': obj().env.ref('uom.product_uom_unit').id,
+            'product_uom_qty': 2.0,
+            'price_unit': 500.0,
+            'state': 'draft',
+            'repair_line_type': 'add',
+            'company_id': obj().env.ref('base.main_company').id,
+            'fiscal_operation_id': obj().env.ref('l10n_br_fiscal.fo_venda').id,
+            'fiscal_operation_line_id': obj().env.ref('l10n_br_fiscal.fo_venda_venda').id
+        })]"
+        />
+    </record>
+
+    <!-- Repair Order with only services test -->
+    <record id="main_so_only_services" model="repair.order">
+        <field name="product_id" ref="product.product_product_6" />
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="location_id" ref="stock.stock_location_stock" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="internal_notes">TESTE</field>
+        <field name="company_id" ref="base.main_company" />
+        <field
+            name="move_ids"
+            model="stock.move"
+            eval="[(5, 0, 0), (0, 0, {
+            'name': obj().env.ref('l10n_br_fiscal.customized_development_sale').get_product_multiline_description_sale(),
+            'product_id': obj().env.ref('l10n_br_fiscal.customized_development_sale').id,
+            'product_uom_qty': 15.0,
+            'product_uom': obj().env.ref('uom.product_uom_hour').id,
+            'price_unit': 30.75,
+            'state': 'draft',
+            'repair_line_type': 'add',
+            'company_id': obj().env.ref('base.main_company').id,
+            'fiscal_operation_id': obj().env.ref('l10n_br_fiscal.fo_venda').id,
+            'fiscal_operation_line_id': obj().env.ref('l10n_br_fiscal.fo_venda_servico').id,
+            'issqn_fg_city_id': obj().env.ref('l10n_br_base.city_3543402').id,
+        })]"
+        />
+    </record>
+
+    <!-- Repair Order with product and service test -->
+    <record id="main_so_product_service" model="repair.order">
+        <field name="product_id" ref="product.product_product_6" />
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="location_id" ref="stock.stock_location_stock" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field
+            name="internal_notes"
+        >TESTE de criação de duas Notas de Serviço e Produto</field>
+        <field name="company_id" ref="base.main_company" />
+
+        <field
+            name="move_ids"
+            model="stock.move"
+            eval="[(5, 0, 0), (0, 0, {
+            'location_dest_id': obj().env.ref('product.product_product_27').with_company(obj().env.ref('base.main_company')).property_stock_production.id,
+            'location_id': obj().env['stock.warehouse'].search([('company_id', '=', obj().env.ref('base.main_company').id)]).lot_stock_id.id,
+            'name': obj().env.ref('product.product_product_27').get_product_multiline_description_sale(),
+            'price_unit': 50.0,
+            'product_id': obj().env.ref('product.product_product_27').id,
+            'product_uom': obj().env.ref('uom.product_uom_unit').id,
+            'product_uom_qty': 1.0,
+            'state': 'draft',
+            'repair_line_type': 'add',
+            'company_id': obj().env.ref('base.main_company').id,
+            'fiscal_operation_id': obj().env.ref('l10n_br_fiscal.fo_venda').id,
+            'fiscal_operation_line_id': obj().env.ref('l10n_br_fiscal.fo_venda_venda').id
+        })]"
+        />
+    </record>
+</odoo>
