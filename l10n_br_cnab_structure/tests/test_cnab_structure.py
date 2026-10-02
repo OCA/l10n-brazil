@@ -591,6 +591,7 @@ class TestCNABStructure(AccountTestInvoicingCommon):
             }
         )
         line_same._compute_cnab_payment_way_id()
+        line_same._compute_service_type()
         self.assertEqual(line_same.cnab_payment_way_id, way_same_bank)
         self.assertEqual(line_same.service_type, SVC_SUPPLIER)
 
@@ -606,6 +607,7 @@ class TestCNABStructure(AccountTestInvoicingCommon):
             }
         )
         line_other._compute_cnab_payment_way_id()
+        line_other._compute_service_type()
         self.assertEqual(line_other.cnab_payment_way_id, way_other_bank)
         self.assertEqual(line_other.service_type, SVC_SALARY)
 
