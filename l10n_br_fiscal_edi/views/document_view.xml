@@ -139,6 +139,7 @@
                                         title="Print Document Event"
                                         icon="fa-print"
                                         type="object"
+                                        attrs="{'invisible': ['|', ('state', '!=', 'done'), ('status_code', 'not in', ['135', '136'])]}"
                                     />
                                 </tree>
                             </field>
