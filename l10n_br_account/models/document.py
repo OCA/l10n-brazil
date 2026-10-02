@@ -287,7 +287,9 @@ class FiscalDocument(models.Model):
         # without invoking the override that blocks documents already
         # cancelled at SEFAZ.
         for record in self:
-            moves = record.move_ids
+            # a move already cancelled is left alone: the 17.0 core refuses to
+            # cancel it again
+            moves = record.move_ids.filtered(lambda m: m.state != "cancel")
             if not moves:
                 continue
             moves.mapped("line_ids.analytic_line_ids").unlink()
