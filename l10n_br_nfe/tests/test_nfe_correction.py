@@ -181,6 +181,18 @@ class TestNFeCorrection(TestNFeExport):
         self.assertIn("Duplicidade", event.response)
         self.assertTrue(event.file_request_id.raw)
         self.assertIn("573", action["params"]["message"])
+        # a refused letter cannot be printed as if it was valid
+        with self.assertRaises(UserError):
+            event.print_document_event()
+
+    @nfe_mock(CCE_REGISTERED)
+    def test_only_registered_letter_can_be_printed(self):
+        nfe = self._authorized_nfe()
+        draft = self._add_event(nfe, 1, state="draft")
+        with self.assertRaises(UserError):
+            draft.print_document_event()
+        self._correct(nfe, VALID_TEXT)
+        self.assertTrue(self._last_event(nfe).print_document_event())
 
     # -- text --------------------------------------------------------------
 
@@ -248,3 +260,13 @@ class TestNFeCorrection(TestNFeExport):
                 self._correct(nfe, text)
             send.assert_not_called()
         self.assertEqual(len(nfe.event_ids), count)
+
+    # -- NFC-e -------------------------------------------------------------
+
+    @nfe_mock(SEND_MOCKS)
+    def test_nfce_does_not_accept_correction_letter(self):
+        nfe = self._authorized_nfe()
+        nfce = self.env.ref("l10n_br_fiscal.document_65")
+        nfe.document_type_id = nfce
+        with self.assertRaises(UserError):
+            nfe.action_document_correction()
