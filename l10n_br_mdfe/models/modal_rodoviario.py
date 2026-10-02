@@ -245,9 +245,20 @@ class MDFeModalRodoviarioVeiculoCondutor(spec_models.SpecModel):
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
+    partner_id = fields.Many2one(
+        comodel_name="res.partner",
+        string="Contact",
+    )
+
     mdfe30_xNome = fields.Char(required=True)
 
     mdfe30_CPF = fields.Char(required=True)
+
+    @api.onchange("partner_id")
+    def _onchange_partner_id(self):
+        if self.partner_id:
+            self.mdfe30_xNome = self.partner_id.legal_name or self.partner_id.name
+            self.mdfe30_CPF = self.partner_id.cnpj_cpf
 
 
 class MDFeModalRodoviarioReboque(spec_models.SpecModel):
