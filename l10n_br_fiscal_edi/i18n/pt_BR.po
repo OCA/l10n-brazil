@@ -17,6 +17,34 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #. odoo-python
 #: code:addons/l10n_br_fiscal_edi/models/document.py:0
+msgid ""
+"The correction text has characters that the tax authority does not "
+"accept: %(chars)s. Replace them and try again."
+msgstr ""
+"O texto da correção tem caracteres que o fisco não aceita: %(chars)s. "
+"Substitua-os e tente novamente."
+
+#. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
+msgid ""
+"The correction text must have at least %(min)s characters (it has "
+"%(size)s)."
+msgstr ""
+"O texto da correção deve ter pelo menos %(min)s caracteres (tem "
+"%(size)s)."
+
+#. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
+msgid ""
+"The correction text must have at most %(max)s characters (it has "
+"%(size)s)."
+msgstr "O texto da correção deve ter no máximo %(max)s caracteres (tem %(size)s)."
+
+#. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
 msgid "The maximum of %(max)s correction letters for this document was reached."
 msgstr "O máximo de %(max)s cartas de correção para este documento foi atingido."
 
