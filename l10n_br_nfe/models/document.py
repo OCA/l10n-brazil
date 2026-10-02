@@ -57,6 +57,7 @@ from odoo.addons.spec_driven_model.models import spec_models
 
 from ..constants.nfe import (
     FISCAL_PAYMENT_MODE,
+    LOTE_EVENTO_PROCESSADO,
     NFCE_DANFE_LAYOUTS,
     NFE_DANFE_LAYOUTS,
     NFE_ENVIRONMENTS,
@@ -1743,14 +1744,20 @@ class NFe(spec_models.StackedModel):
         result = super()._document_correction(justificative)
         online_event = self.filtered(filter_processador_edoc_nfe)
         if online_event:
-            online_event._nfe_correction(justificative)
+            return online_event._nfe_correction(justificative) or result
         return result
 
     def _nfe_correction(self, justificative):
-        self.ensure_one()
-        processador = self._edoc_processor()
+        """Transmit the correction letter (CC-e) and register the answer.
 
+        A refusal from the tax authority (of the batch or of the event) is not
+        an exception: raising would roll back the event and the signed XML
+        that was sent, losing the audit trail. The answer is recorded in the
+        event, posted in the chatter and returned as a notification.
+        """
+        self.ensure_one()
         sequence = self._next_correction_sequence()
+        processador = self._edoc_processor()
 
         evento = processador.carta_correcao(
             chave=self.document_key,
@@ -1770,25 +1777,63 @@ class NFe(spec_models.StackedModel):
             sequence=sequence,
             justification=justificative,
         )
-        for retevento in processo.resposta.retEvento:
-            if not retevento.infEvento.chNFe == self.document_key:
-                continue
+        file_response_xml = processo.retorno.content.decode("utf-8")
+        resposta = processo.resposta
 
-            if retevento.infEvento.cStat not in EVENTO_RECEBIDO:
-                mensagem = "Erro na carta de correção"
-                mensagem += "\nCódigo: " + retevento.infEvento.cStat
-                mensagem += "\nMotivo: " + retevento.infEvento.xMotivo
-                raise UserError(mensagem)
-
-            event_id.set_done(
-                status_code=retevento.infEvento.cStat,
-                response=retevento.infEvento.xMotivo,
-                protocol_date=fields.Datetime.to_string(
-                    datetime.fromisoformat(retevento.infEvento.dhRegEvento)
+        retevento = None
+        if resposta.cStat == LOTE_EVENTO_PROCESSADO:
+            retevento = next(
+                (
+                    ret
+                    for ret in resposta.retEvento or []
+                    if ret.infEvento.chNFe == self.document_key
                 ),
-                protocol_number=retevento.infEvento.nProt,
-                file_response_xml=processo.retorno.content.decode("utf-8"),
+                None,
             )
+
+        if retevento is None:
+            # The whole batch was refused, or the answer does not mention
+            # this document: there is no per event answer to read.
+            status_code, response = resposta.cStat, resposta.xMotivo
+            protocol_date = protocol_number = False
+        else:
+            info = retevento.infEvento
+            status_code, response = info.cStat, info.xMotivo
+            protocol_number = info.nProt or False
+            protocol_date = (
+                fields.Datetime.to_string(datetime.fromisoformat(info.dhRegEvento))
+                if info.dhRegEvento
+                else False
+            )
+
+        event_id.set_done(
+            status_code=status_code,
+            response=response,
+            protocol_date=protocol_date,
+            protocol_number=protocol_number,
+            file_response_xml=file_response_xml,
+        )
+
+        if retevento is not None and status_code in EVENTO_RECEBIDO:
+            return self._correction_notification(
+                True,
+                _(
+                    "Sequence %(sequence)s, protocol %(protocol)s: %(response)s",
+                    sequence=sequence,
+                    protocol=protocol_number,
+                    response=response,
+                ),
+            )
+
+        message = _(
+            "Correction letter %(sequence)s refused. Code: %(code)s. "
+            "Reason: %(response)s",
+            sequence=sequence,
+            code=status_code,
+            response=response,
+        )
+        self.message_post(body=message)
+        return self._correction_notification(False, message)
 
     def _update_nfce_for_offline_contingency(self):
         self.write(
