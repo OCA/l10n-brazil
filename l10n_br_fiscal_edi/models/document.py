@@ -123,6 +123,12 @@ class Document(models.Model):
         copy=False,
     )
 
+    xml_error_message = fields.Text(
+        readonly=True,
+        string="XML validation errors",
+        copy=False,
+    )
+
     # Authorization Event Related Fields
     authorization_event_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.event",
@@ -244,6 +250,42 @@ class Document(models.Model):
                         "documents!"
                     )
                 )
+
+    @api.constrains("document_key")
+    def _check_key(self):
+        for record in self:
+            if not record.document_key:
+                return
+
+            documents = record.env["l10n_br_fiscal.document"].search_count(
+                [
+                    ("id", "!=", record.id),
+                    ("company_id", "=", record.company_id.id),
+                    ("issuer", "=", record.issuer),
+                    ("document_key", "=", record.document_key),
+                    (
+                        "document_type",
+                        "in",
+                        (
+                            MODELO_FISCAL_CTE,
+                            MODELO_FISCAL_NFCE,
+                            MODELO_FISCAL_NFE,
+                            MODELO_FISCAL_NFSE,
+                        ),
+                    ),
+                    ("state", "!=", "cancelada"),
+                ]
+            )
+
+            if documents:
+                raise ValidationError(
+                    self.env._(
+                        "There is already a fiscal document with this key: %(doc_key)s",
+                        doc_key=record.document_key,
+                    )
+                )
+            else:
+                ChaveEdoc(chave=record.document_key, validar=True)
 
     # -------------------------------------------------------------------------
     # State Machine Logic

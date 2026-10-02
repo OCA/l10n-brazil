@@ -4,8 +4,6 @@
 
 from ast import literal_eval
 
-from erpbrasil.base.fiscal.edoc import ChaveEdoc
-
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
@@ -24,10 +22,6 @@ from ..constants.fiscal import (
     EDOC_REFUND_CREDIT_TYPE,
     EDOC_REFUND_DEBIT_TYPE,
     FISCAL_IN_OUT_DICT,
-    MODELO_FISCAL_CTE,
-    MODELO_FISCAL_NFCE,
-    MODELO_FISCAL_NFE,
-    MODELO_FISCAL_NFSE,
     PUBLIC_ENTIRY_TYPE,
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_DENEGADA,
@@ -205,12 +199,6 @@ class Document(models.Model):
 
     imported_document = fields.Boolean(string="Imported", copy=False)
 
-    xml_error_message = fields.Text(
-        readonly=True,
-        string="XML validation errors",
-        copy=False,
-    )
-
     currency_id = fields.Many2one(
         related="company_id.currency_id",
         comodel_name="res.currency",
@@ -267,42 +255,6 @@ class Document(models.Model):
     fiscal_additional_data = fields.Text()
 
     customer_additional_data = fields.Text()
-
-    @api.constrains("document_key")
-    def _check_key(self):
-        for record in self:
-            if not record.document_key:
-                return
-
-            documents = record.env["l10n_br_fiscal.document"].search_count(
-                [
-                    ("id", "!=", record.id),
-                    ("company_id", "=", record.company_id.id),
-                    ("issuer", "=", record.issuer),
-                    ("document_key", "=", record.document_key),
-                    (
-                        "document_type",
-                        "in",
-                        (
-                            MODELO_FISCAL_CTE,
-                            MODELO_FISCAL_NFCE,
-                            MODELO_FISCAL_NFE,
-                            MODELO_FISCAL_NFSE,
-                        ),
-                    ),
-                    ("state", "!=", "cancelada"),
-                ]
-            )
-
-            if documents:
-                raise ValidationError(
-                    self.env._(
-                        "There is already a fiscal document with this key: %(doc_key)s",
-                        doc_key=record.document_key,
-                    )
-                )
-            else:
-                ChaveEdoc(chave=record.document_key, validar=True)
 
     @api.constrains("document_number")
     def _check_number(self):
