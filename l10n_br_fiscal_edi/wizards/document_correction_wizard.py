@@ -12,17 +12,16 @@ class DocumentCorrectionWizard(models.TransientModel):
 
     justification = fields.Text(
         required=True,
-        help="Between 15 and 1000 characters. Line breaks, tabs, repeated "
-        "spaces and typographic punctuation are normalized before sending.",
+        help="NF-e: 15 to 1000 characters; line breaks, tabs, repeated spaces and "
+        "typographic punctuation are normalized before sending.",
     )
 
     def doit(self):
         action = None
         for wizard in self:
             if wizard.document_id:
-                # Validates before anything is sent to the tax authority
-                text = wizard.document_id._normalize_correction_text(
-                    wizard.justification
+                action = (
+                    wizard.document_id._document_correction(wizard.justification)
+                    or action
                 )
-                action = wizard.document_id._document_correction(text) or action
         return action or self._close()
