@@ -66,10 +66,14 @@ Usage
 To use this module, you need to:
 
 1. Go to Repair
-2. Create or select a Repair Order
-3. Set Invoice Method (After or Before Repair)
-4. Confirm the Repair
-5. Create Invoice
+2. Create or select a Repair Order and set the Fiscal Operation
+3. Add the parts and the fees: the fiscal operation line, CFOP and the
+   Brazilian taxes of each line are computed from the fiscal operation
+4. Set Invoice Method (After or Before Repair)
+5. Confirm the Repair
+6. Create Invoice: one fiscal document is created for each document type
+   of the lines (for instance a NF-e for the parts and a NFS-e for the
+   fees), all of them listed in the Invoices button of the repair
 
 Known issues / Roadmap
 ======================
@@ -77,6 +81,8 @@ Known issues / Roadmap
 - This module hasn't been tested with *repair_discount* module
   installed, so maybe it's incompatible with it.
 - Add Fiscal Position Resource
+- Freight, insurance and other costs informed by total are distributed
+  only among the parts (repair lines), not among the fees.
 
 Changelog
 =========
@@ -116,6 +122,7 @@ Contributors
 - `KMEE <https://www.kmee.com.br>`__:
 
   - Luis Otavio Malta Conceição <luis.malta@kmee.com.br>
+  - Luis Felipe Mileo <mileo@kmee.com.br>
 
 Other credits
 -------------
