@@ -8,7 +8,7 @@
         <field name="report_file">l10n_br_fiscal_edi.report_document_event</field>
         <field
             name="print_report_name"
-        >dict(object.fields_get(allfields=['type'])['type']['selection'])[object.type]</field>
+        >'CCe-%s-%s' % (object.document_id.document_key, object.sequence) if object.type == '14' and object.document_id.document_key else dict(object.fields_get(allfields=['type'])['type']['selection'])[object.type]</field>
         <field name="binding_model_id" ref="model_l10n_br_fiscal_event" />
         <field name="binding_type">report</field>
     </record>
