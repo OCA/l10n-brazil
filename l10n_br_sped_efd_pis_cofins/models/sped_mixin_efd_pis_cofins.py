@@ -17,3 +17,10 @@ class SpecMixinEFDPISCOFINS(models.AbstractModel):
     )
 
     state = fields.Selection(related="declaration_id.state")
+
+    def _format_field_value(self, field, value):
+        # A zero is written only where the layout requires the field
+        # (out_required); an optional numeric field is left blank.
+        if field.type in ("integer", "float", "monetary") and not value:
+            return "0" if getattr(field, "out_required", False) else ""
+        return super()._format_field_value(field, value)
