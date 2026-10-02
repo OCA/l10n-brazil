@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="l10n_br_base.empresa_lucro_presumido" model="res.company">
+        <field name="dere_reg_trib_princ">2</field>
+        <field name="dere_ind_nat_trib">0</field>
+        <field name="dere_plano_cta_ref">4</field>
+        <field name="dere_freq_encerr">M</field>
+        <field name="dere_tp_amb">2</field>
+        <field name="dere_activity_ids" eval="[Command.link(ref('activity_31_02a'))]" />
+    </record>
+</odoo>
