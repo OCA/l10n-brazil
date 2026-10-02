@@ -5,7 +5,10 @@ from unittest import mock
 
 from lxml import etree
 
+from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase, tagged
+
+from ..models.document import _SimulatedSession
 
 NS = "http://www.sped.fazenda.gov.br/nfse"
 PROVIDER = "erpbrasil.edoc.provedores.notacontrol.NotaControl"
@@ -186,3 +189,122 @@ class TestNfseNotaControl(TransactionCase):
         send.assert_called_once()
         adn.assert_not_called()
         self.assertEqual(self.doc.state_edoc, "autorizada")
+
+    def _set_certificate(self):
+        self.company.certificate_nfe_id = self.env["l10n_br_fiscal.certificate"].search(
+            [], limit=1
+        )
+
+    def test_provider_requires_municipal_registration(self):
+        self._set_certificate()
+        self.company.partner_id.l10n_br_im_code = False
+        with self.assertRaises(UserError):
+            self.doc._notacontrol_provider()
+
+    def test_provider_is_built_with_company_data(self):
+        self._set_certificate()
+        with mock.patch(
+            "odoo.addons.l10n_br_nfse_notacontrol.models.document.Certificado"
+        ), mock.patch(
+            "odoo.addons.l10n_br_nfse_notacontrol.models.document.NotaControl"
+        ) as provider:
+            self.doc._notacontrol_provider(session="S")
+        args, kwargs = provider.call_args
+        self.assertEqual(args[2], 5208707)
+        self.assertEqual(kwargs["algoritmo"], "sha1")
+        self.assertEqual(kwargs["session"], "S")
+
+    def test_import_keeps_dps_number(self):
+        """Without the related, nDPS is mapped back to the document number."""
+        vals = self.doc._prepare_import_dict({"nfse10_nDPS": "77"}, defaults_model=None)
+        self.assertEqual(vals.get("document_number"), "77")
+        vals = self.doc._prepare_import_dict(
+            {"nfse10_nDPS": "77", "document_number": "5"}, defaults_model=None
+        )
+        self.assertEqual(vals.get("document_number"), "5")
+
+    def test_dps_id_without_number_or_city(self):
+        self.doc.write({"rps_number": False, "document_number": False})
+        self.assertFalse(self.doc.nfse10_Id)
+        self.assertFalse(self.doc.nfse10_nDPS)
+
+    def test_simulated_session_answers_like_the_webservice(self):
+        session = _SimulatedSession(self.doc)
+        response = session.post("url", b"<Lote/>", {}, 10)
+        body = response.content.decode()
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(session.sent, "<Lote/>")
+        self.assertIn("SIMULADO", body)
+        self.assertIn("<cStat>100</cStat>", body)
+        self.assertIn("<nNFSe>42</nNFSe>", body)
+
+    def test_simulated_send_authorizes_without_transmitting(self):
+        self.company.nfse_notacontrol_simulated = True
+        provider = mock.Mock(
+            recepcionar_lote_dps_sincrono=mock.Mock(
+                return_value=retorno(
+                    sucesso=True,
+                    protocolo="SIMULADO-1",
+                    chaves_acesso=["5" * 50],
+                    numeros_nfse=["42"],
+                    nfse_xml=["<Nfse/>"],
+                )
+            )
+        )
+        with mock.patch.object(
+            type(self.doc), "_notacontrol_provider", return_value=provider
+        ) as build, mock.patch.object(
+            type(self.doc), "serialize", return_value=[mock.Mock(to_xml=lambda: "<a/>")]
+        ):
+            self.doc._adn_send_for_authorization()
+        self.assertTrue(build.call_args.kwargs["session"])
+        self.assertEqual(self.doc.state_edoc, "autorizada")
+        self.assertIn("SIMULADO", self.doc.status_name)
+        self.assertTrue(self.doc.message_ids.filtered(lambda m: "SIMULADO" in m.body))
+
+    def test_other_company_send_and_cancel_use_base(self):
+        self.company.city_id = self.env["res.city"].search(
+            [("ibge_code", "=", "3550308")]
+        )
+        base = "odoo.addons.l10n_br_nfse_nacional.models.document.L10nBrFiscalDocument"
+        with mock.patch(f"{base}._adn_send_for_authorization") as send, mock.patch(
+            f"{base}._adn_cancel", return_value=True
+        ) as cancel:
+            self.doc._adn_send_for_authorization()
+            self.doc._adn_cancel("Justificativa longa o bastante", "1")
+        send.assert_called_once()
+        cancel.assert_called_once()
+
+    def test_simulated_cancel_is_refused(self):
+        self.company.nfse_notacontrol_simulated = True
+        with self.assertRaises(UserError):
+            self.doc._adn_cancel("Justificativa longa o bastante", "1")
+
+    def _cancel(self, cancel_return):
+        provider = mock.Mock(cancelar_nfse=mock.Mock(return_value=cancel_return))
+        with mock.patch.object(
+            type(self.doc), "_notacontrol_provider", return_value=provider
+        ), mock.patch.object(
+            type(self.doc), "_build_cancel_pedreg", return_value="PED"
+        ), mock.patch.object(
+            type(self.doc), "_serialize_pedreg", return_value="<ped/>"
+        ):
+            return self.doc._adn_cancel("Justificativa longa o bastante", "1")
+
+    def test_cancel_records_the_event(self):
+        self.assertTrue(self._cancel(retorno(sucesso=True, protocolo="C-1")))
+        self.assertTrue(self.doc.cancel_event_id)
+        self.assertEqual(self.doc.cancel_event_id.protocol_number, "C-1")
+
+    def test_cancel_rejected_raises(self):
+        from erpbrasil.edoc.provedores.notacontrol import MensagemRetorno
+
+        with self.assertRaises(UserError):
+            self._cancel(
+                retorno(mensagens=[MensagemRetorno("E1", "Erro", "Nota ja cancelada")])
+            )
+
+    def test_rejected_without_message_uses_http_status(self):
+        self.doc._notacontrol_process_response(retorno(http_status=500))
+        self.assertEqual(self.doc.state_edoc, "rejeitada")
+        self.assertEqual(self.doc.status_code, "500")
