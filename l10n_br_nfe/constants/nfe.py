@@ -31,6 +31,11 @@ NFE_ENVIRONMENTS = [("1", "Produção"), ("2", "Homologação")]
 NFE_ENVIRONMENT_DEFAULT = "2"
 
 
+NFE_PAYMENT_TYPE_NO_PAYMENT = "90"
+
+NFE_PAYMENT_INDICATOR_CASH = "0"
+
+
 NFE_TRANSMISSIONS = [
     ("1", "Emissão Normal"),
     ("2", "Contingência FS-IA"),

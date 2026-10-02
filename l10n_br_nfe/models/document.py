@@ -34,6 +34,8 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_STATE_CANCEL,
     DOCUMENT_STATE_DRAFT,
     DOCUMENT_STATE_OPEN,
+    EDOC_PURPOSE_AJUSTE,
+    EDOC_PURPOSE_DEVOLUCAO,
     EVENT_ENV_HML,
     EVENT_ENV_PROD,
     EVENTO_RECEBIDO,
@@ -59,6 +61,8 @@ from ..constants.nfe import (
     NFCE_DANFE_LAYOUTS,
     NFE_DANFE_LAYOUTS,
     NFE_ENVIRONMENTS,
+    NFE_PAYMENT_INDICATOR_CASH,
+    NFE_PAYMENT_TYPE_NO_PAYMENT,
     NFE_TRANSMISSIONS,
     NFE_VERSIONS,
 )
@@ -98,6 +102,7 @@ class NFe(spec_models.StackedModel):
         "infnfe.exporta",
         "infnfe.cobr",
         "infnfe.cobr.fat",
+        "infnfe.pag",
     )
     _nfe_search_keys = ["nfe40_Id"]
 
@@ -1210,6 +1215,7 @@ class NFe(spec_models.StackedModel):
     def _document_export(self, pretty_print=True):
         result = super()._document_export()
         for record in self.filtered(filter_processador_edoc_nfe):
+            record._prepare_payments_for_nfe()
             edoc = record.serialize()[0]
             xml_file = edoc.to_xml()
             # Delete previous authorization events in draft
@@ -1828,6 +1834,44 @@ class NFe(spec_models.StackedModel):
             rec.nfe40_detPag.filtered(lambda p: p.nfe40_tPag == "99").write(
                 {"nfe40_xPag": "Outros"}
             )
+
+    def _prepare_payments_for_nfe(self):
+        """Fill pag and cobr only when nothing filled them, as when this module
+        runs without l10n_br_account_nfe: no payment (90) and, when the
+        operation generates a financial amount, one installment due on issue.
+        """
+        for rec in self.filtered(
+            lambda d: d.document_type == MODELO_FISCAL_NFE
+            and not d.nfe40_detPag
+            and not d.nfe40_dup
+        ):
+            values = {
+                "nfe40_detPag": [
+                    Command.create(
+                        {
+                            "nfe40_indPag": NFE_PAYMENT_INDICATOR_CASH,
+                            "nfe40_tPag": NFE_PAYMENT_TYPE_NO_PAYMENT,
+                            "nfe40_vPag": 0.0,
+                        }
+                    )
+                ]
+            }
+            if rec.amount_financial_total and rec.edoc_purpose not in (
+                EDOC_PURPOSE_DEVOLUCAO,
+                EDOC_PURPOSE_AJUSTE,
+            ):
+                values["nfe40_dup"] = [
+                    Command.create(
+                        {
+                            "nfe40_nDup": "001",
+                            "nfe40_dVenc": fields.Date.context_today(
+                                rec, rec.document_date
+                            ),
+                            "nfe40_vDup": rec.amount_financial_total,
+                        }
+                    )
+                ]
+            rec.sudo().write(values)
 
     def action_danfe_nfce_report(self):
         return (
