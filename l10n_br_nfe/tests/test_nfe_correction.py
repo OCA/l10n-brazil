@@ -10,6 +10,7 @@ from erpbrasil.edoc.nfe import TEXTO_CARTA_CORRECAO
 from lxml import etree, html
 
 from odoo.exceptions import UserError
+from odoo.modules.module import get_module_resource
 from odoo.tools.safe_eval import safe_eval
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -606,3 +607,76 @@ class TestNFeCorrection(TestNFeExport):
         ):
             self.assertIn(expected, text)
         self.assertNotIn("Recipient", text)
+
+    # -- optional script: protocol_date of the letters already stored ------
+
+    def _buggy_letter(self, nfe):
+        """A letter stored by the old code: protocol_date has the local time."""
+        event = self._old_style_letter(nfe)
+        self.assertEqual(event.protocol_date, datetime(2023, 7, 5, 16, 52, 52))
+        return event
+
+    @nfe_mock(CCE_REGISTERED)
+    def test_reprocess_dry_run_reports_and_writes_nothing(self):
+        nfe = self._authorized_nfe()
+        event = self._buggy_letter(nfe)
+        report = self.env["l10n_br_fiscal.event"]._reprocess_cce_protocol_date()
+        line = next(line for line in report if line["event_id"] == event.id)
+        self.assertEqual(line["action"], "fix")
+        self.assertEqual(line["current"], "2023-07-05 16:52:52")
+        self.assertEqual(line["expected"], "2023-07-05 19:52:52")
+        self.assertEqual(event.protocol_date, datetime(2023, 7, 5, 16, 52, 52))
+
+    @nfe_mock(CCE_REGISTERED)
+    def test_reprocess_apply_fixes_and_is_idempotent(self):
+        nfe = self._authorized_nfe()
+        event = self._buggy_letter(nfe)
+        events = self.env["l10n_br_fiscal.event"]
+        report = events._reprocess_cce_protocol_date(apply=True)
+        line = next(line for line in report if line["event_id"] == event.id)
+        self.assertEqual(line["action"], "fixed")
+        self.assertEqual(event.protocol_date, datetime(2023, 7, 5, 19, 52, 52))
+        again = events._reprocess_cce_protocol_date(apply=True)
+        line = next(line for line in again if line["event_id"] == event.id)
+        self.assertEqual(line["action"], "ok")
+        self.assertEqual(event.protocol_date, datetime(2023, 7, 5, 19, 52, 52))
+
+    @nfe_mock(CCE_REGISTERED)
+    def test_reprocess_leaves_new_letters_and_skips_letters_without_xml(self):
+        nfe = self._authorized_nfe()
+        self._correct(nfe, VALID_TEXT)
+        new = self._last_event(nfe)
+        no_xml = self._add_event(nfe, 5)
+        self.assertEqual(new.protocol_date, datetime(2023, 7, 5, 19, 52, 52))
+        report = self.env["l10n_br_fiscal.event"]._reprocess_cce_protocol_date(
+            apply=True
+        )
+        actions = {line["event_id"]: line["action"] for line in report}
+        self.assertEqual(actions[new.id], "ok")
+        self.assertTrue(actions[no_xml.id].startswith("skipped"))
+        self.assertEqual(new.protocol_date, datetime(2023, 7, 5, 19, 52, 52))
+        self.assertEqual(no_xml.protocol_date, False)
+
+    @nfe_mock(CCE_REGISTERED)
+    def test_reprocess_script_is_dry_run_unless_asked(self):
+        nfe = self._authorized_nfe()
+        event = self._buggy_letter(nfe)
+        path = get_module_resource(
+            "l10n_br_nfe", "scripts", "reprocess_cce_protocol_date.py"
+        )
+        with open(path) as script:
+            code = compile(script.read(), path, "exec")
+        with (
+            mock.patch.dict(os.environ, {"CCE_APPLY": ""}),
+            mock.patch.object(type(self.env.cr), "commit") as commit,
+        ):
+            exec(code, {"env": self.env})  # pylint: disable=exec-used
+        commit.assert_not_called()
+        self.assertEqual(event.protocol_date, datetime(2023, 7, 5, 16, 52, 52))
+        with (
+            mock.patch.dict(os.environ, {"CCE_APPLY": "1"}),
+            mock.patch.object(type(self.env.cr), "commit") as commit,
+        ):
+            exec(code, {"env": self.env})  # pylint: disable=exec-used
+        commit.assert_called_once()
+        self.assertEqual(event.protocol_date, datetime(2023, 7, 5, 19, 52, 52))
