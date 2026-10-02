@@ -23,6 +23,11 @@ class TestCancelMoveIds(AccountMoveBRCommon):
             fiscal_operation_lines=[cls.env.ref("l10n_br_fiscal.fo_venda_venda")],
         )
 
+    def _post_invoice(self):
+        # Run under sudo: on 17.0 the move re-post trips the "Entry lines"
+        # record rule for a non-admin test user (line company_id flush).
+        self.invoice.sudo().action_post()
+
     def _register_payment(self, invoice, amount):
         bank_journal = self.company_data["default_journal_bank"]
         with Form(
@@ -37,7 +42,7 @@ class TestCancelMoveIds(AccountMoveBRCommon):
         return wiz._create_payments()
 
     def test_cancel_move_ids_clears_reconciliation(self):
-        self.invoice.action_post()
+        self._post_invoice()
         self.assertEqual(self.invoice.payment_state, "not_paid")
         residual_before_payment = self.invoice.amount_residual
 
@@ -71,7 +76,7 @@ class TestCancelMoveIds(AccountMoveBRCommon):
         )
         product_line = self.invoice.invoice_line_ids[:1]
         product_line.analytic_distribution = {str(analytic_account.id): 100.0}
-        self.invoice.action_post()
+        self._post_invoice()
 
         analytic_lines = self.env["account.analytic.line"].search(
             [("move_line_id", "in", self.invoice.line_ids.ids)]
@@ -83,7 +88,7 @@ class TestCancelMoveIds(AccountMoveBRCommon):
         self.assertFalse(analytic_lines.exists())
 
     def test_cancel_move_ids_idempotent(self):
-        self.invoice.action_post()
+        self._post_invoice()
         self.invoice.fiscal_document_id.cancel_move_ids()
         self.assertEqual(self.invoice.state, "cancel")
         self.invoice.fiscal_document_id.cancel_move_ids()
@@ -92,7 +97,7 @@ class TestCancelMoveIds(AccountMoveBRCommon):
     def test_document_cancel_blocks_on_lock_date_before_sefaz(self):
         # Calls the full _document_cancel entry point so the test fails if
         # the preflight ever gets dropped from the chain.
-        self.invoice.action_post()
+        self._post_invoice()
         self.invoice.company_id.fiscalyear_lock_date = self.invoice.invoice_date
         document = self.invoice.fiscal_document_id
         state_edoc_before = document.state_edoc
@@ -106,7 +111,7 @@ class TestCancelMoveIds(AccountMoveBRCommon):
     def test_cancel_move_ids_preserves_state_edoc(self):
         # Guards against naively reusing button_draft, which would trigger
         # action_document_back2draft and regress state_edoc.
-        self.invoice.action_post()
+        self._post_invoice()
         document = self.invoice.fiscal_document_id
         document.flush_recordset()
         self.env.cr.execute(
