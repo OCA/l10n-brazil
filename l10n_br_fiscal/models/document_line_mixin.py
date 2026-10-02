@@ -931,7 +931,10 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             self.cfop_id.destination == CFOP_DESTINATION_EXPORT
             and self.fiscal_operation_id.fiscal_operation_type == FISCAL_IN
         ):
+            # vProd of an import entry is the customs value, and the Import
+            # Tax goes in vII, which the SEFAZ adds to vNF on its own.
             fields_to_amount.append("icms_value")
+            fields_to_amount.append("ii_value")
         return fields_to_amount
 
     @api.model
