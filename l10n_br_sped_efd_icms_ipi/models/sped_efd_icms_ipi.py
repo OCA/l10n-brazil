@@ -4425,10 +4425,8 @@ class RegistroE520(models.Model):
             "VL_SD_ANT_IPI": record.previous_balance,
             "VL_DEB_IPI": record.debit_total,
             "VL_CRED_IPI": record.credit_total,
-            "VL_OD_IPI": record.adjustment_debit_total
-            + record.credit_reversal_total,
-            "VL_OC_IPI": record.adjustment_credit_total
-            + record.debit_reversal_total,
+            "VL_OD_IPI": record.adjustment_debit_total + record.credit_reversal_total,
+            "VL_OC_IPI": record.adjustment_credit_total + record.debit_reversal_total,
             "VL_SC_IPI": record.amount_carried_forward,
             "VL_SD_IPI": record.amount_payable,
         }

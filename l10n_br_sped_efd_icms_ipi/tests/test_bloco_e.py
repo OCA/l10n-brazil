@@ -248,9 +248,7 @@ class TestBlocoE5(common.TransactionCase):
         # 500 + 30 - 200 = 330 a recolher
         self.assertAlmostEqual(e520.VL_SD_IPI, 330.0, places=2)
         self.assertAlmostEqual(e520.VL_SC_IPI, 0.0, places=2)
-        self.assertAlmostEqual(
-            e520.VL_SD_IPI, self.assessment.amount_payable, places=2
-        )
+        self.assertAlmostEqual(e520.VL_SD_IPI, self.assessment.amount_payable, places=2)
 
     def test_e530_only_carries_manual_adjustments(self):
         e530 = self._pull_bloco_e5().reg_E520_ids.reg_E530_ids
