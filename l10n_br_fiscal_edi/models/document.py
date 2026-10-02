@@ -16,6 +16,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_STATE_DRAFT,
     DOCUMENT_STATE_INVALIDATED,
     DOCUMENT_STATE_OPEN,
+    EVENTO_RECEBIDO,
     MODELO_FISCAL_CTE,
     MODELO_FISCAL_MDFE,
     MODELO_FISCAL_NFCE,
@@ -41,8 +42,8 @@ from ..tools import (
 
 # nSeqEvento limit of the correction letter (NT 2011/003, rule GA03)
 CORRECTION_MAX_EVENTS = 20
-# cStat 135 and 136: event registered
-CORRECTION_REGISTERED_CODES = ("135", "136")
+# cStat 573 (duplicate event): the number is already taken at the tax authority
+CORRECTION_SEQUENCE_TAKEN_CODES = [*EVENTO_RECEBIDO, "573"]
 
 
 def filter_processador(record):
@@ -486,7 +487,7 @@ class Document(models.Model):
             for event in self.event_ids
             if event.type == "14"
             and event.state == "done"
-            and event.status_code in CORRECTION_REGISTERED_CODES
+            and event.status_code in CORRECTION_SEQUENCE_TAKEN_CODES
             and (event.sequence or "").isdigit()
         ]
         sequence = max(numbers) + 1 if numbers else 1
