@@ -131,7 +131,7 @@ class ResCompany(models.Model):
 
     cnae_secondary_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.cnae",
-        domain="[('internal_type', '=', 'normal'), " "('id', '!=', cnae_main_id)]",
+        domain="[('internal_type', '=', 'normal'), ('id', '!=', cnae_main_id)]",
         string="Secondary CNAE",
     )
 
@@ -315,6 +315,14 @@ class ResCompany(models.Model):
         selection=PROCESSADOR,
         string="Processador documentos eletrônicos",
         default=PROCESSADOR_NENHUM,
+    )
+
+    edoc_require_send_before_post = fields.Boolean(
+        string="Require e-doc authorization before posting",
+        help="When enabled, an electronic fiscal document issued by the "
+        "company must be authorized by SEFAZ before its account move can "
+        "be posted. Users in the Billing Administrator group can bypass "
+        "this gate. Disabled by default to keep the post-then-send flow.",
     )
 
     document_type_id = fields.Many2one(
