@@ -139,3 +139,45 @@ class TestNFeCorrection(TestNFeExport):
             self._correct(nfe, VALID_TEXT)
         send.assert_not_called()
         self.assertEqual(len(nfe.event_ids), count)
+
+    # -- answers of the tax authority --------------------------------------
+
+    @nfe_mock(CCE_REGISTERED)
+    def test_registered_letter(self):
+        nfe = self._authorized_nfe()
+        action = self._correct(nfe, VALID_TEXT)
+        event = self._last_event(nfe)
+        self.assertEqual(event.state, "done")
+        self.assertEqual(event.status_code, "135")
+        self.assertEqual(event.protocol_number, "141190000382704")
+        self.assertEqual(action["params"]["type"], "success")
+
+    @nfe_mock(CCE_BATCH_REFUSED)
+    def test_refused_batch_is_recorded_and_visible(self):
+        """No per event answer: the cStat of the batch must reach the user."""
+        nfe = self._authorized_nfe()
+        messages = len(nfe.message_ids)
+        action = self._correct(nfe, VALID_TEXT)
+        event = self._last_event(nfe)
+        self.assertEqual(event.status_code, "225")
+        self.assertIn("Falha no Schema", event.response)
+        self.assertEqual(event.state, "done")
+        self.assertTrue(event.file_request_id)
+        self.assertTrue(event.file_response_id)
+        self.assertEqual(action["tag"], "display_notification")
+        self.assertEqual(action["params"]["type"], "danger")
+        self.assertIn("225", action["params"]["message"])
+        self.assertGreater(len(nfe.message_ids), messages)
+        self.assertIn("225", nfe.message_ids[0].body)
+
+    @nfe_mock(CCE_REFUSED)
+    def test_refused_event_keeps_event_and_xml(self):
+        nfe = self._authorized_nfe()
+        count = len(nfe.event_ids)
+        action = self._correct(nfe, VALID_TEXT)
+        self.assertEqual(len(nfe.event_ids), count + 1)
+        event = self._last_event(nfe)
+        self.assertEqual(event.status_code, "573")
+        self.assertIn("Duplicidade", event.response)
+        self.assertTrue(event.file_request_id.raw)
+        self.assertIn("573", action["params"]["message"])
