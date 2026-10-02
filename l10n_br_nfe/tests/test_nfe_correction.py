@@ -199,6 +199,19 @@ class TestNFeCorrection(TestNFeExport):
         with self.assertRaises(UserError):
             event.print_document_event()
 
+    @nfe_mock(CCE_REFUSED)
+    def test_print_menu_of_a_refused_letter_is_blocked(self):
+        """The Print menu of the event list does not go through the button."""
+        nfe = self._authorized_nfe()
+        self._correct(nfe, VALID_TEXT)
+        event = self._last_event(nfe)
+        self.assertFalse(event.can_print)
+        report = self.env["ir.actions.report"]
+        with self.assertRaises(UserError):
+            report._render_qweb_html(
+                "l10n_br_fiscal_edi.action_report_document_event", event.ids
+            )
+
     @nfe_mock(CCE_REGISTERED)
     def test_only_registered_letter_can_be_printed(self):
         nfe = self._authorized_nfe()
@@ -206,7 +219,9 @@ class TestNFeCorrection(TestNFeExport):
         with self.assertRaises(UserError):
             draft.print_document_event()
         self._correct(nfe, VALID_TEXT)
-        self.assertTrue(self._last_event(nfe).print_document_event())
+        registered = self._last_event(nfe)
+        self.assertTrue(registered.can_print)
+        self.assertTrue(registered.print_document_event())
 
     # -- text --------------------------------------------------------------
 
