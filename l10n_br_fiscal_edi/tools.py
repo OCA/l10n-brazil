@@ -61,7 +61,7 @@ def normalize_correction_text(text):
     """
     result = []
     invalid = []
-    for char in text or "":
+    for char in unicodedata.normalize("NFC", text or ""):
         char = _CORRECTION_CHAR_MAP.get(char, char)
         for item in char:
             if _is_blank(item):
