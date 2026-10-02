@@ -181,3 +181,70 @@ class TestNFeCorrection(TestNFeExport):
         self.assertIn("Duplicidade", event.response)
         self.assertTrue(event.file_request_id.raw)
         self.assertIn("573", action["params"]["message"])
+
+    # -- text --------------------------------------------------------------
+
+    @nfe_mock(CCE_REGISTERED)
+    def test_pasted_text_is_normalized_and_valid_in_the_schema(self):
+        nfe = self._authorized_nfe()
+        ldq, rdq, dash, dots = "\U0000201c", "\U0000201d", "\U00002013", "\U00002026"
+        pasted = (
+            f"  Onde se lê {ldq}transportadora X{rdq} {dash} leia{dash}se Y{dots}"
+            "\n\tvolumes:   2\r\n"
+        )
+        self._correct(nfe, pasted)
+        event = self._last_event(nfe)
+        expected = 'Onde se lê "transportadora X" - leia-se Y... volumes: 2'
+        self.assertEqual(event.justification, expected)
+        self.assertIn(expected, nfe.correction_reason)
+        request = self._request_xml(event)
+        det = request.find(f".//{{{NFE_NS}}}detEvento")
+        self.assertEqual(det.findtext(f"{{{NFE_NS}}}xCorrecao"), expected)
+        schema = _cce_schema()
+        schema.assertValid(etree.fromstring(etree.tostring(det)))
+
+    def test_raw_pasted_text_would_not_pass_the_schema(self):
+        """Guard for the test above: the schema does refuse what we clean."""
+        schema = _cce_schema()
+        ns = {"xs": "http://www.w3.org/2001/XMLSchema"}
+        cond_use = _cce_xsd().xpath(
+            "//xs:element[@name='xCondUso']//xs:enumeration/@value", namespaces=ns
+        )[1]
+
+        def det(text):
+            root = etree.Element(f"{{{NFE_NS}}}detEvento", versao="1.00")
+            etree.SubElement(root, f"{{{NFE_NS}}}descEvento").text = "Carta de Correcao"
+            etree.SubElement(root, f"{{{NFE_NS}}}xCorrecao").text = text
+            etree.SubElement(root, f"{{{NFE_NS}}}xCondUso").text = cond_use
+            return root
+
+        self.assertTrue(schema.validate(det(VALID_TEXT)))
+        for bad in (
+            "valid text \u201cquoted\u201d here",
+            "valid text \u2013 dash here",
+            "valid text\u2026 here ok",
+            "valid\ttext with tab",
+            "valid text with trailing space ",
+        ):
+            self.assertFalse(schema.validate(det(bad)), repr(bad))
+
+    @nfe_mock(CCE_REGISTERED)
+    def test_invalid_text_is_refused_before_sending(self):
+        nfe = self._authorized_nfe()
+        count = len(nfe.event_ids)
+        for text in (
+            "",
+            "   \n ",
+            "short text",
+            "x" * 1001,
+            "valid text with emoji \U0001f600",
+        ):
+            with (
+                mock.patch(
+                    "nfelib.nfe.ws.edoc_legacy.NFeAdapter.enviar_lote_evento"
+                ) as send,
+                self.assertRaises(UserError, msg=repr(text)),
+            ):
+                self._correct(nfe, text)
+            send.assert_not_called()
+        self.assertEqual(len(nfe.event_ids), count)
