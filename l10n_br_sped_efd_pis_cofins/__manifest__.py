@@ -16,13 +16,9 @@
         "l10n_br_account",
         "l10n_br_tax_assessment",
     ],
-    # Bare module name on purpose: when pkg_resources is unavailable Odoo
-    # imports this string as a module, so a requirement specifier
-    # ("erpbrasil.base>=2.3.0") fails the install with ModuleNotFoundError.
-    # The module needs erpbrasil.base 2.3.0 or newer.
     "external_dependencies": {
         "python": [
-            "erpbrasil.base",
+            "erpbrasil-base>=2.4.2",
         ]
     },
     "data": [
