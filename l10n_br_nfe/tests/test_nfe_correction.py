@@ -1,6 +1,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import os
+from datetime import datetime
 from unittest import mock
 
 from lxml import etree
@@ -43,6 +44,15 @@ def _cce_xsd():
 
 def _cce_schema():
     return etree.XMLSchema(_cce_xsd())
+
+
+def _proc_schema():
+    import nfelib.nfe_evento_cce as cce
+
+    path = os.path.join(
+        os.path.dirname(cce.__file__), "schemas", "v1_0", "procCCeNFe_v1.00.xsd"
+    )
+    return etree.XMLSchema(etree.parse(path))
 
 
 class TestNFeCorrection(TestNFeExport):
@@ -160,6 +170,48 @@ class TestNFeCorrection(TestNFeExport):
         self.assertEqual(event.status_code, "135")
         self.assertEqual(event.protocol_number, "141190000382704")
         self.assertEqual(action["params"]["type"], "success")
+
+    @nfe_mock(CCE_REGISTERED)
+    def test_registered_letter_is_stored_as_proc_evento(self):
+        """The stored answer is the procEventoNFe, not the SOAP envelope."""
+        nfe = self._authorized_nfe()
+        self._correct(nfe, VALID_TEXT)
+        event = self._last_event(nfe)
+        proc = etree.fromstring(event.file_response_id.raw)
+        self.assertEqual(etree.QName(proc).localname, "procEventoNFe")
+        self.assertEqual(
+            [etree.QName(child).localname for child in proc], ["evento", "retEvento"]
+        )
+        ns = {"n": NFE_NS}
+        self.assertEqual(
+            proc.findtext("n:retEvento/n:infEvento/n:nProt", namespaces=ns),
+            event.protocol_number,
+        )
+        # the event is the signed one that was sent
+        self.assertEqual(
+            etree.tostring(proc.find("n:evento/n:infEvento", ns), method="c14n"),
+            etree.tostring(
+                self._request_xml(event).find(".//n:infEvento", ns), method="c14n"
+            ),
+        )
+        _proc_schema().assertValid(proc)
+
+    @nfe_mock(CCE_REGISTERED)
+    def test_registration_date_is_stored_in_utc(self):
+        """dhRegEvento 16:52:52-03:00 is 19:52:52 UTC."""
+        nfe = self._authorized_nfe()
+        self._correct(nfe, VALID_TEXT)
+        self.assertEqual(
+            self._last_event(nfe).protocol_date, datetime(2023, 7, 5, 19, 52, 52)
+        )
+
+    @nfe_mock(CCE_REFUSED)
+    def test_refused_letter_keeps_the_soap_answer(self):
+        """There is no procEventoNFe for an event that was not registered."""
+        nfe = self._authorized_nfe()
+        self._correct(nfe, VALID_TEXT)
+        answer = etree.fromstring(self._last_event(nfe).file_response_id.raw)
+        self.assertEqual(etree.QName(answer).localname, "Envelope")
 
     @nfe_mock(CCE_BATCH_REFUSED)
     def test_refused_batch_is_recorded_and_visible(self):
