@@ -3,11 +3,14 @@
 
 import os
 from datetime import datetime
+from io import BytesIO
 from unittest import mock
 
+from brazilfiscalreport.dacce import DaCCe
 from lxml import etree
 
 from odoo.exceptions import UserError
+from odoo.tools.safe_eval import safe_eval
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     EVENT_ENV_HML,
@@ -45,6 +48,22 @@ def _cce_xsd():
 
 def _cce_schema():
     return etree.XMLSchema(_cce_xsd())
+
+
+def _pdf_pages_text(pdf):
+    """Text of each page of a PDF, with whichever reader the series ships."""
+    try:
+        from pypdf import PdfReader
+    except ImportError:
+        from PyPDF2 import PdfFileReader  # PyPDF2 1.x, shipped with Odoo 16
+
+        reader = PdfFileReader(BytesIO(pdf))
+        return [reader.getPage(index).extractText() for index in range(reader.numPages)]
+    return [page.extract_text() for page in PdfReader(BytesIO(pdf)).pages]
+
+
+def _pdf_text(pdf):
+    return "\n".join(_pdf_pages_text(pdf))
 
 
 def _proc_schema():
@@ -355,3 +374,137 @@ class TestNFeCorrection(TestNFeExport):
         nfe.document_type_id = nfce
         with self.assertRaises(UserError):
             nfe.action_document_correction()
+
+    # -- DACCE (printing with BrazilFiscalReport) --------------------------
+
+    EVENT_REPORT = "l10n_br_fiscal_edi.main_report_document_event"
+
+    def _render_event_pdf(self, *events):
+        events = events[0].browse([event.id for event in events])
+        return events.env["ir.actions.report"]._render_qweb_pdf(
+            self.EVENT_REPORT, events.ids
+        )
+
+    @nfe_mock(CCE_REGISTERED)
+    def test_registered_letter_is_printed_by_the_dacce_library(self):
+        nfe = self._authorized_nfe()
+        self._correct(nfe, VALID_TEXT)
+        event = self._last_event(nfe)
+        with mock.patch(
+            "odoo.addons.l10n_br_nfe.report.ir_actions_report.DaCCe",
+            wraps=DaCCe,
+        ) as dacce:
+            pdf, fmt = self._render_event_pdf(event)
+        dacce.assert_called_once()
+        self.assertEqual(fmt, "pdf")
+        self.assertTrue(pdf.startswith(b"%PDF"))
+        text = _pdf_text(pdf)
+        key = nfe.document_key
+        for expected in (
+            " ".join(key[i : i + 4] for i in range(0, 44, 4)),
+            event.protocol_number,
+            event.document_id.company_id.partner_id.legal_name,
+            VALID_TEXT,
+            "CORRE",  # the heading of the corrections box
+        ):
+            self.assertIn(expected, text)
+
+    @nfe_mock(CCE_REGISTERED)
+    def test_dacce_prints_the_local_registration_time_of_the_xml(self):
+        """16:52:52 is the time in the XML (-03:00), whatever the user timezone."""
+        nfe = self._authorized_nfe()
+        self._correct(nfe, VALID_TEXT)
+        event = self._last_event(nfe)
+        for tz in ("Europe/Brussels", "UTC", "America/Sao_Paulo"):
+            text = _pdf_text(self._render_event_pdf(event.with_context(tz=tz))[0])
+            self.assertIn("05/07/2023 16:52:52", text)
+
+    @nfe_mock(CCE_REGISTERED)
+    def test_dacce_marks_the_homologation_environment_once(self):
+        """The mark is drawn by the library: a second one would come from here."""
+        nfe = self._authorized_nfe()
+        self._correct(nfe, VALID_TEXT)
+        event = self._last_event(nfe)
+        self.assertEqual(event.environment, EVENT_ENV_HML)
+        text = _pdf_text(self._render_event_pdf(event)[0])
+        self.assertEqual(text.count("SEM VALOR FISCAL"), 1)
+        # the library reads the environment from the XML of the event
+        production = event._get_proc_evento_nfe().replace(
+            b"<tpAmb>2</tpAmb>", b"<tpAmb>1</tpAmb>"
+        )
+        with mock.patch.object(
+            type(event), "_get_proc_evento_nfe", return_value=production
+        ):
+            text = _pdf_text(self._render_event_pdf(event)[0])
+        self.assertNotIn("SEM VALOR FISCAL", text)
+
+    @nfe_mock(CCE_REGISTERED)
+    def test_dacce_prints_the_cpf_of_an_individual_recipient(self):
+        nfe = self._authorized_nfe()
+        self._correct(nfe, VALID_TEXT)
+        event = self._last_event(nfe)
+        proc = etree.fromstring(event._get_proc_evento_nfe())
+        ret_info = proc.find(f".//{{{NFE_NS}}}retEvento/{{{NFE_NS}}}infEvento")
+        etree.SubElement(ret_info, f"{{{NFE_NS}}}CPFDest").text = "12345678909"
+        with mock.patch.object(
+            type(event), "_get_proc_evento_nfe", return_value=etree.tostring(proc)
+        ):
+            text = _pdf_text(self._render_event_pdf(event)[0])
+        self.assertIn("CPF", text)
+        self.assertIn("123.456.789-09", text)
+
+    @nfe_mock(CCE_REGISTERED)
+    def test_dacce_issuer_has_no_cnpj_key_and_carries_the_ie(self):
+        """The library reads the CNPJ/CPF of the issuer from the XML."""
+        nfe = self._authorized_nfe()
+        self._correct(nfe, VALID_TEXT)
+        event = self._last_event(nfe)
+        issuer = event._get_dacce_issuer()
+        self.assertNotIn("cnpj", issuer)
+        self.assertEqual(issuer["ie"], event.company_id.partner_id.inscr_est or "")
+
+    @nfe_mock(CCE_REGISTERED)
+    def test_event_without_proc_evento_does_not_use_the_library(self):
+        """Letters stored before the procEventoNFe was kept have the SOAP answer."""
+        nfe = self._authorized_nfe()
+        event = self._add_event(nfe, 1)
+        self.assertFalse(event._get_proc_evento_nfe())
+        with mock.patch(
+            "odoo.addons.l10n_br_nfe.report.ir_actions_report.DaCCe"
+        ) as dacce:
+            self._render_event_pdf(event)
+        dacce.assert_not_called()
+
+    @nfe_mock(CCE_REGISTERED)
+    def test_unregistered_letter_cannot_be_rendered(self):
+        """The print menu of the event goes straight to the report."""
+        nfe = self._authorized_nfe()
+        draft = self._add_event(nfe, 1, state="draft")
+        with self.assertRaises(UserError):
+            self._render_event_pdf(draft)
+        refused = self._add_event(nfe, 2, status_code="573")
+        with self.assertRaises(UserError):
+            self._render_event_pdf(refused)
+
+    @nfe_mock(CCE_REGISTERED)
+    def test_several_letters_make_one_pdf(self):
+        nfe = self._authorized_nfe()
+        self._correct(nfe, VALID_TEXT)
+        first = self._last_event(nfe)
+        self._correct(nfe, VALID_TEXT)
+        second = self._last_event(nfe)
+        self.assertNotEqual(first, second)
+        self.assertEqual(
+            len(_pdf_pages_text(self._render_event_pdf(first, second)[0])), 2
+        )
+
+    @nfe_mock(CCE_REGISTERED)
+    def test_pdf_name_has_the_key_and_the_sequence(self):
+        nfe = self._authorized_nfe()
+        self._correct(nfe, VALID_TEXT)
+        event = self._last_event(nfe)
+        report = self.env.ref("l10n_br_fiscal_edi.action_report_document_event")
+        self.assertEqual(
+            safe_eval(report.print_report_name, {"object": event}),
+            f"CCe-{nfe.document_key}-{event.sequence}",
+        )
