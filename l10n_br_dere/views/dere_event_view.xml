@@ -40,6 +40,14 @@
                     icon="fa-pencil"
                     invisible="not can_rectify_event"
                 />
+                <button
+                    name="action_delete_local_event"
+                    type="object"
+                    string="Delete"
+                    icon="fa-trash"
+                    confirm="Delete this event? It has not been sent to the RFB."
+                    invisible="state != 'draft' and state != 'generated'"
+                />
                 <field name="seq_evento" optional="hide" />
                 <field name="dh_process" optional="hide" />
             </list>
@@ -68,6 +76,13 @@
                         type="object"
                         string="Rectify"
                         invisible="not can_rectify_event"
+                    />
+                    <button
+                        name="action_delete_local_event"
+                        type="object"
+                        string="Delete"
+                        confirm="Delete this event? It has not been sent to the RFB."
+                        invisible="state != 'draft' and state != 'generated'"
                     />
                     <button
                         name="action_download_xlsx"

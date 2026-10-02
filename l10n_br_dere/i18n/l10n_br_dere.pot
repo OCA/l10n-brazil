@@ -1457,12 +1457,18 @@ msgstr ""
 
 #. module: l10n_br_dere
 #: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
-msgid "Discard Local Closing"
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_event_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_event_tree
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_table_period_form
+msgid "Delete"
 msgstr ""
 
 #. module: l10n_br_dere
 #: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
-msgid "Discard Local Reopening"
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_event_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_event_tree
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_table_period_form
+msgid "Delete this event? It has not been sent to the RFB."
 msgstr ""
 
 #. module: l10n_br_dere

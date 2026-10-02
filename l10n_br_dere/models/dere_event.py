@@ -158,7 +158,58 @@ class DereEvent(models.Model):
         )
         if locked:
             raise UserError(_("Only draft or generated events can be deleted."))
-        return super().unlink()
+        rollbacks = []
+        if not self.env.context.get("dere_force_unlink"):
+            rollbacks = [
+                (ev.declaration_id, ev.table_period_id, ev.event_type)
+                for ev in self
+                if ev.state in ("draft", "generated")
+            ]
+        result = super().unlink()
+        self._rollback_deleted_local_events(rollbacks)
+        return result
+
+    def action_delete_local_event(self):
+        """Drop one event that was never sent to the RFB."""
+        self.ensure_one()
+        parent = self._return_parent()
+        self.unlink()
+        if not parent:
+            return True
+        return {
+            "type": "ir.actions.act_window",
+            "name": parent.display_name,
+            "res_model": parent._name,
+            "res_id": parent.id,
+            "view_mode": "form",
+            "views": [(False, "form")],
+            "target": "current",
+        }
+
+    @api.model
+    def _rollback_deleted_local_events(self, rollbacks):
+        """Restore the parent after a local event is removed."""
+        periods = self.env["l10n_br_dere.table.period"]
+        for declaration, period, event_type in rollbacks:
+            if period:
+                periods |= period
+            if not declaration:
+                continue
+            if event_type == EVENT_D1199 and declaration.state == "closed":
+                accepted = declaration.event_ids.filtered(
+                    lambda ev: ev.event_type == EVENT_D1199 and ev.state == "accepted"
+                )
+                if not accepted:
+                    declaration.state = "trial_ok"
+            elif event_type == EVENT_D1198 and declaration.state == "reopened":
+                accepted = declaration.event_ids.filtered(
+                    lambda ev: ev.event_type == EVENT_D1198 and ev.state == "accepted"
+                )
+                if not accepted:
+                    declaration.state = "closed"
+        for period in periods:
+            if period.state == "generated" and not period.event_ids:
+                period.state = "draft"
 
     @api.depends("declaration_id.company_id", "table_period_id.company_id")
     def _compute_company_id(self):

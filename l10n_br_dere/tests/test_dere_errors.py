@@ -217,6 +217,63 @@ class TestDereErrors(DereCommon):
         event.unlink()
         self.assertFalse(self._event(declaration, "D-1001"))
 
+    def test_delete_generated_table_event_returns_empty_period_to_draft(self):
+        declaration = self._create_declaration("2026-03")
+        period = self._table_period(declaration)
+        period.action_generate_tables()
+        self.assertEqual(period.state, "generated")
+        d1011 = self._event(declaration, "D-1011")
+        d1011.action_delete_local_event()
+        self.assertFalse(self._event(declaration, "D-1011"))
+        self.assertTrue(self._event(declaration, "D-1001"))
+        self.assertEqual(period.state, "generated")
+        self._event(declaration, "D-1001").action_delete_local_event()
+        self.assertFalse(period.event_ids)
+        self.assertEqual(period.state, "draft")
+        event_arch = self.env["l10n_br_dere.event"].get_view(view_type="list")["arch"]
+        period_arch = period.get_view(view_type="form")["arch"]
+        declaration_arch = declaration.get_view(view_type="form")["arch"]
+        self.assertIn("action_delete_local_event", event_arch)
+        self.assertIn("action_delete_local_event", period_arch)
+        self.assertIn(
+            "state != 'draft' and state != 'generated'",
+            event_arch,
+        )
+        self.assertNotIn("action_discard_local_closing", declaration_arch)
+        self.assertNotIn("action_discard_local_reopening", declaration_arch)
+
+    def test_delete_local_closing_event_heals_stale_closed_state(self):
+        declaration = self._create_declaration("2026-02")
+        self._table_period(declaration).action_generate_tables()
+        self._post_entry("2026-02-10", self.receivable, self.fee_account, 10.0)
+        declaration.action_generate_d1101()
+        declaration.action_generate_d1199()
+        declaration.write({"state": "closed"})
+        self._event(declaration, "D-1199").action_delete_local_event()
+        self.assertFalse(self._event(declaration, "D-1199"))
+        self.assertEqual(declaration.state, "trial_ok")
+
+    def test_delete_local_reopening_event_restores_closed_state(self):
+        declaration = self._create_declaration("2026-01")
+        self._table_period(declaration).action_generate_tables()
+        self._post_entry("2026-01-10", self.receivable, self.fee_account, 10.0)
+        declaration.action_generate_d1101()
+        declaration.action_generate_d1199()
+        self._accept_closing(declaration)
+        declaration.action_mark_reopened()
+        declaration.write({"state": "reopened"})
+        self._event(declaration, "D-1198").action_delete_local_event()
+        self.assertFalse(self._event(declaration, "D-1198"))
+        self.assertEqual(declaration.state, "closed")
+
+    def test_accepted_event_cannot_be_deleted_from_the_line(self):
+        declaration = self._create_declaration("2025-11")
+        self._table_period(declaration).action_generate_d1001()
+        event = self._event(declaration, "D-1001")
+        event.write({"state": "accepted", "cd_retorno": "1"})
+        with self.assertRaises(UserError):
+            event.action_delete_local_event()
+
     def test_discard_local_closing_unlocks_generated_d1199(self):
         declaration = self._create_declaration("2026-07")
         self._table_period(declaration).action_generate_tables()

@@ -117,6 +117,14 @@
                                         icon="fa-times"
                                         invisible="not can_exclude_event"
                                     />
+                                    <button
+                                        name="action_delete_local_event"
+                                        type="object"
+                                        string="Delete"
+                                        icon="fa-trash"
+                                        confirm="Delete this event? It has not been sent to the RFB."
+                                        invisible="state != 'draft' and state != 'generated'"
+                                    />
                                 </list>
                             </field>
                         </page>

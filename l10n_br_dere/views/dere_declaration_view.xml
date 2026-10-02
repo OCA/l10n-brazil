@@ -112,18 +112,6 @@
                         invisible="not can_consult_results or primary_action == 'consult'"
                     />
                     <button
-                        name="action_discard_local_closing"
-                        type="object"
-                        string="Discard Local Closing"
-                        invisible="not can_discard_local_closing"
-                    />
-                    <button
-                        name="action_discard_local_reopening"
-                        type="object"
-                        string="Discard Local Reopening"
-                        invisible="not can_discard_local_reopening"
-                    />
-                    <button
                         name="action_mark_reopened"
                         type="object"
                         string="Reopen Period"
@@ -136,8 +124,6 @@
                         string="Reopen Period"
                         invisible="not can_reopen_period or primary_action == 'reopen'"
                     />
-                    <field name="can_discard_local_closing" invisible="1" />
-                    <field name="can_discard_local_reopening" invisible="1" />
                     <field name="can_reopen_period" invisible="1" />
                     <field name="can_consult_results" invisible="1" />
                     <field name="can_generate_trial" invisible="1" />
@@ -242,6 +228,14 @@
                                         string="Rectify"
                                         icon="fa-pencil"
                                         invisible="not can_rectify_event"
+                                    />
+                                    <button
+                                        name="action_delete_local_event"
+                                        type="object"
+                                        string="Delete"
+                                        icon="fa-trash"
+                                        confirm="Delete this event? It has not been sent to the RFB."
+                                        invisible="state != 'draft' and state != 'generated'"
                                     />
                                 </list>
                             </field>

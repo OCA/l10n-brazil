@@ -1492,13 +1492,19 @@ msgstr "Diferença"
 
 #. module: l10n_br_dere
 #: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
-msgid "Discard Local Closing"
-msgstr "Descartar Encerramento Local"
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_event_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_event_tree
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_table_period_form
+msgid "Delete"
+msgstr "Apagar"
 
 #. module: l10n_br_dere
 #: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_declaration_form
-msgid "Discard Local Reopening"
-msgstr "Descartar Reabertura Local"
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_event_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_event_tree
+#: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_table_period_form
+msgid "Delete this event? It has not been sent to the RFB."
+msgstr "Apagar este evento? Ele ainda não foi enviado à RFB."
 
 #. module: l10n_br_dere
 #: model:ir.model.fields,field_description:l10n_br_dere.field_l10n_br_dere_activity__display_name
