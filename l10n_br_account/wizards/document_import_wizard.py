@@ -3,6 +3,7 @@
 
 
 from odoo import _, fields, models
+from odoo.exceptions import UserError
 
 
 class DocumentImportWizard(models.TransientModel):
@@ -30,6 +31,19 @@ class DocumentImportWizard(models.TransientModel):
         the next file if any, either it redirect to the imported
         account.move(s) at the end of the attachments sequence.
         """
+        if self._file_is_zip():
+            # this action opens ONE account move: a batch has no single move
+            # to open, and importing the archive silently here would hide the
+            # documents that still need review.
+            raise UserError(
+                _(
+                    "A zip archive holds several fiscal documents and cannot "
+                    "be imported into a single invoice. Use the fiscal "
+                    "document import instead: each file lands as a document "
+                    "awaiting review, and the invoice is generated from the "
+                    "document once its lines are resolved."
+                )
+            )
         _binding, fiscal_document = self._import_edoc()
         fiscal_document._check_document_import()
         move_type = f"{self.fiscal_operation_type}_invoice"
