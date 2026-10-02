@@ -39,7 +39,7 @@ from ..tools import (
     normalize_correction_text,
 )
 
-# nSeqEvento limit of the correction letter (NT 2011/003, rule GA03)
+# nSeqEvento maximum in leiauteCCe_v1.00.xsd
 CORRECTION_MAX_EVENTS = 20
 # cStat 573 (duplicate event): the number is already taken at the tax authority
 CORRECTION_SEQUENCE_TAKEN_CODES = [*EVENTO_RECEBIDO, "573"]
@@ -440,12 +440,7 @@ class Document(models.Model):
 
     @api.model
     def _normalize_correction_text(self, text):
-        """Return the text of a correction letter ready to be transmitted.
-
-        Raises a UserError, before anything is sent to the tax authority, when
-        the text is empty, outside the 15 to 1000 characters accepted by the
-        schema or has characters the schema does not accept.
-        """
+        """Normalized letter text, or a UserError if the schema would refuse it."""
         normalized, invalid = normalize_correction_text(text)
         if invalid:
             raise UserError(
@@ -476,12 +471,7 @@ class Document(models.Model):
         return normalized
 
     def _next_correction_sequence(self):
-        """Return the nSeqEvento of the next correction letter (as text).
-
-        The sequence is stored as text, so it is compared as a number: as text
-        the maximum of "1".."10" is "9". Only letters registered by the tax
-        authority count, a refused one does not consume the number.
-        """
+        """nSeqEvento of the next letter; the field is text, compare as a number."""
         self.ensure_one()
         numbers = [
             int(event.sequence)
