@@ -2,8 +2,11 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from datetime import datetime
+from unittest import mock
 
 from odoo.tests import TransactionCase
+
+from odoo.addons.l10n_br_fiscal.constants.fiscal import EVENT_ENV_HML
 
 
 class CTeDocumentTest(TransactionCase):
@@ -79,3 +82,30 @@ class CTeDocumentTest(TransactionCase):
         self.assertTrue(self.cte_id.document_key)
         self.assertTrue(self.cte_id.key_random_code)
         self.assertTrue(self.cte_id.key_check_digit)
+
+    def test_correction_sequence_after_ten_letters(self):
+        """The sequence is text: as text the maximum of "1".."10" is "9"."""
+        for number in range(1, 11):
+            event = self.cte_id.event_ids.create_event_save_xml(
+                company_id=self.sn_company_id,
+                environment=EVENT_ENV_HML,
+                event_type="14",
+                xml_file="<evento/>",
+                document_id=self.cte_id,
+                sequence=str(number),
+                justification="Correction text for the test",
+            )
+            event.set_done("135", "mocked", False, str(number), False)
+        processor = mock.MagicMock()
+        processor.enviar_lote_evento.return_value.envio_xml = "<envio/>"
+        processor.enviar_lote_evento.return_value.retorno.content = b"<retorno/>"
+        answer = processor.enviar_lote_evento.return_value.resposta.infEvento
+        answer.cStat = "135"
+        answer.chCTe = self.cte_id.document_key
+        answer.xMotivo = "Evento registrado"
+        answer.dhRegEvento = "2026-10-02T10:00:00-03:00"
+        answer.nProt = "1"
+        with mock.patch.object(type(self.cte_id), "_edoc_processor") as get:
+            get.return_value = processor
+            self.cte_id._cte_correction("Correction text for the test")
+        self.assertEqual(processor.carta_correcao.call_args.kwargs["sequencia"], "11")
