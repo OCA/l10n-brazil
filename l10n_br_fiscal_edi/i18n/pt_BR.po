@@ -892,3 +892,9 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__display_name
 msgid "name"
 msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
+msgid "The maximum of %(max)s correction letters for this document was reached."
+msgstr "O máximo de %(max)s cartas de correção para este documento foi atingido."

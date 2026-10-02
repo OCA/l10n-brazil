@@ -33,6 +33,11 @@ from ..constants.fiscal import (
     DOCUMENT_STATES,
 )
 
+# nSeqEvento limit of the correction letter (NT 2011/003, rule GA03)
+CORRECTION_MAX_EVENTS = 20
+# cStat 135 and 136: event registered
+CORRECTION_REGISTERED_CODES = ("135", "136")
+
 
 def filter_processador(record):
     if record.document_electronic and record.processador_edoc == PROCESSADOR_NENHUM:
@@ -426,6 +431,33 @@ class Document(models.Model):
         this method to transmit the correction event (CC-e)."""
         self.ensure_one()
         self.correction_reason = justificative
+
+    def _next_correction_sequence(self):
+        """Return the nSeqEvento of the next correction letter (as text).
+
+        The sequence is stored as text, so it is compared as a number: as text
+        the maximum of "1".."10" is "9". Only letters registered by the tax
+        authority count, a refused one does not consume the number.
+        """
+        self.ensure_one()
+        numbers = [
+            int(event.sequence)
+            for event in self.event_ids
+            if event.type == "14"
+            and event.state == "done"
+            and event.status_code in CORRECTION_REGISTERED_CODES
+            and (event.sequence or "").isdigit()
+        ]
+        sequence = max(numbers) + 1 if numbers else 1
+        if sequence > CORRECTION_MAX_EVENTS:
+            raise UserError(
+                _(
+                    "The maximum of %(max)s correction letters for this document "
+                    "was reached.",
+                    max=CORRECTION_MAX_EVENTS,
+                )
+            )
+        return str(sequence)
 
     # -------------------------------------------------------------------------
     # Transition Callbacks
