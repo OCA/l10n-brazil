@@ -229,6 +229,18 @@ class OperationLine(models.Model):
             tax_definition.filtered(lambda t: t.tax_domain == TAX_DOMAIN_IPI),
         )
 
+    def _build_mapping_result_piscofins(self, mapping_result, company, ncm):
+        # NCMs with several PIS/COFINS rates need explicit configuration,
+        # so the company regime is only a fallback for NCMs without any.
+        if len(ncm.piscofins_ids) == 1:
+            piscofins = ncm.piscofins_ids
+            for tax in piscofins.tax_pis_id | piscofins.tax_cofins_id:
+                mapping_result["taxes"][tax.tax_domain] = tax
+        elif not ncm.piscofins_ids:
+            piscofins = company.piscofins_id
+            for tax in piscofins.tax_pis_id | piscofins.tax_cofins_id:
+                mapping_result["taxes"].setdefault(tax.tax_domain, tax)
+
     def map_fiscal_taxes(
         self,
         company,
@@ -345,13 +357,7 @@ class OperationLine(models.Model):
             tax_ii = ncm.tax_ii_id
             mapping_result["taxes"][TAX_DOMAIN_IPI] = tax_ipi
 
-            if len(ncm.piscofins_ids) == 1:
-                mapping_result["taxes"][ncm.piscofins_ids[0].tax_pis_id.tax_domain] = (
-                    ncm.piscofins_ids[0].tax_pis_id
-                )
-                mapping_result["taxes"][
-                    ncm.piscofins_ids[0].tax_cofins_id.tax_domain
-                ] = ncm.piscofins_ids[0].tax_cofins_id
+            self._build_mapping_result_piscofins(mapping_result, company, ncm)
 
             if (
                 mapping_result["cfop"].destination == CFOP_DESTINATION_EXPORT
