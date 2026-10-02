@@ -3,7 +3,7 @@
 
 from lxml import etree
 
-from odoo import models
+from odoo import api, fields, models
 
 from .document import NFE_XML_NAMESPACE
 
@@ -67,3 +67,45 @@ class Event(models.Model):
             "ie": partner.inscr_est or "",
         }
 
+    @api.model
+    def _reprocess_cce_protocol_date(self, apply=False):
+        """Fix protocol_date of CC-e stored before dhRegEvento was converted to UTC.
+
+        Called by hand (scripts/reprocess_cce_protocol_date.py); idempotent, and
+        nothing is written unless apply is True."""
+        events = self.search(
+            [
+                ("type", "=", "14"),
+                ("state", "=", "done"),
+                ("protocol_number", "!=", False),
+            ],
+            order="id",
+        )
+        report = []
+        for event in events:
+            line = {
+                "event_id": event.id,
+                "document_key": event.document_id.document_key,
+                "sequence": event.sequence,
+                "current": event.protocol_date
+                and fields.Datetime.to_string(event.protocol_date),
+                "expected": False,
+            }
+            registered = self._xml_values(
+                event.file_response_id, "retEvento", event.protocol_number
+            ).get("dhRegEvento")
+            if not registered:
+                line["action"] = "skipped (no dhRegEvento in the stored XML)"
+            else:
+                line["expected"] = self.env[
+                    "l10n_br_fiscal.document"
+                ]._event_registration_date(registered)
+                if line["expected"] == line["current"]:
+                    line["action"] = "ok"
+                elif apply:
+                    event.protocol_date = line["expected"]
+                    line["action"] = "fixed"
+                else:
+                    line["action"] = "fix"
+            report.append(line)
+        return report
