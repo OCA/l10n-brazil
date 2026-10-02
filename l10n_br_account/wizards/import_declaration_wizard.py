@@ -335,7 +335,7 @@ class ImportDeclarationWizard(models.TransientModel):
         left = self._bill_lines() - claimed
         values["unclaimed_lines"] = (
             "\n".join(
-                _("%(line)s, quantity %(quantity)s")
+                self.env._("%(line)s, quantity %(quantity)s")
                 % {"line": line.name, "quantity": line.quantity}
                 for line in left
             )
