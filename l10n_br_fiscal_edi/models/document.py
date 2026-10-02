@@ -458,6 +458,24 @@ class Document(models.Model):
             )
         return str(sequence)
 
+    def _correction_notification(self, success, message):
+        """Client action that shows the result and closes the wizard."""
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": (
+                    _("Correction letter registered")
+                    if success
+                    else _("Correction letter refused")
+                ),
+                "message": message,
+                "type": "success" if success else "danger",
+                "sticky": not success,
+                "next": {"type": "ir.actions.act_window_close"},
+            },
+        }
+
     # -------------------------------------------------------------------------
     # Transition Callbacks
     # -------------------------------------------------------------------------

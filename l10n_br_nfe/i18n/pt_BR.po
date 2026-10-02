@@ -5597,6 +5597,22 @@ msgstr ""
 msgid "Órgão emitente"
 msgstr ""
 
+#. module: l10n_br_nfe
+#. odoo-python
+#: code:addons/l10n_br_nfe/models/document.py:0
+msgid "Sequence %(sequence)s, protocol %(protocol)s: %(response)s"
+msgstr "Sequência %(sequence)s, protocolo %(protocol)s: %(response)s"
+
+#. module: l10n_br_nfe
+#. odoo-python
+#: code:addons/l10n_br_nfe/models/document.py:0
+msgid ""
+"Correction letter %(sequence)s refused. Code: %(code)s. Reason: "
+"%(response)s"
+msgstr ""
+"Carta de correção %(sequence)s recusada. Código: %(code)s. Motivo: "
+"%(response)s"
+
 #~ msgid "Authorization protocol"
 #~ msgstr "Protocolo de Autorização"
 

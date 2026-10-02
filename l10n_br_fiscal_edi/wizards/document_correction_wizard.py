@@ -11,7 +11,11 @@ class DocumentCorrectionWizard(models.TransientModel):
     _inherit = "l10n_br_fiscal.base.wizard.mixin"
 
     def doit(self):
+        action = None
         for wizard in self:
             if wizard.document_id:
-                wizard.document_id._document_correction(wizard.justification)
-        self._close()
+                action = (
+                    wizard.document_id._document_correction(wizard.justification)
+                    or action
+                )
+        return action or self._close()
