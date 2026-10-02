@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+    <t t-name="NfceHeaderReceipt" owl="1">
+        <div class="headerNfce">
+            <h2><t t-esc="companyLegalName" /></h2>
+            <div class="companyAddress">
+                <p class="nfcePTag"><t t-esc="fullCompanyAddress" /></p>
+            </div>
+            <div class="companyInfo">
+                <p class="companyInfoLine">CNPJ: <t t-esc="companyCNPJ" /></p>
+                <p class="companyInfoLine">IE: <t t-esc="companyIE" /></p>
+            </div>
+            <div class="documentInfo">
+                <p
+                    class="nfcePTag"
+                >Documento auxiliar da nota fiscal de consumidor eletrônica</p>
+            </div>
+            <t t-if="isDocumentInContingency">
+                <hr class="nfceSeparator" />
+                <div class="documentInContingency">
+                    <p class="nfcePTag inContingency">Emitida em Contingencia</p>
+                    <p class="nfcePTag">Pendente de Autorizacao</p>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>
