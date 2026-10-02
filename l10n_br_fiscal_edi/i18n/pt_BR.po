@@ -65,3 +65,12 @@ msgstr "Carta de correção recusada"
 #: code:addons/l10n_br_fiscal_edi/models/document_event.py:0
 msgid "Only a correction letter registered by the tax authority can be printed."
 msgstr "Somente uma carta de correção registrada pelo fisco pode ser impressa."
+
+#. module: l10n_br_fiscal_edi
+#: model:ir.model.fields,help:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_correction_wizard__justification
+msgid ""
+"NF-e: 15 to 1000 characters; line breaks, tabs, repeated spaces and "
+"typographic punctuation are normalized before sending."
+msgstr ""
+"NF-e: de 15 a 1000 caracteres; quebras de linha, tabulações, espaços "
+"repetidos e pontuação tipográfica são normalizados antes do envio."
