@@ -1763,13 +1763,7 @@ class NFe(spec_models.StackedModel):
         return super().action_document_correction()
 
     def _nfe_correction(self, justificative):
-        """Transmit the correction letter (CC-e) and register the answer.
-
-        A refusal from the tax authority (of the batch or of the event) is not
-        an exception: raising would roll back the event and the signed XML
-        that was sent, losing the audit trail. The answer is recorded in the
-        event, posted in the chatter and returned as a notification.
-        """
+        # A refusal is recorded, not raised: a rollback would lose the sent XML.
         self.ensure_one()
         justificative = self._normalize_correction_text(justificative)
         sequence = self._next_correction_sequence()
@@ -1808,8 +1802,7 @@ class NFe(spec_models.StackedModel):
             )
 
         if retevento is None:
-            # The whole batch was refused, or the answer does not mention
-            # this document: there is no per event answer to read.
+            # batch refused or no answer for this document: use the batch cStat
             status_code, response = resposta.cStat, resposta.xMotivo
             protocol_date = protocol_number = False
         else:
