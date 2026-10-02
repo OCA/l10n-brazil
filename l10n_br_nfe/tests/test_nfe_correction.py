@@ -6,7 +6,8 @@ from io import BytesIO
 from unittest import mock
 
 from brazilfiscalreport.dacce import DaCCe
-from lxml import etree
+from erpbrasil.edoc.nfe import TEXTO_CARTA_CORRECAO
+from lxml import etree, html
 
 from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
@@ -15,8 +16,9 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     EVENT_ENV_HML,
     SITUACAO_EDOC_AUTORIZADA,
 )
+from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import CCE_CONDITION_OF_USE
 
-from .mock_utils import nfe_mock
+from .mock_utils import load_soap_xml, nfe_mock
 from .test_nfe_serialize import TestNFeExport
 
 NFE_NS = "http://www.portalfiscal.inf.br/nfe"
@@ -471,3 +473,136 @@ class TestNFeCorrection(TestNFeExport):
             safe_eval(report.print_report_name, {"object": event}),
             f"CCe-{nfe.document_key}-{event.sequence}",
         )
+
+    # -- QWeb report: the fallback of the DACCE ----------------------------
+
+    def _old_style_letter(self, nfe):
+        """A registered letter as it was stored before the procEventoNFe:
+        the answer is the SOAP envelope, and protocol_date has the old bug.
+        """
+        self._correct(nfe, VALID_TEXT + "\nSecond line of the correction")
+        event = self._last_event(nfe)
+        event.file_response_id.raw = load_soap_xml(
+            "retEnvEvento/nfe_cce_registrada.xml"
+        )
+        event.protocol_date = datetime(2023, 7, 5, 16, 52, 52)
+        self.assertFalse(event._get_proc_evento_nfe())
+        return event
+
+    def _event_html(self, event):
+        content = event.env["ir.actions.report"]._render_qweb_html(
+            self.EVENT_REPORT, event.ids
+        )[0]
+        return html.fromstring(content)
+
+    @staticmethod
+    def _html_text(tree):
+        return " ".join(tree.text_content().split())
+
+    def test_condition_of_use_is_a_literal_of_the_schema(self):
+        ns = {"xs": "http://www.w3.org/2001/XMLSchema"}
+        literals = _cce_xsd().xpath(
+            "//xs:element[@name='xCondUso']//xs:enumeration/@value", namespaces=ns
+        )
+        self.assertIn(CCE_CONDITION_OF_USE, literals)
+        # and it is the one that the library sends in the event
+        self.assertEqual(CCE_CONDITION_OF_USE, TEXTO_CARTA_CORRECAO)
+
+    @nfe_mock(CCE_REGISTERED)
+    def test_fallback_prints_the_condition_of_use_of_the_schema(self):
+        nfe = self._authorized_nfe()
+        event = self._old_style_letter(nfe)
+        text = self._html_text(self._event_html(event))
+        self.assertIn(CCE_CONDITION_OF_USE, text)
+        # the fixed text that was in the template is gone
+        self.assertNotIn("não seja relacionado", text)
+
+    @nfe_mock(CCE_REGISTERED)
+    def test_fallback_has_the_data_of_a_correction_letter(self):
+        nfe = self._authorized_nfe()
+        event = self._old_style_letter(nfe)
+        text = self._html_text(self._event_html(event))
+        company = nfe.company_id.partner_id
+        recipient = nfe.partner_id
+        key = nfe.document_key
+        for expected in (
+            company.legal_name,
+            company.vat,
+            company.l10n_br_ie_code,
+            recipient.legal_name or recipient.name,
+            recipient.vat,
+            " ".join(key[i : i + 4] for i in range(0, 44, 4)),
+            f"ID110110{key}01",
+            "135 - Evento registrado e vinculado a NF-e",
+            "141190000382704",
+            VALID_TEXT,
+            "Second line of the correction",
+        ):
+            self.assertIn(expected, text)
+        self.assertTrue(company.vat and recipient.vat)
+
+    @nfe_mock(CCE_REGISTERED)
+    def test_fallback_keeps_the_line_breaks_of_the_correction(self):
+        nfe = self._authorized_nfe()
+        event = self._old_style_letter(nfe)
+        event.justification = "First line of the text\nSecond line of the text"
+        tree = self._event_html(event)
+        node = tree.xpath("//div[contains(@style, 'pre-line')]")[0]
+        self.assertEqual(
+            node.text_content(), "First line of the text\nSecond line of the text"
+        )
+        # the literal \n that the library used to send also breaks the line
+        event.justification = "First line of the text\\nSecond line of the text"
+        node = self._event_html(event).xpath("//div[contains(@style, 'pre-line')]")[0]
+        self.assertEqual(
+            node.text_content(), "First line of the text\nSecond line of the text"
+        )
+
+    @nfe_mock(CCE_REGISTERED)
+    def test_fallback_registration_time_comes_from_the_xml(self):
+        """protocol_date of an old letter is wrong (the bug fixed for new ones)."""
+        nfe = self._authorized_nfe()
+        event = self._old_style_letter(nfe)
+        self.assertIn(
+            "05/07/2023 16:52:52 (UTC-03:00)",
+            self._html_text(self._event_html(event)),
+        )
+
+    @nfe_mock(CCE_REGISTERED)
+    def test_fallback_without_xml_converts_protocol_date_to_brasilia(self):
+        nfe = self._authorized_nfe()
+        event = self._old_style_letter(nfe)
+        event.file_response_id.unlink()
+        event.protocol_date = datetime(2026, 10, 2, 13, 15, 0)
+        for tz in ("UTC", "Europe/Brussels"):
+            text = self._html_text(self._event_html(event.with_context(tz=tz)))
+            self.assertIn("02/10/2026 10:15:00 (UTC-03:00)", text)
+
+    @nfe_mock(CCE_REGISTERED)
+    def test_fallback_marks_the_homologation_environment(self):
+        nfe = self._authorized_nfe()
+        event = self._old_style_letter(nfe)
+        self.assertEqual(event.environment, EVENT_ENV_HML)
+        self.assertTrue(self._event_html(event).xpath("//div[@class='watermark']"))
+        event.environment = "prod"
+        self.assertFalse(self._event_html(event).xpath("//div[@class='watermark']"))
+
+    @nfe_mock(CCE_REGISTERED)
+    def test_fallback_labels_are_translated_to_portuguese(self):
+        self.env["res.lang"]._activate_lang("pt_BR")
+        self.env["ir.module.module"].search(
+            [("name", "=", "l10n_br_fiscal_edi")]
+        )._update_translations(["pt_BR"])
+        nfe = self._authorized_nfe()
+        event = self._old_style_letter(nfe)
+        text = self._html_text(self._event_html(event))
+        for expected in (
+            "Emitente",
+            "Destinatário",
+            "Chave de acesso",
+            "Correções a serem consideradas",
+            "Representação gráfica de CC-e",
+            "Registrado em:",
+        ):
+            self.assertIn(expected, text)
+        self.assertNotIn("Recipient", text)
