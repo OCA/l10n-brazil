@@ -141,6 +141,7 @@
                                         title="Print Document Event"
                                         icon="fa-print"
                                         type="object"
+                                        invisible="state != 'done' or status_code not in ('135', '136')"
                                     />
                                 </list>
                             </field>
