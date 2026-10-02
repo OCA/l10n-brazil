@@ -4181,8 +4181,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_rem__cte40_CNPJ
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tomaterceiro__cte40_CNPJ
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_rodo_occ__cte40_CNPJ
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_CNPJ
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_CNPJ
 msgid "Número do CNPJ"
 msgstr ""
 
@@ -4223,14 +4221,18 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_CNPJ
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_CNPJ
+msgid "Número do CNPJ (cte_CNPJ)"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_emidocant__cte40_CPF
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_toma__cte40_CPF
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_toma__cte40_CPF
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_dest__cte40_CPF
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_rem__cte40_CPF
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tomaterceiro__cte40_CPF
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_CPF
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_CPF
 msgid "Número do CPF"
 msgstr ""
 
@@ -4246,6 +4248,12 @@ msgstr ""
 msgid ""
 "Número do CPF\n"
 "Informar os zeros não significativos."
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_CPF
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_CPF
+msgid "Número do CPF (cte_CPF)"
 msgstr ""
 
 #. module: l10n_br_cte
