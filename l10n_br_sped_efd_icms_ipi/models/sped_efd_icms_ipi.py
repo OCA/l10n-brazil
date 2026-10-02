@@ -1688,13 +1688,13 @@ class RegistroC190(models.Model):
     # The descriptor marks fields 5 to 11 obrigatorio=1: a zero must be
     # written "0", never blank, or the PVA refuses the record with "campo
     # obrigatorio". Declared at the mapping layer, as everywhere else.
-    VL_OPR = fields.Monetary(required=True, currency_field="brl_currency_id")
-    VL_BC_ICMS = fields.Monetary(required=True, currency_field="brl_currency_id")
-    VL_ICMS = fields.Monetary(required=True, currency_field="brl_currency_id")
-    VL_BC_ICMS_ST = fields.Monetary(required=True, currency_field="brl_currency_id")
-    VL_ICMS_ST = fields.Monetary(required=True, currency_field="brl_currency_id")
-    VL_RED_BC = fields.Monetary(required=True, currency_field="brl_currency_id")
-    VL_IPI = fields.Monetary(required=True, currency_field="brl_currency_id")
+    VL_OPR = fields.Monetary(out_required=True, currency_field="brl_currency_id")
+    VL_BC_ICMS = fields.Monetary(out_required=True, currency_field="brl_currency_id")
+    VL_ICMS = fields.Monetary(out_required=True, currency_field="brl_currency_id")
+    VL_BC_ICMS_ST = fields.Monetary(out_required=True, currency_field="brl_currency_id")
+    VL_ICMS_ST = fields.Monetary(out_required=True, currency_field="brl_currency_id")
+    VL_RED_BC = fields.Monetary(out_required=True, currency_field="brl_currency_id")
+    VL_IPI = fields.Monetary(out_required=True, currency_field="brl_currency_id")
 
     @api.model
     def _odoo_query(self, parent_record, declaration):
@@ -3911,24 +3911,42 @@ class RegistroE110(models.Model):
     # written as "0" rather than left blank. The generated spec does not carry
     # that mandatoriness, so it is declared here: without it the PVA rejects the
     # tax book with "mandatory field" on each field left at zero.
-    VL_TOT_DEBITOS = fields.Monetary(required=True, currency_field="brl_currency_id")
-    VL_AJ_DEBITOS = fields.Monetary(required=True, currency_field="brl_currency_id")
-    VL_TOT_AJ_DEBITOS = fields.Monetary(required=True, currency_field="brl_currency_id")
-    VL_ESTORNOS_CRED = fields.Monetary(required=True, currency_field="brl_currency_id")
-    VL_TOT_CREDITOS = fields.Monetary(required=True, currency_field="brl_currency_id")
-    VL_AJ_CREDITOS = fields.Monetary(required=True, currency_field="brl_currency_id")
+    VL_TOT_DEBITOS = fields.Monetary(
+        out_required=True, currency_field="brl_currency_id"
+    )
+    VL_AJ_DEBITOS = fields.Monetary(out_required=True, currency_field="brl_currency_id")
+    VL_TOT_AJ_DEBITOS = fields.Monetary(
+        out_required=True, currency_field="brl_currency_id"
+    )
+    VL_ESTORNOS_CRED = fields.Monetary(
+        out_required=True, currency_field="brl_currency_id"
+    )
+    VL_TOT_CREDITOS = fields.Monetary(
+        out_required=True, currency_field="brl_currency_id"
+    )
+    VL_AJ_CREDITOS = fields.Monetary(
+        out_required=True, currency_field="brl_currency_id"
+    )
     VL_TOT_AJ_CREDITOS = fields.Monetary(
-        required=True, currency_field="brl_currency_id"
+        out_required=True, currency_field="brl_currency_id"
     )
-    VL_ESTORNOS_DEB = fields.Monetary(required=True, currency_field="brl_currency_id")
-    VL_SLD_CREDOR_ANT = fields.Monetary(required=True, currency_field="brl_currency_id")
-    VL_SLD_APURADO = fields.Monetary(required=True, currency_field="brl_currency_id")
-    VL_TOT_DED = fields.Monetary(required=True, currency_field="brl_currency_id")
-    VL_ICMS_RECOLHER = fields.Monetary(required=True, currency_field="brl_currency_id")
+    VL_ESTORNOS_DEB = fields.Monetary(
+        out_required=True, currency_field="brl_currency_id"
+    )
+    VL_SLD_CREDOR_ANT = fields.Monetary(
+        out_required=True, currency_field="brl_currency_id"
+    )
+    VL_SLD_APURADO = fields.Monetary(
+        out_required=True, currency_field="brl_currency_id"
+    )
+    VL_TOT_DED = fields.Monetary(out_required=True, currency_field="brl_currency_id")
+    VL_ICMS_RECOLHER = fields.Monetary(
+        out_required=True, currency_field="brl_currency_id"
+    )
     VL_SLD_CREDOR_TRANSPORTAR = fields.Monetary(
-        required=True, currency_field="brl_currency_id"
+        out_required=True, currency_field="brl_currency_id"
     )
-    DEB_ESP = fields.Float(required=True)
+    DEB_ESP = fields.Float(out_required=True)
 
     @api.model
     def _odoo_domain(self, parent_record, declaration):
@@ -4399,13 +4417,13 @@ class RegistroE520(models.Model):
     # Like the E110, every E520 field is mandatory and a zero must be written
     # "0": the mandatoriness is declared at the mapping layer because the
     # generated spec cannot carry Odoo required.
-    VL_SD_ANT_IPI = fields.Monetary(required=True, currency_field="brl_currency_id")
-    VL_DEB_IPI = fields.Monetary(required=True, currency_field="brl_currency_id")
-    VL_CRED_IPI = fields.Monetary(required=True, currency_field="brl_currency_id")
-    VL_OD_IPI = fields.Monetary(required=True, currency_field="brl_currency_id")
-    VL_OC_IPI = fields.Monetary(required=True, currency_field="brl_currency_id")
-    VL_SC_IPI = fields.Monetary(required=True, currency_field="brl_currency_id")
-    VL_SD_IPI = fields.Monetary(required=True, currency_field="brl_currency_id")
+    VL_SD_ANT_IPI = fields.Monetary(out_required=True, currency_field="brl_currency_id")
+    VL_DEB_IPI = fields.Monetary(out_required=True, currency_field="brl_currency_id")
+    VL_CRED_IPI = fields.Monetary(out_required=True, currency_field="brl_currency_id")
+    VL_OD_IPI = fields.Monetary(out_required=True, currency_field="brl_currency_id")
+    VL_OC_IPI = fields.Monetary(out_required=True, currency_field="brl_currency_id")
+    VL_SC_IPI = fields.Monetary(out_required=True, currency_field="brl_currency_id")
+    VL_SD_IPI = fields.Monetary(out_required=True, currency_field="brl_currency_id")
 
     @api.model
     def _odoo_domain(self, parent_record, declaration):
