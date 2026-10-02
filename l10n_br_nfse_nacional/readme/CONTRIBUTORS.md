@@ -2,3 +2,4 @@
   - Raphaël Valyi \<<raphael.valyi@akretion.com>\>
 - [KMEE](https://www.kmee.com.br):
   - Ygor Carvalho \<<ygor.carvalho@kmee.com.br>\>
+  - Luis Felipe Mileo \<<mileo@kmee.com.br>\>
