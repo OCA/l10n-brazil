@@ -367,7 +367,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xBairro
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_xBairro
-msgid "Bairro"
+msgid "Bairro (nfe_xBairro)"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -422,7 +422,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_CEP
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_CEP
-msgid "CEP"
+msgid "CEP (nfe_CEP)"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -557,12 +557,12 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice_transporta
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice_transporta
-msgid "CNPJ or CPF"
+msgid "CNPJ or CPF (nfe_choice_transporta)"
 msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe40_choice_emit
-msgid "CNPJ ou CPF?"
+msgid "CNPJ ou CPF? (nfe_choice_emit)"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -581,19 +581,19 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice_emit
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice_emit
-msgid "CNPJ/CPF do Emitente"
+msgid "CNPJ/CPF do Emitente (nfe_choice_emit)"
 msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice_tlocal
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice_tlocal
-msgid "CNPJ/CPF do Parceiro"
+msgid "CNPJ/CPF do Parceiro (nfe_choice_tlocal)"
 msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice_dest
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice_dest
-msgid "CNPJ/CPF/idEstrangeiro"
+msgid "CNPJ/CPF/idEstrangeiro (nfe_choice_dest)"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -691,16 +691,16 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_obsCont
-msgid "Campo de uso livre do contribuinte"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_obsCont
 msgid ""
 "Campo de uso livre do contribuinte\n"
 "informar o nome do campo no atributo xCampo\n"
 "e o conteúdo do campo no xTexto"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_obsCont
+msgid "Campo de uso livre do contribuinte (nfe_obsCont)"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -869,7 +869,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xCpl
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_xCpl
-msgid "Complemento"
+msgid "Complemento (nfe_xCpl)"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1272,7 +1272,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_cMun
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_cMun
-msgid "Código do município"
+msgid "Código do município (nfe_cMun)"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1332,7 +1332,7 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_cNF
-msgid "Código numérico que compõe a Chave"
+msgid "Código numérico que compõe a Chave (nfe_cNF)"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1419,7 +1419,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_enderDest
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_enderDest
-msgid "Dados do endereço"
+msgid "Dados do endereço (nfe_enderDest)"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1849,7 +1849,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_bank_statement_line__nfe40_emit
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_move__nfe40_emit
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_emit
-msgid "Emit"
+msgid "Emit (nfe_emit)"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1885,7 +1885,7 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe40_enderEmit
-msgid "Endereço do emitente"
+msgid "Endereço do emitente (nfe_enderEmit)"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -2175,7 +2175,7 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_gCompraGov
-msgid "Grupo de Compras Governamentais"
+msgid "Grupo de Compras Governamentais (nfe_gCompraGov)"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -2910,7 +2910,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_bank_statement_line__nfe40_infAdFisco
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_move__nfe40_infAdFisco
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_infAdFisco
-msgid "Informações adicionais de interesse"
+msgid "Informações adicionais de interesse (nfe_infAdFisco)"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -2983,7 +2983,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_bank_statement_line__nfe40_infRespTec
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_move__nfe40_infRespTec
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_infRespTec
-msgid "Informações do Responsável Técnico"
+msgid "Informações do Responsável Técnico (nfe_infRespTec)"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -3047,7 +3047,7 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe40_IE
-msgid "Inscrição Estadual do Emitente"
+msgid "Inscrição Estadual do Emitente (nfe_IE)"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -3071,18 +3071,18 @@ msgid "Inscrição do emitente na Suframa"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_ISUF
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_ISUF
-msgid "Inscrição na SUFRAMA"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_partner__nfe40_ISUF
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_users__nfe40_ISUF
 msgid ""
 "Inscrição na SUFRAMA (Obrigatório nas operações com as áreas com benefícios "
 "de incentivos fiscais sob controle da SUFRAMA) PL_005d - 11/08/09 - alterado"
 " para aceitar 8 ou 9 dígitos"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_ISUF
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_ISUF
+msgid "Inscrição na SUFRAMA (nfe_ISUF)"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -3189,7 +3189,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xLgr
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_xLgr
-msgid "Logradouro"
+msgid "Logradouro (nfe_xLgr)"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -3705,7 +3705,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xFant
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_xFant
-msgid "Nome Fantasia"
+msgid "Nome Fantasia (nfe_xFant)"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -3716,7 +3716,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xMun
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_xMun
-msgid "Nome do município"
+msgid "Nome do município (nfe_xMun)"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -3728,12 +3728,12 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xPais
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_xPais
-msgid "Nome do país"
+msgid "Nome do país (nfe_xPais)"
 msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe40_xFant
-msgid "Nome fantasia"
+msgid "Nome fantasia (nfe_xFant)"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -3802,10 +3802,14 @@ msgid "Não realizado"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_nro
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_nro
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
 msgid "Número"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_nro
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_nro
+msgid "Número (nfe_nro)"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -4884,10 +4888,14 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_avulsa__nfe40_fone
+msgid "Telefone"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe40_fone
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_fone
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_fone
-msgid "Telefone"
+msgid "Telefone (nfe_fone)"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -5155,7 +5163,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_bank_statement_line__nfe40_vBCIBSCBS
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_move__nfe40_vBCIBSCBS
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vBCIBSCBS
-msgid "Total Base de Calculo IBS/CBS"
+msgid "Total Base de Calculo IBS/CBS (nfe_vBCIBSCBS)"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -5987,7 +5995,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_bank_statement_line__nfe40_vCBS
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_move__nfe40_vCBS
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vCBS
-msgid "Valor total da CBS"
+msgid "Valor total da CBS (nfe_vCBS)"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -6016,21 +6024,21 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_bank_statement_line__nfe40_vIBS
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_move__nfe40_vIBS
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vIBS
-msgid "Valor total do IBS"
+msgid "Valor total do IBS (nfe_vIBS)"
 msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_bank_statement_line__nfe40_vIBSUF
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_move__nfe40_vIBSUF
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vIBSUF
-msgid "Valor total do IBS Estadual"
+msgid "Valor total do IBS Estadual (nfe_vIBSUF)"
 msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_bank_statement_line__nfe40_vIBSMun
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_move__nfe40_vIBSMun
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vIBSMun
-msgid "Valor total do IBS Municipal"
+msgid "Valor total do IBS Municipal (nfe_vIBSMun)"
 msgstr ""
 
 #. module: l10n_br_nfe
