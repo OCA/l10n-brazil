@@ -36,6 +36,7 @@
         "data/l10n_br_fiscal.tax.pis.cofins.csv",
         "data/l10n_br_fiscal_server_action.xml",
         "data/ir_cron.xml",
+        "data/ir_config_parameter.xml",
         "data/l10n_br_fiscal_comment_data.xml",
         "data/l10n_br_fiscal.legal.nature.csv",
         "data/l10n_br_fiscal.cnae.csv",
