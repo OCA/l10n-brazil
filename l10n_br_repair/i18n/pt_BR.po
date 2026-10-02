@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-28 01:20+0000\n"
+"POT-Creation-Date: 2026-10-02 23:24+0000\n"
 "PO-Revision-Date: 2024-12-21 15:51+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
@@ -59,13 +59,6 @@ msgid "Accounting"
 msgstr "Contabilidade"
 
 #. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__additional_data
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__additional_data
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__additional_data
-msgid "Additional Data"
-msgstr "Dados Adicionais"
-
-#. module: l10n_br_repair
 #: model:ir.model.fields,help:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__manual_additional_data
 #: model:ir.model.fields,help:l10n_br_repair.field_repair_fee__manual_additional_data
 #: model:ir.model.fields,help:l10n_br_repair.field_repair_line__manual_additional_data
@@ -115,13 +108,6 @@ msgid "Amount Gross"
 msgstr "Total Bruto"
 
 #. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_tax
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__amount_tax
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__amount_tax
-msgid "Amount Tax"
-msgstr "Total de Imposto"
-
-#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_tax_included
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__amount_tax_included
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__amount_tax_included
@@ -141,20 +127,6 @@ msgstr "Total Não incluído Impostos"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__amount_taxed
 msgid "Amount Taxed"
 msgstr "Total Tributado"
-
-#. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_total
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__amount_total
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__amount_total
-msgid "Amount Total"
-msgstr "Valor Total"
-
-#. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_untaxed
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__amount_untaxed
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__amount_untaxed
-msgid "Amount Untaxed"
-msgstr "Total sem Impostos"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,help:l10n_br_repair.field_repair_order__amount_price_gross
@@ -230,6 +202,16 @@ msgstr "CFOP"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cfop_destination
 msgid "CFOP Destination"
 msgstr "CFOP Destino"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,help:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__partner_cfop_id
+#: model:ir.model.fields,help:l10n_br_repair.field_repair_fee__partner_cfop_id
+#: model:ir.model.fields,help:l10n_br_repair.field_repair_line__partner_cfop_id
+msgid ""
+"CFOP as declared by the counterparty in the imported document. It is "
+"preserved as-is for fiscal bookkeeping / SPED (e.g. C197), while cfop_id "
+"reflects the company's own operation after the de-para."
+msgstr ""
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cnae_id
@@ -555,6 +537,7 @@ msgid "Companies"
 msgstr "Empresas"
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__company_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__company_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__company_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__company_id
@@ -574,9 +557,16 @@ msgid "Config Settings"
 msgstr "Ajustes de Configurações"
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__ind_final
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__ind_final
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__ind_final
+msgid "Consumidor final"
+msgstr ""
+
+#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__copy_repair_quotation_notes
-msgid "Copiar Observação no documentos fiscal"
-msgstr "Copiar Observação nos documentos fiscais"
+msgid "Copy Repair quotation notes in Fiscal documents"
+msgstr "Copiar as observações do orçamento de reparo nos documentos fiscais"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_res_company__copy_repair_quotation_notes
@@ -609,24 +599,19 @@ msgid "Customer"
 msgstr "Cliente"
 
 #. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__customer_additional_data
-msgid "Customer Additional Data"
-msgstr "Dados Adicionais do Cliente"
-
-#. module: l10n_br_repair
 #: model:ir.model.fields,help:l10n_br_repair.field_repair_order__manual_customer_additional_data
 msgid "Customer Additional data manually entered by user"
 msgstr "Dados adicionais do cliente inseridos manualmente pelo usuário"
 
 #. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__client_order_ref
-msgid "Customer Reference"
-msgstr "Referência do Cliente"
-
-#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_ii_customhouse_charges
 msgid "Customhouse Charges"
 msgstr "Encargos Alfandegários"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_res_company__repair_fiscal_operation_id
+msgid "Default Repair Fiscal Operation"
+msgstr "Operação Fiscal Padrão de Reparos"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,help:l10n_br_repair.field_repair_order__delivery_costs
@@ -661,16 +646,6 @@ msgstr "Despesas Aduaneiras"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__discount_value
 msgid "Discount Value"
 msgstr "Valor do Desconto"
-
-#. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__display_name
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__display_name
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__display_name
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__display_name
-#: model:ir.model.fields,field_description:l10n_br_repair.field_res_company__display_name
-#: model:ir.model.fields,field_description:l10n_br_repair.field_res_config_settings__display_name
-msgid "Display Name"
-msgstr "Nome Exibido"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__key_check_digit
@@ -732,8 +707,6 @@ msgid "FCP WH Base"
 msgstr "Base para FCP WH"
 
 #. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__ind_final
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__ind_final
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__ind_final
 msgid "Final Consumption Operation"
 msgstr "Operação de Consumo Final"
@@ -754,30 +727,38 @@ msgid "Financial Gross Amount"
 msgstr "Valor Financeiro Bruto"
 
 #. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__fiscal_additional_data
-msgid "Fiscal Additional Data"
-msgstr "Dados Adicionais Fiscais"
-
-#. module: l10n_br_repair
 #: model:ir.model.fields,help:l10n_br_repair.field_repair_order__manual_fiscal_additional_data
 msgid "Fiscal Additional data manually entered by user"
 msgstr "Dados adicionais fiscais inseridos manualmente pelo usuário"
 
 #. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__fiscal_document_count
-msgid "Fiscal Document Count"
-msgstr "Contagem de Documentos Fiscais"
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__fiscal_amount_tax
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__fiscal_amount_tax
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__fiscal_amount_tax
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__fiscal_amount_tax
+msgid "Fiscal Amount Tax"
+msgstr ""
 
 #. module: l10n_br_repair
-#: model:ir.model,name:l10n_br_repair.model_l10n_br_repair_fiscal_line_mixin
-msgid "Fiscal Line Mixin"
-msgstr "Mixin de Linha Fiscal"
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__fiscal_amount_total
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__fiscal_amount_total
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__fiscal_amount_total
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__fiscal_amount_total
+msgid "Fiscal Amount Total"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__fiscal_amount_untaxed
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__fiscal_amount_untaxed
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__fiscal_amount_untaxed
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__fiscal_amount_untaxed
+msgid "Fiscal Amount Untaxed"
+msgstr ""
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__fiscal_operation_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__fiscal_operation_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__fiscal_operation_type
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__fiscal_operation_type
 msgid "Fiscal Operation Type"
 msgstr "Tipo de Operação Fiscal"
 
@@ -820,11 +801,8 @@ msgstr "Impostos Fiscais"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__fiscal_type
-#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__operation_fiscal_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__fiscal_type
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__operation_fiscal_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__fiscal_type
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__operation_fiscal_type
 msgid "Fiscal Type"
 msgstr "Tipo Fiscal"
 
@@ -845,8 +823,8 @@ msgstr "Valor do Frete"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__price_gross
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__price_gross
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__price_gross
-msgid "Gross Amount"
-msgstr "Total Bruto"
+msgid "Gross Product/Service Amount"
+msgstr ""
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,help:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cst_code_prefix_like
@@ -1196,16 +1174,6 @@ msgstr "Imposto sobre ICMS ou ISSQN"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_icmssn_credit_value
 msgid "ICMSSN Credit Value"
 msgstr "Valor do Crédito de ICMSSN"
-
-#. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__id
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__id
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__id
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__id
-#: model:ir.model.fields,field_description:l10n_br_repair.field_res_company__id
-#: model:ir.model.fields,field_description:l10n_br_repair.field_res_config_settings__id
-msgid "ID"
-msgstr "ID"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__ii_percent
@@ -1578,21 +1546,6 @@ msgstr ""
 "organizações controladas pelo governo."
 
 #. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__insurance_endorsement
-msgid "Insurance Endorsement"
-msgstr "Averbação do Seguro"
-
-#. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__insurance_policy
-msgid "Insurance Policy"
-msgstr "Apólice de Seguro"
-
-#. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__partner_insurance_id
-msgid "Insurance Provider"
-msgstr "Provedor do Seguro"
-
-#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__insurance_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__insurance_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__insurance_value
@@ -1612,19 +1565,14 @@ msgid "Invoices"
 msgstr "Faturas"
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__issuer
+msgid "Issuer"
+msgstr ""
+
+#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__document_key
 msgid "Key"
 msgstr "Chave"
-
-#. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin____last_update
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee____last_update
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line____last_update
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order____last_update
-#: model:ir.model.fields,field_description:l10n_br_repair.field_res_company____last_update
-#: model:ir.model.fields,field_description:l10n_br_repair.field_res_config_settings____last_update
-msgid "Last Modified on"
-msgstr "Última Modificação em"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__legal_name
@@ -1691,12 +1639,33 @@ msgid "National Taxation Code for the ISS tax (National NFS-e)"
 msgstr ""
 
 #. module: l10n_br_repair
+#. odoo-python
+#: code:addons/l10n_br_repair/models/fiscal_line_mixin.py:0
+#, python-format
+msgid "No account defined for product \"%(product)s\"."
+msgstr "Nenhuma conta definida para o produto \"%(product)s\"."
+
+#. module: l10n_br_repair
+#. odoo-python
+#: code:addons/l10n_br_repair/models/repair_order.py:0
+#, python-format
+msgid "No product defined on fees."
+msgstr "Nenhum produto definido em serviços."
+
+#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__fiscal_operation_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__fiscal_operation_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__fiscal_operation_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__fiscal_operation_id
 msgid "Operation"
 msgstr "Operação"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__operation_fiscal_type
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__operation_fiscal_type
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__operation_fiscal_type
+msgid "Operation Fiscal Type"
+msgstr ""
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__operation_indicator_id
@@ -1716,11 +1685,6 @@ msgstr "Linha de Operação"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__operation_name
 msgid "Operation Name"
 msgstr "Nome da Operação"
-
-#. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_res_company__repair_fiscal_operation_id
-msgid "Operação Fiscal Padrão de Reparos"
-msgstr "Operação Fiscal Padrão de Reparos"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_other_value
@@ -1901,6 +1865,13 @@ msgid "Partner"
 msgstr "Parceiro"
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__partner_cfop_id
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__partner_cfop_id
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__partner_cfop_id
+msgid "Partner CFOP"
+msgstr ""
+
+#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__partner_order
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__partner_order
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__partner_order
@@ -1920,23 +1891,6 @@ msgstr "Linha de Pedido do Parceiro (nItemPed)"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__p_devol
 msgid "Percentual de mercadoria devolvida"
 msgstr ""
-
-#. module: l10n_br_repair
-#: code:addons/l10n_br_repair/models/repair_order.py:0
-#, python-format
-msgid "Please define an accounting sales journal for the company {} ({})."
-msgstr "Defina um diário de vendas contábeis para a empresa {} ({})."
-
-#. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__price_subtotal
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__price_subtotal
-msgid "Price Subtotal"
-msgstr "Subtotal de preço"
-
-#. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__price_total
-msgid "Price Total"
-msgstr "Preço Total"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__price_unit
@@ -1963,11 +1917,6 @@ msgid "Quantity"
 msgstr "Quantidade"
 
 #. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__partner_receivering_id
-msgid "Receiver Address"
-msgstr "Endereço do Recebedor"
-
-#. module: l10n_br_repair
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.res_company_form_view
 msgid "Repair"
 msgstr "Reparo"
@@ -1978,6 +1927,11 @@ msgid "Repair Fees"
 msgstr "Serviços de Reparo"
 
 #. module: l10n_br_repair
+#: model:ir.model,name:l10n_br_repair.model_l10n_br_repair_fiscal_line_mixin
+msgid "Repair Fiscal Line Mixin"
+msgstr "Mixin de Linha Fiscal do Reparo"
+
+#. module: l10n_br_repair
 #: model:ir.model,name:l10n_br_repair.model_repair_line
 msgid "Repair Line (parts)"
 msgstr "Linha de Reparo (peças)"
@@ -1986,11 +1940,6 @@ msgstr "Linha de Reparo (peças)"
 #: model:ir.model,name:l10n_br_repair.model_repair_order
 msgid "Repair Order"
 msgstr "Ordem de Reparo"
-
-#. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__partner_sendering_id
-msgid "Sender Address"
-msgstr "Endereço do Remetente"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__document_serie
@@ -2005,11 +1954,6 @@ msgid "Service Type LC 166"
 msgstr "Tipo de Serviço LC 166"
 
 #. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__partner_shippering_id
-msgid "Shipper Address"
-msgstr "Endereço do Expedidor"
-
-#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmssn_range_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icmssn_range_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icmssn_range_id
@@ -2020,11 +1964,6 @@ msgstr "Intervalo do Imposto Simplificado"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__ie
 msgid "State Tax Number/RG"
 msgstr "Número da Inscrição Estadual/RG"
-
-#. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__price_subtotal
-msgid "Subtotal"
-msgstr "Subtotal"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_tax_benefit_id
@@ -2230,78 +2169,23 @@ msgid "Tax Withholding"
 msgstr "Imposto Retido"
 
 #. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_tax
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__tax_id
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__tax_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.repair_fee_form_view
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.repair_line_form_view
 msgid "Taxes"
 msgstr "Impostos"
 
 #. module: l10n_br_repair
-#: model:ir.model.fields,help:l10n_br_repair.field_repair_order__insurance_endorsement
+#. odoo-python
+#: code:addons/l10n_br_repair/models/repair_order.py:0
+#, python-format
 msgid ""
-"The endorsement number associated with the insurance policy, indicating any "
-"modifications or adjustments to the coverage. This field is primarily used "
-"when issuing the CT-e."
+"The repair line %(line)s of %(repair)s has no fiscal operation line, so it "
+"is not possible to know which fiscal document must be issued."
 msgstr ""
-"O número da averbação associado à apólice de seguro, indicando quaisquer "
-"modificações ou ajustes na cobertura. Este campo é usado principalmente ao "
-"emitir o CT-e."
-
-#. module: l10n_br_repair
-#: model:ir.model.fields,help:l10n_br_repair.field_repair_order__insurance_policy
-msgid ""
-"The insurance policy number covering the transported goods. This field is "
-"primarily used when issuing the CT-e."
-msgstr ""
-"O número da apólice de seguro que cobre as mercadorias transportadas. Este "
-"campo é usado principalmente ao emitir o CT-e."
-
-#. module: l10n_br_repair
-#: model:ir.model.fields,help:l10n_br_repair.field_repair_order__partner_receivering_id
-msgid ""
-"The intermediary partner who receives the goods before they reach the final "
-"recipient, often involved in verification, temporary storage, or further "
-"distribution. This field is primarily used when issuing the CT-e."
-msgstr ""
-"O parceiro intermediário que recebe as mercadorias antes que elas cheguem ao "
-"destinatário final, frequentemente envolvido em verificação, armazenamento "
-"temporário ou distribuição posterior. Este campo é usado principalmente ao "
-"emitir o CT-e."
-
-#. module: l10n_br_repair
-#: model:ir.model.fields,help:l10n_br_repair.field_repair_order__partner_insurance_id
-msgid ""
-"The partner providing insurance coverage for the transported goods. This "
-"field is primarily used when issuing the CT-e."
-msgstr ""
-"O parceiro que fornece cobertura de seguro para as mercadorias "
-"transportadas. Este campo é usado principalmente ao emitir o CT-e."
-
-#. module: l10n_br_repair
-#: model:ir.model.fields,help:l10n_br_repair.field_repair_order__partner_shippering_id
-msgid ""
-"The partner responsible for delivering the cargo to the carrier, if not done "
-"directly by the sender. This field is primarily used when issuing the CT-e."
-msgstr ""
-"O parceiro responsável pela entrega da carga ao transportador, caso não seja "
-"feita diretamente pelo remetente. Este campo é usado principalmente na "
-"emissão do CT-e."
-
-#. module: l10n_br_repair
-#: model:ir.model.fields,help:l10n_br_repair.field_repair_order__partner_sendering_id
-msgid ""
-"The partner responsible for sending the goods, typically the issuer of the "
-"document. This field is primarily used when issuing the CT-e."
-msgstr ""
-"O parceiro responsável pelo envio das mercadorias, normalmente o emissor do "
-"documento. Este campo é usado principalmente ao emitir o CT-e."
-
-#. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__price_total
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__price_total
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_total
-msgid "Total"
-msgstr "Total"
+"A linha de reparo %(line)s de %(repair)s não tem linha de operação fiscal, "
+"então não é possível saber qual documento fiscal deve ser emitido."
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__total_weight
@@ -2327,6 +2211,11 @@ msgstr ""
 "quaisquer descontos."
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__fiscal_operation_type
+msgid "Type"
+msgstr "Tipo"
+
+#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__uom_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__uom_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__uom_id
@@ -2338,11 +2227,6 @@ msgstr "UOM"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__price_unit
 msgid "Unit Price"
 msgstr "Preço Unitário"
-
-#. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_untaxed
-msgid "Untaxed Amount"
-msgstr "Valor Sem Impostos"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,help:l10n_br_repair.field_repair_order__legal_name
@@ -2364,10 +2248,142 @@ msgid "Valor do IPI devolvido"
 msgstr ""
 
 #. module: l10n_br_repair
+#. odoo-python
 #: code:addons/l10n_br_repair/models/repair_order.py:0
 #, python-format
 msgid "You have to select an invoice address in the repair form."
 msgstr "Você tem que selecionar um endereço de fatura no formulário de reparo."
+
+#~ msgid "Additional Data"
+#~ msgstr "Dados Adicionais"
+
+#~ msgid "Amount Tax"
+#~ msgstr "Total de Imposto"
+
+#~ msgid "Amount Total"
+#~ msgstr "Valor Total"
+
+#~ msgid "Amount Untaxed"
+#~ msgstr "Total sem Impostos"
+
+#~ msgid "Copiar Observação no documentos fiscal"
+#~ msgstr "Copiar Observação nos documentos fiscais"
+
+#~ msgid "Customer Additional Data"
+#~ msgstr "Dados Adicionais do Cliente"
+
+#~ msgid "Customer Reference"
+#~ msgstr "Referência do Cliente"
+
+#~ msgid "Display Name"
+#~ msgstr "Nome Exibido"
+
+#~ msgid "Fiscal Additional Data"
+#~ msgstr "Dados Adicionais Fiscais"
+
+#~ msgid "Fiscal Document Count"
+#~ msgstr "Contagem de Documentos Fiscais"
+
+#~ msgid "Fiscal Line Mixin"
+#~ msgstr "Mixin de Linha Fiscal"
+
+#~ msgid "Gross Amount"
+#~ msgstr "Total Bruto"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Insurance Endorsement"
+#~ msgstr "Averbação do Seguro"
+
+#~ msgid "Insurance Policy"
+#~ msgstr "Apólice de Seguro"
+
+#~ msgid "Insurance Provider"
+#~ msgstr "Provedor do Seguro"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificação em"
+
+#~ msgid "Operação Fiscal Padrão de Reparos"
+#~ msgstr "Operação Fiscal Padrão de Reparos"
+
+#, python-format
+#~ msgid "Please define an accounting sales journal for the company {} ({})."
+#~ msgstr "Defina um diário de vendas contábeis para a empresa {} ({})."
+
+#~ msgid "Price Subtotal"
+#~ msgstr "Subtotal de preço"
+
+#~ msgid "Price Total"
+#~ msgstr "Preço Total"
+
+#~ msgid "Receiver Address"
+#~ msgstr "Endereço do Recebedor"
+
+#~ msgid "Sender Address"
+#~ msgstr "Endereço do Remetente"
+
+#~ msgid "Shipper Address"
+#~ msgstr "Endereço do Expedidor"
+
+#~ msgid "Subtotal"
+#~ msgstr "Subtotal"
+
+#~ msgid ""
+#~ "The endorsement number associated with the insurance policy, indicating "
+#~ "any modifications or adjustments to the coverage. This field is primarily "
+#~ "used when issuing the CT-e."
+#~ msgstr ""
+#~ "O número da averbação associado à apólice de seguro, indicando quaisquer "
+#~ "modificações ou ajustes na cobertura. Este campo é usado principalmente "
+#~ "ao emitir o CT-e."
+
+#~ msgid ""
+#~ "The insurance policy number covering the transported goods. This field is "
+#~ "primarily used when issuing the CT-e."
+#~ msgstr ""
+#~ "O número da apólice de seguro que cobre as mercadorias transportadas. "
+#~ "Este campo é usado principalmente ao emitir o CT-e."
+
+#~ msgid ""
+#~ "The intermediary partner who receives the goods before they reach the "
+#~ "final recipient, often involved in verification, temporary storage, or "
+#~ "further distribution. This field is primarily used when issuing the CT-e."
+#~ msgstr ""
+#~ "O parceiro intermediário que recebe as mercadorias antes que elas cheguem "
+#~ "ao destinatário final, frequentemente envolvido em verificação, "
+#~ "armazenamento temporário ou distribuição posterior. Este campo é usado "
+#~ "principalmente ao emitir o CT-e."
+
+#~ msgid ""
+#~ "The partner providing insurance coverage for the transported goods. This "
+#~ "field is primarily used when issuing the CT-e."
+#~ msgstr ""
+#~ "O parceiro que fornece cobertura de seguro para as mercadorias "
+#~ "transportadas. Este campo é usado principalmente ao emitir o CT-e."
+
+#~ msgid ""
+#~ "The partner responsible for delivering the cargo to the carrier, if not "
+#~ "done directly by the sender. This field is primarily used when issuing "
+#~ "the CT-e."
+#~ msgstr ""
+#~ "O parceiro responsável pela entrega da carga ao transportador, caso não "
+#~ "seja feita diretamente pelo remetente. Este campo é usado principalmente "
+#~ "na emissão do CT-e."
+
+#~ msgid ""
+#~ "The partner responsible for sending the goods, typically the issuer of "
+#~ "the document. This field is primarily used when issuing the CT-e."
+#~ msgstr ""
+#~ "O parceiro responsável pelo envio das mercadorias, normalmente o emissor "
+#~ "do documento. Este campo é usado principalmente ao emitir o CT-e."
+
+#~ msgid "Total"
+#~ msgstr "Total"
+
+#~ msgid "Untaxed Amount"
+#~ msgstr "Valor Sem Impostos"
 
 #~ msgid ""
 #~ "Actor who receives the goods. He is considered an "
@@ -2381,9 +2397,6 @@ msgstr "Você tem que selecionar um endereço de fatura no formulário de reparo
 
 #~ msgid "Amount Tax Withholding"
 #~ msgstr "Total de Imposto Retido na Fonte"
-
-#~ msgid "Type"
-#~ msgstr "Tipo"
 
 #~ msgid "Allow Amount Discount on Repair Orders"
 #~ msgstr "Permitir desconto de valor em ordens de reparo"
@@ -2406,10 +2419,6 @@ msgstr "Você tem que selecionar um endereço de fatura no formulário de reparo
 #, python-format
 #~ msgid "No account defined for partner \"%s\"."
 #~ msgstr "Nenhuma conta definida para o parceiro \"%s\"."
-
-#, python-format
-#~ msgid "No product defined on fees."
-#~ msgstr "Nenhum produto definido em serviços."
 
 #~ msgid "Não presencial, internet"
 #~ msgstr "Não presencial, internet"

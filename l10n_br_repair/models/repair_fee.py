@@ -28,8 +28,6 @@ class RepairFee(models.Model):
         string="Partner",
     )
 
-    ind_final = fields.Selection(related="repair_id.ind_final")
-
     comment_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.comment",
         relation="repair_fee_comment_rel",
@@ -39,14 +37,12 @@ class RepairFee(models.Model):
     )
 
     quantity = fields.Float(
-        "Part Quantity",
+        string="Part Quantity",
         related="product_uom_qty",
-        depends=["product_uom_qty"],
     )
 
     uom_id = fields.Many2one(
         related="product_uom",
-        depends=["product_uom"],
     )
 
     company_id = fields.Many2one(
@@ -54,30 +50,32 @@ class RepairFee(models.Model):
         store=True,
     )
 
-    # Fields compute need parameter compute_sudo
-    price_subtotal = fields.Monetary(compute_sudo=True)
-    price_gross = fields.Monetary(compute_sudo=True)
+    tax_id = fields.Many2many(
+        compute="_compute_tax_id",
+        store=True,
+        readonly=False,
+        precompute=True,
+    )
+
+    @api.depends("product_id", "fiscal_tax_ids", "fiscal_operation_line_id")
+    def _compute_tax_id(self):
+        self._compute_l10n_br_repair_tax_id()
 
     @api.depends(
         "price_unit",
         "repair_id",
         "product_uom_qty",
         "product_id",
-        "repair_id.invoice_method",
+        "tax_id",
+        "fiscal_amount_untaxed",
+        "fiscal_amount_total",
     )
-    def _compute_price_subtotal(self):
-        result = super()._compute_price_subtotal()
-        for line in self:
-            # Update taxes fields
-            line._update_fiscal_taxes()
-            # Call mixin compute method
-            line._compute_amounts()
-            # Update record
-            line.update(
-                {
-                    "price_subtotal": line.amount_untaxed,
-                    "price_gross": line.amount_untaxed,
-                    "price_total": line.amount_total,
-                }
-            )
-        return result
+    def _compute_price_total_and_subtotal(self):
+        res = super()._compute_price_total_and_subtotal()
+        self._compute_l10n_br_repair_amounts()
+        return res
+
+    def _prepare_br_invoice_line(self, fiscal_position, name):
+        vals = super()._prepare_br_invoice_line(fiscal_position, name)
+        vals["repair_fee_ids"] = [(4, self.id)]
+        return vals

@@ -60,15 +60,10 @@
             >
                 <label for="fiscal_quantity" string="Fiscal Quantity" />
                 <div>
-                    <field
-                        context="{'partner_id':parent.partner_id, 'quantity':fiscal_quantity, 'pricelist':parent.pricelist_id, 'uom':uot_id, 'uom_qty_change':True, 'company_id': parent.company_id}"
-                        name="fiscal_quantity"
-                        class="oe_inline"
-                    />
+                    <field name="fiscal_quantity" class="oe_inline" />
                     <field
                         name="uot_id"
                         force_save="1"
-                        groups="uom.group_uom"
                         class="oe_inline oe_no_button"
                         invisible="1"
                     />
