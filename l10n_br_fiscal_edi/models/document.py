@@ -32,6 +32,11 @@ from ..constants.fiscal import (
     DOCUMENT_STATE_SENDING,
     DOCUMENT_STATES,
 )
+from ..tools import (
+    CORRECTION_MAX_LENGTH,
+    CORRECTION_MIN_LENGTH,
+    normalize_correction_text,
+)
 
 # nSeqEvento limit of the correction letter (NT 2011/003, rule GA03)
 CORRECTION_MAX_EVENTS = 20
@@ -431,6 +436,43 @@ class Document(models.Model):
         this method to transmit the correction event (CC-e)."""
         self.ensure_one()
         self.correction_reason = justificative
+
+    @api.model
+    def _normalize_correction_text(self, text):
+        """Return the text of a correction letter ready to be transmitted.
+
+        Raises a UserError, before anything is sent to the tax authority, when
+        the text is empty, outside the 15 to 1000 characters accepted by the
+        schema or has characters the schema does not accept.
+        """
+        normalized, invalid = normalize_correction_text(text)
+        if invalid:
+            raise UserError(
+                _(
+                    "The correction text has characters that the tax authority "
+                    "does not accept: %(chars)s. Replace them and try again.",
+                    chars=" ".join(invalid),
+                )
+            )
+        if len(normalized) < CORRECTION_MIN_LENGTH:
+            raise UserError(
+                _(
+                    "The correction text must have at least %(min)s characters "
+                    "(it has %(size)s).",
+                    min=CORRECTION_MIN_LENGTH,
+                    size=len(normalized),
+                )
+            )
+        if len(normalized) > CORRECTION_MAX_LENGTH:
+            raise UserError(
+                _(
+                    "The correction text must have at most %(max)s characters "
+                    "(it has %(size)s).",
+                    max=CORRECTION_MAX_LENGTH,
+                    size=len(normalized),
+                )
+            )
+        return normalized
 
     def _next_correction_sequence(self):
         """Return the nSeqEvento of the next correction letter (as text).
