@@ -7,7 +7,8 @@ import logging
 import re
 import string
 import threading
-from datetime import datetime
+from copy import deepcopy
+from datetime import datetime, timezone
 
 from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
@@ -1755,6 +1756,69 @@ class NFe(spec_models.StackedModel):
             )
         return super().action_document_correction()
 
+    @api.model
+    def _event_registration_date(self, dh_reg_evento):
+        """Convert the dhRegEvento of the answer into a UTC naive datetime string.
+
+        The tax authority answers with the local time and an offset (for
+        example 2026-10-02T10:15:00-03:00); the database keeps UTC.
+        """
+        if not dh_reg_evento:
+            return False
+        if isinstance(dh_reg_evento, XmlDateTime):
+            moment = dh_reg_evento.to_datetime()
+        elif isinstance(dh_reg_evento, datetime):
+            moment = dh_reg_evento
+        else:
+            moment = datetime.fromisoformat(dh_reg_evento)
+        if moment.tzinfo is not None:
+            moment = moment.astimezone(timezone.utc).replace(tzinfo=None)
+        return fields.Datetime.to_string(moment)
+
+    @api.model
+    def _build_proc_evento_nfe(self, processo, retevento):
+        """Assemble the procEventoNFe (signed event + retEvento) of an event.
+
+        The tax authority only answers with the retEvento; the procEventoNFe
+        is the file that proves the registration (the one that is sent to the
+        recipient and that feeds the DACCE). Returns False when the signed
+        event or its answer are not in the transmission result.
+        """
+        info = retevento.infEvento
+        try:
+            sent = etree.fromstring(processo.envio_xml)
+            answer = etree.fromstring(processo.retorno.content)
+        except (etree.XMLSyntaxError, ValueError, TypeError):
+            return False
+        ns = NFE_XML_NAMESPACE
+        evento = sent.xpath(
+            "//nfe:evento[nfe:infEvento/nfe:chNFe=$key"
+            " and nfe:infEvento/nfe:tpEvento=$type]",
+            namespaces=ns,
+            key=info.chNFe,
+            type=info.tpEvento,
+        )
+        ret_node = answer.xpath(
+            "//nfe:retEvento[nfe:infEvento/nfe:chNFe=$key"
+            " and nfe:infEvento/nfe:nProt=$protocol]",
+            namespaces=ns,
+            key=info.chNFe,
+            protocol=info.nProt,
+        )
+        if not evento or not ret_node:
+            return False
+        namespace = ns["nfe"]
+        proc = etree.Element(
+            f"{{{namespace}}}procEventoNFe",
+            nsmap={None: namespace},
+            versao="1.00",
+        )
+        # Not pretty printed: the signature is calculated over the canonical
+        # form of the infEvento.
+        proc.append(deepcopy(evento[0]))
+        proc.append(deepcopy(ret_node[0]))
+        return etree.tostring(proc, encoding="unicode")
+
     def _nfe_correction(self, justificative):
         # A refusal is recorded, not raised: a rollback would lose the sent XML.
         self.ensure_one()
@@ -1802,11 +1866,15 @@ class NFe(spec_models.StackedModel):
             info = retevento.infEvento
             status_code, response = info.cStat, info.xMotivo
             protocol_number = info.nProt or False
-            protocol_date = (
-                fields.Datetime.to_string(datetime.fromisoformat(info.dhRegEvento))
-                if info.dhRegEvento
-                else False
-            )
+            protocol_date = self._event_registration_date(info.dhRegEvento)
+            if status_code in EVENTO_RECEBIDO:
+                # The registered event is stored as the procEventoNFe, the
+                # file that the DACCE and the recipient need, not as the SOAP
+                # envelope of the answer.
+                file_response_xml = (
+                    self._build_proc_evento_nfe(processo, retevento)
+                    or file_response_xml
+                )
 
         event_id.set_done(
             status_code=status_code,
