@@ -35,6 +35,7 @@ from ..constants import (
     RETURN_TYPE_BY_TAG,
     RETURN_TYPES,
     STRUCTURED_EVENT_ID,
+    TABLE_EVENTS,
 )
 from . import xml_builder
 
@@ -208,8 +209,12 @@ class DereEvent(models.Model):
                 if not accepted:
                     declaration.state = "closed"
         for period in periods:
-            if period.state == "generated" and not period.event_ids:
+            if period.state != "generated":
+                continue
+            if not period.event_ids:
                 period.state = "draft"
+            elif period.tables_accepted() and not period._next_events(TABLE_EVENTS):
+                period.state = "accepted"
 
     @api.depends("declaration_id.company_id", "table_period_id.company_id")
     def _compute_company_id(self):

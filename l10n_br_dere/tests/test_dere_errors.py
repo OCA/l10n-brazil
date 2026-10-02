@@ -231,6 +231,27 @@ class TestDereErrors(DereCommon):
         self.assertEqual(d1001.state, "accepted")
         self.assertEqual(self._event(declaration, "D-1011").state, "generated")
 
+    def test_deleting_unsent_replacement_restores_accepted_period(self):
+        declaration = self._create_declaration("2026-04")
+        period = self._table_period(declaration)
+        period.action_generate_tables()
+        self._accept_tables(declaration)
+        period._dere_after_return(self._event(declaration, "D-1011"))
+        self.assertEqual(period.state, "accepted")
+        period._generate_table_event("D-1011", tp_oper="2")
+        self.assertEqual(period.state, "generated")
+        generated = period.event_ids.filtered(
+            lambda ev: ev.event_type == "D-1011" and ev.state == "generated"
+        )
+        generated.action_delete_local_event()
+        self.assertEqual(period.state, "accepted")
+        period._generate_table_operation(tp_oper="3", extra={"motExcl": "2"})
+        self.assertEqual(period.state, "generated")
+        self._event(declaration, "D-1011").action_delete_local_event()
+        self.assertEqual(period.state, "generated")
+        self._event(declaration, "D-1001").action_delete_local_event()
+        self.assertEqual(period.state, "accepted")
+
     def test_delete_generated_table_event_returns_empty_period_to_draft(self):
         declaration = self._create_declaration("2026-03")
         period = self._table_period(declaration)
