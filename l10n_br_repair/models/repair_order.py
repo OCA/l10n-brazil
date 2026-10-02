@@ -203,9 +203,9 @@ class RepairOrder(models.Model):
             "company_id": self.company_id.id,
         }
         if partner_invoice.property_payment_term_id:
-            invoice_vals[
-                "invoice_payment_term_id"
-            ] = partner_invoice.property_payment_term_id.id
+            invoice_vals["invoice_payment_term_id"] = (
+                partner_invoice.property_payment_term_id.id
+            )
 
         fiscal_values = self._prepare_br_fiscal_dict()
         # The invoicing address chosen by the user has priority
