@@ -176,8 +176,13 @@ class TestNFeCorrection(TestNFeExport):
         self.assertEqual(action["tag"], "display_notification")
         self.assertEqual(action["params"]["type"], "danger")
         self.assertIn("225", action["params"]["message"])
-        self.assertGreater(len(nfe.message_ids), messages)
-        self.assertIn("225", nfe.message_ids[0].body)
+        new_bodies = [
+            str(m.body) for m in nfe.message_ids[: len(nfe.message_ids) - messages]
+        ]
+        self.assertTrue(
+            any("refused" in body and "225" in body for body in new_bodies),
+            new_bodies,
+        )
 
     @nfe_mock(CCE_REFUSED)
     def test_refused_event_keeps_event_and_xml(self):
