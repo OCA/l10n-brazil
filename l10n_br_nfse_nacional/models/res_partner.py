@@ -47,11 +47,16 @@ class ResPartner(spec_models.SpecModel):
     nfse10_end = fields.Many2one("res.partner", compute="_compute_nfse10_end")
     nfse10_endNac = fields.Many2one("res.partner", compute="_compute_nfse10_end")
     nfse10_cNaoNIF = fields.Selection(compute="_compute_nfse10_cNaoNIF")
+    nfse10_NIF = fields.Char(compute="_compute_nfse10_NIF")
 
-    @api.depends("is_company", "cnpj_cpf_stripped", "zip", "phone")
+    @api.depends("is_company", "cnpj_cpf_stripped", "zip", "phone", "country_id")
     def _compute_nfse10_data(self):
         for rec in self:
-            if rec.cnpj_cpf_stripped:
+            if rec._nfse10_is_abroad():
+                # Abroad the document is a NIF, never a CNPJ or a CPF.
+                rec.nfse10_CNPJ = False
+                rec.nfse10_CPF = False
+            elif rec.cnpj_cpf_stripped:
                 if rec.is_company:
                     rec.nfse10_CNPJ = rec.cnpj_cpf_stripped
                     rec.nfse10_CPF = False
@@ -75,17 +80,22 @@ class ResPartner(spec_models.SpecModel):
             rec.nfse10_end = rec.id
             rec.nfse10_endNac = rec.id
 
-    @api.depends("country_id", "cnpj_cpf_stripped")
+    def _nfse10_is_abroad(self):
+        return bool(self.country_id) and self.country_id.code != "BR"
+
+    @api.depends("country_id", "vat", "nif_motive_absence")
     def _compute_nfse10_cNaoNIF(self):
         for rec in self:
-            if (
-                rec.cnpj_cpf_stripped
-                or not rec.country_id
-                or rec.country_id.code == "BR"
-            ):
+            if not rec._nfse10_is_abroad() or rec.nfse10_NIF:
                 rec.nfse10_cNaoNIF = False
             else:
-                rec.nfse10_cNaoNIF = "1"  # 1 - Dispensado do NIF
+                # 0 not informed, 1 exemption from NIF, 2 NIF not required
+                rec.nfse10_cNaoNIF = rec.nif_motive_absence or "1"
+
+    @api.depends("country_id", "vat")
+    def _compute_nfse10_NIF(self):
+        for rec in self:
+            rec.nfse10_NIF = rec.vat if rec._nfse10_is_abroad() else False
 
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
         if field_name in ("nfse10_end", "nfse10_endNac"):
