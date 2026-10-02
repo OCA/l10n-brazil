@@ -119,10 +119,19 @@ class TestNFeCorrection(TestNFeExport):
     def test_refused_letters_do_not_consume_the_sequence(self):
         nfe = self._authorized_nfe()
         self._add_event(nfe, 1)
-        self._add_event(nfe, 2, status_code="573")
+        self._add_event(nfe, 2, status_code="225")
         self._add_event(nfe, 3, state="draft")
         self._correct(nfe, VALID_TEXT)
         self.assertEqual(self._last_event(nfe).sequence, "2")
+
+    @nfe_mock(CCE_REGISTERED)
+    def test_duplicate_event_answer_consumes_the_sequence(self):
+        """573 means the tax authority already has that number."""
+        nfe = self._authorized_nfe()
+        self._add_event(nfe, 1)
+        self._add_event(nfe, 2, status_code="573")
+        self._correct(nfe, VALID_TEXT)
+        self.assertEqual(self._last_event(nfe).sequence, "3")
 
     @nfe_mock(CCE_REGISTERED)
     def test_twenty_one_letters_are_refused_before_sending(self):
