@@ -14,6 +14,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__00
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexP__00
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexT__00
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tcexploracaorodoviaria__nfse10_categVeic__00
@@ -22,6 +23,7 @@ msgid "00"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__01
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexP__01
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexT__01
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tcexploracaorodoviaria__nfse10_categVeic__01
@@ -31,6 +33,7 @@ msgid "01"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__02
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexP__02
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexT__02
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tcexploracaorodoviaria__nfse10_categVeic__02
@@ -40,6 +43,7 @@ msgid "02"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__03
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexP__03
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexT__03
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tcexploracaorodoviaria__nfse10_categVeic__03
@@ -49,6 +53,7 @@ msgid "03"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__04
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexP__04
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexT__04
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tcexploracaorodoviaria__nfse10_categVeic__04
@@ -58,6 +63,7 @@ msgid "04"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__05
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexP__05
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexT__05
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tcexploracaorodoviaria__nfse10_categVeic__05
@@ -67,6 +73,7 @@ msgid "05"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__06
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexP__06
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexT__06
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tcexploracaorodoviaria__nfse10_categVeic__06
@@ -75,6 +82,7 @@ msgid "06"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__07
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexP__07
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexT__07
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tcexploracaorodoviaria__nfse10_categVeic__07
@@ -83,6 +91,7 @@ msgid "07"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__08
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexP__08
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexT__08
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tcexploracaorodoviaria__nfse10_categVeic__08
@@ -91,6 +100,7 @@ msgid "08"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__09
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tccomexterior__nfse10_mecAFComexT__09
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tcexploracaorodoviaria__nfse10_categVeic__09
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__09
@@ -204,121 +214,145 @@ msgid "26"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__49
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__49
 msgid "49"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__50
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__50
 msgid "50"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__51
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__51
 msgid "51"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__52
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__52
 msgid "52"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__53
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__53
 msgid "53"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__54
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__54
 msgid "54"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__55
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__55
 msgid "55"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__56
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__56
 msgid "56"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__60
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__60
 msgid "60"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__61
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__61
 msgid "61"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__62
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__62
 msgid "62"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__63
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__63
 msgid "63"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__64
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__64
 msgid "64"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__65
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__65
 msgid "65"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__66
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__66
 msgid "66"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__67
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__67
 msgid "67"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__70
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__70
 msgid "70"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__71
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__71
 msgid "71"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__72
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__72
 msgid "72"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__73
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__73
 msgid "73"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__74
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__74
 msgid "74"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__75
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__75
 msgid "75"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__98
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__98
 msgid "98"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__99
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tcdocdedred__nfse10_tpDedRed__99
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tcsubstituicao__nfse10_cMotivo__99
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__nfse_10_tctriboutrospiscofins__nfse10_CST__99
