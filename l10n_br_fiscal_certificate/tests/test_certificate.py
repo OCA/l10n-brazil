@@ -4,10 +4,11 @@
 from datetime import timedelta
 
 from erpbrasil.assinatura import misc
+from lxml import etree
 
 from odoo import Command, fields
-from odoo.exceptions import ValidationError
-from odoo.tests import TransactionCase
+from odoo.exceptions import AccessError, ValidationError
+from odoo.tests import TransactionCase, new_test_user
 
 
 class TestCertificate(TransactionCase):
@@ -183,3 +184,32 @@ class TestCertificate(TransactionCase):
         )
         self.assertEqual(company.certificate.owner_cnpj_cpf, "42245642000109")
         self.assertTrue(company._get_br_ecertificate(only_ecnpj=True))
+
+    def test_fiscal_user_cannot_read_certificate(self):
+        """A fiscal user can't read the certificate, but can still sign with it"""
+        cert = self.certificate_model.create(
+            self._certificate_vals(self.certificate_valid)
+        )
+        self.company.certificate_id = cert
+        user = new_test_user(
+            self.env,
+            login="fiscal_user_test",
+            groups="base.group_user,l10n_br_fiscal.group_user",
+            company_id=self.company.id,
+            company_ids=[Command.set(self.company.ids)],
+        )
+        with self.assertRaises(AccessError):
+            cert.with_user(user).read(["content", "pkcs12_password"])
+        with self.assertRaises(AccessError):
+            self.env["certificate.key"].with_user(user).search([])
+
+        company = self.company.with_user(user)
+        self.assertEqual(company._get_br_certificate(), cert)
+        self.assertTrue(company._get_br_ecertificate())
+
+        # The certificates page of the company form is hidden from the user
+        arch = etree.fromstring(
+            company.get_view(self.env.ref("base.view_company_form").id)["arch"]
+        )
+        self.assertFalse(arch.xpath("//page[@name='certificate']"))
+        self.assertFalse(arch.xpath("//field[@name='certificate_id']"))
