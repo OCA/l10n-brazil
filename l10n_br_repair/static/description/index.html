@@ -420,10 +420,14 @@ Only for development or testing purpose, do not use in production.
 <p>To use this module, you need to:</p>
 <ol class="arabic simple">
 <li>Go to Repair</li>
-<li>Create or select a Repair Order</li>
+<li>Create or select a Repair Order and set the Fiscal Operation</li>
+<li>Add the parts and the fees: the fiscal operation line, CFOP and the
+Brazilian taxes of each line are computed from the fiscal operation</li>
 <li>Set Invoice Method (After or Before Repair)</li>
 <li>Confirm the Repair</li>
-<li>Create Invoice</li>
+<li>Create Invoice: one fiscal document is created for each document type
+of the lines (for instance a NF-e for the parts and a NFS-e for the
+fees), all of them listed in the Invoices button of the repair</li>
 </ol>
 </div>
 <div class="section" id="known-issues-roadmap">
@@ -432,6 +436,8 @@ Only for development or testing purpose, do not use in production.
 <li>This module hasn’t been tested with <em>repair_discount</em> module
 installed, so maybe it’s incompatible with it.</li>
 <li>Add Fiscal Position Resource</li>
+<li>Freight, insurance and other costs informed by total are distributed
+only among the parts (repair lines), not among the fees.</li>
 </ul>
 </div>
 <div class="section" id="changelog">
@@ -467,6 +473,7 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 </li>
 <li><a class="reference external" href="https://www.kmee.com.br">KMEE</a>:<ul>
 <li>Luis Otavio Malta Conceição &lt;<a class="reference external" href="mailto:luis.malta&#64;kmee.com.br">luis.malta&#64;kmee.com.br</a>&gt;</li>
+<li>Luis Felipe Mileo &lt;<a class="reference external" href="mailto:mileo&#64;kmee.com.br">mileo&#64;kmee.com.br</a>&gt;</li>
 </ul>
 </li>
 </ul>
