@@ -4234,6 +4234,49 @@ msgid "Rps Number"
 msgstr "Número do RPS"
 
 #. module: l10n_br_nfe
+#. odoo-python
+#: code:addons/l10n_br_nfe/models/document.py:0
+#, python-format
+msgid ""
+"SEFAZ rejection 204: the access key %(key)s is already registered at "
+"SEFAZ, but its protocol could not be matched by digest to the XML sent by "
+"this document, so it was not associated. Check whether it is the same "
+"document before taking any action."
+msgstr ""
+"Rejeição 204 da SEFAZ: a chave de acesso %(key)s já está registrada na "
+"SEFAZ, mas o protocolo dela não confere pelo digest com o XML enviado por "
+"este documento, por isso não foi associado. Verifique se é o mesmo "
+"documento antes de qualquer ação."
+
+#. module: l10n_br_nfe
+#. odoo-python
+#: code:addons/l10n_br_nfe/models/document.py:0
+#, python-format
+msgid ""
+"SEFAZ rejection 204: the access key %(key)s was already authorized with "
+"the same digest as the XML sent by this document. Protocol %(protocol)s "
+"was recovered."
+msgstr ""
+"Rejeição 204 da SEFAZ: a chave de acesso %(key)s já estava autorizada com "
+"o mesmo digest do XML enviado por este documento. O protocolo %(protocol)s "
+"foi recuperado."
+
+#. module: l10n_br_nfe
+#. odoo-python
+#: code:addons/l10n_br_nfe/models/document.py:0
+#, python-format
+msgid ""
+"SEFAZ rejection 539: the number and series of this document were already "
+"used by another NF-e with access key %(key)s. Its protocol is not "
+"associated with this document. Check whether it is the same document "
+"before taking any action."
+msgstr ""
+"Rejeição 539 da SEFAZ: o número e a série deste documento já foram usados "
+"por outra NF-e, com a chave de acesso %(key)s. O protocolo dela não é "
+"associado a este documento. Verifique se é o mesmo documento antes de "
+"qualquer ação."
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export__export_folder
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice__export_folder
 msgid "Salvar na Pasta de Exportação"
@@ -5405,6 +5448,13 @@ msgid ""
 "nome da pessoa a ser contatada na empresa desenvolvedora do sistema "
 "utilizado na emissão do documento fiscal eletrônico."
 msgstr ""
+
+#. module: l10n_br_nfe
+#. odoo-python
+#: code:addons/l10n_br_nfe/models/document.py:0
+#, python-format
+msgid "not informed"
+msgstr "não informada"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_obsitem__nfe40_obsFisco
