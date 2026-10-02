@@ -164,6 +164,14 @@ class RepairOrder(models.Model):
         action["context"] = {"create": False}
         return action
 
+    def action_repair_cancel(self):
+        draft_invoices = self.mapped("invoice_ids").filtered(
+            lambda move: move.state == "draft"
+        )
+        if draft_invoices:
+            draft_invoices.button_cancel()
+        return super().action_repair_cancel()
+
     def _get_invoice_document_type(self, line):
         self.ensure_one()
         if not line.fiscal_operation_line_id:

@@ -296,6 +296,15 @@ class L10nBrRepairBaseTest:
         )
         self.assertEqual({row[0] for row in self.env.cr.fetchall()}, {"posted"})
 
+    def test_l10n_br_repair_cancel(self):
+        """Cancelling the repair cancels all its draft fiscal documents,
+        not only the one referenced by invoice_id."""
+        repair = self.so_prod_srv
+        invoices = self._invoice_repair_order(repair)
+        repair.action_repair_cancel()
+        self.assertEqual(repair.state, "cancel")
+        self.assertEqual(set(invoices.mapped("state")), {"cancel"})
+
     def test_l10n_br_repair_without_fiscal_operation(self):
         """Without fiscal operation the core invoicing is kept."""
         repair = self.so_products.copy()
