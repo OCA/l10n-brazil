@@ -1,0 +1,4 @@
+- [KMEE](https://kmee.com.br):
+  - Diego Paradeda \<diego.paradeda@kmee.com.br\>
+- [ESCODOO](https://escodoo.com.br):
+  - Cristiano Mafra Junior \<<cristiano.mafra@escodoo.com.br>\>
