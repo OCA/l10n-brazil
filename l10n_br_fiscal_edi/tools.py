@@ -3,12 +3,11 @@
 import re
 import unicodedata
 
-# Limits of xCorrecao in the official e110110 schema (NT 2011/003).
+# Limits of xCorrecao in the e110110 schema.
 CORRECTION_MIN_LENGTH = 15
 CORRECTION_MAX_LENGTH = 1000
 
-# Typographic characters commonly pasted from word processors and chat apps
-# mapped to the closest keyboard equivalent. Escapes are used on purpose.
+# Typographic characters mapped to the closest keyboard equivalent.
 _CORRECTION_CHAR_MAP = {
     "\U00002018": "'",
     "\U00002019": "'",
@@ -43,21 +42,15 @@ _WHITESPACE_RE = re.compile(r"\s+")
 
 
 def _is_blank(char):
-    # C0/C1 controls (tab, newline, DEL...) and every kind of space separator
+    # C0/C1 controls and every kind of space separator
     return unicodedata.category(char) in ("Cc", "Zs", "Zl", "Zp")
 
 
 def normalize_correction_text(text):
-    """Make the text of a correction letter acceptable by the e110110 schema.
+    """Return ``(text, invalid_chars)`` for the e110110 schema (U+0020 to U+00FF).
 
-    Typographic punctuation becomes its keyboard equivalent, tabs, line breaks
-    and control characters become spaces, runs of spaces collapse and the
-    result is stripped (the schema forbids a space at either end).
-
-    Returns a tuple ``(normalized_text, invalid_chars)``. ``invalid_chars``
-    lists what is still outside the range U+0020 to U+00FF accepted by the
-    schema; such characters are kept in the text so the caller can refuse it
-    instead of silently changing its meaning.
+    Characters it cannot accept are kept in the text and listed, so the caller
+    refuses the text instead of silently changing its meaning.
     """
     result = []
     invalid = []
@@ -69,9 +62,7 @@ def normalize_correction_text(text):
             elif ord(item) <= 0xFF:
                 result.append(item)
             else:
-                # e.g. full width letters; NFKC is applied per character so
-                # that valid Latin-1 signs such as the ordinal indicators
-                # are never rewritten.
+                # per character, so Latin-1 signs such as ordinals stay as they are
                 folded = unicodedata.normalize("NFKC", item)
                 if folded != item and all(0x20 <= ord(c) <= 0xFF for c in folded):
                     result.append(folded)
