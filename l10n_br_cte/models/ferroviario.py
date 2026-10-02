@@ -39,7 +39,9 @@ class Ferrov(spec_models.StackedModel):
 
     cte40_ferrEmi = fields.Selection(related="document_id.cte40_ferrEmi")
 
-    cte40_ferroEnv = fields.One2many(compute="_compute_railroad")
+    cte40_ferroEnv = fields.One2many(
+        comodel_name="res.partner", compute="_compute_railroad"
+    )
 
     @api.depends("document_id.cte40_ferroEnv")
     def _compute_railroad(self):
