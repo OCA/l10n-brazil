@@ -20,6 +20,7 @@ from odoo.exceptions import RedirectWarning
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
     DOCUMENT_STATE_CANCEL,
+    EVENTO_RECEBIDO,
     MODELO_FISCAL_CFE,
     MODELO_FISCAL_CTE,
     MODELO_FISCAL_CUPOM_FISCAL_ECF,
@@ -350,9 +351,9 @@ class FiscalClosing(models.Model):
                     "file_response_id"
                 )
                 attachment_ids |= document.cancel_event_id.mapped("file_response_id")
-                attachment_ids |= document.correction_event_ids.mapped(
-                    "file_response_id"
-                )
+                attachment_ids |= document.correction_event_ids.filtered(
+                    lambda event: event.status_code in EVENTO_RECEBIDO
+                ).mapped("file_response_id")
                 if self.include_pdf_file:
                     attachment_ids |= document.file_report_id
             else:
