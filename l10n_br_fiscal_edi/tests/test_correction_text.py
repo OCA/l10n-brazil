@@ -36,6 +36,8 @@ class TestCorrectionText(TransactionCase):
             # Latin-1 signs valid in the schema must not be rewritten
             "nº 5 e 2ª via": "nº 5 e 2ª via",
             "\U000020ac10": "EUR10",
+            # decomposed accents (NFD, e.g. pasted from macOS or a PDF)
+            "Corre\U00000063\U00000327a\U00000303o": "Correção",
             # full width letters fold to ASCII
             "\U0000ff21\U0000ff22\U0000ff23": "ABC",
             "": "",
