@@ -1756,13 +1756,14 @@ class NFe(spec_models.StackedModel):
         event, posted in the chatter and returned as a notification.
         """
         self.ensure_one()
+        justificative = self._normalize_correction_text(justificative)
         sequence = self._next_correction_sequence()
         processador = self._edoc_processor()
 
         evento = processador.carta_correcao(
             chave=self.document_key,
             sequencia=sequence,
-            justificativa=justificative.replace("\n", "\\n"),
+            justificativa=justificative,
         )
         processo = processador.enviar_lote_evento(lista_eventos=[evento])
         # Gravamos o arquivo no disco e no filestore ASAP.
