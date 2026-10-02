@@ -314,19 +314,19 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_autXML
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_autXML
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_autXML
-msgid "Autorizados para download do XML do DF-e"
-msgstr ""
-
-#. module: l10n_br_mdfe
 #: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_autXML
 #: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_autXML
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_autXML
 msgid ""
 "Autorizados para download do XML do DF-e\n"
 "Informar CNPJ ou CPF. Preencher os zeros não significativos."
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_autXML
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_autXML
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_autXML
+msgid "Autorizados para download do XML do DF-e (mdfe_autXML)"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -889,7 +889,6 @@ msgstr ""
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_emi__mdfe30_CNPJ
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_company__mdfe30_CNPJ
 msgid "CNPJ do emitente"
 msgstr ""
 
@@ -898,6 +897,11 @@ msgstr ""
 msgid ""
 "CNPJ do emitente\n"
 "Informar zeros não significativos"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_company__mdfe30_CNPJ
+msgid "CNPJ do emitente (mdfe_CNPJ)"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -1037,11 +1041,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_company__mdfe30_CPF
-msgid "CPF do emitente"
-msgstr ""
-
-#. module: l10n_br_mdfe
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_company__mdfe30_CPF
 msgid ""
 "CPF do emitente\n"
@@ -1050,6 +1049,11 @@ msgid ""
 "Usar com série específica 920-969 para emitente pessoa física com inscrição "
 "estadual.\n"
 "Poderá ser usado também para emissão do Regime Especial da Nota Fiscal Fácil"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_company__mdfe30_CPF
+msgid "CPF do emitente (mdfe_CPF)"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -2436,7 +2440,7 @@ msgstr ""
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_infSolicNFF
-msgid "Grupo de informações do pedido"
+msgid "Grupo de informações do pedido (mdfe_infSolicNFF)"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -2480,7 +2484,7 @@ msgstr ""
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_hashCSRT
-msgid "Hash do token do código de segurança"
+msgid "Hash do token do código de segurança (mdfe_hashCSRT)"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -2659,19 +2663,19 @@ msgid "Identificador da Balsa"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_Id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_Id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_Id
-msgid "Identificador da tag a ser assinada"
-msgstr ""
-
-#. module: l10n_br_mdfe
 #: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_Id
 #: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_Id
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_Id
 msgid ""
 "Identificador da tag a ser assinada\n"
 "Informar a chave de acesso do MDF-e e precedida do literal 'MDFe'"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_Id
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_Id
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_Id
+msgid "Identificador da tag a ser assinada (mdfe_Id)"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -2686,7 +2690,7 @@ msgstr ""
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_idCSRT
-msgid "Identificador do código de segurança"
+msgid "Identificador do código de segurança (mdfe_idCSRT)"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -3188,7 +3192,7 @@ msgstr "Estado Inicial"
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_IE
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_IE
-msgid "Inscrição Estadual"
+msgid "Inscrição Estadual (mdfe_IE)"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -4492,12 +4496,6 @@ msgid "Nome da embarcação"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_xContato
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_xContato
-msgid "Nome da pessoa a ser contatada"
-msgstr ""
-
-#. module: l10n_br_mdfe
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_partner__mdfe30_xContato
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_users__mdfe30_xContato
 msgid ""
@@ -4505,6 +4503,12 @@ msgid ""
 "Informar o nome da pessoa a ser contatada na empresa desenvolvedora do "
 "sistema utilizado na emissão do documento fiscal eletrônico. No caso de "
 "pessoa física, informar o respectivo nome."
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_xContato
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_xContato
+msgid "Nome da pessoa a ser contatada (mdfe_xContato)"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -4620,11 +4624,15 @@ msgid "Número da Parcela"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario__mdfe30_nViag
+msgid "Número da Viagem"
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_nViag
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_nViag
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_nViag
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario__mdfe30_nViag
-msgid "Número da Viagem"
+msgid "Número da Viagem (mdfe_nViag)"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -5307,13 +5315,6 @@ msgid "Product Variant"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_prodPred
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_prodPred
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_prodPred
-msgid "Produto predominante"
-msgstr ""
-
-#. module: l10n_br_mdfe
 #: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_prodPred
 #: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_prodPred
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_prodPred
@@ -5321,6 +5322,13 @@ msgid ""
 "Produto predominante\n"
 "Informar a descrição do produto predominante, conforme o item de maior valor "
 "financeiro conforme Resolução ANTT n° 5.867 de 2020)."
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_prodPred
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_prodPred
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_prodPred
+msgid "Produto predominante (mdfe_prodPred)"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -5486,7 +5494,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_RNTRC
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_RNTRC
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_RNTRC
-msgid "RNTRC"
+msgid "RNTRC (mdfe_RNTRC)"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -5531,7 +5539,7 @@ msgstr ""
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_company__mdfe30_xNome
-msgid "Razão social ou Nome do emitente"
+msgid "Razão social ou Nome do emitente (mdfe_xNome)"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -6507,9 +6515,6 @@ msgid "Tipo de Local"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_tpNav
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_tpNav
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_tpNav
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario__mdfe30_tpNav
 msgid "Tipo de Navegação"
 msgstr ""
@@ -6521,6 +6526,13 @@ msgid ""
 "Preencher com: \n"
 "\t\t\t\t\t\t0 - Interior;\n"
 "\t\t\t\t\t\t1 - Cabotagem"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_tpNav
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_tpNav
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_tpNav
+msgid "Tipo de Navegação (mdfe_tpNav)"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -6563,13 +6575,6 @@ msgid "Tipo de Vagão"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_tpAmb
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_tpAmb
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_tpAmb
-msgid "Tipo do Ambiente"
-msgstr ""
-
-#. module: l10n_br_mdfe
 #: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_tpAmb
 #: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_tpAmb
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_tpAmb
@@ -6577,6 +6582,13 @@ msgid ""
 "Tipo do Ambiente\n"
 "1 - Produção\n"
 "2 - Homologação"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_tpAmb
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_tpAmb
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_tpAmb
+msgid "Tipo do Ambiente (mdfe_tpAmb)"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -7057,13 +7069,6 @@ msgid "Versão do Aplicativo que processou a NF-3e"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_versao
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_versao
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_versao
-msgid "Versão do leiaute"
-msgstr ""
-
-#. module: l10n_br_mdfe
 #: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_versao
 #: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_versao
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_versao
@@ -7073,10 +7078,17 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_versao
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_versao
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_versao
+msgid "Versão do leiaute (mdfe_versao)"
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_versaoModal
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_versaoModal
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_versaoModal
-msgid "Versão do leiaute específico"
+msgid "Versão do leiaute específico (mdfe_versaoModal)"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -7087,19 +7099,19 @@ msgid "Versão do leiaute específico para o Modal"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_verProc
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_verProc
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_verProc
-msgid "Versão do processo de emissão"
-msgstr ""
-
-#. module: l10n_br_mdfe
 #: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_verProc
 #: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_verProc
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_verProc
 msgid ""
 "Versão do processo de emissão\n"
 "Informar a versão do aplicativo emissor de MDF-e."
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_verProc
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_verProc
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_verProc
+msgid "Versão do processo de emissão (mdfe_verProc)"
 msgstr ""
 
 #. module: l10n_br_mdfe
