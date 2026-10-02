@@ -183,13 +183,37 @@ class TestImportDeclarationWizard(AccountMoveBRCommon):
             )
 
     def test_the_customs_value_becomes_the_gross_amount(self):
+        """vProd is the customs value, and the Import Tax goes in vII.
+
+        On an import entry the gross amount of the products is the customs
+        value of the declaration, the goods plus the international freight and
+        insurance. The Import Tax has a field of its own, which the SEFAZ adds
+        to vNF (SEFAZ-SP, Resposta a Consulta 4792/2015).
+        """
         wizard = self._wizard()
 
         wizard.action_generate_document()
+        document = wizard.document_id
+        lines = document.fiscal_line_ids
 
         self.assertAlmostEqual(
-            sum(wizard.document_id.fiscal_line_ids.mapped("price_gross")),
-            VALOR_ADUANEIRO,
+            sum(lines.mapped("price_gross")), VALOR_ADUANEIRO, places=2
+        )
+        self.assertAlmostEqual(document.amount_price_gross, VALOR_ADUANEIRO, places=2)
+        self.assertAlmostEqual(document.amount_ii_value, II, places=2)
+        for line in lines:
+            self.assertAlmostEqual(
+                line.price_unit * line.quantity, line.ii_base, places=2
+            )
+        self.assertAlmostEqual(
+            document.fiscal_amount_total,
+            document.amount_price_gross
+            + document.amount_freight_value
+            + document.amount_insurance_value
+            + document.amount_other_value
+            + document.amount_ii_value
+            + document.amount_ipi_value
+            + sum(lines.mapped("icms_value")),
             places=2,
         )
 
