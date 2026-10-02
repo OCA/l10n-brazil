@@ -1747,6 +1747,14 @@ class NFe(spec_models.StackedModel):
             return online_event._nfe_correction(justificative) or result
         return result
 
+    def action_document_correction(self):
+        self.ensure_one()
+        if self.document_type_id.code == MODELO_FISCAL_NFCE:
+            raise UserError(
+                _("The correction letter is not allowed for NFC-e documents.")
+            )
+        return super().action_document_correction()
+
     def _nfe_correction(self, justificative):
         """Transmit the correction letter (CC-e) and register the answer.
 
