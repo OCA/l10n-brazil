@@ -133,3 +133,38 @@ class TestAccountClassification(TransactionCase):
                 "a conta de resultado {} {} não diz como distribui o valor "
                 "adicionado".format(account.code, account.name),
             )
+
+    def test_a_revenue_never_lands_on_the_distribution_side(self):
+        """Revenue forms the value added, it is never distributed.
+
+        In the CPC 09 model a revenue enters the value added either as sales
+        (line 1) or as value added received in transfer (line 6), where the
+        financial revenues go, exchange gains included (6.2). The distribution
+        (line 8) only holds what the entity pays out: personnel, taxes, the
+        remuneration of third party and own capital. A revenue tagged there
+        would be subtracted from the total it should have increased.
+
+        Deductions of revenue are the exception: the taxes on sales are typed
+        as revenue and are distributed to the government (8.2).
+        """
+        deduction = self._tag("account_tag_revenue_deduction")
+        distribution_ids = [
+            self._tag(name).id
+            for name in (
+                "account_tag_dva_personnel",
+                "account_tag_dva_taxes",
+                "account_tag_dva_third_party_capital",
+                "account_tag_dva_own_capital",
+            )
+        ]
+        wrong = self.templates.filtered(
+            lambda t: t.account_type in ("income", "income_other")
+            and deduction not in t.tag_ids
+            and set(t.tag_ids.ids) & set(distribution_ids)
+        )
+        self.assertFalse(
+            wrong,
+            "receitas classificadas na distribuição do valor adicionado: {}".format(
+                ", ".join(f"{t.code} {t.name}" for t in wrong[:10])
+            ),
+        )
