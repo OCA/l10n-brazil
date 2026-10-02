@@ -136,12 +136,13 @@
                                     <field name="state" />
                                     <field name="status_code" />
                                     <field name="response" />
+                                    <field name="can_print" column_invisible="1" />
                                     <button
                                         name="print_document_event"
                                         title="Print Document Event"
                                         icon="fa-print"
                                         type="object"
-                                        invisible="state != 'done' or status_code not in ('135', '136')"
+                                        invisible="not can_print"
                                     />
                                 </list>
                             </field>

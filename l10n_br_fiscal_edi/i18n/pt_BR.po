@@ -953,3 +953,8 @@ msgid ""
 msgstr ""
 "NF-e: de 15 a 1000 caracteres; quebras de linha, tabulações, espaços "
 "repetidos e pontuação tipográfica são normalizados antes do envio."
+
+#. module: l10n_br_fiscal_edi
+#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__can_print
+msgid "Can Print"
+msgstr "Pode imprimir"

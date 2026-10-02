@@ -9,7 +9,10 @@ import os
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
-from odoo.addons.l10n_br_fiscal.constants.fiscal import EVENT_ENVIRONMENT
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    EVENT_ENVIRONMENT,
+    EVENTO_RECEBIDO,
+)
 from odoo.addons.l10n_br_fiscal.tools import build_edoc_path
 
 _logger = logging.getLogger(__name__)
@@ -209,6 +212,8 @@ class Event(models.Model):
         selection=EVENT_ENVIRONMENT,
     )
 
+    can_print = fields.Boolean(compute="_compute_can_print")
+
     @api.constrains("justification")
     def _check_justification(self):
         if len(self.justification) < 15:
@@ -389,17 +394,35 @@ class Event(models.Model):
         event_id._save_event_file(xml_file, "xml")
         return event_id
 
-    def print_document_event(self):
+    @api.depends("type", "state", "status_code")
+    def _compute_can_print(self):
         for event in self:
-            if event.type == "14" and not (
-                event.state == "done" and event.status_code in ("135", "136")
-            ):
-                raise UserError(
-                    _(
-                        "Only a correction letter registered by the tax "
-                        "authority can be printed."
-                    )
+            event.can_print = event.type != "14" or (
+                event.state == "done" and event.status_code in EVENTO_RECEBIDO
+            )
+
+    def _check_can_print(self):
+        if not all(self.mapped("can_print")):
+            raise UserError(
+                _(
+                    "Only a correction letter registered by the tax "
+                    "authority can be printed."
                 )
+            )
+
+    def print_document_event(self):
+        self._check_can_print()
         return self.env.ref(
             "l10n_br_fiscal_edi.action_report_document_event"
         ).report_action(self)
+
+
+class ReportDocumentEvent(models.AbstractModel):
+    _name = "report.l10n_br_fiscal_edi.main_report_document_event"
+    _description = "Document Event Report"
+
+    @api.model
+    def _get_report_values(self, docids, data=None):
+        docs = self.env["l10n_br_fiscal.event"].browse(docids)
+        docs._check_can_print()
+        return {"doc_ids": docids, "doc_model": docs._name, "docs": docs}
