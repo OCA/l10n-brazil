@@ -5,7 +5,6 @@ from lxml import etree
 
 from odoo import api, fields, models
 
-from odoo.addons.l10n_br_fiscal.constants.fiscal import EVENT_ENV_HML
 from odoo.addons.l10n_br_fiscal_edi.tools import tax_authority_date_to_utc
 
 from .document import NFE_XML_NAMESPACE
@@ -49,7 +48,10 @@ class Event(models.Model):
         return raw
 
     def _get_dacce_issuer(self):
-        """Issuer data of the DACCE header (the keys that the library reads)."""
+        """Issuer data of the DACCE header (the keys that the library reads).
+
+        The CNPJ/CPF of the issuer comes from the XML, not from this dict.
+        """
         self.ensure_one()
         partner = self.company_id.partner_id
         street = ", ".join(
@@ -64,11 +66,8 @@ class Event(models.Model):
             "cidade": partner.city_id.name or partner.city or "",
             "uf": partner.state_id.code or "",
             "fone": partner.phone or "",
+            "ie": partner.l10n_br_ie_code or "",
         }
-
-    def _is_homologation(self):
-        self.ensure_one()
-        return self.environment == EVENT_ENV_HML
 
     @api.model
     def _reprocess_cce_protocol_date(self, apply=False):

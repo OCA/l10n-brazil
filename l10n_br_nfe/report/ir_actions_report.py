@@ -13,7 +13,6 @@ from odoo.tools.pdf import merge_pdf
 from odoo.addons.l10n_br_fiscal.constants.fiscal import SITUACAO_EDOC_CANCELADA
 
 DOCUMENT_EVENT_REPORT = "l10n_br_fiscal_edi.main_report_document_event"
-HOMOLOGATION_MARK = "SEM VALOR FISCAL"
 
 
 class IrActionsReport(models.Model):
@@ -64,21 +63,9 @@ class IrActionsReport(models.Model):
         if company.logo:
             logo = BytesIO(base64.b64decode(company.logo))
         dacce = DaCCe(xml=proc_xml, emitente=event._get_dacce_issuer(), image=logo)
-        if event._is_homologation():
-            self._draw_homologation_mark(dacce)
         output = BytesIO()
         dacce.output(output)
         return output.getvalue()
-
-    @api.model
-    def _draw_homologation_mark(self, pdf):
-        """The library does not mark the documents of the test environment."""
-        with pdf.local_context(fill_opacity=0.25):
-            pdf.set_font("Helvetica", "B", 48)
-            pdf.set_text_color(160, 160, 160)
-            with pdf.rotation(angle=45, x=105, y=170):
-                pdf.text(x=28, y=170, text=HOMOLOGATION_MARK)
-            pdf.set_text_color(0, 0, 0)
 
     def _render_danfe(self, nfe):
         if nfe.document_type != "55":
