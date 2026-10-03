@@ -16,6 +16,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_STATE_DRAFT,
     DOCUMENT_STATE_INVALIDATED,
     DOCUMENT_STATE_OPEN,
+    EVENTO_RECEBIDO,
     MODELO_FISCAL_CTE,
     MODELO_FISCAL_MDFE,
     MODELO_FISCAL_NFCE,
@@ -32,6 +33,16 @@ from ..constants.fiscal import (
     DOCUMENT_STATE_SENDING,
     DOCUMENT_STATES,
 )
+from ..tools import (
+    CORRECTION_MAX_LENGTH,
+    CORRECTION_MIN_LENGTH,
+    normalize_correction_text,
+)
+
+# nSeqEvento maximum in leiauteCCe_v1.00.xsd
+CORRECTION_MAX_EVENTS = 20
+# cStat 573 (duplicate event): the number is already taken at the tax authority
+CORRECTION_SEQUENCE_TAKEN_CODES = [*EVENTO_RECEBIDO, "573"]
 
 
 def filter_processador(record):
@@ -426,6 +437,78 @@ class Document(models.Model):
         this method to transmit the correction event (CC-e)."""
         self.ensure_one()
         self.correction_reason = justificative
+
+    @api.model
+    def _normalize_correction_text(self, text):
+        """Normalized letter text, or a UserError if the schema would refuse it."""
+        normalized, invalid = normalize_correction_text(text)
+        if invalid:
+            raise UserError(
+                _(
+                    "The correction text has characters that the tax authority "
+                    "does not accept: %(chars)s. Replace them and try again.",
+                    chars=" ".join(invalid),
+                )
+            )
+        if len(normalized) < CORRECTION_MIN_LENGTH:
+            raise UserError(
+                _(
+                    "The correction text must have at least %(min)s characters "
+                    "(it has %(size)s).",
+                    min=CORRECTION_MIN_LENGTH,
+                    size=len(normalized),
+                )
+            )
+        if len(normalized) > CORRECTION_MAX_LENGTH:
+            raise UserError(
+                _(
+                    "The correction text must have at most %(max)s characters "
+                    "(it has %(size)s).",
+                    max=CORRECTION_MAX_LENGTH,
+                    size=len(normalized),
+                )
+            )
+        return normalized
+
+    def _next_correction_sequence(self):
+        """nSeqEvento of the next letter; the field is text, compare as a number."""
+        self.ensure_one()
+        numbers = [
+            int(event.sequence)
+            for event in self.event_ids
+            if event.type == "14"
+            and event.state == "done"
+            and event.status_code in CORRECTION_SEQUENCE_TAKEN_CODES
+            and (event.sequence or "").isdigit()
+        ]
+        sequence = max(numbers) + 1 if numbers else 1
+        if sequence > CORRECTION_MAX_EVENTS:
+            raise UserError(
+                _(
+                    "The maximum of %(max)s correction letters for this document "
+                    "was reached.",
+                    max=CORRECTION_MAX_EVENTS,
+                )
+            )
+        return str(sequence)
+
+    def _correction_notification(self, success, message):
+        """Client action that shows the result and closes the wizard."""
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": (
+                    _("Correction letter registered")
+                    if success
+                    else _("Correction letter refused")
+                ),
+                "message": message,
+                "type": "success" if success else "danger",
+                "sticky": not success,
+                "next": {"type": "ir.actions.act_window_close"},
+            },
+        }
 
     # -------------------------------------------------------------------------
     # Transition Callbacks
