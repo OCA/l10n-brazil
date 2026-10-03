@@ -43,6 +43,16 @@ class AccountMoveLine(models.Model):
         " and '3-3' for the last installment.",
     )
 
+    # forcing store=True for these fields makes it easier to plug in SQL bill
+    # reconciliation and makes it compatible with the
+    # stock_picking_bill_matching module for instance.
+    partner_order = fields.Char(
+        related="fiscal_document_line_id.partner_order", store=True
+    )
+    partner_order_line = fields.Char(
+        related="fiscal_document_line_id.partner_order_line", store=True
+    )
+
     # -------------------------------------------------------------------------
     # SHADOWED FIELDS SYNC
     # These fields have the same name in account.move.line
