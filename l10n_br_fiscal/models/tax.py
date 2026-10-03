@@ -549,25 +549,41 @@ class Tax(models.Model):
             )
 
         if kwargs.get("icms_relief_id") and cst["code"] in ICMS_CST_RELIEF:
-            icms_base = kwargs.get("price_unit", 0.00) * kwargs.get("quantity", 0.00)
+            icms_base = tax_dict.get("base")
             icms_percent = tax_dict.get("percent_amount", 0.00) / 100
             icms_reduction = tax_dict.get("percent_reduction", 0.00) / 100
-            if cst["code"] in ["30", "40"]:
-                icms_relief = icms_base * icms_percent
-                tax_dict.update({"icms_relief": icms_relief})
-            elif cst["code"] in ["20", "70"]:
-                icms_relief = (
-                    icms_base
-                    * (1 - (icms_percent * (1 - icms_reduction)))
-                    / (1 - icms_percent)
-                    - icms_base
+            icms_relief_value = 0.0
+            if float_is_zero(tax_dict.get("base", 0.00), currency.decimal_places):
+                if not icms_percent and company.icms_regulation_id:
+                    (
+                        _standard_taxes,
+                        standard_defs,
+                    ) = company.icms_regulation_id._map_tax_def_icms(
+                        company,
+                        partner,
+                        product,
+                        ncm=ncm,
+                        nbm=nbm,
+                        cest=cest,
+                        operation_line=operation_line,
+                        ind_final=ind_final,
+                        exclude_benefit=True,
+                    )
+                    standard_tax = standard_defs.mapped("tax_id")[:1]
+                    if standard_tax:
+                        standard_tax_dict = {
+                            standard_tax.tax_domain: dict(TAX_DICT_VALUES)
+                        }
+                        standard_tax_dict = self._compute_tax(
+                            standard_tax, standard_tax_dict, **kwargs
+                        )
+                        icms_relief_value = standard_tax_dict.get("tax_value")
+            elif not float_is_zero(1 - icms_reduction, currency.decimal_places):
+                icms_relief_value = (
+                    icms_base * icms_percent * icms_reduction / (1 - icms_reduction)
                 )
-                tax_dict.update({"icms_relief": icms_relief})
-            else:
-                icms_relief = (icms_base / (1 - icms_percent)) * icms_percent
-                tax_dict.update({"icms_relief": icms_relief})
-        else:
-            tax_dict.update({"icms_relief": 0})
+
+            tax_dict.update({"icms_relief": icms_relief_value})
 
         return taxes_dict
 
