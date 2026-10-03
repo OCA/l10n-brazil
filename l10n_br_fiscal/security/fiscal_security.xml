@@ -63,6 +63,13 @@
         <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
     </record>
 
+    <record id="l10n_br_fiscal_simplified_tax_effective_rule" model="ir.rule">
+        <field name="name">SN Effective Tax multi-company</field>
+        <field name="model_id" ref="model_l10n_br_fiscal_simplified_tax_effective" />
+        <field eval="True" name="global" />
+        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+    </record>
+
     <record id="l10n_br_fiscal_document_line_rule" model="ir.rule">
         <field name="name">Fiscal Document line multi-company</field>
         <field name="model_id" ref="model_l10n_br_fiscal_document_line" />

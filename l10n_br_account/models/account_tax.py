@@ -44,7 +44,7 @@ class AccountTax(models.Model):
         fiscal_price=None,
         fiscal_quantity=None,
         uot_id=None,
-        icmssn_range=None,
+        icmssn_range=None,  # no longer used, kept for compatibility
         icms_origin=None,
         ind_final=FINAL_CUSTOMER_NO,
     ):
@@ -119,7 +119,6 @@ class AccountTax(models.Model):
             ii_customhouse_charges=ii_customhouse_charges,
             freight_value=freight_value,
             operation_line=operation_line,
-            icmssn_range=icmssn_range,
             icms_origin=icms_origin or product.icms_origin,
             ind_final=ind_final,
         )
@@ -258,7 +257,6 @@ class AccountTax(models.Model):
                 fiscal_price=line.fiscal_price,
                 fiscal_quantity=line.fiscal_quantity,
                 uot_id=line.uot_id,
-                icmssn_range=line.icmssn_range_id,
                 icms_origin=line.icms_origin,
                 ind_final=line.ind_final,
             )

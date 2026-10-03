@@ -1,5 +1,6 @@
 # Copyright (C) 2013  Renato Lima - Akretion
 # Copyright (C) 2020  Luis Felipe Mileo - KMEE
+# Copyright (C) 2023  Antônio S. Pereira Neto - Engenere
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import logging
@@ -7,6 +8,7 @@ import logging
 from odoo import api, fields, models
 
 from ..constants.fiscal import (
+    CFOP_INDUSTRIALIZATION_FOR_THIRD_PARTY,
     COEFFICIENT_R,
     INDUSTRY_TYPE,
     INDUSTRY_TYPE_TRANSFORMATION,
@@ -14,6 +16,8 @@ from ..constants.fiscal import (
     PROCESSADOR_NENHUM,
     PROFIT_CALCULATION,
     PROFIT_CALCULATION_PRESUMED,
+    SIMPLIFIED_TAX_ANNEX_COMMERCE,
+    SIMPLIFIED_TAX_ANNEX_INDUSTRY,
     TAX_DOMAIN_CBS,
     TAX_DOMAIN_COFINS,
     TAX_DOMAIN_COFINS_WH,
@@ -43,10 +47,17 @@ _logger = logging.getLogger(__name__)
 class ResCompany(models.Model):
     _inherit = "res.company"
 
+    sn_effective_tax_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.simplified.tax.effective",
+        inverse_name="company_id",
+        string="Effective Taxes",
+        help="Simples Nacional effective tax rate for each annex, "
+        "based on the range the company currently falls into.",
+    )
+
     def _get_company_address_field_names(self):
         partner_fields = super()._get_company_address_field_names()
         return partner_fields + [
-            "tax_framework",
             "legal_nature_id",
             "cnae_main_id",
         ]
@@ -61,57 +72,15 @@ class ResCompany(models.Model):
         for c in self:
             c.partner_id.cnae_main_id = c.cnae_main_id
 
+    @api.depends("partner_id", "partner_id.tax_framework")
+    def _compute_tax_framework(self):
+        for c in self:
+            c.tax_framework = c.partner_id.tax_framework
+
     def _inverse_tax_framework(self):
         """Write the l10n_br specific functional fields."""
         for c in self:
             c.partner_id.tax_framework = c.tax_framework
-
-    @api.depends("cnae_main_id", "annual_revenue", "payroll_amount")
-    def _compute_simplified_tax(self):
-        for record in self:
-            record.coefficient_r = False
-            if record.payroll_amount and record.annual_revenue:
-                coefficient_r_percent = record.payroll_amount / record.annual_revenue
-                if coefficient_r_percent > COEFFICIENT_R:
-                    record.coefficient_r = True
-                record.coefficient_r_percent = coefficient_r_percent
-
-            simplified_tax_id = self.env["l10n_br_fiscal.simplified.tax"].search(
-                [
-                    ("cnae_ids", "=", record.cnae_main_id.id),
-                    ("coefficient_r", "=", record.coefficient_r),
-                ]
-            )
-            record.simplified_tax_id = simplified_tax_id
-
-            if simplified_tax_id:
-                tax_range = record.env["l10n_br_fiscal.simplified.tax.range"].search(
-                    [
-                        ("simplified_tax_id", "=", simplified_tax_id.id),
-                        ("inital_revenue", "<=", record.annual_revenue),
-                        ("final_revenue", ">=", record.annual_revenue),
-                        ("simplified_tax_id.coefficient_r", "=", record.coefficient_r),
-                    ],
-                    limit=1,
-                )
-                record.simplified_tax_range_id = tax_range
-
-                if record.simplified_tax_range_id and record.annual_revenue:
-                    record.simplified_tax_percent = round(
-                        (
-                            (
-                                (
-                                    record.annual_revenue
-                                    * record.simplified_tax_range_id.total_tax_percent
-                                    / 100
-                                )
-                                - record.simplified_tax_range_id.amount_deduced
-                            )
-                            / record.annual_revenue
-                        )
-                        * 100,
-                        record.currency_id.decimal_places,
-                    )
 
     legal_nature_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.legal.nature",
@@ -138,8 +107,9 @@ class ResCompany(models.Model):
     tax_framework = fields.Selection(
         selection=TAX_FRAMEWORK,
         default=TAX_FRAMEWORK_NORMAL,
-        compute="_compute_address",
+        compute="_compute_tax_framework",
         inverse="_inverse_tax_framework",
+        store=True,
     )
 
     profit_calculation = fields.Selection(
@@ -159,28 +129,11 @@ class ResCompany(models.Model):
 
     annual_revenue = fields.Monetary(
         currency_field="currency_id",
-    )
-
-    simplified_tax_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.simplified.tax",
-        compute="_compute_simplified_tax",
-        string="Simplified Tax",
-        store=True,
-        readonly=True,
-    )
-
-    simplified_tax_range_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.simplified.tax.range",
-        compute="_compute_simplified_tax",
-        store=True,
-        readonly=True,
-        string="Simplified Tax Range",
-    )
-
-    simplified_tax_percent = fields.Float(
-        compute="_compute_simplified_tax",
-        store=True,
-        digits="Fiscal Tax Percent",
+        help="Gross revenue accumulated over the 12 months before the current "
+        "assessment period (RBT12). Under the Simples Nacional it sets the range "
+        "of each annex, hence the effective tax rates and the ICMS credit rate "
+        "stated on the invoices, which is the one of the range the company was "
+        "in the month before the operation (LC 123/2006, art. 18 and art. 23).",
     )
 
     payroll_amount = fields.Monetary(
@@ -511,6 +464,90 @@ class ResCompany(models.Model):
             self._set_tax_definition(self.tax_inss_wh_id)
         else:
             self._del_tax_definition(TAX_DOMAIN_INSS_WH)
+
+    @api.depends("annual_revenue", "payroll_amount")
+    def _compute_simplified_tax(self):
+        for record in self:
+            record._calculate_coefficient_r()
+
+    def _get_simplified_tax(self, cfop):
+        """Return the annex of the Simples Nacional that taxes an operation
+        with the given CFOP.
+
+        Resale is taxed by the Annex I and the goods industrialized by the
+        company by the Annex II (LC 123/2006, art. 18, § 4º, I and II), which
+        includes the industrialization ordered by a third party. When the CFOP
+        tells neither (e.g. 5910, 5949), fall back on the main activity of the
+        company.
+        """
+        self.ensure_one()
+        type_move = cfop.type_move if cfop else False
+        code = cfop.code if cfop else False
+        if type_move == "sale_commerce":
+            xmlid = SIMPLIFIED_TAX_ANNEX_COMMERCE
+        elif (
+            type_move == "sale_industry"
+            or code in CFOP_INDUSTRIALIZATION_FOR_THIRD_PARTY
+            or self.is_industry
+        ):
+            xmlid = SIMPLIFIED_TAX_ANNEX_INDUSTRY
+        else:
+            xmlid = SIMPLIFIED_TAX_ANNEX_COMMERCE
+        return (
+            self.env.ref(xmlid, raise_if_not_found=False)
+            or self.env["l10n_br_fiscal.simplified.tax"]
+        )
+
+    def _get_simplified_tax_range(self, cfop):
+        """Return the range the company currently falls into, in the annex of
+        the Simples Nacional that taxes an operation with the given CFOP.
+        There is none for a company outside the Simples Nacional."""
+        self.ensure_one()
+        if self.tax_framework != TAX_FRAMEWORK_SIMPLES:
+            return self.env["l10n_br_fiscal.simplified.tax.range"]
+        return self._get_simplified_tax(cfop)._get_range(self.annual_revenue)
+
+    def _calculate_coefficient_r(self):
+        for record in self:
+            record.coefficient_r = False
+            if record.payroll_amount and record.annual_revenue:
+                coefficient_r_percent = record.payroll_amount / record.annual_revenue
+                if coefficient_r_percent > COEFFICIENT_R:
+                    record.coefficient_r = True
+                record.coefficient_r_percent = coefficient_r_percent
+
+    def _update_effective_tax_lines(self):
+        """Keep one effective tax line per Simples Nacional annex on the
+        companies under the Simples Nacional and none on the other ones.
+
+        The lines are managed by the system, whoever the user changing the
+        tax framework is, hence the sudo.
+        """
+        annexes = self.env["l10n_br_fiscal.simplified.tax"].sudo().search([])
+        vals_list = []
+        for company in self.sudo():
+            if company.tax_framework != TAX_FRAMEWORK_SIMPLES:
+                company.sn_effective_tax_ids.unlink()
+                continue
+            missing = annexes - company.sn_effective_tax_ids.simplified_tax_id
+            vals_list += [
+                {"simplified_tax_id": annex.id, "company_id": company.id}
+                for annex in missing
+            ]
+        if vals_list:
+            self.env["l10n_br_fiscal.simplified.tax.effective"].sudo().create(vals_list)
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        companies = super().create(vals_list)
+        companies._update_effective_tax_lines()
+        return companies
+
+    def write(self, vals):
+        result = super().write(vals)
+        if "tax_framework" in vals or "partner_id" in vals:
+            self._update_effective_tax_lines()
+        return result
 
     @api.onchange("tax_classification_id")
     def _onchange_tax_classification_id(self):

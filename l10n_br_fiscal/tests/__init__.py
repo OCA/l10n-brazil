@@ -18,4 +18,6 @@ from . import (
     test_service_type,
     test_operation,
     test_tax_framework,
+    test_icmssn,
+    test_simplified_tax_effective,
 )
