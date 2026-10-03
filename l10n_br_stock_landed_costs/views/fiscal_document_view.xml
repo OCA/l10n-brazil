@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="document_form_landed_costs" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.document.form.landed.costs</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page
+                    name="landed_costs"
+                    string="Landed Costs"
+                    attrs="{'invisible': [('fiscal_operation_type', '!=', 'in')]}"
+                >
+                    <group>
+                        <field name="landed_cost_split_method" />
+                        <field name="landed_cost_picking_ids" widget="many2many_tags" />
+                    </group>
+                    <button
+                        name="action_create_landed_cost"
+                        type="object"
+                        string="Gerar Landed Cost"
+                        class="btn-primary"
+                    />
+                    <field name="landed_cost_ids" readonly="1" />
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>

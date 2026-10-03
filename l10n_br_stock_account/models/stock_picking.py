@@ -63,6 +63,12 @@ class StockPicking(models.Model):
         return package
 
     def button_validate(self):
+        # Antes do _action_done: garantir que os campos fiscais e o custo de
+        # estoque (stock_cost_unit) dos moves de ENTRADA estejam recomputados
+        # com os valores finais — depois de "done" os computes fiscais são
+        # pulados (_compute_product_fiscal_fields) e o SVL é criado lendo o
+        # valor armazenado (ver stock.move._get_price_unit).
+        self._recompute_stock_cost_before_done()
         result = super().button_validate()
         for record in self:
             if (
@@ -72,6 +78,15 @@ class StockPicking(models.Model):
             ):
                 record._generate_document_number()
         return result
+
+    def _recompute_stock_cost_before_done(self):
+        moves = self.mapped("move_ids").filtered(
+            lambda m: m.state not in ("done", "cancel")
+            and m.fiscal_operation_id.fiscal_operation_type == "in"
+        )
+        if moves:
+            moves._compute_tax_fields()
+            moves._compute_stock_cost_unit()
 
     def _generate_document_number(self):
         if self.company_id.document_type_id and self.fiscal_operation_id:
