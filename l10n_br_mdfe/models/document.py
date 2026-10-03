@@ -4,6 +4,7 @@
 import base64
 import re
 import string
+from datetime import datetime
 from unicodedata import normalize
 
 from erpbrasil.base.fiscal import cnpj_cpf
@@ -11,18 +12,35 @@ from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from erpbrasil.base.misc import punctuation_rm
 from erpbrasil.transmissao import TransmissaoSOAP
 from nfelib.mdfe.bindings.v3_0.mdfe_v3_00 import Mdfe
+from nfelib.mdfe.client.v3_0.mdfe import MdfeClient
 from nfelib.nfe.ws.edoc_legacy import MDFeAdapter as edoc_mdfe
 from requests import Session
+from xsdata.models.datatype import XmlDateTime
 
 from odoo import Command, _, api, fields
 from odoo.exceptions import UserError, ValidationError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    AUTORIZADO,
+    CANCELADO,
+    CANCELADO_DENTRO_PRAZO,
+    CANCELADO_FORA_PRAZO,
+    DENEGADO,
     DOCUMENT_ISSUER_COMPANY,
+    DOCUMENT_STATE_CANCEL,
+    DOCUMENT_STATE_OPEN,
     EVENT_ENV_HML,
     EVENT_ENV_PROD,
     MODELO_FISCAL_MDFE,
     PROCESSADOR_OCA,
+    SITUACAO_FISCAL_CANCELADO,
+    SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
+)
+from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import (
+    DOCUMENT_STATE_AUTHORIZED,
+    DOCUMENT_STATE_DENIED,
+    DOCUMENT_STATE_REJECTED,
+    DOCUMENT_STATE_SENDING,
 )
 from odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_modal_aquaviario_v3_00 import (
     AQUAV_TPNAV,
@@ -57,6 +75,21 @@ def filtered_processador_edoc_mdfe(record):
     return (
         record.processador_edoc == PROCESSADOR_OCA
         and record.document_type_id.code == MODELO_FISCAL_MDFE
+    )
+
+
+def nfelib_soap_transmission_enabled(env):
+    """Is the MDF-e SOAP transmission done by nfelib instead of erpbrasil.edoc?
+
+    Until the nfelib SOAP clients fully replace erpbrasil.edoc, the legacy
+    erpbrasil.edoc transmission remains the default. Set this system parameter
+    to switch to the nfelib client (mirror of l10n_br_nfe, see PR 4147).
+    """
+    return (
+        env["ir.config_parameter"]
+        .sudo()
+        .get_param("l10n_br_mdfe.nfelib_soap_transmission", "False")
+        == "True"
     )
 
 
@@ -967,6 +1000,154 @@ class MDFe(spec_models.StackedModel):
             "ambiente": self.mdfe_environment,
         }
         return edoc_mdfe(**params)
+
+    def _nfelib_edoc_processor(self):
+        """Build the SOAP client from nfelib instead of erpbrasil.edoc."""
+        self.ensure_one()
+        pkcs12_data, pkcs12_password = self.company_id._get_nfe_certificate_data()
+        return MdfeClient(
+            ambiente=self.mdfe_environment,
+            uf=self.company_id.state_id.ibge_code,
+            # nb: brazil_fiscal_client normalizes the PKCS12 bytes for the
+            # mTLS transport; nfelib re-encodes them for erpbrasil.assinatura.
+            pkcs12_data=pkcs12_data,
+            pkcs12_password=pkcs12_password,
+            wrap_response=True,
+        )
+
+    def _mdfe_save_protocol(self, inf_prot, mdfe_proc_xml=None):
+        if not self.authorization_event_id:
+            # TODO: create new event.
+            pass
+        if type(inf_prot.dhRecbto) is datetime:
+            protocol_date = fields.Datetime.to_string(inf_prot.dhRecbto)
+        # When the payload comes from xsdata, the date comes as XmlDateTime
+        elif type(inf_prot.dhRecbto) is XmlDateTime:
+            dt = inf_prot.dhRecbto.to_datetime()
+            protocol_date = fields.Datetime.to_string(dt)
+        else:
+            protocol_date = fields.Datetime.to_string(
+                datetime.fromisoformat(inf_prot.dhRecbto)
+            )
+        self.authorization_event_id.set_done(
+            status_code=inf_prot.cStat,
+            response=inf_prot.xMotivo,
+            protocol_date=protocol_date,
+            protocol_number=inf_prot.nProt,
+            file_response_xml=mdfe_proc_xml,
+        )
+
+    def _mdfe_process_authorization(self, process):
+        """Update the MDF-e status from a RetEnviMdfe (synchronous receipt).
+
+        The MDFeRecepcaoSinc webservice answers synchronously: the protocol
+        (protMDFe) is embedded in the retEnviMDFe response (cStat 104 when a
+        protocol is present, or a rejection/denegation code).
+        """
+        self.ensure_one()
+        response = process.resposta
+        if response.protMDFe:
+            inf_prot = response.protMDFe.infProt
+        else:
+            inf_prot = None
+        mdfe_proc_xml = getattr(process, "processo_xml", None)
+        if isinstance(mdfe_proc_xml, bytes):
+            mdfe_proc_xml = mdfe_proc_xml.decode()
+        if inf_prot is not None:
+            self._mdfe_save_protocol(inf_prot, mdfe_proc_xml)
+            c_stat = inf_prot.cStat
+            x_motivo = inf_prot.xMotivo
+        else:
+            c_stat = response.cStat
+            x_motivo = response.xMotivo
+        self.update(
+            {
+                "status_code": c_stat,
+                "status_name": x_motivo,
+            }
+        )
+        state_map = {
+            **dict.fromkeys(AUTORIZADO, DOCUMENT_STATE_AUTHORIZED),
+            **dict.fromkeys(DENEGADO, DOCUMENT_STATE_DENIED),
+        }
+        self._change_state(state_map.get(c_stat, DOCUMENT_STATE_REJECTED))
+
+    def _mdfe_send_for_authorization(self):
+        """Serialize and send a MDF-e for authorization via nfelib."""
+        self.ensure_one()
+        mdfe_binding = self.serialize()[0]
+        mdfe_manager = self._nfelib_edoc_processor()
+        service_response = mdfe_manager.envia_documento(mdfe_binding)
+        self._mdfe_process_authorization(service_response)
+
+    def _eletronic_document_send(self):
+        super()._eletronic_document_send()
+        for record in self.filtered(filtered_processador_edoc_mdfe):
+            if record.xml_error_message:
+                return  # Skip
+
+            if record.state_edoc not in [DOCUMENT_STATE_SENDING, DOCUMENT_STATE_OPEN]:
+                return  # Skip
+
+            if nfelib_soap_transmission_enabled(self.env):
+                record._mdfe_send_for_authorization()
+            # else: legacy erpbrasil.edoc transmission not implemented yet
+            # for MDF-e; l10n_br_fiscal_edi auto-authorizes as before.
+
+    def _document_cancel(self, justificative=None):
+        result = super()._document_cancel(justificative)
+        online_event = self.filtered(filtered_processador_edoc_mdfe)
+        if online_event and nfelib_soap_transmission_enabled(self.env):
+            online_event._mdfe_cancel()
+        return result
+
+    def _mdfe_cancel(self):
+        """Cancel an authorized MDF-e through the nfelib client."""
+        self.ensure_one()
+        if not self.authorization_protocol:
+            raise UserError(_("Authorization Protocol Not Found!"))
+
+        mdfe_manager = self._nfelib_edoc_processor()
+        process = mdfe_manager.cancela_documento(
+            chave=self.document_key,
+            protocolo_autorizacao=self.authorization_protocol,
+            justificativa=self.cancel_reason.replace("\n", "\\n"),
+            cnpj_cpf=self.company_id.cnpj_cpf or self.company_id.vat,
+        )
+        resposta = process.resposta.infEvento
+
+        if resposta.cStat not in CANCELADO:
+            raise UserError(
+                _("Error cancelling the MDF-e\nCode: %(cStat)s\nReason: %(xMotivo)s")
+                % {"cStat": resposta.cStat, "xMotivo": resposta.xMotivo}
+            )
+
+        self.cancel_event_id = self.event_ids.create_event_save_xml(
+            company_id=self.company_id,
+            environment=(
+                EVENT_ENV_PROD if self.mdfe_environment == "1" else EVENT_ENV_HML
+            ),
+            event_type="2",
+            xml_file=process.envio_xml,
+            document_id=self,
+        )
+
+        if resposta.chMDFe == self.document_key:
+            if resposta.cStat in CANCELADO_FORA_PRAZO:
+                self.state_fiscal = SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO
+            elif resposta.cStat in CANCELADO_DENTRO_PRAZO:
+                self.state_fiscal = SITUACAO_FISCAL_CANCELADO
+
+            self.state_edoc = DOCUMENT_STATE_CANCEL
+            self.cancel_event_id.set_done(
+                status_code=resposta.cStat,
+                response=resposta.xMotivo,
+                protocol_date=fields.Datetime.to_string(
+                    datetime.fromisoformat(resposta.dhRegEvento)
+                ),
+                protocol_number=resposta.nProt,
+                file_response_xml=process.retorno.content.decode("utf-8"),
+            )
 
     def _generate_key(self):
         if self.document_type_id.code not in [MODELO_FISCAL_MDFE]:

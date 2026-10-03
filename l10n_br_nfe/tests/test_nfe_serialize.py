@@ -21,6 +21,13 @@ class TestNFeExport(TransactionCase):
     @classmethod
     def setUpClass(cls, nfe_list):
         super().setUpClass()
+        # These tests drive the nfelib SOAP clients through the mocked xsdata
+        # transport (see mock_utils.NFeMock), so they must opt in to the
+        # nfelib transmission: the module default stays the legacy
+        # erpbrasil.edoc path on 16.0.
+        cls.env["ir.config_parameter"].sudo().set_param(
+            "l10n_br_nfe.nfelib_soap_transmission", "True"
+        )
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.nfe_list = nfe_list
         for nfe_data in cls.nfe_list:
