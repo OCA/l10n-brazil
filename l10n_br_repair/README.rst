@@ -29,9 +29,12 @@ Brazilian Localization Repair
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
 This module extends the Odoo Repair module to adapt it to the Brazilian
-needs, with this module you have tax data for collection and generation
-of fiscal documents (NF-e, NFS-e, CF-e, NFC-e and others), calculation
-Brazilian taxes and contributions (municipal, state and federal).
+needs. Since Odoo 17.0 the repair order is billed through a sale order:
+this module sets the fiscal operation of the repair order and carries it
+to the quotation created from the repair and to the lines of the repair
+parts, so the Brazilian taxes are computed and the fiscal documents
+(NF-e, NFS-e and others) are issued by the Brazilian sale localization
+(l10n_br_sale).
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
@@ -49,7 +52,7 @@ Installation
 This module depends on:
 
 - repair
-- l10n_br_stock_account
+- l10n_br_sale
 
 Configuration
 =============
@@ -57,8 +60,8 @@ Configuration
 To configure this module, you need to:
 
 1. Go to Settings -> Users & Companies -> Companies
-2. Select or create a company and go to Taxes -> Repair
-3. Set the default Tax Operation for repairs.
+2. Select or create a company and go to Fiscal -> Repair
+3. Set the default Fiscal Operation for repairs.
 
 Usage
 =====
@@ -66,28 +69,36 @@ Usage
 To use this module, you need to:
 
 1. Go to Repair
-2. Create or select a Repair Order and set the Fiscal Operation
-3. Add the parts and the fees: the fiscal operation line, CFOP and the
-   Brazilian taxes of each line are computed from the fiscal operation
-4. Set Invoice Method (After or Before Repair)
-5. Confirm the Repair
-6. Create Invoice: one fiscal document is created for each document type
-   of the lines (for instance a NF-e for the parts and a NFS-e for the
-   fees), all of them listed in the Invoices button of the repair
+2. Create or select a Repair Order and check its Fiscal Operation (the
+   default one comes from the company)
+3. Add the parts and click on Create Quotation: the quotation and the
+   lines of the parts get the fiscal operation, the CFOP and the
+   Brazilian taxes
+4. Add the services (labor) to the quotation and confirm it
+5. Finish the repair and create the invoices from the sale order: one
+   fiscal document is created for each document type (for instance a
+   NF-e for the parts and a NFS-e for the services)
+
+A repair order created by a sale order follows the fiscal operation of
+that sale order.
 
 Known issues / Roadmap
 ======================
 
-- This module hasn't been tested with *repair_discount* module
-  installed, so maybe it's incompatible with it.
+- Parts replaced under warranty get a zero price on the quotation, but
+  they still use the fiscal operation of the repair; a specific fiscal
+  operation for warranty replacements is not handled yet.
 - Add Fiscal Position Resource
-- Freight, insurance and other costs informed by total are distributed
-  only among the parts (repair lines), not among the fees.
 
 Changelog
 =========
 
+18.0.1.0.0
+----------
 
+The repair order of Odoo 17.0+ has no own invoicing (no repair lines,
+fees nor invoice): the fiscal integration now goes through the sale
+order created from the repair (l10n_br_sale).
 
 Bug Tracker
 ===========

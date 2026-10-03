@@ -12,7 +12,6 @@
                     <group>
                         <group>
                             <field name="repair_fiscal_operation_id" />
-                            <field name="copy_repair_quotation_notes" />
                         </group>
                     </group>
                 </page>

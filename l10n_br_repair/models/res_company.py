@@ -11,7 +11,3 @@ class ResCompany(models.Model):
         comodel_name="l10n_br_fiscal.operation",
         string="Default Repair Fiscal Operation",
     )
-
-    copy_repair_quotation_notes = fields.Boolean(
-        string="Copy Repair quotation notes on invoice", default=False
-    )
