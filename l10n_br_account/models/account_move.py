@@ -359,8 +359,70 @@ class AccountMove(models.Model):
         )
 
     def _compute_imported_terms(self):
+        """Build the payment terms of an imported document from its file.
+
+        Without the installments the file declares, the compute below falls
+        back to a single term dated by invoice_date_due, which the importation
+        never fills. The declared amounts are kept when they add up to the
+        document total; otherwise the total is split by their weight, so the
+        move still balances.
+        """
         self.ensure_one()
-        pass  # meant to be overriden
+        installments = self.fiscal_document_id._get_imported_installments()
+        declared = sum(amount for _date, amount in installments)
+        if not installments or not declared:
+            return
+
+        company_currency = self.company_id.currency_id
+        if (
+            self.currency_id == company_currency
+            and company_currency.compare_amounts(declared, self.amount_total) == 0
+        ):
+            sign = 1 if self.is_inbound(include_receipts=True) else -1
+            terms = {}
+            for date, amount in installments:
+                key = frozendict(
+                    {
+                        "move_id": self.id,
+                        "date_maturity": fields.Date.to_date(date),
+                        "discount_date": False,
+                    }
+                )
+                balance = terms.get(key, {}).get("balance", 0.0) + sign * amount
+                terms[key] = {"balance": balance, "amount_currency": balance}
+            self.needed_terms = terms
+            return
+
+        balance_left = self.amount_total_signed
+        amount_left = self.amount_total_in_currency_signed
+        terms = {}
+        for position, (date, amount) in enumerate(installments, start=1):
+            if position == len(installments):
+                balance, amount_currency = balance_left, amount_left
+            else:
+                share = amount / declared
+                balance = company_currency.round(self.amount_total_signed * share)
+                amount_currency = self.currency_id.round(
+                    self.amount_total_in_currency_signed * share
+                )
+                balance_left -= balance
+                amount_left -= amount_currency
+            key = frozendict(
+                {
+                    "move_id": self.id,
+                    "date_maturity": fields.Date.to_date(date),
+                    "discount_date": False,
+                }
+            )
+            if key in terms:
+                terms[key]["balance"] += balance
+                terms[key]["amount_currency"] += amount_currency
+            else:
+                terms[key] = {
+                    "balance": balance,
+                    "amount_currency": amount_currency,
+                }
+        self.needed_terms = terms
 
     @api.depends(
         "invoice_payment_term_id",
