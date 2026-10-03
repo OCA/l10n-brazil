@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright (C) 2026  Renato Lima - Akretion <renato.lima@akretion.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record id="fci_action" model="ir.actions.act_window">
+        <field name="name">FCI</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.fci.header</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="fci_tree" />
+        <field name="search_view_id" ref="fci_search" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Add a new FCI</p>
+            <p>
+                The FCI (Ficha de Conteúdo de Importação) informs the share of
+                the imported parcel in the total of the goods submitted to a
+                process of industrialization, as required by the Convênio ICMS
+                38/2013.
+            </p>
+        </field>
+    </record>
+
+    <record id="fci_line_action" model="ir.actions.act_window">
+        <field name="name">FCI Goods</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.fci.line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="fci_line_tree" />
+        <field name="search_view_id" ref="fci_line_search" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No FCI goods found</p>
+            <p>
+                The goods of the transmitted FCI files and their FCI control
+                numbers are listed here.
+            </p>
+        </field>
+    </record>
+
+    <record id="fci_import_wizard_action" model="ir.actions.act_window">
+        <field name="name">Import FCI File</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.fci.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="fci_import_wizard_form" />
+        <field name="target">new</field>
+    </record>
+
+</odoo>
