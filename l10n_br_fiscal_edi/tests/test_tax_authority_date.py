@@ -7,10 +7,10 @@ from xsdata.models.datatype import XmlDateTime
 
 from odoo.tests import TransactionCase
 
-from odoo.addons.l10n_br_nfe.tools import tax_authority_date_to_utc
+from odoo.addons.l10n_br_fiscal_edi.tools import tax_authority_date_to_utc
 
 
-class TestNFeProtocolDate(TransactionCase):
+class TestTaxAuthorityDate(TransactionCase):
     def test_brasilia_offset_to_utc(self):
         self.assertEqual(
             tax_authority_date_to_utc("2026-10-02T10:15:00-03:00"),
