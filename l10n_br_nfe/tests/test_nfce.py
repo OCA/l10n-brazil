@@ -82,7 +82,7 @@ class TestNFCe(TestNFeExport):
         )
         self.assertEqual(
             Datetime.to_string(self.document_id.cancel_event_id.protocol_date),
-            "2023-07-05 16:52:52",
+            "2023-07-05 19:52:52",
         )
 
     @nfe_mock({"nfeAutorizacaoLote": "retEnviNFe/rejeitada.xml"})
