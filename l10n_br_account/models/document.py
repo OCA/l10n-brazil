@@ -355,13 +355,22 @@ class FiscalDocument(models.Model):
         return action
 
     def _check_document_import(self):
-        """Ensure an imported fiscal document has the minimum data required
-        to generate a valid account move (and a sound SPED basis).
+        """Ensure this document can still be turned into an account move,
+        and that it carries the minimum data for a valid one (and a sound
+        SPED basis).
+
+        Importing the same key twice reuses the fiscal document, so without
+        this guard a second run would silently add another invoice for it.
 
         Raises a single UserError listing every problem found so the user
         can fix the de-para in one pass instead of one error at a time.
         """
         self.ensure_one()
+        if self.move_ids:
+            raise UserError(
+                _("This document was already imported into %s.")
+                % ", ".join(self.move_ids.mapped("display_name"))
+            )
         errors = []
         for line in self.fiscal_line_ids:
             label = line.name or line.product_id.display_name or _("Unknown")
