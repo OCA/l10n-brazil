@@ -58,14 +58,14 @@ NFELIB_SAMPLE = (
 )
 
 # The demo companies keep `nfe_enable_sync_transmission` disabled, so the NF-e
-# processor built by _edoc_processor() is *asynchronous*: erpbrasil expects the
+# processor built by _edoc_processor() is *asynchronous*: nfelib expects the
 # authorization webservice to answer with a batch receipt (cStat 103 + infRec)
 # and then reads the outcome from the receipt consult. Answering
 # `nfeAutorizacaoLote` with a synchronous retEnviNFe (cStat 104 + protNFe and no
-# infRec) makes erpbrasil blow up in `_aguarda_tempo_medio` with
-# `AttributeError: 'NoneType' object has no attribute 'tMed'`, so the
-# retEnviNFe/autorizada.xml and retEnviNFe/denegada.xml fixtures can only be
-# used for NFC-e (whose processor is synchronous).
+# infRec) makes nfelib `processar_lote` try to consult a receipt that does not
+# exist (`consulta_recibo` raises `ValueError: Número do recibo (nRec) não
+# fornecido`), so the retEnviNFe/autorizada.xml and retEnviNFe/denegada.xml
+# fixtures can only be used for NFC-e (whose processor is synchronous).
 NFE_ASYNC_AUTHORIZED = {
     "nfeAutorizacaoLote": "retEnviNFe/lote_recebido.xml",
     "nfeRetAutorizacaoLote": "retConsReciNFe/autorizada.xml",
@@ -90,9 +90,9 @@ class RecordingNFeMock(NFeMock):
         super().__init__(xml_soap_paths)
         self.calls = []
 
-    def custom_send(self, operacao, *args, **kwargs):
-        self.calls.append(operacao)
-        return super().custom_send(operacao, *args, **kwargs)
+    def custom_post(self, location, data, headers):
+        self.calls.append(self._resolve_operation(location))
+        return super().custom_post(location, data, headers)
 
 
 class TestNFeWorkflowRejection(TestNFeExport):
@@ -256,6 +256,10 @@ class TestNFeWorkflowXmlValidation(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        # the transmission is mocked at the nfelib/xsdata transport level
+        cls.env["ir.config_parameter"].sudo().set_param(
+            "l10n_br_nfe.nfelib_soap_transmission", "True"
+        )
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
         cls.env.user.company_ids += cls.company

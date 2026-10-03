@@ -13,6 +13,7 @@ from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 from ..constants import mdest as MD
+from .document import nfelib_soap_transmission_enabled
 
 _logger = logging.getLogger(__name__)
 
@@ -66,6 +67,11 @@ class NfeRecipientManifestationEvent(models.Model):
         required=True,
     )
 
+    justification = fields.Char(
+        help="Justification for the 'Operação não Realizada' event "
+        "(15-255 characters, required by the SEFAZ)."
+    )
+
     def name_get(self):
         return [(rec.id, f"{rec.access_key}") for rec in self]
 
@@ -79,6 +85,49 @@ class NfeRecipientManifestationEvent(models.Model):
             self.company_id.state_id.ibge_code,
             ambiente=self.environment,
         )
+
+    def _nfelib_get_processor(self):
+        """Build the nfelib MdeClient for the MD-e events.
+
+        Drop-in replacement for _get_processor() when the
+        l10n_br_nfe.nfelib_soap_transmission parameter is enabled.
+        """
+        from nfelib.nfe.client.v4_0.mde import MdeClient
+
+        certificate = self.env.company.certificate_nfe_id
+        if not certificate:
+            raise ValidationError(
+                _("Configure an e-CNPJ A1 certificate on the company.")
+            )
+        import base64
+
+        return MdeClient(
+            ambiente=self.environment,
+            uf=self.company_id.state_id.ibge_code,
+            pkcs12_data=base64.b64decode(certificate.file),
+            pkcs12_password=certificate.password,
+            wrap_response=True,
+        )
+
+    @api.model
+    def _retorno_text(self, retorno):
+        """Response text from either an erpbrasil requests.Response, a
+        brazil-fiscal-client WrappedHTTPResponse or a test double.
+
+        Walk the known payload attributes and keep the first one that really
+        is bytes or str: ``content`` is the one exposed by requests and by
+        every brazil-fiscal-client release, ``_content`` covers the older
+        erpbrasil/test doubles and ``text`` the decoded convenience alias.
+        The isinstance checks are required because a MagicMock test double
+        answers every attribute access with a truthy mock.
+        """
+        for attr in ("content", "_content", "text"):
+            value = getattr(retorno, attr, None)
+            if isinstance(value, bytes):
+                return value.decode("utf-8", errors="replace")
+            if isinstance(value, str):
+                return value
+        return ""
 
     @api.model
     def validate_event_response(self, result, valid_codes):
@@ -94,7 +143,7 @@ class NfeRecipientManifestationEvent(models.Model):
                         "MDE duplicate event (573) for key %s — marking as done",
                         self.access_key,
                     )
-                    self.response_xml = result.retorno._content.decode("utf-8")
+                    self.response_xml = self._retorno_text(result.retorno)
                     self.state = "done"
                     valid = True
                 else:
@@ -108,7 +157,7 @@ class NfeRecipientManifestationEvent(models.Model):
                     .astimezone(timezone.utc)
                     .replace(tzinfo=None)
                 )
-                self.response_xml = result.retorno._content.decode("utf-8")
+                self.response_xml = self._retorno_text(result.retorno)
                 self.state = "done"
 
         if not valid:
@@ -121,11 +170,22 @@ class NfeRecipientManifestationEvent(models.Model):
             )
 
     def _send_event(self, method, valid_codes):
-        processor = self._get_processor()
+        use_nfelib = nfelib_soap_transmission_enabled(self.env)
+        if use_nfelib:
+            processor = self._nfelib_get_processor()
+        else:
+            processor = self._get_processor()
         cnpj_partner = re.sub("[^0-9]", "", self.company_id.cnpj_cpf)
 
         if hasattr(processor, method):
-            result = getattr(processor, method)(self.access_key, cnpj_partner)
+            kwargs = {}
+            if method == "operacao_nao_realizada" and use_nfelib:
+                # the nfelib client requires a 15-255 chars justification
+                # (the SEFAZ rejects the 210240 event without one anyway)
+                kwargs["justificativa"] = self.justification or _(
+                    "Operação não realizada conforme verificado no recebimento."
+                )
+            result = getattr(processor, method)(self.access_key, cnpj_partner, **kwargs)
             self.validate_event_response(result, valid_codes)
 
     def action_send_event(self, operation, valid_codes, new_state):
