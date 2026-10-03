@@ -12,3 +12,5 @@ from . import test_payment_status
 from . import test_move_workflow
 from . import test_import_fiscal_document
 from . import test_document_import_check
+from . import test_deductible_balance
+from . import test_fiscal_tax_deductible

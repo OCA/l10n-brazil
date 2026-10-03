@@ -20,6 +20,7 @@ from ..constants.fiscal import (
 _logger = logging.getLogger(__name__)
 
 try:
+    from xsdata.exceptions import ParserError
     from xsdata.formats.dataclass.parsers import XmlParser
 except ImportError:
     _logger.info("xsdata Python lib not installed!")
@@ -61,6 +62,12 @@ class DocumentImportWizard(models.TransientModel):
     )
 
     document_type = fields.Char()
+
+    currency_id = fields.Many2one(related="company_id.currency_id")
+
+    amount_total = fields.Monetary(
+        string="Document Total",
+    )
 
     fiscal_operation_type = fields.Selection(
         selection=FISCAL_IN_OUT,
@@ -264,5 +271,16 @@ class DocumentImportWizard(models.TransientModel):
 
     @api.model
     def _parse_file_data(self, file_data):
-        # NOTE: no try and a stacktrace does help for debug/support
-        return XmlParser().from_bytes(base64.b64decode(file_data))
+        try:
+            return XmlParser().from_bytes(base64.b64decode(file_data))
+        except ParserError as parser_error:
+            # the stacktrace still reaches the log, it does help for support
+            _logger.warning("Could not parse the imported file", exc_info=True)
+            raise UserError(
+                self.env._(
+                    "Could not read this file as the XML of an electronic fiscal"
+                    " document. Make sure you uploaded the XML itself, not its"
+                    " printed representation (PDF).\n\n%(error)s",
+                    error=parser_error,
+                )
+            ) from parser_error

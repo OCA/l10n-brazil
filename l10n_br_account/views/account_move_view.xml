@@ -41,8 +41,17 @@
                     invisible="not document_type_id"
                 />
             </field>
+            <xpath expr="//list/header" position="inside">
+                <button
+                    name="action_check_status"
+                    string="Check status at the SEFAZ"
+                    type="object"
+                    display="always"
+                />
+            </xpath>
         </field>
     </record>
+
     <!-- Customer Invoice views -->
 
     <record id="invoice_form" model="ir.ui.view">
@@ -350,7 +359,6 @@
                 <field name="proxy_name" invisible="1" />
                 <field name="proxy_quantity" invisible="1" />
                 <field name="proxy_price_unit" invisible="1" />
-                <field name="amount_currency" invisible="1" />
                 <field name="date" invisible="1" />
                 <field name="date_maturity" invisible="1" />
                 <field name="tax_line_id" invisible="1" />
@@ -370,8 +378,6 @@
                 <field name="cfop_destination" force_save="1" invisible="1" />
                 <field name="price_subtotal" force_save="1" invisible="1" />
                 <field name="price_total" force_save="1" invisible="1" />
-                <field name="credit" invisible="1" />
-                <field name="debit" invisible="1" />
                 <field name="ind_final" force_save="1" />
             </xpath>
             <!-- The next fields are defined in a superficial way in the inherited

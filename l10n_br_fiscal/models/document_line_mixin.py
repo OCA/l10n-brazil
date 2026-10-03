@@ -211,6 +211,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         "fiscal_operation_line_id",
         "cfop_id",
         "icms_relief_value",
+        "icms_relief_type",
         "insurance_value",
         "other_value",
         "freight_value",
@@ -936,7 +937,12 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     @api.model
     def _rm_fields_to_amount(self):
-        return ["icms_relief_value"]
+        fields_to_remove = []
+        # indDeduzDeson (NT 2023.004): the ICMS relief is only deducted
+        # from vProd/vNF when explicitly indicated.
+        if self.icms_relief_type == "1":
+            fields_to_remove.append("icms_relief_value")
+        return fields_to_remove
 
     def _is_imported(self):
         # When the mixin is used for instance
@@ -1503,6 +1509,19 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     # motDesICMS - Motivo da desoneração do ICMS
     icms_relief_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.icms.relief", string="ICMS Relief"
+    )
+
+    # indDeduzDeson - Indicador de dedução do valor do ICMS desonerado
+    icms_relief_type = fields.Selection(
+        selection=[
+            ("0", "0 - Do not deduct the ICMS Relief"),
+            ("1", "1 - Deduct ICMS Relief from Product Amount"),
+        ],
+        string="ICMS Relief Deduction",
+        default="0",
+        help="indDeduzDeson (NT 2023.004): indicates whether the ICMS relief "
+        "value (vICMSDeson) is deducted from the item value (vProd) and "
+        "from the document total (vNF).",
     )
 
     # vICMSDeson - Valor do ICMS desonerado
