@@ -418,15 +418,49 @@ class TestNFeCorrection(TestNFeExport):
             self.assertIn("05/07/2023 16:52:52", text)
 
     @nfe_mock(CCE_REGISTERED)
-    def test_dacce_marks_the_homologation_environment(self):
+    def test_dacce_marks_the_homologation_environment_once(self):
+        """The mark is drawn by the library: a second one would come from here."""
         nfe = self._authorized_nfe()
         self._correct(nfe, VALID_TEXT)
         event = self._last_event(nfe)
         self.assertEqual(event.environment, EVENT_ENV_HML)
-        self.assertIn("SEM VALOR FISCAL", _pdf_text(self._render_event_pdf(event)[0]))
-        event.environment = "prod"
-        self.assertNotIn(
-            "SEM VALOR FISCAL", _pdf_text(self._render_event_pdf(event)[0])
+        text = _pdf_text(self._render_event_pdf(event)[0])
+        self.assertEqual(text.count("SEM VALOR FISCAL"), 1)
+        # the library reads the environment from the XML of the event
+        production = event._get_proc_evento_nfe().replace(
+            b"<tpAmb>2</tpAmb>", b"<tpAmb>1</tpAmb>"
+        )
+        with mock.patch.object(
+            type(event), "_get_proc_evento_nfe", return_value=production
+        ):
+            text = _pdf_text(self._render_event_pdf(event)[0])
+        self.assertNotIn("SEM VALOR FISCAL", text)
+
+    @nfe_mock(CCE_REGISTERED)
+    def test_dacce_prints_the_cpf_of_an_individual_recipient(self):
+        nfe = self._authorized_nfe()
+        self._correct(nfe, VALID_TEXT)
+        event = self._last_event(nfe)
+        proc = etree.fromstring(event._get_proc_evento_nfe())
+        ret_info = proc.find(f".//{{{NFE_NS}}}retEvento/{{{NFE_NS}}}infEvento")
+        etree.SubElement(ret_info, f"{{{NFE_NS}}}CPFDest").text = "12345678909"
+        with mock.patch.object(
+            type(event), "_get_proc_evento_nfe", return_value=etree.tostring(proc)
+        ):
+            text = _pdf_text(self._render_event_pdf(event)[0])
+        self.assertIn("CPF", text)
+        self.assertIn("123.456.789-09", text)
+
+    @nfe_mock(CCE_REGISTERED)
+    def test_dacce_issuer_has_no_cnpj_key_and_carries_the_ie(self):
+        """The library reads the CNPJ/CPF of the issuer from the XML."""
+        nfe = self._authorized_nfe()
+        self._correct(nfe, VALID_TEXT)
+        event = self._last_event(nfe)
+        issuer = event._get_dacce_issuer()
+        self.assertNotIn("cnpj", issuer)
+        self.assertEqual(
+            issuer["ie"], event.company_id.partner_id.l10n_br_ie_code or ""
         )
 
     @nfe_mock(CCE_REGISTERED)
