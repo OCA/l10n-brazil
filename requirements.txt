@@ -2,7 +2,7 @@
 brazil_fiscal_client
 brazilcep
 brazilfiscalreport
-brazilfiscalreport>=1.1.0
+brazilfiscalreport>=1.2.0
 email-validator
 erpbrasil-base>=2.4.2
 erpbrasil.assinatura
