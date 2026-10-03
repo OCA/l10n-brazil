@@ -28,6 +28,31 @@ class PurchaseOrder(models.Model):
         default=lambda self: self.env.company.country_id,
     )
 
+    amount_stock_cost_total = fields.Monetary(
+        string="Custo Total de Estoque (líquido)",
+        compute="_compute_amount_stock_cost_total",
+        help="Soma dos custos de aquisição líquidos das linhas — o valor que"
+        " efetivamente entra no estoque (sem impostos recuperáveis, com os"
+        " não recuperáveis). Use este total, e não o total do pedido, para"
+        " comparar fornecedores.",
+    )
+
+    stock_cost_estimated = fields.Boolean(
+        compute="_compute_amount_stock_cost_total",
+        help="Alguma linha tem custo estimado (compra interestadual antes do"
+        " suporte a alíquota interestadual na entrada).",
+    )
+
+    @api.depends("order_line.stock_cost_total", "order_line.stock_cost_estimated")
+    def _compute_amount_stock_cost_total(self):
+        for order in self:
+            order.amount_stock_cost_total = sum(
+                order.order_line.mapped("stock_cost_total")
+            )
+            order.stock_cost_estimated = any(
+                order.order_line.mapped("stock_cost_estimated")
+            )
+
     fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
         readonly=True,

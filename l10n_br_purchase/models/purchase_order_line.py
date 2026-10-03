@@ -28,6 +28,38 @@ class PurchaseOrderLine(models.Model):
         domain=lambda self: self._fiscal_operation_domain(),
     )
 
+    stock_cost_total = fields.Monetary(
+        string="Custo Total de Estoque",
+        compute="_compute_stock_cost_total",
+        help="Custo de aquisição líquido da linha (stock_cost_unit x"
+        " quantidade) — a base correta para comparar fornecedores: o mesmo"
+        " preço de tabela produz custos diferentes conforme o regime do"
+        " fornecedor e os créditos de impostos do comprador.",
+    )
+
+    stock_cost_estimated = fields.Boolean(
+        string="Custo Estimado?",
+        compute="_compute_stock_cost_total",
+        help="Compra interestadual: o motor fiscal ainda aplica a alíquota"
+        " interna do ICMS na entrada (não a interestadual de 4/7/12%) — o"
+        " custo líquido exibido é uma ESTIMATIVA e tende a ficar menor que"
+        " o real. Confirme com a NF do fornecedor.",
+    )
+
+    @api.depends("stock_cost_unit", "product_qty", "partner_id", "company_id")
+    def _compute_stock_cost_total(self):
+        for line in self:
+            line.stock_cost_total = line.stock_cost_unit * line.product_qty
+            partner_state = line.order_id.partner_id.state_id
+            company_state = line.company_id.state_id
+            line.stock_cost_estimated = bool(
+                line.fiscal_operation_id
+                and partner_state
+                and company_state
+                and partner_state != company_state
+                and line.order_id.partner_id.country_id == line.company_id.country_id
+            )
+
     # This redundancy is necessary for the system to be able to load the report
     fiscal_operation_line_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation.line",
