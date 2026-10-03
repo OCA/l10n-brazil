@@ -1,22 +1,43 @@
 # Copyright 2026 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import base64
+import gzip
 import logging
 from types import SimpleNamespace
 from unittest import mock
 
-from erpbrasil.assinatura import misc
-from erpbrasil.edoc.cte import CTe as EdocCTe
+from nfelib.nfe.ws.edoc_legacy import CTeAdapter as EdocCTe
+
+from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_cte.models.document import CTe
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_REJEITADA,
 )
 
 from .test_cte_serialize import TestCTeSerialize
 
 _logger = logging.getLogger(__name__)
+
+
+def _fake_event_process(cte, cstat, motive):
+    """Build an object shaped like the response of enviar_lote_evento."""
+    return SimpleNamespace(
+        envio_xml="<envEvento/>",
+        resposta=SimpleNamespace(
+            infEvento=SimpleNamespace(
+                cStat=cstat,
+                xMotivo=motive,
+                chCTe=cte.document_key,
+                dhRegEvento="2026-07-09T10:00:00-03:00",
+                nProt="135260000000002",
+            )
+        ),
+        retorno=SimpleNamespace(content=b"<retEvento/>"),
+    )
 
 
 def _fake_process(cte_status, motive, webservice="cteRecepcaoSinc"):
@@ -47,22 +68,6 @@ class TestCTeWebServices(TestCTeSerialize):
             ]
         )
         cls.cte = cls.cte_list[0]["cte"]
-        certificate_file = misc.create_fake_certificate_file(
-            valid=True,
-            passwd="123456",
-            issuer="EMISSOR A TESTE",
-            country="BR",
-            subject="CERTIFICADO VALIDO TESTE",
-        )
-        certificate = cls.env["l10n_br_fiscal.certificate"].create(
-            {
-                "type": "nf-e",
-                "subtype": "a1",
-                "password": "123456",
-                "file": certificate_file,
-            }
-        )
-        cls.cte.company_id.certificate_nfe_id = certificate
 
     def test_edoc_processor_returns_cte(self):
         """_edoc_processor builds a real erpbrasil CT-e processor for the record."""
@@ -96,3 +101,93 @@ class TestCTeWebServices(TestCTeSerialize):
             self.cte.action_document_send()
         self.assertEqual(self.cte.state_edoc, SITUACAO_EDOC_REJEITADA)
         self.assertEqual(self.cte.status_code, "999")
+
+    def test_export_builds_qrcode(self):
+        """The export fills infCTeSupl with the SEFAZ QR Code of the CT-e key."""
+        self.assertTrue(self.cte.document_key)
+        supplement = self.cte.cte40_infCTeSupl
+        self.assertTrue(supplement)
+        self.assertIn(f"chCTe={self.cte.document_key}", supplement.qrcode)
+        self.assertIn(f"tpAmb={self.cte.cte_environment}", supplement.qrcode)
+        xml = self.cte.send_file_id.datas
+        self.assertIn(b"qrCodCTe", base64.b64decode(xml))
+
+    def test_export_signs_xml(self):
+        """The export signs the infCte and validates the signed XML."""
+        with mock.patch.object(
+            EdocCTe, "assina_raiz", autospec=True, side_effect=EdocCTe.assina_raiz
+        ) as assina, mock.patch.object(CTe, "_validate_xml") as validate:
+            self.cte._document_export()
+        assina.assert_called_once()
+        edoc = assina.call_args.args[1]
+        self.assertEqual(assina.call_args.args[2], edoc.infCte.Id)
+        signed_xml = validate.call_args.args[0]
+        self.assertIn("Signature", signed_xml)
+
+    def test_certificate_required(self):
+        """Without a certificate the processor refuses to be built."""
+        self.cte.company_id.certificate_nfe_id = False
+        with self.assertRaises(UserError):
+            self.cte._edoc_processor()
+
+    def test_cancel_authorized(self):
+        """A CT-e cancellation event (cStat 135) cancels the document."""
+        self.cte.write(
+            {
+                "authorization_protocol": "135260000000001",
+                "cancel_reason": "Cancelamento de teste do CT-e",
+            }
+        )
+        with mock.patch.object(
+            EdocCTe, "cancela_documento", return_value=mock.sentinel.evento
+        ) as cancel, mock.patch.object(
+            EdocCTe,
+            "enviar_lote_evento",
+            return_value=_fake_event_process(self.cte, "135", "Evento registrado"),
+        ):
+            self.cte._cte_cancel()
+        cancel.assert_called_once()
+        self.assertEqual(self.cte.state_edoc, SITUACAO_EDOC_CANCELADA)
+        self.assertEqual(self.cte.cancel_event_id.status_code, "135")
+
+    def test_cancel_rejected(self):
+        """A refused cancellation raises instead of cancelling the document."""
+        self.cte.write(
+            {
+                "authorization_protocol": "135260000000001",
+                "cancel_reason": "Cancelamento de teste do CT-e",
+            }
+        )
+        with mock.patch.object(
+            EdocCTe, "cancela_documento", return_value=mock.sentinel.evento
+        ), mock.patch.object(
+            EdocCTe,
+            "enviar_lote_evento",
+            return_value=_fake_event_process(self.cte, "999", "Rejeicao"),
+        ), self.assertRaises(UserError):
+            self.cte._cte_cancel()
+        self.assertNotEqual(self.cte.state_edoc, SITUACAO_EDOC_CANCELADA)
+
+    def test_correction_letter(self):
+        """A correction letter (cStat 135) is registered as a done event."""
+        self.cte.authorization_protocol = "135260000000001"
+        with mock.patch.object(
+            EdocCTe, "carta_correcao", return_value=mock.sentinel.evento
+        ) as correction, mock.patch.object(
+            EdocCTe,
+            "enviar_lote_evento",
+            return_value=_fake_event_process(self.cte, "135", "Evento registrado"),
+        ):
+            self.cte._cte_correction("Correcao de teste do CT-e")
+        self.assertEqual(correction.call_args.kwargs["sequencia"], "1")
+        event = self.cte.event_ids.filtered(lambda e: e.type == "14")
+        self.assertEqual(event.state, "done")
+        self.assertEqual(event.status_code, "135")
+
+    def test_send_posts_signed_xml(self):
+        """The real send path signs the xsdata CT-e before posting it."""
+        with mock.patch.object(EdocCTe, "_post") as post:
+            self.cte._edoc_processor().envia_documento(self.cte.serialize()[0])
+        posted = gzip.decompress(base64.b64decode(post.call_args.kwargs["raiz"]))
+        self.assertIn(b"Signature", posted)
+        self.assertIn(self.cte.document_key.encode(), posted)

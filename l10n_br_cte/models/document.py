@@ -12,7 +12,6 @@ from datetime import datetime
 
 from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
-from erpbrasil.edoc.cte import CTe as edoc_cte
 from erpbrasil.edoc.cte import TransmissaoCTE
 
 # TODO: precisa tratar
@@ -22,6 +21,9 @@ from nfelib.cte.bindings.v4_0.dfe_tipos_basicos_v1_00 import Tcibs as CTeTcibs
 from nfelib.cte.bindings.v4_0.dfe_tipos_basicos_v1_00 import TtribCte
 from nfelib.cte.bindings.v4_0.proc_cte_v4_00 import CteProc
 
+# erpbrasil.edoc.cte.CTe only renders generateDS objects, this adapter makes it
+# render, sign and post the xsdata bindings that nfelib and this module use
+from nfelib.nfe.ws.edoc_legacy import CTeAdapter as edoc_cte
 from requests import Session
 from xsdata.formats.dataclass.parsers import XmlParser
 
@@ -1564,8 +1566,10 @@ class CTe(spec_models.StackedModel):
     def _document_export(self, pretty_print=True):
         result = super()._document_export()
         for record in self.filtered(filter_processador_edoc_cte):
+            # The QR Code goes in infCTeSupl, so it must exist before serializing
+            record._document_qrcode()
             edoc = record.serialize()[0]
-            # processador = record._edoc_processor()
+            processador = record._edoc_processor()
             xml_file = edoc.to_xml()
             event_id = self.event_ids.create_event_save_xml(
                 company_id=self.company_id,
@@ -1578,8 +1582,8 @@ class CTe(spec_models.StackedModel):
             )
             record.authorization_event_id = event_id
 
-            # xml_assinado = processador.assina_raiz(edoc, edoc.infCte.Id)
-            # self._validate_xml(xml_assinado)
+            xml_assinado = processador.assina_raiz(edoc, edoc.infCte.Id)
+            self._validate_xml(xml_assinado)
         return result
 
     def _validate_xml(self, xml_file):
@@ -1776,17 +1780,18 @@ class CTe(spec_models.StackedModel):
             file_response_xml=process.retorno.content.decode("utf-8"),
         )
 
-    # def _document_qrcode(self):
-    #     super()._document_qrcode()
+    def _document_qrcode(self):
+        result = super()._document_qrcode()
 
-    #     for record in self.filtered(filter_processador_edoc_cte):
-    #         record.cte40_infCTeSupl = self.env[
-    #             "l10n_br_fiscal.document.supplement"
-    #         ].create(
-    #             {
-    #                 "qrcode": record.get_cte_qrcode(),
-    #             }
-    #         )
+        for record in self.filtered(filter_processador_edoc_cte):
+            qrcode = record.get_cte_qrcode()
+            if record.cte40_infCTeSupl:
+                record.cte40_infCTeSupl.qrcode = qrcode
+            else:
+                record.cte40_infCTeSupl = self.env[
+                    "l10n_br_fiscal.document.supplement"
+                ].create({"qrcode": qrcode})
+        return result
 
     def get_cte_qrcode(self):
         if self.document_type != MODELO_FISCAL_CTE:
