@@ -1,0 +1,202 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_fiscal_edi
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
+msgid ""
+"The correction text has characters that the tax authority does not "
+"accept: %(chars)s. Replace them and try again."
+msgstr ""
+"O texto da correção tem caracteres que o fisco não aceita: %(chars)s. "
+"Substitua-os e tente novamente."
+
+#. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
+msgid ""
+"The correction text must have at least %(min)s characters (it has "
+"%(size)s)."
+msgstr ""
+"O texto da correção deve ter pelo menos %(min)s caracteres (tem "
+"%(size)s)."
+
+#. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
+msgid ""
+"The correction text must have at most %(max)s characters (it has "
+"%(size)s)."
+msgstr "O texto da correção deve ter no máximo %(max)s caracteres (tem %(size)s)."
+
+#. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
+msgid "The maximum of %(max)s correction letters for this document was reached."
+msgstr "O máximo de %(max)s cartas de correção para este documento foi atingido."
+
+#. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
+msgid "Correction letter registered"
+msgstr "Carta de correção registrada"
+
+#. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
+msgid "Correction letter refused"
+msgstr "Carta de correção recusada"
+
+#. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document_event.py:0
+msgid "Only a correction letter registered by the tax authority can be printed."
+msgstr "Somente uma carta de correção registrada pelo fisco pode ser impressa."
+
+#. module: l10n_br_fiscal_edi
+#: model:ir.model.fields,help:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_correction_wizard__justification
+msgid ""
+"NF-e: 15 to 1000 characters; line breaks, tabs, repeated spaces and "
+"typographic punctuation are normalized before sending."
+msgstr ""
+"NF-e: de 15 a 1000 caracteres; quebras de linha, tabulações, espaços "
+"repetidos e pontuação tipográfica são normalizados antes do envio."
+
+#. module: l10n_br_fiscal_edi
+#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__can_print
+msgid "Can Print"
+msgstr "Pode imprimir"
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "(Electronic Correction Letter)"
+msgstr "(Carta de Correção Eletrônica)"
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Access key"
+msgstr "Chave de acesso"
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Barcode"
+msgstr "Código de barras"
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "CNPJ/CPF:"
+msgstr "CNPJ/CPF:"
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Conditions of use"
+msgstr "Condições de uso"
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Corrections to be considered"
+msgstr "Correções a serem consideradas"
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Created on:"
+msgstr "Criado em:"
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Event ID:"
+msgstr "ID do evento:"
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Graphic representation of the CC-e"
+msgstr "Representação gráfica de CC-e"
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Issue date:"
+msgstr "Data de emissão:"
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Issuer"
+msgstr "Emitente"
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Model:"
+msgstr "Modelo:"
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "NF-e"
+msgstr "NF-e"
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "NO FISCAL VALUE"
+msgstr "SEM VALOR FISCAL"
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Number:"
+msgstr "Número:"
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Protocol:"
+msgstr "Protocolo:"
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Recipient"
+msgstr "Destinatário"
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Registered at:"
+msgstr "Registrado em:"
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Sequence:"
+msgstr "Sequência:"
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Series:"
+msgstr "Série:"
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "State registration:"
+msgstr "Inscrição estadual:"
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Status:"
+msgstr "Situação:"
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid ""
+"This document is a graphic representation of the CC-e, printed only for "
+"information, and has no fiscal validity. The CC-e must be received and kept "
+"as an XML file and can be consulted on the SEFAZ portals."
+msgstr ""
+"Este documento é uma representação gráfica da CC-e, impresso apenas para sua"
+" informação, e não tem validade fiscal. A CC-e deve ser recebida e mantida "
+"em arquivo XML e pode ser consultada nos portais das SEFAZ."

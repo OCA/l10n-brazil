@@ -4890,6 +4890,12 @@ msgid ""
 "emissão"
 msgstr ""
 
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/document.py:0
+msgid "Correction letter requested: %s"
+msgstr "Carta de correção solicitada: %s"
+
 #~ msgid "Type"
 #~ msgstr "Tipo"
 
