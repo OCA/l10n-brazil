@@ -5,8 +5,9 @@ import logging
 from types import SimpleNamespace
 from unittest import mock
 
-from erpbrasil.assinatura import misc
-from erpbrasil.edoc.cte import CTe as EdocCTe
+from nfelib.nfe.ws.edoc_legacy import CTeAdapter as EdocCTe
+
+from odoo.exceptions import UserError, ValidationError
 
 from odoo.addons.l10n_br_cte.models.document import CTe
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -47,22 +48,13 @@ class TestCTeWebServices(TestCTeSerialize):
             ]
         )
         cls.cte = cls.cte_list[0]["cte"]
-        certificate_file = misc.create_fake_certificate_file(
-            valid=True,
-            passwd="123456",
-            issuer="EMISSOR A TESTE",
-            country="BR",
-            subject="CERTIFICADO VALIDO TESTE",
-        )
-        certificate = cls.env["l10n_br_fiscal.certificate"].create(
-            {
-                "type": "nf-e",
-                "subtype": "a1",
-                "password": "123456",
-                "file": certificate_file,
-            }
-        )
-        cls.cte.company_id.certificate_nfe_id = certificate
+
+    def test_processor_signs_xsdata_binding(self):
+        """The processor signs the xsdata Cte binding (the plain
+        erpbrasil.edoc.cte.CTe only knows the legacy generateDS ones)."""
+        edoc = self.cte.serialize()[0]
+        signed = self.cte._edoc_processor().assina_raiz(edoc, edoc.infCte.Id)
+        self.assertIn("<Signature", signed)
 
     def test_edoc_processor_returns_cte(self):
         """_edoc_processor builds a real erpbrasil CT-e processor for the record."""
@@ -71,15 +63,29 @@ class TestCTeWebServices(TestCTeSerialize):
         self.assertEqual(str(processor.versao), self.cte.cte_version)
         self.assertEqual(str(processor.ambiente), self.cte.cte_environment)
 
+    def test_edoc_processor_without_certificate(self):
+        """No company certificate: the processor refuses to be built."""
+        company = self.cte.company_id
+        certificate = company.certificate_id
+        company.certificate_id = False
+        try:
+            with self.assertRaises(ValidationError):
+                self.cte._edoc_processor()
+        finally:
+            company.certificate_id = certificate
+
     def test_document_send_authorized(self):
         """A SEFAZ authorization (cStat 100) drives the document to AUTORIZADA."""
-        with mock.patch.object(
-            EdocCTe,
-            "processar_documento",
-            side_effect=lambda *a, **k: iter(
-                [_fake_process("100", "Autorizado o uso do CT-e")]
+        with (
+            mock.patch.object(
+                EdocCTe,
+                "processar_documento",
+                side_effect=lambda *a, **k: iter(
+                    [_fake_process("100", "Autorizado o uso do CT-e")]
+                ),
             ),
-        ), mock.patch.object(CTe, "_cte_response_add_proc"):
+            mock.patch.object(CTe, "_cte_response_add_proc"),
+        ):
             self.cte.action_document_send()
         self.assertEqual(self.cte.state_edoc, SITUACAO_EDOC_AUTORIZADA)
         self.assertEqual(self.cte.status_code, "100")
@@ -96,3 +102,20 @@ class TestCTeWebServices(TestCTeSerialize):
             self.cte.action_document_send()
         self.assertEqual(self.cte.state_edoc, SITUACAO_EDOC_REJEITADA)
         self.assertEqual(self.cte.status_code, "999")
+
+    def test_qrcode_in_serialized_xml(self):
+        """The normal emission QR Code lands in infCTeSupl/qrCodCTe."""
+        self.cte._document_qrcode()
+        qrcode = self.cte.serialize()[0].infCTeSupl.qrCodCTe
+        self.assertIn(f"chCTe={self.cte.document_key}", qrcode)
+        self.assertIn(f"tpAmb={self.cte.cte_environment}", qrcode)
+        # running it again updates the supplement instead of duplicating it
+        supplement = self.cte.cte40_infCTeSupl
+        self.cte._document_qrcode()
+        self.assertEqual(self.cte.cte40_infCTeSupl, supplement)
+
+    def test_qrcode_fsda_contingency_not_supported(self):
+        """FS-DA needs a signed QR Code that is not built: fail loudly."""
+        self.cte.cte40_tpEmis = "5"
+        with self.assertRaises(UserError):
+            self.cte._document_qrcode()
