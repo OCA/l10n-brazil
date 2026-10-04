@@ -1,0 +1,29 @@
+id: N-NT-CONJUNTA-2025.001
+tipo: nota-tecnica
+orgao: Receita Federal do Brasil e ENCAT (Portal da NF-e)
+titulo: >-
+  Nota Técnica Conjunta 2025.001: CNPJ alfanumérico nos documentos fiscais
+  eletrônicos (NF-e, NFC-e, CT-e, CT-e OS, GTV-e, MDF-e, BP-e, NF3e, NFCom)
+status: nt
+confianca: oficial
+versoes:
+  - versao: "1.00"
+    data: 2025-04-25
+trechos:
+  - ref: item-5
+    descricao: >-
+      A chave de acesso de 44 posições passa a seguir a expressão
+      [0-9]{6}[A-Z0-9]{12}[0-9]{26}: só as 12 primeiras posições do CNPJ do
+      emitente (posições 7 a 20 da chave) aceitam letras; o resto continua
+      numérico. O dígito verificador da chave é o módulo 11 sobre o valor ASCII
+      menos 48 de cada caractere.
+    status: implementacao-futura
+  - ref: campos-cnpj
+    descricao: >-
+      Os campos do tipo CNPJ dos leiautes passam a aceitar [A-Z0-9]{12}[0-9]{2};
+      cada documento recebe nota técnica própria para o schema.
+    status: implementacao-futura
+dominios: [EDI, CAD]
+observacoes: >-
+  TODO(mantenedor): fixar a URL direta da NT no Portal da NF-e (seção Documentos
+  > Notas Técnicas) e registrar o hash do PDF em artefatos.

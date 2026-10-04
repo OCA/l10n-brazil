@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "capacidade.schema.json",
+  "title": "Capacidade (frontmatter)",
+  "description": "Frontmatter YAML de docs/capacidades/<DOM>/CAP-<DOM>-<slug>.md. O corpo em Markdown descreve a capacidade em prosa curta.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "dominio", "titulo", "descricao", "status"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^CAP-[A-Z]+-[a-z0-9][a-z0-9-]*$"},
+    "dominio": {"type": "string", "pattern": "^[A-Z]+$"},
+    "titulo": {"type": "string", "minLength": 1},
+    "descricao": {"type": "string", "minLength": 1},
+    "status": {"type": "string"},
+    "normas": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^N-[A-Z0-9][A-Za-z0-9.-]*(#[A-Za-z0-9][A-Za-z0-9._-]*)?$"}
+    },
+    "marcos": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^M-[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9][a-z0-9-]*$"}
+    },
+    "depende_de": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^CAP-[A-Z]+-[a-z0-9][a-z0-9-]*$"}
+    },
+    "modulos": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"}
+    },
+    "modulos_planejados": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"}
+    }
+  }
+}

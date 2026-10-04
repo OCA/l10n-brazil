@@ -1,0 +1,31 @@
+# Um arquivo por família: docs/casos/<familia>.yaml, lista de casos. Sem campo
+# "series": a branch é a série.
+
+- id: BR-CAMADA-FAMILIA-001
+  titulo: "Frase do que o usuário vê acontecer"
+  camada: base # ver camada_caso em docs/taxonomia/vocabularios.yaml
+  modulo: nome_do_modulo # existe na branch ou está em modulos_planejados de uma spec
+  nivel: L1 # L0 | L1 | L2 | L3
+  familia: familia
+  nucleo: true
+  gatilhos:
+    - {tipo: caminho, ref: "nome_do_modulo/models/arquivo.py"}
+    - {tipo: xmlid, ref: "nome_do_modulo.view_form"}
+  precondicoes:
+    - {descricao: "Estado que precisa existir antes do passo 1"}
+  execucao:
+    ui:
+      passos_humanos: |
+        1. Onde clicar e o que digitar.
+        2. O que conferir na tela.
+      script: jornadas/camada/arquivo.py
+  asserts:
+    - {via: rpc, modelo: "res.partner", campo: "campo", esperado: "valor"}
+    - {via: ui, ref: "O que aparece na tela"}
+  evidencia: "nome_do_modulo/tests/test_arquivo.py::Classe::test_metodo"
+  fonte:
+    - "N-SLUG-DA-NORMA#art-1"
+  estado: pendente # coberto exige visto_em
+  ratificado_por: null
+  requisitos: [REQ-slug-01]
+  notas: ""

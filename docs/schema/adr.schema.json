@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "adr.schema.json",
+  "title": "ADR (frontmatter)",
+  "description": "Frontmatter YAML de docs/decisoes/ADR-NNNN-<slug>.md. O corpo segue Contexto, Decisao, Consequencias.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "titulo", "data", "status"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^ADR-[0-9]{4}-[a-z0-9][a-z0-9-]*$"},
+    "titulo": {"type": "string", "minLength": 1},
+    "data": {"type": "string", "format": "date"},
+    "status": {"type": "string"},
+    "specs_afetadas": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^SPEC-[A-Z]+-[a-z0-9][a-z0-9-]*$"}
+    },
+    "substitui": {"type": "string", "pattern": "^ADR-[0-9]{4}-[a-z0-9][a-z0-9-]*$"},
+    "substituido_por": {"type": "string", "pattern": "^ADR-[0-9]{4}-[a-z0-9][a-z0-9-]*$"}
+  }
+}

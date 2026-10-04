@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "norma.schema.json",
+  "title": "Norma",
+  "description": "Um arquivo YAML por norma em docs/normas/. Valores de tipo, status e confianca vem de docs/taxonomia (verificados pelo validador).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "tipo", "orgao", "titulo", "status", "confianca", "dominios"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^N-[A-Z0-9][A-Za-z0-9.-]*$"},
+    "tipo": {"type": "string"},
+    "orgao": {"type": "string", "minLength": 1},
+    "titulo": {"type": "string", "minLength": 1},
+    "status": {"type": "string"},
+    "confianca": {"type": "string"},
+    "publicacao": {"type": "string", "format": "date"},
+    "vigencia": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "inicio": {"type": "string", "format": "date"},
+        "fim": {"type": "string", "format": "date"}
+      }
+    },
+    "url": {"type": "string", "format": "uri"},
+    "versoes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["versao"],
+        "properties": {
+          "versao": {"type": "string", "minLength": 1},
+          "data": {"type": "string", "format": "date"},
+          "url": {"type": "string", "format": "uri"},
+          "confianca": {"type": "string"},
+          "observacoes": {"type": "string"}
+        }
+      }
+    },
+    "trechos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["ref", "descricao"],
+        "properties": {
+          "ref": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"},
+          "descricao": {"type": "string", "minLength": 1},
+          "status": {"type": "string"}
+        }
+      }
+    },
+    "artefatos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["nome", "url", "sha256"],
+        "properties": {
+          "nome": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"},
+          "url": {"type": "string", "format": "uri"},
+          "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "tamanho": {"type": "integer", "minimum": 0},
+          "descricao": {"type": "string"}
+        }
+      }
+    },
+    "supersede": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^N-[A-Z0-9][A-Za-z0-9.-]*$"}
+    },
+    "dominios": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[A-Z]+$"}
+    },
+    "observacoes": {"type": "string"}
+  }
+}
