@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "spec.schema.json",
+  "title": "Spec (frontmatter)",
+  "description": "Frontmatter YAML de docs/specs/<DOM>/SPEC-<DOM>-<slug>.md. Os requisitos ficam no corpo, em secoes '### REQ-<slug>-NN: titulo' com campos em lista (ver requisito.schema.json). Regras fora do esquema, verificadas pelo validador: modulos ou modulos_planejados nao vazio; fora de rascunho, seams e invariantes nao vazios.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "capacidade", "titulo", "status", "normas", "dominios", "modulos", "seams", "invariantes"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^SPEC-[A-Z]+-[a-z0-9][a-z0-9-]*$"},
+    "capacidade": {"type": "string", "pattern": "^CAP-[A-Z]+-[a-z0-9][a-z0-9-]*$"},
+    "titulo": {"type": "string", "minLength": 1},
+    "status": {"type": "string"},
+    "normas": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^N-[A-Z0-9][A-Za-z0-9.-]*(#[A-Za-z0-9][A-Za-z0-9._-]*)?$"}
+    },
+    "marcos": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^M-[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9][a-z0-9-]*$"}
+    },
+    "dominios": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[A-Z]+$"}
+    },
+    "modulos": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"}
+    },
+    "modulos_planejados": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"}
+    },
+    "bibliotecas": {
+      "description": "Bibliotecas Python de que os requisitos dependem (nome PyPI), para evidencia fora do repositorio.",
+      "type": "array",
+      "items": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"}
+    },
+    "seams": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "invariantes": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "questoes_abertas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["texto", "dono"],
+        "properties": {
+          "texto": {"type": "string", "minLength": 1},
+          "dono": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "substitui": {"type": "string", "pattern": "^SPEC-[A-Z]+-[a-z0-9][a-z0-9-]*$"}
+  }
+}

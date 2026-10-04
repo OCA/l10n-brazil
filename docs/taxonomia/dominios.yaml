@@ -1,0 +1,58 @@
+# Domínios da localização brasileira. O código curto entra nos ids
+# (CAP-<DOM>-..., SPEC-<DOM>-...). Um requisito pertence a um domínio só; uma
+# norma ou um marco pode afetar vários. Acrescentar domínio é decisão do PSC.
+dominios:
+  - codigo: FIS
+    nome: Motor fiscal
+    cobre: >-
+      Operação fiscal, CFOP, CST, NCM/CEST, tax definition, vigência, regimes
+      (CRT), ICMS/IPI/PIS/COFINS/ISS e IBS/CBS/IS no cálculo.
+    modulos_tipicos: [l10n_br_fiscal, l10n_br_fiscal_tax_*]
+  - codigo: EDI
+    nome: Documentos eletrônicos
+    cobre: >-
+      NF-e, NFC-e, CT-e, MDF-e, NFS-e (provedores e Nacional), eventos,
+      distribuição de DF-e, certificado digital, contingência.
+    modulos_tipicos:
+      [l10n_br_nfe, l10n_br_nfse, l10n_br_cte, l10n_br_mdfe, l10n_br_fiscal_edi, l10n_br_fiscal_dfe]
+  - codigo: APUR
+    nome: Apuração e obrigações acessórias
+    cobre: >-
+      Apuração por período, EFD ICMS/IPI, EFD Contribuições, ECD, ECF, EFD-Reinf,
+      DCTFWeb/MIT, GNRE, PNCT, apuração assistida de IBS/CBS.
+    modulos_tipicos: [l10n_br_sped_base, l10n_br_sped_efd_icms_ipi, l10n_br_sped_ecd, l10n_br_tax_assessment]
+  - codigo: CONT
+    nome: Contabilidade societária
+    cobre: >-
+      Plano de contas, CPC/NBC/ITG, fechamento de exercício, DRE/BP/DFC/DMPL/DVA,
+      LALUR, retenções a compensar, plano referencial do SPED.
+    modulos_tipicos: [l10n_br_coa, l10n_br_coa_generic, l10n_br_account, l10n_br_mis_report]
+  - codigo: FIN
+    nome: Financeiro e bancário
+    cobre: >-
+      CNAB, boleto, Pix, conciliação, pagamento de tributos, split payment.
+    modulos_tipicos: [l10n_br_account_payment_order, l10n_br_cnab_structure, l10n_br_account_payment_brcobranca]
+  - codigo: OPER
+    nome: Operações
+    cobre: >-
+      Compras e entrada por XML, estoque e custo (custo líquido, creditabilidade),
+      importação (DI/DUIMP), conserto, industrialização, PDV, frete.
+    modulos_tipicos: [l10n_br_purchase, l10n_br_stock, l10n_br_account_duimp, l10n_br_repair, l10n_br_pos, l10n_br_delivery]
+  - codigo: CAD
+    nome: Cadastro
+    cobre: >-
+      Parceiro (CNPJ, CPF, IE, consulta de cadastro), endereço brasileiro,
+      produto, cidades, bancos, CNAE.
+    modulos_tipicos: [l10n_br_base, l10n_br_zip, l10n_br_cnpj_search, l10n_br_ie_search]
+  - codigo: TRANSV
+    nome: Transversal
+    cobre: >-
+      Máquina de estados do documento, fila, notificação, auditoria de eventos,
+      migração entre séries, bibliotecas (nfelib, erpbrasil.*), fisco controlado
+      para teste.
+    modulos_tipicos: [spec_driven_model, l10n_br_fiscal_queue, l10n_br_fiscal_notification]
+  - codigo: RH
+    nome: Folha e eSocial
+    cobre: >-
+      Declarado para completude do mapa; fora do escopo de specs nesta rodada.
+    modulos_tipicos: [l10n_br_hr, l10n_br_hr_contract]

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "marco.schema.json",
+  "title": "Marco",
+  "description": "Um arquivo YAML por marco em docs/marcos/. A data do id e o campo data devem coincidir (verificado pelo validador).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "data", "fase", "o_que_muda", "normas", "status_data", "dominios"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^M-[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9][a-z0-9-]*$"},
+    "data": {"type": "string", "format": "date"},
+    "fase": {"type": "string", "minLength": 1},
+    "o_que_muda": {"type": "string", "minLength": 1},
+    "normas": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "pattern": "^N-[A-Z0-9][A-Za-z0-9.-]*(#[A-Za-z0-9][A-Za-z0-9._-]*)?$"}
+    },
+    "status_data": {"type": "string"},
+    "dominios": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[A-Z]+$"}
+    },
+    "observacoes": {"type": "string"}
+  }
+}
