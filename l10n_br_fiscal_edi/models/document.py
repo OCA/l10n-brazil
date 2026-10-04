@@ -31,6 +31,7 @@ from ..constants.fiscal import (
     DOCUMENT_STATE_REJECTED,
     DOCUMENT_STATE_SENDING,
     DOCUMENT_STATES,
+    FSM_STATE_CHANGE_CONTEXT,
 )
 
 
@@ -57,7 +58,8 @@ class FiscalDocumentStateMachine(Machine):
     Nested ``_trigger_fsm()`` calls made from those callbacks (e.g. the
     send -> authorize chain) therefore always read the up-to-date state_edoc.
     The initial ``set_state()`` done at machine construction is a no-op write
-    thanks to the value comparison.
+    thanks to the value comparison. The write carries FSM_STATE_CHANGE_CONTEXT,
+    so that extensions can defer work that needs the ``after`` callbacks.
     """
 
     def __init__(self, document, *args, **kwargs):
@@ -67,7 +69,9 @@ class FiscalDocumentStateMachine(Machine):
     def set_state(self, state, model=None):
         result = super().set_state(state, model)
         if self.state != self.document.state_edoc:
-            self.document.write({"state_edoc": self.state})
+            self.document.with_context(**{FSM_STATE_CHANGE_CONTEXT: True}).write(
+                {"state_edoc": self.state}
+            )
         return result
 
 
