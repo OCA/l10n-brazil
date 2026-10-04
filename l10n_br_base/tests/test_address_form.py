@@ -2,9 +2,10 @@
 
 from lxml import etree
 
-from odoo.tests import Form, TransactionCase
+from odoo.tests import Form, TransactionCase, tagged
 
 
+@tagged("post_install", "-at_install")
 class TestAddressForm(TransactionCase):
     """The Brazilian address fields must be editable on the forms whatever
     the country of the current company: the core only swaps in the address
@@ -19,6 +20,12 @@ class TestAddressForm(TransactionCase):
         cls.foreign_company = cls.env["res.company"].create(
             {"name": "Foreign Company", "country_id": cls.us.id}
         )
+        # with account installed the partner form requires the receivable and
+        # payable accounts of the company
+        if "account.chart.template" in cls.env:
+            cls.env["account.chart.template"].try_loading(
+                "generic_coa", cls.foreign_company, install_demo=False
+            )
         cls.br_company = cls.env["res.company"].create(
             {"name": "Brazilian Company", "country_id": cls.br.id}
         )
