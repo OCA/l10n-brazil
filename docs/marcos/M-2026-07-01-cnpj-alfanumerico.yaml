@@ -1,0 +1,19 @@
+id: M-2026-07-01-cnpj-alfanumerico
+data: 2026-07-01
+fase: "2026"
+o_que_muda: >-
+  A Receita passa a inscrever CNPJs com letras nas 12 primeiras posições. A
+  partir daqui qualquer cadastro, documento fiscal, arquivo bancário ou
+  declaração pode receber um CNPJ alfanumérico de cliente, fornecedor ou da
+  própria empresa. Os schemas da NF-e e NFC-e (NT 2026.004) e a chave de acesso
+  dos DF-e (NT Conjunta 2025.001) aceitam o novo formato em produção.
+normas:
+  - N-IN-RFB-2229-2024#formato
+  - N-RFB-PR-CNPJ-ALFANUMERICO#q4
+  - N-NT-CONJUNTA-2025.001#item-5
+  - N-NT-2026.004#prazos
+status_data: norma
+dominios: [CAD, EDI, FIN, APUR]
+observacoes: >-
+  O mês (julho de 2026) é oficial (Perguntas e Respostas da RFB, q4). O dia 01
+  vem da data de produção da NT 2026.004, com confiança secundária.

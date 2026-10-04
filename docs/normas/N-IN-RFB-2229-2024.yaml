@@ -1,0 +1,21 @@
+id: N-IN-RFB-2229-2024
+tipo: instrucao-normativa
+orgao: Receita Federal do Brasil
+titulo: >-
+  Instrução Normativa RFB nº 2.229, de 15 de outubro de 2024: número de
+  inscrição no CNPJ em formato alfanumérico
+status: norma
+confianca: oficial
+publicacao: 2024-10-15
+trechos:
+  - ref: formato
+    descricao: >-
+      As oito posições da raiz e as quatro da ordem do número de inscrição
+      passam a admitir letras e algarismos; os dois dígitos verificadores
+      continuam numéricos. CNPJs já inscritos não mudam.
+    status: vigente
+dominios: [CAD, EDI, FIN, APUR]
+observacoes: >-
+  TODO(mantenedor): fixar a URL do texto no portal de normas da RFB e o artigo
+  exato do trecho "formato". A descrição acima vem da divulgação oficial da RFB
+  e do Perguntas e Respostas (N-RFB-PR-CNPJ-ALFANUMERICO), não do texto da IN.

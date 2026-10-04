@@ -1,0 +1,37 @@
+id: N-RFB-PR-CNPJ-ALFANUMERICO
+tipo: perguntas-e-respostas
+orgao: Receita Federal do Brasil
+titulo: "Perguntas e Respostas: CNPJ alfanumérico"
+status: nt
+confianca: oficial
+url: https://www.gov.br/receitafederal/pt-br/centrais-de-conteudo/publicacoes/perguntas-e-respostas/cnpj/cnpj-alfanumerico.pdf
+trechos:
+  - ref: q1
+    descricao: >-
+      O CNPJ alfanumérico é composto por números de 0 a 9 e por qualquer uma das
+      26 letras de A até Z.
+    status: vigente
+  - ref: q2
+    descricao: >-
+      Mantém 14 posições no formato AA.AAA.AAA/AAAA-DV; "A" é alfanumérico
+      (algarismos e letras maiúsculas), "DV" é dígito verificador calculado por
+      módulo 11.
+    status: vigente
+  - ref: q4
+    descricao: >-
+      Os primeiros CNPJs alfanuméricos entram em produção a partir de julho de
+      2026.
+    status: vigente
+  - ref: q14
+    descricao: >-
+      Cálculo do dígito verificador por módulo 11: cada caractere vale o seu
+      código ASCII menos 48 (algarismos valem 0 a 9; A vale 17, B vale 18, e
+      assim por diante).
+    status: vigente
+artefatos:
+  - nome: cnpj-alfanumerico.pdf
+    url: https://www.gov.br/receitafederal/pt-br/centrais-de-conteudo/publicacoes/perguntas-e-respostas/cnpj/cnpj-alfanumerico.pdf
+    sha256: c59ab587536ca22f634373cd6a0603afc834f286d3f557e60ad488f4e6264835
+    tamanho: 801190
+    descricao: Versão baixada em 2026-10-04 (14 páginas). Se o hash mudar, a Receita atualizou o documento.
+dominios: [CAD, EDI, FIN, APUR]
