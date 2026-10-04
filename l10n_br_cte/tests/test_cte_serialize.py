@@ -5,6 +5,7 @@ import logging
 import os
 from datetime import datetime
 
+from erpbrasil.assinatura import misc
 from xmldiff import main
 
 from odoo import Command
@@ -23,10 +24,34 @@ class TestCTeSerialize(TransactionCase):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.cte_list = cte_list
+        cls._set_fake_certificate()
         for cte_data in cls.cte_list:
             cte = cls.env.ref(cte_data["record_ref"])
             cte_data["cte"] = cte
             cls.prepare_test_cte(cte)
+
+    @classmethod
+    def _set_fake_certificate(cls):
+        """The export signs the XML and builds the QR Code, so the company
+        needs a certificate."""
+        certificate = cls.env["l10n_br_fiscal.certificate"].create(
+            {
+                "type": "nf-e",
+                "subtype": "a1",
+                "password": "123456",
+                "file": misc.create_fake_certificate_file(
+                    valid=True,
+                    passwd="123456",
+                    issuer="EMISSOR A TESTE",
+                    country="BR",
+                    subject="CERTIFICADO VALIDO TESTE",
+                ),
+            }
+        )
+        for cte_data in cls.cte_list:
+            cls.env.ref(
+                cte_data["record_ref"]
+            ).company_id.certificate_nfe_id = certificate
 
     @classmethod
     def prepare_test_cte(self, cte):
