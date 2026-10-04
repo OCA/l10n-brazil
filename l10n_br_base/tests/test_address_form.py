@@ -68,3 +68,25 @@ class TestAddressForm(TransactionCase):
         self.assertEqual(company.street_number, "586")
         self.assertEqual(company.partner_id.street_number, "586")
         self.assertEqual(company.partner_id.street, "Rua Paulo Dias, 586")
+
+    def test_company_created_from_partner(self):
+        partner = self.env["res.partner"].create(
+            {
+                "name": "Empresa Teste Ltda",
+                "is_company": True,
+                "country_id": self.br.id,
+                "street_name": "Rua Paulo Dias",
+                "street_number": "586",
+                "district": "Vila Santa Luzia",
+                "zip": "18125-000",
+            }
+        )
+        company = self.env["res.company"].create(
+            {"name": "Empresa Teste", "partner_id": partner.id}
+        )
+        self.env.flush_all()
+        company.invalidate_recordset()
+        self.assertEqual(company.street, "Rua Paulo Dias, 586")
+        self.assertEqual(company.street_number, "586")
+        self.assertEqual(company.district, "Vila Santa Luzia")
+        self.assertEqual(company.zip, "18125-000")
