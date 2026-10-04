@@ -349,6 +349,14 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
                 )
                 if latam_doc_type:
                     move_form.l10n_latam_document_type_id = latam_doc_type
+        # vendor bills get a manual latam number, as in the import wizard
+        if (
+            document_number is not None
+            and "l10n_latam.document.type" in cls.env
+            and move_form.l10n_latam_use_documents
+            and move_form.l10n_latam_manual_document_number
+        ):
+            move_form.l10n_latam_document_number = document_number
 
         for index, product in enumerate(products):
             with move_form.invoice_line_ids.new() as line_form:
