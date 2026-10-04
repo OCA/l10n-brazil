@@ -17,4 +17,12 @@
         parent="l10n_br_fiscal.document_sub_menu"
         sequence="50"
     />
+    <!-- Fiscal Document Services -->
+    <menuitem
+        id="service_menu"
+        action="service_action"
+        groups="l10n_br_fiscal.group_manager"
+        parent="l10n_br_fiscal.others_config_menu"
+        sequence="40"
+    />
 </odoo>
