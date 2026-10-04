@@ -63,6 +63,35 @@
             <field name="city" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>
+            <!-- used when the current company is not Brazilian (no address_view_id swap) -->
+            <field name="street" position="attributes">
+                <attribute name="invisible">country_id == %(base.br)d</attribute>
+            </field>
+            <field name="street" position="after">
+                <field
+                    name="street_name"
+                    placeholder="Street..."
+                    class="o_address_street"
+                    invisible="country_id != %(base.br)d"
+                    readonly="country_id != %(base.br)d"
+                />
+                <field
+                    name="street_number"
+                    placeholder="Street number..."
+                    class="o_address_street"
+                    invisible="country_id != %(base.br)d"
+                    readonly="country_id != %(base.br)d"
+                />
+            </field>
+            <field name="street2" position="after">
+                <field
+                    name="district"
+                    placeholder="District..."
+                    class="o_address_street"
+                    invisible="country_id != %(base.br)d"
+                    readonly="country_id != %(base.br)d"
+                />
+            </field>
         </field>
     </record>
 
