@@ -232,4 +232,8 @@
             </infModal>
         </infCTeNorm>
     </infCte>
+    <infCTeSupl>
+        <qrCodCTe
+        >https://homologacao.nfe.fazenda.sp.gov.br/CTeConsulta/qrCode?chCTe=35240781583054000129570010000057411040645890&amp;tpAmb=2</qrCodCTe>
+    </infCTeSupl>
 </CTe>
