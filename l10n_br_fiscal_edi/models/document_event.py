@@ -14,6 +14,30 @@ from odoo.addons.l10n_br_fiscal.tools import build_edoc_path
 
 _logger = logging.getLogger(__name__)
 
+# Map the legacy event log 'type' selection to the service and event
+# type catalogs. The tpEvento codes 110111 (cancelamento) and 110110
+# (CC-e) are harmonized across the NF-e/CT-e/MDF-e layouts.
+SERVICE_CODE_BY_TYPE = {
+    "0": "NFeAutorizacao",
+    "1": "NFeRetAutorizacao",
+    "2": "NFeRecepcaoEvento",
+    "3": "NFeInutilizacao",
+    "4": "NFeConsultaProtocolo",
+    "5": "NFeStatusServico",
+    "6": "NfeConsultaCadastro",
+    "9": "NFeRecepcaoEvento",
+    "10": "NFeDistribuicaoDFe",
+    "11": "NFeDistribuicaoDFe",
+    "12": "NFeDistribuicaoDFe",
+    "13": "NFeRecepcaoEvento",
+    "14": "NFeRecepcaoEvento",
+}
+
+EVENT_CODE_BY_TYPE = {
+    "2": "110111",
+    "14": "110110",
+}
+
 FILE_SUFIX_EVENT = {
     "0": "env",
     "1": "con-rec",
@@ -208,6 +232,54 @@ class Event(models.Model):
     environment = fields.Selection(
         selection=EVENT_ENVIRONMENT,
     )
+
+    service_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal_edi.service",
+        string="Service",
+        compute="_compute_catalog_links",
+        help="SEFAZ webservice this event log belongs to, resolved from "
+        "the fiscal document service catalog.",
+    )
+
+    event_type_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.event.type",
+        string="Event Type",
+        compute="_compute_catalog_links",
+        help="SEFAZ event type (tpEvento) of this event log, resolved "
+        "from the fiscal document event type catalog.",
+    )
+
+    @api.depends("type", "document_type_id")
+    def _compute_catalog_links(self):
+        services = self.env["l10n_br_fiscal_edi.service"].search(
+            [("code", "in", list(set(SERVICE_CODE_BY_TYPE.values())))]
+        )
+        event_types = self.env["l10n_br_fiscal.event.type"].search(
+            [("code", "in", list(set(EVENT_CODE_BY_TYPE.values())))]
+        )
+        for record in self:
+            record.service_id = record._match_catalog_record(
+                services, SERVICE_CODE_BY_TYPE.get(record.type)
+            )
+            record.event_type_id = record._match_catalog_record(
+                event_types, EVENT_CODE_BY_TYPE.get(record.type)
+            )
+
+    def _match_catalog_record(self, records, code):
+        """Pick the catalog record matching the code and the document type.
+
+        Service and event codes are document-type specific (e.g. 110111
+        exists for the NF-e and the CT-e layouts), so a record is only
+        linked when the catalog data covers the log's document type.
+        """
+        self.ensure_one()
+        if not code:
+            return records.browse()
+        candidates = records.filtered(lambda r: r.code == code)
+        return candidates.filtered(
+            lambda r: not r.document_type_ids
+            or self.document_type_id in r.document_type_ids
+        )[:1]
 
     @api.constrains("justification")
     def _check_justification(self):
