@@ -10,6 +10,16 @@ extend-select = [
     "I",  # isort
     "UP",  # pyupgrade
 ]
+# Ruff >= 0.15 enables those by default, but they do not apply to the Odoo
+# idioms used in this repo (same exceptions as in Odoo's own ruff.toml):
+# `RUF012` flags the ubiquitous `_inherit = ["model", "mixin"]` and class
+# level selection constants, `SIM102`/`SIM117` flag the nested `if`/`with`
+# style used all over the framework.
+ignore = [
+    "RUF012",  # mutable-class-default
+    "SIM102",  # collapsible-if
+    "SIM117",  # multiple-with-statements
+]
 extend-safe-fixes = ["UP008"]
 exclude = ["setup/*"]
 
