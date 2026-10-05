@@ -1,0 +1,301 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_nfse_dfe
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-05 16:45+0000\n"
+"PO-Revision-Date: 2026-10-05 16:45+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+
+#. module: l10n_br_nfse_dfe
+#: model:ir.model.fields,field_description:l10n_br_nfse_dfe.field_res_company__nfse_auto_fetch
+msgid "Auto-fetch NFS-e"
+msgstr "Busca automática de NFS-e"
+
+#. module: l10n_br_nfse_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_document_tree
+msgid "Amount"
+msgstr "Valor"
+
+#. module: l10n_br_nfse_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_res_company_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_document_tree
+msgid "Date"
+msgstr "Data"
+
+#. module: l10n_br_nfse_dfe
+#: model:ir.actions.server,name:l10n_br_nfse_dfe.ir_cron_search_nfse_dfe_documents_ir_actions_server
+msgid "DF-e - Search NFS-e Documents"
+msgstr "DF-e - Buscar Documentos de NFS-e"
+
+#. module: l10n_br_nfse_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
+msgid "Documents found."
+msgstr "Documentos encontrados."
+
+#. module: l10n_br_nfse_dfe
+#: model:ir.model.fields,help:l10n_br_nfse_dfe.field_res_company__nfse_dfe_environment
+msgid ""
+"Environment of the national NFS-e distribution API (ADN). This is not the "
+"municipal NFS-e emission environment."
+msgstr ""
+"Ambiente da API nacional de distribuição de NFS-e (ADN). Este não é o "
+"ambiente de emissão municipal de NFS-e."
+
+#. module: l10n_br_nfse_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
+msgid "Error searching NFS-e documents.\n%(error)s"
+msgstr "Erro ao buscar documentos de NFS-e.\n%(error)s"
+
+#. module: l10n_br_nfse_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_document_tree
+msgid "Import"
+msgstr "Importar"
+
+#. module: l10n_br_nfse_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfse_dfe/models/dfe_document.py:0
+msgid "Import NFS-e XML"
+msgstr "Importar XML da NFS-e"
+
+#. module: l10n_br_nfse_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_res_company_form
+msgid "Last Query"
+msgstr "Última Consulta"
+
+#. module: l10n_br_nfse_dfe
+#: model:ir.model.fields,field_description:l10n_br_nfse_dfe.field_res_company__nfse_dfe_environment
+msgid "NFS-e ADN Environment"
+msgstr "Ambiente ADN da NFS-e"
+
+#. module: l10n_br_nfse_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_res_company_form
+msgid "NFS-e DF-e"
+msgstr "NFS-e DF-e"
+
+#. module: l10n_br_nfse_dfe
+#: model:ir.model.fields,field_description:l10n_br_nfse_dfe.field_res_company__nfse_dfe_last_query
+msgid "NFS-e DF-e Last Query"
+msgstr "Última Consulta DF-e da NFS-e"
+
+#. module: l10n_br_nfse_dfe
+#: model:ir.model.fields,field_description:l10n_br_nfse_dfe.field_res_company__nfse_dfe_last_status
+msgid "NFS-e DF-e Last Status"
+msgstr "Última Situação DF-e da NFS-e"
+
+#. module: l10n_br_nfse_dfe
+#: model:ir.model.fields,field_description:l10n_br_nfse_dfe.field_res_company__nfse_dfe_last_status_code
+msgid "NFS-e DF-e Last Status Code"
+msgstr "Código da Última Situação DF-e da NFS-e"
+
+#. module: l10n_br_nfse_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_res_company_form
+msgid "NFS-e DF-e Settings"
+msgstr "Configurações de NFS-e DF-e"
+
+#. module: l10n_br_nfse_dfe
+#: model:ir.model.fields,field_description:l10n_br_nfse_dfe.field_res_company__nfse_last_nsu
+msgid "NFS-e Last NSU"
+msgstr "Último NSU da NFS-e"
+
+#. module: l10n_br_nfse_dfe
+#: model:ir.model.fields,field_description:l10n_br_nfse_dfe.field_res_company__nfse_max_nsu
+msgid "NFS-e Max NSU"
+msgstr "NSU Máximo da NFS-e"
+
+#. module: l10n_br_nfse_dfe
+#: model:ir.model.fields,field_description:l10n_br_nfse_dfe.field_res_company__nfse_dfe_next_query
+msgid "NFS-e Next Scheduled Query"
+msgstr "Próxima Consulta Agendada da NFS-e"
+
+#. module: l10n_br_nfse_dfe
+#: model:ir.model.fields,help:l10n_br_nfse_dfe.field_res_company__nfse_dfe_next_query
+msgid "NFS-e distribution will not be queried before this time."
+msgstr "A distribuição de NFS-e não será consultada antes deste horário."
+
+#. module: l10n_br_nfse_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_res_company_form
+msgid "Next Query"
+msgstr "Próxima Consulta"
+
+#. module: l10n_br_nfse_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
+msgid "No NFS-e documents found."
+msgstr "Nenhum documento de NFS-e encontrado."
+
+#. module: l10n_br_nfse_dfe
+#: model:ir.model.fields,help:l10n_br_nfse_dfe.field_res_company__nfse_auto_fetch
+msgid "Periodically query the ADN for NFS-e documents issued to this company."
+msgstr "Consulta periodicamente a ADN em busca de NFS-e emitidas para esta empresa."
+
+#. module: l10n_br_nfse_dfe
+#: model:ir.model.fields.selection,name:l10n_br_nfse_dfe.selection__res_company__nfse_dfe_environment__producao
+msgid "Production"
+msgstr "Produção"
+
+#. module: l10n_br_nfse_dfe
+#: model:ir.model.fields.selection,name:l10n_br_nfse_dfe.selection__res_company__nfse_dfe_environment__producao_restrita
+msgid "Restricted Production"
+msgstr "Produção Restrita"
+
+#. module: l10n_br_nfse_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_res_company_form
+msgid "Search NFS-e"
+msgstr "Buscar NFS-e"
+
+#. module: l10n_br_nfse_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfse_dfe/wizards/document_import_wizard.py:0
+msgid "Service"
+msgstr "Serviço"
+
+#. module: l10n_br_nfse_dfe
+#: model:ir.model.fields,field_description:l10n_br_nfse_dfe.field_l10n_br_fiscal_document_import_wizard__product_id
+msgid "Service Product"
+msgstr "Produto de Serviço"
+
+#. module: l10n_br_nfse_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_res_company_form
+msgid "Specific Search"
+msgstr "Busca Específica"
+
+#. module: l10n_br_nfse_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_document_tree
+msgid "State"
+msgstr "Situação"
+
+#. module: l10n_br_nfse_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_res_company_form
+msgid "Status"
+msgstr "Situação"
+
+#. module: l10n_br_nfse_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_res_company_form
+msgid "Status Code"
+msgstr "Código da Situação"
+
+#. module: l10n_br_nfse_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfse_dfe/wizards/specific_search_wizard.py:0
+msgid "The NFS-e access key must have 50 digits."
+msgstr "A chave de acesso da NFS-e deve ter 50 dígitos."
+
+#. module: l10n_br_nfse_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfse_dfe/wizards/document_import_wizard.py:0
+msgid "The NFS-e XML does not contain a 50-digit access key."
+msgstr "O XML da NFS-e não contém uma chave de acesso de 50 dígitos."
+
+#. module: l10n_br_nfse_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfse_dfe/models/document.py:0
+msgid "There is already a fiscal document with this key: %(doc_key)s"
+msgstr "Já existe um documento fiscal com esta chave: %(doc_key)s"
+
+#. module: l10n_br_nfse_dfe
+#: model:ir.actions.act_window,name:l10n_br_nfse_dfe.action_nfse_dfe_document
+#: model:ir.ui.menu,name:l10n_br_nfse_dfe.menu_l10n_br_nfse_dfe_document
+msgid "Third-party NFS-e"
+msgstr "NFS-e de Terceiros"
+
+#. module: l10n_br_nfse_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_document_tree
+msgid "Type"
+msgstr "Tipo"
+
+#. module: l10n_br_nfse_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_document_tree
+msgid "XML"
+msgstr "XML"
+
+#. module: l10n_br_nfse_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfse_dfe/models/dfe_document.py:0
+msgid "You can only import the NFS-e when the DF-e is completed."
+msgstr "Só é possível importar a NFS-e quando o DF-e está completo."
+
+#. module: l10n_br_nfse_dfe
+#: model:ir.model.fields,field_description:l10n_br_nfse_dfe.field_res_company__nfse_import_product_id
+msgid "Default NFS-e Import Product"
+msgstr "Produto padrão de importação de NFS-e"
+
+#. module: l10n_br_nfse_dfe
+#: model:ir.model.fields,help:l10n_br_nfse_dfe.field_res_company__nfse_import_product_id
+msgid ""
+"Service product applied when a national NFS-e is imported and the wizard "
+"has no product yet."
+msgstr ""
+"Produto de serviço aplicado quando uma NFS-e nacional é importada e o "
+"assistente ainda não tem produto."
+
+#. module: l10n_br_nfse_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
+msgid "NFS-e item NSU %(nsu)s was skipped: %(error)s"
+msgstr "Item de NFS-e NSU %(nsu)s foi ignorado: %(error)s"
+
+#. module: l10n_br_nfse_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
+msgid "This NFS-e was not found."
+msgstr "Esta NFS-e não foi encontrada."
+
+#. module: l10n_br_nfse_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
+msgid "The service rate limit is active. Try again later."
+msgstr "O limite de requisições do serviço está ativo. Tente novamente mais tarde."
+
+#. module: l10n_br_nfse_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
+msgid "The Sefin Nacional response does not contain an NFS-e."
+msgstr "A resposta da Sefin Nacional não contém uma NFS-e."
+
+#. module: l10n_br_nfse_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfse_dfe/models/dfe.py:0
+msgid "NFS-e Cancellation"
+msgstr "Cancelamento de NFS-e"
+
+#. module: l10n_br_nfse_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfse_dfe/models/dfe.py:0
+msgid "NFS-e Cancellation Request"
+msgstr "Solicitação de cancelamento de NFS-e"
+
+#. module: l10n_br_nfse_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfse_dfe/models/dfe.py:0
+msgid "NFS-e Cancellation by Substitution"
+msgstr "Cancelamento de NFS-e por substituição"
+
+#. module: l10n_br_nfse_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfse_dfe/models/dfe.py:0
+msgid "NFS-e Cancellation Accepted by the Tax Authority"
+msgstr "Cancelamento de NFS-e deferido pela análise fiscal"
+
+#. module: l10n_br_nfse_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfse_dfe/models/dfe.py:0
+msgid "NFS-e Cancellation Rejected by the Tax Authority"
+msgstr "Cancelamento de NFS-e indeferido pela análise fiscal"
+
+#. module: l10n_br_nfse_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfse_dfe/models/dfe.py:0
+msgid "NFS-e Cancellation by the Tax Authority"
+msgstr "Cancelamento de NFS-e por ofício"
