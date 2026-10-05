@@ -530,6 +530,15 @@ msgid "Discount in Sales Orders per Value"
 msgstr "Desconto no Pedido de Vendas por Valor"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_br_sale.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__display_name
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__display_name
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report__display_name
+msgid "Display Name"
+msgstr "Nome Exibido"
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__key_check_digit
 msgid "Document Key Check Digit"
 msgstr ""
@@ -859,6 +868,11 @@ msgid "ICMS Relief"
 msgstr "Alívio do ICMS"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icms_relief_type
+msgid "ICMS Relief Deduction"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icms_relief_value
 msgid "ICMS Relief Value"
 msgstr "Valor de Alívio do ICMS"
@@ -957,6 +971,15 @@ msgstr "Imposto sobre ICMS ou ISSQN"
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_icmssn_credit_value
 msgid "ICMSSN Credit Value"
 msgstr "Valor do Crédito de ICMSSN"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_br_sale.field_res_config_settings__id
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__id
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__id
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report__id
+msgid "ID"
+msgstr "ID"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__ii_percent
@@ -1855,6 +1878,14 @@ msgstr ""
 msgid "Valor do IPI devolvido"
 msgstr ""
 
+#. module: l10n_br_sale
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__icms_relief_type
+msgid ""
+"indDeduzDeson (NT 2023.004): indicates whether the ICMS relief value "
+"(vICMSDeson) is deducted from the item value (vProd) and from the document "
+"total (vNF)."
+msgstr ""
+
 #~ msgid "Additional Data"
 #~ msgstr "Dados Adicionais"
 
@@ -1914,12 +1945,6 @@ msgstr ""
 
 #~ msgid "Amount Tax Withholding"
 #~ msgstr "Total de Imposto Retido na Fonte"
-
-#~ msgid "Display Name"
-#~ msgstr "Nome Exibido"
-
-#~ msgid "ID"
-#~ msgstr "ID"
 
 #~ msgid "Last Modified on"
 #~ msgstr "Última Modificação em"
