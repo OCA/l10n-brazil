@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- oca-hooks:disable=file-not-used -->
 <odoo>
 
     <template
@@ -9,12 +8,12 @@
 
         <!-- Inclusão de outros Totais usados no Brasil -->
         <xpath
-            expr="//div[@id='total']/div/table/tr[hasclass('border-black')]"
+            expr="//div[@id='total']/div/table/t[@t-call='account.document_tax_totals']"
             position="before"
         >
         <tr>
             <td>Gross</td>
-            <td class="text-right">
+            <td class="text-end">
                 <span
                         t-field="o.amount_price_gross"
                         t-options='{"widget": "monetary", "display_currency": o.currency_id}'
@@ -23,7 +22,7 @@
         </tr>
         <tr>
             <td>Discount</td>
-            <td class="text-right">
+            <td class="text-end">
                 <span
                         t-field="o.amount_discount_value"
                         t-options='{"widget": "monetary", "display_currency": o.currency_id}'
@@ -31,31 +30,34 @@
             </td>
         </tr>
         </xpath>
-        <xpath
-            expr="//div[@id='total']/div/table/tr[hasclass('border-black')]"
-            position="after"
-        >
-            <tr>
+
+    </template>
+    <template
+        id="document_tax_totals_l10n_br_purchase"
+        inherit_id="account.document_tax_totals"
+    >
+        <xpath expr="//tr[hasclass('o_total')]" position="before">
+            <tr t-if="o and o._name == 'purchase.order'">
                 <td>Freight</td>
-                <td class="text-right">
+                <td class="text-end">
                     <span
                         t-field="o.amount_freight_value"
                         t-options='{"widget": "monetary", "display_currency": o.currency_id}'
                     />
                 </td>
             </tr>
-            <tr>
+            <tr t-if="o and o._name == 'purchase.order'">
                 <td>Insurance</td>
-                <td class="text-right">
+                <td class="text-end">
                     <span
                         t-field="o.amount_insurance_value"
                         t-options='{"widget": "monetary", "display_currency": o.currency_id}'
                     />
                 </td>
             </tr>
-            <tr>
+            <tr t-if="o and o._name == 'purchase.order'">
                 <td>Other Costs</td>
-                <td class="text-right">
+                <td class="text-end">
                     <span
                         t-field="o.amount_other_value"
                         t-options='{"widget": "monetary", "display_currency": o.currency_id}'
@@ -63,7 +65,6 @@
                 </td>
             </tr>
         </xpath>
-
     </template>
 
 </odoo>
