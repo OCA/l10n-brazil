@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<odoo>
+<odoo noupdate="1">
 
-    <record id="ibpt_request_timeout" model="ir.config_parameter" forcecreate="True">
+    <!-- Created on install only: an existing database may already have the
+         parameter, set by hand, and its value must be kept. -->
+    <record id="ibpt_request_timeout" model="ir.config_parameter" forcecreate="False">
         <field name="key">ibpt_request_timeout</field>
         <field name="value">30</field>
     </record>
