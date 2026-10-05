@@ -1,5 +1,6 @@
 # Copyright (C) 2013  Renato Lima - Akretion
 # Copyright (C) 2020  Luis Felipe Mileo - KMEE
+# Copyright (C) 2023  Antônio S. Pereira Neto - Engenere
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import logging
@@ -7,6 +8,7 @@ import logging
 from odoo import api, fields, models
 
 from ..constants.fiscal import (
+    CFOP_INDUSTRIALIZATION_FOR_THIRD_PARTY,
     COEFFICIENT_R,
     INDUSTRY_TYPE,
     INDUSTRY_TYPE_TRANSFORMATION,
@@ -14,6 +16,8 @@ from ..constants.fiscal import (
     PROCESSADOR_NENHUM,
     PROFIT_CALCULATION,
     PROFIT_CALCULATION_PRESUMED,
+    SIMPLIFIED_TAX_ANNEX_COMMERCE,
+    SIMPLIFIED_TAX_ANNEX_INDUSTRY,
     TAX_DOMAIN_CBS,
     TAX_DOMAIN_COFINS,
     TAX_DOMAIN_COFINS_WH,
@@ -43,10 +47,17 @@ _logger = logging.getLogger(__name__)
 class ResCompany(models.Model):
     _inherit = "res.company"
 
+    simplified_tax_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.simplified.tax",
+        string="Effective Taxes",
+        help="Simples Nacional effective tax rate for each annex, "
+        "based on the range the company currently falls into.",
+        compute="_compute_simplified_tax_ids",
+    )
+
     def _get_company_address_field_names(self):
         partner_fields = super()._get_company_address_field_names()
         return partner_fields + [
-            "tax_framework",
             "legal_nature_id",
             "cnae_main_id",
         ]
@@ -61,57 +72,15 @@ class ResCompany(models.Model):
         for c in self:
             c.partner_id.cnae_main_id = c.cnae_main_id
 
+    @api.depends("partner_id", "partner_id.tax_framework")
+    def _compute_tax_framework(self):
+        for c in self:
+            c.tax_framework = c.partner_id.tax_framework
+
     def _inverse_tax_framework(self):
         """Write the l10n_br specific functional fields."""
         for c in self:
             c.partner_id.tax_framework = c.tax_framework
-
-    @api.depends("cnae_main_id", "annual_revenue", "payroll_amount")
-    def _compute_simplified_tax(self):
-        for record in self:
-            record.coefficient_r = False
-            if record.payroll_amount and record.annual_revenue:
-                coefficient_r_percent = record.payroll_amount / record.annual_revenue
-                if coefficient_r_percent > COEFFICIENT_R:
-                    record.coefficient_r = True
-                record.coefficient_r_percent = coefficient_r_percent
-
-            simplified_tax_id = self.env["l10n_br_fiscal.simplified.tax"].search(
-                [
-                    ("cnae_ids", "=", record.cnae_main_id.id),
-                    ("coefficient_r", "=", record.coefficient_r),
-                ]
-            )
-            record.simplified_tax_id = simplified_tax_id
-
-            if simplified_tax_id:
-                tax_range = record.env["l10n_br_fiscal.simplified.tax.range"].search(
-                    [
-                        ("simplified_tax_id", "=", simplified_tax_id.id),
-                        ("inital_revenue", "<=", record.annual_revenue),
-                        ("final_revenue", ">=", record.annual_revenue),
-                        ("simplified_tax_id.coefficient_r", "=", record.coefficient_r),
-                    ],
-                    limit=1,
-                )
-                record.simplified_tax_range_id = tax_range
-
-                if record.simplified_tax_range_id and record.annual_revenue:
-                    record.simplified_tax_percent = round(
-                        (
-                            (
-                                (
-                                    record.annual_revenue
-                                    * record.simplified_tax_range_id.total_tax_percent
-                                    / 100
-                                )
-                                - record.simplified_tax_range_id.amount_deduced
-                            )
-                            / record.annual_revenue
-                        )
-                        * 100,
-                        record.currency_id.decimal_places,
-                    )
 
     legal_nature_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.legal.nature",
@@ -138,8 +107,9 @@ class ResCompany(models.Model):
     tax_framework = fields.Selection(
         selection=TAX_FRAMEWORK,
         default=TAX_FRAMEWORK_NORMAL,
-        compute="_compute_address",
+        compute="_compute_tax_framework",
         inverse="_inverse_tax_framework",
+        store=True,
     )
 
     profit_calculation = fields.Selection(
@@ -159,33 +129,38 @@ class ResCompany(models.Model):
 
     annual_revenue = fields.Monetary(
         currency_field="currency_id",
+        help="Gross revenue accumulated over the 12 months before the current "
+        "assessment period (RBT12). Under the Simples Nacional it sets the range "
+        "of each annex, hence the effective tax rates and the ICMS credit rate "
+        "stated on the invoices, which is the one of the range the company was "
+        "in the month before the operation (LC 123/2006, art. 18 and art. 23).",
+    )
+
+    payroll_amount = fields.Monetary(
+        string="Last Period Payroll Amount",
+        currency_field="currency_id",
     )
 
     simplified_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.simplified.tax",
+        string="Main Activity Annex",
+        help="Annex of the Simples Nacional of the main activity of the company, "
+        "found from its main CNAE and, for the services the R factor moves "
+        "between the Annex III and the Annex V, from its R factor. It applies to "
+        "the operations whose CFOP does not tell their annex, such as services.",
         compute="_compute_simplified_tax",
-        string="Simplified Tax",
         store=True,
         readonly=True,
     )
 
     simplified_tax_range_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.simplified.tax.range",
+        string="Main Activity Range",
+        help="Range of the annex of the main activity the company currently "
+        "falls into, given its gross revenue of the last 12 months.",
         compute="_compute_simplified_tax",
         store=True,
         readonly=True,
-        string="Simplified Tax Range",
-    )
-
-    simplified_tax_percent = fields.Float(
-        compute="_compute_simplified_tax",
-        store=True,
-        digits="Fiscal Tax Percent",
-    )
-
-    payroll_amount = fields.Monetary(
-        string="Last Period Payroll Amount",
-        currency_field="currency_id",
     )
 
     coefficient_r = fields.Boolean(
@@ -511,6 +486,99 @@ class ResCompany(models.Model):
             self._set_tax_definition(self.tax_inss_wh_id)
         else:
             self._del_tax_definition(TAX_DOMAIN_INSS_WH)
+
+    @api.depends("annual_revenue", "payroll_amount", "partner_id.cnae_main_id")
+    def _compute_simplified_tax(self):
+        for record in self:
+            record._calculate_coefficient_r()
+            annex = record._get_main_activity_simplified_tax()
+            record.simplified_tax_id = annex
+            record.simplified_tax_range_id = annex._get_range(record.annual_revenue)
+
+    def _compute_simplified_tax_ids(self):
+        annexes = self.env["l10n_br_fiscal.simplified.tax"].search([])
+        for record in self:
+            record.simplified_tax_ids = annexes
+
+    def _get_main_activity_simplified_tax(self):
+        """Return the annex of the Simples Nacional of the main activity of the
+        company, found from its main CNAE.
+
+        The CNAE is read on the partner of the company: the cnae_main_id of
+        the company mirrors it through the address computation of the core,
+        which declares no dependency, so its cached value may be stale.
+
+        The CNAEs of the services the R factor moves between the Annex III and
+        the Annex V (LC 123/2006, art. 18, § 5º-J and § 5º-M) belong to both
+        annexes, and the R factor of the company tells which one applies. A
+        CNAE listed in two annexes the R factor does not tell apart gets the
+        first one.
+        """
+        self.ensure_one()
+        annexes = self.env["l10n_br_fiscal.simplified.tax"]
+        cnae = self.partner_id.cnae_main_id
+        if cnae:
+            annexes = annexes.search([("cnae_ids", "=", cnae.id)])
+        if len(annexes) > 1:
+            annexes = (
+                annexes.filtered(lambda a: a.coefficient_r == self.coefficient_r)
+                or annexes
+            )
+        return annexes[:1]
+
+    def _get_simplified_tax(self, cfop):
+        """Return the annex of the Simples Nacional that taxes an operation
+        with the given CFOP.
+
+        Resale is taxed by the Annex I and the goods industrialized by the
+        company by the Annex II (LC 123/2006, art. 18, § 4º, I and II), which
+        includes the industrialization ordered by a third party. When the CFOP
+        tells neither (e.g. 5910, 5949) or there is none, as for services, the
+        annex of the main activity of the company applies, and failing that the
+        Annex II for an industry or the Annex I otherwise.
+        """
+        self.ensure_one()
+        type_move = cfop.type_move if cfop else False
+        code = cfop.code if cfop else False
+        if type_move == "sale_commerce":
+            xmlid = SIMPLIFIED_TAX_ANNEX_COMMERCE
+        elif (
+            type_move == "sale_industry"
+            or code in CFOP_INDUSTRIALIZATION_FOR_THIRD_PARTY
+        ):
+            xmlid = SIMPLIFIED_TAX_ANNEX_INDUSTRY
+        elif self.simplified_tax_id:
+            return self.simplified_tax_id
+        elif self.is_industry:
+            xmlid = SIMPLIFIED_TAX_ANNEX_INDUSTRY
+        else:
+            xmlid = SIMPLIFIED_TAX_ANNEX_COMMERCE
+        return (
+            self.env.ref(xmlid, raise_if_not_found=False)
+            or self.env["l10n_br_fiscal.simplified.tax"]
+        )
+
+    def _get_simplified_tax_range(self, cfop):
+        """Return the range the company currently falls into, in the annex of
+        the Simples Nacional that taxes an operation with the given CFOP.
+        There is none without a company, as for a line whose company is not
+        set yet, nor for a company outside the Simples Nacional, the MEI and
+        the company above the sublimit included, which grant no ICMS credit
+        of the Simples Nacional (LC 123/2006, art. 23, § 4º, I)."""
+        if len(self) != 1 or self.tax_framework != TAX_FRAMEWORK_SIMPLES:
+            return self.env["l10n_br_fiscal.simplified.tax.range"]
+        return self._get_simplified_tax(cfop)._get_range(self.annual_revenue)
+
+    def _calculate_coefficient_r(self):
+        """R factor: payroll over gross revenue of the last 12 months. From
+        28% on, the services of the LC 123/2006, art. 18, § 5º-I are taxed by
+        the Annex III instead of the Annex V (§ 5º-J)."""
+        for record in self:
+            coefficient_r_percent = 0.0
+            if record.payroll_amount and record.annual_revenue:
+                coefficient_r_percent = record.payroll_amount / record.annual_revenue
+            record.coefficient_r_percent = coefficient_r_percent
+            record.coefficient_r = coefficient_r_percent >= COEFFICIENT_R
 
     @api.onchange("tax_classification_id")
     def _onchange_tax_classification_id(self):
