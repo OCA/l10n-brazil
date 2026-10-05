@@ -360,7 +360,6 @@ class AccountMoveLine(models.Model):
         "fiscal_price",
         "fiscal_quantity",
         "uot_id",
-        "icmssn_range_id",
         "icms_origin",
         "ind_final",
         "icms_relief_value",
@@ -410,7 +409,6 @@ class AccountMoveLine(models.Model):
                     fiscal_price=line.fiscal_price,
                     fiscal_quantity=line.fiscal_quantity,
                     uot_id=line.uot_id,
-                    icmssn_range=line.icmssn_range_id,
                     icms_origin=line.icms_origin,
                     ind_final=line.ind_final,
                 )
@@ -499,7 +497,6 @@ class AccountMoveLine(models.Model):
         "fiscal_price",
         "fiscal_quantity",
         "uot_id",
-        "icmssn_range_id",
         "icms_origin",
         "ind_final",
         "fiscal_document_line_id",
@@ -556,7 +553,6 @@ class AccountMoveLine(models.Model):
                 fiscal_price=line.fiscal_price,
                 fiscal_quantity=line.fiscal_quantity,
                 uot_id=line.uot_id,
-                icmssn_range=line.icmssn_range_id,
                 icms_origin=line.icms_origin,
                 ind_final=line.ind_final,
             )
