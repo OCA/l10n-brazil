@@ -41,6 +41,14 @@ msgid "%(name)s Tax Estimate Updated"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__icms_relief_type__0
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line_mixin__icms_relief_type__0
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__purchase_order_line__icms_relief_type__0
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__sale_order_line__icms_relief_type__0
+msgid "0 - Do not deduct the ICMS Relief"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__icms_origin__0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line_mixin__icms_origin__0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation_line__icms_origin__0
@@ -124,6 +132,14 @@ msgstr "09 - Outros"
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_partner__ind_ie_dest__1
 msgid "1 - Contribuinte do ICMS"
 msgstr "1 - Contribuinte do ICMS"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__icms_relief_type__1
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line_mixin__icms_relief_type__1
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__purchase_order_line__icms_relief_type__1
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__sale_order_line__icms_relief_type__1
+msgid "1 - Deduct ICMS Relief from Product Amount"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__icms_origin__1
@@ -1976,6 +1992,16 @@ msgid "Cost Price"
 msgstr "Preço de Custo"
 
 #. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/wizards/document_import_wizard.py:0
+msgid ""
+"Could not read this file as the XML of an electronic fiscal document. Make "
+"sure you uploaded the XML itself, not its printed representation (PDF).\n"
+"\n"
+"%(error)s"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.ui.menu,name:l10n_br_fiscal.country_menu
 msgid "Country"
 msgstr "País"
@@ -2169,6 +2195,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__currency_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__currency_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__currency_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__currency_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__currency_id
@@ -2597,6 +2624,11 @@ msgstr "Série de documentos"
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_supplement
 msgid "Document Supplement Data"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__amount_total
+msgid "Document Total"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -4296,6 +4328,12 @@ msgstr "Regulamento do ICMS"
 #: model:ir.ui.menu,name:l10n_br_fiscal.tax_icms_relief_menu
 msgid "ICMS Relief"
 msgstr "Alívio do ICMS"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icms_relief_type
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icms_relief_type
+msgid "ICMS Relief Deduction"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icms_relief_value
@@ -9124,6 +9162,15 @@ msgstr "dias"
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_status_wizard__state__done
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_invalidate_number_wizard__state__done
 msgid "done"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icms_relief_type
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icms_relief_type
+msgid ""
+"indDeduzDeson (NT 2023.004): indicates whether the ICMS relief value "
+"(vICMSDeson) is deducted from the item value (vProd) and from the document "
+"total (vNF)."
 msgstr ""
 
 #. module: l10n_br_fiscal
