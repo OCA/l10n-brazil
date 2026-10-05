@@ -30,8 +30,6 @@ class BaseWizardMixin(models.AbstractModel):
         string="Partner",
     )
 
-    rps_number = fields.Char()
-
     document_number = fields.Char()
 
     document_serie = fields.Char()
@@ -59,7 +57,6 @@ class BaseWizardMixin(models.AbstractModel):
             "document_serie",
             "document_type_id",
             "partner_id",
-            "rps_number",
         ]
 
     @api.model
