@@ -784,15 +784,13 @@ msgstr "Resumo"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.actions.act_window,name:l10n_br_fiscal_dfe.dfe_document_action
-#, fuzzy
 msgid "Third-party DF-e Documents"
-msgstr "NF-e de Terceiros"
+msgstr "Documentos DF-e de Terceiros"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.ui.menu,name:l10n_br_fiscal_dfe.dfe_document_menu
-#, fuzzy
 msgid "Third-party Documents"
-msgstr "NF-e de Terceiros"
+msgstr "Documentos de Terceiros"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__is_own_document
