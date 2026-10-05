@@ -20,11 +20,6 @@
                         <field name="document_type_id" readonly="1" />
                         <field name="document_serie" readonly="1" />
                         <field name="document_number" readonly="1" />
-                        <field
-                            name="rps_number"
-                            readonly="1"
-                            invisible="document_type != 'SE'"
-                        />
                     </group>
                 </group>
                 <group name="document_key_group">
