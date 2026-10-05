@@ -5319,6 +5319,12 @@ msgid "Texto com o QR-Code impresso no DACTE"
 msgstr ""
 
 #. module: l10n_br_cte
+#. odoo-python
+#: code:addons/l10n_br_cte/models/document.py:0
+msgid "The QR Code of FS-DA contingency CT-e is not supported yet."
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__insurance_endorsement
 #: model:ir.model.fields,help:l10n_br_cte.field_account_move__insurance_endorsement
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__insurance_endorsement
