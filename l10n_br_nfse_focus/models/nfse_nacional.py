@@ -205,6 +205,9 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
             else service_info.get("codigo_nbs_unmasked", ""),
             "descricao": service_info.get("discriminacao", ""),
             "valor": round(service_info.get("valor_servicos", 0), 2),
+            "valor_desconto_incondicionado": round(
+                service_info.get("valor_desconto_incondicionado", 0), 2
+            ),
             "tributacao_iss": int(tributacao_iss),
             "tipo_retencao_iss": int(tipo_retencao_iss),
             "aliquota_iss": round(service_info.get("aliquota", 0) * 100, 2),
@@ -217,6 +220,29 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
             "percentual_total_tributos_municipais": (
                 f"{round(percentual_total_tributos_municipais, 2):.2f}"
             ),
+            "consumidor_final": service_info.get("consumidor_final") or "0",
+            "codigo_indicador_operacao": service_info.get("codigo_indicador_operacao"),
+            "ibs_cbs_classificacao_tributaria": service_info.get(
+                "ibs_cbs_classificacao_tributaria"
+            ),
+            "ibs_cbs_situacao_tributaria": service_info.get(
+                "ibs_cbs_situacao_tributaria"
+            ),
+            "ibs_cbs_base_calculo": service_info.get("ibs_cbs_base_calculo"),
+            "ibs_uf_aliquota": round(service_info.get("ibs_uf_aliquota", 0), 2)
+            if service_info.get("ibs_uf_aliquota")
+            else None,
+            "ibs_mun_aliquota": 0.0,
+            "cbs_aliquota": round(service_info.get("cbs_aliquota", 0), 2)
+            if service_info.get("cbs_aliquota")
+            else None,
+            "ibs_uf_valor": round(service_info.get("ibs_uf_valor", 0), 2)
+            if service_info.get("ibs_uf_valor")
+            else None,
+            "ibs_mun_valor": 0.0,
+            "cbs_valor": round(service_info.get("cbs_valor", 0), 2)
+            if service_info.get("cbs_valor")
+            else None,
         }
 
     def _prepare_tax_data_nacional(self, service_info, valor_servico):
@@ -345,6 +371,8 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
             "data_emissao": emission_date,
             "data_competencia": competence_date,
             "codigo_municipio_emissora": provider_data["codigo_municipio_emissora"],
+            "finalidade_emissao": rps_info.get("finalidade_emissao", "0"),
+            "indicador_destinatario": "0",
             **(
                 {"cnpj_prestador": provider_data["cnpj_limpo"]}
                 if provider_data["is_cnpj"]
@@ -412,8 +440,22 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
             "codigo_nbs": service_basic["codigo_nbs_unmasked"],
             "descricao_servico": service_basic["descricao"],
             "valor_servico": service_basic["valor"],
+            "desconto_incondicionado": service_basic["valor_desconto_incondicionado"],
             "tributacao_iss": service_basic["tributacao_iss"],
             "tipo_retencao_iss": service_basic["tipo_retencao_iss"],
+            "consumidor_final": service_basic["consumidor_final"],
+            "codigo_indicador_operacao": service_basic["codigo_indicador_operacao"],
+            "ibs_cbs_classificacao_tributaria": service_basic[
+                "ibs_cbs_classificacao_tributaria"
+            ],
+            "ibs_cbs_situacao_tributaria": service_basic["ibs_cbs_situacao_tributaria"],
+            "ibs_cbs_base_calculo": service_basic["ibs_cbs_base_calculo"],
+            "ibs_uf_aliquota": service_basic["ibs_uf_aliquota"],
+            "ibs_mun_aliquota": service_basic["ibs_mun_aliquota"],
+            "cbs_aliquota": service_basic["cbs_aliquota"],
+            "ibs_uf_valor": service_basic["ibs_uf_valor"],
+            "ibs_mun_valor": service_basic["ibs_mun_valor"],
+            "cbs_valor": service_basic["cbs_valor"],
             **(
                 {
                     "percentual_aliquota_relativa_municipio": service_basic[
