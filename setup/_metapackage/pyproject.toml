@@ -37,6 +37,7 @@ dependencies = [
     "odoo-addon-l10n_br_nfe_dfe==18.0.*",
     "odoo-addon-l10n_br_nfe_spec==18.0.*",
     "odoo-addon-l10n_br_nfse==18.0.*",
+    "odoo-addon-l10n_br_nfse_dfe==18.0.*",
     "odoo-addon-l10n_br_nfse_focus==18.0.*",
     "odoo-addon-l10n_br_nfse_nacional==18.0.*",
     "odoo-addon-l10n_br_nfse_paulistana==18.0.*",
