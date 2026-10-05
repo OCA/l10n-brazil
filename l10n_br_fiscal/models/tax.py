@@ -666,9 +666,12 @@ class Tax(models.Model):
         tax_dict = taxes_dict.get(tax.tax_domain)
         partner = kwargs.get("partner")
         company = kwargs.get("company")
-        currency = kwargs.get("currency", company.currency_id)
         cst = kwargs.get("cst", self.env["l10n_br_fiscal.cst"])
-        icmssn_range = kwargs.get("icmssn_range")
+        cfop = kwargs.get("cfop") or self.env["l10n_br_fiscal.cfop"]
+
+        # Range of the Simples Nacional annex that taxes the operation
+        tax_range = company._get_simplified_tax_range(cfop)
+        tax_dict["icmssn_range_id"] = tax_range.id
 
         # Get Computed IPI Tax
         tax_dict_ipi = taxes_dict.get("ipi", {})
@@ -681,9 +684,8 @@ class Tax(models.Model):
         # Partner ICMS's Contributor
         if partner.ind_ie_dest in (NFE_IND_IE_DEST_1, NFE_IND_IE_DEST_2):
             if cst.code in ICMS_SN_CST_WITH_CREDIT:
-                icms_sn_percent = currency.round(
-                    company.simplified_tax_percent
-                    * (icmssn_range.tax_icms_percent / 100)
+                icms_sn_percent = tax_range._get_effective_tax_percent(
+                    company.annual_revenue, TAX_DOMAIN_ICMS
                 )
 
                 tax_dict["percent_amount"] = icms_sn_percent
@@ -884,8 +886,6 @@ class Tax(models.Model):
             the fiscal context.
         :param cfop: l10n_br_fiscal.cfop record, the determined CFOP for the
             operation.
-        :param icmssn_range: l10n_br_fiscal.simplified.tax.range record for
-            Simples Nacional ICMS calculation.
         :param icms_origin: str, ICMS origin code for the product.
         :param icms_cst_id: l10n_br_fiscal.cst record, the ICMS CST code.
         :param icms_relief_id: l10n_br_fiscal.icms.relief record, if ICMS relief
