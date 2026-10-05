@@ -461,6 +461,15 @@ msgid "Discount Value"
 msgstr "Valor do Desconto"
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__display_name
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__display_name
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__display_name
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_res_company__display_name
+msgid "Display Name"
+msgstr "Nome Exibido"
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__key_check_digit
 msgid "Document Key Check Digit"
 msgstr ""
@@ -776,6 +785,11 @@ msgid "ICMS Relief"
 msgstr "Alívio do ICMS"
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icms_relief_type
+msgid "ICMS Relief Deduction"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icms_relief_value
 msgid "ICMS Relief Value"
 msgstr "Valor de Alívio do ICMS"
@@ -874,6 +888,15 @@ msgstr "Imposto sobre ICMS ou ISSQN"
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_icmssn_credit_value
 msgid "ICMSSN Credit Value"
 msgstr "Valor do Crédito de ICMSSN"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__id
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__id
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__id
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_res_company__id
+msgid "ID"
+msgstr "ID"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ii_percent
@@ -1731,6 +1754,14 @@ msgstr ""
 "Você pode encontrar um fornecedor por seu nome, TIN, e-mail ou referência "
 "interna."
 
+#. module: l10n_br_purchase
+#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order_line__icms_relief_type
+msgid ""
+"indDeduzDeson (NT 2023.004): indicates whether the ICMS relief value "
+"(vICMSDeson) is deducted from the item value (vProd) and from the document "
+"total (vNF)."
+msgstr ""
+
 #~ msgid "Additional Data"
 #~ msgstr "Dados Adicionais"
 
@@ -1773,14 +1804,8 @@ msgstr ""
 #~ msgid "Amount Tax Withholding"
 #~ msgstr "Total de Imposto Retido na Fonte"
 
-#~ msgid "Display Name"
-#~ msgstr "Nome Exibido"
-
 #~ msgid "Freight"
 #~ msgstr "Frete"
-
-#~ msgid "ID"
-#~ msgstr "ID"
 
 #~ msgid "Insurance"
 #~ msgstr "Seguro"
