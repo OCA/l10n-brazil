@@ -8,7 +8,7 @@
     "version": "16.0.1.0.0",
     "category": "Localisation",
     "license": "AGPL-3",
-    "author": "Escodoo, " "Odoo Community Association (OCA)",
+    "author": "Escodoo, Odoo Community Association (OCA)",
     "maintainers": ["marcelsavegnago"],
     "development_status": "Alpha",
     "website": "https://github.com/OCA/l10n-brazil",
