@@ -36,9 +36,11 @@ class TestDfeBase(TransactionCase):
         unique_cnpj_digits = "31282204000196"
         unique_cnpj_formatted = "31.282.204/0001-96"
 
-        # 14-digit CNPJ embedded in the access key (positions 6-20)
+        # 14-digit CNPJ embedded in the access key (positions 6-20).
+        # The key must be exactly 44 digits: a national NFS-e uses 50, and
+        # the partner match only reads the NF-e layout.
         # Key format: 35(UF) + 20(Year) + 01(Month) + CNPJ + 55(Mod) + ...
-        fake_key = f"352001{unique_cnpj_digits}5500100000000012062777161"
+        fake_key = f"352001{unique_cnpj_digits}550010000000001206277716"
 
         doc = self.env["l10n_br_fiscal_dfe.document"].create(
             {

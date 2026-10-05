@@ -29,7 +29,7 @@ class L10nBrFiscalDfeDocument(models.Model):
         ),
     ]
 
-    access_key = fields.Char(size=44, required=True, index=True)
+    access_key = fields.Char(size=50, required=True, index=True)
 
     fiscal_type = fields.Selection(
         selection=[("nfe", "NF-e"), ("cte", "CT-e")],
@@ -68,7 +68,8 @@ class L10nBrFiscalDfeDocument(models.Model):
 
     document_emission_date = fields.Datetime(string="Emission Date")
 
-    serie = fields.Char(size=3)
+    # A national NFS-e DPS series has up to 5 characters (TSSerieDPS).
+    serie = fields.Char(size=5)
 
     color_status = fields.Selection(
         [
