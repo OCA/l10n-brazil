@@ -27,7 +27,7 @@ class DFe(models.Model):
         comodel_name="l10n_br_fiscal_dfe.document", string="DF-e Document"
     )
 
-    access_key = fields.Char(size=44, index=True)
+    access_key = fields.Char(size=50, index=True)
 
     nsu = fields.Char(string="NSU", size=25, index=True)
 
