@@ -1,7 +1,7 @@
 # Copyright (C) 2009  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, models
+from odoo import models
 from odoo.exceptions import UserError
 
 
@@ -20,7 +20,7 @@ class StockReturnPicking(models.TransientModel):
             if not refund_fiscal_operation:
                 if self.invoice_state == "2binvoiced":
                     raise UserError(
-                        _(
+                        self.env._(
                             "This Fiscal Operation has no Fiscal Operation"
                             " for Returns defined!"
                         )
