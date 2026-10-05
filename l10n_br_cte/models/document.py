@@ -12,16 +12,14 @@ from datetime import datetime
 
 from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
-
-# TODO: precisa tratar
+from erpbrasil.edoc.cte import TransmissaoCTE
 from lxml import etree
 from nfelib.cte.bindings.v4_0.cte_v4_00 import Cte
 from nfelib.cte.bindings.v4_0.dfe_tipos_basicos_v1_00 import Tcibs as CTeTcibs
 from nfelib.cte.bindings.v4_0.dfe_tipos_basicos_v1_00 import TtribCte
 from nfelib.cte.bindings.v4_0.proc_cte_v4_00 import CteProc
-
-# TODO: precisa tratar nfelib
-# from nfelib.nfe.ws.edoc_legacy import CTeAdapter as edoc_cte
+from nfelib.nfe.ws.edoc_legacy import CTeAdapter as edoc_cte
+from requests import Session
 from xsdata.formats.dataclass.parsers import XmlParser
 
 from odoo import Command, _, api, fields
@@ -1549,33 +1547,29 @@ class CTe(spec_models.StackedModel):
             edocs.append(cte)
         return edocs
 
-    # def _edoc_processor(self):
-    #     if self.document_type != MODELO_FISCAL_CTE:
-    #         return super()._edoc_processor()
-
-    #     if not self.company_id.certificate_nfe_id:
-    #         raise UserError(_("Certificado não encontrado"))
-
-    #     certificado = self.env.company._get_br_ecertificate()
-    #     session = Session()
-    #     session.verify = False
-
-    #     params = {
-    #         "transmissao": TransmissaoCTE(certificado, session),
-    #         "uf": self.company_id.state_id.ibge_code,
-    #         "versao": self.cte_version,
-    #         "ambiente": self.cte_environment,
-    #     }
-    #     return edoc_cte(**params)
-
     def _edoc_processor(self):
-        pass
+        if not self.filtered(filter_processador_edoc_cte):
+            return super()._edoc_processor()
+
+        certificado = self.company_id._get_br_ecertificate()
+        session = Session()
+        session.verify = False
+
+        params = {
+            "transmissao": TransmissaoCTE(certificado, session),
+            "uf": self.company_id.state_id.ibge_code,
+            "versao": self.cte_version,
+            "ambiente": self.cte_environment,
+            "mod": self.document_type,
+        }
+        return edoc_cte(**params)
 
     def _document_export(self, pretty_print=True):
         result = super()._document_export()
         for record in self.filtered(filter_processador_edoc_cte):
+            processador = record._edoc_processor()
+            record._document_qrcode()
             edoc = record.serialize()[0]
-            # processador = record._edoc_processor()
             xml_file = edoc.to_xml()
             event_id = self.event_ids.create_event_save_xml(
                 company_id=self.company_id,
@@ -1588,8 +1582,8 @@ class CTe(spec_models.StackedModel):
             )
             record.authorization_event_id = event_id
 
-            # xml_assinado = processador.assina_raiz(edoc, edoc.infCte.Id)
-            # self._validate_xml(xml_assinado)
+            xml_assinado = processador.assina_raiz(edoc, edoc.infCte.Id)
+            record._validate_xml(xml_assinado)
         return result
 
     def _validate_xml(self, xml_file):
@@ -1646,6 +1640,7 @@ class CTe(spec_models.StackedModel):
             if record.xml_error_message:
                 return
             processador = record._edoc_processor()
+            record._document_qrcode()
             for edoc in record.serialize():
                 process = None
                 for p in processador.processar_documento(edoc):
@@ -1782,17 +1777,23 @@ class CTe(spec_models.StackedModel):
             file_response_xml=process.retorno.content.decode("utf-8"),
         )
 
-    # def _document_qrcode(self):
-    #     super()._document_qrcode()
-
-    #     for record in self.filtered(filter_processador_edoc_cte):
-    #         record.cte40_infCTeSupl = self.env[
-    #             "l10n_br_fiscal.document.supplement"
-    #         ].create(
-    #             {
-    #                 "qrcode": record.get_cte_qrcode(),
-    #             }
-    #         )
+    def _document_qrcode(self):
+        result = super()._document_qrcode()
+        for record in self.filtered(filter_processador_edoc_cte):
+            if record.cte40_tpEmis == "5":
+                # FS-DA contingency needs the "sign" parameter in the QR Code
+                # URL, which erpbrasil.edoc does not build yet.
+                raise UserError(
+                    _("The QR Code of FS-DA contingency CT-e is not supported yet.")
+                )
+            qrcode = record.get_cte_qrcode()
+            if record.cte40_infCTeSupl:
+                record.cte40_infCTeSupl.qrcode = qrcode
+            else:
+                record.cte40_infCTeSupl = self.env[
+                    "l10n_br_fiscal.document.supplement"
+                ].create({"qrcode": qrcode})
+        return result
 
     def get_cte_qrcode(self):
         if self.document_type != MODELO_FISCAL_CTE:

@@ -4,13 +4,13 @@
 {
     "name": "CT-e",
     "summary": """Brazilian Electronic Invoice CT-e""",
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.1.0",
     "category": "Localisation",
     "license": "AGPL-3",
     "author": "KMEE, Escodoo, Odoo Community Association (OCA)",
     "maintainers": ["mileo", "marcelsavegnago", "rvalyi"],
     "website": "https://github.com/OCA/l10n-brazil",
-    "development_status": "Alpha",
+    "development_status": "Beta",
     "depends": [
         "l10n_br_fiscal_edi",
         "l10n_br_cte_spec",

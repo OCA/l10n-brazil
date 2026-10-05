@@ -6,6 +6,10 @@ DOCUMENT_STATE_AUTHORIZED = "autorizada"
 DOCUMENT_STATE_REJECTED = "rejeitada"
 DOCUMENT_STATE_DENIED = "denegada"
 
+# Context key set on the state_edoc write done by the state machine, so that
+# extensions can tell a transition from a direct write of the field.
+FSM_STATE_CHANGE_CONTEXT = "l10n_br_fiscal_edi_fsm_state_change"
+
 # Selection labels are plain strings; Odoo translates them automatically
 # via the field's translate=True mechanism.  Using _() here would evaluate
 # at import time before the translation registry is ready.

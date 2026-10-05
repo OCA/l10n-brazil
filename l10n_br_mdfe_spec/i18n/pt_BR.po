@@ -1445,7 +1445,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe_spec.field_mdfe_30_ide__mdfe30_procEmi
 msgid ""
 "Identificação do processo de emissão do Manifesto\n"
-"0 - emissão de MDF-e com aplicativo do contribuinte"
+"0 - emissão de MDFe com aplicativo do contribuinte\n"
+"4- emissão de MDFe por Provedor de Assinatura e Autorização - PAA"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
@@ -1456,7 +1457,7 @@ msgstr ""
 
 #. module: l10n_br_mdfe_spec
 #: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_rodo_infpag__mdfe30_indPag
-msgid "Indicador da Forma"
+msgid "Indicador da Forma de Pagamento"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec

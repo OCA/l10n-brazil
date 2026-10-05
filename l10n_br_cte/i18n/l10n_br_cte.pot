@@ -4470,8 +4470,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tomaterceiro__cte40_CNPJ
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_rodo_occ__cte40_CNPJ
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_CNPJ
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_CNPJ
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_CNPJ
 msgid "Número do CNPJ"
 msgstr ""
 
@@ -4513,6 +4511,12 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_CNPJ
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_CNPJ
+msgid "Número do CNPJ (cte_CNPJ)"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_emidocant__cte40_CPF
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_toma__cte40_CPF
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_toma__cte40_CPF
@@ -4520,8 +4524,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_rem__cte40_CPF
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tomaterceiro__cte40_CPF
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_CPF
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_CPF
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_CPF
 msgid "Número do CPF"
 msgstr ""
 
@@ -4538,6 +4540,12 @@ msgstr ""
 msgid ""
 "Número do CPF\n"
 "Informar os zeros não significativos."
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_CPF
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_CPF
+msgid "Número do CPF (cte_CPF)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -5308,6 +5316,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_infctesupl__cte40_qrCodCTe
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_supplement__cte40_qrCodCTe
 msgid "Texto com o QR-Code impresso no DACTE"
+msgstr ""
+
+#. module: l10n_br_cte
+#. odoo-python
+#: code:addons/l10n_br_cte/models/document.py:0
+msgid "The QR Code of FS-DA contingency CT-e is not supported yet."
 msgstr ""
 
 #. module: l10n_br_cte

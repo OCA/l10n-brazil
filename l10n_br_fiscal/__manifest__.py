@@ -10,7 +10,7 @@
     "maintainers": ["renatonlima", "rvalyi"],
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Production/Stable",
-    "version": "18.0.9.12.0",
+    "version": "18.0.9.13.0",
     "depends": [
         "product",
         "uom_alias",
@@ -36,6 +36,7 @@
         "data/l10n_br_fiscal.tax.pis.cofins.csv",
         "data/l10n_br_fiscal_server_action.xml",
         "data/ir_cron.xml",
+        "data/ir_config_parameter.xml",
         "data/l10n_br_fiscal_comment_data.xml",
         "data/l10n_br_fiscal.legal.nature.csv",
         "data/l10n_br_fiscal.cnae.csv",

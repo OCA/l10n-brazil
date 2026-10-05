@@ -5,6 +5,7 @@ import logging
 import os
 from datetime import datetime
 
+from erpbrasil.assinatura import misc
 from xmldiff import main
 
 from odoo import Command
@@ -15,6 +16,23 @@ from odoo.addons import l10n_br_cte
 from odoo.addons.l10n_br_fiscal.constants.fiscal import DOCUMENT_STATE_DRAFT
 
 _logger = logging.getLogger(__name__)
+
+
+def create_fake_certificate(env, company):
+    certificate_file = misc.create_fake_certificate_file(
+        valid=True,
+        passwd="123456",
+        issuer="EMISSOR A TESTE",
+        country="BR",
+        subject="CERTIFICADO VALIDO TESTE",
+    )
+    return env["certificate.certificate"].create(
+        {
+            "pkcs12_password": "123456",
+            "content": certificate_file,
+            "company_id": company.id,
+        }
+    )
 
 
 class TestCTeSerialize(TransactionCase):
@@ -36,6 +54,13 @@ class TestCTeSerialize(TransactionCase):
         """
         if cte.state_edoc != DOCUMENT_STATE_DRAFT:  # 2nd test run
             cte.action_document_back2draft()
+
+        if not cte.company_id.certificate_id:
+            # _document_export signs and validates the XML, so it needs a
+            # certificate
+            cte.company_id.certificate_id = create_fake_certificate(
+                cte.env, cte.company_id
+            )
 
         cte.fiscal_line_ids.name = "Frete"
         for line in cte.fiscal_line_ids:
