@@ -62,17 +62,17 @@
                     domain here that is checked before the dynamic fiscal
                     placeholders kick in.
                 -->
-                <field name="fiscal_operation_type" invisible="1" />
-                <field name="cfop_id" invisible="1" />
-                <field name="tax_framework" invisible="1" />
+                <field name="fiscal_operation_type" column_invisible="1" />
+                <field name="cfop_id" column_invisible="1" />
+                <field name="tax_framework" column_invisible="1" />
                 <field
                     name="fiscal_operation_id"
-                    invisible="1"
+                    column_invisible="1"
                     readonly="state != 'draft'"
                 />
-                <field name="freight_value" invisible="1" />
-                <field name="insurance_value" invisible="1" />
-                <field name="other_value" invisible="1" />
+                <field name="freight_value" column_invisible="1" />
+                <field name="insurance_value" column_invisible="1" />
+                <field name="other_value" column_invisible="1" />
             </xpath>
             <xpath expr="//page[@name='extra']/group" position="inside">
                 <group name="delivery_costs" string="Delivery Costs">
