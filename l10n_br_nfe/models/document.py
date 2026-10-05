@@ -1634,6 +1634,21 @@ class NFe(spec_models.StackedModel):
 
         self.file_report_id = self.env["ir.attachment"].create(attachment_data)
 
+    def _get_imported_installments(self):
+        """Read the installments of the <cobr>/<dup> group of an imported NF-e."""
+        self.ensure_one()
+        if self.document_type_id.code not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
+            return super()._get_imported_installments()
+        # Whoever books the bill may have no NF-e group.
+        installments = [
+            (dup.nfe40_dVenc, dup.nfe40_vDup)
+            for dup in self.sudo().nfe40_dup
+            if dup.nfe40_dVenc and dup.nfe40_vDup
+        ]
+        if not installments:
+            return super()._get_imported_installments()
+        return sorted(installments)
+
     def import_binding_nfe(self, binding, edoc_type="in", dry_run=False):
         if hasattr(binding, "NFe"):
             binding = binding.NFe
