@@ -20,6 +20,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_MDFE,
     MODELO_FISCAL_NFCE,
     MODELO_FISCAL_NFE,
+    MODELO_FISCAL_NFSE,
     PROCESSADOR_NENHUM,
     SITUACAO_FISCAL_SPED_CONSIDERA_CANCELADO,
 )

@@ -46,6 +46,12 @@ class Document(models.Model):
         copy=False,
     )
 
+    rps_number = fields.Char(
+        string="RPS Number",
+        copy=False,
+        index=True,
+    )
+
     rps_type = fields.Selection(
         selection=RPS_TYPE,
         default="1",
@@ -350,6 +356,33 @@ class Document(models.Model):
             "customer_additional_data": self.customer_additional_data,
             "fiscal_additional_data": self.fiscal_additional_data,
         }
+
+    # -------------------------------------------------------------------------
+    # RPS numbering
+    #
+    # A municipal NFS-e is issued out of a RPS: the number the issuer
+    # assigns is the RPS number, the NFS-e number only comes back from the
+    # city hall. These hooks are the NFS-e conditions that used to live in
+    # l10n_br_fiscal (document name) and l10n_br_fiscal_edi (numbering and
+    # event number).
+    # -------------------------------------------------------------------------
+
+    def _get_provisional_number(self):
+        return self.rps_number
+
+    def _document_number_from_serie(self):
+        if self.document_type == MODELO_FISCAL_NFSE:
+            if not self.rps_number:
+                self.rps_number = self.document_serie_id.next_seq_number()
+        else:
+            return super()._document_number_from_serie()
+
+    def _prepare_event_document_number(self):
+        if not self.rps_number:
+            return super()._prepare_event_document_number()
+        if not self.document_number:
+            return self.rps_number
+        return f"{self.rps_number}-{self.document_number}"
 
     def _convert_binding_value_to_odoo(self, binding_type, object_filed, value):
         if value is None:
