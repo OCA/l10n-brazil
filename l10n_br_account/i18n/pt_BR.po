@@ -34,6 +34,30 @@ msgid "(Discount)"
 msgstr ""
 
 #. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/document.py:0
+msgid "- %s: no product matched."
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/document.py:0
+msgid "- %s: no quantity."
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/document.py:0
+msgid "- %s: no unit of measure."
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/document.py:0
+msgid "- %s: no unit price."
+msgstr ""
+
+#. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
 msgid "<span>Fiscal Details</span>"
 msgstr "<span>Detalhes Fiscais</span>"
@@ -166,6 +190,14 @@ msgstr "Total sem desconto."
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
 msgid "Amounts"
 msgstr "Totais"
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/account_move.py:0
+msgid ""
+"Asking the SEFAZ about a document needs the electronic fiscal document "
+"module installed."
+msgstr ""
 
 #. module: l10n_br_account
 #: model:ir.model.fields.selection,name:l10n_br_account.selection__account_invoice_report__fiscal_type__08
@@ -547,6 +579,11 @@ msgid "Cannot import in non draft Account Move!"
 msgstr ""
 
 #. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_tree
+msgid "Check status at the SEFAZ"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__city_taxation_code_id
 msgid "City Taxation Code"
 msgstr ""
@@ -686,6 +723,30 @@ msgstr "Desconto (%)"
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__discount_value
 msgid "Discount Value"
 msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_chart_template__display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_incoterms__display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report__display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_journal__display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_reversal__display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_tax__display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_group__display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_ir_model_data__display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_ir_rule__display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_decorator_mixin__display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_import_wizard__display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation__display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation_line__display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_tax__display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_tax_group__display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_res_company__display_name
+msgid "Display Name"
+msgstr "Nome Exibido"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__document_date
@@ -1187,6 +1248,11 @@ msgid "ICMS Relief"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_relief_type
+msgid "ICMS Relief Deduction"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_relief_value
 msgid "ICMS Relief Value"
 msgstr ""
@@ -1287,6 +1353,30 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_icmssn_credit_value
 msgid "ICMSSN Credit Value"
 msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_chart_template__id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_incoterms__id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report__id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_journal__id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_reversal__id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_tax__id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_group__id
+#: model:ir.model.fields,field_description:l10n_br_account.field_ir_model_data__id
+#: model:ir.model.fields,field_description:l10n_br_account.field_ir_rule__id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_decorator_mixin__id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_import_wizard__id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation__id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation_line__id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_tax__id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_tax_group__id
+#: model:ir.model.fields,field_description:l10n_br_account.field_res_company__id
+msgid "ID"
+msgstr "ID"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ii_percent
@@ -1559,12 +1649,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_issqn_value
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__issqn_value
 msgid "ISSQN Value"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__partner_cnpj_cpf
-#: model:ir.model.fields,help:l10n_br_account.field_account_move__partner_cnpj_cpf
-msgid "Identification Number for selected type"
 msgstr ""
 
 #. module: l10n_br_account
@@ -2052,6 +2136,12 @@ msgid "PIS WH Base Type"
 msgstr ""
 
 #. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/account_move.py:0
+msgid "Paid and no longer valid at the SEFAZ, settle by hand: %s"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__partner_id
 #: model:ir.model.fields.selection,name:l10n_br_account.selection__account_invoice_report__issuer__partner
 msgid "Partner"
@@ -2216,12 +2306,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__state_edoc
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__state_edoc
 msgid "Situação e-doc"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__partner_l10n_br_ie_code
-#: model:ir.model.fields,help:l10n_br_account.field_account_move__partner_l10n_br_ie_code
-msgid "State Tax Identification Number. Should contain 9-14 digits."
 msgstr ""
 
 #. module: l10n_br_account
@@ -2462,6 +2546,14 @@ msgid "Technical mirror."
 msgstr ""
 
 #. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/document.py:0
+msgid ""
+"The document cannot be imported due to incomplete lines:\n"
+"%s"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_move_line__quantity
 msgid ""
 "The optional quantity expressed by this line, eg: number of product sold. "
@@ -2517,6 +2609,11 @@ msgid "UOM"
 msgstr "UDM"
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__product_uom_id
+msgid "Unit"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__price_unit
 msgid "Unit Price"
 msgstr ""
@@ -2528,8 +2625,9 @@ msgid "Unit Price (proxy)"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__product_uom_id
-msgid "Unit of Measure"
+#. odoo-python
+#: code:addons/l10n_br_account/models/document.py:0
+msgid "Unknown"
 msgstr ""
 
 #. module: l10n_br_account
@@ -2592,9 +2690,21 @@ msgid "Version"
 msgstr ""
 
 #. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/account_move.py:0
+msgid "Without a fiscal document: %s"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__xml_error_message
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__xml_error_message
 msgid "XML validation errors"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__partner_cnpj_cpf
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__partner_cnpj_cpf
+msgid "You can use '/' to indicate that the customer has no Tax ID."
 msgstr ""
 
 #. module: l10n_br_account
@@ -2615,6 +2725,14 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_account/models/account_move.py:0
 msgid "You cannot set a document type when the move has no Fiscal Document!"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__icms_relief_type
+msgid ""
+"indDeduzDeson (NT 2023.004): indicates whether the ICMS relief value "
+"(vICMSDeson) is deducted from the item value (vProd) and from the document "
+"total (vNF)."
 msgstr ""
 
 #~ msgid "Document Type"
@@ -2810,9 +2928,6 @@ msgstr ""
 #~ msgid "Invalidate Number Wizard"
 #~ msgstr "Assistente de Número Invalidado"
 
-#~ msgid "Display Name"
-#~ msgstr "Nome Exibido"
-
 #, fuzzy
 #~ msgid "Fiscal Base Wizard Mixin"
 #~ msgstr "Assistente de Base Fiscal Mixin"
@@ -2822,9 +2937,6 @@ msgstr ""
 
 #~ msgid "Fiscal Document Correction Wizard"
 #~ msgstr "Assistente de Correção de Documento Fiscal"
-
-#~ msgid "ID"
-#~ msgstr "ID"
 
 #~ msgid "Indicates that this journal item is a tax line"
 #~ msgstr "Indica que este item de diário é uma linha de imposto"
