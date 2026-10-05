@@ -578,6 +578,13 @@ msgid "Cargo Infos"
 msgstr ""
 
 #. module: l10n_br_cte
+#. odoo-python
+#: code:addons/l10n_br_cte/models/document.py:0
+#, python-format
+msgid "Certificate not found"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_transported_vehicles__cte40_chassi
 msgid "Chassi do veículo"
 msgstr ""
