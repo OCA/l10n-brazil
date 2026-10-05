@@ -31,6 +31,7 @@ from ..constants.fiscal import (
     DOCUMENT_STATE_REJECTED,
     DOCUMENT_STATE_SENDING,
     DOCUMENT_STATES,
+    FSM_STATE_CHANGE_CONTEXT,
 )
 
 
@@ -38,6 +39,11 @@ def filter_processador(record):
     if record.document_electronic and record.processador_edoc == PROCESSADOR_NENHUM:
         return True
     return False
+
+
+# Above this, a single run risks Odoo's 120s request timeout and, worse,
+# Sefaz's 1h block on the CNPJ that queries it.
+BATCH_STATUS_CHECK_LIMIT = 25
 
 
 class FiscalDocumentStateMachine(Machine):
@@ -52,7 +58,8 @@ class FiscalDocumentStateMachine(Machine):
     Nested ``_trigger_fsm()`` calls made from those callbacks (e.g. the
     send -> authorize chain) therefore always read the up-to-date state_edoc.
     The initial ``set_state()`` done at machine construction is a no-op write
-    thanks to the value comparison.
+    thanks to the value comparison. The write carries FSM_STATE_CHANGE_CONTEXT,
+    so that extensions can defer work that needs the ``after`` callbacks.
     """
 
     def __init__(self, document, *args, **kwargs):
@@ -62,7 +69,9 @@ class FiscalDocumentStateMachine(Machine):
     def set_state(self, state, model=None):
         result = super().set_state(state, model)
         if self.state != self.document.state_edoc:
-            self.document.write({"state_edoc": self.state})
+            self.document.with_context(**{FSM_STATE_CHANGE_CONTEXT: True}).write(
+                {"state_edoc": self.state}
+            )
         return result
 
 
@@ -828,6 +837,73 @@ class Document(models.Model):
 
     def make_pdf(self):
         pass
+
+    def action_check_status(self):
+        """Ask the SEFAZ about each selected document, within a safe batch size."""
+        checkable_states = (DOCUMENT_STATE_SENDING, DOCUMENT_STATE_AUTHORIZED)
+        askable = self.filtered(lambda d: d.state_edoc in checkable_states)
+        skipped = (self - askable).mapped("display_name")
+        changed, kept, failed, without_key = [], [], [], []
+        for record in askable[:BATCH_STATUS_CHECK_LIMIT]:
+            if not record.document_key:
+                without_key.append(record.display_name)
+                continue
+            before = record.state_edoc
+            try:
+                with self.env.cr.savepoint():
+                    record._document_status()
+            except Exception as error:
+                failed.append(f"{record.display_name}: {error}")
+                continue
+            record.invalidate_recordset(["state_edoc"])
+            if record.state_edoc == before:
+                kept.append(record.display_name)
+            else:
+                changed.append((record.display_name, before, record.state_edoc))
+        overflow = askable[BATCH_STATUS_CHECK_LIMIT:].mapped("display_name")
+        return self._notify_status_check(
+            changed, kept, failed, without_key, skipped + overflow
+        )
+
+    NOTIFICATION_NAMES_LIMIT = 10
+
+    def _truncated_names(self, names):
+        shown = names[: self.NOTIFICATION_NAMES_LIMIT]
+        hidden = len(names) - len(shown)
+        if hidden:
+            shown = shown + [self.env._("+%s more") % hidden]
+        return "; ".join(shown)
+
+    def _notify_status_check(self, changed, kept, failed, without_key, skipped):
+        labels = dict(self._fields["state_edoc"]._description_selection(self.env))
+        changed = [
+            f"{name}: {labels.get(before, before)} -> {labels.get(after, after)}"
+            for name, before, after in changed
+        ]
+        lines = []
+        if changed:
+            lines.append(self.env._("Changed: %s") % self._truncated_names(changed))
+        if kept:
+            lines.append(self.env._("Unchanged: %s") % len(kept))
+        if failed:
+            lines.append(self.env._("Failed: %s") % self._truncated_names(failed))
+        if without_key:
+            lines.append(
+                self.env._("Without a key to ask about: %s")
+                % self._truncated_names(without_key)
+            )
+        if skipped:
+            lines.append(self.env._("Not asked about this time: %s") % len(skipped))
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": self.env._("Status checked at the SEFAZ"),
+                "message": "\n".join(lines),
+                "type": "danger" if failed else ("success" if changed else "info"),
+                "sticky": bool(changed or failed),
+            },
+        }
 
     def view_pdf(self):
         self.ensure_one()

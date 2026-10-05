@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="ibpt_request_timeout" model="ir.config_parameter" forcecreate="True">
+        <field name="key">ibpt_request_timeout</field>
+        <field name="value">30</field>
+    </record>
+</odoo>
