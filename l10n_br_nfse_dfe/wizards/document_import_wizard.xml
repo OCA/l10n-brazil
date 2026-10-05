@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2026 Escodoo - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+    License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="document_import_wizard_form_nfse" model="ir.ui.view">
+        <field name="name">document.import.wizard.form.nfse</field>
+        <field name="model">l10n_br_fiscal.document.import.wizard</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_import_wizard_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='fiscal_operation_id']" position="after">
+                <field
+                    name="product_id"
+                    invisible="document_type != 'SE'"
+                    domain="[('type', '=', 'service')]"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>
