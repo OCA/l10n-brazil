@@ -185,7 +185,6 @@ class SaleBlanketOrderLine(models.Model):
         "cest_id",
         "fiscal_operation_line_id",
         "cfop_id",
-        "icmssn_range_id",
         "icms_origin",
         "icms_cst_id",
         "ind_final",
