@@ -159,6 +159,13 @@ TAX_FRAMEWORK_SIMPLES_EX = "2"
 TAX_FRAMEWORK_NORMAL = "3"
 TAX_FRAMEWORK_SIMPLES_ALL = ("1", "2", "4")
 
+SIMPLIFIED_TAX_ANNEX_COMMERCE = "l10n_br_fiscal.simplefied_tax_anexo1"
+SIMPLIFIED_TAX_ANNEX_INDUSTRY = "l10n_br_fiscal.simplefied_tax_anexo2"
+
+# Industrialização efetuada para outra empresa: receita de industrialização
+# (Anexo II do Simples Nacional) embora o CFOP não seja de venda.
+CFOP_INDUSTRIALIZATION_FOR_THIRD_PARTY = ("5124", "5125", "6124", "6125")
+
 
 PROFIT_CALCULATION = [
     ("real", "Real"),
