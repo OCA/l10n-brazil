@@ -9,7 +9,7 @@
     "author": "Akretion, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
     "maintainers": ["renatonlima", "mbcosta"],
-    "version": "18.0.1.1.4",
+    "version": "18.0.1.1.5",
     "depends": [
         "stock_account",
         "stock_picking_invoicing",
