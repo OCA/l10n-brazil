@@ -7734,6 +7734,8 @@ msgid "District"
 msgstr ""
 
 #. module: l10n_br_base
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_contact_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_company_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
 msgid "District..."
 msgstr ""
@@ -23362,12 +23364,15 @@ msgid "Street Number2"
 msgstr ""
 
 #. module: l10n_br_base
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_contact_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_company_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
 msgid "Street number..."
 msgstr ""
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_contact_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_company_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
 msgid "Street..."
 msgstr ""
@@ -27459,7 +27464,6 @@ msgid "Zip"
 msgstr ""
 
 #. module: l10n_br_base
-#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_contact_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
 msgid "Zip code..."
 msgstr ""
