@@ -102,6 +102,14 @@ class L10nBrFiscalDfeDocument(models.Model):
         help="True when the emitter CNPJ in the access key matches the company CNPJ.",
     )
 
+    fiscal_document_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document",
+        string="Fiscal Document",
+        compute="_compute_fiscal_document_id",
+        search="_search_fiscal_document_id",
+        help="Fiscal document already imported with this access key.",
+    )
+
     @api.depends("access_key")
     def _compute_partner_id(self):
         Partner = self.env["res.partner"]
@@ -120,6 +128,60 @@ class L10nBrFiscalDfeDocument(models.Model):
     def action_match_partner(self):
         """Re-run the partner matching logic"""
         self.sudo()._compute_partner_id()
+
+    @api.depends("access_key", "company_id")
+    def _compute_fiscal_document_id(self):
+        """Match the import wizard: the fiscal document that already has this key.
+
+        When more than one document shares the key, keep the one of the
+        same company.
+        """
+        keys = [key for key in self.mapped("access_key") if key]
+        grouped = {}
+        if keys:
+            matches = self.env["l10n_br_fiscal.document"].search(
+                [("document_key", "in", keys)]
+            )
+            for document in matches:
+                grouped.setdefault(
+                    document.document_key, self.env["l10n_br_fiscal.document"]
+                )
+                grouped[document.document_key] |= document
+        empty = self.env["l10n_br_fiscal.document"]
+        for record in self:
+            candidates = grouped.get(record.access_key, empty)
+            same_company = candidates.filtered(
+                lambda document, company=record.company_id: document.company_id
+                == company
+            )
+            record.fiscal_document_id = (same_company or candidates)[:1]
+
+    def _search_fiscal_document_id(self, operator, value):
+        """Inbox rows whose access key is already a fiscal document key."""
+        if operator in ("=", "!=") and not value:
+            key_operator = "not in" if operator == "=" else "in"
+            return [("access_key", key_operator, self._imported_access_keys())]
+        fiscal_documents = self.env["l10n_br_fiscal.document"]
+        if operator in ("=", "in"):
+            ids = value if operator == "in" else [value]
+            keys = fiscal_documents.browse([item for item in ids if item]).mapped(
+                "document_key"
+            )
+            return [("access_key", "in", keys)]
+        if operator in ("!=", "not in"):
+            ids = value if operator == "not in" else [value]
+            keys = fiscal_documents.browse([item for item in ids if item]).mapped(
+                "document_key"
+            )
+            return [("access_key", "not in", keys)]
+        return NotImplemented
+
+    def _imported_access_keys(self):
+        return (
+            self.env["l10n_br_fiscal.document"]
+            .search([("document_key", "!=", False)])
+            .mapped("document_key")
+        )
 
     @api.depends("access_key", "company_id.vat")
     def _compute_is_own_document(self):
