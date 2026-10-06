@@ -199,8 +199,11 @@ class TestNFeMDENfelib(TransactionCase):
             mock_post.return_value = response_ciencia_operacao.encode()
             self.mde_id.action_confirm()
 
-            # the signed event must really go on the wire
+            # the signed event must really go on the wire; brazil-fiscal-client
+            # posts UTF-8 bytes since akretion/brazil-fiscal-client#25
             sent = mock_post.call_args.kwargs["data"]
+            if isinstance(sent, bytes):
+                sent = sent.decode("utf-8")
             self.assertIn("Signature", sent)
             self.assertIn("210210", sent)  # tpEvento ciencia da operacao
             self.assertIn(self.mde_id.access_key, sent)
