@@ -27,6 +27,10 @@
                         attrs="{'readonly': [('state', '!=', 'draft')]}"
                     />
                 <field
+                        name="justification"
+                        attrs="{'invisible': [('event_type', '!=', 'nao_realizado')], 'readonly': [('state', '!=', 'draft')]}"
+                    />
+                <field
                         name="access_key"
                         attrs="{'readonly': [('state', '!=', 'draft')]}"
                     />
