@@ -63,3 +63,9 @@ class TestComment(TransactionCase):
             comment.action_test_message()
 
         self.assertFalse(comment.test_comment)
+
+    def test_a_new_comment_without_text_has_an_empty_display_name(self):
+        """The form of a new comment computes the name before any text."""
+        comment = self.env["l10n_br_fiscal.comment"].new({})
+
+        self.assertFalse(comment.display_name)
