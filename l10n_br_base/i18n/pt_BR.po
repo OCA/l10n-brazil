@@ -10975,8 +10975,8 @@ msgid ""
 msgstr ""
 "Chave aleatória inválida: %(key)s. Certifique-se de que a chave foi copiada "
 "por completo. Ela deve conter exatamente 36 caracteres (letras de a a f, "
-"números e hífens). Exemplo de formato correto: "
-"12345678-abcd-1234-abcd-123456789abc"
+"números e hífens). Exemplo de formato correto: 12345678-abcd-1234-"
+"abcd-123456789abc"
 
 #. module: l10n_br_base
 #. odoo-python
