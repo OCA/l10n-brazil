@@ -86,6 +86,11 @@ class NfeRecipientManifestationEvent(models.Model):
         if result.retorno.status_code != 200:
             code = result.retorno.status_code
             message = "Invalid Status Code"
+        elif not result.resposta.retEvento:
+            # the whole batch was rejected (e.g. schema error): there is no
+            # event result, report the batch status instead
+            code = result.resposta.cStat
+            message = result.resposta.xMotivo
         else:
             inf_evento = result.resposta.retEvento[0].infEvento
             if inf_evento.cStat not in valid_codes:
