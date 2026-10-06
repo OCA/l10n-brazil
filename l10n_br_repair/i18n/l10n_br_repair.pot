@@ -6,8 +6,6 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-02 23:24+0000\n"
-"PO-Revision-Date: 2026-10-02 23:24+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1536,6 +1534,21 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__insurance_endorsement
+msgid "Insurance Endorsement"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__insurance_policy
+msgid "Insurance Policy"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__partner_insurance_id
+msgid "Insurance Provider"
+msgstr ""
+
+#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__insurance_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__insurance_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__insurance_value
@@ -1907,6 +1920,11 @@ msgid "Quantity"
 msgstr ""
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__partner_receivering_id
+msgid "Receiver Address"
+msgstr ""
+
+#. module: l10n_br_repair
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.res_company_form_view
 msgid "Repair"
 msgstr ""
@@ -1932,6 +1950,11 @@ msgid "Repair Order"
 msgstr ""
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__partner_sendering_id
+msgid "Sender Address"
+msgstr ""
+
+#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__document_serie
 msgid "Serie Number"
 msgstr ""
@@ -1941,6 +1964,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__service_type_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__service_type_id
 msgid "Service Type LC 166"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__partner_shippering_id
+msgid "Shipper Address"
 msgstr ""
 
 #. module: l10n_br_repair
@@ -2164,6 +2192,50 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.repair_fee_form_view
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.repair_line_form_view
 msgid "Taxes"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,help:l10n_br_repair.field_repair_order__insurance_endorsement
+msgid ""
+"The endorsement number associated with the insurance policy, indicating any "
+"modifications or adjustments to the coverage. This field is primarily used "
+"when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,help:l10n_br_repair.field_repair_order__insurance_policy
+msgid ""
+"The insurance policy number covering the transported goods. This field is "
+"primarily used when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,help:l10n_br_repair.field_repair_order__partner_receivering_id
+msgid ""
+"The intermediary partner who receives the goods before they reach the final "
+"recipient, often involved in verification, temporary storage, or further "
+"distribution. This field is primarily used when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,help:l10n_br_repair.field_repair_order__partner_insurance_id
+msgid ""
+"The partner providing insurance coverage for the transported goods. This "
+"field is primarily used when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,help:l10n_br_repair.field_repair_order__partner_shippering_id
+msgid ""
+"The partner responsible for delivering the cargo to the carrier, if not done"
+" directly by the sender. This field is primarily used when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,help:l10n_br_repair.field_repair_order__partner_sendering_id
+msgid ""
+"The partner responsible for sending the goods, typically the issuer of the "
+"document. This field is primarily used when issuing the CT-e."
 msgstr ""
 
 #. module: l10n_br_repair
