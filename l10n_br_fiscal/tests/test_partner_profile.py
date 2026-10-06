@@ -16,3 +16,16 @@ class TestPartnerFiscalProfile(TransactionCase):
             self.env["l10n_br_fiscal.partner.profile"].create(
                 {"code": "TESTE", "default": True, "is_company": True}
             )
+
+    def test_view_partners_of_the_profile(self):
+        profile = self.env["l10n_br_fiscal.partner.profile"].create(
+            {"code": "TESTE", "default": False, "is_company": True}
+        )
+        partner = self.env["res.partner"].create(
+            {"name": "Partner of the profile", "fiscal_profile_id": profile.id}
+        )
+
+        action = profile.action_view_partners()
+
+        self.assertEqual(action["res_model"], "res.partner")
+        self.assertEqual(self.env["res.partner"].search(action["domain"]), partner)
