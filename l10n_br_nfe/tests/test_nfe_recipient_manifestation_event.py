@@ -219,3 +219,11 @@ class TestNFeMDENfelib(TransactionCase):
             self.mde_id.event_type = "confirmado"
             self.mde_id.action_confirm()
         self.assertEqual(self.mde_id.state, "done")
+
+    def test_nfelib_processor_uses_event_company_certificate(self):
+        """The certificate comes from the MD-e company, falling back to its
+        e-CNPJ, whatever the user's current company."""
+        self.company.certificate_nfe_id = False
+        mde = self.mde_id.with_company(self.env.ref("base.main_company"))
+        pkcs12_data, _password = self.company._get_nfe_certificate_data()
+        self.assertEqual(mde._nfelib_get_processor().pkcs12_data, pkcs12_data)
