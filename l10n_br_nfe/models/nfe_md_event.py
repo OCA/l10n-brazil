@@ -94,18 +94,12 @@ class NfeRecipientManifestationEvent(models.Model):
         """
         from nfelib.nfe.client.v4_0.mde import MdeClient
 
-        certificate = self.env.company.certificate_nfe_id
-        if not certificate:
-            raise ValidationError(
-                _("Configure an e-CNPJ A1 certificate on the company.")
-            )
-        import base64
-
+        pkcs12_data, pkcs12_password = self.company_id._get_nfe_certificate_data()
         return MdeClient(
             ambiente=self.environment,
             uf=self.company_id.state_id.ibge_code,
-            pkcs12_data=base64.b64decode(certificate.file),
-            pkcs12_password=certificate.password,
+            pkcs12_data=pkcs12_data,
+            pkcs12_password=pkcs12_password,
             wrap_response=True,
         )
 
