@@ -7,6 +7,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models
+from odoo.exceptions import UserError
 
 from ..constants.fiscal import (
     COMMENT_TYPE,
@@ -158,5 +159,9 @@ class Comment(models.Model):
         return " - ".join(c for c in (c.strip() for c in candidates) if c)
 
     def action_test_message(self):
+        if not self.object_id:
+            raise UserError(
+                self.env._("Select a reference document to test the message.")
+            )
         vals = {"user": self.env.user, "ctx": self._context, "doc": self.object_id}
         self.test_comment = self.compute_message(vals)
