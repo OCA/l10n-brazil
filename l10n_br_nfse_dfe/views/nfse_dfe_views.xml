@@ -32,6 +32,7 @@
                 <field name="partner_id" />
                 <field name="document_amount" string="Amount" widget="monetary" />
                 <field name="currency_id" column_invisible="1" />
+                <field name="fiscal_document_id" />
                 <field name="document_state_label" string="State" />
                 <button
                     string="XML"
@@ -44,6 +45,7 @@
                     string="Import"
                     type="object"
                     icon="fa-file-text-o"
+                    invisible="fiscal_document_id"
                 />
             </list>
         </field>
@@ -70,7 +72,9 @@
         <field
             name="domain"
         >[('fiscal_type', '=', 'nfse'), ('is_own_document', '=', False)]</field>
-        <field name="context">{'default_fiscal_type': 'nfse'}</field>
+        <field
+            name="context"
+        >{'default_fiscal_type': 'nfse', 'search_default_to_import': 1}</field>
         <field
             name="view_ids"
             eval="[(5, 0, 0),
