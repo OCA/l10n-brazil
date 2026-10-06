@@ -2,6 +2,8 @@
 # @author Antônio S. Pereira Neto <neto@engenere.one>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import re
+
 import phonenumbers
 from email_validator import EmailSyntaxError, validate_email
 
@@ -9,6 +11,11 @@ from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 from ..tools import check_cnpj_cpf
+
+# EVP (Endereço Virtual de Pagamento, the random key): 32 hexadecimal digits in
+# blocks of 8-4-4-4-12 separated by hyphens, the UUID format
+EVP_PATTERN = re.compile(r"[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}")
+EVP_DIGITS = re.compile(r"[0-9a-f]{32}")
 
 
 class PartnerPix(models.Model):
@@ -110,36 +117,22 @@ class PartnerPix(models.Model):
         return "".join(char for char in doc_number if char.isalnum())
 
     def _normalize_evp(self, key):
-        # EVP: Endereço Virtual de Pagamento (chave aleatória)
-        # ex: 123e4567-e12b-12d1-a456-426655440000
-        key = "".join(key.split())
-        if len(key) != 36:
+        # Like a UUID, the key is case insensitive (RFC 4122): stored in lower
+        # case, so the same key cannot be registered twice. Typed without the
+        # hyphens, it gets them.
+        key = "".join(key.split()).lower()
+        if EVP_DIGITS.fullmatch(key):
+            key = "-".join((key[:8], key[8:12], key[12:16], key[16:20], key[20:]))
+        if not EVP_PATTERN.fullmatch(key):
             raise ValidationError(
                 self.env._(
-                    "Invalid Random Key: %(key)s , cannot be longer than 35 characters",
+                    "Invalid Random Key: %(key)s. Make sure the whole key was "
+                    "copied. It must have exactly 36 characters (letters from a "
+                    "to f, digits and hyphens). Example of the correct format: "
+                    "12345678-abcd-1234-abcd-123456789abc",
                     key=key,
                 )
             )
-        blocks = key.split("-")
-        if len(blocks) != 5:
-            raise ValidationError(
-                self.env._(
-                    "Invalid Random Key: %(key)s, the key must consist of five blocks.",
-                    key=key,
-                )
-            )
-        for block in blocks:
-            try:
-                int(block, 16)
-            except ValueError as e:
-                raise ValidationError(
-                    self.env._(
-                        "Invalid Random Key: %(key)s \nthe block %(block)s "
-                        "is not a valid hexadecimal format.",
-                        key=key,
-                        block=block,
-                    )
-                ) from e
         return key
 
     @api.model_create_multi
