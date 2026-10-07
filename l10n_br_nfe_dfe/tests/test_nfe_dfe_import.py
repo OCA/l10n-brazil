@@ -152,6 +152,16 @@ class TestNFeDFe(TransactionCase):
         self.assertTrue(result["url"].startswith("/web/content/"))
         self.assertIn("download=true", result["url"])
 
+        # The PDF must be attached to an existing record: since 17.0 users
+        # cannot read attachments of missing records (download gives 404)
+        attachment_id = int(result["url"].split("/web/content/")[1].split("?")[0])
+        attachment = self.env["ir.attachment"].browse(attachment_id)
+        complete = dfe_record.dfe_document_id._get_complete_dfe()
+        self.assertEqual(attachment.res_model, complete._name)
+        self.assertEqual(attachment.res_id, complete.id)
+        user = self.env.ref("base.user_admin")
+        self.assertTrue(attachment.with_user(user).raw.startswith(b"%PDF"))
+
     @mock.patch.object(DefaultTransport, "post")
     def test_download_documents(self, _mock_post):
         _mock_post.return_value = _bytes(response_sucesso_multiplos)
