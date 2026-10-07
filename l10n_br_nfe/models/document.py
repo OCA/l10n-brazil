@@ -910,9 +910,7 @@ class NFe(spec_models.StackedModel):
                     for f in comodel._fields
                     if f.startswith(self._spec_prefix())
                     and f in self._fields.keys()
-                    and f
-                    # don't try to nfe40_fat id when reading nfe40_cobr for instance
-                    not in self._get_stacking_points().keys()
+                    and f not in self._get_stacking_points().keys()
                 ]
                 sub_tag_read = self.read(fields)[0]
                 if not any(
@@ -931,6 +929,17 @@ class NFe(spec_models.StackedModel):
             res = super()._export_many2one(field_name, xsd_required, class_obj)
             if self.company_l10n_br_ie_code_st:
                 res.IEST = self.company_l10n_br_ie_code_st
+            return res
+
+        if field_name == "nfe40_dest" and self.document_type == MODELO_FISCAL_NFCE:
+            if not self.partner_id.vat:
+                return None
+
+            # CPF or CNPJ come from the partner, without punctuation
+            res = super()._export_many2one(field_name, xsd_required, class_obj)
+            res.enderDest = None
+            res.xNome = None
+
             return res
 
         return super()._export_many2one(field_name, xsd_required, class_obj)
@@ -1153,12 +1162,28 @@ class NFe(spec_models.StackedModel):
             self.env.invalidate_all()
             inf_nfe = record._build_binding("nfe", "40")
 
+            if (
+                record.document_type == MODELO_FISCAL_NFCE
+                and inf_nfe.ide.tpAmb == "2"
+                and inf_nfe.det
+            ):
+                inf_nfe.det[0].prod.xProd = (
+                    "NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO "
+                    "- SEM VALOR FISCAL"
+                )
+
             inf_nfe_supl = None
+
             if record.nfe40_infNFeSupl:
                 inf_nfe_supl = record.nfe40_infNFeSupl._build_binding("nfe", "40")
 
-            nfe = Nfe(infNFe=inf_nfe, infNFeSupl=inf_nfe_supl, signature=None)
+            nfe = Nfe(
+                infNFe=inf_nfe,
+                infNFeSupl=inf_nfe_supl,
+                signature=None,
+            )
             edocs.append(nfe)
+
         return edocs
 
     def _edoc_processor(self):
@@ -1838,15 +1863,20 @@ class NFe(spec_models.StackedModel):
         )
 
     def _prepare_nfce_danfe_values(self):
+        date = fields.Datetime.context_timestamp(self, self.document_date).strftime(
+            "%d/%m/%Y %H:%M:%S"
+        )
         return {
             "company_ie": self.company_id.l10n_br_ie_code,
             "company_cnpj": self.company_id.cnpj_cpf,
             "company_legal_name": self.company_id.legal_name,
+            "company_name": self.company_id.name,
             "company_street": self.company_id.street,
             "company_number": self.company_id.street_number,
             "company_district": self.company_id.district,
             "company_city": self.company_id.city_id.display_name,
             "company_state": self.company_id.state_id.name,
+            "partner_cpf": self.partner_id.vat or "",
             "lines": self._prepare_nfce_danfe_line_values(),
             "total_product_quantity": len(
                 self.fiscal_line_ids.filtered(lambda line: line.product_id)
@@ -1860,9 +1890,7 @@ class NFe(spec_models.StackedModel):
             "document_key": self.document_key,
             "document_number": self.document_number,
             "document_serie": self.document_serie,
-            "document_date": self.document_date.astimezone().strftime(
-                "%d/%m/%y %H:%M:%S"
-            ),
+            "document_date": date,
             "authorization_protocol": self.authorization_protocol,
             "document_qrcode": self.get_nfce_qrcode(),
             "system_env": self.nfe40_tpAmb,
