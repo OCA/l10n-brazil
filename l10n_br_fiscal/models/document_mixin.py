@@ -11,6 +11,8 @@ from ..constants.fiscal import (
     FISCAL_COMMENT_DOCUMENT,
     NFE_IND_PRES,
     NFE_IND_PRES_DEFAULT,
+    SIMPLIFIED_TAX_ANNEX_COMMERCE,
+    SIMPLIFIED_TAX_ANNEX_INDUSTRY,
 )
 
 
@@ -82,6 +84,38 @@ class FiscalDocumentMixin(models.AbstractModel):
         for doc in self.filtered(lambda doc: doc.fiscal_operation_id):
             if doc.issuer == DOCUMENT_ISSUER_COMPANY and not doc.document_type_id:
                 doc.document_type_id = doc.company_id.document_type_id
+
+    def _get_icmssn_credit_percent(self, annex_xmlid):
+        """Rate of the ICMS credit granted by the lines of the document taxed
+        by the given annex of the Simples Nacional, 0.0 when there is none.
+
+        The rate is the one stated on the lines (pCredSN) and not the current
+        one of the company: the buyer loses the credit when the document does
+        not inform the rate applied (LC 123/2006, art. 23, § 2º and § 4º, II).
+        """
+        self.ensure_one()
+        annex = self.env.ref(annex_xmlid, raise_if_not_found=False)
+
+        def annex_of(line):
+            # the annex the line was taxed by, else the one it would be now
+            return line.icmssn_range_id.simplified_tax_id or (
+                self.company_id._get_simplified_tax(line.cfop_id)
+            )
+
+        lines = self._get_amount_lines().filtered(
+            lambda line: line.icmssn_credit_value and annex_of(line) == annex
+        )
+        return max(lines.mapped("icmssn_percent"), default=0.0)
+
+    def icmssn_credit_percent_industry(self):
+        """ICMS credit rate of the lines selling own production (Annex II).
+        Public as the fiscal comments call it."""
+        return self._get_icmssn_credit_percent(SIMPLIFIED_TAX_ANNEX_INDUSTRY)
+
+    def icmssn_credit_percent_commerce(self):
+        """ICMS credit rate of the lines reselling goods (Annex I).
+        Public as the fiscal comments call it."""
+        return self._get_icmssn_credit_percent(SIMPLIFIED_TAX_ANNEX_COMMERCE)
 
     def _get_amount_lines(self):
         """Get object lines instances used to compute fiscal fields"""

@@ -51,11 +51,59 @@
                                     <field name="payroll_amount" />
                                 </group>
                                 <group>
-                                    <field name="simplified_tax_id" />
-                                    <field name="simplified_tax_range_id" />
                                     <field name="coefficient_r" />
                                     <field name="coefficient_r_percent" />
-                                    <field name="simplified_tax_percent" />
+                                    <field name="simplified_tax_id" />
+                                    <field name="simplified_tax_range_id" />
+                                </group>
+                                <group
+                                    colspan="2"
+                                    string="Current Effective Taxes for Simples Nacional"
+                                >
+                                    <field
+                                        colspan="2"
+                                        nolabel="1"
+                                        name="simplified_tax_ids"
+                                        context="{'simplified_tax_company_id': id}"
+                                    >
+                                        <tree create="0" delete="0">
+                                            <field name="name" string="Annex" />
+                                            <field name="current_range_id" />
+                                            <field name="current_effective_tax" />
+                                            <field
+                                                name="tax_irpj_percent"
+                                                digits="[16, 2]"
+                                            />
+                                            <field
+                                                name="tax_csll_percent"
+                                                digits="[16, 2]"
+                                            />
+                                            <field
+                                                name="tax_cofins_percent"
+                                                digits="[16, 2]"
+                                            />
+                                            <field
+                                                name="tax_pis_percent"
+                                                digits="[16, 2]"
+                                            />
+                                            <field
+                                                name="tax_cpp_percent"
+                                                digits="[16, 2]"
+                                            />
+                                            <field
+                                                name="tax_icms_percent"
+                                                digits="[16, 2]"
+                                            />
+                                            <field
+                                                name="tax_iss_percent"
+                                                digits="[16, 2]"
+                                            />
+                                            <field
+                                                name="tax_ipi_percent"
+                                                digits="[16, 2]"
+                                            />
+                                        </tree>
+                                    </field>
                                 </group>
                             </group>
                             <group

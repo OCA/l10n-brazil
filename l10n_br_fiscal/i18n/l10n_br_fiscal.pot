@@ -994,6 +994,20 @@ msgid "Andresses"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
+msgid "Annex"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_res_company__simplified_tax_id
+msgid ""
+"Annex of the Simples Nacional of the main activity of the company, found "
+"from its main CNAE and, for the services the R factor moves between the "
+"Annex III and the Annex V, from its R factor. It applies to the operations "
+"whose CFOP does not tell their annex, such as services."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__annual_revenue
 msgid "Annual Revenue"
 msgstr ""
@@ -1375,6 +1389,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cofins_percent
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__cofins_percent
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__tax_cofins_percent
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.simplified_tax_range_tree
 msgid "COFINS %"
 msgstr ""
@@ -1525,6 +1540,7 @@ msgid "CPF"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__tax_cpp_percent
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.simplified_tax_range_tree
 msgid "CPP %"
 msgstr ""
@@ -1540,6 +1556,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__csll_percent
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__csll_percent
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__tax_csll_percent
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.simplified_tax_range_tree
 msgid "CSLL %"
 msgstr ""
@@ -2307,6 +2324,11 @@ msgid "Currency"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
+msgid "Current Effective Taxes for Simples Nacional"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.ncm_form
 msgid "Custom PIS/COFINS"
 msgstr ""
@@ -2795,11 +2817,21 @@ msgid "EMBALAGEM"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__simplified_tax_ids
+msgid "Effective Taxes"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__date_in_out
 msgid ""
 "Effective incoming/outgoing date of the goods (DT_E_S in the SPED "
 "bookkeeping). Defaults to today; adjust it when the physical receipt "
 "happened on another date."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__current_effective_tax
+msgid "Effective tax rate of the annex for the company, in its range."
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -3661,6 +3693,16 @@ msgid "Gross Product/Service Amount"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_res_company__annual_revenue
+msgid ""
+"Gross revenue accumulated over the 12 months before the current assessment "
+"period (RBT12). Under the Simples Nacional it sets the range of each annex, "
+"hence the effective tax rates and the ICMS credit rate stated on the "
+"invoices, which is the one of the range the company was in the month before "
+"the operation (LC 123/2006, art. 18 and art. 23)."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_ipi_guideline__cst_group
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_ipi_guideline_search
 msgid "Group"
@@ -3844,6 +3886,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icms_percent
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icms_percent
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__tax_icms_percent
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.simplified_tax_range_tree
 msgid "ICMS %"
 msgstr ""
@@ -5045,6 +5088,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__ipi_percent
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__ipi_percent
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__tax_ipi_percent
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.simplified_tax_range_tree
 msgid "IPI %"
 msgstr ""
@@ -5138,6 +5182,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__irpj_percent
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__irpj_percent
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__tax_irpj_percent
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.simplified_tax_range_tree
 msgid "IRPJ %"
 msgstr ""
@@ -5211,6 +5256,7 @@ msgid "IS"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__tax_iss_percent
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.simplified_tax_range_tree
 msgid "ISS %"
 msgstr ""
@@ -6054,6 +6100,16 @@ msgid "MWH"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__simplified_tax_id
+msgid "Main Activity Annex"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__simplified_tax_range_id
+msgid "Main Activity Range"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__message_main_attachment_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__message_main_attachment_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__message_main_attachment_id
@@ -6503,18 +6559,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_pis_cofins_base__name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_pis_cofins_credit__name
 msgid "Name"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__simple_value
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__simple_value
-msgid "National Simple Taxes"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__simple_without_icms_value
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__simple_without_icms_value
-msgid "National Simple Taxes without ICMS"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -7161,6 +7205,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__pis_percent
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__pis_percent
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__tax_pis_percent
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.simplified_tax_range_tree
 msgid "PIS %"
 msgstr ""
@@ -8094,6 +8139,33 @@ msgid "RPS Number"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__current_range_id
+msgid "Range"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icmssn_range_id
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icmssn_range_id
+msgid ""
+"Range of the Simples Nacional annex that taxes the operation, the one the "
+"company was in when the taxes of the line were computed."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_res_company__simplified_tax_range_id
+msgid ""
+"Range of the annex of the main activity the company currently falls into, "
+"given its gross revenue of the last 12 months."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__current_range_id
+msgid ""
+"Range of the annex the company falls into, given its gross revenue of the "
+"last 12 months."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_classification__rate_type
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_classification_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_classification_tree
@@ -8549,6 +8621,13 @@ msgid "Simples Nacional"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_res_company__simplified_tax_ids
+msgid ""
+"Simples Nacional effective tax rate for each annex, based on the range the "
+"company currently falls into."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.simplified_tax_form
 msgid "Simplified Range"
 msgstr ""
@@ -8562,20 +8641,13 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.simplified_tax_action
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax_range__simplified_tax_id
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__simplified_tax_id
 #: model:ir.ui.menu,name:l10n_br_fiscal.simplified_tax_menu
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.simplified_tax_form
 msgid "Simplified Tax"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__simplified_tax_percent
-msgid "Simplified Tax Percent"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__simplified_tax_range_ids
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__simplified_tax_range_id
 msgid "Simplified Tax Range"
 msgstr ""
 
@@ -9312,6 +9384,11 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax_range__total_tax_percent
 msgid "Tax Percent"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__current_effective_tax
+msgid "Tax Rate %"
 msgstr ""
 
 #. module: l10n_br_fiscal
