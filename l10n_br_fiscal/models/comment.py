@@ -7,6 +7,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models
+from odoo.exceptions import UserError
 
 from ..constants.fiscal import (
     COMMENT_TYPE,
@@ -77,7 +78,7 @@ class Comment(models.Model):
             return name
 
         for record in self:
-            record.display_name = truncate_name(record.comment)
+            record.display_name = truncate_name(record.comment or "")
 
     # format_amount function for fiscal observation
     # This way we can format numbers in currency template on fiscal observation
@@ -158,5 +159,9 @@ class Comment(models.Model):
         return " - ".join(c for c in (c.strip() for c in candidates) if c)
 
     def action_test_message(self):
+        if not self.object_id:
+            raise UserError(
+                self.env._("Select a reference document to test the message.")
+            )
         vals = {"user": self.env.user, "ctx": self._context, "doc": self.object_id}
         self.test_comment = self.compute_message(vals)

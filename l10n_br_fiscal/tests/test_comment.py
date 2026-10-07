@@ -1,6 +1,7 @@
 # Copyright 2026 KMEE (Ygor Carvalho <ygor.carvalho@kmee.com.br>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
 
 FIXO = "ISENCAO DO ICMS, REGIME ESPECIAL 91092 2020, CONTRATO A-005446"
@@ -54,3 +55,17 @@ class TestComment(TransactionCase):
         )
 
         self.assertEqual(message, "A - B")
+
+    def test_test_button_without_reference_document_asks_for_one(self):
+        comment = self._comment("Cliente ${doc.partner_id.name}")
+
+        with self.assertRaisesRegex(UserError, "reference document"):
+            comment.action_test_message()
+
+        self.assertFalse(comment.test_comment)
+
+    def test_a_new_comment_without_text_has_an_empty_display_name(self):
+        """The form of a new comment computes the name before any text."""
+        comment = self.env["l10n_br_fiscal.comment"].new({})
+
+        self.assertFalse(comment.display_name)
