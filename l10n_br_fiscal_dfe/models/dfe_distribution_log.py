@@ -1,7 +1,7 @@
 # Copyright 2026 Engenere (<https://engenere.one>).
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class DfeDistributionLog(models.Model):
@@ -48,12 +48,15 @@ class DfeDistributionLog(models.Model):
         help="SOAP envelope received from SEFAZ",
     )
 
-    def name_get(self):
-        result = []
-        for rec in self:
+    @api.depends("log_type", "create_date")
+    def _compute_display_name(self):
+        for record in self:
             date_str = (
-                rec.create_date.strftime("%d/%m/%Y %H:%M") if rec.create_date else ""
+                record.create_date.strftime("%d/%m/%Y %H:%M")
+                if record.create_date
+                else ""
             )
-            log_label = dict(rec._fields["log_type"].selection).get(rec.log_type, "")
-            result.append((rec.id, f"[{log_label}] {date_str}"))
-        return result
+            log_label = dict(record._fields["log_type"].selection).get(
+                record.log_type, ""
+            )
+            record.display_name = f"[{log_label}] {date_str}"

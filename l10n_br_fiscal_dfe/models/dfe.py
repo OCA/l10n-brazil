@@ -85,19 +85,13 @@ class DFe(models.Model):
             else:
                 rec.event_type_dfe_label = _("Other (%(code)s)", code=code)
 
-    def name_get(self):
-        result = []
-        for rec in self:
-            document_type = dict(rec._fields["document_type_dfe"].selection).get(
-                rec.document_type_dfe
+    @api.depends("access_key", "document_type_dfe")
+    def _compute_display_name(self):
+        for record in self:
+            document_type = dict(record._fields["document_type_dfe"].selection).get(
+                record.document_type_dfe
             )
-            result.append(
-                (
-                    rec.id,
-                    f"{rec.access_key} - {document_type}",
-                )
-            )
-        return result
+            record.display_name = f"{record.access_key} - {document_type}"
 
     def create_xml_attachment(self, xml):
         self.sudo().attachment_id = self.env["ir.attachment"].create(

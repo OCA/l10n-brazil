@@ -17,7 +17,7 @@
                             type="action"
                             icon="fa-list-alt"
                             string="DF-e Logs"
-                            context="{'search_default_company_id': active_id}"
+                            context="{'search_default_company_id': id}"
                         />
                     </group>
                 </page>

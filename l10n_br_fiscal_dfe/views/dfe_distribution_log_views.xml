@@ -47,14 +47,14 @@
                         <page
                             string="SOAP Request"
                             name="request"
-                            attrs="{'invisible': [('request_xml', '=', False)]}"
+                            invisible="not request_xml"
                         >
                             <field name="request_xml" nolabel="1" />
                         </page>
                         <page
                             string="SOAP Response"
                             name="response"
-                            attrs="{'invisible': [('response_xml', '=', False)]}"
+                            invisible="not response_xml"
                         >
                             <field name="response_xml" nolabel="1" />
                         </page>

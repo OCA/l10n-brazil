@@ -160,8 +160,10 @@ class L10nBrFiscalDfeDocument(models.Model):
             else:
                 record.color_status = False
 
-    def name_get(self):
-        return [(record.id, record.access_key) for record in self]
+    @api.depends("access_key")
+    def _compute_display_name(self):
+        for record in self:
+            record.display_name = record.access_key
 
     def _update_metadata(self, vals, is_complete=False):
         """Update document metadata from parsed XML data.

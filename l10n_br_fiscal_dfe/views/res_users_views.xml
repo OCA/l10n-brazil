@@ -23,10 +23,7 @@
         <field name="inherit_id" ref="base.view_users_form" />
         <field name="arch" type="xml">
             <field name="notification_type" position="after">
-                <field
-                    name="dfe_notification"
-                    attrs="{'invisible': [('share', '=', True)]}"
-                />
+                <field name="dfe_notification" invisible="share" />
             </field>
         </field>
     </record>

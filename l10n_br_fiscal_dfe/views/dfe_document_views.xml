@@ -119,7 +119,7 @@
                 <field name="vat" />
                 <field name="partner_id" />
                 <field name="document_amount" string="Amount" widget="monetary" />
-                <field name="currency_id" invisible="1" />
+                <field name="currency_id" column_invisible="True" />
                 <field name="document_state_label" string="State" />
                 <button
                     string="XML"

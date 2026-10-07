@@ -15,11 +15,13 @@
                     />
                     <field
                         name="access_key"
-                        attrs="{'invisible': [('search_type', '!=', 'access_key')], 'required': [('search_type', '=', 'access_key')]}"
+                        invisible="search_type != 'access_key'"
+                        required="search_type == 'access_key'"
                     />
                     <field
                         name="nsu"
-                        attrs="{'invisible': [('search_type', '!=', 'nsu')], 'required': [('search_type', '=', 'nsu')]}"
+                        invisible="search_type != 'nsu'"
+                        required="search_type == 'nsu'"
                     />
                 </group>
                 <footer>
