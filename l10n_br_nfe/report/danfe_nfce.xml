@@ -50,7 +50,9 @@
                     <p
                         style="font-size: 11px;"
                     ># | COD | DESCRICAO | QUANTIDADE | UN | VL UNIT | VL TOTAL</p>
-                    <t t-foreach="lines" t-as="line" t-key="line.id">
+                    <!-- t-key is an Owl directive: unknown to the server-side
+                         report renderer, which warns on every render -->
+                    <t t-foreach="lines" t-as="line">
                         <p style="margin-bottom: 0;"><t
                             t-esc="line['product_index']"
                         /> <t t-esc="line['product_name']" /> <t
@@ -132,11 +134,13 @@
                                 <p
                                     style="text-transform: uppercase; text-align: left; margin: 2px auto 0;"
                                 >Consumidor - <t t-esc="consumer_document_type" />: <t
-                                        t-esc="consumer_document"
-                                    /></p>
+                                    t-esc="consumer_document"
+                                /></p>
                                 <p
                                     style="text-transform: uppercase; text-align: left; margin: 0 auto 2px;"
-                                ><t t-esc="consumer_name" /></p>
+                                >
+                                    <t t-esc="consumer_name" />
+                                </p>
                             </t>
                             <t t-else="">
                                 <p
@@ -172,12 +176,14 @@
                             </t>
                         </div>
                     </div>
-
                     <div>
-                        <t t-set="qr_code" t-value="document_qrcode" />
-                        <img
-                            t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', qr_code, 150, 150)"
-                        />
+                        <t t-if="document_qrcode">
+                            <t t-set="qr_code" t-value="document_qrcode" />
+                            <img
+                                t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('QR', qr_code, 150, 150)"
+                                style="width: 120px; height: 120px;"
+                            />
+                        </t>
                     </div>
                 </div>
             </div>
