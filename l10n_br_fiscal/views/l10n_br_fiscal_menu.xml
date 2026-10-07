@@ -75,6 +75,15 @@
         parent="document_sub_menu"
         sequence="20"
     />
+    <!-- Imported documents review queue -->
+    <menuitem
+        id="document_import_review_menu"
+        action="document_import_review_action"
+        name="Imported Documents Review"
+        groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager"
+        parent="document_sub_menu"
+        sequence="15"
+    />
     <!-- Partners -->
     <menuitem
         id="partners_menu"
