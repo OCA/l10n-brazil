@@ -93,6 +93,10 @@ Contributors
   - Ygor Carvalho <ygor.carvalho@kmee.com.br>
   - Felipe Zago Rodrigues <felipe.zago@kmee.com.br>
 
+- `ATSTi <https://site.atsti.com.br>`__:
+
+  - Otávio Andretta <otavio12257@gmail.com>
+
 Other credits
 -------------
 
