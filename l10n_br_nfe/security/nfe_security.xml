@@ -30,5 +30,10 @@
         />
     </record>
 
+    <record id="l10n_br_nfe_md_event_rule" model="ir.rule">
+        <field name="name">NF-e Recipient Manifestation Event multi-company</field>
+        <field name="model_id" ref="model_l10n_br_nfe_md_event" />
+        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+    </record>
 
 </odoo>
