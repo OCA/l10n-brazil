@@ -16,13 +16,18 @@ class DfeDocumentBannerController(http.Controller):
         auth="user",
         type="json",
     )
-    def document_banner(self, fiscal_type="nfe", **kwargs):
+    def document_banner(self, fiscal_type="nfe", context=None, **kwargs):
         """Render the DF-e dashboard banner for a given fiscal document type.
 
         The company fields are looked up dynamically using the
         ``{fiscal_type}_*`` naming convention (e.g. ``nfe_last_nsu``), so the
         same banner works for NF-e, CT-e or any other DF-e service.
         """
+        # Since 17.0 JSON routes no longer apply the "context" param sent by
+        # the web client: without it the banner would show the user's default
+        # company instead of the active one.
+        if context:
+            request.update_context(**context)
         company = request.env.company
         DfeDocument = request.env["l10n_br_fiscal_dfe.document"]
 
