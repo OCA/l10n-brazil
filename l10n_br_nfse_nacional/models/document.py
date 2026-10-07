@@ -125,7 +125,7 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
             if rec.document_date:
                 local_dt = pytz.utc.localize(rec.document_date).astimezone(BRAZIL_TZ)
                 rec.nfse10_dhEmi = local_dt.isoformat(timespec="seconds")
-                rec.nfse10_dCompet = rec.document_date.strftime("%Y-%m-%d")
+                rec.nfse10_dCompet = local_dt.strftime("%Y-%m-%d")
             else:
                 rec.nfse10_dhEmi = False
                 rec.nfse10_dCompet = False
