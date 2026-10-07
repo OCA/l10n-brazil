@@ -3,7 +3,7 @@
   Família BONIFICAÇÃO / BRINDE / DOAÇÃO / AMOSTRA GRÁTIS.
 
   Tributação (caso geral): há circulação de mercadoria em nota própria, então o
-  ICMS INCIDE (CST 00) — exceto amostra grátis, isenta (CST 40, Conv. ICM 29/90).
+  ICMS INCIDE (CST 00), exceto amostra grátis, isenta (CST 40, Conv. ICM 29/90).
   Não há receita, então PIS/COFINS NÃO incidem (CST 08). IPI: industrial destaca
   (CST 50); amostra é isenta (CST 52, art. 54 RIPI).
 
@@ -68,7 +68,7 @@
         <field name="state">approved</field>
     </record>
 
-    <!-- Entrada de bonificação/doação/brinde (destinatário) — sem crédito PIS/COFINS -->
+    <!-- Entrada de bonificação/doação/brinde (destinatário): sem crédito PIS/COFINS -->
     <record id="fo_ent_bonif" model="l10n_br_fiscal.operation">
         <field name="code">ENT-BONIF</field>
         <field name="name">Entrada de bonificação, doação ou brinde</field>
@@ -208,7 +208,7 @@
         <field name="state">approved</field>
     </record>
 
-    <!-- Amostra grátis (saída) — ICMS e IPI isentos; PIS/COFINS sem incidência -->
+    <!-- Amostra grátis (saída): ICMS e IPI isentos; PIS/COFINS sem incidência -->
     <record id="fo_amostra" model="l10n_br_fiscal.operation">
         <field name="code">AMOSTRA</field>
         <field name="name">Remessa de amostra grátis</field>
@@ -276,7 +276,7 @@
          seletor de linha prefere a mais específica, então a empresa SN casa
          estas (CSOSN via grupo icmssn) e os demais regimes casam as genéricas
          (CST). Empresa em excesso de sublimite (framework=2) recolhe ICMS fora
-         do DAS e cai na genérica com CST — correto. Regra geral: movimento sem
+         do DAS e cai na genérica com CST, o que está correto. Regra geral: movimento sem
          receita/titularidade = CSOSN 400; ajuste/simbólica = 900; linha de
          receita não fixa ICMS (herda a tributação SN da empresa). Mapa a
          ratificar com contador (transferência de mercadoria: ADC 49). -->
