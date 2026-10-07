@@ -532,6 +532,26 @@
             >Odoo helps you easily track all activities related to a fiscal operation.</p>
         </field>
     </record>
+    <!-- Imported documents awaiting review (draft-first import flow) -->
+
+    <record id="document_import_review_action" model="ir.actions.act_window">
+        <field name="name">Imported Documents Review</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.document</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="document_search" />
+        <field name="view_id" ref="document_tree" />
+        <field name="domain">[('imported_document', '=', True)]</field>
+        <field name="context">{'search_default_awaiting_review': 1}</field>
+        <field name="help" type="html">
+            <p
+                class="o_view_nocontent_smiling_face"
+            >No imported document awaiting review</p>
+            <p>Documents imported from fiscal files (XML upload, zip batch)
+            wait here until every line has its product and fiscal operation
+            mapping reviewed.</p>
+        </field>
+    </record>
     <!-- Fiscal Document Out -->
 
     <record id="document_out_action" model="ir.actions.act_window">
