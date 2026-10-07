@@ -168,6 +168,39 @@ PROFIT_CALCULATION = [
 
 
 PROFIT_CALCULATION_PRESUMED = "presumed"
+PROFIT_CALCULATION_REAL = "real"
+
+# Destinação da mercadoria adquirida, para fins de formação do custo de estoque
+# e da creditabilidade dos impostos (Art. 301 RIR/2018, CPC 16).
+PRODUCT_DESTINATION_RESALE = "resale"
+PRODUCT_DESTINATION_INDUSTRIALIZATION = "industrialization"
+PRODUCT_DESTINATION_USE_CONSUMPTION = "use_consumption"
+PRODUCT_DESTINATION_FIXED_ASSET = "fixed_asset"
+
+PRODUCT_DESTINATION = [
+    (PRODUCT_DESTINATION_RESALE, "Revenda"),
+    (PRODUCT_DESTINATION_INDUSTRIALIZATION, "Industrialização"),
+    (PRODUCT_DESTINATION_USE_CONSUMPTION, "Uso e Consumo"),
+    (PRODUCT_DESTINATION_FIXED_ASSET, "Ativo Imobilizado"),
+]
+
+# Destinações que, em regra, dão direito a crédito dos impostos recuperáveis
+# (revenda e industrialização); uso/consumo e imobilizado não creditam ICMS/IPI.
+PRODUCT_DESTINATION_CREDIT = (
+    PRODUCT_DESTINATION_RESALE,
+    PRODUCT_DESTINATION_INDUSTRIALIZATION,
+)
+
+# CSTs que IMPEDEM o crédito do imposto na entrada (formação do custo de
+# estoque), independentemente do regime do comprador:
+# ICMS — isenta, não tributada, suspensão, diferimento, ST retido anteriormente.
+ICMS_CST_NO_CREDIT = ("40", "41", "50", "51", "60")
+# IPI — entradas isentas/não tributadas/imunes/com suspensão (01–05);
+# o CST 00 (entrada com recuperação de crédito) mantém a regra por regime.
+IPI_CST_NO_CREDIT = ("01", "02", "03", "04", "05")
+# PIS/COFINS — entradas sem direito a crédito (70–75) e outras operações
+# (98/99): aquisição monofásica/alíquota zero para revenda cai aqui.
+PIS_COFINS_CST_NO_CREDIT = ("70", "71", "72", "73", "74", "75", "98", "99")
 
 COEFFICIENT_R = 0.28
 
