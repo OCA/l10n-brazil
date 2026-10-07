@@ -905,6 +905,13 @@ class TestDFe(TransactionCase):
         # No manifestation → sem_manifestacao
         self.assertEqual(dfe_doc.manifestation_status, "sem_manifestacao")
 
+    def test_document_manifestation_status_without_access_key(self):
+        """A document without access key (e.g. new record) must not crash."""
+        dfe_doc = self.env["l10n_br_fiscal_dfe.document"].new(
+            {"company_id": self.company.id, "fiscal_type": "nfe"}
+        )
+        self.assertEqual(dfe_doc.manifestation_status, "sem_manifestacao")
+
     def test_document_manifestations_ids(self):
         """manifestations_ids should find MDE records for same access_key."""
         key = "35200159594315000157550010000000012062777161"
