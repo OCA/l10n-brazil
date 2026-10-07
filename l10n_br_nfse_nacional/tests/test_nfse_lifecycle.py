@@ -76,6 +76,12 @@ class TestNfseLifecycle(TransactionCase):
             patcher.start()
             self.addCleanup(patcher.stop)
 
+    def test_competence_date_uses_brazil_timezone(self):
+        """dCompet must not be later than dhEmi when UTC is already the next day."""
+        self.doc.document_date = "2026-10-07 00:30:00"  # 21:30 on the 6th in Brasília
+        self.assertTrue(self.doc.nfse10_dhEmi.startswith("2026-10-06T21:30:00"))
+        self.assertEqual(self.doc.nfse10_dCompet, "2026-10-06")
+
     def test_demo_documents_carry_a_series(self):
         """The demo documents confirm and take edits with no helper."""
         for xmlid in ("demo_nfse_lc", "demo_nfse_sn"):
