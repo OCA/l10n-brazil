@@ -66,8 +66,10 @@ class NfeRecipientManifestationEvent(models.Model):
         required=True,
     )
 
-    def name_get(self):
-        return [(rec.id, f"{rec.access_key}") for rec in self]
+    @api.depends("access_key")
+    def _compute_display_name(self):
+        for record in self:
+            record.display_name = record.access_key
 
     def _get_processor(self):
         certificado = self.env.company._get_br_ecertificate()

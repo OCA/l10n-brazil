@@ -17,27 +17,19 @@
                         string="Confirm"
                         type="object"
                         class="btn-primary"
-                        attrs="{'invisible':[('state','!=','draft')]}"
+                        invisible="state != 'draft'"
                     />
-                <field name="state" widget="statusbar" statusbar_visible="draft,done" />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_visible="draft,done"
+                    />
                 </header>
                 <group>
-                <field
-                        name="event_type"
-                        attrs="{'readonly': [('state', '!=', 'draft')]}"
-                    />
-                <field
-                        name="access_key"
-                        attrs="{'readonly': [('state', '!=', 'draft')]}"
-                    />
-                <field
-                        name="document_type"
-                        attrs="{'readonly': [('state', '!=', 'draft')]}"
-                    />
-                <field
-                        name="company_id"
-                        attrs="{'readonly': [('state', '!=', 'draft')]}"
-                    />
+                    <field name="event_type" readonly="state != 'draft'" />
+                    <field name="access_key" readonly="state != 'draft'" />
+                    <field name="document_type" readonly="state != 'draft'" />
+                    <field name="company_id" readonly="state != 'draft'" />
                 </group>
                 <group name="info" string="Document Info">
                     <field name="document_number" readonly="1" />
