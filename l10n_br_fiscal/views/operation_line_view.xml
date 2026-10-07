@@ -47,6 +47,10 @@
                         </group>
                         <group string="Product Information">
                             <field name="product_type" />
+                            <field
+                                name="product_destination"
+                                attrs="{'invisible': [('fiscal_operation_type', '=', 'out')]}"
+                            />
                             <field name="tax_icms_or_issqn" />
                             <field name="icms_origin" />
                         </group>
