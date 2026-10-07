@@ -694,6 +694,9 @@ class TestDFe(TransactionCase):
             notifications,
             "User with dfe_notification=True should receive notification",
         )
+        # The body must keep its HTML (message_notify escapes str bodies)
+        self.assertIn("<a href=", notifications[0].body)
+        self.assertNotIn("&lt;p&gt;", notifications[0].body)
 
     @mock.patch.object(DefaultTransport, "post")
     def test_notification_disabled_skips(self, mock_post):
