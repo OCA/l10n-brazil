@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 - TODAY, Marcel Savegnago - Escodoo
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.ui.view" id="repair_line_form_view">
+        <field name="name">stock.move.form (in l10n_br_repair)</field>
+        <field name="model">repair.order</field>
+        <field name="inherit_id" ref="repair.view_repair_order_form" />
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='move_ids']" position="attributes">
+                <attribute
+                    name="context"
+                >{'default_repair_id': id, 'default_product_uom_qty': 1, 'default_company_id': company_id, 'default_date': schedule_date, 'default_repair_line_type': 'add', 'default_fiscal_operation_id': fiscal_operation_id, 'default_partner_id': partner_id}</attribute>
+            </xpath>
+            <xpath
+                expr="//field[@name='move_ids']/list/field[@name='product_uom_qty']"
+                position="after"
+            >
+                <field name="price_unit" optional="show" />
+                <field
+                    name="fiscal_operation_id"
+                    optional="hide"
+                    domain="[('state', '=', 'approved')]"
+                />
+                <field name="fiscal_operation_line_id" optional="hide" />
+                <field name="fiscal_tax_ids" widget="many2many_tags" optional="hide" />
+                <field name="cfop_id" optional="hide" />
+                <field name="price_subtotal" optional="show" />
+                <field name="price_total" optional="hide" />
+                <field name="fiscal_genre_id" column_invisible="True" />
+                <field name="tax_framework" column_invisible="True" />
+                <field name="tax_icms_or_issqn" column_invisible="True" />
+                <field name="is_repair_line" column_invisible="True" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
