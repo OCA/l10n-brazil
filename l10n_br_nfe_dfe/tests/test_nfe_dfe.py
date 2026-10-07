@@ -862,8 +862,8 @@ class TestDFe(TransactionCase):
 
     # ── Distribution log tests ────────────────────────────────────────────
 
-    def test_distribution_log_name_get(self):
-        """Distribution log name_get should show [type] date format."""
+    def test_distribution_log_display_name(self):
+        """Distribution log display_name should show [type] date format."""
         log = self.env["l10n_br_fiscal_dfe.distribution_log"].create(
             {
                 "company_id": self.company.id,
@@ -871,7 +871,7 @@ class TestDFe(TransactionCase):
                 "message": "Test log",
             }
         )
-        name = log.name_get()[0][1]
+        name = log.display_name
         self.assertIn("Success", name)
 
     # ── DFe document compute tests ────────────────────────────────────────
@@ -1192,7 +1192,7 @@ class TestDFe(TransactionCase):
                 "res_id": dfe.id,
             }
         )
-        doc.invalidate_cache(["cfop_ids"])
+        doc.invalidate_recordset(["cfop_ids"])
         self.assertFalse(doc.cfop_ids)
 
     def test_cfop_ids_complete_dfe_without_attachment(self):
@@ -1213,7 +1213,7 @@ class TestDFe(TransactionCase):
                 "schema_type": "procNFe",
             }
         )
-        doc.invalidate_cache(["cfop_ids"])
+        doc.invalidate_recordset(["cfop_ids"])
         self.assertFalse(doc.cfop_ids)
 
     def test_make_pdf_without_complete_dfe(self):
@@ -1391,17 +1391,17 @@ class TestDFe(TransactionCase):
             "Metadata should not be updated when complete DFe already exists",
         )
 
-    # ── Coverage: DFe name_get without type ──────────────────────────────
+    # ── Coverage: DFe display_name without type ──────────────────────────
 
-    def test_dfe_name_get_without_type(self):
-        """name_get handles DFe record without document_type_dfe."""
+    def test_dfe_display_name_without_type(self):
+        """display_name handles DFe record without document_type_dfe."""
         dfe = self.env["l10n_br_fiscal_dfe.dfe"].create(
             {
                 "access_key": "35200199999999999999550010000000019999999991",
                 "company_id": self.company.id,
             }
         )
-        name = dfe.name_get()[0][1]
+        name = dfe.display_name
         self.assertIn("35200199999999999999550010000000019999999991", name)
 
     # ── Coverage: notify fallback URL ────────────────────────────────────

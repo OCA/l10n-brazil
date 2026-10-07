@@ -36,7 +36,7 @@
                 <field name="vat" />
                 <field name="partner_id" />
                 <field name="document_amount" string="Amount" widget="monetary" />
-                <field name="currency_id" invisible="1" />
+                <field name="currency_id" column_invisible="True" />
                 <field name="cfop_ids" widget="many2many_tags" string="CFOPs" />
                 <field
                     name="manifestation_status"
@@ -49,7 +49,7 @@
                     decoration-muted="manifestation_status == 'sem_manifestacao'"
                 />
                 <field name="document_state_label" string="State" />
-                <field name="fiscal_document_id" invisible="1" />
+                <field name="fiscal_document_id" column_invisible="True" />
                 <button
                     string="XML"
                     name="action_download_xml"
@@ -67,14 +67,14 @@
                     string="Import"
                     type="object"
                     icon="fa-file-text-o"
-                    attrs="{'invisible': [('fiscal_document_id', '!=', False)]}"
+                    invisible="fiscal_document_id"
                 />
                 <button
                     name="action_view_imported_document"
                     string="Invoice"
                     type="object"
                     icon="fa-pencil-square-o"
-                    attrs="{'invisible': [('fiscal_document_id', '=', False)]}"
+                    invisible="not fiscal_document_id"
                 />
                 <button
                     string="Manifest"
@@ -99,18 +99,16 @@
                 <attribute name="string">DANFE</attribute>
             </xpath>
             <xpath expr="//button[@name='import_document']" position="attributes">
-                <attribute
-                    name="attrs"
-                >{'invisible': [('fiscal_document_id', '!=', False)]}</attribute>
+                <attribute name="invisible">fiscal_document_id</attribute>
             </xpath>
-            <xpath expr="//div[@class='oe_title']" position="before">
+            <xpath expr="//div[hasclass('oe_title')]" position="before">
                 <div class="oe_button_box" name="button_box">
                     <button
                         name="action_view_imported_document"
                         type="object"
                         class="oe_stat_button"
                         icon="fa-pencil-square-o"
-                        attrs="{'invisible': [('fiscal_document_id', '=', False)]}"
+                        invisible="not fiscal_document_id"
                     >
                         <div class="o_stat_info">
                             <span class="o_stat_text">Invoice</span>
@@ -125,21 +123,18 @@
                     type="object"
                     string="Manifest"
                     icon="fa-check-square-o"
-                    attrs="{'invisible': ['|', ('fiscal_type', '!=', 'nfe'), ('manifestation_status', 'in', ('confirmado', 'desconhecido', 'nao_realizado'))]}"
+                    invisible="fiscal_type != 'nfe' or manifestation_status in ('confirmado', 'desconhecido', 'nao_realizado')"
                 />
             </xpath>
             <xpath expr="//field[@name='document_amount']" position="after">
                 <field
                     name="cfop_ids"
                     widget="many2many_tags"
-                    attrs="{'invisible': [('fiscal_type', '!=', 'nfe')]}"
+                    invisible="fiscal_type != 'nfe'"
                 />
             </xpath>
             <xpath expr="//group[@name='emitter_group']" position="after">
-                <group
-                    string="Manifestation"
-                    attrs="{'invisible': [('fiscal_type', '!=', 'nfe')]}"
-                >
+                <group string="Manifestation" invisible="fiscal_type != 'nfe'">
                     <field
                         name="manifestation_status"
                         widget="badge"
