@@ -3,7 +3,10 @@
   Família COMODATO / LOCAÇÃO (empréstimo gratuito de bem infungível, CC art. 579).
   NÃO existe no core. Não incidência de ICMS (sem transferência de titularidade,
   STF Súmula 573), IPI (CST 53/03), PIS/COFINS (CST 08) e ISS (Súmula Vinculante
-  31 — locação pura de bem móvel). product_type=08 (ativo) no caso geral.
+  31, locação pura de bem móvel). Linhas sem ind_ie_dest/product_type: valem
+  para destinatário contribuinte ou não (construtora, pessoa física) e para
+  qualquer bem (ativo ou estoque de locadora). IBS/CBS: CST 410, cClassTrib
+  410029 (operação alcançada só por obrigação acessória do ICMS).
   IPI do fabricante que dá saída do próprio produto em comodato = override por
   perfil (não default). Ciclo: comodante remete/recebe de volta; comodatário
   recebe/devolve.
@@ -38,11 +41,13 @@
     <record id="fo_entrada_retorno_comodato_line" model="l10n_br_fiscal.operation.line">
         <field name="fiscal_operation_id" ref="fo_entrada_retorno_comodato" />
         <field name="name">Entrada de retorno de comodato</field>
-        <field name="ind_ie_dest">1</field>
         <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1909" />
         <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2909" />
-        <field name="product_type">08</field>
         <field name="tax_icms_or_issqn">icms</field>
+        <field
+            name="tax_classification_id"
+            ref="l10n_br_fiscal.tax_classification_410029"
+        />
         <field name="state">approved</field>
     </record>
     <record id="fo_er_comodato_icms" model="l10n_br_fiscal.tax.definition">
@@ -99,11 +104,13 @@
     <record id="fo_remessa_comodato_line" model="l10n_br_fiscal.operation.line">
         <field name="fiscal_operation_id" ref="fo_remessa_comodato" />
         <field name="name">Remessa em comodato/locação</field>
-        <field name="ind_ie_dest">1</field>
         <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5908" />
         <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6908" />
-        <field name="product_type">08</field>
         <field name="tax_icms_or_issqn">icms</field>
+        <field
+            name="tax_classification_id"
+            ref="l10n_br_fiscal.tax_classification_410029"
+        />
         <field name="state">approved</field>
     </record>
     <record id="fo_rem_comodato_icms" model="l10n_br_fiscal.tax.definition">
@@ -162,11 +169,13 @@
     <record id="fo_devolucao_comodato_line" model="l10n_br_fiscal.operation.line">
         <field name="fiscal_operation_id" ref="fo_devolucao_comodato" />
         <field name="name">Devolução de comodato/locação</field>
-        <field name="ind_ie_dest">1</field>
         <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5909" />
         <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6909" />
-        <field name="product_type">08</field>
         <field name="tax_icms_or_issqn">icms</field>
+        <field
+            name="tax_classification_id"
+            ref="l10n_br_fiscal.tax_classification_410029"
+        />
         <field name="state">approved</field>
     </record>
     <record id="fo_dev_comodato_icms" model="l10n_br_fiscal.tax.definition">
@@ -212,11 +221,13 @@
     <record id="fo_entrada_comodato_line" model="l10n_br_fiscal.operation.line">
         <field name="fiscal_operation_id" ref="fo_entrada_comodato" />
         <field name="name">Entrada de bem em comodato/locação</field>
-        <field name="ind_ie_dest">1</field>
         <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1908" />
         <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2908" />
-        <field name="product_type">08</field>
         <field name="tax_icms_or_issqn">icms</field>
+        <field
+            name="tax_classification_id"
+            ref="l10n_br_fiscal.tax_classification_410029"
+        />
         <field name="state">approved</field>
     </record>
 
@@ -226,7 +237,7 @@
          seletor de linha prefere a mais específica, então a empresa SN casa
          estas (CSOSN via grupo icmssn) e os demais regimes casam as genéricas
          (CST). Empresa em excesso de sublimite (framework=2) recolhe ICMS fora
-         do DAS e cai na genérica com CST — correto. Regra geral: movimento sem
+         do DAS e cai na genérica com CST, o que está correto. Regra geral: movimento sem
          receita/titularidade = CSOSN 400; ajuste/simbólica = 900; linha de
          receita não fixa ICMS (herda a tributação SN da empresa). Mapa a
          ratificar com contador (transferência de mercadoria: ADC 49). -->
@@ -237,11 +248,13 @@
         <field name="fiscal_operation_id" ref="fo_entrada_retorno_comodato" />
         <field name="name">Entrada de retorno de comodato - Simples Nacional</field>
         <field name="company_tax_framework">1</field>
-        <field name="ind_ie_dest">1</field>
         <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1909" />
         <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2909" />
-        <field name="product_type">08</field>
         <field name="tax_icms_or_issqn">icms</field>
+        <field
+            name="tax_classification_id"
+            ref="l10n_br_fiscal.tax_classification_410029"
+        />
         <field name="state">approved</field>
     </record>
     <record id="fo_er_comodato_ipi_sn" model="l10n_br_fiscal.tax.definition">
@@ -303,11 +316,13 @@
         <field name="fiscal_operation_id" ref="fo_remessa_comodato" />
         <field name="name">Remessa em comodato/locação - Simples Nacional</field>
         <field name="company_tax_framework">1</field>
-        <field name="ind_ie_dest">1</field>
         <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5908" />
         <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6908" />
-        <field name="product_type">08</field>
         <field name="tax_icms_or_issqn">icms</field>
+        <field
+            name="tax_classification_id"
+            ref="l10n_br_fiscal.tax_classification_410029"
+        />
         <field name="state">approved</field>
     </record>
     <record id="fo_rem_comodato_ipi_sn" model="l10n_br_fiscal.tax.definition">
@@ -357,11 +372,13 @@
         <field name="fiscal_operation_id" ref="fo_devolucao_comodato" />
         <field name="name">Devolução de comodato/locação - Simples Nacional</field>
         <field name="company_tax_framework">1</field>
-        <field name="ind_ie_dest">1</field>
         <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5909" />
         <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6909" />
-        <field name="product_type">08</field>
         <field name="tax_icms_or_issqn">icms</field>
+        <field
+            name="tax_classification_id"
+            ref="l10n_br_fiscal.tax_classification_410029"
+        />
         <field name="state">approved</field>
     </record>
     <record id="fo_dev_comodato_pis_sn" model="l10n_br_fiscal.tax.definition">
@@ -401,11 +418,13 @@
         <field name="fiscal_operation_id" ref="fo_entrada_comodato" />
         <field name="name">Entrada de bem em comodato/locação - Simples Nacional</field>
         <field name="company_tax_framework">1</field>
-        <field name="ind_ie_dest">1</field>
         <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1908" />
         <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2908" />
-        <field name="product_type">08</field>
         <field name="tax_icms_or_issqn">icms</field>
+        <field
+            name="tax_classification_id"
+            ref="l10n_br_fiscal.tax_classification_410029"
+        />
         <field name="state">approved</field>
     </record>
     <record
@@ -419,6 +438,47 @@
         <field name="custom_tax" eval="True" />
         <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
         <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- LOCADOR: faturamento do aluguel (locação pura de bem móvel). Sem ISS
+         (STF Súmula Vinculante 31) e sem ICMS; PIS/COFINS pelo regime da
+         empresa; IBS/CBS cClassTrib 000001. Documento: NFS-e Nacional,
+         obrigatória para locação de bens móveis desde 01/12/2026 (Simples
+         Nacional: 01/01/2027), Ato Conjunto RFB/CGIBS 4/2026, art. 1, III, g. -->
+    <record id="comment_locacao" model="l10n_br_fiscal.comment">
+        <field name="name">Locação de bens móveis</field>
+        <field
+            name="comment"
+        >Locação de bem móvel sem prestação de serviço: não incidência de ISS (STF Súmula Vinculante 31) e de ICMS.</field>
+        <field name="comment_type">fiscal</field>
+        <field name="object">l10n_br_fiscal.document.mixin</field>
+    </record>
+    <record id="fo_locacao" model="l10n_br_fiscal.operation">
+        <field name="code">LOCACAO</field>
+        <field name="name">Locação de bens móveis</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">other</field>
+        <field name="state">approved</field>
+        <field name="comment_ids" eval="[(6, 0, [ref('comment_locacao')])]" />
+    </record>
+    <record id="fo_locacao_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_locacao" />
+        <field name="name">Locação de bens móveis</field>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_SE" />
+        <field
+            name="tax_classification_id"
+            ref="l10n_br_fiscal.tax_classification_000001"
+        />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_locacao_issqn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_locacao_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_issqn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_issqn_nt" />
         <field name="state">approved</field>
     </record>
 
