@@ -53,6 +53,25 @@ def domain_field_codes(
     return domain
 
 
+def date_validity_domain(
+    reference_date, date_start_field="date_start", date_end_field="date_end"
+):
+    """Domain fragment matching records valid on `reference_date`.
+
+    A record is considered valid when it has no start date or the start
+    date is not after `reference_date`, and it has no end date or the end
+    date is not before `reference_date`.
+    """
+    return [
+        "|",
+        (date_start_field, "=", False),
+        (date_start_field, "<=", reference_date),
+        "|",
+        (date_end_field, "=", False),
+        (date_end_field, ">=", reference_date),
+    ]
+
+
 def path_edoc_company(company_id):
     db_name = company_id._cr.dbname
     filestore = tools.config.filestore(db_name)
