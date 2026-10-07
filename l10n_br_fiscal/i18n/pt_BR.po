@@ -7846,6 +7846,12 @@ msgid "Segment"
 msgstr "Segmento"
 
 #. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/comment.py:0
+msgid "Select a reference document to test the message."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_company__processador_edoc__nenhum
 msgid "Sem Integração"
 msgstr ""
