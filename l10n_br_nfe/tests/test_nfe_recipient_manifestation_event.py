@@ -131,6 +131,23 @@ class TestNFeMDE(TransactionCase):
             self.mde_id.event_type = "confirmado"
             self.mde_id.action_confirm()
 
+    def test_event_batch_rejection(self):
+        """A rejected batch carries no event result: report the batch status."""
+        result = _FakeResult()
+        result.resposta.cStat = "404"
+        result.resposta.xMotivo = "Rejeicao: Uso de prefixo de namespace nao permitido"
+        result.resposta.retEvento = []
+        processor = _FakeProcessor({"ciencia_da_operacao": result})
+        with (
+            mock.patch(
+                "odoo.addons.l10n_br_nfe.models.nfe_md_event.NfeRecipientManifestationEvent._get_processor",
+                return_value=processor,
+            ),
+            self.assertRaisesRegex(ValidationError, "404"),
+        ):
+            self.mde_id.event_type = "ciente"
+            self.mde_id.action_confirm()
+
     def test_event_573_duplicate_treated_as_done(self):
         """Error 573 (duplicate event) should mark MDE as done, not raise."""
         proc_573 = _FakeProcessor(
