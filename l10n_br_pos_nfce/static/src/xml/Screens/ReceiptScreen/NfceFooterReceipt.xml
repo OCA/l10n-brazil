@@ -34,8 +34,16 @@
                     </t>
                 </div>
             </div>
-
-            <div class="footerQrCode" id="footerQrCode">
+  <!-- patch para funcionar o qrcode da mesma forma que foi feito no l10n_br_nfe/report/danfe_nfce.xml -->
+            <div class="footerQrCode">
+                <t t-if="qrCodeUrl">
+                    <div class="footerQrCode">
+                        <img
+                            t-att-src="qrCodeUrl"
+                            style="width: 120px; height: 120px;"
+                        />
+                    </div>
+                </t>
             </div>
         </div>
     </t>
