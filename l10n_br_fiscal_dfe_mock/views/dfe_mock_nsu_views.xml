@@ -30,7 +30,7 @@
                         name="action_reset_consumed"
                         string="Reset Consumed"
                         type="object"
-                        attrs="{'invisible': [('consumed', '=', False)]}"
+                        invisible="not consumed"
                         class="btn-secondary"
                     />
                 </header>
