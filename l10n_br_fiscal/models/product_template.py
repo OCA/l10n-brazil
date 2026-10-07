@@ -69,6 +69,14 @@ class ProductTemplate(models.Model):
         readonly=False,
     )
 
+    fiscal_product_tag_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.product.tag",
+        string="Fiscal Product Tags",
+        help="Fiscal groups this product belongs to, used to auto-select the "
+        "fiscal operation line that requires the same tag (for instance a line "
+        "with its own CFOP for goods under tax substitution).",
+    )
+
     fiscal_genre_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.product.genre",
         string="Fiscal Product Genre",
