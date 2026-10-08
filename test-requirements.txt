@@ -3,3 +3,7 @@ nfelib
 xsdata
 signxml==3.2.2
 xmldiff
+# l10n_br_nfe_dfe needs brazil_fiscal_client which pulls requests-pkcs12.
+# Keep it below 1.23: 1.23+ requires cryptography>=42, while the oca-ci
+# 17.0 image ships cryptography 3.4.8 and a newer one breaks pyOpenSSL.
+requests_pkcs12<1.23
