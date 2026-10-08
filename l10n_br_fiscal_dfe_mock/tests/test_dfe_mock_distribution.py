@@ -32,6 +32,18 @@ class TestDfeMockDistribution(TransactionCase):
         super().setUpClass()
         cls.company = cls.env.ref("l10n_br_base.empresa_simples_nacional")
         cls.company.sudo().write({"dfe_mock_mode": True})
+        cls.manager = cls.env["res.users"].create(
+            {
+                "name": "DF-e Mock Manager",
+                "login": "dfe_mock_manager",
+                "company_id": cls.company.id,
+                "company_ids": [(6, 0, cls.company.ids)],
+                "groups_id": [
+                    (4, cls.env.ref("base.group_user").id),
+                    (4, cls.env.ref("l10n_br_fiscal.group_manager").id),
+                ],
+            }
+        )
 
     def setUp(self):
         super().setUp()
@@ -127,3 +139,68 @@ class TestDfeMockDistribution(TransactionCase):
         self.company.sudo().write({"nfe_dfe_next_query": fields.Datetime.now()})
         self.company.with_company(self.company).action_reset_dfe_cooldown()
         self.assertFalse(self.company.nfe_dfe_next_query)
+
+    # ── NF-e list header buttons ────────────────────────────────────────
+
+    def _click(self, method):
+        # Header buttons with display="always" run on an empty recordset
+        # when no row is selected, in the active company of the user.
+        Document = self.env["l10n_br_fiscal_dfe.document"]
+        return getattr(
+            Document.with_user(self.manager).with_company(self.company), method
+        )()
+
+    def _list_arch(self, user):
+        view = self.env.ref("l10n_br_nfe_dfe.nfe_dfe_document_tree")
+        Document = self.env["l10n_br_fiscal_dfe.document"].with_user(user)
+        return Document.get_views([(view.id, "list")])["views"]["list"]["arch"]
+
+    def test_header_buttons_only_for_fiscal_manager(self):
+        buttons = (
+            "action_dfe_mock_search_nfe",
+            "action_dfe_mock_toggle",
+            "action_dfe_mock_reset_cooldown",
+        )
+        arch = self._list_arch(self.manager)
+        for button in buttons:
+            self.assertIn(f'name="{button}"', arch)
+        fiscal_user = self.manager.copy(
+            {
+                "login": "dfe_mock_fiscal_user",
+                "groups_id": [
+                    (6, 0, [self.env.ref("l10n_br_fiscal.group_user").id]),
+                ],
+            }
+        )
+        arch = self._list_arch(fiscal_user)
+        for button in buttons:
+            self.assertNotIn(f'name="{button}"', arch)
+
+    def test_button_toggle_mock_mode(self):
+        result = self._click("action_dfe_mock_toggle")
+        self.assertFalse(self.company.dfe_mock_mode)
+        self.assertEqual(result["tag"], "display_notification")
+        self._click("action_dfe_mock_toggle")
+        self.assertTrue(self.company.dfe_mock_mode)
+
+    def test_button_reset_cooldown(self):
+        self.company.sudo().write({"nfe_dfe_next_query": fields.Datetime.now()})
+        result = self._click("action_dfe_mock_reset_cooldown")
+        self.assertFalse(self.company.nfe_dfe_next_query)
+        self.assertEqual(result["tag"], "display_notification")
+
+    def test_button_query_nfe_uses_mock_pool(self):
+        self.company.sudo().write({"nfe_dfe_next_query": False})
+        self.env["dfe.mock.generate.wizard"].create(
+            {"company_id": self.company.id, "quantity": 2, "generate_proc_nfe": False}
+        ).action_generate()
+        pool = self.env["dfe.mock.nsu"].search([("company_id", "=", self.company.id)])
+        self._click("action_dfe_mock_search_nfe")
+        self.assertTrue(all(pool.mapped("consumed")))
+        documents = self.env["l10n_br_fiscal_dfe.document"].search(
+            [
+                ("company_id", "=", self.company.id),
+                ("access_key", "in", pool.mapped("access_key")),
+            ]
+        )
+        self.assertEqual(len(documents), 2)

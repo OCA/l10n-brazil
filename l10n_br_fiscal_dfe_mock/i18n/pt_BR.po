@@ -6,6 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-09 23:32+0000\n"
 "Last-Translator: \n"
 "Language-Team: Brazilian Portuguese\n"
 "Language: pt_BR\n"
@@ -13,19 +14,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-
-#. module: l10n_br_fiscal_dfe_mock
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_banner_warning
-msgid ""
-"<i class=\"fa fa-flask text-warning me-2 fs-4\"/>\n"
-"                <span class=\"fw-bold text-warning\">\n"
-"                    MOCK MODE ATIVO\n"
-"                </span>\n"
-"                <span class=\"ms-2 text-muted\">\n"
-"                    — Consultas DF-e estão sendo respondidas pelo pool local,\n"
-"                    sem comunicação com a SEFAZ.\n"
-"                </span>"
-msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__access_key
@@ -88,6 +76,11 @@ msgid "Document Types"
 msgstr "Tipos de Documento"
 
 #. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model,name:l10n_br_fiscal_dfe_mock.model_l10n_br_fiscal_dfe_document
+msgid "Fiscal document from distribution service"
+msgstr "Documento fiscal do serviço de distribuição"
+
+#. module: l10n_br_fiscal_dfe_mock
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_generate_wizard_form
 msgid "Generate"
 msgstr "Gerar"
@@ -127,7 +120,6 @@ msgstr "Gerar resNFe"
 #. module: l10n_br_fiscal_dfe_mock
 #. odoo-python
 #: code:addons/l10n_br_fiscal_dfe_mock/wizards/dfe_mock_generate_wizard.py:0
-#, python-format
 msgid "Generated Mock NSUs"
 msgstr "NSUs Mock Gerados"
 
@@ -141,12 +133,6 @@ msgstr "Agrupar Por"
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__id
 msgid "ID"
 msgstr "ID"
-
-#. module: l10n_br_fiscal_dfe_mock
-#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard____last_update
-#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu____last_update
-msgid "Last Modified on"
-msgstr "Última Modificação em"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard__write_uid
@@ -184,9 +170,9 @@ msgstr "NSU deve ser único por empresa."
 #. module: l10n_br_fiscal_dfe_mock
 #. odoo-python
 #: code:addons/l10n_br_fiscal_dfe_mock/wizards/dfe_mock_generate_wizard.py:0
-#, python-format
 msgid "No demo partners found. Install l10n_br_base demo data."
-msgstr "Nenhum parceiro demo encontrado. Instale os dados demo do l10n_br_base."
+msgstr ""
+"Nenhum parceiro demo encontrado. Instale os dados demo do l10n_br_base."
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_action
@@ -201,9 +187,13 @@ msgstr "Quantidade"
 #. module: l10n_br_fiscal_dfe_mock
 #. odoo-python
 #: code:addons/l10n_br_fiscal_dfe_mock/wizards/dfe_mock_generate_wizard.py:0
-#, python-format
 msgid "Quantity must be at least 1."
 msgstr "A quantidade deve ser pelo menos 1."
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.nfe_dfe_document_tree_mock
+msgid "Query NF-e"
+msgstr "Consultar NF-e"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model,name:l10n_br_fiscal_dfe_mock.model_l10n_br_nfe_md_event
@@ -217,10 +207,9 @@ msgid "Reset Consumed"
 msgstr "Resetar Consumido"
 
 #. module: l10n_br_fiscal_dfe_mock
-#: model:ir.actions.server,name:l10n_br_fiscal_dfe_mock.action_reset_dfe_cooldown
-#: model:ir.ui.menu,name:l10n_br_fiscal_dfe_mock.dfe_mock_reset_cooldown_menu
-msgid "Reset Query Cooldown"
-msgstr "Resetar Cooldown de Consulta"
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.nfe_dfe_document_tree_mock
+msgid "Reset Cooldown"
+msgstr "Resetar Cooldown"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__schema_type
@@ -231,19 +220,13 @@ msgstr "Tipo de Schema"
 #. module: l10n_br_fiscal_dfe_mock
 #. odoo-python
 #: code:addons/l10n_br_fiscal_dfe_mock/wizards/dfe_mock_generate_wizard.py:0
-#, python-format
 msgid "Select at least one document type to generate."
 msgstr "Selecione pelo menos um tipo de documento para gerar."
 
 #. module: l10n_br_fiscal_dfe_mock
-#: model:ir.actions.server,name:l10n_br_fiscal_dfe_mock.action_toggle_dfe_mock_mode
-msgid "Toggle DF-e Mock Mode"
-msgstr "Alternar Modo Mock DF-e"
-
-#. module: l10n_br_fiscal_dfe_mock
-#: model:ir.ui.menu,name:l10n_br_fiscal_dfe_mock.dfe_mock_toggle_menu
-msgid "Toggle Mock Mode"
-msgstr "Alternar Modo Mock"
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.nfe_dfe_document_tree_mock
+msgid "Toggle Mock"
+msgstr "Alternar Mock"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_search
@@ -262,16 +245,20 @@ msgstr ""
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,help:l10n_br_fiscal_dfe_mock.field_res_company__dfe_mock_mode
 msgid ""
-"When enabled, DF-e distribution queries are answered from the local mock NSU"
-" pool instead of SEFAZ."
+"When enabled, DF-e distribution queries are answered from the local mock NSU "
+"pool instead of SEFAZ."
 msgstr ""
 "Quando ativado, as consultas de distribuição DF-e são respondidas pelo pool "
 "local de NSU mock ao invés da SEFAZ."
 
 #. module: l10n_br_fiscal_dfe_mock
-#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__xml_content
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_form
 msgid "XML Content"
+msgstr "Conteúdo XML"
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__xml_content
+msgid "Xml Content"
 msgstr "Conteúdo XML"
 
 #. module: l10n_br_fiscal_dfe_mock

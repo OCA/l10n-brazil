@@ -5,7 +5,7 @@ import random
 import re
 from datetime import datetime, timedelta
 
-from odoo import _, fields, models
+from odoo import fields, models
 from odoo.exceptions import UserError
 
 # Demo partner xmlids from l10n_br_base
@@ -116,7 +116,7 @@ class DfeMockGenerateWizard(models.TransientModel):
             )
         if not partners:
             raise UserError(
-                _("No demo partners found. Install l10n_br_base demo data.")
+                self.env._("No demo partners found. Install l10n_br_base demo data.")
             )
         return partners
 
@@ -347,7 +347,7 @@ class DfeMockGenerateWizard(models.TransientModel):
     def action_generate(self):
         self.ensure_one()
         if self.quantity < 1:
-            raise UserError(_("Quantity must be at least 1."))
+            raise UserError(self.env._("Quantity must be at least 1."))
 
         partners = self._get_demo_partners()
         partner_list = list(partners)
@@ -364,7 +364,9 @@ class DfeMockGenerateWizard(models.TransientModel):
             and not self.generate_res_evento
             and not self.generate_proc_evento_nfe
         ):
-            raise UserError(_("Select at least one document type to generate."))
+            raise UserError(
+                self.env._("Select at least one document type to generate.")
+            )
 
         created_ids = []
         nfe_keys = []  # Track keys for event generation
@@ -448,10 +450,10 @@ class DfeMockGenerateWizard(models.TransientModel):
                     current_nsu += 1
 
         return {
-            "name": _("Generated Mock NSUs"),
+            "name": self.env._("Generated Mock NSUs"),
             "type": "ir.actions.act_window",
             "res_model": "dfe.mock.nsu",
-            "view_mode": "tree,form",
+            "view_mode": "list,form",
             "domain": [("id", "in", created_ids)],
             "target": "current",
         }

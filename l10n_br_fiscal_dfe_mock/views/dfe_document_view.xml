@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2026 Engenere (<https://engenere.one>)
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+    <!-- Odoo 18 dropped banner_route, so the mock controls that lived in the
+         DF-e banner are list header buttons now. display="always" keeps them
+         visible without any selected row; restricted to fiscal managers. -->
+    <record id="nfe_dfe_document_tree_mock" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal_dfe.document.tree.nfe.mock</field>
+        <field name="model">l10n_br_fiscal_dfe.document</field>
+        <field name="inherit_id" ref="l10n_br_nfe_dfe.nfe_dfe_document_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='color_status']" position="before">
+                <header>
+                    <button
+                        name="action_dfe_mock_search_nfe"
+                        type="object"
+                        string="Query NF-e"
+                        icon="fa-search"
+                        class="btn-primary"
+                        display="always"
+                        groups="l10n_br_fiscal.group_manager"
+                    />
+                    <button
+                        name="action_dfe_mock_toggle"
+                        type="object"
+                        string="Toggle Mock"
+                        icon="fa-flask"
+                        display="always"
+                        groups="l10n_br_fiscal.group_manager"
+                    />
+                    <button
+                        name="action_dfe_mock_reset_cooldown"
+                        type="object"
+                        string="Reset Cooldown"
+                        icon="fa-refresh"
+                        display="always"
+                        groups="l10n_br_fiscal.group_manager"
+                    />
+                </header>
+            </xpath>
+        </field>
+    </record>
+</odoo>
