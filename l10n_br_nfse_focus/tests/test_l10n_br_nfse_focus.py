@@ -770,49 +770,49 @@ class TestL10nBrNfseFocus(common.TransactionCase):
 
         self.assertNotIn("inscricao_municipal_prestador", payload)
 
-    def test_prepare_payload_nacional_sends_aliquota_non_simples_no_special_regime(
+    def test_prepare_payload_nacional_sends_aliquota_optante_regardless_municipio(
         self,
     ):
-        """Tests aliquota is sent for a non-Simples provider without special regime.
+        """Tests aliquota is always sent for a Simples Nacional optante provider.
 
-        Some municipalities require percentual_aliquota_relativa_municipio even
-        for providers that are not optante do Simples Nacional, as long as they
-        have no special municipal taxation regime (regime_especial_tributacao
-        == 0) and ISS is normally taxable.
+        A provider optante do Simples Nacional (codigo_opcao_simples_nacional
+        == 2) has its own company-specific combined aliquota, which isn't on
+        the município's own registry, so it must always be forwarded,
+        regardless of the município's status in the Sistema Nacional NFS-e.
         """
         nfse_nacional = self.env["focusnfe.nfse.nacional"]
-        edoc = {
-            "rps": dict(
-                PAYLOAD[0]["rps"],
-                optante_simples_nacional="2",
-                regime_especial_tributacao="0",
-            ),
-            "service": PAYLOAD[1]["service"],
-            "recipient": PAYLOAD[2]["recipient"],
-        }
-
         self.company.city_id = self.env.ref("l10n_br_base.city_3550308")
 
-        payload = nfse_nacional._prepare_payload_nacional(edoc, self.company)
+        for municipio_ativo in (True, False):
+            edoc = {
+                "rps": PAYLOAD[0]["rps"],
+                "service": dict(
+                    PAYLOAD[1]["service"],
+                    municipio_ativo_nfse_nacional=municipio_ativo,
+                ),
+                "recipient": PAYLOAD[2]["recipient"],
+            }
+            payload = nfse_nacional._prepare_payload_nacional(edoc, self.company)
 
-        self.assertEqual(payload.get("codigo_opcao_simples_nacional"), 1)
-        self.assertIn("percentual_aliquota_relativa_municipio", payload)
+            self.assertEqual(payload.get("codigo_opcao_simples_nacional"), 2)
+            self.assertIn("percentual_aliquota_relativa_municipio", payload)
 
-    def test_prepare_payload_nacional_suppresses_aliquota_special_regime(self):
-        """Tests aliquota is omitted for a non-Simples provider with special regime.
+    def test_prepare_payload_nacional_suppresses_aliquota_non_simples_municipio_ativo(
+        self,
+    ):
+        """Tests aliquota is omitted for a non-optante provider in an active município.
 
-        A provider that is neither optante do Simples Nacional nor free of a
-        special municipal taxation regime must not have the aliquota field
-        sent, matching the pre-existing behavior for that combination.
+        Confirmed in production (error E0617): the Sistema Nacional NFS-e
+        rejects percentual_aliquota_relativa_municipio whenever the provider
+        is not optante do Simples Nacional (codigo_opcao_simples_nacional ==
+        1, i.e. opSimpNac = 1) and the município de incidência is already
+        "ATIVO" in the Sistema Nacional NFS-e — the system then uses its own
+        registered municipal rate.
         """
         nfse_nacional = self.env["focusnfe.nfse.nacional"]
         edoc = {
-            "rps": dict(
-                PAYLOAD[0]["rps"],
-                optante_simples_nacional="2",
-                regime_especial_tributacao="1",
-            ),
-            "service": PAYLOAD[1]["service"],
+            "rps": dict(PAYLOAD[0]["rps"], optante_simples_nacional="2"),
+            "service": dict(PAYLOAD[1]["service"], municipio_ativo_nfse_nacional=True),
             "recipient": PAYLOAD[2]["recipient"],
         }
 
@@ -822,6 +822,31 @@ class TestL10nBrNfseFocus(common.TransactionCase):
 
         self.assertEqual(payload.get("codigo_opcao_simples_nacional"), 1)
         self.assertNotIn("percentual_aliquota_relativa_municipio", payload)
+
+    def test_prepare_payload_nacional_sends_aliquota_non_simples_municipio_inativo(
+        self,
+    ):
+        """Tests aliquota is sent for a non-optante provider in an inactive município.
+
+        The Sistema Nacional NFS-e requires percentual_aliquota_relativa_
+        municipio (error E0619 otherwise) for a provider not optante do
+        Simples Nacional (codigo_opcao_simples_nacional == 1) while the
+        município de incidência is still "INATIVO" in the Sistema Nacional
+        NFS-e and can't look up its own registered rate yet.
+        """
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        edoc = {
+            "rps": dict(PAYLOAD[0]["rps"], optante_simples_nacional="2"),
+            "service": dict(PAYLOAD[1]["service"], municipio_ativo_nfse_nacional=False),
+            "recipient": PAYLOAD[2]["recipient"],
+        }
+
+        self.company.city_id = self.env.ref("l10n_br_base.city_3550308")
+
+        payload = nfse_nacional._prepare_payload_nacional(edoc, self.company)
+
+        self.assertEqual(payload.get("codigo_opcao_simples_nacional"), 1)
+        self.assertIn("percentual_aliquota_relativa_municipio", payload)
 
     def test_prepare_payload_nacional_sends_finalidade_emissao(self):
         """Tests finalidade_emissao (finNFSe) is always sent to the payload.
@@ -870,6 +895,20 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         payload = nfse_nacional._prepare_payload_nacional(edoc, self.company)
 
         self.assertEqual(payload.get("indicador_destinatario"), "0")
+
+    def test_prepare_service_basic_nacional_municipio_ativo_default(self):
+        """Tests municipio_ativo_nfse_nacional defaults to True when absent.
+
+        Older callers/fixtures that don't carry the document's
+        nfse_nacional_municipio_ativo field must still be treated as an
+        active município (the status of most municípios), not break the
+        E0617/E0619 aliquota decision.
+        """
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+
+        result = nfse_nacional._prepare_service_basic_nacional(PAYLOAD[1]["service"])
+
+        self.assertTrue(result["municipio_ativo_nfse_nacional"])
 
     def test_prepare_service_basic_nacional_consumidor_final_default(self):
         """Tests consumidor_final (indFinal) defaults to "0" when absent.
