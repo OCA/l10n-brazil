@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 - TODAY, Marcel Savegnago - Escodoo - https://www.escodoo.com.br
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <!-- Repair order waiting for the quotation -->
+    <record id="main_repair_draft" model="repair.order">
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="product_id" ref="product.product_product_6" />
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="company_id" ref="base.main_company" />
+        <field
+            name="move_ids"
+            eval="[(0, 0, {
+                'product_id': ref('product.product_product_27'),
+                'product_uom_qty': 2.0,
+                'repair_line_type': 'add',
+            })]"
+        />
+    </record>
+
+    <!-- Complete life cycle: quotation with the fiscal operation of the
+         repair, repair done and the fiscal documents posted -->
+    <record id="main_repair_invoiced" model="repair.order">
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="product_id" ref="product.product_product_6" />
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="company_id" ref="base.main_company" />
+        <field
+            name="move_ids"
+            eval="[(0, 0, {
+                'product_id': ref('product.product_product_27'),
+                'product_uom_qty': 2.0,
+                'repair_line_type': 'add',
+            })]"
+        />
+    </record>
+
+    <function model="repair.order" name="action_create_sale_order">
+        <value eval="[ref('main_repair_invoiced')]" />
+    </function>
+
+    <record id="main_repair_invoiced_service" model="sale.order.line">
+        <field
+            name="order_id"
+            model="repair.order"
+            eval="obj(ref('main_repair_invoiced')).sale_order_id.id"
+        />
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
+        <field name="product_uom_qty">3</field>
+        <field name="price_unit">120</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+    </record>
+
+    <function model="sale.order" name="action_confirm">
+        <value
+            model="repair.order"
+            eval="obj(ref('main_repair_invoiced')).sale_order_id.ids"
+        />
+    </function>
+
+    <function model="repair.order" name="action_repair_start">
+        <value eval="[ref('main_repair_invoiced')]" />
+    </function>
+
+    <function model="stock.move" name="write">
+        <value
+            model="repair.order"
+            eval="obj(ref('main_repair_invoiced')).move_ids.ids"
+        />
+        <value eval="{'quantity': 2.0, 'picked': True}" />
+    </function>
+
+    <function model="repair.order" name="action_repair_end">
+        <value eval="[ref('main_repair_invoiced')]" />
+    </function>
+
+    <function model="sale.order" name="_create_invoices">
+        <value
+            model="repair.order"
+            eval="obj(ref('main_repair_invoiced')).sale_order_id.ids"
+        />
+    </function>
+
+    <function model="account.move" name="action_post">
+        <value
+            model="repair.order"
+            eval="obj(ref('main_repair_invoiced')).sale_order_id.invoice_ids.ids"
+        />
+    </function>
+</odoo>
