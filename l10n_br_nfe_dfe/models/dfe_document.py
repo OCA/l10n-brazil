@@ -1,0 +1,197 @@
+# Copyright 2026 Engenere (<https://engenere.one>).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+
+import base64
+import binascii
+import logging
+from io import BytesIO
+
+from lxml import objectify
+from lxml.etree import XMLSyntaxError
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
+
+from ..constants.nfe_dfe import SITUACAO_NFE
+
+try:
+    from brazilfiscalreport.danfe import Danfe
+except ImportError:
+    Danfe = None
+
+_logger = logging.getLogger(__name__)
+
+
+class L10nBrFiscalDfeDocument(models.Model):
+    """NF-e specific features for DF-e documents."""
+
+    _inherit = "l10n_br_fiscal_dfe.document"
+
+    cfop_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.cfop",
+        string="CFOPs",
+        compute="_compute_nfe_cfop_ids",
+    )
+
+    manifestations_ids = fields.One2many(
+        comodel_name="l10n_br_nfe.md_event",
+        inverse_name="dfe_document_id",
+        string="Manifestations",
+    )
+
+    manifestation_status = fields.Selection(
+        selection=[
+            ("ciente", "Ciente da Operação"),
+            ("confirmado", "Confirmada operação"),
+            ("desconhecido", "Desconhecimento"),
+            ("nao_realizado", "Não realizado"),
+            ("sem_manifestacao", "Sem manifestação"),
+        ],
+        compute="_compute_manifestation_status",
+    )
+
+    fiscal_document_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document",
+        string="Imported Document",
+        readonly=True,
+    )
+
+    @api.depends("manifestations_ids.state")
+    def _compute_manifestation_status(self):
+        """Compute manifestation status efficiently with batched queries."""
+        if not self:
+            return
+
+        # Records without access key (e.g. new records) have no events and
+        # would turn the query into "IN (false)", which PostgreSQL rejects
+        access_keys = tuple(key for key in self.mapped("access_key") if key)
+        latest_events = {}
+        if access_keys:
+            # Batch query: get latest event per access key in a single query
+            self.env.cr.execute(
+                """
+                SELECT DISTINCT ON (access_key) access_key, event_type
+                FROM l10n_br_nfe_md_event
+                WHERE access_key IN %s AND state = 'done'
+                ORDER BY access_key, id DESC
+                """,
+                (access_keys,),
+            )
+            latest_events = dict(self.env.cr.fetchall())
+
+        for record in self:
+            record.manifestation_status = latest_events.get(
+                record.access_key, "sem_manifestacao"
+            )
+
+    @api.depends("dfe_ids.attachment_id")
+    def _compute_nfe_cfop_ids(self):
+        Cfop = self.env["l10n_br_fiscal.cfop"]
+        for rec in self:
+            rec.cfop_ids = Cfop
+            if rec.fiscal_type != "nfe":
+                continue
+            complete = rec.dfe_ids.filtered(lambda d: d.document_type_dfe == "complete")
+            if complete and complete.attachment_id:
+                try:
+                    xml_bytes = base64.b64decode(
+                        complete.attachment_id.with_context(bin_size=False).datas
+                    )
+                    root = objectify.fromstring(xml_bytes)
+                    codes = {str(det.prod.CFOP) for det in root.NFe.infNFe.det}
+                    rec.cfop_ids = Cfop.search([("code", "in", list(codes))])
+                except (
+                    binascii.Error,
+                    XMLSyntaxError,
+                    AttributeError,
+                    ValueError,
+                ) as e:
+                    _logger.warning("Error computing CFOP IDs: %s", e)
+
+    def _get_document_state_label(self):
+        self.ensure_one()
+        if self.fiscal_type != "nfe":
+            return super()._get_document_state_label()
+        return dict(SITUACAO_NFE).get(self.document_state, self.document_state)
+
+    def create_nfe_md_action(self):
+        self.ensure_one()
+        return {
+            "name": _("NF-e Recipient Manifestation"),
+            "type": "ir.actions.act_window",
+            "res_model": "nfe_recipient_manifestation_event.wizard",
+            "view_mode": "form",
+            "target": "new",
+            "context": {
+                "default_access_key": self.access_key,
+            },
+        }
+
+    def action_view_imported_document(self):
+        """Open the invoice created from this DF-e.
+
+        Falls back to the fiscal document itself when accounting is not
+        installed, as this module does not depend on l10n_br_account.
+        """
+        self.ensure_one()
+        document = self.fiscal_document_id
+        moves = document.move_ids if "move_ids" in document._fields else document
+        record = moves[:1] or document
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": record._name,
+            "res_id": record.id,
+            "view_mode": "form",
+        }
+
+    def import_document(self):
+        if self.fiscal_type != "nfe":
+            return super().import_document()
+        complete = self._get_complete_dfe()
+        if not complete or not complete.attachment_id:
+            raise UserError(
+                _("You can only import the NF-e when the DF-e is completed.")
+            )
+        return {
+            "name": _("Import NF-e XML"),
+            "type": "ir.actions.act_window",
+            "res_model": "l10n_br_fiscal.document.import.wizard",
+            "view_mode": "form",
+            "target": "new",
+            "context": {
+                "default_file": complete.attachment_id.with_context(
+                    bin_size=False
+                ).datas,
+            },
+        }
+
+    def make_pdf(self):
+        """Generate the DANFE PDF from the complete NF-e XML."""
+        if self.fiscal_type != "nfe":
+            return super().make_pdf()
+        self = self.sudo()
+        complete = self._get_complete_dfe()
+        if not complete or not complete.attachment_id:
+            raise UserError(_("No complete DF-e found."))
+
+        xml_bytes = base64.b64decode(
+            complete.attachment_id.with_context(bin_size=False).datas
+        )
+        danfe = Danfe(xml=xml_bytes)
+        buf = BytesIO()
+        danfe.output(buf)
+
+        pdf_att = self.env["ir.attachment"].create(
+            {
+                "name": f"DANFE_{complete.access_key}.pdf",
+                "datas": base64.b64encode(buf.getvalue()),
+                "res_model": complete._name,
+                "res_id": complete.id,
+                "mimetype": "application/pdf",
+            }
+        )
+        return {
+            "type": "ir.actions.act_url",
+            "url": f"/web/content/{pdf_att.id}?download=true",
+            "target": "self",
+        }
