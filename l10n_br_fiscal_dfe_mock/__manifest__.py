@@ -3,7 +3,7 @@
 {
     "name": "DF-e Mock (SEFAZ Virtual)",
     "summary": "Mock SEFAZ DF-e distribution for development without A1 certificate.",
-    "version": "17.0.1.0.0",
+    "version": "18.0.1.0.0",
     "license": "AGPL-3",
     "author": "Engenere, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
@@ -13,7 +13,7 @@
         "security/dfe_mock_security.xml",
         "security/ir.model.access.csv",
         # Views
-        "views/dfe_mock_banner_template.xml",
+        "views/dfe_document_view.xml",
         "views/dfe_mock_nsu_views.xml",
         "views/res_company_view.xml",
         # Wizards

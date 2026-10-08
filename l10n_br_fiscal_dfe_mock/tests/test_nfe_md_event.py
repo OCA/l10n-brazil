@@ -4,6 +4,7 @@
 from unittest import mock
 
 from odoo.tests.common import TransactionCase
+from odoo.tools import mute_logger
 
 from ..models.nfe_md_event import _build_mde_result, _MockMDeProcessor
 
@@ -237,8 +238,10 @@ class TestNfeMdEventMock(TransactionCase):
 
     def test_generate_proc_nfe_no_res_nfe(self):
         """If no resNFe exists for the key, skip creation gracefully."""
-        # setUp already cleans all NSU records, so no resNFe exists
-        self.mde.action_confirm()
+        # setUp already cleans all NSU records, so no resNFe exists.
+        # The expected "no resNFe found" warning would fail checklog-odoo.
+        with mute_logger("odoo.addons.l10n_br_fiscal_dfe_mock.models.nfe_md_event"):
+            self.mde.action_confirm()
 
         proc_nfe = self.env["dfe.mock.nsu"].search(
             [

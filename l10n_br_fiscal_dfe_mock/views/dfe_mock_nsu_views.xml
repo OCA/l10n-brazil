@@ -9,13 +9,13 @@
         <field name="name">dfe.mock.nsu.tree</field>
         <field name="model">dfe.mock.nsu</field>
         <field name="arch" type="xml">
-            <tree decoration-muted="consumed == True">
+            <list decoration-muted="consumed == True">
                 <field name="nsu" />
                 <field name="schema_type" />
                 <field name="access_key" />
                 <field name="consumed" />
                 <field name="company_id" groups="base.group_multi_company" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -103,7 +103,7 @@
     <record id="dfe_mock_nsu_action" model="ir.actions.act_window">
         <field name="name">Mock NSU Pool</field>
         <field name="res_model">dfe.mock.nsu</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="search_view_id" ref="dfe_mock_nsu_search" />
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -124,7 +124,7 @@
         <field name="target">new</field>
     </record>
 
-    <!-- Server action: reset consumed from tree view -->
+    <!-- Server action: reset consumed from list view -->
     <record id="action_reset_consumed_multi" model="ir.actions.server">
         <field name="name">Reset Consumed</field>
         <field name="model_id" ref="model_dfe_mock_nsu" />
@@ -135,11 +135,8 @@
         <field name="groups_id" eval="[(4, ref('l10n_br_fiscal.group_manager'))]" />
     </record>
 
-    <!-- Menu: Mock submenu under DF-e Queries.
-         The toggle-mock and reset-cooldown actions live as buttons in the
-         DF-e banner itself (see dfe_document_banner_mock); only the record
-         list and the generator wizard need a menu entry. Restricted to
-         fiscal managers since this data can contaminate real DF-e flows. -->
+    <!-- Menu: Mock submenu under DF-e Queries. Restricted to fiscal
+         managers since this data can contaminate real DF-e flows. -->
     <menuitem
         id="dfe_mock_separator"
         name="Mock"
