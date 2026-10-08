@@ -892,3 +892,69 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__display_name
 msgid "name"
 msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
+msgid ""
+"The correction text has characters that the tax authority does not "
+"accept: %(chars)s. Replace them and try again."
+msgstr ""
+"O texto da correção tem caracteres que o fisco não aceita: %(chars)s. "
+"Substitua-os e tente novamente."
+
+#. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
+msgid ""
+"The correction text must have at least %(min)s characters (it has "
+"%(size)s)."
+msgstr ""
+"O texto da correção deve ter pelo menos %(min)s caracteres (tem "
+"%(size)s)."
+
+#. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
+msgid ""
+"The correction text must have at most %(max)s characters (it has "
+"%(size)s)."
+msgstr "O texto da correção deve ter no máximo %(max)s caracteres (tem %(size)s)."
+
+#. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
+msgid "The maximum of %(max)s correction letters for this document was reached."
+msgstr "O máximo de %(max)s cartas de correção para este documento foi atingido."
+
+#. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
+msgid "Correction letter registered"
+msgstr "Carta de correção registrada"
+
+#. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
+msgid "Correction letter refused"
+msgstr "Carta de correção recusada"
+
+#. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document_event.py:0
+msgid "Only a correction letter registered by the tax authority can be printed."
+msgstr "Somente uma carta de correção registrada pelo fisco pode ser impressa."
+
+#. module: l10n_br_fiscal_edi
+#: model:ir.model.fields,help:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_correction_wizard__justification
+msgid ""
+"NF-e: 15 to 1000 characters; line breaks, tabs, repeated spaces and "
+"typographic punctuation are normalized before sending."
+msgstr ""
+"NF-e: de 15 a 1000 caracteres; quebras de linha, tabulações, espaços "
+"repetidos e pontuação tipográfica são normalizados antes do envio."
+
+#. module: l10n_br_fiscal_edi
+#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__can_print
+msgid "Can Print"
+msgstr "Pode imprimir"
