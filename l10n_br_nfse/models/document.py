@@ -76,6 +76,17 @@ class Document(models.Model):
         string="Civil Construction ART",
     )
 
+    nfse_nacional_municipio_ativo = fields.Boolean(
+        string="Município Ativo no Sistema Nacional NFS-e",
+        default=True,
+        help=(
+            "Desmarque se o município de incidência do ISSQN ainda não "
+            "está ATIVO no Sistema Nacional NFS-e (gov.br/nfse). Afeta se "
+            "a alíquota do ISSQN é enviada na emissão da NFS-e Nacional "
+            "para prestadores optantes do Simples Nacional."
+        ),
+    )
+
     def make_pdf(self):
         if not self.filtered(filter_processador_edoc_nfse):
             return super().make_pdf()
@@ -268,6 +279,8 @@ class Document(models.Model):
             "valor_desconto_incondicionado": valor_desconto_incondicionado,
             "codigo_nbs": self.fiscal_line_ids[0].nbs_id.code,
             "codigo_nbs_unmasked": self.fiscal_line_ids[0].nbs_id.code_unmasked,
+            "consumidor_final": self.ind_final,
+            "municipio_ativo_nfse_nacional": self.nfse_nacional_municipio_ativo,
             "codigo_indicador_operacao": self.fiscal_line_ids[
                 0
             ].operation_indicator_id.code,
