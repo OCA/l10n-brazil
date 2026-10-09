@@ -12,6 +12,9 @@ class TestStockMoveBillMatchingReferenceSQL(TransactionCase):
 
     def _eval_ref(self, move_id):
         expr = self.env["stock.move"]._get_bill_matching_reference_sql("sm")
+        # the hook is evaluated in raw SQL: flush the ORM cache first so a
+        # reference written in this transaction is visible to the query.
+        self.env.flush_all()
         self.env.cr.execute(
             f"SELECT ({expr}) FROM stock_move sm WHERE sm.id = %s", (move_id,)
         )
