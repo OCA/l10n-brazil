@@ -35,6 +35,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_STATE_CANCEL,
     DOCUMENT_STATE_DRAFT,
     DOCUMENT_STATE_OPEN,
+    EDOC_PURPOSE_DEVOLUCAO,
     EVENT_ENV_HML,
     EVENT_ENV_PROD,
     EVENTO_RECEBIDO,
@@ -937,6 +938,11 @@ class NFe(spec_models.StackedModel):
         return super()._export_many2one(field_name, xsd_required, class_obj)
 
     def _export_one2many(self, field_name, class_obj=None):
+        if field_name == "nfe40_NFref" and self.edoc_purpose == EDOC_PURPOSE_DEVOLUCAO:
+            # Return NF-e reference the original documents per item in
+            # det/DFeReferenciado and NFref is forbidden (NT 2025.002,
+            # VC02-14 and VC02-05). The related documents are kept.
+            return []
         res = super()._export_one2many(field_name, class_obj)
         i = 0
         for field_data in res:
@@ -1144,6 +1150,70 @@ class NFe(spec_models.StackedModel):
                         )
                     ) from e
         return result
+
+    def _document_check(self):
+        result = super()._document_check()
+        for record in self.filtered(filter_processador_edoc_nfe):
+            record._check_nfe_item_references()
+        return result
+
+    def _check_nfe_item_references(self):
+        """Check the item references (det/DFeReferenciado) of a return NF-e.
+
+        SEFAZ does not check the item number against the original document,
+        so a wrong reference is authorized: block it before sending.
+        """
+        self.ensure_one()
+        if (
+            self.edoc_purpose != EDOC_PURPOSE_DEVOLUCAO
+            or self.issuer != DOCUMENT_ISSUER_COMPANY
+        ):
+            return
+        errors = []
+        references = set()
+        issuers = set()
+        for line in self.fiscal_line_ids:
+            label = line.name or line.product_id.display_name
+            related = line._get_ref_document_related()
+            if not related:
+                errors.append(_("%(line)s: set the referenced document.", line=label))
+                continue
+            key = related.document_key
+            if not key:
+                errors.append(
+                    _(
+                        "%(line)s: the referenced document has no access key.",
+                        line=label,
+                    )
+                )
+                continue
+            item = line.ref_document_item
+            if not 1 <= item <= 990:
+                errors.append(
+                    _(
+                        "%(line)s: set the referenced item number (1 to 990).",
+                        line=label,
+                    )
+                )
+            elif (key, item) in references:
+                errors.append(
+                    _(
+                        "%(line)s: item %(item)s of document %(key)s is already "
+                        "referenced by another line.",
+                        line=label,
+                        item=item,
+                        key=key,
+                    )
+                )
+            references.add((key, item))
+            # CNPJ/CPF of the issuer (VC02-40)
+            issuers.add(key[6:20])
+        if len(issuers) > 1:
+            errors.append(_("All the referenced documents must have the same issuer."))
+        if errors:
+            raise UserError(
+                _("Return NF-e item references:\n%(errors)s", errors="\n".join(errors))
+            )
 
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)

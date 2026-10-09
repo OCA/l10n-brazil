@@ -97,6 +97,32 @@ class DocumentLine(models.Model):
 
     additional_data = fields.Text()
 
+    # Item level reference to another fiscal document (e.g. the item of the
+    # original NF-e being returned). The document key comes from the
+    # document related records: the line only points to one of them (needed
+    # only when the document has more than one) and to the item number.
+    ref_document_related_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document.related",
+        string="Referenced Document",
+        domain="[('document_id', '=', document_id)]",
+        help="Related document of this line item. Leave empty when the "
+        "document has a single related document.",
+    )
+
+    ref_document_item = fields.Integer(
+        string="Referenced Item",
+        help="Number of the item (nItem) in the referenced document.",
+    )
+
+    def _get_ref_document_related(self):
+        """Return the related document referenced by the line: the one set
+        on the line or, if the document has only one, that one."""
+        self.ensure_one()
+        if self.ref_document_related_id:
+            return self.ref_document_related_id
+        related = self.document_id.document_related_ids
+        return related if len(related) == 1 else related.browse()
+
     @api.depends("product_id")
     def _compute_name(self):
         for line in self:
