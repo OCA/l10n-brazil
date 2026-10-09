@@ -72,6 +72,10 @@ class TestNFeMDE(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        # these tests exercise the legacy erpbrasil.edoc MDeAdapter path
+        cls.env["ir.config_parameter"].sudo().set_param(
+            "l10n_br_nfe.nfelib_soap_transmission", "False"
+        )
         cls.company = cls.env.ref("l10n_br_base.empresa_simples_nacional")
         cls.mde_id = cls.env["l10n_br_nfe.md_event"].create(
             {
@@ -167,3 +171,79 @@ class TestNFeMDE(TransactionCase):
 
         self.assertEqual(self.mde_id.state, "done")
         self.assertTrue(self.mde_id.response_xml)
+
+
+class TestNFeMDENfelib(TransactionCase):
+    """MD-e events through the nfelib MdeClient (mocked transport)."""
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env["ir.config_parameter"].sudo().set_param(
+            "l10n_br_nfe.nfelib_soap_transmission", "True"
+        )
+        cls.company = cls.env.ref("l10n_br_base.empresa_simples_nacional")
+        from erpbrasil.assinatura import misc
+
+        cls.company.certificate_nfe_id = cls.env["l10n_br_fiscal.certificate"].create(
+            {
+                "type": "nf-e",
+                "subtype": "a1",
+                "password": "123456",
+                "file": misc.create_fake_certificate_file(
+                    valid=True,
+                    passwd="123456",
+                    issuer="EMISSOR A TESTE",
+                    country="BR",
+                    subject="CERTIFICADO VALIDO TESTE",
+                ),
+            }
+        )
+        cls.mde_id = cls.env["l10n_br_nfe.md_event"].create(
+            {
+                "company_id": cls.company.id,
+                "access_key": "31201010588201000105550010038421171838422178",
+                "document_number": 3842117,
+                "event_type": "ciente",
+                "state": "draft",
+            }
+        )
+
+    def test_ciencia_da_operacao_nfelib(self):
+        from xsdata.formats.dataclass.transports import DefaultTransport
+
+        with mock.patch.object(DefaultTransport, "post") as mock_post:
+            mock_post.return_value = response_ciencia_operacao.encode()
+            self.mde_id.action_confirm()
+
+            # the signed event must really go on the wire; brazil-fiscal-client
+            # posts UTF-8 bytes since akretion/brazil-fiscal-client#25
+            sent = mock_post.call_args.kwargs["data"]
+            if isinstance(sent, bytes):
+                sent = sent.decode("utf-8")
+            self.assertIn("Signature", sent)
+            self.assertIn("210210", sent)  # tpEvento ciencia da operacao
+            self.assertIn(self.mde_id.access_key, sent)
+
+        self.assertEqual(self.mde_id.state, "done")
+        self.assertEqual(self.mde_id.protocol, "12345")
+        self.assertTrue(self.mde_id.response_xml)
+
+    def test_rejection_nfelib(self):
+        from xsdata.formats.dataclass.transports import DefaultTransport
+
+        response = response_confirmacao_operacao_rejeicao.encode()
+        with mock.patch.object(DefaultTransport, "post") as mock_post:
+            mock_post.return_value = response
+            # 573 (duplicate event) is treated as done, not an error
+            self.mde_id.event_type = "confirmado"
+            self.mde_id.action_confirm()
+        self.assertEqual(self.mde_id.state, "done")
+
+    def test_nfelib_processor_uses_event_company_certificate(self):
+        """The certificate comes from the MD-e company, falling back to its
+        e-CNPJ, whatever the user's current company."""
+        self.company.certificate_nfe_id = False
+        mde = self.mde_id.with_company(self.env.ref("base.main_company"))
+        pkcs12_data, _password = self.company._get_nfe_certificate_data()
+        self.assertEqual(mde._nfelib_get_processor().pkcs12_data, pkcs12_data)
