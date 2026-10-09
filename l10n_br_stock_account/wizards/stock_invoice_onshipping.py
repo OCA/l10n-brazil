@@ -145,8 +145,18 @@ class StockInvoiceOnshipping(models.TransientModel):
 
         values = super()._get_invoice_line_values(moves, invoice_values, invoice)
         move = fields.first(moves)
+
+        if not move.fiscal_operation_id and move.picking_id.fiscal_operation_id:
+            move.fiscal_operation_id = move.picking_id.fiscal_operation_id
+            operation_lines = move.picking_id.fiscal_operation_id.line_ids.filtered(
+                lambda line: line.fiscal_operation_type
+                == move.picking_id.fiscal_operation_id.fiscal_operation_type
+            )
+            if operation_lines:
+                move.fiscal_operation_line_id = operation_lines[0].id
+
         if not move.fiscal_operation_id:
-            # Caso Brasileiro se caracteriza pela Operação Fiscal
+            # Brazilian case is characterized by having a Fiscal Operation
             return values
 
         fiscal_values = move._prepare_br_fiscal_dict()
