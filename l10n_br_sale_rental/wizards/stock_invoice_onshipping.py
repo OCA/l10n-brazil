@@ -35,6 +35,10 @@ class StockInvoiceOnshipping(models.TransientModel):
         if picking.picking_type_id.l10n_br_rental_kind:
             operation = picking.fiscal_operation_id
             values["fiscal_operation_id"] = operation.id
+            # the transfer NF-e has no receivable: the lessee payment mode
+            # (e.g. boleto) would block its confirmation
+            if "payment_mode_id" in values:
+                values["payment_mode_id"] = False
             if operation.journal_id:
                 values["journal_id"] = operation.journal_id.id
         return invoice, values

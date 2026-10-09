@@ -34,3 +34,12 @@ class SaleOrderLine(models.Model):
         operation = self._l10n_br_rental_line_operation(self.product_id, self.order_id)
         if operation:
             self.fiscal_operation_id = operation
+
+    def _prepare_invoice_line(self, **optional_values):
+        values = super()._prepare_invoice_line(**optional_values)
+        if self.product_id.rented_product_id:
+            # stock_picking_invoice_link links the invoice line to the stock
+            # moves of the sale line: for the rental charge those are the
+            # remessa/retorno transfers, which have their own NF-e
+            values.pop("move_line_ids", None)
+        return values
