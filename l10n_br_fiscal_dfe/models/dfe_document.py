@@ -131,11 +131,7 @@ class L10nBrFiscalDfeDocument(models.Model):
 
     @api.depends("access_key", "company_id")
     def _compute_fiscal_document_id(self):
-        """Match the import wizard: the fiscal document that already has this key.
-
-        When more than one document shares the key, keep the one of the
-        same company.
-        """
+        """Link each inbox row to the fiscal document that shares its access key."""
         keys = [key for key in self.mapped("access_key") if key]
         grouped = {}
         if keys:
@@ -150,11 +146,20 @@ class L10nBrFiscalDfeDocument(models.Model):
         empty = self.env["l10n_br_fiscal.document"]
         for record in self:
             candidates = grouped.get(record.access_key, empty)
-            same_company = candidates.filtered(
-                lambda document, company=record.company_id: document.company_id
-                == company
-            )
-            record.fiscal_document_id = (same_company or candidates)[:1]
+            record.fiscal_document_id = record._match_fiscal_document(candidates)
+
+    def _match_fiscal_document(self, candidates):
+        """Return the fiscal document imported from this inbox row.
+
+        ``candidates`` already share this access key. The default keeps the
+        document of the same company. A fiscal-type module overrides this
+        when its match differs and may ignore ``candidates``.
+        """
+        self.ensure_one()
+        same_company = candidates.filtered(
+            lambda document, company=self.company_id: document.company_id == company
+        )
+        return (same_company or candidates)[:1]
 
     def _search_fiscal_document_id(self, operator, value):
         """Inbox rows whose access key is already a fiscal document key."""
