@@ -1377,7 +1377,15 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         precompute=True,
     )
 
-    partner_order = fields.Char(string="Partner Order (xPed)", size=15)
+    # The NF-e layout caps xPed at 15 characters, but this field is also the
+    # key the vendor bill is reconciled against its receipt with, and a buyer
+    # reference is not only its NF-e spelling: a purchase order named
+    # "J-MT/OC/26/40795" truncated to 15 characters collides with every order
+    # of the same decade (40790..40799 all become "J-MT/OC/26/4079"), making two
+    # receipts interchangeable. Widened so the whole reference is stored; the
+    # export of an outgoing document still has to respect the 15 characters of
+    # the layout (see l10n_br_nfe).
+    partner_order = fields.Char(string="Partner Order (xPed)", size=32)
 
     partner_order_line = fields.Char(string="Partner Order Line (nItemPed)", size=6)
 
