@@ -47,6 +47,11 @@ TAX_DEF_CASES = [
 
 ATTR_CASES = [
     ("fo_remessa_ativo_uso_fora_line", "product_type", "08"),
+    # conserto: assistência técnica não contribuinte e frota em estoque também
+    ("fo_remessa_ativo_conserto_line", "ind_ie_dest", False),
+    ("fo_remessa_ativo_conserto_line", "product_type", False),
+    ("fo_retorno_ativo_conserto_line_sn", "ind_ie_dest", False),
+    ("fo_retorno_ativo_conserto_line_sn", "product_type", False),
 ]
 
 

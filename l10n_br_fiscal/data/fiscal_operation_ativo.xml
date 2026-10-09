@@ -133,7 +133,7 @@
         <field name="code">RT-AC</field>
         <field
             name="name"
-        >Retorno de bem do ativo enviado para conserto ou reparo</field>
+        >Retorno de mercadoria ou bem enviado para conserto ou reparo</field>
         <field name="fiscal_operation_type">in</field>
         <field name="fiscal_type">other</field>
         <field name="state">approved</field>
@@ -142,11 +142,9 @@
         <field name="fiscal_operation_id" ref="fo_retorno_ativo_conserto" />
         <field
             name="name"
-        >Retorno de bem do ativo enviado para conserto ou reparo</field>
-        <field name="ind_ie_dest">1</field>
+        >Retorno de mercadoria ou bem enviado para conserto ou reparo</field>
         <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1916" />
         <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2916" />
-        <field name="product_type">08</field>
         <field name="tax_icms_or_issqn">icms</field>
         <field name="state">approved</field>
     </record>
@@ -163,7 +161,7 @@
 
     <record id="fo_remessa_ativo_conserto" model="l10n_br_fiscal.operation">
         <field name="code">REM-AC</field>
-        <field name="name">Remessa de bem do ativo para conserto ou reparo</field>
+        <field name="name">Remessa de mercadoria ou bem para conserto ou reparo</field>
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_type">return_out</field>
         <field name="return_fiscal_operation_id" ref="fo_retorno_ativo_conserto" />
@@ -171,11 +169,9 @@
     </record>
     <record id="fo_remessa_ativo_conserto_line" model="l10n_br_fiscal.operation.line">
         <field name="fiscal_operation_id" ref="fo_remessa_ativo_conserto" />
-        <field name="name">Remessa de bem do ativo para conserto ou reparo</field>
-        <field name="ind_ie_dest">1</field>
+        <field name="name">Remessa de mercadoria ou bem para conserto ou reparo</field>
         <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5915" />
         <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6915" />
-        <field name="product_type">08</field>
         <field name="tax_icms_or_issqn">icms</field>
         <field name="state">approved</field>
     </record>
@@ -356,12 +352,10 @@
         <field name="fiscal_operation_id" ref="fo_retorno_ativo_conserto" />
         <field
             name="name"
-        >Retorno de bem do ativo enviado para conserto ou reparo - Simples Nacional</field>
+        >Retorno de mercadoria ou bem enviado para conserto ou reparo - Simples Nacional</field>
         <field name="company_tax_framework">1</field>
-        <field name="ind_ie_dest">1</field>
         <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1916" />
         <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2916" />
-        <field name="product_type">08</field>
         <field name="tax_icms_or_issqn">icms</field>
         <field name="state">approved</field>
     </record>
@@ -388,12 +382,10 @@
         <field name="fiscal_operation_id" ref="fo_remessa_ativo_conserto" />
         <field
             name="name"
-        >Remessa de bem do ativo para conserto ou reparo - Simples Nacional</field>
+        >Remessa de mercadoria ou bem para conserto ou reparo - Simples Nacional</field>
         <field name="company_tax_framework">1</field>
-        <field name="ind_ie_dest">1</field>
         <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5915" />
         <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6915" />
-        <field name="product_type">08</field>
         <field name="tax_icms_or_issqn">icms</field>
         <field name="state">approved</field>
     </record>
