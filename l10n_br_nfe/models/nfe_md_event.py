@@ -44,6 +44,14 @@ class NfeRecipientManifestationEvent(models.Model):
         required=True,
     )
 
+    event_type_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.event.type",
+        string="Event Type",
+        compute="_compute_event_type_id",
+        help="SEFAZ event type (tpEvento) of this manifestation, "
+        "resolved from the fiscal document event type catalog.",
+    )
+
     state = fields.Selection(
         selection=[
             ("draft", "Draft"),
@@ -68,6 +76,23 @@ class NfeRecipientManifestationEvent(models.Model):
 
     def name_get(self):
         return [(rec.id, f"{rec.access_key}") for rec in self]
+
+    @api.depends("event_type")
+    def _compute_event_type_id(self):
+        codes = {
+            MD.MANIF_CIENTE: "210210",
+            MD.MANIF_CONFIRMADO: "210200",
+            MD.MANIF_DESCONHECIDO: "210220",
+            MD.MANIF_NAO_REALIZADO: "210240",
+        }
+        event_types = self.env["l10n_br_fiscal.event.type"].search(
+            [("code", "in", list(set(codes.values())))]
+        )
+        event_by_code = {event.code: event.id for event in event_types}
+        for record in self:
+            record.event_type_id = event_by_code.get(
+                codes.get(record.event_type), False
+            )
 
     def _get_processor(self):
         certificado = self.env.company._get_br_ecertificate()
