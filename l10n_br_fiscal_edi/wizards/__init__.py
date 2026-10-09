@@ -3,4 +3,7 @@
 from . import base_wizard_mixin
 from . import document_cancel_wizard
 from . import document_correction_wizard
+from . import document_import_wizard
+from . import document_import_wizard_line
+from . import document_import_match_candidate
 from . import invalidate_number_wizard

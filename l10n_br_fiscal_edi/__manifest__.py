@@ -33,6 +33,7 @@
         # Menus
         "views/l10n_br_fiscal_menu.xml",
     ],
+    "post_init_hook": "post_init_hook",
     "installable": True,
     "external_dependencies": {
         "python": [
