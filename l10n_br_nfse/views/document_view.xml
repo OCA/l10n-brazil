@@ -27,6 +27,7 @@
                 >
                     <field name="operation_nature" />
                     <field name="taxation_special_regime" />
+                    <field name="nfse_nacional_municipio_ativo" />
                 </group>
                 <group
                     name="nfse_info"
