@@ -142,14 +142,15 @@ class TestNFCe(TestNFeExport):
 
     def test_qrcode(self):
         old_document_type = self.document_id.document_type_id
-        self.document_id.document_type_id = False
+        document = self.document_id.with_context(skip_edoc_lock=True)
+        document.document_type_id = False
 
         qr_code = self.document_id.get_nfce_qrcode()
         qr_code_url = self.document_id.get_nfce_qrcode_url()
         self.assertIsNone(qr_code)
         self.assertIsNone(qr_code_url)
 
-        self.document_id.document_type_id = old_document_type
+        document.document_type_id = old_document_type
         qr_code = self.document_id.get_nfce_qrcode()
         qr_code_url = self.document_id.get_nfce_qrcode_url()
         self.assertIsNotNone(qr_code)

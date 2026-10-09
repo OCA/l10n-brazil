@@ -421,6 +421,24 @@ DOCUMENT_STATES = [
     (DOCUMENT_STATE_INVALIDATED, "Inutilizada"),
 ]
 
+# Identity fields locked once the fiscal document leaves the draft
+# (em_digitacao) state. Mirrors the account.move "unmodifiable_fields"
+# posted-move guard. Bypass with context "skip_edoc_lock" for internal
+# flows (e.g. authorization callbacks writing document_key).
+DOCUMENT_EDOC_LOCKED_FIELDS = [
+    "issuer",
+    "document_type_id",
+    "document_serie_id",
+    "document_serie",
+    "document_number",
+    "document_key",
+    "document_date",
+    "fiscal_operation_id",
+    "fiscal_operation_type",
+    "partner_id",
+]
+
+
 SITUACAO_FISCAL_REGULAR = "00"
 SITUACAO_FISCAL_REGULAR_EXTEMPORANEO = "01"
 SITUACAO_FISCAL_CANCELADO = "02"
