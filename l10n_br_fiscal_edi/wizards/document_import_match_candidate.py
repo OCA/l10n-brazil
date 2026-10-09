@@ -267,10 +267,11 @@ class ImportMatchCandidate(models.Model):
         """Search by PO name, picking name, PO line reference or product.
 
         When the wizard passes the edited line's product in the context
-        (``line_product_id``), the candidates for that product are proposed
-        first. The search is not restricted: any other candidate stays
-        selectable, so an operator can always fix a wrong product mapping —
-        matching-product-first is just the helpful default ordering.
+        (``line_product_id``), the candidates for that product are flagged
+        with a leading ``*`` and proposed first. The search is not
+        restricted: any other candidate stays selectable, so an operator can
+        always fix a wrong product mapping. The flag lives only in the
+        suggestion list — ``name_get``/``display_name`` are untouched.
         """
         args = list(args or [])
         if name:
@@ -284,11 +285,15 @@ class ImportMatchCandidate(models.Model):
             args = expression.AND([args, domain])
         records = self.search(args, limit=limit)
         line_product_id = self.env.context.get("line_product_id")
-        if line_product_id:
-            matching = records.filtered(lambda r: r.product_id.id == line_product_id)
-            others = records - matching
-            records = matching + others
-        return records.name_get()
+        if not line_product_id:
+            return records.name_get()
+        matching = records.filtered(lambda r: r.product_id.id == line_product_id)
+        matching_ids = set(matching.ids)
+        records = matching + (records - matching)
+        return [
+            (rec_id, ("* " if rec_id in matching_ids else "") + label)
+            for rec_id, label in records.name_get()
+        ]
 
     def action_open_source(self):
         self.ensure_one()
