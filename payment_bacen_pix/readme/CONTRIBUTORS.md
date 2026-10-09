@@ -1,0 +1,2 @@
+- Luis Felipe Mileo \<<mileo@kmee.com.br>\>
+- Bruno Corredato Botti \<<bruno.botti@kmee.com.br>\>
