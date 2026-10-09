@@ -10,6 +10,9 @@
             <xpath expr="//field[@name='document_serie']" position="after">
                 <field name="nat_op" readonly="1" />
             </xpath>
+            <xpath expr="//field[@name='file']" position="after">
+                <field name="company_id" invisible="1" />
+            </xpath>
             <xpath expr="//group[@id='document_info']" position="after">
                 <group
                     id="existing_document"
@@ -39,7 +42,18 @@
         <field name="name">l10n_br_fiscal.document.import.wizard.line.tree</field>
         <field name="model">l10n_br_fiscal.document.import.wizard.line</field>
         <field name="arch" type="xml">
-            <tree editable="top">
+            <tree editable="top" decoration-danger="not product_id">
+                <field name="company_id" invisible="1" />
+                <field name="issuer_partner_id" invisible="1" />
+                <field name="match_source_available" invisible="1" />
+                <field
+                    name="match_source_id"
+                    string="Match Source"
+                    options="{'no_quick_create': True, 'no_create': True}"
+                    domain="[('partner_id', '=', issuer_partner_id), ('company_id', '=', company_id)]"
+                    context="{'line_product_id': product_id}"
+                    attrs="{'invisible': [('match_source_available', '=', False)]}"
+                />
                 <field
                     name="product_id"
                     options="{'no_quick_create': True, 'no_create': True}"
