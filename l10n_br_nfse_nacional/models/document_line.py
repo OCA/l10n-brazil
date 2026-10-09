@@ -102,7 +102,7 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
     nfse10_vDescIncond = fields.Char(compute="_compute_nfse10_valores")
     nfse10_vDescCond = fields.Char(compute="_compute_nfse10_valores")
 
-    nfse10_tribISSQN = fields.Selection(default="1")
+    nfse10_tribISSQN = fields.Selection(compute="_compute_nfse10_trib_issqn")
     nfse10_tpRetISSQN = fields.Selection(compute="_compute_nfse10_trib_mun")
     nfse10_pAliq = fields.Char(compute="_compute_nfse10_trib_mun")
 
@@ -153,6 +153,23 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
                 if rec.issqn_desc_cond_amount
                 else False
             )
+
+    @api.depends("issqn_tax_id", "issqn_eligibility")
+    def _compute_nfse10_trib_issqn(self):
+        # issqn_eligibility defaults to "2" (Não incidência) and is rarely set,
+        # so only its explicit export and immunity values are taken from it.
+        # Non-incidence (such as the rental of movable goods, STF SV 31) comes
+        # from the ISSQN NT tax of the fiscal operation.
+        issqn_nt = self.env.ref("l10n_br_fiscal.tax_issqn_nt", False)
+        for rec in self:
+            if rec.issqn_eligibility == "4":
+                rec.nfse10_tribISSQN = "3"
+            elif rec.issqn_eligibility == "5":
+                rec.nfse10_tribISSQN = "2"
+            elif issqn_nt and rec.issqn_tax_id == issqn_nt:
+                rec.nfse10_tribISSQN = "4"
+            else:
+                rec.nfse10_tribISSQN = "1"
 
     @api.depends("issqn_wh_value")
     def _compute_nfse10_trib_mun(self):
