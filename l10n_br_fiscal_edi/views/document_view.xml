@@ -60,6 +60,16 @@
         <field name="priority">5</field>
         <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
         <field name="arch" type="xml">
+            <xpath expr="//header" position="after">
+                <div
+                    class="alert alert-danger"
+                    role="alert"
+                    invisible="not xml_error_message"
+                >
+                    <strong>XML validation errors:</strong>
+                    <field name="xml_error_message" readonly="1" />
+                </div>
+            </xpath>
             <button name="action_create_return" position="before">
                 <button
                     name="action_document_correction"
