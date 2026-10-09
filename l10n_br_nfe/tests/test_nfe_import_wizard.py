@@ -573,6 +573,53 @@ class NFeImportWizardTest(TransactionCase):
         self.assertIn(picking.name, label)
         self.assertIn("E-COM11", label)
 
+    def test_match_source_product_flag_and_star(self):
+        """The line tells whether the issuer has candidates for its product
+        (match_source_product_matched, drives the row decoration) and the
+        dropdown flags those candidates with a leading '*', proposed first
+        without restricting the search."""
+        if self.env.get("purchase.order") is None:
+            self.skipTest("purchase module not installed")
+        supplier = self._create_xml_issuer_supplier()
+        product = self._get_xml_product()
+        order = self._create_confirmed_po(supplier, [product])
+
+        self._prepare_wizard(self.xml_1)
+        line = self.wizard.imported_products_ids[0]
+        self.assertTrue(line.match_source_product_matched)
+
+        # candidates of the line's product are starred and come first
+        candidates = self.env["l10n_br_fiscal.document.import.match.candidate"]
+        with_line_product = candidates.with_context(line_product_id=product.id)
+        results = with_line_product.name_search(
+            order.name,
+            args=[
+                ("partner_id", "=", supplier.id),
+                ("company_id", "=", self.env.company.id),
+            ],
+        )
+        self.assertTrue(results)
+        self.assertTrue(results[0][1].startswith("* "))
+        # without the context key no candidate is starred
+        plain = candidates.name_search(
+            order.name,
+            args=[
+                ("partner_id", "=", supplier.id),
+                ("company_id", "=", self.env.company.id),
+            ],
+        )
+        self.assertTrue(plain)
+        self.assertFalse(any(label.startswith("* ") for _id, label in plain))
+
+        # a product with no open candidate at all is flagged as such
+        out_of_scope = self.env["product.product"].create(
+            {"name": "No Candidate Product", "default_code": "NO-CANDIDATE"}
+        )
+        line.product_id = out_of_scope
+        line.invalidate_recordset(["match_source_product_matched"])
+        line._compute_match_source_product_matched()
+        self.assertFalse(line.match_source_product_matched)
+
     def test_match_source_empty_without_purchase_and_stock(self):
         """With neither purchase nor stock installed the candidate view is
         empty and the wizard behaves exactly as before (plain product

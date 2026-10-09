@@ -42,10 +42,16 @@
         <field name="name">l10n_br_fiscal.document.import.wizard.line.tree</field>
         <field name="model">l10n_br_fiscal.document.import.wizard.line</field>
         <field name="arch" type="xml">
-            <tree editable="top" decoration-danger="not product_id">
+            <tree
+                editable="top"
+                decoration-warning="match_source_available and not match_source_product_matched"
+                decoration-info="match_source_available and not match_source_id and match_source_product_matched"
+                decoration-success="match_source_id"
+            >
                 <field name="company_id" invisible="1" />
                 <field name="issuer_partner_id" invisible="1" />
                 <field name="match_source_available" invisible="1" />
+                <field name="match_source_product_matched" invisible="1" />
                 <field
                     name="match_source_id"
                     string="Match Source"
