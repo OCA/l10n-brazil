@@ -182,7 +182,7 @@ class L10nBrFiscalDfeDocument(models.Model):
             {
                 "name": f"DANFE_{complete.access_key}.pdf",
                 "datas": base64.b64encode(buf.getvalue()),
-                "res_model": self._name,
+                "res_model": complete._name,
                 "res_id": complete.id,
                 "mimetype": "application/pdf",
             }
