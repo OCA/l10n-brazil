@@ -16,6 +16,7 @@
         # "mrp",
         #        "l10n_br_sale_stock",
         "base_technical_features",
+        "stock_picking_bill_matching",
     ],
     "installable": True,
 }
