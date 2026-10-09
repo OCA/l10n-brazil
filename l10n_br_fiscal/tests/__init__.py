@@ -3,6 +3,7 @@
 from . import (
     test_cfop,
     test_cnae,
+    test_cst_creditable,
     test_fiscal_document_serie,
     test_fiscal_document_generic,
     test_fiscal_document_nfse,

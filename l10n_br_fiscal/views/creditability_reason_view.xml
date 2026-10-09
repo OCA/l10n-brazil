@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="creditability_reason_tree" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.creditability.reason.tree</field>
+        <field name="model">l10n_br_fiscal.creditability.reason</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="code" />
+                <field name="name" />
+                <field name="kind" />
+                <field name="legal_basis" />
+                <field name="date_start" optional="show" />
+                <field name="date_end" optional="show" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="creditability_reason_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.creditability.reason.form</field>
+        <field name="model">l10n_br_fiscal.creditability.reason</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <widget
+                        name="web_ribbon"
+                        title="Archived"
+                        bg_color="bg-danger"
+                        attrs="{'invisible': [('active', '=', True)]}"
+                    />
+                    <field name="active" invisible="1" />
+                    <group>
+                        <group>
+                            <field name="code" />
+                            <field name="name" />
+                            <field name="kind" />
+                        </group>
+                        <group>
+                            <field name="legal_basis" />
+                            <field name="date_start" />
+                            <field name="date_end" />
+                        </group>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="creditability_reason_search" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.creditability.reason.search</field>
+        <field name="model">l10n_br_fiscal.creditability.reason</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="code" />
+                <field name="name" />
+                <field name="legal_basis" />
+                <filter
+                    string="Archived"
+                    name="inactive"
+                    domain="[('active', '=', False)]"
+                />
+                <group expand="0" string="Group By">
+                    <filter
+                        string="Kind"
+                        name="kind"
+                        domain="[]"
+                        context="{'group_by': 'kind'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="creditability_reason_action" model="ir.actions.act_window">
+        <field name="name">Creditability Reasons</field>
+        <field name="res_model">l10n_br_fiscal.creditability.reason</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="creditability_reason_search" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Register why a line may depart from the derived creditability
+            </p>
+            <p>
+                The law lets a company depart from the general rule for a
+                stated reason: a benefit conditioned on waiving the credit, a
+                court decision, a state special regime. Each reason carries
+                its legal basis, so the resulting cost can still be rebuilt
+                from the invoice plus the configuration.
+            </p>
+        </field>
+    </record>
+</odoo>
