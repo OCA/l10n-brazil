@@ -103,7 +103,11 @@ class AccountMove(models.Model):
                 Command.create(
                     {
                         "name": move_line.name,
+                        "display_type": "product",
+                        "quantity": 1.0,
                         "price_unit": abs(move_line.balance),
+                        "amount_currency": abs(move_line.balance),
+                        "balance": abs(move_line.balance),
                         "account_id": move_line.account_id.id,
                         "wh_move_line_id": move_line.id,
                         "analytic_distribution": move_line.analytic_distribution,
@@ -155,6 +159,26 @@ class AccountMove(models.Model):
                             subtype_id=self.env.ref("mail.mt_note").id,
                         )
                         wh_invoice.action_post()
+                        product_line = wh_invoice.line_ids.filtered(
+                            lambda line: line.display_type == "product"
+                        )
+                        product_line.write(
+                            {
+                                "amount_currency": abs(line.balance),
+                                "balance": abs(line.balance),
+                            }
+                        )
+                        for fname in (
+                            "amount_untaxed",
+                            "amount_tax",
+                            "amount_total",
+                            "amount_untaxed_signed",
+                            "amount_tax_signed",
+                            "amount_total_signed",
+                        ):
+                            self.env.add_to_compute(
+                                self.env["account.move"]._fields[fname], wh_invoice
+                            )
 
     def _withholding_validate(self):
         """
