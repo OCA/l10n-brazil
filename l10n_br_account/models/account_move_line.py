@@ -43,6 +43,44 @@ class AccountMoveLine(models.Model):
         " and '3-3' for the last installment.",
     )
 
+    # forcing store=True for these fields makes it easier to plug in SQL bill
+    # reconciliation and makes it compatible with the
+    # stock_picking_bill_matching module for instance.
+    partner_order = fields.Char(
+        related="fiscal_document_line_id.partner_order", store=True
+    )
+    partner_order_line = fields.Char(
+        related="fiscal_document_line_id.partner_order_line", store=True
+    )
+
+    @api.model
+    def _get_bill_matching_reference_sql(self, alias):
+        """Duck-typing hook picked up dynamically by stock_picking_bill_matching.
+
+        The `alias` argument (e.g. 'aml' or 'sm') is passed by the SQL view
+        builder. Lives here (and not in l10n_br_purchase_stock) so the vendor
+        bill side carries a reference whenever the localization is installed,
+        with or without purchase/stock.
+
+        The item part is normalized numerically so that references with
+        different zero-padding ('P00015-1' vs 'P00015-001') still reconcile;
+        both parts are trimmed and truncated to the fiscal field sizes
+        (partner_order is a Char(15), partner_order_line a Char(6)) so the
+        expression matches what the ORM actually stored. Keep it aligned
+        with the stock.move side in l10n_br_purchase_stock.
+        """
+        item = (
+            f"COALESCE(NULLIF(REGEXP_REPLACE("
+            f"BTRIM(LEFT(COALESCE({alias}.partner_order_line, ''), 6)), "
+            f"'[^0-9]', '', 'g'), '')::int::varchar, "
+            f"NULLIF(BTRIM(LEFT(COALESCE({alias}.partner_order_line, ''), 6)), ''), "
+            f"'')"
+        )
+        return (
+            f"NULLIF(BTRIM(LEFT(COALESCE({alias}.partner_order, ''), 15)) "
+            f"|| '-' || {item}, '-')"
+        )
+
     # -------------------------------------------------------------------------
     # SHADOWED FIELDS SYNC
     # These fields have the same name in account.move.line
