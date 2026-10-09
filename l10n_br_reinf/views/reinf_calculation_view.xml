@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE - Luis Felipe Mileo <mileo@kmee.com.br>
+     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html -->
+<odoo>
+
+    <record id="reinf_calculation_tree" model="ir.ui.view">
+        <field name="model">l10n_br_reinf.calculation</field>
+        <field name="arch" type="xml">
+            <tree decoration-danger="critical_exception_count &gt; 0">
+                <field name="period" />
+                <field name="line_count" />
+                <field name="total_base_amount" sum="Total Base" />
+                <field name="total_wh_amount" sum="Total Withheld" />
+                <field name="total_divergence_amount" />
+                <field name="exception_count" />
+                <field name="critical_exception_count" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="state" widget="badge" />
+                <field name="currency_id" invisible="1" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="reinf_calculation_form" model="ir.ui.view">
+        <field name="model">l10n_br_reinf.calculation</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="action_compute"
+                        string="Compute"
+                        type="object"
+                        class="oe_highlight"
+                        groups="l10n_br_fiscal.group_manager"
+                        attrs="{'invisible': [('state', 'not in', ('draft', 'computed'))]}"
+                    />
+                    <button
+                        name="action_verify"
+                        string="Verify"
+                        type="object"
+                        class="oe_highlight"
+                        groups="l10n_br_fiscal.group_manager"
+                        attrs="{'invisible': [('state', '!=', 'computed')]}"
+                    />
+                    <button
+                        name="action_close"
+                        string="Close"
+                        type="object"
+                        class="oe_highlight"
+                        groups="l10n_br_fiscal.group_manager"
+                        attrs="{'invisible': [('state', 'not in', ('computed', 'verified'))]}"
+                    />
+                    <button
+                        name="action_set_draft"
+                        string="Back to Draft"
+                        type="object"
+                        groups="l10n_br_fiscal.group_manager"
+                        attrs="{'invisible': [('state', 'in', ('draft', 'closed', 'transmitted'))]}"
+                    />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="period" />
+                        <h1>
+                            <field name="period" placeholder="2026-07" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group name="identification">
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                            <field name="currency_id" invisible="1" />
+                        </group>
+                        <group name="totals" string="Totals">
+                            <field name="line_count" />
+                            <field name="total_base_amount" />
+                            <field name="total_wh_amount" />
+                            <field name="total_divergence_amount" />
+                            <field name="critical_exception_count" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="lines" string="Lines">
+                            <field name="line_ids" nolabel="1" readonly="1">
+                                <tree decoration-danger="state == 'divergent'">
+                                    <field name="partner_id" />
+                                    <field name="nature_income_id" />
+                                    <field name="tax" />
+                                    <field name="fg_date" />
+                                    <field name="on_credit" optional="show" />
+                                    <field name="base_amount" sum="Base" />
+                                    <field name="wh_amount" sum="Withheld" />
+                                    <field name="divergence_amount" />
+                                    <field name="source_move_id" optional="show" />
+                                    <field name="manually_verified" optional="hide" />
+                                    <field name="state" widget="badge" />
+                                    <field name="currency_id" invisible="1" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="exceptions" string="Exceptions">
+                            <field name="exception_ids" nolabel="1" readonly="1">
+                                <tree decoration-danger="critical == True">
+                                    <field name="reason" />
+                                    <field name="partner_id" />
+                                    <field name="source_move_id" />
+                                    <field name="amount" />
+                                    <field name="advice" />
+                                    <field name="ignored" optional="show" />
+                                    <field name="critical" optional="hide" />
+                                    <field name="currency_id" invisible="1" />
+                                    <button
+                                        name="action_open_source"
+                                        type="object"
+                                        icon="fa-external-link"
+                                        string="Open source"
+                                    />
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="darfs" string="DARFs">
+                            <field name="darf_ids" nolabel="1">
+                                <tree
+                                    editable="bottom"
+                                    decoration-warning="state == 'carried'"
+                                >
+                                    <field name="revenue_code" readonly="1" />
+                                    <field name="amount" readonly="1" sum="Amount" />
+                                    <field name="carried_amount" readonly="1" />
+                                    <field
+                                        name="total_amount"
+                                        readonly="1"
+                                        sum="Total"
+                                    />
+                                    <field name="due_date" readonly="1" />
+                                    <field name="dctfweb_darf_number" />
+                                    <field name="dctfweb_amount" />
+                                    <field name="dctfweb_difference" readonly="1" />
+                                    <field
+                                        name="carried_from_id"
+                                        optional="hide"
+                                        readonly="1"
+                                    />
+                                    <field name="state" widget="badge" readonly="1" />
+                                    <field name="currency_id" invisible="1" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="events" string="Events">
+                            <field name="event_ids" nolabel="1" readonly="1">
+                                <tree>
+                                    <field name="event_type" />
+                                    <field name="event_key" />
+                                    <field name="partner_id" />
+                                    <field name="receipt_number" />
+                                    <field name="state" widget="badge" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="reinf_calculation_action" model="ir.actions.act_window">
+        <field name="name">EFD-Reinf Calculations</field>
+        <field name="res_model">l10n_br_reinf.calculation</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

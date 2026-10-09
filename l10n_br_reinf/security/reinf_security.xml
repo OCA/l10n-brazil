@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE - Luis Felipe Mileo <mileo@kmee.com.br>
+     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html -->
+<odoo noupdate="1">
+
+    <record id="reinf_event_rule" model="ir.rule">
+        <field name="name">EFD-Reinf Event multi-company</field>
+        <field name="model_id" ref="model_l10n_br_reinf_event" />
+        <field eval="True" name="global" />
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="reinf_batch_rule" model="ir.rule">
+        <field name="name">EFD-Reinf Batch multi-company</field>
+        <field name="model_id" ref="model_l10n_br_reinf_batch" />
+        <field eval="True" name="global" />
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="reinf_calculation_rule" model="ir.rule">
+        <field name="name">EFD-Reinf Calculation multi-company</field>
+        <field name="model_id" ref="model_l10n_br_reinf_calculation" />
+        <field eval="True" name="global" />
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+</odoo>
