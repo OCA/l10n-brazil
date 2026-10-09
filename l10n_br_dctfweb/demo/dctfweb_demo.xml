@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!--
+      The revenue code of each demo tax group.
+
+      The tax assessment demo sets PIS and COFINS to the cumulative regime, so
+      the codes here are the cumulative ones: a non cumulative code would
+      confess the right amount under the wrong law. IPI takes the generic
+      "demais produtos" code, which is what a company that is not in one of
+      the special regimes (drinks, vehicles, cigarettes) uses.
+    -->
+    <record id="l10n_br_coa.tax_group_pis" model="account.tax.group">
+        <field name="dctfweb_revenue_code_id" ref="revenue_code_810902" />
+    </record>
+
+    <record id="l10n_br_coa.tax_group_cofins" model="account.tax.group">
+        <field name="dctfweb_revenue_code_id" ref="revenue_code_217201" />
+    </record>
+
+    <record id="l10n_br_coa.tax_group_ipi" model="account.tax.group">
+        <field name="dctfweb_revenue_code_id" ref="revenue_code_512301" />
+    </record>
+
+    <!--
+      The initial data of the demo company. ICMS is left without a code on
+      purpose: it is not confessed in the MIT, and the assessment has to skip
+      it and say so in the chatter.
+    -->
+    <record id="l10n_br_base.empresa_lucro_presumido" model="res.company">
+        <field name="dctfweb_pj_qualification">1</field>
+        <field name="dctfweb_profit_taxation">3</field>
+        <field name="dctfweb_monetary_variation">2</field>
+        <field name="dctfweb_pis_cofins_regime">2</field>
+        <field name="dctfweb_responsible_cpf">07206845000</field>
+        <field name="dctfweb_responsible_phone_area">35</field>
+        <field name="dctfweb_responsible_phone">999991111</field>
+    </record>
+
+    <!--
+      The main path: the assessment of the current month, read from what the
+      tax assessment persisted. The period is relative to the install date
+      because the localization demo posts its invoices in the month it was
+      installed, exactly as the tax assessment demo does.
+    -->
+    <record id="demo_mit_current" model="l10n_br_dctfweb.assessment">
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="year" eval="DateTime.today().year" />
+        <field name="month" eval="str(DateTime.today().month)" />
+    </record>
+
+    <!--
+      Assess instead of writing debits by hand: that is what makes the demo
+      show the confession coming from the books, and what proves the mapping
+      of the tax group to the revenue code is wired.
+    -->
+    <function
+        model="l10n_br_dctfweb.assessment"
+        name="action_assess"
+        eval="[[ref('demo_mit_current')]]"
+    />
+
+    <!--
+      The month without movement, filed and closed. A company with no taxable
+      fact still has to file, and omitting it costs the minimum fine, so the
+      demo carries the case: no debit, and the file is built all the same.
+    -->
+    <record id="demo_mit_no_movement" model="l10n_br_dctfweb.assessment">
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="year" eval="(DateTime.today() + relativedelta(months=-1)).year" />
+        <field
+            name="month"
+            eval="str((DateTime.today() + relativedelta(months=-1)).month)"
+        />
+        <field name="no_movement" eval="True" />
+    </record>
+
+    <function
+        model="l10n_br_dctfweb.assessment"
+        name="action_assess"
+        eval="[[ref('demo_mit_no_movement')]]"
+    />
+
+    <function
+        model="l10n_br_dctfweb.assessment"
+        name="action_close"
+        eval="[[ref('demo_mit_no_movement')]]"
+    />
+
+    <!--
+      A month with a lawsuit. The debit is confessed whole and the suspension
+      says how much of it the authority cannot demand yet: that is the shape
+      the layout imposes, and the reason a suspended debit is not simply a
+      smaller debit.
+    -->
+    <record id="demo_mit_suspension" model="l10n_br_dctfweb.assessment">
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="year" eval="(DateTime.today() + relativedelta(months=-2)).year" />
+        <field
+            name="month"
+            eval="str((DateTime.today() + relativedelta(months=-2)).month)"
+        />
+    </record>
+
+    <record id="demo_debit_cofins" model="l10n_br_dctfweb.debit">
+        <field name="assessment_id" ref="demo_mit_suspension" />
+        <field name="revenue_code_id" ref="revenue_code_217201" />
+        <field name="amount">3200.00</field>
+        <field name="source">manual</field>
+    </record>
+
+    <!--
+      A real writ of mandamus profile: injunction granted, no deposit, the
+      taxpayer is the plaintiff. The process number has the 20 digits the
+      layout asks for in a lawsuit.
+    -->
+    <record id="demo_suspension_cofins" model="l10n_br_dctfweb.suspension">
+        <field name="assessment_id" ref="demo_mit_suspension" />
+        <field name="suspension_type">2</field>
+        <field name="reason">1</field>
+        <field name="with_deposit" eval="False" />
+        <field name="third_party_process" eval="False" />
+        <field name="process_number">98765431220251017777</field>
+        <field
+            name="decision_date"
+            eval="(DateTime.today() + relativedelta(months=-3)).strftime('%Y-%m-%d')"
+        />
+        <field name="court_number">1</field>
+        <field name="court_city_id" ref="l10n_br_base.city_3132404" />
+    </record>
+
+    <record id="demo_suspension_line_cofins" model="l10n_br_dctfweb.suspension.line">
+        <field name="suspension_id" ref="demo_suspension_cofins" />
+        <field name="debit_id" ref="demo_debit_cofins" />
+        <field name="amount">1200.00</field>
+    </record>
+
+    <function
+        model="l10n_br_dctfweb.assessment"
+        name="action_assess"
+        eval="[[ref('demo_mit_suspension')]]"
+    />
+</odoo>
