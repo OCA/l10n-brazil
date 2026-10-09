@@ -274,3 +274,87 @@ class NFeImportTest(TransactionCase):
 
     def test_import_out_nfe(self):
         "(can be useful after an ERP migration)"
+
+    def _sample_nfe_xml(self):
+        res_items = (
+            "nfe",
+            "samples",
+            "v4_0",
+            "leiauteNFe",
+            "35180834128745000152550010000474281920007498-nfe.xml",
+        )
+        resource_path = "/".join(res_items)
+        nfe_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
+        return nfe_stream.read().decode()
+
+    def test_import_out_nfe_foreign_recipient(self):
+        """An outbound NFe to a foreign recipient (export) identifies the
+        recipient only by idEstrangeiro: the import must not require a
+        CNPJ/CPF (it used to fail with an unbound dest_vat)."""
+        foreign_dest = (
+            "<dest>"
+            "<idEstrangeiro>US123456789</idEstrangeiro>"
+            "<xNome>FOREIGN AVIATION BUYER INC</xNome>"
+            "<enderDest>"
+            "<xLgr>MAIN STREET</xLgr><nro>100</nro><xBairro>DOWNTOWN</xBairro>"
+            "<cMun>9999999</cMun><xMun>EXTERIOR</xMun><UF>EX</UF>"
+            "<cPais>2496</cPais><xPais>ESTADOS UNIDOS</xPais>"
+            "</enderDest>"
+            "<indIEDest>9</indIEDest>"
+            "</dest>"
+        )
+        xml = re.sub(
+            r"<dest>.*?</dest>",
+            foreign_dest,
+            self._sample_nfe_xml(),
+            count=1,
+            flags=re.S,
+        )
+        binding = TnfeProc.from_xml(xml)
+        nfe = self.env["l10n_br_fiscal.document"].import_binding_nfe(
+            binding, edoc_type="out", dry_run=False
+        )
+        self.assertEqual(nfe.partner_id.name, "FOREIGN AVIATION BUYER INC")
+        self.assertFalse(nfe.partner_id.vat)
+
+    def test_import_in_nfe_reduced_tax_other_cst(self):
+        """The reduced ICMS tax created on import is looked up by rate,
+        reduction AND CST, so its name must carry the CST: when a tax with
+        the same rate and reduction already exists for another CST, the new
+        one must not clash on the unique tax name."""
+        icms_group = self.env.ref("l10n_br_fiscal.tax_group_icms")
+        cst_70 = self.env["l10n_br_fiscal.cst"].search(
+            [("code", "=", "70"), ("tax_domain", "=", "icms")], limit=1
+        )
+        self.env["l10n_br_fiscal.tax"].create(
+            {
+                "name": "ICMS 7.0% Com Red. 33.33%",
+                "tax_group_id": icms_group.id,
+                "percent_amount": 7.0,
+                "percent_reduction": 33.33,
+                "percent_debit_credit": 0,
+                "value_amount": 0,
+                "icmsst_mva_percent": 0,
+                "icmsst_value": 0,
+                "cst_in_id": cst_70.id,
+                "cst_out_id": cst_70.id,
+            }
+        )
+        icms20 = (
+            "<ICMS20>"
+            "<orig>0</orig><CST>20</CST><modBC>3</modBC>"
+            "<pRedBC>33.33</pRedBC><vBC>33.73</vBC>"
+            "<pICMS>7.00</pICMS><vICMS>2.36</vICMS>"
+            "</ICMS20>"
+        )
+        xml = re.sub(
+            r"<ICMS00>.*?</ICMS00>", icms20, self._sample_nfe_xml(), count=1, flags=re.S
+        )
+        binding = TnfeProc.from_xml(xml)
+        nfe = self.env["l10n_br_fiscal.document"].import_binding_nfe(
+            binding, edoc_type="in", dry_run=False
+        )
+        tax = nfe.fiscal_line_ids[0].icms_tax_id
+        self.assertEqual(tax.percent_reduction, 33.33)
+        self.assertEqual(tax.cst_in_id.code, "20")
+        self.assertEqual(tax.name, "ICMS 7.0% Com Red. 33.33% CST 20")
