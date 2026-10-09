@@ -60,6 +60,11 @@ msgid "<strong style=\"font-size:18px;\">Protocol Number:</strong>"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.document_form
+msgid "<strong>XML validation errors:</strong>"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event
 msgid ""
 "A Carta de Correção é disciplinada pelo parágrafo 1o-A do artigo 7o do Convênio S/N, de 15 de dezembro de 1970 e pode ser utilizada para regularização de erro ocorrido na emissão de documento fiscal, desde que o erro não seja relacionado com:<br/>\n"
@@ -455,6 +460,11 @@ msgid "Fiscal Document Event Sequence"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
+#: model:ir.model,name:l10n_br_fiscal_edi.model_l10n_br_fiscal_document_related
+msgid "Fiscal Document Related"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__document_type_id
 msgid "Fiscal Document Type"
 msgstr ""
@@ -804,6 +814,12 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #. odoo-python
 #: code:addons/l10n_br_fiscal_edi/models/document.py:0
+msgid "There is already a fiscal document with this key: %(doc_key)s"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
 msgid "Unchanged: %s"
 msgstr ""
 
@@ -846,6 +862,11 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__file_response_id
 msgid "XML Response"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document__xml_error_message
+msgid "XML validation errors"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
