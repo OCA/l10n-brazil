@@ -1177,6 +1177,28 @@ class NFeLine(spec_models.StackedModel):
             else:
                 record.nfe40_infAdProd = False
 
+    ####################################################
+    # NF-e tag: DFeReferenciado
+    # Grupo VC. Referenciamento de item de outros DF-e
+    ####################################################
+
+    def _export_tag_nfe_40_dfereferenciado(self, xsd_fields, class_obj, export_dict):
+        """Export the item reference of a return NF-e (NT 2025.002, VC02-14).
+
+        The key comes from the related document of the line (see
+        _get_ref_document_related). Only return documents get the group:
+        other purposes keep the NFref of the ide group, which cannot be
+        exported together with DFeReferenciado (VC02-05).
+        """
+        if self.document_id.edoc_purpose != EDOC_PURPOSE_DEVOLUCAO:
+            return
+        related = self._get_ref_document_related()
+        if not related.document_key:
+            return
+        export_dict["chaveAcesso"] = related.document_key
+        if self.ref_document_item:
+            export_dict["nItem"] = str(self.ref_document_item)
+
     @api.model
     def _prepare_import_dict(
         self, values, model=None, parent_dict=None, defaults_model=None
