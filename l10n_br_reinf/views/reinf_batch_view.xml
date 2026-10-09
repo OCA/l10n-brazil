@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE - Luis Felipe Mileo <mileo@kmee.com.br>
+     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html -->
+<odoo>
+
+    <record id="reinf_batch_tree" model="ir.ui.view">
+        <field name="model">l10n_br_reinf.batch</field>
+        <field name="arch" type="xml">
+            <tree decoration-danger="state == 'error'">
+                <field name="name" />
+                <field name="event_group" />
+                <field name="event_count" />
+                <field name="protocol_number" optional="show" />
+                <field name="protocol_date" optional="hide" />
+                <field name="environment" optional="hide" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="state" widget="badge" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="reinf_batch_form" model="ir.ui.view">
+        <field name="model">l10n_br_reinf.batch</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="action_send"
+                        string="Send"
+                        type="object"
+                        class="oe_highlight"
+                        attrs="{'invisible': [('state', '!=', 'draft')]}"
+                    />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group name="identification">
+                            <field name="event_group" />
+                            <field name="event_count" />
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                        </group>
+                        <group name="transmission" string="Transmission">
+                            <field name="environment" />
+                            <field name="protocol_number" />
+                            <field name="protocol_date" />
+                            <field name="status_code" />
+                            <field name="response" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="events" string="Events">
+                            <field name="event_ids" nolabel="1">
+                                <tree>
+                                    <field name="period" />
+                                    <field name="event_type" />
+                                    <field name="event_key" />
+                                    <field name="receipt_number" />
+                                    <field name="state" widget="badge" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="response" string="Occurrences">
+                            <field name="occurrence_ids" nolabel="1" />
+                        </page>
+                        <page name="files" string="Files">
+                            <group>
+                                <field name="file_request_id" />
+                                <field name="file_response_id" />
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="reinf_batch_action" model="ir.actions.act_window">
+        <field name="name">EFD-Reinf Batches</field>
+        <field name="res_model">l10n_br_reinf.batch</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

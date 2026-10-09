@@ -1,0 +1,169 @@
+# Copyright 2026 KMEE - Luis Felipe Mileo <mileo@kmee.com.br>
+# License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+"""Constants of the EFD-Reinf, all taken from the 2.1.2b layout XSD."""
+
+# tpAmb. There is no default on purpose: the taxpayer has to choose the
+# environment before any transmission (see res.company._reinf_environment).
+REINF_ENVIRONMENT_PRODUCTION = "1"
+REINF_ENVIRONMENT_RESTRICTED = "2"
+
+REINF_ENVIRONMENTS = [
+    (REINF_ENVIRONMENT_PRODUCTION, "Production"),
+    (REINF_ENVIRONMENT_RESTRICTED, "Restricted Production"),
+]
+
+# procEmi: 1 is the application of the taxpayer, 2 the governmental one.
+REINF_PROC_EMI = "1"
+
+# verProc, the version of the software that generates the event. The layout
+# gives it 20 positions, so it has to stay short.
+REINF_VERSAO_PROCESSO = "Odoo l10n_br_reinf"
+
+# tpInsc
+REINF_INSCRIPTION_CNPJ = "1"
+REINF_INSCRIPTION_CPF = "2"
+
+REINF_INSCRIPTION_TYPES = [
+    (REINF_INSCRIPTION_CNPJ, "CNPJ"),
+    (REINF_INSCRIPTION_CPF, "CPF"),
+]
+
+# indRetif
+REINF_RECTIFY_ORIGINAL = "1"
+REINF_RECTIFY_RECTIFICATION = "2"
+
+REINF_RECTIFY_INDICATORS = [
+    (REINF_RECTIFY_ORIGINAL, "Original"),
+    (REINF_RECTIFY_RECTIFICATION, "Rectification"),
+]
+
+# One selection value per event of the layout. The value is the event code as
+# the tax authority names it, so it can be read in the interface and in the
+# logs without a translation table.
+REINF_EVENT_TYPES = [
+    ("R-1000", "R-1000 Taxpayer information"),
+    ("R-1050", "R-1050 Related entities"),
+    ("R-1070", "R-1070 Administrative and judicial proceedings"),
+    ("R-2010", "R-2010 Withholding on services taken"),
+    ("R-2020", "R-2020 Withholding on services rendered"),
+    ("R-2030", "R-2030 Resources received by a sport association"),
+    ("R-2040", "R-2040 Resources passed on to a sport association"),
+    ("R-2050", "R-2050 Commercialization of rural production"),
+    ("R-2055", "R-2055 Acquisition of rural production"),
+    ("R-2060", "R-2060 Social contribution on gross revenue (CPRB)"),
+    ("R-2098", "R-2098 Reopening of the R-2000 series"),
+    ("R-2099", "R-2099 Closing of the R-2000 series"),
+    ("R-3010", "R-3010 Revenue of a sport event"),
+    ("R-4010", "R-4010 Payments to an individual"),
+    ("R-4020", "R-4020 Payments to a legal entity"),
+    ("R-4040", "R-4040 Payments to an unidentified beneficiary"),
+    ("R-4080", "R-4080 Withholding on receipt"),
+    ("R-4099", "R-4099 Closing and reopening of the R-4000 series"),
+    ("R-9000", "R-9000 Event exclusion"),
+]
+
+# Functional classification that keeps a batch homogeneous, not the group
+# numbering of the MOR: a closing event never travels with a periodic one,
+# because the tax authority processes a batch in parallel.
+REINF_EVENT_GROUP_TABLE = "table"
+REINF_EVENT_GROUP_PERIODIC = "periodic"
+REINF_EVENT_GROUP_CLOSING = "closing"
+REINF_EVENT_GROUP_EXCLUSION = "exclusion"
+
+REINF_EVENT_GROUPS = [
+    (REINF_EVENT_GROUP_TABLE, "Table events"),
+    (REINF_EVENT_GROUP_PERIODIC, "Periodic events"),
+    (REINF_EVENT_GROUP_CLOSING, "Closing and reopening events"),
+    (REINF_EVENT_GROUP_EXCLUSION, "Exclusion events"),
+]
+
+REINF_EVENT_TYPE_GROUP = {
+    "R-1000": REINF_EVENT_GROUP_TABLE,
+    "R-1050": REINF_EVENT_GROUP_TABLE,
+    "R-1070": REINF_EVENT_GROUP_TABLE,
+    "R-2010": REINF_EVENT_GROUP_PERIODIC,
+    "R-2020": REINF_EVENT_GROUP_PERIODIC,
+    "R-2030": REINF_EVENT_GROUP_PERIODIC,
+    "R-2040": REINF_EVENT_GROUP_PERIODIC,
+    "R-2050": REINF_EVENT_GROUP_PERIODIC,
+    "R-2055": REINF_EVENT_GROUP_PERIODIC,
+    "R-2060": REINF_EVENT_GROUP_PERIODIC,
+    "R-2098": REINF_EVENT_GROUP_CLOSING,
+    "R-2099": REINF_EVENT_GROUP_CLOSING,
+    "R-3010": REINF_EVENT_GROUP_PERIODIC,
+    "R-4010": REINF_EVENT_GROUP_PERIODIC,
+    "R-4020": REINF_EVENT_GROUP_PERIODIC,
+    "R-4040": REINF_EVENT_GROUP_PERIODIC,
+    "R-4080": REINF_EVENT_GROUP_PERIODIC,
+    "R-4099": REINF_EVENT_GROUP_CLOSING,
+    "R-9000": REINF_EVENT_GROUP_EXCLUSION,
+}
+
+# maxOccurs of the eventos group of envioLoteEventosAssincrono-v1_00_00.xsd
+REINF_BATCH_MAX_EVENTS = 50
+
+REINF_EVENT_STATES = [
+    ("draft", "Draft"),
+    ("validated", "Validated"),
+    ("pending", "Pending Transmission"),
+    ("sent", "Sent"),
+    ("accepted", "Accepted"),
+    ("rejected", "Rejected"),
+    ("rectified", "Rectified"),
+    ("excluded", "Excluded"),
+]
+
+REINF_BATCH_STATES = [
+    ("draft", "Draft"),
+    ("sent", "Sent"),
+    ("processing", "Processing"),
+    ("done", "Processed"),
+    ("error", "Error"),
+]
+
+# tpOcorr of the occurrences returned by the tax authority
+REINF_OCCURRENCE_TYPES = [
+    ("1", "Error"),
+    ("2", "Warning"),
+]
+
+# Taxes the Annex I of the manual maps a nature of income to. The aggregated
+# one is the single value that carries CSLL, PIS/PASEP and COFINS together
+# under one revenue code.
+REINF_WITHHOLDING_TAXES = [
+    ("irpf", "IRPF"),
+    ("irpj", "IRPJ"),
+    ("rra", "RRA"),
+    ("aggregated", "Aggregated"),
+    ("csll", "CSLL"),
+    ("cofins", "COFINS"),
+    ("pis_pasep", "PIS/PASEP"),
+]
+
+# Which withholding flag of the nature of income each tax raises.
+REINF_TAX_WITHHOLDING_FLAG = {
+    "irpf": "ret_ir",
+    "irpj": "ret_ir",
+    "rra": "ret_ir",
+    "aggregated": "ret_agreg",
+    "csll": "ret_csll",
+    "cofins": "ret_cofins",
+    "pis_pasep": "ret_pp",
+}
+
+# The ind_classif column of the Annex I.
+REINF_CLASSIFICATION_INDICATORS = [
+    ("yes", "Yes"),
+    ("no", "No"),
+    ("na", "Not applicable"),
+]
+
+# Periodicity of a revenue code (CR). It says which totalizer group of the
+# R-9015 carries the code: CRDia, CRSem, CRQui, CRDec or CRMen.
+REINF_REVENUE_PERIODICITIES = [
+    ("daily", "Daily"),
+    ("weekly", "Weekly"),
+    ("fortnightly", "Fortnightly"),
+    ("ten_day", "Ten-day"),
+    ("monthly", "Monthly"),
+]
