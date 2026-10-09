@@ -444,11 +444,6 @@ msgid "<strong>Cancelled</strong>"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
-msgid "<strong>XML validation errors:</strong>"
-msgstr "<strong>Erros de validação XML:</strong>"
-
-#. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.cest_action
 msgid "A CEST is necessary to create fiscal operations for your fiscal moves."
 msgstr ""
@@ -8940,12 +8935,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_fiscal
-#. odoo-python
-#: code:addons/l10n_br_fiscal/models/document.py:0
-msgid "There is already a fiscal document with this key: %(doc_key)s"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.operation_dashboard_action
 msgid "This is the fiscal dashboard"
 msgstr "Este é o painel fiscal"
@@ -9322,11 +9311,6 @@ msgid "Withholding"
 msgstr "Retenção"
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__xml_error_message
-msgid "XML validation errors"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/invalidate_number.py:0
 msgid "You can delete only draft Invalidate Number Range !"
@@ -9449,6 +9433,9 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_group__tax_domain__pis_wh
 msgid "pis_wh"
 msgstr "pis_wh"
+
+#~ msgid "<strong>XML validation errors:</strong>"
+#~ msgstr "<strong>Erros de validação XML:</strong>"
 
 #~ msgid "Aguardando envio"
 #~ msgstr "Aguardando envio"
