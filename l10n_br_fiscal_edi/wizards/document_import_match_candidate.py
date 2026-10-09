@@ -5,6 +5,7 @@ import logging
 
 from odoo import _, api, fields, models, tools
 from odoo.osv import expression
+from odoo.tools.float_utils import float_compare
 
 _logger = logging.getLogger(__name__)
 
@@ -263,14 +264,42 @@ class ImportMatchCandidate(models.Model):
         return result
 
     @api.model
+    def _candidate_strength(self, product_id, quantity=None):
+        """How strongly the candidate answers the wizard line, 2 / 1 / 0.
+
+        2 - same product AND the same open quantity as the document line. The
+            two independent facts that make it the likely source; a partially
+            received order carries a smaller open quantity, so this really does
+            discriminate and is not a tautology;
+        1 - same product only;
+        0 - another product.
+
+        The price is deliberately not part of the grade: it is renegotiated
+        between the order and the bill often enough to be misleading, and the
+        candidate label prints it for the operator to see.
+        """
+        self.ensure_one()
+        if not product_id or self.product_id.id != product_id:
+            return 0
+        if quantity is not None and not float_compare(
+            self.qty, quantity, precision_digits=2
+        ):
+            return 2
+        return 1
+
+    @api.model
     def name_search(self, name="", args=None, operator="ilike", limit=100):
         """Search by PO name, picking name, PO line reference or product.
 
         When the wizard passes the edited line's product in the context
-        (``line_product_id``), the candidates for that product are proposed
-        first. The search is not restricted: any other candidate stays
-        selectable, so an operator can always fix a wrong product mapping —
-        matching-product-first is just the helpful default ordering.
+        (``line_product_id``, and its quantity in ``line_quantity``), the
+        candidates are graded: ``**`` when the product AND the open quantity
+        match the document line, ``*`` when only the product does, no prefix
+        otherwise. The graded ones come first, strongest first, and the rest
+        keep the view order. The search is not restricted: any other candidate
+        stays selectable, so an operator can always fix a wrong product
+        mapping. The marks live only in the suggestion list —
+        ``name_get``/``display_name`` are untouched.
         """
         args = list(args or [])
         if name:
@@ -284,11 +313,21 @@ class ImportMatchCandidate(models.Model):
             args = expression.AND([args, domain])
         records = self.search(args, limit=limit)
         line_product_id = self.env.context.get("line_product_id")
-        if line_product_id:
-            matching = records.filtered(lambda r: r.product_id.id == line_product_id)
-            others = records - matching
-            records = matching + others
-        return records.name_get()
+        if not line_product_id:
+            return records.name_get()
+        line_quantity = self.env.context.get("line_quantity")
+        labels = dict(records.name_get())
+        position = {rec_id: index for index, rec_id in enumerate(records.ids)}
+        graded = [
+            (rec._candidate_strength(line_product_id, line_quantity), rec.id)
+            for rec in records
+        ]
+        graded.sort(key=lambda pair: (-pair[0], position[pair[1]]))
+        prefix = {2: "** ", 1: "* "}
+        return [
+            (rec_id, prefix.get(strength, "") + labels[rec_id])
+            for strength, rec_id in graded
+        ]
 
     def action_open_source(self):
         self.ensure_one()

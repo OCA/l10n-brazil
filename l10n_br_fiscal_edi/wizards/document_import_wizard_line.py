@@ -28,6 +28,42 @@ class DocumentImportWizardLine(models.TransientModel):
         related="import_xml_id.match_source_available"
     )
 
+    match_source_product_matched = fields.Boolean(
+        compute="_compute_match_source_product_matched",
+        help="True when the issuer has at least one open purchase order line "
+        "or pending incoming picking move for this line's product. False "
+        "means there is nothing to match the line against (the imported bill "
+        "will not be reconcilable with a receipt for it).",
+    )
+
+    @api.depends("product_id", "issuer_partner_id", "company_id")
+    def _compute_match_source_product_matched(self):
+        candidate_model = self.env[
+            "l10n_br_fiscal.document.import.match.candidate"
+        ].sudo()
+        # the candidate model is a raw SQL view: flush pending ORM writes
+        # (the line's product may just have been set by the operator or by
+        # the auto-preselection) before querying it.
+        self.env.flush_all()
+        matched_by_key = {}
+        for line in self:
+            if not line.product_id or not line.issuer_partner_id:
+                line.match_source_product_matched = False
+                continue
+            key = (line.issuer_partner_id.id, line.company_id.id)
+            if key not in matched_by_key:
+                matched_by_key[key] = set(
+                    candidate_model.search(
+                        [
+                            ("partner_id", "=", key[0]),
+                            ("company_id", "=", key[1]),
+                        ]
+                    ).mapped("product_id.id")
+                )
+            line.match_source_product_matched = (
+                line.product_id.id in matched_by_key[key]
+            )
+
     @api.onchange("match_source_id")
     def _onchange_match_source_id(self):
         for line in self:
