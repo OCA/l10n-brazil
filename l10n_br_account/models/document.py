@@ -301,7 +301,7 @@ class FiscalDocument(models.Model):
 
     def _document_correction(self, justificative):
         result = super()._document_correction(justificative)
-        msg = f"Carta de correção: {justificative}"
+        msg = _("Correction letter requested: %s") % justificative
         self.message_post(body=msg)
         return result
 
