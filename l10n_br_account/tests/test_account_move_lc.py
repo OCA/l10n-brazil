@@ -552,9 +552,11 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         )
 
     def test_venda_with_icms_reduction_with_relief(self):
-        # Testando com Alivio do ICMS
+        # Testando com Alivio do ICMS, mas indDeduzDeson = "0"
+        # (não deduzir o alívio do total do documento).
         prod_line = self.move_out_venda_with_icms_reduction.invoice_line_ids[0]
         prod_line.icms_relief_id = self.env.ref("l10n_br_fiscal.icms_relief_1")
+        prod_line.icms_relief_type = "0"
 
         # Foi setado essa linha manualmente na criação do account.move.
         self.assertEqual(
@@ -562,9 +564,12 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "Venda com ICMS 12 e Redução de 26,57",
         )
 
-        # price_total deve ser vProd + vIPI − vICMSDeson
-        # 1000.00 + 32.50 − 36.23 = 996.27
-        price_total = 996.27
+        # O valor do alívio é calculado e fica disponível para a NFe
+        # (vICMSDeson), mas como indDeduzDeson = "0" ele não é deduzido
+        # do total do documento, então os totais ficam iguais aos de
+        # uma venda sem alívio (vProd + vIPI = 1000.00 + 32.50 = 1032.50).
+        self.assertAlmostEqual(prod_line.icms_relief_value, 31.88, places=2)
+        price_total = 1032.5
 
         product_line_vals_1 = {
             "name": self.product_a.display_name,
@@ -579,9 +584,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "price_total": price_total,
             "tax_line_id": False,
             "currency_id": self.company_data["currency"].id,
-            "amount_currency": -839.15,
+            "amount_currency": -875.38,
             "debit": 0.0,
-            "credit": 839.15,
+            "credit": 875.38,
             "date_maturity": False,
         }
 
@@ -747,8 +752,8 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "tax_ids": [],
             "tax_line_id": False,
             "currency_id": self.company_data["currency"].id,
-            "amount_currency": 996.27,
-            "debit": 996.27,
+            "amount_currency": 1032.5,
+            "debit": 1032.5,
             "credit": 0.0,
             "date_maturity": fields.Date.from_string("2019-01-01"),
         }
@@ -761,9 +766,258 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "fiscal_position_id": False,
             "payment_reference": "",
             "invoice_payment_term_id": self.pay_terms_a.id,
-            "amount_untaxed": 963.77,
+            "amount_untaxed": 1000.0,
             "amount_tax": 32.5,
-            "amount_total": 996.27,
+            "amount_total": 1032.5,
+        }
+
+        self.assertInvoiceValues(
+            self.move_out_venda_with_icms_reduction,
+            [
+                product_line_vals_1,
+                tax_line_vals_cofins,
+                tax_line_vals_icms,
+                tax_line_vals_ipi,
+                tax_line_vals_pis,
+                term_line_vals_1,
+            ],
+            move_vals,
+        )
+
+    def test_venda_with_icms_reduction_with_relief_deduct(self):
+        # Testando com Alivio do ICMS e indDeduzDeson = "1"
+        # (deduzir o alívio do total do documento).
+        prod_line = self.move_out_venda_with_icms_reduction.invoice_line_ids[0]
+        # Written through the move (not the line) so account.move's
+        # _sync_dynamic_lines recomputes amount_currency/debit/credit
+        # from the updated fiscal totals.
+        self.move_out_venda_with_icms_reduction.write(
+            {
+                "invoice_line_ids": [
+                    Command.update(
+                        prod_line.id,
+                        {
+                            "icms_relief_id": self.env.ref(
+                                "l10n_br_fiscal.icms_relief_1"
+                            ).id,
+                            "icms_relief_type": "1",
+                        },
+                    )
+                ]
+            }
+        )
+
+        self.assertEqual(
+            prod_line.fiscal_operation_line_id.name,
+            "Venda com ICMS 12 e Redução de 26,57",
+        )
+
+        # icms_relief_value = base(reduzida) * aliquota * redução / (1 - redução)
+        # = 734.30 * 0.12 * 0.2657 / (1 - 0.2657) = 31.88
+        self.assertAlmostEqual(prod_line.icms_relief_value, 31.88, places=2)
+
+        # price_total deve ser vProd + vIPI − vICMSDeson
+        # 1000.00 + 32.50 − 31.88 = 1000.62
+        price_total = 1000.62
+
+        product_line_vals_1 = {
+            "name": self.product_a.display_name,
+            "product_id": self.product_a.id,
+            "account_id": self.product_a.property_account_income_id.id,
+            "partner_id": self.partner_a.id,
+            "product_uom_id": self.product_a.uom_id.id,
+            "quantity": 1.0,
+            "discount": 0.0,
+            "price_unit": 1000.0,
+            "price_subtotal": 1000.0,
+            "price_total": price_total,
+            "tax_line_id": False,
+            "currency_id": self.company_data["currency"].id,
+            "amount_currency": -843.5,
+            "debit": 0.0,
+            "credit": 843.5,
+            "date_maturity": False,
+        }
+
+        tax_line_vals_cofins = {
+            "name": "COFINS",
+            "product_id": False,
+            "account_id": self.env["account.account"]
+            .search(
+                [
+                    ("name", "=", "COFINS a Recolher"),
+                    ("company_id", "=", self.company_data["company"].id),
+                ],
+                limit=1,
+            )
+            .id,
+            "partner_id": self.partner_a.id,
+            "product_uom_id": False,
+            "quantity": False,
+            "discount": 0.0,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
+            "tax_ids": [],
+            "tax_line_id": self.env["account.tax"]
+            .search(
+                [
+                    ("name", "=", "COFINS Saida"),
+                    ("company_id", "=", self.company_data["company"].id),
+                ],
+                limit=1,
+            )
+            .id,
+            "currency_id": self.company_data["currency"].id,
+            "amount_currency": -30.0,
+            "debit": 0.0,
+            "credit": 30.0,
+            "date_maturity": False,
+        }
+
+        tax_line_vals_icms = {
+            "name": "ICMS",
+            "product_id": False,
+            "account_id": self.env["account.account"]
+            .search(
+                [
+                    ("name", "=", "ICMS a Recolher"),
+                    ("company_id", "=", self.company_data["company"].id),
+                ],
+                limit=1,
+            )
+            .id,
+            "partner_id": self.partner_a.id,
+            "product_uom_id": False,
+            "quantity": 0.0,
+            "discount": 0.0,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
+            "tax_ids": [],
+            "tax_line_id": self.env["account.tax"]
+            .search(
+                [
+                    ("name", "=", "ICMS Saida"),
+                    ("company_id", "=", self.company_data["company"].id),
+                ],
+                order="id desc",
+                limit=1,
+            )
+            .id,
+            "currency_id": self.company_data["currency"].id,
+            "amount_currency": -88.12,
+            "debit": 0.0,
+            "credit": 88.12,
+            "date_maturity": False,
+        }
+
+        tax_line_vals_ipi = {
+            "name": "IPI",
+            "product_id": False,
+            "account_id": self.env["account.account"]
+            .search(
+                [
+                    ("name", "=", "IPI a Recolher"),
+                    ("company_id", "=", self.company_data["company"].id),
+                ],
+                order="id ASC",
+                limit=1,
+            )
+            .id,
+            "partner_id": self.partner_a.id,
+            "product_uom_id": False,
+            "quantity": 0.0,
+            "discount": 0.0,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
+            "tax_ids": [],
+            "tax_line_id": self.env["account.tax"]
+            .search(
+                [
+                    ("name", "=", "IPI Saída"),
+                    ("company_id", "=", self.company_data["company"].id),
+                ],
+                order="id desc",
+                limit=1,
+            )
+            .id,
+            "currency_id": self.company_data["currency"].id,
+            "amount_currency": -32.5,
+            "debit": 0.0,
+            "credit": 32.5,
+            "date_maturity": False,
+        }
+
+        tax_line_vals_pis = {
+            "name": "PIS",
+            "product_id": False,
+            "account_id": self.env["account.account"]
+            .search(
+                [
+                    ("name", "=", "PIS a Recolher"),
+                    ("company_id", "=", self.company_data["company"].id),
+                ],
+                limit=1,
+            )
+            .id,
+            "partner_id": self.partner_a.id,
+            "product_uom_id": False,
+            "quantity": 0.0,
+            "discount": 0.0,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
+            "tax_ids": [],
+            "tax_line_id": self.env["account.tax"]
+            .search(
+                [
+                    ("name", "=", "PIS Saida"),
+                    ("company_id", "=", self.company_data["company"].id),
+                ],
+                order="id desc",
+                limit=1,
+            )
+            .id,
+            "currency_id": self.company_data["currency"].id,
+            "amount_currency": -6.5,
+            "debit": 0.0,
+            "credit": 6.5,
+            "date_maturity": False,
+        }
+
+        term_line_vals_1 = {
+            "name": "",
+            "product_id": False,
+            "account_id": self.company_data["default_account_receivable"].id,
+            "partner_id": self.partner_a.id,
+            "product_uom_id": False,
+            "quantity": 0.0,
+            "discount": 0.0,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
+            "tax_ids": [],
+            "tax_line_id": False,
+            "currency_id": self.company_data["currency"].id,
+            "amount_currency": 1000.62,
+            "debit": 1000.62,
+            "credit": 0.0,
+            "date_maturity": fields.Date.from_string("2019-01-01"),
+        }
+
+        move_vals = {
+            "partner_id": self.partner_a.id,
+            "currency_id": self.company_data["currency"].id,
+            "journal_id": self.company_data["default_journal_sale"].id,
+            "date": fields.Date.from_string("2019-01-01"),
+            "fiscal_position_id": False,
+            "payment_reference": "",
+            "invoice_payment_term_id": self.pay_terms_a.id,
+            "amount_untaxed": 968.12,
+            "amount_tax": 32.5,
+            "amount_total": 1000.62,
         }
 
         self.assertInvoiceValues(
