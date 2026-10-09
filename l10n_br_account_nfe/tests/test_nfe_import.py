@@ -71,6 +71,13 @@ class NFeImportTest(TransactionCase):
             del line["product_id"]
             del line["ncm_internal"]
             del line["cfop_warning"]
+            # match source fields are provided by l10n_br_fiscal_edi and
+            # depend on the installed purchase/stock modules and demo data
+            del line["match_source_id"]
+            del line["match_source_available"]
+            del line["match_source_product_matched"]
+            del line["company_id"]
+            del line["issuer_partner_id"]
         self.assertEqual(len(lines), 4)
         self.assertDictEqual(
             lines[0],
