@@ -426,11 +426,6 @@ msgid "<strong>Cancelled</strong>"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
-msgid "<strong>XML validation errors:</strong>"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.cest_action
 msgid "A CEST is necessary to create fiscal operations for your fiscal moves."
 msgstr ""
@@ -8899,12 +8894,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_fiscal
-#. odoo-python
-#: code:addons/l10n_br_fiscal/models/document.py:0
-msgid "There is already a fiscal document with this key: %(doc_key)s"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.operation_dashboard_action
 msgid "This is the fiscal dashboard"
 msgstr ""
@@ -9276,11 +9265,6 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_group_form
 msgid "Withholding"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__xml_error_message
-msgid "XML validation errors"
 msgstr ""
 
 #. module: l10n_br_fiscal
