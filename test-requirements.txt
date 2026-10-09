@@ -2,3 +2,6 @@
 odoo-test-helper  # Needed by spec_driven_model
 pyopenssl==22.1.0
 xmldiff
+# l10n_br_nfse_notacontrol: until released on PyPI
+erpbrasil.assinatura @ git+https://github.com/kmee/erpbrasil.assinatura@assina-xml2-algoritmo
+erpbrasil.edoc @ git+https://github.com/kmee/erpbrasil.edoc@add-provedor-notacontrol
