@@ -130,6 +130,7 @@ class TestL10nBrSaleRental(TransactionCase):
     def test_rental_service_product(self):
         self.assertEqual(self.rental_service.rented_product_id, self.equipment)
         self.assertEqual(self.rental_service.fiscal_type, "09")
+        self.assertEqual(self.rental_service.tax_icms_or_issqn, "issqn")
 
     def test_rental_rules(self):
         out_type = self.warehouse.l10n_br_rental_out_type_id
@@ -227,14 +228,21 @@ class TestL10nBrSaleRental(TransactionCase):
             self.env.ref("l10n_br_fiscal.fo_locacao_line"),
         )
         order.action_confirm()
+        self._deliver(order)
         invoice = order._create_invoices()
         self.assertEqual(invoice.fiscal_operation_id, self.fo_locacao)
         self.assertEqual(invoice.document_type_id.code, "SE")
         invoice_line = invoice.invoice_line_ids
         self.assertEqual(invoice_line.product_id, self.rental_service)
         self.assertEqual(invoice_line.tax_classification_id.code, "000001")
-        # rental of movable goods: no ISS (STF Sumula Vinculante 31)
+        # the rental charge is not an invoice of the remessa/retorno transfers
+        self.assertFalse(invoice_line.move_line_ids)
+        self.assertNotIn(invoice, order.picking_ids.mapped("invoice_ids"))
+        # rental of movable goods: no ISS (STF Sumula Vinculante 31) and, not
+        # being a goods operation, no ICMS/IPI either
         self.assertFalse(invoice_line.issqn_value)
+        self.assertFalse(invoice_line.icms_tax_id)
+        self.assertFalse(invoice_line.ipi_tax_id)
         self.assertAlmostEqual(invoice.amount_untaxed, 900.0)
 
     def test_remessa_simples_nacional(self):
