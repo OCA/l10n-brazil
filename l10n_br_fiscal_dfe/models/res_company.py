@@ -6,6 +6,7 @@ import base64
 import re
 
 from lxml import objectify
+from markupsafe import Markup
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
@@ -385,12 +386,13 @@ class ResCompany(models.Model):
         company = self
         for user in users:
             self = company.with_context(lang=user.lang or "pt_BR")
-            body = _(
-                "<p>%(count)s new third-party DF-e document(s) found.</p>"
-                '<p><a href="%(url)s">View documents</a></p>',
-                count=count,
-                url=action_url,
-            )
+            # Since 17.0, message_notify escapes str bodies: build Markup
+            body = Markup(
+                _(
+                    "<p>%(count)s new third-party DF-e document(s) found.</p>"
+                    '<p><a href="%(url)s">View documents</a></p>'
+                )
+            ) % {"count": count, "url": action_url}
             self.env["mail.thread"].sudo().message_notify(
                 partner_ids=user.partner_id.ids,
                 body=body,
