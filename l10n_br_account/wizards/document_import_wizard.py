@@ -79,6 +79,10 @@ class DocumentImportWizard(models.TransientModel):
         move_type = f"{self.fiscal_operation_type}_invoice"
         move_id = (
             self.env["account.move"]
+            # the bill belongs to the company of the document it comes from:
+            # its journal (and hence its company and its taxes) is resolved
+            # there, not in the user's current company
+            .with_company(fiscal_document.company_id)
             .import_fiscal_document(
                 fiscal_document,
                 move_type=move_type,
