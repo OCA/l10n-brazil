@@ -9,12 +9,14 @@ erpbrasil-base>=2.4.2
 erpbrasil.assinatura
 erpbrasil.edoc
 erpbrasil.transmissao
+lxml
 nfelib
 nfelib>=2.6.0
 nfselib.paulistana
 num2words
 phonenumbers
 requests
+signxml
 transitions
 unidecode
 workalendar
