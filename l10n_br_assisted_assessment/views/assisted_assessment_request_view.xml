@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_assessment_request_list" model="ir.ui.view">
+        <field name="name">l10n_br_assessment.request.list</field>
+        <field name="model">l10n_br_assessment.request</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="state == 'error'">
+                <field name="name" />
+                <field name="period_id" optional="show" />
+                <field name="tribute" />
+                <field name="service" />
+                <field name="delivered_line_count" />
+                <field name="delivered_amount" />
+                <field name="request_date" />
+                <field name="currency_id" column_invisible="1" />
+                <field name="signed_url_expires_at" optional="hide" />
+                <field name="error_message" optional="hide" />
+                <field name="state" />
+            </list>
+        </field>
+    </record>
+    <record id="view_assessment_request_form" model="ir.ui.view">
+        <field name="name">l10n_br_assessment.request.form</field>
+        <field name="model">l10n_br_assessment.request</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="action_transmit"
+                        type="object"
+                        string="Transmit"
+                        class="btn-primary"
+                        invisible="state not in ('draft', 'error')"
+                    />
+                    <button
+                        name="action_check_status"
+                        type="object"
+                        string="Check Status"
+                        invisible="state != 'requested'"
+                    />
+                    <button
+                        name="action_download"
+                        type="object"
+                        string="Download"
+                        class="btn-primary"
+                        invisible="state != 'notified'"
+                    />
+                    <button
+                        name="action_apply"
+                        type="object"
+                        string="Apply"
+                        class="btn-primary"
+                        invisible="state != 'downloaded'"
+                    />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <group>
+                        <group name="request" string="Request">
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                            <field name="tribute" />
+                            <field name="service" />
+                            <field name="period_id" />
+                            <field name="delivered_line_count" />
+                            <field name="delivered_amount" />
+                            <field name="currency_id" invisible="1" />
+                            <field name="return_url" />
+                        </group>
+                        <group name="tracking" string="Processing">
+                            <field name="ticket" />
+                            <field name="request_date" />
+                            <field name="estimated_seconds" />
+                            <field name="signed_url_expires_at" />
+                            <field name="error_code" invisible="not error_code" />
+                            <field name="error_message" invisible="not error_message" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="periods" string="Periods Delivered">
+                            <field name="period_ids" nolabel="1" readonly="1">
+                                <list>
+                                    <field name="name" />
+                                    <field name="per_apur" />
+                                    <field name="tribute" />
+                                    <field name="state" />
+                                </list>
+                            </field>
+                        </page>
+                        <page name="payload" string="Payload">
+                            <field
+                                name="payload"
+                                widget="ace"
+                                options="{'mode': 'json'}"
+                            />
+                        </page>
+                        <page name="response" string="Response">
+                            <field name="response_text" />
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_assessment_request" model="ir.actions.act_window">
+        <field name="name">Requests</field>
+        <field name="res_model">l10n_br_assessment.request</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
