@@ -1,7 +1,8 @@
 # Copyright (C) 2026  Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class DocumentImportWizardLine(models.TransientModel):
@@ -80,3 +81,45 @@ class DocumentImportWizardLine(models.TransientModel):
                 and line.match_source_id.product_id != line.product_id
             ):
                 line.match_source_id = False
+
+    @api.constrains("match_source_id", "product_id", "company_id")
+    def _check_match_source_id(self):
+        """Server-side guard on the selected match source.
+
+        The m2o domain only filters the dropdown: a source written through
+        RPC, an import or a crafted call must still belong to the wizard's
+        company and issuer, and stay coherent with the line product — the
+        reference synthesized at import time steers the bill matching, so a
+        wrong source would silently reconcile the bill against the wrong
+        document.
+        """
+        for line in self:
+            source = line.match_source_id
+            if not source:
+                continue
+            company = line.company_id or line.env.company
+            if source.company_id != company:
+                raise ValidationError(
+                    _(
+                        "The match source %(ref)s belongs to another company "
+                        "than the imported document.",
+                        ref=source.display_name,
+                    )
+                )
+            if line.issuer_partner_id and source.partner_id != line.issuer_partner_id:
+                raise ValidationError(
+                    _(
+                        "The match source %(ref)s belongs to another supplier "
+                        "than the imported document.",
+                        ref=source.display_name,
+                    )
+                )
+            if line.product_id and source.product_id != line.product_id:
+                raise ValidationError(
+                    _(
+                        "The match source %(ref)s is not for the line's "
+                        "product %(product_name)s.",
+                        ref=source.display_name,
+                        product_name=line.product_id.display_name,
+                    )
+                )

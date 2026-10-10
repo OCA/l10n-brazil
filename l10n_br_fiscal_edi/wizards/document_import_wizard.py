@@ -2,6 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import logging
+from collections import defaultdict, deque
 
 from odoo import api, fields, models
 
@@ -135,7 +136,7 @@ class DocumentImportWizard(models.TransientModel):
             return pol_model.browse()
 
         company = self.company_id or self.env.company
-        order = (
+        orders = (
             self.env["purchase.order"]
             .sudo()
             .search(
@@ -145,12 +146,23 @@ class DocumentImportWizard(models.TransientModel):
                     "|",
                     ("name", "=", xped),
                     ("partner_ref", "=", xped),
-                ],
-                limit=1,
+                ]
             )
         )
-        if not order:
+        if not orders:
             return pol_model.browse()
+        if len(orders) > 1:
+            # xPed is ambiguous: the same reference on several orders (a
+            # supplier reusing the buyer reference, or a vendor reference
+            # shared by two orders). Keep only the orders actually carrying
+            # the XML item and require exactly one, otherwise leave the match
+            # source empty for the operator to decide.
+            orders = orders.filtered(
+                lambda order: self._order_has_xml_item(order, xml_product)
+            )
+            if len(orders) != 1:
+                return pol_model.browse()
+        order = orders
 
         lines = order.order_line
         nitemped = (getattr(xml_product, "nItemPed", "") or "").strip()
@@ -174,6 +186,24 @@ class DocumentImportWizard(models.TransientModel):
             if ean and ean != "SEM GTIN" and line.product_id.barcode == ean:
                 return line
         return pol_model.browse()
+
+    def _order_has_xml_item(self, order, xml_product):
+        """True when the order carries a line matching the XML item.
+
+        Used to disambiguate a duplicated ``xPed`` (see ``_match_po_line``):
+        the product code (``cProd``) or the barcode (``cEANTrib``) tells which
+        order the XML line actually refers to. No blanket fallback here: when
+        no competing order can be told apart, the caller leaves the match
+        source empty for the operator instead of guessing.
+        """
+        cprod = getattr(xml_product, "cProd", None)
+        ean = getattr(xml_product, "cEANTrib", None)
+        for line in order.order_line:
+            if cprod and line.product_id.default_code == cprod:
+                return True
+            if ean and ean != "SEM GTIN" and line.product_id.barcode == ean:
+                return True
+        return False
 
     def _collapse_candidates(self, candidates):
         """Collapse to one LOGICAL candidate and return it when unique.
@@ -222,16 +252,41 @@ class DocumentImportWizard(models.TransientModel):
 
         Document lines without a selected match source are left untouched.
         """
-        wizard_lines = self.imported_products_ids.filtered("match_source_id")
-        if not wizard_lines:
+        # NB: a product may legitimately appear on several XML lines (the
+        # supplier splitting his own invoice, or shipping the same product
+        # twice). A product-keyed dict would keep only the LAST wizard line
+        # and stamp the same source on every fiscal line of that product, so
+        # the wizard lines are consumed in ORDER instead: the XML lines and
+        # the fiscal lines are built in the same order, hence the n-th fiscal
+        # line of a product pairs with the n-th wizard line of that product.
+        wizard_lines = self.imported_products_ids
+        if not wizard_lines.filtered("match_source_id"):
             return
-        by_product = {w.product_id.id: w for w in wizard_lines if w.product_id}
-        by_code = {w.product_code: w for w in wizard_lines if w.product_code}
+        by_product = defaultdict(deque)
+        by_code = defaultdict(deque)
+        for wizard_line in wizard_lines:
+            if wizard_line.product_id:
+                by_product[wizard_line.product_id.id].append(wizard_line)
+            if wizard_line.product_code:
+                by_code[wizard_line.product_code].append(wizard_line)
+        consumed = set()
+
+        def _pop(queue):
+            """Next not-yet-consumed wizard line of a product queue."""
+            while queue:
+                candidate = queue.popleft()
+                if candidate.id not in consumed:
+                    consumed.add(candidate.id)
+                    return candidate
+            return None
+
         for line in edoc.fiscal_line_ids:
-            wizard_line = by_product.get(line.product_id.id) or (
-                line.product_id and by_code.get(line.product_id.default_code)
-            )
-            if not wizard_line:
+            wizard_line = None
+            if line.product_id:
+                wizard_line = _pop(by_product[line.product_id.id])
+                if not wizard_line:
+                    wizard_line = _pop(by_code[line.product_id.default_code])
+            if not wizard_line or not wizard_line.match_source_id:
                 continue
             source = wizard_line.match_source_id
             if source.source_type == "po_line":

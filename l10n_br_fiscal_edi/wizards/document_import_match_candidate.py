@@ -212,6 +212,7 @@ class ImportMatchCandidate(models.Model):
             WHERE spt.code = 'incoming'
               AND sm.state NOT IN ('done', 'cancel')
               AND sm.product_id IS NOT NULL
+              AND sm.product_uom_qty - COALESCE(sm.quantity_done, 0) > 0
               AND ptmpl.type IN ('product', 'consu')
         """
 
