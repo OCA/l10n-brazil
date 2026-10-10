@@ -7,8 +7,13 @@
         <field name="arch" type="xml">
             <!-- Leaving padding as 0 because it is getting unnecessary spacing -->
             <form style="padding: 0 !important;">
+                <!-- The core swaps this view in for every record as soon as the
+                     current company is Brazilian (_view_get_address: "consider
+                     the country of the user, not the country of the partner"),
+                     so every field has to follow the country of the address:
+                     only a Brazilian address is split in street name, number
+                     and district. -->
                 <div class="o_address_format">
-                    <field name="street" class="oe_read_only" invisible="1" />
                     <field
                         name="zip"
                         placeholder="Zip code..."
@@ -16,14 +21,24 @@
                         class="o_address_zip"
                     />
                     <field
+                        name="street"
+                        placeholder="Street..."
+                        class="o_address_street"
+                        invisible="country_id == %(base.br)d"
+                    />
+                    <field
                         name="street_name"
                         placeholder="Street..."
                         class="o_address_street"
+                        invisible="country_id != %(base.br)d"
+                        readonly="country_id != %(base.br)d"
                     />
                     <field
                         name="street_number"
                         placeholder="Street number..."
                         class="o_address_street"
+                        invisible="country_id != %(base.br)d"
+                        readonly="country_id != %(base.br)d"
                     />
                     <field
                         name="street2"
@@ -34,6 +49,8 @@
                         name="district"
                         placeholder="District..."
                         class="o_address_street"
+                        invisible="country_id != %(base.br)d"
+                        readonly="country_id != %(base.br)d"
                     />
                     <field
                         name="state_id"

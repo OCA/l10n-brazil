@@ -58,10 +58,42 @@
                     class="o_address_city"
                     placeholder="City"
                     options='{"no_open": True}'
+                    invisible="country_id != %(base.br)d"
                 />
             </field>
+            <!-- res.city only holds Brazilian cities: an address from another
+                 country keeps the free text city of the core -->
             <field name="city" position="attributes">
-                <attribute name="invisible">1</attribute>
+                <attribute name="invisible">country_id == %(base.br)d</attribute>
+            </field>
+            <!-- used when the current company is not Brazilian (no address_view_id swap) -->
+            <field name="street" position="attributes">
+                <attribute name="invisible">country_id == %(base.br)d</attribute>
+            </field>
+            <field name="street" position="after">
+                <field
+                    name="street_name"
+                    placeholder="Street..."
+                    class="o_address_street"
+                    invisible="country_id != %(base.br)d"
+                    readonly="country_id != %(base.br)d"
+                />
+                <field
+                    name="street_number"
+                    placeholder="Street number..."
+                    class="o_address_street"
+                    invisible="country_id != %(base.br)d"
+                    readonly="country_id != %(base.br)d"
+                />
+            </field>
+            <field name="street2" position="after">
+                <field
+                    name="district"
+                    placeholder="District..."
+                    class="o_address_street"
+                    invisible="country_id != %(base.br)d"
+                    readonly="country_id != %(base.br)d"
+                />
             </field>
         </field>
     </record>
