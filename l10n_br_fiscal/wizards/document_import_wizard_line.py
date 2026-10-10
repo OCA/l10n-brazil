@@ -88,6 +88,41 @@ class DocumentImportWizardLine(models.TransientModel):
         for line in self:
             line.cfop_warning = line._get_cfop_warning()
 
+    def _suggest_fiscal_operation(self):
+        """Suggest the fiscal operation of the line from the CFOP declared by
+        the counterparty, through its inverse CFOP.
+
+        The supplier declares an outbound CFOP (5xxx/6xxx/7xxx); the inverse
+        CFOP (1xxx/2xxx/3xxx) is the company side of the same operation, and
+        the approved operation lines referencing it tell which fiscal
+        operations the company configured for that kind of entry.
+
+        Approach reused from OCA/l10n-brazil#4791 (thanks to Luis Felipe Mileo
+        / KMEE for the original implementation).
+        """
+        self.ensure_one()
+        wizard = self.import_xml_id
+        if not self.cfop_xml or wizard.fiscal_operation_type != "in":
+            return self.env["l10n_br_fiscal.operation"]
+        cfop = self.env["l10n_br_fiscal.cfop"].search(
+            [("code", "=", self.cfop_xml)], limit=1
+        )
+        cfop_inverse = cfop.cfop_inverse_id
+        if not cfop_inverse:
+            return self.env["l10n_br_fiscal.operation"]
+        operation_lines = self.env["l10n_br_fiscal.operation.line"].search(
+            [
+                ("state", "=", "approved"),
+                ("fiscal_operation_type", "=", "in"),
+                "|",
+                "|",
+                ("cfop_internal_id", "=", cfop_inverse.id),
+                ("cfop_external_id", "=", cfop_inverse.id),
+                ("cfop_export_id", "=", cfop_inverse.id),
+            ]
+        )
+        return operation_lines[:1].fiscal_operation_id
+
     def _get_cfop_warning(self):
         """Compare the XML CFOP scope (from its first digit) with the real
         issuer/company geography. CFOP first digit: 1/5 = intrastate,

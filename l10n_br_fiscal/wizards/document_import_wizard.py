@@ -278,10 +278,38 @@ class DocumentImportWizard(models.TransientModel):
         return operation_lines[:1]
 
     def _find_fiscal_operation(self, cfop, nat_op, fiscal_operation_type):
-        """try to find a matching fiscal operation via an operation line"""
+        """try to find a matching fiscal operation via an operation line
+
+        ``fiscal_operation_type`` is the in/out direction of the operation
+        (the related field of the operation), not its ``fiscal_type``
+        (purchase, sale, return…): comparing the latter with "in"/"out" never
+        matches anything.
+        """
         line = self._find_fiscal_operation_line(cfop, nat_op, fiscal_operation_type)
         if line:
             return line.fiscal_operation_id
+
+    def _suggest_fiscal_operation(self):
+        """Suggest the fiscal operation of the document from the operation
+        suggested by most of its imported lines.
+
+        Suggested line by line through the inverse CFOP (see
+        ``document.import.wizard.line._suggest_fiscal_operation``), then kept
+        when several lines agree — a single odd line (a freight, a
+        one-off) does not decide the operation of the whole document.
+
+        Approach reused from OCA/l10n-brazil#4791 (thanks to Luis Felipe Mileo
+        / KMEE for the original implementation).
+        """
+        self.ensure_one()
+        suggestions = {}
+        for line in self.imported_products_ids:
+            operation = line._suggest_fiscal_operation()
+            if operation:
+                suggestions[operation] = suggestions.get(operation, 0) + 1
+        if not suggestions:
+            return self.env["l10n_br_fiscal.operation"]
+        return max(suggestions, key=suggestions.get)
 
     def _match_uom_by_code(self, *codes):
         """Match a fiscal UoM from one or more XML unit codes (uCom/uTrib).
