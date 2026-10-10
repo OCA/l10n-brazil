@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="0">
+    <record forcecreate="True" id="ir_cron_search_nfse_dfe_documents" model="ir.cron">
+        <field name="name">DF-e - Search NFS-e Documents</field>
+        <field name="model_id" ref="base.model_res_company" />
+        <field name="state">code</field>
+        <field name="code">model._cron_dfe_search_documents('nfse')</field>
+        <field name="user_id" ref="base.user_root" />
+        <field name="interval_number">5</field>
+        <field name="interval_type">minutes</field>
+        <field name="active" eval="True" />
+    </record>
+</odoo>

@@ -35,6 +35,7 @@
                 <field name="partner_id" />
                 <field name="document_amount" string="Amount" widget="monetary" />
                 <field name="currency_id" invisible="1" />
+                <field name="fiscal_document_id" />
                 <field name="cfop_ids" widget="many2many_tags" string="CFOPs" />
                 <field
                     name="manifestation_status"
@@ -47,7 +48,6 @@
                     decoration-muted="manifestation_status == 'sem_manifestacao'"
                 />
                 <field name="document_state_label" string="State" />
-                <field name="fiscal_document_id" invisible="1" />
                 <button
                     string="XML"
                     name="action_download_xml"
@@ -155,7 +155,9 @@
         <field
             name="domain"
         >[('fiscal_type', '=', 'nfe'), ('is_own_document', '=', False)]</field>
-        <field name="context">{'default_fiscal_type': 'nfe'}</field>
+        <field
+            name="context"
+        >{'default_fiscal_type': 'nfe', 'search_default_to_import': 1}</field>
         <field
             name="view_ids"
             eval="[(5, 0, 0),
