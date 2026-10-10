@@ -2,12 +2,11 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import logging
+from psycopg2 import IntegrityError
 
+from odoo.exceptions import ValidationError
 from odoo.tests import TransactionCase
 from odoo.tools import mute_logger
-
-_logger = logging.getLogger(__name__)
 
 
 class OtherIETest(TransactionCase):
@@ -35,112 +34,52 @@ class OtherIETest(TransactionCase):
             }
         )
 
-    @mute_logger("odoo.sql_db")
-    def test_included_valid_ie_in_company(self):
-        result = self.company.write(
+    def _add_other_ie(self, record, state_xmlid, ie_code):
+        return record.write(
             {
                 "state_tax_number_ids": [
                     (
                         0,
                         0,
                         {
-                            "state_id": self.env.ref("base.state_br_ba").id,
-                            "l10n_br_ie_code": 41902653,
+                            "state_id": self.env.ref(state_xmlid).id,
+                            "l10n_br_ie_code": ie_code,
                         },
                     )
                 ]
             }
         )
-        self.assertTrue(result, "Error to included valid IE.")
-        for line in self.company.partner_id.state_tax_number_ids:
-            result = False
-            if line.l10n_br_ie_code == "41902653":
-                result = True
-            self.assertTrue(result, "Error in method to update other IE(s) on partner.")
 
-        try:
-            result = self.company.write(
-                {
-                    "state_tax_number_ids": [
-                        (
-                            0,
-                            0,
-                            {
-                                "state_id": self.env.ref("base.state_br_ba").id,
-                                "l10n_br_ie_code": 67729139,
-                            },
-                        )
-                    ]
-                }
-            )
-        except Exception:
-            result = False
-
-        self.assertFalse(
-            result, "Error to check included other" " IE to State already informed."
+    def test_included_valid_ie_in_company(self):
+        self._add_other_ie(self.company, "base.state_br_ba", 41902653)
+        self.assertEqual(
+            self.company.partner_id.state_tax_number_ids.mapped("l10n_br_ie_code"),
+            ["41902653"],
+            "Error in method to update other IE(s) on partner.",
         )
+        # a second State Tax Number for the same state
+        with (
+            self.assertRaisesRegex(
+                IntegrityError, "l10n_br_base_state_tax_numbers_id_uniq"
+            ),
+            mute_logger("odoo.sql_db"),
+        ):
+            self._add_other_ie(self.company, "base.state_br_ba", 67729139)
 
     def test_included_invalid_ie(self):
-        try:
-            result = self.company.write(
-                {
-                    "state_tax_number_ids": [
-                        (
-                            0,
-                            0,
-                            {
-                                "state_id": self.env.ref("base.state_br_am").id,
-                                "l10n_br_ie_code": "042933681",
-                            },
-                        )
-                    ]
-                }
-            )
-        except Exception:
-            result = False
-        self.assertFalse(result, "Error to check included invalid IE.")
+        with self.assertRaisesRegex(ValidationError, "Invalid for State"):
+            self._add_other_ie(self.company, "base.state_br_am", "042933681")
 
     def test_included_other_valid_ie_to_same_state_of_company(self):
-        try:
-            result = self.company.write(
-                {
-                    "state_tax_number_ids": [
-                        (
-                            0,
-                            0,
-                            {
-                                "state_id": self.env.ref("base.state_br_sp").id,
-                                "l10n_br_ie_code": 692015742119,
-                            },
-                        )
-                    ]
-                }
-            )
-        except Exception:
-            result = False
-        self.assertFalse(
-            result,
-            "Error to check included other valid IE " " in to same state of Company.",
-        )
+        with self.assertRaisesRegex(
+            ValidationError, "only be one state tax number per state"
+        ):
+            self._add_other_ie(self.company, "base.state_br_sp", 692015742119)
 
     def test_included_valid_ie_on_partner(self):
-        result = self.company.partner_id.write(
-            {
-                "state_tax_number_ids": [
-                    (
-                        0,
-                        0,
-                        {
-                            "state_id": self.env.ref("base.state_br_ba").id,
-                            "l10n_br_ie_code": 41902653,
-                        },
-                    )
-                ]
-            }
+        self._add_other_ie(self.company.partner_id, "base.state_br_ba", 41902653)
+        self.assertEqual(
+            self.company.state_tax_number_ids.mapped("l10n_br_ie_code"),
+            ["41902653"],
+            "Error in method to update other IE(s) on Company.",
         )
-        self.assertTrue(result, "Error to included valid IE.")
-        for line in self.company.state_tax_number_ids:
-            result = False
-            if line.l10n_br_ie_code == "41902653":
-                result = True
-            self.assertTrue(result, "Error in method to update other IE(s) on Company.")
