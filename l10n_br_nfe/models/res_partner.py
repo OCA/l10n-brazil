@@ -313,6 +313,11 @@ class ResPartner(spec_models.SpecModel):
         vals = self._prepare_import_dict(
             rec_dict, model=model, parent_dict=parent_dict, defaults_model=model
         )
+        if not vals.get("name") and vals.get("type", "contact") == "contact":
+            # Optional groups such as transp/transporta may come with neither
+            # name nor CNPJ/CPF (e.g. only <UF>): there is nothing to register
+            # and creating it would violate res_partner_check_name.
+            return False
         if self._context.get("dry_run", False):
             rec_id = self.new(vals).id
         else:
@@ -404,13 +409,15 @@ class ResPartner(spec_models.SpecModel):
 
     def _inverse_nfe40_ender(self):
         for rec in self:
-            if rec.nfe40_cMun and rec.nfe40_cPais and rec.nfe40_UF:
+            cPais = rec.nfe40_cPais
+            if not cPais and rec.nfe40_UF and rec.nfe40_UF != "EX":
+                # cPais is optional in the layout; a Brazilian UF implies Brazil
+                cPais = "1058"
+            if rec.nfe40_cMun and cPais and rec.nfe40_UF:
                 city_id = self.env["res.city"].search(
                     [("ibge_code", "=", rec.nfe40_cMun)]
                 )
-                country_id = self.env["res.country"].search(
-                    [("bc_code", "=", rec.nfe40_cPais)]
-                )
+                country_id = self.env["res.country"].search([("bc_code", "=", cPais)])
                 state_id = self.env["res.country.state"].search(
                     [("code", "=", rec.nfe40_UF), ("country_id", "=", country_id.id)]
                 )
