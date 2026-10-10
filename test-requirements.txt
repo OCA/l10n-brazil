@@ -2,3 +2,4 @@
 odoo-test-helper  # Needed by spec_driven_model
 pyopenssl==22.1.0
 xmldiff
+odoo-addon-stock_picking_bill_matching @ git+https://github.com/OCA/stock-logistics-workflow.git@refs/pull/2310/head#subdirectory=setup/stock_picking_bill_matching
