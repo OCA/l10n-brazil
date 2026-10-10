@@ -4,6 +4,7 @@ import re
 from unittest.mock import MagicMock, patch
 
 from odoo import Command, fields
+from odoo.exceptions import ValidationError
 from odoo.tests import TransactionCase
 
 from odoo.addons import l10n_br_nfe
@@ -615,6 +616,10 @@ class NFeImportWizardTest(TransactionCase):
         out_of_scope = self.env["product.product"].create(
             {"name": "No Candidate Product", "default_code": "NO-CANDIDATE"}
         )
+        # the UI onchange clears the selected source when the product changes,
+        # and the server-side constraint enforces the same coherence, so a raw
+        # write must clear it too
+        line.match_source_id = False
         line.product_id = out_of_scope
         line.invalidate_recordset(["match_source_product_matched"])
         line._compute_match_source_product_matched()
@@ -632,3 +637,198 @@ class NFeImportWizardTest(TransactionCase):
         self._prepare_wizard(self.xml_1)
         self.assertFalse(self.wizard.match_source_available)
         self.assertFalse(self.wizard.imported_products_ids.match_source_id)
+
+    # ------------------------------------------------------------------
+    # OCA review follow-ups (duplicate XML lines, xPed ambiguity, open qty,
+    # server-side validation of the selected source)
+    # ------------------------------------------------------------------
+
+    def _duplicate_first_det(self, xml):
+        """Return the XML with its first <det> item duplicated.
+
+        The bundled NFe fixtures all carry distinct products, so the
+        "supplier split the same product over two invoice lines" scenario —
+        the one demoed with the Jung NFes — needs its own fixture.
+        """
+        text = xml.decode("utf-8")
+        match = re.search(r"<det\b.*?</det>", text, re.S)
+        self.assertTrue(match, "no <det> item found in the test XML")
+        duplicated = match.group(0).replace('nItem="1"', 'nItem="2"', 1)
+        return (text[: match.end()] + duplicated + text[match.end() :]).encode("utf-8")
+
+    def test_match_source_writeback_duplicate_product_lines(self):
+        """The same product on two XML lines, with two DIFFERENT sources
+        picked by the operator, must stamp each fiscal line with its own
+        reference.
+
+        Regression: the write-back used to index the wizard lines by
+        product (a dict), so the last line won and both fiscal lines were
+        given the same origin — silently reconciling one of them against
+        the wrong receipt.
+        """
+        if self.env.get("purchase.order") is None:
+            self.skipTest("purchase module not installed")
+        supplier = self._create_xml_issuer_supplier()
+        product = self._get_xml_product()
+        order = self._create_confirmed_po(supplier, [product, product])
+
+        self._prepare_wizard(self._duplicate_first_det(self.xml_1))
+        lines = self.wizard.imported_products_ids
+        self.assertEqual(len(lines), 2)
+        self.assertEqual(set(lines.mapped("product_id")), {product})
+        # two identical PO lines for the product = ambiguous: the operator
+        # chooses one source per XML line (here deliberately REVERSED, so a
+        # "same source on both lines" bug cannot pass by accident)
+        sources = self.env["l10n_br_fiscal.document.import.match.candidate"].search(
+            [
+                ("source_type", "=", "po_line"),
+                ("partner_id", "=", supplier.id),
+                ("product_id", "=", product.id),
+            ],
+            order="line_no",
+        )
+        self.assertEqual(len(sources), 2)
+        lines[0].match_source_id = sources[1]
+        lines[1].match_source_id = sources[0]
+
+        self.wizard.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras")
+        _binding, edoc = self.wizard._import_edoc()
+        self.assertEqual(len(edoc.fiscal_line_ids), 2)
+        self.assertEqual(
+            edoc.fiscal_line_ids.mapped("partner_order"),
+            [order.name, order.name],
+        )
+        self.assertEqual(
+            edoc.fiscal_line_ids.mapped("partner_order_line"),
+            ["2", "1"],
+            "each fiscal line must carry the reference of ITS own source",
+        )
+
+    def test_match_po_line_ambiguous_xped(self):
+        """A duplicated xPed must not pick an order arbitrarily: disambiguate
+        on the XML item, and leave the source empty when that is not enough."""
+        if self.env.get("purchase.order") is None:
+            self.skipTest("purchase module not installed")
+        supplier = self._create_xml_issuer_supplier()
+        product = self._get_xml_product()
+        other = self.env["product.product"].create(
+            {"name": "Other XML Product", "default_code": "OTHER-PROD"}
+        )
+        order_item = self._create_confirmed_po(supplier, [product])
+        order_other = self._create_confirmed_po(supplier, [other])
+        order_item.partner_ref = "XPED-AMB"
+        order_other.partner_ref = "XPED-AMB"
+
+        self._prepare_wizard(self.xml_1)
+        mock = MagicMock()
+        mock.xPed = "XPED-AMB"
+        mock.nItemPed = ""
+        mock.cProd = "E-COM11"
+        mock.cEANTrib = ""
+        # only one of the two orders carries the XML item: that one wins
+        self.assertEqual(
+            self.wizard._match_po_line(mock),
+            order_item.order_line,
+        )
+
+        # both orders carry the item: ambiguous, the operator decides
+        order_other.order_line.product_id = product
+        self.assertFalse(self.wizard._match_po_line(mock))
+
+    def test_match_source_candidate_requires_open_quantity(self):
+        """A receipt line with nothing left to receive is not proposed as a
+        match source (open quantity = product_uom_qty - quantity_done)."""
+        if self.env.get("stock.picking") is None:
+            self.skipTest("stock module not installed")
+        supplier = self._create_xml_issuer_supplier()
+        company = self.env.ref("base.main_company")
+        product = self._get_xml_product(type="product")
+        picking_type = self.env["stock.picking.type"].search(
+            [("code", "=", "incoming"), ("company_id", "=", company.id)], limit=1
+        )
+        location_src = self.env.ref("stock.stock_location_suppliers")
+        location_dest = picking_type.default_location_dest_id
+        picking = self.env["stock.picking"].create(
+            {
+                "partner_id": supplier.id,
+                "picking_type_id": picking_type.id,
+                "location_id": location_src.id,
+                "location_dest_id": location_dest.id,
+                "move_ids": [
+                    Command.create(
+                        {
+                            "name": product.name,
+                            "product_id": product.id,
+                            "product_uom_qty": 4.0,
+                            "product_uom": product.uom_id.id,
+                            "location_id": location_src.id,
+                            "location_dest_id": location_dest.id,
+                        }
+                    )
+                ],
+            }
+        )
+        picking.action_confirm()
+        picking.action_assign()
+        candidates = self.env["l10n_br_fiscal.document.import.match.candidate"].search(
+            [
+                ("source_type", "=", "stock_move"),
+                ("partner_id", "=", supplier.id),
+                ("product_id", "=", product.id),
+            ]
+        )
+        self.assertEqual(len(candidates), 1, "the open move is proposed")
+
+        # the warehouse already prepared the full quantity: nothing left to
+        # receive, so the move is no longer an open source
+        picking.move_ids.quantity_done = 4.0
+        self.env.flush_all()
+        candidates = self.env["l10n_br_fiscal.document.import.match.candidate"].search(
+            [
+                ("source_type", "=", "stock_move"),
+                ("partner_id", "=", supplier.id),
+                ("product_id", "=", product.id),
+            ]
+        )
+        self.assertFalse(candidates, "a fully prepared move must not be proposed")
+
+    def test_match_source_constraint_on_write(self):
+        """The match source is validated server-side: another supplier's or
+        another product's source cannot be written on the line."""
+        if self.env.get("purchase.order") is None:
+            self.skipTest("purchase module not installed")
+        supplier = self._create_xml_issuer_supplier()
+        product = self._get_xml_product()
+        self._create_confirmed_po(supplier, [product])
+
+        self._prepare_wizard(self.xml_1)
+        line = self.wizard.imported_products_ids[0]
+        self.assertTrue(line.match_source_id, "the single candidate is preselected")
+
+        # a candidate of ANOTHER supplier
+        other_supplier = self.env["res.partner"].create({"name": "Other Supplier"})
+        self._create_confirmed_po(other_supplier, [product])
+        foreign = self.env["l10n_br_fiscal.document.import.match.candidate"].search(
+            [("partner_id", "=", other_supplier.id)], limit=1
+        )
+        self.assertTrue(foreign)
+        with self.assertRaises(ValidationError):
+            line.match_source_id = foreign
+
+        # a candidate of the same supplier but ANOTHER product
+        other_product = self.env["product.product"].create(
+            {"name": "Another Candidate Product", "default_code": "CAND-OTHER"}
+        )
+        self._create_confirmed_po(supplier, [other_product])
+        wrong_product = self.env[
+            "l10n_br_fiscal.document.import.match.candidate"
+        ].search(
+            [
+                ("partner_id", "=", supplier.id),
+                ("product_id", "=", other_product.id),
+            ],
+            limit=1,
+        )
+        self.assertTrue(wrong_product)
+        with self.assertRaises(ValidationError):
+            line.match_source_id = wrong_product

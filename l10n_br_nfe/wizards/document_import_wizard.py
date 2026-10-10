@@ -6,7 +6,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import base64
-from collections import Counter
+from collections import Counter, defaultdict, deque
 
 from erpbrasil.base.fiscal.cnpj_cpf import formata
 
@@ -224,9 +224,14 @@ class DocumentImportWizard(models.TransientModel):
             )
             edoc.document_type_id = self.env.ref("l10n_br_fiscal.document_55").id
             edoc.fiscal_operation_id = self.fiscal_operation_id
-            wizard_lines_by_code = {
-                w.product_code: w for w in self.imported_products_ids
-            }
+            # Same product on several XML lines? Then several wizard lines
+            # share the code: consume them in order instead of keeping only
+            # the last one (see the ordered consumption in the generic
+            # document_import_wizard for the rationale).
+            wizard_lines_by_code = defaultdict(deque)
+            for wizard_line in self.imported_products_ids:
+                if wizard_line.product_code:
+                    wizard_lines_by_code[wizard_line.product_code].append(wizard_line)
             for line in edoc.fiscal_line_ids:
                 # Preserve the XML price_unit because setting
                 # fiscal_operation_id triggers _compute_price_unit_fiscal
@@ -242,11 +247,13 @@ class DocumentImportWizard(models.TransientModel):
                     # line compute ran before the product's units were set), so
                     # fall back to the unit the wizard matched from uCom/uTrib
                     # and align the created product's units with it.
-                    wl = (
-                        wizard_lines_by_code.get(line.product_id.default_code)
-                        if line.product_id
-                        else None
-                    )
+                    wl = None
+                    if line.product_id:
+                        code_queue = wizard_lines_by_code.get(
+                            line.product_id.default_code
+                        )
+                        if code_queue:
+                            wl = code_queue.popleft()
                     if wl and wl.uom_internal:
                         line.uom_id = wl.uom_internal
                         if not wl.product_id:
