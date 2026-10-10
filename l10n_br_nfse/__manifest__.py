@@ -27,6 +27,7 @@
         "views/product_product_view.xml",
         "views/document_line_view.xml",
         "views/res_company_view.xml",
+        "views/document_status_wizard_view.xml",
         "report/danfse.xml",
     ],
     "demo": [

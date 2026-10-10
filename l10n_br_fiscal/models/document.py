@@ -101,12 +101,6 @@ class Document(models.Model):
         store=True,
     )
 
-    rps_number = fields.Char(
-        string="RPS Number",
-        copy=False,
-        index=True,
-    )
-
     document_date = fields.Datetime(
         copy=False,
     )
@@ -210,28 +204,6 @@ class Document(models.Model):
     # of objects where the fiscal mixin might be injected.
     state = fields.Selection(related="state_edoc", string="State")
 
-    transport_modal = fields.Selection(
-        selection=[
-            ("01", "Rodoviário"),
-            ("02", "Aéreo"),
-            ("03", "Aquaviário"),
-            ("04", "Ferroviário"),
-            ("05", "Dutoviário"),
-            ("06", "Multimodal"),
-        ],
-        string="Modal de Transporte",
-    )
-
-    service_provider = fields.Selection(
-        selection=[
-            ("0", "Remetente"),
-            ("1", "Expedidor"),
-            ("2", "Recebedor"),
-            ("3", "Destinatário"),
-            ("4", "Outros"),
-        ],
-        string="Tomador do Serviço",
-    )
     partner_legal_name = fields.Char(
         string="Legal Name",
         related="partner_id.legal_name",
@@ -314,8 +286,9 @@ class Document(models.Model):
             type_serie_number += self.document_type
         if self.document_serie:
             type_serie_number += "/" + self.document_serie.zfill(3)
-        if self.document_number or self.rps_number:
-            type_serie_number += "/" + (self.document_number or self.rps_number)
+        document_number = self.document_number or self._get_provisional_number()
+        if document_number:
+            type_serie_number += "/" + document_number
 
         if self._context.get("fiscal_document_complete_name"):
             name += DOCUMENT_ISSUER_DICT.get(self.issuer, "")
@@ -340,6 +313,14 @@ class Document(models.Model):
                 type_serie_number=type_serie_number,
             )
         return name
+
+    def _get_provisional_number(self):
+        """Number identifying the document before it is authorized.
+
+        A document issued from a provisional document (the NFS-e RPS)
+        overrides this so that a draft still has a readable name.
+        """
+        return False
 
     def _compute_display_name(self):
         for record in self:

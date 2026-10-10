@@ -330,6 +330,20 @@ class CTe(spec_models.StackedModel):
 
     cte40_tpImp = fields.Selection(selection=CTE_TPIMP, default=CTE_TPIMP_DEFAULT)
 
+    # This is the CT-e "toma" selection (tag toma3/toma4), kept with its
+    # historical name: only CT-e uses it, so it no longer belongs to
+    # l10n_br_fiscal.
+    service_provider = fields.Selection(
+        selection=[
+            ("0", "Remetente"),
+            ("1", "Expedidor"),
+            ("2", "Recebedor"),
+            ("3", "Destinatário"),
+            ("4", "Outros"),
+        ],
+        string="Tomador do Serviço",
+    )
+
     # toma
     cte40_toma = fields.Selection(related="service_provider")
 
@@ -1026,6 +1040,20 @@ class CTe(spec_models.StackedModel):
     ##########################
     # CT-e tag: infmodal
     ##########################
+
+    # CT-e transport modal (tag infmodal), moved out of l10n_br_fiscal
+    # where only CT-e used it.
+    transport_modal = fields.Selection(
+        selection=[
+            ("01", "Rodoviário"),
+            ("02", "Aéreo"),
+            ("03", "Aquaviário"),
+            ("04", "Ferroviário"),
+            ("05", "Dutoviário"),
+            ("06", "Multimodal"),
+        ],
+        string="Modal de Transporte",
+    )
 
     cte40_modal = fields.Selection(related="transport_modal")
 
