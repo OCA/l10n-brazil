@@ -150,7 +150,47 @@ class DocumentImportWizard(models.TransientModel):
             raise UserError(_("No CNPJ or Legal Name to search for a partner!"))
         return self.env["res.partner"].search(domain, limit=1)
 
+    def _company_from_destination_cnpj(self):
+        """Company of the document, found through the CNPJ of the recipient.
+
+        In a multi-company database the CNPJ of the destination (us, on an
+        inbound document) identifies which of our companies the document
+        belongs to. Only the companies the user may currently work in are
+        considered.
+        """
+        cnpj = punctuation_rm(self.destination_cnpj or "")
+        if not cnpj:
+            return self.env["res.company"]
+        companies = (
+            self.env["res.company"]
+            .sudo()
+            .search([])
+            .filtered(lambda company: punctuation_rm(company.cnpj_cpf or "") == cnpj)
+        )
+        return (companies & self.env.companies)[:1]
+
+    def _select_company_from_destination(self):
+        """Import the document in the company it is addressed to.
+
+        Importing it in the user's current company instead would resolve the
+        fiscal operations, the taxes and the accounting entries with another
+        company's configuration: the taxes of the lines are then not found and
+        the imported bill is wrong (or unimportable).
+
+        Returns the company found through the CNPJ, empty when the document is
+        addressed to nobody we know (the wizard keeps its current company).
+        """
+        company = self._company_from_destination_cnpj()
+        if company and company != self.company_id:
+            self.company_id = company
+        return company
+
     def _import_edoc(self):
+        self._select_company_from_destination()
+        # the whole import runs in the company of the document: the fiscal
+        # document, its operations and its taxes, and the account move that
+        # l10n_br_account builds from it
+        self = self.with_company(self.company_id)
         self._find_existing_document()
         if not self.document_id:
             binding, self.document_id = self._create_edoc_from_file()
@@ -193,6 +233,10 @@ class DocumentImportWizard(models.TransientModel):
         self._extract_binding_data(binding)
         self._find_existing_document()
         self._destination_partner_from_binding(binding)
+        # the CNPJ of the destination (us) tells which company the document
+        # belongs to: the import must run in that company, not in the current
+        # one (see _select_company_from_destination)
+        self._select_company_from_destination()
         return binding
 
     @api.model
