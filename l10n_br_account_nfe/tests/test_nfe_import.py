@@ -4,6 +4,8 @@
 import base64
 import os
 
+from erpbrasil.base.misc import punctuation_rm
+
 from odoo import Command
 from odoo.exceptions import UserError
 from odoo.tests import TransactionCase
@@ -251,6 +253,53 @@ class NFeImportTest(TransactionCase):
         self.assertAlmostEqual(move.due_line_ids[0].credit, 4035.63, places=2)
         self.assertAlmostEqual(move.due_line_ids[1].credit, 4035.63, places=2)
         self.assertAlmostEqual(move.due_line_ids[2].credit, 4036.84, places=2)
+
+    def test_import_switches_to_the_company_the_document_is_addressed_to(self):
+        """The CNPJ of the destination identifies the company the document
+        belongs to: the import runs in that company, not in the user's current
+        one, so the fiscal operations, the taxes and the journal are resolved
+        with the configuration of the right company."""
+        other_company = self.env.ref("base.main_company")
+        self.assertNotEqual(other_company, self.company)
+        # the CNPJ the document is addressed to is the one of self.company
+        self.assertEqual(punctuation_rm(self.company.cnpj_cpf or ""), "81583054000129")
+        env = self.env(
+            context=dict(
+                self.env.context,
+                allowed_company_ids=[other_company.id, self.company.id],
+            )
+        )
+        self.assertEqual(env.company, other_company)
+
+        file_path = os.path.join(
+            l10n_br_account_nfe.__path__[0],
+            "tests",
+            "nfe",
+            "35231149647316000169550010000661061151600085-nfe.xml",
+        )
+        with open(file_path, "rb") as file:
+            file_content = file.read()
+
+        wizard = env["l10n_br_fiscal.document.import.wizard"].create(
+            {"company_id": other_company.id, "file": base64.b64encode(file_content)}
+        )
+        wizard._onchange_file()
+
+        # the wizard switched to the company the document is addressed to
+        self.assertEqual(wizard.destination_cnpj, self.company.cnpj_cpf)
+        self.assertEqual(wizard.company_id, self.company)
+        self.assertEqual(wizard.fiscal_operation_type, "in")
+
+        wizard.fiscal_operation_id = env.ref("l10n_br_fiscal.fo_compras")
+        action = wizard.action_import_and_open_move()
+        move = env["account.move"].browse(action["res_id"])
+
+        self.assertEqual(move.company_id, self.company)
+        self.assertEqual(move.fiscal_document_id.company_id, self.company)
+        # the taxes resolved with the configuration of that company: the bill
+        # totals are the ones of the fixture (see test_import_in_nfe, imported
+        # in the same company but started from the right current company)
+        self.assertAlmostEqual(move.amount_total, 12108.10, places=2)
 
     def test_import_incomplete_document_is_blocked(self):
         """A document with a line missing its product/uom/qty/price must not
