@@ -62,19 +62,22 @@ class L10nBrFiscalDfeDocument(models.Model):
         if not self:
             return
 
-        access_keys = tuple(self.mapped("access_key"))
-
-        # Batch query: get latest event per access key in a single query
-        self.env.cr.execute(
-            """
-            SELECT DISTINCT ON (access_key) access_key, event_type
-            FROM l10n_br_nfe_md_event
-            WHERE access_key IN %s AND state = 'done'
-            ORDER BY access_key, id DESC
-            """,
-            (access_keys,),
-        )
-        latest_events = dict(self.env.cr.fetchall())
+        # Records without access key (e.g. new records) have no events and
+        # would turn the query into "IN (false)", which PostgreSQL rejects
+        access_keys = tuple(key for key in self.mapped("access_key") if key)
+        latest_events = {}
+        if access_keys:
+            # Batch query: get latest event per access key in a single query
+            self.env.cr.execute(
+                """
+                SELECT DISTINCT ON (access_key) access_key, event_type
+                FROM l10n_br_nfe_md_event
+                WHERE access_key IN %s AND state = 'done'
+                ORDER BY access_key, id DESC
+                """,
+                (access_keys,),
+            )
+            latest_events = dict(self.env.cr.fetchall())
 
         for record in self:
             record.manifestation_status = latest_events.get(
