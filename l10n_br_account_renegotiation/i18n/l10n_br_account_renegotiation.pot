@@ -1,0 +1,311 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_account_renegotiation
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_account_renegotiation
+#. odoo-python
+#: code:addons/l10n_br_account_renegotiation/models/account_move.py:0
+#, python-format
+msgid "%(date)s: %(amount)s"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#. odoo-python
+#: code:addons/l10n_br_account_renegotiation/models/account_move.py:0
+#, python-format
+msgid ""
+"<p><strong>Payment Installments Renegotiated</strong></p><p><strong>Previous"
+" installments:</strong><br/>%(old)s</p><p><strong>New "
+"installments:</strong><br/>%(new)s</p>"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_renegotiation.view_installment_renegotiation_wizard_form
+msgid ""
+"<strong>Note:</strong> This action will modify the payment due dates\n"
+"                    and amounts on the posted invoice. The fiscal document (NFe) will\n"
+"                    not be affected. A record of this change will be logged in the\n"
+"                    invoice's chatter."
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_renegotiation.view_installment_renegotiation_wizard_form
+msgid ""
+"<strong>Warning:</strong> The total amount must remain unchanged.\n"
+"                    Please adjust the installment amounts so the difference is zero."
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#. odoo-python
+#: code:addons/l10n_br_account_renegotiation/wizards/installment_renegotiation_wizard.py:0
+#, python-format
+msgid "All installment amounts must be greater than zero."
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#. odoo-python
+#: code:addons/l10n_br_account_renegotiation/wizards/installment_renegotiation_wizard.py:0
+#, python-format
+msgid "All installments must have a due date."
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard_line__amount
+msgid "Amount"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_renegotiation.view_installment_renegotiation_wizard_form
+msgid "Apply"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,help:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard__starting_date
+msgid ""
+"Base date for computing the new payment term. Leave as the Invoice Date for "
+"corrections, or change to today's date for debt renegotiations."
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_bank_statement_line__can_renegotiate_installments
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_move__can_renegotiate_installments
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_payment__can_renegotiate_installments
+msgid "Can Renegotiate Installments"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_renegotiation.view_installment_renegotiation_wizard_form
+msgid "Cancel"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard__company_id
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard_line__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard__create_uid
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard_line__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard__create_date
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard_line__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard__currency_id
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard_line__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard__difference
+msgid "Difference"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,help:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard__difference
+msgid "Difference between original and new totals (must be zero)"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard__display_name
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard_line__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard_line__date_maturity
+msgid "Due Date"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard__id
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard_line__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model,name:l10n_br_account_renegotiation.model_account_installment_renegotiation_wizard
+msgid "Installment Renegotiation Wizard"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model,name:l10n_br_account_renegotiation.model_account_installment_renegotiation_wizard_line
+msgid "Installment Renegotiation Wizard Line"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#. odoo-python
+#: code:addons/l10n_br_account_renegotiation/models/account_move.py:0
+#, python-format
+msgid "Installment renegotiation is only available for invoices and bills."
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard__line_ids
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_renegotiation.view_installment_renegotiation_wizard_form
+msgid "Installments"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard__move_id
+msgid "Invoice"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model,name:l10n_br_account_renegotiation.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard____last_update
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard_line____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard__write_uid
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard_line__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard__write_date
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard_line__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard__payment_term_id
+msgid "New Payment Term"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard__new_total
+msgid "New Total"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#. odoo-python
+#: code:addons/l10n_br_account_renegotiation/models/account_move.py:0
+#: code:addons/l10n_br_account_renegotiation/wizards/installment_renegotiation_wizard.py:0
+#, python-format
+msgid ""
+"Only users with 'Billing Administrator' rights can renegotiate installments."
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard_line__original_line_id
+msgid "Original Line"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard__original_total
+msgid "Original Total"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard_line__payment_mode_id
+msgid "Payment Mode"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#. odoo-python
+#: code:addons/l10n_br_account_renegotiation/models/account_move.py:0
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_renegotiation.view_installment_renegotiation_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_renegotiation.view_move_form_renegotiation
+#, python-format
+msgid "Renegotiate Installments"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,help:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard__payment_term_id
+msgid "Select a payment term to automatically regenerate the installments."
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard__starting_date
+msgid "Starting Date"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,help:l10n_br_account_renegotiation.field_account_bank_statement_line__can_renegotiate_installments
+#: model:ir.model.fields,help:l10n_br_account_renegotiation.field_account_move__can_renegotiate_installments
+#: model:ir.model.fields,help:l10n_br_account_renegotiation.field_account_payment__can_renegotiate_installments
+msgid "Technical field to determine if installment renegotiation is available"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#. odoo-python
+#: code:addons/l10n_br_account_renegotiation/wizards/installment_renegotiation_wizard.py:0
+#, python-format
+msgid "The invoice must be posted to renegotiate installments."
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,help:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard_line__original_line_id
+msgid "The original invoice line this installment is based on (if any)"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#. odoo-python
+#: code:addons/l10n_br_account_renegotiation/wizards/installment_renegotiation_wizard.py:0
+#, python-format
+msgid ""
+"The total amount of installments must remain unchanged. Current difference: "
+"%(diff)s"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#. odoo-python
+#: code:addons/l10n_br_account_renegotiation/models/account_move.py:0
+#, python-format
+msgid ""
+"There are no unreconciled payment term lines to renegotiate. All "
+"installments have been paid or reconciled."
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,help:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard__new_total
+msgid "Total amount of new installments"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,help:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard__original_total
+msgid "Total amount of unreconciled installments before renegotiation"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard_line__wizard_id
+msgid "Wizard"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#. odoo-python
+#: code:addons/l10n_br_account_renegotiation/models/account_move.py:0
+#, python-format
+msgid "You can only renegotiate installments on posted invoices."
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#. odoo-python
+#: code:addons/l10n_br_account_renegotiation/wizards/installment_renegotiation_wizard.py:0
+#, python-format
+msgid "You must have at least one installment."
+msgstr ""
