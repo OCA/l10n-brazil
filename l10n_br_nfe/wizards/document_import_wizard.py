@@ -45,6 +45,11 @@ class DocumentImportWizard(models.TransientModel):
                 self.fiscal_operation_type,
             )
             self._create_imported_products_by_xml(binding)
+            if not self.fiscal_operation_id:
+                # the CFOP declared by the supplier (an outbound one) usually
+                # matches none of our inbound operation lines: suggest the
+                # operation of the imported lines, through the inverse CFOP
+                self.fiscal_operation_id = self._suggest_fiscal_operation()
         return res
 
     @api.model
