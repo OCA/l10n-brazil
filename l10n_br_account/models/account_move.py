@@ -820,4 +820,13 @@ class AccountMove(models.Model):
         if dummy_lines_to_unlink:
             dummy_lines_to_unlink.unlink()
 
+        # Loose coupling with stock_picking_bill_matching (OCA
+        # stock-logistics-workflow), which is NOT a dependency: the imported
+        # bill is offered to its import-time automation, which matches it
+        # against the receipts carrying the same line reference (in Brazil the
+        # reference derived from the purchase order line) when the company asks
+        # for it. The entry point does not exist when the module is absent.
+        if hasattr(move, "_auto_match_on_bill_import"):
+            move._auto_match_on_bill_import()
+
         return move_form
