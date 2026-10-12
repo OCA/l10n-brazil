@@ -6,13 +6,15 @@
 <odoo>
     <!-- NF-e specific list: same as the generic one plus the CFOP tags,
          manifestation badge and NF-e buttons. Referenced explicitly by
-         action_nfe_dfe_document. -->
+         action_nfe_dfe_document. The dfe_document_list js_class renders the
+         DF-e banner, using the default_fiscal_type of the action context. -->
     <record model="ir.ui.view" id="nfe_dfe_document_tree">
         <field name="name">l10n_br_fiscal_dfe.document.tree.nfe</field>
         <field name="model">l10n_br_fiscal_dfe.document</field>
         <field name="priority">10</field>
         <field name="arch" type="xml">
             <list
+                js_class="dfe_document_list"
                 create="false"
                 edit="false"
                 delete="false"
