@@ -105,6 +105,6 @@
     <record id="dfe_distribution_log_action" model="ir.actions.act_window">
         <field name="name">Distribution Log</field>
         <field name="res_model">l10n_br_fiscal_dfe.distribution_log</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 </odoo>
