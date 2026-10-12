@@ -131,6 +131,11 @@ msgid "Amount without discount."
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__transport_modal__03
+msgid "Aquaviário"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_infpaa__cte40_PAASignature
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_infpaa__cte40_PAASignature
 msgid "Assinatura RSA do Emitente"
@@ -206,6 +211,11 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__cte40_tpEmis__8
 msgid "Autorização pela SVC-SP"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__transport_modal__02
+msgid "Aéreo"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -2007,6 +2017,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_dest
 #: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_dest
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_dest
+#: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__service_provider__3
 msgid "Destinatário"
 msgstr ""
 
@@ -2215,6 +2226,11 @@ msgid "Documentos de transporte anterior em papel"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__transport_modal__05
+msgid "Dutoviário"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__cte40_tpEmis__4
 msgid "EPEC pela SVC"
 msgstr ""
@@ -2307,6 +2323,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_exped
 #: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_exped
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_exped
+#: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__service_provider__1
 msgid "Expedidor"
 msgstr ""
 
@@ -2340,6 +2357,11 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__cte40_ferrEmi__1
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__cte40_respFat__1
 msgid "Ferrovia de origem"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__transport_modal__04
+msgid "Ferroviário"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3904,6 +3926,13 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__transport_modal
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__transport_modal
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__transport_modal
+msgid "Modal de Transporte"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_ide__cte40_modal
 msgid "Modal do CT-e OS"
 msgstr ""
@@ -4094,6 +4123,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__brl_currency_id
 msgid "Moeda"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__transport_modal__06
+msgid "Multimodal"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -4658,6 +4692,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__service_provider__4
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document_related__cte40_choice_infNF_infNFE_infOutros__cte40_infoutros
 msgid "Outros"
 msgstr ""
@@ -4929,6 +4964,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_receb
 #: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_receb
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_receb
+#: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__service_provider__2
 msgid "Recebedor"
 msgstr ""
 
@@ -4980,6 +5016,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_rem
 #: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_rem
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_rem
+#: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__service_provider__0
 msgid "Remetente"
 msgstr ""
 
@@ -5026,6 +5063,11 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__cte40_tpTraf__2
 msgid "Rodoferroviário"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__transport_modal__01
+msgid "Rodoviário"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -5869,9 +5911,12 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__service_provider
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__service_provider
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_toma__cte40_toma
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_toma__cte40_toma
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tomaterceiro__cte40_toma
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__service_provider
 msgid "Tomador do Serviço"
 msgstr ""
 
