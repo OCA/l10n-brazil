@@ -121,18 +121,6 @@ class ResCompany(models.Model):
     def _cron_nfe_dfe_search_documents(self):
         return self._cron_dfe_search_documents("nfe")
 
-    @api.model
-    def action_banner_search_all_nfe(self):
-        """Called from the NF-e banner button — delegates to current company."""
-        company = self.env.company
-        result = company.action_document_distribution("nfe")
-        return result or {"type": "ir.actions.client", "tag": "reload"}
-
-    @api.model
-    def action_banner_specific_search_nfe(self):
-        """Called from the NF-e banner button — delegates to current company."""
-        return self.env.company.action_search_specific("nfe")
-
     # ── Schema processors (NT 2014.002) ─────────────────────────────────
 
     def _dfe_create_from_procNFe(self, root, nsu, fiscal_type="nfe"):
