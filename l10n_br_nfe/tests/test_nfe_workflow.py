@@ -89,10 +89,16 @@ class RecordingNFeMock(NFeMock):
     def __init__(self, xml_soap_paths=None):
         super().__init__(xml_soap_paths)
         self.calls = []
+        self.legacy_calls = []
 
     def custom_post(self, location, data, headers):
         self.calls.append(self._resolve_operation(location))
         return super().custom_post(location, data, headers)
+
+    def custom_send(self, operacao, *args, **kwargs):
+        # Legacy erpbrasil.edoc stack: the operation is given directly.
+        self.legacy_calls.append(operacao)
+        return super().custom_send(operacao, *args, **kwargs)
 
 
 class TestNFeWorkflowRejection(TestNFeExport):
