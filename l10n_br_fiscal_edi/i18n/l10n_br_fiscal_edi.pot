@@ -715,13 +715,6 @@ msgid "Response received"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_cancel_wizard__rps_number
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_correction_wizard__rps_number
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_invalidate_number_wizard__rps_number
-msgid "Rps Number"
-msgstr ""
-
-#. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document__send_file_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_invalidate_number__send_file_id
 msgid "Send Document File XML"
