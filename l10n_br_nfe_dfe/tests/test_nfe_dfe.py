@@ -155,9 +155,16 @@ class TestDFe(TransactionCase):
     def test_search_dfe_error_conditions(self):
         """Test various error conditions during DFe search."""
         # 1. Test a 500-level HTTP error
-        with mock.patch.object(
-            DefaultTransport, "post", side_effect=RequestException("Mocked HTTP 500")
-        ) as mock_post_http_error:
+        # brazil_fiscal_client logs the failed SOAP request at ERROR level;
+        # mute it so the OCA CI log scanner doesn't fail the build.
+        with (
+            mute_logger("brazil_fiscal_client.fiscal_client"),
+            mock.patch.object(
+                DefaultTransport,
+                "post",
+                side_effect=RequestException("Mocked HTTP 500"),
+            ) as mock_post_http_error,
+        ):
             self.company.nfe_dfe_search_documents()
             self.assertEqual(self.company.nfe_last_nsu, "0")
             mock_post_http_error.assert_called_once()
