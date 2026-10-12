@@ -64,6 +64,6 @@
     <record model="ir.actions.act_window" id="dfe_action">
         <field name="name">DF-e Records</field>
         <field name="res_model">l10n_br_fiscal_dfe.dfe</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 </odoo>
