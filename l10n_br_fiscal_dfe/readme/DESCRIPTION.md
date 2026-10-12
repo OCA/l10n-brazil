@@ -24,8 +24,9 @@ Funcionalidades genéricas:
   `l10n_br_fiscal_dfe.document` (documento agrupado por chave de acesso)
 - **Consulta manual** — assistente de busca específica por chave de acesso
   (com validação do dígito verificador) ou por NSU
-- **Painel (banner)** genérico exibido nas visões dos módulos específicos
-  via `banner_route`
+- **Painel (banner)** genérico — componente Owl `DfeBanner`, alimentado por
+  `res.company.dfe_get_banner_data(fiscal_type)`, exibido nas listas dos
+  módulos específicos via a `js_class` `dfe_document_list`
 - **Notificações no Inbox** — notifica usuários sobre novos documentos de
   terceiros (preferência por usuário)
 - **Matching automático de parceiro** pelo CNPJ da chave de acesso

@@ -28,6 +28,10 @@ DFE_INTERVAL_NO_DOCS = timedelta(hours=1, minutes=1)  # 137: no docs (cooldown +
 DFE_INTERVAL_RATE_LIMITED = timedelta(hours=1, minutes=1)  # 656: rate limit + margin
 DFE_INTERVAL_ERROR = timedelta(minutes=15)  # Network/exception error
 
+# After 60 days without a query SEFAZ stops generating NSUs for the CNPJ, with
+# no retroactive recovery, so the banner warns well before reaching that.
+DFE_INACTIVITY_WARNING_DAYS = 30
+
 EVENT_TYPE_LABELS = {
     "210200": "Confirmação da Operação",
     "210210": "Ciência da Operação",
