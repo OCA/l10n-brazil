@@ -652,6 +652,11 @@ msgid "Extensão total da ferrovia, rodovia, cabos, dutos ou condutos"
 msgstr ""
 
 #. module: l10n_br_nfse
+#: model:ir.model,name:l10n_br_nfse.model_l10n_br_fiscal_base_wizard_mixin
+msgid "Fiscal Base Wizard Mixin"
+msgstr ""
+
+#. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_account_move_line__fiscal_deductions_value
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_line__fiscal_deductions_value
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_product_product__fiscal_deductions_value
@@ -1392,6 +1397,13 @@ msgid "RPS Nota Fiscal Conjugada (Mista)"
 msgstr ""
 
 #. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_account_bank_statement_line__rps_number
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_account_move__rps_number
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__rps_number
+msgid "RPS Number"
+msgstr ""
+
+#. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Razão Social/Nome"
 msgstr ""
@@ -1404,6 +1416,16 @@ msgstr ""
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Regime esp. Tributação"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_base_wizard_mixin__rps_number
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_cancel_wizard__rps_number
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_correction_wizard__rps_number
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_import_wizard__rps_number
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_status_wizard__rps_number
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_invalidate_number_wizard__rps_number
+msgid "Rps Number"
 msgstr ""
 
 #. module: l10n_br_nfse
