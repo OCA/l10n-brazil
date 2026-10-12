@@ -108,6 +108,6 @@
     >
         <field name="name">NF-e Recipient Manifestation</field>
         <field name="res_model">l10n_br_nfe.md_event</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 </odoo>
