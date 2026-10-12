@@ -15,6 +15,7 @@ from ..constants.dfe import (
     CSTAT_CONSUMO_INDEVIDO,
     CSTAT_NO_DOCS,
     CSTAT_SUCCESS,
+    DFE_INACTIVITY_WARNING_DAYS,
     DFE_INTERVAL_ERROR,
     DFE_INTERVAL_NO_DOCS,
     DFE_INTERVAL_RATE_LIMITED,
@@ -41,8 +42,9 @@ class ResCompany(models.Model):
       client exposing ``consultar_distribuicao(**kwargs)``;
     - implement ``_dfe_create_from_<schema_type>(root, nsu, fiscal_type)``
       for each schema the service distributes (procNFe, resNFe...);
-    - optionaly override ``_dfe_extract_access_key``,
-      ``_dfe_cron_xmlid`` and ``_dfe_document_action_xmlid``.
+    - optionaly override ``_dfe_extract_access_key``, ``_dfe_cron_xmlid``,
+      ``_dfe_document_action_xmlid``, ``_dfe_nsu_action_xmlid`` and
+      ``_dfe_log_action_xmlid``.
     """
 
     _inherit = "res.company"
@@ -91,6 +93,14 @@ class ResCompany(models.Model):
     def _dfe_document_action_xmlid(self, fiscal_type):
         """XML id of the act_window opening the document list, per type."""
         return "l10n_br_fiscal_dfe.dfe_document_action"
+
+    def _dfe_nsu_action_xmlid(self, fiscal_type):
+        """XML id of the act_window opening the NSU list, per fiscal type."""
+        return "l10n_br_fiscal_dfe.dfe_action"
+
+    def _dfe_log_action_xmlid(self, fiscal_type):
+        """XML id of the act_window opening the query logs, per fiscal type."""
+        return "l10n_br_fiscal_dfe.dfe_distribution_log_action"
 
     # ── Helpers ─────────────────────────────────────────────────────────
 
@@ -417,6 +427,103 @@ class ResCompany(models.Model):
                 "default_fiscal_type": fiscal_type,
             },
         }
+
+    # ── Banner ──────────────────────────────────────────────────────────
+
+    @api.model
+    def dfe_get_banner_data(self, fiscal_type):
+        """Return the DF-e banner state for the current company.
+
+        Values are returned raw (datetimes in the server format, counters as
+        integers) so the banner component formats them with the user's locale
+        and timezone. The thresholds stay here, as business rules.
+        """
+        company = self.env.company
+        DfeDocument = self.env["l10n_br_fiscal_dfe.document"]
+
+        def typed(base):
+            return company._dfe_get_typed_value(fiscal_type, base)
+
+        last_query = typed("dfe_last_query")
+        last_nsu = typed("last_nsu")
+        max_nsu = typed("max_nsu")
+
+        inactivity_days = None
+        if last_query:
+            inactivity_days = (fields.Datetime.now() - last_query).days
+
+        return {
+            "fiscal_type": fiscal_type,
+            "last_query": fields.Datetime.to_string(last_query) or None,
+            "next_query": fields.Datetime.to_string(typed("dfe_next_query")) or None,
+            "last_status": typed("dfe_last_status") or None,
+            "last_status_code": typed("dfe_last_status_code") or None,
+            "last_nsu": last_nsu or "0",
+            "max_nsu": max_nsu or "0",
+            "nsu_synced": bool(last_nsu and max_nsu and last_nsu >= max_nsu),
+            "auto_fetch": bool(typed("auto_fetch")),
+            # NF-e/CT-e use "{type}_environment" ("2" = homologation).
+            # NFS-e ADN uses "{type}_dfe_environment" ("producao_restrita").
+            "is_homologation": (typed("dfe_environment") or typed("environment"))
+            in ("2", "producao_restrita"),
+            "today_count": DfeDocument.search_count(
+                [
+                    ("company_id", "=", company.id),
+                    ("fiscal_type", "=", fiscal_type),
+                    ("create_date", ">=", fields.Date.context_today(DfeDocument)),
+                    ("is_own_document", "=", False),
+                ]
+            ),
+            "pending_import_count": self._dfe_count_pending_imports(fiscal_type),
+            "never_queried": not last_query,
+            "inactivity_days": inactivity_days,
+            # After 60 days of inactivity Sefaz stops generating NSUs for the
+            # CNPJ, with no retroactive recovery, so warn well before that.
+            "inactivity_warning": not last_query
+            or inactivity_days > DFE_INACTIVITY_WARNING_DAYS,
+            "nsu_action_id": self._dfe_banner_action_id(
+                company._dfe_nsu_action_xmlid(fiscal_type)
+            ),
+            "log_action_id": self._dfe_banner_action_id(
+                company._dfe_log_action_xmlid(fiscal_type)
+            ),
+        }
+
+    @api.model
+    def _dfe_count_pending_imports(self, fiscal_type):
+        """Count complete documents of a fiscal type with no fiscal document yet."""
+        complete_docs = self.env["l10n_br_fiscal_dfe.document"].search(
+            [
+                ("company_id", "=", self.env.company.id),
+                ("fiscal_type", "=", fiscal_type),
+                ("dfe_ids.document_type_dfe", "=", "complete"),
+            ]
+        )
+        if not complete_docs:
+            return 0
+        imported_keys = set(
+            self.env["l10n_br_fiscal.document"]
+            .search([("document_key", "in", complete_docs.mapped("access_key"))])
+            .mapped("document_key")
+        )
+        return len(
+            complete_docs.filtered(lambda doc: doc.access_key not in imported_keys)
+        )
+
+    @api.model
+    def _dfe_banner_action_id(self, xmlid):
+        action = self.env.ref(xmlid, raise_if_not_found=False)
+        return action.id if action else None
+
+    @api.model
+    def dfe_action_search_all(self, fiscal_type):
+        """Called from the banner's Search All button."""
+        return self.env.company.action_document_distribution(fiscal_type)
+
+    @api.model
+    def dfe_action_specific_search(self, fiscal_type):
+        """Called from the banner's Specific Search button."""
+        return self.env.company.action_search_specific(fiscal_type)
 
     # ── Cron ────────────────────────────────────────────────────────────
 

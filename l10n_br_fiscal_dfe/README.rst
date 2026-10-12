@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ======================
 Monitor de DF-e (Base)
 ======================
@@ -17,7 +13,7 @@ Monitor de DF-e (Base)
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
@@ -60,8 +56,10 @@ Funcionalidades genéricas:
   de acesso)
 - **Consulta manual** — assistente de busca específica por chave de
   acesso (com validação do dígito verificador) ou por NSU
-- **Painel (banner)** genérico exibido nas visões dos módulos
-  específicos via ``banner_route``
+- **Painel (banner)** genérico — componente Owl ``DfeBanner``,
+  alimentado por ``res.company.dfe_get_banner_data(fiscal_type)``,
+  exibido nas listas dos módulos específicos via a ``js_class``
+  ``dfe_document_list``
 - **Notificações no Inbox** — notifica usuários sobre novos documentos
   de terceiros (preferência por usuário)
 - **Matching automático de parceiro** pelo CNPJ da chave de acesso
