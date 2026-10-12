@@ -5,13 +5,17 @@ import xml.etree.ElementTree as ET
 from datetime import datetime
 
 from erpbrasil.base import misc
-from nfselib.paulistana.v02.PedidoEnvioLoteRPS import (
+from nfselib.paulistana.v03.PedidoEnvioLoteRPS_v02 import (
     CabecalhoType,
     PedidoEnvioLoteRPS,
     tpChaveRPS,
-    tpCPFCNPJ,
+    tpCPFCNPJNIF,
     tpEndereco,
+    tpGIBSCBS,
+    tpIBSCBS,
     tpRPS,
+    tpTrib,
+    tpValores,
 )
 from unidecode import unidecode
 
@@ -61,21 +65,16 @@ class Document(models.Model):
 
     def _compute_url_nfse_paulistana(self):
         for doc in self:
-            # requeried fields for the url
             nf = doc.document_number
             inscricao = doc.company_id.l10n_br_im_code
             verificacao = doc.verify_code
-
-            # skip if any of the required fields is empty
             if not all([nf, inscricao, verificacao]):
                 doc.url_nfse_paulistana = ""
                 continue
-
-            nfse_print_url = (
+            doc.url_nfse_paulistana = (
                 "https://nfe.prefeitura.sp.gov.br/contribuinte/notaprint.aspx?"
                 f"nf={nf}&inscricao={inscricao}&verificacao={verificacao}"
             )
-            doc.url_nfse_paulistana = nfse_print_url
 
     def action_open_nfse_paulistana(self):
         return {
@@ -94,8 +93,8 @@ class Document(models.Model):
             doc.is_nfse_paulistana = bool(is_nfse and is_paulistana and use_city_pdf)
 
     def convert_type_nfselib(self, class_object, object_filed, value):
-        if value is None:
-            return value
+        if value is None or value is False:
+            return None
 
         value_type = ""
         for field in class_object().member_data_items_:
@@ -129,10 +128,10 @@ class Document(models.Model):
 
     def _serialize_cabecalho(self, dados_lote_rps):
         return CabecalhoType(
-            Versao=self.convert_type_nfselib(CabecalhoType, "Versao", 1),
-            CPFCNPJRemetente=tpCPFCNPJ(
+            Versao=self.convert_type_nfselib(CabecalhoType, "Versao", 2),
+            CPFCNPJRemetente=tpCPFCNPJNIF(
                 CNPJ=self.convert_type_nfselib(
-                    CabecalhoType, "tpCPFCNPJ", dados_lote_rps["cnpj"]
+                    tpCPFCNPJNIF, "CNPJ", dados_lote_rps["cnpj"]
                 )
             ),
             transacao=False,  # TODO: Verficar origem do dado
@@ -142,19 +141,59 @@ class Document(models.Model):
                 dados_lote_rps["date_in_out"].split("T", 1)[0],
             ),
             dtFim=self.convert_type_nfselib(
-                CabecalhoType, "dtFim", dados_lote_rps["date_in_out"].split("T", 1)[0]
+                CabecalhoType,
+                "dtFim",
+                dados_lote_rps["date_in_out"].split("T", 1)[0],
             ),
             QtdRPS=self.convert_type_nfselib(CabecalhoType, "QtdRPS", "1"),
-            ValorTotalServicos=self.convert_type_nfselib(
-                CabecalhoType, "ValorTotalServicos", dados_lote_rps["total_recebido"]
-            ),
-            ValorTotalDeducoes=self.convert_type_nfselib(
-                CabecalhoType, "ValorTotalDeducoes", dados_lote_rps["carga_tributaria"]
-            ),
         )
+
+    def _nfse_paulistana_discriminacao(self, dados_servico):
+        # No v18 o name da linha fiscal e computado como "<display_name do produto>\n
+        # <descricao manual>" (ex.: "[753] Consultoria\nConsultoria"). A NFS-e, em
+        # paridade com o v14 (onde name era Text puro = so a descricao), usa apenas a
+        # descricao: tudo apos a 1a quebra de linha (a 1a linha e o rotulo do produto).
+        # Sem quebra de linha (linha so com produto, sem descricao manual) remove apenas
+        # o prefixo "[codigo]". O comentario vem de additional_data da LINHA
+        # (renderizado a partir de comment_ids); fiscal_additional_data e do documento
+        # e nunca e usado.
+        descricao = dados_servico["discriminacao"] or ""
+        if "\n" in descricao:
+            descricao = descricao.split("\n", 1)[1]
+        else:
+            code = self.fiscal_line_ids[:1].product_id.default_code
+            if code and descricao.startswith(f"[{code}]"):
+                descricao = descricao[len(f"[{code}]") :]
+        descricao = descricao.strip()
+        adicional = (
+            self.fiscal_line_ids[:1].additional_data or self.fiscal_additional_data
+        )
+        if adicional:
+            descricao += "|{}|".format(adicional.replace("\n", "|"))
+        return unidecode(descricao)
 
     def _serialize_lote_rps(self, dados_lote_rps, dados_servico):
         dados_tomador = self._prepare_dados_tomador()
+        gIBSCBS = tpGIBSCBS(
+            cClassTrib=self.convert_type_nfselib(
+                tpGIBSCBS,
+                "cClassTrib",
+                self.fiscal_line_ids[:1].tax_classification_id.code,
+            )
+        )
+        trib = tpTrib(gIBSCBS=gIBSCBS)
+        valores = tpValores(trib=trib)
+        IBSCBS = tpIBSCBS(
+            finNFSe=self.convert_type_nfselib(tpIBSCBS, "finNFSe", 0),
+            indFinal=self.convert_type_nfselib(tpIBSCBS, "indFinal", 0),
+            cIndOp=self.convert_type_nfselib(
+                tpIBSCBS,
+                "cIndOp",
+                self.fiscal_line_ids[:1].operation_indicator_id.code,
+            ),
+            indDest=self.convert_type_nfselib(tpIBSCBS, "indDest", 1),
+            valores=valores,
+        )
         return tpRPS(
             Assinatura=self.assinatura_rps(
                 dados_lote_rps, dados_servico, dados_tomador
@@ -182,17 +221,19 @@ class Document(models.Model):
                 "TributacaoRPS",
                 self._map_taxation_rps(dados_lote_rps["natureza_operacao"]),
             ),
-            ValorServicos=self.convert_type_nfselib(
-                tpRPS, "ValorServicos", dados_servico["valor_servicos"]
+            # Schema v02 (reforma) define ValorInicialCobrado XOR ValorFinalCobrado
+            # (xs:choice): enviar apenas UM. Enviamos ValorFinalCobrado (paridade v14).
+            ValorFinalCobrado=self.convert_type_nfselib(
+                tpRPS, "ValorFinalCobrado", dados_servico["valor_servicos"]
             ),
             ValorDeducoes=self.convert_type_nfselib(
                 tpRPS, "ValorDeducoes", dados_servico["valor_deducoes"]
             ),
             ValorPIS=self.convert_type_nfselib(
-                tpRPS, "ValorPIS", dados_servico["valor_pis_retido"]
+                tpRPS, "ValorPIS", dados_servico["valor_pis"]
             ),
             ValorCOFINS=self.convert_type_nfselib(
-                tpRPS, "ValorCOFINS", dados_servico["valor_cofins_retido"]
+                tpRPS, "ValorCOFINS", dados_servico["valor_cofins"]
             ),
             ValorINSS=self.convert_type_nfselib(
                 tpRPS, "ValorINSS", dados_servico["valor_inss_retido"]
@@ -200,21 +241,45 @@ class Document(models.Model):
             ValorIR=self.convert_type_nfselib(
                 tpRPS, "ValorIR", dados_servico["valor_ir_retido"]
             ),
+            # Manual da Paulistana: ValorCSLL carrega o somatorio das retencoes
+            # federais (PIS + COFINS + CSLL retidos), nao o CSLL isolado.
             ValorCSLL=self.convert_type_nfselib(
-                tpRPS, "ValorCSLL", dados_servico["valor_csll_retido"]
+                tpRPS,
+                "ValorCSLL",
+                dados_servico["valor_pis_retido"]
+                + dados_servico["valor_cofins_retido"]
+                + dados_servico["valor_csll_retido"],
             ),
             CodigoServico=self.convert_type_nfselib(
                 tpRPS, "CodigoServico", dados_servico["codigo_tributacao_municipio"]
             ),
+            # Reforma Tributária — novos campos obrigatórios v3.3.4
+            ExigibilidadeSuspensa=self.convert_type_nfselib(
+                tpRPS, "ExigibilidadeSuspensa", 0
+            ),
+            PagamentoParceladoAntecipado=self.convert_type_nfselib(
+                tpRPS, "PagamentoParceladoAntecipado", 0
+            ),
+            NBS=self.convert_type_nfselib(
+                tpRPS, "NBS", dados_servico["codigo_nbs_unmasked"]
+            ),
+            # Schema v02 (reforma) define cLocPrestacao XOR cPaisPrestacao (xs:choice):
+            # servico prestado no Brasil usa cLocPrestacao (codigo IBGE do municipio).
+            cLocPrestacao=self.convert_type_nfselib(
+                tpRPS, "cLocPrestacao", self.partner_id.city_id.ibge_code
+            ),
+            ValorIPI=self.convert_type_nfselib(tpRPS, "ValorIPI", 0),
             AliquotaServicos=self.convert_type_nfselib(
                 tpRPS, "AliquotaServicos", dados_servico["aliquota"]
             ),
-            ISSRetido="true" if dados_servico["iss_retido"] == "1" else "false",
+            ISSRetido="true"
+            if float(dados_servico.get("valor_iss_retido") or 0) > 0
+            else "false",
             # FIXME: Hardcoded
             CPFCNPJTomador=self.convert_type_nfselib(
                 tpRPS,
                 "CPFCNPJTomador",
-                tpCPFCNPJ(CNPJ=dados_tomador["cnpj"], CPF=dados_tomador["cpf"]),
+                tpCPFCNPJNIF(CNPJ=dados_tomador["cnpj"], CPF=dados_tomador["cpf"]),
             ),
             InscricaoMunicipalTomador=self.convert_type_nfselib(
                 tpRPS,
@@ -255,22 +320,7 @@ class Document(models.Model):
             Discriminacao=self.convert_type_nfselib(
                 tpRPS,
                 "Discriminacao",
-                unidecode(
-                    dados_servico["discriminacao"]
-                    + (
-                        "|{}|".format(self.fiscal_additional_data.replace("\n", "|"))
-                        if self.fiscal_additional_data
-                        else ""
-                    )
-                ),
-            ),
-            ValorCargaTributaria=self.convert_type_nfselib(
-                tpRPS,
-                "ValorCargaTributaria",
-                dados_lote_rps["carga_tributaria_estimada"],
-            ),
-            FonteCargaTributaria=self.convert_type_nfselib(
-                tpRPS, "FonteCargaTributaria", "IBPT"
+                self._nfse_paulistana_discriminacao(dados_servico),
             ),
             MunicipioPrestacao=self.convert_type_nfselib(
                 CabecalhoType,
@@ -280,68 +330,69 @@ class Document(models.Model):
                     dados_servico["codigo_municipio"],
                 ),
             ),
-        )
-
-    def _serialize_rps(self, dados):
-        return tpRPS(
-            InscricaoMunicipalTomador=self.convert_type_nfselib(
-                tpRPS, "InscricaoMunicipalTomador", dados["inscricao_municipal"]
+            IBSCBS=IBSCBS,
+            RetencaoPisCofins=self.convert_type_nfselib(
+                tpRPS,
+                "RetencaoPisCofins",
+                self._map_retencao_pis_cofins(
+                    dados_servico["valor_pis_retido"],
+                    dados_servico["valor_cofins_retido"],
+                    dados_servico["valor_csll_retido"],
+                ),
             ),
-            CPFCNPJTomador=tpCPFCNPJ(
-                Cnpj=self.convert_type_nfselib(tpCPFCNPJ, "Cnpj", dados["cnpj"]),
-                Cpf=self.convert_type_nfselib(tpCPFCNPJ, "Cpf", dados["cpf"]),
-            ),
-            RazaoSocialTomador=self.convert_type_nfselib(
-                tpRPS, "RazaoSocialTomador", dados["razao_social"]
-            ),
-            EnderecoTomador=tpEndereco(
-                Logradouro=self.convert_type_nfselib(
-                    tpEndereco, "Logradouro", dados["endereco"]
-                ),
-                NumeroEndereco=self.convert_type_nfselib(
-                    tpEndereco, "NumeroEndereco", dados["numero"]
-                ),
-                ComplementoEndereco=self.convert_type_nfselib(
-                    tpEndereco, "ComplementoEndereco", dados["complemento"]
-                ),
-                Bairro=self.convert_type_nfselib(tpEndereco, "Bairro", dados["bairro"]),
-                Cidade=self.convert_type_nfselib(
-                    tpEndereco, "Cidade", dados["codigo_municipio"]
-                ),
-                UF=self.convert_type_nfselib(tpEndereco, "UF", dados["uf"]),
-                CEP=self.convert_type_nfselib(tpEndereco, "CEP", dados["cep"]),
-            )
-            or None,
         )
 
     def assinatura_rps(self, dados_lote_rps, dados_servico, dados_tomador):
+        """Monta os bytes ASCII da assinatura do RPS (pre-Base64).
+
+        Layout da Reforma Tributária: inscrição municipal com 12 dígitos
+        (o layout anterior usava 8).
+        """
         assinatura = ""
 
-        assinatura += dados_lote_rps["inscricao_municipal"].zfill(8)
-        assinatura += dados_lote_rps["serie"].ljust(5, " ")
-        assinatura += dados_lote_rps["numero"].zfill(12)
-        assinatura += datetime.strptime(
-            dados_lote_rps["data_emissao"], "%Y-%m-%dT%H:%M:%S"
-        ).strftime("%Y%m%d")
-        assinatura += self._map_taxation_rps(dados_lote_rps["natureza_operacao"])
-        assinatura += "N"  # Corrigir - Verificar status do RPS
-        assinatura += "S" if dados_servico["iss_retido"] == "1" else "N"
-        assinatura += (
-            "{:.2f}".format(dados_servico["valor_servicos"]).replace(".", "").zfill(15)
-        )
-        assinatura += (
-            "{:.2f}".format(dados_lote_rps["carga_tributaria"])
-            .replace(".", "")
-            .zfill(15)
-        )
-        assinatura += dados_servico["codigo_tributacao_municipio"].zfill(5)
-        assinatura += "2" if dados_tomador["cnpj"] else "1"
-        assinatura += (dados_tomador["cnpj"] or dados_tomador["cpf"]).zfill(14)
-        # assinatura += '3'
-        # assinatura += ''.zfill(14)
-        # assinatura += 'N'
+        inscr_mun = misc.punctuation_rm(dados_lote_rps["inscricao_municipal"] or "")
+        assinatura += inscr_mun.zfill(12)
+        assinatura += (dados_lote_rps["serie"] or "").ljust(5)[:5]
+        assinatura += str(dados_lote_rps["numero"]).zfill(12)
 
-        return assinatura
+        dt_emissao = datetime.strptime(
+            dados_lote_rps["data_emissao"], "%Y-%m-%dT%H:%M:%S"
+        )
+        assinatura += dt_emissao.strftime("%Y%m%d")
+        assinatura += self._map_taxation_rps(dados_lote_rps["natureza_operacao"])
+
+        status_rps = dados_lote_rps.get("status_rps") or "N"
+        assinatura += status_rps
+
+        assinatura += (
+            "S" if float(dados_servico.get("valor_iss_retido") or 0) > 0 else "N"
+        )
+
+        valor_inicial_cobrado = dados_servico.get("valor_inicial_cobrado")
+        valor_final_cobrado = dados_servico.get("valor_servicos")
+        valor_base_assinatura = (
+            valor_inicial_cobrado
+            if valor_inicial_cobrado is not None
+            else valor_final_cobrado
+            if valor_final_cobrado is not None
+            else dados_servico["valor_servicos"]
+        )
+        assinatura += f"{float(valor_base_assinatura):.2f}".replace(".", "").zfill(15)
+
+        valor_deducoes = dados_servico.get("valor_deducoes", 0.0)
+        assinatura += f"{float(valor_deducoes):.2f}".replace(".", "").zfill(15)
+
+        assinatura += str(dados_servico["codigo_tributacao_municipio"]).zfill(5)
+
+        has_cnpj_tomador = bool(dados_tomador.get("cnpj"))
+        assinatura += "2" if has_cnpj_tomador else "1"
+
+        doc_tomador = misc.punctuation_rm(
+            dados_tomador.get("cnpj") or dados_tomador.get("cpf") or ""
+        )
+        assinatura += doc_tomador.zfill(14)
+
+        return assinatura.encode("ascii")
 
     def _map_taxation_rps(self, operation_nature):
         # FIXME: Lidar com diferença de tributado em São Paulo ou não
@@ -370,6 +421,25 @@ class Document(models.Model):
         }
 
         return dict_type_rps[rps_type]
+
+    def _map_retencao_pis_cofins(
+        self, valor_pis_retido, valor_cofins_retido, valor_csll_retido
+    ):
+        # NT-007: indicador de retenção de PIS/COFINS/CSLL
+        dict_retencao_pis_cofins_csll = {
+            (False, False, False): "0",  # PIS/COFINS/CSLL Não Retidos.
+            (True, True, True): "3",  # PIS/COFINS/CSLL Retidos.
+            (True, True, False): "4",  # PIS/COFINS Retidos, CSLL Não Retido.
+            (True, False, False): "5",  # PIS Retido, COFINS/CSLL Não Retidos.
+            (False, True, False): "6",  # COFINS Retido, PIS/CSLL Não Retidos.
+            (False, True, True): "7",  # PIS Não Retido, COFINS/CSLL Retidos.
+            (False, False, True): "8",  # PIS/COFINS Não Retidos, CSLL Retido.
+            (True, False, True): "9",  # COFINS Não Retido, PIS/CSLL Retidos.
+        }
+        pis_retido = float(valor_pis_retido or 0) > 0
+        cofins_retido = float(valor_cofins_retido or 0) > 0
+        csll_retido = float(valor_csll_retido or 0) > 0
+        return dict_retencao_pis_cofins_csll[(pis_retido, cofins_retido, csll_retido)]
 
     def _eletronic_document_send(self):
         super()._eletronic_document_send()
@@ -418,9 +488,7 @@ class Document(models.Model):
                                     for erro in retorno.findall("Erro"):
                                         codigo = erro.find("Codigo").text
                                         descricao = erro.find("Descricao").text
-                                        mensagem_erro += (
-                                            codigo + " - " + descricao + "\n"
-                                        )
+                                        mensagem_erro += f"{codigo} - {descricao}\n"
 
                                     vals["edoc_error_message"] = mensagem_erro
                                     vals["status_name"] = _("Procesado com Erro")
@@ -432,7 +500,6 @@ class Document(models.Model):
     def _document_status(self):
         status = super()._document_status()
         for record in self.filtered(filter_oca_nfse).filtered(filter_paulistana):
-            vals = dict()
             processador = record._processador_erpbrasil_nfse()
             processo = processador.consulta_nfse_rps(
                 numero_rps=record.rps_number,
@@ -443,32 +510,32 @@ class Document(models.Model):
                 or None,
                 cnpj_prest=misc.punctuation_rm(record.company_id.partner_id.vat),
             )
-
             consulta = processador.analisa_retorno_consulta(processo)
-            retorno = ET.fromstring(processo.retorno)
-
-            if processo.webservice in CONSULTA_LOTE:
-                if processo.resposta.Cabecalho.Sucesso:
-                    nfse = retorno.find(".//NFe")
-
-                    vals["document_number"] = nfse.find(".//NumeroNFe").text
-                    vals["authorization_date"] = nfse.find(".//DataEmissaoRPS").text
-                    vals["verify_code"] = nfse.find(".//CodigoVerificacao").text
-                    vals["status_name"] = _("Procesado com Sucesso")
-                    vals["status_code"] = 4
-                    vals["edoc_error_message"] = ""
-
-                    record.authorization_event_id.set_done(
-                        status_code=4,
-                        response=vals["status_name"],
-                        protocol_date=vals["authorization_date"],
-                        protocol_number=nfse.find(".//CodigoVerificacao").text,
-                        file_response_xml=processo.retorno,
-                    )
-
-                    record._change_state(SITUACAO_EDOC_AUTORIZADA)
-                    record.write(vals)
-            status = _(consulta)
+            if isinstance(consulta, dict):
+                # erpbrasil.edoc devolve o texto cru do elemento DataEmissaoNFe
+                # (xsd:dateTime, ex.: "2020-01-01T10:00:00") e campos Datetime
+                # do Odoo so aceitam "%Y-%m-%d %H:%M:%S".
+                data_emissao = fields.Datetime.to_datetime(
+                    consulta["data_emissao"].replace("T", " ")
+                )
+                record.write(
+                    {
+                        "verify_code": consulta["codigo_verificacao"],
+                        "document_number": consulta["numero"],
+                        "authorization_date": data_emissao,
+                    }
+                )
+                record.authorization_event_id.set_done(
+                    status_code=4,
+                    response=_("Procesado com Sucesso"),
+                    protocol_date=data_emissao,
+                    protocol_number=record.authorization_protocol,
+                    file_response_xml=processo.retorno,
+                )
+                status = _("Procesado com Sucesso")
+            else:
+                # erpbrasil.edoc returns the webservice error message as text
+                status = consulta
         return status
 
     def cancel_document_paulistana(self):
