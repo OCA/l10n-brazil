@@ -97,3 +97,22 @@ class TestDfeBannerData(TransactionCase):
 
         data = self._banner_data()
         self.assertEqual(data["pending_import_count"], len(complete_docs))
+
+    @mock.patch.object(DefaultTransport, "post")
+    def test_pending_imports_per_company(self, mock_post):
+        """Only fiscal documents of the current company count as imported."""
+        mock_post.return_value = response_sucesso_multiplos.encode("utf-8")
+        self.company.nfe_dfe_last_query = fields.Datetime.now()
+        self.company.nfe_dfe_search_documents()
+        access_key = "35200159594315000157550010000000012062777161"
+
+        # The issuer of an intercompany NF-e holds the same access key.
+        issuer_doc = self.env.ref("l10n_br_nfe.demo_nfe_national_sale_for_same_state")
+        self.assertEqual(issuer_doc.document_key, access_key)
+        self.assertNotEqual(issuer_doc.company_id, self.company)
+        self.assertEqual(self._banner_data()["pending_import_count"], 1)
+
+        imported_doc = self.env.ref("l10n_br_fiscal.demo_nfe_purchase_same_state")
+        self.assertEqual(imported_doc.company_id, self.company)
+        imported_doc.document_key = access_key
+        self.assertEqual(self._banner_data()["pending_import_count"], 0)
