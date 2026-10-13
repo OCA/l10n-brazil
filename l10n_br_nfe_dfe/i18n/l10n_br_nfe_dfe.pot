@@ -89,6 +89,11 @@ msgid "Desconhecimento"
 msgstr ""
 
 #. module: l10n_br_nfe_dfe
+#: model:ir.model.fields,help:l10n_br_nfe_dfe.field_l10n_br_fiscal_dfe_document__fiscal_document_id
+msgid "Fiscal document already imported with this access key."
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
 #: model:ir.model,name:l10n_br_nfe_dfe.model_l10n_br_fiscal_dfe_document
 msgid "Fiscal document from distribution service"
 msgstr ""
