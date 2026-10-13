@@ -29,6 +29,7 @@
                         type="object"
                         icon="fa-file-text-o"
                         class="oe_highlight"
+                        invisible="fiscal_document_id"
                     />
                     <button
                         string="Match Partner"
@@ -53,6 +54,7 @@
                             <field name="document_state" />
                             <field name="document_amount" widget="monetary" />
                             <field name="currency_id" invisible="1" />
+                            <field name="fiscal_document_id" />
                             <field
                                 name="company_id"
                                 groups="base.group_multi_company"
@@ -119,6 +121,7 @@
                 <field name="partner_id" />
                 <field name="document_amount" string="Amount" widget="monetary" />
                 <field name="currency_id" invisible="1" />
+                <field name="fiscal_document_id" />
                 <field name="document_state_label" string="State" />
                 <button
                     string="XML"
@@ -131,6 +134,7 @@
                     string="Import"
                     type="object"
                     icon="fa-file-text-o"
+                    invisible="fiscal_document_id"
                 />
             </list>
         </field>
@@ -164,6 +168,11 @@
                     domain="[('color_status', '=', 'muted')]"
                 />
                 <separator />
+                <filter
+                    name="to_import"
+                    string="To import"
+                    domain="[('fiscal_document_id', '=', False)]"
+                />
                 <filter
                     name="no_partner"
                     string="No Partner"
@@ -207,5 +216,6 @@
         <field name="res_model">l10n_br_fiscal_dfe.document</field>
         <field name="view_mode">list,form</field>
         <field name="domain">[('is_own_document', '=', False)]</field>
+        <field name="context">{'search_default_to_import': 1}</field>
     </record>
 </odoo>

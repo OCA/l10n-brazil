@@ -29,7 +29,7 @@ class L10nBrFiscalDfeDocument(models.Model):
         ),
     ]
 
-    access_key = fields.Char(size=44, required=True, index=True)
+    access_key = fields.Char(size=50, required=True, index=True)
 
     fiscal_type = fields.Selection(
         selection=[("nfe", "NF-e"), ("cte", "CT-e")],
@@ -68,7 +68,8 @@ class L10nBrFiscalDfeDocument(models.Model):
 
     document_emission_date = fields.Datetime(string="Emission Date")
 
-    serie = fields.Char(size=3)
+    # A national NFS-e DPS series has up to 5 characters (TSSerieDPS).
+    serie = fields.Char(size=5)
 
     color_status = fields.Selection(
         [
@@ -101,6 +102,14 @@ class L10nBrFiscalDfeDocument(models.Model):
         help="True when the emitter CNPJ in the access key matches the company CNPJ.",
     )
 
+    fiscal_document_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document",
+        string="Fiscal Document",
+        compute="_compute_fiscal_document_id",
+        search="_search_fiscal_document_id",
+        help="Fiscal document already imported with this access key.",
+    )
+
     @api.depends("access_key")
     def _compute_partner_id(self):
         Partner = self.env["res.partner"]
@@ -119,6 +128,65 @@ class L10nBrFiscalDfeDocument(models.Model):
     def action_match_partner(self):
         """Re-run the partner matching logic"""
         self.sudo()._compute_partner_id()
+
+    @api.depends("access_key", "company_id")
+    def _compute_fiscal_document_id(self):
+        """Link each inbox row to the fiscal document that shares its access key."""
+        keys = [key for key in self.mapped("access_key") if key]
+        grouped = {}
+        if keys:
+            matches = self.env["l10n_br_fiscal.document"].search(
+                [("document_key", "in", keys)]
+            )
+            for document in matches:
+                grouped.setdefault(
+                    document.document_key, self.env["l10n_br_fiscal.document"]
+                )
+                grouped[document.document_key] |= document
+        empty = self.env["l10n_br_fiscal.document"]
+        for record in self:
+            candidates = grouped.get(record.access_key, empty)
+            record.fiscal_document_id = record._match_fiscal_document(candidates)
+
+    def _match_fiscal_document(self, candidates):
+        """Return the fiscal document imported from this inbox row.
+
+        ``candidates`` already share this access key. The default keeps the
+        document of the same company. A fiscal-type module overrides this
+        when its match differs and may ignore ``candidates``.
+        """
+        self.ensure_one()
+        same_company = candidates.filtered(
+            lambda document, company=self.company_id: document.company_id == company
+        )
+        return (same_company or candidates)[:1]
+
+    def _search_fiscal_document_id(self, operator, value):
+        """Inbox rows whose access key is already a fiscal document key."""
+        if operator in ("=", "!=") and not value:
+            key_operator = "not in" if operator == "=" else "in"
+            return [("access_key", key_operator, self._imported_access_keys())]
+        fiscal_documents = self.env["l10n_br_fiscal.document"]
+        if operator in ("=", "in"):
+            ids = value if operator == "in" else [value]
+            keys = fiscal_documents.browse([item for item in ids if item]).mapped(
+                "document_key"
+            )
+            return [("access_key", "in", keys)]
+        if operator in ("!=", "not in"):
+            ids = value if operator == "not in" else [value]
+            keys = fiscal_documents.browse([item for item in ids if item]).mapped(
+                "document_key"
+            )
+            return [("access_key", "not in", keys)]
+        return NotImplemented
+
+    def _imported_access_keys(self):
+        return (
+            self.env["l10n_br_fiscal.document"]
+            .search([("document_key", "!=", False)])
+            .mapped("document_key")
+        )
 
     @api.depends("access_key", "company_id.vat")
     def _compute_is_own_document(self):
