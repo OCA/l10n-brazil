@@ -173,9 +173,9 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
             service_info.get("municipio_prestacao_servico") or 0
         )
 
-        # Usado em _prepare_payload_nacional para decidir se a alíquota do
-        # ISSQN deve ser enviada (erros E0617/E0619 do Sistema Nacional
-        # NFS-e). Vem do campo editável no documento NFS-e.
+        # Used in _prepare_payload_nacional to decide whether the ISSQN
+        # rate must be sent (errors E0617/E0619 from the Sistema Nacional
+        # NFS-e). Comes from the editable field on the NFS-e document.
         municipio_ativo_nfse_nacional = service_info.get(
             "municipio_ativo_nfse_nacional", True
         )
@@ -463,14 +463,15 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
             "ibs_uf_valor": service_basic["ibs_uf_valor"],
             "ibs_mun_valor": service_basic["ibs_mun_valor"],
             "cbs_valor": service_basic["cbs_valor"],
-            # Regra do Sistema Nacional NFS-e para percentual_aliquota_
+            # Sistema Nacional NFS-e rule for percentual_aliquota_
             # relativa_municipio: optante do Simples Nacional (codigo_
-            # opcao_simples_nacional == 2) -> sempre enviar (alíquota é
-            # calculada por empresa, não existe no cadastro do município).
-            # Não optante (== 1) -> só enviar se o município de incidência
-            # está INATIVO no Sistema Nacional (E0619 se omitida); se
-            # ATIVO, nunca enviar (E0617 se enviada, confirmado em
-            # produção: erro ocorre com opSimpNac=1 + município ATIVO).
+            # opcao_simples_nacional == 2) -> always send (the rate is
+            # company-specific, it isn't in the municipality's own
+            # registry). Non-optante (== 1) -> only send if the
+            # municipality of incidence is INATIVO (inactive) on the
+            # Sistema Nacional (E0619 if omitted); if ATIVO (active),
+            # never send (E0617 if sent, confirmed in production: the
+            # error happens with opSimpNac=1 + an active municipality).
             **(
                 {
                     "percentual_aliquota_relativa_municipio": service_basic[

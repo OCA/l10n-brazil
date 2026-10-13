@@ -794,8 +794,9 @@ class TestL10nBrNfseFocus(common.TransactionCase):
 
         A provider optante do Simples Nacional (codigo_opcao_simples_nacional
         == 2) has its own company-specific combined aliquota, which isn't on
-        the município's own registry, so it must always be forwarded,
-        regardless of the município's status in the Sistema Nacional NFS-e.
+        the municipality's own registry, so it must always be forwarded,
+        regardless of the municipality's status in the Sistema Nacional
+        NFS-e.
         """
         nfse_nacional = self.env["focusnfe.nfse.nacional"]
         self.company.city_id = self.env.ref("l10n_br_base.city_3550308")
@@ -817,14 +818,15 @@ class TestL10nBrNfseFocus(common.TransactionCase):
     def test_prepare_payload_nacional_suppresses_aliquota_non_simples_municipio_ativo(
         self,
     ):
-        """Tests aliquota is omitted for a non-optante provider in an active município.
+        """Tests aliquota is omitted for a non-optante provider
+        in an active municipality.
 
         Confirmed in production (error E0617): the Sistema Nacional NFS-e
         rejects percentual_aliquota_relativa_municipio whenever the provider
         is not optante do Simples Nacional (codigo_opcao_simples_nacional ==
-        1, i.e. opSimpNac = 1) and the município de incidência is already
-        "ATIVO" in the Sistema Nacional NFS-e — the system then uses its own
-        registered municipal rate.
+        1, i.e. opSimpNac = 1) and the municipality of incidence is already
+        "ATIVO" (active) in the Sistema Nacional NFS-e — the system then
+        uses its own registered municipal rate.
         """
         nfse_nacional = self.env["focusnfe.nfse.nacional"]
         edoc = {
@@ -843,13 +845,15 @@ class TestL10nBrNfseFocus(common.TransactionCase):
     def test_prepare_payload_nacional_sends_aliquota_non_simples_municipio_inativo(
         self,
     ):
-        """Tests aliquota is sent for a non-optante provider in an inactive município.
+        """Tests aliquota is sent for a non-optante provider
+        in an inactive municipality.
 
         The Sistema Nacional NFS-e requires percentual_aliquota_relativa_
         municipio (error E0619 otherwise) for a provider not optante do
         Simples Nacional (codigo_opcao_simples_nacional == 1) while the
-        município de incidência is still "INATIVO" in the Sistema Nacional
-        NFS-e and can't look up its own registered rate yet.
+        municipality of incidence is still "INATIVO" (inactive) in the
+        Sistema Nacional NFS-e and can't look up its own registered rate
+        yet.
         """
         nfse_nacional = self.env["focusnfe.nfse.nacional"]
         edoc = {
@@ -895,9 +899,9 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         """Tests municipio_ativo_nfse_nacional defaults to True when absent.
 
         Older callers/fixtures that don't carry the document's
-        nfse_nacional_municipio_ativo field must still be treated as an
-        active município (the status of most municípios), not break the
-        E0617/E0619 aliquota decision.
+        nfse_nacional_municipality_active field must still be treated as an
+        active municipality (the status of most municipalities), not break
+        the E0617/E0619 aliquota decision.
         """
         nfse_nacional = self.env["focusnfe.nfse.nacional"]
 
