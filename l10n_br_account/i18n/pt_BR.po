@@ -1844,12 +1844,6 @@ msgid "Mercadoria para Revenda"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__transport_modal
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__transport_modal
-msgid "Modal de Transporte"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_ir_model_data
 msgid "Model Data"
 msgstr ""
@@ -2195,12 +2189,6 @@ msgid "Quantity (proxy)"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__rps_number
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__rps_number
-msgid "RPS Number"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_ir_rule
 msgid "Record Rule"
 msgstr ""
@@ -2540,12 +2528,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__edoc_refund_debit_type
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__edoc_refund_debit_type
 msgid "Tipo de Nota de Débito"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__service_provider
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__service_provider
-msgid "Tomador do Serviço"
 msgstr ""
 
 #. module: l10n_br_account
