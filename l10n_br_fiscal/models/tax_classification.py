@@ -35,6 +35,20 @@ class TaxClassification(models.Model):
                 f"{prefix}%" if len(prefix) == 3 else "__no_match__%"
             )
 
+    def _get_cst(self, tax_domain):
+        """Return the IBS or CBS CST of the classification.
+
+        The first three digits of the cClassTrib are the CST (IT 2025.002),
+        and a CST that does not match them is rejected (rule UB14-20).
+        """
+        self.ensure_one()
+        if not self.code or len(self.code) < 3:
+            return self.env["l10n_br_fiscal.cst"]
+        return self.env["l10n_br_fiscal.cst"].search(
+            [("code", "=", self.code[:3]), ("tax_domain", "=", tax_domain)],
+            limit=1,
+        )
+
     tax_ibs_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax IBS",
