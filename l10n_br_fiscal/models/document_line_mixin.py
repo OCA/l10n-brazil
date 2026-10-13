@@ -427,6 +427,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         "icms_cst_id",
         "ind_final",
         "icms_relief_id",
+        "tax_classification_id",
     )
     def _compute_tax_fields(self):
         """
@@ -790,9 +791,20 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             "ii_value": tax_dict.get("tax_value", 0.00),
         }
 
+    def _get_ibscbs_cst_id(self, tax_dict, tax_domain):
+        """CST of IBS/CBS: derived from the cClassTrib, the tax CST is only
+        the fallback (a classification can point to a tax of another CST)."""
+        self.ensure_one()
+        cst = False
+        if self.tax_classification_id:
+            cst = self.tax_classification_id._get_cst(tax_domain)
+        if not cst:
+            cst = tax_dict.get("cst_id")
+        return cst.id if cst else False
+
     def _prepare_fields_cbs(self, tax_dict):
         self.ensure_one()
-        cst_id = tax_dict.get("cst_id").id if tax_dict.get("cst_id") else False
+        cst_id = self._get_ibscbs_cst_id(tax_dict, TAX_DOMAIN_CBS)
         return {
             "cbs_cst_id": cst_id,
             "cbs_base_type": tax_dict.get("base_type", False),
@@ -804,7 +816,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     def _prepare_fields_ibs(self, tax_dict):
         self.ensure_one()
-        cst_id = tax_dict.get("cst_id").id if tax_dict.get("cst_id") else False
+        cst_id = self._get_ibscbs_cst_id(tax_dict, TAX_DOMAIN_IBS)
         return {
             "ibs_cst_id": cst_id,
             "ibs_base_type": tax_dict.get("base_type", False),
@@ -1883,7 +1895,9 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     cbs_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST CBS",
-        domain="[('cst_type', '=', fiscal_operation_type),('tax_domain', '=', 'cbs')]",
+        domain="['|', ('cst_type', '=', fiscal_operation_type),"
+        "('cst_type', '=', 'all'),"
+        "('tax_domain', '=', 'cbs')]",
         compute="_compute_tax_fields",
         store=True,
         precompute=True,
@@ -1953,7 +1967,9 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     ibs_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST IBS",
-        domain="[('cst_type', '=', fiscal_operation_type),('tax_domain', '=', 'ibs')]",
+        domain="['|', ('cst_type', '=', fiscal_operation_type),"
+        "('cst_type', '=', 'all'),"
+        "('tax_domain', '=', 'ibs')]",
         compute="_compute_tax_fields",
         store=True,
         precompute=True,
