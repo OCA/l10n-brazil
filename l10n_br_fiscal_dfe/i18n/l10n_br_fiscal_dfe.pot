@@ -419,6 +419,11 @@ msgid "Fiscal Type"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__fiscal_document_id
+msgid "Fiscal document already imported with this access key."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
 #: model:ir.model,name:l10n_br_fiscal_dfe.model_l10n_br_fiscal_dfe_document
 msgid "Fiscal document from distribution service"
 msgstr ""
@@ -440,6 +445,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_tree
 msgid "Import"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__fiscal_document_id
+msgid "Imported Document"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
@@ -726,6 +736,11 @@ msgstr ""
 #. module: l10n_br_fiscal_dfe
 #: model:ir.ui.menu,name:l10n_br_fiscal_dfe.dfe_document_menu
 msgid "Third-party Documents"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_search
+msgid "To import"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
