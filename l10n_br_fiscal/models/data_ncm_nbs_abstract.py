@@ -113,6 +113,7 @@ class DataNcmNbsAbstract(models.AbstractModel):
                         "origin": result.fonte,
                         "state_id": company.state_id.id,
                         "state_taxes": result.estadual,
+                        "municipal_taxes": result.municipal,
                         "federal_taxes_national": result.nacional,
                         "federal_taxes_import": result.importado,
                     }
