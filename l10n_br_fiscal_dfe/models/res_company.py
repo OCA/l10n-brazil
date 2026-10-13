@@ -501,9 +501,17 @@ class ResCompany(models.Model):
         )
         if not complete_docs:
             return 0
+        # Restrict to the current company: the same access key can belong to
+        # another company of the database, e.g. the issuer of an intercompany
+        # NF-e, which does not mean it was imported here.
         imported_keys = set(
             self.env["l10n_br_fiscal.document"]
-            .search([("document_key", "in", complete_docs.mapped("access_key"))])
+            .search(
+                [
+                    ("company_id", "=", self.env.company.id),
+                    ("document_key", "in", complete_docs.mapped("access_key")),
+                ]
+            )
             .mapped("document_key")
         )
         return len(
