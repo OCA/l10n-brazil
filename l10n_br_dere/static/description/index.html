@@ -485,6 +485,9 @@ operação, que trata o crédito do imposto na contabilização. A
 padrão do regime. Contas cujo <tt class="docutils literal">codTrib</tt> está na lista oficial do
 D-1121 também exigem o evento.</li>
 </ol>
+<p>A declaração mensal e o período de tabela só podem ser criados na
+empresa raiz do CNPJ. Uma filial é recusada. A matriz que já tem empresa
+filha continua declarando apenas o próprio razão.</p>
 <p>Os menus de catálogo ficam em <strong>Fiscal → Configuração → DeRE</strong>:
 Atividades, Códigos de Tributação e Ativos de Reserva Técnica.</p>
 <p>Em <strong>Fiscal → DeRE → Períodos de Tabela</strong>, crie a vigência que cubra os
@@ -748,6 +751,15 @@ interrompe o processamento, e a suíte de testes usa meses futuros</li>
 <li>Eventos transacionais (D-3201 e demais D-22xx / D-32xx) depois que o
 CGIBS publicar um leiaute transacional estável</li>
 <li>D-2101 (operações com títulos públicos)</li>
+<li>Consolidação das filiais no balancete da raiz. Cada filial tem o
+próprio plano, então a soma não é <tt class="docutils literal">child_of</tt> da empresa. O D-1101 da
+raiz soma pelo <tt class="docutils literal">cCta</tt> da matriz: conta de filial sem esse mapeamento
+impede o encerramento, lançamento entre empresas da mesma raiz é
+eliminado e o <tt class="docutils literal">idAtivo</tt> do D-1106 passa a ser único na raiz. O
+primeiro mês consolidado não herda o saldo de um D-1101 que foi só da
+matriz. Até lá, a declaração e o período de tabela só são aceitos na
+empresa raiz; a matriz que já tem filial continua declarando o próprio
+razão.</li>
 <li>Conteúdo do D-9199 ainda não gravado: <tt class="docutils literal">gCoeficientes</tt> (serviços
 financeiros e concursos de prognósticos) e o detalhe <tt class="docutils literal">infoBCN</tt> /
 <tt class="docutils literal">detBCN</tt> da base negativa acumulada por origem. Só os saldos

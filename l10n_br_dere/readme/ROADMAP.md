@@ -7,6 +7,15 @@
 - Eventos transacionais (D-3201 e demais D-22xx / D-32xx) depois que
   o CGIBS publicar um leiaute transacional estável
 - D-2101 (operações com títulos públicos)
+- Consolidação das filiais no balancete da raiz. Cada filial tem o
+  próprio plano, então a soma não é `child_of` da empresa. O D-1101
+  da raiz soma pelo `cCta` da matriz: conta de filial sem esse
+  mapeamento impede o encerramento, lançamento entre empresas da
+  mesma raiz é eliminado e o `idAtivo` do D-1106 passa a ser único
+  na raiz. O primeiro mês consolidado não herda o saldo de um D-1101
+  que foi só da matriz. Até lá, a declaração e o período de tabela
+  só são aceitos na empresa raiz; a matriz que já tem filial continua
+  declarando o próprio razão.
 - Conteúdo do D-9199 ainda não gravado: `gCoeficientes` (serviços
   financeiros e concursos de prognósticos) e o detalhe `infoBCN` /
   `detBCN` da base negativa acumulada por origem. Só os saldos

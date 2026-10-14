@@ -49,6 +49,10 @@ No formulário da empresa, abra a aba **DeRE** e preencha:
    padrão do regime. Contas cujo `codTrib` está na lista oficial do
    D-1121 também exigem o evento.
 
+A declaração mensal e o período de tabela só podem ser criados na
+empresa raiz do CNPJ. Uma filial é recusada. A matriz que já tem
+empresa filha continua declarando apenas o próprio razão.
+
 Os menus de catálogo ficam em **Fiscal → Configuração → DeRE**:
 Atividades, Códigos de Tributação e Ativos de Reserva Técnica.
 

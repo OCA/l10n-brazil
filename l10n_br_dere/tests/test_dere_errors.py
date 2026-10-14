@@ -15,6 +15,48 @@ from .test_dere_transmit import RETURN_D9001, _FakeResponse
 
 @tagged("post_install", "-at_install")
 class TestDereErrors(DereCommon):
+    def test_branch_company_cannot_declare(self):
+        # Hierarchy is frozen after create, and creating a child installs a
+        # chart. Point parent_path at the test company so root_id resolves.
+        branch = self.env["res.company"].create(
+            {
+                "name": "DeRE branch",
+                "currency_id": self.company.currency_id.id,
+            }
+        )
+        parent_path = self.company.parent_path or f"{self.company.id}/"
+        self.env.cr.execute(
+            """
+            UPDATE res_company
+               SET parent_id = %s,
+                   parent_path = %s
+             WHERE id = %s
+            """,
+            (self.company.id, f"{parent_path}{branch.id}/", branch.id),
+        )
+        branch.invalidate_recordset()
+        self.assertEqual(branch.root_id, self.company)
+        with self.assertRaises(UserError):
+            self.env["l10n_br_dere.declaration"].create(
+                {"company_id": branch.id, "per_apur": "2031-01"}
+            )
+        with self.assertRaises(UserError):
+            self.env["l10n_br_dere.table.period"].create(
+                {"company_id": branch.id, "ini_valid": "2031-01-01"}
+            )
+        declaration = self._create_declaration("2031-02")
+        self.env.cr.execute(
+            "UPDATE l10n_br_dere_declaration SET company_id = %s WHERE id = %s",
+            (branch.id, declaration.id),
+        )
+        declaration.invalidate_recordset()
+        with self.assertRaises(UserError):
+            declaration.write({"ind_inexist_dedu": True})
+        with self.assertRaises(UserError):
+            declaration._header_vals(event_type="D-1101")
+        root = self._create_declaration("2031-03")
+        self.assertEqual(root.company_id, self.company)
+
     def test_company_validations_on_d1001(self):
         declaration = self._create_declaration("2026-08")
         self.company.dere_reg_trib_princ = False

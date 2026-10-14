@@ -107,6 +107,21 @@ class DereTablePeriod(models.Model):
         )
     ]
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+        records._dere_assert_root_company()
+        return records
+
+    def write(self, vals):
+        if not self.env.context.get("dere_force_declaration_write"):
+            self._dere_assert_root_company()
+            if vals.get("company_id"):
+                self._dere_assert_root_company(
+                    self.env["res.company"].browse(vals["company_id"])
+                )
+        return super().write(vals)
+
     @api.depends("company_id", "ini_valid", "fim_valid")
     def _compute_name(self):
         for rec in self:

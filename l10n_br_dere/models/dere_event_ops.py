@@ -38,6 +38,23 @@ class DereEventParentMixin(models.AbstractModel):
             bool(self.company_id) and self.company_id._dere_can_force_delete()
         )
 
+    def _dere_assert_root_company(self, companies=None):
+        """Refuse a branch company.
+
+        DeRE is filed once per CNPJ root. A root company may already have
+        child companies; consolidation of their books is not done here.
+        """
+        if companies is None:
+            companies = self.mapped("company_id")
+        for company in companies:
+            if company and company != company.root_id:
+                raise UserError(
+                    _(
+                        "Create the DeRE declaration and the table period on "
+                        "the root company. Branch books are not consolidated yet."
+                    )
+                )
+
     def _event_records(self, event_type):
         self.ensure_one()
         return self.event_ids.filtered(lambda ev: ev.event_type == event_type)
@@ -91,6 +108,7 @@ class DereEventParentMixin(models.AbstractModel):
 
     def _header_vals(self, extra=None, event_type=None, tp_oper="1"):
         self.ensure_one()
+        self._dere_assert_root_company()
         company = self.company_id
         extra = extra or {}
         extra = self._prepare_oper_extra(
@@ -318,6 +336,7 @@ class DereEventParentMixin(models.AbstractModel):
 
     def _send_events(self, events):
         self.ensure_one()
+        self._dere_assert_root_company()
         if not events:
             raise UserError(_("There is no generated event to send."))
         self._assert_send_order(events.mapped("event_type"))
