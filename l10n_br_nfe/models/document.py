@@ -65,6 +65,14 @@ from ..constants.nfe import (
 PRODUCT_CODE_FISCAL_DOCUMENT_TYPES = ["55", "01"]
 NFE_XML_NAMESPACE = {"nfe": "http://www.portalfiscal.inf.br/nfe"}
 
+# MOC 7.0, Anexo I, rules 2B08-20 (204) and 2B08-10 (539)
+NFE_DUPLICATE_KEY = "204"
+NFE_DUPLICATE_DIFFERENT_KEY = "539"
+NFE_DUPLICATE_CODES = (NFE_DUPLICATE_KEY, NFE_DUPLICATE_DIFFERENT_KEY)
+# Access key informed in the 539 xMotivo, e.g. "[chNFe:3519...][nRec:...]".
+# Letters are accepted because of the alphanumeric CNPJ.
+NFE_XMOTIVO_KEY_RE = re.compile(r"chNFe\s*:?\s*([0-9A-Za-z]{44})")
+
 _logger = logging.getLogger(__name__)
 
 
@@ -1232,6 +1240,124 @@ class NFe(spec_models.StackedModel):
         }
         state = state_map.get(c_stat, SITUACAO_EDOC_REJEITADA)
         self._change_state(state, force_change_status)
+        if webservice != "nfeConsultaNF" and c_stat in NFE_DUPLICATE_CODES:
+            self._nfe_process_duplicate(c_stat, x_motivo, process)
+
+    @staticmethod
+    def _nfe_normalize_digest(value):
+        """Return the raw digest bytes from a base64 text or raw bytes value."""
+        if not value:
+            return None
+        if isinstance(value, bytes):
+            if len(value) in (20, 32):  # raw SHA-1 / SHA-256, as parsed by xsdata
+                return value
+            value = value.decode()
+        try:
+            return base64.b64decode(value.strip(), validate=True)
+        except ValueError:
+            return None
+
+    def _nfe_xml_digest(self, xml):
+        """Return the DigestValue of the signed NF-e of this document in `xml`."""
+        self.ensure_one()
+        if not xml:
+            return None
+        if isinstance(xml, str):
+            xml = xml.encode()
+        try:
+            tree = etree.fromstring(xml)
+        except etree.XMLSyntaxError:
+            return None
+        digests = tree.xpath(
+            "//*[local-name()='NFe'][*[local-name()='infNFe'][@Id=$nfe_id]]"
+            "/*[local-name()='Signature']//*[local-name()='DigestValue']/text()",
+            nfe_id="NFe" + (self.document_key or "").replace("NFe", ""),
+        )
+        return self._nfe_normalize_digest(digests[0]) if digests else None
+
+    def _nfe_process_duplicate(self, c_stat, x_motivo, process=None):
+        """
+        Handle the duplicate rejections 204 and 539.
+
+        The protocol of another NF-e is never associated with this document.
+        For 204 the access key is consulted and the protocol is recovered only
+        if its digVal is the DigestValue of the XML sent by this document,
+        which proves that SEFAZ authorized this same content (e.g. a resend
+        after a lost response).
+
+        For 539 the number and series were authorized with another access
+        key. The key is inside the signed infNFe (Id, cNF and cDV), so the
+        digest of the local XML can never match the authorized one: there
+        is nothing to recover and the original key is reported to the user.
+        The document stays rejected and the rejection is kept for audit.
+        """
+        self.ensure_one()
+        if c_stat == NFE_DUPLICATE_DIFFERENT_KEY:
+            match = NFE_XMOTIVO_KEY_RE.search(x_motivo or "")
+            original_key = match.group(1) if match else _("not informed")
+            self.message_post(
+                body=_(
+                    "SEFAZ rejection 539: the number and series of this document "
+                    "were already used by another NF-e with access key %(key)s. "
+                    "Its protocol is not associated with this document. "
+                    "Check whether it is the same document before taking any "
+                    "action.",
+                    key=original_key,
+                )
+            )
+            return False
+
+        key = (self.document_key or "").replace("NFe", "")
+        # Sync transmission: the signed NF-e is only in the request of the
+        # process. Async: it is in the enviNFe file saved on the send.
+        sent_xml = getattr(process, "envio_xml", None)
+        local_digest = self._nfe_xml_digest(sent_xml)
+        if not local_digest and self.send_file_id.datas:
+            sent_xml = None
+            local_digest = self._nfe_xml_digest(
+                base64.b64decode(self.send_file_id.datas)
+            )
+        inf_prot = None
+        try:
+            consult = self._edoc_processor().consulta_documento(chave=key)
+            response = consult.resposta
+            if response.cStat in AUTORIZADO + DENEGADO and response.protNFe:
+                inf_prot = response.protNFe.infProt
+        except Exception as e:
+            _logger.warning("NF-e %s: protocol query failed: %s", key, e)
+        if (
+            inf_prot
+            and local_digest
+            and inf_prot.chNFe == key
+            and self._nfe_normalize_digest(inf_prot.digVal) == local_digest
+        ):
+            if sent_xml:
+                # keep the signed request, used to assemble the nfeProc
+                if isinstance(sent_xml, bytes):
+                    sent_xml = sent_xml.decode()
+                self.authorization_event_id._save_event_file(sent_xml, "xml")
+            self._nfe_response_add_proc(consult)
+            self._nfe_update_status_and_save_data(consult)
+            self.message_post(
+                body=_(
+                    "SEFAZ rejection 204: the access key %(key)s was already "
+                    "authorized with the same digest as the XML sent by this "
+                    "document. Protocol %(protocol)s was recovered.",
+                    key=key,
+                    protocol=inf_prot.nProt,
+                )
+            )
+            return True
+        self.message_post(
+            body=_(
+                "SEFAZ rejection 204: the access key %(key)s is already registered "
+                "at SEFAZ, but its protocol could not be matched by digest to the "
+                "XML sent by this document, so it was not associated. Check "
+                "whether it is the same document before taking any action.",
+                key=key,
+            )
+        )
+        return False
 
     def _nfe_save_protocol(self, inf_prot, nfe_proc_xml=None):
         if not self.authorization_event_id:
@@ -1528,6 +1654,12 @@ class NFe(spec_models.StackedModel):
                     "status_name": authorization_process.resposta.xMotivo,
                 }
             )
+            if authorization_process.resposta.cStat in NFE_DUPLICATE_CODES:
+                self._nfe_process_duplicate(
+                    authorization_process.resposta.cStat,
+                    authorization_process.resposta.xMotivo,
+                    authorization_process,
+                )
 
     def view_pdf(self):
         if not self.filtered(filter_processador_edoc_nfe):
