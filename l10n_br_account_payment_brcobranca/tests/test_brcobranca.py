@@ -12,6 +12,9 @@ from odoo.addons.l10n_br_account_payment_brcobranca.constants.br_cobranca import
     get_brcobranca_bank,
     modulo11,
 )
+from odoo.addons.l10n_br_account_payment_brcobranca.parser.cnab_file_parser import (
+    CNABFileParser,
+)
 from odoo.addons.l10n_br_account_payment_brcobranca.tests.common import (
     TestBRCobrancaCommon,
 )
@@ -426,3 +429,43 @@ class TestPaymentOrder(TestBRCobrancaCommon):
             for line in log.event_ids:
                 self.assertEqual("51-Entrada Rejeitada.", line.occurrences)
                 self.assertEqual("not_accepted", line.move_line_id.cnab_state)
+
+    def test_6_return_file_duplicated_own_number(self):
+        """
+        Test import Return File with the same Own Number/Nosso Número in more
+        than one account.move.line of the journal, case that happens when the
+        sequence is restarted/recreated, when more than one Payment Mode uses
+        the same journal or in migrated data.
+        """
+        # Título antigo, de mesmo Nosso Número, já liquidado
+        invoice_paid = self.invoice_santander_240.copy()
+        invoice_paid.action_post()
+        self._make_payment(invoice_paid, invoice_paid.amount_residual)
+        self.assertTrue(all(invoice_paid.due_line_ids.mapped("reconciled")))
+
+        invoice = self.invoice_santander_240
+        invoice.action_post()
+        move_line = invoice.due_line_ids[0]
+        # As duas parcelas em aberto e a já liquidada com o mesmo Nosso Número
+        (invoice.due_line_ids | invoice_paid.due_line_ids[0]).write(
+            {"own_number": "40576"}
+        )
+
+        # No arquivo de retorno o Nosso Número vem com o Dígito Verificador
+        linha_cnab = {
+            "codigo_registro": "3",
+            "codigo_ocorrencia": "02",
+            "nosso_numero": "0000000405760",
+            "documento_numero": move_line.document_number,
+            "valor_titulo": "000000000150000",
+            "data_vencimento": "13102026",
+            "data_ocorrencia": "09102026",
+        }
+        # Antes da correção o processo quebrava com "Expected singleton"
+        parser = CNABFileParser(self.journal_santander_240)
+        parser.process_return_file([linha_cnab])
+
+        # O título encontrado deve ser o que está em Aberto e não o liquidado
+        self.assertEqual(len(parser.cnab_return_events), 1)
+        self.assertEqual(parser.cnab_return_events[0]["move_line_id"], move_line.id)
+        self.assertEqual(move_line.cnab_state, "accepted")
