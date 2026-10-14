@@ -101,6 +101,14 @@ class AccountMove(models.Model):
                         ("journal_payment_mode_id", "=", self.journal_id.id),
                     ]
                 )
+                if len(line_to_reconcile) > 1:
+                    # Mesmo caso tratado no parser do arquivo de retorno,
+                    # o Nosso Número pode acabar se repetindo no Diário.
+                    line_to_reconcile = line_to_reconcile.filtered(
+                        lambda aml: not aml.reconciled and aml.amount_residual
+                    )
+                    if len(line_to_reconcile) > 1:
+                        line_to_reconcile = line_to_reconcile.browse()
                 # Vincula a última Ordem de Debito enviada
                 order_ids = line_to_reconcile.payment_line_ids.mapped("order_id")
                 for order in order_ids:
