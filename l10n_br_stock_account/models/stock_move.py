@@ -171,11 +171,10 @@ class StockMove(models.Model):
         ).create(vals_list)
 
     def _compute_fiscal_tax_ids(self):
-        # Skip during creation/precompute when record is not yet in DB.
-        # In Odoo 18, precompute runs during create before flush, causing
-        # the m2m insert to fail with FK constraint.
-        # Check if records exist in DB before writing to m2m relation.
-        if self.ids:
+        # No contexto de create/precompute o compute do mixin já retorna sem
+        # fazer nada (document_line_mixin.py:322), então o SELECT de existência
+        # abaixo seria uma query inútil: só roda quando o contexto não pede.
+        if self.ids and not self._context.get("skip_compute_fiscal_tax_ids"):
             self.env.cr.execute(
                 "SELECT id FROM stock_move WHERE id IN %s", (tuple(self.ids),)
             )
