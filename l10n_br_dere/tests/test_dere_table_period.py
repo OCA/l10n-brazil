@@ -44,14 +44,15 @@ class TestDereTablePeriod(DereCommon):
             self.company._dere_cnpj_root().rjust(14, "0"), event.event_id_attr
         )
 
-    def test_event_ids_are_sequential_in_the_same_second(self):
+    def test_event_ids_do_not_repeat_in_the_same_second(self):
         Event = self.env["l10n_br_dere.event"]
-        Event._event_id_seq.clear()
         first = Event._generate_event_id(event_type="D-1001", company=self.company)
         second = Event._generate_event_id(event_type="D-1011", company=self.company)
-        self.assertEqual(first[-5:], "00001")
+        self.assertNotEqual(first, second)
+        self.assertRegex(first, STRUCTURED_EVENT_ID_RE)
         if first[23:37] == second[23:37]:
-            self.assertEqual(second[-5:], "00002")
+            self.assertNotEqual(first[-5:], second[-5:])
+            self.assertEqual(int(second[-5:]), int(first[-5:]) % 99999 + 1)
 
     def test_d1011_requires_tax_code_on_analytic_accounts(self):
         self.equity_account.l10n_br_dere_cod_trib = False

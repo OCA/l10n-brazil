@@ -349,17 +349,23 @@ class DereEvent(models.Model):
                     % {"event_type": rec.event_type, "tp_oper": rec.tp_oper}
                 )
 
-    _event_id_seq = {}
+    _sql_constraints = [
+        (
+            "event_id_attr_uniq",
+            "unique(event_id_attr)",
+            "The official DeRE event id must be unique.",
+        )
+    ]
+
+    def init(self):
+        self.env.cr.execute("CREATE SEQUENCE IF NOT EXISTS l10n_br_dere_event_id_seq")
 
     @api.model
-    def _next_event_id_seq(self, timestamp):
-        last = self._event_id_seq.get(timestamp, 0) + 1
-        if last > 99999:
-            raise UserError(
-                _("Too many DeRE events were generated in the same second.")
-            )
-        self._event_id_seq[timestamp] = last
-        return f"{last:05d}"
+    def _next_event_id_seq(self, _timestamp):
+        self.env.cr.execute("SELECT nextval('l10n_br_dere_event_id_seq')")
+        number = self.env.cr.fetchone()[0]
+        suffix = ((number - 1) % 99999) + 1
+        return f"{suffix:05d}"
 
     @api.model
     def _generate_event_id(self, event_type=None, company=None, tp_amb=None):
