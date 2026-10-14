@@ -20,13 +20,12 @@ class SaleOrder(models.Model):
         """
         if values.get("partner_shipping_id"):
             new_partner_id = values["partner_shipping_id"]
-            for record in self:
-                pickings = record.picking_ids.filtered(
-                    lambda p: (
-                        p.state not in ["done", "cancel"]
-                        and p.partner_id.id != new_partner_id
-                    )
+            pickings = self.picking_ids.filtered(
+                lambda p: (
+                    p.state not in ["done", "cancel"]
+                    and p.partner_id.id != new_partner_id
                 )
-                pickings.write({"partner_id": new_partner_id})
+            )
+            pickings.write({"partner_id": new_partner_id})
 
         return super().write(values)
