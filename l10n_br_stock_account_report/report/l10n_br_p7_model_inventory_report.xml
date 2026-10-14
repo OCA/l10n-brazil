@@ -5,7 +5,6 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
-
     <!-- Formato A4 com margens menores e para evitar o espaço em branco
      no cabeçalho( campo header_spacing )-->
     <record id="paperformat_lowmargin" model="report.paperformat">
@@ -49,8 +48,7 @@
     -->
     <record id="wkhtmltopdf_enconding_utf8" model="report.paperformat.parameter">
         <field name="paperformat_id" ref="paperformat_lowmargin" />
-	<field name="name">--encoding</field>
+        <field name="name">--encoding</field>
         <field name="value">utf-8</field>
     </record>
-
 </odoo>
