@@ -614,3 +614,42 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
         self._create_state_treasury("SEFAZ SP", "base.state_br_sp")
         with self.assertRaises(ValidationError):
             self._create_state_treasury("SEFAZ SP duplicada", "base.state_br_sp")
+
+    def test_city_scope_without_invoice_lines(self):
+        """A city scoped tax group resolves the city hall of the invoice partner
+        city when the move has no invoice lines (regression for an IndexError)."""
+        tax_group = self.env.ref("l10n_br_fiscal.tax_group_issqn_wh")
+        self.assertEqual(tax_group.tax_scope, "city")
+        city_sp = self.env.ref("l10n_br_base.city_3550308")
+        city_rj = self.env.ref("l10n_br_base.city_3304557")
+        partner_model = self.env["res.partner"]
+        cityhall_sp = partner_model.create(
+            {
+                "name": "Prefeitura de São Paulo",
+                "city_id": city_sp.id,
+                "state_id": self.env.ref("base.state_br_sp").id,
+                "country_id": self.env.ref("base.br").id,
+                "wh_cityhall": True,
+            }
+        )
+        partner_model.create(
+            {
+                "name": "Prefeitura do Rio de Janeiro",
+                "city_id": city_rj.id,
+                "state_id": self.env.ref("base.state_br_rj").id,
+                "country_id": self.env.ref("base.br").id,
+                "wh_cityhall": True,
+            }
+        )
+        move = self.init_invoice(
+            "in_invoice",
+            partner=self.test_partner,
+            document_type=self.env.ref("l10n_br_fiscal.document_55"),
+            fiscal_operation=self.env.ref("l10n_br_fiscal.fo_compras"),
+            document_serie="1",
+            document_number="57",
+        )
+        self.assertFalse(move.invoice_line_ids)
+        self.assertEqual(move.partner_id.city_id, city_sp)
+
+        self.assertEqual(tax_group._get_tax_authority_partner(move), cityhall_sp)
