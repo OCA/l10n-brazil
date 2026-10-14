@@ -4,7 +4,7 @@
 
 import os
 
-from nfelib.nfse.bindings.v1_0.tipos_complexos_v1_00 import TcinfDps
+from nfelib.nfse.bindings.v1_0.tipos_complexos_v1_01 import TcinfDps
 from xmldiff import main
 from xsdata.formats.dataclass.serializers import XmlSerializer
 from xsdata.formats.dataclass.serializers.config import SerializerConfig
