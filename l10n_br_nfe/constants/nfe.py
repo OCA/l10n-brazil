@@ -150,6 +150,30 @@ NFE_TAX_GROUP_DOMAINS = {
 NFE_CREDIT_NOTE_TYPES_WITH_TAXES = ("03", "04", "06")
 NFE_DEBIT_NOTE_TYPES_WITH_TAXES = ("07",)
 
+# Branch of the IBSCBS choice that a CST informs, by the indicators of the CST
+# table of IT 2025.002 v1.70: 620 informs gIBSCBSMono, 800 gTransfCred and
+# 811 gAjusteCompet; 400, 410, 810 and 820 have no ind_gIBSCBS and inform
+# none (rules UB13-20, UB13-39, UB13-44, UB112-10). The others inform gIBSCBS.
+NFE_IBSCBS_GROUP_DEFAULT = "nfe40_gIBSCBS"
+NFE_IBSCBS_GROUPS = (
+    "nfe40_gIBSCBS",
+    "nfe40_gIBSCBSMono",
+    "nfe40_gTransfCred",
+    "nfe40_gAjusteCompet",
+)
+NFE_IBSCBS_CST_GROUP = {
+    "400": False,
+    "410": False,
+    "620": "nfe40_gIBSCBSMono",
+    "800": "nfe40_gTransfCred",
+    "810": False,
+    "811": "nfe40_gAjusteCompet",
+    "820": False,
+}
+
+# The stock loss debit note always informs the credit reversal (UB116-20)
+NFE_DEBIT_NOTE_STOCK_LOSS = "07"
+
 # The advance payment debit note also informs IPI, and PIS and COFINS when
 # issued in 2026 (rule B25-80, exceptions 2 and 3)
 NFE_DEBIT_NOTE_ADVANCE_PAYMENT = "06"

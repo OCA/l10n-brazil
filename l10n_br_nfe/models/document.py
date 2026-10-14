@@ -73,6 +73,7 @@ from ..constants.nfe import (
     NFE_DEBIT_NOTE_TAX_CLASSIFICATION,
     NFE_DEBIT_NOTE_TYPES_WITH_TAXES,
     NFE_ENVIRONMENTS,
+    NFE_IBSCBS_GROUP_DEFAULT,
     NFE_TAX_GROUP_DOMAINS,
     NFE_TRANSMISSIONS,
     NFE_VERSIONS,
@@ -673,6 +674,8 @@ class NFe(spec_models.StackedModel):
         "fiscal_line_ids.cbs_base",
         "fiscal_line_ids.ibs_value",
         "fiscal_line_ids.cbs_value",
+        "fiscal_line_ids.ibs_cst_id",
+        "fiscal_line_ids.tax_classification_id",
     )
     def _compute_nfe40_IBSCBSTot_fields(self):
         """Compute IBSCBSTot fields from document lines"""
@@ -695,13 +698,17 @@ class NFe(spec_models.StackedModel):
                 record.nfe40_vCredPresCondSusCBS = 0.0
                 continue
 
-            # Calculate totals from lines
-            total_ibs_base = sum(record.fiscal_line_ids.mapped("ibs_base")) or sum(
-                record.fiscal_line_ids.mapped("cbs_base")
+            # Calculate totals from the lines that inform gIBSCBS: credit
+            # transfers and adjustments have their own groups
+            lines = record.fiscal_line_ids.filtered(
+                lambda line: line._nfe_ibscbs_group() == NFE_IBSCBS_GROUP_DEFAULT
+            )
+            total_ibs_base = sum(lines.mapped("ibs_base")) or sum(
+                lines.mapped("cbs_base")
             )
 
-            total_ibs_value = sum(record.fiscal_line_ids.mapped("ibs_value"))
-            total_cbs_value = sum(record.fiscal_line_ids.mapped("cbs_value"))
+            total_ibs_value = sum(lines.mapped("ibs_value"))
+            total_cbs_value = sum(lines.mapped("cbs_value"))
 
             # Calculate IBS UF and Municipal (simplified)
             # In a complete implementation, these should be calculated separately
@@ -761,6 +768,16 @@ class NFe(spec_models.StackedModel):
         export_dict["vCBS"] = self.nfe40_vCBS
         export_dict["vCredPres"] = self.nfe40_vCredPresCBS
         export_dict["vCredPresCondSus"] = self.nfe40_vCredPresCondSusCBS
+
+    def _export_tag_nfe_40_gestornocred(self, xsd_fields, class_obj, export_dict):
+        """Total of the credit reversal of the items (rules W59f-10 and
+        W59g-10)."""
+        lines = self.fiscal_line_ids.filtered(
+            lambda line: line._nfe_ibscbs_credit_reversal()
+        )
+        if lines:
+            export_dict["vIBSEstCred"] = sum(lines.mapped("ibs_value"))
+            export_dict["vCBSEstCred"] = sum(lines.mapped("cbs_value"))
 
     ##########################
     # NF-e tag: ISSQNtot
