@@ -49,6 +49,17 @@ odoo.define("l10n_br_pos_nfce.utils", function (require) {
         return digito >= 10 ? 0 : digito;
     }
 
+    // Inteiro uniforme em [0, limite), limite <= 2 ** 32. Descarta o que sobra
+    // acima do maior multiplo de limite para nao haver vies de modulo.
+    function randomBelow(limite) {
+        const maximo = Math.floor(2 ** 32 / limite) * limite;
+        const buffer = new Uint32Array(1);
+        do {
+            window.crypto.getRandomValues(buffer);
+        } while (buffer[0] >= maximo);
+        return buffer[0] % limite;
+    }
+
     class ChaveEdoc {
         constructor(
             chave = false,
@@ -93,7 +104,7 @@ odoo.define("l10n_br_pos_nfce.utils", function (require) {
 
                 let aleatorio = "";
                 if (!codigoAleatorio) {
-                    aleatorio = this.calculoCodigoAleatorio(campos);
+                    aleatorio = this.gerarCodigoAleatorio(campos);
                 }
 
                 campos += aleatorio.toString().padStart(8, "0");
@@ -118,21 +129,20 @@ odoo.define("l10n_br_pos_nfce.utils", function (require) {
             }
         }
 
-        calculoCodigoAleatorio(campos) {
-            let soma = 0;
-            for (let i = 0; i < campos.length; i++) {
-                soma += parseInt(campos[i], 10) ** (3 ** 2);
-            }
-
+        // Codigo numerico da chave (cNF): aleatorio, gerado com crypto, sem
+        // derivar dos campos publicos da chave. Descarta os valores que a regra
+        // B03-10 da NT 2019.001 rejeita (rejeicao 897): digitos todos iguais,
+        // sequencia crescente e codigo igual ao numero do documento.
+        gerarCodigoAleatorio(campos) {
             const TAMANHO_CODIGO =
                 ChaveEdoc.CODIGO[ChaveEdoc.CODIGO.length - 1] - ChaveEdoc.CODIGO[0];
-
-            let codigo = soma.toString();
-            if (codigo.length > TAMANHO_CODIGO) {
-                codigo = codigo.slice(-TAMANHO_CODIGO);
-            } else {
-                codigo = codigo.padStart(TAMANHO_CODIGO, "0");
-            }
+            const numero = parseInt(campos.substring(...ChaveEdoc.NUMERO), 10);
+            let codigo = "";
+            do {
+                codigo = randomBelow(10 ** TAMANHO_CODIGO)
+                    .toString()
+                    .padStart(TAMANHO_CODIGO, "0");
+            } while (new Set(codigo).size === 1 || "01234567890123456789".includes(codigo) || parseInt(codigo, 10) === numero);
 
             this._codigoAleatorio = codigo;
 
