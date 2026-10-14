@@ -10,9 +10,9 @@ import tempfile
 
 import pytz
 from nfelib import CommonMixin
-from nfelib.nfse.bindings.v1_0.dps_v1_00 import Dps
-from nfelib.nfse.bindings.v1_0.ped_reg_evento_v1_00 import PedRegEvento
-from nfelib.nfse.bindings.v1_0.tipos_eventos_v1_00 import (
+from nfelib.nfse.bindings.v1_0.dps_v1_01 import Dps
+from nfelib.nfse.bindings.v1_0.ped_reg_evento_v1_01 import PedRegEvento
+from nfelib.nfse.bindings.v1_0.tipos_eventos_v1_01 import (
     TcinfPedReg,
     Te101101,
     Te101101XDesc,
@@ -66,9 +66,9 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
     _nfse10_odoo_module = (
         "odoo.addons.l10n_br_nfse_spec.models.v1_0.tipos_complexos_v1_00"
     )
-    _nfse10_binding_module = "nfelib.nfse.bindings.v1_0.tipos_complexos_v1_00"
+    _nfse10_binding_module = "nfelib.nfse.bindings.v1_0.tipos_complexos_v1_01"
     _nfse10_binding_type = "TcinfDps"  # Tcdps"
-    #    _nfse10_binding_module = "nfelib.nfse.bindings.v1_0.dps_v1_00"
+    #    _nfse10_binding_module = "nfelib.nfse.bindings.v1_0.dps_v1_01"
     #    _nfse10_binding_type = "Dps" #Tcdps"
 
     nfse10_infDPS = fields.Many2one(

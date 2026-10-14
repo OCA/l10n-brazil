@@ -4,7 +4,7 @@
 
 import importlib
 
-from nfelib.nfse.bindings.v1_0.dps_v1_00 import Dps
+from nfelib.nfse.bindings.v1_0.dps_v1_01 import Dps
 
 from odoo.tests import TransactionCase, tagged
 
