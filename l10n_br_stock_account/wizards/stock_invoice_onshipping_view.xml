@@ -8,7 +8,7 @@
             ref="stock_picking_invoicing.view_stock_invoice_onshipping"
         />
         <field name="arch" type="xml">
-            <field name="show_sale_journal" position="before">
+            <field name="sale_journal" position="before">
                 <field name="has_fiscal_operation" invisible="True" />
                 <field
                     name="fiscal_operation_journal"
