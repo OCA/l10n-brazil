@@ -14,57 +14,9 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_fiscal_dfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
-msgid ""
-"<i class=\"fa fa-calendar text-primary me-2\"/>\n"
-"                            <span class=\"text-muted small fw-bold\">Next Query</span>"
-msgstr ""
-
-#. module: l10n_br_fiscal_dfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
-msgid ""
-"<i class=\"fa fa-clock-o text-primary me-2\"/>\n"
-"                                <span class=\"text-muted small fw-bold\">Last Query</span>"
-msgstr ""
-
-#. module: l10n_br_fiscal_dfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
-msgid ""
-"<i class=\"fa fa-download text-warning me-2\"/>\n"
-"                            <span class=\"text-muted small fw-bold\">\n"
-"                                Pending Import\n"
-"                            </span>"
-msgstr ""
-
-#. module: l10n_br_fiscal_dfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
-msgid ""
-"<i class=\"fa fa-exclamation-triangle me-2 fs-4\"/>\n"
-"                    <span>DF-e environment is set to <b>Homologação</b> (testing).</span>"
-msgstr ""
-
-#. module: l10n_br_fiscal_dfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
-msgid ""
-"<i class=\"fa fa-file-text-o text-success me-2\"/>\n"
-"                            <span class=\"text-muted small fw-bold\">Documents Today</span>"
-msgstr ""
-
-#. module: l10n_br_fiscal_dfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
-msgid "<i class=\"fa fa-key\"/> Specific Search"
-msgstr ""
-
-#. module: l10n_br_fiscal_dfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
-msgid "<i class=\"fa fa-search\"/> Search All"
-msgstr ""
-
-#. module: l10n_br_fiscal_dfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
-msgid ""
-"<i class=\"fa fa-signal text-info me-2\"/>\n"
-"                                <span class=\"text-muted small fw-bold\">NSU</span>"
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_dfe/static/src/components/dfe_banner/dfe_banner.xml:0
+msgid "(testing)."
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
@@ -73,43 +25,6 @@ msgstr ""
 msgid ""
 "<p>%(count)s new third-party DF-e document(s) found.</p><p><a "
 "href=\"%(url)s\">View documents</a></p>"
-msgstr ""
-
-#. module: l10n_br_fiscal_dfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
-msgid ""
-"<span class=\"badge bg-secondary\">\n"
-"                                    <i class=\"fa fa-pause\"/> Auto-fetch off\n"
-"                                </span>"
-msgstr ""
-
-#. module: l10n_br_fiscal_dfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
-msgid ""
-"<span class=\"badge bg-success\">\n"
-"                                    <i class=\"fa fa-check\"/> Auto-fetch active\n"
-"                                </span>"
-msgstr ""
-
-#. module: l10n_br_fiscal_dfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
-msgid ""
-"<span class=\"badge bg-success\">\n"
-"                                    <i class=\"fa fa-check\"/> Synced\n"
-"                                </span>"
-msgstr ""
-
-#. module: l10n_br_fiscal_dfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
-msgid ""
-"<span class=\"badge bg-warning text-dark\">\n"
-"                                    <i class=\"fa fa-refresh\"/> Pending\n"
-"                                </span>"
-msgstr ""
-
-#. module: l10n_br_fiscal_dfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
-msgid "<span class=\"text-success\">0</span>"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
@@ -138,6 +53,18 @@ msgstr ""
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__attachment_id
 msgid "Attachment"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_dfe/static/src/components/dfe_banner/dfe_banner.xml:0
+msgid "Auto-fetch active"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_dfe/static/src/components/dfe_banner/dfe_banner.xml:0
+msgid "Auto-fetch off"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
@@ -191,7 +118,8 @@ msgid "Complete"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_dfe/static/src/components/dfe_banner/dfe_banner.xml:0
 msgid "Complete documents not imported"
 msgstr ""
 
@@ -280,11 +208,17 @@ msgid "DF-e Type"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
-#. odoo-python
-#: code:addons/l10n_br_fiscal_dfe/controllers/main.py:0
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_dfe/static/src/components/dfe_banner/dfe_banner.esm.js:0
 msgid ""
 "DF-e distribution has never been queried. Configure and run the first query "
 "to start receiving documents."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_dfe/static/src/components/dfe_banner/dfe_banner.xml:0
+msgid "DF-e environment is set to"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
@@ -350,6 +284,12 @@ msgstr ""
 msgid ""
 "Document situation code as received from the distribution service (semantics"
 " depend on the fiscal document type)."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_dfe/static/src/components/dfe_banner/dfe_banner.xml:0
+msgid "Documents Today"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
@@ -434,6 +374,12 @@ msgid "Group By"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_dfe/static/src/components/dfe_banner/dfe_banner.xml:0
+msgid "Homologação"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_dfe_specific_search_wizard__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__id
@@ -465,11 +411,17 @@ msgid "It is only possible to download XML when DF-e is completed."
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
-#. odoo-python
-#: code:addons/l10n_br_fiscal_dfe/controllers/main.py:0
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_dfe/static/src/components/dfe_banner/dfe_banner.esm.js:0
 msgid ""
 "Last DF-e query was %(days)s days ago. After 60 days of inactivity, SEFAZ "
 "stops generating NSUs for this CNPJ (no retroactive recovery)."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_dfe/static/src/components/dfe_banner/dfe_banner.xml:0
+msgid "Last Query"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
@@ -513,6 +465,8 @@ msgid "NF-e"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_dfe/static/src/components/dfe_banner/dfe_banner.xml:0
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_dfe_specific_search_wizard__nsu
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__nsu
 msgid "NSU"
@@ -541,6 +495,12 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_fiscal_dfe/wizards/specific_search_wizard.py:0
 msgid "NSU must contain only numbers."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_dfe/static/src/components/dfe_banner/dfe_banner.xml:0
+msgid "Next Query"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
@@ -591,6 +551,18 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__partner_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_search
 msgid "Partner"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_dfe/static/src/components/dfe_banner/dfe_banner.xml:0
+msgid "Pending"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_dfe/static/src/components/dfe_banner/dfe_banner.xml:0
+msgid "Pending Import"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
@@ -650,8 +622,9 @@ msgid "Search"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
-#: model:ir.actions.server,name:l10n_br_fiscal_dfe.action_server_search_all_dfe
-msgid "Search All DF-e"
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_dfe/static/src/components/dfe_banner/dfe_banner.xml:0
+msgid "Search All"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
@@ -686,8 +659,9 @@ msgid "Specific Document Search"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
-#: model:ir.actions.server,name:l10n_br_fiscal_dfe.action_server_specific_search_dfe
-msgid "Specific Search DF-e"
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_dfe/static/src/components/dfe_banner/dfe_banner.xml:0
+msgid "Specific Search"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
@@ -729,6 +703,12 @@ msgid "Summary"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_dfe/static/src/components/dfe_banner/dfe_banner.xml:0
+msgid "Synced"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
 #: model:ir.actions.act_window,name:l10n_br_fiscal_dfe.dfe_document_action
 msgid "Third-party DF-e Documents"
 msgstr ""
@@ -764,12 +744,14 @@ msgid "User"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_dfe/static/src/components/dfe_banner/dfe_banner.xml:0
 msgid "View NSU records"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_dfe/static/src/components/dfe_banner/dfe_banner.xml:0
 msgid "View query logs"
 msgstr ""
 
