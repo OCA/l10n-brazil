@@ -5,7 +5,7 @@
     "name": "Brazilian Localization Purchase Blanket Order",
     "summary": """
         Brazilian Localization Purchase Blanket Order""",
-    "version": "16.0.1.4.0",
+    "version": "16.0.2.0.0",
     "license": "AGPL-3",
     "author": "Escodoo, Odoo Community Association (OCA)",
     "maintainers": ["WesleyOliveira98", "marcelsavegnago"],
