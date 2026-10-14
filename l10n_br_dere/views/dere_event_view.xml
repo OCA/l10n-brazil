@@ -126,6 +126,15 @@
                                 name="xml_content"
                                 widget="text"
                                 readonly="state != 'draft'"
+                                invisible="state != 'draft'"
+                            />
+                            <field
+                                name="xml_pretty"
+                                string="XML"
+                                widget="ace"
+                                options="{'mode': 'xml'}"
+                                readonly="1"
+                                invisible="state == 'draft'"
                             />
                             <field name="xml_hash" readonly="1" />
                         </page>
@@ -162,7 +171,13 @@
                                     <field name="difference" />
                                 </list>
                             </field>
-                            <field name="return_xml" widget="text" readonly="1" />
+                            <field
+                                name="return_xml_pretty"
+                                string="Return XML"
+                                widget="ace"
+                                options="{'mode': 'xml'}"
+                                readonly="1"
+                            />
                         </page>
                         <page string="Occurrences" name="occurrences">
                             <field name="occurrence_ids" readonly="1">

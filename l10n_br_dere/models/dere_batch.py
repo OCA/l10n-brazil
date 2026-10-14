@@ -9,6 +9,8 @@ from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_dere_spec.models.v1_2.types import TP_AMB
 
+from . import xml_builder
+
 _logger = logging.getLogger(__name__)
 
 CRON_CONSULT_LIMIT = 50
@@ -38,6 +40,10 @@ class DereBatch(models.Model):
     tp_amb = fields.Selection(TP_AMB, string="Environment", required=True)
     event_ids = fields.Many2many(comodel_name="l10n_br_dere.event", string="Events")
     xml_content = fields.Text(string="XML")
+    xml_pretty = fields.Text(
+        string="Indented XML",
+        compute="_compute_xml_pretty",
+    )
     protocol = fields.Char(string="Batch protocol", size=28)
     state = fields.Selection(
         [
@@ -51,8 +57,22 @@ class DereBatch(models.Model):
         required=True,
     )
     response_text = fields.Text(string="Response")
+    response_pretty = fields.Text(
+        string="Indented response",
+        compute="_compute_response_pretty",
+    )
     consult_attempts = fields.Integer(default=0)
     next_consult_at = fields.Datetime(string="Next consult")
+
+    @api.depends("xml_content")
+    def _compute_xml_pretty(self):
+        for rec in self:
+            rec.xml_pretty = xml_builder.pretty_xml(rec.xml_content)
+
+    @api.depends("response_text")
+    def _compute_response_pretty(self):
+        for rec in self:
+            rec.response_pretty = xml_builder.pretty_xml(rec.response_text)
 
     @api.depends("declaration_id.company_id", "table_period_id.company_id")
     def _compute_company_id(self):

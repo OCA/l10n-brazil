@@ -287,6 +287,35 @@ class TestDereErrors(DereCommon):
         self.assertNotIn("action_discard_local_closing", declaration_arch)
         self.assertNotIn("action_discard_local_reopening", declaration_arch)
 
+    def test_batch_form_shows_protocol_before_xml(self):
+        arch = self.env["l10n_br_dere.batch"].get_view(view_type="form")["arch"]
+        self.assertLess(arch.index('widget="statusbar"'), arch.index("xml_pretty"))
+        self.assertLess(arch.index('name="protocol"'), arch.index("xml_pretty"))
+        self.assertLess(arch.index("xml_pretty"), arch.index("response_pretty"))
+        self.assertIn('widget="ace"', arch)
+        self.assertIn('<page string="XML"', arch)
+        self.assertIn('<page string="Response"', arch)
+
+    def test_pretty_xml_indents_for_display_only(self):
+        compact = "<DeRE><loteEventos/></DeRE>"
+        pretty = xml_builder.pretty_xml(compact)
+        self.assertIn("\n", pretty)
+        self.assertIn("<loteEventos", pretty)
+        self.assertFalse(xml_builder.pretty_xml(False))
+        self.assertEqual(xml_builder.pretty_xml("gateway timeout"), "gateway timeout")
+        self.assertEqual(xml_builder.pretty_xml("<DeRE"), "<DeRE")
+        batch = self.env["l10n_br_dere.batch"].create(
+            {
+                "name": "Pretty",
+                "tp_amb": "2",
+                "xml_content": compact,
+                "response_text": "gateway timeout",
+            }
+        )
+        self.assertEqual(batch.xml_content, compact)
+        self.assertIn("\n", batch.xml_pretty)
+        self.assertEqual(batch.response_pretty, "gateway timeout")
+
     def test_delete_local_closing_event_heals_stale_closed_state(self):
         declaration = self._create_declaration("2026-02")
         self._table_period(declaration).action_generate_tables()

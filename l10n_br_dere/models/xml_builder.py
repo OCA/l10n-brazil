@@ -25,6 +25,24 @@ DS_NS = "http://www.w3.org/2000/09/xmldsig#"
 C14N_ALG = "http://www.w3.org/TR/2001/REC-xml-c14n-20010315"
 
 
+def pretty_xml(value):
+    """Return indented XML for display, or the original text when it is not XML.
+
+    The stored payload stays unchanged. Indentation may rewrite whitespace
+    and namespace layout, so the result is not the transmitted document.
+    """
+    if not value:
+        return False
+    text = str(value)
+    if "<" not in text:
+        return text
+    try:
+        root = safe_fromstring(text)
+    except etree.XMLSyntaxError:
+        return text
+    return etree.tostring(root, pretty_print=True, encoding="unicode")
+
+
 def _round_nbr5891(value, decimals=2):
     quantize = Decimal("1").scaleb(-decimals)
     return Decimal(str(value or 0)).quantize(quantize, rounding=ROUND_HALF_EVEN)

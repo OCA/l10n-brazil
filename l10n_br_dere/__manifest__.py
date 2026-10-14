@@ -38,6 +38,7 @@
         "views/dere_declaration_view.xml",
         "wizards/dere_event_operation_wizard_views.xml",
         "views/dere_event_view.xml",
+        "views/dere_batch_view.xml",
         "views/dere_pgcc_account_view.xml",
         "views/dere_menu.xml",
     ],

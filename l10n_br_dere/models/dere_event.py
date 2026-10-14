@@ -91,6 +91,10 @@ class DereEvent(models.Model):
     ver_aplic = fields.Char(string="Application version", size=20, required=True)
     event_id_attr = fields.Char(string="Official event id", size=42, copy=False)
     xml_content = fields.Text(string="XML")
+    xml_pretty = fields.Text(
+        string="Indented XML",
+        compute="_compute_xml_pretty",
+    )
     xml_hash = fields.Char(string="XML hash", size=64)
     protocol = fields.Char(string="Batch protocol", size=28, tracking=True)
     nr_recibo = fields.Char(string="Processing receipt", size=31, tracking=True)
@@ -102,6 +106,10 @@ class DereEvent(models.Model):
     )
     return_type = fields.Selection(RETURN_TYPES, string="Return event", copy=False)
     return_xml = fields.Text(string="Return XML", copy=False)
+    return_xml_pretty = fields.Text(
+        string="Indented return XML",
+        compute="_compute_return_xml_pretty",
+    )
     seq_evento = fields.Char(string="Event version sequence", size=2, copy=False)
     dh_recepcao = fields.Datetime(string="Received at", copy=False)
     dh_process = fields.Datetime(string="Processed at", copy=False)
@@ -390,6 +398,16 @@ class DereEvent(models.Model):
                 }
             )
         return True
+
+    @api.depends("xml_content")
+    def _compute_xml_pretty(self):
+        for rec in self:
+            rec.xml_pretty = xml_builder.pretty_xml(rec.xml_content)
+
+    @api.depends("return_xml")
+    def _compute_return_xml_pretty(self):
+        for rec in self:
+            rec.return_xml_pretty = xml_builder.pretty_xml(rec.return_xml)
 
     @api.model
     def _return_payload_vals(self, payload):
