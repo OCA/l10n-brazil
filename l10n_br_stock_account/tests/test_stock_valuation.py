@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo.tests import TransactionCase
+from odoo.tools.float_utils import float_round
 
 
 class TestStockValuationNetCost(TransactionCase):
@@ -212,6 +213,30 @@ class TestStockValuationNetCost(TransactionCase):
     # ------------------------------------------------------------------
     # Where the net cost does not reach
     # ------------------------------------------------------------------
+
+    def test_net_cost_keeps_product_price_precision(self):
+        """The net cost and its layer keep the Product Price decimals.
+
+        A Monetary field would round both to the currency decimals on write.
+        """
+        self.env.ref("product.decimal_price").digits = 4
+        self._set_valuation("fifo")
+        picking, move = self._make_incoming(
+            self.supplier_normal, price_unit=100.01, qty=7.0
+        )
+        self._receive(picking)
+        svl = move.stock_valuation_layer_ids
+        move.invalidate_recordset(["cost_unit"])
+        svl.invalidate_recordset(["unit_cost"])
+
+        # Without a third or fourth decimal the test would prove nothing.
+        self.assertNotEqual(
+            float_round(move.cost_unit, precision_digits=2), move.cost_unit
+        )
+        self.assertEqual(
+            float_round(move.cost_unit, precision_digits=4), move.cost_unit
+        )
+        self.assertAlmostEqual(svl.unit_cost, move.cost_unit, places=4)
 
     def test_standard_cost_ignores_net_cost(self):
         """Standard costing prices the layer from the product, not the move.
