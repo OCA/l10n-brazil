@@ -485,6 +485,71 @@ class TestDereReturns(DereCommon):
         self.assertFalse(event.nr_recibo)
         self.assertEqual(batch.state, "sent")
 
+    def _unidentified_return(self, event, period, cd_retorno="0"):
+        """Return an evtRetornoTabela whose tpEv is the unidentified fallback."""
+        receipt = self._event_receipt(event.event_type, period)
+        description = (
+            "MS0010 - Erro na estrutura do XML. "
+            "Nao foi possivel identificar o tipo de evento informado "
+            "no namespace do XML"
+        )
+        xml = self._event_return("evtRetornoTabela", event, receipt)
+        xml = xml.replace(f"<nrRecibo>{receipt}</nrRecibo>", "")
+        status = (
+            f"<cdRetorno>{cd_retorno}</cdRetorno>"
+            f"<descRetorno>{description}</descRetorno>"
+        )
+        xml = xml.replace(
+            "<cdRetorno>1</cdRetorno><descRetorno>Sucesso</descRetorno>",
+            status,
+        )
+        return xml.replace(f"<tpEv>{event.event_type}</tpEv>", "<tpEv>D0</tpEv>")
+
+    def _sent_table_event(self, period):
+        declaration = self._create_declaration(period)
+        table_period = self._table_period(declaration)
+        table_period.action_generate_d1001()
+        event = self._event(declaration, "D-1001")
+        event.state = "sent"
+        return table_period, event
+
+    def test_consult_rejects_unidentified_bare_return(self):
+        period, event = self._sent_table_event("2026-06")
+        xml = self._unidentified_return(event, "2026-06")
+        batch = self.env["l10n_br_dere.batch"].create(
+            {
+                "table_period_id": period.id,
+                "tp_amb": "2",
+                "state": "sent",
+                "protocol": "1.000000.1",
+                "event_ids": [Command.set(event.ids)],
+            }
+        )
+        self.assertTrue(period._apply_consult_result(batch, xml))
+        self.assertEqual(event.state, "rejected")
+        self.assertEqual(event.cd_retorno, "0")
+        self.assertIn("MS0010", event.desc_retorno)
+        self.assertFalse(event.nr_recibo)
+        self.assertEqual(batch.state, "done")
+        self.assertIn("<tpEv>D0</tpEv>", event.return_xml)
+
+    def test_consult_rejects_unidentified_return_inside_lot(self):
+        period, event = self._sent_table_event("2026-07")
+        xml = self._unidentified_return(event, "2026-07")
+        batch = self._consult(period, (event, xml))
+        self.assertEqual(event.state, "rejected")
+        self.assertEqual(event.cd_retorno, "0")
+        self.assertIn("MS0010", event.desc_retorno)
+        self.assertEqual(batch.state, "done")
+
+    def test_consult_keeps_sent_when_unidentified_return_succeeds(self):
+        period, event = self._sent_table_event("2026-08")
+        xml = self._unidentified_return(event, "2026-08", cd_retorno="1")
+        batch = self._consult(period, (event, xml))
+        self.assertEqual(event.state, "sent")
+        self.assertFalse(event.nr_recibo)
+        self.assertEqual(batch.state, "sent")
+
     def test_apply_return_xml_matches_tpev_without_hyphen(self):
         declaration = self._create_declaration("2026-05")
         period = self._table_period(declaration)

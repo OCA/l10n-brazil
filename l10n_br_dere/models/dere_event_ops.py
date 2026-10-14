@@ -447,6 +447,31 @@ class DereEventParentMixin(models.AbstractModel):
         """Match a return tpEv that may omit the hyphen of the stored type."""
         return (event_type or "").replace("-", "") == (tp_ev or "").replace("-", "")
 
+    def _apply_unidentified_rejection(self, batch, item, protocol):
+        """Reject sent events when the RFB could not identify the event type.
+
+        ``D0`` is the fallback used when the namespace was not recognized, so
+        those events will not receive a later matching return. A ``D0`` success
+        is ignored and must not become an acceptance.
+        """
+        tp_ev = (item.get("tpEv") or "").replace("-", "")
+        if tp_ev != "D0" or str(item.get("cdRetorno") or "0") == "1":
+            return False
+        pending = batch.event_ids.filtered(lambda ev: ev.state == "sent")
+        if not pending:
+            return False
+        for event in pending:
+            self.apply_return(
+                event,
+                item.get("cdRetorno") or "0",
+                desc_retorno=item.get("descRetorno"),
+                nr_recibo=item.get("nrRecibo"),
+                protocol=item.get("protocoloLote") or protocol,
+                occurrences=item.get("ocorrencias"),
+                payload=item,
+            )
+        return True
+
     def _apply_consult_result(self, batch, xml_content):
         self.ensure_one()
         if not xml_content or "<" not in xml_content:
@@ -483,6 +508,8 @@ class DereEventParentMixin(models.AbstractModel):
                     )
                 )
             if not target:
+                if self._apply_unidentified_rejection(batch, item, protocol):
+                    applied = True
                 continue
             self.apply_return(
                 target[0],
