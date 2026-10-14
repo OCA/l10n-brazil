@@ -708,6 +708,45 @@ class TestDereCoverage(DereCommon):
         with patch.object(type(batch), "_consult", side_effect=RuntimeError("boom")):
             self.env["l10n_br_dere.batch"]._cron_consult_batches()
 
+    @mute_logger("odoo.addons.l10n_br_dere.models.dere_batch")
+    def test_cron_consult_savepoint_isolates_database_errors(self):
+        declaration = self._create_declaration("2024-07")
+        batch_model = self.env["l10n_br_dere.batch"]
+        first = batch_model.create(
+            {
+                "name": "broken",
+                "declaration_id": declaration.id,
+                "tp_amb": "2",
+                "state": "sent",
+                "protocol": "2.202407.0000000000000000001",
+            }
+        )
+        second = batch_model.create(
+            {
+                "name": "next",
+                "declaration_id": declaration.id,
+                "tp_amb": "2",
+                "state": "sent",
+                "protocol": "2.202407.0000000000000000002",
+            }
+        )
+        later = fields.Datetime.add(fields.Datetime.now(), days=1)
+        batch_model.search(
+            [("state", "=", "sent"), ("id", "not in", (first + second).ids)]
+        ).write({"next_consult_at": later})
+        consulted = []
+
+        def consult(self, raise_error=False):
+            if self.id == first.id:
+                self.env.cr.execute("SELECT 1 FROM l10n_br_dere_missing_relation")
+            consulted.append(self.id)
+            return True
+
+        with patch.object(type(first), "_consult", consult):
+            batch_model._cron_consult_batches()
+        self.assertNotIn(first.id, consulted)
+        self.assertIn(second.id, consulted)
+
     def test_token_cache_and_cnpj_vat_fallback(self):
         client = self.env["l10n_br_dere.receita.integra"]
         frozen = fields.Datetime.now()

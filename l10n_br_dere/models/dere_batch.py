@@ -162,7 +162,8 @@ class DereBatch(models.Model):
         )
         for batch in batches:
             try:
-                batch._consult(raise_error=False)
+                with self.env.cr.savepoint():
+                    batch._consult(raise_error=False)
             except Exception:
                 _logger.exception("DeRE consult cron failed for batch %s", batch.id)
         return True
