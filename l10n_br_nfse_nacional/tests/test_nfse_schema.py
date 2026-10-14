@@ -1,7 +1,7 @@
 # Copyright 2026 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from nfelib.nfse.bindings.v1_0.dps_v1_00 import Dps
+from nfelib.nfse.bindings.v1_0.dps_v1_01 import Dps
 
 from odoo.tests.common import TransactionCase, tagged
 
