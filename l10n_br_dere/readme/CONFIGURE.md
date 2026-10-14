@@ -53,6 +53,10 @@ No formulário da empresa, abra a aba **DeRE** e preencha:
    padrão do regime. Contas cujo `codTrib` está na lista oficial do
    D-1121 também exigem o evento.
 
+Quem é obrigado ao D-2101 (débito em operações com títulos de dívida
+com oferta pública) não fecha o mês só com este módulo. A RFB rejeita
+o D-1199 pela regra `EVENTOS_OBRIGATORIOS_PERIODO`.
+
 A declaração mensal e o período de tabela só podem ser criados na
 empresa raiz do CNPJ. Uma filial é recusada. A matriz que já tem
 empresa filha continua declarando apenas o próprio razão.

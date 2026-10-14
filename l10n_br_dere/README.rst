@@ -133,6 +133,10 @@ No formulário da empresa, abra a aba **DeRE** e preencha:
    padrão do regime. Contas cujo ``codTrib`` está na lista oficial do
    D-1121 também exigem o evento.
 
+Quem é obrigado ao D-2101 (débito em operações com títulos de dívida com
+oferta pública) não fecha o mês só com este módulo. A RFB rejeita o
+D-1199 pela regra ``EVENTOS_OBRIGATORIOS_PERIODO``.
+
 A declaração mensal e o período de tabela só podem ser criados na
 empresa raiz do CNPJ. Uma filial é recusada. A matriz que já tem empresa
 filha continua declarando apenas o próprio razão.
@@ -418,7 +422,7 @@ Known issues / Roadmap
   interrompe o processamento, e a suíte de testes usa meses futuros
 - Eventos transacionais (D-3201 e demais D-22xx / D-32xx) depois que o
   CGIBS publicar um leiaute transacional estável
-- D-2101 (operações com títulos públicos)
+- D-2101 (débito em operações com títulos de dívida com oferta pública)
 - Consolidação das filiais no balancete da raiz. Cada filial tem o
   próprio plano, então a soma não é ``child_of`` da empresa. O D-1101 da
   raiz soma pelo ``cCta`` da matriz: conta de filial sem esse mapeamento
@@ -432,9 +436,10 @@ Known issues / Roadmap
   financeiros e concursos de prognósticos) e o detalhe ``infoBCN`` /
   ``detBCN`` da base negativa acumulada por origem. Só os saldos
   negativos finais ficam nas linhas de apuração.
-- Os retornos D-9121 (operações com títulos públicos) e D-9209
-  (transacional) são reconhecidos e validados, mas o conteúdo não é
-  aplicado até os eventos correspondentes existirem.
+- Os retornos D-9121 (débito em operações com títulos de dívida com
+  oferta pública) e D-9209 (transacional) são reconhecidos e validados,
+  mas o conteúdo não é aplicado até os eventos correspondentes
+  existirem.
 - Lançamento contábil opcional do IBS / CBS apurado no D-9199; hoje os
   valores são gravados só para referência.
 - ``gUtilizBCN`` do D-1199 (aproveitamento de base negativa). O grupo é

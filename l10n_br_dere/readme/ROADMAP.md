@@ -10,7 +10,7 @@
   interrompe o processamento, e a suíte de testes usa meses futuros
 - Eventos transacionais (D-3201 e demais D-22xx / D-32xx) depois que
   o CGIBS publicar um leiaute transacional estável
-- D-2101 (operações com títulos públicos)
+- D-2101 (débito em operações com títulos de dívida com oferta pública)
 - Consolidação das filiais no balancete da raiz. Cada filial tem o
   próprio plano, então a soma não é `child_of` da empresa. O D-1101
   da raiz soma pelo `cCta` da matriz: conta de filial sem esse
@@ -24,7 +24,8 @@
   financeiros e concursos de prognósticos) e o detalhe `infoBCN` /
   `detBCN` da base negativa acumulada por origem. Só os saldos
   negativos finais ficam nas linhas de apuração.
-- Os retornos D-9121 (operações com títulos públicos) e D-9209
+- Os retornos D-9121 (débito em operações com títulos de dívida com
+  oferta pública) e D-9209
   (transacional) são reconhecidos e validados, mas o conteúdo não é
   aplicado até os eventos correspondentes existirem.
 - Lançamento contábil opcional do IBS / CBS apurado no D-9199; hoje
