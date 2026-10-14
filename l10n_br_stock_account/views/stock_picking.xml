@@ -76,7 +76,6 @@
             </xpath>
             <xpath expr="//page[@name='extra']/group" position="inside">
                 <group name="delivery_costs" string="Delivery Costs">
-                    <field name="delivery_costs" invisible="1" />
                     <field
                         name="amount_freight_value"
                         widget='monetary'

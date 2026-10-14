@@ -11,7 +11,6 @@
         <field name="inherit_id" ref="stock_picking_invoicing.view_move_tree" />
         <field name="arch" type="xml">
             <field name="invoice_state" position="after">
-                <field name="invoice_state" column_invisible="True" />
                 <field
                     name="fiscal_operation_id"
                     invisible="invoice_state in [False, 'none'] or not fiscal_operation_id"
@@ -69,8 +68,6 @@
                     readonly="invoice_state == 'invoiced'"
                     required="fiscal_operation_id"
                 />
-                <field name="partner_id" invisible="1" />
-                <field name="company_id" invisible="1" />
             </field>
             <group name="invoice_lines" position="after">
                 <notebook
