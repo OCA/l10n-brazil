@@ -20,4 +20,5 @@ from . import dere_table_validity
 from . import dere_pgcc_account
 from . import dere_trial_line
 from . import dere_batch
+from . import dere_token
 from . import receita_integra

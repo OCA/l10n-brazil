@@ -1,6 +1,7 @@
 # Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from datetime import timedelta
 from unittest.mock import patch
 
 from odoo import Command, fields
@@ -737,16 +738,16 @@ class TestDereCoverage(DereCommon):
             mocked.call_args.kwargs.get("auth"), ("demo-client", "demo-secret")
         )
         stored = (
-            self.env["ir.config_parameter"]
+            self.env["l10n_br_dere.token"]
             .sudo()
-            .get_param(f"l10n_br_dere.token.{self.company.id}")
+            .search([("client_id", "=", "demo-client")], limit=1)
         )
-        self.assertIn("cached-token", stored)
+        self.assertEqual(stored.access_token, "cached-token")
         self.company.partner_id.vat = False
         self.company.invalidate_recordset(["vat"])
         self.assertEqual(self.company._dere_cnpj(), "")
 
-    def test_authorized_request_retries_once_on_401(self):
+    def test_authorized_request_keeps_a_young_token_on_401(self):
         client = self.env["l10n_br_dere.receita.integra"]
         client._clear_token(self.company)
         posts = []
@@ -757,6 +758,46 @@ class TestDereCoverage(DereCommon):
 
             def json(self):
                 return {"access_token": "retry-token", "expires_in": 3600}
+
+        class FakeApi:
+            def __init__(self, status_code, text="expired"):
+                self.status_code = status_code
+                self.text = text
+
+        def fake_post(url, **_kwargs):
+            if "token" in url:
+                return FakeToken()
+            posts.append(url)
+            return FakeApi(401, "expired")
+
+        with patch(
+            "odoo.addons.l10n_br_dere.models.receita_integra.requests.post",
+            side_effect=fake_post,
+        ):
+            result = client.send_batch(self.company, "<DeRE/>")
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["status_code"], 401)
+        self.assertEqual(len(posts), 1)
+
+    def test_authorized_request_refreshes_an_old_token_on_401(self):
+        client = self.env["l10n_br_dere.receita.integra"]
+        now = fields.Datetime.now()
+        self.env["l10n_br_dere.token"].sudo().create(
+            {
+                "client_id": self.company.dere_client_id,
+                "access_token": "old-token",
+                "expires_at": now + timedelta(hours=1),
+                "issued_at": now - timedelta(minutes=10),
+            }
+        )
+        posts = []
+
+        class FakeToken:
+            status_code = 200
+            text = ""
+
+            def json(self):
+                return {"access_token": "fresh-token", "expires_in": 3600}
 
         class FakeApi:
             def __init__(self, status_code, text="2.000001.9"):
@@ -778,6 +819,62 @@ class TestDereCoverage(DereCommon):
             result = client.send_batch(self.company, "<DeRE/>")
         self.assertTrue(result["ok"])
         self.assertEqual(len(posts), 2)
+
+    def test_token_cache_is_shared_by_client_id(self):
+        other = self.env["res.company"].create(
+            {
+                "name": "DeRE same credential",
+                "currency_id": self.company.currency_id.id,
+                "dere_client_id": self.company.dere_client_id,
+                "dere_client_secret": self.company.dere_client_secret,
+            }
+        )
+        client = self.env["l10n_br_dere.receita.integra"]
+
+        class FakeTokenResp:
+            status_code = 200
+            text = ""
+
+            def json(self):
+                return {"access_token": "shared-token", "expires_in": 3600}
+
+        with patch(
+            "odoo.addons.l10n_br_dere.models.receita_integra.requests.post",
+            return_value=FakeTokenResp(),
+        ) as mocked:
+            first = client._get_token(self.company)
+            second = client._get_token(other)
+        self.assertEqual(first, "shared-token")
+        self.assertEqual(second, "shared-token")
+        self.assertEqual(mocked.call_count, 1)
+
+    def test_token_emission_stops_at_two_per_hour(self):
+        client = self.env["l10n_br_dere.receita.integra"]
+        calls = {"count": 0}
+
+        class FakeTokenResp:
+            status_code = 200
+            text = ""
+
+            def json(self):
+                calls["count"] += 1
+                return {
+                    "access_token": f"tok-{calls['count']}",
+                    "expires_in": 3600,
+                }
+
+        with patch(
+            "odoo.addons.l10n_br_dere.models.receita_integra.requests.post",
+            return_value=FakeTokenResp(),
+        ):
+            self.assertEqual(client._get_token(self.company), "tok-1")
+            client._clear_token(self.company)
+            self.assertEqual(client._get_token(self.company), "tok-2")
+            client._clear_token(self.company)
+            with self.assertRaises(UserError) as error:
+                client._get_token(self.company)
+        self.assertIn("2", str(error.exception))
+        self.assertEqual(calls["count"], 2)
 
     def test_closed_period_locks_deduction_and_reserve_rows(self):
         self.company.dere_subject_d1106 = True

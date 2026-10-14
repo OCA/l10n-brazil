@@ -1,7 +1,6 @@
 # Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-import json
 import logging
 from datetime import datetime, timedelta, timezone
 
@@ -10,7 +9,7 @@ import requests
 from odoo import _, fields, models
 from odoo.exceptions import UserError
 
-from ..constants import DEFAULT_CONSULT_PATH
+from ..constants import DEFAULT_CONSULT_PATH, TOKEN_REFRESH_MIN_MINUTES
 
 _logger = logging.getLogger(__name__)
 
@@ -19,48 +18,47 @@ class DereReceitaIntegra(models.AbstractModel):
     _name = "l10n_br_dere.receita.integra"
     _description = "Receita Integra client for DeRE"
 
-    def _token_param_key(self, company):
-        return f"l10n_br_dere.token.{company.id}"
+    def _token_record(self, company):
+        company = company.sudo()
+        return self.env["l10n_br_dere.token"]._lock(company.dere_client_id)
 
     def _clear_token(self, company):
-        self.env["ir.config_parameter"].sudo().set_param(
-            self._token_param_key(company), False
-        )
-
-    def _cached_token(self, company):
-        raw = (
-            self.env["ir.config_parameter"]
+        company = company.sudo()
+        if not company.dere_client_id:
+            return
+        record = (
+            self.env["l10n_br_dere.token"]
             .sudo()
-            .get_param(self._token_param_key(company))
+            .search(
+                [("client_id", "=", company.dere_client_id)],
+                limit=1,
+            )
         )
-        if not raw:
-            return False
-        try:
-            payload = json.loads(raw)
-        except json.JSONDecodeError:
-            return False
-        expires = fields.Datetime.to_datetime(payload.get("expires"))
-        if not expires or expires <= fields.Datetime.now():
-            return False
-        return payload.get("token")
+        if record:
+            record.write({"access_token": False, "expires_at": False})
 
-    def _store_token(self, company, token, expires):
-        self.env["ir.config_parameter"].sudo().set_param(
-            self._token_param_key(company),
-            json.dumps(
-                {
-                    "token": token,
-                    "expires": fields.Datetime.to_string(expires),
-                }
-            ),
+    def _token_age(self, company):
+        company = company.sudo()
+        record = (
+            self.env["l10n_br_dere.token"]
+            .sudo()
+            .search(
+                [("client_id", "=", company.dere_client_id)],
+                limit=1,
+            )
         )
+        if not record or not record.issued_at:
+            return timedelta.max
+        return fields.Datetime.now() - record.issued_at
 
-    def _request_token(self, company):
+    def _request_token(self, company, record):
         company = company.sudo()
         if not company.dere_client_id or not company.dere_client_secret:
             raise UserError(
                 _("Configure the Receita Integra client id and secret on the company.")
             )
+        now = fields.Datetime.now()
+        recent = record._assert_can_emit(now)
         response = requests.post(
             company.dere_token_url,
             data={"grant_type": "client_credentials"},
@@ -75,16 +73,33 @@ class DereReceitaIntegra(models.AbstractModel):
         payload = response.json()
         token = payload.get("access_token")
         expires_in = int(payload.get("expires_in") or 3600)
-        expires = fields.Datetime.now() + timedelta(seconds=max(expires_in - 60, 30))
-        self._store_token(company, token, expires)
+        expires = now + timedelta(seconds=max(expires_in - 60, 30))
+        record.write(
+            {
+                "access_token": token,
+                "expires_at": expires,
+                "issued_at": now,
+            }
+        )
+        record._remember_emission(now, recent)
         return token
 
     def _get_token(self, company, force=False):
-        if not force:
-            cached = self._cached_token(company)
-            if cached:
-                return cached
-        return self._request_token(company)
+        company = company.sudo()
+        if not company.dere_client_id or not company.dere_client_secret:
+            raise UserError(
+                _("Configure the Receita Integra client id and secret on the company.")
+            )
+        record = self._token_record(company)
+        now = fields.Datetime.now()
+        if (
+            not force
+            and record.access_token
+            and record.expires_at
+            and record.expires_at > now
+        ):
+            return record.access_token
+        return self._request_token(company, record)
 
     def _authorized_request(self, company, method, url, **kwargs):
         headers = dict(kwargs.pop("headers", {}) or {})
@@ -94,6 +109,8 @@ class DereReceitaIntegra(models.AbstractModel):
             headers["Authorization"] = f"Bearer {token}"
             last = getattr(requests, method)(url, headers=headers, **kwargs)
             if last.status_code != 401 or attempt:
+                return last
+            if self._token_age(company) < timedelta(minutes=TOKEN_REFRESH_MIN_MINUTES):
                 return last
             self._clear_token(company)
         return last

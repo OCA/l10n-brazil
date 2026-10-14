@@ -35,3 +35,4 @@ access_dere_deduction_item_user,l10n_br_dere.deduction.item.user,model_l10n_br_d
 access_dere_deduction_item_manager,l10n_br_dere.deduction.item.manager,model_l10n_br_dere_deduction_item,l10n_br_dere.group_manager,1,1,1,1
 access_dere_event_operation_wizard_user,l10n_br_dere.event.operation.wizard.user,model_l10n_br_dere_event_operation_wizard,l10n_br_dere.group_user,1,1,1,1
 access_dere_event_operation_wizard_manager,l10n_br_dere.event.operation.wizard.manager,model_l10n_br_dere_event_operation_wizard,l10n_br_dere.group_manager,1,1,1,1
+access_dere_token_manager,l10n_br_dere.token.manager,model_l10n_br_dere_token,l10n_br_dere.group_manager,1,1,1,1
