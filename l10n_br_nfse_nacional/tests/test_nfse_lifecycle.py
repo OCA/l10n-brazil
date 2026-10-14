@@ -24,7 +24,7 @@ PEDREG_SCHEMA = os.path.join(
     "nfse",
     "schemas",
     "v1_0",
-    "pedRegEvento_v1.00.xsd",
+    "pedRegEvento_v1.01.xsd",
 )
 
 AUTHORIZED = {
