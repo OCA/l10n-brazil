@@ -13,6 +13,7 @@ from odoo.exceptions import UserError
 from odoo.addons.l10n_br_dere_spec.models import xsd_validator
 
 from ..constants import (
+    AUTH_HTTP_CODES,
     DEFAULT_VER_APLIC,
     EVENT_D1101,
     EVENT_D1106,
@@ -587,9 +588,10 @@ class DereEventParentMixin(models.AbstractModel):
     def _apply_send_result(self, batch, events, result):
         """Persist the send outcome without losing generated events on retries.
 
-        A 2xx response without a protocol, or a transient HTTP error, leaves
-        the batch unknown so the user can inspect the gateway before resending.
-        Only a definitive application error marks the events as rejected.
+        A 2xx response without a protocol, a transient HTTP error, or an HTTP
+        5xx leaves the batch unknown. 401 and 403 mark the batch in error and
+        keep the events generated. Only a definitive application error marks
+        the events as rejected.
         """
         protocol = self._extract_protocol(result.get("text") or "")
         status = result.get("status_code") or 0
@@ -605,7 +607,7 @@ class DereEventParentMixin(models.AbstractModel):
             batch._schedule_next_consult()
             events.write({"state": "sent", "protocol": protocol})
             return batch
-        if result.get("ok") or status in TRANSIENT_HTTP_CODES:
+        if result.get("ok") or status in TRANSIENT_HTTP_CODES or status >= 500:
             batch.write(
                 {
                     "state": "unknown",
@@ -614,6 +616,30 @@ class DereEventParentMixin(models.AbstractModel):
                 }
             )
             return self._unknown_transmission_action()
+        if status in AUTH_HTTP_CODES:
+            batch.write(
+                {
+                    "state": "error",
+                    "response_text": result.get("text"),
+                    "protocol": protocol or False,
+                }
+            )
+            return {
+                "type": "ir.actions.client",
+                "tag": "display_notification",
+                "params": {
+                    "title": _("Transmission failed"),
+                    "message": _(
+                        "Receita Integra refused the credentials or the access "
+                        "scope. The event was not evaluated and stays generated. "
+                        "%s"
+                    )
+                    % (result.get("text") or ""),
+                    "type": "danger",
+                    "sticky": True,
+                    "next": {"type": "ir.actions.client", "tag": "soft_reload"},
+                },
+            }
         batch.write(
             {
                 "state": "error",

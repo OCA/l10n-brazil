@@ -259,6 +259,36 @@ class TestDereTransmit(DereCommon):
         self.assertEqual(period.batch_ids.state, "error")
         self.assertEqual(events.state, "rejected")
 
+    def test_send_auth_error_keeps_generated_events(self):
+        declaration = self._create_declaration("2025-06")
+        self._table_period(declaration).action_generate_tables()
+        period = self._table_period(declaration)
+        events = period._next_events(("D-1001",))
+        with patch.object(
+            type(self.env["l10n_br_dere.receita.integra"]),
+            "send_batch",
+            return_value={"ok": False, "status_code": 401, "text": "unauthorized"},
+        ):
+            action = period._send_events(events)
+        self.assertEqual(action["tag"], "display_notification")
+        self.assertEqual(period.batch_ids.state, "error")
+        self.assertEqual(events.state, "generated")
+
+    def test_send_server_error_keeps_unknown_batch(self):
+        declaration = self._create_declaration("2025-07")
+        self._table_period(declaration).action_generate_tables()
+        period = self._table_period(declaration)
+        events = period._next_events(("D-1001",))
+        with patch.object(
+            type(self.env["l10n_br_dere.receita.integra"]),
+            "send_batch",
+            return_value={"ok": False, "status_code": 500, "text": "unavailable"},
+        ):
+            action = period._send_events(events)
+        self.assertEqual(action["tag"], "display_notification")
+        self.assertEqual(period.batch_ids.state, "unknown")
+        self.assertEqual(events.state, "generated")
+
     def test_send_transient_http_keeps_generated_events(self):
         declaration = self._create_declaration("2025-04")
         self._table_period(declaration).action_generate_tables()
