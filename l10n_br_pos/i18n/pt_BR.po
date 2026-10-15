@@ -2896,7 +2896,7 @@ msgstr "Imposto PIS ST"
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__uot_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__uot_id
 msgid "Tax UoM"
-msgstr "UoM Fiscal"
+msgstr "Unidade tributável"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__amount_tax_withholding

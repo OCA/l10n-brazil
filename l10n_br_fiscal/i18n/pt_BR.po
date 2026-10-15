@@ -8503,7 +8503,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.product_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.product_template_form
 msgid "Tax UOM"
-msgstr "UOM fiscal"
+msgstr "Unidade tributável"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__uot_id
@@ -8513,13 +8513,13 @@ msgstr "UOM fiscal"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__uot_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__uot_id
 msgid "Tax UoM"
-msgstr "UoM Fiscal"
+msgstr "Unidade tributável"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__uot_factor
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__uot_factor
 msgid "Tax UoM Factor"
-msgstr "Fator UoM Fiscal"
+msgstr "Fator da unidade tributável"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__amount_tax_withholding
