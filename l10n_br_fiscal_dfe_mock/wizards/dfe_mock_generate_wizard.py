@@ -4,6 +4,7 @@
 import random
 import re
 from datetime import datetime, timedelta
+from xml.sax.saxutils import escape
 
 from odoo import fields, models
 from odoo.exceptions import UserError
@@ -153,7 +154,7 @@ class DfeMockGenerateWizard(models.TransientModel):
             '<resNFe xmlns="http://www.portalfiscal.inf.br/nfe" versao="1.00">'
             f"<chNFe>{access_key}</chNFe>"
             f"<CNPJ>{partner_data['cnpj']}</CNPJ>"
-            f"<xNome>{partner_data['name']}</xNome>"
+            f"<xNome>{escape(partner_data['name'])}</xNome>"
             f"<IE>{partner_data['ie']}</IE>"
             f"<dhEmi>{emission_dt.strftime('%Y-%m-%dT%H:%M:%S')}-03:00</dhEmi>"
             "<tpNF>1</tpNF>"
@@ -198,7 +199,7 @@ class DfeMockGenerateWizard(models.TransientModel):
             "</ide>"
             "<emit>"
             f"<CNPJ>{partner_data['cnpj']}</CNPJ>"
-            f"<xNome>{partner_data['name']}</xNome>"
+            f"<xNome>{escape(partner_data['name'])}</xNome>"
             "<enderEmit>"
             "<xLgr>Rua Mock</xLgr><nro>100</nro>"
             "<xBairro>Centro</xBairro>"
@@ -213,7 +214,7 @@ class DfeMockGenerateWizard(models.TransientModel):
             "</emit>"
             "<dest>"
             f"<CNPJ>{dest_cnpj}</CNPJ>"
-            f"<xNome>{company.name}</xNome>"
+            f"<xNome>{escape(company.name)}</xNome>"
             "<enderDest>"
             "<xLgr>Rua Empresa Mock</xLgr><nro>1</nro>"
             "<xBairro>Centro</xBairro>"

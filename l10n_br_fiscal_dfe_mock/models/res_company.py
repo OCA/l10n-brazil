@@ -6,6 +6,7 @@ from dataclasses import dataclass, field
 from io import BytesIO
 
 from odoo import api, fields, models
+from odoo.exceptions import AccessError
 
 # ── Mock dataclasses imitating nfelib WrappedResponse ──────────────────
 
@@ -70,7 +71,19 @@ class ResCompany(models.Model):
     )
 
     @api.model
+    def _dfe_mock_check_manager(self):
+        # The buttons are hidden by groups in the view, but the methods are
+        # still reachable through RPC.
+        if not self.env.is_superuser() and not self.env.user.has_group(
+            "l10n_br_fiscal.group_manager"
+        ):
+            raise AccessError(
+                self.env._("Only fiscal managers can change the DF-e mock settings.")
+            )
+
+    @api.model
     def action_toggle_dfe_mock_mode(self):
+        self._dfe_mock_check_manager()
         company = self.env.company
         new_state = not company.dfe_mock_mode
         company.sudo().write({"dfe_mock_mode": new_state})
@@ -89,6 +102,7 @@ class ResCompany(models.Model):
 
     @api.model
     def action_reset_dfe_cooldown(self):
+        self._dfe_mock_check_manager()
         company = self.env.company
         company._dfe_write_typed("nfe", {"dfe_next_query": False})
         return {

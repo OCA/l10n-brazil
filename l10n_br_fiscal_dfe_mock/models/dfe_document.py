@@ -12,7 +12,7 @@ class DfeDocument(models.Model):
     # banner buttons did before Odoo 18 dropped banner_route.
 
     def action_dfe_mock_search_nfe(self):
-        return self.env["res.company"].action_banner_search_all_nfe()
+        return self.env["res.company"].dfe_action_search_all("nfe")
 
     def action_dfe_mock_toggle(self):
         return self.env["res.company"].action_toggle_dfe_mock_mode()

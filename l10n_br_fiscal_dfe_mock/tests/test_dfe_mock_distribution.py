@@ -2,9 +2,13 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 
 import gzip
+from datetime import datetime
 from unittest import mock
 
+from lxml import etree
+
 from odoo import fields
+from odoo.exceptions import AccessError
 from odoo.tests.common import TransactionCase
 
 from ..models.res_company import MockDfeClient
@@ -155,6 +159,16 @@ class TestDfeMockDistribution(TransactionCase):
         Document = self.env["l10n_br_fiscal_dfe.document"].with_user(user)
         return Document.get_views([(view.id, "list")])["views"]["list"]["arch"]
 
+    def _fiscal_user(self):
+        return self.manager.copy(
+            {
+                "login": "dfe_mock_fiscal_user",
+                "groups_id": [
+                    (6, 0, [self.env.ref("l10n_br_fiscal.group_user").id]),
+                ],
+            }
+        )
+
     def test_header_buttons_only_for_fiscal_manager(self):
         buttons = (
             "action_dfe_mock_search_nfe",
@@ -164,15 +178,7 @@ class TestDfeMockDistribution(TransactionCase):
         arch = self._list_arch(self.manager)
         for button in buttons:
             self.assertIn(f'name="{button}"', arch)
-        fiscal_user = self.manager.copy(
-            {
-                "login": "dfe_mock_fiscal_user",
-                "groups_id": [
-                    (6, 0, [self.env.ref("l10n_br_fiscal.group_user").id]),
-                ],
-            }
-        )
-        arch = self._list_arch(fiscal_user)
+        arch = self._list_arch(self._fiscal_user())
         for button in buttons:
             self.assertNotIn(f'name="{button}"', arch)
 
@@ -204,3 +210,47 @@ class TestDfeMockDistribution(TransactionCase):
             ]
         )
         self.assertEqual(len(documents), 2)
+
+    def test_mock_controls_require_fiscal_manager(self):
+        Company = (
+            self.env["res.company"]
+            .with_user(self._fiscal_user())
+            .with_company(self.company)
+        )
+        with self.assertRaises(AccessError):
+            Company.action_toggle_dfe_mock_mode()
+        with self.assertRaises(AccessError):
+            Company.action_reset_dfe_cooldown()
+        self.assertTrue(self.company.dfe_mock_mode)
+
+    # ── generated XML ───────────────────────────────────────────────────
+
+    def test_generated_xml_escapes_names(self):
+        self.company.name = "Empresa <Mock> & Cia"
+        wizard = self.env["dfe.mock.generate.wizard"].create(
+            {"company_id": self.company.id}
+        )
+        partner_data = {
+            "cnpj": "10588201000105",
+            "name": "A & B Ltda",
+            "uf_code": "35",
+            "ie": "ISENTO",
+        }
+        emission_dt = datetime(2026, 2, 1, 10, 0, 0)
+        ns = {"nfe": "http://www.portalfiscal.inf.br/nfe"}
+
+        res_xml = etree.fromstring(
+            wizard._build_res_nfe_xml(ACCESS_KEY, partner_data, 10.0, emission_dt)
+        )
+        self.assertEqual(res_xml.findtext("nfe:xNome", namespaces=ns), "A & B Ltda")
+
+        proc_xml = etree.fromstring(
+            wizard._build_proc_nfe_xml(ACCESS_KEY, partner_data, 10.0, emission_dt)
+        )
+        self.assertEqual(
+            proc_xml.findtext(".//nfe:emit/nfe:xNome", namespaces=ns), "A & B Ltda"
+        )
+        self.assertEqual(
+            proc_xml.findtext(".//nfe:dest/nfe:xNome", namespaces=ns),
+            "Empresa <Mock> & Cia",
+        )
