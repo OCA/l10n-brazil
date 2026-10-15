@@ -30,32 +30,43 @@ ACCESS_KEY = "35260210588201000105550010000001231000001230"
 class TestMockMDeProcessor(TransactionCase):
     """Tests for _MockMDeProcessor and _build_mde_result."""
 
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        # The processor only needs a recordset to resolve the user timezone
+        # of the mock timestamps, so an empty one is enough here.
+        cls.record = cls.env["l10n_br_nfe.md_event"]
+
     def test_build_mde_result_structure(self):
-        result = _build_mde_result()
+        result = _build_mde_result(self.record)
         self.assertEqual(result.retorno.status_code, 200)
         self.assertEqual(len(result.resposta.retEvento), 1)
         inf = result.resposta.retEvento[0].infEvento
         self.assertEqual(inf.cStat, "135")
         self.assertTrue(inf.nProt.startswith("MOCK"))
-        self.assertIn("T", inf.dhRegEvento)
+        # dhRegEvento carries a real offset, not a hardcoded -03:00.
+        self.assertRegex(
+            inf.dhRegEvento,
+            r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[-+]\d{2}:\d{2}$",
+        )
 
     def test_processor_ciencia(self):
-        proc = _MockMDeProcessor()
+        proc = _MockMDeProcessor(self.record)
         result = proc.ciencia_da_operacao("chave", "cnpj")
         self.assertEqual(result.resposta.retEvento[0].infEvento.cStat, "135")
 
     def test_processor_confirmacao(self):
-        proc = _MockMDeProcessor()
+        proc = _MockMDeProcessor(self.record)
         result = proc.confirmacao_da_operacao("chave", "cnpj")
         self.assertEqual(result.resposta.retEvento[0].infEvento.cStat, "135")
 
     def test_processor_desconhecimento(self):
-        proc = _MockMDeProcessor()
+        proc = _MockMDeProcessor(self.record)
         result = proc.desconhecimento_da_operacao("chave", "cnpj")
         self.assertEqual(result.resposta.retEvento[0].infEvento.cStat, "135")
 
     def test_processor_nao_realizada(self):
-        proc = _MockMDeProcessor()
+        proc = _MockMDeProcessor(self.record)
         result = proc.operacao_nao_realizada("chave", "cnpj")
         self.assertEqual(result.resposta.retEvento[0].infEvento.cStat, "135")
 
@@ -193,7 +204,7 @@ class TestNfeMdEventMock(TransactionCase):
             with mock.patch.object(
                 type(self.mde),
                 "_get_processor",
-                return_value=_MockMDeProcessor(),
+                return_value=_MockMDeProcessor(self.mde),
             ):
                 self.mde.action_confirm()
 

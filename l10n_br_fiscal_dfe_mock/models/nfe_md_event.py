@@ -5,11 +5,13 @@ import logging
 import random
 import re
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 
 from lxml import etree
 
-from odoo import models
+from odoo import fields, models
+
+from ..wizards.dfe_mock_generate_wizard import format_nfe_datetime
 
 _logger = logging.getLogger(__name__)
 
@@ -47,9 +49,9 @@ class _MockMDeResult:
     resposta: _MockResposta = field(default_factory=_MockResposta)
 
 
-def _build_mde_result():
+def _build_mde_result(record):
     """Build a successful mock MDE result."""
-    now_iso = datetime.now().strftime("%Y-%m-%dT%H:%M:%S-03:00")
+    now_iso = format_nfe_datetime(record, fields.Datetime.now())
     nprot = f"MOCK{random.randint(100000000000, 999999999999)}"
     inf = _MockInfEvento(
         cStat="135",
@@ -64,19 +66,26 @@ def _build_mde_result():
 
 
 class _MockMDeProcessor:
-    """Emulates the MDeAdapter for all four manifestation operations."""
+    """Emulates the MDeAdapter for all four manifestation operations.
+
+    Holds the manifestation record so the mock timestamps follow the user
+    timezone, like the ones the generator wizard writes.
+    """
+
+    def __init__(self, record):
+        self.record = record
 
     def ciencia_da_operacao(self, chave, cnpj_dest):
-        return _build_mde_result()
+        return _build_mde_result(self.record)
 
     def confirmacao_da_operacao(self, chave, cnpj_dest):
-        return _build_mde_result()
+        return _build_mde_result(self.record)
 
     def desconhecimento_da_operacao(self, chave, cnpj_dest):
-        return _build_mde_result()
+        return _build_mde_result(self.record)
 
     def operacao_nao_realizada(self, chave, cnpj_dest):
-        return _build_mde_result()
+        return _build_mde_result(self.record)
 
 
 # ── Odoo model override ────────────────────────────────────────────────
@@ -88,7 +97,7 @@ class NfeRecipientManifestationEvent(models.Model):
     def _get_processor(self):
         if self.company_id.dfe_mock_mode:
             _logger.info("MDE mock: using _MockMDeProcessor for %s", self.access_key)
-            return _MockMDeProcessor()
+            return _MockMDeProcessor(self)
         return super()._get_processor()
 
     def action_confirm(self):
@@ -161,6 +170,20 @@ class NfeRecipientManifestationEvent(models.Model):
         )
         _logger.info("MDE mock: created procNFe NSU %s for key %s", nsu_str, access_key)
 
+    @staticmethod
+    def _mock_parse_datetime(value):
+        """Parse a NF-e timestamp into the naive UTC datetime Odoo stores.
+
+        Values without an offset are already naive UTC, which is what the
+        pool holds for documents this module generated.
+        """
+        if not value:
+            return fields.Datetime.now()
+        parsed = datetime.fromisoformat(value)
+        if parsed.tzinfo is None:
+            return parsed
+        return parsed.astimezone(timezone.utc).replace(tzinfo=None)
+
     def _mock_parse_res_nfe(self, xml_content):
         """Extract partner data, amount, and emission date from resNFe XML."""
         root = etree.fromstring(xml_content.encode("utf-8"))
@@ -177,10 +200,7 @@ class NfeRecipientManifestationEvent(models.Model):
         ie = _text("IE", "ISENTO")
         vnf = float(_text("vNF", "1000.00"))
 
-        dh_emi_str = _text("dhEmi", datetime.now().strftime("%Y-%m-%dT%H:%M:%S"))
-        emission_dt = datetime.fromisoformat(
-            re.sub(r"[+-]\d{2}:\d{2}$", "", dh_emi_str)
-        )
+        emission_dt = self._mock_parse_datetime(_text("dhEmi"))
 
         cnpj_digits = re.sub(r"[^0-9]", "", cnpj)
         uf_code = cnpj_digits[:2] if len(cnpj_digits) >= 2 else "35"

@@ -3,7 +3,7 @@
 
 import random
 import re
-from datetime import datetime, timedelta
+from datetime import timedelta
 from xml.sax.saxutils import escape
 
 from odoo import fields, models
@@ -49,6 +49,17 @@ _UF_CODES = {
     "SP": "35",
     "TO": "17",
 }
+
+
+def format_nfe_datetime(record, value):
+    """Format a naive UTC datetime the way NF-e expects (``dhEmi`` & friends).
+
+    The offset follows the user timezone instead of a hardcoded -03:00, which
+    drifts by three hours whenever the server runs on UTC, as containers do.
+    """
+    local = fields.Datetime.context_timestamp(record, value)
+    offset = local.strftime("%z") or "+0000"
+    return f"{local.strftime('%Y-%m-%dT%H:%M:%S')}{offset[:3]}:{offset[3:]}"
 
 
 def _compute_access_key_check_digit(key_43):
@@ -156,13 +167,11 @@ class DfeMockGenerateWizard(models.TransientModel):
             f"<CNPJ>{partner_data['cnpj']}</CNPJ>"
             f"<xNome>{escape(partner_data['name'])}</xNome>"
             f"<IE>{partner_data['ie']}</IE>"
-            f"<dhEmi>{emission_dt.strftime('%Y-%m-%dT%H:%M:%S')}-03:00</dhEmi>"
+            f"<dhEmi>{format_nfe_datetime(self, emission_dt)}</dhEmi>"
             "<tpNF>1</tpNF>"
             f"<vNF>{amount:.2f}</vNF>"
             "<digVal>mock+digest==</digVal>"
-            "<dhRecbto>"
-            f"{emission_dt.strftime('%Y-%m-%dT%H:%M:%S')}-03:00"
-            "</dhRecbto>"
+            f"<dhRecbto>{format_nfe_datetime(self, emission_dt)}</dhRecbto>"
             "<cSitNFe>1</cSitNFe>"
             "</resNFe>"
         )
@@ -185,7 +194,7 @@ class DfeMockGenerateWizard(models.TransientModel):
             "<mod>55</mod>"
             f"<serie>{serie}</serie>"
             f"<nNF>{nnf}</nNF>"
-            f"<dhEmi>{emission_dt.strftime('%Y-%m-%dT%H:%M:%S')}-03:00</dhEmi>"
+            f"<dhEmi>{format_nfe_datetime(self, emission_dt)}</dhEmi>"
             "<tpNF>1</tpNF>"
             "<idDest>1</idDest>"
             "<tpImp>1</tpImp>"
@@ -284,9 +293,7 @@ class DfeMockGenerateWizard(models.TransientModel):
             "<tpAmb>2</tpAmb>"
             "<verAplic>1.0</verAplic>"
             f"<chNFe>{access_key}</chNFe>"
-            f"<dhRecbto>"
-            f"{emission_dt.strftime('%Y-%m-%dT%H:%M:%S')}-03:00"
-            f"</dhRecbto>"
+            f"<dhRecbto>{format_nfe_datetime(self, emission_dt)}</dhRecbto>"
             f"<nProt>{random.randint(100000000000000, 999999999999999)}</nProt>"
             "<digVal>mock+digest==</digVal>"
             "<cStat>100</cStat>"
@@ -303,13 +310,11 @@ class DfeMockGenerateWizard(models.TransientModel):
             f"<cOrgao>91</cOrgao>"
             f"<CNPJ>{partner_data['cnpj']}</CNPJ>"
             f"<chNFe>{access_key}</chNFe>"
-            f"<dhEvento>{emission_dt.strftime('%Y-%m-%dT%H:%M:%S')}-03:00"
-            "</dhEvento>"
+            f"<dhEvento>{format_nfe_datetime(self, emission_dt)}</dhEvento>"
             "<tpEvento>210210</tpEvento>"
             "<nSeqEvento>1</nSeqEvento>"
             "<xEvento>Ciencia da Operacao</xEvento>"
-            f"<dhRecbto>{emission_dt.strftime('%Y-%m-%dT%H:%M:%S')}-03:00"
-            "</dhRecbto>"
+            f"<dhRecbto>{format_nfe_datetime(self, emission_dt)}</dhRecbto>"
             "</resEvento>"
         )
 
@@ -323,8 +328,7 @@ class DfeMockGenerateWizard(models.TransientModel):
             "<cOrgao>91</cOrgao><tpAmb>2</tpAmb>"
             f"<CNPJ>{partner_data['cnpj']}</CNPJ>"
             f"<chNFe>{access_key}</chNFe>"
-            f"<dhEvento>{emission_dt.strftime('%Y-%m-%dT%H:%M:%S')}-03:00"
-            "</dhEvento>"
+            f"<dhEvento>{format_nfe_datetime(self, emission_dt)}</dhEvento>"
             "<tpEvento>210210</tpEvento>"
             "<nSeqEvento>1</nSeqEvento>"
             "<verEvento>1.00</verEvento>"
@@ -337,9 +341,7 @@ class DfeMockGenerateWizard(models.TransientModel):
             "<cOrgao>91</cOrgao><cStat>135</cStat>"
             "<xMotivo>Evento registrado</xMotivo>"
             f"<chNFe>{access_key}</chNFe>"
-            f"<dhRegEvento>"
-            f"{emission_dt.strftime('%Y-%m-%dT%H:%M:%S')}-03:00"
-            f"</dhRegEvento>"
+            f"<dhRegEvento>{format_nfe_datetime(self, emission_dt)}</dhRegEvento>"
             f"<nProt>{random.randint(100000000000000, 999999999999999)}</nProt>"
             "</infEvento></retEvento>"
             "</procEventoNFe>"
@@ -353,7 +355,7 @@ class DfeMockGenerateWizard(models.TransientModel):
         partners = self._get_demo_partners()
         partner_list = list(partners)
         starting_nsu = self._next_nsu(self.company_id)
-        now = datetime.now()
+        now = fields.Datetime.now()
 
         enabled_types = []
         if self.generate_res_nfe:
