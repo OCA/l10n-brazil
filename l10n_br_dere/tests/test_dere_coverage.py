@@ -708,7 +708,10 @@ class TestDereCoverage(DereCommon):
         with patch.object(type(batch), "_consult", side_effect=RuntimeError("boom")):
             self.env["l10n_br_dere.batch"]._cron_consult_batches()
 
-    @mute_logger("odoo.addons.l10n_br_dere.models.dere_batch")
+    @mute_logger(
+        "odoo.addons.l10n_br_dere.models.dere_batch",
+        "odoo.sql_db",
+    )
     def test_cron_consult_savepoint_isolates_database_errors(self):
         declaration = self._create_declaration("2024-07")
         batch_model = self.env["l10n_br_dere.batch"]
