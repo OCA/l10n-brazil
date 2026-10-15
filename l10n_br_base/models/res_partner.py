@@ -4,10 +4,13 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 
+from collections import defaultdict
+
 from erpbrasil.base.fiscal import cnpj_cpf
 
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
+from odoo.osv import expression
 
 from ..tools import check_cnpj_cpf, check_ie
 
@@ -95,45 +98,65 @@ class Partner(models.Model):
 
     @api.constrains("vat", "l10n_br_ie_code")
     def _check_cnpj_l10n_br_ie_code(self):
-        for record in self:
-            if not record.vat:
-                continue
+        if self.env.context.get("disable_allow_cnpj_multi_ie") or self.env.context.get(
+            "allow_vat_duplicate"
+        ):
+            return
 
-            if self.env.context.get(
-                "disable_allow_cnpj_multi_ie"
-            ) or self.env.context.get("allow_vat_duplicate"):
-                continue
+        # Skip an empty normalized document (e.g. `vat = "/"`, which `base`
+        # documents as "not subject to tax" and which normalizes to an empty
+        # string): the domains below would otherwise match every other partner
+        # with an empty document.
+        records = self.filtered(lambda r: r.vat and r.cnpj_cpf_stripped)
+        if not records:
+            return
 
-            # allow_cnpj_multi_ie is a res.config.settings boolean: it is stored
-            # as "True" when enabled and removed entirely when disabled
-            # (set_param deletes on a False bool), so a plain bool() reads it
-            # correctly (absent -> strict), matching base_setup.show_effect.
-            allow_cnpj_multi_ie = bool(
-                record.env["ir.config_parameter"]
-                .sudo()
-                .get_param("l10n_br_base.allow_cnpj_multi_ie")
-            )
+        # allow_cnpj_multi_ie is a res.config.settings boolean: it is stored
+        # as "True" when enabled and removed entirely when disabled
+        # (set_param deletes on a False bool), so a plain bool() reads it
+        # correctly (absent -> strict), matching base_setup.show_effect.
+        allow_cnpj_multi_ie = bool(
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("l10n_br_base.allow_cnpj_multi_ie")
+        )
 
-            domain = []
+        # 18.0 stores `vat` unformatted (OCA/l10n-brazil#4671) and compares by
+        # `vat` directly, so it is the key here; `cnpj_cpf_stripped` only
+        # guards the empty document above.
+        # One search for the records without parent; the others keep their
+        # own search, whose domain also excludes the parent and its children.
+        candidates_by_vat = defaultdict(list)
+        vat_values = list(
+            set(records.filtered(lambda r: not r.parent_id).mapped("vat"))
+        )
+        if vat_values:
+            for candidate in self.env["res.partner"].search(
+                [("vat", "in", vat_values)]
+            ):
+                candidates_by_vat[candidate.vat].append(candidate)
+
+        for record in records:
             if record.parent_id:
-                domain += [
-                    ("id", "not in", record.parent_id.ids),
-                    ("parent_id", "not in", record.parent_id.ids),
-                ]
-
-            # Skip an empty normalized document (e.g. `vat = "/"`, which
-            # `base` documents as "not subject to tax" and which normalizes
-            # to an empty string): the clause below would otherwise match
-            # every other partner with an empty document.
-            if not record.cnpj_cpf_stripped:
-                continue
-            domain += [
-                ("vat", "=", record.vat),
-                ("id", "!=", record.id),
-                ("parent_id", "!=", record.id),
-            ]
-
-            matches = record.env["res.partner"].search(domain)
+                matches = record.env["res.partner"].search(
+                    [
+                        ("id", "not in", record.parent_id.ids),
+                        ("parent_id", "not in", record.parent_id.ids),
+                        ("vat", "=", record.vat),
+                        ("id", "!=", record.id),
+                        ("parent_id", "!=", record.id),
+                    ]
+                )
+            else:
+                # same filter as the domain above, in the search order
+                matches = record.env["res.partner"].browse(
+                    [
+                        candidate.id
+                        for candidate in candidates_by_vat[record.vat]
+                        if candidate.id != record.id
+                        and candidate.parent_id.id != record.id
+                    ]
+                )
             if matches:
                 if cnpj_cpf.validar_cnpj(record.vat):
                     if allow_cnpj_multi_ie:
@@ -204,6 +227,24 @@ class Partner(models.Model):
         this method call others methods because this validation is State wise
         :Return: True or False.
         """
+        codes_by_state = defaultdict(set)
+        for line in self.state_tax_number_ids:
+            codes_by_state[line.state_id.id].add(line.l10n_br_ie_code)
+        partner_ids_by_key = defaultdict(list)
+        if codes_by_state:
+            domain = expression.OR(
+                [
+                    [
+                        ("state_id", "=", state_id),
+                        ("l10n_br_ie_code", "in", list(codes)),
+                    ]
+                    for state_id, codes in codes_by_state.items()
+                ]
+            )
+            for partner in self.env["res.partner"].search(domain):
+                key = (partner.state_id.id, partner.l10n_br_ie_code)
+                partner_ids_by_key[key].append(partner.id)
+
         for record in self:
             for l10n_br_ie_code_line in record.state_tax_number_ids:
                 check_ie(
@@ -220,12 +261,12 @@ class Partner(models.Model):
                             " number per state for each partner!"
                         )
                     )
-                duplicate_ie = self.env["res.partner"].search(
-                    [
-                        ("state_id", "=", l10n_br_ie_code_line.state_id.id),
-                        ("l10n_br_ie_code", "=", l10n_br_ie_code_line.l10n_br_ie_code),
-                        ("id", "!=", record.id),
-                    ]
+                key = (
+                    l10n_br_ie_code_line.state_id.id,
+                    l10n_br_ie_code_line.l10n_br_ie_code,
+                )
+                duplicate_ie = self.env["res.partner"].browse(
+                    [pid for pid in partner_ids_by_key[key] if pid != record.id]
                 )
                 if duplicate_ie:
                     raise ValidationError(
