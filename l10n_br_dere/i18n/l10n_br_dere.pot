@@ -3280,6 +3280,15 @@ msgid "Restricted production"
 msgstr ""
 
 #. module: l10n_br_dere
+#: model:ir.model.fields,help:l10n_br_dere.field_res_company__dere_tp_amb
+msgid ""
+"Restricted production (2) is the default and only accepts companies enrolled "
+"in the tax reform pilot (Developer Manual 1.0.2, section 1.3.1). A company "
+"outside the pilot gets an authorization error on the first send; the events "
+"stay generated."
+msgstr ""
+
+#. module: l10n_br_dere
 #: model_terms:ir.ui.view,arch_db:l10n_br_dere.view_dere_event_form
 msgid "Return"
 msgstr ""

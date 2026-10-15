@@ -70,6 +70,10 @@ class ResCompany(models.Model):
         TP_AMB,
         string="DeRE environment",
         default="2",
+        help="Restricted production (2) is the default and only accepts "
+        "companies enrolled in the tax reform pilot (Developer Manual "
+        "1.0.2, section 1.3.1). A company outside the pilot gets an "
+        "authorization error on the first send; the events stay generated.",
     )
     dere_ver_aplic = fields.Char(
         string="DeRE application version",

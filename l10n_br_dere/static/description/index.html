@@ -457,12 +457,14 @@ de produção. O token usa HTTP Basic (<tt class="docutils literal">client_id</t
 <tt class="docutils literal">client_secret</tt>) e <tt class="docutils literal">grant_type=client_credentials</tt>. Só gerentes
 leem esses segredos. O token de acesso é cacheado pelo <tt class="docutils literal">client_id</tt>:
 empresas com a mesma credencial compartilham a emissão, no máximo
-duas por hora. A produção restrita só aceita empresas do piloto da
-reforma tributária; quem está fora do piloto recebe erro de
-autorização com <tt class="docutils literal">tpAmb</tt> 2. Gerentes podem ligar <strong>Permitir excluir
-registros DeRE aceitos</strong> enquanto <tt class="docutils literal">tpAmb</tt> for 2, para testes de
-implementação apagarem um mês ou um período de tabela. Isso não anula
-recibos na RFB e é ignorado em produção (<tt class="docutils literal">tpAmb</tt> 1).</li>
+duas por hora. O padrão é a produção restrita (<tt class="docutils literal">tpAmb</tt> 2), que só
+aceita empresas cadastradas no piloto da reforma tributária (Manual
+do Desenvolvedor 1.0.2, 1.3.1). Quem está fora do piloto recebe erro
+de autorização no primeiro envio; os eventos permanecem gerados.
+Gerentes podem ligar <strong>Permitir excluir registros DeRE aceitos</strong>
+enquanto <tt class="docutils literal">tpAmb</tt> for 2, para testes de implementação apagarem um
+mês ou um período de tabela. Isso não anula recibos na RFB e é
+ignorado em produção (<tt class="docutils literal">tpAmb</tt> 1).</li>
 <li>Versão da aplicação (<tt class="docutils literal">verAplic</tt>) enviada em <tt class="docutils literal">ideEvento</tt>.</li>
 <li>Certificado A1 ICP-Brasil: é o campo <strong>Certificado</strong> da página
 <strong>Certificados</strong> da aba Fiscal (<tt class="docutils literal">l10n_br_fiscal_certificate</tt>). Uma

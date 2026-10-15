@@ -103,12 +103,14 @@ No formulário da empresa, abra a aba **DeRE** e preencha:
    ``client_secret``) e ``grant_type=client_credentials``. Só gerentes
    leem esses segredos. O token de acesso é cacheado pelo ``client_id``:
    empresas com a mesma credencial compartilham a emissão, no máximo
-   duas por hora. A produção restrita só aceita empresas do piloto da
-   reforma tributária; quem está fora do piloto recebe erro de
-   autorização com ``tpAmb`` 2. Gerentes podem ligar **Permitir excluir
-   registros DeRE aceitos** enquanto ``tpAmb`` for 2, para testes de
-   implementação apagarem um mês ou um período de tabela. Isso não anula
-   recibos na RFB e é ignorado em produção (``tpAmb`` 1).
+   duas por hora. O padrão é a produção restrita (``tpAmb`` 2), que só
+   aceita empresas cadastradas no piloto da reforma tributária (Manual
+   do Desenvolvedor 1.0.2, 1.3.1). Quem está fora do piloto recebe erro
+   de autorização no primeiro envio; os eventos permanecem gerados.
+   Gerentes podem ligar **Permitir excluir registros DeRE aceitos**
+   enquanto ``tpAmb`` for 2, para testes de implementação apagarem um
+   mês ou um período de tabela. Isso não anula recibos na RFB e é
+   ignorado em produção (``tpAmb`` 1).
 5. Versão da aplicação (``verAplic``) enviada em ``ideEvento``.
 6. Certificado A1 ICP-Brasil: é o campo **Certificado** da página
    **Certificados** da aba Fiscal (``l10n_br_fiscal_certificate``). Uma
