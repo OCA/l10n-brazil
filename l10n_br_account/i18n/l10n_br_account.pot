@@ -7795,6 +7795,13 @@ msgid "Valor ICMS ST"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_vTPrestLiq
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_vTPrestLiq
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_vTPrestLiq
+msgid "Valor Líquido da Prestação"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_vISSRet
 msgid "Valor Retenção ISS"
 msgstr ""
@@ -8377,6 +8384,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_vLiq
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_vLiq
 msgid "Valor líquido da fatura"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__cte40_vTPrestLiq
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__cte40_vTPrestLiq
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__cte40_vTPrestLiq
+msgid "Valor líquido total da prestação, sem IBS e CBS (NT CT-e 2026.004)."
 msgstr ""
 
 #. module: l10n_br_account
