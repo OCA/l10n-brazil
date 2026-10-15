@@ -10,7 +10,9 @@ class DfeMockNsu(models.Model):
     _order = "nsu"
     _rec_name = "nsu"
 
-    nsu = fields.Char(string="NSU", size=15, required=True, index=True)
+    # No index= here: the nsu_company_unique constraint below already
+    # creates one with nsu as its leading column.
+    nsu = fields.Char(string="NSU", size=15, required=True)
     schema_type = fields.Selection(
         selection=[
             ("resNFe", "resNFe"),

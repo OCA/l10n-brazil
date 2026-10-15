@@ -362,13 +362,20 @@ class DfeMockGenerateWizard(models.TransientModel):
             enabled_types.append("resNFe")
         if self.generate_proc_nfe:
             enabled_types.append("procNFe")
-        if (
-            not enabled_types
-            and not self.generate_res_evento
-            and not self.generate_proc_evento_nfe
-        ):
+        generate_events = self.generate_res_evento or self.generate_proc_evento_nfe
+        if not enabled_types and not generate_events:
             raise UserError(
                 self.env._("Select at least one document type to generate.")
+            )
+        if not enabled_types:
+            # Events are attached to the keys generated in this same run, so
+            # without a NF-e type they would point at documents absent from
+            # the pool.
+            raise UserError(
+                self.env._(
+                    "Events reference the NF-e generated in the same run. "
+                    "Select resNFe or procNFe as well."
+                )
             )
 
         created_ids = []
@@ -416,7 +423,7 @@ class DfeMockGenerateWizard(models.TransientModel):
                 current_nsu += 1
 
         # Generate event types referencing previously generated keys
-        if nfe_keys and (self.generate_res_evento or self.generate_proc_evento_nfe):
+        if generate_events:
             event_types = []
             if self.generate_res_evento:
                 event_types.append("resEvento")
