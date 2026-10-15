@@ -1885,16 +1885,6 @@ msgid "Name (proxy)"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__simple_value
-msgid "National Simple Taxes"
-msgstr "Impostos do Simples Nacional"
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__simple_without_icms_value
-msgid "National Simple Taxes without ICMS"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_move_line__national_taxation_code_id
 msgid "National Taxation Code for the ISS tax (National NFS-e)"
 msgstr ""
@@ -2186,6 +2176,13 @@ msgstr "Quantidade"
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__proxy_quantity
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__proxy_quantity
 msgid "Quantity (proxy)"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__icmssn_range_id
+msgid ""
+"Range of the Simples Nacional annex that taxes the operation, the one the "
+"company was in when the taxes of the line were computed."
 msgstr ""
 
 #. module: l10n_br_account
@@ -2674,6 +2671,9 @@ msgid ""
 "(vICMSDeson) is deducted from the item value (vProd) and from the document "
 "total (vNF)."
 msgstr ""
+
+#~ msgid "National Simple Taxes"
+#~ msgstr "Impostos do Simples Nacional"
 
 #~ msgid "Document Type"
 #~ msgstr "Tipo do Documento"
