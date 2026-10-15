@@ -934,7 +934,7 @@ msgstr "Importar CNAB"
 #. module: l10n_br_cnab_structure
 #: model:ir.ui.menu,name:l10n_br_cnab_structure.l10n_br_outbound_cnab_import_menu
 msgid "Import CNAB Returns"
-msgstr ""
+msgstr "Importar retornos CNAB"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.actions.act_window,name:l10n_br_cnab_structure.l10n_br_inbound_cnab_import_action
