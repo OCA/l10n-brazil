@@ -4,6 +4,7 @@
 
 import base64
 import gzip
+import logging
 import os
 import re
 import tempfile
@@ -37,10 +38,6 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_REJEITADA,
 )
-from odoo.addons.l10n_br_nfse_spec.models.v1_0.tipos_simples_v1_01 import (
-    TSRTCFINNFSE,
-    TSRTCINDDEST,
-)
 from odoo.addons.spec_driven_model.models import spec_models
 
 from ..constants.nfse_nacional import (
@@ -53,6 +50,8 @@ from ..constants.nfse_nacional import (
 from ..transport.adn_rest import AdnRestClient
 
 BRAZIL_TZ = pytz.timezone("America/Sao_Paulo")
+
+_logger = logging.getLogger(__name__)
 
 
 def filter_nfse_nacional(record):
@@ -103,29 +102,6 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
     )
     nfse10_valores = fields.Many2one(
         "l10n_br_fiscal.document.line", compute="_compute_nfse10_serv_valores"
-    )
-
-    ####################
-    # NFS-e tag: IBSCBS
-    # Grupo RTC: IBS e CBS declarados na DPS (leiaute 1.01)
-    ####################
-
-    nfse10_finNFSe = fields.Selection(
-        TSRTCFINNFSE,
-        string="Finalidade da emissão",
-        default="0",
-    )
-    nfse10_indDest = fields.Selection(
-        TSRTCINDDEST,
-        string="Destinatário dos serviços",
-        default="0",
-    )
-    nfse10_cIndOp_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.operation.indicator",
-        string="Código indicador da operação",
-        help="Indicador da operação de fornecimento (cIndOp) da tabela do "
-        "Anexo VII da NT SE/CGNFS-e 004: obrigatório numa DPS 1.01 sujeita "
-        "ao IBS/CBS",
     )
 
     nfse_key = fields.Char(
@@ -184,19 +160,56 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
     # Inverse Methods
     ##########################
 
+    def _nfse_ibscbs_line(self):
+        """Return the line the DPS IBSCBS group is built from.
+
+        A DPS declares a single servico, so the RTC data of the group comes
+        from the first line, the same one already exported for the serv and
+        valores groups.
+        """
+        self.ensure_one()
+        return self.fiscal_line_ids[:1]
+
     def _nfse_export_ibscbs(self):
         """Return True when the DPS must carry the RTC IBSCBS group.
 
         Like the NF-e IBSCBS group, the DPS one (leiaute 1.01) is exported as
-        soon as a line carries the RTC taxes (the cClassTrib classification),
-        and the operation indicator (cIndOp) of the 1.01 layout is mandatory
-        then, so the group is only declared once it is informed.
+        soon as the line carries the RTC data: the cClassTrib classification
+        plus the CST and the cIndOp operation indicator, both mandatory in the
+        group. The cIndOp is read from the line, which is where the user
+        informs it (from the product or from the line view), like the other
+        NFS-e layouts do.
+
+        A line carrying the cClassTrib but missing one of the two other data
+        would produce an invalid group. A DPS without the IBSCBS group is a
+        valid 1.01 document, so the group is skipped rather than blocking the
+        emission, but the reason is logged: nothing else tells the user why
+        the group left the DPS.
         """
         self.ensure_one()
-        return bool(
-            self.fiscal_line_ids.filtered("tax_classification_id")
-            and self.nfse10_cIndOp_id
+        line = self._nfse_ibscbs_line()
+        if not line.tax_classification_id:
+            # No RTC data: the document keeps the legacy 1.00 shape.
+            return False
+        missing = [
+            label
+            for value, label in (
+                (line.operation_indicator_id, "cIndOp"),
+                (line.ibs_cst_id or line.cbs_cst_id, "CST"),
+            )
+            if not value
+        ]
+        if not missing:
+            return True
+        _logger.warning(
+            "NFS-e %s: line %s carries the RTC classification %s but no %s, "
+            "so the DPS is exported without the IBSCBS group.",
+            self.display_name,
+            line.display_name,
+            line.tax_classification_id.code,
+            " and no ".join(missing),
         )
+        return False
 
     def _export_tag_nfse_10_ibscbs(self, xsd_fields, class_obj, export_dict):
         """Export the IBSCBS group declared in the DPS (leiaute 1.01, RTC).
@@ -210,25 +223,26 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
         nfse.10.tcinfotributacao) already hold those field names on the
         document.
 
-        The classification (CST and cClassTrib) comes from the RTC taxes the
-        fiscal engine sets on the line, exactly like the NF-e IBSCBS group;
-        the amounts of the group are declared by the Sefin in the NFS-e, not
-        in the DPS.
+        The classification (CST and cClassTrib) and the operation indicator
+        (cIndOp) come from the line, exactly like the NF-e IBSCBS group; the
+        amounts of the group are declared by the Sefin in the NFS-e, not in
+        the DPS.
         """
         if not self._nfse_export_ibscbs():
             return
-        line = self.fiscal_line_ids[0]
-        cst = line.ibs_cst_id.code or line.cbs_cst_id.code
-        if not cst:
-            return
+        line = self._nfse_ibscbs_line()
         gIBSCBS = TcrtcinfoTributosSitClas(
-            CST=cst,
+            CST=line.ibs_cst_id.code or line.cbs_cst_id.code,
             cClassTrib=line.tax_classification_id.code,
         )
+        # finNFSe only has "0" (NFS-e regular) in the 1.01 schema and
+        # indDest = "1" comes with the dest group, which is not exported yet:
+        # both stay constants instead of new document fields holding a single
+        # possible value.
         export_dict.update(
-            finNFSe=self.nfse10_finNFSe,
-            cIndOp=self.nfse10_cIndOp_id.code,
-            indDest=self.nfse10_indDest,
+            finNFSe="0",
+            cIndOp=line.operation_indicator_id.code,
+            indDest="0",
             valores=TcrtcinfoValoresIbscbs(
                 trib=TcrtcinfoTributosIbscbs(gIBSCBS=gIBSCBS)
             ),
