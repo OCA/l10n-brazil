@@ -8,6 +8,7 @@ from odoo.exceptions import UserError
 from odoo.tests import tagged
 
 from odoo.addons.l10n_br_dere.models import xml_builder
+from odoo.addons.l10n_br_dere_spec.models import xsd_validator
 
 from .common import DereCommon
 
@@ -451,6 +452,47 @@ class TestDereReturns(DereCommon):
     def test_return_types_are_not_event_types(self):
         selection = dict(self.env["l10n_br_dere.event"]._fields["event_type"].selection)
         self.assertFalse([code for code in selection if code.startswith("D-9")])
+
+    def test_unknown_return_namespace_applies_the_status(self):
+        """D-9109 is not mapped on layout 1.2.0.
+
+        An unknown return namespace must not fail XSD validation. The
+        status code is still stored and the return type stays empty.
+        """
+        declaration = self._create_declaration("2032-04")
+        period = self._table_period(declaration)
+        period.action_generate_d1001()
+        event = self._event(declaration, "D-1001")
+        event.state = "sent"
+        receipt = self._event_receipt("D-1001", declaration.per_apur)
+        tag = "evtRetornoPMensal"
+        xml = (
+            f'<DeRE xmlns="{SCHEMAS}/{tag}/v9_9_9">'
+            f'<{tag} id="{event.event_id_attr}">'
+            f"<ideContrib><nrInsc>{self.company._dere_cnpj_root()}</nrInsc>"
+            "</ideContrib>"
+            "<ideStatus><cdRetorno>1</cdRetorno>"
+            "<descRetorno>Sucesso</descRetorno></ideStatus>"
+            "<infoRecEv>"
+            f"<nrRecibo>{receipt}</nrRecibo>"
+            "<dhRecepcao>2026-12-05T12:00:00.1234567-03:00</dhRecepcao>"
+            "<dhProcess>2026-12-05T12:00:01.0000000-03:00</dhProcess>"
+            f"<tpEv>{event.event_type}</tpEv>"
+            f"<hash>{VALID_HASH}</hash>"
+            "</infoRecEv>"
+            f"</{tag}>"
+            "</DeRE>"
+        )
+        self.assertIsNone(xsd_validator.validate_return(xml))
+        batch = self._consult(period, (event, xml))
+        self.assertEqual(event.state, "accepted")
+        self.assertEqual(event.cd_retorno, "1")
+        self.assertEqual(event.nr_recibo, receipt)
+        self.assertFalse(event.return_type)
+        self.assertEqual(batch.state, "done")
+        self.assertFalse(
+            event.message_ids.filtered(lambda message: "XSD" in (message.body or ""))
+        )
 
     def test_consult_matches_tpev_without_hyphen(self):
         declaration = self._create_declaration("2026-03")

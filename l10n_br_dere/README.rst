@@ -422,6 +422,10 @@ Known issues / Roadmap
   plano de saúde. Uma base que já gravou o D-1121 com o código do 1.2.0
   precisa migrar a operação fiscal e a linha de dedução antes de emitir
   o XML do leiaute novo.
+- D-9109 (``evtRetornoPMensal``), retorno dos periódicos mensais que não
+  têm evento de retorno próprio, entra com o leiaute 1.3.0. Até lá um
+  namespace desconhecido deixa o tipo de retorno vazio, não passa pelo
+  XSD e grava o ``cdRetorno`` normalmente.
 - Réplica local da MS1155 (``perApur`` futuro): a regra oficial não
   interrompe o processamento, e a suíte de testes usa meses futuros
 - Eventos transacionais (D-3201 e demais D-22xx / D-32xx) depois que o
