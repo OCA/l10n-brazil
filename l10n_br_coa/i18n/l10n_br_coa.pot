@@ -271,6 +271,13 @@ msgid "Templates for Taxes"
 msgstr ""
 
 #. module: l10n_br_coa
+#. odoo-python
+#: code:addons/l10n_br_coa/models/account_chart_template.py:0
+#, python-format
+msgid "Transferência entre Contas de Liquidez"
+msgstr ""
+
+#. module: l10n_br_coa
 #: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax__withholdable
 #: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_mixin__withholdable
 #: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_template__withholdable
