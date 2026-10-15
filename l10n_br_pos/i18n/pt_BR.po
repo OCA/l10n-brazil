@@ -302,7 +302,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_cbs_base
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cbs_base
 msgid "CBS Base"
-msgstr ""
+msgstr "Base da CBS"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cbs_base_type
@@ -321,7 +321,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_cbs_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cbs_value
 msgid "CBS Value"
-msgstr ""
+msgstr "Valor da CBS"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cest_id
@@ -1069,7 +1069,7 @@ msgstr "Estimativa de Imposto"
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ncm_code_exception
 msgid "Exception"
-msgstr "Excessão"
+msgstr "Exceção"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsfcp_value_wh
@@ -1122,6 +1122,20 @@ msgstr "Dados Adicionais Fiscais"
 #: model:ir.model.fields,help:l10n_br_pos.field_pos_order__manual_fiscal_additional_data
 msgid "Fiscal Additional data manually entered by user"
 msgstr "Dados adicionais fiscais inseridos manualmente pelo usuário"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__fiscal_amount_tax
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__fiscal_amount_tax
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__fiscal_amount_tax
+msgid "Fiscal Amount Tax"
+msgstr "Total fiscal de impostos"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__fiscal_amount_total
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__fiscal_amount_total
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__fiscal_amount_total
+msgid "Fiscal Amount Total"
+msgstr "Total fiscal"
 
 #. module: l10n_br_pos
 #: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_l10n_br_pos_pos_method_term_form
@@ -1267,7 +1281,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_ibs_base
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__ibs_base
 msgid "IBS Base"
-msgstr ""
+msgstr "Base do IBS"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ibs_base_type
@@ -1286,7 +1300,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_ibs_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__ibs_value
 msgid "IBS Value"
-msgstr ""
+msgstr "Valor do IBS"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_percent
@@ -2600,7 +2614,7 @@ msgstr "Número de Série"
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__service_type_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__service_type_id
 msgid "Service Type LC 166"
-msgstr "Tipo de Serviço LC 166"
+msgstr "Tipo de Serviço LC 116"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_session_number
