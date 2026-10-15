@@ -13,11 +13,16 @@
         "security/dfe_mock_security.xml",
         "security/ir.model.access.csv",
         # Views
-        "views/dfe_document_view.xml",
         "views/dfe_mock_nsu_views.xml",
         "views/res_company_view.xml",
         # Wizards
         "wizards/dfe_mock_generate_wizard.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "l10n_br_fiscal_dfe_mock/static/src/components/dfe_banner/dfe_banner_mock.esm.js",
+            "l10n_br_fiscal_dfe_mock/static/src/components/dfe_banner/dfe_banner_mock.xml",
+        ],
+    },
     "development_status": "Alpha",
 }

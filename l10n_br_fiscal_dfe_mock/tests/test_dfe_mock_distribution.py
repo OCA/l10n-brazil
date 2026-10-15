@@ -144,20 +144,15 @@ class TestDfeMockDistribution(TransactionCase):
         self.company.with_company(self.company).action_reset_dfe_cooldown()
         self.assertFalse(self.company.nfe_dfe_next_query)
 
-    # ── NF-e list header buttons ────────────────────────────────────────
+    # ── DF-e banner mock controls ───────────────────────────────────────
 
-    def _click(self, method):
-        # Header buttons with display="always" run on an empty recordset
-        # when no row is selected, in the active company of the user.
-        Document = self.env["l10n_br_fiscal_dfe.document"]
-        return getattr(
-            Document.with_user(self.manager).with_company(self.company), method
-        )()
-
-    def _list_arch(self, user):
-        view = self.env.ref("l10n_br_nfe_dfe.nfe_dfe_document_tree")
-        Document = self.env["l10n_br_fiscal_dfe.document"].with_user(user)
-        return Document.get_views([(view.id, "list")])["views"]["list"]["arch"]
+    def _banner_data(self, user, fiscal_type="nfe"):
+        return (
+            self.env["res.company"]
+            .with_user(user)
+            .with_company(self.company)
+            .dfe_get_banner_data(fiscal_type)
+        )
 
     def _fiscal_user(self):
         return self.manager.copy(
@@ -169,39 +164,50 @@ class TestDfeMockDistribution(TransactionCase):
             }
         )
 
-    def test_header_buttons_only_for_fiscal_manager(self):
-        buttons = (
-            "action_dfe_mock_search_nfe",
-            "action_dfe_mock_toggle",
-            "action_dfe_mock_reset_cooldown",
+    def test_banner_shows_mock_controls_to_fiscal_manager(self):
+        data = self._banner_data(self.manager)
+        self.assertTrue(data["mock_available"])
+        self.assertTrue(data["mock_mode"])
+        self.company.sudo().write({"dfe_mock_mode": False})
+        self.assertFalse(self._banner_data(self.manager)["mock_mode"])
+
+    def test_banner_hides_mock_controls_from_fiscal_user(self):
+        data = self._banner_data(self._fiscal_user())
+        self.assertFalse(data["mock_available"])
+
+    def test_banner_hides_mock_controls_for_other_fiscal_type(self):
+        # Only the NF-e pool is mocked, so no other service gets the controls.
+        data = self._banner_data(self.manager, fiscal_type="cte")
+        self.assertFalse(data["mock_available"])
+
+    def _call(self, method):
+        # The banner buttons call these on res.company with no record and no
+        # argument, acting on the active company of the user.
+        Company = (
+            self.env["res.company"].with_user(self.manager).with_company(self.company)
         )
-        arch = self._list_arch(self.manager)
-        for button in buttons:
-            self.assertIn(f'name="{button}"', arch)
-        arch = self._list_arch(self._fiscal_user())
-        for button in buttons:
-            self.assertNotIn(f'name="{button}"', arch)
+        return getattr(Company, method)()
 
     def test_button_toggle_mock_mode(self):
-        result = self._click("action_dfe_mock_toggle")
+        result = self._call("action_toggle_dfe_mock_mode")
         self.assertFalse(self.company.dfe_mock_mode)
         self.assertEqual(result["tag"], "display_notification")
-        self._click("action_dfe_mock_toggle")
+        self._call("action_toggle_dfe_mock_mode")
         self.assertTrue(self.company.dfe_mock_mode)
 
     def test_button_reset_cooldown(self):
         self.company.sudo().write({"nfe_dfe_next_query": fields.Datetime.now()})
-        result = self._click("action_dfe_mock_reset_cooldown")
+        result = self._call("action_reset_dfe_cooldown")
         self.assertFalse(self.company.nfe_dfe_next_query)
         self.assertEqual(result["tag"], "display_notification")
 
-    def test_button_query_nfe_uses_mock_pool(self):
+    def test_banner_search_all_uses_mock_pool(self):
         self.company.sudo().write({"nfe_dfe_next_query": False})
         self.env["dfe.mock.generate.wizard"].create(
             {"company_id": self.company.id, "quantity": 2, "generate_proc_nfe": False}
         ).action_generate()
         pool = self.env["dfe.mock.nsu"].search([("company_id", "=", self.company.id)])
-        self._click("action_dfe_mock_search_nfe")
+        self.env["res.company"].with_company(self.company).dfe_action_search_all("nfe")
         self.assertTrue(all(pool.mapped("consumed")))
         documents = self.env["l10n_br_fiscal_dfe.document"].search(
             [

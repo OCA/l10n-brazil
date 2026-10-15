@@ -96,7 +96,6 @@ class ResCompany(models.Model):
                 "message": f"Mock mode is now {label} for {company.name}.",
                 "type": "info",
                 "sticky": False,
-                "next": {"type": "ir.actions.client", "tag": "soft_reload"},
             },
         }
 
@@ -113,9 +112,22 @@ class ResCompany(models.Model):
                 "message": f"Query cooldown cleared for {company.name}.",
                 "type": "info",
                 "sticky": False,
-                "next": {"type": "ir.actions.client", "tag": "soft_reload"},
             },
         }
+
+    @api.model
+    def dfe_get_banner_data(self, fiscal_type):
+        """Add the mock state consumed by the banner template extension.
+
+        Only NF-e is mocked today, and only fiscal managers may flip the
+        switch, so the controls stay hidden for anyone else.
+        """
+        data = super().dfe_get_banner_data(fiscal_type)
+        data["mock_available"] = fiscal_type == "nfe" and self.env.user.has_group(
+            "l10n_br_fiscal.group_manager"
+        )
+        data["mock_mode"] = bool(self.env.company.dfe_mock_mode)
+        return data
 
     def _dfe_get_processor(self, fiscal_type):
         self.ensure_one()
