@@ -85,9 +85,16 @@ class DuplicateCnpjTest(TransactionCase):
         self.env["ir.config_parameter"].sudo().set_param(
             "l10n_br_base.allow_cnpj_multi_ie", True
         )
-        self._create_partner_with_ie("Branch 1", self.google_cnpj, "111111111")
+        branch_1 = self._create_partner_with_ie(
+            "Branch 1", self.google_cnpj, "111111111"
+        )
         with self.assertRaises(ValidationError):
             self._create_partner_with_ie("Branch 2", self.google_cnpj, "111111111")
+        branch_2 = self._create_partner_with_ie(
+            "Branch 2", self.google_cnpj, "222222222"
+        )
+        with self.assertRaises(ValidationError):
+            (branch_1 | branch_2).write({"l10n_br_ie_code": "333333333"})
 
     def test_batch_checks_every_record(self):
         """A record without vat must not end the check for the rest of the
@@ -116,6 +123,46 @@ class DuplicateCnpjTest(TransactionCase):
         # message carries the fully normalized number, not the mask.
         normalized = self.google_cnpj.replace(".", "").replace("/", "").replace("-", "")
         self.assertIn(normalized, capture.exception.args[0])
+
+    def test_batch_duplicate_inside_the_batch(self):
+        with self.assertRaises(ValidationError):
+            self.partner_model.create(
+                [
+                    dict(self.base_vals, name="Google 1", vat=self.google_cnpj),
+                    dict(self.base_vals, name="Google 2", vat=self.google_cnpj),
+                ]
+            )
+
+    def test_batch_with_and_without_parent(self):
+        self._create_partner("Google 1", self.google_cnpj)
+        parent = self.partner_model.create(dict(self.base_vals, name="Parent"))
+        with self.assertRaises(ValidationError):
+            self.partner_model.create(
+                [
+                    dict(self.base_vals, name="Other Co", vat=self.other_cnpj),
+                    dict(
+                        self.base_vals,
+                        name="Google 2",
+                        vat=self.google_cnpj,
+                        parent_id=parent.id,
+                    ),
+                ]
+            )
+
+    def test_parent_is_not_a_duplicate_of_its_child(self):
+        parent = self._create_partner("Google", self.google_cnpj)
+        self.partner_model.create(
+            dict(
+                self.base_vals,
+                name="Contact",
+                vat=self.google_cnpj,
+                parent_id=parent.id,
+            )
+        )
+        # the check runs again on the parent, with the child among the candidates
+        parent.with_context(disable_ie_validation=True).write(
+            {"l10n_br_ie_code": "111111111"}
+        )
 
     def _desync_stripped(self, partner):
         """Empty ``cnpj_cpf_stripped`` behind the ORM's back, leaving it out of

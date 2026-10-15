@@ -4,6 +4,7 @@
 
 import logging
 
+from odoo.exceptions import ValidationError
 from odoo.tests import TransactionCase
 from odoo.tools import mute_logger
 
@@ -144,3 +145,29 @@ class OtherIETest(TransactionCase):
             if line.l10n_br_ie_code == "41902653":
                 result = True
             self.assertTrue(result, "Error in method to update other IE(s) on Company.")
+
+    def test_state_tax_number_used_by_other_partner(self):
+        self.env["res.partner"].create(
+            {
+                "name": "Bahia",
+                "is_company": True,
+                "country_id": self.env.ref("base.br").id,
+                "state_id": self.env.ref("base.state_br_ba").id,
+                "l10n_br_ie_code": "41902653",
+            }
+        )
+        with self.assertRaisesRegex(ValidationError, "State Tax Number already used"):
+            self.company.partner_id.write(
+                {
+                    "state_tax_number_ids": [
+                        (
+                            0,
+                            0,
+                            {
+                                "state_id": self.env.ref("base.state_br_ba").id,
+                                "l10n_br_ie_code": "41902653",
+                            },
+                        )
+                    ]
+                }
+            )

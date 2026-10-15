@@ -8,3 +8,4 @@ from . import test_cnpj_alfanumerico
 from . import test_duplicate_cnpj
 from . import test_vat_search
 from . import test_address_form
+from . import test_partner_constraints_query_count
