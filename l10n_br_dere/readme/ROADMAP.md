@@ -10,7 +10,10 @@
   interrompe o processamento, e a suíte de testes usa meses futuros
 - Eventos transacionais (D-3201 e demais D-22xx / D-32xx) depois que
   o CGIBS publicar um leiaute transacional estável
-- D-2101 (débito em operações com títulos de dívida com oferta pública)
+- D-2101 (débito em operações com títulos de dívida com oferta
+  pública). Quem é obrigado a ele não encerra o mês só com este
+  módulo: o D-1199 é rejeitado pela regra
+  `EVENTOS_OBRIGATORIOS_PERIODO` (MOD 1.3.0, 3.1.2).
 - Consolidação das filiais no balancete da raiz. Cada filial tem o
   próprio plano, então a soma não é `child_of` da empresa. O D-1101
   da raiz soma pelo `cCta` da matriz: conta de filial sem esse

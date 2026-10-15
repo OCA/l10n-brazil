@@ -54,8 +54,8 @@ No formulário da empresa, abra a aba **DeRE** e preencha:
    D-1121 também exigem o evento.
 
 Quem é obrigado ao D-2101 (débito em operações com títulos de dívida
-com oferta pública) não fecha o mês só com este módulo. A RFB rejeita
-o D-1199 pela regra `EVENTOS_OBRIGATORIOS_PERIODO`.
+com oferta pública) não encerra o mês só com este módulo. A RFB rejeita
+o D-1199 pela regra `EVENTOS_OBRIGATORIOS_PERIODO` (MOD 1.3.0, 3.1.2).
 
 A declaração mensal e o período de tabela só podem ser criados na
 empresa raiz do CNPJ. Uma filial é recusada. A matriz que já tem

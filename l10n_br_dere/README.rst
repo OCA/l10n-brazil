@@ -59,6 +59,10 @@ Não implementa regras setoriais (por exemplo conciliação de
 contraprestação versus taxa de administração em planos de saúde). Isso
 fica nos dados da empresa ou em um módulo extra dedicado.
 
+Quem é obrigado ao D-2101 (débito em operações com títulos de dívida com
+oferta pública) não encerra o mês só com este módulo. A RFB rejeita o
+D-1199 pela regra ``EVENTOS_OBRIGATORIOS_PERIODO`` (MOD 1.3.0, 3.1.2).
+
 **Table of contents**
 
 .. contents::
@@ -134,8 +138,8 @@ No formulário da empresa, abra a aba **DeRE** e preencha:
    D-1121 também exigem o evento.
 
 Quem é obrigado ao D-2101 (débito em operações com títulos de dívida com
-oferta pública) não fecha o mês só com este módulo. A RFB rejeita o
-D-1199 pela regra ``EVENTOS_OBRIGATORIOS_PERIODO``.
+oferta pública) não encerra o mês só com este módulo. A RFB rejeita o
+D-1199 pela regra ``EVENTOS_OBRIGATORIOS_PERIODO`` (MOD 1.3.0, 3.1.2).
 
 A declaração mensal e o período de tabela só podem ser criados na
 empresa raiz do CNPJ. Uma filial é recusada. A matriz que já tem empresa
@@ -422,7 +426,10 @@ Known issues / Roadmap
   interrompe o processamento, e a suíte de testes usa meses futuros
 - Eventos transacionais (D-3201 e demais D-22xx / D-32xx) depois que o
   CGIBS publicar um leiaute transacional estável
-- D-2101 (débito em operações com títulos de dívida com oferta pública)
+- D-2101 (débito em operações com títulos de dívida com oferta pública).
+  Quem é obrigado a ele não encerra o mês só com este módulo: o D-1199 é
+  rejeitado pela regra ``EVENTOS_OBRIGATORIOS_PERIODO`` (MOD 1.3.0,
+  3.1.2).
 - Consolidação das filiais no balancete da raiz. Cada filial tem o
   próprio plano, então a soma não é ``child_of`` da empresa. O D-1101 da
   raiz soma pelo ``cCta`` da matriz: conta de filial sem esse mapeamento

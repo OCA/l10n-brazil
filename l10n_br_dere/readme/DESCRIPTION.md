@@ -28,3 +28,7 @@ Ele permite que uma empresa no Odoo:
 Não implementa regras setoriais (por exemplo conciliação de
 contraprestação versus taxa de administração em planos de saúde). Isso
 fica nos dados da empresa ou em um módulo extra dedicado.
+
+Quem é obrigado ao D-2101 (débito em operações com títulos de dívida
+com oferta pública) não encerra o mês só com este módulo. A RFB rejeita
+o D-1199 pela regra `EVENTOS_OBRIGATORIOS_PERIODO` (MOD 1.3.0, 3.1.2).
