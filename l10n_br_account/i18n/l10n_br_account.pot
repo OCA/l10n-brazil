@@ -1982,16 +1982,6 @@ msgid "Name (proxy)"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__simple_value
-msgid "National Simple Taxes"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__simple_without_icms_value
-msgid "National Simple Taxes without ICMS"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_move_line__national_taxation_code_id
 msgid "National Taxation Code for the ISS tax (National NFS-e)"
 msgstr ""
@@ -2296,6 +2286,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__rps_number
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__rps_number
 msgid "RPS Number"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__icmssn_range_id
+msgid ""
+"Range of the Simples Nacional annex that taxes the operation, the one the "
+"company was in when the taxes of the line were computed."
 msgstr ""
 
 #. module: l10n_br_account
