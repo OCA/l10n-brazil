@@ -120,6 +120,18 @@ msgid "Buyer Presence"
 msgstr "Presença do Comprador"
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cbs_base
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_cbs_base
+msgid "CBS Base"
+msgstr "Base da CBS"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cbs_value
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_cbs_value
+msgid "CBS Value"
+msgstr "Valor da CBS"
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cest_id
 msgid "CEST"
 msgstr "CEST"
@@ -510,6 +522,18 @@ msgid "Fiscal Additional data manually entered by user"
 msgstr "Dados adicionais fiscais inseridos manualmente pelo usuário"
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_amount_tax
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__fiscal_amount_tax
+msgid "Fiscal Amount Tax"
+msgstr "Total fiscal de impostos"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_amount_total
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__fiscal_amount_total
+msgid "Fiscal Amount Total"
+msgstr "Total fiscal"
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_rule__fiscal_operation_id
 #: model:ir.model.fields.selection,name:l10n_br_stock_account.selection__stock_invoice_onshipping__group__fiscal_operation
 msgid "Fiscal Operation"
@@ -587,6 +611,18 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_invoice_onshipping__has_fiscal_operation
 msgid "Has Fiscal Operation"
 msgstr "Possui Operação Fiscal"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ibs_base
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_ibs_base
+msgid "IBS Base"
+msgstr "Base do IBS"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ibs_value
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_ibs_value
+msgid "IBS Value"
+msgstr "Valor do IBS"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_percent
@@ -1181,6 +1217,11 @@ msgid "Not Applicable"
 msgstr "Não Aplicável"
 
 #. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
+msgid "Number"
+msgstr "Número"
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_operation_id
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__fiscal_operation_id
 msgid "Operation"
@@ -1381,6 +1422,11 @@ msgid "Return Picking"
 msgstr "Separação de Retorno"
 
 #. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
+msgid "Serie"
+msgstr "Série"
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_serie
 msgid "Serie Number"
 msgstr "Número da série"
@@ -1388,7 +1434,7 @@ msgstr "Número da série"
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__service_type_id
 msgid "Service Type LC 166"
-msgstr "Tipo de Serviço LC 166"
+msgstr "Tipo de Serviço LC 116"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmssn_range_id
