@@ -87,27 +87,17 @@ class ResCompany(models.Model):
             },
         }
 
-    @api.model
-    def action_reset_dfe_cooldown(self):
-        company = self.env.company
-        company._dfe_write_typed("nfe", {"dfe_next_query": False})
-        return {
-            "type": "ir.actions.client",
-            "tag": "display_notification",
-            "params": {
-                "title": "DF-e Query Cooldown Reset",
-                "message": f"Query cooldown cleared for {company.name}.",
-                "type": "info",
-                "sticky": False,
-                "next": {"type": "ir.actions.client", "tag": "soft_reload"},
-            },
-        }
-
     def _dfe_get_processor(self, fiscal_type):
         self.ensure_one()
         if self.dfe_mock_mode and fiscal_type == "nfe":
             return MockDfeClient(self)
         return super()._dfe_get_processor(fiscal_type)
+
+    def action_document_distribution(self, fiscal_type):
+        self.ensure_one()
+        if self.dfe_mock_mode and fiscal_type == "nfe":
+            self._dfe_write_typed(fiscal_type, {"dfe_next_query": False})
+        return super().action_document_distribution(fiscal_type)
 
     def _dfe_mock_build_response(self, **kwargs):
         MockNsu = self.env["dfe.mock.nsu"].sudo()
