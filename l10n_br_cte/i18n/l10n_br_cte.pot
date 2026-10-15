@@ -5616,6 +5616,11 @@ msgid "Valor COFINS"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vTPrestLiq
+msgid "Valor Líquido da Prestação"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_infnf__cte40_vNF
 msgid "Valor Total da NF"
 msgstr ""
@@ -5793,6 +5798,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_fat__cte40_vLiq
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_fat__cte40_vLiq
 msgid "Valor líquido da fatura"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vTPrestLiq
+msgid "Valor líquido total da prestação, sem IBS e CBS (NT CT-e 2026.004)."
 msgstr ""
 
 #. module: l10n_br_cte
