@@ -5,6 +5,7 @@ from lxml import etree
 from nfelib.nfse.bindings.v1_0.dps_v1_01 import Dps
 
 from odoo.tests.common import TransactionCase, tagged
+from odoo.tools import mute_logger
 
 from .common import set_provedor_nacional
 
@@ -33,13 +34,14 @@ class TestNfseIbscbs(TransactionCase):
             self.skipTest("l10n_br_nfse_nacional demo data is not installed")
         set_provedor_nacional(self.nfse)
         self.line = self.nfse.fiscal_line_ids[0]
-        # the RTC data of a taxed service: cClassTrib and the IBS CST come
-        # from the fiscal engine, the cIndOp from the RTC table
+        # the RTC data of a taxed service: cClassTrib, the IBS CST and the
+        # cIndOp operation indicator all come from the line, the indicator
+        # being inherited from the product and editable on the line
         self.line.tax_classification_id = self.env.ref(
             "l10n_br_fiscal.tax_classification_000001"
         )
         self.line.ibs_cst_id = self.env.ref("l10n_br_fiscal.cst_ibs_000")
-        self.nfse.nfse10_cIndOp_id = self.env.ref(
+        self.line.operation_indicator_id = self.env.ref(
             "l10n_br_fiscal.operation_indicator_030101"
         )
 
@@ -70,14 +72,27 @@ class TestNfseIbscbs(TransactionCase):
         self.line.tax_classification_id = False
         self.assertFalse(self._export_ibscbs())
 
+    @mute_logger("odoo.addons.l10n_br_nfse_nacional.models.document")
     def test_export_ibscbs_without_operation_indicator(self):
-        self.nfse.nfse10_cIndOp_id = False
+        self.line.operation_indicator_id = False
         self.assertFalse(self._export_ibscbs())
 
+    @mute_logger("odoo.addons.l10n_br_nfse_nacional.models.document")
     def test_export_ibscbs_without_cst(self):
         self.line.ibs_cst_id = False
         self.line.cbs_cst_id = False
         self.assertFalse(self._export_ibscbs())
+
+    def test_export_ibscbs_partial_rtc_data_logs_a_warning(self):
+        """A line the group cannot be built from reports why it is skipped."""
+        self.line.operation_indicator_id = False
+        with self.assertLogs(
+            "odoo.addons.l10n_br_nfse_nacional.models.document",
+            level="WARNING",
+        ) as logs:
+            self.assertFalse(self._export_ibscbs())
+        self.assertIn("cIndOp", logs.output[0])
+        self.assertNotIn("CST", logs.output[0])
 
     def test_dps_ibscbs_group(self):
         """The serialized DPS carries the RTC group of the line."""
