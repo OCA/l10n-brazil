@@ -749,6 +749,10 @@ as regras de negócio (<tt class="docutils literal">tpOper</tt>, MS1135 / MS1147
 DeRE 1.2.0): montar, assinar, lotear e ler retornos pela biblioteca,
 mantendo as regras de negócio neste módulo.</li>
 <li><tt class="docutils literal">infoImovel</tt> do D-1121 e D-1021 (exigido antes de <tt class="docutils literal">motExcl</tt> 1)</li>
+<li>No leiaute 1.3.0 o <tt class="docutils literal">tpAtiv</tt> muda de número: <tt class="docutils literal">06</tt> deixa de ser
+plano de saúde. Uma base que já gravou o D-1121 com o código do 1.2.0
+precisa migrar a operação fiscal e a linha de dedução antes de emitir
+o XML do leiaute novo.</li>
 <li>Réplica local da MS1155 (<tt class="docutils literal">perApur</tt> futuro): a regra oficial não
 interrompe o processamento, e a suíte de testes usa meses futuros</li>
 <li>Eventos transacionais (D-3201 e demais D-22xx / D-32xx) depois que o

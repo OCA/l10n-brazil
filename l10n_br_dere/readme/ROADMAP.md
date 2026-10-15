@@ -2,6 +2,10 @@
   (binding xsdata do DeRE 1.2.0): montar, assinar, lotear e ler
   retornos pela biblioteca, mantendo as regras de negócio neste módulo.
 - `infoImovel` do D-1121 e D-1021 (exigido antes de `motExcl` 1)
+- No leiaute 1.3.0 o `tpAtiv` muda de número: `06` deixa de ser plano
+  de saúde. Uma base que já gravou o D-1121 com o código do 1.2.0
+  precisa migrar a operação fiscal e a linha de dedução antes de
+  emitir o XML do leiaute novo.
 - Réplica local da MS1155 (`perApur` futuro): a regra oficial não
   interrompe o processamento, e a suíte de testes usa meses futuros
 - Eventos transacionais (D-3201 e demais D-22xx / D-32xx) depois que
