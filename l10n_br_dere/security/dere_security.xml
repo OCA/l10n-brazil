@@ -21,12 +21,6 @@
             eval="[Command.link(ref('l10n_br_dere.group_user'))]"
         />
     </record>
-    <record id="base.user_admin" model="res.users">
-        <field
-            name="groups_id"
-            eval="[Command.link(ref('l10n_br_dere.group_manager'))]"
-        />
-    </record>
     <record id="table_period_company_rule" model="ir.rule">
         <field name="name">DeRE table period multi-company</field>
         <field name="model_id" ref="model_l10n_br_dere_table_period" />
