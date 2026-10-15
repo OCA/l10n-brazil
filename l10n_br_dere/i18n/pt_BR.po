@@ -1015,8 +1015,8 @@ msgstr "D-9112 Retorno das deduções"
 
 #. module: l10n_br_dere
 #: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__return_type__d-9121
-msgid "D-9121 Public-bond operations return"
-msgstr "D-9121 Retorno de operações com títulos públicos"
+msgid "D-9121 Publicly offered debt securities return"
+msgstr "D-9121 Retorno de operações com títulos de dívida com oferta pública"
 
 #. module: l10n_br_dere
 #: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__return_type__d-9198

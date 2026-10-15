@@ -35,7 +35,7 @@ RETURN_TYPES = [
     (RETURN_D9101, "D-9101 Trial-balance return"),
     (RETURN_D9106, "D-9106 Technical-reserve return"),
     (RETURN_D9112, "D-9112 Deductions return"),
-    (RETURN_D9121, "D-9121 Public-bond operations return"),
+    (RETURN_D9121, "D-9121 Publicly offered debt securities return"),
     (RETURN_D9198, "D-9198 Reopening return"),
     (RETURN_D9199, "D-9199 Monthly closing return"),
     (RETURN_D9209, "D-9209 Transactional return"),

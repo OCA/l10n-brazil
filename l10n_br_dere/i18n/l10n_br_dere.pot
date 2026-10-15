@@ -986,7 +986,7 @@ msgstr ""
 
 #. module: l10n_br_dere
 #: model:ir.model.fields.selection,name:l10n_br_dere.selection__l10n_br_dere_event__return_type__d-9121
-msgid "D-9121 Public-bond operations return"
+msgid "D-9121 Publicly offered debt securities return"
 msgstr ""
 
 #. module: l10n_br_dere
