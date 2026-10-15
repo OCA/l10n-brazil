@@ -8739,7 +8739,7 @@ msgstr "Tipo da atividade de exceção no registro."
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__uom_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__uom_id
 msgid "UOM"
-msgstr "UOM"
+msgstr "Unidade"
 
 #. module: l10n_br_fiscal
 #. odoo-python
@@ -9065,17 +9065,17 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "is"
-msgstr ""
+msgstr "está"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "is <strong>Authorized</strong>"
-msgstr ""
+msgstr "está <strong>Autorizada</strong>"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "is <strong>Cancelled</strong>"
-msgstr ""
+msgstr "está <strong>Cancelada</strong>"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_group__tax_domain__pis_wh
