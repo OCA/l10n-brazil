@@ -2,6 +2,7 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 
 import gzip
+from datetime import timedelta
 from unittest import mock
 
 from odoo import fields
@@ -21,6 +22,10 @@ SAMPLE_RES_NFE = (
 ACCESS_KEY = "35260210588201000105550010000001231000001230"
 NFE_DFE_PROCESSOR = (
     "odoo.addons.l10n_br_nfe_dfe.models.res_company.ResCompany._dfe_get_processor"
+)
+DFE_DISTRIBUTION = (
+    "odoo.addons.l10n_br_fiscal_dfe.models.res_company.ResCompany"
+    "._dfe_document_distribution"
 )
 
 
@@ -127,3 +132,37 @@ class TestDfeMockDistribution(TransactionCase):
         self.company.sudo().write({"nfe_dfe_next_query": fields.Datetime.now()})
         self.company.with_company(self.company).action_reset_dfe_cooldown()
         self.assertFalse(self.company.nfe_dfe_next_query)
+
+    # ── cooldown bypass while mocking ───────────────────────────────────
+
+    def test_action_distribution_skips_cooldown_in_mock_mode(self):
+        self.company.sudo().write(
+            {"nfe_dfe_next_query": fields.Datetime.now() + timedelta(hours=1)}
+        )
+        with mock.patch(DFE_DISTRIBUTION) as patched:
+            patched.return_value = "ran"
+            result = self.company.action_document_distribution("nfe")
+        patched.assert_called_once()
+        self.assertEqual(result, "ran")
+        self.assertFalse(self.company.nfe_dfe_next_query)
+
+    def test_action_distribution_keeps_cooldown_when_mock_off(self):
+        next_query = fields.Datetime.now() + timedelta(hours=1)
+        self.company.sudo().write(
+            {"dfe_mock_mode": False, "nfe_dfe_next_query": next_query}
+        )
+        try:
+            with mock.patch(DFE_DISTRIBUTION) as patched:
+                result = self.company.action_document_distribution("nfe")
+            patched.assert_not_called()
+            self.assertEqual(result.get("tag"), "display_notification")
+            self.assertEqual(self.company.nfe_dfe_next_query, next_query)
+        finally:
+            self.company.sudo().write({"dfe_mock_mode": True})
+
+    def test_action_distribution_other_fiscal_type_keeps_cooldown(self):
+        next_query = fields.Datetime.now() + timedelta(hours=1)
+        self.company.sudo().write({"nfe_dfe_next_query": next_query})
+        with mock.patch(DFE_DISTRIBUTION):
+            self.company.action_document_distribution("cte")
+        self.assertEqual(self.company.nfe_dfe_next_query, next_query)
