@@ -24,8 +24,22 @@ class TestCTeOS(TransactionCase):
         cls.document_type_os = cls.env.ref("l10n_br_fiscal.document_67")
         cls.cte_57 = cls.env.ref("l10n_br_cte.demo_cte_lc_modal_rodoviario")
 
+    def _new_os_doc(self):
+        """A model 67 copy of the demo CT-e, with its lines.
+
+        l10n_br_account declares fiscal_line_ids with copy=False, so with it
+        installed a plain copy of the document comes without lines and the
+        ICMS group has nothing to map. Copy the lines explicitly so the result
+        does not depend on which modules are installed.
+        """
+        os_doc = self.cte_57.copy(
+            {"document_type_id": self.document_type_os.id, "fiscal_line_ids": []}
+        )
+        self.cte_57.fiscal_line_ids.copy({"document_id": os_doc.id})
+        return os_doc
+
     def test_document_67_serializes_to_cteos(self):
-        os_doc = self.cte_57.copy({"document_type_id": self.document_type_os.id})
+        os_doc = self._new_os_doc()
         self.assertEqual(os_doc.document_type, "67")
         edocs = os_doc.serialize()
         self.assertTrue(
@@ -38,7 +52,7 @@ class TestCTeOS(TransactionCase):
         )
 
     def test_os_ide_fields_mapped_from_business(self):
-        os_doc = self.cte_57.copy({"document_type_id": self.document_type_os.id})
+        os_doc = self._new_os_doc()
         self.assertEqual(os_doc.cteos40_mod, "67")
         self.assertEqual(os_doc.cteos40_serie, os_doc.document_serie)
         self.assertEqual(os_doc.cteos40_dhEmi, os_doc.document_date)
@@ -46,7 +60,7 @@ class TestCTeOS(TransactionCase):
         self.assertEqual(os_doc.cteos40_vTPrest, os_doc.fiscal_amount_total)
 
     def test_os_emit_toma_mapped(self):
-        os_doc = self.cte_57.copy({"document_type_id": self.document_type_os.id})
+        os_doc = self._new_os_doc()
         self.assertEqual(os_doc.cteos40_emit, os_doc.company_id)
         self.assertEqual(os_doc.cteos40_toma, os_doc.partner_id)
         self.assertTrue(os_doc.company_id.cteos40_CNPJ)
@@ -64,7 +78,7 @@ class TestCTeOS(TransactionCase):
         import nfelib
         from xsdata.formats.dataclass.serializers import XmlSerializer
 
-        os_doc = self.cte_57.copy({"document_type_id": self.document_type_os.id})
+        os_doc = self._new_os_doc()
         xml = XmlSerializer().render(os_doc.serialize()[0])
         xsd = _os.path.join(
             _os.path.dirname(nfelib.__file__),
