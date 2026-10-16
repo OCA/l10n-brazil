@@ -350,6 +350,11 @@ msgid "Event Type"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__fiscal_document_id
+msgid "Fiscal Document"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_dfe_specific_search_wizard__fiscal_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__fiscal_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__fiscal_type
@@ -391,11 +396,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_tree
 msgid "Import"
-msgstr ""
-
-#. module: l10n_br_fiscal_dfe
-#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__fiscal_document_id
-msgid "Imported Document"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
