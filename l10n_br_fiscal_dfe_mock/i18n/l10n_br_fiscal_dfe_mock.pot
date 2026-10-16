@@ -6,8 +6,6 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-09 23:32+0000\n"
-"PO-Revision-Date: 2026-10-09 23:32+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -65,6 +63,20 @@ msgid "DF-e Mock NSU"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_dfe_mock/static/src/components/dfe_banner/dfe_banner_mock.esm.js:0
+msgid ""
+"DF-e queries are answered by the local pool, with no communication with "
+"SEFAZ."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_dfe_mock/static/src/components/dfe_banner/dfe_banner_mock.xml:0
+msgid "Disable Mock"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__display_name
 msgid "Display Name"
@@ -76,8 +88,17 @@ msgid "Document Types"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
-#: model:ir.model,name:l10n_br_fiscal_dfe_mock.model_l10n_br_fiscal_dfe_document
-msgid "Fiscal document from distribution service"
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_dfe_mock/static/src/components/dfe_banner/dfe_banner_mock.xml:0
+msgid "Enable Mock"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe_mock/wizards/dfe_mock_generate_wizard.py:0
+msgid ""
+"Events reference the NF-e generated in the same run. Select resNFe or "
+"procNFe as well."
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
@@ -147,6 +168,12 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_dfe_mock/static/src/components/dfe_banner/dfe_banner_mock.xml:0
+msgid "MOCK MODE ACTIVE"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
 #: model:ir.ui.menu,name:l10n_br_fiscal_dfe_mock.dfe_mock_separator
 msgid "Mock"
 msgstr ""
@@ -155,6 +182,12 @@ msgstr ""
 #: model:ir.actions.act_window,name:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_action
 #: model:ir.ui.menu,name:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_menu
 msgid "Mock NSU Pool"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_dfe_mock/static/src/components/dfe_banner/dfe_banner_mock.esm.js:0
+msgid "Mock mode is off — DF-e queries reach the real SEFAZ."
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
@@ -179,6 +212,12 @@ msgid "No mock NSUs yet"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe_mock/models/res_company.py:0
+msgid "Only fiscal managers can change the DF-e mock settings."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard__quantity
 msgid "Quantity"
 msgstr ""
@@ -187,11 +226,6 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_fiscal_dfe_mock/wizards/dfe_mock_generate_wizard.py:0
 msgid "Quantity must be at least 1."
-msgstr ""
-
-#. module: l10n_br_fiscal_dfe_mock
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.nfe_dfe_document_tree_mock
-msgid "Query NF-e"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
@@ -206,7 +240,8 @@ msgid "Reset Consumed"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.nfe_dfe_document_tree_mock
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_dfe_mock/static/src/components/dfe_banner/dfe_banner_mock.xml:0
 msgid "Reset Cooldown"
 msgstr ""
 
@@ -220,11 +255,6 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_fiscal_dfe_mock/wizards/dfe_mock_generate_wizard.py:0
 msgid "Select at least one document type to generate."
-msgstr ""
-
-#. module: l10n_br_fiscal_dfe_mock
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.nfe_dfe_document_tree_mock
-msgid "Toggle Mock"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
