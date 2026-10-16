@@ -6,7 +6,7 @@
     Monitor incoming NF-e documents via the DF-e distribution web service
     (NFeDistribuicaoDFe).
     """,
-    "version": "18.0.3.0.0",
+    "version": "18.0.3.1.0",
     "license": "AGPL-3",
     "author": "Engenere, KMEE, Akretion, Odoo Community Association (OCA)",
     "maintainers": ["felipemotter", "antoniospneto", "rvalyi"],
