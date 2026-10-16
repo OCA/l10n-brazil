@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -16,14 +16,12 @@ msgstr ""
 #. module: l10n_br_account_renegotiation
 #. odoo-python
 #: code:addons/l10n_br_account_renegotiation/models/account_move.py:0
-#, python-format
 msgid "%(date)s: %(amount)s"
 msgstr ""
 
 #. module: l10n_br_account_renegotiation
 #. odoo-python
 #: code:addons/l10n_br_account_renegotiation/models/account_move.py:0
-#, python-format
 msgid ""
 "<p><strong>Payment Installments Renegotiated</strong></p><p><strong>Previous"
 " installments:</strong><br/>%(old)s</p><p><strong>New "
@@ -49,14 +47,12 @@ msgstr ""
 #. module: l10n_br_account_renegotiation
 #. odoo-python
 #: code:addons/l10n_br_account_renegotiation/wizards/installment_renegotiation_wizard.py:0
-#, python-format
 msgid "All installment amounts must be greater than zero."
 msgstr ""
 
 #. module: l10n_br_account_renegotiation
 #. odoo-python
 #: code:addons/l10n_br_account_renegotiation/wizards/installment_renegotiation_wizard.py:0
-#, python-format
 msgid "All installments must have a due date."
 msgstr ""
 
@@ -80,7 +76,6 @@ msgstr ""
 #. module: l10n_br_account_renegotiation
 #: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_bank_statement_line__can_renegotiate_installments
 #: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_move__can_renegotiate_installments
-#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_payment__can_renegotiate_installments
 msgid "Can Renegotiate Installments"
 msgstr ""
 
@@ -153,7 +148,6 @@ msgstr ""
 #. module: l10n_br_account_renegotiation
 #. odoo-python
 #: code:addons/l10n_br_account_renegotiation/models/account_move.py:0
-#, python-format
 msgid "Installment renegotiation is only available for invoices and bills."
 msgstr ""
 
@@ -171,12 +165,6 @@ msgstr ""
 #. module: l10n_br_account_renegotiation
 #: model:ir.model,name:l10n_br_account_renegotiation.model_account_move
 msgid "Journal Entry"
-msgstr ""
-
-#. module: l10n_br_account_renegotiation
-#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard_line____last_update
-msgid "Last Modified on"
 msgstr ""
 
 #. module: l10n_br_account_renegotiation
@@ -205,7 +193,6 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_account_renegotiation/models/account_move.py:0
 #: code:addons/l10n_br_account_renegotiation/wizards/installment_renegotiation_wizard.py:0
-#, python-format
 msgid ""
 "Only users with 'Billing Administrator' rights can renegotiate installments."
 msgstr ""
@@ -230,7 +217,6 @@ msgstr ""
 #: code:addons/l10n_br_account_renegotiation/models/account_move.py:0
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_renegotiation.view_installment_renegotiation_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_renegotiation.view_move_form_renegotiation
-#, python-format
 msgid "Renegotiate Installments"
 msgstr ""
 
@@ -247,14 +233,12 @@ msgstr ""
 #. module: l10n_br_account_renegotiation
 #: model:ir.model.fields,help:l10n_br_account_renegotiation.field_account_bank_statement_line__can_renegotiate_installments
 #: model:ir.model.fields,help:l10n_br_account_renegotiation.field_account_move__can_renegotiate_installments
-#: model:ir.model.fields,help:l10n_br_account_renegotiation.field_account_payment__can_renegotiate_installments
 msgid "Technical field to determine if installment renegotiation is available"
 msgstr ""
 
 #. module: l10n_br_account_renegotiation
 #. odoo-python
 #: code:addons/l10n_br_account_renegotiation/wizards/installment_renegotiation_wizard.py:0
-#, python-format
 msgid "The invoice must be posted to renegotiate installments."
 msgstr ""
 
@@ -266,7 +250,6 @@ msgstr ""
 #. module: l10n_br_account_renegotiation
 #. odoo-python
 #: code:addons/l10n_br_account_renegotiation/wizards/installment_renegotiation_wizard.py:0
-#, python-format
 msgid ""
 "The total amount of installments must remain unchanged. Current difference: "
 "%(diff)s"
@@ -275,7 +258,6 @@ msgstr ""
 #. module: l10n_br_account_renegotiation
 #. odoo-python
 #: code:addons/l10n_br_account_renegotiation/models/account_move.py:0
-#, python-format
 msgid ""
 "There are no unreconciled payment term lines to renegotiate. All "
 "installments have been paid or reconciled."
@@ -299,13 +281,11 @@ msgstr ""
 #. module: l10n_br_account_renegotiation
 #. odoo-python
 #: code:addons/l10n_br_account_renegotiation/models/account_move.py:0
-#, python-format
 msgid "You can only renegotiate installments on posted invoices."
 msgstr ""
 
 #. module: l10n_br_account_renegotiation
 #. odoo-python
 #: code:addons/l10n_br_account_renegotiation/wizards/installment_renegotiation_wizard.py:0
-#, python-format
 msgid "You must have at least one installment."
 msgstr ""
