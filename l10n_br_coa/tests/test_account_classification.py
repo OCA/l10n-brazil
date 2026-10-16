@@ -168,3 +168,17 @@ class TestAccountClassification(TransactionCase):
                 ", ".join(f"{t.code} {t.name}" for t in wrong[:10])
             ),
         )
+
+    def test_financial_income_uses_the_revenue_tag(self):
+        """Financial income must be selected by the DRE revenue line."""
+        expense_financial = self._tag("account_tag_expenses_financial")
+        wrong = self.templates.filtered(
+            lambda t: t.account_type in ("income", "income_other")
+            and expense_financial in t.tag_ids
+        )
+        self.assertFalse(
+            wrong,
+            "receitas financeiras classificadas como despesas: {}".format(
+                ", ".join(f"{t.code} {t.name}" for t in wrong[:10])
+            ),
+        )
