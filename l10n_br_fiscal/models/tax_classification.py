@@ -1,7 +1,8 @@
 # Copyright 2025 Marcel Savegnago <https://escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 from ..constants.fiscal import (
     TAX_DOMAIN_CBS,
@@ -79,3 +80,19 @@ class TaxClassification(models.Model):
         string="Related DFes",
         help="Related Digital Fiscal Documents",
     )
+
+    @api.constrains("code", "tax_ibs_id", "tax_cbs_id")
+    def _check_tax_cst_matches_code(self):
+        for rec in self:
+            prefix = (rec.code or "")[:3]
+            if len(prefix) != 3:
+                continue
+            for tax in (rec.tax_ibs_id, rec.tax_cbs_id):
+                if tax and prefix not in (tax.cst_in_id.code, tax.cst_out_id.code):
+                    raise ValidationError(
+                        _(
+                            "Tax %(tax)s does not match the CST implied by the "
+                            "tax classification code %(code)s (%(prefix)s)."
+                        )
+                        % {"tax": tax.display_name, "code": rec.code, "prefix": prefix}
+                    )
