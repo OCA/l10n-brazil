@@ -3240,7 +3240,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_tree
 msgid "Open Fiscal Document"
-msgstr ""
+msgstr "Abrir documento fiscal"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_operation_id
