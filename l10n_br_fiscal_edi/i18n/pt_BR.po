@@ -800,12 +800,12 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.document_form
 msgid "View PDF"
-msgstr ""
+msgstr "Ver PDF"
 
 #. module: l10n_br_fiscal_edi
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.document_form
 msgid "View XML"
-msgstr ""
+msgstr "Ver XML"
 
 #. module: l10n_br_fiscal_edi
 #. odoo-python

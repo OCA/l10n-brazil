@@ -530,12 +530,12 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfce_csc_code
 msgid "CSC Code"
-msgstr "CSC Code"
+msgstr "Código do CSC"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfce_csc_token
 msgid "CSC Token"
-msgstr "CSC Token"
+msgstr "Identificador do CSC"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_mde__document_state__2
@@ -4068,7 +4068,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfce_qrcode_version
 msgid "QRCode Version"
-msgstr ""
+msgstr "Versão do QR Code"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
@@ -5657,3 +5657,9 @@ msgstr ""
 
 #~ msgid "Id"
 #~ msgstr "Id"
+
+#. module: l10n_br_nfe
+#: model:ir.actions.act_window,name:l10n_br_nfe.danfe_profile_action
+#: model:ir.ui.menu,name:l10n_br_nfe.danfe_profile_menu
+msgid "DANFE Profiles"
+msgstr "Perfis do DANFE"

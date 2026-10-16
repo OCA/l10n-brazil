@@ -217,7 +217,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal_subsequent_document.field_l10n_br_fiscal_subsequent_document__subsequent_document_id
 #: model:ir.ui.menu,name:l10n_br_fiscal_subsequent_document.subsequent_document_menu
 msgid "Subsequent Document"
-msgstr ""
+msgstr "Documento subsequente"
 
 #. module: l10n_br_fiscal_subsequent_document
 #: model:ir.actions.act_window,name:l10n_br_fiscal_subsequent_document.subsequent_operation_action
@@ -226,7 +226,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal_subsequent_document.field_l10n_br_fiscal_subsequent_document__subsequent_operation_id
 #: model:ir.ui.menu,name:l10n_br_fiscal_subsequent_document.subsequent_operation_menu
 msgid "Subsequent Operation"
-msgstr ""
+msgstr "Operação subsequente"
 
 #. module: l10n_br_fiscal_subsequent_document
 #: model:ir.model.fields,field_description:l10n_br_fiscal_subsequent_document.field_l10n_br_fiscal_document__document_subsequent_generated

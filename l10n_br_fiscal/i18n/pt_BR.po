@@ -1117,12 +1117,12 @@ msgstr "Bebidas alcoólicas, exceto cerveja e chope"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__benefit_type
 msgid "Benefit Type"
-msgstr ""
+msgstr "Tipo de benefício"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__is_benefit
 msgid "Benefit?"
-msgstr ""
+msgstr "Benefício?"
 
 #. module: l10n_br_fiscal
 #. odoo-python
@@ -2022,7 +2022,7 @@ msgstr "Empresa Suframa"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_move_mixin__company_tax_framework
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__company_tax_framework
 msgid "Company Tax Framework"
-msgstr "Marco fiscal da empresa"
+msgstr "Regime tributário da empresa"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_company_type
@@ -2365,7 +2365,7 @@ msgstr "Débito/Crédito?"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__tax_cofins_wh_id
 msgid "Default COFINS RET"
-msgstr "RET Padrão do COFINS"
+msgstr "Retenção padrão da COFINS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__tax_csll_id
@@ -2375,7 +2375,7 @@ msgstr "CSLL Padrão"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__tax_csll_wh_id
 msgid "Default CSLL RET"
-msgstr "RET Padrão CSLL"
+msgstr "Retenção padrão da CSLL"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__document_type_id
@@ -2396,7 +2396,7 @@ msgstr "INSS Padrão"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__tax_inss_wh_id
 msgid "Default INSS RET"
-msgstr "RET Padrão do INSS"
+msgstr "Retenção padrão do INSS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__tax_ipi_id
@@ -2411,7 +2411,7 @@ msgstr "IRPJ Padrão"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__tax_irpj_wh_id
 msgid "Default IRPJ RET"
-msgstr "RET IRPJ Padrão"
+msgstr "Retenção padrão do IRPJ"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__tax_issqn_id
@@ -2421,17 +2421,17 @@ msgstr "ISSQN Padrão"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__tax_issqn_wh_id
 msgid "Default ISSQN RET"
-msgstr "RET Padrão do ISSQN"
+msgstr "Retenção padrão do ISSQN"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__tax_pis_wh_id
 msgid "Default PIS RET"
-msgstr "RET Padrão do PIS"
+msgstr "Retenção padrão do PIS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation__default_price_unit
 msgid "Default Price Unit?"
-msgstr "Unidade de preço padrão?"
+msgstr "Preço unitário padrão"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile__default
@@ -2862,13 +2862,13 @@ msgstr "Expirado"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__uoe_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__uoe_id
 msgid "Export UoM"
-msgstr "UoM de exportação"
+msgstr "Unidade de exportação"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__uoe_factor
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__uoe_factor
 msgid "Export UoM Factor"
-msgstr "Fator UoM de exportação"
+msgstr "Fator da unidade de exportação"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__issqn_eligibility__4
@@ -3214,7 +3214,7 @@ msgstr "Operação Fiscal já existe com este código !"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.partner_profile_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.partner_profile_search
 msgid "Fiscal Partner Profile"
-msgstr "Perfil Fiscal do Parceiro"
+msgstr "Perfil fiscal do parceiro"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_partner_profile_fiscal_partner_profile_code_uniq
@@ -4334,7 +4334,7 @@ msgstr "Regulamento do ICMS"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icms_relief_id
 #: model:ir.ui.menu,name:l10n_br_fiscal.tax_icms_relief_menu
 msgid "ICMS Relief"
-msgstr "Alívio do ICMS"
+msgstr "Desoneração do ICMS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icms_relief_value
@@ -4836,7 +4836,7 @@ msgstr "Código CST do IPI"
 #: model:ir.ui.menu,name:l10n_br_fiscal.tax_ipi_control_seal_menu
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_ipi_control_seal_search
 msgid "IPI Control Seal"
-msgstr "Vedação de controle do IPI"
+msgstr "Selo de controle do IPI"
 
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.tax_ipi_guideline_action
@@ -4853,7 +4853,7 @@ msgstr "Enquadramento do IPI"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__ipi_guideline_class_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_ipi_guideline_class_search
 msgid "IPI Guideline Class"
-msgstr "Aula de Diretrizes do IPI"
+msgstr "Classe de enquadramento do IPI"
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_tax_ipi_guideline
@@ -5986,7 +5986,7 @@ msgstr "NCM"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__ncm_exception
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_pis_cofins__ncm_exception
 msgid "NCM Exeption"
-msgstr "Exepção de NCM"
+msgstr "Exceção de NCM"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__ncms
@@ -6907,7 +6907,7 @@ msgstr "Rua2 do Parceiro"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__partner_tax_framework
 msgid "Partner Tax Framework"
-msgstr "Framework Fiscal do Parceiro"
+msgstr "Regime tributário do parceiro"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_zip
@@ -7005,7 +7005,7 @@ msgstr "Prefixo"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_company__profit_calculation__presumed
 msgid "Presumed"
-msgstr "Presume"
+msgstr "Presumido"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__icms_base_type__2
@@ -7445,7 +7445,7 @@ msgstr "Remover o valor do ICMS da base"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
 msgid "Reset To Draft"
-msgstr "Voltar para Provisório"
+msgstr "Voltar para rascunho"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__activity_user_id
@@ -7782,7 +7782,7 @@ msgstr "Intervalo do Imposto Simplificado"
 #: model:ir.ui.menu,name:l10n_br_fiscal.simplified_tax_menu
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.simplified_tax_form
 msgid "Simplified Tax"
-msgstr "Imposto Simplificado"
+msgstr "Anexo do Simples Nacional"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__simplified_tax_percent
@@ -7793,7 +7793,7 @@ msgstr "Percentual do Simples Nacional"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__simplified_tax_range_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__simplified_tax_range_id
 msgid "Simplified Tax Range"
-msgstr "Faixa de impostos simplificada"
+msgstr "Faixa do Simples Nacional"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_search
@@ -8382,7 +8382,7 @@ msgstr "Imposto IPI"
 #: model:ir.actions.act_window,name:l10n_br_fiscal.tax_ipi_guideline_class_action
 #: model:ir.ui.menu,name:l10n_br_fiscal.tax_ipi_guideline_class_menu
 msgid "Tax IPI Guideline Class"
-msgstr "Classe de Diretrizes do IPI fiscal"
+msgstr "Classe de enquadramento do IPI"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax_range__tax_ipi_percent
@@ -8676,7 +8676,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__state_to_ids
 msgid "To States"
-msgstr "Situações"
+msgstr "Para os estados"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__financial_total_gross
@@ -10532,3 +10532,151 @@ msgstr "{} Estimativa de Imposto Atualizada"
 
 #~ msgid "Àrea / Superfície"
 #~ msgstr "Àrea / Superfície"
+
+#. module: l10n_br_fiscal
+#: model:ir.actions.act_window,name:l10n_br_fiscal.tax_classification_action
+#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_tax_classification
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__tax_classification_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__tax_classification_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__tax_classification_id
+#: model:ir.ui.menu,name:l10n_br_fiscal.tax_classification_menu
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_fiscal_line_mixin_form
+msgid "Tax Classification"
+msgstr "Classificação tributária"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__tax_classification_id
+msgid "Default Tax Classification"
+msgstr "Classificação tributária padrão"
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
+msgid "IBS/CBS Tax Classification"
+msgstr "Classificação tributária do IBS e da CBS"
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
+msgid "CNAE and Legal Nature"
+msgstr "CNAE e natureza jurídica"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__is_icmsst
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__is_icmsst
+msgid "ICMS ST?"
+msgstr "ICMS ST?"
+
+#. module: l10n_br_fiscal
+#: model:ir.actions.act_window,name:l10n_br_fiscal.national_taxation_code_action
+#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_national_taxation_code
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__national_taxation_code_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__national_taxation_code_id
+#: model:ir.ui.menu,name:l10n_br_fiscal.national_taxation_code_menu
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
+msgid "National Taxation Code"
+msgstr "Código de tributação nacional"
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
+msgid "Fiscal Service Type"
+msgstr "Tipo de serviço fiscal"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cbs_tax_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__cbs_tax_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_classification__tax_cbs_id
+msgid "Tax CBS"
+msgstr "Imposto CBS"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__ibs_tax_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__ibs_tax_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_classification__tax_ibs_id
+msgid "Tax IBS"
+msgstr "Imposto IBS"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cbs_base_type
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__cbs_base_type
+msgid "CBS Base Type"
+msgstr "Tipo de base da CBS"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__ibs_base_type
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__ibs_base_type
+msgid "IBS Base Type"
+msgstr "Tipo de base do IBS"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cbs_reduction
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__cbs_reduction
+msgid "CBS % Reduction"
+msgstr "% de redução da CBS"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__ibs_reduction
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__ibs_reduction
+msgid "IBS % Reduction"
+msgstr "% de redução do IBS"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cbs_cst_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__cbs_cst_id
+msgid "CST CBS"
+msgstr "CST da CBS"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__ibs_cst_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__ibs_cst_id
+msgid "CST IBS"
+msgstr "CST do IBS"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cbs_percent
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__cbs_percent
+msgid "CBS %"
+msgstr "% CBS"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__ibs_percent
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__ibs_percent
+msgid "IBS %"
+msgstr "% IBS"
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
+msgid "Set to Draft"
+msgstr "Voltar para rascunho"
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
+msgid "Confirm"
+msgstr "Confirmar"
+
+#. module: l10n_br_fiscal
+#: model:ir.actions.act_window,name:l10n_br_fiscal.legal_nature_action
+#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_legal_nature
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__legal_nature_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__legal_nature_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__legal_nature_id
+#: model:ir.ui.menu,name:l10n_br_fiscal.legal_nature_menu
+msgid "Legal Nature"
+msgstr "Natureza jurídica"
+
+#. module: l10n_br_fiscal
+#: model:ir.actions.act_window,name:l10n_br_fiscal.operation_indicator_action
+#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_operation_indicator
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__operation_indicator_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__operation_indicator_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__operation_indicator_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__operation_indicator_id
+#: model:ir.ui.menu,name:l10n_br_fiscal.operation_indicator_menu
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_indicator_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_indicator_search
+msgid "Operation Indicator"
+msgstr "Indicador da operação"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__cnae_secondary_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__cnae_secondary_ids
+msgid "Secondary CNAEs"
+msgstr "CNAEs secundários"

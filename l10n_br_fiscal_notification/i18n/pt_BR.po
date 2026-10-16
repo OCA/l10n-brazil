@@ -136,7 +136,7 @@ msgstr ""
 #: model:ir.ui.menu,name:l10n_br_fiscal_notification.document_email_menu
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_notification.document_email_form
 msgid "Fiscal Document Email"
-msgstr ""
+msgstr "E-mail do documento fiscal"
 
 #. module: l10n_br_fiscal_notification
 #: model:ir.model,name:l10n_br_fiscal_notification.model_l10n_br_fiscal_document_type
