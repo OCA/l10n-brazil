@@ -1144,6 +1144,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_line__mov_instruction_code_id
 msgid "Campo G061 do CNAB"
 msgstr ""
+"Código da instrução enviada ao banco no arquivo de remessa (campo G061 do CNAB)."
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_line__doc_finality_code
