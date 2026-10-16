@@ -317,6 +317,9 @@ class AccountMove(models.Model):
             move.amount_untaxed_signed = sign * sum(
                 inv_line_ids.mapped("fiscal_amount_untaxed")
             )
+            move.amount_untaxed_in_currency_signed = sign * sum(
+                inv_line_ids.mapped("fiscal_amount_untaxed")
+            )
             move.amount_tax_signed = sign * sum(
                 inv_line_ids.mapped("fiscal_amount_tax")
             )
@@ -827,10 +830,12 @@ class AccountMove(models.Model):
         void_states = (DOCUMENT_STATE_CANCEL, SITUACAO_EDOC_DENEGADA)
         settled_payment_states = ("in_payment", "paid", "partial")
         return self.filtered(
-            lambda move: move.payment_state in settled_payment_states
-            and any(
-                document.state_edoc in void_states
-                for document in move.fiscal_document_ids
+            lambda move: (
+                move.payment_state in settled_payment_states
+                and any(
+                    document.state_edoc in void_states
+                    for document in move.fiscal_document_ids
+                )
             )
         )
 
