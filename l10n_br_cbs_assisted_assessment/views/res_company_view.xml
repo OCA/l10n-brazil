@@ -13,8 +13,15 @@
             <xpath expr="//page[@name='assisted_assessment']" position="inside">
                 <group name="cbs_transport" string="CBS Transport (Receita Federal)">
                     <field name="cbs_assessment_environment" />
-                    <field name="cbs_assessment_client_id" />
-                    <field name="cbs_assessment_client_secret" password="True" />
+                    <field
+                        name="cbs_assessment_client_id"
+                        groups="l10n_br_assisted_assessment.group_manager"
+                    />
+                    <field
+                        name="cbs_assessment_client_secret"
+                        password="True"
+                        groups="l10n_br_assisted_assessment.group_manager"
+                    />
                     <field name="cbs_assessment_token_url" />
                     <field name="cbs_assessment_api_url" />
                     <label for="cbs_assessment_webhook_url" />

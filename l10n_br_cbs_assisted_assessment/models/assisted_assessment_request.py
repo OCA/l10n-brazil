@@ -19,7 +19,7 @@ _logger = logging.getLogger(__name__)
 
 
 class AssistedAssessmentRequest(models.Model):
-    _inherit = "l10n_br_assessment.request"
+    _inherit = "l10n_br_assisted_assessment.request"
 
     def _is_cbs(self):
         self.ensure_one()
@@ -36,7 +36,7 @@ class AssistedAssessmentRequest(models.Model):
             _logger.warning(
                 "The CBS assessment callback URL %s is not HTTPS", return_url
             )
-        payload = self.env["l10n_br_cbs_assessment.client"]._open_request(
+        payload = self.env["l10n_br_cbs_assisted_assessment.client"]._open_request(
             self.company_id, self.service, return_url
         )
         self.response_text = json.dumps(payload, indent=2, ensure_ascii=False)
@@ -77,7 +77,7 @@ class AssistedAssessmentRequest(models.Model):
             raise UserError(
                 _("Request %s has no ticket to poll the status with.", self.name)
             )
-        return self.env["l10n_br_cbs_assessment.client"]._get_status(
+        return self.env["l10n_br_cbs_assisted_assessment.client"]._get_status(
             self.company_id, self.ticket
         )
 
@@ -85,7 +85,9 @@ class AssistedAssessmentRequest(models.Model):
         self.ensure_one()
         if not self._is_cbs():
             return super()._fetch_payload()
-        return self.env["l10n_br_cbs_assessment.client"]._download(self.signed_url)
+        return self.env["l10n_br_cbs_assisted_assessment.client"]._download(
+            self.signed_url
+        )
 
     def _parse_payload(self):
         self.ensure_one()
@@ -207,7 +209,7 @@ class AssistedAssessmentRequest(models.Model):
         )
         today = fields.Date.context_today(self)
         per_apur = f"{today.year:04d}-{today.month:02d}"
-        period_model = self.env["l10n_br_assessment.period"]
+        period_model = self.env["l10n_br_assisted_assessment.period"]
         for company in companies:
             period = period_model._get_or_create(company, TRIBUTE_CBS, per_apur)
             for service in SERVICE_COLLECTION:

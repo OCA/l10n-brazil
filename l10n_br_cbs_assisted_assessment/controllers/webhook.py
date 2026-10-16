@@ -16,7 +16,8 @@ class CbsAssessmentWebhook(http.Controller):
     """Callback endpoint informed to the tax administration as urlRetorno.
 
     The gateway validates the URL with a HEAD request before accepting the
-    assessment request, and later posts the signed download URL to it. The route
+    assessment request, and later posts a completion signal to it. The body is
+    not trusted: the signed download URL is read from GET /situacao. The route
     is public because the caller has no Odoo session; the secret in the path is
     what authorises it.
     """
@@ -49,7 +50,15 @@ class CbsAssessmentWebhook(http.Controller):
                 company.id,
             )
             return self._answer({"status": "unknown ticket"}, 404)
-        assessment_request.register_callback(payload)
+        if assessment_request.state != "requested":
+            return self._answer({"status": "ignored"}, 200)
+        try:
+            assessment_request.action_check_status()
+        except Exception:
+            _logger.exception(
+                "CBS assessment callback could not poll status for request %s",
+                assessment_request.id,
+            )
         return self._answer({"status": "accepted"}, 200)
 
     def _company_from_token(self, token):
@@ -71,7 +80,7 @@ class CbsAssessmentWebhook(http.Controller):
         if not ticket:
             return False
         return (
-            request.env["l10n_br_assessment.request"]
+            request.env["l10n_br_assisted_assessment.request"]
             .sudo()
             .search(
                 [

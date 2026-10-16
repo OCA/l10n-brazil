@@ -31,8 +31,14 @@ class ResCompany(models.Model):
         string="API URL",
         default=DEFAULT_API_URL,
     )
-    cbs_assessment_client_id = fields.Char(string="Receita Integra Client Id")
-    cbs_assessment_client_secret = fields.Char(string="Receita Integra Client Secret")
+    cbs_assessment_client_id = fields.Char(
+        string="Receita Integra Client Id",
+        groups="l10n_br_assisted_assessment.group_manager",
+    )
+    cbs_assessment_client_secret = fields.Char(
+        string="Receita Integra Client Secret",
+        groups="l10n_br_assisted_assessment.group_manager",
+    )
     cbs_assessment_webhook_token = fields.Char(
         string="Webhook Token",
         copy=False,
@@ -56,6 +62,14 @@ class ResCompany(models.Model):
                 if company.cbs_assessment_webhook_token
                 else False
             )
+
+    def write(self, vals):
+        result = super().write(vals)
+        if {"cbs_assessment_client_id", "cbs_assessment_client_secret"} & set(vals):
+            client = self.env["l10n_br_cbs_assisted_assessment.client"]
+            for company in self:
+                client._invalidate_token(company)
+        return result
 
     def action_cbs_assessment_rotate_webhook_token(self):
         for company in self:

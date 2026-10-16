@@ -4,7 +4,7 @@
         <field name="name">CBS Assessment: poll and download pending requests</field>
         <field
             name="model_id"
-            ref="l10n_br_assisted_assessment.model_l10n_br_assessment_request"
+            ref="l10n_br_assisted_assessment.model_l10n_br_assisted_assessment_request"
         />
         <field name="state">code</field>
         <field name="code">model._cron_poll_requests()</field>
@@ -16,7 +16,7 @@
         <field name="name">CBS Assessment: open the daily requests</field>
         <field
             name="model_id"
-            ref="l10n_br_assisted_assessment.model_l10n_br_assessment_request"
+            ref="l10n_br_assisted_assessment.model_l10n_br_assisted_assessment_request"
         />
         <field name="state">code</field>
         <field name="code">model._cron_request_daily()</field>

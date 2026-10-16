@@ -25,11 +25,17 @@ _TOKEN_CACHE: dict[tuple[str, int], tuple[str, datetime]] = {}
 
 
 class ReceitaIntegraRtc(models.AbstractModel):
-    _name = "l10n_br_cbs_assessment.client"
+    _name = "l10n_br_cbs_assisted_assessment.client"
     _description = "Receita Integra client for the CBS assessment APIs"
 
+    def _cache_key(self, company):
+        return (self.env.cr.dbname, company.id)
+
+    def _invalidate_token(self, company):
+        _TOKEN_CACHE.pop(self._cache_key(company), None)
+
     def _get_token(self, company):
-        cache_key = (self.env.cr.dbname, company.id)
+        cache_key = self._cache_key(company)
         cached = _TOKEN_CACHE.get(cache_key)
         now = datetime.now(timezone.utc)
         if cached and cached[1] > now:
@@ -92,21 +98,29 @@ class ReceitaIntegraRtc(models.AbstractModel):
                 )
             )
         url = f"{self._base_url(company)}/{path}/{cnpj}"
-        response = requests.post(
-            url,
-            json={"urlRetorno": return_url},
-            headers=self._headers(company),
-            timeout=REQUEST_TIMEOUT,
+        return self._authorized_request(
+            company, "POST", url, json={"urlRetorno": return_url}
         )
-        return self._parse_response(response)
 
     def _get_status(self, company, ticket):
         url = f"{self._base_url(company)}/{STATUS_PATH}/{ticket}"
-        response = requests.get(
-            url,
-            headers=self._headers(company),
-            timeout=REQUEST_TIMEOUT,
-        )
+        return self._authorized_request(company, "GET", url)
+
+    def _authorized_request(self, company, method, url, **kwargs):
+        """Send an authenticated call and refresh the token once on HTTP 401."""
+        timeout = kwargs.pop("timeout", REQUEST_TIMEOUT)
+        response = None
+        for attempt in (1, 2):
+            response = requests.request(
+                method,
+                url,
+                headers=self._headers(company),
+                timeout=timeout,
+                **kwargs,
+            )
+            if response.status_code != 401 or attempt == 2:
+                break
+            self._invalidate_token(company)
         return self._parse_response(response)
 
     def _download(self, signed_url):

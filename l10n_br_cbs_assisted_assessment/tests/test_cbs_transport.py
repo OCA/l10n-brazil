@@ -2,13 +2,15 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import json
-from unittest.mock import patch
+from datetime import datetime, timedelta, timezone
+from unittest.mock import MagicMock, patch
 
 from odoo import fields
 from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
 from odoo.tools import mute_logger
 
+from ..models import receita_integra_rtc
 from .common import CLIENT_CLASS, CREDITS_FILE, DEBITS_FILE
 
 CBS_REQUEST_LOG = (
@@ -34,8 +36,8 @@ class TestCbsTransport(TransactionCase):
             }
         )
         cls.company.partner_id.vat = "11.222.333/0001-81"
-        cls.request_model = cls.env["l10n_br_assessment.request"]
-        cls.period_model = cls.env["l10n_br_assessment.period"]
+        cls.request_model = cls.env["l10n_br_assisted_assessment.request"]
+        cls.period_model = cls.env["l10n_br_assisted_assessment.period"]
 
     def _new_request(self, service="debits", **vals):
         return self.request_model.create(
@@ -135,6 +137,8 @@ class TestCbsTransport(TransactionCase):
             request.action_check_status()
         self.assertEqual(request.state, "notified")
         self.assertTrue(request.signed_url)
+        self.assertIn("[redacted]", request.response_text)
+        self.assertNotIn("X-Amz-Signature", request.response_text)
 
     def test_status_poll_keeps_waiting_while_processing(self):
         request = self._new_request(state="requested", ticket="t")
@@ -198,6 +202,7 @@ class TestCbsTransport(TransactionCase):
             self.request_model._cron_poll_requests()
         self.assertEqual(request.state, "done")
 
+    @mute_logger(CBS_REQUEST_LOG)
     def test_poll_cron_survives_a_transport_failure(self):
         request = self._new_request(state="requested", ticket="t")
         with patch(f"{CLIENT_CLASS}._get_status", side_effect=UserError("boom")):
@@ -207,25 +212,87 @@ class TestCbsTransport(TransactionCase):
     def test_client_requires_credentials(self):
         self.company.cbs_assessment_client_id = False
         with self.assertRaises(UserError):
-            self.env["l10n_br_cbs_assessment.client"]._get_token(self.company)
+            self.env["l10n_br_cbs_assisted_assessment.client"]._get_token(self.company)
 
     def test_client_requires_the_cnpj_root(self):
         self.company.partner_id.vat = False
         self.company.vat = False
         with patch(f"{CLIENT_CLASS}._get_token", return_value="token"):
             with self.assertRaises(UserError):
-                self.env["l10n_br_cbs_assessment.client"]._open_request(
+                self.env["l10n_br_cbs_assisted_assessment.client"]._open_request(
                     self.company, "debits", "https://example.com/hook"
                 )
 
     def test_client_rejects_an_unsupported_service(self):
         with self.assertRaises(UserError):
-            self.env["l10n_br_cbs_assessment.client"]._open_request(
+            self.env["l10n_br_cbs_assisted_assessment.client"]._open_request(
                 self.company, "payments", "https://example.com/hook"
             )
 
     def test_base_url_follows_the_environment(self):
-        client = self.env["l10n_br_cbs_assessment.client"]
+        client = self.env["l10n_br_cbs_assisted_assessment.client"]
         self.assertTrue(client._base_url(self.company).endswith("/apuracao-cbs-prr/v2"))
         self.company.cbs_assessment_environment = "production"
         self.assertTrue(client._base_url(self.company).endswith("/apuracao-cbs/v2"))
+
+    def test_token_is_cached(self):
+        client = self.env["l10n_br_cbs_assisted_assessment.client"]
+        receita_integra_rtc._TOKEN_CACHE.clear()
+        token_response = MagicMock()
+        token_response.status_code = 200
+        token_response.json.return_value = {
+            "access_token": "tok",
+            "expires_in": 3600,
+        }
+        with patch.object(
+            receita_integra_rtc.requests, "post", return_value=token_response
+        ) as posted:
+            first = client._get_token(self.company)
+            second = client._get_token(self.company)
+        self.assertEqual(first, "tok")
+        self.assertEqual(second, "tok")
+        self.assertEqual(posted.call_count, 1)
+
+    def test_changing_credentials_invalidates_the_token(self):
+        cache_key = (self.env.cr.dbname, self.company.id)
+        receita_integra_rtc._TOKEN_CACHE[cache_key] = (
+            "stale",
+            datetime.now(timezone.utc) + timedelta(hours=1),
+        )
+        self.company.cbs_assessment_client_secret = "new-secret"
+        self.assertNotIn(cache_key, receita_integra_rtc._TOKEN_CACHE)
+
+    def test_authorized_request_retries_after_401(self):
+        client = self.env["l10n_br_cbs_assisted_assessment.client"]
+        cache_key = (self.env.cr.dbname, self.company.id)
+        receita_integra_rtc._TOKEN_CACHE[cache_key] = (
+            "stale",
+            datetime.now(timezone.utc) + timedelta(hours=1),
+        )
+        unauthorized = MagicMock()
+        unauthorized.status_code = 401
+        unauthorized.json.return_value = {"codigoErro": "401"}
+        unauthorized.text = "unauthorized"
+        ok = MagicMock()
+        ok.status_code = 200
+        ok.json.return_value = {"estado": "EM_PROCESSAMENTO"}
+        ok.text = "{}"
+        token_response = MagicMock()
+        token_response.status_code = 200
+        token_response.json.return_value = {
+            "access_token": "fresh",
+            "expires_in": 3600,
+        }
+        with (
+            patch.object(
+                receita_integra_rtc.requests,
+                "request",
+                side_effect=[unauthorized, ok],
+            ) as called,
+            patch.object(
+                receita_integra_rtc.requests, "post", return_value=token_response
+            ),
+        ):
+            payload = client._get_status(self.company, "ticket")
+        self.assertEqual(payload["estado"], "EM_PROCESSAMENTO")
+        self.assertEqual(called.call_count, 2)
