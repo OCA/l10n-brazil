@@ -1,6 +1,9 @@
 # Copyright 2026 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
-"""Correct financial-income classifications in existing simple charts."""
+"""Correct financial-income classifications in existing simple charts.
+
+Removing the expense tag is intentional because it was an error in the chart.
+"""
 
 import logging
 
@@ -43,6 +46,7 @@ def migrate(env, version):
         account_data = env["ir.model.data"].search(
             [
                 ("model", "=", "account.account"),
+                ("module", "=", "l10n_br_coa_simple"),
                 ("name", "in", account_names),
             ]
         )
