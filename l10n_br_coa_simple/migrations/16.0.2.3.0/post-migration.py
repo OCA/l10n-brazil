@@ -1,6 +1,7 @@
 # Copyright 2026 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
-"""Correct the financial-income classification in existing simple charts."""
+"""Correct financial-income classifications in existing simple charts."""
+
 import logging
 
 from openupgradelib import openupgrade
@@ -58,6 +59,4 @@ def migrate(env, version):
                 account.write({"tag_ids": commands})
                 updated += 1
 
-    _logger.info(
-        "l10n_br_coa: corrected %s simple-chart financial-income accounts", updated
-    )
+    _logger.info("l10n_br_coa_simple: corrected %s financial-income accounts", updated)
