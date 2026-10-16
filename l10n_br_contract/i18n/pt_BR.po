@@ -1364,8 +1364,8 @@ msgstr "Quantidade"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__contract_recalculate_taxes_before_invoice
-msgid "Recalculate taxes before invoicing"
-msgstr "Recalcular impostos antes do faturamento"
+msgid "Recalculate Fiscal Operation Line Before Invoicing"
+msgstr "Recalcular a linha da operação fiscal antes de faturar"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__partner_receivering_id
