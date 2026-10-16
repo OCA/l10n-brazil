@@ -197,7 +197,7 @@ class TestAccountClassification(TransactionCase):
                 ("name", "in", SIMPLE_FINANCIAL_INCOME),
             ]
         )
-        if not data:
+        if not data:  # pragma: no cover - optional module is absent in this path
             self.skipTest("l10n_br_coa_simple is not installed")
         self.assertEqual(
             set(data.mapped("name")),
