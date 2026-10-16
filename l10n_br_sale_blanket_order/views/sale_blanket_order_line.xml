@@ -24,6 +24,14 @@
                 <attribute name="readonly">0</attribute>
             </xpath>
 
+            <xpath expr="//field[@name='original_uom_qty']" position="attributes">
+                <attribute name="readonly">0</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='product_uom']" position="attributes">
+                <attribute name="readonly">0</attribute>
+            </xpath>
+
             <xpath expr="//field[@name='partner_id']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
