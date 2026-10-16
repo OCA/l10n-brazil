@@ -23,7 +23,6 @@
         <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
         <field name="partner_shipping_id" ref="l10n_br_base.res_partner_address_ak3" />
         <field name="user_id" ref="base.user_admin" />
-        <field name="pricelist_id" ref="sale_stock_picking_invoicing.demo_pricelist" />
         <field name="payment_term_id" ref="account.account_payment_term_advance" />
         <field name="team_id" ref="sales_team.crm_team_1" />
         <field name="state">draft</field>
@@ -119,7 +118,6 @@
         <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
         <field name="partner_shipping_id" ref="l10n_br_base.res_partner_address_ak3" />
         <field name="user_id" ref="base.user_admin" />
-        <field name="pricelist_id" ref="sale_stock_picking_invoicing.demo_pricelist" />
         <field name="payment_term_id" ref="account.account_payment_term_advance" />
         <field name="team_id" ref="sales_team.crm_team_1" />
         <field name="state">draft</field>
@@ -196,7 +194,6 @@
         <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
         <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion" />
         <field name="user_id" ref="base.user_admin" />
-        <field name="pricelist_id" ref="sale_stock_picking_invoicing.demo_pricelist" />
         <field name="payment_term_id" ref="account.account_payment_term_advance" />
         <field name="team_id" ref="sales_team.crm_team_1" />
         <field name="state">draft</field>
@@ -291,7 +288,6 @@
         <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
         <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion" />
         <field name="user_id" ref="base.user_admin" />
-        <field name="pricelist_id" ref="sale_stock_picking_invoicing.demo_pricelist" />
         <field name="payment_term_id" ref="account.account_payment_term_advance" />
         <field name="team_id" ref="sales_team.crm_team_1" />
         <field name="state">draft</field>
