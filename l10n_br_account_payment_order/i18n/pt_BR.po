@@ -2603,6 +2603,8 @@ msgid ""
 "Instruction %(instruction)s for OWN NUMBER %(own_number)s.\n"
 "Justification: %(reason)s"
 msgstr ""
+"Linha incluída na ordem em rascunho %(order_name)s para enviar ao banco a instrução %(instruction)s do nosso número %(own_number)s.\n"
+"Motivo: %(reason)s"
 
 #. module: l10n_br_account_payment_order
 #. odoo-python
@@ -2614,6 +2616,8 @@ msgid ""
 "OWN NUMBER %(own_number)s.\n"
 "Justification: %(reason)s"
 msgstr ""
+"Linha incluída na nova ordem %(order_name)s, criada automaticamente, para enviar ao banco a instrução %(instruction)s do nosso número %(own_number)s.\n"
+"Motivo: %(reason)s"
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__payment_line_ids
