@@ -147,7 +147,10 @@
                             <h4>Linhas por regime tributário</h4>
                             <p>Uma linha pode ser marcada para valer só num regime
                             de empresa (o campo de regime tributário da empresa,
-                            no topo da linha). Quando a operação tem linhas assim,
+                            no topo da linha). Para uma operação atender empresas
+                            de regimes diferentes, crie uma linha para cada regime,
+                            cada uma com os seus impostos. Quando a operação tem
+                            linhas assim,
                             o sistema usa a do regime da <strong>sua
                             empresa</strong>: a do Simples Nacional emite com os
                             códigos próprios do Simples (CSOSN) e a do regime
@@ -159,9 +162,12 @@
                             <p>A aba de definições de imposto guarda
                             <strong>exceções</strong>: impostos que nesta linha
                             fogem do padrão (ex.: uma remessa que não paga
-                            PIS/COFINS porque não é venda). Se estiver vazia, vale
-                            o padrão da empresa, do produto e do estado, que é o
-                            normal para vendas e compras comuns.</p>
+                            PIS/COFINS porque não é venda). Se estiver vazia,
+                            valem as outras camadas: os impostos padrão da
+                            empresa, o NCM e o regulamento do ICMS (nas empresas
+                            do regime normal), as regras do CFOP e as do perfil
+                            fiscal do parceiro. Para vendas e compras comuns,
+                            isso basta.</p>
                         </page>
                     </notebook>
                 </sheet>

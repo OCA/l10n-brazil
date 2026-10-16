@@ -162,9 +162,10 @@
                             <div class="alert alert-info" role="alert">
                                 <strong>O NCM é a classificação fiscal do
                                 produto.</strong> Nas empresas do regime normal, é
-                                dele que vem o IPI de cada item e, para os produtos
-                                com regra própria de PIS/COFINS (aba de PIS/COFINS
-                                específico), também esses impostos. Produto com NCM
+                                dele que vem o IPI de cada item e, quando o NCM tem
+                                uma regra própria de PIS/COFINS (aba de PIS/COFINS
+                                personalizado), também esses impostos. Cadastre uma
+                                só regra de PIS/COFINS por NCM. Produto com NCM
                                 errado significa imposto errado em todas as notas.
                             </div>
                             <ul>

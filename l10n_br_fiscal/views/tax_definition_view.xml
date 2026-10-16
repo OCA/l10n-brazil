@@ -296,9 +296,10 @@
                                 <strong>Uma definição de imposto é uma regra de
                                 exceção</strong>: ela diz "nesta situação, este
                                 imposto se comporta assim" (não incide, fica
-                                suspenso, usa outra alíquota...). Sem nenhuma
-                                definição, vale o padrão da empresa, do produto e do
-                                estado.
+                                suspenso, usa outra alíquota...). Onde não há
+                                regra de exceção, valem os impostos padrão da
+                                empresa e, nas empresas do regime normal, os do NCM
+                                do produto e do regulamento do ICMS.
                             </div>
                             <h4>Onde uma regra pode estar e qual prevalece</h4>
                             <p>O sistema junta as regras de vários lugares, nesta
@@ -344,9 +345,11 @@
                                 imposto que valham para a mesma situação. Uma regra
                                 só, bem delimitada, é mais fácil de entender e
                                 manter.</li>
-                                <li>Uma regra expirada deixa de ser aplicada. No
-                                regulamento do ICMS, só as regras
-                                <strong>aprovadas</strong> valem.</li>
+                                <li>Revise e <strong>aprove</strong> a regra assim
+                                que terminar de configurá-la. No regulamento do
+                                ICMS, só as regras aprovadas valem.</li>
+                                <li>Para tirar de uso uma regra que não vale mais,
+                                passe-a para <strong>Expirado</strong>.</li>
                                 <li>Antes de criar uma regra nova, procure entender
                                 de onde vem o valor atual: muitas vezes a mudança
                                 certa é no cadastro do produto (NCM) ou na operação,
