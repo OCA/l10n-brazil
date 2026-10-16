@@ -1,6 +1,7 @@
 # Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import json
 import logging
 from datetime import datetime, time
 
@@ -13,11 +14,12 @@ from ..constants import DAILY_REQUEST_QUOTA, SERVICE_TYPES, TRIBUTES
 
 _logger = logging.getLogger(__name__)
 
-PERIOD_REQUEST_REL = "l10n_br_assessment_period_request_rel"
+PERIOD_REQUEST_REL = "l10n_br_assisted_assessment_period_request_rel"
+QUOTA_TIMEZONE = "America/Sao_Paulo"
 
 
 class AssistedAssessmentRequest(models.Model):
-    _name = "l10n_br_assessment.request"
+    _name = "l10n_br_assisted_assessment.request"
     _description = "IBS/CBS assisted assessment asynchronous request"
     _order = "id desc"
 
@@ -31,14 +33,14 @@ class AssistedAssessmentRequest(models.Model):
     tribute = fields.Selection(selection=TRIBUTES, required=True, default="cbs")
     service = fields.Selection(selection=SERVICE_TYPES, required=True)
     period_id = fields.Many2one(
-        comodel_name="l10n_br_assessment.period",
+        comodel_name="l10n_br_assisted_assessment.period",
         string="Requested From",
         ondelete="set null",
         help="Period the request was triggered from. The answer can carry other "
         "periods, since the endpoints answer per taxpayer.",
     )
     period_ids = fields.Many2many(
-        comodel_name="l10n_br_assessment.period",
+        comodel_name="l10n_br_assisted_assessment.period",
         relation=PERIOD_REQUEST_REL,
         column1="request_id",
         column2="period_id",
@@ -49,7 +51,11 @@ class AssistedAssessmentRequest(models.Model):
         help="Ticket returned when the request was opened, used to poll its "
         "status when the callback does not arrive.",
     )
-    return_url = fields.Char(string="Callback URL")
+    return_url = fields.Char(
+        string="Callback URL",
+        help="URL informed as urlRetorno when the request is opened. Leave empty "
+        "to use the company webhook.",
+    )
     estimated_seconds = fields.Integer(
         help="Processing time estimated by the tax administration.",
     )
@@ -148,18 +154,18 @@ class AssistedAssessmentRequest(models.Model):
         return True
 
     def _quota_window(self):
-        """Return the UTC bounds of the local day the quota is counted in."""
+        """Return the UTC bounds of the São Paulo day the quota is counted in."""
         self.ensure_one()
-        timezone = pytz.timezone(self.env.user.tz or "UTC")
-        today = fields.Date.context_today(self)
+        timezone = pytz.timezone(QUOTA_TIMEZONE)
+        today = datetime.now(timezone).date()
         start = timezone.localize(datetime.combine(today, time.min)).astimezone(
             pytz.utc
         )
         end = timezone.localize(datetime.combine(today, time.max)).astimezone(pytz.utc)
         return start.replace(tzinfo=None), end.replace(tzinfo=None)
 
-    def register_callback(self, payload):
-        """Store what the tax administration sent to the callback URL."""
+    def _apply_status_payload(self, payload):
+        """Store the signed URL or error returned by GET /situacao."""
         self.ensure_one()
         if payload.get("codigoErro"):
             self.write(
@@ -180,6 +186,18 @@ class AssistedAssessmentRequest(models.Model):
                 "error_message": False,
             }
         )
+        return True
+
+    def _store_response_text(self, payload):
+        """Persist the last gateway answer without leaking the signed URL."""
+        self.ensure_one()
+        sanitized = dict(payload or {})
+        if sanitized.get("urlAssinada"):
+            sanitized["urlAssinada"] = "[redacted]"
+        try:
+            self.response_text = json.dumps(sanitized, indent=2, ensure_ascii=False)
+        except (TypeError, ValueError):
+            self.response_text = str(sanitized)
         return True
 
     @api.model
@@ -204,10 +222,10 @@ class AssistedAssessmentRequest(models.Model):
     def _check_status(self):
         self.ensure_one()
         payload = self._fetch_status()
-        self.response_text = str(payload)
+        self._store_response_text(payload)
         state = (payload.get("estado") or "").upper()
         if state == "CONCLUIDA":
-            return self.register_callback(payload)
+            return self._apply_status_payload(payload)
         if state == "ERRO":
             self.write(
                 {
@@ -277,7 +295,7 @@ class AssistedAssessmentRequest(models.Model):
         self.ensure_one()
         if not self.payload:
             raise UserError(_("Request %s has no payload to apply.", self.name))
-        period_model = self.env["l10n_br_assessment.period"]
+        period_model = self.env["l10n_br_assisted_assessment.period"]
         periods = period_model.browse()
         for per_apur, vals_list in self._parse_payload().items():
             period = period_model._get_or_create(

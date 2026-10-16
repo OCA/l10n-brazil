@@ -50,7 +50,7 @@ DIRECTION_DELIVERY = [
 
 
 class AssistedAssessment(models.Model):
-    _name = "l10n_br_assessment.period"
+    _name = "l10n_br_assisted_assessment.period"
     _description = "IBS/CBS assisted assessment period"
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _order = "per_apur desc, tribute, id desc"
@@ -94,6 +94,12 @@ class AssistedAssessment(models.Model):
     )
     days_to_deadline = fields.Integer(compute="_compute_days_to_deadline")
     date_confirmed = fields.Date(readonly=True, copy=False)
+    confirmed_by_id = fields.Many2one(
+        comodel_name="res.users",
+        string="Closed by",
+        readonly=True,
+        copy=False,
+    )
 
     state = fields.Selection(
         selection=[
@@ -112,13 +118,13 @@ class AssistedAssessment(models.Model):
     )
 
     line_ids = fields.One2many(
-        comodel_name="l10n_br_assessment.line",
+        comodel_name="l10n_br_assisted_assessment.line",
         inverse_name="period_id",
         string="Assessment Lines",
     )
     request_ids = fields.Many2many(
-        comodel_name="l10n_br_assessment.request",
-        relation="l10n_br_assessment_period_request_rel",
+        comodel_name="l10n_br_assisted_assessment.request",
+        relation="l10n_br_assisted_assessment_period_request_rel",
         column1="period_id",
         column2="request_id",
         string="Delivered Requests",
@@ -126,12 +132,12 @@ class AssistedAssessment(models.Model):
         "carry several periods, because the endpoints answer per taxpayer.",
     )
     origin_request_ids = fields.One2many(
-        comodel_name="l10n_br_assessment.request",
+        comodel_name="l10n_br_assisted_assessment.request",
         inverse_name="period_id",
         string="Opened Requests",
     )
     all_request_ids = fields.Many2many(
-        comodel_name="l10n_br_assessment.request",
+        comodel_name="l10n_br_assisted_assessment.request",
         compute="_compute_all_request_ids",
         string="Requests",
         help="Requests opened from this period together with the ones that "
@@ -140,7 +146,7 @@ class AssistedAssessment(models.Model):
     has_notified_request = fields.Boolean(compute="_compute_request_actions")
     has_downloaded_request = fields.Boolean(compute="_compute_request_actions")
     divergence_ids = fields.One2many(
-        comodel_name="l10n_br_assessment.divergence",
+        comodel_name="l10n_br_assisted_assessment.divergence",
         inverse_name="period_id",
         string="Divergences",
     )
@@ -153,7 +159,11 @@ class AssistedAssessment(models.Model):
     )
     fisco_debit = fields.Monetary(compute="_compute_fisco_totals", store=True)
     fisco_credit = fields.Monetary(compute="_compute_fisco_totals", store=True)
-    fisco_balance = fields.Monetary(compute="_compute_fisco_totals", store=True)
+    fisco_balance = fields.Monetary(
+        string="Tax Administration Balance",
+        compute="_compute_fisco_totals",
+        store=True,
+    )
     local_debit = fields.Monetary(compute="_compute_local_totals")
     local_credit = fields.Monetary(compute="_compute_local_totals")
     local_balance = fields.Monetary(compute="_compute_local_totals")
@@ -165,7 +175,7 @@ class AssistedAssessment(models.Model):
         "direction is downloaded or marked as absent.",
     )
     bookkeeping_line_ids = fields.One2many(
-        comodel_name="l10n_br_assessment.bookkeeping.line",
+        comodel_name="l10n_br_assisted_assessment.bookkeeping.line",
         inverse_name="period_id",
         compute="_compute_bookkeeping_lines",
         string="Bookkeeping",
@@ -450,7 +460,7 @@ class AssistedAssessment(models.Model):
         for line in self.line_ids:
             entry = grouped.setdefault(
                 (line.line_type, line.document_key),
-                {"value": 0.0, "lines": self.env["l10n_br_assessment.line"]},
+                {"value": 0.0, "lines": self.env["l10n_br_assisted_assessment.line"]},
             )
             entry["value"] += line.value
             entry["lines"] |= line
@@ -521,14 +531,15 @@ class AssistedAssessment(models.Model):
         "no_credits",
     )
     def _compute_bookkeeping_lines(self):
-        line_model = self.env["l10n_br_assessment.bookkeeping.line"]
+        line_model = self.env["l10n_br_assisted_assessment.bookkeeping.line"]
         for record in self:
             if not record.id:
                 record.bookkeeping_line_ids = line_model
                 continue
-            record.bookkeeping_line_ids = line_model.create(
-                record._prepare_bookkeeping_vals()
-            )
+            lines = line_model.browse()
+            for vals in record._prepare_bookkeeping_vals():
+                lines |= line_model.new(vals)
+            record.bookkeeping_line_ids = lines
 
     def _prepare_bookkeeping_vals(self):
         """Return one row per authorized document of the period."""
@@ -601,7 +612,7 @@ class AssistedAssessment(models.Model):
                     updated += 1
             else:
                 to_create.append(vals)
-        self.env["l10n_br_assessment.line"].create(to_create)
+        self.env["l10n_br_assisted_assessment.line"].create(to_create)
         if not to_create and not updated:
             return True
         if self.state in ("confirmed", "expired"):
@@ -622,7 +633,7 @@ class AssistedAssessment(models.Model):
 
     def _service_label(self, service):
         services = dict(
-            self.env["l10n_br_assessment.request"]
+            self.env["l10n_br_assisted_assessment.request"]
             ._fields["service"]
             ._description_selection(self.env)
         )
@@ -686,7 +697,7 @@ class AssistedAssessment(models.Model):
     def _create_request(self, service):
         self.ensure_one()
         self._check_open_request(service)
-        request = self.env["l10n_br_assessment.request"].create(
+        request = self.env["l10n_br_assisted_assessment.request"].create(
             {
                 "company_id": self.company_id.id,
                 "tribute": self.tribute,
@@ -707,7 +718,7 @@ class AssistedAssessment(models.Model):
         does not block a later increment.
         """
         self.ensure_one()
-        existing = self.env["l10n_br_assessment.request"].search(
+        existing = self.env["l10n_br_assisted_assessment.request"].search(
             [
                 ("company_id", "=", self.company_id.id),
                 ("tribute", "=", self.tribute),
@@ -759,7 +770,7 @@ class AssistedAssessment(models.Model):
         line_types = self._compared_line_types()
         local_values = self._local_values_by_key(line_types)
         assessed = self._assessed_values_by_key()
-        divergence_model = self.env["l10n_br_assessment.divergence"]
+        divergence_model = self.env["l10n_br_assisted_assessment.divergence"]
         to_create = []
         for (line_type, key), group in assessed.items():
             booked = local_values.get(line_type, {})
@@ -850,25 +861,28 @@ class AssistedAssessment(models.Model):
         self.ensure_one()
         if self.state not in ("reconciled", "diverged"):
             raise UserError(
-                _("Reconcile %s before confirming the assessment.", self.name)
+                _("Reconcile %s before closing the local review.", self.name)
             )
         if self.open_divergence_count:
             raise UserError(
                 _(
                     "%(name)s still has %(count)s open divergences. Handle or "
-                    "ignore them before confirming, because confirming implies "
-                    "acknowledgement of debt.",
+                    "ignore them before closing the local review.",
                     name=self.name,
                     count=self.open_divergence_count,
                 )
             )
         self.write(
-            {"state": "confirmed", "date_confirmed": fields.Date.context_today(self)}
+            {
+                "state": "confirmed",
+                "date_confirmed": fields.Date.context_today(self),
+                "confirmed_by_id": self.env.uid,
+            }
         )
         self.message_post(
             body=_(
-                "Assessment confirmed. Confirming constitutes the tax credit and "
-                "implies acknowledgement of debt."
+                "Local review closed. This does not confirm the assessment at "
+                "the tax administration."
             )
         )
         return True
@@ -921,8 +935,8 @@ class AssistedAssessment(models.Model):
             date_deadline=self.date_deadline,
             summary=summary,
             note=_(
-                "Confirm or adjust the assessment by %s. Without a manifestation "
-                "the presented balance is presumed correct.",
+                "Close the local review or adjust the assessment by %s. Without "
+                "a manifestation the presented balance is presumed correct.",
                 self.date_deadline,
             ),
         )

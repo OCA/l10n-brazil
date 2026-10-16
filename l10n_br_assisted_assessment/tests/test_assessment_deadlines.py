@@ -12,7 +12,7 @@ class TestAssessmentDeadlines(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.company = cls.env.company
-        cls.period_model = cls.env["l10n_br_assessment.period"]
+        cls.period_model = cls.env["l10n_br_assisted_assessment.period"]
 
     def _create_period(self, per_apur="2026-10"):
         return self.period_model.create(

@@ -43,7 +43,7 @@ AVAILABILITY_DAY_DERE = 20
 
 # Daily limit of the request opening endpoint, per the common rules of the
 # asynchronous assessment APIs. Exceeding it answers HTTP 429.
-DAILY_REQUEST_QUOTA = 100
+DAILY_REQUEST_QUOTA = 4
 
 # The signed download URL delivered by the webhook is valid for 48 hours.
 SIGNED_URL_HOURS = 48

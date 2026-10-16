@@ -1,13 +1,17 @@
 # Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from datetime import timedelta
+from datetime import datetime, time, timedelta
 from unittest.mock import patch
+
+import pytz
 
 from odoo import fields
 from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
 from odoo.tools import mute_logger
+
+from odoo.addons.l10n_br_assisted_assessment.constants import DAILY_REQUEST_QUOTA
 
 MODELS = "odoo.addons.l10n_br_assisted_assessment.models"
 PERIOD_CLASS = f"{MODELS}.assisted_assessment.AssistedAssessment"
@@ -20,8 +24,8 @@ class TestAssessmentReconciliation(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.company = cls.env.company
-        cls.period_model = cls.env["l10n_br_assessment.period"]
-        cls.request_model = cls.env["l10n_br_assessment.request"]
+        cls.period_model = cls.env["l10n_br_assisted_assessment.period"]
+        cls.request_model = cls.env["l10n_br_assisted_assessment.request"]
         cls.period = cls.period_model.create(
             {
                 "company_id": cls.company.id,
@@ -183,6 +187,7 @@ class TestAssessmentReconciliation(TransactionCase):
         self.assertEqual(
             self.period.date_confirmed, fields.Date.context_today(self.period)
         )
+        self.assertEqual(self.period.confirmed_by_id, self.env.user)
 
     def test_confirm_requires_reconciliation(self):
         self._upsert_debits({self._key(1): 100.0})
@@ -230,13 +235,15 @@ class TestAssessmentReconciliation(TransactionCase):
         line = self.period.line_ids
         self.assertIn("Debit", line.display_name)
         self.assertIn(self._key(1), line.display_name)
-        self.assertNotIn("l10n_br_assessment.line", line.display_name)
+        self.assertNotIn("l10n_br_assisted_assessment.line", line.display_name)
 
     def test_divergence_display_name_uses_type_and_key(self):
         self._upsert_debits({self._key(1): 100.0})
         divergence = self._reconcile_against({"debit": {}})
         self.assertIn(self._key(1), divergence.display_name)
-        self.assertNotIn("l10n_br_assessment.divergence", divergence.display_name)
+        self.assertNotIn(
+            "l10n_br_assisted_assessment.divergence", divergence.display_name
+        )
 
     def test_period_download_delegates_to_ready_requests(self):
         self._new_request(
@@ -298,9 +305,25 @@ class TestAssessmentReconciliation(TransactionCase):
         with patch(QUOTA, 4):
             self.assertTrue(self._new_request(service="credits")._check_quota())
 
-    def test_callback_stores_the_signed_url(self):
+    def test_daily_quota_matches_the_gateway_limit(self):
+        self.assertEqual(DAILY_REQUEST_QUOTA, 4)
+
+    def test_quota_window_uses_sao_paulo(self):
+        self.env.user.tz = "UTC"
+        request = self._new_request()
+        start, _end = request._quota_window()
+        timezone = pytz.timezone("America/Sao_Paulo")
+        today = datetime.now(timezone).date()
+        expected_start = (
+            timezone.localize(datetime.combine(today, time.min))
+            .astimezone(pytz.utc)
+            .replace(tzinfo=None)
+        )
+        self.assertEqual(start, expected_start)
+
+    def test_status_payload_stores_the_signed_url(self):
         request = self._new_request(state="requested")
-        request.register_callback(
+        request._apply_status_payload(
             {
                 "tiqueteSolicitacao": "692b7b25.B5E08D55",
                 "urlAssinada": "https://storage.example.com/file.json?X-Amz-Signature=x",
@@ -314,9 +337,9 @@ class TestAssessmentReconciliation(TransactionCase):
             "2026-08-26 14:30:00",
         )
 
-    def test_callback_reports_the_error(self):
+    def test_status_payload_reports_the_error(self):
         request = self._new_request(state="requested")
-        request.register_callback(
+        request._apply_status_payload(
             {"codigoErro": "APURACAO-408", "mensagemErro": "Timeout"}
         )
         self.assertEqual(request.state, "error")
@@ -327,11 +350,22 @@ class TestAssessmentReconciliation(TransactionCase):
         with mute_logger(
             "odoo.addons.l10n_br_assisted_assessment.models.assisted_assessment_request"
         ):
-            request.register_callback(
+            request._apply_status_payload(
                 {"urlAssinada": "https://x", "urlAssinadaExpiraEm": "?"}
             )
         self.assertEqual(request.state, "notified")
         self.assertFalse(request.signed_url_expires_at)
+
+    def test_status_response_redacts_the_signed_url(self):
+        request = self._new_request(state="requested")
+        request._store_response_text(
+            {
+                "estado": "CONCLUIDA",
+                "urlAssinada": "https://storage.example.com/file.json?X-Amz-Signature=x",
+            }
+        )
+        self.assertIn("[redacted]", request.response_text)
+        self.assertNotIn("X-Amz-Signature", request.response_text)
 
     def test_download_requires_a_signed_url(self):
         with self.assertRaises(UserError):
@@ -485,6 +519,8 @@ class TestAssessmentReconciliation(TransactionCase):
         divergence.document_id = document
         divergence.action_mark_handled()
         self.assertEqual(divergence.state, "handled")
+        self.assertEqual(divergence.handled_by_id, self.env.user)
+        self.assertTrue(divergence.handled_date)
 
     def test_ignore_requires_a_note(self):
         self._upsert_debits({self._key(1): 100.0})
@@ -494,6 +530,8 @@ class TestAssessmentReconciliation(TransactionCase):
         divergence.notes = "The extra booked amount is a rounding of another period."
         divergence.action_mark_ignored()
         self.assertEqual(divergence.state, "ignored")
+        self.assertEqual(divergence.ignored_by_id, self.env.user)
+        self.assertTrue(divergence.ignored_date)
 
     def test_local_totals_include_both_directions_before_download(self):
         booked = {
@@ -543,3 +581,10 @@ class TestAssessmentReconciliation(TransactionCase):
             self.period._bookkeeping_status("credit", 15.0, 10.0, {"credit"}),
             "value",
         )
+
+    def test_bookkeeping_lines_are_not_persisted(self):
+        lines = self.period.bookkeeping_line_ids
+        self.assertFalse(
+            self.env["l10n_br_assisted_assessment.bookkeeping.line"].search([])
+        )
+        self.assertFalse(lines.ids)

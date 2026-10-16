@@ -3,8 +3,8 @@
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
     <record id="view_assessment_request_list" model="ir.ui.view">
-        <field name="name">l10n_br_assessment.request.list</field>
-        <field name="model">l10n_br_assessment.request</field>
+        <field name="name">l10n_br_assisted_assessment.request.list</field>
+        <field name="model">l10n_br_assisted_assessment.request</field>
         <field name="arch" type="xml">
             <list decoration-danger="state == 'error'">
                 <field name="name" />
@@ -22,8 +22,8 @@
         </field>
     </record>
     <record id="view_assessment_request_form" model="ir.ui.view">
-        <field name="name">l10n_br_assessment.request.form</field>
-        <field name="model">l10n_br_assessment.request</field>
+        <field name="name">l10n_br_assisted_assessment.request.form</field>
+        <field name="model">l10n_br_assisted_assessment.request</field>
         <field name="arch" type="xml">
             <form>
                 <header>
@@ -33,12 +33,14 @@
                         string="Transmit"
                         class="btn-primary"
                         invisible="state not in ('draft', 'error')"
+                        groups="l10n_br_assisted_assessment.group_manager"
                     />
                     <button
                         name="action_check_status"
                         type="object"
                         string="Check Status"
                         invisible="state != 'requested'"
+                        groups="l10n_br_assisted_assessment.group_manager"
                     />
                     <button
                         name="action_download"
@@ -46,6 +48,7 @@
                         string="Download"
                         class="btn-primary"
                         invisible="state != 'notified'"
+                        groups="l10n_br_assisted_assessment.group_manager"
                     />
                     <button
                         name="action_apply"
@@ -53,6 +56,7 @@
                         string="Apply"
                         class="btn-primary"
                         invisible="state != 'downloaded'"
+                        groups="l10n_br_assisted_assessment.group_manager"
                     />
                     <field name="state" widget="statusbar" />
                 </header>
@@ -69,7 +73,11 @@
                             <field name="delivered_line_count" />
                             <field name="delivered_amount" />
                             <field name="currency_id" invisible="1" />
-                            <field name="return_url" />
+                            <field
+                                name="return_url"
+                                readonly="state != 'draft'"
+                                groups="l10n_br_assisted_assessment.group_manager"
+                            />
                         </group>
                         <group name="tracking" string="Processing">
                             <field name="ticket" />
@@ -108,7 +116,7 @@
     </record>
     <record id="action_assessment_request" model="ir.actions.act_window">
         <field name="name">Requests</field>
-        <field name="res_model">l10n_br_assessment.request</field>
+        <field name="res_model">l10n_br_assisted_assessment.request</field>
         <field name="view_mode">list,form</field>
     </record>
 </odoo>

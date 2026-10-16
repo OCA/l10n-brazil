@@ -23,12 +23,12 @@ from ..constants import (
 
 
 class AssistedAssessmentDivergence(models.Model):
-    _name = "l10n_br_assessment.divergence"
+    _name = "l10n_br_assisted_assessment.divergence"
     _description = "IBS/CBS assisted assessment divergence"
     _order = "period_id, divergence_type, document_key"
 
     period_id = fields.Many2one(
-        comodel_name="l10n_br_assessment.period",
+        comodel_name="l10n_br_assisted_assessment.period",
         string="Period",
         required=True,
         ondelete="cascade",
@@ -37,7 +37,7 @@ class AssistedAssessmentDivergence(models.Model):
     company_id = fields.Many2one(related="period_id.company_id", store=True)
     currency_id = fields.Many2one(related="period_id.currency_id", store=True)
     line_id = fields.Many2one(
-        comodel_name="l10n_br_assessment.line",
+        comodel_name="l10n_br_assisted_assessment.line",
         string="Line",
         ondelete="set null",
     )
@@ -66,6 +66,20 @@ class AssistedAssessmentDivergence(models.Model):
         default="open",
         required=True,
     )
+    handled_by_id = fields.Many2one(
+        comodel_name="res.users",
+        string="Handled by",
+        readonly=True,
+        copy=False,
+    )
+    handled_date = fields.Datetime(readonly=True, copy=False)
+    ignored_by_id = fields.Many2one(
+        comodel_name="res.users",
+        string="Ignored by",
+        readonly=True,
+        copy=False,
+    )
+    ignored_date = fields.Datetime(readonly=True, copy=False)
 
     @api.depends("fisco_value", "local_value")
     def _compute_difference(self):
@@ -165,6 +179,12 @@ class AssistedAssessmentDivergence(models.Model):
         return False
 
     def write(self, vals):
+        if vals.get("state") == "handled":
+            vals.setdefault("handled_by_id", self.env.uid)
+            vals.setdefault("handled_date", fields.Datetime.now())
+        if vals.get("state") == "ignored":
+            vals.setdefault("ignored_by_id", self.env.uid)
+            vals.setdefault("ignored_date", fields.Datetime.now())
         result = super().write(vals)
         if vals.get("state") == "handled":
             self._check_handled()
@@ -208,7 +228,7 @@ class AssistedAssessmentDivergence(models.Model):
                 continue
             raise UserError(
                 _(
-                    "Explain why this divergence is ignored before confirming "
-                    "the assessment without fixing it."
+                    "Explain why this divergence is ignored before closing "
+                    "the local review without fixing it."
                 )
             )

@@ -7,12 +7,12 @@ from ..constants import BOOKKEEPING_STATUSES, LINE_TYPES
 
 
 class AssistedAssessmentBookkeepingLine(models.TransientModel):
-    _name = "l10n_br_assessment.bookkeeping.line"
+    _name = "l10n_br_assisted_assessment.bookkeeping.line"
     _description = "ERP document expected in the assisted assessment"
     _order = "line_type, document_key, id"
 
     period_id = fields.Many2one(
-        comodel_name="l10n_br_assessment.period",
+        comodel_name="l10n_br_assisted_assessment.period",
         required=True,
         ondelete="cascade",
     )

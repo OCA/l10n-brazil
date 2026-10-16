@@ -7,12 +7,12 @@ from ..constants import DEBIT_ORIGINS, DOCUMENT_KEY_SIZE, DOCUMENT_MODELS, LINE_
 
 
 class AssistedAssessmentLine(models.Model):
-    _name = "l10n_br_assessment.line"
+    _name = "l10n_br_assisted_assessment.line"
     _description = "IBS/CBS assisted assessment line"
     _order = "period_id, line_type, document_key, origin"
 
     period_id = fields.Many2one(
-        comodel_name="l10n_br_assessment.period",
+        comodel_name="l10n_br_assisted_assessment.period",
         string="Period",
         required=True,
         ondelete="cascade",
@@ -65,7 +65,7 @@ class AssistedAssessmentLine(models.Model):
         help="Booked document matched by access key.",
     )
     divergence_ids = fields.One2many(
-        comodel_name="l10n_br_assessment.divergence",
+        comodel_name="l10n_br_assisted_assessment.divergence",
         inverse_name="line_id",
     )
 

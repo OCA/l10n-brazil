@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <record id="module_category_l10n_br_assessment" model="ir.module.category">
+    <record id="module_category_l10n_br_assisted_assessment" model="ir.module.category">
         <field name="name">Assisted Assessment</field>
         <field
             name="description"
@@ -11,7 +11,7 @@
         <field name="name">Assisted Assessment User</field>
         <field
             name="category_id"
-            ref="l10n_br_assisted_assessment.module_category_l10n_br_assessment"
+            ref="l10n_br_assisted_assessment.module_category_l10n_br_assisted_assessment"
         />
         <field
             name="implied_ids"
@@ -22,7 +22,7 @@
         <field name="name">Assisted Assessment Manager</field>
         <field
             name="category_id"
-            ref="l10n_br_assisted_assessment.module_category_l10n_br_assessment"
+            ref="l10n_br_assisted_assessment.module_category_l10n_br_assisted_assessment"
         />
         <field
             name="implied_ids"
@@ -37,25 +37,25 @@
     </record>
     <record id="period_company_rule" model="ir.rule">
         <field name="name">Assisted assessment period multi-company</field>
-        <field name="model_id" ref="model_l10n_br_assessment_period" />
+        <field name="model_id" ref="model_l10n_br_assisted_assessment_period" />
         <field name="global" eval="True" />
         <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
     </record>
     <record id="line_company_rule" model="ir.rule">
         <field name="name">Assisted assessment line multi-company</field>
-        <field name="model_id" ref="model_l10n_br_assessment_line" />
+        <field name="model_id" ref="model_l10n_br_assisted_assessment_line" />
         <field name="global" eval="True" />
         <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
     </record>
     <record id="request_company_rule" model="ir.rule">
         <field name="name">Assisted assessment request multi-company</field>
-        <field name="model_id" ref="model_l10n_br_assessment_request" />
+        <field name="model_id" ref="model_l10n_br_assisted_assessment_request" />
         <field name="global" eval="True" />
         <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
     </record>
     <record id="divergence_company_rule" model="ir.rule">
         <field name="name">Assisted assessment divergence multi-company</field>
-        <field name="model_id" ref="model_l10n_br_assessment_divergence" />
+        <field name="model_id" ref="model_l10n_br_assisted_assessment_divergence" />
         <field name="global" eval="True" />
         <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
     </record>
