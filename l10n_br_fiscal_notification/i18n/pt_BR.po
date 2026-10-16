@@ -220,7 +220,7 @@ msgstr ""
 #. module: l10n_br_fiscal_notification
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_notification.document_form
 msgid "Send Email"
-msgstr ""
+msgstr "Enviar e-mail"
 
 #. module: l10n_br_fiscal_notification
 #. odoo-python
