@@ -50,6 +50,13 @@ msgstr "Pagamentos"
 msgid "Receivables"
 msgstr "Contas a Receber"
 
+#. module: l10n_br_account_due_list
+#: model:ir.model.fields,field_description:l10n_br_account_due_list.field_account_bank_statement_line__due_line_ids
+#: model:ir.model.fields,field_description:l10n_br_account_due_list.field_account_move__due_line_ids
+#: model:ir.model.fields,field_description:l10n_br_account_due_list.field_account_payment__due_line_ids
+msgid "Installments"
+msgstr "Parcelas"
+
 #~ msgid "Display Name"
 #~ msgstr "Nome Exibido"
 
