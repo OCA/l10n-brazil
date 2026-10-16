@@ -10647,10 +10647,6 @@ msgstr "% CBS"
 msgid "IBS %"
 msgstr "% IBS"
 
-#. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
-msgid "Set to Draft"
-msgstr "Voltar para rascunho"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
