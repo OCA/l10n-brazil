@@ -283,18 +283,13 @@ class FiscalDocument(models.Model):
                 moves.line_ids._check_tax_lock_date()
 
     def cancel_move_ids(self):
-        # Replicate the core button_draft cleanup (analytic + reconcile)
-        # without invoking the override that blocks documents already
-        # cancelled at SEFAZ.
+        # The core button_cancel resets posted moves to draft first, which
+        # drops their reconciliations and analytic lines. A move already
+        # cancelled is left alone: the core refuses to cancel it again.
         for record in self:
-            # a move already cancelled is left alone: the 17.0 core refuses to
-            # cancel it again
             moves = record.move_ids.filtered(lambda m: m.state != "cancel")
-            if not moves:
-                continue
-            moves.mapped("line_ids.analytic_line_ids").unlink()
-            moves.mapped("line_ids").remove_move_reconcile()
-            moves.button_cancel()
+            if moves:
+                moves.button_cancel()
 
     def _document_cancel(self, justificative):
         self._check_cancel_move_ids_allowed()
