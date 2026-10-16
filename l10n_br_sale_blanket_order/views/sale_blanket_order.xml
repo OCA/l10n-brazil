@@ -17,13 +17,18 @@
                     options="{'currency_field': 'currency_id'}"
                 />
             </field>
-            <field name="amount_total" position="after">
+            <!-- amount_total is wrapped in a div with its label outside it:
+                 add the field after the div so that it gets its own label -->
+            <xpath
+                expr="//div[hasclass('oe_subtotal_footer_separator')][field[@name='amount_total']]"
+                position="after"
+            >
                 <field
                     name="amount_financial_total"
                     widget='monetary'
                     options="{'currency_field': 'currency_id'}"
                 />
-            </field>
+            </xpath>
             <xpath expr="//field[@name='line_ids']/list" position="inside">
                 <control name="fiscal_fields" invisible="1" />
                 <!-- this is a dynamic fiscal fields placeholder-->
