@@ -200,6 +200,64 @@ class TestDuimpImportWizard(AccountMoveBRCommon):
         self.assertAlmostEqual(declaracao.ii_total, 20625.01)
         self.assertAlmostEqual(declaracao.cofins_total, 14115.22)
 
+    def test_consult_without_exporter_name_leaves_vendor_unset(self):
+        """A DUIMP whose items carry no exporter/manufacturer name still
+        fills the declaration items; only the vendor lookup is skipped,
+        since there is no name to search a partner with.
+        """
+        item = {
+            key: value
+            for key, value in DUIMP_ITEMS[0].items()
+            if key != "dadosOperadorExportador"
+        }
+        declaracao = self._consult_wizard(FakeDuimpWebservice(items=[item]))
+
+        self.assertFalse(declaracao.fornecedor_partner_id)
+        self.assertEqual(len(declaracao.item_ids), 1)
+        self.assertEqual(declaracao.item_ids.codigo_produto, "102")
+        self.assertEqual(declaracao.item_ids.product_id, self.product)
+
+    def test_match_vendor_fallbacks(self):
+        declaracao = self._consult_wizard()
+        partner_model = self.env["res.partner"]
+        manufacturer = partner_model.create({"name": "FAB LTDA", "is_company": True})
+        operator = partner_model.create({"name": "OP LTDA", "is_company": True})
+
+        with self.subTest(case="no_items"):
+            declaracao.fornecedor_partner_id = False
+            declaracao._match_vendor([])
+            self.assertFalse(declaracao.fornecedor_partner_id)
+
+        with self.subTest(case="fabricante_fallback"):
+            declaracao.fornecedor_partner_id = False
+            declaracao._match_vendor(
+                [{"dadosOperadorFabricante": {"nome": "FAB LTDA"}}]
+            )
+            self.assertEqual(declaracao.fornecedor_partner_id, manufacturer)
+
+        with self.subTest(case="nome_operador_fallback"):
+            declaracao.fornecedor_partner_id = False
+            declaracao._match_vendor(
+                [{"dadosOperadorExportador": {"nomeOperador": "OP LTDA"}}]
+            )
+            self.assertEqual(declaracao.fornecedor_partner_id, operator)
+
+    def test_get_document_serie_reuses_existing(self):
+        declaracao = self._consult_wizard()
+        serie_model = self.env["l10n_br_fiscal.document.serie"]
+        domain = [
+            ("company_id", "=", self.company.id),
+            ("document_type_id", "=", self.env.ref("l10n_br_fiscal.document_55").id),
+        ]
+        before = serie_model.search_count(domain)
+
+        first = declaracao._get_document_serie()
+        second = declaracao._get_document_serie()
+
+        self.assertEqual(first, second)
+        # at most one serie is created, and only when none existed yet
+        self.assertEqual(serie_model.search_count(domain), before or 1)
+
     def test_consult_and_generate_invoice(self):
         """Query a DUIMP, match its item to a product/CFOP, generate the
         vendor bill, and confirm the imported tax values survive a save
