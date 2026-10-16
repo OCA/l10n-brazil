@@ -7715,6 +7715,11 @@ msgid "Serviços"
 msgstr "Serviços"
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
+msgid "Set to Draft"
+msgstr "Voltar para rascunho"
+
+#. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.config_action
 #: model:ir.ui.menu,name:l10n_br_fiscal.fiscal_config_menu
 msgid "Settings"
