@@ -20,6 +20,42 @@ class TestPaymentOrderInbound(CNABTestCommon):
         self.invoice_cef_240.create_account_payment_line()
         self._get_draft_payment_order(self.invoice_cef_240)
 
+    def test_post_multiple_invoices_load_cnab_info(self):
+        """Post several invoices at once, mixing CNAB and non CNAB payment modes"""
+        cnab_invoices = self.invoice_cef_240 | self.invoice_itau_400
+        invoices = cnab_invoices | self.invoice_cheque | self.invoice_without_pay_mode
+        invoices.action_post()
+        self.assertEqual(set(invoices.mapped("state")), {"posted"})
+        for invoice in cnab_invoices:
+            inv_number = invoice.get_invoice_fiscal_number().split("/")[-1]
+            due_lines = invoice.due_line_ids
+            self.assertEqual(len(due_lines), 2)
+            for index, line in enumerate(due_lines):
+                self.assertEqual(line.document_number, f"{inv_number}/{index + 1:02d}")
+                self.assertTrue(line.own_number)
+                self.assertEqual(
+                    line.instruction_move_code_id,
+                    invoice.cnab_config_id.sending_code_id,
+                )
+            payment_order = self._get_draft_payment_order(invoice)
+            self.assertEqual(payment_order.payment_line_ids.move_line_id, due_lines)
+        for invoice in self.invoice_cheque | self.invoice_without_pay_mode:
+            self.assertFalse(any(invoice.due_line_ids.mapped("own_number")))
+
+    def test_post_cnab_invoice_with_other_invoices(self):
+        """Post a CNAB invoice together with invoices without payment mode"""
+        other_invoices = (
+            self.invoice_without_pay_mode | self.invoice_without_pay_mode.copy()
+        )
+        (self.invoice_cef_240 | other_invoices).action_post()
+        inv_number = self.invoice_cef_240.get_invoice_fiscal_number().split("/")[-1]
+        self.assertEqual(
+            self.invoice_cef_240.due_line_ids.mapped("document_number"),
+            [f"{inv_number}/01", f"{inv_number}/02"],
+        )
+        self.assertTrue(all(self.invoice_cef_240.due_line_ids.mapped("own_number")))
+        self.assertFalse(any(other_invoices.due_line_ids.mapped("own_number")))
+
     def test_payment_order_import_wizard(self):
         """Test Payment Order Import Wizard"""
         self.pay_mode_cef.auto_create_payment_order = False
