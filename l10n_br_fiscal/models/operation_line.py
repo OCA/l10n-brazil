@@ -124,6 +124,29 @@ class OperationLine(models.Model):
         selection=PRODUCT_FISCAL_TYPE, string="Product Fiscal Type"
     )
 
+    categ_id = fields.Many2one(
+        comodel_name="product.category",
+        string="Product Category",
+        company_dependent=True,
+    )
+
+    product_ids = fields.Many2many(
+        comodel_name="product.product",
+        string="Products",
+    )
+
+    nbs_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.nbs",
+        string="NBS",
+        company_dependent=True,
+    )
+
+    operation_indicator_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.operation.indicator",
+        string="Operation Indicator",
+        company_dependent=True,
+    )
+
     company_tax_framework = fields.Selection(selection=TAX_FRAMEWORK)
 
     add_to_amount = fields.Boolean(string="Add to Document Amount?", default=True)

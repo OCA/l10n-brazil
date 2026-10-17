@@ -266,6 +266,30 @@ class Operation(models.Model):
             ("icms_origin", "=", False),
         ]
 
+        domain += [
+            "|",
+            ("categ_id", "=", product.categ_id.id),
+            ("categ_id", "=", False),
+        ]
+
+        domain += [
+            "|",
+            ("product_ids", "=", False),
+            ("product_ids", "in", product.id),
+        ]
+
+        domain += [
+            "|",
+            ("nbs_id", "=", product.nbs_id.id),
+            ("nbs_id", "=", False),
+        ]
+
+        domain += [
+            "|",
+            ("operation_indicator_id", "=", product.operation_indicator_id.id),
+            ("operation_indicator_id", "=", False),
+        ]
+
         return domain
 
     def _has_icmsst(self, company, partner, product):
@@ -313,6 +337,10 @@ class Operation(models.Model):
                 "product_type",
                 "tax_icms_or_issqn",
                 "icms_origin",
+                "categ_id",
+                "product_ids",
+                "nbs_id",
+                "operation_indicator_id",
             ]
             return sum(1 for field in fields if getattr(line, field))
 
