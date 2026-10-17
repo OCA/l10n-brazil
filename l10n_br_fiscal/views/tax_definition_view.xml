@@ -291,6 +291,71 @@
                                 <field name="ind_final" />
                             </group>
                         </page>
+                        <page name="help" string="Ajuda">
+                            <div class="alert alert-info" role="alert">
+                                <strong>Uma definição de imposto é uma regra de
+                                exceção</strong>: ela diz "nesta situação, este
+                                imposto se comporta assim" (não incide, fica
+                                suspenso, usa outra alíquota...). Onde não há
+                                regra de exceção, valem os impostos padrão da
+                                empresa e, nas empresas do regime normal, os do NCM
+                                do produto e do regulamento do ICMS.
+                            </div>
+                            <h4>Onde uma regra pode estar e qual prevalece</h4>
+                            <p>O sistema junta as regras de vários lugares, nesta
+                            ordem. Cada etapa pode substituir o que veio da
+                            anterior:</p>
+                            <div style="max-width:560px;">
+                                <div
+                                    style="border:1px solid #ccc; border-radius:8px; padding:8px 14px; margin:4px 0; background:#f8f9fa;"
+                                >1. Impostos padrão da <strong>empresa</strong> <small
+                                        class="text-muted"
+                                    >(conforme o regime tributário)</small></div>
+                                <div style="text-align:center;">↓</div>
+                                <div
+                                    style="border:1px solid #ccc; border-radius:8px; padding:8px 14px; margin:4px 0; background:#f8f9fa;"
+                                >2. <strong>NCM</strong> do produto e <strong
+                                    >regulamento do ICMS</strong> por estado <small
+                                        class="text-muted"
+                                    >(empresas do regime normal)</small></div>
+                                <div style="text-align:center;">↓</div>
+                                <div
+                                    style="border:1px solid #ccc; border-radius:8px; padding:8px 14px; margin:4px 0; background:#f8f9fa;"
+                                >3. Regras da <strong>linha de operação</strong> <small
+                                        class="text-muted"
+                                    >(ex.: remessa sem PIS/COFINS)</small></div>
+                                <div style="text-align:center;">↓</div>
+                                <div
+                                    style="border:1px solid #ccc; border-radius:8px; padding:8px 14px; margin:4px 0; background:#f8f9fa;"
+                                >4. Regras do <strong>CFOP</strong></div>
+                                <div style="text-align:center;">↓</div>
+                                <div
+                                    style="border:1px solid #b8e0b8; border-radius:8px; padding:8px 14px; margin:4px 0; background:#eaf7ea;"
+                                >5. Regras do <strong>perfil fiscal do
+                                    parceiro</strong> <small
+                                        class="text-muted"
+                                    >(a palavra final)</small></div>
+                            </div>
+                            <h4>Boas práticas</h4>
+                            <ul>
+                                <li>Preencha só as condições necessárias (estado de
+                                destino, NCM, CEST, produto...). Uma condição em
+                                branco vale para todos os casos.</li>
+                                <li>Evite, no mesmo lugar, duas regras para o mesmo
+                                imposto que valham para a mesma situação. Uma regra
+                                só, bem delimitada, é mais fácil de entender e
+                                manter.</li>
+                                <li>Revise e <strong>aprove</strong> a regra assim
+                                que terminar de configurá-la. No regulamento do
+                                ICMS, só as regras aprovadas valem.</li>
+                                <li>Para tirar de uso uma regra que não vale mais,
+                                passe-a para <strong>Expirado</strong>.</li>
+                                <li>Antes de criar uma regra nova, procure entender
+                                de onde vem o valor atual: muitas vezes a mudança
+                                certa é no cadastro do produto (NCM) ou na operação,
+                                não aqui.</li>
+                            </ul>
+                        </page>
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">
