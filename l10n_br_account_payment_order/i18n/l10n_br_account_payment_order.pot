@@ -810,19 +810,18 @@ msgid "Banco Santander"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:account.journal,name:l10n_br_account_payment_order.sicoob_journal
-msgid "Banco Sicoob"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
 #: model:account.journal,name:l10n_br_account_payment_order.unicred_journal
 msgid "Banco Unicred"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:account.journal,name:l10n_br_account_payment_order.bb_journal
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Banco do Brasil"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.bb_journal
+msgid "Banco do Brasil - Pagamentos"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2868,6 +2867,11 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__your_number
 msgid "Seu Número"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.sicoob_journal
+msgid "Sicoob - Pagamentos"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
