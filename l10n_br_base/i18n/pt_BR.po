@@ -17176,7 +17176,7 @@ msgstr "Outras Informações"
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__state_tax_number_ids
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__state_tax_number_ids
 msgid "Others State Tax Number"
-msgstr "Número de Outras Inscrição Estaduais"
+msgstr "Outras inscrições estaduais"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2609907

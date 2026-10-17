@@ -119,6 +119,18 @@ msgid "Buyer Presence"
 msgstr "Presença do Comprador"
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_cbs_base
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cbs_base
+msgid "CBS Base"
+msgstr "Base da CBS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_cbs_value
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cbs_value
+msgid "CBS Value"
+msgstr "Valor da CBS"
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cest_id
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__cest_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_report_search
@@ -491,6 +503,18 @@ msgid "Fiscal Additional data manually entered by user"
 msgstr "Dados adicionais fiscais inseridos manualmente pelo usuário"
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__fiscal_amount_tax
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_amount_tax
+msgid "Fiscal Amount Tax"
+msgstr "Total fiscal de impostos"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__fiscal_amount_total
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_amount_total
+msgid "Fiscal Amount Total"
+msgstr "Total fiscal"
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__fiscal_operation_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_report_search
 msgid "Fiscal Operation"
@@ -548,6 +572,18 @@ msgstr "Valor do Frete"
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__price_gross
 msgid "Gross Product/Service Amount"
 msgstr "Valor bruto do produto/serviço"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_ibs_base
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ibs_base
+msgid "IBS Base"
+msgstr "Base do IBS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_ibs_value
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ibs_value
+msgid "IBS Value"
+msgstr "Valor do IBS"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icms_percent
@@ -1347,7 +1383,7 @@ msgstr ""
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__partner_is_public_entity
 msgid "Public Entity"
-msgstr ""
+msgstr "Entidade Pública"
 
 #. module: l10n_br_purchase
 #: model:ir.model,name:l10n_br_purchase.model_purchase_order
@@ -1382,7 +1418,7 @@ msgstr ""
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__service_type_id
 msgid "Service Type LC 166"
-msgstr "Tipo de Serviço LC 166"
+msgstr "Tipo de Serviço LC 116"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields.selection,name:l10n_br_purchase.selection__purchase_report__fiscal_type__09
@@ -1407,12 +1443,12 @@ msgstr ""
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icms_tax_benefit_id
 msgid "Tax Benefit"
-msgstr ""
+msgstr "Benefício Fiscal"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icms_tax_benefit_code
 msgid "Tax Benefit Code"
-msgstr ""
+msgstr "Código do Benefício Fiscal"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofins_tax_id
@@ -1527,7 +1563,7 @@ msgstr "Imposto PIS ST"
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__uot_id
 msgid "Tax UoM"
-msgstr "UoM Fiscal"
+msgstr "Unidade tributável"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_tax_withholding
