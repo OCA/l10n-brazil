@@ -1,0 +1,136 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_sale_rental
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-07 23:01+0000\n"
+"PO-Revision-Date: 2026-10-07 23:01+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_sale_rental
+#: model:ir.model,name:l10n_br_sale_rental.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_br_sale_rental
+#: model:ir.model,name:l10n_br_sale_rental.model_create_rental_product
+msgid "Create the Rental Service Product"
+msgstr ""
+
+#. module: l10n_br_sale_rental
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale_rental.l10n_br_sale_rental_res_company_form
+msgid "Fiscal Operations"
+msgstr ""
+
+#. module: l10n_br_sale_rental
+#: model:ir.model.fields,help:l10n_br_sale_rental.field_res_company__rental_retorno_fiscal_operation_id
+msgid ""
+"Goods coming back from the lessee. Empty: Entrada de retorno de "
+"comodato/locação."
+msgstr ""
+
+#. module: l10n_br_sale_rental
+#: model:ir.model.fields,help:l10n_br_sale_rental.field_res_company__rental_remessa_fiscal_operation_id
+msgid "Goods leaving to the lessee. Empty: Remessa em comodato/locação."
+msgstr ""
+
+#. module: l10n_br_sale_rental
+#: model:ir.model,name:l10n_br_sale_rental.model_stock_picking_type
+msgid "Picking Type"
+msgstr ""
+
+#. module: l10n_br_sale_rental
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale_rental.l10n_br_sale_rental_res_company_form
+msgid "Rental"
+msgstr ""
+
+#. module: l10n_br_sale_rental
+#. odoo-python
+#: code:addons/l10n_br_sale_rental/models/stock_warehouse.py:0
+#: model:ir.model.fields.selection,name:l10n_br_sale_rental.selection__stock_picking_type__l10n_br_rental_kind__remessa
+#, python-format
+msgid "Rental Delivery"
+msgstr ""
+
+#. module: l10n_br_sale_rental
+#: model:ir.model.fields,field_description:l10n_br_sale_rental.field_res_company__rental_remessa_fiscal_operation_id
+msgid "Rental Delivery Fiscal Operation"
+msgstr ""
+
+#. module: l10n_br_sale_rental
+#: model:ir.model.fields,field_description:l10n_br_sale_rental.field_stock_warehouse__l10n_br_rental_out_type_id
+msgid "Rental Delivery Type"
+msgstr ""
+
+#. module: l10n_br_sale_rental
+#: model:ir.model.fields,field_description:l10n_br_sale_rental.field_res_company__rental_fiscal_operation_id
+msgid "Rental Fiscal Operation"
+msgstr ""
+
+#. module: l10n_br_sale_rental
+#. odoo-python
+#: code:addons/l10n_br_sale_rental/models/stock_warehouse.py:0
+#: model:ir.model.fields.selection,name:l10n_br_sale_rental.selection__stock_picking_type__l10n_br_rental_kind__retorno
+#, python-format
+msgid "Rental Return"
+msgstr ""
+
+#. module: l10n_br_sale_rental
+#: model:ir.model.fields,field_description:l10n_br_sale_rental.field_res_company__rental_retorno_fiscal_operation_id
+msgid "Rental Return Fiscal Operation"
+msgstr ""
+
+#. module: l10n_br_sale_rental
+#: model:ir.model.fields,field_description:l10n_br_sale_rental.field_stock_warehouse__l10n_br_rental_in_type_id
+msgid "Rental Return Type"
+msgstr ""
+
+#. module: l10n_br_sale_rental
+#: model:ir.model.fields,field_description:l10n_br_sale_rental.field_stock_picking_type__l10n_br_rental_kind
+msgid "Rental Transfer"
+msgstr ""
+
+#. module: l10n_br_sale_rental
+#: model:ir.model.fields,help:l10n_br_sale_rental.field_res_company__rental_fiscal_operation_id
+msgid "Rental charge (rental service lines). Empty: Locação de bens móveis."
+msgstr ""
+
+#. module: l10n_br_sale_rental
+#: model:ir.model,name:l10n_br_sale_rental.model_sale_order_line
+msgid "Sales Order Line"
+msgstr ""
+
+#. module: l10n_br_sale_rental
+#: model:ir.model,name:l10n_br_sale_rental.model_stock_invoice_onshipping
+msgid "Stock Invoice Onshipping"
+msgstr ""
+
+#. module: l10n_br_sale_rental
+#: model:ir.model,name:l10n_br_sale_rental.model_stock_move
+msgid "Stock Move"
+msgstr ""
+
+#. module: l10n_br_sale_rental
+#: model:ir.model,name:l10n_br_sale_rental.model_stock_rule
+msgid "Stock Rule"
+msgstr ""
+
+#. module: l10n_br_sale_rental
+#: model:ir.model.fields,help:l10n_br_sale_rental.field_stock_picking_type__l10n_br_rental_kind
+msgid ""
+"Transfers of rented goods, invoiced as NF-e (remessa/retorno) without "
+"receivable."
+msgstr ""
+
+#. module: l10n_br_sale_rental
+#: model:ir.model,name:l10n_br_sale_rental.model_stock_warehouse
+msgid "Warehouse"
+msgstr ""
