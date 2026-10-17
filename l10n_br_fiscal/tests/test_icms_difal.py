@@ -109,3 +109,54 @@ class TestIcmsDifal(TransactionCase):
         taxes = self._compute(self.tax_icms_12, self.mg_non_taxpayer)
         self.assertAlmostEqual(taxes["icms"]["tax_value"], 12.00, places=2)
         self.assertAlmostEqual(taxes["icms"]["icms_dest_value"], 0.00, places=2)
+
+    def test_difal_non_taxpayer_inside_base(self):
+        """Non-taxpayer in MG: single base grossed up with rate and FCP.
+
+        With FCP: base = 100.00 / (1 - 0.18 - 0.02) = 125.00;
+        DIFAL = 125.00 x (18% - 12%) = 7.50; FCP = 125.00 x 2% = 2.50.
+        Without FCP: base = 100.00 / (1 - 0.18) = 121.951... = 121.95;
+        DIFAL = 121.95 x 6% = 7.317 = 7.32.
+        """
+        taxes = self._compute(
+            self.tax_icms_12 | self.tax_icmsfcp_2, self.mg_non_taxpayer
+        )
+        self.assertAlmostEqual(taxes["icms"]["tax_value"], 12.00, places=2)
+        self.assertAlmostEqual(taxes["icms"]["icms_dest_perc"], 18.0, places=2)
+        self.assertAlmostEqual(taxes["icms"]["icms_dest_base"], 125.00, places=2)
+        self.assertAlmostEqual(taxes["icms"]["icms_dest_value"], 7.50, places=2)
+        self.assertAlmostEqual(taxes["icms"]["icms_origin_value"], 0.00, places=2)
+        self.assertAlmostEqual(taxes["icms"]["icms_sharing_percent"], 100.0, places=2)
+        self.assertAlmostEqual(taxes["icmsfcp"]["base"], 125.00, places=2)
+        self.assertAlmostEqual(taxes["icmsfcp"]["tax_value"], 2.50, places=2)
+
+        taxes = self._compute(self.tax_icms_12, self.mg_non_taxpayer)
+        self.assertAlmostEqual(taxes["icms"]["icms_dest_base"], 121.95, places=2)
+        self.assertAlmostEqual(taxes["icms"]["icms_dest_value"], 7.32, places=2)
+
+    def test_difal_non_taxpayer_simple_base(self):
+        """Non-taxpayer in PE: the operation value is the base.
+
+        Base = 100.00; DIFAL = 100.00 x (20.5% - 7%) = 13.50.
+        """
+        taxes = self._compute(self.tax_icms_7, self.pe_non_taxpayer)
+        self.assertAlmostEqual(taxes["icms"]["tax_value"], 7.00, places=2)
+        self.assertAlmostEqual(taxes["icms"]["icms_dest_perc"], 20.5, places=2)
+        self.assertAlmostEqual(taxes["icms"]["icms_dest_base"], 100.00, places=2)
+        self.assertAlmostEqual(taxes["icms"]["icms_dest_value"], 13.50, places=2)
+        self.assertAlmostEqual(taxes["icms"]["icms_origin_value"], 0.00, places=2)
+
+    def test_difal_non_taxpayer_simple_base_with_fcp(self):
+        """Non-taxpayer in RJ: FCP does not change the simple base.
+
+        Base = 100.00; DIFAL = 100.00 x (22% - 12%) = 10.00;
+        FCP = 100.00 x 4% = 4.00.
+        """
+        taxes = self._compute(
+            self.tax_icms_12 | self.tax_icmsfcp_4, self.rj_non_taxpayer
+        )
+        self.assertAlmostEqual(taxes["icms"]["icms_dest_perc"], 22.0, places=2)
+        self.assertAlmostEqual(taxes["icms"]["icms_dest_base"], 100.00, places=2)
+        self.assertAlmostEqual(taxes["icms"]["icms_dest_value"], 10.00, places=2)
+        self.assertAlmostEqual(taxes["icmsfcp"]["base"], 100.00, places=2)
+        self.assertAlmostEqual(taxes["icmsfcp"]["tax_value"], 4.00, places=2)
