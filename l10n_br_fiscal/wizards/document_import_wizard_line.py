@@ -3,7 +3,9 @@
 # Copyright 2025 Akretion - Raphaël Valyi <raphael.valyi@akretion.com>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import Command, _, api, fields, models
+from odoo import api, fields, models
+
+from ..tools import cfop_geography_warning
 
 
 class DocumentImportWizardLine(models.TransientModel):
@@ -89,73 +91,12 @@ class DocumentImportWizardLine(models.TransientModel):
             line.cfop_warning = line._get_cfop_warning()
 
     def _get_cfop_warning(self):
-        """Compare the XML CFOP scope (from its first digit) with the real
-        issuer/company geography. CFOP first digit: 1/5 = intrastate,
-        2/6 = interstate, 3/7 = foreign trade."""
+        """Compare the XML CFOP scope with the real issuer/company geography
+        (see ``tools.cfop_geography_warning``)."""
         self.ensure_one()
-        if not self.cfop_xml:
-            return False
-        declared = self.cfop_xml[0]
         wizard = self.import_xml_id
-        issuer_state = wizard.issuer_partner_id.state_id
-        company_state = wizard.company_id.state_id
-        if not issuer_state or not company_state:
-            return False
-        same_state = issuer_state == company_state
-        if declared in ("1", "5") and not same_state:
-            return _(
-                "XML CFOP %(cfop)s is intrastate but issuer (%(issuer)s) "
-                "and company (%(company)s) are in different states."
-            ) % {
-                "cfop": self.cfop_xml,
-                "issuer": issuer_state.code,
-                "company": company_state.code,
-            }
-        if declared in ("2", "6") and same_state:
-            return _(
-                "XML CFOP %(cfop)s is interstate but issuer "
-                "and company are both in %(state)s."
-            ) % {"cfop": self.cfop_xml, "state": company_state.code}
-        return False
-
-    def _find_or_create_product_supplierinfo(self):
-        for line in self:
-            if not line.product_id:
-                continue
-
-            if not line.product_supplier_id:
-                line._create_product_supplier()
-            else:
-                line._update_product_supplier()
-
-    def _get_supplierinfo_price(self):
-        """Price of the supplierinfo expressed in the product main UoM."""
-        if self.uom_internal:
-            return self.uom_internal._compute_price(
-                self.price_unit_com, self.product_id.uom_id
-            )
-        return self.product_id.lst_price
-
-    def _prepare_supplierinfo_vals(self):
-        """Common supplierinfo values.
-
-        Overriden by specialized document types (e.g. NFe) to add the
-        partner UoM de-para values.
-        """
-        return {
-            "product_id": self.product_id.id,
-            "product_name": self.product_name,
-            "product_code": self.product_code,
-            "price": self._get_supplierinfo_price(),
-        }
-
-    def _create_product_supplier(self):
-        vals = self._prepare_supplierinfo_vals()
-        vals["partner_id"] = self.imported_partner_id.id
-        self.product_supplier_id = self.env["product.supplierinfo"].create(vals)
-        self.product_id.write(
-            {"seller_ids": [Command.link(self.product_supplier_id.id)]}
+        return cfop_geography_warning(
+            self.cfop_xml,
+            wizard.issuer_partner_id,
+            wizard.company_id,
         )
-
-    def _update_product_supplier(self):
-        self.product_supplier_id.write(self._prepare_supplierinfo_vals())
