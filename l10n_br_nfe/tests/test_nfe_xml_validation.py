@@ -50,6 +50,57 @@ class TestXMLValidation(TransactionCase):
         self.assertTrue("CEP" in document.xml_error_message)
         self.assertEqual(document.state_edoc, SITUACAO_EDOC_A_ENVIAR)
 
+    def test_xml_nfe_natop_max_length(self):
+        """The NF-e schema limits natOp to 60 characters, so a longer fiscal
+        operation name must be cut when the document is exported."""
+        company_id = self.env.ref("l10n_br_base.empresa_lucro_presumido")
+        self.env.user.company_ids += company_id
+        self.env.user.company_id = company_id
+        fiscal_operation = self.env.ref("l10n_br_fiscal.fo_venda")
+        long_name = "Retorno de mercadoria ou bem remetido para conserto ou reparo"
+        fiscal_operation.name = long_name
+        document = self.env["l10n_br_fiscal.document"].create(
+            {
+                "partner_id": self.env.ref("l10n_br_base.res_partner_cliente7_rs").id,
+                "document_type_id": self.env.ref("l10n_br_fiscal.document_55").id,
+                "fiscal_operation_id": fiscal_operation.id,
+            }
+        )
+        self.assertEqual(document.nfe40_natOp, long_name)
+        ide = document._build_binding(
+            spec_schema="nfe", spec_version="40", class_name="nfe.40.ide"
+        )
+        self.assertEqual(ide.natOp, long_name[:60])
+        self.assertEqual(len(ide.natOp), 60)
+
+    def test_xml_nfe_xnome_max_length(self):
+        """The NF-e schema limits xNome (and the issuer xFant) to 60
+        characters, so a longer legal name must be cut on export while the
+        partner keeps the full name."""
+        long_name = (
+            "Comercio Importacao e Exportacao de Produtos Industriais "
+            "e Agricolas Ltda"
+        )
+        cut_name = long_name[:60].strip()
+        partner = self.env.ref("l10n_br_base.res_partner_cliente7_rs")
+        partner.legal_name = long_name
+        company = self.env.ref("l10n_br_base.empresa_lucro_presumido")
+        company.partner_id.write({"legal_name": long_name, "name": long_name})
+
+        for class_name in ("nfe.40.dest", "nfe.40.tlocal", "nfe.40.transporta"):
+            binding = partner._build_binding(
+                spec_schema="nfe", spec_version="40", class_name=class_name
+            )
+            self.assertEqual(binding.xNome, cut_name, class_name)
+
+        emit = company._build_binding(
+            spec_schema="nfe", spec_version="40", class_name="nfe.40.emit"
+        )
+        self.assertEqual(emit.xNome, cut_name)
+        self.assertEqual(emit.xFant, cut_name)
+        self.assertEqual(partner.legal_name, long_name)
+        self.assertEqual(company.partner_id.legal_name, long_name)
+
     def test_xml_nfe_taxes(self):
         """This method tests multiple tax fields for NFe lines and NFe totals.
         warning: failures in this method could indicate errors in fiscal or account
