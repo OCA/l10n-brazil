@@ -56,3 +56,10 @@ class OperationIndicator(models.Model):
         "(DFe), such as supplier establishment, acquirer address, "
         "recipient address, or other locations depending on the operation",
     )
+
+    tax_definition_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        relation="tax_definition_operation_indicator_rel",  # (default is too long)
+        readonly=True,
+        string="Tax Definition",
+    )
