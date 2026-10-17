@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <record id="view_dctfweb_transmission_tree" model="ir.ui.view">
+        <field name="name">l10n_br_dctfweb.transmission.tree</field>
+        <field name="model">l10n_br_dctfweb.transmission</field>
+        <field name="arch" type="xml">
+            <tree create="false">
+                <field name="create_date" />
+                <field name="assessment_id" />
+                <field name="system" />
+                <field name="service" />
+                <field name="endpoint" />
+                <field name="environment" />
+                <field name="billed" />
+                <field name="status" />
+                <field name="success" />
+                <field name="receipt" optional="show" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_dctfweb_transmission_form" model="ir.ui.view">
+        <field name="name">l10n_br_dctfweb.transmission.form</field>
+        <field name="model">l10n_br_dctfweb.transmission</field>
+        <field name="arch" type="xml">
+            <form create="false" edit="false">
+                <sheet>
+                    <group>
+                        <group name="call">
+                            <field name="assessment_id" />
+                            <field name="system" />
+                            <field name="service" />
+                            <field name="endpoint" />
+                            <field name="environment" />
+                            <field name="billed" />
+                        </group>
+                        <group name="answer">
+                            <field name="status" />
+                            <field name="success" />
+                            <field name="protocol" />
+                            <field name="receipt" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="messages" string="Messages">
+                            <field name="messages" />
+                        </page>
+                        <page name="request" string="Request">
+                            <field
+                                name="request"
+                                widget="ace"
+                                options="{'mode': 'json'}"
+                            />
+                        </page>
+                        <page name="response" string="Response">
+                            <field
+                                name="response"
+                                widget="ace"
+                                options="{'mode': 'json'}"
+                            />
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_dctfweb_transmission" model="ir.actions.act_window">
+        <field name="name">DCTFWeb transmissions</field>
+        <field name="res_model">l10n_br_dctfweb.transmission</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>
