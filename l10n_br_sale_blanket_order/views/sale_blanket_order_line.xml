@@ -36,13 +36,14 @@
                     <field name="fiscal_genre_code" invisible="1" />
                     <field name="tax_framework" invisible="1" />
                     <field name="tax_icms_or_issqn" invisible="1" />
+                    <field name="pricelist_id" invisible="1" />
                 </group>
             </xpath>
             <xpath expr="//field[@name='price_unit']" position="after">
                 <label for="fiscal_quantity" string="Fiscal Quantity" />
                 <div>
                     <field
-                        context="{'partner_id':parent.partner_id, 'quantity':fiscal_quantity, 'pricelist':parent.pricelist_id, 'uom':uot_id, 'uom_qty_change':True, 'company_id': parent.company_id}"
+                        context="{'partner_id':partner_id, 'quantity':fiscal_quantity, 'pricelist':pricelist_id, 'uom':uot_id, 'uom_qty_change':True, 'company_id': company_id}"
                         name="fiscal_quantity"
                         class="oe_inline"
                     />
@@ -122,7 +123,7 @@
                             widget="many2many_tags"
                             options="{'no_create': True}"
                             context="{'search_view_ref': 'account.account_tax_view_search'}"
-                            domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]"
+                            domain="[('type_tax_use','=','sale'),('company_id','=',company_id)]"
                             attrs="{'readonly': [('invoiced_uom_qty', '&gt;', 0)]}"
                         />
                 </group>
