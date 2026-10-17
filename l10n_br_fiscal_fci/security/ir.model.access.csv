@@ -1,0 +1,7 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"l10n_br_fiscal_fci_header_user","FCI for User","model_l10n_br_fiscal_fci_header","l10n_br_fiscal.group_user",1,1,1,0
+"l10n_br_fiscal_fci_header_manager","FCI for Manager","model_l10n_br_fiscal_fci_header","l10n_br_fiscal.group_manager",1,1,1,1
+"l10n_br_fiscal_fci_line_user","FCI Line for User","model_l10n_br_fiscal_fci_line","l10n_br_fiscal.group_user",1,1,1,0
+"l10n_br_fiscal_fci_line_manager","FCI Line for Manager","model_l10n_br_fiscal_fci_line","l10n_br_fiscal.group_manager",1,1,1,1
+"l10n_br_fiscal_fci_import_wizard_user","FCI Import Wizard for User","model_l10n_br_fiscal_fci_import_wizard","l10n_br_fiscal.group_user",1,1,1,1
+"l10n_br_fiscal_fci_import_wizard_manager","FCI Import Wizard for Manager","model_l10n_br_fiscal_fci_import_wizard","l10n_br_fiscal.group_manager",1,1,1,1
