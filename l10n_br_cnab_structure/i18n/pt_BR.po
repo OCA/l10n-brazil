@@ -805,6 +805,19 @@ msgid ""
 "'batch_detail_lines' returns a list of batch detail records.'segment_code' "
 "returns the code of the segment defined in the header of the line."
 msgstr ""
+"Expressão em Python que define o valor final do conteúdo. Pode usar as "
+"palavras:\n"
+"\n"
+"'content' devolve o valor do campo de origem mapeado.\n"
+"'time' trata datas.\n"
+"'seq_batch' devolve a sequência do lote.\n"
+"'seq_record_detail' devolve a sequência do registro de detalhe no lote.\n"
+"'payment_way_code' devolve a forma de pagamento do lote\n"
+"'patment_type_code' devolve o tipo de pagamento do lote\n"
+"'qty_batches' devolve o número de lotes\n"
+"'qty_records' devolve o número de registros\n"
+"'batch_detail_lines' devolve a lista dos registros de detalhe do lote. "
+"'segment_code' devolve o código do segmento definido no cabeçalho da linha."
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_field_group__field_ids
@@ -1102,14 +1115,14 @@ msgstr "Linhas que compõem o CNAB."
 #: code:addons/l10n_br_cnab_structure/hooks.py:0
 #, python-format
 msgid "Loading l10n_br_cnab_structure data files."
-msgstr ""
+msgstr "Carregando os arquivos de dados do l10n_br_cnab_structure."
 
 #. module: l10n_br_cnab_structure
 #. odoo-python
 #: code:addons/l10n_br_cnab_structure/hooks.py:0
 #, python-format
 msgid "Loading l10n_br_cnab_structure demo files."
-msgstr ""
+msgstr "Carregando os arquivos de demonstração do l10n_br_cnab_structure."
 
 #. module: l10n_br_cnab_structure
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.l10n_br_cnab_return_event_form_view_structure
@@ -1326,7 +1339,7 @@ msgstr "Tipo de chave PIX"
 #. module: l10n_br_cnab_structure
 #: model:account.payment.mode,name:l10n_br_cnab_structure.payment_mode_sispag_pix_trasfer
 msgid "PIX Transferência - SISPAG Itaú"
-msgstr ""
+msgstr "PIX Transferência - SISPAG Itaú"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_field_select_wizard__parent_model_id
@@ -1681,7 +1694,7 @@ msgstr "Estrutura"
 #. module: l10n_br_cnab_structure
 #: model:account.payment.mode,name:l10n_br_cnab_structure.payment_mode_sispag_ted
 msgid "TED - SISPAG Itaú "
-msgstr ""
+msgstr "TED - SISPAG Itaú "
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_journal__tariff_charge_account_id
