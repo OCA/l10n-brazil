@@ -9,6 +9,7 @@ from . import (
     test_fiscal_tax,
     test_tax_classification,
     test_tax_benefit,
+    test_tax_icms_relief,
     test_document_edition,
     test_ibpt_product,
     test_ibpt_service,
