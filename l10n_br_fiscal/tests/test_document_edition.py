@@ -506,6 +506,19 @@ class TestDocumentEdition(TransactionCase):
         )
         self.assertEqual(doc.ind_final, "0")
 
+        # The rule is from the NF-e and NFC-e layouts: a service document
+        # keeps the partner value
+        doc = self._create_doc_ind_final(
+            partner, self.env.ref("l10n_br_fiscal.fo_venda")
+        )
+        self.assertEqual(doc.ind_final, "1")
+        doc.document_type_id = self.env.ref("l10n_br_fiscal.document_SE")
+        # changing the document type does not overwrite the current value
+        self.assertEqual(doc.ind_final, "1")
+        doc.write({"partner_id": foreign_partner.id})
+        doc.write({"partner_id": partner.id})
+        self.assertEqual(doc.ind_final, "0")
+
     def test_difal_calculation(self):
         partner = self.env.ref("l10n_br_base.res_partner_cliente5_pe")
         partner.ind_ie_dest = "9"
