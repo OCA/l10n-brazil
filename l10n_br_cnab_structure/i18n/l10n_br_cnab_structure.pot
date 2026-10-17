@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -16,7 +16,6 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/cnab_data_management.py:0
-#, python-format
 msgid ""
 "\n"
 "... and %d more errors."
@@ -402,10 +401,7 @@ msgid "Allowed in CNAB (OCA Processor)"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
-#. odoo-python
-#: code:addons/l10n_br_cnab_structure/models/cnab_line_field.py:0
 #: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_line_field__type__alpha
-#, python-format
 msgid "Alphanumeric"
 msgstr ""
 
@@ -488,7 +484,6 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/cnab_data_management.py:0
-#, python-format
 msgid "Backup for %s generated successfully."
 msgstr ""
 
@@ -596,7 +591,6 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/cnab_data_management.py:0
-#, python-format
 msgid "CNAB %(type)s - %(date)s"
 msgstr ""
 
@@ -831,8 +825,6 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/account_payment_line.py:0
-#: code:addons/l10n_br_cnab_structure/models/account_payment_line.py:0
-#, python-format
 msgid ""
 "CNAB payment way not found.\n"
 "Payment Mode: %(payment_mode)s\n"
@@ -857,7 +849,6 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/cnab_data_management.py:0
-#, python-format
 msgid "CSV file appears to be empty or malformed."
 msgstr ""
 
@@ -876,7 +867,6 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/cnab_data_management.py:0
-#, python-format
 msgid "Cannot process a locked operation. Create a new one."
 msgstr ""
 
@@ -895,7 +885,6 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/cnab_line_field.py:0
-#, python-format
 msgid "Change Dot Notation Field"
 msgstr ""
 
@@ -1051,7 +1040,6 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/cnab_data_management.py:0
-#, python-format
 msgid "Complete backup generated successfully."
 msgstr ""
 
@@ -1144,7 +1132,6 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/cnab_data_management.py:0
-#, python-format
 msgid ""
 "Could not detect the target model from the filename. Please ensure the "
 "filename matches a valid CNAB model."
@@ -1354,7 +1341,6 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/cnab_data_management.py:0
-#, python-format
 msgid ""
 "Errors occurred during import:\n"
 "%s"
@@ -1457,7 +1443,6 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #. odoo-python
 #: code:addons/l10n_br_cnab_structure/wizard/field_select_wizard.py:0
-#, python-format
 msgid ""
 "For the return it is not allowed to map sub-fields in more than one level."
 msgstr ""
@@ -1671,22 +1656,8 @@ msgid "Journal used for import CNAB"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_data_management____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_field_group____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_group_field_condition____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_occurrence____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_payment_way____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_key_type____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_transfer_type____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_preview_wizard____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_field_select_wizard____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_batch____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_payment_rule____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure____last_update
-msgid "Last Modified on"
+#: model:account.account,name:l10n_br_cnab_structure.1_account_template_511601_avoid_travis_error
+msgid "Juros Passivos"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
@@ -1773,11 +1744,6 @@ msgid "Main"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_data_management__message_main_attachment_id
-msgid "Main Attachment"
-msgstr ""
-
-#. module: l10n_br_cnab_structure
 #: model_terms:ir.actions.act_window,help:l10n_br_cnab_structure.action_cnab_data_management
 msgid ""
 "Manage CNAB data operations including backups, restores, and system upgrades.\n"
@@ -1797,7 +1763,6 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/account_payment_line.py:0
-#, python-format
 msgid "Mapping for batch template not found"
 msgstr ""
 
@@ -1889,7 +1854,6 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/cnab_data_management.py:0
-#, python-format
 msgid "New CNAB Operation"
 msgstr ""
 
@@ -1926,7 +1890,6 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/cnab_data_management.py:0
-#, python-format
 msgid "No records found to backup for model %s."
 msgstr ""
 
@@ -1971,10 +1934,7 @@ msgid "Number of messages with delivery error"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
-#. odoo-python
-#: code:addons/l10n_br_cnab_structure/models/cnab_line_field.py:0
 #: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_line_field__type__num
-#, python-format
 msgid "Numeric"
 msgstr ""
 
@@ -2016,7 +1976,6 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/cnab_data_management.py:0
-#, python-format
 msgid "Only completed or error operations can be locked."
 msgstr ""
 
@@ -2034,7 +1993,6 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/cnab_data_management.py:0
-#, python-format
 msgid "Only system administrators can reset operations to draft."
 msgstr ""
 
@@ -2062,7 +2020,6 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/cnab_data_management.py:0
-#, python-format
 msgid "Operation completed successfully."
 msgstr ""
 
@@ -2125,6 +2082,11 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.journal_cnab_import_view_form
 msgid "Outgoing Payments"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:account.account,name:l10n_br_cnab_structure.1_account_template_616102_avoid_travis_error
+msgid "Outras Receitas"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
@@ -2286,14 +2248,12 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/cnab_data_management.py:0
-#, python-format
 msgid "Please select a Target Model or choose 'Complete Backup'."
 msgstr ""
 
 #. module: l10n_br_cnab_structure
 #. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/cnab_data_management.py:0
-#, python-format
 msgid "Please upload a CSV file to restore."
 msgstr ""
 
@@ -2480,6 +2440,11 @@ msgid "Same Bank"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
+#: model:account.journal,name:l10n_br_cnab_structure.santander_journal
+msgid "Santander - Pagamentos"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
 #: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__cnab_pix_transfer_type__type_domain__saving
 msgid "Saving Account (Conta Poupança)"
 msgstr ""
@@ -2609,7 +2574,6 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/cnab_data_management.py:0
-#, python-format
 msgid "Successfully restored %(count)d records to %(model)s."
 msgstr ""
 
@@ -2784,7 +2748,6 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/cnab_data_management.py:0
-#, python-format
 msgid "Upgrade executed successfully. %d files reloaded."
 msgstr ""
 
@@ -2841,42 +2804,36 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/l10n_br_cnab_return_log.py:0
-#, python-format
 msgid "You cannot delete Return Log in confirmed state."
 msgstr ""
 
 #. module: l10n_br_cnab_structure
 #. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/cnab_batch.py:0
-#, python-format
 msgid "You cannot delete an CNAB Batch which is not draft !"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
 #. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/cnab_line_field.py:0
-#, python-format
 msgid "You cannot delete an CNAB Field which is not draft !"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
 #. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/cnab_line.py:0
-#, python-format
 msgid "You cannot delete an CNAB Line which is not draft !"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
 #. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/cnab_structure.py:0
-#, python-format
 msgid "You cannot delete an CNAB Structure which is not draft !"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
 #. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/cnab_data_management.py:0
-#, python-format
 msgid ""
 "You cannot modify a locked operation. Please contact a system administrator."
 msgstr ""
