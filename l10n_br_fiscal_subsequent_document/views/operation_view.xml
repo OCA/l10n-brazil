@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="operation_form" model="ir.ui.view">
-        <field name="inherit_id" ref="l10n_br_fiscal.operation_form" />
+        <field name="name">l10n_br_fiscal.operation.form (subsequent)</field>
         <field name="model">l10n_br_fiscal.operation</field>
-        <page name="operation_document_type" position="after">
-            <page name="subsequent_operation" string="Operations">
-                <group>
-                    <field name="return_fiscal_operation_id" />
-                    <field name="inverse_fiscal_operation_id" />
-                </group>
-                <field name="operation_subsequent_ids" />
+        <field name="inherit_id" ref="l10n_br_fiscal.operation_form" />
+        <field name="arch" type="xml">
+            <page name="operation_document_type" position="after">
+                <page name="subsequent_operation" string="Subsequent Operations">
+                    <field name="operation_subsequent_ids">
+                        <tree editable="bottom">
+                            <field name="sequence" widget="handle" />
+                            <field name="subsequent_operation_id" />
+                            <field name="generation_situation" />
+                            <field name="operation_document_type_id" />
+                            <field name="reference_document" />
+                            <field name="partner_id" />
+                        </tree>
+                    </field>
+                </page>
             </page>
-        </page>
+        </field>
     </record>
 </odoo>
