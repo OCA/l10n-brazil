@@ -216,6 +216,21 @@ class TestNFCe(TestNFeExport):
         self.assertEqual(payment["method"], "01 - Dinheiro")
         self.assertEqual(payment["value"], 320)
 
+    def test_nfce_dest_identified_by_document_only(self):
+        """The NFC-e consumer goes by CNPJ or CPF, without punctuation, address
+        or name, and the first item carries the homologation notice."""
+        nfe = self.document_id._serialize([])[0]
+
+        dest = nfe.infNFe.dest
+        self.assertEqual(dest.CNPJ, "81493979000189")
+        self.assertIsNone(dest.CPF)
+        self.assertIsNone(dest.enderDest)
+        self.assertIsNone(dest.xNome)
+        self.assertEqual(
+            nfe.infNFe.det[0].prod.xProd,
+            "NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL",
+        )
+
     def test_compute_fiscal_document_fields(self):
         self.document_id.partner_id.is_anonymous_consumer = True
         self.document_id.partner_id.cnpj_cpf = False
