@@ -183,7 +183,65 @@ class AccountMoveLine(models.Model):
         sorted_result = self.env["account.move.line"]
         for idx in inverted_index:
             sorted_result |= result[idx]
+
+        # The marking has to happen here, inside create: account.move.create
+        # keeps _sync_dynamic_lines open around it and runs line_ids._sync_invoice
+        # again afterwards, which is the pass that reads the recomputed fiscal
+        # amounts. Moving this call out of the create window silently brings the
+        # unbalanced entry back.
+        sorted_result._mark_stale_fiscal_taxes_for_recompute()
         return sorted_result
+
+    def _lines_from_source_document(self):
+        """Lines whose values were copied from another document.
+
+        The link fields are added by the sale and purchase modules, which
+        l10n_br_account does not depend on, so they are looked up dynamically:
+        the same invoice line may carry either, or neither when it was typed
+        in by hand.
+        """
+        link_fields = [
+            name
+            for name in ("purchase_line_id", "sale_line_ids")
+            if name in self._fields
+        ]
+        if not link_fields:
+            return self.browse()
+        return self.filtered(lambda line: any(line[name] for name in link_fields))
+
+    def _mark_stale_fiscal_taxes_for_recompute(self):
+        """Put the tax fields back in the compute queue for these lines.
+
+        The tax fields of the fiscal document line are stored compute fields
+        with readonly=False. When the invoice is built from another document
+        (sale order, purchase order, receipt) they arrive already written, and
+        the ORM keeps the explicit value and skips the compute even though
+        `quantity` is in their `depends`. If the invoiced quantity differs from
+        the one they were calculated on - the usual partial receipt or partial
+        invoicing - the fiscal amounts stay on the old quantity while
+        _compute_all_tax builds the journal entry tax lines from the real one.
+        The two sides stop adding up and _check_balanced rejects the invoice.
+
+        Marking the delegated fiscal document line as modified puts those
+        fields back in the compute queue, so both sides end up reading values
+        calculated on the same quantity. It is idempotent: for an invoice that
+        was already consistent the recompute gives the same values back.
+        """
+        stale = self.filtered(
+            lambda line: line.display_type == "product"
+            # Refunds keep the values of the document being reversed, and a
+            # fiscal document coming from an XML must keep the imported ones.
+            and line.move_id.move_type in ("in_invoice", "out_invoice")
+            and line.move_id.fiscal_operation_id
+            and line.fiscal_document_line_id
+            and not line.fiscal_document_line_id._is_imported()
+        )._lines_from_source_document()
+        if stale:
+            # Only `quantity` is declared: by transitivity it already puts
+            # fiscal_quantity and the whole _compute_tax_fields group back in
+            # the queue, while leaving fiscal_price alone - the picking wizard
+            # sets it explicitly and it must not be re-derived from price_unit.
+            stale.fiscal_document_line_id.modified(["quantity"])
 
     def unlink(self):
         unlink_fiscal_lines = self.env["l10n_br_fiscal.document.line"]
