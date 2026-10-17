@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="res_company_form" model="ir.ui.view">
+        <field name="name">res.company.form (in l10n_br_nfse_notacontrol)</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="l10n_br_nfse.nfse_res_company_form" />
+        <field name="arch" type="xml">
+            <group name="city_specific_nfse_settings" position="inside">
+                <field name="nfse_notacontrol" />
+                <field
+                    name="nfse_notacontrol_algorithm"
+                    attrs="{'invisible': [('nfse_notacontrol', '=', False)]}"
+                />
+                <field
+                    name="nfse_notacontrol_simulated"
+                    attrs="{'invisible': [('nfse_notacontrol', '=', False)]}"
+                />
+            </group>
+        </field>
+    </record>
+</odoo>
