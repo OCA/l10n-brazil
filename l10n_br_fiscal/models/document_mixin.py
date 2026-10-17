@@ -243,15 +243,10 @@ class FiscalDocumentMixin(models.AbstractModel):
             partner.ind_ie_dest == NFE_IND_IE_DEST_9
             and self.fiscal_operation_type == FISCAL_OUT
             and partner.country_id == self.company_id.country_id
+            and self.document_type_id.type != "service"
         )
 
-    @api.depends(
-        "partner_id.country_id",
-        "partner_id.ind_final",
-        "partner_id.ind_ie_dest",
-        "company_id.country_id",
-        "fiscal_operation_id",
-    )
+    @api.depends("partner_id")
     def _compute_ind_final(self):
         for doc in self:
             partner = doc._get_fiscal_partner()
