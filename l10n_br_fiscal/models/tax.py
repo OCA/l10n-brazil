@@ -25,9 +25,8 @@ from ..constants.icms import (
     ICMS_BASE_TYPE,
     ICMS_BASE_TYPE_DEFAULT,
     ICMS_CST_RELIEF,
-    ICMS_DIFAL_DOUBLE_BASE,
+    ICMS_DIFAL_INSIDE_BASE,
     ICMS_DIFAL_PARTITION,
-    ICMS_DIFAL_UNIQUE_BASE,
     ICMS_ORIGIN_TAX_IMPORTED,
     ICMS_SN_CST_WITH_CREDIT,
     ICMS_ST_BASE_TYPE,
@@ -482,9 +481,6 @@ class Tax(models.Model):
             # Difal - Origin Percent
             icms_origin_perc = tax_dict.get("percent_amount")
 
-            # Difal - Origin Value
-            icms_origin_value = tax_dict.get("tax_value")
-
             # Difal - Destination Percent
             icms_dest_perc = 0.00
             if icms_tax_difal:
@@ -495,27 +491,18 @@ class Tax(models.Model):
             icmsfcp_tax = self.filtered(lambda t: t.tax_domain == TAX_DOMAIN_ICMS_FCP)
             icmsfcp_perc = icmsfcp_tax[:1].percent_amount
 
-            # Difal - Base
-            icms_base = tax_dict.get("base")
-            difal_icms_base = 0.00
-
-            # Difal - ICMS Dest Value
-            icms_dest_value = currency.round(icms_base * (icms_dest_perc / 100))
-
-            if partner.state_id.code in ICMS_DIFAL_UNIQUE_BASE:
-                difal_icms_base = icms_base
-
-            if partner.state_id.code in ICMS_DIFAL_DOUBLE_BASE:
+            # Difal - Base: the same single base for origin and destination
+            # (LC 87/1996, art. 13, X), grossed up in some states (par. 7)
+            difal_icms_base = tax_dict.get("base")
+            if partner.state_id.code in ICMS_DIFAL_INSIDE_BASE:
                 difal_icms_base = currency.round(
-                    (icms_base - icms_origin_value)
-                    / (1 - ((icms_dest_perc + icmsfcp_perc) / 100))
+                    difal_icms_base / (1 - ((icms_dest_perc + icmsfcp_perc) / 100))
                 )
 
-                icms_dest_value = currency.round(
-                    difal_icms_base * (icms_dest_perc / 100)
-                )
-
-            difal_value = icms_dest_value - icms_origin_value
+            # Difal - Value (Conv. ICMS 236/2021, cl. 2, par. 1)
+            difal_value = currency.round(
+                difal_icms_base * ((icms_dest_perc - icms_origin_perc) / 100)
+            )
 
             # Difal - Sharing Percent
             date_year = fields.Date.today().year
