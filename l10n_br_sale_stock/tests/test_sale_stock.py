@@ -4,6 +4,7 @@
 
 from odoo import Command, exceptions
 from odoo.tests import Form, tagged
+from odoo.tools import float_compare
 
 from odoo.addons.l10n_br_sale.hooks import sale_set_journal_in_fiscal_operation
 from odoo.addons.l10n_br_stock_account.tests.common import TestBrPickingInvoicingCommon
@@ -27,6 +28,25 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
 
         # TODO: O hook deveria funcionar?
         sale_set_journal_in_fiscal_operation(cls.cr)
+
+    def _assert_field_transferred(self, src, dst, field, direction):
+        """Compara um campo transferido entre dois modelos.
+
+        Os valores fiscais são recomputados em cada modelo, então dois floats
+        podem diferir no último bit binário sem nenhum erro real. A comparação
+        certa para valor fiscal é na precisão de 2 casas (float_compare): pega
+        qualquer divergência de um centavo ou de 0,01 p.p. para cima e ignora
+        ruído de representação.
+        """
+        src_value = src[field]
+        dst_value = dst[field]
+        msg = f"Field {field} failed to transfer from {direction}"
+        if isinstance(src_value, float):
+            self.assertEqual(
+                float_compare(dst_value, src_value, precision_digits=2), 0, msg
+            )
+        else:
+            self.assertEqual(dst_value, src_value, msg)
 
     def test_02_sale_stock_return(self):
         """
@@ -83,21 +103,9 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         common_fields = list(set(sm_fields) & set(sol_fields) - set(skipped_fields))
 
         for field in common_fields:
-            if isinstance(stock_move[field], float):
-                self.assertAlmostEqual(
-                    stock_move[field],
-                    sale_order_line[field],
-                    2,
-                    "Field %s failed to transfer from "
-                    "sale.order.line to stock.move" % field,
-                )
-            else:
-                self.assertEqual(
-                    stock_move[field],
-                    sale_order_line[field],
-                    "Field %s failed to transfer from "
-                    "sale.order.line to stock.move" % field,
-                )
+            self._assert_field_transferred(
+                sale_order_line, stock_move, field, "sale.order.line to stock.move"
+            )
 
         self.env["stock.immediate.transfer"].create(
             {"pick_ids": [Command.link(stock_picking.id)]}
@@ -127,21 +135,9 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         common_fields = list(set(sm_fields) & set(sol_fields) - set(skipped_fields))
 
         for field in common_fields:
-            if isinstance(stock_move[field], float):
-                self.assertAlmostEqual(
-                    stock_move[field],
-                    sale_order_line[field],
-                    2,
-                    "Field %s failed to transfer from "
-                    "sale.order.line to stock.move" % field,
-                )
-            else:
-                self.assertEqual(
-                    stock_move[field],
-                    sale_order_line[field],
-                    "Field %s failed to transfer from "
-                    "sale.order.line to stock.move" % field,
-                )
+            self._assert_field_transferred(
+                sale_order_line, stock_move, field, "sale.order.line to stock.move"
+            )
 
     def test_picking_sale_order_product_and_service(self):
         """
@@ -248,21 +244,12 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
             line.save()
 
         for field in common_fields:
-            if isinstance(sale_order_line[field], float):
-                self.assertAlmostEqual(
-                    sale_order_line[field],
-                    invoice_lines[field],
-                    2,
-                    "Field %s failed to transfer from "
-                    "sale.order.line to account.move.line" % field,
-                )
-            else:
-                self.assertEqual(
-                    sale_order_line[field],
-                    invoice_lines[field],
-                    "Field %s failed to transfer from "
-                    "sale.order.line to account.move.line" % field,
-                )
+            self._assert_field_transferred(
+                sale_order_line,
+                invoice_lines,
+                field,
+                "sale.order.line to account.move.line",
+            )
 
         for inv_line in invoice_lines.filtered(
             lambda ln: ln.product_id == sale_order_line.product_id
