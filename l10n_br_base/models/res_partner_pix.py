@@ -142,8 +142,15 @@ class PartnerPix(models.Model):
         return super().create(vals_list)
 
     def write(self, vals):
-        self.check_vals(vals)
-        return super().write(vals)
+        if "key" not in vals and "key_type" not in vals:
+            return super().write(vals)
+        # the key is validated and normalized according to the type of each
+        # record (check_vals reads it from the record when not in vals)
+        for pix in self:
+            pix_vals = dict(vals)
+            pix.check_vals(pix_vals)
+            super(PartnerPix, pix).write(pix_vals)
+        return True
 
     def check_vals(self, vals):
         key_type = vals.get("key_type") or self.key_type

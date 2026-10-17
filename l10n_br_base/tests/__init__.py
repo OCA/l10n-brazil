@@ -7,3 +7,5 @@ from . import test_partner_bank
 from . import test_cnpj_alfanumerico
 from . import test_duplicate_cnpj
 from . import test_vat_search
+from . import test_res_partner
+from . import test_res_company

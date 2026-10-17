@@ -129,15 +129,13 @@ class ValidCreateIdTest(TransactionCase):
 
     def test_comp_valid(self):
         """Try do create id with correct CNPJ and correct Inscricao Estadual"""
-        try:
-            company = (
-                self.env["res.company"]
-                .with_context(tracking_disable=True)
-                .create(self.company_valid)
-            )
-        except Exception:
-            assert company, "Error when using .create() even with valid \
-                             and Inscricao Estadual"
+        company = (
+            self.env["res.company"]
+            .with_context(tracking_disable=True)
+            .create(self.company_valid)
+        )
+        self.assertEqual(company.vat, "02960895000131")
+        self.assertEqual(company.l10n_br_ie_code, "081.981.37-6")
 
     def test_comp_invalid_cnpj(self):
         """Test if ValidationError raised during .create() with invalid CNPJ
@@ -159,15 +157,13 @@ class ValidCreateIdTest(TransactionCase):
 
     def test_part_valid(self):
         """Try do create id with correct CPF and correct Inscricao Estadual"""
-        try:
-            partner = (
-                self.env["res.partner"]
-                .with_context(tracking_disable=True)
-                .create(self.partner_valid)
-            )
-        except Exception:
-            assert partner, "Error when using .create() even with valid CPF \
-                         and Inscricao Estadual"
+        partner = (
+            self.env["res.partner"]
+            .with_context(tracking_disable=True)
+            .create(self.partner_valid)
+        )
+        self.assertEqual(partner.vat, "73441962206")
+        self.assertEqual(partner.l10n_br_ie_code, "176.754.07-5")
 
     def test_part_invalid_cpf(self):
         """Test if ValidationError raised during .create() with invalid CPF
