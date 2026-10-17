@@ -85,3 +85,7 @@ FISCAL_PAYMENT_MODE = [
     ("90", "90 - Sem Pagamento"),
     ("99", "99 - Outros"),
 ]
+
+# indPres where indIntermed is mandatory (NT 2020.006, rule B25c-10). indPres 1
+# informs it only with an intermediary (item 2.4), 0 and 5 never (B25c-20).
+IND_PRES_NON_PRESENTIAL = ("2", "3", "4", "9")
