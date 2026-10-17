@@ -105,6 +105,7 @@ class PurchaseBlanketOrderLine(models.Model):
                 "_compute_tax_fields",
                 "_compute_fiscal_operation_line_id",
                 "_compute_comment_ids",
+                "_compute_uot_id",
             ) and getattr(mixin_field, "precompute", False):
                 field.precompute = False
         return res
