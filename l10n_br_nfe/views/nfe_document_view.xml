@@ -111,7 +111,7 @@
             >
                 <attribute
                     name="invisible"
-                >state_edoc != 'autorizada' or imported_document</attribute>
+                >state_edoc != 'autorizada' or imported_document or document_type == '65'</attribute>
             </xpath>
             <xpath
                 expr="//header/button[@name='action_create_return']"
