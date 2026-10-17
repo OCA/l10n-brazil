@@ -355,6 +355,16 @@ class NFeLine(spec_models.StackedModel):
 
     nfe40_vTotTrib = fields.Monetary(related="estimate_tax")
 
+    def _nfe40_has_ICMSUFDest(self):
+        """Interstate sale to a non-taxpayer: the item carries ICMSUFDest."""
+        self.ensure_one()
+        return (
+            self.icms_value > 0
+            and self.partner_id.ind_ie_dest == "9"
+            and self.partner_id.state_id != self.company_id.state_id
+            and self.partner_id.country_id == self.company_id.country_id
+        )
+
     def _export_fields_nfe_40_imposto(self, xsd_fields, class_obj, export_dict):
         if self.nfe40_choice_imposto == "nfe40_ICMS":
             xsd_fields.remove("nfe40_ISSQN")
@@ -362,13 +372,7 @@ class NFeLine(spec_models.StackedModel):
             xsd_fields.remove("nfe40_ICMS")
             xsd_fields.remove("nfe40_II")
 
-        if (
-            not self.icms_value
-            or self.icms_value <= 0
-            or self.partner_id.ind_ie_dest != "9"
-            or self.partner_id.state_id == self.company_id.state_id
-            or self.partner_id.country_id != self.company_id.country_id
-        ):
+        if not self._nfe40_has_ICMSUFDest():
             xsd_fields.remove("nfe40_ICMSUFDest")
 
         if not self.pisst_value or self.pisst_value <= 0:
