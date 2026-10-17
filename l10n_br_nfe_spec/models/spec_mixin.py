@@ -10,6 +10,18 @@ class NfeSpecMixin(models.AbstractModel):
     _nfe40_odoo_module = "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00"
     _nfe40_binding_module = "nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00"
 
+    #: Additional m2o search keys (and extra domain) per comodel used when
+    #: matching existing records during NF-e imports, so per-comodel override
+    #: files (res_city.py, res_country_state.py, cest.py, tax_ipi_guideline.py)
+    #: are not needed.
+    _nfe_m2o_search_keys = {
+        "res.city": ["ibge_code"],
+        "res.country.state": ["ibge_code", "code"],
+        "l10n_br_fiscal.cest": ["code_unmasked"],
+        "l10n_br_fiscal.tax.ipi.guideline": ["code_unmasked"],
+    }
+    _nfe_m2o_extra_domain = {"res.country.state": [("ibge_code", "!=", False)]}
+
     brl_currency_id = fields.Many2one(
         comodel_name="res.currency",
         string="Moeda",
