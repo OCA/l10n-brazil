@@ -6605,6 +6605,15 @@ msgid "Operation Line"
 msgstr "Linha de Operação"
 
 #. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/operation_line.py:0
+msgid ""
+"Operation Line %(line)s: Wildcard Tax Definitions (without NCM, CEST, NBM, "
+"or Taxation Code restrictions) must have at least one Product. Missing on: %"
+"(tax_definitions)s"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__line_inverse_id
 msgid "Operation Line Inverse"
 msgstr "Linha de Operação Inverso"
@@ -7676,6 +7685,11 @@ msgstr "Produts Relacionados"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__base_without_icms
 msgid "Remove ICMS value from Base"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__require_product_on_tax_definition
+msgid "Require Product on Tax Definition"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -9301,6 +9315,16 @@ msgstr "Mensagens do Website"
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__website_message_ids
 msgid "Website communication history"
 msgstr "Histórico de comunicação do website"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__require_product_on_tax_definition
+msgid ""
+"When enabled, every wildcard Tax Definition (without NCM, CEST, NBM, City/"
+"National Taxation Code, or Service Type restrictions) linked to this "
+"Operation Line must have at least one Product before the line can be "
+"approved. This validation runs only when the line is set to approved state; "
+"changes to Tax Definitions after approval are not verified."
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_indicator_form
