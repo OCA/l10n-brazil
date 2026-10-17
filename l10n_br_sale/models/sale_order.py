@@ -26,6 +26,10 @@ class SaleOrder(models.Model):
             order.amount_total = sum(lines.mapped("fiscal_amount_total"))
         return result
 
+    _popup_button_xpaths = [
+        ("//field[@name='order_line']/list/field[@name='product_id']", "before"),
+    ]
+
     @api.model
     def _default_fiscal_operation(self):
         return self.env.company.sale_fiscal_operation_id
@@ -85,20 +89,24 @@ class SaleOrder(models.Model):
         arch, view = super()._get_view(view_id, view_type, **options)
         if self.env.company.country_id.code != "BR":
             return arch, view
-        if view_type == "form" and self.env.company.country_id.code == "BR":
+        if view_type == "form":
             arch = self.env["sale.order.line"].inject_fiscal_fields(arch)
         for tax_totals_node in arch.xpath(
             "//field[@name='tax_totals'][@widget='account-tax-totals-field']"
         ):
             tax_totals_node.set("invisible", "1")
 
-        if view_type == "form" and (
-            self.env.user.has_group("l10n_br_sale.group_line_fiscal_detail")
-            or self.env.context.get("force_line_fiscal_detail_edition")
-        ):
-            for sub_tree_node in arch.xpath("//field[@name='order_line']/tree"):
-                sub_tree_node.attrib["editable"] = ""
-
+        if view_type == "form":
+            if self.env.user.has_group(
+                "l10n_br_sale.group_line_fiscal_detail"
+            ) or self.env.context.get("force_line_fiscal_detail_edition"):
+                for sub_tree_node in arch.xpath("//field[@name='order_line']/list"):
+                    sub_tree_node.attrib["editable"] = ""
+            elif "web_list_record_popup.mixin" in self.env:
+                arch = self.env["web_list_record_popup.mixin"]._inject_popup_buttons(
+                    arch,
+                    self._popup_button_xpaths,
+                )
         return arch, view
 
     @api.onchange("fiscal_operation_id")
