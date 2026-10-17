@@ -1033,6 +1033,8 @@ class NFe(spec_models.StackedModel):
             company_vat = self.env.company.vat.translate(
                 str.maketrans("", "", string.punctuation)
             )
+            # a foreign recipient (export) only has idEstrangeiro
+            dest_vat = False
             if new_value.get("nfe40_CNPJ"):
                 dest_vat = new_value.get("nfe40_CNPJ").translate(
                     str.maketrans("", "", string.punctuation)
@@ -1044,7 +1046,8 @@ class NFe(spec_models.StackedModel):
             if company_vat != dest_vat:
                 vals["issuer"] = "partner"
             new_value["is_company"] = True
-            new_value["vat"] = dest_vat
+            if dest_vat:
+                new_value["vat"] = dest_vat
             super()._build_many2one(
                 self.env["res.partner"], vals, new_value, "partner_id", value, path
             )
