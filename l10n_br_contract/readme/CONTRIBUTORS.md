@@ -1,0 +1,7 @@
+- [KMEE](https://www.kmee.com.br):
+  - Luis Otavio Malta Conceição \<luis.malta@kmee.com.br\>
+  - Gabriel Cardoso de Faria \<gabriel.cardoso@kmee.com.br\>
+- [Akretion](https://akretion.com/pt-BR):
+  - Renato Lima \<renato.lima@akretion.com.br\>
+- [Escodoo](https://www.escodoo.com.br):
+  - Marcel Savegnago \<marcel.savegnago@escodoo.com.br\>
