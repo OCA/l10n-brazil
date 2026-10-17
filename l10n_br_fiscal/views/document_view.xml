@@ -204,6 +204,14 @@
                                 options="{'no_create': True, 'no_create_edit': True}"
                             />
                             <field name="edoc_purpose" />
+                            <field
+                                name="edoc_refund_credit_type"
+                                attrs="{'invisible': [('edoc_purpose', '!=', '5')], 'required': [('edoc_purpose', '=', '5')]}"
+                            />
+                            <field
+                                name="edoc_refund_debit_type"
+                                attrs="{'invisible': [('edoc_purpose', '!=', '6')], 'required': [('edoc_purpose', '=', '6')]}"
+                            />
                             <field name="ind_final" />
                             <field name="ind_pres" />
                         </group>
