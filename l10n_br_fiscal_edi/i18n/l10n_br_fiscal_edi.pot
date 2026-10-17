@@ -543,6 +543,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document__issuer
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
 msgid "Issuer"
 msgstr ""
 
@@ -866,4 +867,117 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__display_name
 msgid "name"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "(Electronic Correction Letter)"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Access key"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Barcode"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "CNPJ/CPF:"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Conditions of use"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Corrections to be considered"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Created on:"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Event ID:"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Graphic representation of the CC-e"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Issue date:"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Model:"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "NF-e"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "NO FISCAL VALUE"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Number:"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Protocol:"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Recipient"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Registered at:"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Sequence:"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Series:"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "State registration:"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid "Status:"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event_cce
+msgid ""
+"This document is a graphic representation of the CC-e, printed only for "
+"information, and has no fiscal validity. The CC-e must be received and kept "
+"as an XML file and can be consulted on the SEFAZ portals."
 msgstr ""
