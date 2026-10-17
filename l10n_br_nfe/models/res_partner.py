@@ -330,6 +330,16 @@ class ResPartner(spec_models.SpecModel):
         ):
             return "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL"
 
+        if xsd_field == "nfe40_xNome":
+            # dest, entrega, retirada and transporta: the NF-e schema limits
+            # xNome to 60 characters (TString 2-60)
+            x_nome = super()._export_field(
+                xsd_field, class_obj, member_spec, export_value
+            )
+            if isinstance(x_nome, str):
+                x_nome = x_nome[:60].strip()
+            return x_nome
+
         if xsd_field in ("nfe40_CNPJ", "nfe40_CPF"):
             # Caso o CNPJ/CPF esteja em branco e o parceiro tenha um parent_id
             # É exportado o CNPJ/CPF do parent_id é importate para o endereço
