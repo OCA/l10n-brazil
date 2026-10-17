@@ -109,6 +109,12 @@ class ResCompany(models.Model):
             return MockDfeClient(self)
         return super()._dfe_get_processor(fiscal_type)
 
+    def action_document_distribution(self, fiscal_type):
+        self.ensure_one()
+        if self.dfe_mock_mode and fiscal_type == "nfe":
+            self._dfe_write_typed(fiscal_type, {"dfe_next_query": False})
+        return super().action_document_distribution(fiscal_type)
+
     def _dfe_mock_build_response(self, **kwargs):
         MockNsu = self.env["dfe.mock.nsu"].sudo()
         ultimo_nsu = kwargs.get("ultimo_nsu", "000000000000000")
