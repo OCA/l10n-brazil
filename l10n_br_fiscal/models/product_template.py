@@ -1,7 +1,7 @@
 # Copyright (C) 2013  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 from ..constants.fiscal import (
     NCM_FOR_SERVICE_REF,
@@ -28,6 +28,11 @@ class ProductTemplate(models.Model):
             # company_dependent fields are not copied by default by the ORM
             vals.setdefault("fiscal_type", template.fiscal_type)
         return vals_list
+
+    @api.depends("nbs_id")
+    def _compute_operation_indicator_id(self):
+        for product in self:
+            product.operation_indicator_id = product.nbs_id.operation_indicator_id
 
     fiscal_type = fields.Selection(
         selection=PRODUCT_FISCAL_TYPE,
@@ -108,6 +113,12 @@ class ProductTemplate(models.Model):
 
     operation_indicator_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation.indicator",
+        compute="_compute_operation_indicator_id",
+        store=True,
+        readonly=False,
+        precompute=True,
+        help="Defaults from the NBS' Operation Indicator when the NBS is "
+        "set. Can still be selected manually when the NBS has none.",
     )
 
     cest_id = fields.Many2one(
