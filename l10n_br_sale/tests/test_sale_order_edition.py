@@ -1,7 +1,7 @@
 # Copyright (C) 2026 - TODAY Akretion
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo.tests import Form, TransactionCase, tagged
+from odoo.tests import Form, TransactionCase, new_test_user, tagged, users
 
 from odoo.addons.l10n_br_fiscal.tests.tools import load_fiscal_fixture_files
 
@@ -38,6 +38,12 @@ class TestSaleOrderEdition(TransactionCase):
         cls.product = cls.env.ref("product.product_product_27")
         cls.fiscal_operation = cls.env.ref("l10n_br_fiscal.fo_venda")
         cls.fiscal_operation_line = cls.env.ref("l10n_br_fiscal.fo_venda_venda")
+        new_test_user(
+            cls.env,
+            login="l10n_br_sale_salesman",
+            groups="sales_team.group_sale_salesman",
+            company_id=cls.company.id,
+        )
         # Ensure the company has a warehouse when stock is installed.
         if "stock.warehouse" in cls.env:
             if not cls.env["stock.warehouse"].search(
@@ -209,3 +215,7 @@ class TestSaleOrderEdition(TransactionCase):
             msg="Widget total should match the stored total after edition.",
         )
         self._assert_widget_icms_matches_line(sale_order)
+
+    @users("l10n_br_sale_salesman")
+    def test_fiscal_sale_order_tax_totals_on_edition_salesman(self):
+        self.test_fiscal_sale_order_tax_totals_on_edition()
