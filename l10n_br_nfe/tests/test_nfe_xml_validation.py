@@ -50,6 +50,29 @@ class TestXMLValidation(TransactionCase):
         self.assertTrue("CEP" in document.xml_error_message)
         self.assertEqual(document.state_edoc, SITUACAO_EDOC_A_ENVIAR)
 
+    def test_xml_nfe_natop_max_length(self):
+        """The NF-e schema limits natOp to 60 characters, so a longer fiscal
+        operation name must be cut when the document is exported."""
+        company_id = self.env.ref("l10n_br_base.empresa_lucro_presumido")
+        self.env.user.company_ids += company_id
+        self.env.user.company_id = company_id
+        fiscal_operation = self.env.ref("l10n_br_fiscal.fo_venda")
+        long_name = "Retorno de mercadoria ou bem remetido para conserto ou reparo"
+        fiscal_operation.name = long_name
+        document = self.env["l10n_br_fiscal.document"].create(
+            {
+                "partner_id": self.env.ref("l10n_br_base.res_partner_cliente7_rs").id,
+                "document_type_id": self.env.ref("l10n_br_fiscal.document_55").id,
+                "fiscal_operation_id": fiscal_operation.id,
+            }
+        )
+        self.assertEqual(document.nfe40_natOp, long_name)
+        ide = document._build_binding(
+            spec_schema="nfe", spec_version="40", class_name="nfe.40.ide"
+        )
+        self.assertEqual(ide.natOp, long_name[:60])
+        self.assertEqual(len(ide.natOp), 60)
+
     def test_xml_nfe_taxes(self):
         """This method tests multiple tax fields for NFe lines and NFe totals.
         warning: failures in this method could indicate errors in fiscal or account
