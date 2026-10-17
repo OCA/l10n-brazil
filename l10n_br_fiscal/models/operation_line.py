@@ -2,7 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 from ..constants.fiscal import (
     CFOP_DESTINATION_EXPORT,
@@ -40,6 +40,18 @@ class OperationLine(models.Model):
     name = fields.Char(required=True)
 
     document_type_id = fields.Many2one(comodel_name="l10n_br_fiscal.document.type")
+
+    require_product_on_tax_definition = fields.Boolean(
+        string="Require Product on Tax Definition",
+        help=(
+            "When enabled, every wildcard Tax Definition (without NCM, CEST, "
+            "NBM, City/National Taxation Code, or Service Type restrictions) "
+            "linked to this Operation Line must have at least one Product "
+            "before the line can be approved. This validation runs only when "
+            "the line is set to approved state; changes to Tax Definitions "
+            "after approval are not verified."
+        ),
+    )
 
     tax_classification_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.classification",
@@ -439,6 +451,39 @@ class OperationLine(models.Model):
 
     def action_review(self):
         self.write({"state": "review"})
+
+    @api.constrains("state", "tax_definition_ids", "require_product_on_tax_definition")
+    def _check_tax_definition_products(self):
+        for line in self.filtered(
+            lambda line: line.state == "approved"
+            and line.require_product_on_tax_definition
+        ):
+            wildcard_tax_defs = line.tax_definition_ids.filtered(
+                lambda tax_def: not (
+                    tax_def.ncm_ids
+                    or tax_def.cest_ids
+                    or tax_def.nbm_ids
+                    or tax_def.city_taxation_code_ids
+                    or tax_def.national_taxation_code_ids
+                    or tax_def.service_type_ids
+                )
+            )
+            empty_wildcard_tax_defs = wildcard_tax_defs.filtered(
+                lambda tax_def: not tax_def.product_ids
+            )
+            if empty_wildcard_tax_defs:
+                raise ValidationError(
+                    self.env._(
+                        "Operation Line %(line)s: Wildcard Tax Definitions "
+                        "(without NCM, CEST, NBM, or Taxation Code "
+                        "restrictions) must have at least one Product. "
+                        "Missing on: %(tax_definitions)s",
+                        line=line.name,
+                        tax_definitions=", ".join(
+                            empty_wildcard_tax_defs.mapped("display_name")
+                        ),
+                    )
+                )
 
     def unlink(self):
         lines = self.filtered(lambda line: line.state == "approved")
