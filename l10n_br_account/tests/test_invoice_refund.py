@@ -170,6 +170,55 @@ class TestInvoiceRefund(AccountMoveBRCommon):
             "The refund process was unsuccessful.",
         )
 
+    def test_refund_cancel(self):
+        """Estorno Completo (refund_method='cancel') must not fail.
+
+        With cancel=True, Odoo's core _reverse_moves() already reconciles the
+        new reversal's receivable/payable line against the original invoice
+        before this module updates fiscal_operation_id on the lines. That
+        update recomputes taxes/totals, which can rewrite the balance of the
+        line just reconciled and hit Odoo's reconciliation guard.
+        """
+        reverse_vals = dict(self.reverse_vals, refund_method="cancel")
+
+        invoice = self.invoice
+        invoice.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+        invoice.invoice_line_ids.write(
+            {
+                "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_venda").id,
+                "fiscal_operation_line_id": (
+                    self.env.ref("l10n_br_fiscal.fo_venda_venda").id
+                ),
+            }
+        )
+        invoice.action_post()
+
+        move_reversal = (
+            self.env["account.move.reversal"]
+            .with_context(active_model="account.move", active_ids=invoice.ids)
+            .create(reverse_vals)
+        )
+
+        reversal = move_reversal.reverse_moves()
+        reverse_move = self.env["account.move"].browse(reversal["res_id"])
+
+        self.assertTrue(reverse_move)
+        self.assertEqual(
+            reverse_move.operation_name,
+            "Devolução de Venda",
+            "The refund process was unsuccessful.",
+        )
+
+        reconcilable_lines = (invoice.line_ids + reverse_move.line_ids).filtered(
+            lambda line: line.account_id.reconcile
+        )
+        self.assertTrue(reconcilable_lines)
+        self.assertTrue(
+            all(line.reconciled for line in reconcilable_lines),
+            "The receivable/payable lines should be reconciled again after "
+            "the fiscal operation update on the reversal.",
+        )
+
     def test_refund_force_fiscal_operation(self):
         reverse_vals = self.reverse_vals
         invoice = self.invoice
