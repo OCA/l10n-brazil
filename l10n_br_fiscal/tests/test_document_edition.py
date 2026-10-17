@@ -533,19 +533,22 @@ class TestDocumentEdition(TransactionCase):
         self.assertEqual(doc.fiscal_line_ids.ind_final, "1")
 
     def test_ind_final_non_contributor_exceptions(self):
-        """Incoming documents and foreign partners keep the partner value."""
+        """Incoming, service and foreign documents keep the partner value."""
         partner = self.env.ref("l10n_br_base.res_partner_cliente9_mg")
         partner.ind_final = "0"
         doc = self._create_doc_ind_final(
             partner, self.env.ref("l10n_br_fiscal.fo_compras")
         )
         self.assertEqual(doc.ind_final, "0")
-        doc.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
-        self.assertEqual(doc.ind_final, "1")
-        partner.ind_ie_dest = "1"
+        doc = self.env["l10n_br_fiscal.document"].create(
+            {
+                "company_id": self.company.id,
+                "document_type_id": self.env.ref("l10n_br_fiscal.document_SE").id,
+                "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_venda").id,
+                "partner_id": partner.id,
+            }
+        )
         self.assertEqual(doc.ind_final, "0")
-        partner.ind_ie_dest = "9"
-        self.assertEqual(doc.ind_final, "1")
 
         partner_model = self.env["res.partner"].sudo()
         foreign_partner = partner_model.create(
