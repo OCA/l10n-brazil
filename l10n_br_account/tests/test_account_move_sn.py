@@ -107,7 +107,9 @@ class AccountMoveSimpleNacional(AccountMoveBRCommon):
             self.move_out_revenda.invoice_line_ids[0].icms_cst_id,
             self.env.ref("l10n_br_fiscal.cst_icmssn_101"),
         )
-        self.assertEqual(self.move_out_revenda.invoice_line_ids[0].icmssn_percent, 2.66)
+        self.assertEqual(
+            self.move_out_revenda.invoice_line_ids[0].icmssn_percent, 2.6597
+        )
         self.assertEqual(
             self.move_out_revenda.invoice_line_ids[0].icmssn_range_id,
             self.env.ref("l10n_br_fiscal.simplefied_tax_anexo1_range4"),
