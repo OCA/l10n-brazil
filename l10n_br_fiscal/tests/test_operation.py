@@ -146,3 +146,79 @@ class TestOperation(TransactionCase):
         line = operation.line_definition(self.env.company, partner, product)
         self.assertTrue(line, "bonificação ficou sem linha de operação")
         self.assertEqual(line.cfop_internal_id.code, "5910")
+
+
+class TestOperationLinePisCofins(TransactionCase):
+    """PIS/COFINS mapping from the NCM, with the company regime as fallback."""
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
+        cls.partner = cls.env.ref("l10n_br_base.res_partner_cliente1_sp")
+        cls.product = cls.env.ref("product.product_product_1")
+        cls.line = cls.env.ref("l10n_br_fiscal.fo_venda_revenda")
+        cls.ncm = cls.env.ref("l10n_br_fiscal.ncm_48191000")
+        cls.product.fiscal_type = "00"
+        cls.product.ncm_id = cls.ncm
+        # Cold drinks: the rate depends on the buyer and the package volume
+        cls.piscofins_varejo = cls.env.ref("l10n_br_fiscal.tax_piscofins_4310_415")
+        cls.piscofins_demais = cls.env.ref("l10n_br_fiscal.tax_piscofins_4310_417")
+        # Leave only the company regime (piscofins_id) as PIS/COFINS source
+        cls.company.tax_definition_ids.filtered(
+            lambda d: d.tax_domain in ("pis", "cofins")
+        ).unlink()
+
+    def _map_piscofins(self):
+        taxes = self.line.map_fiscal_taxes(
+            company=self.company,
+            partner=self.partner,
+            product=self.product,
+            nbm=self.env["l10n_br_fiscal.nbm"],
+            nbs=self.env["l10n_br_fiscal.nbs"],
+            city_taxation_code=self.env["l10n_br_fiscal.city.taxation.code"],
+            national_taxation_code=self.env["l10n_br_fiscal.national.taxation.code"],
+            service_type=self.env["l10n_br_fiscal.service.type"],
+        )["taxes"]
+        return taxes.get("pis"), taxes.get("cofins")
+
+    def test_ncm_without_rate_falls_back_to_company_regime(self):
+        self.ncm.piscofins_ids = False
+        self.assertEqual(
+            self._map_piscofins(),
+            (
+                self.company.piscofins_id.tax_pis_id,
+                self.company.piscofins_id.tax_cofins_id,
+            ),
+        )
+
+    def test_ncm_with_single_rate(self):
+        self.ncm.piscofins_ids = self.piscofins_varejo
+        self.assertEqual(
+            self._map_piscofins(),
+            (self.piscofins_varejo.tax_pis_id, self.piscofins_varejo.tax_cofins_id),
+        )
+
+    def test_ncm_with_several_rates_does_not_fall_back(self):
+        """An NCM with more than one rate needs configuration, the company
+        regime must not be applied silently."""
+        self.ncm.piscofins_ids = self.piscofins_varejo | self.piscofins_demais
+        self.assertEqual(self._map_piscofins(), (None, None))
+
+    def test_company_tax_definition_wins_over_fallback(self):
+        """A company tax definition (e.g. one filtered by NCM) must not be
+        overridden by the company regime fallback."""
+        self.ncm.piscofins_ids = False
+        pis = self.piscofins_demais.tax_pis_id
+        self.env["l10n_br_fiscal.tax.definition"].create(
+            {
+                "company_id": self.company.id,
+                "tax_group_id": pis.tax_group_id.id,
+                "tax_id": pis.id,
+                "cst_id": self.env.ref("l10n_br_fiscal.cst_pis_02").id,
+                "is_taxed": True,
+                "is_debit_credit": True,
+                "custom_tax": True,
+            }
+        )
+        self.assertEqual(self._map_piscofins()[0], pis)
