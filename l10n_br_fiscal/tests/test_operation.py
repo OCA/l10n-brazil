@@ -146,3 +146,76 @@ class TestOperation(TransactionCase):
         line = operation.line_definition(self.env.company, partner, product)
         self.assertTrue(line, "bonificação ficou sem linha de operação")
         self.assertEqual(line.cfop_internal_id.code, "5910")
+
+    def _map_kwargs(self, company, partner, product):
+        return {
+            "company": company,
+            "partner": partner,
+            "product": product,
+            "ncm": product.ncm_id,
+            "nbm": self.env["l10n_br_fiscal.nbm"],
+            "nbs": self.env["l10n_br_fiscal.nbs"],
+            "cest": self.env["l10n_br_fiscal.cest"],
+            "city_taxation_code": self.env["l10n_br_fiscal.city.taxation.code"],
+            "national_taxation_code": self.env["l10n_br_fiscal.national.taxation.code"],
+            "service_type": self.env["l10n_br_fiscal.service.type"],
+        }
+
+    def _tax_definition_for_cfop(self, operation_line, cfop, tax):
+        return self.env["l10n_br_fiscal.tax.definition"].create(
+            {
+                "fiscal_operation_line_id": operation_line.id,
+                "tax_group_id": tax.tax_group_id.id,
+                "custom_tax": True,
+                "tax_id": tax.id,
+                "cst_id": tax.cst_out_id.id,
+                "cfop_id": cfop.id,
+                "state": "approved",
+            }
+        )
+
+    def test_tax_definition_pinned_to_a_cfop_applies_only_there(self):
+        """A tax definition with a CFOP must not reach the other CFOPs.
+
+        The same Operation Line resolves the internal, the interstate and the
+        export CFOP, so pinning the definition to the CFOP is the only way to
+        tax an export apart from a domestic sale.
+        """
+        operation = self.env.ref("l10n_br_fiscal.fo_venda")
+        operation_line = self.env.ref("l10n_br_fiscal.fo_venda_venda")
+        company = self.env.company
+        company.country_id = self.env.ref("base.br")
+        company.state_id = self.env.ref("base.state_br_sp")
+        company.icms_regulation_id = self.env.ref("l10n_br_fiscal.tax_icms_regulation")
+        product = self.env.ref("product.product_product_1")
+        product.fiscal_type = "04"
+        product.ncm_id = self.env.ref("l10n_br_fiscal.ncm_48191000")
+
+        icms_nt = self.env.ref("l10n_br_fiscal.tax_icms_nt")
+        self._tax_definition_for_cfop(
+            operation_line, self.env.ref("l10n_br_fiscal.cfop_7101"), icms_nt
+        )
+
+        abroad = self.env.ref("l10n_br_base.res_partner_exterior")
+        abroad.ind_ie_dest = "1"
+        mapping = operation_line.map_fiscal_taxes(
+            **self._map_kwargs(company, abroad, product)
+        )
+        self.assertEqual(mapping["cfop"].code, "7101")
+        self.assertEqual(mapping["taxes"].get("icms"), icms_nt)
+
+        inland = self.env.ref("l10n_br_base.res_partner_akretion")
+        inland.state_id = self.env.ref("base.state_br_sp")
+        inland.ind_ie_dest = "1"
+        mapping = operation_line.map_fiscal_taxes(
+            **self._map_kwargs(company, inland, product)
+        )
+        self.assertEqual(mapping["cfop"].code, "5101")
+        self.assertNotEqual(
+            mapping["taxes"].get("icms"),
+            icms_nt,
+            "the definition of the export CFOP leaked into the domestic sale",
+        )
+        self.assertEqual(
+            operation.line_definition(company, abroad, product), operation_line
+        )
