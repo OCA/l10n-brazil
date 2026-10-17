@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE - Luis Felipe Mileo <mileo@kmee.com.br>
+     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html -->
+<odoo>
+
+    <record id="reinf_nature_income_tree" model="ir.ui.view">
+        <field name="model">l10n_br_reinf.nature.income</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="code" />
+                <field name="name" />
+                <field name="ret_ir" />
+                <field name="ret_agreg" />
+                <field name="ret_csll" />
+                <field name="ret_cofins" />
+                <field name="ret_pp" />
+                <field name="date_start" optional="show" />
+                <field name="date_end" optional="show" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="reinf_nature_income_form" model="ir.ui.view">
+        <field name="model">l10n_br_reinf.nature.income</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <widget
+                        name="web_ribbon"
+                        title="Archived"
+                        bg_color="bg-danger"
+                        attrs="{'invisible': [('active', '=', True)]}"
+                    />
+                    <group>
+                        <group name="identification">
+                            <field name="code" />
+                            <field name="name" />
+                            <field name="active" invisible="1" />
+                        </group>
+                        <group name="validity" string="Validity">
+                            <field name="date_start" />
+                            <field name="date_end" />
+                        </group>
+                    </group>
+                    <group
+                        name="withholdings"
+                        string="Withholdings (read from the mapping below)"
+                    >
+                        <group>
+                            <field name="ret_ir" />
+                            <field name="ret_agreg" />
+                        </group>
+                        <group>
+                            <field name="ret_csll" />
+                            <field name="ret_cofins" />
+                            <field name="ret_pp" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="taxes" string="Taxes and Revenue Codes">
+                            <field name="tax_ids" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="event_type" />
+                                    <field name="tax_type" />
+                                    <field name="revenue_code" />
+                                    <field name="periodicity" />
+                                    <field name="foreign_taxation" />
+                                    <field name="classification_indicator" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="reinf_nature_income_search" model="ir.ui.view">
+        <field name="model">l10n_br_reinf.nature.income</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="code" />
+                <field name="name" />
+                <filter
+                    name="filter_ret_ir"
+                    string="Income Tax"
+                    domain="[('ret_ir', '=', True)]"
+                />
+                <filter
+                    name="filter_ret_agreg"
+                    string="Aggregated"
+                    domain="[('ret_agreg', '=', True)]"
+                />
+                <separator />
+                <filter
+                    name="filter_inactive"
+                    string="Archived"
+                    domain="[('active', '=', False)]"
+                />
+            </search>
+        </field>
+    </record>
+
+    <record id="reinf_nature_income_action" model="ir.actions.act_window">
+        <field name="name">Natures of Income</field>
+        <field name="res_model">l10n_br_reinf.nature.income</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create the first nature of income
+            </p>
+            <p>
+                The nature of income is the natRend of the R-4010 and of the
+                R-4020, and it says which withholdings a payment may carry.
+            </p>
+        </field>
+    </record>
+
+</odoo>
