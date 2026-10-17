@@ -515,11 +515,29 @@ class L10nBrPurchaseBaseTest(TransactionCase):
         purchase_form.save()
 
     def test_get_view(self):
+        """Executable spec of the fiscal fields injection contract: the fiscal
+        drivers (operation, tax ids) are injected into the order line views,
+        while the C4 census "dead" fiscal computes are pruned out of them."""
         arch, models = self.po_products._get_view()
-        self.assertTrue(
-            arch.findall(".//field[@name='fiscal_operation_id']"),
+        injected = {el.get("name") for el in arch.findall(".//field")}
+        self.assertIn(
+            "fiscal_operation_id",
+            injected,
             "Error to included Operation Line from Purchase Order Line.",
         )
+        self.assertIn("icms_tax_id", injected)
+        for dead in (
+            "ii_percent",
+            "simple_value",
+            "simple_without_icms_value",
+            "cofins_wh_base_type",
+            "pis_wh_base_type",
+        ):
+            self.assertNotIn(
+                dead,
+                injected,
+                "Pruned dead fiscal field %s must not be injected." % dead,
+            )
 
     def test_fields_freight_insurance_other_costs(self):
         """Test fields Freight, Insurance and Other Costs when
