@@ -2,6 +2,8 @@ from . import test_account_move_sn
 from . import test_account_move_lc
 from . import test_account_taxes
 from . import test_move_edition
+from . import test_fiscal_view_prune
+from . import test_per_tax_draft_edition
 from . import test_move_document_discount
 from . import test_invoice_refund
 from . import test_multi_localizations_invoice
