@@ -183,6 +183,10 @@
                                         options="{'no_create': True, 'no_create_edit': True}"
                                     />
                                     <field
+                                        name="issqn_service_city_id"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
+                                    <field
                                         name="issqn_eligibility"
                                         required="tax_icms_or_issqn == 'issqn'"
                                     />
