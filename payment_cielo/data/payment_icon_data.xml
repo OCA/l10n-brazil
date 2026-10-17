@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="payment_icon_elo" model="payment.icon">
+        <field name="sequence">290</field>
+        <field name="name">Elo</field>
+        <field name="image" type="base64" file="payment_cielo/static/src/img/elo.png" />
+    </record>
+
+</odoo>
