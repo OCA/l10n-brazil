@@ -2672,6 +2672,12 @@ msgid ""
 "total (vNF)."
 msgstr ""
 
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/document.py:0
+msgid "Correction letter requested: %s"
+msgstr "Carta de correção solicitada: %s"
+
 #~ msgid "National Simple Taxes"
 #~ msgstr "Impostos do Simples Nacional"
 
