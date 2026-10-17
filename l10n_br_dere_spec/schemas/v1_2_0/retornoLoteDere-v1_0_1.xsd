@@ -1,0 +1,293 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://www.dere.gov.br/schemas/retornoLoteDere/v1_0_1"
+           targetNamespace="http://www.dere.gov.br/schemas/retornoLoteDere/v1_0_1"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+
+  <xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema.xsd"/>
+
+  <xs:element name="DeRE">
+
+    <xs:complexType>
+      <xs:sequence>
+
+        <xs:element name="retornoLoteEventos">
+          <xs:annotation>
+            <xs:documentation>Retorno da recepcao/processamento do lote</xs:documentation>
+          </xs:annotation>
+
+          <xs:complexType>
+            <xs:sequence>
+
+              <xs:element name="ideContrib" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Identificacao do Contribuinte</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="nrInsc" minOccurs="1" maxOccurs="1">
+                      <xs:simpleType>
+                        <xs:annotation>
+                          <xs:documentation>Número de inscrição do contribuinte (CNPJ base com 8 dígitos alfanuméricos)</xs:documentation>
+                        </xs:annotation>
+                        <xs:restriction base="xs:string">
+                          <xs:pattern value="[0-9A-Z]{8}"/>
+                          <xs:maxLength value="8"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+
+
+              <xs:element name="ideTransmissor" minOccurs="1" maxOccurs="1">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="niTransmissor" minOccurs="1" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>Numero Inscricao do Transmissor</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:minLength value="1"/>
+                          <xs:maxLength value="14"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+
+
+              <xs:element name="status" type="TStatus" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Contem o status atual do lote</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+
+              <xs:element name="dadosRecepcaoLote" type="TDadosRecepcao"  minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Contem os dados de recepcao do lote</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+
+              <xs:element name="dadosProcessamentoLote" type="TDadosProcessamento"  minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Contem os dados de processamento do lote</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+
+              <xs:element name="retornoEventos" minOccurs="0" >
+                <xs:annotation>
+                  <xs:documentation>Contem o(s) resultado(s) do processamento dos eventos do lote</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence maxOccurs="50">
+                    <xs:element name="evento" type="TEventoDere"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+
+            </xs:sequence>
+
+            <xs:attribute name="id" use="required" type="xs:ID">
+              <xs:annotation>
+                <xs:documentation>Identificacao unica</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element ref="ds:Signature"/>
+
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+
+  <xs:complexType name="TDadosRecepcao">
+    <xs:annotation>
+      <xs:documentation>Define os dados de recepcao do lote</xs:documentation>
+    </xs:annotation>
+
+    <xs:sequence>
+      <xs:element name="dhRecepcao" type="xs:dateTime">
+        <xs:annotation>
+          <xs:documentation>Data hora recepcao</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="versaoAplicativoRecepcao">
+        <xs:annotation>
+          <xs:documentation>Versao do aplicativo de recepcao</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="20" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="protocolo">
+        <xs:annotation>
+          <xs:documentation>
+            Protocolo gerado na recepcao do lote
+          </xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="28" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TDadosProcessamento">
+    <xs:annotation>
+      <xs:documentation>Define os dados de processamento de um lote de eventos</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="dhProcessamento" type="xs:dateTime">
+        <xs:annotation>
+          <xs:documentation>Data hora processamento.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="versaoAplicativoProcessamento" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Versao do aplicativo de processamento do lote</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="20" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TEventoDere">
+    <xs:annotation>
+      <xs:documentation>
+        Define os dados de um evento da DERE
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:any processContents="skip">
+        <xs:annotation>
+          <xs:documentation>Contem xml com o retorno do processamento do evento (conforme XSD de retorno do Evento)</xs:documentation>
+        </xs:annotation>
+      </xs:any>
+    </xs:sequence>
+    <xs:attribute name="id" use="required" type="xs:ID">
+      <xs:annotation>
+        <xs:documentation>
+          Contem chave de acesso do evento
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="TStatus">
+    <xs:annotation>
+      <xs:documentation>Contem o status atual do lote</xs:documentation>
+    </xs:annotation>
+
+    <xs:sequence>
+      <xs:element name="cdResposta" type="xs:int">
+        <xs:annotation>
+          <xs:documentation>
+            Codigo de resposta do processamento do lote
+            1 - O lote esta aguardando processamento
+            2 - Lote processado com sucesso - Todos eventos processados com sucesso
+            3 - Lote processado com sucesso - Possui um ou mais eventos com ocorrências de erro
+            4 - Consulta nao executada - Verificar ocorrencias
+            5 - Consulta executada - Lote nao encontrado com o protocolo informado
+            7 - Lote nao recebido - Verificar ocorrencias
+            9 - Ocorreu um erro interno na aplicacao. Retornado um identificador do erro para acionamento ao Fale Conosco.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="descResposta">
+        <xs:annotation>
+          <xs:documentation>Contem a descricao correspondente ao codigo de resposta</xs:documentation>
+        </xs:annotation>
+
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="2048" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="ocorrencias" type="TOcorrencias" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Contem as ocorrencias encontradas durante a validacao</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TOcorrencias">
+    <xs:annotation>
+      <xs:documentation>Define as ocorrencias encontradas na validacao</xs:documentation>
+    </xs:annotation>
+
+    <xs:sequence>
+      <xs:element name="ocorrencia" minOccurs="1" maxOccurs="10">
+        <xs:complexType>
+          <xs:sequence>
+
+            <xs:element name="codigo">
+              <xs:annotation>
+                <xs:documentation>Codigo da ocorrencia</xs:documentation>
+              </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:maxLength value="6" />
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:element>
+
+            <xs:element name="descricao">
+              <xs:annotation>
+                <xs:documentation>Descricao da ocorrencia</xs:documentation>
+              </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:maxLength value="2048" />
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:element>
+
+            <xs:element name="tipo" type="xs:unsignedByte">
+              <xs:annotation>
+                <xs:documentation>Contem o tipo da ocorrencia: 1 - Erro, 2 - Advertencia</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="localizacao" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation>Contem informacoes de onde no arquivo ocorreu o erro</xs:documentation>
+              </xs:annotation>
+
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:maxLength value="2048" />
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:element>
+
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
