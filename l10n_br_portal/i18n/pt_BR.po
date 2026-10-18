@@ -4,11 +4,11 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2024-05-20 22:42+0000\n"
-"Last-Translator: Rodrigo Macedo <sottomaiormacedotec@users.noreply."
-"translation.odoo-community.org>\n"
+"Last-Translator: Rodrigo Macedo "
+"<sottomaiormacedotec@users.noreply.translation.odoo-community.org>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -28,29 +28,25 @@ msgid "<option value=\"\">select...</option>"
 msgstr "<option value=\"\">selecione...</option>"
 
 #. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__br_currency_id
+msgid "BR Company Currency"
+msgstr "Moeda da Empresa BR"
+
+#. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__cnpj_cpf
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "CNPJ/CPF"
 msgstr "CNPJ/CPF"
 
 #. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__cnpj_cpf_stripped
 msgid "CNPJ/CPF Stripped"
-msgstr ""
+msgstr "CNPJ/CPF sem formatação"
 
 #. module: l10n_br_portal
 #: model:ir.model.fields,help:l10n_br_portal.field_res_partner__cnpj_cpf_stripped
 msgid "CNPJ/CPF without special characters"
-msgstr ""
-
-#. module: l10n_br_portal
-#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
-msgid "CNPJ/VAT"
-msgstr "CNPJ/VAT"
-
-#. module: l10n_br_portal
-#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
-msgid "CPF"
-msgstr "CPF"
+msgstr "CNPJ/CPF sem caracteres especiais"
 
 #. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
@@ -69,8 +65,8 @@ msgstr "Cidade"
 
 #. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__city_id
-msgid "City of Address"
-msgstr "Endereço da Cidade"
+msgid "City ID"
+msgstr "ID da Cidade"
 
 #. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
@@ -79,8 +75,12 @@ msgstr "Nome da Empresa"
 
 #. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
-msgid "Confirm<span class=\"fa fa-long-arrow-right\"/>"
-msgstr "Confirmar<span class=\"fa fa-long-arrow-right\"/>"
+msgid ""
+"Confirm\n"
+"                            <span class=\"fa fa-long-arrow-right\"/>"
+msgstr ""
+"Confirmar\n"
+"                            <span class=\"fa fa-long-arrow-right\"/>"
 
 #. module: l10n_br_portal
 #: model:ir.model,name:l10n_br_portal.model_res_partner
@@ -94,11 +94,6 @@ msgid "Country"
 msgstr "País"
 
 #. module: l10n_br_portal
-#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__display_name
-msgid "Display Name"
-msgstr "Nome Exibido"
-
-#. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__district
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "District"
@@ -110,20 +105,25 @@ msgid "Email"
 msgstr "E-mail"
 
 #. module: l10n_br_portal
-#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__id
-msgid "ID"
-msgstr "ID"
-
-#. module: l10n_br_portal
-#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner____last_update
-msgid "Last Modified on"
-msgstr "Última Modificação em"
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__equity_capital
+msgid "Equity Capital"
+msgstr "Capital Social"
 
 #. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__legal_name
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "Legal Name"
 msgstr "Razão Social"
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__legal_nature_id
+msgid "Legal Nature"
+msgstr "Natureza Jurídica"
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__cnae_main_id
+msgid "Main CNAE"
+msgstr "CNAE Principal"
 
 #. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
@@ -135,6 +135,11 @@ msgstr "Celular"
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "Municipal Tax Number"
 msgstr "Número da Inscrição Municipal"
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__inscr_mun
+msgid "Municipal Tax Number alias"
+msgstr "Alias do Número da Inscrição Municipal"
 
 #. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
@@ -152,11 +157,6 @@ msgid "Phone"
 msgstr "Telefone"
 
 #. module: l10n_br_portal
-#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__l10n_br_rg_code
-msgid "RG"
-msgstr "RG"
-
-#. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "State / Province"
 msgstr "Estado / Província"
@@ -166,6 +166,11 @@ msgstr "Estado / Província"
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "State Tax Number"
 msgstr "Número da Inscrição Estadual"
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__inscr_est
+msgid "State Tax Number alias"
+msgstr "Alias do Número da Inscrição Estadual"
 
 #. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
@@ -178,9 +183,25 @@ msgid "Street2"
 msgstr "Complemento"
 
 #. module: l10n_br_portal
-#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__suframa
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__l10n_br_isuf_code
 msgid "Suframa"
 msgstr "Suframa"
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__vat
+msgid "Tax ID"
+msgstr "CNPJ/CPF"
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,help:l10n_br_portal.field_res_partner__vat
+msgid ""
+"The Tax Identification Number. Values here will be validated based on the "
+"country format. You can use '/' to indicate that the partner is not subject "
+"to tax."
+msgstr ""
+"O número de identificação fiscal. Os valores aqui serão validados segundo o "
+"formato do país. Você pode usar '/' para indicar que o parceiro não está "
+"sujeito a imposto."
 
 #. module: l10n_br_portal
 #: model:ir.model.fields,help:l10n_br_portal.field_res_partner__legal_name
@@ -196,6 +217,30 @@ msgstr "Seu Nome"
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "Zip / Postal Code"
 msgstr "CEP"
+
+#~ msgid "CNPJ/VAT"
+#~ msgstr "CNPJ/VAT"
+
+#~ msgid "CPF"
+#~ msgstr "CPF"
+
+#~ msgid "City of Address"
+#~ msgstr "Endereço da Cidade"
+
+#~ msgid "Confirm<span class=\"fa fa-long-arrow-right\"/>"
+#~ msgstr "Confirmar<span class=\"fa fa-long-arrow-right\"/>"
+
+#~ msgid "Display Name"
+#~ msgstr "Nome Exibido"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificação em"
+
+#~ msgid "RG"
+#~ msgstr "RG"
 
 #~ msgid "Bairro"
 #~ msgstr "Bairro"
