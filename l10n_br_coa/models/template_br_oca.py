@@ -8,6 +8,7 @@ import logging
 
 from odoo import Command, api, models
 from odoo.tools.misc import file_open
+from odoo.tools.translate import _
 
 from odoo.addons.account.models.chart_template import template
 
@@ -40,6 +41,34 @@ for row in _load_csv_data("l10n_br_coa/data/l10n_br_coa_tax_templates_accounts.c
 
 class AccountChartTemplate(models.AbstractModel):
     _inherit = "account.chart.template"
+
+    @api.model
+    def _get_accounts_data_values(
+        self, company, template_data, bank_prefix="", code_digits=0
+    ):
+        """The utility liquidity transfer account is born classified.
+
+        The core creates it alone when loading the chart, looking for the
+        first free code after the `transfer_account_code_prefix`: declaring
+        it in the chart would only make the core create a second one beside
+        it. Without the classification the account stays out of the reports,
+        which select by tag, and a transfer between banks still in transit at
+        the end of the period would show up as an unexplained difference on
+        the balance sheet and the cash flow statement. It IS cash and
+        equivalents: a passage account between two liquidity accounts.
+        """
+        vals_list = super()._get_accounts_data_values(
+            company, template_data, bank_prefix=bank_prefix, code_digits=code_digits
+        )
+        tag = self.env.ref(
+            "l10n_br_coa.account_tag_cash_and_equivalents", raise_if_not_found=False
+        )
+        if tag:
+            transfer = vals_list.get("transfer_account_id")
+            if transfer is not None:
+                transfer["name"] = _("Liquidity Transfer")
+                transfer["tag_ids"] = [(4, tag.id)]
+        return vals_list
 
     @template("br_oca")
     def _get_br_oca_template_data(self):
@@ -103,7 +132,11 @@ class AccountChartTemplate(models.AbstractModel):
                 }
             )
             flavor = "itg"
-            if template_code == "br_oca_generic" or company.tax_framework == "3":
+            # `tax_framework` is a fiscal field: `l10n_br_coa` only depends on
+            # `account`, so the chart load can run where l10n_br_fiscal is not
+            # installed and the attribute does not exist at all.
+            tax_framework = getattr(company, "tax_framework", False)
+            if template_code == "br_oca_generic" or tax_framework == "3":
                 flavor = "cfc"
             self._populate_default_br_tax_accounts(company, flavor=flavor)
         return result
