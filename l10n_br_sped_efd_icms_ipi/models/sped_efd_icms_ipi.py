@@ -166,7 +166,11 @@ class Registro0000(models.Model):
         group.append(E.field(name="cod_receita", required="1", attrs=EDITABLE_ON_DRAFT))
         group.append(E.field(name="ind_apur", required="1", attrs=EDITABLE_ON_DRAFT))
         group.append(
-            E.field(name="CLAS_ESTAB_IND", required="1", attrs=EDITABLE_ON_DRAFT)
+            E.field(
+                name="CLAS_ESTAB_IND",
+                attrs="{'readonly': [('state', 'not in', ['draft'])], "
+                "'required': [('IND_ATIV', '=', '0')]}",
+            )
         )
         group.append(
             E.field(name="ind_tp_leiaute", required="1", attrs=EDITABLE_ON_DRAFT)
