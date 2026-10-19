@@ -95,3 +95,36 @@ DUIMP_TRIBUTO_TYPE_SELECTION = [
     ("TAXA_UTILIZACAO", "Taxa de Utilização do Siscomex"),
     ("OUTRO", "Outro"),
 ]
+
+# Where each l10n_br_duimp.declaracao header field is read from in the
+# "Consulta aos Dados da Duimp" payload, as dotted paths tried in order
+# (the first non-empty one wins).
+#
+# Four of these feed NF-e tags that the layout marks as required inside
+# the import-declaration group (nfe40_xLocDesemb, nfe40_UFDesemb,
+# nfe40_dDesemb and nfe40_tpViaTransp, filled by l10n_br_duimp_nfe), so
+# leaving them empty produces a DI group that does not validate.
+#
+# NOTE: like the rest of the mapping in this module, these paths follow
+# the public documentation and the community client and were not
+# validated against a real Portal Único response yet. They are kept in a
+# single table so correcting them against a real payload is a one-place
+# edit, and every field below is editable on the declaration form, so a
+# path that turns out wrong is corrected by hand instead of blocking the
+# invoice.
+DUIMP_HEADER_PAYLOAD_PATHS = {
+    "importador_nome": ("importador.nome",),
+    "importador_numero": ("importador.ni", "importador.numero"),
+    "incoterm": ("condicaoVenda.incoterm", "carga.incoterm"),
+    "urf_despacho_nome": ("despacho.urfDespacho.nome", "carga.urfDespachoNome"),
+    "uf_desembaraco": ("despacho.ufDesembaraco", "carga.ufDesembaraco"),
+    "data_desembaraco": ("despacho.dataDesembaraco",),
+    "via_transporte_codigo": ("carga.viaTransporte.codigo",),
+    "caracterizacao_operacao_codigo": ("carga.caracterizacaoOperacao.codigo",),
+    "frete_total": ("carga.frete.totalReais", "carga.frete.valorBRL"),
+    "seguro_total": ("carga.seguro.totalReais", "carga.seguro.valorBRL"),
+}
+
+# Of the fields above, the ones that need date parsing / are monetary.
+DUIMP_HEADER_DATE_FIELDS = ("data_desembaraco",)
+DUIMP_HEADER_MONETARY_FIELDS = ("frete_total", "seguro_total")

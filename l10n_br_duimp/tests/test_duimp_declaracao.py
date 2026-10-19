@@ -32,6 +32,76 @@ class TestDuimpDeclaracao(DuimpCommon):
         self.assertEqual(item.tributo_ids.tipo, "II")
         self.assertAlmostEqual(item.tributo_ids.valor_devido, 848.00)
 
+    def test_import_payload_maps_parties_and_clearance(self):
+        """The parties/clearance/cargo header block must come out of the
+        payload: l10n_br_duimp_nfe turns the clearance and transport
+        fields into the NF-e import-declaration group, where the layout
+        requires them.
+        """
+        declaracao = self._create_declaracao()
+        self.assertEqual(declaracao.importador_nome, "Test Importer SA")
+        self.assertEqual(declaracao.importador_numero, "12345678000195")
+        self.assertEqual(declaracao.incoterm, "FOB")
+        self.assertEqual(declaracao.urf_despacho_nome, "PORTO DE SANTOS")
+        self.assertEqual(declaracao.uf_desembaraco, "SP")
+        self.assertEqual(str(declaracao.data_desembaraco), "2026-02-10")
+        self.assertEqual(declaracao.via_transporte_codigo, "01")
+        self.assertEqual(declaracao.caracterizacao_operacao_codigo, "1")
+        self.assertAlmostEqual(declaracao.frete_total, 300.00)
+        self.assertAlmostEqual(declaracao.seguro_total, 150.00)
+
+    def test_payload_path_missing_steps(self):
+        declaracao = self._create_declaracao()
+        payload = {"despacho": {"urfDespacho": {"nome": "SANTOS"}}}
+        self.assertEqual(
+            declaracao._payload_path(payload, "despacho.urfDespacho.nome"), "SANTOS"
+        )
+        self.assertFalse(declaracao._payload_path(payload, "carga.frete.totalReais"))
+        # a path that walks past a leaf must not raise
+        self.assertFalse(
+            declaracao._payload_path(payload, "despacho.urfDespacho.nome.extra")
+        )
+
+    def test_import_payload_maps_acrescimo_deducao(self):
+        """Additions/deductions must come from the payload: they feed
+        unit_addition_deduction and therefore the price_unit of the
+        generated invoice line.
+        """
+        declaracao = self._create_declaracao()
+        item = declaracao.item_ids.filtered(lambda i: i.numero_item == "2")
+        self.assertEqual(len(item.acrescimo_deducao_ids), 2)
+
+        acrescimo = item.acrescimo_deducao_ids.filtered(lambda a: a.codigo == "16")
+        self.assertAlmostEqual(acrescimo.valor, 300.00)
+        self.assertEqual(acrescimo.denominacao, "Frete internacional")
+        self.assertAlmostEqual(acrescimo.moeda_taxa, 5.25)
+        self.assertEqual(acrescimo.moeda_negociada_id, self.env.ref("base.USD"))
+        self.assertEqual(acrescimo.declaracao_id, declaracao)
+
+        # a "DEDUCAO" is stored as a negative amount
+        deducao = item.acrescimo_deducao_ids.filtered(lambda a: a.codigo == "99")
+        self.assertAlmostEqual(deducao.valor, -100.00)
+
+        # net +200.00 over 40 units => +5.00 per unit
+        self.assertAlmostEqual(item.addition_deduction, 200.00)
+        self.assertAlmostEqual(item.unit_addition_deduction, 5.00)
+        self.assertAlmostEqual(item.price_unit, 120.00)  # 4800 / 40
+        self.assertAlmostEqual(item.final_price_unit, 125.00)
+
+    def test_import_payload_maps_item_currency(self):
+        declaracao = self._create_declaracao()
+        item = declaracao.item_ids.filtered(lambda i: i.numero_item == "1")
+        self.assertEqual(item.moeda_venda_id, self.env.ref("base.USD"))
+        self.assertAlmostEqual(item.taxa_cambio_venda, 5.25)
+        self.assertAlmostEqual(item.valor_unitario, 9.52)
+
+    def test_import_payload_maps_pagamento(self):
+        declaracao = self._create_declaracao()
+        pagamento = declaracao.pagamento_ids
+        self.assertEqual(pagamento.codigo_receita, "0086")
+        self.assertEqual(str(pagamento.data_pagamento), "2026-02-11")
+        self.assertEqual(pagamento.numero_retificacao, "0")
+
     def test_auto_match_product_by_code(self):
         declaracao = self._create_declaracao()
         item1 = declaracao.item_ids.filtered(lambda i: i.numero_item == "1")

@@ -22,7 +22,13 @@
         <field name="arch" type="xml">
             <form string="Search DUIMP">
                 <group>
-                    <field name="company_id" />
+                    <!-- Defaults to the logged-in company; only shown when
+                         the user actually has more than one to choose from. -->
+                    <field
+                        name="company_id"
+                        groups="base.group_multi_company"
+                        options="{'no_create': True, 'no_open': True}"
+                    />
                     <field name="date_from" />
                     <field name="date_to" />
                 </group>

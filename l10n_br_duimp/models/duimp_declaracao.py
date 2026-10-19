@@ -10,6 +10,9 @@ from odoo.exceptions import UserError
 from odoo.addons.l10n_br_fiscal.constants.fiscal import DOCUMENT_ISSUER_COMPANY
 
 from ..constants.duimp import (
+    DUIMP_HEADER_DATE_FIELDS,
+    DUIMP_HEADER_MONETARY_FIELDS,
+    DUIMP_HEADER_PAYLOAD_PATHS,
     DUIMP_STATE_SELECTION,
     DUIMP_TAX_FIELD_PREFIX,
     DUIMP_TRIBUTO_TYPE_SELECTION,
@@ -227,9 +230,54 @@ class L10nBrDuimpDeclaracao(models.Model):
                 identificacao.get("dataRegistro")
             ),
         }
+        vals.update(self._prepare_header_payload_values(dados_gerais))
         for tipo, prefix in DUIMP_TAX_FIELD_PREFIX.items():
             vals[f"{prefix}_total"] = tributos.get(tipo, 0.0)
         return {k: v for k, v in vals.items() if v is not None}
+
+    def _prepare_header_payload_values(self, dados_gerais):
+        """Header fields read straight from the payload through
+        ``DUIMP_HEADER_PAYLOAD_PATHS``: the parties, the clearance data
+        and the freight/insurance totals.
+
+        The clearance and transport fields are what ``l10n_br_duimp_nfe``
+        turns into the NF-e import-declaration group, where the layout
+        requires them, so they must not stay empty.
+        """
+        vals = {}
+        for field_name, paths in DUIMP_HEADER_PAYLOAD_PATHS.items():
+            value = next(
+                (
+                    found
+                    for found in (
+                        self._payload_path(dados_gerais, path) for path in paths
+                    )
+                    if found
+                ),
+                False,
+            )
+            if not value:
+                continue
+            if field_name in DUIMP_HEADER_DATE_FIELDS:
+                vals[field_name] = self._parse_payload_date(value)
+            elif field_name in DUIMP_HEADER_MONETARY_FIELDS:
+                vals[field_name] = float(value)
+            else:
+                vals[field_name] = str(value)
+        return vals
+
+    @api.model
+    def _payload_path(self, payload, path):
+        """Walk a dotted path into the payload, returning False as soon as
+        a step is missing."""
+        value = payload
+        for key in path.split("."):
+            if not isinstance(value, dict):
+                return False
+            value = value.get(key)
+            if value is None:
+                return False
+        return value
 
     @api.model
     def _parse_payload_date(self, value):
@@ -265,6 +313,7 @@ class L10nBrDuimpDeclaracao(models.Model):
             or dados_mercadoria.get("valorMercadoriaCondicaoVendaReal")
             or 0.0
         )
+        moeda_codigo = self._payload_currency_code(valor_mercadoria, dados_mercadoria)
         return {
             "numero_item": item.get("numeroItem"),
             "codigo_produto": dados_produto.get("codigoProduto"),
@@ -278,10 +327,62 @@ class L10nBrDuimpDeclaracao(models.Model):
             "valor_aduaneiro": valor_mercadoria.get("valorAduaneiro") or 0.0,
             "valor_frete_rateado": valor_mercadoria.get("valorFreteRateado") or 0.0,
             "valor_seguro_rateado": valor_mercadoria.get("valorSeguroRateado") or 0.0,
+            # Negotiated currency and the implicit exchange rate, kept for
+            # auditing the BRL values the payload already carries.
+            "moeda_venda_id": self._s_currency(moeda_codigo).id,
+            "taxa_cambio_venda": valor_mercadoria.get("taxaCambio") or 0.0,
+            "valor_unitario": dados_mercadoria.get("valorUnitarioCondicaoVenda") or 0.0,
             "tributo_ids": [
                 (0, 0, vals) for vals in self._prepare_item_tributo_values(item_tributo)
             ],
+            "acrescimo_deducao_ids": [
+                (0, 0, vals)
+                for vals in self._prepare_acrescimo_deducao_values(item_tributo)
+            ],
         }
+
+    @api.model
+    def _payload_currency_code(self, *payload_parts):
+        """Siscomex numeric currency code, wherever the payload carries it."""
+        for part in payload_parts:
+            code = (part.get("moedaNegociada") or {}).get("codigo") or part.get(
+                "codigoMoedaNegociada"
+            )
+            if code:
+                return code
+        return False
+
+    def _prepare_acrescimo_deducao_values(self, item_tributo):
+        """Additions/deductions reported for the item
+        (``acrescimosDeducoes``).
+
+        The model keeps a single signed ``valor`` (ported from
+        ``l10n_br_di.valor``): positive is an addition, negative a
+        deduction, so the payload's type is folded into the sign. These
+        values feed ``item.unit_addition_deduction`` and therefore the
+        ``price_unit`` of the generated invoice line, so an item whose
+        additions are dropped is invoiced below its landed cost.
+        """
+        result = []
+        for acrescimo in item_tributo.get("acrescimosDeducoes") or []:
+            valor = acrescimo.get("valorReais") or acrescimo.get("valorBRL") or 0.0
+            if str(acrescimo.get("tipo") or "").upper().startswith("DEDUC"):
+                valor = -abs(valor)
+            moeda_codigo = self._payload_currency_code(acrescimo)
+            result.append(
+                {
+                    "codigo": acrescimo.get("codigo"),
+                    "denominacao": acrescimo.get("denominacao")
+                    or acrescimo.get("nome"),
+                    "moeda_negociada_codigo": moeda_codigo and str(moeda_codigo),
+                    "moeda_negociada_id": self._s_currency(moeda_codigo).id,
+                    "valor": valor,
+                    "valor_moeda_negociada": acrescimo.get("valorMoedaNegociada")
+                    or 0.0,
+                    "moeda_taxa": acrescimo.get("taxaCambio") or 0.0,
+                }
+            )
+        return result
 
     def _prepare_item_tributo_values(self, item_tributo):
         result = []
@@ -308,6 +409,8 @@ class L10nBrDuimpDeclaracao(models.Model):
             "codigo_receita": pagamento.get("codigoReceita"),
             "codigo_tipo_pagamento": pagamento.get("codigoTipoPagamento"),
             "nome_tipo_pagamento": pagamento.get("nomeTipoPagamento"),
+            "data_pagamento": self._parse_payload_date(pagamento.get("dataPagamento")),
+            "numero_retificacao": pagamento.get("numeroRetificacao"),
             "valor_receita": pagamento.get("valorReceita") or 0.0,
             "valor_juros_encargos": pagamento.get("valorJurosEncargos") or 0.0,
             "valor_multa": pagamento.get("valorMulta") or 0.0,
