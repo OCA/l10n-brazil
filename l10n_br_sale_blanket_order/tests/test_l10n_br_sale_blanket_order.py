@@ -425,7 +425,9 @@ class L10nBrSaleBLanketOrderTest(TransactionCase):
             blanket_order.validity_date,
             "sale",
             fiscal_position=blanket_order.fiscal_position_id,
-            product_price_unit=blanket_line._get_display_price(blanket_line.product_id),
+            # Odoo 18 computes the display price from the line alone; the
+            # product argument of the 16.0 signature is gone.
+            product_price_unit=blanket_line._get_display_price(),
             product_currency=blanket_order.currency_id,
         )
         blanket_line._compute_price_unit_fiscal()
