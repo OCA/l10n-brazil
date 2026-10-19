@@ -5,7 +5,7 @@
 {
     "name": "Base dos Planos de Contas",
     "summary": "Base dos Planos de Contas brasileiros",
-    "version": "20.0.1.3.0",
+    "version": "20.0.1.3.1",
     "license": "AGPL-3",
     "author": "Akretion, KMEE, Odoo Community Association (OCA)",
     "maintainers": ["renatonlima", "mileo"],
