@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-23 01:40+0000\n"
 "PO-Revision-Date: 2026-10-19 07:08+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Last-Translator: Adriano Prado <adrianojprado@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -30,13 +30,13 @@ msgid ""
 "A Checking Account or Saving Account transactional account must contain the "
 "branch number and the account verification digit."
 msgstr ""
-"Uma conta corrente ou conta poupança precisa conter o número da agência e o "
-"dígito verificador de conta."
+"Uma conta transacional de Conta Corrente ou Conta Poupança deve conter o "
+"número da agência e o dígito verificador da conta."
 
 #. module: l10n_br_base
 #: model:ir.model.constraint,message:l10n_br_base.constraint_res_partner_pix_partner_pix_key_unique
 msgid "A Pix Key with this values already exists in this partner."
-msgstr "Uma Chave PIX com esses valores já existe em outro parceiro."
+msgstr "Já existe uma Chave Pix com esses valores neste parceiro."
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_city__anp_code
@@ -204,7 +204,7 @@ msgstr "Adamantina"
 #. module: l10n_br_base
 #: model:ir.model,name:l10n_br_base.model_format_address_mixin
 msgid "Address Format"
-msgstr "Formato de Endereço"
+msgstr "Formato Endereço"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5200159
@@ -3576,7 +3576,7 @@ msgstr ""
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.view_l10n_br_base_partner_bank_form
 msgid "Brazilian Instant Payment Keys (PIX)"
-msgstr "Chaves PIX"
+msgstr "Chaves Brasileiras de Pagamento Instantâneo (PIX)"
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_config_settings_form
@@ -3586,12 +3586,12 @@ msgstr "Localização Brasileira"
 #. module: l10n_br_base
 #: model:ir.model,name:l10n_br_base.model_res_partner_pix
 msgid "Brazilian instant payment ecosystem (Pix)"
-msgstr "Sistema Brasileiro de Pagamento Instantâneo (PIX)"
+msgstr "Ecossistema brasileiro de pagamentos instantâneos (Pix)"
 
 #. module: l10n_br_base
 #: model:ir.model,name:l10n_br_base.model_l10n_br_base_party_mixin
 msgid "Brazilian partner and company data mixin"
-msgstr "Brazilian partner and company data mixin"
+msgstr "Mixin de dados para empresas e parceiros brasileiros"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3108909
@@ -13189,7 +13189,7 @@ msgstr "Chave"
 #: model:ir.model.fields,help:l10n_br_base.field_res_partner__pix_key_ids
 #: model:ir.model.fields,help:l10n_br_base.field_res_users__pix_key_ids
 msgid "Keys for Brazilian instant payment (pix)"
-msgstr "Chaves para Pagamentos Instantâneos Brasileiro (PIX)"
+msgstr "Chaves para pagamento instantâneo brasileiro (pix)"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4209201
@@ -17279,7 +17279,7 @@ msgstr "Ouvidor"
 #. module: l10n_br_base
 #: model:ir.model.fields,help:l10n_br_base.field_res_partner_pix__key
 msgid "PIX Addressing key"
-msgstr "Chave PIX"
+msgstr "Chave de endereçamento PIX"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3534906
@@ -18575,7 +18575,7 @@ msgstr "Peçanha"
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_pix__key_type__phone
 #, python-format
 msgid "Phone Number"
-msgstr "Número de Telefone"
+msgstr "Número Telefone"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3537701
@@ -19074,7 +19074,7 @@ msgstr "Piumhi"
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__partner_pix_ids
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__pix_key_ids
 msgid "Pix Keys"
-msgstr "Chaves PIX"
+msgstr "Chaves Pix"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1505635
@@ -19771,7 +19771,7 @@ msgstr "Pratânia"
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__transactional_acc_type__payment
 #, python-format
 msgid "Prepaid Payment Account (Conta Pagamento)"
-msgstr "Conta Pagamento Pré-pago (Conta Pagamento)"
+msgstr "Conta de Pagamento Pré-Paga (Conta Pagamento)"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3541109
@@ -20251,7 +20251,7 @@ msgstr "Rancho Queimado"
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_pix__key_type__evp
 #, python-format
 msgid "Random Key"
-msgstr "Chave Aleatória"
+msgstr "Chave Randomica"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2109452
@@ -22605,7 +22605,7 @@ msgstr "Saudades"
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__transactional_acc_type__saving
 #, python-format
 msgid "Saving Account (Conta Poupança)"
-msgstr "Conta Poupança (Conta Poupança)"
+msgstr "Conta Poupança"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2929800
@@ -22810,7 +22810,7 @@ msgstr "Sento Sé"
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_pix__sequence
 msgid "Sequence"
-msgstr "Sequência"
+msgstr "Sequencia"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4320404
@@ -23335,7 +23335,7 @@ msgstr "Número da Inscrição Estadual"
 #: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "State Tax Number already used {}"
-msgstr "Insc. Estadual já utilizada {}"
+msgstr "Inscrição Estadual ja Usada {}"
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_company_form
@@ -26295,7 +26295,7 @@ msgid ""
 "Type of transactional account, classification used in the Brazilian instant "
 "payment system (PIX)"
 msgstr ""
-"Tipo de conta movimentada, classificação utilizada no sistema brasileiro de "
+"Tipo de conta transacional, classificação utilizada no sistema brasileiro de "
 "pagamentos instantâneos (PIX)"
 
 #. module: l10n_br_base
@@ -27417,7 +27417,7 @@ msgid ""
 "a transactional account must contain the bank information (code_bc) and the "
 "account number"
 msgstr ""
-"uma conta transacional deve conter as informações bancárias (code_bc) e o "
+"Uma conta transacional deve conter as informações bancárias (code_bc) e o "
 "número da conta"
 
 #. module: l10n_br_base
