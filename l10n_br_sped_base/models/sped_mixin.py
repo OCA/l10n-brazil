@@ -23,7 +23,7 @@ SPED_ENCODING = "iso-8859-1"
 LAYOUT_VERSIONS = {
     "ecd": "9",
     "ecf": "9",
-    "efd_icms_ipi": "19",
+    "efd_icms_ipi": "20",
     "efd_pis_cofins": "6",
     "fake": "9",  # tests; similar to ecd
 }
@@ -690,6 +690,13 @@ class SpedMixin(models.AbstractModel):
             # in this case we will generate a register without any
             # specific Odoo record. Example: ECD I010
             register_vals = self._map_from_odoo(None, parent_record, declaration)
+            if not register_vals and not children:
+                # Nothing to pull for this register: emitting a bare row
+                # (just the declaration/company links) would violate the
+                # layout required fields, e.g. a 0007 when the company has
+                # no other registration to declare. Skip it entirely.
+                self._log_chatter_sped_item(log_msg, level)
+                return
             if parent_register:
                 register_vals[parent_field] = parent_register.id
             register = self.create(register_vals)

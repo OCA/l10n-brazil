@@ -1,10 +1,14 @@
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import logging
+
 from erpbrasil.base import misc
 from lxml import etree
 
 from odoo import api, fields, models
+
+_logger = logging.getLogger(__name__)
 
 
 class DocumentLine(models.Model):
@@ -30,36 +34,36 @@ class DocumentLine(models.Model):
                 line.fiscal_deductions_value = line.product_id.fiscal_deductions_value
 
     @api.model
-    def fields_view_get(
-        self, view_id=None, view_type="form", toolbar=False, submenu=False
-    ):
-        model_view = super().fields_view_get(view_id, view_type, toolbar, submenu)
-
+    def _get_view(self, view_id=None, view_type="form", **options):
+        arch, view = super()._get_view(view_id, view_type, **options)
+        # ``other_retentions_value`` has no placeholder of its own: it is meant
+        # to be shown right after ``issqn_wh_value``, a field that only exists
+        # in the line form through the fiscal fields injection (fiscal_taxes
+        # page, see l10n_br_fiscal.document.line.mixin.inject_fiscal_fields,
+        # already applied by super()._get_view here). We add it on the modern
+        # ``_get_view`` flow.
+        #
+        # This used to live in a ``fields_view_get`` override, which the 16.0
+        # web client never calls (get_views -> get_view -> _get_view): the
+        # field had silently vanished from the NFS-e line form, and a bare
+        # ``except Exception`` hid a missing anchor as a no-op. We now fail
+        # loudly (diagnosable log) instead of swallowing the regression.
         if view_type == "form":
-            try:
-                doc = etree.fromstring(model_view.get("arch"))
-                field = doc.xpath("//field[@name='issqn_wh_value']")[0]
-                parent = field.getparent()
-                parent.insert(
-                    parent.index(field) + 1,
-                    etree.XML('<field name="other_retentions_value"/>'),
+            anchors = arch.xpath("//field[@name='issqn_wh_value']")
+            if anchors:
+                anchors[0].addnext(
+                    etree.fromstring('<field name="other_retentions_value"/>')
                 )
-
-                model_view["arch"] = etree.tostring(doc, encoding="unicode")
-            except Exception:
-                return model_view
-
-        arch_tree = self.inject_fiscal_fields(model_view["arch"])
-        View = self.env["ir.ui.view"]
-        # Override context for postprocessing
-        if view_id and model_view.get("base_model", self._name) != self._name:
-            View = View.with_context(base_model_name=model_view["base_model"])
-
-        # Apply post processing, groups and modifiers etc...
-        xarch, xfields = View.postprocess_and_fields(node=arch_tree, model=self._name)
-        model_view["arch"] = xarch
-        model_view["fields"] = xfields
-        return model_view
+            else:
+                _logger.warning(
+                    "l10n_br_nfse: cannot place 'other_retentions_value' on the "
+                    "%s form view: the anchor field 'issqn_wh_value' is missing "
+                    "from the injected fiscal line arch (fiscal_taxes page). The "
+                    "field will not be shown on the NFS-e line form. Keep "
+                    "'issqn_wh_value' in the injected line form.",
+                    self._name,
+                )
+        return arch, view
 
     def _prepare_line_service(self):
         return {
