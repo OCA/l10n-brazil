@@ -165,7 +165,7 @@
                     <div>
                         <t t-set="qr_code" t-value="document_qrcode" />
                         <img
-                            t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', qr_code, 150, 150)"
+                            t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', qr_code, 150, 150)"
                         />
                     </div>
                 </div>
