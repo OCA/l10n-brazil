@@ -7,9 +7,8 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-21 19:52+0000\n"
-"PO-Revision-Date: 2026-10-19 07:07+0000\n"
-"Last-Translator: Rodrigo Sottomaior Macedo "
-"<sottomaiormacedotec@sottomaiormacedo.tech>\n"
+"PO-Revision-Date: 2026-10-19 10:37+0000\n"
+"Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -140,7 +139,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_cbs_base
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cbs_base
 msgid "CBS Base"
-msgstr ""
+msgstr "Base da CBS"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cbs_base_type
@@ -156,7 +155,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_cbs_value
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cbs_value
 msgid "CBS Value"
-msgstr ""
+msgstr "Valor da CBS"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cest_id
@@ -617,13 +616,13 @@ msgstr "Dados adicionais fiscais inseridos manualmente pelo usuário"
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__fiscal_amount_tax
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__fiscal_amount_tax
 msgid "Fiscal Amount Tax"
-msgstr ""
+msgstr "Total fiscal de impostos"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__fiscal_amount_total
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__fiscal_amount_total
 msgid "Fiscal Amount Total"
-msgstr ""
+msgstr "Total fiscal"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__fiscal_amount_untaxed
@@ -726,7 +725,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_ibs_base
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__ibs_base
 msgid "IBS Base"
-msgstr ""
+msgstr "Base do IBS"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__ibs_base_type
@@ -742,7 +741,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_ibs_value
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__ibs_value
 msgid "IBS Value"
-msgstr ""
+msgstr "Valor do IBS"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icms_percent
@@ -1592,7 +1591,7 @@ msgstr ""
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__partner_is_public_entity
 msgid "Public Entity"
-msgstr ""
+msgstr "Entidade Pública"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__icmssn_range_id
@@ -1639,7 +1638,7 @@ msgstr ""
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__service_type_id
 msgid "Service Type LC 166"
-msgstr "Tipo de Serviço LC 166"
+msgstr "Tipo de Serviço LC 116"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields.selection,name:l10n_br_sale.selection__sale_report__fiscal_type__09
@@ -1674,12 +1673,12 @@ msgstr "Subtotal"
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icms_tax_benefit_id
 msgid "Tax Benefit"
-msgstr ""
+msgstr "Benefício Fiscal"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icms_tax_benefit_code
 msgid "Tax Benefit Code"
-msgstr ""
+msgstr "Código do Benefício Fiscal"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cbs_tax_id
@@ -1809,7 +1808,7 @@ msgstr "Imposto PIS ST"
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__uot_id
 msgid "Tax UoM"
-msgstr "UoM Fiscal"
+msgstr "Unidade tributável"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_tax_withholding
