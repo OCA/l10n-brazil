@@ -169,7 +169,10 @@ class L10nBRP7ModelInventoryReportWizard(models.TransientModel):
             # usa o valor zero, por não ter um valor definido
             price_used = 0.0
 
-            svl = (
+            # Valor do estoque na data: soma do valor e da quantidade das
+            # camadas de valoração até a data, o que dá o custo médio (ou o
+            # saldo do FIFO) e bate com o relatório de valoração do Odoo.
+            svls = (
                 self.env["stock.valuation.layer"]
                 .sudo()
                 .search(
@@ -177,22 +180,17 @@ class L10nBRP7ModelInventoryReportWizard(models.TransientModel):
                         ("company_id", "=", self.env.company.id),
                         ("product_id", "=", product.id),
                         ("create_date", "<=", self.date),
-                    ],
-                    limit=1,
+                    ]
                 )
             )
-            if svl:
-                if not float_is_zero(svl.unit_cost, precision_rounding=price_precision):
-                    price_used = float_round(
-                        svl.unit_cost, precision_rounding=price_precision
-                    )
-                elif not float_is_zero(svl.value, precision_rounding=price_precision):
-                    # Migração da OCA não preenche o unit_cost apenas o value
-                    # https://github.com/OCA/OpenUpgrade/blob/13.0/addons/
-                    # stock_account/migrations/13.0.1.1/post-migration.py#L80
-                    price_used = float_round(
-                        (svl.value / svl.quantity), precision_rounding=price_precision
-                    )
+            svl_quantity = sum(svls.mapped("quantity"))
+            if not float_is_zero(
+                svl_quantity, precision_rounding=product.uom_id.rounding
+            ):
+                price_used = float_round(
+                    sum(svls.mapped("value")) / svl_quantity,
+                    precision_digits=price_precision,
+                )
 
             # TODO: ainda é necessário fazer essa validação decimal
             decimal = product.qty_available - int(product.qty_available)
