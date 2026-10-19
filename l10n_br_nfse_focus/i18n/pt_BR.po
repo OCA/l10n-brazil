@@ -125,16 +125,16 @@ msgid ""
 "automatically update the status in the system."
 msgstr ""
 "Se marcado, os documentos autorizados serão incluídos no assistente de "
-"verificação de status. O sistema verificará o status dos documentos junto "
-"à Focus NFE e, caso haja divergências em relação ao status no Odoo, "
-"atualizará automaticamente o status no sistema."
+"verificação de status. O sistema verificará o status dos documentos junto à "
+"Focus NFE e, caso haja divergências em relação ao status no Odoo, atualizará "
+"automaticamente o status no sistema."
 
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields,help:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_nacional_concat_lines_discriminacao
 msgid ""
 "If checked, the Discriminação do Serviço sent to NFSe Nacional will "
-"concatenate the description of every fiscal line in the document, instead of"
-" using only the description of the first line."
+"concatenate the description of every fiscal line in the document, instead of "
+"using only the description of the first line."
 msgstr ""
 "Se marcado, a Discriminação do Serviço enviada para a NFSe Nacional "
 "concatenará a descrição de todas as linhas fiscais do documento, em vez de "
@@ -146,8 +146,8 @@ msgid ""
 "If checked, the system will always use the Odoo DANFSE instead of the Focus "
 "DANFSE."
 msgstr ""
-"Se marcado, o sistema utilizará sempre o DANFSE do Odoo em vez do DANFSE "
-"da Focus."
+"Se marcado, o sistema utilizará sempre o DANFSE do Odoo em vez do DANFSE da "
+"Focus."
 
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_update_authorized_document_status
@@ -222,14 +222,12 @@ msgstr "Tipo de Serviço"
 #. module: l10n_br_nfse_focus
 #. odoo-python
 #: code:addons/l10n_br_nfse_focus/models/document.py:0
-#: code:addons/l10n_br_nfse_focus/models/document.py:0
 #, python-format
 msgid "Successfully Processed"
 msgstr "Processado com Sucesso"
 
 #. module: l10n_br_nfse_focus
 #. odoo-python
-#: code:addons/l10n_br_nfse_focus/models/document.py:0
 #: code:addons/l10n_br_nfse_focus/models/document.py:0
 #, python-format
 msgid "status"
