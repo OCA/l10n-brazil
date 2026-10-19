@@ -20,6 +20,17 @@
                 />
                 <separator />
                 <filter
+                    name="imported"
+                    string="Imported"
+                    domain="[('imported_document','=',True)]"
+                />
+                <filter
+                    name="awaiting_review"
+                    string="Awaiting Review"
+                    domain="[('imported_document','=',True),('import_state','!=','resolved')]"
+                />
+                <separator />
+                <filter
                     name="document_date"
                     string="Document Date"
                     date="document_date"
@@ -140,12 +151,29 @@
                         groups="l10n_br_fiscal.group_user"
                         attrs="{'invisible': [('state_edoc', '!=', 'autorizada')]}"
                     />
+                    <button
+                        name="action_apply_operation_to_lines"
+                        type="object"
+                        string="Apply Operation To Lines"
+                        groups="l10n_br_fiscal.group_user"
+                        confirm="The fiscal operation of the document will be applied to every line, which recomputes their CFOP and taxes. Quantities and prices are not changed. Continue?"
+                        attrs="{'invisible': ['|', '|', ('imported_document', '=', False), ('state_edoc', '!=', 'em_digitacao'), ('fiscal_operation_id', '=', False)]}"
+                    />
                     <field
                         name="state_edoc"
                         widget="statusbar"
                         statusbar_visible="em_digitacao,a_enviar,autorizada"
                     />
                 </header>
+                <div
+                    class="alert alert-info"
+                    role="alert"
+                    attrs="{'invisible': [('import_review_message','=',False)]}"
+                >
+                    <field name="imported_document" invisible="1" />
+                    <field name="import_state" invisible="1" />
+                    <field name="import_review_message" readonly="1" nolabel="1" />
+                </div>
                 <div
                     class="alert alert-danger"
                     role="alert"
@@ -267,7 +295,7 @@
                                     'no_subcall': True,
                                 }"
                             >
-                                <tree>
+                                <tree decoration-warning="import_state == 'pending'">
                                     <field name="product_id" />
                                     <field name="name" />
                                     <field name="uom_id" />
@@ -278,6 +306,26 @@
                                         widget="many2many_tags"
                                     />
                                     <field name="fiscal_amount_total" sum="Total" />
+                                    <field name="partner_cfop_id" optional="hide" />
+                                    <field name="cfop_warning" optional="hide" />
+                                    <field name="import_uom_id" optional="hide" />
+                                    <field name="import_uom_factor" optional="hide" />
+                                    <field
+                                        name="import_state"
+                                        widget="badge"
+                                        decoration-warning="import_state == 'pending'"
+                                        decoration-info="import_state == 'matched'"
+                                        decoration-success="import_state == 'resolved'"
+                                        optional="show"
+                                        attrs="{'column_invisible': [('parent.imported_document', '=', False)]}"
+                                    />
+                                    <button
+                                        name="action_resolve_line"
+                                        type="object"
+                                        icon="fa-check"
+                                        title="Apply the mapping and resolve the line"
+                                        attrs="{'invisible': ['|', ('import_state', 'in', [False, 'resolved']), ('product_id', '=', False)]}"
+                                    />
                                 </tree>
                             </field>
                         </page>
