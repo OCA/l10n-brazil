@@ -20,6 +20,13 @@ class TestICMSRegulation(TransactionCase):
 
         cls.sc_state_id = cls.env.ref("base.state_br_sc")
         cls.sp_state_id = cls.env.ref("base.state_br_sp")
+        cls.go_state_id = cls.env.ref("base.state_br_go")
+        cls.compra_operation_line_id = cls.env.ref(
+            "l10n_br_fiscal.fo_compras_compras_comercializacao"
+        )
+        cls.devolucao_venda_operation_line_id = cls.env.ref(
+            "l10n_br_fiscal.fo_devolucao_venda_devolucao_venda"
+        )
         cls.venda_operation_line_id = cls.env.ref("l10n_br_fiscal.fo_venda_venda")
         cls.ncm_48191000_id = cls.env.ref("l10n_br_fiscal.ncm_48191000")
         cls.ncm_energia_id = cls.env.ref("l10n_br_fiscal.ncm_27160000")
@@ -147,7 +154,62 @@ class TestICMSRegulation(TransactionCase):
         )
         self.assertFalse(tax_definitions)
 
-    def find_icms_tax(self, in_state_id, out_state_id, ncm_id, ind_final):
+    def test_icms_sale_sp_to_go_is_7(self):
+        """Sale from SP to GO: the SP -> GO rate (Senate Resolution 22/1989)."""
+        tax_icms = self.find_icms_tax(
+            in_state_id=self.go_state_id,
+            out_state_id=self.sp_state_id,
+            ncm_id=self.ncm_48191000_id,
+            ind_final=FINAL_CUSTOMER_NO,
+        )
+        self.assertEqual(tax_icms.percent_amount, 7.00)
+
+    def test_icms_purchase_go_to_sp_is_12(self):
+        """Purchase by a SP company from a GO supplier: the GO -> SP rate."""
+        tax_icms = self.find_icms_tax(
+            in_state_id=self.go_state_id,
+            out_state_id=self.sp_state_id,
+            ncm_id=self.ncm_48191000_id,
+            ind_final=FINAL_CUSTOMER_NO,
+            operation_line=self.compra_operation_line_id,
+        )
+        self.assertEqual(tax_icms.percent_amount, 12.00)
+
+    def test_icms_purchase_sp_to_sp_is_internal(self):
+        """Purchase inside SP keeps the internal rate."""
+        tax_icms = self.find_icms_tax(
+            in_state_id=self.sp_state_id,
+            out_state_id=self.sp_state_id,
+            ncm_id=self.ncm_48191000_id,
+            ind_final=FINAL_CUSTOMER_NO,
+            operation_line=self.compra_operation_line_id,
+        )
+        # The lookup may return more than one ICMS tax for SP -> SP, so compare
+        # with the sale (same states, so direction does not matter) instead of
+        # reading a single record.
+        sale_tax_icms = self.find_icms_tax(
+            in_state_id=self.sp_state_id,
+            out_state_id=self.sp_state_id,
+            ncm_id=self.ncm_48191000_id,
+            ind_final=FINAL_CUSTOMER_NO,
+        )
+        self.assertIn(18.00, tax_icms.mapped("percent_amount"))
+        self.assertEqual(tax_icms, sale_tax_icms)
+
+    def test_icms_sale_return_keeps_sale_direction(self):
+        """The return of a SP -> GO sale keeps the 7% of the original sale."""
+        tax_icms = self.find_icms_tax(
+            in_state_id=self.go_state_id,
+            out_state_id=self.sp_state_id,
+            ncm_id=self.ncm_48191000_id,
+            ind_final=FINAL_CUSTOMER_NO,
+            operation_line=self.devolucao_venda_operation_line_id,
+        )
+        self.assertEqual(tax_icms.percent_amount, 7.00)
+
+    def find_icms_tax(
+        self, in_state_id, out_state_id, ncm_id, ind_final, operation_line=None
+    ):
         self.partner.state_id = in_state_id
         self.company.partner_id.l10n_br_ie_code = False
         self.company.l10n_br_ie_code = False
@@ -159,7 +221,7 @@ class TestICMSRegulation(TransactionCase):
             partner=self.partner,
             product=self.product,
             nbm=self.nbm,
-            operation_line=self.venda_operation_line_id,
+            operation_line=operation_line or self.venda_operation_line_id,
             ind_final=ind_final,
         )
         return tax_icms.filtered(lambda t: t.tax_domain == TAX_DOMAIN_ICMS)
