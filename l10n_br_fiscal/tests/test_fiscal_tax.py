@@ -448,3 +448,90 @@ class TestFiscalTax(TransactionCase):
         with patch.object(type(fiscal_taxes), "_compute_icms", _raise_attribute_error):
             with self.assertRaises(AttributeError):
                 fiscal_taxes.compute_taxes(**kwargs)
+
+    def test_compute_taxes_withholding_waiver(self):
+        """IRRF of R$ 10,00 or less is not withheld (dispensa legal).
+
+        Art. 67 of Lei 9.430/1996, art. 714 of RIR/2018 and Solução de
+        Consulta COSIT 258/2024: the IRRF on professional services of
+        R$ 10,00 or less is not withheld. The waiver lives on the tax
+        (``withholding_min_value``) so it does not touch the other
+        withholdings, which follow their own legal limits.
+        """
+        kwargs = self._create_compute_taxes_kwargs()
+        currency = kwargs["company"].currency_id
+        irpj_wh = self.env.ref("l10n_br_fiscal.tax_irpj_wh_1")
+
+        def _assert_irpj_wh(price, expected_value):
+            kwargs.update(
+                {
+                    "price_unit": price,
+                    "fiscal_price": price,
+                    "quantity": 1.0,
+                    "fiscal_quantity": 1.0,
+                }
+            )
+            compute_result = irpj_wh.compute_taxes(**kwargs)
+            irpj = compute_result["taxes"]["irpj_wh"]
+            self.assertEqual(
+                float_compare(
+                    irpj["base"], price, precision_rounding=currency.rounding
+                ),
+                0,
+            )
+            # the base and the rate are kept: the calculation is documented
+            self.assertEqual(
+                float_compare(irpj["percent_amount"], 1.5, precision_rounding=0.01),
+                0,
+            )
+            self.assertEqual(
+                float_compare(
+                    irpj["tax_value"],
+                    expected_value,
+                    precision_rounding=currency.rounding,
+                ),
+                0,
+                f"IRRF on {price}: expected {expected_value}, got {irpj['tax_value']}",
+            )
+            self.assertEqual(
+                float_compare(
+                    compute_result["amount_withholding"],
+                    expected_value,
+                    precision_rounding=currency.rounding,
+                ),
+                0,
+            )
+
+        # 406,27 x 1,5% = 6,09, the case reported on issue #5392
+        _assert_irpj_wh(406.27, 0.00)
+        # 666,67 x 1,5% = 10,00: the limit itself is dispensed
+        _assert_irpj_wh(666.67, 0.00)
+        # 700,00 x 1,5% = 10,50: above the limit, withheld
+        _assert_irpj_wh(700.00, 10.50)
+        _assert_irpj_wh(5000.00, 75.00)
+
+        # withdrawing the waiver (0,00) restores the plain computation
+        irpj_wh.withholding_min_value = 0.00
+        _assert_irpj_wh(406.27, 6.09)
+        irpj_wh.withholding_min_value = 10.00
+
+        # a withholding tax with no waiver configured keeps its value
+        kwargs.update(
+            {
+                "price_unit": 100.00,
+                "fiscal_price": 100.00,
+                "quantity": 1.0,
+                "fiscal_quantity": 1.0,
+            }
+        )
+        issqn_wh = self.env.ref("l10n_br_fiscal.tax_issqn_wh_3")
+        self.assertFalse(issqn_wh.withholding_min_value)
+        issqn_result = issqn_wh.compute_taxes(**kwargs)
+        self.assertEqual(
+            float_compare(
+                issqn_result["taxes"]["issqn_wh"]["tax_value"],
+                3.00,
+                precision_rounding=currency.rounding,
+            ),
+            0,
+        )
