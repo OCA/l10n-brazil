@@ -2,7 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
-from odoo.tools import float_is_zero
+from odoo.tools import float_compare, float_is_zero
 
 from ..constants.fiscal import (
     CFOP_DESTINATION_EXPORT,
@@ -175,6 +175,21 @@ class Tax(models.Model):
     )
 
     uot_id = fields.Many2one(comodel_name="uom.uom", string="Tax UoM")
+
+    withholding_min_value = fields.Float(
+        string="Minimum Withholding Value",
+        digits="Fiscal Tax Value",
+        default=0.00,
+        help="Legal waiver of withholding (dispensa de retenção): when the "
+        "value computed for this withholding tax is equal or lower than this "
+        "amount, the tax is not withheld. For instance R$ 10,00 for the IRRF "
+        "on professional services, per art. 67 of Lei 9.430/1996 and "
+        "Solução de Consulta COSIT 258/2024.\n"
+        "Kept empty (0,00) means no waiver. It applies to the value computed "
+        "for one document line: the Brazilian law sets the limit per payment "
+        "or credit event, which the fiscal engine cannot know when it "
+        "computes the document.",
+    )
 
     tax_group_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.group",
@@ -966,6 +981,13 @@ class Tax(models.Model):
 
             tax_domain = taxes[tax.tax_domain]
             tax_value = tax_domain.get("tax_value", 0.00)
+            if (
+                tax_domain["tax_withholding"]
+                and tax_value
+                and tax.withholding_min_value
+                and self._is_withholding_waived(tax, tax_value, **kwargs)
+            ):
+                tax_domain["tax_value"] = tax_value = 0.00
             if tax_domain["tax_withholding"]:
                 result_amounts["amount_withholding"] += tax_value
             else:
@@ -978,6 +1000,26 @@ class Tax(models.Model):
         result_amounts["estimate_tax"] = self._compute_estimate_taxes(**kwargs)
         result_amounts["taxes"] = taxes
         return result_amounts
+
+    @api.model
+    def _is_withholding_waived(self, tax, tax_value, **kwargs):
+        """Tell if ``tax_value`` falls under the legal withholding waiver of
+        ``tax`` (``withholding_min_value``), i.e. is equal or lower than it.
+
+        The comparison uses the currency rounding, so a value that rounds to
+        the minimum (R$ 10,00) is still waived, as the law says "igual ou
+        inferior".
+        """
+        company = kwargs.get("company") or tax.env.company
+        currency = kwargs.get("currency") or company.currency_id
+        return (
+            float_compare(
+                tax_value,
+                tax.withholding_min_value,
+                precision_rounding=currency.rounding,
+            )
+            <= 0
+        )
 
     @api.depends("icmsst_base_type")
     def _compute_tax_base_type(self):

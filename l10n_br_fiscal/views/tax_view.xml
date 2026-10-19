@@ -93,6 +93,10 @@
                             options="{'no_create': True, 'no_create_edit': True}"
                         />
                         <field
+                            name="withholding_min_value"
+                            invisible="not tax_group_id.tax_withholding"
+                        />
+                        <field
                             name="cst_in_id"
                             invisible="tax_domain not in ['icms', 'icmssn', 'icmsst', 'ipi', 'pis', 'cofins', 'ibs', 'cbs']"
                             options="{'no_create': True, 'no_create_edit': True}"
