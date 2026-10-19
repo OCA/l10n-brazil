@@ -3,8 +3,10 @@
 
 from datetime import datetime
 from unittest import mock
+from urllib.parse import parse_qs, urlparse
 
 from erpbrasil.assinatura import misc
+from lxml import html
 
 from odoo import Command
 from odoo.fields import Datetime
@@ -154,6 +156,32 @@ class TestNFCe(TestNFeExport):
         qr_code_url = self.document_id.get_nfce_qrcode_url()
         self.assertIsNotNone(qr_code)
         self.assertIsNotNone(qr_code_url)
+
+    def test_danfce_qrcode_image_url(self):
+        """The DANFCE QR Code image must use the barcode_type parameter
+        expected by the /report/barcode route (web controller)."""
+        report = self.env["ir.actions.report"]._get_report_from_name(
+            "l10n_br_nfe.report_danfe_nfce"
+        )
+        data = self.document_id._prepare_nfce_danfe_values()
+        content = report._render_qweb_html(
+            "l10n_br_nfe.report_danfe_nfce", self.document_id.ids, data=data
+        )[0]
+        sources = html.fromstring(content).xpath("//img/@src")
+        barcode_sources = [src for src in sources if "/report/barcode" in src]
+        self.assertEqual(len(barcode_sources), 1)
+        params = parse_qs(urlparse(barcode_sources[0]).query)
+        self.assertEqual(params.get("barcode_type"), ["QR"])
+        self.assertNotIn("type", params)
+        # The route signature is barcode(barcode_type, value, **kwargs),
+        # so the image is only generated when barcode_type is present.
+        image = report.barcode(
+            params["barcode_type"][0],
+            params["value"][0],
+            width=int(params["width"][0]),
+            height=int(params["height"][0]),
+        )
+        self.assertTrue(image.startswith(b"\x89PNG"))
 
     @nfe_mock({"nfeAutorizacaoLote": "retEnviNFe/autorizada.xml"})
     def test_prepare_nfce_payment(self):
