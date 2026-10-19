@@ -4,7 +4,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-05 07:08+0000\n"
 "PO-Revision-Date: 2026-10-19 07:07+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Last-Translator: Rodrigo Sottomaior Macedo "
+"<sottomaiormacedotec@sottomaiormacedo.tech>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -333,8 +334,7 @@ msgstr "CST PIS ST"
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_picking_type__pre_generate_fiscal_document_number
 msgid ""
 "Check this box if you want to generate fiscal document for this operation."
-msgstr ""
-"Marque esta caixa se desejar gerar documento fiscal para esta operação."
+msgstr "Marque esta caixa se desejar gerar documento fiscal para esta operação."
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__city_taxation_code_id
