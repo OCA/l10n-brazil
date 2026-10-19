@@ -93,6 +93,7 @@
                         <group name="parties">
                             <field name="fornecedor_partner_id" />
                             <field name="importador_nome" />
+                            <field name="importador_numero" />
                             <field name="incoterm" />
                             <field
                                 name="fiscal_operation_id"
@@ -103,6 +104,21 @@
                                 groups="base.group_multi_company"
                             />
                             <field name="currency_id" invisible="1" />
+                        </group>
+                    </group>
+                    <group>
+                        <!-- These four feed the NF-e import-declaration
+                             group (l10n_br_duimp_nfe), where the layout
+                             requires them: they are editable so they can
+                             be completed by hand when the DUIMP payload
+                             does not carry them. -->
+                        <group name="clearance" string="Customs Clearance">
+                            <field name="urf_despacho_nome" />
+                            <field name="uf_desembaraco" />
+                        </group>
+                        <group name="transport" string="Transport">
+                            <field name="via_transporte_codigo" />
+                            <field name="caracterizacao_operacao_codigo" />
                         </group>
                     </group>
                     <notebook>
@@ -123,6 +139,7 @@
                                     <field name="uom_id" />
                                     <field name="price_unit" />
                                     <field name="valor_aduaneiro" />
+                                    <field name="addition_deduction" readonly="1" />
                                     <field name="amount_afrmm" readonly="1" />
                                     <field name="amount_other" readonly="1" />
                                     <field name="final_price_unit" readonly="1" />
@@ -153,6 +170,8 @@
                                 <tree>
                                     <field name="codigo_receita" />
                                     <field name="nome_tipo_pagamento" />
+                                    <field name="data_pagamento" />
+                                    <field name="numero_retificacao" />
                                     <field name="valor_receita" />
                                     <field name="valor_juros_encargos" />
                                     <field name="valor_multa" />

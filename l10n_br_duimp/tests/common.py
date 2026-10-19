@@ -46,10 +46,25 @@ def duimp_fake_payload():
                 {"tipo": "COFINS", "valoresBRL": {"devido": 970.00}},
             ]
         },
+        "importador": {"nome": "Test Importer SA", "ni": "12345678000195"},
+        "condicaoVenda": {"incoterm": "FOB"},
+        "despacho": {
+            "urfDespacho": {"nome": "PORTO DE SANTOS"},
+            "ufDesembaraco": "SP",
+            "dataDesembaraco": "2026-02-10",
+        },
+        "carga": {
+            "viaTransporte": {"codigo": "01"},
+            "caracterizacaoOperacao": {"codigo": "1"},
+            "frete": {"totalReais": 300.00},
+            "seguro": {"totalReais": 150.00},
+        },
         "pagamentos": [
             {
                 "codigoReceita": "0086",
                 "nomeTipoPagamento": "II",
+                "dataPagamento": "2026-02-11",
+                "numeroRetificacao": "0",
                 "valorReceita": 1541.00,
                 "valorJurosEncargos": 0.0,
                 "valorMulta": 0.0,
@@ -68,12 +83,15 @@ def duimp_fake_payload():
                 "dadosMercadoria": {
                     "quantidadeUnidadeComercializada": 100.0,
                     "unidadeComercializada": "UN",
+                    "valorUnitarioCondicaoVenda": 9.52,
                 },
                 "valorMercadoria": {
                     "valorMercadoria": 5000.00,
                     "valorAduaneiro": 5300.00,
                     "valorFreteRateado": 200.00,
                     "valorSeguroRateado": 100.00,
+                    "moedaNegociada": {"codigo": "220"},
+                    "taxaCambio": 5.25,
                 },
                 "calculosTributos": [
                     {
@@ -103,6 +121,26 @@ def duimp_fake_payload():
                     "valorFreteRateado": 100.00,
                     "valorSeguroRateado": 50.00,
                 },
+                # only item 2 carries additions/deductions, so the tests
+                # that assert "no additions => final == price_unit" keep
+                # using item 1. Net +200.00 over 40 units => +5.00/unit.
+                "acrescimosDeducoes": [
+                    {
+                        "codigo": "16",
+                        "denominacao": "Frete internacional",
+                        "tipo": "ACRESCIMO",
+                        "valorReais": 300.00,
+                        "valorMoedaNegociada": 57.14,
+                        "moedaNegociada": {"codigo": "220"},
+                        "taxaCambio": 5.25,
+                    },
+                    {
+                        "codigo": "99",
+                        "denominacao": "Desconto comercial",
+                        "tipo": "DEDUCAO",
+                        "valorReais": 100.00,
+                    },
+                ],
                 "calculosTributos": [
                     {
                         "tipo": "II",
