@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Akretion - Raphaël Valyi <rvalyi@akretion.com>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <!-- Dispensa legal de retenção do IRRF de valor igual ou inferior a
+         R$ 10,00: art. 67 da Lei 9.430/1996, art. 714 do RIR/2018 e Solução
+         de Consulta COSIT 258/2024.
+         The 1,5% rate applies to professional services (art. 714 of RIR/2018)
+         and the 1% one to cleaning, security, surveillance and manpower
+         rental services (art. 715 of RIR/2018); both are IRRF subject to the
+         waiver. Set 0,00 on a tax record to withdraw the waiver. -->
+    <record id="tax_irpj_wh_1" model="l10n_br_fiscal.tax">
+        <field name="withholding_min_value">10.00</field>
+    </record>
+    <record id="tax_irpj_wh_1_percent" model="l10n_br_fiscal.tax">
+        <field name="withholding_min_value">10.00</field>
+    </record>
+</odoo>
