@@ -17,11 +17,11 @@ msgstr ""
 "X-Generator: Weblate 5.15.2\n"
 
 #. module: l10n_br_account_due_list
-#: model:ir.model.fields,field_description:l10n_br_account_due_list.field_account_bank_statement_line__financial_move_line_ids
-#: model:ir.model.fields,field_description:l10n_br_account_due_list.field_account_move__financial_move_line_ids
-#: model:ir.model.fields,field_description:l10n_br_account_due_list.field_account_payment__financial_move_line_ids
-msgid "Financial Move Lines"
-msgstr "Líneas de movimiento financiero"
+#: model:ir.model.fields,field_description:l10n_br_account_due_list.field_account_bank_statement_line__due_line_ids
+#: model:ir.model.fields,field_description:l10n_br_account_due_list.field_account_move__due_line_ids
+#: model:ir.model.fields,field_description:l10n_br_account_due_list.field_account_payment__due_line_ids
+msgid "Installments"
+msgstr ""
 
 #. module: l10n_br_account_due_list
 #: model:ir.model,name:l10n_br_account_due_list.model_account_move
@@ -37,8 +37,15 @@ msgstr "Por pagar"
 #: model:ir.model.fields,field_description:l10n_br_account_due_list.field_account_bank_statement_line__payment_move_line_ids
 #: model:ir.model.fields,field_description:l10n_br_account_due_list.field_account_move__payment_move_line_ids
 #: model:ir.model.fields,field_description:l10n_br_account_due_list.field_account_payment__payment_move_line_ids
-msgid "Payment Move Lines"
-msgstr "Líneas de movimiento de pagos"
+msgid "Payment Lines"
+msgstr ""
+
+#. module: l10n_br_account_due_list
+#: model:ir.model.fields,help:l10n_br_account_due_list.field_account_bank_statement_line__payment_move_line_ids
+#: model:ir.model.fields,help:l10n_br_account_due_list.field_account_move__payment_move_line_ids
+#: model:ir.model.fields,help:l10n_br_account_due_list.field_account_payment__payment_move_line_ids
+msgid "Payment journal items reconciled with this invoice."
+msgstr ""
 
 #. module: l10n_br_account_due_list
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_due_list.invoice_form
@@ -49,3 +56,9 @@ msgstr "Pagos"
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_due_list.invoice_form
 msgid "Receivables"
 msgstr "Por cobrar"
+
+#~ msgid "Financial Move Lines"
+#~ msgstr "Líneas de movimiento financiero"
+
+#~ msgid "Payment Move Lines"
+#~ msgstr "Líneas de movimiento de pagos"
