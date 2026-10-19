@@ -19,6 +19,7 @@
         "views/res_config_settings_view.xml",
         "views/res_company_view.xml",
         "views/sale_view.xml",
+        "views/sale_portal_templates.xml",
         # Report
         "report/sale_report_view.xml",
         "report/sale_report_templates.xml",
