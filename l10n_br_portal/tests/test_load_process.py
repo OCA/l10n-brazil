@@ -40,3 +40,28 @@ class TestUi(HttpCase):
         )
         self.assertEqual(partner.l10n_br_ie_code, record.l10n_br_ie_code)
         self.assertEqual(partner.l10n_br_im_code, record.l10n_br_im_code)
+
+
+@tagged("post_install", "-at_install")
+class TestPortalVatLabel(HttpCase):
+    def _get_account_page(self, is_company):
+        partner = self.env["res.partner"].create(
+            {"name": "Portal Partner", "is_company": is_company}
+        )
+        user = self.env["res.users"].create(
+            {
+                "name": "Portal User",
+                "login": "portal_vat_label_%s" % is_company,
+                "password": "portal_vat_label_%s" % is_company,
+                "partner_id": partner.id,
+                "groups_id": [(6, 0, [self.env.ref("base.group_portal").id])],
+            }
+        )
+        self.authenticate(user.login, user.login)
+        return self.url_open("/my/account").text
+
+    def test_vat_label_company(self):
+        self.assertIn('for="vat"', self._get_account_page(True))
+
+    def test_vat_label_person(self):
+        self.assertIn('for="vat"', self._get_account_page(False))

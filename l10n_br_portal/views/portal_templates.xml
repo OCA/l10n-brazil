@@ -88,7 +88,6 @@
                                 t-attf-class="form-group #{error.get('vat') and 'o_has_error' or ''} col-xl-6"
                             >
                                 <label
-                                    t-if="user_id.partner_id.is_company == False"
                                     class="col-form-label label-optional"
                                     for="vat"
                                 >CNPJ/CPF</label>
