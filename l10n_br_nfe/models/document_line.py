@@ -234,7 +234,9 @@ class NFeLine(spec_models.StackedModel):
             # compose vItem automatically, keeping sum(vItem) == vNFTot).
             if not self.document_id._nfe_export_ibscbs_totals():
                 return False
-            return f"{self.fiscal_amount_total:.2f}"
+            # Withholdings do not reduce the value of the item (retTrib).
+            amount = self.fiscal_amount_total + self.amount_tax_withholding
+            return f"{amount:.2f}"
 
         return super()._export_field(xsd_field, class_obj, member_spec, export_value)
 
