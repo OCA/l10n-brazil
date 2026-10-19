@@ -13,4 +13,17 @@
             </field>
         </field>
     </record>
+
+    <!-- A lista editável do menu Incoterms nunca abre o formulário -->
+    <record id="l10n_br_delivery_account_incoterms_tree" model="ir.ui.view">
+        <field name="name">account.incoterms.tree</field>
+        <field name="model">account.incoterms</field>
+        <field name="priority">10</field>
+        <field name="inherit_id" ref="account.view_incoterms_tree" />
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="freight_responsibility" />
+            </field>
+        </field>
+    </record>
 </odoo>
