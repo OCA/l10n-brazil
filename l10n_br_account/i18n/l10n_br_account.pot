@@ -1841,6 +1841,11 @@ msgid "Model Data"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_ir_model_inherit
+msgid "Model Inheritance Tree"
+msgstr ""
+
+#. module: l10n_br_account
 #. odoo-python
 #: code:addons/l10n_br_account/models/account_move.py:0
 msgid ""
