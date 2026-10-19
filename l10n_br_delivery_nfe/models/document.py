@@ -39,3 +39,21 @@ class Document(models.Model):
                 record.nfe40_transporta = False
             else:
                 record.nfe40_transporta = record.carrier_id.partner_id
+
+    total_weight = fields.Float(
+        compute="_compute_total_weight",
+        store=True,
+        readonly=False,
+    )
+
+    @api.depends("nfe40_vol.nfe40_pesoB")
+    def _compute_total_weight(self):
+        """Total weight is the sum of the gross weight of the volumes.
+
+        Without volumes the value already set (manually) is kept.
+        """
+        for record in self:
+            if record.nfe40_vol:
+                record.total_weight = sum(record.nfe40_vol.mapped("nfe40_pesoB"))
+            else:
+                record.total_weight = record.total_weight
