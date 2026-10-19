@@ -475,6 +475,16 @@ msgid "Discount in Sales Orders per Value"
 msgstr "Desconto no Pedido de Vendas por Valor"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__key_check_digit
+msgid "Document Key Check Digit"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__key_random_code
+msgid "Document Key Random Code"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__document_number
 msgid "Document Number"
 msgstr ""
@@ -606,6 +616,7 @@ msgstr "Impostos Fiscais"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__fiscal_type
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__operation_fiscal_type
 msgid "Fiscal Type"
 msgstr "Tipo Fiscal"
 
@@ -1134,6 +1145,21 @@ msgid "Inscr. Estadual"
 msgstr "Inscr. Estadual"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__insurance_endorsement
+msgid "Insurance Endorsement"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__insurance_policy
+msgid "Insurance Policy"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__partner_insurance_id
+msgid "Insurance Provider"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_insurance_value
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__insurance_value
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report__insurance_value
@@ -1422,6 +1448,11 @@ msgid "Partner Order Line (nItemPed)"
 msgstr "Linha de Pedido do Parceiro (nItemPed)"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__p_devol
+msgid "Percentual de mercadoria devolvida"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__price_tax
 msgid "Price Tax"
 msgstr ""
@@ -1468,6 +1499,11 @@ msgid "Razão Social"
 msgstr "Razão Social"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__partner_receivering_id
+msgid "Receiver Address"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_res_company_form
 msgid "Sales"
 msgstr "Vendas"
@@ -1488,6 +1524,11 @@ msgid "Sales Order Line"
 msgstr "Linha do Pedido de Vendas"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__partner_sendering_id
+msgid "Sender Address"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__document_serie
 msgid "Serie Number"
 msgstr ""
@@ -1500,6 +1541,11 @@ msgstr "Tipo de Serviço LC 166"
 #. module: l10n_br_sale
 #: model:ir.model.fields.selection,name:l10n_br_sale.selection__sale_report__fiscal_type__09
 msgid "Serviços"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__partner_shippering_id
+msgid "Shipper Address"
 msgstr ""
 
 #. module: l10n_br_sale
@@ -1674,10 +1720,59 @@ msgstr ""
 "no menu Configuração)"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order__insurance_endorsement
+msgid ""
+"The endorsement number associated with the insurance policy, indicating any "
+"modifications or adjustments to the coverage. This field is primarily used "
+"when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order__insurance_policy
+msgid ""
+"The insurance policy number covering the transported goods. This field is "
+"primarily used when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order__partner_receivering_id
+msgid ""
+"The intermediary partner who receives the goods before they reach the final "
+"recipient, often involved in verification, temporary storage, or further "
+"distribution. This field is primarily used when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order__partner_insurance_id
+msgid ""
+"The partner providing insurance coverage for the transported goods. This "
+"field is primarily used when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order__partner_shippering_id
+msgid ""
+"The partner responsible for delivering the cargo to the carrier, if not done "
+"directly by the sender. This field is primarily used when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order__partner_sendering_id
+msgid ""
+"The partner responsible for sending the goods, typically the issuer of the "
+"document. This field is primarily used when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_total
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__price_total
 msgid "Total"
 msgstr "Total"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__total_weight
+msgid "Total Weight"
+msgstr ""
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__financial_total_gross
@@ -1734,6 +1829,11 @@ msgstr ""
 #. module: l10n_br_sale
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__icms_substitute
 msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__ipi_devol_value
+msgid "Valor do IPI devolvido"
 msgstr ""
 
 #~ msgid "(-) Amount Tax Withholding"
