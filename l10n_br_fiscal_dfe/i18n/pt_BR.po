@@ -265,6 +265,11 @@ msgid "Created on"
 msgstr "Criado em"
 
 #. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
 #: model:ir.model,name:l10n_br_fiscal_dfe.model_l10n_br_fiscal_dfe_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_res_company_form
@@ -398,8 +403,8 @@ msgid ""
 "Document situation code as received from the distribution service (semantics "
 "depend on the fiscal document type)."
 msgstr ""
-"Código de situação do documento conforme recebido do serviço de "
-"distribuição (o significado depende do tipo de documento fiscal)."
+"Código de situação do documento conforme recebido do serviço de distribuição "
+"(o significado depende do tipo de documento fiscal)."
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.actions.server,name:l10n_br_fiscal_dfe.action_server_download_xmls_zip
@@ -680,8 +685,8 @@ msgid ""
 "Receive Inbox notifications when the DF-e distribution finds new third-party "
 "documents."
 msgstr ""
-"Recebe notificações na Caixa de Entrada quando a distribuição DF-e "
-"encontra novos documentos de terceiros."
+"Recebe notificações na Caixa de Entrada quando a distribuição DF-e encontra "
+"novos documentos de terceiros."
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__request_xml
@@ -777,6 +782,7 @@ msgid "Specific search triggered successfully"
 msgstr "Pesquisa específica acionada com sucesso"
 
 #. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__document_state_label
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_tree
 msgid "State"
 msgstr "Estado"
