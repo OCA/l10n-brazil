@@ -2,6 +2,8 @@
 # @author Cristiano Mafra Junior
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from erpbrasil.base.fiscal.edoc import ChaveEdoc
+
 from odoo.exceptions import ValidationError
 from odoo.tests import TransactionCase
 
@@ -206,3 +208,21 @@ class CNPJAlfanumericoTest(TransactionCase):
         self.assertTrue(
             pix.id, "PIX key with unmasked alphanumeric CNPJ was not created"
         )
+
+    def test_access_key_with_alphanumeric_cnpj(self):
+        """Access key built and validated with an alphanumeric CNPJ issuer
+        (needs erpbrasil-base>=2.5.0)."""
+        key = ChaveEdoc(
+            codigo_uf=35,
+            ano_mes="2610",
+            cnpj_cpf_emitente="A87HBZHB000161",
+            modelo_documento=55,
+            numero_serie=1,
+            numero_documento=123,
+            forma_emissao=1,
+            codigo_aleatorio="12345678",
+            validar=True,
+        )
+        self.assertEqual(key.chave, "352610A87HBZHB000161550010000001231123456783")
+        # Parsing the same key back must also validate
+        self.assertTrue(ChaveEdoc(chave=key.chave, validar=True))

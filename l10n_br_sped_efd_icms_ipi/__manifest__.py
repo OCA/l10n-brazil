@@ -14,7 +14,7 @@
     "depends": ["l10n_br_sped_base", "l10n_br_account", "stock_account"],
     "external_dependencies": {
         "python": [
-            "erpbrasil-base>=2.4.2",
+            "erpbrasil-base>=2.5.0",
         ]
     },
     "data": [

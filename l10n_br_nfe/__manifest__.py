@@ -60,7 +60,7 @@
             "erpbrasil.assinatura",
             "erpbrasil.transmissao",
             "erpbrasil.edoc",
-            "erpbrasil-base>=2.4.2",
+            "erpbrasil-base>=2.5.0",
             "brazilfiscalreport>=1.3.0",
         ],
     },
