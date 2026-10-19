@@ -17,6 +17,11 @@ msgstr ""
 "X-Generator: Weblate 5.15.2\n"
 
 #. module: l10n_br_coa
+#: model:ir.model,name:l10n_br_coa.model_account_account
+msgid "Account"
+msgstr ""
+
+#. module: l10n_br_coa
 #: model:ir.model,name:l10n_br_coa.model_account_chart_template
 msgid "Account Chart Template"
 msgstr "Plantilla del plan contable"
@@ -35,6 +40,11 @@ msgstr "Mezcla de impuestos sobre cuentas"
 #: model:ir.ui.menu,name:l10n_br_coa.account_reports_br_statements_menu
 msgid "Brazil"
 msgstr "Brasil"
+
+#. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_cbs
+msgid "CBS"
+msgstr ""
 
 #. module: l10n_br_coa
 #: model:account.tax.group,name:l10n_br_coa.tax_group_cofins
@@ -67,6 +77,21 @@ msgid "Chart Template"
 msgstr "Plantilla de gráfico"
 
 #. module: l10n_br_coa
+#: model:ir.model.fields,help:l10n_br_coa.field_account_account__l10n_br_sped_referential_code
+msgid ""
+"Codigo da conta no plano de contas referencial da Receita Federal em que "
+"esta conta desagua. E o mesmo de-para nas duas escrituracoes: alimenta o "
+"registro I051 da ECD e os registros J051, K156, K356, P100 e P150 da ECF. "
+"Quem tem o plano referencial carregado num modulo de de-para preenche este "
+"campo por la."
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:ir.model.fields,field_description:l10n_br_coa.field_account_account__l10n_br_sped_referential_code
+msgid "Conta referencial da RFB"
+msgstr ""
+
+#. module: l10n_br_coa
 #: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template__create_uid
 msgid "Created by"
 msgstr "Creado por"
@@ -97,6 +122,11 @@ msgstr "¿Impuesto deducible?"
 #: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template__display_name
 msgid "Display Name"
 msgstr "Mostrar Nombre"
+
+#. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_ibs
+msgid "IBS"
+msgstr ""
 
 #. module: l10n_br_coa
 #: model:account.tax.group,name:l10n_br_coa.tax_group_icms
@@ -162,6 +192,11 @@ msgstr "IRPJ"
 #: model:account.tax.group,name:l10n_br_coa.tax_group_irpj_wh
 msgid "IRPJ WH"
 msgstr "IRPJ WH"
+
+#. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_is
+msgid "IS"
+msgstr ""
 
 #. module: l10n_br_coa
 #: model:account.tax.group,name:l10n_br_coa.tax_group_issqn
@@ -237,6 +272,13 @@ msgstr "Grupo de impuesto"
 #: model:ir.model,name:l10n_br_coa.model_account_tax_template
 msgid "Templates for Taxes"
 msgstr "Plantillas para impuestos"
+
+#. module: l10n_br_coa
+#. odoo-python
+#: code:addons/l10n_br_coa/models/account_chart_template.py:0
+#, python-format
+msgid "Transferência entre Contas de Liquidez"
+msgstr ""
 
 #. module: l10n_br_coa
 #: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax__withholdable
