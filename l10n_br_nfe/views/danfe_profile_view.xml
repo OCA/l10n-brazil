@@ -27,7 +27,6 @@
                         bg_color="bg-danger"
                         invisible="active"
                     />
-                    <field name="active" invisible="1" />
                     <div class="oe_title">
                         <label for="name" />
                         <h1>

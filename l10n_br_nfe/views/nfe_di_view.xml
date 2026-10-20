@@ -29,14 +29,11 @@
                         <field name="nfe40_tpViaTransp" />
                         <field name="nfe40_tpIntermedio" />
                         <field name="partner_acquirer_id" />
-                        <field name="nfe40_CNPJ" invisible="1" />
-                        <field name="nfe40_UFTerceiro" invisible="1" />
                         <field name="nfe40_cExportador" />
                         <field name="nfe40_vAFRMM" />
                     </group>
                     <group>
                         <field name="state_clearance_id" />
-                        <field name="nfe40_UFDesemb" invisible="1" />
                         <field name="nfe40_xLocDesemb" />
                         <field name="nfe40_dDesemb" />
                     </group>
