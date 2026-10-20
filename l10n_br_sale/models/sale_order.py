@@ -96,7 +96,7 @@ class SaleOrder(models.Model):
             self.env.user.has_group("l10n_br_sale.group_line_fiscal_detail")
             or self.env.context.get("force_line_fiscal_detail_edition")
         ):
-            for sub_tree_node in arch.xpath("//field[@name='order_line']/tree"):
+            for sub_tree_node in arch.xpath("//field[@name='order_line']/list"):
                 sub_tree_node.attrib["editable"] = ""
 
         return arch, view

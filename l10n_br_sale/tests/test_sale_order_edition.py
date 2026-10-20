@@ -1,6 +1,8 @@
 # Copyright (C) 2026 - TODAY Akretion
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+from lxml import etree
+
 from odoo.tests import Form, TransactionCase, tagged
 
 from odoo.addons.l10n_br_fiscal.tests.tools import load_fiscal_fixture_files
@@ -209,3 +211,11 @@ class TestSaleOrderEdition(TransactionCase):
             msg="Widget total should match the stored total after edition.",
         )
         self._assert_widget_icms_matches_line(sale_order)
+
+    def test_line_fiscal_detail_opens_the_line_in_a_popup(self):
+        order = self.env["sale.order"].with_context(
+            force_line_fiscal_detail_edition=True
+        )
+        arch = order.get_views([(False, "form")])["views"]["form"]["arch"]
+        (node,) = etree.fromstring(arch).xpath("//field[@name='order_line']/list")
+        self.assertFalse(node.get("editable"))
