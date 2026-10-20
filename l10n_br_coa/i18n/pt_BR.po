@@ -6,21 +6,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-05-29 20:35+0000\n"
-"Last-Translator: Rodrigo Macedo "
-"<sottomaiormacedotec@users.noreply.translation.odoo-community.org>\n"
+"PO-Revision-Date: 2026-10-20 19:45+0000\n"
+"Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: l10n_br_coa
 #: model:ir.model,name:l10n_br_coa.model_account_account
 msgid "Account"
-msgstr ""
+msgstr "Conta"
 
 #. module: l10n_br_coa
 #: model:ir.model,name:l10n_br_coa.model_account_chart_template
@@ -926,7 +925,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_others
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_others
 msgid "Others"
-msgstr ""
+msgstr "Outros"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_pis
