@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-20 19:45+0000\n"
+"PO-Revision-Date: 2026-10-20 20:14+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -193,7 +193,7 @@ msgstr "Inconterm Fiscal"
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_order__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_stock_picking__fiscal_proxy_incoterm_id
 msgid "Fiscal Proxy Incoterm"
-msgstr "Incoterm fiscal do intermediário"
+msgstr "Incoterm fiscal (proxy)"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_account_incoterms__freight_responsibility
