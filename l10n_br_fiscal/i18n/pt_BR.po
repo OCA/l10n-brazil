@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: L10n-brazil 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-20 21:53+0000\n"
+"PO-Revision-Date: 2026-10-20 22:09+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -5002,7 +5002,7 @@ msgstr "Código CST do IPI"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__ipi_control_seal_id
 #: model:ir.ui.menu,name:l10n_br_fiscal.tax_ipi_control_seal_menu
 msgid "IPI Control Seal"
-msgstr "Vedação de controle do IPI"
+msgstr "Selo de controle do IPI"
 
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.tax_ipi_guideline_action
@@ -6306,7 +6306,7 @@ msgstr "Faixa Nacional Simplificada de Impostos"
 #: model:ir.ui.menu,name:l10n_br_fiscal.national_taxation_code_menu
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
 msgid "National Taxation Code"
-msgstr "Código de tributação nacional"
+msgstr "Código de Tributação Nacional"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__national_taxation_code_id
@@ -6318,7 +6318,7 @@ msgstr "Código de tributação nacional do ISS (NFS-e Nacional)"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__national_taxation_code_ids
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
 msgid "National Taxation Codes"
-msgstr "Códigos de tributação nacional"
+msgstr "Códigos de Tributação Nacional"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__activity_calendar_event_id
@@ -6929,13 +6929,13 @@ msgstr "Tipo da Base do PIS"
 #: model:ir.actions.act_window,name:l10n_br_fiscal.tax_pis_cofins_base_action
 #: model:ir.ui.menu,name:l10n_br_fiscal.tax_pis_cofins_base_menu
 msgid "PIS COFINS Base"
-msgstr "PIS COFINS Base"
+msgstr "Base PIS/COFINS"
 
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.tax_pis_cofins_credit_action
 #: model:ir.ui.menu,name:l10n_br_fiscal.tax_pis_cofins_credit_menu
 msgid "PIS COFINS Credit"
-msgstr "Crédito PIS COFINS"
+msgstr "Crédito PIS/COFINS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__pis_cst_code
@@ -8887,7 +8887,7 @@ msgstr "Escopo do imposto"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.product_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.product_template_form
 msgid "Tax UOM"
-msgstr "UOM fiscal"
+msgstr "Unidades fiscais"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__uot_id
