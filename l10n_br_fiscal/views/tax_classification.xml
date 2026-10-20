@@ -34,7 +34,6 @@
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <field name="name" position="after">
-                <field name="cst_code_prefix_like" column_invisible="True" />
                 <field name="tax_ibs_id" />
                 <field name="tax_cbs_id" />
                 <field name="regular_taxation" string="Regular Taxation" />
@@ -56,7 +55,6 @@
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <field name="name" position="after">
-                <field name="cst_code_prefix_like" invisible="1" />
                 <field name="description" />
                 <field name="rate_type" />
             </field>

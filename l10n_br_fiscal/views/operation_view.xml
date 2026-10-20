@@ -43,7 +43,6 @@
         <field name="model">l10n_br_fiscal.operation</field>
         <field name="arch" type="xml">
             <form string="Fiscal Operation">
-                <field name="id" invisible="1" />
                 <header>
                     <button
                         name="action_review"
@@ -134,7 +133,6 @@
                                 </list>
                                 <form>
                                     <group>
-                                        <field name="company_id" invisible="1" />
                                         <field
                                             name="document_type_id"
                                             options="{'no_create': True, 'no_create_edit': True}"

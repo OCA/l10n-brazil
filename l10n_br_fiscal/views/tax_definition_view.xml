@@ -5,7 +5,6 @@
         <field name="model">l10n_br_fiscal.tax.definition</field>
         <field name="arch" type="xml">
             <list>
-                <field name="state" column_invisible="True" />
                 <field name="tax_group_id" readonly="state != 'draft'" />
                 <field name="is_taxed" readonly="state != 'draft'" />
                 <field name="tax_id" readonly="state != 'draft'" />
@@ -29,8 +28,8 @@
                 decoration-muted="state == 'expired'"
             >
                 <field name="id" optional="hide" />
+                <!-- is_benefit is kept as the anchor of the benefit tree view -->
                 <field name="is_benefit" invisible="1" />
-                <field name="tax_group_id" invisible="1" />
                 <field name="state_from_id" />
                 <field name="state_to_ids" widget="many2many_tags" />
                 <field name="tax_id" />
@@ -66,9 +65,6 @@
         <field name="model">l10n_br_fiscal.tax.definition</field>
         <field name="arch" type="xml">
             <form string="Tax Definition">
-                <field name="company_id" invisible="1" readonly="state != 'draft'" />
-                <field name="icms_regulation_id" invisible="1" />
-                <field name="tax_domain" invisible="1" readonly="state != 'draft'" />
                 <header>
                     <button
                         name="action_review"
@@ -104,7 +100,6 @@
                             readonly="icms_regulation_id != False or state != 'draft'"
                             options="{'no_create': True, 'no_create_edit': True}"
                         />
-                        <field name="type_in_out" invisible="1" />
                         <field name="is_taxed" readonly="state != 'draft'" />
                         <field
                             name="is_debit_credit"
