@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-20 20:14+0000\n"
+"PO-Revision-Date: 2026-10-20 21:09+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -391,7 +391,7 @@ msgstr "Autorização:"
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_recipient_manifestation_event_filter
 msgid "Aware"
-msgstr "Aware"
+msgstr "Ciente"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_rettransp__nfe40_vBCRet
@@ -4490,6 +4490,8 @@ msgid ""
 "Print the ANP fuel data (product code, description and state of consumption) "
 "in the product description."
 msgstr ""
+"Imprime os dados de combustível da ANP (código do produto, descrição e "
+"estado de consumo) na descrição do produto."
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__display_anvisa
@@ -4497,6 +4499,8 @@ msgid ""
 "Print the ANVISA medicine data (product code and maximum consumer price) in "
 "the product description."
 msgstr ""
+"Imprime os dados de medicamento da ANVISA (código do produto e preço máximo "
+"ao consumidor) na descrição do produto."
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__display_product_additional_info
@@ -4513,6 +4517,8 @@ msgid ""
 "Print the traceability data (lot number, quantity, manufacturing and "
 "expiration dates) in the product description."
 msgstr ""
+"Imprime os dados de rastreabilidade (número do lote, quantidade, datas de "
+"fabricação e de validade) na descrição do produto."
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_company__danfe_profile_id
@@ -5069,7 +5075,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__lot_prefix
 msgid "Text printed before the lot data of each product."
-msgstr ""
+msgstr "Texto impresso antes dos dados de lote de cada produto."
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_supplement__nfe40_qrCode
