@@ -135,7 +135,8 @@ class TaxAssessment(models.Model):
         string="Débitos (saídas)",
         compute="_compute_totals",
         store=True,
-        help="Campo 02 do E110: débitos por saídas com débito do imposto.",
+        help="Campo 02 do E110: débitos por saídas com débito do imposto, "
+        "inclusive a devolução de compra (CFOP 5202/6202).",
     )
     adjustment_debit_total = fields.Monetary(
         string="Ajustes a débito",
@@ -147,13 +148,15 @@ class TaxAssessment(models.Model):
         string="Estornos de crédito",
         compute="_compute_totals",
         store=True,
-        help="Campo 05 do E110.",
+        help="Campo 05 do E110: só a soma dos ajustes de estorno de crédito "
+        "do E111. Devolução de compra não entra aqui, vai ao campo 02.",
     )
     credit_total = fields.Monetary(
         string="Créditos (entradas)",
         compute="_compute_totals",
         store=True,
-        help="Campo 06 do E110: créditos por entradas com crédito do imposto.",
+        help="Campo 06 do E110: créditos por entradas com crédito do imposto, "
+        "inclusive a devolução de venda (CFOP 1202/2202).",
     )
     adjustment_credit_total = fields.Monetary(
         string="Ajustes a crédito",
@@ -165,7 +168,8 @@ class TaxAssessment(models.Model):
         string="Estornos de débito",
         compute="_compute_totals",
         store=True,
-        help="Campo 09 do E110.",
+        help="Campo 09 do E110: só a soma dos ajustes de estorno de débito "
+        "do E111. Devolução de venda não entra aqui, vai ao campo 06.",
     )
     balance = fields.Monetary(
         string="Saldo do período",
@@ -257,10 +261,12 @@ class TaxAssessment(models.Model):
     def _compute_totals(self):
         """Reproduce the E110 offsetting, field by field.
 
-        What separates a "debit adjustment" from a "credit reversal", and both
-        from a "debit on sales", is only the ORIGIN of the line: assessed from
-        move lines, or a manual adjustment carrying a table 5.1.1 code. They add
-        to the same side, but the tax authority wants to see them apart.
+        What separates a "debit adjustment" from a "debit on sales" is only the
+        ORIGIN of the line: assessed from move lines, or a manual adjustment
+        carrying a table 5.1.1 code. They add to the same side, but the tax
+        authority wants to see them apart. The reversal totals (fields 05 and
+        09) are only the E111 adjustments: a return assessed from move lines is
+        a plain debit (field 02) or credit (field 06).
         """
         for record in self:
             totals = dict.fromkeys(
@@ -317,11 +323,11 @@ class TaxAssessment(models.Model):
         """Which E110 total the line adds to.
 
         Reversals, deductions, withholding and special debits carry their
-        bucket in the KIND itself, whether they were assessed from move lines
-        (a refund) or typed as an adjustment (the table 5.1.1 code enforces
-        the kind). What is left is the plain debit/credit: assessed lines land
-        in the plain totals (fields 02 and 06) and manual ones in the matching
-        adjustment field (04 and 08).
+        bucket in the KIND itself, and only come from a typed adjustment (the
+        table 5.1.1 code enforces the kind). What is left is the plain
+        debit/credit: assessed lines land in the plain totals (fields 02 and
+        06), returns included, and manual ones in the matching adjustment
+        field (04 and 08).
         """
         if line.kind in (
             KIND_CREDIT_REVERSAL,
@@ -428,11 +434,11 @@ class TaxAssessment(models.Model):
                 # positive sign, so the classification is ours to make.
                 if tax.type_tax_use == "sale":
                     kind = KIND_DEBIT
-                    reversal_kind = KIND_DEBIT_REVERSAL
+                    return_kind = KIND_CREDIT
                     sign = 1.0
                 elif tax.type_tax_use == "purchase":
                     kind = KIND_CREDIT
-                    reversal_kind = KIND_CREDIT_REVERSAL
+                    return_kind = KIND_DEBIT
                     # `account_tax_balance` flips the accounting sign ONCE, so
                     # a sale tax comes out positive and a purchase tax comes
                     # out NEGATIVE. Without this second flip the credit lines
@@ -443,18 +449,23 @@ class TaxAssessment(models.Model):
                 else:
                     discarded |= tax
                     continue
-                # Refunds must NOT be netted into the plain totals: the layout
-                # wants a sale refund as a debit reversal (E110 field 09) and
-                # a purchase refund as a credit reversal (field 05), each
-                # apart from the gross of fields 02/06. `account_tax_balance`
-                # already splits regular from refund; netting them, as a
-                # first version did, closed on the right total with the wrong
-                # breakdown in every period with a return.
+                # A return is an ordinary fiscal document in the E110: a
+                # purchase return (CFOP 5202/6202) is an outgoing note with
+                # tax debit and lands in field 02, a sale return (1202/2202)
+                # is an incoming note with tax credit and lands in field 06.
+                # The PVA checks those fields against the sum of VL_ICMS of
+                # the C190 (and equivalents). Fields 05 and 09 are only the
+                # sum of the E111 adjustments, so a return never goes there.
+                # The return keeps its own line (`is_return`), on the OPPOSITE
+                # side of the regular movement of the same tax, so the detail
+                # stays traceable and the closing can still tell it apart.
                 regular = sign * tax.balance_regular
                 regular_base = sign * tax.base_balance_regular
-                # the refund comes sign-opposed to the regular movement
-                reversal = -sign * tax.balance_refund
-                reversal_base = -sign * tax.base_balance_refund
+                # `account_tax_balance` returns the refund sign-opposed to the
+                # regular movement, so one more flip makes it a positive
+                # amount of the opposite side.
+                returned = -sign * tax.balance_refund
+                returned_base = -sign * tax.base_balance_refund
                 if regular or regular_base:
                     vals_list.append(
                         {
@@ -466,14 +477,15 @@ class TaxAssessment(models.Model):
                             "source": "computed",
                         }
                     )
-                if reversal or reversal_base:
+                if returned or returned_base:
                     vals_list.append(
                         {
                             "assessment_id": record.id,
                             "tax_id": tax.id,
-                            "kind": reversal_kind,
-                            "base_amount": reversal_base,
-                            "tax_amount": reversal,
+                            "kind": return_kind,
+                            "is_return": True,
+                            "base_amount": returned_base,
+                            "tax_amount": returned,
                             "source": "computed",
                         }
                     )
@@ -534,7 +546,7 @@ class TaxAssessment(models.Model):
 
         A return is booked BACK into the account it came from: a sale return
         debits the payable account and a purchase return credits the
-        recoverable one. So a reversal SUBTRACTS from its own side, it does not
+        recoverable one. So a return SUBTRACTS from its own side, it does not
         cross to the other side the way the E110 offsetting moves it (that is a
         fiscal presentation, not where the journal item landed). Crossing it
         made the offset consume more than the recoverable account held and left
@@ -553,15 +565,19 @@ class TaxAssessment(models.Model):
         self.ensure_one()
         assessed = self.line_ids.filtered(lambda line: line.source == "computed")
 
-        def total(kind):
+        def total(kind, is_return):
             return sum(
                 line.tax_amount
-                for line in assessed.filtered(lambda ln: ln.kind == kind)
+                for line in assessed.filtered(
+                    lambda ln: ln.kind == kind and ln.is_return == is_return
+                )
             )
 
-        debit_side = total(KIND_DEBIT) - total(KIND_DEBIT_REVERSAL)
+        # a sale return (credit side in the E110) leaves the payable account
+        # and a purchase return (debit side) leaves the recoverable one
+        debit_side = total(KIND_DEBIT, False) - total(KIND_CREDIT, True)
         credit_side = (
-            total(KIND_CREDIT) - total(KIND_CREDIT_REVERSAL) + self.previous_balance
+            total(KIND_CREDIT, False) - total(KIND_DEBIT, True) + self.previous_balance
         )
         return min(debit_side, credit_side)
 
