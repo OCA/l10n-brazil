@@ -14,7 +14,6 @@
                 >
                     <notebook>
                         <page name="tax_framework" string="Tax Framework">
-                            <field name="id" invisible="1" />
                             <group string="CNAE and Legal Nature">
                                 <field
                                     name="legal_nature_id"

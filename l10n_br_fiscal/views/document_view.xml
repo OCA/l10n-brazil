@@ -79,10 +79,12 @@
         <field name="model">l10n_br_fiscal.document</field>
         <field name="arch" type="xml">
             <form string="Fiscal Document">
-                <field name="id" invisible="1" />
+                <!-- currency_id is kept because the monetary widgets of this
+                     form need the currency value, which the framework does not
+                     add automatically -->
                 <field name="currency_id" invisible="1" />
-                <field name="document_electronic" invisible="1" />
-                <field name="fiscal_operation_type" invisible="1" />
+                <!-- document_type is kept as the anchor of the l10n_br_nfe
+                     inherited view, even though its modifiers are auto-added -->
                 <field name="document_type" invisible="1" />
                 <header>
                     <button
@@ -247,7 +249,6 @@
                                 required="1"
                                 groups="base.group_multi_company"
                             />
-                            <field name="company_id" invisible="1" />
                         </group>
                     </group>
                     <notebook>
@@ -266,6 +267,8 @@
                                 }"
                             >
                                 <list>
+                                    <!-- column_invisible keeps the currency value
+                                         loaded for the monetary columns below -->
                                     <field name="currency_id" column_invisible="True" />
                                     <field name="product_id" />
                                     <field name="name" />
@@ -373,7 +376,6 @@
                                     <group string="Amounts">
                                         <field name="amount_price_gross" />
                                         <field name="amount_discount_value" />
-                                        <field name="delivery_costs" invisible="1" />
                                         <field
                                             name="amount_insurance_value"
                                             readonly="delivery_costs == 'line' and not force_compute_delivery_costs_by_total"

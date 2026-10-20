@@ -126,7 +126,6 @@
                         </button>
                     </div>
                     <group>
-                        <field name="active" invisible="1" />
                         <field name="code" readonly="1" />
                         <field name="name" readonly="1" />
                         <field name="exception" readonly="1" />
