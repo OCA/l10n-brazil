@@ -22,7 +22,6 @@
                     groups="account.group_account_invoice,account.group_account_readonly"
                     invisible="not show_l10n_br"
                 >
-                    <field name="show_l10n_br" invisible="1" />
                     <field name="pix_key_ids" nolabel="1" colspan="2">
                         <list editable="bottom">
                             <field name="partner_id" column_invisible="True" />
