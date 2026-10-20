@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-20 19:45+0000\n"
+"PO-Revision-Date: 2026-10-20 20:14+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -886,12 +886,12 @@ msgstr "Geral"
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_occurrence__gen_liquidation_move
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__gen_liquidation_move
 msgid "Generate Liquidation Move"
-msgstr "Gerar movimento de liquidação"
+msgstr "Gerar lançamento de liquidação"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__generated_move_id
 msgid "Generated Move"
-msgstr "Movimento gerado"
+msgstr "Lançamento gerado"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__group_ids
@@ -928,7 +928,8 @@ msgstr "ID"
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__gen_liquidation_move
 msgid "If check, this CNAB Event will generate a liquidity move line."
-msgstr "Se marcado, este evento CNAB gerará uma linha de movimento de liquidez."
+msgstr ""
+"Se marcado, este evento CNAB gerará uma linha de lançamento de liquidez."
 
 #. module: l10n_br_cnab_structure
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.l10n_br_cnab_return_event_form_view_structure
@@ -1504,7 +1505,7 @@ msgstr "Chave Aleatória"
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_return_event__state__ready
 msgid "Ready to Genereta Move"
-msgstr "Pronto para gerar movimento"
+msgstr "Pronto para gerar lançamento"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,help:l10n_br_cnab_structure.field_account_journal__inbound_rebate_account_id
@@ -1591,7 +1592,7 @@ msgstr "Obrigatório"
 #. module: l10n_br_cnab_structure
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
 msgid "Reset To Draft"
-msgstr "Voltar para Provisório"
+msgstr "Voltar para rascunho"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_line__communication_flow__return
