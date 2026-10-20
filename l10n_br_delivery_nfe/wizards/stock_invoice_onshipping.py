@@ -59,6 +59,12 @@ class StockInvoiceOnshipping(models.TransientModel):
         if not picking_ids:
             raise UserError(_("No picking 2binvoiced!"))
 
+        # Without carrier and without Incoterm there is no transport (modFrete 9):
+        # no volume is suggested. Volumes already generated are kept and the user
+        # can still add volumes by hand.
+        picking_ids = picking_ids.filtered(
+            lambda p: p.has_vol or p.carrier_id or p.sale_id.incoterm
+        )
         vols_data = picking_ids.prepare_vols_data_from_picking()
         vol_ids = [Command.create(vol) for vol in vols_data]
 
