@@ -30,7 +30,6 @@
         <field name="inherit_id" ref="account.view_invoice_tree" />
         <field name="arch" type="xml">
             <field name="name" position="before">
-                <field name="document_type_id" column_invisible="True" />
                 <field name="document_number" />
                 <button
                     name="open_fiscal_document"
@@ -74,22 +73,7 @@
             <xpath expr="//form/sheet/div/h1[1]" position="attributes">
                 <attribute name="invisible">document_type_id</attribute>
             </xpath>
-            <xpath expr="//form/sheet/group" position="after">
-                <group name="l10n_br_fiscal">
-                    <field name="id" invisible="1" />
-                    <field name="document_electronic" invisible="1" />
-                    <field name="fiscal_operation_type" invisible="1" />
-                    <field name="name" invisible="1" />
-                    <field name="edoc_purpose" invisible="1" />
-                    <field name="ind_pres" invisible="1" />
-                    <field name="fiscal_document_id" required="0" invisible="1" />
-                    <field name="create_date" invisible="1" />
-                    <field name="operation_name" invisible="1" />
-                    <field name="comment_ids" invisible="1" />
-                </group>
-            </xpath>
             <field name="ref" position="after">
-                <field name="document_type" invisible="1" />
                 <field
                     name="document_type_id"
                     invisible="move_type not in ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')"
@@ -469,12 +453,6 @@
             </xpath>
             <!-- Fiscal fields for invoice lines (inline form) -->
             <xpath
-                expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='name']"
-                position="after"
-            >
-                <field name="tax_icms_or_issqn" invisible="1" />
-            </xpath>
-            <xpath
                 expr="//field[@name='invoice_line_ids']/form/sheet/group[2]"
                 position="after"
             >
@@ -501,7 +479,6 @@
                             <field name="freight_value" />
                             <field name="insurance_value" />
                             <field name="other_value" />
-                            <field name="estimate_tax" invisible="1" />
                         </group>
                         <group>
                             <field
