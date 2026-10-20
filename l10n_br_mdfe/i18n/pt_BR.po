@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-20 19:45+0000\n"
+"PO-Revision-Date: 2026-10-20 20:14+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -583,7 +583,7 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_company__damdfe_margin_bottom
 msgid "Bottom margin in mm for the DAMDFE layout."
-msgstr ""
+msgstr "Margem inferior, em mm, do layout do DAMDFE."
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_cPrtDest__br026
@@ -1656,7 +1656,7 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_mdfe.res_company_form_view
 msgid "DAMDFE Settings"
-msgstr ""
+msgstr "Configurações do DAMDFE"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_cPrtDest__porto
@@ -1705,22 +1705,22 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_company__damdfe_margin_bottom
 msgid "Damdfe Margin Bottom"
-msgstr ""
+msgstr "Margem inferior do DAMDFE"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_company__damdfe_margin_left
 msgid "Damdfe Margin Left"
-msgstr ""
+msgstr "Margem esquerda do DAMDFE"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_company__damdfe_margin_right
 msgid "Damdfe Margin Right"
-msgstr ""
+msgstr "Margem direita do DAMDFE"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_company__damdfe_margin_top
 msgid "Damdfe Margin Top"
-msgstr ""
+msgstr "Margem superior do DAMDFE"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infnf__mdfe30_dEmi
@@ -2796,7 +2796,7 @@ msgstr "Assistente de importação de documento"
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_company__mdfe_authorize_accountant_download_xml
 msgid ""
 "Include Accountant Partner data in persons authorized to download MDFe XML"
-msgstr ""
+msgstr "Incluir o contador entre as pessoas autorizadas a baixar o XML do MDF-e"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_pagamento__mdfe30_indPag
@@ -3453,7 +3453,7 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_company__damdfe_margin_left
 msgid "Left margin in mm for the DAMDFE layout."
-msgstr ""
+msgstr "Margem esquerda, em mm, do layout do DAMDFE."
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe_loading_city_ids
@@ -5629,7 +5629,7 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_company__damdfe_margin_right
 msgid "Right margin in mm for the DAMDFE layout."
-msgstr ""
+msgstr "Margem direita, em mm, do layout do DAMDFE."
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe_modal__1
@@ -6728,7 +6728,7 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_company__damdfe_margin_top
 msgid "Top margin in mm for the DAMDFE layout."
-msgstr ""
+msgstr "Margem superior, em mm, do layout do DAMDFE."
 
 #. module: l10n_br_mdfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_mdfe.nfe_document_edi_form_inherit
