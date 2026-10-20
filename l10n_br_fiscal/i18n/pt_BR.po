@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: L10n-brazil 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-20 20:14+0000\n"
+"PO-Revision-Date: 2026-10-20 21:09+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -49,7 +49,7 @@ msgstr "\"Estimativa de Impostos de %(name)s Atualizada"
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__sale_order_line__icms_relief_type__0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__stock_move__icms_relief_type__0
 msgid "0 - Do not deduct the ICMS Relief"
-msgstr ""
+msgstr "0 - Não deduzir a desoneração de ICMS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__icms_origin__0
@@ -1323,6 +1323,10 @@ msgid ""
 "preserved as-is for fiscal bookkeeping / SPED (e.g. C197), while cfop_id "
 "reflects the company's own operation after the de-para."
 msgstr ""
+"CFOP conforme declarado pela contraparte no documento importado. É "
+"preservado como está para a escrituração fiscal e o SPED (por exemplo, C197)"
+", enquanto o CFOP do documento reflete a operação da própria empresa depois "
+"do de-para."
 
 #. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_CONJUNTO
@@ -1523,7 +1527,7 @@ msgstr "Valor do COFINS"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_group__tax_domain__cofins_wh
 msgid "COFINS WH"
-msgstr "COFINS WH"
+msgstr "COFINS RET"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cofins_wh_base_type
@@ -1619,7 +1623,7 @@ msgstr "Valor CSLL"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_group__tax_domain__csll_wh
 msgid "CSLL WH"
-msgstr "CSLL WH"
+msgstr "CSLL RET"
 
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.cst_action
@@ -3650,7 +3654,7 @@ msgstr "IBPT: serviço indisponível - %s(url)s"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__ibpt_token
 msgid "IBPT Token"
-msgstr "IBPT Token"
+msgstr "Token do IBPT"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__ibpt_update_days
@@ -5120,7 +5124,7 @@ msgstr "Valor do IRPJ"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_group__tax_domain__irpj_wh
 msgid "IRPJ WH"
-msgstr "IRPJ WH"
+msgstr "IRPJ RET"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_group__tax_domain__is
@@ -5266,7 +5270,7 @@ msgstr "Valor ISSQN"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_group__tax_domain__issqn_wh
 msgid "ISSQN WH"
-msgstr "ISSQN WH"
+msgstr "ISSQN RET"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__ibpt_token
@@ -5457,6 +5461,8 @@ msgid ""
 "Indicates that this CFOP is used in operations subject to ICMS Tax "
 "Substitution (Substituição Tributária)."
 msgstr ""
+"Indica que este CFOP é usado em operações sujeitas à Substituição Tributária "
+"do ICMS."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__is_icmsst
@@ -5467,6 +5473,10 @@ msgid ""
 "Operation Line when a Fiscal Operation has separate lines for regular and "
 "ICMS ST scenarios."
 msgstr ""
+"Indica que esta linha de operação se destina a produtos e operações sujeitos "
+"à Substituição Tributária do ICMS, com base nos CFOPs atribuídos a ela. "
+"Usada para selecionar automaticamente a linha de operação correta quando uma "
+"operação fiscal tem linhas separadas para os cenários comuns e de ICMS ST."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_is_public_entity
@@ -7820,7 +7830,7 @@ msgstr "Operação de Retorno"
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cfop__type_move__return_out
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__fiscal_type__return_out
 msgid "Return Out"
-msgstr "Return Out"
+msgstr "Devolução de saída"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cfop__type_move__return_in
@@ -8286,7 +8296,7 @@ msgstr "Subproduto"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_type__sufix
 msgid "Sufix"
-msgstr "Sufix"
+msgstr "Sufixo"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__supply_characteristic
@@ -9577,7 +9587,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_group__tax_domain__pis_wh
 msgid "pis_wh"
-msgstr "pis_wh"
+msgstr "PIS RET"
 
 #~ msgid "National Simple Taxes"
 #~ msgstr "Impostos do Simples Nacional"
