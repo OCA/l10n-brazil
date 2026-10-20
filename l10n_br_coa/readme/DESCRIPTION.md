@@ -56,3 +56,19 @@ adicional no `account.tax` e `account.tax.template` através do
 
 Foi ainda necessário sobrescrever a função que instancia um plano de
 contas a partir de um template para propagar essas informações.
+
+## Impostos por esfera na DVA
+
+O modelo do CPC 09 divide os impostos distribuídos (item 8.2) em
+federais, estaduais e municipais. Toda conta classificada como imposto
+na DVA declara exatamente uma esfera, para que as três linhas somem o
+total.
+
+Na reforma tributária, a CBS e o IS são federais. O IBS é um tributo
+só, mas tem uma alíquota estadual e uma municipal, cada uma fixada pelo
+seu ente, e a NF-e traz as duas parcelas separadas (grupos `gIBSUF` e
+`gIBSMun`). Como a DVA mostra para qual governo foi a riqueza, o IBS é
+distribuído pela parcela de cada ente, com uma conta de IBS estadual e
+outra de IBS municipal (no `l10n_br_coa_simple`). Enquanto a localização lançar o IBS como um
+tributo único, ele cai na conta estadual, e quem publica a DVA
+reclassifica a parcela municipal para a conta própria.
