@@ -80,3 +80,46 @@ class TestL10nBrHrExpenseInvoice(TransactionCase):
         )
         self.assertEqual(invoice_1.user_id, self.user)
         self.assertEqual(invoice_2.user_id, self.user)
+
+
+class TestL10nBrHrExpenseInvoiceDocumentType(TransactionCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.company = cls.env.ref("base.main_company")
+        cls.employee = cls.env.ref("hr.employee_admin")
+        # Ids different from the operation id, so a wrong model id cannot match
+        cls.doc_type_nfe = cls.env.ref("l10n_br_fiscal.document_55")
+        cls.doc_type_default = cls.env.ref("l10n_br_fiscal.document_59")
+        cls.operation = cls.env.ref("l10n_br_fiscal.fo_compras")
+        product = cls.env.ref("hr_expense.expense_product_meal")
+        cls.expense = cls.env["hr.expense"].create(
+            {
+                "name": "expense_doc_type",
+                "product_id": product.id,
+                "product_uom_id": product.uom_id.id,
+                "unit_amount": 100.0,
+                "employee_id": cls.employee.id,
+                "fiscal_operation_id": cls.operation.id,
+            }
+        )
+
+    def test_invoice_document_type_from_operation(self):
+        """The invoice must get the document type of the operation, not the
+        operation id used as document type id."""
+        self.env["l10n_br_fiscal.operation.document.type"].create(
+            {
+                "fiscal_operation_id": self.operation.id,
+                "document_type_id": self.doc_type_nfe.id,
+            }
+        )
+        values = self.expense._prepare_invoice_values()
+        self.assertEqual(values["document_type_id"], self.doc_type_nfe.id)
+
+    def test_invoice_document_type_company_default(self):
+        """Without document types in the operation, fall back to the company
+        default document type."""
+        self.operation.document_type_ids.unlink()
+        self.company.document_type_id = self.doc_type_default
+        values = self.expense._prepare_invoice_values()
+        self.assertEqual(values["document_type_id"], self.doc_type_default.id)
