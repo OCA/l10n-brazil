@@ -15,10 +15,8 @@
             </field>
             <field name="payment_type" position="after">
                 <field name="payment_mode_domain" />
-                <field name="payment_method_code" invisible="1" />
             </field>
             <xpath expr="//form/sheet/group[@name='note']" position="before">
-                <field name="bank_id" invisible="1" />
                 <group
                     string="Configurações Brasileiras - CNAB"
                     name='l10n-br-config'

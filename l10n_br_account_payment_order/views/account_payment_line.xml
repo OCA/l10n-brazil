@@ -75,7 +75,6 @@
                 <group name="cnab" string="Informações do CNAB">
                     <field name="own_number" readonly="1" />
                     <field name="document_number" readonly="1" />
-                    <field name="payment_mode_domain" invisible="1" />
                     <field
                         name="barcode"
                         required="payment_type == 'outbound' and payment_mode_domain == 'boleto'"
@@ -100,7 +99,6 @@
                     />
                     <field name="favored_warning" />
                     <field name="service_type" />
-                    <field name="payment_method_code" invisible="1" />
                 </group>
             </xpath>
         </field>
