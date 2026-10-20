@@ -13,7 +13,13 @@ class TestDeliveryNFeVolumes(TransactionCase):
         cls.document = cls.env.ref("l10n_br_nfe.demo_nfe_natural_icms_7_resale")
         if cls.document.state_edoc != "em_digitacao":
             cls.document.action_document_back2draft()
-        cls.document._register_hook()
+        # Only the NF-e schema hook: document._register_hook() resolves the
+        # first spec schema in the MRO (NFS-e when installed), and the tables
+        # it creates are rolled back with the test cursor while the registry
+        # keeps the hook flagged as done.
+        cls.env["spec.mixin.nfe"].with_context(
+            spec_schema="nfe", spec_version="40"
+        )._register_hook()
 
     def test_volume_list_columns(self):
         """The volume list shows quantity, kind, brand and weights."""
