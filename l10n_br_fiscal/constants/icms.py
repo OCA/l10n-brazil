@@ -71,6 +71,7 @@ ICMS_ST_BASE_TYPE = [
     ("3", "Lista Neutra (valor)"),
     ("4", "Margem Valor Agregado (%)"),
     ("5", "Pauta (valor)"),
+    ("6", "Valor da Operação"),
 ]
 
 
