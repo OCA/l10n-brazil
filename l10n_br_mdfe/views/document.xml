@@ -50,11 +50,13 @@
                 <group>
                     <field
                         name="mdfe_initial_state_id"
-                        invisible="{'required': [('document_type', '=', '58')], 'invisible': [('document_type', 'not in', ['58'])]}"
+                        required="document_type == '58'"
+                        invisible="document_type != '58'"
                     />
                     <field
                         name="mdfe_final_state_id"
-                        invisible="{'required': [('document_type', '=', '58')], 'invisible': [('document_type', 'not in', ['58'])]}"
+                        required="document_type == '58'"
+                        invisible="document_type != '58'"
                     />
                 </group>
                 <separator
