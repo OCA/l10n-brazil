@@ -382,6 +382,14 @@ class TestFiscalTax(TransactionCase):
 
         self.assertEqual(compute_result["taxes"]["icms"]["cst_id"].code, "10")
 
+    def test_icmsst_base_type_operation_value(self):
+        """modBCST 6 (Valor da Operação) is accepted and uses a percent base."""
+        tax = self.env["l10n_br_fiscal.tax"].search(
+            [("tax_domain", "=", "icmsst")], limit=1
+        )
+        tax.icmsst_base_type = "6"
+        self.assertEqual(tax.tax_base_type, "percent")
+
     def test_the_foreign_origins_without_similar_use_the_imported_estimate(self):
         """Origins 6 and 7 are foreign and were missing from the list."""
         self.assertIn("6", ICMS_ORIGIN_TAX_IMPORTED)
