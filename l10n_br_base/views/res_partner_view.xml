@@ -47,10 +47,9 @@
                 <attribute name="invisible">1</attribute>
             </field>
             <xpath expr="//h1" position="after">
-                <field name="city_id" invisible="1" />
-                <!-- Allow inject city_id on context above -->
+                <!-- city_id is auto-added by the framework since it is used
+                     in the child_ids context below (default_city_id) -->
                 <div invisible="not show_l10n_br">
-                    <field name="show_l10n_br" invisible="1" />
                     <label for="legal_name" string="Full Name" invisible="is_company" />
                     <label
                         for="legal_name"

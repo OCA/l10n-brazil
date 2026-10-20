@@ -7,7 +7,6 @@
         <field name="arch" type="xml">
             <xpath expr="//div[@id='companies']" position="after">
                 <div id="l10n_br_base_config">
-                    <field name="company_id" invisible="1" />
                     <h2>Brazilian Localization</h2>
                     <div class="row mt16 o_settings_container" name="l10n_br_base">
                         <div class="col-12 col-lg-6 o_setting_box">
