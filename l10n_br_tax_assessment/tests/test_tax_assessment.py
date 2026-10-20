@@ -1,12 +1,10 @@
 # Copyright 2026 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from psycopg2 import IntegrityError
 
 from odoo import fields
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests import tagged
-from odoo.tools import mute_logger
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
@@ -121,6 +119,8 @@ class TestTaxAssessment(AccountTestInvoicingCommon):
         # 1000 of debit minus 400 carried over
         self.assertEqual(jul.balance, 600.0)
         self.assertEqual(jul.amount_payable, 600.0)
+        with self.assertRaisesRegex(UserError, "Encerre antes"):
+            jul.action_post()
 
     # ------------------------------------------------------------------
     # table 5.1.1 adjustments, which is what E110 and E111 require
@@ -333,6 +333,7 @@ class TestTaxAssessment(AccountTestInvoicingCommon):
         # june changes AFTER july was assessed
         self._add_line(jun, "credit", 100.0, source="computed")
         self.assertEqual(jun.amount_carried_forward, 500.0)
+        jun.action_post()
 
         with self.assertRaises(UserError):
             jul.action_post()
@@ -342,6 +343,9 @@ class TestTaxAssessment(AccountTestInvoicingCommon):
         self.assertEqual(jul.previous_balance, 500.0)
         jul.action_post()
         self.assertEqual(jul.state, "posted")
+        # june can no longer change under a closed july
+        with self.assertRaises(UserError):
+            jun.action_draft()
 
     # ------------------------------------------------------------------
     # validation
@@ -470,18 +474,13 @@ class TestTaxAssessment(AccountTestInvoicingCommon):
         self.assertEqual(len(manuais), 1)
         self.assertAlmostEqual(manuais.tax_amount, 90.0, places=2)
 
-    @mute_logger("odoo.sql_db")
     def test_same_period_and_group_cannot_be_duplicated(self):
-        """Two assessments of the same group, regime and period would double the tax.
-
-        The regime is part of the key with a required value precisely so this
-        keeps holding: with a null regime Postgres would let the duplicate
-        through, because NULL is never equal to NULL.
-        """
+        """Two assessments of the same group and period would double the tax."""
         self._new_assessment()
-        with self.assertRaises(IntegrityError):
-            with self.env.cr.savepoint():
-                self._new_assessment()
+        with self.assertRaises(ValidationError):
+            self._new_assessment()
+        with self.assertRaises(ValidationError):
+            self._new_assessment("2026-07-01", "2026-07-15")
 
     def test_draft_again_removes_the_closing_move(self):
         self._configure_group()
@@ -608,12 +607,14 @@ class TestTaxAssessmentCompute(AccountTestInvoicingCommon):
         bodies = " ".join(a.message_ids.mapped("body"))
         self.assertIn("Retencao mal configurada (teste)", bodies)
 
-    def test_sale_refund_becomes_a_debit_reversal(self):
-        """A sale refund is E110 field 09, never netted into field 02.
+    def test_sale_refund_becomes_a_credit(self):
+        """A sale return is an incoming note with credit: E110 field 06.
 
-        Netting closes on the right total with the wrong breakdown, which is
-        exactly the defect the council named F3: the file looks right until a
-        period has a return, which is routine, not exotic.
+        The Guia Pratico makes fields 05 and 09 only the sum of the E111
+        adjustments, and the PVA checks field 06 against the VL_ICMS of the
+        incoming notes. Netting the return into field 02 closes on the right
+        total with the wrong breakdown, which is the defect the council named
+        F3. Sending it to field 09 was the same defect the other way around.
         """
         self.init_invoice(
             "out_invoice",
@@ -631,17 +632,21 @@ class TestTaxAssessmentCompute(AccountTestInvoicingCommon):
         )
         a = self._assessment()
         a.action_compute()
-        # gross stays gross, the reversal gets its own bucket
+        # the sale stays in field 02, the return is a credit in field 06
         self.assertAlmostEqual(a.debit_total, 180.0, places=2)
-        self.assertAlmostEqual(a.debit_reversal_total, 36.0, places=2)
-        # and the offsetting still closes on the net
+        self.assertAlmostEqual(a.credit_total, 36.0, places=2)
+        # fields 05 and 09 are for the E111 adjustments only
+        self.assertEqual(a.debit_reversal_total, 0.0)
+        self.assertEqual(a.credit_reversal_total, 0.0)
+        # and the offsetting still closes on the same net
         self.assertAlmostEqual(a.balance, 144.0, places=2)
-        reversal = a.line_ids.filtered(lambda line: line.kind == "debit_reversal")
-        self.assertEqual(reversal.source, "computed")
-        self.assertAlmostEqual(reversal.base_amount, 200.0, places=2)
+        returned = a.line_ids.filtered("is_return")
+        self.assertEqual(returned.kind, "credit")
+        self.assertEqual(returned.source, "computed")
+        self.assertAlmostEqual(returned.base_amount, 200.0, places=2)
 
-    def test_purchase_refund_becomes_a_credit_reversal(self):
-        """A purchase refund is E110 field 05, apart from the gross credit."""
+    def test_purchase_refund_becomes_a_debit(self):
+        """A purchase return is an outgoing note with debit: E110 field 02."""
         self.init_invoice(
             "in_invoice",
             invoice_date="2026-07-05",
@@ -659,13 +664,67 @@ class TestTaxAssessmentCompute(AccountTestInvoicingCommon):
         a = self._assessment()
         a.action_compute()
         self.assertAlmostEqual(a.credit_total, 90.0, places=2)
-        self.assertAlmostEqual(a.credit_reversal_total, 18.0, places=2)
-        # credit side 90, debit side 18 (the reversal adds to the debit side)
+        self.assertAlmostEqual(a.debit_total, 18.0, places=2)
+        self.assertEqual(a.credit_reversal_total, 0.0)
+        self.assertEqual(a.debit_reversal_total, 0.0)
+        # credit side 90, debit side 18 (the return is a debit)
         self.assertAlmostEqual(a.balance, -72.0, places=2)
         self.assertAlmostEqual(a.amount_carried_forward, 72.0, places=2)
 
-    def test_recompute_rebuilds_the_reversals(self):
-        """Reassessing does not duplicate computed reversals."""
+    def test_month_with_sale_purchase_and_both_returns(self):
+        """Gross debit and credit match the ICMS of the outgoing/incoming notes.
+
+        Sale 1000 and purchase return 100 are the outgoing notes (field 02:
+        180 + 18). Purchase 500 and sale return 200 are the incoming notes
+        (field 06: 90 + 36). Fields 05 and 09 stay zero, and the balance is
+        the same one the old split produced: 198 - 126 = 72.
+        """
+        self.init_invoice(
+            "out_invoice",
+            invoice_date="2026-07-10",
+            amounts=[1000.0],
+            taxes=self.sale_tax,
+            post=True,
+        )
+        self.init_invoice(
+            "in_invoice",
+            invoice_date="2026-07-05",
+            amounts=[500.0],
+            taxes=self.purchase_tax,
+            post=True,
+        )
+        self.init_invoice(
+            "in_refund",
+            invoice_date="2026-07-25",
+            amounts=[100.0],
+            taxes=self.purchase_tax,
+            post=True,
+        )
+        self.init_invoice(
+            "out_refund",
+            invoice_date="2026-07-20",
+            amounts=[200.0],
+            taxes=self.sale_tax,
+            post=True,
+        )
+        a = self._assessment()
+        a.action_compute()
+        self.assertAlmostEqual(a.debit_total, 198.0, places=2)
+        self.assertAlmostEqual(a.credit_total, 126.0, places=2)
+        self.assertEqual(a.credit_reversal_total, 0.0)
+        self.assertEqual(a.debit_reversal_total, 0.0)
+        self.assertAlmostEqual(a.balance, 72.0, places=2)
+        self.assertAlmostEqual(a.amount_payable, 72.0, places=2)
+        # one line per tax, kind and origin: the returns stay traceable
+        self.assertEqual(len(a.line_ids), 4)
+        self.assertEqual(len(a.line_ids.filtered("is_return")), 2)
+        self.assertEqual(
+            sorted(a.line_ids.filtered("is_return").mapped("kind")),
+            ["credit", "debit"],
+        )
+
+    def test_recompute_rebuilds_the_returns(self):
+        """Reassessing does not duplicate computed returns."""
         self.init_invoice(
             "out_invoice",
             invoice_date="2026-07-10",
@@ -683,9 +742,7 @@ class TestTaxAssessmentCompute(AccountTestInvoicingCommon):
         a = self._assessment()
         a.action_compute()
         a.action_compute()
-        self.assertEqual(
-            len(a.line_ids.filtered(lambda line: line.kind == "debit_reversal")), 1
-        )
+        self.assertEqual(len(a.line_ids.filtered(lambda line: line.is_return)), 1)
 
 
 @tagged("post_install", "-at_install")
@@ -879,9 +936,10 @@ class TestTaxAssessmentClosingBook(AccountTestInvoicingCommon):
 
         assessment = self._assessment()
         assessment.action_compute()
-        self.assertAlmostEqual(assessment.debit_total, 180.0, places=2)
         self.assertAlmostEqual(assessment.credit_total, 90.0, places=2)
-        self.assertAlmostEqual(assessment.credit_reversal_total, 18.0, places=2)
+        # the purchase return is a debit in field 02 now, not field 05
+        self.assertAlmostEqual(assessment.debit_total, 198.0, places=2)
+        self.assertEqual(assessment.credit_reversal_total, 0.0)
         self.assertAlmostEqual(assessment.assessed_balance, 108.0, places=2)
         self.assertAlmostEqual(assessment.amount_payable, 108.0, places=2)
 
@@ -900,3 +958,49 @@ class TestTaxAssessmentClosingBook(AccountTestInvoicingCommon):
         receivable_balance = self._book_balance(self.receivable)
         self.assertAlmostEqual(receivable_balance, 0.0, places=2)
         self.assertAlmostEqual(payable_balance, -108.0, places=2)
+
+    def test_closing_leaves_the_accounts_on_the_slip_with_a_sale_return(self):
+        """Sale 1000, purchase 500, sale return 200, all at ICMS 18%.
+
+        Booked balances before closing:
+          payable     = 180 credit (the sale) - 36 (the return) = 144 credit
+          recoverable =  90 debit (the purchase)
+
+        The E110 balance due is 180 - (90 + 36) = 54, with the return as a
+        credit in field 06. Closing must consume the 90 the recoverable
+        account holds, leaving 54 due in payable and zero in recoverable.
+        """
+        self.init_invoice(
+            "out_invoice",
+            invoice_date="2026-07-10",
+            amounts=[1000.0],
+            taxes=self.sale_tax,
+            post=True,
+        )
+        self.init_invoice(
+            "in_invoice",
+            invoice_date="2026-07-05",
+            amounts=[500.0],
+            taxes=self.purchase_tax,
+            post=True,
+        )
+        self.init_invoice(
+            "out_refund",
+            invoice_date="2026-07-20",
+            amounts=[200.0],
+            taxes=self.sale_tax,
+            post=True,
+        )
+        assessment = self._assessment()
+        assessment.action_compute()
+        self.assertAlmostEqual(assessment.debit_total, 180.0, places=2)
+        self.assertAlmostEqual(assessment.credit_total, 126.0, places=2)
+        self.assertEqual(assessment.debit_reversal_total, 0.0)
+        self.assertAlmostEqual(assessment.amount_payable, 54.0, places=2)
+
+        assessment.action_post()
+        if assessment.move_id and assessment.move_id.state != "posted":
+            assessment.move_id.action_post()
+
+        self.assertAlmostEqual(self._book_balance(self.receivable), 0.0, places=2)
+        self.assertAlmostEqual(self._book_balance(self.payable), -54.0, places=2)

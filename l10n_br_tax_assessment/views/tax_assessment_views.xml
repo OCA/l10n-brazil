@@ -83,6 +83,7 @@
                                     <field name="tax_id" />
                                     <field name="kind" />
                                     <field name="source" />
+                                    <field name="is_return" />
                                     <field name="adjustment_code" />
                                     <field name="adjustment_kind" />
                                     <field name="description" />
