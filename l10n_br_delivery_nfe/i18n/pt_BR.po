@@ -6,30 +6,30 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-12-11 15:06+0000\n"
-"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"PO-Revision-Date: 2026-10-20 19:45+0000\n"
+"Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: l10n_br_delivery_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_generate_volumes
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #. module: l10n_br_delivery_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_generate_volumes
 msgid "Create"
-msgstr ""
+msgstr "Criar"
 
 #. module: l10n_br_delivery_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_picking_withcarrier_out_form_inherit
 msgid "Create Volumes"
-msgstr ""
+msgstr "Criar volumes"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_generate_volumes__create_uid
@@ -93,12 +93,12 @@ msgstr "Documento Fiscal"
 #: model:ir.actions.act_window,name:l10n_br_delivery_nfe.action_generate_volume_ids
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_generate_volumes
 msgid "Generate Draft Volumes"
-msgstr ""
+msgstr "Gerar volumes em rascunho"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking__has_vol
 msgid "Has Vol IDs"
-msgstr ""
+msgstr "Possui IDs de volume"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_l10n_br_fiscal_document__id
@@ -205,18 +205,18 @@ msgstr ""
 #: code:addons/l10n_br_delivery_nfe/wizards/stock_invoice_onshipping.py:0
 #, python-format
 msgid "No picking 2binvoiced!"
-msgstr ""
+msgstr "Nenhuma separação a faturar!"
 
 #. module: l10n_br_delivery_nfe
 #: code:addons/l10n_br_delivery_nfe/wizards/stock_generate_volumes.py:0
 #, python-format
 msgid "No picking to generate vols!"
-msgstr ""
+msgstr "Nenhuma separação para gerar volumes!"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking__number_of_volumes
 msgid "Number of Volumes"
-msgstr ""
+msgstr "Número de volumes"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__nfe40_nVol
@@ -259,12 +259,12 @@ msgstr ""
 #. module: l10n_br_delivery_nfe
 #: model:ir.model,name:l10n_br_delivery_nfe.model_product_product
 msgid "Product"
-msgstr ""
+msgstr "Produto"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model,name:l10n_br_delivery_nfe.model_product_template
 msgid "Product Template"
-msgstr ""
+msgstr "Modelo de Produto"
 
 #. module: l10n_br_delivery_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_l10n_br_delivery_nfe_invoice_onshipping
@@ -282,22 +282,22 @@ msgstr ""
 #. module: l10n_br_delivery_nfe
 #: model:ir.model,name:l10n_br_delivery_nfe.model_stock_generate_volumes
 msgid "Stock Generate Volumes"
-msgstr ""
+msgstr "Gerar volumes de estoque"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model,name:l10n_br_delivery_nfe.model_stock_invoice_onshipping
 msgid "Stock Invoice Onshipping"
-msgstr ""
+msgstr "Faturamento ao Enviar"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__picking_id
 msgid "Stock Picking"
-msgstr ""
+msgstr "Separação de Estoque"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,help:l10n_br_delivery_nfe.field_stock_picking__has_vol
 msgid "Technical Field: True if the picking has already generated Volume IDs."
-msgstr ""
+msgstr "Campo técnico: verdadeiro se a separação já gerou IDs de volume."
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,help:l10n_br_delivery_nfe.field_account_bank_statement_line__nfe40_transporta
@@ -312,13 +312,13 @@ msgstr "O parceiro que está realizando o serviço de entrega."
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__picking_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_l10n_br_delivery_nfe_invoice_onshipping
 msgid "Transfer"
-msgstr ""
+msgstr "Transferir"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,help:l10n_br_delivery_nfe.field_product_product__product_volume_type
 #: model:ir.model.fields,help:l10n_br_delivery_nfe.field_product_template__product_volume_type
 msgid "Type of transported volumes: Mapped onto 'nfe40_esp'"
-msgstr ""
+msgstr "Tipo de volumes transportados: mapeado em 'nfe40_esp'"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model,name:l10n_br_delivery_nfe.model_stock_invoice_onshipping_vol
@@ -333,7 +333,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_product_product__product_volume_type
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_product_template__product_volume_type
 msgid "Volume Type"
-msgstr ""
+msgstr "Tipo de volume"
 
 #. module: l10n_br_delivery_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_picking_withcarrier_out_form_inherit
@@ -351,7 +351,7 @@ msgstr ""
 #. module: l10n_br_delivery_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_generate_volumes
 msgid "or"
-msgstr ""
+msgstr "ou"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__generate_vols_wizard_id
