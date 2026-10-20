@@ -66,6 +66,8 @@ ICMS_ST_BASE_TYPE_REL = {
     "3": TAX_BASE_TYPE_VALUE,
     "4": TAX_BASE_TYPE_PERCENT,
     "5": TAX_BASE_TYPE_VALUE,
+    # the operation value without margin: a percent base with no MVA
+    "6": TAX_BASE_TYPE_PERCENT,
 }
 
 
