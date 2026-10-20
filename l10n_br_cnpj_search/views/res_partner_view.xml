@@ -22,7 +22,7 @@
             </field>
             <field name="vat" position="replace">
                 <div class="o_row" colspan="4">
-                    <field name="vat" nolabel="1" />
+                    <field name="vat" nolabel="1" invisible="show_l10n_br" />
                     <button
                         name="action_open_cnpj_search_wizard"
                         type="object"
