@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: L10n-brazil 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-07-28 20:46+0000\n"
-"Last-Translator: Cristiano Mafra Junior <cristiano.mafracontanto@gmail.com>\n"
+"PO-Revision-Date: 2026-10-20 19:45+0000\n"
+"Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/operation.py:0
 msgid " (Copy)"
-msgstr ""
+msgstr " (Cópia)"
 
 #. module: l10n_br_fiscal
 #. odoo-python
@@ -75,7 +75,7 @@ msgstr "0 - Nacional, Exceto as indicadas nos códigos 3, 4, 5 e 8"
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cfop__ind_retor__0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cfop__ind_transp__0
 msgid "0 - No"
-msgstr ""
+msgstr "0 - Não"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_definition__benefit_type__0
@@ -148,7 +148,7 @@ msgstr "1 - Contribuinte do ICMS"
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__sale_order_line__icms_relief_type__1
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__stock_move__icms_relief_type__1
 msgid "1 - Deduct ICMS Relief from Product Amount"
-msgstr ""
+msgstr "1 - Deduzir a desoneração de ICMS do valor do produto"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__icms_origin__1
@@ -187,7 +187,7 @@ msgstr "1 - Simples Nacional"
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cfop__ind_retor__1
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cfop__ind_transp__1
 msgid "1 - Yes"
-msgstr ""
+msgstr "1 - Sim"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cfop__ind_comb__1
@@ -412,7 +412,7 @@ msgstr "9 - Não Contribuinte"
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
 msgid "<i class=\"fa fa-arrow-right\"/>Generate an Access Key"
-msgstr ""
+msgstr "<i class=\"fa fa-arrow-right\"/>Gerar uma chave de acesso"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
@@ -436,39 +436,46 @@ msgstr "<span>Novo Documento</span>"
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "<strong>Authorized</strong>"
-msgstr ""
+msgstr "<strong>Autorizada</strong>"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "<strong>Cancelled</strong>"
-msgstr ""
+msgstr "<strong>Cancelada</strong>"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.cest_action
 msgid "A CEST is necessary to create fiscal operations for your fiscal moves."
 msgstr ""
+"É necessário um CEST para criar operações fiscais para as suas movimentações "
+"fiscais."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.cfop_action
 msgid ""
 "A CFOP is necessary to determine the fiscal operations for your fiscal moves."
 msgstr ""
+"É necessário um CFOP para determinar as operações fiscais para as suas "
+"movimentações fiscais."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.cnae_action
 msgid ""
 "A CNAE is necessary to determine the fiscal definitions for your company."
 msgstr ""
+"É necessário um CNAE para determinar as definições fiscais da sua empresa."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.cst_action
 msgid "A CST is necessary to create fiscal operations for your fiscal moves."
 msgstr ""
+"É necessário um CST para criar operações fiscais para as suas movimentações "
+"fiscais."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_document_serie_document_serie_unique
 msgid "A Fiscal Document Serie already exists for this document type."
-msgstr ""
+msgstr "Já existe uma série de documento fiscal para este tipo de documento."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.legal_nature_action
@@ -476,21 +483,29 @@ msgid ""
 "A Legal nature is necessary to determine the fiscal definitions for your "
 "company."
 msgstr ""
+"É necessária uma natureza jurídica para determinar as definições fiscais da "
+"sua empresa."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.nbm_action
 msgid "A NBM is necessary to create fiscal operations for your fiscal moves."
 msgstr ""
+"É necessária uma NBM para criar operações fiscais para as suas movimentações "
+"fiscais."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.nbs_action
 msgid "A NBS is necessary to create fiscal operations for your fiscal moves."
 msgstr ""
+"É necessária uma NBS para criar operações fiscais para as suas movimentações "
+"fiscais."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.ncm_action
 msgid "A NCM is necessary to create fiscal operations for your fiscal moves."
 msgstr ""
+"É necessário um NCM para criar operações fiscais para as suas movimentações "
+"fiscais."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.service_type_action
@@ -498,6 +513,8 @@ msgid ""
 "A Service Type is necessary to create fiscal operations for your fiscal "
 "moves."
 msgstr ""
+"É necessário um tipo de serviço para criar operações fiscais para as suas "
+"movimentações fiscais."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.simplified_tax_action
@@ -505,6 +522,8 @@ msgid ""
 "A Simplified Tax is necessary to determine the fiscal definitions for your "
 "company."
 msgstr ""
+"É necessário um imposto simplificado para determinar as definições fiscais "
+"da sua empresa."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.tax_classification_action
@@ -512,12 +531,16 @@ msgid ""
 "A Tax Classification is necessary to create fiscal operations for your "
 "fiscal moves."
 msgstr ""
+"É necessária uma classificação de imposto para criar operações fiscais para "
+"as suas movimentações fiscais."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.tax_group_action
 msgid ""
 "A Tax Group is necessary to create fiscal operations for your fiscal moves."
 msgstr ""
+"É necessário um grupo de impostos para criar operações fiscais para as suas "
+"movimentações fiscais."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.tax_ipi_control_seal_action
@@ -525,6 +548,8 @@ msgid ""
 "A Tax IPI control seal is necessary to create fiscal operations for your "
 "fiscal moves."
 msgstr ""
+"É necessário um selo de controle de IPI para criar operações fiscais para as "
+"suas movimentações fiscais."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.tax_ipi_guideline_class_action
@@ -532,6 +557,8 @@ msgid ""
 "A Tax IPI guideline Class is necessary to create fiscal operations for your "
 "fiscal moves."
 msgstr ""
+"É necessária uma classe de enquadramento de IPI para criar operações fiscais "
+"para as suas movimentações fiscais."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.tax_ipi_guideline_action
@@ -539,6 +566,8 @@ msgid ""
 "A Tax IPI guideline is necessary to create fiscal operations for your fiscal "
 "moves."
 msgstr ""
+"É necessário um enquadramento de IPI para criar operações fiscais para as "
+"suas movimentações fiscais."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.tax_action
@@ -549,6 +578,8 @@ msgstr ""
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.tax_pis_cofins_credit_action
 msgid "A Tax is necessary to create fiscal operations for your fiscal moves."
 msgstr ""
+"É necessário um imposto para criar operações fiscais para as suas "
+"movimentações fiscais."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_dashboard_kanban
@@ -567,6 +598,9 @@ msgid ""
 "e). Must have a maximum of 6 characters by regulation. e.g. 'UN', 'KG', "
 "'LITRO', 'CX12UN"
 msgstr ""
+"Código abreviado da unidade usado em documentos fiscais eletrônicos (ex.: NF-"
+"e, NFC-e). Deve ter no máximo 6 caracteres, por regulamentação. Ex.: 'UN', "
+"'KG', 'LITRO', 'CX12UN"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__account_move
@@ -697,7 +731,7 @@ msgstr "Adicionar um novo CST"
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.cte_document_action
 msgid "Add a new CTe"
-msgstr ""
+msgstr "Adicionar um novo CTe"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.document_type_action
@@ -727,7 +761,7 @@ msgstr "Adicionar uma nova Desoneração de ICMS"
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.legal_nature_action
 msgid "Add a new Legal Nature"
-msgstr ""
+msgstr "Adicionar uma nova natureza jurídica"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.nbm_action
@@ -782,7 +816,7 @@ msgstr "Adicionar um novo Imposto"
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.tax_classification_action
 msgid "Add a new Tax Classification"
-msgstr ""
+msgstr "Adicionar uma nova classificação de imposto"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.tax_group_action
@@ -868,12 +902,15 @@ msgstr "Todos os Documentos"
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.document_type_action
 msgid "All Documents supported by Brazilian Fiscal modulo for Odoo."
 msgstr ""
+"Todos os documentos suportados pelo módulo fiscal brasileiro para o Odoo."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.document_serie_action
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.service_action
 msgid "All Serie for Documents supported by Brazilian Fiscal modulo for Odoo."
 msgstr ""
+"Todas as séries de documentos suportadas pelo módulo fiscal brasileiro para "
+"o Odoo."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__allow_csll_irpj
@@ -885,7 +922,7 @@ msgstr "Permitir Csll Irpj"
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_tax_pis_cofins_base_code_unique
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_tax_pis_cofins_credit_code_unique
 msgid "Already exists with this code!"
-msgstr ""
+msgstr "Já existe com este código!"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__amount_discount_value
@@ -966,6 +1003,8 @@ msgid ""
 "An Fiscal Product Genre is necessary to create EFD operations for your "
 "fiscal moves."
 msgstr ""
+"É necessário um gênero de produto fiscal para criar operações de EFD para as "
+"suas movimentações fiscais."
 
 #. module: l10n_br_fiscal
 #: model:ir.ui.menu,name:l10n_br_fiscal.andresses_menu
@@ -975,7 +1014,7 @@ msgstr "Endereços"
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
 msgid "Annex"
-msgstr ""
+msgstr "Anexo"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_res_company__simplified_tax_id
@@ -985,6 +1024,10 @@ msgid ""
 "Annex III and the Annex V, from its R factor. It applies to the operations "
 "whose CFOP does not tell their annex, such as services."
 msgstr ""
+"Anexo do Simples Nacional da atividade principal da empresa, obtido a partir "
+"do seu CNAE principal e, para os serviços, a partir do fator R, que alterna "
+"entre o Anexo III e o Anexo V. Aplica-se às operações cujo CFOP não indica o "
+"anexo, como os serviços."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__annual_revenue
@@ -1109,12 +1152,12 @@ msgstr "Bebidas alcoólicas, exceto cerveja e chope"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__benefit_type
 msgid "Benefit Type"
-msgstr ""
+msgstr "Tipo de benefício"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__is_benefit
 msgid "Benefit?"
-msgstr ""
+msgstr "Benefício?"
 
 #. module: l10n_br_fiscal
 #. odoo-python
@@ -1164,13 +1207,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cbs_percent
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__cbs_percent
 msgid "CBS %"
-msgstr ""
+msgstr "% CBS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cbs_reduction
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__cbs_reduction
 msgid "CBS % Reduction"
-msgstr ""
+msgstr "% de redução da CBS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__amount_cbs_base
@@ -1178,19 +1221,19 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__cbs_base
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__amount_cbs_base
 msgid "CBS Base"
-msgstr ""
+msgstr "Base da CBS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cbs_base_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__cbs_base_type
 msgid "CBS Base Type"
-msgstr ""
+msgstr "Tipo de base da CBS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cbs_cst_code
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__cbs_cst_code
 msgid "CBS CST Code"
-msgstr ""
+msgstr "Código CST da CBS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__amount_cbs_value
@@ -1198,7 +1241,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__cbs_value
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__amount_cbs_value
 msgid "CBS Value"
-msgstr ""
+msgstr "Valor da CBS"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_fiscal_line_mixin_form
@@ -1270,7 +1313,7 @@ msgstr "CFOP Interno"
 #. module: l10n_br_fiscal
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_cfop_fiscal_cfop_code_uniq
 msgid "CFOP already exists with this code!"
-msgstr ""
+msgstr "Já existe um CFOP com este código!"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_cfop_id
@@ -1309,12 +1352,12 @@ msgstr "Código CNAE"
 #. module: l10n_br_fiscal
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_cnae_fiscal_cnae_code_uniq
 msgid "CNAE already exists with this code!"
-msgstr ""
+msgstr "Já existe um CNAE com este código!"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
 msgid "CNAE and Legal Nature"
-msgstr ""
+msgstr "CNAE e natureza jurídica"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__cnae_ids
@@ -1590,7 +1633,7 @@ msgstr "CST"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cbs_cst_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__cbs_cst_id
 msgid "CST CBS"
-msgstr ""
+msgstr "CST da CBS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cofins_cst_id
@@ -1613,7 +1656,7 @@ msgstr "Código CST"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__ibs_cst_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__ibs_cst_id
 msgid "CST IBS"
-msgstr ""
+msgstr "CST do IBS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icms_cst_id
@@ -1631,13 +1674,13 @@ msgstr "CST IPI"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax__cst_in_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_ipi_guideline__cst_in_id
 msgid "CST In"
-msgstr "CST In"
+msgstr "CST de entrada"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax__cst_out_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_ipi_guideline__cst_out_id
 msgid "CST Out"
-msgstr "CST Out"
+msgstr "CST de saída"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__pis_cst_id
@@ -1654,12 +1697,12 @@ msgstr "CST PIS ST"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax__cst_tax_domain
 msgid "CST Tax Domain"
-msgstr ""
+msgstr "Domínio de imposto do CST"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_cst_l10n_br_fiscal_cst_code_tax_group_id_uniq
 msgid "CST already exists with this code!"
-msgstr ""
+msgstr "Já existe um CST com este código!"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__cst_ids
@@ -1749,7 +1792,7 @@ msgstr "Cancelados"
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__state_edoc__cancelada
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_search
 msgid "Cancelled"
-msgstr ""
+msgstr "Cancelada"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cest__segment__03
@@ -1794,7 +1837,7 @@ msgstr "Cidade"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__city_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__city_id
 msgid "City ID"
-msgstr ""
+msgstr "ID da cidade"
 
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.city_taxation_code_action
@@ -1815,6 +1858,8 @@ msgid ""
 "City Taxation Code for Municipal NFS-e or ISS Municipal Taxation Code for "
 "National NFS-e."
 msgstr ""
+"Código de tributação do município para NFS-e municipal ou código de "
+"tributação municipal do ISS para NFS-e nacional."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__city_taxation_code_ids
@@ -1914,7 +1959,7 @@ msgstr "Comercial"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__ind_comunica
 msgid "Communication?"
-msgstr ""
+msgstr "Comunicação?"
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_res_company
@@ -1948,7 +1993,7 @@ msgstr "Empresa"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_l10n_br_ie_code_st
 msgid "Company ST State Tax Number"
-msgstr ""
+msgstr "Inscrição estadual do ST da empresa"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__company_tax_framework
@@ -1997,7 +2042,7 @@ msgstr "Configuração"
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "Confirm"
-msgstr ""
+msgstr "Confirmar"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.invalidate_number_form
@@ -2041,6 +2086,11 @@ msgid ""
 "\n"
 "%(error)s"
 msgstr ""
+"Não foi possível ler este arquivo como o XML de um documento fiscal "
+"eletrônico. Verifique se você enviou o próprio XML, e não a sua "
+"representação impressa (PDF).\n"
+"\n"
+"%(error)s"
 
 #. module: l10n_br_fiscal
 #: model:ir.ui.menu,name:l10n_br_fiscal.country_menu
@@ -2112,7 +2162,7 @@ msgstr "Crie um novo parceiro em seu catálogo de endereços"
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.operation_indicator_action
 msgid "Create an Operation Indicator record"
-msgstr ""
+msgstr "Criar um registro de indicador de operação"
 
 #. module: l10n_br_fiscal
 #. odoo-python
@@ -2128,7 +2178,7 @@ msgstr "Criar novos produtos."
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__allow_product_creation
 msgid "Create unmapped products"
-msgstr ""
+msgstr "Criar produtos não mapeados"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cest__create_uid
@@ -2225,14 +2275,14 @@ msgstr "Criado em"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_classification__credit_reversal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_classification_tree
 msgid "Credit Reversal"
-msgstr ""
+msgstr "Estorno de crédito"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cst_code_prefix_like
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__cst_code_prefix_like
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_classification__cst_code_prefix_like
 msgid "Cst Code Prefix Like"
-msgstr ""
+msgstr "Prefixo do código CST (LIKE)"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__currency_id
@@ -2249,7 +2299,7 @@ msgstr "Moeda"
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
 msgid "Current Effective Taxes for Simples Nacional"
-msgstr ""
+msgstr "Alíquotas efetivas atuais do Simples Nacional"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.ncm_form
@@ -2286,7 +2336,7 @@ msgstr "Desenvolvimento personalizado de Odoo"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__supply_location
 msgid "DFe Supply Location"
-msgstr ""
+msgstr "Local de fornecimento do DF-e"
 
 #. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_DISPLAY
@@ -2317,12 +2367,12 @@ msgstr "Data de Entrada/Saída"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__date_in_out
 msgid "Date In Out"
-msgstr ""
+msgstr "Data de entrada/saída"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_search
 msgid "Date In/Out"
-msgstr ""
+msgstr "Data de entrada/saída"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__is_debit_credit
@@ -2408,7 +2458,7 @@ msgstr "Perfil Padrão"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__tax_classification_id
 msgid "Default Tax Classification"
-msgstr ""
+msgstr "Classificação tributária padrão"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
@@ -2479,22 +2529,22 @@ msgstr "Destino"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__destination_cnpj
 msgid "Destination CNPJ"
-msgstr ""
+msgstr "CNPJ do destinatário"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__destination_name
 msgid "Destination Name"
-msgstr ""
+msgstr "Nome do destinatário"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__destination_partner_id
 msgid "Destination Partner"
-msgstr ""
+msgstr "Parceiro destinatário"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__destination_type_in_out
 msgid "Destination Type"
-msgstr ""
+msgstr "Tipo do destinatário"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_import_wizard_form
@@ -2590,7 +2640,7 @@ msgstr "Mixin Fiscal de Documentos"
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_mixin
 msgid "Document Fiscal Mixin Fields"
-msgstr ""
+msgstr "Campos do mixin de documento fiscal"
 
 #. module: l10n_br_fiscal
 #. odoo-python
@@ -2610,13 +2660,13 @@ msgstr "Chave de documento"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__key_check_digit
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__key_check_digit
 msgid "Document Key Check Digit"
-msgstr ""
+msgstr "Dígito de Verificação da Chave do Documento"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__key_random_code
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__key_random_code
 msgid "Document Key Random Code"
-msgstr ""
+msgstr "Código Aleatório da Chave do Documento"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__fiscal_line_ids
@@ -2660,12 +2710,12 @@ msgstr "Série de documentos"
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_supplement
 msgid "Document Supplement Data"
-msgstr ""
+msgstr "Dados do Documento Suplementar"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__amount_total
 msgid "Document Total"
-msgstr ""
+msgstr "Total do documento"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_base_wizard_mixin__document_type_id
@@ -2727,7 +2777,7 @@ msgstr "EMBALAGEM"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__simplified_tax_ids
 msgid "Effective Taxes"
-msgstr ""
+msgstr "Alíquotas efetivas"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__date_in_out
@@ -2736,11 +2786,14 @@ msgid ""
 "bookkeeping). Defaults to today; adjust it when the physical receipt "
 "happened on another date."
 msgstr ""
+"Data efetiva de entrada ou saída das mercadorias (DT_E_S na escrituração do "
+"SPED). Por padrão é a data de hoje; ajuste-a quando o recebimento físico "
+"ocorrer em outra data."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__current_effective_tax
 msgid "Effective tax rate of the annex for the company, in its range."
-msgstr ""
+msgstr "Alíquota efetiva do anexo para a empresa, na sua faixa."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__document_electronic
@@ -2853,12 +2906,12 @@ msgstr "Estimativa de Impostos"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__exception
 msgid "Exception"
-msgstr "Excessão"
+msgstr "Exceção"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_partner__nif_motive_absence__1
 msgid "Exemption from NIF"
-msgstr ""
+msgstr "Dispensa do NIF"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__issqn_eligibility__6
@@ -2992,7 +3045,7 @@ msgstr "Ferramentas"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__file
 msgid "File to Import"
-msgstr ""
+msgstr "Arquivo a Importar"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__ind_final
@@ -3072,7 +3125,7 @@ msgstr "Dados adicionais fiscais inseridos manualmente pelo usuário"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__fiscal_amount_tax
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__fiscal_amount_tax
 msgid "Fiscal Amount Tax"
-msgstr ""
+msgstr "Total fiscal de impostos"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__fiscal_amount_total
@@ -3080,7 +3133,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__fiscal_amount_total
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__fiscal_amount_total
 msgid "Fiscal Amount Total"
-msgstr ""
+msgstr "Total fiscal"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__fiscal_amount_untaxed
@@ -3088,12 +3141,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__fiscal_amount_untaxed
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__fiscal_amount_untaxed
 msgid "Fiscal Amount Untaxed"
-msgstr ""
+msgstr "Valor fiscal sem impostos"
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_base_wizard_mixin
 msgid "Fiscal Base Wizard Mixin"
-msgstr ""
+msgstr "Mixin base de assistente fiscal"
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_comment
@@ -3134,7 +3187,7 @@ msgstr "Documento Fiscal"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__document_id
 msgid "Fiscal Document (Account)"
-msgstr ""
+msgstr "Documento fiscal (contábil)"
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_line
@@ -3148,7 +3201,7 @@ msgstr "Linha de Documento Fiscal"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__document_number
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__document_number
 msgid "Fiscal Document Number"
-msgstr ""
+msgstr "Número do documento fiscal"
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_related
@@ -3229,7 +3282,7 @@ msgstr "Linha de Operação Fiscal"
 #. module: l10n_br_fiscal
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_operation_line_fiscal_operation_name_uniq
 msgid "Fiscal Operation Line already exists with this name!"
-msgstr ""
+msgstr "Já existe uma linha de operação fiscal com este nome!"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__fiscal_operation_type
@@ -3243,7 +3296,7 @@ msgstr "Tipo de Operação Fiscal"
 #. module: l10n_br_fiscal
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_operation_fiscal_operation_code_uniq
 msgid "Fiscal Operation already exists with this code!"
-msgstr ""
+msgstr "Já existe uma operação fiscal com este código!"
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_partner_profile
@@ -3257,7 +3310,7 @@ msgstr "Perfil Fiscal do Parceiro"
 #. module: l10n_br_fiscal
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_partner_profile_fiscal_partner_profile_code_uniq
 msgid "Fiscal Partner Profile already exists with this code!"
-msgstr ""
+msgstr "Já existe um perfil fiscal de parceiro com este código!"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__fiscal_price
@@ -3305,13 +3358,13 @@ msgstr "Quantidade Fiscal"
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
 msgid "Fiscal Service Type"
-msgstr ""
+msgstr "Tipo de serviço fiscal"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__service_type_ids
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
 msgid "Fiscal Service Types"
-msgstr ""
+msgstr "Tipos de serviço fiscal"
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_tax
@@ -3477,12 +3530,14 @@ msgstr "Do Estado"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__ind_comb
 msgid "Fuel?"
-msgstr ""
+msgstr "Combustível?"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_uom_uom__description
 msgid "Full unit description. e.g. 'Unit', 'Kilogram', 'Box of 12 Units'."
 msgstr ""
+"Descrição completa da unidade. Ex.: 'Unidade', 'Quilograma', 'Caixa com 12 "
+"unidades'."
 
 #. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_GARRAFA
@@ -3515,6 +3570,11 @@ msgid ""
 "invoices, which is the one of the range the company was in the month before "
 "the operation (LC 123/2006, art. 18 and art. 23)."
 msgstr ""
+"Receita bruta acumulada nos 12 meses anteriores ao período de apuração atual "
+"(RBT12). No Simples Nacional, ela define a faixa de cada anexo e, com isso, "
+"as alíquotas efetivas e a alíquota de crédito de ICMS informada nas notas, "
+"que é a da faixa em que a empresa estava no mês anterior à operação (LC 123/"
+"2006, art. 18 e art. 23)."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_ipi_guideline__cst_group
@@ -3557,11 +3617,13 @@ msgstr "Tem mensagem"
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_classification__cst_code_prefix_like
 msgid "Helper field to filter taxes by CST code prefix (3 chars) using LIKE."
 msgstr ""
+"Campo auxiliar para filtrar impostos pelo prefixo do código CST (3 "
+"caracteres) usando LIKE."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.cte_document_action
 msgid "Here you can create CT-es"
-msgstr ""
+msgstr "Aqui você pode criar CT-es"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.nfe_document_action
@@ -3577,13 +3639,13 @@ msgstr "Aqui você pode criar NFS-es"
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/ibpt.py:0
 msgid "IBPT Forbidden - token=%(token)s, cnpj=%(cnpj)s, UF=%(uf)s"
-msgstr ""
+msgstr "IBPT: acesso negado - token=%(token)s, cnpj=%(cnpj)s, UF=%(uf)s"
 
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/ibpt.py:0
 msgid "IBPT Service Unavailable - %s(url)s"
-msgstr ""
+msgstr "IBPT: serviço indisponível - %s(url)s"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__ibpt_token
@@ -3599,7 +3661,7 @@ msgstr "Atualizações de tokens do IBPT"
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/ibpt.py:0
 msgid "IBPT URL not found - %(url)s"
-msgstr ""
+msgstr "IBPT: URL não encontrada - %(url)s"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__ibpt_update_days
@@ -3617,13 +3679,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__ibs_percent
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__ibs_percent
 msgid "IBS %"
-msgstr ""
+msgstr "% IBS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__ibs_reduction
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__ibs_reduction
 msgid "IBS % Reduction"
-msgstr ""
+msgstr "% de redução do IBS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__amount_ibs_base
@@ -3631,19 +3693,19 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__ibs_base
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__amount_ibs_base
 msgid "IBS Base"
-msgstr ""
+msgstr "Base do IBS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__ibs_base_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__ibs_base_type
 msgid "IBS Base Type"
-msgstr ""
+msgstr "Tipo de base do IBS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__ibs_cst_code
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__ibs_cst_code
 msgid "IBS CST Code"
-msgstr ""
+msgstr "Código CST do IBS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__amount_ibs_value
@@ -3651,12 +3713,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__ibs_value
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__amount_ibs_value
 msgid "IBS Value"
-msgstr ""
+msgstr "Valor do IBS"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
 msgid "IBS/CBS Tax Classification"
-msgstr ""
+msgstr "Classificação tributária do IBS e da CBS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__tax_icms_or_issqn__icms
@@ -3921,7 +3983,6 @@ msgstr "ICMS Externo TO"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_fiscal_line_mixin_form
-#, fuzzy
 msgid "ICMS FCP"
 msgstr "ICMS FCP"
 
@@ -4077,13 +4138,13 @@ msgstr "ICMS FCP SP"
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_fiscal_line_mixin_form
 msgid "ICMS FCP ST"
-msgstr ""
+msgstr "ICMS FCP ST"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icmsfcpst_percent
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icmsfcpst_percent
 msgid "ICMS FCP ST %"
-msgstr ""
+msgstr "% ICMS FCP ST"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__icms_fcp_st_ac_ids
@@ -4114,7 +4175,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icmsfcpst_base
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icmsfcpst_base
 msgid "ICMS FCP ST Base"
-msgstr ""
+msgstr "Base para ICMS FCP ST"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__icms_fcp_st_ce_ids
@@ -4431,7 +4492,7 @@ msgstr "Alívio do ICMS"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icms_relief_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icms_relief_type
 msgid "ICMS Relief Deduction"
-msgstr ""
+msgstr "Dedução da desoneração do ICMS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icms_relief_value
@@ -4668,7 +4729,7 @@ msgstr "Valor do ICMS ST WH"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__is_icmsst
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__is_icmsst
 msgid "ICMS ST?"
-msgstr ""
+msgstr "ICMS ST?"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icms_sharing_percent
@@ -4765,7 +4826,7 @@ msgstr "ID"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__l10n_br_ie_code
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__l10n_br_ie_code
 msgid "IE"
-msgstr ""
+msgstr "IE"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_group__tax_domain__ii
@@ -4952,7 +5013,7 @@ msgstr "Enquadramento do IPI"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__ipi_guideline_class_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__ipi_guideline_class_id
 msgid "IPI Guideline Class"
-msgstr "Aula de Diretrizes do IPI"
+msgstr "Classe de enquadramento do IPI"
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_tax_ipi_guideline
@@ -5076,7 +5137,7 @@ msgstr "ISS %"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__national_taxation_code_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__national_taxation_code_id
 msgid "ISS National Taxation Code"
-msgstr ""
+msgstr "Código de tributação nacional do ISS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__tax_icms_or_issqn__issqn
@@ -5245,14 +5306,14 @@ msgstr "Ícone para indicar uma atividade excepcional."
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__vat
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__vat
 msgid "Identification Number"
-msgstr ""
+msgstr "Número de identificação"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_cnpj_cpf
 #: model:ir.model.fields,help:l10n_br_fiscal.field_res_partner__vat
 #: model:ir.model.fields,help:l10n_br_fiscal.field_res_users__vat
 msgid "Identification Number for selected type"
-msgstr ""
+msgstr "Número de identificação para o tipo selecionado"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_cfop__destination
@@ -5293,6 +5354,10 @@ msgid ""
 "raise an error when an unmapped product is found so you can map it in the "
 "product lines above before importing."
 msgstr ""
+"Se ativado, os produtos que não correspondem a um cadastro existente serão "
+"criados automaticamente durante a importação. Se desativado (padrão), a "
+"importação exibirá um erro ao encontrar um produto sem correspondência, para "
+"que você o associe nas linhas de produto acima antes de importar."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_res_company__is_industry
@@ -5302,7 +5367,7 @@ msgstr "Se sua empresa é da indústria ou......"
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_line_form
 msgid "Import Declaration"
-msgstr ""
+msgstr "Declaração de importação"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_import_wizard_form
@@ -5312,23 +5377,23 @@ msgstr "Documento de Importação"
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_import_wizard
 msgid "Import Document Wizard"
-msgstr ""
+msgstr "Assistente de importação de documento"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_import_wizard_form
 msgid "Import Fiscal Document"
-msgstr ""
+msgstr "Importar documento fiscal"
 
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/wizards/document_import_wizard.py:0
 msgid "Importation not implemented for %s!"
-msgstr ""
+msgstr "Importação não implementada para %s!"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__imported_document
 msgid "Imported"
-msgstr ""
+msgstr "Importado"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_estimate__state_taxes
@@ -5384,7 +5449,7 @@ msgstr "Documento de Entrada"
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__allow_csll_irpj
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__allow_csll_irpj
 msgid "Indicates potential 'CSLL' and 'IRPJ' tax charges."
-msgstr ""
+msgstr "Indica potencial cobrança de imposto 'CSLL' e 'IRPJ' ."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_cfop__is_icmsst
@@ -5415,6 +5480,10 @@ msgid ""
 "municipal governments, state-owned enterprises (where the government is the "
 "largest shareholder), and other government-controlled organizations."
 msgstr ""
+"Indica se a entidade em questão é uma organização pública ou uma entidade "
+"relacionada ao governo. Abrange uma gama de entidades, como governos "
+"municipais, empresas estatais (onde o governo é o maior acionista) e outras "
+"organizações controladas pelo governo."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__industry_type
@@ -5530,7 +5599,7 @@ msgstr "É Seguidor"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__is_import
 msgid "Is Import?"
-msgstr ""
+msgstr "É importação?"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__is_industry
@@ -5564,22 +5633,22 @@ msgstr "Emissor"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__issuer_cnpj
 msgid "Issuer CNPJ"
-msgstr ""
+msgstr "CNPJ do emitente"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__issuer_legal_name
 msgid "Issuer Legal Name"
-msgstr ""
+msgstr "Razão social do emitente"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__issuer_partner_id
 msgid "Issuer Partner"
-msgstr ""
+msgstr "Parceiro emitente"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__issuer_type_in_out
 msgid "Issuer Type"
-msgstr ""
+msgstr "Tipo do emitente"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cest__item
@@ -5731,12 +5800,12 @@ msgstr "Razão Social"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__legal_nature_id
 #: model:ir.ui.menu,name:l10n_br_fiscal.legal_nature_menu
 msgid "Legal Nature"
-msgstr ""
+msgstr "Natureza jurídica"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_legal_nature_fiscal_legal_nature_code_uniq
 msgid "Legal Nature already exists with this code!"
-msgstr ""
+msgstr "Já existe uma natureza jurídica com este código!"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__icmsst_base_type__1
@@ -5802,7 +5871,7 @@ msgstr "MM"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax__icmsst_mva_percent
 msgid "MVA Percent"
-msgstr "MVA Percent"
+msgstr "Percentual de MVA"
 
 #. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_MWH
@@ -5812,12 +5881,12 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__simplified_tax_id
 msgid "Main Activity Annex"
-msgstr ""
+msgstr "Anexo da atividade principal"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__simplified_tax_range_id
 msgid "Main Activity Range"
-msgstr ""
+msgstr "Faixa da atividade principal"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__cnae_main_id
@@ -5832,6 +5901,8 @@ msgstr "CNAE principal"
 msgid ""
 "Maintain only one standard tax type for Individuals or for Legal Entities!"
 msgstr ""
+"Mantenha apenas um tipo de tributação padrão para Pessoas Físicas ou para "
+"Pessoas Jurídicas!"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__manual_additional_data
@@ -5981,7 +6052,7 @@ msgstr "Configurações de movimento"
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.cfop_form
 msgid "Move Type"
-msgstr ""
+msgstr "Tipo de movimento"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_refund_debit_type__04
@@ -5992,7 +6063,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_fiscal.field_res_partner__l10n_br_im_code
 #: model:ir.model.fields,help:l10n_br_fiscal.field_res_users__l10n_br_im_code
 msgid "Municipal Tax Identification Number"
-msgstr ""
+msgstr "Inscrição municipal"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__public_entity_type__4
@@ -6069,7 +6140,7 @@ msgstr "NBS"
 #. module: l10n_br_fiscal
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_nbs_fiscal_nbs_code_uniq
 msgid "NBS already exists with this code!"
-msgstr ""
+msgstr "Já existe uma NBS com este código!"
 
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.ncm_action
@@ -6096,7 +6167,7 @@ msgstr "NCM"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__ncm_exception
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_pis_cofins__ncm_exception
 msgid "NCM Exeption"
-msgstr "Exepção de NCM"
+msgstr "Exceção de NCM"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__ncms
@@ -6106,7 +6177,7 @@ msgstr "Lista NCM"
 #. module: l10n_br_fiscal
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_ncm_fiscal_ncm_code_exception_uniq
 msgid "NCM already exists with this code!"
-msgstr ""
+msgstr "Já existe uma NCM com este código!"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cest__ncm_ids
@@ -6156,12 +6227,12 @@ msgstr "NFS-e"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__nif_motive_absence
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__nif_motive_absence
 msgid "NIF motive absence"
-msgstr ""
+msgstr "Motivo da ausência do NIF"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_partner__nif_motive_absence__2
 msgid "NIF not required"
-msgstr ""
+msgstr "NIF não exigido"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cest__name
@@ -6225,19 +6296,19 @@ msgstr "Faixa Nacional Simplificada de Impostos"
 #: model:ir.ui.menu,name:l10n_br_fiscal.national_taxation_code_menu
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
 msgid "National Taxation Code"
-msgstr ""
+msgstr "Código de tributação nacional"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__national_taxation_code_id
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__national_taxation_code_id
 msgid "National Taxation Code for the ISS tax (National NFS-e)"
-msgstr ""
+msgstr "Código de tributação nacional do ISS (NFS-e Nacional)"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__national_taxation_code_ids
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
 msgid "National Taxation Codes"
-msgstr ""
+msgstr "Códigos de tributação nacional"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__activity_calendar_event_id
@@ -6301,7 +6372,7 @@ msgstr "Próximo número para esta sequência"
 #. odoo-python
 #: code:addons/l10n_br_fiscal/wizards/document_import_wizard.py:0
 msgid "No CNPJ or Legal Name to search for a partner!"
-msgstr ""
+msgstr "Não há CNPJ nem razão social para buscar um parceiro!"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cnae__internal_type__normal
@@ -6329,7 +6400,7 @@ msgstr "Não em NCMs"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_partner__nif_motive_absence__0
 msgid "Not informed in the origin note"
-msgstr ""
+msgstr "Não informado na nota de origem"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_related_form
@@ -6514,6 +6585,8 @@ msgstr "Objeto"
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.comment_action
 msgid "Odoo helps you easily track all activities related to a fiscal comment."
 msgstr ""
+"O Odoo ajuda você a acompanhar facilmente todas as atividades relacionadas a "
+"um comentário fiscal."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.document_all_action
@@ -6524,6 +6597,8 @@ msgstr ""
 msgid ""
 "Odoo helps you easily track all activities related to a fiscal operation."
 msgstr ""
+"O Odoo ajuda você a acompanhar facilmente todas as atividades relacionadas a "
+"uma operação fiscal."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.partner_action
@@ -6557,7 +6632,7 @@ msgstr "Painel de Operação"
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_indicator_form
 msgid "Operation Details"
-msgstr ""
+msgstr "Detalhes da operação"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation__document_type_ids
@@ -6568,7 +6643,7 @@ msgstr "Tipos de documentos de operação"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__operation_fiscal_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__operation_fiscal_type
 msgid "Operation Fiscal Type"
-msgstr ""
+msgstr "Tipo fiscal da operação"
 
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.operation_indicator_action
@@ -6581,12 +6656,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_indicator_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_indicator_search
 msgid "Operation Indicator"
-msgstr ""
+msgstr "Indicador da operação"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__code
 msgid "Operation Indicator Code"
-msgstr ""
+msgstr "Código do indicador de operação"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.operation_indicator_action
@@ -6594,6 +6669,8 @@ msgid ""
 "Operation Indicators are used to categorize consumption\n"
 "                operations."
 msgstr ""
+"Os indicadores de operação são usados para categorizar as operações\n"
+"                de consumo."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__fiscal_operation_line_id
@@ -6612,6 +6689,9 @@ msgid ""
 "or Taxation Code restrictions) must have at least one Product. Missing on: %"
 "(tax_definitions)s"
 msgstr ""
+"Linha de operação %(line)s: as definições de imposto genéricas (sem "
+"restrição de NCM, CEST, NBM ou código de tributação) devem ter pelo menos um "
+"produto. Faltando em: %(tax_definitions)s"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__line_inverse_id
@@ -6626,7 +6706,7 @@ msgstr "Reembolso da linha de operação"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__operation_location
 msgid "Operation Location Consideration"
-msgstr ""
+msgstr "Local considerado da operação"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__operation_name
@@ -6645,6 +6725,8 @@ msgid ""
 "Operation indicator code according to Annex VII of NT 004/2025 (e.g., "
 "020101, 030101)"
 msgstr ""
+"Código do indicador de operação conforme o Anexo VII da NT 004/2025 (ex.: "
+"020101, 030101)"
 
 #. module: l10n_br_fiscal
 #: model:ir.ui.menu,name:l10n_br_fiscal.operations_config_menu
@@ -7015,7 +7097,7 @@ msgstr "Parceiro"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_cfop_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__partner_cfop_id
 msgid "Partner CFOP"
-msgstr ""
+msgstr "CFOP do parceiro"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_order
@@ -7166,12 +7248,12 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__piscofins_id_domain
 msgid "Piscofins Id Domain"
-msgstr ""
+msgstr "Domínio do ID de PIS/COFINS"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_indicator_form
 msgid "Place of supply"
-msgstr ""
+msgstr "Local do fornecimento"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__supply_location
@@ -7180,6 +7262,9 @@ msgid ""
 "as supplier establishment, acquirer address, recipient address, or other "
 "locations depending on the operation"
 msgstr ""
+"Local do fornecimento a ser identificado no Documento Fiscal Eletrônico (DF-"
+"e), como o estabelecimento do fornecedor, o endereço do adquirente, o "
+"endereço do destinatário ou outros locais, conforme a operação"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cest__segment__15
@@ -7194,14 +7279,14 @@ msgstr "Prefixo"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_company__profit_calculation__presumed
 msgid "Presumed"
-msgstr "Presume"
+msgstr "Presumido"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_classification__presumed_credit
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_classification_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_classification_tree
 msgid "Presumed Credit"
-msgstr ""
+msgstr "Crédito presumido"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_import_wizard_form
@@ -7276,7 +7361,7 @@ msgstr "Unidade de Medida do Produto"
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_product_product
 msgid "Product Variant"
-msgstr ""
+msgstr "Variante do produto"
 
 #. module: l10n_br_fiscal
 #: model:ir.ui.menu,name:l10n_br_fiscal.product_service_menu
@@ -7401,7 +7486,7 @@ msgstr "Cálculo do lucro"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__is_public_entity
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__is_public_entity
 msgid "Public Entity"
-msgstr ""
+msgstr "Entidade Pública"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__fiscal_type__purchase
@@ -7456,7 +7541,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_supplement__url_key
 msgid "QR Code URL Key"
-msgstr ""
+msgstr "Chave da URL do QR Code"
 
 #. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_QUILATE
@@ -7547,7 +7632,7 @@ msgstr "RIPI"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__rntrc_code
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__rntrc_code
 msgid "RNTRC Code"
-msgstr ""
+msgstr "Código do RNTRC"
 
 #. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_ROLO
@@ -7557,7 +7642,7 @@ msgstr "ROLO"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__current_range_id
 msgid "Range"
-msgstr ""
+msgstr "Intervalo"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icmssn_range_id
@@ -7566,6 +7651,8 @@ msgid ""
 "Range of the Simples Nacional annex that taxes the operation, the one the "
 "company was in when the taxes of the line were computed."
 msgstr ""
+"Faixa do anexo do Simples Nacional que tributa a operação, aquela em que a "
+"empresa estava quando os impostos da linha foram calculados."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_res_company__simplified_tax_range_id
@@ -7573,6 +7660,8 @@ msgid ""
 "Range of the annex of the main activity the company currently falls into, "
 "given its gross revenue of the last 12 months."
 msgstr ""
+"Faixa do anexo da atividade principal em que a empresa se enquadra "
+"atualmente, de acordo com a receita bruta dos últimos 12 meses."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__current_range_id
@@ -7580,13 +7669,15 @@ msgid ""
 "Range of the annex the company falls into, given its gross revenue of the "
 "last 12 months."
 msgstr ""
+"Faixa do anexo em que a empresa se enquadra, de acordo com a receita bruta "
+"dos últimos 12 meses."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_classification__rate_type
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_classification_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_classification_tree
 msgid "Rate Type"
-msgstr ""
+msgstr "Tipo de alíquota"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cest__segment__20
@@ -7621,7 +7712,7 @@ msgstr "Regime especial ou norma específica"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__ind_retor
 msgid "Regress?"
-msgstr ""
+msgstr "Regressão?"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__state_fiscal__00
@@ -7633,7 +7724,7 @@ msgstr "Comum"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_classification_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_classification_tree
 msgid "Regular Taxation"
-msgstr ""
+msgstr "Tributação regular"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__state_fiscal__01
@@ -7649,13 +7740,13 @@ msgstr "CEST relacionado"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_classification__document_type_ids
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_classification_tree
 msgid "Related DFes"
-msgstr ""
+msgstr "DF-e relacionados"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_classification__document_type_ids
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_classification_form
 msgid "Related Digital Fiscal Documents"
-msgstr ""
+msgstr "Documentos fiscais eletrônicos relacionados"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.cest_form
@@ -7680,17 +7771,17 @@ msgstr "Parceiros Relacionados"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.ncm_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.service_type_form
 msgid "Related Produts"
-msgstr "Produts Relacionados"
+msgstr "Produtos Relacionados"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__base_without_icms
 msgid "Remove ICMS value from Base"
-msgstr ""
+msgstr "Remover o valor do ICMS da base"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__require_product_on_tax_definition
 msgid "Require Product on Tax Definition"
-msgstr ""
+msgstr "Exigir produto na definição de imposto"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_form
@@ -7740,7 +7831,7 @@ msgstr "Devolução"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__ind_devol
 msgid "Return?"
-msgstr ""
+msgstr "Devolução?"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__state__review
@@ -7755,7 +7846,7 @@ msgstr "Revisar"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__ind_anula
 msgid "Revocation?"
-msgstr ""
+msgstr "Revogação?"
 
 #. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_SACO
@@ -7821,13 +7912,13 @@ msgstr "Salvar documentos em disco"
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:0
 msgid "Scheduled %(name)s estimate taxes update complete."
-msgstr ""
+msgstr "Atualização agendada dos impostos estimados de %(name)s concluída."
 
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:0
 msgid "Scheduled %(name)s estimate taxes update..."
-msgstr ""
+msgstr "Atualização agendada dos impostos estimados de %(name)s..."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
@@ -7854,7 +7945,7 @@ msgstr "CNAE secundário"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__cnae_secondary_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__cnae_secondary_ids
 msgid "Secondary CNAEs"
-msgstr ""
+msgstr "CNAEs secundários"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cest__segment
@@ -7866,7 +7957,7 @@ msgstr "Segmento"
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/comment.py:0
 msgid "Select a reference document to test the message."
-msgstr ""
+msgstr "Selecione um documento de referência para testar a mensagem."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_company__processador_edoc__nenhum
@@ -7919,7 +8010,7 @@ msgstr "Tipo de Serviço Filho"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.product_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.product_template_search
 msgid "Service Type LC 166"
-msgstr "Tipo de Serviço LC 166"
+msgstr "Tipo de Serviço LC 116"
 
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.service_action
@@ -7948,7 +8039,7 @@ msgstr "Serviços"
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "Set to Draft"
-msgstr ""
+msgstr "Voltar para rascunho"
 
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.config_action
@@ -7959,7 +8050,7 @@ msgstr "Configurações"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__ind_remes
 msgid "Shipment?"
-msgstr ""
+msgstr "Remessa?"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_shipping_id
@@ -8005,6 +8096,8 @@ msgid ""
 "Simples Nacional effective tax rate for each annex, based on the range the "
 "company currently falls into."
 msgstr ""
+"Alíquota efetiva do Simples Nacional para cada anexo, com base na faixa em "
+"que a empresa se enquadra atualmente."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.simplified_tax_form
@@ -8033,7 +8126,7 @@ msgstr "Faixa de impostos simplificada"
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_search
 msgid "Situation"
-msgstr ""
+msgstr "Situação"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__state_fiscal
@@ -8066,12 +8159,14 @@ msgid ""
 "Specific characteristic of the supply execution that determines the place of "
 "supply"
 msgstr ""
+"Característica específica da execução do fornecimento que determina o local "
+"do fornecimento"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_pis_cofins__sped_table
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_pis_cofins_search
 msgid "Sped Table"
-msgstr ""
+msgstr "Tabela do SPED"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cest__date_start
@@ -8130,7 +8225,7 @@ msgstr "Estado"
 #: model:ir.model.fields,help:l10n_br_fiscal.field_res_partner__l10n_br_ie_code
 #: model:ir.model.fields,help:l10n_br_fiscal.field_res_users__l10n_br_ie_code
 msgid "State Tax Identification Number. Should contain 9-14 digits."
-msgstr ""
+msgstr "Inscrição estadual. Deve conter de 9 a 14 dígitos."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_l10n_br_ie_code
@@ -8196,17 +8291,17 @@ msgstr "Sufix"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__supply_characteristic
 msgid "Supply Characteristic"
-msgstr ""
+msgstr "Característica do fornecimento"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_indicator_form
 msgid "Supply Information"
-msgstr ""
+msgstr "Informações do fornecimento"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_indicator_form
 msgid "Supply characteristic"
-msgstr ""
+msgstr "Característica do fornecimento"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_ipi_guideline__cst_group__suspensao
@@ -8254,160 +8349,160 @@ msgstr "Tipo de Base Tributária"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icms_tax_benefit_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
 msgid "Tax Benefit"
-msgstr ""
+msgstr "Benefício Fiscal"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_ac_ids
 msgid "Tax Benefit AC"
-msgstr ""
+msgstr "Benefício fiscal AC"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_al_ids
 msgid "Tax Benefit AL"
-msgstr ""
+msgstr "Benefício fiscal AL"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_am_ids
 msgid "Tax Benefit AM"
-msgstr ""
+msgstr "Benefício fiscal AM"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_ap_ids
 msgid "Tax Benefit AP"
-msgstr ""
+msgstr "Benefício fiscal AP"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_ba_ids
 msgid "Tax Benefit BA"
-msgstr ""
+msgstr "Benefício fiscal BA"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_ce_ids
 msgid "Tax Benefit CE"
-msgstr ""
+msgstr "Benefício fiscal CE"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icms_tax_benefit_code
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icms_tax_benefit_code
 msgid "Tax Benefit Code"
-msgstr ""
+msgstr "Código do Benefício Fiscal"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_df_ids
 msgid "Tax Benefit DF"
-msgstr ""
+msgstr "Benefício fiscal DF"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_es_ids
 msgid "Tax Benefit ES"
-msgstr ""
+msgstr "Benefício fiscal ES"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_go_ids
 msgid "Tax Benefit GO"
-msgstr ""
+msgstr "Benefício fiscal GO"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_ma_ids
 msgid "Tax Benefit MA"
-msgstr ""
+msgstr "Benefício fiscal MA"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_mg_ids
 msgid "Tax Benefit MG"
-msgstr ""
+msgstr "Benefício fiscal MG"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_ms_ids
 msgid "Tax Benefit MS"
-msgstr ""
+msgstr "Benefício fiscal MS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_mt_ids
 msgid "Tax Benefit MT"
-msgstr ""
+msgstr "Benefício fiscal MT"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_pa_ids
 msgid "Tax Benefit PA"
-msgstr ""
+msgstr "Benefício fiscal PA"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_pb_ids
 msgid "Tax Benefit PB"
-msgstr ""
+msgstr "Benefício fiscal PB"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_pe_ids
 msgid "Tax Benefit PE"
-msgstr ""
+msgstr "Benefício fiscal PE"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_pi_ids
 msgid "Tax Benefit PI"
-msgstr ""
+msgstr "Benefício fiscal PI"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_pr_ids
 msgid "Tax Benefit PR"
-msgstr ""
+msgstr "Benefício fiscal PR"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_rj_ids
 msgid "Tax Benefit RJ"
-msgstr ""
+msgstr "Benefício fiscal RJ"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_rn_ids
 msgid "Tax Benefit RN"
-msgstr ""
+msgstr "Benefício fiscal RN"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_ro_ids
 msgid "Tax Benefit RO"
-msgstr ""
+msgstr "Benefício fiscal RO"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_rr_ids
 msgid "Tax Benefit RR"
-msgstr ""
+msgstr "Benefício fiscal RR"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_rs_ids
 msgid "Tax Benefit RS"
-msgstr ""
+msgstr "Benefício fiscal RS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_sc_ids
 msgid "Tax Benefit SC"
-msgstr ""
+msgstr "Benefício fiscal SC"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_se_ids
 msgid "Tax Benefit SE"
-msgstr ""
+msgstr "Benefício fiscal SE"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_sp_ids
 msgid "Tax Benefit SP"
-msgstr ""
+msgstr "Benefício fiscal SP"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_to_ids
 msgid "Tax Benefit TO"
-msgstr ""
+msgstr "Benefício fiscal TO"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cbs_tax_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__cbs_tax_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_classification__tax_cbs_id
 msgid "Tax CBS"
-msgstr ""
+msgstr "Imposto CBS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax_range__tax_cbs_percent
 msgid "Tax CBS Percent"
-msgstr ""
+msgstr "Percentual de CBS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cofins_tax_id
@@ -8475,7 +8570,7 @@ msgstr "Imposto CSLL RET"
 #: model:ir.ui.menu,name:l10n_br_fiscal.tax_classification_menu
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_fiscal_line_mixin_form
 msgid "Tax Classification"
-msgstr ""
+msgstr "Classificação tributária"
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_tax_definition
@@ -8563,19 +8658,19 @@ msgstr "Grupo de Imposto"
 #. module: l10n_br_fiscal
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_tax_group_fiscal_tax_group_code_uniq
 msgid "Tax Group already exists with this name!"
-msgstr ""
+msgstr "Já existe um grupo de impostos com este nome!"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__ibs_tax_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__ibs_tax_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_classification__tax_ibs_id
 msgid "Tax IBS"
-msgstr ""
+msgstr "Imposto IBS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax_range__tax_ibs_percent
 msgid "Tax IBS Percent"
-msgstr ""
+msgstr "Percentual de IBS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icms_tax_id
@@ -8593,7 +8688,7 @@ msgstr "Imposto ICMS FCP"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icmsfcpst_tax_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icmsfcpst_tax_id
 msgid "Tax ICMS FCP ST"
-msgstr ""
+msgstr "Imposto ICMS FCP ST"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax_range__tax_icms_percent
@@ -8652,7 +8747,7 @@ msgstr "Imposto IPI"
 #: model:ir.actions.act_window,name:l10n_br_fiscal.tax_ipi_guideline_class_action
 #: model:ir.ui.menu,name:l10n_br_fiscal.tax_ipi_guideline_class_menu
 msgid "Tax IPI Guideline Class"
-msgstr "Classe de Diretrizes do IPI fiscal"
+msgstr "Classe de enquadramento do IPI"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax_range__tax_ipi_percent
@@ -8696,7 +8791,7 @@ msgstr "Imposto ISSQN RET"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__tax_icms_id_domain
 msgid "Tax Icms Id Domain"
-msgstr ""
+msgstr "Domínio do ID de ICMS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__tax_include
@@ -8706,12 +8801,12 @@ msgstr "Imposto Incluído no Preço"
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_classification_form
 msgid "Tax Indicators"
-msgstr ""
+msgstr "Indicadores de imposto"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__tax_ipi_id_domain
 msgid "Tax Ipi Id Domain"
-msgstr ""
+msgstr "Domínio do ID de IPI"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__pis_tax_id
@@ -8763,7 +8858,7 @@ msgstr "Percentual de Imposto"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__current_effective_tax
 msgid "Tax Rate %"
-msgstr ""
+msgstr "Alíquota do imposto %"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__withholding_at_place
@@ -8776,7 +8871,7 @@ msgstr "Retenção fiscal no local da provisão"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_group_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_search
 msgid "Tax Scope"
-msgstr ""
+msgstr "Escopo do imposto"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.product_form
@@ -8812,19 +8907,19 @@ msgstr "Retenção de Impostos"
 #. module: l10n_br_fiscal
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_tax_fiscal_tax_code_uniq
 msgid "Tax already exists with this name!"
-msgstr ""
+msgstr "Já existe um imposto com este nome!"
 
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/tax_definition.py:0
 msgid "Tax benefit code must be 8 characters!"
-msgstr ""
+msgstr "O código do benefício fiscal deve ter 8 caracteres!"
 
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/tax_definition.py:0
 msgid "Tax benefit code must be start with state code!"
-msgstr ""
+msgstr "O código do benefício fiscal deve começar com o código do estado!"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__is_taxed
@@ -8856,7 +8951,7 @@ msgstr "Configuração de Impostos"
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__company_id
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__quantity
 msgid "Technical Field."
-msgstr ""
+msgstr "Campo técnico."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__technical_support_id
@@ -8881,7 +8976,7 @@ msgstr "Mensagem de teste"
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
 msgid "The Delivery Costs should be informed by Line or by Total ?"
-msgstr ""
+msgstr "As despesas de entrega devem ser informadas por linha ou pelo total?"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_cest_dt_end_greater_dt_start
@@ -8911,7 +9006,7 @@ msgstr ""
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_tax_pis_cofins_credit_dt_end_greater_dt_start
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_tax_pis_cofins_dt_end_greater_dt_start
 msgid "The end date must be greater than or equal to the start date."
-msgstr ""
+msgstr "A data final deve ser maior ou igual à data inicial."
 
 #. module: l10n_br_fiscal
 #. odoo-python
@@ -8919,6 +9014,7 @@ msgstr ""
 msgid ""
 "The fiscal operation %(fiscal_op)s has no return Fiscal Operation defined"
 msgstr ""
+"A operação fiscal %(fiscal_op)s não tem operação fiscal de devolução definida"
 
 #. module: l10n_br_fiscal
 #. odoo-python
@@ -8941,7 +9037,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__sequence
 msgid ""
 "The sequence field is used to define the order in which taxes are displayed."
-msgstr ""
+msgstr "O campo sequência define a ordem em que os impostos são exibidos."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_service_type__withholding_at_place
@@ -8960,6 +9056,7 @@ msgid ""
 "There is already a fiscal document with this Serie: %(serie)s, Number: %"
 "(number)s!"
 msgstr ""
+"Já existe um documento fiscal com esta série: %(serie)s, número: %(number)s!"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.operation_dashboard_action
@@ -8992,7 +9089,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__state_to_ids
 msgid "To States"
-msgstr "Situações"
+msgstr "Para os estados"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_related_form
@@ -9008,13 +9105,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__total_weight
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__total_weight
 msgid "Total Weight"
-msgstr ""
+msgstr "Peso Total"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__financial_total_gross
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__financial_total_gross
 msgid "Total amount before any discounts are applied."
-msgstr ""
+msgstr "Valor total antes de quaisquer descontos serem aplicados."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__price_gross
@@ -9023,6 +9120,8 @@ msgid ""
 "Total value of products or services (quantity x unit price)before any "
 "discounts."
 msgstr ""
+"Valor total dos produtos ou serviços (quantidade x preço unitário) antes de "
+"quaisquer descontos."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_refund_debit_type__05
@@ -9037,7 +9136,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__ind_transp
 msgid "Transport?"
-msgstr ""
+msgstr "Transporte?"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__type_in_out
@@ -9070,13 +9169,13 @@ msgstr "Tipo movimento"
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_indicator_form
 msgid "Type of operation"
-msgstr ""
+msgstr "Tipo de operação"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__operation_type
 msgid ""
 "Type of operation according to Art. 11 of Complementary Law No. 214/2025"
-msgstr ""
+msgstr "Tipo de operação conforme o Art. 11 da Lei Complementar nº 214/2025"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document__activity_exception_decoration
@@ -9094,18 +9193,18 @@ msgstr "Tipo da atividade de exceção no registro."
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__uom_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__uom_id
 msgid "UOM"
-msgstr "UOM"
+msgstr "Unidade"
 
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/document.py:0
 msgid "Unidentified Consumer"
-msgstr ""
+msgstr "Consumidor não identificado"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_uom_uom_unique_code
 msgid "Unit of Measure code must be unique!"
-msgstr ""
+msgstr "O código da unidade de medida deve ser único!"
 
 #. module: l10n_br_fiscal
 #: model:ir.ui.menu,name:l10n_br_fiscal.uom_menu
@@ -9183,17 +9282,17 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.cfop_form
 msgid "Used In Fiscal Document"
-msgstr ""
+msgstr "Usado em documento fiscal"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__ind_cte
 msgid "Used in CTe"
-msgstr ""
+msgstr "Usado em CT-e"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__ind_nfe
 msgid "Used in NFe"
-msgstr ""
+msgstr "Usado em NF-e"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_legal_name
@@ -9284,7 +9383,7 @@ msgstr "Visão"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__partner_id
 msgid "WH Partner"
-msgstr ""
+msgstr "Parceiro de retenção"
 
 #. module: l10n_br_fiscal
 #. odoo-python
@@ -9325,17 +9424,24 @@ msgid ""
 "approved. This validation runs only when the line is set to approved state; "
 "changes to Tax Definitions after approval are not verified."
 msgstr ""
+"Se ativado, toda definição de imposto genérica (sem restrição de NCM, CEST, "
+"NBM, código de tributação municipal/nacional ou tipo de serviço) vinculada a "
+"esta linha de operação deve ter pelo menos um produto antes de a linha ser "
+"aprovada. Esta validação ocorre apenas quando a linha passa para o estado "
+"aprovado; alterações nas definições de imposto após a aprovação não são "
+"verificadas."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_indicator_form
 msgid "Where the operation is considered"
-msgstr ""
+msgstr "Onde a operação é considerada"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__operation_location
 msgid ""
 "Where the operation is considered to take place according to the legislation"
 msgstr ""
+"Local onde a operação é considerada realizada, de acordo com a legislação"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_group_form
@@ -9346,7 +9452,7 @@ msgstr "Retenção"
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/invalidate_number.py:0
 msgid "You can delete only draft Invalidate Number Range !"
-msgstr ""
+msgstr "Você só pode excluir inutilizações de numeração em rascunho!"
 
 #. module: l10n_br_fiscal
 #. odoo-python
@@ -9355,12 +9461,14 @@ msgid ""
 "You cannot change the code of a document serie %(name)s that is already in "
 "use."
 msgstr ""
+"Você não pode alterar o código da série de documentos %(name)s que já está "
+"em uso."
 
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/document_serie.py:0
 msgid "You cannot change the internal sequence."
-msgstr ""
+msgstr "Você não pode alterar a sequência interna."
 
 #. module: l10n_br_fiscal
 #. odoo-python
@@ -9387,18 +9495,20 @@ msgid ""
 "You cannot delete fiscal document number %(number)s with the status: %"
 "(state)s!"
 msgstr ""
+"Você não pode excluir o documento fiscal número %(number)s com o status: %"
+"(state)s!"
 
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/data_abstract.py:0
 msgid "You don't have permission to archive records."
-msgstr ""
+msgstr "Você não tem permissão para arquivar registros."
 
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/data_abstract.py:0
 msgid "You don't have permission to unarchive records."
-msgstr ""
+msgstr "Você não tem permissão para desarquivar registros."
 
 #. module: l10n_br_fiscal
 #. odoo-python
@@ -9410,7 +9520,7 @@ msgstr "Primeiro, você deve selecionar um tipo de operação."
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/operation_line.py:0
 msgid "You need to set a default fiscal document in your company!"
-msgstr ""
+msgstr "Você precisa definir um documento fiscal padrão na sua empresa!"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_base_wizard_mixin__state__confirm
@@ -9420,7 +9530,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_status_wizard__state__confirm
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_invalidate_number_wizard__state__confirm
 msgid "confirm"
-msgstr ""
+msgstr "confirmar"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
@@ -9435,7 +9545,7 @@ msgstr "dias"
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_status_wizard__state__done
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_invalidate_number_wizard__state__done
 msgid "done"
-msgstr ""
+msgstr "feito"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_company__processador_edoc__oca
@@ -9450,6 +9560,9 @@ msgid ""
 "(vICMSDeson) is deducted from the item value (vProd) and from the document "
 "total (vNF)."
 msgstr ""
+"indDeduzDeson (NT 2023.004): indica se o valor da desoneração do ICMS "
+"(vICMSDeson) é deduzido do valor do item (vProd) e do total do documento "
+"(vNF)."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_base_wizard_mixin__state__init
