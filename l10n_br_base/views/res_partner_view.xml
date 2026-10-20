@@ -47,10 +47,9 @@
                 <attribute name="invisible">1</attribute>
             </field>
             <xpath expr="//h1" position="after">
-                <field name="city_id" invisible="1" />
-                <!-- Allow inject city_id on context above -->
+                <!-- city_id is auto-added by the framework since it is used
+                     in the child_ids context below (default_city_id) -->
                 <div invisible="not show_l10n_br">
-                    <field name="show_l10n_br" invisible="1" />
                     <label for="legal_name" string="Full Name" invisible="is_company" />
                     <label
                         for="legal_name"
@@ -141,12 +140,10 @@
         <field name="arch" type="xml">
             <xpath expr="//div[@name='div_address']" position="replace">
                 <div class="o_address_format">
-                    <field
-                        name="street"
-                        placeholder="Street..."
-                        class="o_address_street"
-                        invisible="1"
-                    />
+                    <!-- street is kept hidden: the core "Address" label for=street
+                         survives this xpath and its target must stay in the view
+                         (labels are not auto-added by the framework) -->
+                    <field name="street" invisible="1" />
                     <field
                         name="zip"
                         placeholder="Zip code..."

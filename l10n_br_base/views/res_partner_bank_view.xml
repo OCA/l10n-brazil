@@ -30,7 +30,6 @@
                     string="Brazilian Instant Payment Keys (PIX)"
                     invisible="company_country_id != %(base.br)d"
                 >
-                    <field name="company_country_id" invisible="1" />
                     <field name="transactional_acc_type" />
                     <field
                         name="partner_pix_ids"
