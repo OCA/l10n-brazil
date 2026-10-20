@@ -10,8 +10,6 @@
         />
         <field name="arch" type="xml">
             <xpath expr="//footer" position="before">
-                <field name="document_type" invisible="1" />
-                <field name="document_type_id" invisible="1" readonly="1" />
                 <group invisible="document_type != '57'">
                     <!-- TODO: Melhorar -->
                     <div
