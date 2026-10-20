@@ -25,7 +25,6 @@
                     <field name="nfe40_transporta" />
                 </group>
                 <group invisible="nfe40_idDest != '3'">
-                    <field name="nfe40_idDest" invisible="1" />
                     <field name="nfe40_UFSaidaPais" />
                     <field name="nfe40_xLocExporta" />
                     <field name="nfe40_xLocDespacho" />
@@ -35,6 +34,9 @@
                 </group>
             </page>
             <page name="finance" position="inside">
+                <!-- brl_currency_id is kept because the monetary fields of
+                     this page (and of the lists below) need the currency
+                     value, which the framework does not add automatically -->
                 <field name="brl_currency_id" invisible="1" />
                 <group
                     name="nfe_finance"
@@ -84,10 +86,6 @@
                     </group>
                 </group>
             </page>
-            <!-- Hide confirm button for imported documents -->
-            <xpath expr="//form/field[@name='document_type']" position="after">
-                <field name="imported_document" invisible="1" />
-            </xpath>
             <xpath
                 expr="//header/button[@name='action_document_confirm']"
                 position="attributes"
