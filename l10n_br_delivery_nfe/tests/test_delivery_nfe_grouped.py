@@ -19,6 +19,9 @@ class TestDeliveryNFe(TestBrPickingInvoicingCommon):
         self._change_user_company(self.env.ref("l10n_br_base.empresa_lucro_presumido"))
         picking1 = self.env.ref("l10n_br_stock_account.lucro_presumido-picking_1")
         picking2 = self.env.ref("l10n_br_stock_account.lucro_presumido-picking_2")
+        (picking1 | picking2).write(
+            {"carrier_id": self.env.ref("l10n_br_delivery.test_br_delivery_carrier").id}
+        )
         self.brand_id1 = self.env["product.brand"].create({"name": "marca teste"})
         self.brand_id2 = self.env["product.brand"].create({"name": "marca2 teste"})
 
