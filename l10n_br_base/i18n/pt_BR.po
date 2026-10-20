@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-23 01:40+0000\n"
-"PO-Revision-Date: 2024-09-06 15:06+0000\n"
+"PO-Revision-Date: 2026-10-20 19:45+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: l10n_br_base
 #. odoo-python
@@ -27,7 +27,7 @@ msgstr "%(d_type)s %(d_id)s é inválido!"
 #. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_pix.py:0
 msgid "%(email_strip)s is an invalid email"
-msgstr ""
+msgstr "%(email_strip)s é um e-mail inválido"
 
 #. module: l10n_br_base
 #. odoo-python
@@ -2309,7 +2309,7 @@ msgstr "Dígito da Agência Bancária"
 #. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
 msgid "Bank branch code must be four characters."
-msgstr ""
+msgstr "O código da agência bancária deve ter quatro caracteres."
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1501253
@@ -3908,6 +3908,7 @@ msgstr "CNPJ"
 #: model:ir.model.fields,help:l10n_br_base.field_res_users__vat_formatted_cnpj
 msgid "CNPJ or CPF formatted with proper punctuation and special characters"
 msgstr ""
+"CNPJ ou CPF formatado com a pontuação e os caracteres especiais adequados"
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_tree
@@ -6138,7 +6139,7 @@ msgstr "Cidade"
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__city_id
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__city_id
 msgid "City ID"
-msgstr ""
+msgstr "ID da cidade"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__city_id
@@ -10576,14 +10577,14 @@ msgstr "Icó"
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__vat
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__vat
 msgid "Identification Number"
-msgstr ""
+msgstr "Número de identificação"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,help:l10n_br_base.field_res_company__vat
 #: model:ir.model.fields,help:l10n_br_base.field_res_partner__vat
 #: model:ir.model.fields,help:l10n_br_base.field_res_users__vat
 msgid "Identification Number for selected type"
-msgstr ""
+msgstr "Número de identificação para o tipo selecionado"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2404606
@@ -10831,6 +10832,7 @@ msgstr "Imperatriz"
 #: code:addons/l10n_br_base/models/res_partner_pix.py:0
 msgid "Impossible number %(phone)s: probably invalid number of digits."
 msgstr ""
+"Número %(phone)s impossível: provavelmente o número de dígitos é inválido."
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5209937
@@ -10982,7 +10984,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_pix.py:0
 msgid "Invalid number %(phone)s: probably incorrect prefix."
-msgstr ""
+msgstr "Número %(phone)s inválido: provavelmente o prefixo está incorreto."
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4110201
@@ -11301,13 +11303,13 @@ msgstr "Irupi"
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__is_br_partner
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__is_br_partner
 msgid "Is Br Partner"
-msgstr ""
+msgstr "É parceiro brasileiro"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,help:l10n_br_base.field_res_partner__is_br_partner
 #: model:ir.model.fields,help:l10n_br_base.field_res_users__is_br_partner
 msgid "Is it a Brazilian partner?"
-msgstr ""
+msgstr "É um parceiro brasileiro?"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2204907
@@ -15906,7 +15908,7 @@ msgstr "Munhoz de Melo"
 #: model:ir.model.fields,help:l10n_br_base.field_res_partner__l10n_br_im_code
 #: model:ir.model.fields,help:l10n_br_base.field_res_users__l10n_br_im_code
 msgid "Municipal Tax Identification Number"
-msgstr ""
+msgstr "Inscrição municipal"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__l10n_br_im_code
@@ -17171,7 +17173,7 @@ msgstr "Outras Informações"
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__state_tax_number_ids
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__state_tax_number_ids
 msgid "Others State Tax Number"
-msgstr "Número de Outras Inscrição Estaduais"
+msgstr "Outras inscrições estaduais"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2609907
@@ -21157,13 +21159,13 @@ msgstr "SIAFI Code"
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__l10n_br_isuf_code
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__l10n_br_isuf_code
 msgid "SUFRAMA code"
-msgstr ""
+msgstr "Código SUFRAMA"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,help:l10n_br_base.field_res_partner__l10n_br_isuf_code
 #: model:ir.model.fields,help:l10n_br_base.field_res_users__l10n_br_isuf_code
 msgid "SUFRAMA registration number."
-msgstr ""
+msgstr "Número de inscrição na SUFRAMA."
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3156700
@@ -23086,7 +23088,7 @@ msgstr "Nome curto"
 #: model:ir.model.fields,help:l10n_br_base.field_res_partner__show_l10n_br
 #: model:ir.model.fields,help:l10n_br_base.field_res_users__show_l10n_br
 msgid "Should display Brazilian localization fields?"
-msgstr ""
+msgstr "Deve exibir os campos da localização brasileira?"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__show_br_vat_format
@@ -23094,7 +23096,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__show_br_vat_format
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__show_br_vat_format
 msgid "Show Br Vat Format"
-msgstr ""
+msgstr "Mostrar formato de CNPJ/CPF"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__show_l10n_br
@@ -23336,7 +23338,7 @@ msgstr "Estado"
 #: model:ir.model.fields,help:l10n_br_base.field_res_partner__l10n_br_ie_code
 #: model:ir.model.fields,help:l10n_br_base.field_res_users__l10n_br_ie_code
 msgid "State Tax Identification Number. Should contain 9-14 digits."
-msgstr ""
+msgstr "Inscrição estadual. Deve conter de 9 a 14 dígitos."
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__l10n_br_ie_code
@@ -23348,7 +23350,7 @@ msgstr "Número da Inscrição Estadual"
 #. odoo-python
 #: code:addons/l10n_br_base/models/res_partner.py:0
 msgid "State Tax Number already used %(name)s"
-msgstr ""
+msgstr "Inscrição Estadual já utilizada %(name)s"
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_company_form
@@ -23369,17 +23371,17 @@ msgstr "Estado..."
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__street_name
 msgid "Street Name"
-msgstr ""
+msgstr "Nome da Rua"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__street_number
 msgid "Street Number"
-msgstr ""
+msgstr "Número"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__street_number2
 msgid "Street Number2"
-msgstr ""
+msgstr "Número da rua 2"
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
@@ -25708,6 +25710,8 @@ msgstr "O Parceiro já possui um número de Inscrição Estadual para esse Estad
 msgid ""
 "The email is too long, a maximum of 77 characters is allowed: %(email_strip)s"
 msgstr ""
+"O e-mail é muito longo, o máximo permitido é de 77 caracteres: %(email_strip)"
+"s"
 
 #. module: l10n_br_base
 #. odoo-python
@@ -25719,6 +25723,11 @@ msgid ""
 "CPF or CNPJ: %(d_clean_id)s\n"
 "Size: %(d_size_id)s"
 msgstr ""
+"O CPF deve ter 11 e o CNPJ 14 caracteres, sem ponto, hífen e barra; neste "
+"caso:\n"
+"\n"
+"CPF ou CNPJ: %(d_clean_id)s\n"
+"Tamanho: %(d_size_id)s"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1101609
@@ -25739,6 +25748,7 @@ msgid ""
 "There is already a partner %(name)s (ID %(partner_id)s) with this CNPJ %"
 "(vat)s!"
 msgstr ""
+"Já existe um parceiro %(name)s (ID %(partner_id)s) com este CNPJ %(vat)s!"
 
 #. module: l10n_br_base
 #. odoo-python
@@ -25747,6 +25757,7 @@ msgid ""
 "There is already a partner %(name)s (ID %(partner_id)s) with this CPF/RG! %"
 "(vat)s"
 msgstr ""
+"Já existe um parceiro %(name)s (ID %(partner_id)s) com este CPF/RG! %(vat)s"
 
 #. module: l10n_br_base
 #. odoo-python
@@ -25755,6 +25766,8 @@ msgid ""
 "There is already a partner %(name)s (ID %(partner_id)s) with this Estadual "
 "Inscription %(incr_est)s!"
 msgstr ""
+"Já existe um parceiro %(name)s (ID %(partner_id)s) com esta Inscrição "
+"Estadual %(incr_est)s!"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2313401
@@ -26496,7 +26509,7 @@ msgstr "Una"
 #. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_pix.py:0
 msgid "Unable to parse %(phone)s: %(str_e)s"
-msgstr ""
+msgstr "Não foi possível interpretar %(phone)s: %(str_e)s"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3170404
@@ -26710,7 +26723,7 @@ msgstr "Utinga"
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_company_tree
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_tree
 msgid "VAT"
-msgstr ""
+msgstr "CNPJ/CPF"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__vat_formatted_cnpj
@@ -26718,7 +26731,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__vat_formatted_cnpj
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__vat_formatted_cnpj
 msgid "VAT Formatted (Brazil)"
-msgstr ""
+msgstr "CNPJ/CPF formatado (Brasil)"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4322509
@@ -26886,7 +26899,7 @@ msgstr "Vassouras"
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__vat
 msgid "Vat"
-msgstr ""
+msgstr "CNPJ/CPF"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3171006
@@ -27396,6 +27409,8 @@ msgid ""
 "Whether to display VAT with Brazilian formatting (true when the current "
 "user's company is Brazilian)."
 msgstr ""
+"Define se o CNPJ/CPF é exibido com a formatação brasileira (verdadeiro "
+"quando a empresa do usuário atual é brasileira)."
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4219408
