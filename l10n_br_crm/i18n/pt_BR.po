@@ -6,41 +6,41 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-09-03 15:06+0000\n"
-"Last-Translator: Rodrigo Sottomaior Macedo "
-"<sottomaiormacedotec@sottomaiormacedo.tech>\n"
+"PO-Revision-Date: 2026-10-20 19:45+0000\n"
+"Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__br_currency_id
 msgid "BR Company Currency"
-msgstr ""
+msgstr "Moeda da empresa (BR)"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cnpj_status
 msgid "CNPJ Status"
-msgstr ""
+msgstr "Situação do CNPJ"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cnpj_status_date
 msgid "CNPJ Status Date"
-msgstr ""
+msgstr "Data da situação do CNPJ"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cnpj_status_reason
 msgid "CNPJ Status Reason"
-msgstr ""
+msgstr "Motivo da situação do CNPJ"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__vat_formatted_cnpj
 msgid "CNPJ or CPF formatted with proper punctuation and special characters"
 msgstr ""
+"CNPJ ou CPF formatado com a pontuação e os caracteres especiais adequados"
 
 #. module: l10n_br_crm
 #: model_terms:ir.ui.view,arch_db:l10n_br_crm.l10n_br_crm_leads_form
@@ -70,12 +70,12 @@ msgstr "Cnae Principal"
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__company_size
 msgid "Company Size"
-msgstr ""
+msgstr "Porte da empresa"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__company_size
 msgid "Company size classification (e.g. Small Business)."
-msgstr ""
+msgstr "Classificação do porte da empresa (ex.: Pequena Empresa)."
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__country_id
@@ -85,17 +85,17 @@ msgstr "País"
 #. module: l10n_br_crm
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__cnpj_status_date
 msgid "Date of the current registration status."
-msgstr ""
+msgstr "Data da situação cadastral atual."
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__simples_option_date
 msgid "Date the company opted for the Simples Nacional regime."
-msgstr ""
+msgstr "Data em que a empresa optou pelo Simples Nacional."
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__opening_date
 msgid "Date the company started its activities."
-msgstr ""
+msgstr "Data em que a empresa iniciou suas atividades."
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__district
@@ -110,12 +110,12 @@ msgstr "Capital Próprio"
 #. module: l10n_br_crm
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__legal_responsible_function
 msgid "Function of the legal responsible for the company."
-msgstr ""
+msgstr "Cargo do responsável legal pela empresa."
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cnpj_branch_type
 msgid "Head Office / Branch"
-msgstr ""
+msgstr "Matriz / Filial"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__show_l10n_br
@@ -129,6 +129,8 @@ msgid ""
 "It is necessary to activate the option to validate de CNPJ to use this "
 "functionality."
 msgstr ""
+"É necessário ativar a opção de validação de CNPJ para que você possa "
+"utilizar essa funcionalidade."
 
 #. module: l10n_br_crm
 #: model:ir.model,name:l10n_br_crm.model_crm_lead
@@ -148,12 +150,12 @@ msgstr "Natureza jurídica"
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__legal_responsible_name
 msgid "Legal Responsible"
-msgstr ""
+msgstr "Responsável legal"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__legal_responsible_function
 msgid "Legal Responsible Function"
-msgstr ""
+msgstr "Cargo do responsável legal"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__l10n_br_im_code
@@ -168,7 +170,7 @@ msgstr "Nome e Sobrenome"
 #. module: l10n_br_crm
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__legal_responsible_name
 msgid "Name of the legal responsible for the company."
-msgstr ""
+msgstr "Nome do responsável legal pela empresa."
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__name_surname
@@ -178,7 +180,7 @@ msgstr "Nome usado nos Docs. Fiscais"
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__opening_date
 msgid "Opening Date"
-msgstr ""
+msgstr "Data de abertura"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__state_tax_number_ids
@@ -189,7 +191,7 @@ msgstr "Outros Número de Contribuinte Estadual"
 #. odoo-python
 #: code:addons/l10n_br_crm/models/crm_lead.py:0
 msgid "Please enter your CNPJ"
-msgstr ""
+msgstr "Por favor digite seu CNPJ"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__l10n_br_rg_code
@@ -199,17 +201,17 @@ msgstr "RG"
 #. module: l10n_br_crm
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__cnpj_status_reason
 msgid "Reason for the current registration status."
-msgstr ""
+msgstr "Motivo da situação cadastral atual."
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__cnpj_status
 msgid "Registration status of the CNPJ (e.g. Active)."
-msgstr ""
+msgstr "Situação cadastral do CNPJ (ex.: Ativa)."
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__show_br_vat_format
 msgid "Show Br Vat Format"
-msgstr ""
+msgstr "Mostrar formato de CNPJ/CPF"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__show_l10n_br
@@ -219,7 +221,7 @@ msgstr "Exibir L10N Br"
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__simples_option_date
 msgid "Simples Nacional Option Date"
-msgstr ""
+msgstr "Data de opção pelo Simples Nacional"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__l10n_br_ie_code
@@ -249,17 +251,17 @@ msgstr "Usado em Documentos Fiscais"
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__vat_formatted_cnpj
 msgid "VAT Formatted (Brazil)"
-msgstr ""
+msgstr "CNPJ/CPF formatado (Brasil)"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__vat
 msgid "Vat"
-msgstr ""
+msgstr "CNPJ/CPF"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__cnpj_branch_type
 msgid "Whether the establishment is the head office or a branch."
-msgstr ""
+msgstr "Indica se o estabelecimento é a matriz ou uma filial."
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__show_br_vat_format
@@ -267,6 +269,8 @@ msgid ""
 "Whether to display VAT with Brazilian formatting (true when the current "
 "user's company is Brazilian)."
 msgstr ""
+"Define se o CNPJ/CPF é exibido com a formatação brasileira (verdadeiro "
+"quando a empresa do usuário atual é brasileira)."
 
 #~ msgid "CNPJ"
 #~ msgstr "CNPJ"
