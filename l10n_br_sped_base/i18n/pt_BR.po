@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-20 19:45+0000\n"
+"PO-Revision-Date: 2026-10-20 20:14+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -62,7 +62,7 @@ msgstr "Código CRC"
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_res_partner__crc_state_id
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_res_users__crc_state_id
 msgid "CRC State"
-msgstr "Status CRC"
+msgstr "UF do CRC"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__company_id
@@ -184,7 +184,7 @@ msgstr "Se marcado, novas mensagens solicitarão sua atenção."
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,help:l10n_br_sped_base.field_l10n_br_sped_declaration__message_has_error
 msgid "If checked, some messages have a delivery error."
-msgstr "Se marcado, algumas mensagens tem erro de entrega."
+msgstr "Se marcado, algumas mensagens têm erro de entrega."
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__message_is_follower
@@ -237,7 +237,7 @@ msgstr "Prazo Final da Próxima Atividade"
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__activity_summary
 msgid "Next Activity Summary"
-msgstr "Próximo Sumário de Atividade"
+msgstr "Resumo da próxima atividade"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__activity_type_id
