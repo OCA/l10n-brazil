@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-20 19:45+0000\n"
+"PO-Revision-Date: 2026-10-20 20:14+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -75,7 +75,7 @@ msgstr "Porte da empresa"
 #. module: l10n_br_crm
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__company_size
 msgid "Company size classification (e.g. Small Business)."
-msgstr "Classificação do porte da empresa (ex.: Pequena Empresa)."
+msgstr "Classificação do porte da empresa (ex.: Empresa de Pequeno Porte)."
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__country_id
@@ -185,7 +185,7 @@ msgstr "Data de abertura"
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__state_tax_number_ids
 msgid "Others State Tax Number"
-msgstr "Outros Número de Contribuinte Estadual"
+msgstr "Outras inscrições estaduais"
 
 #. module: l10n_br_crm
 #. odoo-python
