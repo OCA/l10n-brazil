@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: L10n-brazil 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-20 21:09+0000\n"
+"PO-Revision-Date: 2026-10-20 21:40+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -861,7 +861,7 @@ msgstr "Adiciona os valores de frete, seguro e outros na Base"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__add_to_amount
 msgid "Add to Document Amount?"
-msgstr "Adicionar ao Montante do Documento?"
+msgstr "Somar ao valor do documento?"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__additional_data
@@ -2002,7 +2002,7 @@ msgstr "Inscrição estadual do ST da empresa"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__company_tax_framework
 msgid "Company Tax Framework"
-msgstr "Marco fiscal da empresa"
+msgstr "Regime tributário da empresa"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_company_type
@@ -4772,7 +4772,7 @@ msgstr "Valor do ICMS"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__tax_icms_or_issqn
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__tax_icms_or_issqn
 msgid "ICMS or ISSQN Tax"
-msgstr "Imposto sobre ICMS ou ISSQN"
+msgstr "ICMS ou ISSQN"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__amount_icmssn_credit_value
@@ -7136,7 +7136,7 @@ msgstr "Quantidade de Parceiros"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__partner_tax_framework
 msgid "Partner Tax Framework"
-msgstr "Framework Fiscal do Parceiro"
+msgstr "Regime tributário do parceiro"
 
 #. module: l10n_br_fiscal
 #: model:ir.ui.menu,name:l10n_br_fiscal.partners_config_menu
@@ -8151,7 +8151,7 @@ msgstr "Situação e-doc"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__small_name
 msgid "Small Name"
-msgstr "Nome Pequeno"
+msgstr "Nome resumido"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cest__segment__21
