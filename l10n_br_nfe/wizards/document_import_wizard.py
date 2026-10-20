@@ -70,15 +70,17 @@ class DocumentImportWizard(models.TransientModel):
         if self.document_type == MODELO_FISCAL_NFE:
             if hasattr(binding, "NFe"):
                 binding = binding.NFe
+            dest = binding.infNFe.dest
+            dest_document = dest.CNPJ or dest.CPF
             self.destination_partner_id = self._search_partner(
-                cnpj=binding.infNFe.dest.CNPJ,
-                legal_name=binding.infNFe.dest.xNome,
+                cnpj=dest_document,
+                legal_name=dest.xNome,
             )
             self.issuer_legal_name = binding.infNFe.emit.xNome
             self.issuer_name = binding.infNFe.emit.xFant
 
-            self.destination_cnpj = formata(binding.infNFe.dest.CNPJ)
-            self.destination_name = binding.infNFe.dest.xNome
+            self.destination_cnpj = dest_document and formata(dest_document)
+            self.destination_name = dest.xNome
 
     def _parse_file(self):
         binding = super()._parse_file()
