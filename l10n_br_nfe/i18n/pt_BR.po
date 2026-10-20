@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-09-17 20:06+0000\n"
-"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"PO-Revision-Date: 2026-10-20 19:45+0000\n"
+"Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
@@ -29,7 +29,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__nfe_40_di__nfe40_tpViaTransp__1
 msgid "1 - Maritima"
-msgstr ""
+msgstr "1 - Marítima"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__nfe_40_di__nfe40_tpIntermedio__1
@@ -113,7 +113,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__nfe_40_di__nfe40_tpViaTransp__4
 msgid "4 - Aerea"
-msgstr ""
+msgstr "4 - Aérea"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__nfe_40_di__nfe40_tpViaTransp__5
@@ -123,12 +123,12 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__nfe_40_di__nfe40_tpViaTransp__6
 msgid "6 - Ferroviaria"
-msgstr ""
+msgstr "6 - Ferroviária"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__nfe_40_di__nfe40_tpViaTransp__7
 msgid "7 - Rodoviaria"
-msgstr ""
+msgstr "7 - Rodoviária"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__nfe_40_di__nfe40_tpViaTransp__8
@@ -161,6 +161,11 @@ msgid ""
 "title=\"Values set here are company-specific.\" aria-label=\"Values set here "
 "are company-specific.\" role=\"img\"/>"
 msgstr ""
+"<span class=\"o_form_label\">Ambiente padrão da NF-e</span>\n"
+"                                <span class=\"fa fa-lg fa-building-o\" "
+"title=\"Os valores definidos aqui são específicos de cada empresa.\" aria-"
+"label=\"Os valores definidos aqui são específicos de cada empresa.\" "
+"role=\"img\"/>"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
@@ -170,6 +175,11 @@ msgid ""
 "title=\"Values set here are company-specific.\" aria-label=\"Values set here "
 "are company-specific.\" role=\"img\"/>"
 msgstr ""
+"<span class=\"o_form_label\">Transmissão padrão da NF-e</span>\n"
+"                                <span class=\"fa fa-lg fa-building-o\" "
+"title=\"Os valores definidos aqui são específicos de cada empresa.\" aria-"
+"label=\"Os valores definidos aqui são específicos de cada empresa.\" "
+"role=\"img\"/>"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
@@ -179,6 +189,11 @@ msgid ""
 "title=\"Values set here are company-specific.\" aria-label=\"Values set here "
 "are company-specific.\" role=\"img\"/>"
 msgstr ""
+"<span class=\"o_form_label\">Versão padrão da NF-e</span>\n"
+"                                <span class=\"fa fa-lg fa-building-o\" "
+"title=\"Os valores definidos aqui são específicos de cada empresa.\" aria-"
+"label=\"Os valores definidos aqui são específicos de cada empresa.\" "
+"role=\"img\"/>"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.actions.act_window,help:l10n_br_nfe.danfe_profile_action
@@ -186,6 +201,8 @@ msgid ""
 "A profile holds the DANFE printing options. Add to the profile the\n"
 "                companies that should print with it."
 msgstr ""
+"Um perfil guarda as opções de impressão do DANFE. Adicione ao perfil as\n"
+"                empresas que devem imprimir com ele."
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related__nfe40_AAMM
@@ -202,6 +219,9 @@ msgid ""
 "e). Must have a maximum of 6 characters by regulation. e.g. 'UN', 'KG', "
 "'LITRO', 'CX12UN"
 msgstr ""
+"Código abreviado da unidade usado em documentos fiscais eletrônicos (ex.: NF-"
+"e, NFC-e). Deve ter no máximo 6 caracteres, por regulamentação. Ex.: 'UN', "
+"'KG', 'LITRO', 'CX12UN"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__access_key
@@ -212,7 +232,7 @@ msgstr "Chave de Acesso"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__active
 msgid "Active"
-msgstr ""
+msgstr "Ativo"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.actions.act_window,help:l10n_br_nfe.nfe_document_action
@@ -222,7 +242,7 @@ msgstr "Adicionar uma nova NFe"
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.danfe_profile_form
 msgid "Additional Information"
-msgstr ""
+msgstr "Informações adicionais"
 
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_nfe_40_adi
@@ -233,7 +253,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_pST
 msgid "Aliquota suportada pelo consumidor final"
-msgstr ""
+msgstr "Alíquota suportada pelo consumidor final"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__icms_percent
@@ -321,7 +341,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.danfe_profile_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.danfe_profile_search
 msgid "Archived"
-msgstr ""
+msgstr "Arquivado"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_prod__nfe40_arma
@@ -361,7 +381,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_autxml__partner_id
 msgid "Authorized Partner"
-msgstr ""
+msgstr "Parceiro autorizado"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
@@ -439,23 +459,23 @@ msgstr "Base vBC/pIPI/qUnid/vUnid"
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_danfe_profile__font_size__big
 msgid "Big"
-msgstr ""
+msgstr "Grande"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_danfe_profile__receipt_position__bottom
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.danfe_profile_form
 msgid "Bottom"
-msgstr ""
+msgstr "Inferior"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__margin_bottom
 msgid "Bottom margin in mm."
-msgstr ""
+msgstr "Margem inferior em mm."
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__infcpl_semicolon_newline
 msgid "Break Additional Info on Semicolons"
-msgstr ""
+msgstr "Quebrar informações adicionais nos pontos e vírgulas"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_CEP
@@ -472,7 +492,7 @@ msgstr "CEST"
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_move_line__nfe40_CEST
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_CEST
 msgid "CEST code"
-msgstr ""
+msgstr "Código CEST"
 
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_cfop
@@ -514,7 +534,7 @@ msgstr "CNPJ"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_autxml__nfe40_CNPJ
 msgid "CNPJ Autorizado"
-msgstr ""
+msgstr "CNPJ autorizado"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_card__nfe40_CNPJ
@@ -596,7 +616,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice_transporta
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice_transporta
 msgid "CNPJ or CPF (nfe_choice_transporta)"
-msgstr ""
+msgstr "CNPJ ou CPF (nfe_choice_transporta)"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe40_choice_emit
@@ -683,7 +703,7 @@ msgstr "CPF (v2.0)"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_autxml__nfe40_CPF
 msgid "CPF Autorizado"
-msgstr ""
+msgstr "CPF autorizado"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_defensivo__nfe40_CPFRespTec
@@ -708,12 +728,12 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfce_csc_code
 msgid "CSC Code"
-msgstr "CSC Code"
+msgstr "Código do CSC"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfce_csc_token
 msgid "CSC Token"
-msgstr "CSC Token"
+msgstr "Identificador do CSC"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_obsFisco
@@ -756,7 +776,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__carrier_receipt
 msgid "Carrier Receipt"
-msgstr ""
+msgstr "Recibo da transportadora"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_move_line__nfe40_CFOP
@@ -825,6 +845,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__invoice_display
 msgid "Choose to generate a full or incomplete invoice frame in the DANFE."
 msgstr ""
+"Escolha se o quadro de faturas do DANFE será gerado completo ou incompleto."
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__nfe_recipient_manifestation_event_wizard__event_type__ciente
@@ -854,7 +875,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_nfe_recipient_manifestation_event_wizard_form
 msgid "Close"
-msgstr ""
+msgstr "Fechar"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_cBarra
@@ -905,6 +926,8 @@ msgid ""
 "Companies printing their DANFEs with this profile. Adding a company here "
 "replaces its current profile."
 msgstr ""
+"Empresas que imprimem seus DANFEs com este perfil. Adicionar uma empresa "
+"aqui substitui o perfil atual dela."
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__company_id
@@ -935,7 +958,7 @@ msgstr "Ajustes de Configurações"
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.l10n_br_nfe_recipient_manifestation_event_form
 msgid "Confirm"
-msgstr ""
+msgstr "Confirmar"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__nfe_recipient_manifestation_event_wizard__event_type__confirmado
@@ -1047,7 +1070,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model_terms:ir.actions.act_window,help:l10n_br_nfe.danfe_profile_action
 msgid "Create a DANFE profile"
-msgstr ""
+msgstr "Criar um perfil de DANFE"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_autxml__create_uid
@@ -1070,7 +1093,7 @@ msgstr "Criado em"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_di__nfe40_UFDesemb
 msgid "Customs Clearance Code"
-msgstr ""
+msgstr "Código de desembaraço aduaneiro"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_company__nfce_csc_code
@@ -1413,7 +1436,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.actions.report,name:l10n_br_nfe.report_danfe
 msgid "DANFE"
-msgstr ""
+msgstr "DANFE"
 
 #. module: l10n_br_nfe
 #: model:ir.actions.report,name:l10n_br_nfe.action_print_danfe_nfce
@@ -1436,13 +1459,13 @@ msgstr ""
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_nfe_danfe_profile
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__danfe_profile_id
 msgid "DANFE Profile"
-msgstr ""
+msgstr "Perfil do DANFE"
 
 #. module: l10n_br_nfe
 #: model:ir.actions.act_window,name:l10n_br_nfe.danfe_profile_action
 #: model:ir.ui.menu,name:l10n_br_nfe.danfe_profile_menu
 msgid "DANFE Profiles"
-msgstr ""
+msgstr "Perfis do DANFE"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__danfe_layout__3
@@ -1666,7 +1689,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.l10n_br_nfe_recipient_manifestation_event_tree
 msgid "Date"
-msgstr ""
+msgstr "Data"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_DI
@@ -1688,7 +1711,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:l10n_br_nfe.danfe.profile,name:l10n_br_nfe.danfe_profile_default
 msgid "Default"
-msgstr ""
+msgstr "Padrão"
 
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_nfe_40_defensivo
@@ -1784,7 +1807,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_move__nfe40_dest
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_dest
 msgid "Dest"
-msgstr ""
+msgstr "Destinatário"
 
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_nfe_40_detexport
@@ -1829,12 +1852,12 @@ msgstr "Nome Exibido"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__display_pis_cofins
 msgid "Display PIS/COFINS"
-msgstr ""
+msgstr "Exibir PIS/COFINS"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__display_product_additional_info
 msgid "Display Product Additional Info"
-msgstr ""
+msgstr "Exibir informações adicionais do produto"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_veicprod__nfe40_dist
@@ -1844,7 +1867,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.l10n_br_nfe_recipient_manifestation_event_form
 msgid "Document Info"
-msgstr ""
+msgstr "Informações do Documento"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__document_number
@@ -1854,7 +1877,7 @@ msgstr "Número do Documento"
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_supplement
 msgid "Document Supplement Data"
-msgstr ""
+msgstr "Dados do Documento Suplementar"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__document_type
@@ -1869,17 +1892,17 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_md_event__state__done
 msgid "Done"
-msgstr ""
+msgstr "Concluído"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_md_event__state__draft
 msgid "Draft"
-msgstr ""
+msgstr "Rascunho"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_danfe_profile__invoice_display__duplicates_only
 msgid "Duplicates Only"
-msgstr ""
+msgstr "Somente duplicatas"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
@@ -1894,7 +1917,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
 msgid "Emissao:"
-msgstr ""
+msgstr "Emissão:"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_transmission__1
@@ -1918,7 +1941,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_move__nfe40_emit
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_emit
 msgid "Emit (nfe_emit)"
-msgstr ""
+msgstr "Emitente (nfe_emit)"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
@@ -1967,7 +1990,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_nfe/models/nfe_md_event.py:0
 msgid "Error on validating event: %(code)s - %(msg)s"
-msgstr ""
+msgstr "Erro ao validar o evento: %(code)s - %(msg)s"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_veicprod__nfe40_espVeic
@@ -2002,7 +2025,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_recipient_manifestation_event_wizard__event_type
 msgid "Event Type"
-msgstr ""
+msgstr "Tipo de Evento"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_move_line__nfe40_indISS
@@ -2097,27 +2120,27 @@ msgstr "Preço Unitário Fiscal"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__font_size
 msgid "Font Size"
-msgstr ""
+msgstr "Tamanho da Fonte"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__font_type
 msgid "Font Type"
-msgstr ""
+msgstr "Tipo de fonte"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.danfe_profile_form
 msgid "Footer Stamp"
-msgstr ""
+msgstr "Carimbo de rodapé"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__footer_stamp_logo
 msgid "Footer Stamp Logo"
-msgstr ""
+msgstr "Logotipo do carimbo de rodapé"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__footer_stamp_text
 msgid "Footer Stamp Text"
-msgstr ""
+msgstr "Texto do carimbo de rodapé"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_di__nfe40_tpIntermedio
@@ -2192,7 +2215,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_danfe_profile__invoice_display__full_details
 msgid "Full Details"
-msgstr ""
+msgstr "Detalhes completos"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_move_line__nfe40_cEAN
@@ -2388,7 +2411,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model_terms:ir.actions.act_window,help:l10n_br_nfe.nfe_document_action
 msgid "Here you can create NF-es"
-msgstr ""
+msgstr "Aqui você pode criar NF-es"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_environment__2
@@ -2567,7 +2590,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_imposto__nfe40_issqn
 msgid "ISSQN"
-msgstr ""
+msgstr "ISSQN"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_infintermed__nfe40_idCadIntTran
@@ -2690,22 +2713,25 @@ msgid ""
 "immediately consulting it. The user must manually consult the receipt later. "
 "This option is valid only in asynchronous mode."
 msgstr ""
+"Se ativado, o sistema enviará a NF-e e guardará o recibo sem consultá-lo "
+"imediatamente. O usuário deverá consultar o recibo manualmente depois. Esta "
+"opção vale apenas no modo assíncrono."
 
 #. module: l10n_br_nfe
 #: model:ir.ui.menu,name:l10n_br_nfe.nfe_import_document
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.l10n_br_nfe_product_supplierinfo_form_view
 msgid "Import"
-msgstr ""
+msgstr "Importar"
 
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_import_wizard
 msgid "Import Document Wizard"
-msgstr ""
+msgstr "Assistente de importação de documento"
 
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_nfe_import_xml_products
 msgid "Import XML NFe Products"
-msgstr ""
+msgstr "Importar produtos do XML da NF-e"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__import_xml_id
@@ -2930,7 +2956,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_partner__is_anonymous_consumer
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_users__is_anonymous_consumer
 msgid "Indicates that the partner is an anonymous consumer"
-msgstr ""
+msgstr "Indica que o parceiro é um consumidor anônimo"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_veicprod__nfe40_VIN
@@ -3118,7 +3144,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe40_IEST
 msgid "Inscricao Estadual"
-msgstr ""
+msgstr "Inscrição Estadual"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_company__nfe40_IEST
@@ -3187,17 +3213,17 @@ msgstr "Código NCM Interno"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__uom_internal
 msgid "Internal UoM, equivalent to the comercial one in the document"
-msgstr ""
+msgstr "Unidade de medida interna, equivalente à comercial do documento"
 
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_invalidate_number
 msgid "Invalidate Number"
-msgstr ""
+msgstr "Número invalidado"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__invoice_display
 msgid "Invoice Display"
-msgstr ""
+msgstr "Exibição das faturas"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__is_anonymous_consumer
@@ -3248,12 +3274,12 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.danfe_profile_form
 msgid "Left"
-msgstr ""
+msgstr "Esquerda"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__margin_left
 msgid "Left margin in mm."
-msgstr ""
+msgstr "Margem esquerda em mm."
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_xLocExporta
@@ -3273,12 +3299,12 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.danfe_profile_form
 msgid "Logo"
-msgstr ""
+msgstr "Logotipo"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__footer_stamp_logo
 msgid "Logo printed at the bottom right corner of each DANFE page."
-msgstr ""
+msgstr "Logotipo impresso no canto inferior direito de cada página do DANFE."
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xLgr
@@ -3294,17 +3320,17 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_nfe_recipient_manifestation_event_wizard_form
 msgid "Manifest"
-msgstr ""
+msgstr "Manifestar"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_nfe_recipient_manifestation_event_wizard_form
 msgid "Manifestation"
-msgstr ""
+msgstr "Manifestação"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__event_type
 msgid "Manifestation Type"
-msgstr ""
+msgstr "Tipo de manifestação"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_vol__nfe40_marca
@@ -3314,27 +3340,27 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__margin_bottom
 msgid "Margin Bottom"
-msgstr ""
+msgstr "Margem inferior"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__margin_left
 msgid "Margin Left"
-msgstr ""
+msgstr "Margem esquerda"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__margin_right
 msgid "Margin Right"
-msgstr ""
+msgstr "Margem direita"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__margin_top
 msgid "Margin Top"
-msgstr ""
+msgstr "Margem superior"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.danfe_profile_form
 msgid "Margins (mm)"
-msgstr ""
+msgstr "Margens (mm)"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_avulsa__nfe40_matr
@@ -3535,12 +3561,12 @@ msgstr "Configurações Padrão da NF-e"
 #. module: l10n_br_nfe
 #: model:ir.actions.act_window,name:l10n_br_nfe.l10n_br_nfe_recipient_manifestation_event_action
 msgid "NF-e Recipient Manifestation"
-msgstr ""
+msgstr "Manifestação do destinatário da NF-e"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__nfe_version
 msgid "NF-e Version"
-msgstr ""
+msgstr "Versão da NF-e"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_md_event__document_type__nfce
@@ -3556,7 +3582,7 @@ msgstr "Configurações Padrão da NFC-e"
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfce_danfe_layout
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__nfce_danfe_layout
 msgid "NFCe Layout"
-msgstr ""
+msgstr "Layout da NFC-e"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tenvinfe__nfe40_NFe
@@ -3571,18 +3597,18 @@ msgstr "NFe"
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_environment
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__nfe_environment
 msgid "NFe Environment"
-msgstr ""
+msgstr "Ambiente da NF-e"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_danfe_layout
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__nfe_danfe_layout
 msgid "NFe Layout"
-msgstr ""
+msgstr "Layout da NF-e"
 
 #. module: l10n_br_nfe
 #: model:res.groups,name:l10n_br_nfe.group_manager
 msgid "NFe Manager"
-msgstr ""
+msgstr "Gerente de NF-e"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__nfe_version_name
@@ -3592,7 +3618,7 @@ msgstr "Versão do Proc da NFe"
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_nfe_recipient_manifestation_event_wizard_form
 msgid "NFe Recipient's Manifestation"
-msgstr ""
+msgstr "Manifestação do destinatário da NF-e"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_bank_statement_line__nfe_transmission
@@ -3600,12 +3626,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe_transmission
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__nfe_transmission
 msgid "NFe Transmission"
-msgstr ""
+msgstr "Transmissão da NF-e"
 
 #. module: l10n_br_nfe
 #: model:res.groups,name:l10n_br_nfe.group_user
 msgid "NFe User"
-msgstr ""
+msgstr "Usuário de NF-e"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_bank_statement_line__nfe_version
@@ -3613,7 +3639,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe_version
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_version
 msgid "NFe Version"
-msgstr ""
+msgstr "Versão da NF-e"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.document_import_wizard_form
@@ -3623,7 +3649,7 @@ msgstr "Produtos no XML da NFe"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__name
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_import_wizard__nat_op
@@ -3633,32 +3659,32 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
 msgid "Nf-e Environment:"
-msgstr ""
+msgstr "Ambiente da NF-e:"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_bank_statement_line__nfe_dhCont
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_move__nfe_dhCont
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe_dhCont
 msgid "Nfe Dhcont"
-msgstr ""
+msgstr "Data e hora da contingência (NF-e)"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_enable_contingency_ws
 msgid "Nfe Enable Contingency Ws"
-msgstr ""
+msgstr "Habilitar contingência do WS (NF-e)"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_enable_sync_transmission
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__nfe_enable_sync_transmission
 msgid "Nfe Enable Sync Transmission"
-msgstr ""
+msgstr "Habilitar transmissão síncrona (NF-e)"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_bank_statement_line__nfe_xJust
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_move__nfe_xJust
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe_xJust
 msgid "Nfe Xjust"
-msgstr ""
+msgstr "Justificativa da contingência (NF-e)"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_adi__nfe40_adi_DI_id
@@ -3794,7 +3820,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_nfe/report/ir_actions_report.py:0
 msgid "No xml file was found."
-msgstr ""
+msgstr "Nenhum arquivo xml foi encontrado."
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xFant
@@ -3843,12 +3869,12 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__quantity_precision
 msgid "Number of decimal places used to print the quantities."
-msgstr ""
+msgstr "Número de casas decimais usado para imprimir as quantidades."
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__price_precision
 msgid "Number of decimal places used to print the unit prices."
-msgstr ""
+msgstr "Número de casas decimais usado para imprimir os preços unitários."
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_vol__nfe40_nVol
@@ -3888,7 +3914,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
 msgid "Numero:"
-msgstr ""
+msgstr "Número:"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__nfe_recipient_manifestation_event_wizard__event_type__nao_realizado
@@ -4126,7 +4152,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_med__nfe40_xMotivoIsencao
 msgid "Obs"
-msgstr ""
+msgstr "Observações"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_med__nfe40_xMotivoIsencao
@@ -4217,7 +4243,7 @@ msgstr "Parceiro"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_di__partner_acquirer_id
 msgid "Partner Acquirer"
-msgstr ""
+msgstr "Parceiro adquirente"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_product_supplierinfo__partner_uom_factor
@@ -4227,7 +4253,7 @@ msgstr "Fator de Unidade de Medida do Parceiro"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_product_supplierinfo__partner_uom_id
 msgid "Partner Unit of Measure"
-msgstr ""
+msgstr "Unidade de medida do parceiro"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
@@ -4382,7 +4408,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_nfe_autxml
 msgid "Person Authorized to Download the NF-e XML"
-msgstr ""
+msgstr "Pessoa autorizada a baixar o XML da NF-e"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_veicprod__nfe40_pesoB
@@ -4429,6 +4455,8 @@ msgid ""
 "Position of the receipt (canhoto) in portrait DANFEs. Landscape DANFEs "
 "always print it on the left side."
 msgstr ""
+"Posição do canhoto nos DANFEs em retrato. Nos DANFEs em paisagem, o canhoto "
+"é sempre impresso do lado esquerdo."
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_veicprod__nfe40_pot
@@ -4452,6 +4480,9 @@ msgid ""
 "Print an extra receipt for the carrier to sign when collecting the goods, "
 "besides the delivery receipt. It is only printed when the NF-e has a carrier."
 msgstr ""
+"Imprime um canhoto adicional para a transportadora assinar na retirada da "
+"mercadoria, além do canhoto de entrega. Só é impresso quando a NF-e possui "
+"transportadora."
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__display_anp
@@ -4473,6 +4504,8 @@ msgid ""
 "Print the product additional information (infAdProd) in the product "
 "description."
 msgstr ""
+"Imprime as informações adicionais do produto (infAdProd) na descrição do "
+"produto."
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__display_lot
@@ -4487,6 +4520,8 @@ msgid ""
 "Printing options of the DANFE. When empty, the DANFE is printed with the "
 "default options."
 msgstr ""
+"Opções de impressão do DANFE. Quando vazio, o DANFE é impresso com as opções "
+"padrão."
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__processador_edoc
@@ -4518,7 +4553,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.danfe_profile_form
 msgid "Product Description"
-msgstr ""
+msgstr "Descrição do produto"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__product_id
@@ -4543,7 +4578,7 @@ msgstr "Unidade de Medida do Produto"
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_product_product
 msgid "Product Variant"
-msgstr ""
+msgstr "Variante do produto"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_prod__normal
@@ -4570,7 +4605,7 @@ msgstr "Produção"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__protocol
 msgid "Protocol"
-msgstr ""
+msgstr "Protocolo"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretconsrecinfe__nfe40_protNFe
@@ -4590,7 +4625,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfce_qrcode_version
 msgid "QRCode Version"
-msgstr ""
+msgstr "Versão do QR Code"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
@@ -4699,12 +4734,12 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__quantity_precision
 msgid "Quantity Precision"
-msgstr ""
+msgstr "Precisão da quantidade"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__quantity_trib
 msgid "Quantity Trib"
-msgstr ""
+msgstr "Quantidade tributável"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_recipient_manifestation_event_filter
@@ -4731,7 +4766,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__receipt_position
 msgid "Receipt Position"
-msgstr ""
+msgstr "Posição do canhoto"
 
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_nfe_md_event
@@ -4744,7 +4779,7 @@ msgstr "Manifestação do Destinatário"
 #. odoo-python
 #: code:addons/l10n_br_nfe/wizards/nfe_md_event_wizard.py:0
 msgid "Recipient Manifestation created successfully"
-msgstr ""
+msgstr "Manifestação do destinatário registrada com sucesso"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related__nfe40_refNFeSig
@@ -4768,7 +4803,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__protocol_date
 msgid "Registration Date"
-msgstr ""
+msgstr "Data de registro"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tveiculo__nfe40_RNTC
@@ -4793,12 +4828,12 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_ir_actions_report
 msgid "Report Action"
-msgstr ""
+msgstr "Ação de Relatório"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__response_xml
 msgid "Response XML"
-msgstr ""
+msgstr "XML de resposta"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_veicprod__nfe40_tpRest
@@ -4820,17 +4855,17 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.danfe_profile_form
 msgid "Right"
-msgstr ""
+msgstr "Direita"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__margin_right
 msgid "Right margin in mm."
-msgstr ""
+msgstr "Margem direita em mm."
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__display_pis_cofins
 msgid "Select whether PIS and COFINS should be displayed in DANFE."
-msgstr ""
+msgstr "Selecione se o PIS e a COFINS devem ser exibidos no DANFE."
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__danfe_layout__0
@@ -4842,7 +4877,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_separate_async_process
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_company_form
 msgid "Separate NF-e Send and Consult"
-msgstr ""
+msgstr "Separar envio e consulta da NF-e"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_veicprod__nfe40_nSerie
@@ -4852,7 +4887,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__serie
 msgid "Serie"
-msgstr ""
+msgstr "Série"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
@@ -4863,16 +4898,19 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
 msgid "Set default print DANFE for print new NF-e and NFC-e documents"
 msgstr ""
+"Define o DANFE de impressão padrão para os novos documentos NF-e e NFC-e"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
 msgid "Set nf-e default transmission type used to create new NF-e documents"
 msgstr ""
+"Define o tipo de transmissão padrão da NF-e usado ao criar novos documentos "
+"NF-e"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
 msgid "Set nf-e default version used to create new NF-e documents"
-msgstr ""
+msgstr "Define a versão padrão da NF-e usada ao criar novos documentos NF-e"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tveiculo__nfe40_UF
@@ -4912,7 +4950,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_danfe_profile__font_size__small
 msgid "Small"
-msgstr ""
+msgstr "Pequena"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_infsolicnff__nfe40_xSolic
@@ -4925,6 +4963,8 @@ msgid ""
 "Start a new line at each semicolon (;) of the additional information "
 "(infCpl)."
 msgstr ""
+"Inicia uma nova linha a cada ponto e vírgula (;) das informações "
+"complementares (infCpl)."
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__state
@@ -4934,18 +4974,18 @@ msgstr "Estado"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_di__nfe40_UFTerceiro
 msgid "State Code"
-msgstr ""
+msgstr "Código de Status"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_di__state_clearance_id
 msgid "State Customs Clearance"
-msgstr ""
+msgstr "UF do desembaraço aduaneiro"
 
 #. module: l10n_br_nfe
 #. odoo-python
 #: code:addons/l10n_br_nfe/wizards/nfe_md_event_wizard.py:0
 msgid "Success"
-msgstr ""
+msgstr "Sucesso"
 
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_product_supplierinfo
@@ -5015,7 +5055,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.danfe_profile_form
 msgid "Text"
-msgstr ""
+msgstr "Texto"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__footer_stamp_text
@@ -5023,6 +5063,8 @@ msgid ""
 "Text printed at the bottom of each DANFE page, to the left of the footer "
 "stamp logo."
 msgstr ""
+"Texto impresso no rodapé de cada página do DANFE, à esquerda do logotipo do "
+"carimbo."
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__lot_prefix
@@ -5055,7 +5097,7 @@ msgstr "O código de estado."
 #. module: l10n_br_nfe
 #: model:ir.model.constraint,message:l10n_br_nfe.constraint_l10n_br_nfe_autxml_autxml_partner_document_uniq
 msgid "This partner is already authorized to download this document XML."
-msgstr ""
+msgstr "Este parceiro já está autorizado a baixar o XML deste documento."
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_danfe_profile__font_type__times
@@ -5240,12 +5282,12 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_danfe_profile__receipt_position__top
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.danfe_profile_form
 msgid "Top"
-msgstr ""
+msgstr "Superior"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__margin_top
 msgid "Top margin in mm."
-msgstr ""
+msgstr "Margem superior em mm."
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__total
@@ -5351,11 +5393,13 @@ msgid ""
 "Total value of products or services (quantity x unit price)before any "
 "discounts."
 msgstr ""
+"Valor total dos produtos ou serviços (quantidade x preço unitário) antes de "
+"quaisquer descontos."
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.l10n_br_nfe_recipient_manifestation_event_form
 msgid "Transmission"
-msgstr ""
+msgstr "Transmissão"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_transmission
@@ -5401,7 +5445,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__uom_com
 msgid "UOM Comercial"
-msgstr ""
+msgstr "UoM comercial"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__uom_conversion_factor
@@ -5410,9 +5454,8 @@ msgstr "Fator de Conversão de Unidade de Medida"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__uom_trib
-#, fuzzy
 msgid "UOM Fiscal"
-msgstr "UOM Fiscal"
+msgstr "Unidade tributável"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_supplement__nfe40_urlChave
@@ -5446,17 +5489,17 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__price_precision
 msgid "Unit Price Precision"
-msgstr ""
+msgstr "Precisão do preço unitário"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_recipient_manifestation_event_filter
 msgid "Unknown"
-msgstr ""
+msgstr "Desconhecido"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_recipient_manifestation_event_filter
 msgid "Unrealized"
-msgstr ""
+msgstr "Não realizada"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__uom_internal
@@ -6249,7 +6292,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.danfe_profile_form
 msgid "Values"
-msgstr ""
+msgstr "Valores"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
@@ -6313,6 +6356,9 @@ msgid ""
 "canceling, and consulting NFe will use the contingency web services instead "
 "of the primary web services."
 msgstr ""
+"Quando ativado, todos os serviços relacionados à NF-e passam a usar os web "
+"services de contingência. Assim, operações como emitir, cancelar e consultar "
+"NF-e usam os web services de contingência em vez dos web services principais."
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_company__nfe_enable_sync_transmission
@@ -6327,11 +6373,17 @@ msgid ""
 "submissions. Failure to verify compatibility may result in transmission "
 "errors or rejections."
 msgstr ""
+"Quando ativada, esta opção faz o sistema transmitir a NF-e (Nota Fiscal "
+"Eletrônica) de forma síncrona em vez de assíncrona. Isso significa que o "
+"sistema aguarda a resposta imediata da SEFAZ no envio da NF-e, dando retorno "
+"mais rápido sobre a situação do envio. Antes de ativar esta opção, confirme "
+"que a SEFAZ do seu estado oferece processamento síncrono para o envio de NF-"
+"e. Sem essa verificação, podem ocorrer erros de transmissão ou rejeições."
 
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_nfe_recipient_manifestation_event_wizard
 msgid "Wizard to manifest"
-msgstr ""
+msgstr "Assistente de manifestação"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
@@ -6341,7 +6393,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__cfop_xml
 msgid "XML CFOP"
-msgstr ""
+msgstr "CFOP do XML"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__ncm_xml
@@ -6357,7 +6409,7 @@ msgstr "Código do Produto no XML"
 #. odoo-python
 #: code:addons/l10n_br_nfe/report/ir_actions_report.py:0
 msgid "You can only print a DANFE of a NFe(55)."
-msgstr ""
+msgstr "Só é possível imprimir o DANFE de uma NF-e (modelo 55)."
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_rastro__nfe40_cAgreg
