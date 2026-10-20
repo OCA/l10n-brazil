@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: L10n-brazil 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-20 21:40+0000\n"
+"PO-Revision-Date: 2026-10-20 21:47+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -2962,13 +2962,13 @@ msgstr "Expirado"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__uoe_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__uoe_id
 msgid "Export UoM"
-msgstr "UoM de exportação"
+msgstr "Unidade de exportação"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__uoe_factor
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__uoe_factor
 msgid "Export UoM Factor"
-msgstr "Fator UoM de exportação"
+msgstr "Fator da unidade de exportação"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__issqn_eligibility__4
@@ -8897,13 +8897,13 @@ msgstr "UOM fiscal"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__uot_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__uot_id
 msgid "Tax UoM"
-msgstr "UoM Fiscal"
+msgstr "Unidade tributável"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__uot_factor
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__uot_factor
 msgid "Tax UoM Factor"
-msgstr "Fator UoM Fiscal"
+msgstr "Fator da unidade tributável"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__amount_tax_withholding
