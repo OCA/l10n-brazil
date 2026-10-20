@@ -7,13 +7,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-10-09 23:32+0000\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2026-10-20 21:09+0000\n"
+"Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: Brazilian Portuguese\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__access_key
@@ -57,12 +59,12 @@ msgstr "Criado em"
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_res_company__dfe_mock_mode
 msgid "DF-e Mock Mode"
-msgstr "Modo Mock DF-e"
+msgstr "Modo de simulação do DF-e"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model,name:l10n_br_fiscal_dfe_mock.model_dfe_mock_nsu
 msgid "DF-e Mock NSU"
-msgstr "NSU Mock DF-e"
+msgstr "NSU simulado do DF-e"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard__display_name
@@ -90,12 +92,12 @@ msgstr "Gerar"
 #: model:ir.ui.menu,name:l10n_br_fiscal_dfe_mock.dfe_mock_generate_menu
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_generate_wizard_form
 msgid "Generate Mock NSU"
-msgstr "Gerar NSU Mock"
+msgstr "Gerar NSU simulados"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model,name:l10n_br_fiscal_dfe_mock.model_dfe_mock_generate_wizard
 msgid "Generate Mock NSU Records"
-msgstr "Gerar Registros NSU Mock"
+msgstr "Gerar registros de NSU simulados"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard__generate_proc_evento_nfe
@@ -121,7 +123,7 @@ msgstr "Gerar resNFe"
 #. odoo-python
 #: code:addons/l10n_br_fiscal_dfe_mock/wizards/dfe_mock_generate_wizard.py:0
 msgid "Generated Mock NSUs"
-msgstr "NSUs Mock Gerados"
+msgstr "NSUs simulados gerados"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_search
@@ -149,13 +151,13 @@ msgstr "Última Atualização em"
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.ui.menu,name:l10n_br_fiscal_dfe_mock.dfe_mock_separator
 msgid "Mock"
-msgstr "Mock"
+msgstr "Simulação"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.actions.act_window,name:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_action
 #: model:ir.ui.menu,name:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_menu
 msgid "Mock NSU Pool"
-msgstr "Pool de NSU Mock"
+msgstr "Pool de NSU simulados"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__nsu
@@ -226,7 +228,7 @@ msgstr "Selecione pelo menos um tipo de documento para gerar."
 #. module: l10n_br_fiscal_dfe_mock
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.nfe_dfe_document_tree_mock
 msgid "Toggle Mock"
-msgstr "Alternar Mock"
+msgstr "Alternar simulação"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_search
@@ -239,7 +241,7 @@ msgid ""
 "Use the menu <b>Generate Mock NSU</b> to create fake\n"
 "                NSU records for testing DF-e distribution."
 msgstr ""
-"Use o menu <b>Gerar NSU Mock</b> para criar registros\n"
+"Use o menu <b>Gerar NSU simulados</b> para criar registros\n"
 "                NSU fictícios para testar a distribuição DF-e."
 
 #. module: l10n_br_fiscal_dfe_mock
