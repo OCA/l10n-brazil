@@ -7,15 +7,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-26 11:58+0000\n"
-"PO-Revision-Date: 2024-09-17 20:06+0000\n"
-"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"PO-Revision-Date: 2026-10-20 19:45+0000\n"
+"Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__blood_type__a+
@@ -96,7 +96,7 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__birth_city_id
 msgid "Birth City"
-msgstr ""
+msgstr "Cidade de nascimento"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__blood_type
@@ -395,7 +395,7 @@ msgstr "Identidade"
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee__cpf
 msgid "Identification Number for selected type"
-msgstr ""
+msgstr "Número de identificação para o tipo selecionado"
 
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_hr_identity_type
