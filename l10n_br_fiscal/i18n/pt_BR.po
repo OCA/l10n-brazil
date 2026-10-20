@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: L10n-brazil 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-20 21:47+0000\n"
+"PO-Revision-Date: 2026-10-20 21:53+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -4490,7 +4490,7 @@ msgstr "Regulamento do ICMS"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icms_relief_id
 #: model:ir.ui.menu,name:l10n_br_fiscal.tax_icms_relief_menu
 msgid "ICMS Relief"
-msgstr "Alívio do ICMS"
+msgstr "Desoneração do ICMS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icms_relief_type
@@ -4502,7 +4502,7 @@ msgstr "Dedução da desoneração do ICMS"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icms_relief_value
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icms_relief_value
 msgid "ICMS Relief Value"
-msgstr "Valor de Alívio do ICMS"
+msgstr "Valor da desoneração do ICMS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icmssn_percent
