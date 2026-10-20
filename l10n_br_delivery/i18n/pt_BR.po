@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-09-26 14:06+0000\n"
-"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"PO-Revision-Date: 2026-10-20 19:45+0000\n"
+"Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields.selection,name:l10n_br_delivery.selection__account_incoterms__freight_responsibility__0
@@ -157,7 +157,7 @@ msgstr "Nome Exibido"
 #. module: l10n_br_delivery
 #: model:ir.model,name:l10n_br_delivery.model_l10n_br_fiscal_document_mixin_fields
 msgid "Document Fiscal Mixin Fields"
-msgstr ""
+msgstr "Campos do mixin de documento fiscal"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__driver
@@ -193,7 +193,7 @@ msgstr "Inconterm Fiscal"
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_order__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_stock_picking__fiscal_proxy_incoterm_id
 msgid "Fiscal Proxy Incoterm"
-msgstr ""
+msgstr "Incoterm fiscal do intermediário"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_account_incoterms__freight_responsibility
