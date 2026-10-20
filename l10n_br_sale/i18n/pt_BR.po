@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-21 19:52+0000\n"
-"PO-Revision-Date: 2026-10-20 19:45+0000\n"
+"PO-Revision-Date: 2026-10-20 20:14+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -213,7 +213,7 @@ msgstr "COFINS Código da Base"
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cofins_base_type
 msgid "COFINS Base Type"
-msgstr "COFINS Tipo da Base"
+msgstr "Tipo da Base da COFINS"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cofins_cst_code
@@ -233,7 +233,7 @@ msgstr "% RET COFINS"
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cofins_wh_reduction
 msgid "COFINS RET % Reduction"
-msgstr "% Redução de RETENÇÃO de COFINS"
+msgstr "% de Redução da COFINS RET"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cofins_wh_base
@@ -1225,7 +1225,7 @@ msgstr "Identifica o destino da operação."
 #. module: l10n_br_sale
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__allow_csll_irpj
 msgid "Indicates potential 'CSLL' and 'IRPJ' tax charges."
-msgstr "Indica potencial cobrança de imposto 'CSLL' e 'IRPJ' ."
+msgstr "Indica potencial cobrança de CSLL e IRPJ."
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__partner_is_public_entity
@@ -1925,7 +1925,7 @@ msgstr "Tipo"
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__uom_id
 msgid "UOM"
-msgstr "UOM"
+msgstr "Unidade"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__price_unit
