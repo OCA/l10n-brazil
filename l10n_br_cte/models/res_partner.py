@@ -32,6 +32,9 @@ class ResPartner(spec_models.SpecModel):
         "cte.40.tresptec",
         "cte.40.tcte_autxml",
         "cte.40.tenderfer",
+        "cteos.40.tcteos_toma",
+        "cteos.40.tendeemi",
+        "cteos.40.tendereco",
     ]
     _cte_search_keys = ["cte40_CNPJ", "cte40_CPF", "cte40_xNome"]
     _cte40_odoo_module = (
@@ -117,6 +120,22 @@ class ResPartner(spec_models.SpecModel):
         comodel_name="res.partner",
         compute="_compute_cte40_enderToma",
         compute_sudo=True,
+    )
+
+    # CT-e OS (model 67) party/address — reuse the CT-e (57) mapping
+    cteos40_CNPJ = fields.Char(related="cte40_CNPJ")
+    cteos40_CPF = fields.Char(related="cte40_CPF")
+    cteos40_xNome = fields.Char(related="legal_name")
+    cteos40_xLgr = fields.Char(related="cte40_xLgr")
+    cteos40_nro = fields.Char(related="cte40_nro")
+    cteos40_xCpl = fields.Char(related="cte40_xCpl")
+    cteos40_xBairro = fields.Char(related="cte40_xBairro")
+    cteos40_cMun = fields.Char(related="cte40_cMun")
+    cteos40_xMun = fields.Char(related="cte40_xMun")
+    cteos40_UF = fields.Char(related="cte40_UF")
+    cteos40_enderToma = fields.Many2one(
+        comodel_name="res.partner",
+        related="cte40_enderToma",
     )
 
     cte40_enderReme = fields.Many2one(
