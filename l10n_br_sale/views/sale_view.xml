@@ -65,7 +65,6 @@
                     widget='monetary'
                     options="{'currency_field': 'currency_id'}"
                 />
-                <field name="delivery_costs" invisible="1" />
                 <field
                     name="amount_freight_value"
                     widget='monetary'
@@ -108,7 +107,6 @@
                 <field name="force_compute_delivery_costs_by_total" />
             </group>
             <field name="show_update_fpos" position="before">
-                <field name="company_country_id" invisible="True" />
                 <field
                     name="fiscal_operation_id"
                     invisible="company_country_id != %(base.br)d"
@@ -137,15 +135,16 @@
                 <!-- this is a dynamic fiscal fields placeholder-->
                 <control name="fiscal_taxes_fields" string="Taxes" invisible="1" />
                 <!-- this is a dynamic fiscal fields placeholder-->
-                <!-- the fields below would be injected by the placeholders
-                    above, but we need to repeat them here to please the
-                    Form test framework or because they are used in some
-                    domain here that is checked before the dynamic fiscal
-                    placeholders kick in.
-                -->
-                <field name="fiscal_operation_type" column_invisible="1" />
-                <field name="cfop_id" column_invisible="1" />
-                <field name="tax_framework" column_invisible="1" />
+                <!-- The order lines list is an editable list, so it is the
+                     edition view used by the Form test framework
+                     (odoo/tests/form.py): the fields written through
+                     so_form.order_line are looked up there. A field that is
+                     only referenced by an expression of the view is otherwise
+                     either missing from it or added by the framework with an
+                     `invisible` modifier, which makes it unwritable in tests.
+                     They are hence still declared, as hidden columns, so that
+                     the tests can keep driving the per line fiscal operation
+                     and the per line delivery costs: -->
                 <field name="fiscal_operation_id" column_invisible="1" />
                 <field name="freight_value" column_invisible="1" />
                 <field name="insurance_value" column_invisible="1" />
@@ -171,11 +170,6 @@
                 expr="//field[@name='order_line']/list/field[@name='price_unit']"
                 position="after"
             >
-                <field
-                    name="fiscal_operation_id"
-                    options="{'no_create': True}"
-                    column_invisible="1"
-                />
                 <field
                     name="discount"
                     groups="!l10n_br_sale.group_discount_per_value"
@@ -208,13 +202,8 @@
             </xpath>
             <!-- order lines form view extensions:  -->
             <xpath expr="//field[@name='order_line']/form" position="inside">
-                <field name="product_template_id" invisible="1" />
                 <group name="fiscal_fields" invisible="1">
                     <!-- this is a dynamic fiscal fields placeholder-->
-                    <!-- required because of cfop_id default domain: -->
-                    <field name="fiscal_operation_type" invisible="1" readonly="1" />
-                    <!-- required because used in domain of some next SO view fields: -->
-                    <field name="tax_icms_or_issqn" invisible="1" />
                 </group>
             </xpath>
             <!-- discount management in line form: -->
@@ -222,13 +211,10 @@
                 expr="//field[@name='order_line']/form//label[@for='discount']"
                 position="before"
             >
-                <field name="discount_fixed" invisible="1" />
                 <field
                     name="discount_fixed"
                     groups="l10n_br_sale.group_total_discount"
                 />
-                <field name="user_discount_value" invisible="1" />
-                <field name="user_total_discount" invisible="1" />
             </xpath>
             <xpath
                 expr="//field[@name='order_line']/form//field[@name='discount']"
@@ -274,8 +260,6 @@
                     options="{'no_create': True}"
                     invisible="tax_icms_or_issqn == 'issqn' or not parent.fiscal_operation_id"
                 />
-                <field name="price_total" invisible="1" />
-                <field name="price_subtotal" invisible="1" />
                 <field
                     name="service_type_id"
                     options="{'no_create': True}"
@@ -375,11 +359,6 @@
                     </page>
                     <page name="others" string="Others">
                         <group>
-                            <field name="delivery_costs" invisible="1" />
-                            <field
-                                name="force_compute_delivery_costs_by_total"
-                                invisible="1"
-                            />
                             <field
                                 name="freight_value"
                                 readonly="delivery_costs == 'total' or force_compute_delivery_costs_by_total"
