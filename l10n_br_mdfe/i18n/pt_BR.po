@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-01-16 18:06+0000\n"
-"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"PO-Revision-Date: 2026-10-20 19:45+0000\n"
+"Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: l10n_br_mdfe
 #: model:ir.actions.report,print_report_name:l10n_br_mdfe.main_template_damdfe
@@ -763,7 +763,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_mdfe_product_lotacao_local__local_type__cep
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_mdfe_product_lotacao_local__mdfe30_choice_tlocal__mdfe30_cep
 msgid "CEP"
-msgstr ""
+msgstr "CEP"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_partner__mdfe30_CEP
@@ -1019,7 +1019,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__res_partner__mdfe30_choice_tcontractor__mdfe30_cpf
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__res_partner__mdfe30_choice_trailer_owner__mdfe30_cpf
 msgid "CPF"
-msgstr ""
+msgstr "CPF"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_veiculo_condutor__mdfe30_CPF
@@ -1241,7 +1241,7 @@ msgstr "Empresas"
 #. odoo-python
 #: code:addons/l10n_br_mdfe/models/document.py:0
 msgid "Company"
-msgstr ""
+msgstr "Empresa"
 
 #. module: l10n_br_mdfe
 #. odoo-python
@@ -1253,7 +1253,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_mdfe/models/document.py:0
 msgid "Company State"
-msgstr ""
+msgstr "Estado da Empresa"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_xCpl
@@ -1338,7 +1338,7 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model:ir.model,name:l10n_br_mdfe.model_res_country_state
 msgid "Country state"
-msgstr ""
+msgstr "Estado do país"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aereo__create_uid
@@ -1972,7 +1972,7 @@ msgstr "Documento"
 #. odoo-python
 #: code:addons/l10n_br_mdfe/models/document.py:0
 msgid "Document Date"
-msgstr ""
+msgstr "Data do Documento"
 
 #. module: l10n_br_mdfe
 #. odoo-python
@@ -1984,13 +1984,13 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_mdfe/models/document.py:0
 msgid "Document Number"
-msgstr ""
+msgstr "Número do Documento"
 
 #. module: l10n_br_mdfe
 #. odoo-python
 #: code:addons/l10n_br_mdfe/models/document.py:0
 msgid "Document Serie"
-msgstr ""
+msgstr "Série do Documento"
 
 #. module: l10n_br_mdfe
 #: model:ir.model,name:l10n_br_mdfe.model_l10n_br_fiscal_document_supplement
@@ -2013,7 +2013,7 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_mdfe.nfe_document_edi_form_inherit
 msgid "Documents"
-msgstr ""
+msgstr "Documentos"
 
 #. module: l10n_br_mdfe
 #. odoo-python
@@ -2131,7 +2131,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe_environment
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_environment
 msgid "Environment"
-msgstr ""
+msgstr "Ambiente"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_cPrtDest__br414
@@ -2790,7 +2790,7 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model:ir.model,name:l10n_br_mdfe.model_l10n_br_fiscal_document_import_wizard
 msgid "Import Document Wizard"
-msgstr ""
+msgstr "Assistente de importação de documento"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_company__mdfe_authorize_accountant_download_xml
@@ -3844,22 +3844,22 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_mdfe.res_company_form_view
 msgid "Margin Bottom"
-msgstr ""
+msgstr "Margem inferior"
 
 #. module: l10n_br_mdfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_mdfe.res_company_form_view
 msgid "Margin Left"
-msgstr ""
+msgstr "Margem esquerda"
 
 #. module: l10n_br_mdfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_mdfe.res_company_form_view
 msgid "Margin Right"
-msgstr ""
+msgstr "Margem direita"
 
 #. module: l10n_br_mdfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_mdfe.res_company_form_view
 msgid "Margin Top"
-msgstr ""
+msgstr "Margem superior"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario__mdfe30_MMSI
@@ -5313,7 +5313,7 @@ msgstr "Produto"
 #. module: l10n_br_mdfe
 #: model:ir.model,name:l10n_br_mdfe.model_product_product
 msgid "Product Variant"
-msgstr ""
+msgstr "Variante do produto"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_prodPred
@@ -6317,7 +6317,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_emit
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_emit
 msgid "Technical Field."
-msgstr ""
+msgstr "Campo técnico."
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_company__mdfe30_fone
@@ -6745,7 +6745,7 @@ msgstr "Reboque"
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe_transmission
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_transmission
 msgid "Transmission"
-msgstr ""
+msgstr "Transmissão"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe_transp_type
