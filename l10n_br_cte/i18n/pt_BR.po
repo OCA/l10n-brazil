@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-01-16 18:06+0000\n"
-"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"PO-Revision-Date: 2026-10-20 19:45+0000\n"
+"Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: l10n_br_cte
 #. odoo-python
@@ -131,7 +131,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_vRec
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vRec
 msgid "Amount without discount."
-msgstr ""
+msgstr "Total sem desconto."
 
 #. module: l10n_br_cte
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__transport_modal__03
@@ -410,7 +410,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__res_partner__cte40_choice_toma__cte40_cpf
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__res_partner__cte40_choice_transporta__cte40_cpf
 msgid "CPF"
-msgstr ""
+msgstr "CPF"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_autxml__cte40_CPF
@@ -2200,7 +2200,7 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model,name:l10n_br_cte.model_l10n_br_fiscal_document_mixin
 msgid "Document Fiscal Mixin Fields"
-msgstr ""
+msgstr "Campos do mixin de documento fiscal"
 
 #. module: l10n_br_cte
 #: model:ir.model,name:l10n_br_cte.model_l10n_br_fiscal_document_supplement
@@ -3023,7 +3023,7 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model,name:l10n_br_cte.model_l10n_br_fiscal_document_import_wizard
 msgid "Import Document Wizard"
-msgstr ""
+msgstr "Assistente de importação de documento"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte_authorize_accountant_download_xml
@@ -3872,22 +3872,22 @@ msgstr ""
 #. module: l10n_br_cte
 #: model_terms:ir.ui.view,arch_db:l10n_br_cte.cte_res_company_form
 msgid "Margin Bottom"
-msgstr ""
+msgstr "Margem inferior"
 
 #. module: l10n_br_cte
 #: model_terms:ir.ui.view,arch_db:l10n_br_cte.cte_res_company_form
 msgid "Margin Left"
-msgstr ""
+msgstr "Margem esquerda"
 
 #. module: l10n_br_cte
 #: model_terms:ir.ui.view,arch_db:l10n_br_cte.cte_res_company_form
 msgid "Margin Right"
-msgstr ""
+msgstr "Margem direita"
 
 #. module: l10n_br_cte
 #: model_terms:ir.ui.view,arch_db:l10n_br_cte.cte_res_company_form
 msgid "Margin Top"
-msgstr ""
+msgstr "Margem superior"
 
 #. module: l10n_br_cte
 #: model:ir.model,name:l10n_br_cte.model_cte_40_tprotcte_inffisco
@@ -5409,7 +5409,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_enderToma
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_enderToma
 msgid "Technical Field."
-msgstr ""
+msgstr "Campo técnico."
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_toma__cte40_fone
