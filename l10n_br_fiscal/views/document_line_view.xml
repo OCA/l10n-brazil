@@ -6,14 +6,10 @@
         <field name="arch" type="xml">
             <form string="Fiscal Document Line">
                 <group name="fiscal_fields" invisible="1">
+                    <!-- currency_id is kept because the monetary widgets of this
+                         form need the currency value, which the framework does
+                         not add automatically -->
                     <field name="currency_id" invisible="1" />
-                    <field name="fiscal_operation_type" invisible="1" />
-                    <field name="cfop_destination" invisible="1" />
-                    <field name="company_id" invisible="1" />
-                    <field name="tax_framework" invisible="1" />
-                    <field name="fiscal_genre_id" invisible="1" />
-                    <field name="fiscal_genre_code" invisible="1" />
-                    <field name="fiscal_type" invisible="1" />
                 </group>
                 <group>
                     <field
@@ -37,11 +33,6 @@
                                 </div>
                                 <field name="price_unit" />
                                 <field name="discount_value" />
-                                <field name="delivery_costs" invisible="1" />
-                                <field
-                                    name="force_compute_delivery_costs_by_total"
-                                    invisible="1"
-                                />
                                 <field
                                     name="insurance_value"
                                     readonly="delivery_costs == 'total' or force_compute_delivery_costs_by_total"

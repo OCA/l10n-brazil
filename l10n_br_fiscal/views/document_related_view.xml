@@ -18,7 +18,6 @@
         <field name="model">l10n_br_fiscal.document.related</field>
         <field name="arch" type="xml">
             <form string="Fiscal Document Related">
-                <field name="document_type_code" invisible="1" />
                 <group>
                     <field
                         name="document_related_id"
