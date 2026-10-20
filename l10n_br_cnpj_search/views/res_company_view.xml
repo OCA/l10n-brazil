@@ -9,9 +9,9 @@
                 <field name="equity_capital" widget="monetary" />
             </field>
             <field name="vat" position="replace">
-                <label for="vat" string="CNPJ" />
+                <label for="vat" string="CNPJ" invisible="show_l10n_br" />
                 <div class="o_row" colspan="1">
-                    <field name="vat" />
+                    <field name="vat" invisible="show_l10n_br" />
                     <button
                         name="action_open_cnpj_search_wizard"
                         type="object"
