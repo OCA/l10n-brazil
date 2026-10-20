@@ -610,6 +610,10 @@ class AccountMove(models.Model):
                     or line.fiscal_operation_id.return_fiscal_operation_id
                 )
 
+            # A return repeats the taxes of the origin document, it must not
+            # compute them again with the rules of the return operation.
+            record._copy_origin_fiscal_taxes()
+
             # This method is in l10n_br_fiscal_subsequent_document module, the IF
             # is necessary to avoid a 'glue module' or direct dependence.
             if hasattr(record.fiscal_document_id, "_document_reference"):
@@ -623,6 +627,22 @@ class AccountMove(models.Model):
                     )
 
         return new_moves
+
+    def _copy_origin_fiscal_taxes(self):
+        """Give each line of a reversal the fiscal taxes (rates and CSTs) of the
+        matching line of the reversed document."""
+        self.ensure_one()
+        origin = self.reversed_entry_id
+        origin_lines = origin.invoice_line_ids
+        lines = self.invoice_line_ids
+        if not origin or len(origin_lines) != len(lines):
+            return
+        # fiscal_tax_ids depends on the fiscal operation line, so the pending
+        # computes must run before the origin taxes are written.
+        self.env.flush_all()
+        for origin_line, line in zip(origin_lines, lines, strict=True):
+            if origin_line.fiscal_tax_ids:
+                line.fiscal_tax_ids = origin_line.fiscal_tax_ids
 
     def button_cancel(self):
         for doc in self.filtered(lambda d: d.document_type_id):
