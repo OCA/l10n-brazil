@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-20 19:45+0000\n"
+"PO-Revision-Date: 2026-10-20 20:14+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -236,7 +236,7 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_res_company__dacte_margin_bottom
 msgid "Bottom margin in mm for the DACTE layout."
-msgstr ""
+msgstr "Margem inferior, em mm, do layout do DACTE."
 
 #. module: l10n_br_cte
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_cte_modal_rodo_occ__cte40_UF__ce
@@ -458,7 +458,7 @@ msgstr "CT-e"
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte_dacte_layout
 msgid "CT-e DACTE Layout"
-msgstr ""
+msgstr "Layout do DACTE"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte_default_serie_id
@@ -1628,22 +1628,22 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__dacte_margin_bottom
 msgid "Dacte Margin Bottom"
-msgstr ""
+msgstr "Margem inferior do DACTE"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__dacte_margin_left
 msgid "Dacte Margin Left"
-msgstr ""
+msgstr "Margem esquerda do DACTE"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__dacte_margin_right
 msgid "Dacte Margin Right"
-msgstr ""
+msgstr "Margem direita do DACTE"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__dacte_margin_top
 msgid "Dacte Margin Top"
-msgstr ""
+msgstr "Margem superior do DACTE"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_infcte__cte40_compl
@@ -2160,7 +2160,7 @@ msgstr ""
 #. module: l10n_br_cte
 #: model_terms:ir.ui.view,arch_db:l10n_br_cte.cte_res_company_form
 msgid "Display IBS/CBS"
-msgstr ""
+msgstr "Exibir IBS/CBS"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_cargo_quantity_infos__display_name
@@ -3836,7 +3836,7 @@ msgstr "Última Atualização em"
 #. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_res_company__dacte_margin_left
 msgid "Left margin in mm for the DACTE layout."
-msgstr ""
+msgstr "Margem esquerda, em mm, do layout do DACTE."
 
 #. module: l10n_br_cte
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__cte40_direc__l
@@ -5137,7 +5137,7 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_res_company__dacte_margin_right
 msgid "Right margin in mm for the DACTE layout."
-msgstr ""
+msgstr "Margem direita, em mm, do layout do DACTE."
 
 #. module: l10n_br_cte
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__cte40_tpTraf__2
@@ -5172,7 +5172,7 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_res_company__dacte_display_ibs_cbs
 msgid "Select to display the IBS and CBS fields in the generated DACTE."
-msgstr ""
+msgstr "Marque para exibir os campos de IBS e CBS no DACTE gerado."
 
 #. module: l10n_br_cte
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__cte40_tpHor__0
@@ -6084,7 +6084,7 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_res_company__dacte_margin_top
 msgid "Top margin in mm for the DACTE layout."
-msgstr ""
+msgstr "Margem superior, em mm, do layout do DACTE."
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_vBCIBSCBS
