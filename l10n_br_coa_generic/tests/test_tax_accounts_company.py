@@ -123,7 +123,7 @@ class TestTaxAccountsCompany(TransactionCase):
         leftovers = self.env["ir.model.data"].search(
             [
                 ("model", "in", ("account.tax", "account.account")),
-                ("name", "like", f"{branch.id}\\_%"),
+                ("name", "=like", f"{branch.id}\\_%"),
             ]
         )
         self.assertFalse(leftovers.mapped("complete_name"))
