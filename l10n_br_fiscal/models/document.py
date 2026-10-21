@@ -5,7 +5,7 @@
 from ast import literal_eval
 
 from odoo import api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
 
 from ..constants.fiscal import (
     COMMENT_TYPE_COMMERCIAL,
@@ -342,6 +342,31 @@ class Document(models.Model):
     @api.model
     def _get_fiscal_lines_field_name(self):
         return "fiscal_line_ids"
+
+    def _import_document_serie(self):
+        """Serie of an imported document issued by the company, by its code."""
+        self.ensure_one()
+        if self.document_serie_id:
+            return self.document_serie_id
+        serie = self.env["l10n_br_fiscal.document.serie"].search(
+            [
+                ("company_id", "=", self.company_id.id),
+                ("document_type_id", "=", self.document_type_id.id),
+                ("code", "=", self.document_serie),
+            ],
+            limit=1,
+        )
+        if not serie:
+            raise UserError(
+                self.env._(
+                    "Configure the serie %(serie)s of %(document_type)s for "
+                    "%(company)s before importing the documents it issued.",
+                    serie=self.document_serie,
+                    document_type=self.document_type_id.name,
+                    company=self.company_id.name,
+                )
+            )
+        return serie
 
     def unlink(self):
         forbidden_states_unlink = [
