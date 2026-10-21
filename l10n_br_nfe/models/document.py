@@ -89,6 +89,18 @@ def filter_processador_edoc_nfe(record):
     return False
 
 
+def filter_imported_nfe(record):
+    """NF-e of a third party imported from its XML (no processor involved)."""
+    return bool(
+        record.original_xml_file_id
+        and record.document_type_id.code == MODELO_FISCAL_NFE
+    )
+
+
+def filter_nfe_pdf(record):
+    return filter_processador_edoc_nfe(record) or filter_imported_nfe(record)
+
+
 class NFe(spec_models.StackedModel):
     _name = "l10n_br_fiscal.document"
     _inherit = ["l10n_br_fiscal.document", "nfe.40.infnfe"]
@@ -1604,18 +1616,19 @@ class NFe(spec_models.StackedModel):
             )
 
     def view_pdf(self):
-        if not self.filtered(filter_processador_edoc_nfe):
+        if not self.filtered(filter_nfe_pdf):
             return super().view_pdf()
 
         if self.document_type == MODELO_FISCAL_NFCE:
             return self.action_danfe_nfce_report()
 
-        if not self.authorization_file_id or not self.file_report_id:
+        has_xml = self.authorization_file_id or self.original_xml_file_id
+        if not has_xml or not self.file_report_id:
             self.make_pdf()
         return self._target_new_tab(self.file_report_id)
 
     def make_pdf(self):
-        if not self.filtered(filter_processador_edoc_nfe):
+        if not self.filtered(filter_nfe_pdf):
             return super().make_pdf()
 
         attachment_data = {
