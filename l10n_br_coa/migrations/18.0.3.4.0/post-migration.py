@@ -19,7 +19,9 @@ what is missing, by xmlid, and never touches a tax that already exists:
   a tax as not made by hand. Active taxes come first: an archived workaround
   is never adopted in place of an active one, and when there is only an
   archived one the chart tax is created and the log says which one was left
-  alone. The name only reinforces, with a warning in the log;
+  alone. The name only reinforces, with a warning in the log, and only among
+  the active taxes: the unique name rule of the taxes ignores archived ones,
+  so an archived tax does not stop the chart tax from being created;
 * the repartition accounts of the other taxes are not rewritten, only the
   ones of the taxes created here and of the plain IBS and CBS taxes that were
   shipped with no account at all (`only_tax_templates`).
@@ -117,6 +119,34 @@ def _link_existing_tax(env, company, key, tax):
     )
 
 
+def _warn_if_not_deductible(company, tax):
+    """Warn when the adopted tax does not give the amount back as expected.
+
+    A deductible tax needs a tax repartition line with a negative factor and
+    an account. The tax is kept as it is, so the log is the only way to tell
+    that it does not work as the chart tax would.
+    """
+    lines = (
+        tax.invoice_repartition_line_ids | tax.refund_repartition_line_ids
+    ).filtered(lambda line: line.repartition_type == "tax")
+    if not any(line.factor_percent < 0 for line in lines):
+        _logger.warning(
+            "l10n_br_coa: company %s: the tax %r (id %s) was kept as the chart "
+            "tax but has no repartition line with a negative factor. Check it.",
+            company.name,
+            tax.name,
+            tax.id,
+        )
+    if not lines.account_id:
+        _logger.warning(
+            "l10n_br_coa: company %s: the tax %r (id %s) was kept as the chart "
+            "tax but has no account in its repartition lines. Check it.",
+            company.name,
+            tax.name,
+            tax.id,
+        )
+
+
 def _is_chart_record(env, company, record):
     """True when the record has an xmlid that the chart gave to the company.
 
@@ -148,9 +178,11 @@ def _find_tax_made_by_hand(env, company, vals):
     tax with the very same name has to be reused anyway, because the name is
     unique per company and use.
 
-    Active taxes are preferred. An archived tax is adopted only when its name
-    is the one of the chart tax (the chart tax could not be created beside
-    it); otherwise the chart tax is created and the archived one is reported.
+    Only active taxes are adopted. An archived tax is never adopted, not even
+    when it has the name of the chart tax: the unique name rule of the taxes
+    (`_constrains_name`) looks only at active taxes, so the chart tax can be
+    created beside it, and adopting it would leave the company with no active
+    deductible tax. The archived ones are reported in the log.
     """
     Tax = env["account.tax"].with_context(active_test=False)
     group = env.ref(vals["tax_group_id"], raise_if_not_found=False)
@@ -197,13 +229,13 @@ def _find_tax_made_by_hand(env, company, vals):
                 ", ".join(f"{tax.name} (id {tax.id})" for tax in by_structure),
                 vals["name"],
             )
-    by_name = Tax.search(
+    by_name = env["account.tax"].search(
         [
             ("company_id", "=", company.id),
             ("type_tax_use", "=", vals["type_tax_use"]),
             ("name", "=", vals["name"]),
         ],
-        order="active desc, id",
+        order="id",
         limit=1,
     )
     if by_name:
@@ -214,7 +246,7 @@ def _find_tax_made_by_hand(env, company, vals):
             company.name,
             by_name.name,
             by_name.id,
-            "active" if by_name.active else "archived",
+            "active",
         )
     return by_name
 
@@ -307,6 +339,7 @@ def _migrate_company(env, company):
         by_hand = _find_tax_made_by_hand(env, company, vals)
         if by_hand:
             _link_existing_tax(env, company, key, by_hand)
+            _warn_if_not_deductible(company, by_hand)
             kept_by_hand += 1
             continue
         new_taxes[key] = vals

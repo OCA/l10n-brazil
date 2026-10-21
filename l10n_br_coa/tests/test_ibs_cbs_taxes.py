@@ -7,7 +7,7 @@ from openupgradelib import openupgrade
 
 from odoo.tests import TransactionCase, tagged
 
-from .common import IbsCbsTaxesMixin, load_migration
+from .common import LOGGER_NAME, IbsCbsTaxesMixin, load_migration
 
 
 @tagged("post_install", "-at_install")
@@ -40,7 +40,8 @@ class TestIbsCbsTaxes(IbsCbsTaxesMixin, TransactionCase):
         # named in `l10n_br_coa`, not in `account`.
         self.company.chart_template = False
 
-        load_migration()._migrate_company(self.env, self.company)
+        with self.assertLogs(LOGGER_NAME, level="WARNING"):
+            load_migration()._migrate_company(self.env, self.company)
 
         self.assertEqual(
             by_hand.get_external_id()[by_hand.id],
