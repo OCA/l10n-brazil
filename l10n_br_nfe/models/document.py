@@ -1234,10 +1234,10 @@ class NFe(spec_models.StackedModel):
             # nb: nfelib's CommonMixin.sign_xml base64-decodes `pkcs12_data`
             # itself, so the Odoo Binary value is passed as is.
             "pkcs12_data": self.company_id.certificate.file,
-            # TODO: `fake_certificate` only skips brazil_fiscal_client's
-            # requests_pkcs12 adapter, which expects raw PFX bytes. Pass decoded
-            # bytes to both APIs so real transmissions can use mTLS again.
-            "fake_certificate": True,
+            # brazil_fiscal_client's FiscalClient.__init__ normalizes
+            # `pkcs12_data` for the requests_pkcs12 adapter, so the base64
+            # Binary value works for both signing and mTLS transmission.
+            "fake_certificate": False,
             "pkcs12_password": self.company_id.certificate.password,
             "wrap_response": True,
         }
