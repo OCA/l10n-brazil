@@ -23389,7 +23389,6 @@ msgid "Street number..."
 msgstr "Número da Rua..."
 
 #. module: l10n_br_base
-#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_contact_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
 msgid "Street..."
 msgstr "Rua…"
@@ -25710,8 +25709,8 @@ msgstr "O Parceiro já possui um número de Inscrição Estadual para esse Estad
 msgid ""
 "The email is too long, a maximum of 77 characters is allowed: %(email_strip)s"
 msgstr ""
-"O e-mail é muito longo, o máximo permitido é de 77 caracteres: %(email_strip)"
-"s"
+"O e-mail é muito longo, o máximo permitido é de 77 caracteres: %"
+"(email_strip)s"
 
 #. module: l10n_br_base
 #. odoo-python
