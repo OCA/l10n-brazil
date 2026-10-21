@@ -1092,11 +1092,17 @@ class AccountMove(models.Model):
         if not move_id or not move.fiscal_document_id:
             move_form.partner_id = fiscal_document.partner_id
             move_form.invoice_date = fiscal_document.document_date
-            move_form.date = fiscal_document.document_date
             move_form.document_type_id = fiscal_document.document_type_id
             move_form.fiscal_document_id = fiscal_document
             move_form.fiscal_operation_id = fiscal_document.fiscal_operation_id
-            move_form.document_serie = fiscal_document.document_serie
+            for field_name, value in (
+                ("date", fiscal_document.document_date),
+                ("document_serie", fiscal_document.document_serie),
+            ):
+                if not move_form._get_modifier(field_name, "invisible"):
+                    setattr(move_form, field_name, value)
+            if not move_form._get_modifier("document_serie_id", "invisible"):
+                move_form.document_serie_id = fiscal_document._import_document_serie()
             if (
                 "l10n_latam.document.type" in self.env
                 and move_form.l10n_latam_use_documents
