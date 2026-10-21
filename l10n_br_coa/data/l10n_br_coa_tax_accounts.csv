@@ -50,3 +50,15 @@ tax_icms_fcp_payable,2.1.7.1.03FCP,2.1.3.02,ICMS FCP a Recolher,liability_curren
 tax_icms_fcp_receivable,1.1.4.1.02FCP,1.1.4.02,ICMS FCP a Compensar,asset_current
 tax_icms_fcp_st_payable,2.1.7.1.11FCP,2.1.3.02,ICMS FCP ST a Recolher,liability_current
 tax_icms_fcp_st_receivable,1.1.3.1.04FCP,1.1.4.02,ICMS FCP ST s/ Estoque,asset_current
+tax_ibs_payable,2.1.7.1.14,2.1.4.02.11,IBS a Recolher,liability_current
+tax_ibs_receivable,1.1.4.1.12,1.1.2.05.11,IBS a Compensar,asset_current
+tax_ibs_sales_revenue,6.1.1.2.12,3.1.2.01.06,IBS s/ Vendas,income_other
+tax_ibs_purchase_expense,6.1.1.2.32,3.1.2.01.06,IBS s/ Compras,income_other
+tax_cbs_payable,2.1.7.1.15,2.1.4.02.12,CBS a Recolher,liability_current
+tax_cbs_receivable,1.1.4.1.13,1.1.2.05.12,CBS a Compensar,asset_current
+tax_cbs_sales_revenue,6.1.1.2.13,3.1.2.01.07,CBS s/ Vendas,income_other
+tax_cbs_purchase_expense,6.1.1.2.33,3.1.2.01.07,CBS s/ Compras,income_other
+tax_is_payable,2.1.7.1.16,2.1.4.02.13,IS a Recolher,liability_current
+tax_is_receivable,1.1.4.1.14,1.1.2.05.13,IS a Compensar,asset_current
+tax_is_sales_revenue,6.1.1.2.14,3.1.2.01.08,IS s/ Vendas,income_other
+tax_is_purchase_expense,6.1.1.2.34,3.1.2.01.08,IS s/ Compras,income_other
