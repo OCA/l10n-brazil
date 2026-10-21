@@ -6,13 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2026-10-21 12:46+0000\n"
+"Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: l10n_br_purchase_blanket_order
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase_blanket_order.inherit_purchase_blanket_order_line_form_fiscal_tabs
@@ -116,7 +118,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order__amount_cbs_base
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__cbs_base
 msgid "CBS Base"
-msgstr ""
+msgstr "Base da CBS"
 
 #. module: l10n_br_purchase_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__cbs_base_type
@@ -132,7 +134,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order__amount_cbs_value
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__cbs_value
 msgid "CBS Value"
-msgstr ""
+msgstr "Valor da CBS"
 
 #. module: l10n_br_purchase_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__cest_id
@@ -548,13 +550,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order__fiscal_amount_tax
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__fiscal_amount_tax
 msgid "Fiscal Amount Tax"
-msgstr ""
+msgstr "Total fiscal de impostos"
 
 #. module: l10n_br_purchase_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order__fiscal_amount_total
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__fiscal_amount_total
 msgid "Fiscal Amount Total"
-msgstr ""
+msgstr "Total fiscal"
 
 #. module: l10n_br_purchase_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order__fiscal_amount_untaxed
@@ -633,7 +635,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order__amount_ibs_base
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__ibs_base
 msgid "IBS Base"
-msgstr ""
+msgstr "Base do IBS"
 
 #. module: l10n_br_purchase_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__ibs_base_type
@@ -649,7 +651,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order__amount_ibs_value
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__ibs_value
 msgid "IBS Value"
-msgstr ""
+msgstr "Valor do IBS"
 
 #. module: l10n_br_purchase_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__icms_percent
@@ -1407,7 +1409,7 @@ msgstr ""
 #. module: l10n_br_purchase_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__partner_is_public_entity
 msgid "Public Entity"
-msgstr ""
+msgstr "Entidade Pública"
 
 #. module: l10n_br_purchase_blanket_order
 #: model:ir.model,name:l10n_br_purchase_blanket_order.model_purchase_blanket_order
@@ -1451,7 +1453,7 @@ msgstr ""
 #. module: l10n_br_purchase_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__service_type_id
 msgid "Service Type LC 166"
-msgstr ""
+msgstr "Tipo de Serviço LC 116"
 
 #. module: l10n_br_purchase_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order__partner_shippering_id
@@ -1476,12 +1478,12 @@ msgstr ""
 #. module: l10n_br_purchase_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__icms_tax_benefit_id
 msgid "Tax Benefit"
-msgstr ""
+msgstr "Benefício Fiscal"
 
 #. module: l10n_br_purchase_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__icms_tax_benefit_code
 msgid "Tax Benefit Code"
-msgstr ""
+msgstr "Código do Benefício Fiscal"
 
 #. module: l10n_br_purchase_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__cbs_tax_id
@@ -1611,7 +1613,7 @@ msgstr ""
 #. module: l10n_br_purchase_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__uot_id
 msgid "Tax UoM"
-msgstr ""
+msgstr "Unidade tributável"
 
 #. module: l10n_br_purchase_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order__amount_tax_withholding
