@@ -144,3 +144,12 @@ class Company(models.Model):
         self.partner_id.l10n_br_ie_code = False
         self.partner_id.state_id = self.state_id
         return res
+
+    @api.onchange("country_id")
+    def _onchange_country_id(self):
+        # the core drops a state from another country on res.partner but not
+        # on res.company, and the state is part of the address of both
+        res = super()._onchange_country_id()
+        if self.country_id and self.country_id != self.state_id.country_id:
+            self.state_id = False
+        return res
