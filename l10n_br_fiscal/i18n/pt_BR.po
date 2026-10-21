@@ -1324,9 +1324,9 @@ msgid ""
 "reflects the company's own operation after the de-para."
 msgstr ""
 "CFOP conforme declarado pela contraparte no documento importado. É "
-"preservado como está para a escrituração fiscal e o SPED (por exemplo, C197)"
-", enquanto o CFOP do documento reflete a operação da própria empresa depois "
-"do de-para."
+"preservado como está para a escrituração fiscal e o SPED (por exemplo, "
+"C197), enquanto o CFOP do documento reflete a operação da própria empresa "
+"depois do de-para."
 
 #. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_CONJUNTO
@@ -3577,8 +3577,8 @@ msgstr ""
 "Receita bruta acumulada nos 12 meses anteriores ao período de apuração atual "
 "(RBT12). No Simples Nacional, ela define a faixa de cada anexo e, com isso, "
 "as alíquotas efetivas e a alíquota de crédito de ICMS informada nas notas, "
-"que é a da faixa em que a empresa estava no mês anterior à operação (LC 123/"
-"2006, art. 18 e art. 23)."
+"que é a da faixa em que a empresa estava no mês anterior à operação (LC "
+"123/2006, art. 18 e art. 23)."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_ipi_guideline__cst_group
@@ -5818,6 +5818,18 @@ msgid "Legal Nature already exists with this code!"
 msgstr "Já existe uma natureza jurídica com este código!"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax__withholding_min_value
+msgid ""
+"Legal waiver of withholding (dispensa de retenção): when the value computed "
+"for this withholding tax is equal or lower than this amount, the tax is not "
+"withheld. For instance R$ 10,00 for the IRRF on professional services, per "
+"art. 67 of Lei 9.430/1996 and Solução de Consulta COSIT 258/2024.\n"
+"Kept empty (0,00) means no waiver. It applies to the value computed for one "
+"document line: the Brazilian law sets the limit per payment or credit event, "
+"which the fiscal engine cannot know when it computes the document."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__icmsst_base_type__1
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line_mixin__icmsst_base_type__1
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax__icmsst_base_type__1
@@ -6048,6 +6060,11 @@ msgstr "Erro de Entrega da Mensagem"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__message_ids
 msgid "Messages"
 msgstr "Mensagens"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax__withholding_min_value
+msgid "Minimum Withholding Value"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_search
