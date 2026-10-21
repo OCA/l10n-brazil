@@ -128,36 +128,39 @@ class CTe(spec_models.StackedModel):
     )
     _cte_search_keys = ["cte40_Id"]
 
+    # When dynamic stacking is applied the CTe structure is:
+    # (+ content of the m2o is stacked in the parent / - standard m2o /
+    # ≡ o2m; the mapped Odoo model may follow the tag)
     INFCTE_TREE = """
-    > infCte
-        > <ide>
-            > <toma> res.partner
-        > <compl>
-            > <Entrega>
+    + infCte
+        + <ide>
+            + <toma> res.partner
+        + <compl>
+            + <Entrega>
             - <xObs>
             ≡ <ObsCont>
             ≡ <ObsFisco>
 
-        > <emit> res.company
-        > <rem> res.company
-        > <exped> res.partner
-        > <receb> res.partner
-        > <vPrest>
+        + <emit> res.company
+        + <rem> res.company
+        + <exped> res.partner
+        + <receb> res.partner
+        + <vPrest>
             ≡ <comp>
-        > <imp>
-            > <ICMS>
-            > <ICMSUFFim>
-        > <infCTeNorm>
-            > <infCarga>
+        + <imp>
+            + <ICMS>
+            + <ICMSUFFim>
+        + <infCTeNorm>
+            + <infCarga>
                 ≡ <infQ>
-            > <infDoc>
+            + <infDoc>
                 ≡ <infNF>
                 ≡ <infNFe>
                 ≡ <infOutros>
-        -   > <infModal>
-        > <autXML>
-        > <infRespTec>
-    > <infCTeSupl>"""
+        -   + <infModal>
+        + <autXML>
+        + <infRespTec>
+    + <infCTeSupl>"""
 
     cte40_versao = fields.Char(related="document_version")
 
