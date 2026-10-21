@@ -6,13 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2026-10-21 12:46+0000\n"
+"Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: l10n_br_fiscal_subsequent_document
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_subsequent_document.selection__l10n_br_fiscal_subsequent_operation__generation_situation__enviada
@@ -36,7 +38,7 @@ msgstr ""
 #. module: l10n_br_fiscal_subsequent_document
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_subsequent_document.selection__l10n_br_fiscal_subsequent_operation__generation_situation__cancelada
 msgid "Cancelled"
-msgstr ""
+msgstr "Cancelada"
 
 #. module: l10n_br_fiscal_subsequent_document
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal_subsequent_document.subsequent_document_action
@@ -217,7 +219,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal_subsequent_document.field_l10n_br_fiscal_subsequent_document__subsequent_document_id
 #: model:ir.ui.menu,name:l10n_br_fiscal_subsequent_document.subsequent_document_menu
 msgid "Subsequent Document"
-msgstr ""
+msgstr "Documento subsequente"
 
 #. module: l10n_br_fiscal_subsequent_document
 #: model:ir.actions.act_window,name:l10n_br_fiscal_subsequent_document.subsequent_operation_action
@@ -226,7 +228,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal_subsequent_document.field_l10n_br_fiscal_subsequent_document__subsequent_operation_id
 #: model:ir.ui.menu,name:l10n_br_fiscal_subsequent_document.subsequent_operation_menu
 msgid "Subsequent Operation"
-msgstr ""
+msgstr "Operação subsequente"
 
 #. module: l10n_br_fiscal_subsequent_document
 #: model:ir.model.fields,field_description:l10n_br_fiscal_subsequent_document.field_l10n_br_fiscal_document__document_subsequent_generated
