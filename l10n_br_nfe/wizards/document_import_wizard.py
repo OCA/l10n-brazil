@@ -326,7 +326,7 @@ class DocumentImportWizard(models.TransientModel):
         return super()._create_edoc_from_file()
 
     def _attach_original_nfe_xml_to_document(self, edoc):
-        return self.env["ir.attachment"].create(
+        attachment = self.env["ir.attachment"].create(
             {
                 "name": f"NFe-Importada-{edoc.document_key}.xml",
                 "datas": self.file,
@@ -335,6 +335,8 @@ class DocumentImportWizard(models.TransientModel):
                 "res_id": edoc.id,
             }
         )
+        edoc.original_xml_file_id = attachment
+        return attachment
 
     def _edit_parsed_xml(self, parsed_xml):
         for product_line in self.imported_products_ids.filtered("product_id"):
