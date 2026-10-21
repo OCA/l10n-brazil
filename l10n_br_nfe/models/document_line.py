@@ -83,9 +83,11 @@ class NFeLine(spec_models.StackedModel):
     _nfe40_stacking_skip_paths = ("nfe40_det_infNFe_id",)
 
     # When dynamic stacking is applied, the NFe line has the following structure:
+    # (+ content of the m2o is stacked in the parent / - standard m2o /
+    # ≡ o2m; the mapped Odoo model may follow the tag)
     DET_TREE = """
-> <det>
-    > <prod>
++ <det>
+    + <prod>
         ≡ <gCred>
         ≡ <DI>
         ≡ <detExport>
@@ -96,28 +98,28 @@ class NFeLine(spec_models.StackedModel):
         - <med>
         ≡ <arma>
         - <comb>
-    > <imposto>
-        > <ICMS>
-            > <ICMSPart>
-            > <ICMSST>
-        > <IPI>
-            > <IPITrib>
-            > <IPINT>
-        > <II>
-        > <ISSQN>
-        > <PIS>
-            > <PISAliq>
-            > <PISQtde>
-            > <PISNT>
-            > <PISOutr>
-        > <PISST>
-        > <COFINS>
-            > <COFINSAliq>
-            > <COFINSQtde>
-            > <COFINSNT>
-            > <COFINSOutr>
-        > <COFINSST>
-        > <ICMSUFDest>
+    + <imposto>
+        + <ICMS>
+            + <ICMSPart>
+            + <ICMSST>
+        + <IPI>
+            + <IPITrib>
+            + <IPINT>
+        + <II>
+        + <ISSQN>
+        + <PIS>
+            + <PISAliq>
+            + <PISQtde>
+            + <PISNT>
+            + <PISOutr>
+        + <PISST>
+        + <COFINS>
+            + <COFINSAliq>
+            + <COFINSQtde>
+            + <COFINSNT>
+            + <COFINSOutr>
+        + <COFINSST>
+        + <ICMSUFDest>
     - <impostoDevol>
     - <obsItem>
     - <DFeReferenciado>"""
