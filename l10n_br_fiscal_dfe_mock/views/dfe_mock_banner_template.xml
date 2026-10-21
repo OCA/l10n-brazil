@@ -42,15 +42,6 @@
                             >
                                 <i class="fa fa-power-off" /> Desativar Mock
                             </a>
-                            <a
-                                type="action"
-                                role="button"
-                                data-model="res.company"
-                                data-method="action_reset_dfe_cooldown"
-                                class="btn btn-sm btn-outline-dark text-nowrap"
-                            >
-                                <i class="fa fa-refresh" /> Resetar Cooldown
-                            </a>
                         </div>
                     </div>
                 </t>

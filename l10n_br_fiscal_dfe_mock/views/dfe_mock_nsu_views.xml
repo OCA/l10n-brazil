@@ -136,7 +136,7 @@
     </record>
 
     <!-- Menu: Mock submenu under DF-e Queries.
-         The toggle-mock and reset-cooldown actions live as buttons in the
+         The toggle-mock action lives as a button in the
          DF-e banner itself (see dfe_document_banner_mock); only the record
          list and the generator wizard need a menu entry. Restricted to
          fiscal managers since this data can contaminate real DF-e flows. -->
