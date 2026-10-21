@@ -146,7 +146,9 @@ class AccountChartTemplate(models.AbstractModel):
         return result
 
     @api.model
-    def _get_br_tax_accounts_params(self, company, template_code=None):
+    def _get_br_tax_accounts_params(
+        self, company, template_code=None, tax_framework=None
+    ):
         """Return the (flavor, review_suffix) used to place the tax accounts.
 
         One rule for the chart load, for `load_fiscal_taxes` and for the
@@ -155,13 +157,16 @@ class AccountChartTemplate(models.AbstractModel):
 
         `tax_framework` is a fiscal field: `l10n_br_coa` only depends on
         `account`, so the chart load can run where l10n_br_fiscal is not
-        installed and the attribute does not exist at all.
+        installed and the attribute does not exist at all. A migration of this
+        module runs before the fiscal fields are loaded and reads the value
+        from the database to give as `tax_framework`.
         """
         template_code = template_code or company.chart_template
         if template_code not in BR_CHARTS:
             # Brazilian taxes added to another chart by `load_fiscal_taxes`.
             return "cfc", ".BR"
-        tax_framework = getattr(company, "tax_framework", False)
+        if tax_framework is None:
+            tax_framework = getattr(company, "tax_framework", False)
         if template_code == "br_oca_generic" or tax_framework == "3":
             return "cfc", ".GEN"
         return "itg", ".GEN"
@@ -222,12 +227,51 @@ class AccountChartTemplate(models.AbstractModel):
         return dict()
 
     @api.model
+    def _get_default_tax_accounts(self, only_tax_templates=None):
+        """Return the (tax template accounts, accounts) to populate.
+
+        With `only_tax_templates` the result is limited to those taxes and to
+        the accounts they need.
+        """
+        tax_templates_accounts = DEFAULT_TAX_TEMPLATES_ACCOUNTS
+        tax_accounts = DEFAULT_TAX_ACCOUNTS
+        if only_tax_templates is not None:
+            tax_templates_accounts = {
+                xmlid: keys
+                for xmlid, keys in DEFAULT_TAX_TEMPLATES_ACCOUNTS.items()
+                if xmlid in only_tax_templates
+            }
+            needed_keys = {
+                key for keys in tax_templates_accounts.values() for key in keys if key
+            }
+            tax_accounts = {
+                key: value
+                for key, value in DEFAULT_TAX_ACCOUNTS.items()
+                if key in needed_keys
+            }
+        return tax_templates_accounts, tax_accounts
+
+    @api.model
     def _populate_default_br_tax_accounts(
-        self, company, flavor="cfc", review_suffix=".GEN", template_module="l10n_br_coa"
+        self,
+        company,
+        flavor="cfc",
+        review_suffix=".GEN",
+        template_module="l10n_br_coa",
+        only_tax_templates=None,
     ):
         """
         Populate a default Brazilian tax accounts and configure tax repartition lines.
+
+        :param only_tax_templates: optional list of tax template xmlids. When
+            given, only the accounts these taxes need are created and only
+            their repartition lines are touched. Migrations use it to add new
+            taxes to a company without rewriting the accounts that the other
+            taxes of the company already have.
         """
+        tax_templates_accounts, tax_accounts = self._get_default_tax_accounts(
+            only_tax_templates
+        )
         # The account code belongs to a company: the search and the creation
         # have to run in the company being loaded, not in the one of the
         # environment (the user's), otherwise the chart account is never found
@@ -245,7 +289,7 @@ class AccountChartTemplate(models.AbstractModel):
             code_itg,
             name,
             acc_type,
-        ) in DEFAULT_TAX_ACCOUNTS.items():
+        ) in tax_accounts.items():
             # Use fixed codes. Ensure they don't clash with base CoA or handle it.
             # We assume these codes are specific enough.
             code = code_cfc if flavor == "cfc" else code_itg
@@ -288,9 +332,13 @@ class AccountChartTemplate(models.AbstractModel):
             created_accounts_by_code[code] = account
 
             # Ensure ir.model.data exists for easy reference
-            imd_module = self._get_chart_template_mapping().get(company.chart_template)[
-                "module"
-            ]  # FIXME sure oca_br and not other code??
+            # The module of the chart is not known when the chart module is not
+            # installed (or the company has no chart): fall back to the module
+            # that owns the data.
+            chart_mapping = self._get_chart_template_mapping().get(
+                company.chart_template
+            )
+            imd_module = (chart_mapping or {}).get("module") or template_module
             imd_name = f"{company.id}_{xml_id_name_part}"
             imd_domain = [
                 ("module", "=", imd_module),
@@ -327,7 +375,7 @@ class AccountChartTemplate(models.AbstractModel):
         for (
             tax_template_xmlid,
             acc_mapping_keys,
-        ) in DEFAULT_TAX_TEMPLATES_ACCOUNTS.items():
+        ) in tax_templates_accounts.items():
             tax_xmlid = (
                 f"{template_module}.{company.id}_{tax_template_xmlid.split('.')[1]}"
             )
@@ -351,9 +399,12 @@ class AccountChartTemplate(models.AbstractModel):
                 invoice_account.id, refund_account.id
             )
 
-        # Void default company sale/purchase taxes:
-        company.account_sale_tax_id = None
-        company.account_purchase_tax_id = None
+        if only_tax_templates is None:
+            # Void default company sale/purchase taxes. A migration that adds
+            # taxes to a company in use does not touch the choice the company
+            # already made.
+            company.account_sale_tax_id = None
+            company.account_purchase_tax_id = None
 
         _logger.info(
             self.env._(
