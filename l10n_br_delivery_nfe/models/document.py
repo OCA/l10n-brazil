@@ -23,6 +23,19 @@ class Document(models.Model):
 
     nfe40_transporta = fields.Many2one(
         comodel_name="res.partner",
-        related="carrier_id.partner_id",
+        compute="_compute_nfe40_transporta",
         string="Dados do transportador",
     )
+
+    @api.depends("carrier_id.partner_id", "nfe40_modFrete")
+    def _compute_nfe40_transporta(self):
+        """Carrier partner for the <transporta> group.
+
+        NT 2021.004, rule X03-30 (rejection 845): with modFrete = 9 (no
+        freight) the group <transporta> must not be informed.
+        """
+        for record in self:
+            if record.nfe40_modFrete == "9":
+                record.nfe40_transporta = False
+            else:
+                record.nfe40_transporta = record.carrier_id.partner_id
