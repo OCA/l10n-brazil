@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: L10n-brazil 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-19 10:37+0000\n"
+"PO-Revision-Date: 2026-10-21 12:46+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -485,23 +485,31 @@ msgstr "<strong>Erros de validação XML:</strong>"
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.cest_action
 msgid "A CEST is necessary to create fiscal operations for your fiscal moves."
 msgstr ""
+"Um CEST é necessário para criar\n"
+"              operações fiscais para seus movimentos fiscais."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.cfop_action
 msgid ""
 "A CFOP is necessary to determine the fiscal operations for your fiscal moves."
 msgstr ""
+"Uma CFOP é necessária para determinar a\n"
+"              operação fiscal para seus movimentos fiscais."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.cnae_action
 msgid ""
 "A CNAE is necessary to determine the fiscal definitions for your company."
 msgstr ""
+"Um CNAE é necessário para determinar\n"
+"              as definições fiscais para sua empresa."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.cst_action
 msgid "A CST is necessary to create fiscal operations for your fiscal moves."
 msgstr ""
+"Um CST é necessário para criar\n"
+"              operações fiscais para seus movimentos fiscais."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_document_serie_document_serie_unique
@@ -519,16 +527,22 @@ msgstr ""
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.nbm_action
 msgid "A NBM is necessary to create fiscal operations for your fiscal moves."
 msgstr ""
+"Um NCM é necessário para criar\n"
+"              operações fiscais para seus movimentos fiscais."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.nbs_action
 msgid "A NBS is necessary to create fiscal operations for your fiscal moves."
 msgstr ""
+"Um NBS é necessário para criar\n"
+"              operações fiscais para seus movimentos fiscais."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.ncm_action
 msgid "A NCM is necessary to create fiscal operations for your fiscal moves."
 msgstr ""
+"Um NCM é necessário para criar\n"
+"              operações fiscais para seus movimentos fiscais."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.service_type_action
@@ -536,6 +550,8 @@ msgid ""
 "A Service Type is necessary to create fiscal operations for your fiscal "
 "moves."
 msgstr ""
+"Um Tipo de Serviço é necessário para criar\n"
+"              operações fiscais para seus movimentos fiscais."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.simplified_tax_action
@@ -543,6 +559,8 @@ msgid ""
 "A Simplified Tax is necessary to determine the fiscal definitions for your "
 "company."
 msgstr ""
+"Um Imposto Simplificado é necessário para determinar as\n"
+"              definições fiscais para sua empresa."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.tax_classification_action
@@ -556,6 +574,8 @@ msgstr ""
 msgid ""
 "A Tax Group is necessary to create fiscal operations for your fiscal moves."
 msgstr ""
+"Um Grupo de Imposto é necessário para criar\n"
+"              operações fiscais para seus movimentos fiscais."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.tax_ipi_control_seal_action
@@ -563,6 +583,8 @@ msgid ""
 "A Tax IPI control seal is necessary to create fiscal operations for your "
 "fiscal moves."
 msgstr ""
+"Um selo de controle de IPI é necessário para criar\n"
+"              operações fiscais para seus movimentos fiscais."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.tax_ipi_guideline_class_action
@@ -570,6 +592,8 @@ msgid ""
 "A Tax IPI guideline Class is necessary to create fiscal operations for your "
 "fiscal moves."
 msgstr ""
+"Uma Classe de Diretriz de IPI é necessária para criar\n"
+"              operações fiscais para seus movimentos fiscais."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.tax_ipi_guideline_action
@@ -577,6 +601,8 @@ msgid ""
 "A Tax IPI guideline is necessary to create fiscal operations for your fiscal "
 "moves."
 msgstr ""
+"Uma Diretriz de IPI é necessária para criar\n"
+"              operações fiscais para seus movimentos fiscais."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.tax_action
@@ -587,6 +613,8 @@ msgstr ""
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.tax_pis_cofins_credit_action
 msgid "A Tax is necessary to create fiscal operations for your fiscal moves."
 msgstr ""
+"Um imposto é necessário para criar\n"
+"              operações fiscais para seus movimentos fiscais."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_dashboard_kanban
@@ -906,12 +934,16 @@ msgstr "Todos os Documentos"
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.document_type_action
 msgid "All Documents supported by Brazilian Fiscal modulo for Odoo."
 msgstr ""
+"Todos os documentos suportados pelo Módulo\n"
+"              Fiscal Brasileiro para Odoo."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.document_serie_action
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.service_action
 msgid "All Serie for Documents supported by Brazilian Fiscal modulo for Odoo."
 msgstr ""
+"Todas as Séries para documentos suportadas pelo módulo\n"
+"              Fiscal Brasileiro para Odoo."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__allow_csll_irpj
@@ -1008,6 +1040,8 @@ msgid ""
 "An Fiscal Product Genre is necessary to create EFD operations for your "
 "fiscal moves."
 msgstr ""
+"Um Gênero de Produto Fiscal é necessário para criar\n"
+"              operações EFD para seus movimentos fiscais."
 
 #. module: l10n_br_fiscal
 #: model:ir.ui.menu,name:l10n_br_fiscal.andresses_menu
@@ -6945,6 +6979,8 @@ msgstr "Objeto"
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.comment_action
 msgid "Odoo helps you easily track all activities related to a fiscal comment."
 msgstr ""
+"Odoo ajuda você a acompanhar facilmente todas as atividades\n"
+"            relacionados a um comentário fiscal."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.document_all_action
@@ -6955,6 +6991,8 @@ msgstr ""
 msgid ""
 "Odoo helps you easily track all activities related to a fiscal operation."
 msgstr ""
+"Odoo ajuda você a acompanhar facilmente todas as atividades\n"
+"            relacionados a uma operação fiscal."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.partner_action
