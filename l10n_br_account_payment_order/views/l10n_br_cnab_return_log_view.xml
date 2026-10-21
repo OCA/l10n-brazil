@@ -111,7 +111,6 @@
         <field name="model">l10n_br_cnab.return.event</field>
         <field name="arch" type="xml">
             <list>
-                <field name="is_cnab_lot" column_invisible="True" />
                 <field name="lot_id" optional="show" />
                 <field
                     name="payment_line_ids"
@@ -153,7 +152,6 @@
                             <field name="occurrence_date" />
                         </group>
                         <group>
-                            <field name="is_cnab_lot" invisible="1" />
                             <field name="move_line_id" />
                             <field name="favored_id" />
                             <field name="favored_bank_account_id" />

@@ -29,7 +29,6 @@
         <field name="arch" type="xml">
             <sheet position="before">
                 <header>
-                    <field name="payment_method_code" invisible="1" />
                     <button
                         string="Update CNAB Information"
                         type="action"
