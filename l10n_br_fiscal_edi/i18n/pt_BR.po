@@ -6,13 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2026-10-21 12:46+0000\n"
+"Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: l10n_br_fiscal_edi
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event
@@ -110,7 +112,7 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.document_search
 msgid "Authorized"
-msgstr ""
+msgstr "Autorizada"
 
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_edi.selection__l10n_br_fiscal_document__state_edoc__autorizada
@@ -127,7 +129,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.document_correction_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.invalidate_number_wizard
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document__cancel_event_id
@@ -394,7 +396,7 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_edi.selection__l10n_br_fiscal_event__type__-1
 msgid "Exception"
-msgstr ""
+msgstr "Exceção"
 
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__file_path
@@ -553,7 +555,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__justification
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_invalidate_number_wizard__justification
 msgid "Justification"
-msgstr ""
+msgstr "Justificativa"
 
 #. module: l10n_br_fiscal_edi
 #. odoo-python
@@ -800,12 +802,12 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.document_form
 msgid "View PDF"
-msgstr ""
+msgstr "Ver PDF"
 
 #. module: l10n_br_fiscal_edi
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.document_form
 msgid "View XML"
-msgstr ""
+msgstr "Ver XML"
 
 #. module: l10n_br_fiscal_edi
 #. odoo-python
