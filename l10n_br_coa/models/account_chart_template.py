@@ -33,6 +33,57 @@ class AccountChartTemplate(models.Model):
             vals["tag_ids"] = [(4, tag.id)]
         return vals
 
+    def _update_company_accounts(self, dropped_tags=None):
+        """Bring the accounts of the companies on this chart up to its templates.
+
+        Creates the accounts the company lacks and adds the missing tags.
+        ``dropped_tags`` maps a template xmlid name to the tags it lost.
+        """
+        self.ensure_one()
+        dropped_tags = dropped_tags or {}
+        templates = self.env["account.account.template"].search(
+            [("chart_template_id", "=", self.id), ("nocreate", "!=", True)]
+        )
+        names = {
+            tid: xmlid.split(".", 1)[1]
+            for tid, xmlid in templates.get_external_id().items()
+            if xmlid
+        }
+        companies = self.env["res.company"].search(
+            [("chart_template_id", "=", self.id)]
+        )
+        for company in companies:
+            data = self.env["ir.model.data"].search(
+                [
+                    ("model", "=", "account.account"),
+                    ("name", "in", [f"{company.id}_{n}" for n in names.values()]),
+                ]
+            )
+            account_ids = {d.name: d.res_id for d in data}
+            codes = set(
+                self.env["account.account"]
+                .search([("company_id", "=", company.id)])
+                .mapped("code")
+            )
+            to_create = []
+            for template in templates.filtered(lambda t: t.id in names):
+                name = names[template.id]
+                account = (
+                    self.env["account.account"]
+                    .browse(account_ids.get(f"{company.id}_{name}"))
+                    .exists()
+                )
+                if account:
+                    tags = (account.tag_ids | template.tag_ids) - dropped_tags.get(
+                        name, self.env["account.account.tag"]
+                    )
+                    if tags != account.tag_ids:
+                        account.tag_ids = tags
+                elif template.code not in codes:
+                    vals = self._get_account_vals(company, template, template.code, {})
+                    to_create.append((template, vals))
+            self._create_records_with_xmlid("account.account", to_create, company)
+
     def _prepare_all_journals(self, acc_template_ref, company, journals_dict=None):
         self.ensure_one()
         journal_data = []
