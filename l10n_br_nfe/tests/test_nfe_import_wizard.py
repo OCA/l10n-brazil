@@ -123,6 +123,31 @@ class NFeImportWizardTest(TransactionCase):
 
         self.check_edoc(edoc)
 
+    def test_imported_document_view_xml_and_pdf(self):
+        """Ver XML and Ver PDF must work on a document imported from a
+        supplier XML, without an authorization event."""
+        self._prepare_wizard(self.xml_1)
+        binding, edoc = self.wizard._create_edoc_from_file()
+
+        self.assertFalse(edoc.authorization_event_id)
+        self.assertTrue(edoc.original_xml_file_id)
+        self.assertEqual(
+            base64.b64decode(edoc.original_xml_file_id.datas),
+            self.xml_1,
+        )
+        state_edoc = edoc.state_edoc
+
+        action = edoc.view_xml()
+        self.assertIn(str(edoc.original_xml_file_id.id), action["url"])
+
+        action = edoc.view_pdf()
+        self.assertTrue(edoc.file_report_id)
+        self.assertIn(str(edoc.file_report_id.id), action["url"])
+        self.assertTrue(base64.b64decode(edoc.file_report_id.datas).startswith(b"%PDF"))
+
+        self.assertFalse(edoc.authorization_event_id)
+        self.assertEqual(edoc.state_edoc, state_edoc)
+
     def FIXME_test_set_fiscal_operation_type(self):
         self._prepare_wizard(self.xml_1)
 
