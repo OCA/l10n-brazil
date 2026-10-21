@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-20 21:09+0000\n"
+"PO-Revision-Date: 2026-10-21 01:21+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -132,7 +132,7 @@ msgstr "Documentos completos não importados"
 #. odoo-python
 #: code:addons/l10n_br_fiscal_dfe/models/res_company.py:0
 msgid "Cooldown active (%(code)s)"
-msgstr "Cooldown ativo (%(code)s)"
+msgstr "Intervalo entre consultas em curso (%(code)s)"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_dfe_specific_search_wizard__create_uid
