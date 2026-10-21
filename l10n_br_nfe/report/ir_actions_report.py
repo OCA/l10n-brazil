@@ -36,6 +36,8 @@ class IrActionsReport(models.Model):
             nfe_xml = base64.b64decode(nfe.authorization_file_id.datas)
         elif nfe.send_file_id:
             nfe_xml = base64.b64decode(nfe.send_file_id.datas)
+        elif nfe.original_xml_file_id:
+            nfe_xml = base64.b64decode(nfe.original_xml_file_id.datas)
 
         if not nfe_xml:
             raise UserError(_("No xml file was found."))
