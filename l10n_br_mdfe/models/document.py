@@ -77,21 +77,23 @@ class MDFe(spec_models.StackedModel):
     _mdfe_search_keys = ["mdfe30_Id"]
 
     # When dynamic stacking is applied the MDFe structure is:
+    # (+ content of the m2o is stacked in the parent / - standard m2o /
+    # ≡ o2m; the mapped Odoo model may follow the tag)
     INFMDFE_TREE = """
-> <tmdfe_infmdfe>
-    > <ide>
++ <tmdfe_infmdfe>
+    + <ide>
         ≡ <infMunCarrega>
         ≡ <infPercurso>
     - <emit> res.company
-    > <infModal>
-    > <infDoc>
+    + <infModal>
+    + <infDoc>
         ≡ <infMunDescarga> l10n_br_mdfe.municipio.descarga
     ≡ <seg> l10n_br_mdfe.seguro.carga
     - <prodPred> product.product
-    > <tot>
+    + <tot>
     ≡ <lacres>
     ≡ <autXML> res.partner
-    > <infAdic>
+    + <infAdic>
     - <infRespTec> res.partner
     - <infSolicNFF>
     - <infPAA>"""
