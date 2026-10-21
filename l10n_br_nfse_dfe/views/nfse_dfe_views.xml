@@ -44,6 +44,12 @@
                     icon="fa-file-code-o"
                 />
                 <button
+                    string="PDF"
+                    name="make_pdf"
+                    type="object"
+                    icon="fa-file-pdf-o"
+                />
+                <button
                     name="import_document"
                     string="Import"
                     type="object"
@@ -51,20 +57,6 @@
                     invisible="fiscal_document_id"
                 />
             </list>
-        </field>
-    </record>
-
-    <record id="view_l10n_br_fiscal_dfe_document_form_nfse" model="ir.ui.view">
-        <field name="name">l10n_br_fiscal_dfe.document.form.nfse</field>
-        <field name="model">l10n_br_fiscal_dfe.document</field>
-        <field
-            name="inherit_id"
-            ref="l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_form"
-        />
-        <field name="arch" type="xml">
-            <xpath expr="//button[@name='make_pdf']" position="attributes">
-                <attribute name="invisible">fiscal_type == 'nfse'</attribute>
-            </xpath>
         </field>
     </record>
 
