@@ -81,6 +81,10 @@ SITUACAO_EDOC_A_ENVIAR = DOCUMENT_STATE_OPEN
 PRODUCT_CODE_FISCAL_DOCUMENT_TYPES = ["55", "01"]
 NFE_XML_NAMESPACE = {"nfe": "http://www.portalfiscal.inf.br/nfe"}
 
+# CC-e event justification boundaries, as validated by the SEFAZ web services.
+NFE_CORRECTION_LENGTH_MIN = 15
+NFE_CORRECTION_LENGTH_MAX = 1000
+
 _logger = logging.getLogger(__name__)
 
 
@@ -161,7 +165,7 @@ class NFe(spec_models.StackedModel):
     # (+ content of the m2o is stacked in the parent / - standard m2o /
     # ≡ o2m; the mapped Odoo model may follow the tag)
     INFNFE_TREE = """
-    + <infnfe>
++ <infnfe>
     + <ide>
         ≡ <NFref> l10n_br_fiscal.document.related
         - <gPagAntecipado>
@@ -1986,6 +1990,20 @@ class NFe(spec_models.StackedModel):
 
     def _nfe_correction(self, justificative):
         self.ensure_one()
+        justificative = (justificative or "").strip()
+        length = len(justificative)
+        if not NFE_CORRECTION_LENGTH_MIN <= length <= NFE_CORRECTION_LENGTH_MAX:
+            raise UserError(
+                _(
+                    "The correction letter (CC-e) justification must have between "
+                    "%(min)s and %(max)s characters, but it has %(length)s."
+                )
+                % {
+                    "min": NFE_CORRECTION_LENGTH_MIN,
+                    "max": NFE_CORRECTION_LENGTH_MAX,
+                    "length": length,
+                }
+            )
         processador = self._edoc_processor()
 
         numeros = self.event_ids.filtered(
