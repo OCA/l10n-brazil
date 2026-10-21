@@ -36,11 +36,6 @@ msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_document_banner_mock
-msgid "<i class=\"fa fa-refresh\"/> Resetar Cooldown"
-msgstr ""
-
-#. module: l10n_br_fiscal_dfe_mock
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_document_banner_mock
 msgid ""
 "<span class=\"text-muted\">\n"
 "                            <i class=\"fa fa-flask me-2\"/>\n"
