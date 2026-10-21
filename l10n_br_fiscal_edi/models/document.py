@@ -167,6 +167,15 @@ class Document(models.Model):
         readonly=True,
     )
 
+    original_xml_file_id = fields.Many2one(
+        comodel_name="ir.attachment",
+        string="Original XML File",
+        copy=False,
+        readonly=True,
+        help="XML of a document issued by a third party, kept as received "
+        "when the document is imported. It is not an authorization event.",
+    )
+
     # Cancel Event Related Fields
     cancel_event_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.event",
@@ -878,7 +887,9 @@ class Document(models.Model):
 
     def view_xml(self):
         self.ensure_one()
-        xml_file = self.authorization_file_id or self.send_file_id
+        xml_file = (
+            self.authorization_file_id or self.send_file_id or self.original_xml_file_id
+        )
         if not xml_file:
             self._document_export()
             xml_file = self.authorization_file_id or self.send_file_id
