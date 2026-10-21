@@ -107,9 +107,11 @@ class NFe(spec_models.StackedModel):
     _nfe_search_keys = ["nfe40_Id"]
 
     # When dynamic stacking is applied the NFe structure is:
+    # (+ content of the m2o is stacked in the parent / - standard m2o /
+    # ≡ o2m; the mapped Odoo model may follow the tag)
     INFNFE_TREE = """
-> <infnfe>
-    > <ide>
++ <infnfe>
+    + <ide>
         ≡ <NFref> l10n_br_fiscal.document.related
         - <gPagAntecipado>
     - <emit> res.company
@@ -119,27 +121,27 @@ class NFe(spec_models.StackedModel):
     - <entrega> res.partner
     ≡ <autXML> l10n_br_nfe.autxml
     ≡ <det> l10n_br_fiscal.document.line
-    > <total>
-        > <ICMSTot>
-        > <ISSQNtot>
-        > <retTrib>
-    > <transp>
+    + <total>
+        + <ICMSTot>
+        + <ISSQNtot>
+        + <retTrib>
+    + <transp>
         - <transporta> res.partner
         - <retTransp>
         - <veicTransp>
         ≡ <reboque>
         ≡ <vol>
-    > <cobr>
-        > <fat>
+    + <cobr>
+        + <fat>
         ≡ <dup>
-    > <pag>
+    + <pag>
         ≡ <detPag>
     - <infIntermed>
-    > <infAdic>
+    + <infAdic>
         ≡ <obsCont>
         ≡ <obsFisco>
         ≡ <procRef>
-    > <exporta>
+    + <exporta>
     - <compra>
     - <cana>
     - <infRespTec> res.partner
