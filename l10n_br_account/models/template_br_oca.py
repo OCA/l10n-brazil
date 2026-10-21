@@ -75,6 +75,12 @@ class AccountChartTemplate(models.AbstractModel):
             )
 
         for company in companies:
+            if company.parent_id:
+                # A branch uses the taxes, tax groups and accounts of its
+                # parent company (Odoo 17+): creating its own copies breaks the
+                # unique tax name check.
+                _logger.info(f"Skipping branch {company.name} (ID: {company.id})")
+                continue
             _logger.info(f"Processing company {company.name} (ID: {company.id})")
             for key, value in tax_group_data.items():
                 id_key = f"{company.id}_{key}"
@@ -175,6 +181,10 @@ class AccountChartTemplate(models.AbstractModel):
             )
             _logger.info(f"Created {tax_count} taxes for company {company.name}")
 
-            self.env["account.chart.template"]._populate_default_br_tax_accounts(
-                company, flavor="cfc", review_suffix=".BR"
+            # Same codes the chart load looks for, so the accounts of the chart
+            # are reused and no second set is created beside them.
+            chart_template = self.env["account.chart.template"]
+            flavor, review_suffix = chart_template._get_br_tax_accounts_params(company)
+            chart_template._populate_default_br_tax_accounts(
+                company, flavor=flavor, review_suffix=review_suffix
             )
