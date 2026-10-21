@@ -20,9 +20,9 @@ class MDFeStructure(TransactionCase):
     @classmethod
     def get_stacked_tree(cls, klass):
         """
-        # > means the content of the m2o is stacked in the parent
-        # - means standard m2o. Eventually followd by the mapped Odoo model
-        # ≡ means o2m. Eventually followd by the mapped Odoo model
+        # + means the content of the m2o is stacked in the parent
+        # - means standard m2o. Eventually followed by the mapped Odoo model
+        # ≡ means o2m. Eventually followed by the mapped Odoo model
         """
         spec_module = (
             "odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_tipos_basico_v3_00"
@@ -51,7 +51,7 @@ class MDFeStructure(TransactionCase):
             path_items = path.split(".")
             indent = "    ".join(["" for i in range(0, len(path_items))])
             if kind == "stacked":
-                line = "\n{}> <{}>".format(indent, path.split(".")[-1])
+                line = "\n{}+ <{}>".format(indent, path.split(".")[-1])
             elif kind == "one2many":
                 line = "\n{}    \u2261 <{}> {}".format(
                     indent,
