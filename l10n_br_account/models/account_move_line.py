@@ -181,11 +181,26 @@ class AccountMoveLine(models.Model):
         # Add index to each dictionary in vals_list
         indexed_vals_list = [(idx, val) for idx, val in enumerate(vals_list)]
 
-        # Reorder vals_list so lines with fiscal_operation_line_id will
-        # be created first
+        # Reorder vals_list so the lines that will actually generate a fiscal
+        # document line are created first. This must match the filter used by
+        # the l10n_br_fiscal.document.line create override in
+        # l10n_br_account/models/document_line.py: only the lines having a
+        # document_id and either a fiscal_operation_id or a
+        # fiscal_operation_line_id generate a fiscal line. Using only
+        # fiscal_operation_line_id here is not enough: down payment lines have a
+        # fiscal_operation_id but no fiscal_operation_line_id, so they would be
+        # left after display lines (e.g. the "Down Payments" section injected by
+        # the sale module), shifting the fiscal lines and leaving the down
+        # payment lines without their fiscal line/amounts.
         sorted_indexed_vals_list = sorted(
             indexed_vals_list,
-            key=lambda x: not x[1].get("fiscal_operation_line_id"),
+            key=lambda x: not (
+                x[1].get("document_id")
+                and (
+                    x[1].get("fiscal_operation_id")
+                    or x[1].get("fiscal_operation_line_id")
+                )
+            ),
         )
         original_indexes = [idx for idx, _ in sorted_indexed_vals_list]
         vals_list = [val for _, val in sorted_indexed_vals_list]
