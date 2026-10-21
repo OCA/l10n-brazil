@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import fields
+from odoo.exceptions import UserError
 from odoo.tests.common import tagged
 
 from .common import AccountMoveBRCommon
@@ -110,4 +111,67 @@ class TestImportFiscalDocument(AccountMoveBRCommon):
         if "l10n_latam.document.type" in self.env and move.l10n_latam_use_documents:
             self.assertEqual(
                 move.l10n_latam_document_type_id.code, self.document_type_55.code
+            )
+
+    def test_import_into_a_new_customer_invoice(self):
+        """A fiscal document issued by the company becomes a customer invoice."""
+        document = self.env["l10n_br_fiscal.document"].create(
+            {
+                "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_venda").id,
+                "document_type_id": self.document_type_55.id,
+                "document_serie": "1",
+                "document_number": "24873",
+                "document_date": fields.Date.from_string("2026-01-05"),
+                "issuer": "company",
+                "partner_id": self.partner_a.id,
+                "fiscal_operation_type": "out",
+                "imported_document": True,
+            }
+        )
+        self.env["l10n_br_fiscal.document.line"].create(
+            {
+                "document_id": document.id,
+                "name": "Sale Test",
+                "product_id": self.product_a.id,
+                "fiscal_operation_type": "out",
+                "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_venda").id,
+                "fiscal_operation_line_id": self.env.ref(
+                    "l10n_br_fiscal.fo_venda_venda"
+                ).id,
+            }
+        )
+        serie = self.env["l10n_br_fiscal.document.serie"].create(
+            {
+                "name": "Serie 1",
+                "code": "1",
+                "document_type_id": self.document_type_55.id,
+                "company_id": document.company_id.id,
+            }
+        )
+        move_form = (
+            self.env["account.move"]
+            .sudo()
+            .import_fiscal_document(document, move_type="out_invoice")
+        )
+        move = self.env["account.move"].sudo().browse(move_form.id)
+
+        self.assertEqual(move.move_type, "out_invoice")
+        self.assertEqual(move.fiscal_document_id, document)
+        self.assertEqual(move.document_serie_id, serie)
+        self.assertEqual(move.document_number, "24873")
+        self.assertEqual(move.date, move.invoice_date)
+        self.assertEqual(move.invoice_line_ids.product_id, self.product_a)
+
+    def test_import_customer_invoice_without_serie_is_refused(self):
+        document = self.fiscal_document_to_import.copy(
+            {
+                "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_venda").id,
+                "issuer": "company",
+                "fiscal_operation_type": "out",
+                "document_serie": "987",
+            }
+        )
+        with self.assertRaises(UserError):
+            self.env["account.move"].sudo().import_fiscal_document(
+                document, move_type="out_invoice"
             )
