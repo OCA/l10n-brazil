@@ -276,7 +276,10 @@ class IbsCbsTaxesMixin:
             }
         )
 
-        self._migrate()
+        # The tax by hand has no account and no negative factor: it is kept
+        # and the log says so.
+        with self.assertLogs(LOGGER_NAME, level="WARNING"):
+            self._migrate()
 
         taxes = self.env["account.tax"].search(
             [("company_id", "=", self.company.id), ("name", "=", name)]
@@ -303,7 +306,10 @@ class IbsCbsTaxesMixin:
             }
         )
 
-        self._migrate()
+        # The tax by hand has no account and no negative factor: it is kept
+        # and the log says so.
+        with self.assertLogs(LOGGER_NAME, level="WARNING"):
+            self._migrate()
 
         self.assertEqual(self._tax(key), by_hand)
         deductible_sale = self.env["account.tax"].search(
@@ -369,7 +375,10 @@ class IbsCbsTaxesMixin:
         by_hand.export_data(["id", "name"])
         self.assertTrue(by_hand.get_external_id()[by_hand.id].startswith("__export__"))
 
-        self._migrate()
+        # The tax by hand has no account and no negative factor: it is kept
+        # and the log says so.
+        with self.assertLogs(LOGGER_NAME, level="WARNING"):
+            self._migrate()
 
         self.assertEqual(self._tax(key), by_hand)
         self.assertEqual(self._deductible_sale_taxes(group), by_hand)
@@ -382,7 +391,10 @@ class IbsCbsTaxesMixin:
         active = self._tax_by_hand(group, "IBS Dedutível")
         self.assertLess(archived.id, active.id)
 
-        self._migrate()
+        # The tax by hand has no account and no negative factor: it is kept
+        # and the log says so.
+        with self.assertLogs(LOGGER_NAME, level="WARNING"):
+            self._migrate()
 
         self.assertEqual(self._tax(key), active)
         self.assertTrue(active.active)
@@ -408,6 +420,43 @@ class IbsCbsTaxesMixin:
         )
         self.assertTrue(any("only archived" in line for line in logs.output))
         self.assertTrue(any("IBS Dedutível antigo" in line for line in logs.output))
+
+    def test_migration_does_not_adopt_an_archived_tax_with_the_chart_name(self):
+        """An archived tax with the name of the chart tax is left alone.
+
+        The unique name rule of the taxes only looks at active taxes, so the
+        chart tax is created beside the archived one and is the only active
+        deductible sale tax of the company.
+        """
+        key = "tax_template_out_ibs_deductible"
+        name = self._tax(key).name
+        group = self._remove_deductible_sale_tax()
+        archived = self._tax_by_hand(group, name, active=False)
+
+        with self.assertLogs(LOGGER_NAME, level="WARNING") as logs:
+            self._migrate()
+
+        chart_tax = self._tax(key)
+        self.assertNotEqual(chart_tax, archived)
+        self.assertTrue(chart_tax.active)
+        self.assertFalse(archived.active)
+        self.assertEqual(
+            self._deductible_sale_taxes(group).filtered("active"), chart_tax
+        )
+        self.assertFalse(any("matched by name only" in line for line in logs.output))
+
+    def test_migration_warns_when_the_tax_kept_does_not_give_the_amount_back(self):
+        """The tax by hand is kept, and the log says what it lacks."""
+        key = "tax_template_out_ibs_deductible"
+        group = self._remove_deductible_sale_tax()
+        by_hand = self._tax_by_hand(group, "IBS Dedutível")
+
+        with self.assertLogs(LOGGER_NAME, level="WARNING") as logs:
+            self._migrate()
+
+        self.assertEqual(self._tax(key), by_hand)
+        self.assertTrue(any("negative factor" in line for line in logs.output))
+        self.assertTrue(any("no account" in line for line in logs.output))
 
     def test_migration_warns_when_the_tax_matches_only_by_name(self):
         """A tax with the name but not the job is reused, with a warning."""
