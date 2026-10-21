@@ -1,7 +1,11 @@
 # Copyright 2026 Escodoo - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import base64
 import re
+from io import BytesIO
+
+from brazilfiscalreport.danfse import Danfse
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
@@ -68,4 +72,35 @@ class L10nBrFiscalDfeDocument(models.Model):
                 "default_company_id": self.company_id.id,
                 "default_product_id": self.company_id.nfse_import_product_id.id,
             },
+        }
+
+    def make_pdf(self):
+        """Generate the DANFSE PDF from the complete NFS-e XML."""
+        if self.fiscal_type != "nfse":
+            return super().make_pdf()
+        self = self.sudo()
+        complete = self._get_complete_dfe()
+        if not complete or not complete.attachment_id:
+            raise UserError(_("No complete DF-e found."))
+
+        xml_bytes = base64.b64decode(
+            complete.attachment_id.with_context(bin_size=False).datas
+        )
+        danfse = Danfse(xml=xml_bytes)
+        buf = BytesIO()
+        danfse.output(buf)
+
+        pdf_att = self.env["ir.attachment"].create(
+            {
+                "name": f"DANFSE_{complete.access_key}.pdf",
+                "datas": base64.b64encode(buf.getvalue()),
+                "res_model": complete._name,
+                "res_id": complete.id,
+                "mimetype": "application/pdf",
+            }
+        )
+        return {
+            "type": "ir.actions.act_url",
+            "url": f"/web/content/{pdf_att.id}?download=true",
+            "target": "self",
         }

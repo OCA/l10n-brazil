@@ -27,6 +27,7 @@
             "requests",
             "cryptography",
             "nfelib>=3.2.0",
+            "brazilfiscalreport",
         ],
     },
     "installable": True,

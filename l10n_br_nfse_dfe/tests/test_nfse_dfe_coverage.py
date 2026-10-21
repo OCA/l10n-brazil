@@ -628,3 +628,38 @@ class TestNfseDfeCoverage(TransactionCase):
         broken.json.side_effect = None
         broken.json.return_value = ["list"]
         self.assertIsNone(client._wrap(broken).body)
+
+    def test_make_pdf_generates_danfse(self):
+        """make_pdf builds the DANFSE from the complete NFS-e XML."""
+        key = "5" * 50
+        document = self.env["l10n_br_fiscal_dfe.document"].create(
+            {
+                "access_key": key,
+                "company_id": self.company.id,
+                "fiscal_type": "nfse",
+            }
+        )
+        with self.assertRaises(UserError):
+            document.make_pdf()
+
+        complete = self.env["l10n_br_fiscal_dfe.dfe"].create(
+            {
+                "access_key": key,
+                "company_id": self.company.id,
+                "fiscal_type": "nfse",
+                "document_type_dfe": "complete",
+            }
+        )
+        document.dfe_ids = [(4, complete.id)]
+        complete.create_xml_attachment(nfse_xml(access_key=key))
+
+        action = document.make_pdf()
+        self.assertEqual(action["type"], "ir.actions.act_url")
+        attachment = self.env["ir.attachment"].search(
+            [("res_model", "=", complete._name), ("res_id", "=", complete.id)],
+            order="id desc",
+            limit=1,
+        )
+        self.assertEqual(attachment.name, f"DANFSE_{key}.pdf")
+        self.assertEqual(attachment.mimetype, "application/pdf")
+        self.assertTrue(base64.b64decode(attachment.datas).startswith(b"%PDF"))
