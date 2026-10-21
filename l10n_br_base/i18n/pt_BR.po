@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-23 01:40+0000\n"
-"PO-Revision-Date: 2026-10-19 10:37+0000\n"
+"PO-Revision-Date: 2026-10-21 12:46+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -3000,7 +3000,7 @@ msgstr "Birigui"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3506607
 msgid "Biritiba Mirim"
-msgstr ""
+msgstr "Biritiba Mirim"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2903607
@@ -3907,7 +3907,7 @@ msgstr "CNPJ/CPF"
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__cnpj_cpf_stripped
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__cnpj_cpf_stripped
 msgid "CNPJ/CPF Stripped"
-msgstr ""
+msgstr "CNPJ/CPF sem formatação"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,help:l10n_br_base.field_l10n_br_base_party_mixin__cnpj_cpf_stripped
@@ -3915,7 +3915,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_base.field_res_partner__cnpj_cpf_stripped
 #: model:ir.model.fields,help:l10n_br_base.field_res_users__cnpj_cpf_stripped
 msgid "CNPJ/CPF without special characters"
-msgstr ""
+msgstr "CNPJ/CPF sem formatação"
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
@@ -7961,7 +7961,7 @@ msgstr "Dona Emma"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3122900
 msgid "Dona Euzébia"
-msgstr ""
+msgstr "Dona Euzébia"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4306700
@@ -8332,7 +8332,7 @@ msgstr "Erechim"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2304277
 msgid "Ereré"
-msgstr ""
+msgstr "Ereré"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4205191
@@ -8959,7 +8959,7 @@ msgstr "Florânia"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3516101
 msgid "Florínea"
-msgstr ""
+msgstr "Florínea"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4108106
@@ -9757,7 +9757,7 @@ msgstr "Grão Mogol"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4206108
 msgid "Grão-Pará"
-msgstr ""
+msgstr "Grão-Pará"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4309258
@@ -10260,7 +10260,7 @@ msgstr "ID"
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 msgid "IE"
-msgstr ""
+msgstr "IE"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_bank__ispb_number
@@ -10680,7 +10680,7 @@ msgstr "Iguape"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2606903
 msgid "Iguaracy"
-msgstr ""
+msgstr "Iguaracy"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4110003
@@ -11623,7 +11623,7 @@ msgstr "Itaobim"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3522158
 msgid "Itaoca"
-msgstr ""
+msgstr "Itaoca"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3302106
@@ -11643,7 +11643,7 @@ msgstr "Itapagipe"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2306306
 msgid "Itapajé"
-msgstr ""
+msgstr "Itapajé"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2916104
@@ -12111,7 +12111,7 @@ msgstr "Itápolis"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2917334
 msgid "Iuiu"
-msgstr ""
+msgstr "Iuiu"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4111506
@@ -12793,7 +12793,7 @@ msgstr "Joaíma"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2513653
 msgid "Joca Claudino"
-msgstr ""
+msgstr "Joca Claudino"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2205458
@@ -13315,7 +13315,7 @@ msgstr "Lagoa de Dentro"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2608503
 msgid "Lagoa de Itaenga"
-msgstr ""
+msgstr "Lagoa de Itaenga"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2406304
@@ -13581,7 +13581,7 @@ msgstr "Laurentino"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4209607
 msgid "Lauro Müller"
-msgstr ""
+msgstr "Lauro Müller"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2919207
@@ -13860,7 +13860,7 @@ msgstr "Lucianópolis"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5105309
 msgid "Luciara"
-msgstr ""
+msgstr "Luciara"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2406908
@@ -14992,7 +14992,7 @@ msgstr "Mazagão"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4311718
 msgid "Maçambará"
-msgstr ""
+msgstr "Maçambará"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3141306
@@ -15360,7 +15360,7 @@ msgstr "Mogi Guaçu"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3530805
 msgid "Mogi Mirim"
-msgstr ""
+msgstr "Mogi Mirim"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3530607
@@ -15385,7 +15385,7 @@ msgstr "Moju"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1504752
 msgid "Mojuí dos Campos"
-msgstr ""
+msgstr "Mojuí dos Campos"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2308500
@@ -15913,7 +15913,7 @@ msgstr "Muqui"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2922250
 msgid "Muquém do São Francisco"
-msgstr ""
+msgstr "Muquém do São Francisco"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3143906
@@ -16100,7 +16100,7 @@ msgstr "Nazaré do Piauí"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2206720
 msgid "Nazária"
-msgstr ""
+msgstr "Nazária"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5214408
@@ -16976,7 +16976,7 @@ msgstr "Olho d'Água das Flores"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2408409
 msgid "Olho d'Água do Borges"
-msgstr ""
+msgstr "Olho d'Água do Borges"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2705804
@@ -17731,7 +17731,7 @@ msgstr "Paratinga"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3303807
 msgid "Paraty"
-msgstr ""
+msgstr "Paraty"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1505536
@@ -17762,7 +17762,7 @@ msgstr "Paraíso"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5006275
 msgid "Paraíso das Águas"
-msgstr ""
+msgstr "Paraíso das Águas"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4118006
@@ -17894,7 +17894,7 @@ msgstr "Passa Tempo"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3147808
 msgid "Passa Vinte"
-msgstr ""
+msgstr "Passa Vinte"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2409100
@@ -18509,7 +18509,7 @@ msgstr "Pescador"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4212650
 msgid "Pescaria Brava"
-msgstr ""
+msgstr "Pescaria Brava"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2610905
@@ -18792,7 +18792,7 @@ msgstr "Pintadas"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4314548
 msgid "Pinto Bandeira"
-msgstr ""
+msgstr "Pinto Bandeira"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3150570
@@ -19595,7 +19595,7 @@ msgstr "Pouso Redondo"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5107008
 msgid "Poxoréu"
-msgstr ""
+msgstr "Poxoréu"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3539806
@@ -20374,7 +20374,7 @@ msgstr "Restinga"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4315503
 msgid "Restinga Sêca"
-msgstr ""
+msgstr "Restinga Sêca"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2926103
@@ -21379,7 +21379,7 @@ msgstr "Sanharó"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4317103
 msgid "Sant'Ana do Livramento"
-msgstr ""
+msgstr "Sant'Ana do Livramento"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3545605
@@ -21676,7 +21676,7 @@ msgstr "Santa Izabel do Oeste"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1506500
 msgid "Santa Izabel do Pará"
-msgstr ""
+msgstr "Santa Izabel do Pará"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3157708
@@ -22283,7 +22283,7 @@ msgstr "Santo Antônio de Jesus"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5107800
 msgid "Santo Antônio de Leverger"
-msgstr ""
+msgstr "Santo Antônio de Leverger"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2209401
@@ -22833,7 +22833,7 @@ msgstr "Serra Branca"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2410306
 msgid "Serra Caiada"
-msgstr ""
+msgstr "Serra Caiada"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2930303
@@ -23571,7 +23571,7 @@ msgstr "São Cristóvão"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4216057
 msgid "São Cristóvão do Sul"
-msgstr ""
+msgstr "São Cristóvão do Sul"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2928901
@@ -24530,12 +24530,12 @@ msgstr "São Luiz Gonzaga"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5220157
 msgid "São Luiz do Norte"
-msgstr ""
+msgstr "São Luiz do Norte"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3550001
 msgid "São Luiz do Paraitinga"
-msgstr ""
+msgstr "São Luiz do Paraitinga"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2111300
@@ -25010,7 +25010,7 @@ msgstr "São Tomé"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3165206
 msgid "São Tomé das Letras"
-msgstr ""
+msgstr "São Tomé das Letras"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4319703
@@ -25025,7 +25025,7 @@ msgstr "São Valentim do Sul"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1720499
 msgid "São Valério"
-msgstr ""
+msgstr "São Valério"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4319737
@@ -25051,7 +25051,7 @@ msgstr "São Vicente Ferrer"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2613800
 msgid "São Vicente Férrer"
-msgstr ""
+msgstr "São Vicente Férrer"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3165305
@@ -25061,7 +25061,7 @@ msgstr "São Vicente de Minas"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2515401
 msgid "São Vicente do Seridó"
-msgstr ""
+msgstr "São Vicente do Seridó"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4319802
@@ -25133,7 +25133,7 @@ msgstr "Tabocas do Brejo Velho"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1708254
 msgid "Tabocão"
-msgstr ""
+msgstr "Tabocão"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2413805
@@ -25173,7 +25173,7 @@ msgstr "Taciba"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2516409
 msgid "Tacima"
-msgstr ""
+msgstr "Tacima"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5007950
@@ -25953,7 +25953,7 @@ msgstr "Trairão"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3305901
 msgid "Trajano de Moraes"
-msgstr ""
+msgstr "Trajano de Moraes"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4321600
