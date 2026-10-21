@@ -93,7 +93,7 @@ class Document(models.Model):
             use_city_pdf = doc.company_id.nfse_use_city_pdf
             doc.is_nfse_paulistana = bool(is_nfse and is_paulistana and use_city_pdf)
 
-    def convert_type_nfselib(self, class_object, object_filed, value):
+    def _convert_type_nfselib_paulistana(self, class_object, object_filed, value):
         if value is None:
             return value
 
@@ -129,26 +129,26 @@ class Document(models.Model):
 
     def _serialize_cabecalho(self, dados_lote_rps):
         return CabecalhoType(
-            Versao=self.convert_type_nfselib(CabecalhoType, "Versao", 1),
+            Versao=self._convert_type_nfselib_paulistana(CabecalhoType, "Versao", 1),
             CPFCNPJRemetente=tpCPFCNPJ(
-                CNPJ=self.convert_type_nfselib(
+                CNPJ=self._convert_type_nfselib_paulistana(
                     CabecalhoType, "tpCPFCNPJ", dados_lote_rps["cnpj"]
                 )
             ),
             transacao=False,  # TODO: Verficar origem do dado
-            dtInicio=self.convert_type_nfselib(
+            dtInicio=self._convert_type_nfselib_paulistana(
                 CabecalhoType,
                 "dtInicio",
                 dados_lote_rps["date_in_out"].split("T", 1)[0],
             ),
-            dtFim=self.convert_type_nfselib(
+            dtFim=self._convert_type_nfselib_paulistana(
                 CabecalhoType, "dtFim", dados_lote_rps["date_in_out"].split("T", 1)[0]
             ),
-            QtdRPS=self.convert_type_nfselib(CabecalhoType, "QtdRPS", "1"),
-            ValorTotalServicos=self.convert_type_nfselib(
+            QtdRPS=self._convert_type_nfselib_paulistana(CabecalhoType, "QtdRPS", "1"),
+            ValorTotalServicos=self._convert_type_nfselib_paulistana(
                 CabecalhoType, "ValorTotalServicos", dados_lote_rps["total_recebido"]
             ),
-            ValorTotalDeducoes=self.convert_type_nfselib(
+            ValorTotalDeducoes=self._convert_type_nfselib_paulistana(
                 CabecalhoType, "ValorTotalDeducoes", dados_lote_rps["carga_tributaria"]
             ),
         )
@@ -160,63 +160,63 @@ class Document(models.Model):
                 dados_lote_rps, dados_servico, dados_tomador
             ),
             ChaveRPS=tpChaveRPS(
-                InscricaoPrestador=self.convert_type_nfselib(
+                InscricaoPrestador=self._convert_type_nfselib_paulistana(
                     tpChaveRPS,
                     "InscricaoPrestador",
                     dados_lote_rps["inscricao_municipal"].zfill(8),
                 ),
-                SerieRPS=self.convert_type_nfselib(
+                SerieRPS=self._convert_type_nfselib_paulistana(
                     tpChaveRPS, "SerieRPS", dados_lote_rps["serie"]
                 ),
-                NumeroRPS=self.convert_type_nfselib(
+                NumeroRPS=self._convert_type_nfselib_paulistana(
                     tpChaveRPS, "NumeroRPS", dados_lote_rps["numero"]
                 ),
             ),
             TipoRPS=self._map_type_rps(dados_lote_rps["tipo"]),
-            DataEmissao=self.convert_type_nfselib(
+            DataEmissao=self._convert_type_nfselib_paulistana(
                 tpRPS, "DataEmissao", dados_lote_rps["data_emissao"].split("T", 1)[0]
             ),
-            StatusRPS=self.convert_type_nfselib(tpRPS, "StatusRPS", "N"),
-            TributacaoRPS=self.convert_type_nfselib(
+            StatusRPS=self._convert_type_nfselib_paulistana(tpRPS, "StatusRPS", "N"),
+            TributacaoRPS=self._convert_type_nfselib_paulistana(
                 tpRPS,
                 "TributacaoRPS",
                 self._map_taxation_rps(dados_lote_rps["natureza_operacao"]),
             ),
-            ValorServicos=self.convert_type_nfselib(
+            ValorServicos=self._convert_type_nfselib_paulistana(
                 tpRPS, "ValorServicos", dados_servico["valor_servicos"]
             ),
-            ValorDeducoes=self.convert_type_nfselib(
+            ValorDeducoes=self._convert_type_nfselib_paulistana(
                 tpRPS, "ValorDeducoes", dados_servico["valor_deducoes"]
             ),
-            ValorPIS=self.convert_type_nfselib(
+            ValorPIS=self._convert_type_nfselib_paulistana(
                 tpRPS, "ValorPIS", dados_servico["valor_pis_retido"]
             ),
-            ValorCOFINS=self.convert_type_nfselib(
+            ValorCOFINS=self._convert_type_nfselib_paulistana(
                 tpRPS, "ValorCOFINS", dados_servico["valor_cofins_retido"]
             ),
-            ValorINSS=self.convert_type_nfselib(
+            ValorINSS=self._convert_type_nfselib_paulistana(
                 tpRPS, "ValorINSS", dados_servico["valor_inss_retido"]
             ),
-            ValorIR=self.convert_type_nfselib(
+            ValorIR=self._convert_type_nfselib_paulistana(
                 tpRPS, "ValorIR", dados_servico["valor_ir_retido"]
             ),
-            ValorCSLL=self.convert_type_nfselib(
+            ValorCSLL=self._convert_type_nfselib_paulistana(
                 tpRPS, "ValorCSLL", dados_servico["valor_csll_retido"]
             ),
-            CodigoServico=self.convert_type_nfselib(
+            CodigoServico=self._convert_type_nfselib_paulistana(
                 tpRPS, "CodigoServico", dados_servico["codigo_tributacao_municipio"]
             ),
-            AliquotaServicos=self.convert_type_nfselib(
+            AliquotaServicos=self._convert_type_nfselib_paulistana(
                 tpRPS, "AliquotaServicos", dados_servico["aliquota"]
             ),
             ISSRetido="true" if dados_servico["iss_retido"] == "1" else "false",
             # FIXME: Hardcoded
-            CPFCNPJTomador=self.convert_type_nfselib(
+            CPFCNPJTomador=self._convert_type_nfselib_paulistana(
                 tpRPS,
                 "CPFCNPJTomador",
                 tpCPFCNPJ(CNPJ=dados_tomador["cnpj"], CPF=dados_tomador["cpf"]),
             ),
-            InscricaoMunicipalTomador=self.convert_type_nfselib(
+            InscricaoMunicipalTomador=self._convert_type_nfselib_paulistana(
                 tpRPS,
                 "InscricaoMunicipalTomador",
                 dados_tomador["inscricao_municipal"],
@@ -224,35 +224,39 @@ class Document(models.Model):
             if dados_tomador["codigo_municipio"]
             == int(f"{self.company_id.partner_id.city_id.ibge_code}")
             else None,
-            InscricaoEstadualTomador=self.convert_type_nfselib(
+            InscricaoEstadualTomador=self._convert_type_nfselib_paulistana(
                 tpRPS, "InscricaoEstadualTomador", dados_tomador["inscricao_estadual"]
             ),
-            RazaoSocialTomador=self.convert_type_nfselib(
+            RazaoSocialTomador=self._convert_type_nfselib_paulistana(
                 tpRPS, "RazaoSocialTomador", dados_tomador["razao_social"]
             ),
             EnderecoTomador=tpEndereco(
-                Logradouro=self.convert_type_nfselib(
+                Logradouro=self._convert_type_nfselib_paulistana(
                     tpEndereco, "Logradouro", dados_tomador["endereco"]
                 ),
-                NumeroEndereco=self.convert_type_nfselib(
+                NumeroEndereco=self._convert_type_nfselib_paulistana(
                     tpEndereco, "NumeroEndereco", dados_tomador["numero"]
                 ),
-                ComplementoEndereco=self.convert_type_nfselib(
+                ComplementoEndereco=self._convert_type_nfselib_paulistana(
                     tpEndereco, "ComplementoEndereco", dados_tomador["complemento"]
                 ),
-                Bairro=self.convert_type_nfselib(
+                Bairro=self._convert_type_nfselib_paulistana(
                     tpEndereco, "Bairro", dados_tomador["bairro"]
                 ),
-                Cidade=self.convert_type_nfselib(
+                Cidade=self._convert_type_nfselib_paulistana(
                     tpEndereco, "Cidade", dados_tomador["codigo_municipio"]
                 ),
-                UF=self.convert_type_nfselib(tpEndereco, "UF", dados_tomador["uf"]),
-                CEP=self.convert_type_nfselib(tpEndereco, "CEP", dados_tomador["cep"]),
+                UF=self._convert_type_nfselib_paulistana(
+                    tpEndereco, "UF", dados_tomador["uf"]
+                ),
+                CEP=self._convert_type_nfselib_paulistana(
+                    tpEndereco, "CEP", dados_tomador["cep"]
+                ),
             ),
-            EmailTomador=self.convert_type_nfselib(
+            EmailTomador=self._convert_type_nfselib_paulistana(
                 tpRPS, "EmailTomador", dados_tomador["email"]
             ),
-            Discriminacao=self.convert_type_nfselib(
+            Discriminacao=self._convert_type_nfselib_paulistana(
                 tpRPS,
                 "Discriminacao",
                 unidecode(
@@ -264,15 +268,15 @@ class Document(models.Model):
                     )
                 ),
             ),
-            ValorCargaTributaria=self.convert_type_nfselib(
+            ValorCargaTributaria=self._convert_type_nfselib_paulistana(
                 tpRPS,
                 "ValorCargaTributaria",
                 dados_lote_rps["carga_tributaria_estimada"],
             ),
-            FonteCargaTributaria=self.convert_type_nfselib(
+            FonteCargaTributaria=self._convert_type_nfselib_paulistana(
                 tpRPS, "FonteCargaTributaria", "IBPT"
             ),
-            MunicipioPrestacao=self.convert_type_nfselib(
+            MunicipioPrestacao=self._convert_type_nfselib_paulistana(
                 CabecalhoType,
                 "Versao",
                 self._map_provision_municipality(
@@ -284,32 +288,40 @@ class Document(models.Model):
 
     def _serialize_rps(self, dados):
         return tpRPS(
-            InscricaoMunicipalTomador=self.convert_type_nfselib(
+            InscricaoMunicipalTomador=self._convert_type_nfselib_paulistana(
                 tpRPS, "InscricaoMunicipalTomador", dados["inscricao_municipal"]
             ),
             CPFCNPJTomador=tpCPFCNPJ(
-                Cnpj=self.convert_type_nfselib(tpCPFCNPJ, "Cnpj", dados["cnpj"]),
-                Cpf=self.convert_type_nfselib(tpCPFCNPJ, "Cpf", dados["cpf"]),
+                Cnpj=self._convert_type_nfselib_paulistana(
+                    tpCPFCNPJ, "Cnpj", dados["cnpj"]
+                ),
+                Cpf=self._convert_type_nfselib_paulistana(
+                    tpCPFCNPJ, "Cpf", dados["cpf"]
+                ),
             ),
-            RazaoSocialTomador=self.convert_type_nfselib(
+            RazaoSocialTomador=self._convert_type_nfselib_paulistana(
                 tpRPS, "RazaoSocialTomador", dados["razao_social"]
             ),
             EnderecoTomador=tpEndereco(
-                Logradouro=self.convert_type_nfselib(
+                Logradouro=self._convert_type_nfselib_paulistana(
                     tpEndereco, "Logradouro", dados["endereco"]
                 ),
-                NumeroEndereco=self.convert_type_nfselib(
+                NumeroEndereco=self._convert_type_nfselib_paulistana(
                     tpEndereco, "NumeroEndereco", dados["numero"]
                 ),
-                ComplementoEndereco=self.convert_type_nfselib(
+                ComplementoEndereco=self._convert_type_nfselib_paulistana(
                     tpEndereco, "ComplementoEndereco", dados["complemento"]
                 ),
-                Bairro=self.convert_type_nfselib(tpEndereco, "Bairro", dados["bairro"]),
-                Cidade=self.convert_type_nfselib(
+                Bairro=self._convert_type_nfselib_paulistana(
+                    tpEndereco, "Bairro", dados["bairro"]
+                ),
+                Cidade=self._convert_type_nfselib_paulistana(
                     tpEndereco, "Cidade", dados["codigo_municipio"]
                 ),
-                UF=self.convert_type_nfselib(tpEndereco, "UF", dados["uf"]),
-                CEP=self.convert_type_nfselib(tpEndereco, "CEP", dados["cep"]),
+                UF=self._convert_type_nfselib_paulistana(tpEndereco, "UF", dados["uf"]),
+                CEP=self._convert_type_nfselib_paulistana(
+                    tpEndereco, "CEP", dados["cep"]
+                ),
             )
             or None,
         )
