@@ -139,7 +139,36 @@ class AccountChartTemplate(models.AbstractModel):
             if template_code == "br_oca_generic" or tax_framework == "3":
                 flavor = "cfc"
             self._populate_default_br_tax_accounts(company, flavor=flavor)
+            self._l10n_br_setup_outstanding_accounts(company)
         return result
+
+    def _l10n_br_setup_outstanding_accounts(self, company):
+        """Classify the outstanding accounts and put them on the bank journals.
+
+        The core creates "Outstanding Receipts" and "Outstanding Payments" with
+        the chart but, since Odoo 17, does not put them on the payment method
+        lines, so a payment goes straight to the bank account and there is
+        nothing left to reconcile with the statement. Also run by the migration
+        of 18.0.3.4.0 for the companies already loaded.
+        """
+        chart = self.with_company(company)
+        accounts = self.env["account.account"]
+        for xmlid in (
+            "account_journal_payment_debit_account_id",
+            "account_journal_payment_credit_account_id",
+        ):
+            accounts |= chart.ref(xmlid, raise_if_not_found=False) or accounts
+        tags = self.env["account.account.tag"]
+        for xmlid in (
+            "l10n_br_coa.account_tag_current_assets_cash",
+            "l10n_br_coa.account_tag_cash_and_equivalents",
+        ):
+            tags |= self.env.ref(xmlid, raise_if_not_found=False) or tags
+        if accounts and tags:
+            accounts.write({"tag_ids": [Command.link(tag.id) for tag in tags]})
+        self.env["account.journal"].search(
+            [("company_id", "=", company.id), ("type", "in", ("bank", "cash"))]
+        )._l10n_br_link_outstanding_accounts()
 
     def _set_tax_group_accs(self, template_code, tax_data):
         group_to_accounts = self._get_tax_group_accounts(template_code)

@@ -218,3 +218,19 @@ class TestCoaLoad(TransactionCase):  # AccountTestInvoicingCommon):
             # And factor percent should be -100 for withholdable
             for _cmd, _id, vals in tax_res_wp["invoice_repartition_line_ids"]:
                 self.assertEqual(vals["factor_percent"], -100)
+
+    def test_outstanding_accounts_on_the_bank_journal(self):
+        chart = self.env["account.chart.template"].with_company(self.company)
+        debit = chart.ref("account_journal_payment_debit_account_id")
+        credit = chart.ref("account_journal_payment_credit_account_id")
+        journal = self.env["account.journal"].search(
+            [("company_id", "=", self.company.id), ("type", "=", "bank")], limit=1
+        )
+        self.assertEqual(
+            journal.inbound_payment_method_line_ids.payment_account_id, debit
+        )
+        self.assertEqual(
+            journal.outbound_payment_method_line_ids.payment_account_id, credit
+        )
+        tag = self.env.ref("l10n_br_coa.account_tag_current_assets_cash")
+        self.assertIn(tag, debit.tag_ids)
