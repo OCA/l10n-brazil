@@ -2044,6 +2044,14 @@ msgid "Configuration"
 msgstr "Configuração"
 
 #. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/document.py:0
+msgid ""
+"Configure the serie %(serie)s of %(document_type)s for %(company)s before "
+"importing the documents it issued."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "Confirm"
 msgstr "Confirmar"
