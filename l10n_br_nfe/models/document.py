@@ -2121,6 +2121,10 @@ class NFe(spec_models.StackedModel):
             "document_serie": self.document_serie,
             "document_date": date,
             "authorization_protocol": self.authorization_protocol,
+            "authorization_date": self.authorization_date
+            and fields.Datetime.context_timestamp(
+                self, self.authorization_date
+            ).strftime("%d/%m/%Y %H:%M:%S"),
             "document_qrcode": self.get_nfce_qrcode(),
             "system_env": self.nfe40_tpAmb,
             "unformatted_amount_freight_value": self.amount_freight_value,

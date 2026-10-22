@@ -218,6 +218,27 @@ class TestNFCe(TestNFeExport):
         self.assertIn("Consumidor Nao Identificado", text)
         self.assertNotIn("Consumidor - ", text)
 
+    def test_danfce_without_protocol_has_no_authorization_lines(self):
+        """Before the transmission there is no protocol: do not print it."""
+        self.assertFalse(self.document_id.authorization_protocol)
+        text = self._render_danfce_text()
+        self.assertNotIn("Protocolo", text)
+        self.assertNotIn("Autorizacao", text)
+
+    @nfe_mock({"nfeAutorizacaoLote": "retEnviNFe/autorizada.xml"})
+    def test_danfce_authorized_has_protocol_and_authorization_date(self):
+        self.env.user.tz = "America/Sao_Paulo"
+        self.document_id.action_document_send()
+        self.assertEqual(self.document_id.state_edoc, SITUACAO_EDOC_AUTORIZADA)
+        protocol = self.document_id.authorization_protocol
+        self.assertTrue(protocol)
+        authorization_date = Datetime.context_timestamp(
+            self.document_id, self.document_id.authorization_date
+        ).strftime("%d/%m/%Y %H:%M:%S")
+        text = self._render_danfce_text()
+        self.assertIn(f"Protocolo: {protocol}", text)
+        self.assertIn(f"Autorizacao: {authorization_date}", text)
+
     @nfe_mock({"nfeAutorizacaoLote": "retEnviNFe/autorizada.xml"})
     def test_prepare_nfce_payment(self):
         amount = self.document_id.amount_financial_total / 2
