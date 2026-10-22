@@ -27,6 +27,11 @@ class StockInvoiceOnshipping(models.TransientModel):
             )
             for vol_id in vol_ids
         ]
+        if vol_ids:
+            # The picking fiscal dict carries its own total_weight (0.0), and a
+            # value given on create overrides the compute of the fiscal
+            # document, so the sum of the volumes must be given here.
+            values["total_weight"] = sum(vol_ids.mapped("nfe40_pesoB"))
 
         return invoice, values
 
