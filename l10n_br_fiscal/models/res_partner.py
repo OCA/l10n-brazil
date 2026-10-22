@@ -133,6 +133,7 @@ class ResPartner(models.Model):
     def _onchange_is_company(self):
         for p in self:
             p.fiscal_profile_id = p._default_fiscal_profile_id(p.is_company)
+            p._onchange_fiscal_profile_id()
 
     @api.onchange("fiscal_profile_id")
     def _onchange_fiscal_profile_id(self):
