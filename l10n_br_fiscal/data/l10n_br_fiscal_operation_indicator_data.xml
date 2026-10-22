@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE INFORMATICA LTDA - Arthur Silva
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="0">
+    <!-- Not in Anexo VII since v1.01.00 -->
+    <record id="operation_indicator_030103" model="l10n_br_fiscal.operation.indicator">
+        <field name="active" eval="False" />
+    </record>
+    <record id="operation_indicator_030104" model="l10n_br_fiscal.operation.indicator">
+        <field name="active" eval="False" />
+    </record>
+    <record id="operation_indicator_050103" model="l10n_br_fiscal.operation.indicator">
+        <field name="active" eval="False" />
+    </record>
+    <record id="operation_indicator_050104" model="l10n_br_fiscal.operation.indicator">
+        <field name="active" eval="False" />
+    </record>
+</odoo>
