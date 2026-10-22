@@ -9709,3 +9709,9 @@ msgstr ""
 
 #~ msgid "Fiscal Doc UOM"
 #~ msgstr "UOM do documento fiscal"
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/document.py:0
+msgid "Correction letter requested: %s"
+msgstr "Carta de correção solicitada: %s"
