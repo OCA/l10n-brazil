@@ -32,7 +32,10 @@ class ProductTemplate(models.Model):
     @api.depends("nbs_id")
     def _compute_operation_indicator_id(self):
         for product in self:
-            product.operation_indicator_id = product.nbs_id.operation_indicator_id
+            # an NBS without a default keeps the indicator chosen by hand
+            product.operation_indicator_id = (
+                product.nbs_id.operation_indicator_id or product.operation_indicator_id
+            )
 
     fiscal_type = fields.Selection(
         selection=PRODUCT_FISCAL_TYPE,
