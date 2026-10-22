@@ -5,7 +5,10 @@
 
 import logging
 
-from odoo import api, fields, models
+from markupsafe import Markup
+
+from odoo import _, api, fields, models
+from odoo.tools import format_datetime
 
 from ..constants.fiscal import (
     CFOP_INDUSTRIALIZATION_FOR_THIRD_PARTY,
@@ -308,35 +311,12 @@ class ResCompany(models.Model):
         default="line",
     )
 
-    def _del_tax_definition(self, tax_domain):
-        tax_def = self.tax_definition_ids.filtered(
-            lambda d: d.tax_group_id.tax_domain != tax_domain
-        )
-        self.tax_definition_ids = tax_def
-
-    def _set_tax_definition(self, tax):
-        tax_def = self.tax_definition_ids.filtered(
-            lambda d: d.tax_group_id == tax.tax_group_id
-        )
-
-        tax_def_values = {
-            "type_in_out": "out",
-            "tax_group_id": tax.tax_group_id.id,
-            "is_taxed": True,
-            "is_debit_credit": True,
-            "custom_tax": True,
-            "tax_id": tax.id,
-            "cst_id": tax.cst_out_id.id,
-            "company_id": self._origin.id,
-        }
-
-        if tax_def:
-            tax_def.update(tax_def_values)
-        else:
-            self.tax_definition_ids |= self.tax_definition_ids.create(tax_def_values)
-
     @api.onchange("profit_calculation", "tax_framework")
     def _onchange_profit_calculation(self):
+        # Only the default taxes of the company are set here (virtual values).
+        # The company tax definitions are reconciled when the company is
+        # saved, see _sync_tax_definitions.
+
         # Get all Simples Nacional default taxes
         sn_piscofins_id = self.env.ref("l10n_br_fiscal.tax_pis_cofins_simples_nacional")
 
@@ -359,22 +339,7 @@ class ResCompany(models.Model):
             self.piscofins_id = pis_cofins_refs.get(self.profit_calculation)
             self.tax_icms_id = False
 
-        self._onchange_piscofins_id()
-        self._onchange_tax_classification_id()
         self._onchange_ripi()
-        self._onchange_tax_ipi_id()
-        self._onchange_tax_icms_id()
-        self._onchange_tax_issqn_id()
-        self._onchange_tax_csll_id()
-        self._onchange_tax_irpj_id()
-        self._onchange_tax_inss_id()
-
-        self._onchange_tax_issqn_wh_id()
-        self._onchange_tax_pis_wh_id()
-        self._onchange_tax_cofins_wh_id()
-        self._onchange_tax_csll_wh_id()
-        self._onchange_tax_irpj_wh_id()
-        self._onchange_tax_inss_wh_id()
 
     @api.onchange("is_industry")
     def _onchange_is_industry(self):
@@ -393,99 +358,182 @@ class ResCompany(models.Model):
         else:
             self.tax_ipi_id = False
 
-    @api.onchange("piscofins_id")
-    def _onchange_piscofins_id(self):
-        if self.piscofins_id:
-            self._set_tax_definition(self.piscofins_id.tax_cofins_id)
-            self._set_tax_definition(self.piscofins_id.tax_pis_id)
-        else:
-            self._del_tax_definition(TAX_DOMAIN_PIS)
-            self._del_tax_definition(TAX_DOMAIN_COFINS)
+    def _get_tax_definition_fields(self):
+        """Default taxes of the company and the tax domains of the company tax
+        definitions that follow each one of them."""
+        return {
+            "piscofins_id": (TAX_DOMAIN_PIS, TAX_DOMAIN_COFINS),
+            "tax_pis_wh_id": (TAX_DOMAIN_PIS_WH,),
+            "tax_cofins_wh_id": (TAX_DOMAIN_COFINS_WH,),
+            "tax_csll_id": (TAX_DOMAIN_CSLL,),
+            "tax_csll_wh_id": (TAX_DOMAIN_CSLL_WH,),
+            "tax_ipi_id": (TAX_DOMAIN_IPI,),
+            "tax_icms_id": (TAX_DOMAIN_ICMS, TAX_DOMAIN_ICMS_SN),
+            "tax_issqn_id": (TAX_DOMAIN_ISSQN,),
+            "tax_issqn_wh_id": (TAX_DOMAIN_ISSQN_WH,),
+            "tax_irpj_id": (TAX_DOMAIN_IRPJ,),
+            "tax_irpj_wh_id": (TAX_DOMAIN_IRPJ_WH,),
+            "tax_inss_id": (TAX_DOMAIN_INSS,),
+            "tax_inss_wh_id": (TAX_DOMAIN_INSS_WH,),
+            "tax_classification_id": (TAX_DOMAIN_CBS, TAX_DOMAIN_IBS),
+        }
 
-    @api.onchange("tax_pis_wh_id")
-    def _onchange_tax_pis_wh_id(self):
-        if self.tax_pis_wh_id:
-            self._set_tax_definition(self.tax_pis_wh_id)
-        else:
-            self._del_tax_definition(TAX_DOMAIN_PIS_WH)
+    def _get_tax_definition_targets(self, field_names):
+        """Return the tax that each tax domain must have, according to the
+        default taxes of the company. An empty recordset means that the company
+        must not have a tax definition in that domain."""
+        self.ensure_one()
+        tax_model = self.env["l10n_br_fiscal.tax"]
+        domains_by_field = self._get_tax_definition_fields()
+        targets = {}
+        for field_name in field_names:
+            for tax_domain in domains_by_field[field_name]:
+                targets[tax_domain] = tax_model
+            value = self[field_name]
+            if field_name == "piscofins_id":
+                taxes = value.tax_pis_id | value.tax_cofins_id
+            elif field_name == "tax_classification_id":
+                taxes = value.tax_cbs_id | value.tax_ibs_id
+            else:
+                taxes = value
+            for tax in taxes:
+                targets[tax.tax_domain] = tax
+        return targets
 
-    @api.onchange("tax_cofins_wh_id")
-    def _onchange_tax_cofins_wh_id(self):
-        if self.tax_cofins_wh_id:
-            self._set_tax_definition(self.tax_cofins_wh_id)
-        else:
-            self._del_tax_definition(TAX_DOMAIN_COFINS_WH)
+    def _sync_tax_definitions(self, field_names):
+        """Make the company tax definitions follow the default taxes.
 
-    @api.onchange("tax_csll_id")
-    def _onchange_tax_csll_id(self):
-        if self.tax_csll_id:
-            self._set_tax_definition(self.tax_csll_id)
-        else:
-            self._del_tax_definition(TAX_DOMAIN_CSLL)
+        Only the generic definitions (outgoing, with no NCM, product, state or
+        other condition) follow them; the conditional ones are kept. A
+        definition that does not match the new default tax is not deleted: it
+        is expired, with the end of its validity, so the history of what was
+        taxed before stays available. The new definition starts when the
+        company is saved.
+        """
+        definition_model = self.env["l10n_br_fiscal.tax.definition"]
+        now = fields.Datetime.now()
+        conditions = [
+            "state_to_ids",
+            "ncm_ids",
+            "nbm_ids",
+            "cest_ids",
+            "city_taxation_code_ids",
+            "national_taxation_code_ids",
+            "service_type_ids",
+            "product_ids",
+        ]
+        for company in self:
+            current = definition_model.search(
+                [
+                    ("company_id", "=", company.id),
+                    ("state", "!=", "expired"),
+                    ("type_in_out", "=", "out"),
+                ]
+                + [(condition, "=", False) for condition in conditions]
+            )
+            targets = company._get_tax_definition_targets(field_names)
+            for tax_domain, tax in targets.items():
+                definitions = current.filtered(
+                    lambda d, tax_domain=tax_domain: d.tax_group_id.tax_domain
+                    == tax_domain
+                )
+                outdated = definitions.filtered(lambda d, tax=tax: d.tax_id != tax)
+                outdated.write({"state": "expired", "date_end": now})
+                if tax and not definitions - outdated:
+                    definition_model.create(
+                        {
+                            "type_in_out": "out",
+                            "tax_group_id": tax.tax_group_id.id,
+                            "is_taxed": True,
+                            "is_debit_credit": True,
+                            "custom_tax": True,
+                            "tax_id": tax.id,
+                            "cst_id": tax.cst_out_id.id,
+                            "company_id": company.id,
+                            "date_start": now,
+                        }
+                    )
 
-    @api.onchange("tax_csll_wh_id")
-    def _onchange_tax_csll_wh_id(self):
-        if self.tax_csll_wh_id:
-            self._set_tax_definition(self.tax_csll_wh_id)
-        else:
-            self._del_tax_definition(TAX_DOMAIN_CSLL_WH)
+    def _get_tax_regime_snapshot(self):
+        """Tax regime and active tax definitions of the company, to audit what
+        changed when the tax regime is changed."""
+        self.ensure_one()
+        definitions = self.env["l10n_br_fiscal.tax.definition"].search(
+            [("company_id", "=", self.id), ("state", "!=", "expired")]
+        )
+        framework = dict(self._fields["tax_framework"]._description_selection(self.env))
+        profit = dict(
+            self._fields["profit_calculation"]._description_selection(self.env)
+        )
+        regime = framework.get(self.tax_framework) or ""
+        if self.tax_framework == TAX_FRAMEWORK_NORMAL:
+            regime = f"{regime} / {profit.get(self.profit_calculation)}"
+        return {
+            "regime": regime,
+            "definitions": sorted(
+                f"{d.tax_group_id.name}: {d.tax_id.name} ({d.tax_id.percent_amount:g}%)"
+                for d in definitions
+            ),
+        }
 
-    @api.onchange("tax_ipi_id")
-    def _onchange_tax_ipi_id(self):
-        if self.tax_ipi_id:
-            self._set_tax_definition(self.tax_ipi_id)
-        else:
-            self._del_tax_definition(TAX_DOMAIN_IPI)
+    def _post_tax_regime_change(self, before, after, date_end, regime_changed):
+        """Register in the chatter what was taxed before and what is taxed
+        after a change of the tax regime or of a default tax. The company has
+        no chatter, so the message goes to the partner of the company."""
+        self.ensure_one()
+        if before == after:
+            return
 
-    @api.onchange("tax_icms_id")
-    def _onchange_tax_icms_id(self):
-        if self.tax_icms_id:
-            self._set_tax_definition(self.tax_icms_id)
-        else:
-            self._del_tax_definition(TAX_DOMAIN_ICMS)
-            self._del_tax_definition(TAX_DOMAIN_ICMS_SN)
+        def _items(lines):
+            return Markup("").join(
+                Markup("<li>%s</li>") % line for line in lines
+            ) or Markup("<li>-</li>")
 
-    @api.onchange("tax_issqn_id")
-    def _onchange_tax_issqn_id(self):
-        if self.tax_issqn_id:
-            self._set_tax_definition(self.tax_issqn_id)
-        else:
-            self._del_tax_definition(TAX_DOMAIN_ISSQN)
+        body = Markup(
+            "<p><b>%(title)s</b> (%(date)s)</p>"
+            "<p>%(before_label)s: %(before_regime)s</p><ul>%(before)s</ul>"
+            "<p>%(after_label)s: %(after_regime)s</p><ul>%(after)s</ul>"
+            "<p>%(note)s</p>"
+        ) % {
+            "title": (
+                _("Tax regime changed")
+                if regime_changed
+                else _("Default taxes changed")
+            ),
+            "date": format_datetime(self.env, date_end),
+            "before_label": _("Before"),
+            "before_regime": before["regime"],
+            "before": _items(before["definitions"]),
+            "after_label": _("After"),
+            "after_regime": after["regime"],
+            "after": _items(after["definitions"]),
+            "note": _(
+                "The previous tax definitions were kept as Expired, with the "
+                "end of their validity."
+            ),
+        }
+        self.partner_id.sudo().message_post(body=body, subtype_xmlid="mail.mt_note")
 
-    @api.onchange("tax_issqn_wh_id")
-    def _onchange_tax_issqn_wh_id(self):
-        if self.tax_issqn_wh_id:
-            self._set_tax_definition(self.tax_issqn_wh_id)
-        else:
-            self._del_tax_definition(TAX_DOMAIN_ISSQN_WH)
-
-    @api.onchange("tax_irpj_id")
-    def _onchange_tax_irpj_id(self):
-        if self.tax_irpj_id:
-            self._set_tax_definition(self.tax_irpj_id)
-        else:
-            self._del_tax_definition(TAX_DOMAIN_IRPJ)
-
-    @api.onchange("tax_irpj_wh_id")
-    def _onchange_tax_irpj_wh_id(self):
-        if self.tax_irpj_wh_id:
-            self._set_tax_definition(self.tax_irpj_wh_id)
-        else:
-            self._del_tax_definition(TAX_DOMAIN_IRPJ_WH)
-
-    @api.onchange("tax_inss_id")
-    def _onchange_tax_inss_id(self):
-        if self.tax_inss_id:
-            self._set_tax_definition(self.tax_inss_id)
-        else:
-            self._del_tax_definition(TAX_DOMAIN_INSS)
-
-    @api.onchange("tax_inss_wh_id")
-    def _onchange_tax_inss_wh_id(self):
-        if self.tax_inss_wh_id:
-            self._set_tax_definition(self.tax_inss_wh_id)
-        else:
-            self._del_tax_definition(TAX_DOMAIN_INSS_WH)
+    def write(self, vals):
+        tax_fields = self._get_tax_definition_fields()
+        sync_fields = [f for f in tax_fields if f in vals]
+        regime_changed = bool({"tax_framework", "profit_calculation"} & vals.keys())
+        if self.env.context.get("install_mode") or not (sync_fields or regime_changed):
+            return super().write(vals)
+        # sudo: the user that edits a company may have no fiscal group, and the
+        # synchronization of the tax definitions is internal to the company
+        snapshots = {c.id: c.sudo()._get_tax_regime_snapshot() for c in self}
+        result = super().write(vals)
+        now = fields.Datetime.now()
+        for company in self.sudo():
+            company._sync_tax_definitions(sync_fields)
+            company._post_tax_regime_change(
+                snapshots[company.id],
+                company._get_tax_regime_snapshot(),
+                now,
+                regime_changed,
+            )
+        return result
 
     @api.depends("annual_revenue", "payroll_amount", "partner_id.cnae_main_id")
     def _compute_simplified_tax(self):
@@ -579,12 +627,3 @@ class ResCompany(models.Model):
                 coefficient_r_percent = record.payroll_amount / record.annual_revenue
             record.coefficient_r_percent = coefficient_r_percent
             record.coefficient_r = coefficient_r_percent >= COEFFICIENT_R
-
-    @api.onchange("tax_classification_id")
-    def _onchange_tax_classification_id(self):
-        if self.tax_classification_id:
-            self._set_tax_definition(self.tax_classification_id.tax_cbs_id)
-            self._set_tax_definition(self.tax_classification_id.tax_ibs_id)
-        else:
-            self._del_tax_definition(TAX_DOMAIN_CBS)
-            self._del_tax_definition(TAX_DOMAIN_IBS)
