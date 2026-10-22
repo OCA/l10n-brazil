@@ -149,7 +149,8 @@ class TestMoveEdition(TransactionCase):
         )
         if latam_doc_type and move_form.l10n_latam_use_documents:
             move_form.l10n_latam_document_type_id = latam_doc_type
-            move_form.l10n_latam_document_number = "00000001"
+            if not move_form._get_modifier("l10n_latam_document_number", "invisible"):
+                move_form.l10n_latam_document_number = "00000001"
         with move_form.invoice_line_ids.new() as line_form:
             line_form.name = "some line label"
             line_form.price_unit = 42
