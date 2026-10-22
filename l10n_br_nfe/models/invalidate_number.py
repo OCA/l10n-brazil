@@ -1,10 +1,13 @@
 # Copyright (C) 2020  KMEE - www.kmee.com.br
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import base64
 from datetime import datetime
 
 from erpbrasil.base.misc import punctuation_rm
 from erpbrasil.transmissao import TransmissaoSOAP
+from nfelib.nfe.client.v4_0.nfce import NfceClient
+from nfelib.nfe.client.v4_0.nfe import NfeClient
 from nfelib.nfe.ws.edoc_legacy import NFCeAdapter as edoc_nfce
 from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
 from requests import Session
@@ -13,29 +16,47 @@ from odoo import fields, models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import EVENT_ENV_HML, EVENT_ENV_PROD
 
+from ..models.document import nfelib_soap_transmission_enabled
+
 
 class InvalidateNumber(models.Model):
     _inherit = "l10n_br_fiscal.invalidate.number"
 
     def _edoc_processor(self):
-        certificado = self.company_id._get_br_ecertificate()
-        session = Session()
-        session.verify = False
-        params = {
-            "transmissao": TransmissaoSOAP(certificado, session),
-            "uf": self.company_id.state_id.ibge_code,
-            "versao": "4.00",
-            "ambiente": self.company_id.nfe_environment,
-        }
+        if not nfelib_soap_transmission_enabled(self.env):
+            certificado = self.company_id._get_br_ecertificate()
+            session = Session()
+            session.verify = False
+            params = {
+                "transmissao": TransmissaoSOAP(certificado, session),
+                "uf": self.company_id.state_id.ibge_code,
+                "versao": "4.00",
+                "ambiente": self.company_id.nfe_environment,
+            }
+            if self.document_type_id.code == "65":
+                params.update(
+                    csc_token=self.company_id.nfce_csc_token,
+                    csc_code=self.company_id.nfce_csc_code,
+                )
+                return edoc_nfce(**params)
 
+            return edoc_nfe(**params)
+
+        certificate = self.company_id._get_br_certificate()
+        common_params = {
+            "ambiente": self.company_id.nfe_environment,
+            "uf": self.company_id.state_id.ibge_code,
+            "pkcs12_data": base64.b64decode(certificate.content),
+            "pkcs12_password": certificate.pkcs12_password,
+            "wrap_response": True,
+        }
         if self.document_type_id.code == "65":
-            params.update(
+            return NfceClient(
+                **common_params,
                 csc_token=self.company_id.nfce_csc_token,
                 csc_code=self.company_id.nfce_csc_code,
             )
-            return edoc_nfce(**params)
-
-        return edoc_nfe(**params)
+        return NfeClient(**common_params)
 
     def _invalidate(self, document_id=False):
         processador = self._edoc_processor()
@@ -48,7 +69,11 @@ class InvalidateNumber(models.Model):
             justificativa=self.justification.replace("\n", "\\n"),
         )
 
-        processo = processador.envia_inutilizacao(evento=evento)
+        if nfelib_soap_transmission_enabled(self.env):
+            # nfelib's envia_inutilizacao takes the event positionally
+            processo = processador.envia_inutilizacao(evento)
+        else:
+            processo = processador.envia_inutilizacao(evento=evento)
 
         event_id = self.event_ids.create_event_save_xml(
             company_id=self.company_id,
