@@ -11,14 +11,19 @@
             <form string="Generate Mock NSU">
                 <group>
                     <field name="company_id" groups="base.group_multi_company" />
+                    <field name="fiscal_type" widget="radio" />
                     <field name="quantity" />
                 </group>
-                <group string="Document Types">
+                <group string="Document Types" invisible="fiscal_type != 'nfe'">
                     <field name="generate_res_nfe" />
                     <field name="generate_proc_nfe" />
                     <field name="generate_res_evento" />
                     <field name="generate_proc_evento_nfe" />
                 </group>
+                <div invisible="fiscal_type != 'nfse'" class="text-muted">
+                    Authorized national NFS-e issued to this company, as the
+                    ADN distributes them.
+                </div>
                 <footer>
                     <button
                         name="action_generate"
