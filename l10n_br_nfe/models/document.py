@@ -1863,9 +1863,9 @@ class NFe(spec_models.StackedModel):
             "document_key": self.document_key,
             "document_number": self.document_number,
             "document_serie": self.document_serie,
-            "document_date": self.document_date.astimezone().strftime(
-                "%d/%m/%y %H:%M:%S"
-            ),
+            "document_date": fields.Datetime.context_timestamp(
+                self, self.document_date
+            ).strftime("%d/%m/%y %H:%M:%S"),
             "authorization_protocol": self.authorization_protocol,
             "document_qrcode": self.get_nfce_qrcode(),
             "system_env": self.nfe40_tpAmb,

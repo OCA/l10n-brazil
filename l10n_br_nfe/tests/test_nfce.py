@@ -183,6 +183,24 @@ class TestNFCe(TestNFeExport):
         )
         self.assertTrue(image.startswith(b"\x89PNG"))
 
+    def _render_danfce_text(self):
+        report = self.env["ir.actions.report"]._get_report_from_name(
+            "l10n_br_nfe.report_danfe_nfce"
+        )
+        data = self.document_id._prepare_nfce_danfe_values()
+        content = report._render_qweb_html(
+            "l10n_br_nfe.report_danfe_nfce", self.document_id.ids, data=data
+        )[0]
+        return " ".join(html.fromstring(content).text_content().split())
+
+    def test_danfce_datetime_uses_user_timezone(self):
+        """The DANFCE prints the issue date in the user's timezone, not in UTC."""
+        self.env.user.tz = "America/Sao_Paulo"
+        self.document_id.document_date = "2023-08-05 18:45:36"
+        text = self._render_danfce_text()
+        self.assertIn("Emissao: 05/08/23 15:45:36", text)
+        self.assertNotIn("18:45:36", text)
+
     @nfe_mock({"nfeAutorizacaoLote": "retEnviNFe/autorizada.xml"})
     def test_prepare_nfce_payment(self):
         amount = self.document_id.amount_financial_total / 2
