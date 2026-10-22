@@ -431,6 +431,14 @@ class TestFiscalTax(TransactionCase):
                 f"got {taxes[tax_domain]['base']}",
             )
 
+    def test_compute_taxes_icmsfcp_without_cst(self):
+        """l10n_br_account calls the engine without icms_cst_id."""
+        kwargs = self._create_compute_taxes_kwargs()
+        fiscal_taxes = self.env.ref("l10n_br_fiscal.tax_icms_7") + self.env.ref(
+            "l10n_br_fiscal.tax_icmsfcp_2"
+        )
+        self.assertIn("icmsfcp", fiscal_taxes.compute_taxes(**kwargs)["taxes"])
+
     def test_compute_taxes_error_is_not_swallowed(self):
         """An error inside a _compute_<domain> must not become a generic one.
 
