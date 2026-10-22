@@ -14,7 +14,6 @@
                     invisible="is_accountant != True"
                     domain="[('country_id', '=', %(base.br)d)]"
                 />
-                <field name="rntrc_code" />
             </group>
         </field>
     </record>
