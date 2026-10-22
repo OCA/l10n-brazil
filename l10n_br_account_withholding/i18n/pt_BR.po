@@ -22,9 +22,20 @@ msgid "Account Journal"
 msgstr "Diário das faturas de retenção"
 
 #. module: l10n_br_account_withholding
+#: model:ir.model,name:l10n_br_account_withholding.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: l10n_br_account_withholding
 #: model:ir.model.fields,field_description:l10n_br_account_withholding.field_l10n_br_fiscal_tax_group__generate_wh_invoice
 msgid "Generate WH Invoice"
 msgstr "Gerar fatura de retenção"
+
+#. module: l10n_br_account_withholding
+#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_res_partner__wh_cityhall
+#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_res_users__wh_cityhall
+msgid "Is City Hall?"
+msgstr ""
 
 #. module: l10n_br_account_withholding
 #: model:ir.model,name:l10n_br_account_withholding.model_account_move
@@ -35,6 +46,18 @@ msgstr "Lançamento de Diário"
 #: model:ir.model,name:l10n_br_account_withholding.model_account_move_line
 msgid "Journal Item"
 msgstr "Item de Diário"
+
+#. module: l10n_br_account_withholding
+#. odoo-python
+#: code:addons/l10n_br_account_withholding/models/res_partner.py:0
+#, python-format
+msgid "Only one partner with the same City Hall can exist in the same city."
+msgstr ""
+
+#. module: l10n_br_account_withholding
+#: model:ir.model.fields,help:l10n_br_account_withholding.field_l10n_br_fiscal_tax_group__wh_payable_account_id
+msgid "Special account payable for withholding invoices"
+msgstr ""
 
 #. module: l10n_br_account_withholding
 #: model:ir.model,name:l10n_br_account_withholding.model_l10n_br_fiscal_tax_group
@@ -67,6 +90,12 @@ msgid "WH Invoices"
 msgstr "Faturas de retenção"
 
 #. module: l10n_br_account_withholding
+#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_l10n_br_fiscal_tax_group__wh_payable_account_id
+msgid "WH Payable Account"
+msgstr ""
+
+#. module: l10n_br_account_withholding
+#. odoo-python
 #: code:addons/l10n_br_account_withholding/models/account_move_line.py:0
 #, python-format
 msgid "You cannot edit an invoice related to a withholding entry"
