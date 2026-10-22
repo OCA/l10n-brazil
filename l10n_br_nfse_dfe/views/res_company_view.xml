@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2026 Escodoo - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+    License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="nfse_dfe_res_company_form" model="ir.ui.view">
+        <field name="name">nfse.dfe.res.company.form</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.fiscal_res_company_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='fiscal']/notebook" position="inside">
+                <page name="nfse_dfe" string="NFS-e DF-e">
+                    <group name="nfse_dfe_settings" string="NFS-e DF-e Settings">
+                        <group>
+                            <field name="nfse_dfe_environment" />
+                            <button
+                                name="action_nfse_document_distribution"
+                                type="object"
+                                string="Search NFS-e"
+                                class="btn-primary"
+                            />
+                            <button
+                                name="action_nfse_search_specific"
+                                type="object"
+                                string="Specific Search"
+                            />
+                        </group>
+                        <group>
+                            <field name="nfse_auto_fetch" />
+                            <field name="nfse_import_product_id" />
+                        </group>
+                    </group>
+                    <group name="nfse_dfe_last_query" string="Last Query">
+                        <group>
+                            <field name="nfse_last_nsu" />
+                            <field name="nfse_max_nsu" />
+                            <field
+                                name="nfse_dfe_last_query"
+                                string="Date"
+                                readonly="1"
+                                widget="datetime"
+                            />
+                        </group>
+                        <group>
+                            <field
+                                name="nfse_dfe_last_status"
+                                string="Status"
+                                readonly="1"
+                            />
+                            <field
+                                name="nfse_dfe_last_status_code"
+                                string="Status Code"
+                                readonly="1"
+                            />
+                            <field
+                                name="nfse_dfe_next_query"
+                                string="Next Query"
+                                readonly="1"
+                                widget="datetime"
+                            />
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
