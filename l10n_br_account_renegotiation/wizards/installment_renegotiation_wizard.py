@@ -252,6 +252,7 @@ class InstallmentRenegotiationWizard(models.TransientModel):
             skip_invoice_sync=True,
             allow_installment_renegotiation=True,
             check_move_validity=False,
+            skip_readonly_check=True,
         )
 
         # Get the receivable/payable account from existing lines
