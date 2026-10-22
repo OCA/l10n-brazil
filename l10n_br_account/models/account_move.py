@@ -281,7 +281,24 @@ class AccountMove(models.Model):
             )
             move.amount_total = sum(inv_line_ids.mapped("fiscal_amount_total"))
 
+            financial_only = move._get_financial_only_subtotal()
+            if financial_only:
+                move.amount_untaxed += financial_only
+                move.amount_untaxed_signed += sign * financial_only
+                move.amount_total += financial_only
+
         return result
+
+    def _get_financial_only_subtotal(self):
+        """Sum of the lines that are not part of the fiscal document but
+        weigh on the amount to pay (see account.move.line#_is_financial_only_line).
+        """
+        self.ensure_one()
+        lines = self.line_ids.filtered(
+            lambda line: line.display_type == "product"
+            and line._is_financial_only_line()
+        )
+        return sum(lines.mapped("price_subtotal"))
 
     def _compute_imported_terms(self):
         self.ensure_one()
@@ -328,8 +345,12 @@ class AccountMove(models.Model):
                         tax_amount = tax_amount_currency
                     else:
                         tax_amount_currency = tax_amount = 0.0
-                        untaxed_amount_currency = invoice.amount_financial_total * sign
-                        untaxed_amount = invoice.amount_financial_total * sign
+                        financial_total = (
+                            invoice.amount_financial_total
+                            + invoice._get_financial_only_subtotal()
+                        )
+                        untaxed_amount_currency = financial_total * sign
+                        untaxed_amount = financial_total * sign
                     invoice_payment_terms = (
                         invoice.invoice_payment_term_id._compute_terms(
                             date_ref=invoice.invoice_date
