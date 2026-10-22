@@ -2,12 +2,13 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 {
     "name": "DF-e Mock (SEFAZ Virtual)",
-    "summary": "Mock SEFAZ DF-e distribution for development without A1 certificate.",
-    "version": "16.0.1.2.0",
+    "summary": "Mock SEFAZ and ADN DF-e distribution for development "
+    "without A1 certificate.",
+    "version": "16.0.1.3.0",
     "license": "AGPL-3",
     "author": "Engenere, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
-    "depends": ["l10n_br_fiscal_dfe", "l10n_br_nfe_dfe"],
+    "depends": ["l10n_br_fiscal_dfe", "l10n_br_nfe_dfe", "l10n_br_nfse_dfe"],
     "data": [
         # Security
         "security/dfe_mock_security.xml",
