@@ -229,14 +229,20 @@ def _find_tax_made_by_hand(env, company, vals):
                 ", ".join(f"{tax.name} (id {tax.id})" for tax in by_structure),
                 vals["name"],
             )
-    by_name = env["account.tax"].search(
-        [
-            ("company_id", "=", company.id),
-            ("type_tax_use", "=", vals["type_tax_use"]),
-            ("name", "=", vals["name"]),
-        ],
-        order="id",
-        limit=1,
+    # `active_test` is explicit: for an archived company the whole migration
+    # runs with `active_test=False`, and the archived taxes must not be adopted.
+    by_name = (
+        env["account.tax"]
+        .with_context(active_test=True)
+        .search(
+            [
+                ("company_id", "=", company.id),
+                ("type_tax_use", "=", vals["type_tax_use"]),
+                ("name", "=", vals["name"]),
+            ],
+            order="id",
+            limit=1,
+        )
     )
     if by_name:
         _logger.warning(
@@ -313,6 +319,9 @@ def _name_like_load_fiscal_taxes(env, company, data):
 
 
 def _migrate_company(env, company):
+    # The environment of the company carries its context (`active_test`), the
+    # one passed in does not.
+    env = company.env
     chart = env["account.chart.template"].with_company(company)
     group_data = chart._get_br_oca_tax_group_data()
     tax_data = chart._get_br_oca_tax_data()
@@ -383,9 +392,29 @@ def _migrate_company(env, company):
 
 
 def migrate_companies(env):
+    """Migrate every company with the Brazilian tax groups, archived or not.
+
+    An archived company is migrated too: it keeps its books and, when it is
+    unarchived, it must have the same taxes as the others. The many2many
+    `company_ids` of an account reads only active companies, so an account
+    created for an archived company would look as if it had no company and
+    the constraint of the account would fail. The archived company is then
+    migrated with `active_test=False`, which also makes the field see it.
+    """
     for company in env["res.company"].with_context(active_test=False).search([]):
         if not _has_br_tax_groups(env, company):
             continue
+        if not company.active:
+            _logger.info(
+                "l10n_br_coa: company %s is archived and is migrated anyway",
+                company.name,
+            )
+            company = company.with_env(env).with_context(active_test=False)
+        else:
+            # The search above ran with `active_test=False`: an active company
+            # is migrated with the context of the caller, so the rules that
+            # look only at active records (the unique name of a tax) still do.
+            company = company.with_env(env)
         _migrate_company(env, company.with_company(company))
 
 
