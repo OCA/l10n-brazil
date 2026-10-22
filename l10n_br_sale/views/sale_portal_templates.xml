@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- Portal: list each Brazilian tax once, as the quotation report does,
+         instead of one name per account tax (normal and deductible pairs). -->
+    <template
+        id="sale_order_portal_content_l10n_br_sale"
+        inherit_id="sale.sale_order_portal_content"
+        priority="100"
+    >
+        <xpath expr="//span[contains(@t-out, 'line.tax_id')]" position="replace">
+            <t t-if="sale_order.company_id.country_id.code == 'BR'">
+                <t
+                    t-foreach="line.fiscal_tax_ids.filtered(lambda x: x.percent_amount or x.value_amount)"
+                    t-as="fiscal_tax"
+                >
+                    <span t-out="fiscal_tax.name" />
+                    <br t-if="not fiscal_tax_last" />
+                </t>
+            </t>
+            <span
+                t-else=""
+                t-out="', '.join(map(lambda x: (x.description or x.name), line.tax_id))"
+            />
+        </xpath>
+    </template>
+
+</odoo>
