@@ -41,3 +41,26 @@ class TestDocumentImportWizardFile(TransactionCase):
             self._parse(b'<invoice xmlns="urn:example"><line/></invoice>')
 
         self.assertIn("Could not read this file", str(error.exception))
+
+
+class TestDocumentImportWizardOperationType(TransactionCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.company = cls.env["res.company"].create(
+            {"name": "Emitente Teste", "vat": "53939351000129"}
+        )
+
+    def _operation_type(self, issuer_cnpj):
+        wizard = self.env["l10n_br_fiscal.document.import.wizard"].new(
+            {"company_id": self.company.id, "issuer_cnpj": issuer_cnpj}
+        )
+        return wizard.fiscal_operation_type
+
+    def test_own_document_is_outgoing_whatever_the_cnpj_format(self):
+        """The access key gives a formatted CNPJ; the company vat is not."""
+        self.assertEqual(self._operation_type("53.939.351/0001-29"), "out")
+        self.assertEqual(self._operation_type("53939351000129"), "out")
+
+    def test_third_party_document_is_incoming(self):
+        self.assertEqual(self._operation_type("12.345.678/0001-95"), "in")
