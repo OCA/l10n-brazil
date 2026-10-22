@@ -183,6 +183,41 @@ class TestNFCe(TestNFeExport):
         )
         self.assertTrue(image.startswith(b"\x89PNG"))
 
+    def _render_danfce_text(self):
+        report = self.env["ir.actions.report"]._get_report_from_name(
+            "l10n_br_nfe.report_danfe_nfce"
+        )
+        data = self.document_id._prepare_nfce_danfe_values()
+        content = report._render_qweb_html(
+            "l10n_br_nfe.report_danfe_nfce", self.document_id.ids, data=data
+        )[0]
+        return " ".join(html.fromstring(content).text_content().split())
+
+    def test_danfce_identified_consumer(self):
+        """The DANFCE prints the CPF and the name of the recipient."""
+        partner = self.document_id.partner_id
+        partner.is_anonymous_consumer = False
+        partner.vat = "111.444.777-35"
+        text = self._render_danfce_text()
+        self.assertIn(f"Consumidor - CPF: 111.444.777-35 {partner.legal_name}", text)
+        self.assertNotIn("Nao Identificado", text)
+
+    def test_danfce_identified_consumer_cnpj(self):
+        partner = self.document_id.partner_id
+        partner.is_anonymous_consumer = False
+        partner.vat = "11.222.333/0001-81"
+        text = self._render_danfce_text()
+        self.assertIn("Consumidor - CNPJ: 11.222.333/0001-81", text)
+
+    def test_danfce_anonymous_consumer(self):
+        """Without CPF/CNPJ the tag dest is not sent: not identified."""
+        partner = self.document_id.partner_id
+        partner.is_anonymous_consumer = True
+        partner.vat = False
+        text = self._render_danfce_text()
+        self.assertIn("Consumidor Nao Identificado", text)
+        self.assertNotIn("Consumidor - ", text)
+
     @nfe_mock({"nfeAutorizacaoLote": "retEnviNFe/autorizada.xml"})
     def test_prepare_nfce_payment(self):
         amount = self.document_id.amount_financial_total / 2

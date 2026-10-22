@@ -128,10 +128,21 @@
                 >
                     <div>
                         <div>
-                            <!-- TODO: Quando o consumidor for identificado deve haver o CPF ou CNPJ-->
-                            <p
-                                style="text-transform: uppercase; text-align: left; fonti-size: 18px; margin: 2px auto;"
-                            >Consumidor Nao Identificado</p>
+                            <t t-if="consumer_document">
+                                <p
+                                    style="text-transform: uppercase; text-align: left; margin: 2px auto 0;"
+                                >Consumidor - <t t-esc="consumer_document_type" />: <t
+                                        t-esc="consumer_document"
+                                    /></p>
+                                <p
+                                    style="text-transform: uppercase; text-align: left; margin: 0 auto 2px;"
+                                ><t t-esc="consumer_name" /></p>
+                            </t>
+                            <t t-else="">
+                                <p
+                                    style="text-transform: uppercase; text-align: left; fonti-size: 18px; margin: 2px auto;"
+                                >Consumidor Nao Identificado</p>
+                            </t>
                         </div>
 
                         <div>
