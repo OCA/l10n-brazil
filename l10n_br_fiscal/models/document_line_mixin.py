@@ -597,7 +597,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                 continue
             line.national_taxation_code_id = line.product_id.national_taxation_code_id
 
-    @api.depends("city_taxation_code_id")
+    @api.depends("city_taxation_code_id", "company_id.city_id")
     def _compute_issqn_fg_city_id(self):
         for line in self:
             if line.city_taxation_code_id and line.city_taxation_code_id.city_id:
