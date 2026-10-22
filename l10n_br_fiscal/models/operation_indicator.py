@@ -8,7 +8,7 @@ class OperationIndicator(models.Model):
     """Operation Indicator
 
     This model stores the Operation Indicators (cIndOp) table according to
-    Annex VII of Technical Note No. 004/2025 from NFS-e Nacional, which is
+    Annex VII of the NFS-e Nacional technical documentation (v1.03.00, NT 009),
     part of the Brazilian Tax Reform (Reforma Tributária do Consumo).
 
     The cIndOp field is used in the Service Provision Declaration (DPS)
@@ -28,7 +28,7 @@ class OperationIndicator(models.Model):
         required=True,
         index=True,
         size=6,
-        help="Operation indicator code according to Annex VII of NT 004/2025 "
+        help="Operation indicator code according to Annex VII of the NFS-e "
         "(e.g., 020101, 030101)",
     )
 
@@ -55,4 +55,23 @@ class OperationIndicator(models.Model):
         help="Place of supply to be identified in the Digital Fiscal Document "
         "(DFe), such as supplier establishment, acquirer address, "
         "recipient address, or other locations depending on the operation",
+    )
+
+    legal_basis = fields.Char(
+        help="Provision of Complementary Law No. 214/2025 that defines the place "
+        "of the operation",
+    )
+
+    note = fields.Text()
+
+    nfse_incidence_location = fields.Char(
+        string="NFS-e IBS Incidence Location",
+        help="Where the IBS is due in the NFS-e for this indicator",
+    )
+
+    document_type_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.document.type",
+        relation="operation_indicator_document_type_rel",
+        string="Related DFes",
+        help="Digital Fiscal Documents that accept this indicator",
     )
