@@ -5,14 +5,27 @@
 import base64
 import logging
 import os
+from datetime import datetime
+
+import pytz
+from lxml import etree
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
-from odoo.addons.l10n_br_fiscal.constants.fiscal import EVENT_ENVIRONMENT
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    EVENT_ENV_HML,
+    EVENT_ENVIRONMENT,
+    EVENTO_RECEBIDO,
+)
 from odoo.addons.l10n_br_fiscal.tools import build_edoc_path
 
+from ..constants.fiscal import CCE_CONDITION_OF_USE
+
 _logger = logging.getLogger(__name__)
+
+BRASILIA_TZ = "America/Sao_Paulo"
+REPORT_DATETIME_FORMAT = "%d/%m/%Y %H:%M:%S"
 
 FILE_SUFIX_EVENT = {
     "0": "env",
@@ -209,6 +222,8 @@ class Event(models.Model):
         selection=EVENT_ENVIRONMENT,
     )
 
+    can_print = fields.Boolean(compute="_compute_can_print")
+
     @api.constrains("justification")
     def _check_justification(self):
         if len(self.justification) < 15:
@@ -389,7 +404,170 @@ class Event(models.Model):
         event_id._save_event_file(xml_file, "xml")
         return event_id
 
+    @api.depends("type", "state", "status_code")
+    def _compute_can_print(self):
+        for event in self:
+            event.can_print = event.type != "14" or (
+                event.state == "done" and event.status_code in EVENTO_RECEBIDO
+            )
+
+    def _check_can_print(self):
+        if not all(self.mapped("can_print")):
+            raise UserError(
+                _(
+                    "Only a correction letter registered by the tax "
+                    "authority can be printed."
+                )
+            )
+
     def print_document_event(self):
+        self._check_can_print()
         return self.env.ref(
             "l10n_br_fiscal_edi.action_report_document_event"
         ).report_action(self)
+
+    @api.model
+    def _brasilia_datetime_text(self, moment):
+        """Text of a naive UTC datetime in Brasilia time, with its offset."""
+        if not moment:
+            return ""
+        local = pytz.utc.localize(moment).astimezone(pytz.timezone(BRASILIA_TZ))
+        return self._datetime_with_offset_text(local)
+
+    @api.model
+    def _datetime_with_offset_text(self, moment):
+        offset = moment.strftime("%z")
+        return (
+            f"{moment.strftime(REPORT_DATETIME_FORMAT)} (UTC{offset[:3]}:{offset[3:]})"
+        )
+
+    @staticmethod
+    def _xml_values(attachment, container, protocol=False):
+        """Fields of the infEvento inside the <container> of a stored XML.
+
+        Works for the procEventoNFe and for the SOAP answer alike, so that it
+        also reads the letters stored before the procEventoNFe was kept.
+        """
+        try:
+            root = etree.fromstring(attachment.raw) if attachment else None
+        except etree.XMLSyntaxError:
+            return {}
+        if root is None:
+            return {}
+        nodes = root.xpath(
+            "//*[local-name()=$container]/*[local-name()='infEvento']",
+            container=container,
+        )
+        if protocol:
+            nodes = [
+                node
+                for node in nodes
+                if node.xpath("string(*[local-name()='nProt'])") == protocol
+            ] or nodes
+        if not nodes:
+            return {}
+        # the detEvento has the texts that were sent (xCorrecao, xCondUso)
+        children = nodes[0].xpath("*[not(local-name()='detEvento')] | */*")
+        values = {
+            etree.QName(child).localname: (child.text or "").strip()
+            for child in children
+            if isinstance(child.tag, str)
+        }
+        values["Id"] = nodes[0].get("Id", "")
+        return values
+
+    def _get_cce_report_lang(self):
+        """The language of the report: pt_BR when it is installed, because
+        the letter is a Brazilian document, else the one of the recipient.
+        """
+        self.ensure_one()
+        if self.env["res.lang"]._lang_get("pt_BR"):
+            return "pt_BR"
+        return self.document_id.partner_id.lang or self.env.lang or "en_US"
+
+    def _get_cce_report_values(self):
+        """Data of the QWeb report of a correction letter (the fallback of the
+        DACCE), read from the stored XML when there is one: what was
+        registered is what is printed, and the times keep the time of the XML.
+        """
+        self.ensure_one()
+        document = self.document_id
+        company = self.company_id.partner_id
+        recipient = document.partner_id
+        sent = self._xml_values(self.file_request_id, "evento")
+        answer = self._xml_values(
+            self.file_response_id, "retEvento", self.protocol_number
+        )
+        registration = answer.get("dhRegEvento")
+        created = sent.get("dhEvento")
+        key = document.document_key or ""
+        sequence = self.sequence or sent.get("nSeqEvento") or ""
+        city = ", ".join(
+            part
+            for part in (
+                company.city_id.name or company.city,
+                company.state_id.code,
+            )
+            if part
+        )
+        address = " - ".join(
+            part
+            for part in (
+                ", ".join(
+                    part
+                    for part in (company.street_name, company.street_number)
+                    if part
+                ),
+                company.street2,
+                company.district,
+                city,
+                company.zip,
+            )
+            if part
+        )
+        return {
+            "issuer_name": company.legal_name or company.name,
+            "issuer_cnpj_cpf": company.vat,
+            "issuer_ie": company.l10n_br_ie_code,
+            "issuer_address": address,
+            "issuer_phone": company.phone,
+            "recipient_name": recipient.legal_name or recipient.name,
+            "recipient_cnpj_cpf": recipient.vat,
+            "event_id": sent.get("Id") or f"ID110110{key}{str(sequence).zfill(2)}",
+            "sequence": sequence,
+            "event_date": (
+                self._datetime_with_offset_text(datetime.fromisoformat(created))
+                if created
+                else self._brasilia_datetime_text(self.create_date)
+            ),
+            "registration_date": (
+                self._datetime_with_offset_text(datetime.fromisoformat(registration))
+                if registration
+                else self._brasilia_datetime_text(self.protocol_date)
+            ),
+            "status": (
+                f"{self.status_code} - {self.response or ''}"
+                if self.status_code
+                else ""
+            ),
+            "nfe_model": document.document_type_id.code,
+            "nfe_number": self.document_number,
+            "nfe_serie": self.document_serie_id.code,
+            "nfe_date": self._brasilia_datetime_text(document.document_date),
+            "access_key": key,
+            "access_key_text": " ".join(key[i : i + 4] for i in range(0, len(key), 4)),
+            "condition_of_use": sent.get("xCondUso") or CCE_CONDITION_OF_USE,
+            "correction": (self.justification or "").replace("\\n", "\n"),
+            "homologation": self.environment == EVENT_ENV_HML,
+        }
+
+
+class ReportDocumentEvent(models.AbstractModel):
+    _name = "report.l10n_br_fiscal_edi.main_report_document_event"
+    _description = "Document Event Report"
+
+    @api.model
+    def _get_report_values(self, docids, data=None):
+        docs = self.env["l10n_br_fiscal.event"].browse(docids)
+        docs._check_can_print()
+        return {"doc_ids": docids, "doc_model": docs._name, "docs": docs}
