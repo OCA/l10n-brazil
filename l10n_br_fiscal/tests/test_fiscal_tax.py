@@ -552,3 +552,15 @@ class TestFiscalTax(TransactionCase):
             ),
             0,
         )
+
+    def test_product_operation_indicator_follows_the_nbs(self):
+        nbs = self.env.ref("l10n_br_fiscal.nbs_101011100")
+        nbs_without = self.env["l10n_br_fiscal.nbs"].create(
+            {"code": "9.9999.99.99", "name": "NBS sem indicador"}
+        )
+        product = self.env["product.template"].create(
+            {"name": "Obra", "nbs_id": nbs.id}
+        )
+        self.assertEqual(product.operation_indicator_id, nbs.operation_indicator_id)
+        product.nbs_id = nbs_without
+        self.assertEqual(product.operation_indicator_id, nbs.operation_indicator_id)
