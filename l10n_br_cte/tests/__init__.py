@@ -9,3 +9,4 @@ from . import test_res_partner
 from . import test_cte_dacte
 from . import test_cte_webservices
 from . import test_cte_vtotdfe
+from . import test_cte_protocol_date
