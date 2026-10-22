@@ -66,7 +66,8 @@ class SpecModel(models.Model):
         res = super()._compute_display_name()
         for rec in self:
             if rec.display_name == "False" or not rec.display_name:
-                rec.display_name = _("Open...")
+                # a new record keeps the client "New" breadcrumb
+                rec.display_name = _("Open...") if rec.id else False
         return res
 
     @classmethod
