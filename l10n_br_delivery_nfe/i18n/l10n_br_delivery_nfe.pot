@@ -291,6 +291,14 @@ msgid "Technical Field: True if the picking has already generated Volume IDs."
 msgstr ""
 
 #. module: l10n_br_delivery_nfe
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_account_bank_statement_line__total_weight
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_account_move__total_weight
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_account_payment__total_weight
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_l10n_br_fiscal_document__total_weight
+msgid "Total Weight"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
 #: model:ir.model,name:l10n_br_delivery_nfe.model_stock_picking
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__picking_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_l10n_br_delivery_nfe_invoice_onshipping
