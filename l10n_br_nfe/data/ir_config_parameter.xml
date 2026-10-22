@@ -6,4 +6,17 @@
         <field name="value">Odoo Brasil OCA v14</field>
       </record>
 
+    <!-- PR 4147: this branch proves the nfelib SOAP transmission, so it is
+         enabled here by default. On 16.0 the legacy erpbrasil.edoc
+         transmission stays the default after the merge (remove this record
+         then), and on 18.0 the helper default flips to nfelib instead. -->
+    <record
+        id="nfelib_soap_transmission"
+        model="ir.config_parameter"
+        forcecreate="True"
+    >
+        <field name="key">l10n_br_nfe.nfelib_soap_transmission</field>
+        <field name="value">True</field>
+      </record>
+
 </odoo>
