@@ -49,6 +49,15 @@
             <field name="scope" position="attributes">
                 <attribute name="invisible">country_code != 'BR'</attribute>
             </field>
+            <!-- The core form renders "Validity" as date_start - date_end, both
+                 with the remaining_days widget. On the start date that widget is
+                 misleading: it always reads "x days ago" in red for a valid
+                 certificate. Only the end date keeps the countdown. -->
+            <field name="date_start" position="attributes">
+                <attribute name="widget">datetime</attribute>
+                <attribute name="options">{'show_time': False}</attribute>
+                <attribute name="interval" />
+            </field>
             <field name="subject_common_name" position="after">
                 <field
                     name="owner_cnpj_cpf"
