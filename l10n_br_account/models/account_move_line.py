@@ -196,6 +196,14 @@ class AccountMoveLine(models.Model):
         unlink_fiscal_lines.unlink()
         return result
 
+    def _is_financial_only_line(self):
+        """Product line with no fiscal document line that must still weigh on
+        the accounting entry and on the payment terms (but not on the fiscal
+        document). Meant to be overridden; no line is financial only by default.
+        """
+        self.ensure_one()
+        return False
+
     @contextmanager
     def _sync_invoice(self, container):
         """
@@ -248,7 +256,13 @@ class AccountMoveLine(models.Model):
                         line.price_subtotal
                     )
                 else:  # BRAZIL CASE:
-                    if line.cfop_id and not line.cfop_id.finance_move:
+                    if line._is_financial_only_line():
+                        # Not part of the fiscal document: only the accounting
+                        # entry and the payment terms take it into account.
+                        unsigned_amount_currency = line.currency_id.round(
+                            line.price_subtotal
+                        )
+                    elif line.cfop_id and not line.cfop_id.finance_move:
                         unsigned_amount_currency = 0
                         if not fiscal_operation.deductible_taxes:
                             # When there is no financial amount but there are non
