@@ -523,6 +523,49 @@ class IbsCbsTaxesMixin:
         self.assertEqual(self.company.account_sale_tax_id, sale_tax)
         self.assertEqual(self.company.account_purchase_tax_id, purchase_tax)
 
+    def test_migration_migrates_an_archived_company(self):
+        """An archived company with the chart is migrated like the others.
+
+        The many2many `company_ids` of an account reads only active
+        companies, so the account created for an archived company looked as
+        if it had no company and the constraint of the account failed.
+        """
+        archived = self._create_company(f"Empresa Arquivada {self.chart_template}")
+        self._remove_new_taxes()
+        archived_taxes = [self._tax(key, archived) for key in NEW_TAXES]
+        archived_taxes += [self._tax(NEW_GROUP, archived)]
+        for record in archived_taxes:
+            record.unlink()
+        for key in PLAIN_TAXES:
+            for refund in (False, True):
+                self._tax_line(
+                    self._tax(key, archived), refund=refund
+                ).account_id = False
+        accounts = (
+            self.env["account.account"]
+            .with_company(archived)
+            .search(
+                [
+                    ("company_ids", "in", archived.id),
+                    ("code", "in", list(self.new_plan_account_codes)),
+                ]
+            )
+        )
+        accounts.unlink()
+        archived.active = False
+        self.assertFalse(self._tax(NEW_TAXES[0], archived))
+
+        self._migrate()
+
+        for key in NEW_TAXES:
+            self.assertTrue(self._tax(key, archived), f"{key} was not created")
+        for key in ALL_TAXES:
+            self.assertTrue(
+                self._tax_line(self._tax(key, archived)).account_id,
+                f"{key} has no account",
+            )
+        self.assertTrue(self._tax(NEW_TAXES[0]), "the active company was skipped")
+
     def test_migration_uses_the_same_accounts_as_a_new_load(self):
         """A company migrated ends with the accounts of a company loaded now."""
         self._remove_new_taxes()
