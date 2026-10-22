@@ -82,7 +82,7 @@ def set_stock_warehouse_external_ids(env, company_external_id):
     env["ir.model.data"]._update_xmlids(data_list)
 
 
-def ensure_demo_warehouse(env, company_external_id, partner_external_id, code):
+def ensure_demo_warehouse(env, company_external_id, code):
     """Ensure a demo warehouse exists for the given company.
 
     The stock module auto-creates a warehouse for each company, but in some
@@ -98,14 +98,15 @@ def ensure_demo_warehouse(env, company_external_id, partner_external_id, code):
     )
     if warehouse:
         return warehouse
-    partner = env.ref(partner_external_id, raise_if_not_found=False)
+    # the warehouse address is the company's own, as the core does: with a
+    # customer as partner, Odoo 18 writes the inter-warehouse transit
+    # locations on that customer and its sale orders cannot be confirmed
     vals = {
         "name": company.name,
         "code": code,
         "company_id": company.id,
+        "partner_id": company.partner_id.id,
     }
-    if partner:
-        vals["partner_id"] = partner.id
     _logger.info(
         "Creating demo warehouse %s (%s) for company %s",
         code,
@@ -122,19 +123,16 @@ def pre_init_hook(env):
         ensure_demo_warehouse(
             env,
             "l10n_br_base.empresa_simples_nacional",
-            "l10n_br_base.res_partner_cliente1_sp",
             "ESN",
         )
         ensure_demo_warehouse(
             env,
             "l10n_br_base.empresa_lucro_presumido",
-            "l10n_br_base.res_partner_cliente1_sp",
             "ELP",
         )
         ensure_demo_warehouse(
             env,
             "l10n_br_base.empresa_lucro_real",
-            "l10n_br_base.res_partner_cliente1_sp",
             "ELR",
         )
         set_stock_warehouse_external_ids(env, "l10n_br_base.empresa_simples_nacional")
