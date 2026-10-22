@@ -355,6 +355,24 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
             arch,
         )
 
+    def test_children_list_headers_use_the_field_label(self):
+        """The columns of the child registers list must not show the technical
+        field name (COD_ITEM, UNID...) as the header."""
+        register_model = self.env["l10n_br_sped.fake.i010"]
+        arch, _view = register_model._get_view(view_type="form")
+        child_tree = arch.xpath("//field[@name='reg_I050_ids']/tree")[0]
+        columns = child_tree.xpath("./field[not(@invisible)]")
+        self.assertTrue(columns)
+        child_model = self.env["l10n_br_sped.fake.i050"]
+        for column in columns:
+            name = column.get("name")
+            self.assertNotEqual(
+                column.get("string"),
+                name,
+                f"column {name} carries the technical name as its header",
+            )
+            self.assertNotEqual(child_model._fields[name].string, name)
+
     def test_populate_and_split_attachment_creation(self):
         declaration = self.declaration
         self.assertEqual(declaration.state, "draft")

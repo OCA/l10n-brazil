@@ -303,12 +303,7 @@ class SpedMixin(models.AbstractModel):
                                 and tree_field[1].type == "one2many"
                             ):
                                 continue
-                            field_tree.append(
-                                E.field(
-                                    name=tree_field[0],
-                                    string=tree_field[0],
-                                )
-                            )
+                            field_tree.append(E.field(name=tree_field[0]))
                         field_tag.append(field_tree)
                         field_form = self.env[
                             field.comodel_name
