@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-20 19:45+0000\n"
+"PO-Revision-Date: 2026-10-23 07:39+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -312,7 +312,7 @@ msgstr "O parceiro que está realizando o serviço de entrega."
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__picking_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_l10n_br_delivery_nfe_invoice_onshipping
 msgid "Transfer"
-msgstr "Transferir"
+msgstr "Transferência"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,help:l10n_br_delivery_nfe.field_product_product__product_volume_type
