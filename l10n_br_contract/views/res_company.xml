@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="l10n_br_contract_res_company_form" model="ir.ui.view">
+        <field name="name">res.company.form (in l10n_br_contract)</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.fiscal_res_company_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='fiscal']/notebook" position="inside">
+                <page name="l10n_br_contract" string="Contract">
+                    <group>
+                        <group>
+                            <field name="contract_sale_fiscal_operation_id" />
+                            <field name="contract_purchase_fiscal_operation_id" />
+                            <field name="contract_recalculate_taxes_before_invoice" />
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
