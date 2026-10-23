@@ -5,7 +5,6 @@
 # Copyright (C) 2026  Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import base64
 from collections import Counter
 
 from erpbrasil.base.fiscal.cnpj_cpf import formata
@@ -317,15 +316,17 @@ class DocumentImportWizard(models.TransientModel):
         return super()._create_edoc_from_file()
 
     def _attach_original_nfe_xml_to_document(self, edoc):
-        return self.env["ir.attachment"].create(
+        attachment = self.env["ir.attachment"].create(
             {
                 "name": f"NFe-Importada-{edoc.document_key}.xml",
-                "datas": base64.b64decode(self.file),
+                "datas": self.file,
                 "description": "XML NFe - Importada por XML",
                 "res_model": "l10n_br_fiscal.document",
                 "res_id": edoc.id,
             }
         )
+        edoc.original_xml_file_id = attachment
+        return attachment
 
     def _edit_parsed_xml(self, parsed_xml):
         for product_line in self.imported_products_ids.filtered("product_id"):
