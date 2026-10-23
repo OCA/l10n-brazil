@@ -58,3 +58,10 @@ class TestAnonymousConsumerData(TransactionCase):
         module.migrate(self.env, "16.0.20.0.3")
         partner.invalidate_recordset()
         self.assertTrue(partner.is_anonymous_consumer)
+
+    def test_anonymous_consumer_in_partner_form(self):
+        """The mark can be set by the user on the partner form."""
+        view = self.env["res.partner"].get_view(
+            self.env.ref("base.view_partner_form").id, "form"
+        )
+        self.assertIn('name="is_anonymous_consumer"', view["arch"])
