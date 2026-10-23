@@ -6,3 +6,4 @@ from . import test_purchase_edition
 from . import test_purchase_order_edition
 from . import test_purchase_report
 from . import test_search_filters
+from . import test_import_existing_bill
