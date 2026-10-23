@@ -26,13 +26,13 @@ BOTINA - TIPO B||||CINZA|PROTEÇÃO DOS PÉS||||||NBR 12345
 42016|30/12/2027|VÁLIDO|P1|C1|BSB PRODUTORA|Nacional|\
 BOTINA - TIPO B||||PRETA|PROTEÇÃO DOS PÉS||||||NBR 12345
 31469|23/05/2028|VÁLIDO|P2|C2|PLASTCOR|Nacional|\
-CAPACETE CLASSE E||||||PROTEÇÃO DA CABEÇA||||||NBR 99999
+CAPACETE CLASSE E|||||PROTEÇÃO DA CABEÇA||||||NBR 99999
 10401|18/05/2014|VENCIDO|P3|C3|FABRICA ANTIGA|Nacional|\
-LUVA||||||PROTEÇÃO DAS MÃOS||||||
+LUVA|||||PROTEÇÃO DAS MÃOS||||||
 10401|14/08/2026|VÁLIDO|P4|C3|FABRICA ANTIGA|Nacional|\
-LUVA||||||PROTEÇÃO DAS MÃOS||||||
+LUVA|||||PROTEÇÃO DAS MÃOS||||||
 99999||CANCELADO|P5|C4|TESTE|Nacional|\
-LUVA||||||TESTE||||||
+LUVA|||||TESTE||||||
 """
 
 
@@ -119,8 +119,8 @@ class TestDownloadAndParse(BaseCase):
             "MARCA CA|REFERENCIA|COR|APROVADO PARA LAUDO|RESTRICAO LAUDO|"
             "OBSERVACAO ANALISE LAUDO|CNPJ LABORATORIO|"
             "RAZAO SOCIAL LABORATORIO|NR LAUDO|NORMA\n"
-            "55555|01/06/2027|VÁLIDO|P|C|F|N|E||||C|A|||||N\n"
-            "55555||VÁLIDO|P|C|F|N|E||||C|A|||||N\n"
+            "55555|01/06/2027|VÁLIDO|P|C|F|N|E||||C|A||||||N\n"
+            "55555||VÁLIDO|P|C|F|N|E||||C|A||||||N\n"
         )
         zip_path = _make_zip(lines)
         try:
