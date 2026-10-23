@@ -50,3 +50,10 @@ class TestResPartnerMatchOrCreateM2o(TransactionCase):
             "existing partner instead of creating a duplicate.",
         )
         self.assertEqual(partner_model.search_count([("vat", "=", cpf)]), 1)
+
+
+class TestAnonymousConsumerData(TransactionCase):
+    def test_anonymous_consumer_data(self):
+        """The standard anonymous consumer comes marked."""
+        partner = self.env.ref("l10n_br_fiscal.res_partner_anonimo")
+        self.assertTrue(partner.is_anonymous_consumer)
