@@ -183,6 +183,45 @@ class TestNFCe(TestNFeExport):
         )
         self.assertTrue(image.startswith(b"\x89PNG"))
 
+    def _render_danfce_text(self):
+        report = self.env["ir.actions.report"]._get_report_from_name(
+            "l10n_br_nfe.report_danfe_nfce"
+        )
+        data = self.document_id._prepare_nfce_danfe_values()
+        content = report._render_qweb_html(
+            "l10n_br_nfe.report_danfe_nfce", self.document_id.ids, data=data
+        )[0]
+        return " ".join(html.fromstring(content).text_content().split())
+
+    def test_danfce_datetime_uses_user_timezone(self):
+        """The DANFCE prints the issue date in the user's timezone, not in UTC."""
+        self.env.user.tz = "America/Sao_Paulo"
+        self.document_id.document_date = "2023-08-05 18:45:36"
+        text = self._render_danfce_text()
+        self.assertIn("Emissao: 05/08/23 15:45:36", text)
+        self.assertNotIn("18:45:36", text)
+
+    def test_danfce_without_protocol_has_no_authorization_lines(self):
+        """Before the transmission there is no protocol: do not print it."""
+        self.assertFalse(self.document_id.authorization_protocol)
+        text = self._render_danfce_text()
+        self.assertNotIn("Protocolo", text)
+        self.assertNotIn("Autorizacao", text)
+
+    @nfe_mock({"nfeAutorizacaoLote": "retEnviNFe/autorizada.xml"})
+    def test_danfce_authorized_has_protocol_and_authorization_date(self):
+        self.env.user.tz = "America/Sao_Paulo"
+        self.document_id.action_document_send()
+        self.assertEqual(self.document_id.state_edoc, SITUACAO_EDOC_AUTORIZADA)
+        protocol = self.document_id.authorization_protocol
+        self.assertTrue(protocol)
+        authorization_date = Datetime.context_timestamp(
+            self.document_id, self.document_id.authorization_date
+        ).strftime("%d/%m/%y %H:%M:%S")
+        text = self._render_danfce_text()
+        self.assertIn(f"Protocolo: {protocol}", text)
+        self.assertIn(f"Autorizacao: {authorization_date}", text)
+
     @nfe_mock({"nfeAutorizacaoLote": "retEnviNFe/autorizada.xml"})
     def test_prepare_nfce_payment(self):
         amount = self.document_id.amount_financial_total / 2
