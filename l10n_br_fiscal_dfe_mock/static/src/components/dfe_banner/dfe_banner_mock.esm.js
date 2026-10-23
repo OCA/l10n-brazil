@@ -36,8 +36,4 @@ patch(DfeBanner.prototype, {
     onToggleMock() {
         return this.callMockAction("action_toggle_dfe_mock_mode");
     },
-
-    onResetMockCooldown() {
-        return this.callMockAction("action_reset_dfe_cooldown");
-    },
 });
