@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-19 07:08+0000\n"
-"Last-Translator: Adriano Prado <adrianojprado@gmail.com>\n"
+"PO-Revision-Date: 2026-10-23 17:55+0000\n"
+"Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -71,7 +71,7 @@ msgstr "Número da Inscrição Estadual"
 #. module: l10n_br_stock
 #: model:ir.model,name:l10n_br_stock.model_stock_picking
 msgid "Transfer"
-msgstr "Transferir"
+msgstr "Transferência"
 
 #. module: l10n_br_stock
 #: model:ir.model.fields,help:l10n_br_stock.field_stock_picking__legal_name
