@@ -1,5 +1,6 @@
 # Copyright (C) 2023 KMEE Informatica LTDA
 # Copyright 2026 Engenere (<https://engenere.one>).
+# Copyright 2026 Escodoo - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 
 import base64
@@ -509,6 +510,7 @@ class ResCompany(models.Model):
             .search(
                 [
                     ("company_id", "=", self.env.company.id),
+                    ("imported_document", "=", True),
                     ("document_key", "in", complete_docs.mapped("access_key")),
                 ]
             )

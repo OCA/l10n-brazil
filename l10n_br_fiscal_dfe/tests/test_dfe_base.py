@@ -141,7 +141,7 @@ class TestDfeBase(TransactionCase):
             self.company._dfe_validate_distribution_response(result, raise_message=True)
 
     def test_fiscal_document_link_follows_the_access_key(self):
-        """An inbox row stays pending until a fiscal document has the same key."""
+        """An inbox row stays pending until this company imported that key."""
         access_key = _nfe_access_key("3524015959431500015755001000000001112345678")
         inbox = self.env["l10n_br_fiscal_dfe.document"].create(
             {
@@ -165,14 +165,24 @@ class TestDfeBase(TransactionCase):
             }
         )
         other_company = self.env.ref("l10n_br_base.empresa_simples_nacional")
-        self.env["l10n_br_fiscal.document"].create(
+        other_document = self.env["l10n_br_fiscal.document"].create(
             {
                 "company_id": other_company.id,
                 "document_type_id": self.env.ref("l10n_br_fiscal.document_55").id,
                 "partner_id": self.env.ref("l10n_br_base.res_partner_cliente1_sp").id,
                 "document_key": access_key,
+                "imported_document": True,
             }
         )
+        inbox.invalidate_recordset()
+        self.assertFalse(inbox.fiscal_document_id)
+        self.assertNotEqual(inbox.fiscal_document_id, other_document)
+        pending = self.env["l10n_br_fiscal_dfe.document"].search(
+            [("id", "=", inbox.id), ("fiscal_document_id", "=", False)]
+        )
+        self.assertEqual(pending, inbox)
+
+        fiscal_document.imported_document = True
         inbox.invalidate_recordset()
         self.assertEqual(inbox.fiscal_document_id, fiscal_document)
         linked = self.env["l10n_br_fiscal_dfe.document"].search(
