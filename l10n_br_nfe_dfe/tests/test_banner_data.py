@@ -115,4 +115,7 @@ class TestDfeBannerData(TransactionCase):
         imported_doc = self.env.ref("l10n_br_fiscal.demo_nfe_purchase_same_state")
         self.assertEqual(imported_doc.company_id, self.company)
         imported_doc.document_key = access_key
+        self.assertFalse(imported_doc.imported_document)
+        self.assertEqual(self._banner_data()["pending_import_count"], 1)
+        imported_doc.imported_document = True
         self.assertEqual(self._banner_data()["pending_import_count"], 0)
