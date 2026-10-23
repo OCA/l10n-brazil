@@ -149,11 +149,27 @@ class TestAssessmentReconciliation(TransactionCase):
         self.assertEqual(divergence.line_id, self.period.line_ids)
         self.assertEqual(self.period.state, "diverged")
 
-    def test_assessed_above_booked_suggests_fixing_the_registration(self):
+    def test_assessed_above_booked_suggests_a_credit_note(self):
         self._upsert_debits({self._key(1): 100.0})
         divergence = self._reconcile_against({"debit": {self._key(1): 80.0}})
         self.assertEqual(divergence.divergence_type, "value")
-        self.assertEqual(divergence.suggested_action, "fix_registration")
+        self.assertEqual(divergence.suggested_action, "credit_note")
+
+    def test_credit_booked_above_assessed_suggests_a_credit_note(self):
+        self.period._upsert_lines(
+            [
+                {
+                    "document_key": self._key(1),
+                    "document_model": 55,
+                    "value": 15.0,
+                    "value_balance": 15.0,
+                }
+            ],
+            "credits",
+        )
+        divergence = self._reconcile_against({"credit": {self._key(1): 20.0}})
+        self.assertEqual(divergence.divergence_type, "value")
+        self.assertEqual(divergence.suggested_action, "credit_note")
 
     def test_document_only_in_the_assessment(self):
         self._upsert_debits({self._key(1): 100.0})
@@ -208,7 +224,7 @@ class TestAssessmentReconciliation(TransactionCase):
         divergence = self._reconcile_against({"debit": {self._key(1): 130.0}})
         with self.assertRaises(UserError):
             self.period.action_confirm()
-        divergence.action_mark_handled()
+        self._handle_value_gap(divergence)
         self.period.action_confirm()
         self.assertEqual(self.period.state, "confirmed")
         self.assertEqual(
@@ -431,7 +447,7 @@ class TestAssessmentReconciliation(TransactionCase):
     def test_second_reconcile_keeps_treated_divergences(self):
         self._upsert_debits({self._key(1): 100.0})
         divergence = self._reconcile_against({"debit": {self._key(1): 130.0}})
-        divergence.action_mark_handled()
+        self._handle_value_gap(divergence)
         self._reconcile_against({"debit": {self._key(1): 130.0}})
         self.assertEqual(self.period.divergence_ids, divergence)
         self.assertEqual(divergence.state, "handled")
@@ -449,7 +465,7 @@ class TestAssessmentReconciliation(TransactionCase):
     def test_changed_amount_reopens_treated_divergence(self):
         self._upsert_debits({self._key(1): 100.0})
         divergence = self._reconcile_against({"debit": {self._key(1): 130.0}})
-        divergence.action_mark_handled()
+        self._handle_value_gap(divergence)
         self._upsert_debits({self._key(1): 140.0})
         self._reconcile_against({"debit": {self._key(1): 130.0}})
         self.assertEqual(self.period.divergence_ids, divergence)
@@ -532,6 +548,44 @@ class TestAssessmentReconciliation(TransactionCase):
             self.assertEqual(request.delivered_line_count, 2)
             self.assertEqual(request.delivered_amount, 120.0)
         self.assertEqual(self.period.debit_delivery, "received")
+
+    def _handle_value_gap(self, divergence, notes=None):
+        divergence.notes = notes or "Issued an adjustment document for the value gap."
+        divergence.action_mark_handled()
+
+    def _adjustment_document(self, key=None):
+        return self.env["l10n_br_fiscal.document"].create(
+            {
+                "company_id": self.company.id,
+                "document_type_id": self.env.ref("l10n_br_fiscal.document_55").id,
+                "document_key": key or self._key(9),
+            }
+        )
+
+    def test_value_cannot_be_handled_without_proof(self):
+        self._upsert_debits({self._key(1): 100.0})
+        divergence = self._reconcile_against({"debit": {self._key(1): 130.0}})
+        with self.assertRaises(UserError):
+            divergence.action_mark_handled()
+        self.assertEqual(divergence.state, "open")
+
+    def test_value_is_handled_when_an_adjustment_document_is_linked(self):
+        self._upsert_debits({self._key(1): 100.0})
+        divergence = self._reconcile_against({"debit": {self._key(1): 130.0}})
+        divergence.adjustment_document_id = self._adjustment_document()
+        divergence.action_mark_handled()
+        self.assertEqual(divergence.state, "handled")
+
+    def test_missing_fisco_debit_cannot_be_handled_without_proof(self):
+        self._upsert_debits({self._key(1): 100.0})
+        divergence = self._reconcile_against(
+            {"debit": {self._key(1): 100.0, self._key(2): 70.0}}
+        )
+        with self.assertRaises(UserError):
+            divergence.action_mark_handled()
+        self.assertEqual(divergence.state, "open")
+        self._handle_value_gap(divergence, "Issued a debit note for the booked debit.")
+        self.assertEqual(divergence.state, "handled")
 
     def test_missing_local_cannot_be_handled_without_a_document(self):
         self._upsert_debits({self._key(1): 100.0})
