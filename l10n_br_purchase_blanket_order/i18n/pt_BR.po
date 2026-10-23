@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-20 21:53+0000\n"
+"PO-Revision-Date: 2026-10-23 14:02+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -1437,7 +1437,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_purchase_blanket_order/wizards/create_purchase_orders.py:0
 msgid "RFQ"
-msgstr ""
+msgstr "SDC"
 
 #. module: l10n_br_purchase_blanket_order
 #: model:ir.model.fields,help:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__icmssn_range_id
