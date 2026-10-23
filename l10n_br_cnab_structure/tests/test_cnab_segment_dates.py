@@ -33,3 +33,14 @@ class TestCnabSegmentDates(TransactionCase):
         self.assertEqual(
             self._output("cnab_itau_240_boleto_segmento_j_168_182", None), "0" * 15
         )
+
+    def test_itau_segment_j_discount_keeps_cents(self):
+        """Itau segment J discount (115-129) is sent with two decimals."""
+
+        class Line:
+            discount_value = 10.5
+
+        self.assertEqual(
+            self._output("cnab_itau_240_boleto_segmento_j_115_129", Line()),
+            "1050".zfill(15),
+        )
