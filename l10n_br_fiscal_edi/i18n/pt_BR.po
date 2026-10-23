@@ -59,10 +59,16 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event
 msgid ""
-"A Carta de Correção é disciplinada pelo parágrafo 1o-A do artigo 7o do Convênio S/N, de 15 de dezembro de 1970 e pode ser utilizada para regularização de erro ocorrido na emissão de documento fiscal, desde que o erro não seja relacionado com:\n"
+"A Carta de Correção é disciplinada pelo parágrafo 1o-A do artigo 7o do "
+"Convênio S/N, de 15 de dezembro de 1970 e pode ser utilizada para "
+"regularização de erro ocorrido na emissão de documento fiscal, desde que o "
+"erro não seja relacionado com:\n"
 "                <br/>\n"
-"                <br/>I - as variáveis que determinam o valor do imposto tais como: base de cálculo, alíquota, diferença de preço, quantidade, valor da operação ou da prestação;\n"
-"                <br/>II - a correção de dados cadastrais que impliquem mudança do remetente ou do destinatário;\n"
+"                <br/>I - as variáveis que determinam o valor do imposto tais "
+"como: base de cálculo, alíquota, diferença de preço, quantidade, valor da "
+"operação ou da prestação;\n"
+"                <br/>II - a correção de dados cadastrais que impliquem "
+"mudança do remetente ou do destinatário;\n"
 "                <br/>III - a data de emissão ou de saída.\n"
 "                <br/>"
 msgstr ""
@@ -483,8 +489,8 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,help:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__lot_receipt_number
 msgid ""
-"In asynchronous processing, a lot receipt number is generated, which is used"
-" for later consultation."
+"In asynchronous processing, a lot receipt number is generated, which is used "
+"for later consultation."
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
@@ -641,6 +647,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
+#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document__original_xml_file_id
+msgid "Original XML File"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_cancel_wizard__partner_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_correction_wizard__partner_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__partner_id
@@ -782,7 +793,9 @@ msgstr ""
 #: code:addons/l10n_br_fiscal_edi/models/document.py:0
 #, python-format
 msgid ""
-"The document XML does not comply with its schema, so it cannot be transmitted. Set the document back to draft, fix the data and confirm it again.\n"
+"The document XML does not comply with its schema, so it cannot be "
+"transmitted. Set the document back to draft, fix the data and confirm it "
+"again.\n"
 "\n"
 "%(errors)s"
 msgstr ""
@@ -833,6 +846,13 @@ msgid "XML Response"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
+#: model:ir.model.fields,help:l10n_br_fiscal_edi.field_l10n_br_fiscal_document__original_xml_file_id
+msgid ""
+"XML of a document issued by a third party, kept as received when the "
+"document is imported. It is not an authorization event."
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
 #. odoo-python
 #: code:addons/l10n_br_fiscal_edi/models/document.py:0
 #, python-format
@@ -846,8 +866,8 @@ msgstr ""
 #: code:addons/l10n_br_fiscal_edi/models/document.py:0
 #, python-format
 msgid ""
-"You can only invalidate the numbering of rejected or denied documents issued"
-" by your company."
+"You can only invalidate the numbering of rejected or denied documents issued "
+"by your company."
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
