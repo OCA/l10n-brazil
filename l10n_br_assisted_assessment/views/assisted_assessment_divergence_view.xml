@@ -11,6 +11,7 @@
                 <field name="line_type" />
                 <field name="document_key" />
                 <field name="document_id" />
+                <field name="adjustment_document_id" optional="hide" />
                 <field name="fisco_value" />
                 <field name="local_value" />
                 <field name="difference" />
@@ -63,6 +64,7 @@
                             <field name="divergence_type" />
                             <field name="document_key" />
                             <field name="document_id" />
+                            <field name="adjustment_document_id" />
                             <field
                                 name="company_id"
                                 groups="base.group_multi_company"

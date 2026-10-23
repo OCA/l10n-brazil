@@ -113,7 +113,9 @@ A rotina mensal tem três passos:
    tratada ou ignorada. Isso não constitui o crédito tributário nem
    confirma a apuração na RFB: o silêncio e a constituição são julgados
    lá. Tratar um documento só na apuração exige vincular o documento
-   fiscal; ignorar exige uma nota.
+   fiscal; tratar uma diferença de valor (ou um débito só na
+   escrituração) exige vincular a nota de crédito ou de débito de
+   ajuste, ou registrar o motivo em notas; ignorar exige uma nota.
 
 Uma ação agendada diária avisa os responsáveis quando o prazo se
 aproxima e marca o período como expirado depois que ele passa. A

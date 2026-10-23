@@ -5,8 +5,8 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 from ..constants import (
+    ACTION_CREDIT_NOTE,
     ACTION_DEBIT_NOTE,
-    ACTION_FIX_REGISTRATION,
     ACTION_REGISTER_DOCUMENT,
     ACTION_REVIEW_CREDIT,
     DIVERGENCE_CREDIT_DENIED,
@@ -15,7 +15,6 @@ from ..constants import (
     DIVERGENCE_TYPES,
     DIVERGENCE_VALUE,
     DOCUMENT_KEY_SIZE,
-    LINE_CREDIT,
     LINE_DEBIT,
     LINE_TYPES,
     SUGGESTED_ACTIONS,
@@ -48,13 +47,23 @@ class AssistedAssessmentDivergence(models.Model):
         comodel_name="l10n_br_fiscal.document",
         string="Fiscal Document",
     )
+    adjustment_document_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document",
+        string="Adjustment Document",
+        copy=False,
+        domain="[('company_id', '=', company_id)]",
+        help="Credit or debit note that adjusts this row. Required to handle "
+        "a value gap (or a booked debit missing from the assessment) unless "
+        "a note explains the treatment.",
+    )
     fisco_value = fields.Monetary(string="Assessed Value")
     local_value = fields.Monetary(string="Booked Value")
     difference = fields.Monetary(compute="_compute_difference", store=True)
     suggested_action = fields.Selection(selection=SUGGESTED_ACTIONS)
     notes = fields.Text(
         help="Required when the divergence is ignored, so the reason for "
-        "accepting the tax administration figure stays on the record.",
+        "accepting the tax administration figure stays on the record. Also "
+        "required when handling a value gap without an adjustment document.",
     )
     state = fields.Selection(
         selection=[
@@ -138,9 +147,11 @@ class AssistedAssessmentDivergence(models.Model):
     def _suggested_action(self, divergence_type, line_type, fisco_value, local_value):
         """Return the action that repairs the divergence.
 
-        Adjustments are made by issuing fiscal documents, so a value the fisco
-        did not charge becomes a debit note, while a wrongly charged value is
-        repaired at the source, in the tax registration that produced the XML.
+        Adjustments are made by issuing fiscal documents: a debit the fisco
+        did not charge becomes a debit note, and the symmetric assessed
+        amount becomes a credit note. A credit booked above the assessed
+        value is also a credit note; a credit the fisco did not grant is
+        reviewed.
         """
         if divergence_type == DIVERGENCE_MISSING_LOCAL:
             return ACTION_REGISTER_DOCUMENT
@@ -151,12 +162,16 @@ class AssistedAssessmentDivergence(models.Model):
                 ACTION_DEBIT_NOTE if line_type == LINE_DEBIT else ACTION_REVIEW_CREDIT
             )
         if divergence_type == DIVERGENCE_VALUE:
-            if line_type == LINE_CREDIT:
-                return ACTION_REVIEW_CREDIT
+            if line_type == LINE_DEBIT:
+                return (
+                    ACTION_DEBIT_NOTE
+                    if local_value > fisco_value
+                    else ACTION_CREDIT_NOTE
+                )
             return (
-                ACTION_DEBIT_NOTE
+                ACTION_CREDIT_NOTE
                 if local_value > fisco_value
-                else ACTION_FIX_REGISTRATION
+                else ACTION_REVIEW_CREDIT
             )
         return False
 
@@ -204,29 +219,48 @@ class AssistedAssessmentDivergence(models.Model):
     def action_mark_ignored(self):
         return self.write({"state": "ignored"})
 
+    def _requires_adjustment_proof(self):
+        """Value gaps and booked-only debits are closed by an adjustment NF."""
+        self.ensure_one()
+        return self.divergence_type == DIVERGENCE_VALUE or (
+            self.divergence_type == DIVERGENCE_MISSING_FISCO
+            and self.line_type == LINE_DEBIT
+        )
+
     def _check_handled(self):
-        """A missing local document is handled by registering that document."""
+        """Require the fiscal document (or note) that closes each row type."""
         for record in self:
-            if record.divergence_type != DIVERGENCE_MISSING_LOCAL:
+            if record.divergence_type == DIVERGENCE_MISSING_LOCAL:
+                if not record.document_id:
+                    raise UserError(
+                        _(
+                            "Link the fiscal document that registers this access "
+                            "key before marking the divergence as handled."
+                        )
+                    )
+                if (
+                    record.document_key
+                    and record.document_id.document_key
+                    and record.document_key != record.document_id.document_key
+                ):
+                    raise UserError(
+                        _(
+                            "The fiscal document access key does not match the "
+                            "assessment line."
+                        )
+                    )
                 continue
-            if not record.document_id:
-                raise UserError(
-                    _(
-                        "Link the fiscal document that registers this access "
-                        "key before marking the divergence as handled."
-                    )
+            if not record._requires_adjustment_proof():
+                continue
+            if record.adjustment_document_id or (record.notes or "").strip():
+                continue
+            raise UserError(
+                _(
+                    "Link the credit or debit note that adjusts this row, "
+                    "or explain the treatment in the notes, before marking "
+                    "the divergence as handled."
                 )
-            if (
-                record.document_key
-                and record.document_id.document_key
-                and record.document_key != record.document_id.document_key
-            ):
-                raise UserError(
-                    _(
-                        "The fiscal document access key does not match the "
-                        "assessment line."
-                    )
-                )
+            )
 
     def _check_ignored(self):
         for record in self:
