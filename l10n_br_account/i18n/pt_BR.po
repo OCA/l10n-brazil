@@ -6007,6 +6007,13 @@ msgid "Origem do Trem"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__original_xml_file_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__original_xml_file_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__original_xml_file_id
+msgid "Original XML File"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_other_value
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_other_value
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_other_value
@@ -9017,6 +9024,15 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_veicProd
 msgid "Veículos novos"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__original_xml_file_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__original_xml_file_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__original_xml_file_id
+msgid ""
+"XML of a document issued by a third party, kept as received when the "
+"document is imported. It is not an authorization event."
 msgstr ""
 
 #. module: l10n_br_account
