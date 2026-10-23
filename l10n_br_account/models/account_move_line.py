@@ -560,7 +560,13 @@ class AccountMoveLine(models.Model):
                         "tax_tag_ids": [Command.set(tax["tag_ids"])],
                         "partner_id": line.move_id.partner_id.id or line.partner_id.id,
                         "move_id": line.move_id.id,
-                        "display_type": line.display_type,
+                        # The key must be the same the tax line gets in
+                        # ``tax_key`` (display_type "tax"), otherwise the dynamic
+                        # lines sync never matches the existing tax lines and
+                        # rewrites them in pairs, swapping account and label.
+                        "display_type": (
+                            line.display_type if line.display_type == "epd" else "tax"
+                        ),
                     }
                 ): {
                     "name": tax["name"]

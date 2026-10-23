@@ -558,3 +558,70 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
         move.invalidate_recordset(["date"])
         vals = move._prepare_wh_invoice(wh_line, fiscal_group)
         self.assertEqual(vals["invoice_date_due"], fields.Date.to_date("2026-02-28"))
+
+    def test_tax_lines_sync_keeps_each_tax_line_after_price_change(self):
+        """Changing the price of a move that was posted before must not make
+        its tax lines trade account and label with each other, nor fill the
+        chatter with "Journal Item updated" for them."""
+        for group in ("pis_wh", "cofins_wh", "issqn_wh"):
+            self.env.ref(
+                f"l10n_br_fiscal.tax_group_{group}"
+            ).generate_wh_invoice = False
+        move = self.init_invoice(
+            "in_invoice",
+            products=[self.service_test],
+            partner=self.test_partner,
+            document_type=self.env.ref("l10n_br_fiscal.document_55"),
+            fiscal_operation=self.env.ref("l10n_br_fiscal.fo_compras"),
+            fiscal_operation_lines=[self.env.ref("l10n_br_fiscal.fo_compras_servico")],
+            document_serie="1",
+            document_number="57",
+        )
+        # The tracking is silenced by the common class, and it is what shows this.
+        move = move.with_context(tracking_disable=False)
+        line = move.invoice_line_ids[:1]
+        # The withholdings are chosen after the first save, as on the screen, so
+        # the tax lines get created in two steps.
+        line.write(
+            {
+                "pis_wh_tax_id": self.env.ref("l10n_br_fiscal.tax_pis_wh_0_65").id,
+                "cofins_wh_tax_id": self.env.ref("l10n_br_fiscal.tax_cofins_wh_3").id,
+                "issqn_tax_id": False,
+                "issqn_fg_city_id": self.env.ref("l10n_br_base.city_3550308").id,
+                "issqn_wh_tax_id": self.env.ref("l10n_br_fiscal.tax_issqn_wh_5").id,
+            }
+        )
+        move.action_post()
+        move.button_draft()
+
+        def tax_lines():
+            return {
+                tax_line.id: (
+                    tax_line.tax_repartition_line_id,
+                    tax_line.account_id,
+                    tax_line.name,
+                )
+                for tax_line in move.line_ids.filtered(
+                    lambda ml: ml.display_type == "tax"
+                )
+            }
+
+        before = tax_lines()
+        self.assertGreater(len(before), 2, "The scenario needs several tax lines.")
+        last_message = self.env["mail.message"].search([], order="id desc", limit=1)
+
+        line.price_unit = line.price_unit * 2
+        move.action_post()
+
+        self.assertEqual(
+            tax_lines(), before, "A tax line took the identity of another one."
+        )
+        swaps = self.env["mail.message"].search(
+            [
+                ("model", "=", "account.move"),
+                ("res_id", "=", move.id),
+                ("id", ">", last_message.id),
+                ("tracking_value_ids.field", "=", "account_id"),
+            ]
+        )
+        self.assertFalse(swaps, "The chatter logged account swaps between tax lines.")
