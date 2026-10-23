@@ -80,3 +80,37 @@ class TestDeliveryNFe(TestBrPickingInvoicingCommon):
             "Unexpected value for the field nfe40_qVol in Fiscal Details.",
         )
         self.assertEqual(p1_volume_ids, p2_volume_ids)
+
+    def test_invoice_wizard_total_weight_sums_volumes(self):
+        """Fiscal document created by the wizard sums the volumes gross weight"""
+        self.invoice_wizard = self.env["stock.invoice.onshipping"]
+        self.prod1 = self.env.ref("product.product_product_12")
+        self.prod2 = self.env.ref("product.product_product_16")
+        self._change_user_company(self.env.ref("l10n_br_base.empresa_lucro_presumido"))
+        picking1 = self.env.ref("l10n_br_stock_account.lucro_presumido-picking_1")
+        picking1.write(
+            {"carrier_id": self.env.ref("l10n_br_delivery.test_br_delivery_carrier").id}
+        )
+        self.prod1.weight = 2
+        self.prod2.weight = 5
+        self.prod1.net_weight = 1
+        self.prod2.net_weight = 3
+        picking1.set_to_be_invoiced()
+        self.picking_move_state(picking1)
+        self.assertEqual(picking1.state, "done")
+
+        wizard_obj = self.invoice_wizard.with_context(
+            active_ids=[picking1.id],
+            active_model=picking1._name,
+        )
+        wizard_values = wizard_obj.default_get(wizard_obj.fields_get().keys())
+        wizard = wizard_obj.create(wizard_values)
+        wizard.fiscal_operation_journal = False
+        wizard.action_generate()
+
+        document = picking1.invoice_ids.fiscal_document_id
+        self.assertTrue(document.nfe40_vol)
+        expected = sum(document.nfe40_vol.mapped("nfe40_pesoB"))
+        self.assertGreater(expected, 0)
+        self.assertEqual(document.total_weight, expected)
+        self.assertEqual(picking1.invoice_ids.total_weight, expected)
