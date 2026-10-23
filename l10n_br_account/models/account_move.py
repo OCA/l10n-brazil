@@ -1,13 +1,14 @@
 # Copyright (C) 2009 - TODAY Renato Lima - Akretion
 # Copyright (C) 2019 - TODAY Raphaël Valyi - Akretion
 # Copyright (C) 2020 - TODAY Luis Felipe Mileo - KMEE
+# Copyright 2026 Escodoo - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from contextlib import contextmanager
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
-from odoo.tools import frozendict
+from odoo.tools import float_compare, frozendict
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
@@ -23,6 +24,8 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 from .constants import (
     MOVE_TO_OPERATION,
 )
+
+LINE_MATCH_TOLERANCE = 0.01
 
 
 class AccountMove(models.Model):
@@ -69,6 +72,11 @@ class AccountMove(models.Model):
         help="""In some rare cases (NFS-e, CT-e...) a single account.move
         may have several different fiscal documents related to its account.move.lines.
         """,
+    )
+
+    fiscal_document_import_pending = fields.Boolean(
+        compute="_compute_fiscal_document_import_pending",
+        help="The fiscal document was imported and its lines are not on this bill yet.",
     )
 
     fiscal_operation_type = fields.Selection(
@@ -1012,6 +1020,40 @@ class AccountMove(models.Model):
             AccountMove, self.with_context(in_button_cancel=True)
         ).button_cancel()
 
+    def _importable_invoice_lines(self):
+        """Product lines that can be paired with an imported fiscal line."""
+        return self.invoice_line_ids.filtered(
+            lambda line: line.display_type == "product"
+        )
+
+    def _fiscal_lines_already_applied(self):
+        """True when every product line already points at this imported document."""
+        self.ensure_one()
+        if not self.imported_document or not self.fiscal_document_id:
+            return False
+        lines = self._importable_invoice_lines()
+        if not lines:
+            return False
+        return all(
+            line.fiscal_document_line_id.document_id == self.fiscal_document_id
+            for line in lines
+        )
+
+    @api.depends(
+        "imported_document",
+        "fiscal_document_id",
+        "fiscal_document_id.fiscal_line_ids",
+        "invoice_line_ids.fiscal_document_line_id",
+        "invoice_line_ids.display_type",
+    )
+    def _compute_fiscal_document_import_pending(self):
+        for move in self:
+            move.fiscal_document_import_pending = bool(
+                move.imported_document
+                and move.fiscal_document_id
+                and not move._fiscal_lines_already_applied()
+            )
+
     def button_import_fiscal_document(self):
         """
         Import move fields and invoice lines from
@@ -1020,21 +1062,37 @@ class AccountMove(models.Model):
         You can typically set fiscal_document_id to some l10n_br_fiscal.document
         record that was imported previously and import its lines into the
         current move.
+
+        An official imported document is matched onto the current lines.
+        ``import_fiscal_document`` would append a second set of lines.
         """
         for move in self:
             if move.state != "draft":
                 raise UserError(self.env._("Cannot import in non draft Account Move!"))
-            elif (
+            if move.imported_document:
+                if move._fiscal_lines_already_applied():
+                    raise UserError(
+                        self.env._(
+                            "The imported fiscal document is already applied "
+                            "to this bill."
+                        )
+                    )
+                move._apply_imported_fiscal_document(
+                    move.fiscal_document_id,
+                    confirm_divergence=False,
+                )
+                continue
+            if (
                 move.partner_id
                 and move.partner_id != move.fiscal_document_id.partner_id
             ):
                 raise UserError(self.env._("Partner mismatch!"))
-            elif (
+            if (
                 MOVE_TO_OPERATION[move.move_type]
                 != move.fiscal_document_id.fiscal_operation_type
             ):
                 raise UserError(self.env._("Fiscal Operation Type mismatch!"))
-            elif move.company_id != move.fiscal_document_id.company_id:
+            if move.company_id != move.fiscal_document_id.company_id:
                 raise UserError(self.env._("Company mismatch!"))
 
             move_fiscal_lines = set(
@@ -1045,6 +1103,279 @@ class AccountMove(models.Model):
                 raise UserError(self.env._("No new Fiscal Document Line to import!"))
 
             self.import_fiscal_document(move.fiscal_document_id, move_id=move.id)
+
+    def _values_differ(self, left_qty, left_price, right_qty, right_price):
+        qty_differs = (
+            float_compare(
+                abs(left_qty - right_qty),
+                LINE_MATCH_TOLERANCE,
+                precision_rounding=LINE_MATCH_TOLERANCE,
+            )
+            > 0
+        )
+        amount_differs = (
+            self.currency_id.compare_amounts(
+                abs((left_qty * left_price) - (right_qty * right_price)),
+                LINE_MATCH_TOLERANCE,
+            )
+            > 0
+        )
+        return qty_differs or amount_differs
+
+    def _pair_import_lines(self, invoice_lines, fiscal_lines, line_map):
+        """Pair only an explicit choice or a single xPed / product match."""
+        pairs = []
+        paired_invoice = self.env["account.move.line"]
+        paired_fiscal = self.env["l10n_br_fiscal.document.line"]
+        line_map = line_map or {}
+        for fiscal_line in fiscal_lines:
+            invoice_line = line_map.get(fiscal_line.id)
+            if invoice_line and invoice_line in invoice_lines:
+                pairs.append((invoice_line, fiscal_line))
+                paired_invoice |= invoice_line
+                paired_fiscal |= fiscal_line
+
+        remaining_invoice = invoice_lines - paired_invoice
+        remaining_fiscal = fiscal_lines - paired_fiscal
+        remaining_invoice, remaining_fiscal, order_pairs = self._pair_by_partner_order(
+            remaining_invoice, remaining_fiscal
+        )
+        pairs.extend(order_pairs)
+        product_pairs, remaining_invoice, remaining_fiscal = (
+            self._pair_by_unique_product(remaining_invoice, remaining_fiscal)
+        )
+        pairs.extend(product_pairs)
+        return pairs, remaining_invoice, remaining_fiscal
+
+    def _pair_by_partner_order(self, invoice_lines, fiscal_lines):
+        purchase_line_model = self.env.get("purchase.order.line")
+        if (
+            purchase_line_model is None
+            or "partner_order" not in purchase_line_model._fields
+            or "purchase_line_id" not in invoice_lines._fields
+        ):
+            return invoice_lines, fiscal_lines, []
+        pairs = []
+        for fiscal_line in list(fiscal_lines):
+            order = (fiscal_line.partner_order or "").strip()
+            item = (fiscal_line.partner_order_line or "").strip()
+            if not order:
+                continue
+            same_fiscal = fiscal_lines.filtered(
+                lambda line, order=order, item=item: (line.partner_order or "").strip()
+                == order
+                and (line.partner_order_line or "").strip() == item
+            )
+            same_invoice = invoice_lines.filtered(
+                lambda line, order=order, item=item: line.purchase_line_id
+                and (line.purchase_line_id.partner_order or "").strip() == order
+                and (line.purchase_line_id.partner_order_line or "").strip() == item
+            )
+            if len(same_fiscal) == 1 and len(same_invoice) == 1:
+                pairs.append((same_invoice, fiscal_line))
+                invoice_lines -= same_invoice
+                fiscal_lines -= fiscal_line
+        return invoice_lines, fiscal_lines, pairs
+
+    def _pair_by_unique_product(self, invoice_lines, fiscal_lines):
+        pairs = []
+        for product in fiscal_lines.mapped("product_id"):
+            same_fiscal = fiscal_lines.filtered(
+                lambda line, product=product: line.product_id == product
+            )
+            same_invoice = invoice_lines.filtered(
+                lambda line, product=product: line.product_id == product
+            )
+            if len(same_fiscal) == 1 and len(same_invoice) == 1:
+                pairs.append((same_invoice, same_fiscal))
+                invoice_lines -= same_invoice
+                fiscal_lines -= same_fiscal
+        return pairs, invoice_lines, fiscal_lines
+
+    def _check_import_divergence(
+        self, pairs, unmatched_invoice, unmatched_fiscal, confirm
+    ):
+        messages = []
+        for invoice_line, fiscal_line in pairs:
+            if self._values_differ(
+                invoice_line.quantity,
+                invoice_line.price_unit,
+                fiscal_line.quantity,
+                fiscal_line.price_unit,
+            ):
+                messages.append(
+                    self.env._(
+                        "%(product)s: bill %(bill_qty)s x %(bill_price)s, "
+                        "XML %(xml_qty)s x %(xml_price)s.",
+                        product=fiscal_line.product_id.display_name
+                        or invoice_line.product_id.display_name,
+                        bill_qty=invoice_line.quantity,
+                        bill_price=invoice_line.price_unit,
+                        xml_qty=fiscal_line.quantity,
+                        xml_price=fiscal_line.price_unit,
+                    )
+                )
+        leftover_differs = False
+        if unmatched_invoice and unmatched_fiscal:
+            bill_qty = sum(unmatched_invoice.mapped("quantity"))
+            bill_amount = sum(
+                line.quantity * line.price_unit for line in unmatched_invoice
+            )
+            xml_qty = sum(unmatched_fiscal.mapped("quantity"))
+            xml_amount = sum(
+                line.quantity * line.price_unit for line in unmatched_fiscal
+            )
+            qty_gap = float_compare(
+                abs(bill_qty - xml_qty),
+                LINE_MATCH_TOLERANCE,
+                precision_rounding=LINE_MATCH_TOLERANCE,
+            )
+            amount_gap = self.currency_id.compare_amounts(
+                abs(bill_amount - xml_amount), LINE_MATCH_TOLERANCE
+            )
+            leftover_differs = qty_gap > 0 or amount_gap > 0
+            if leftover_differs:
+                messages.append(
+                    self.env._(
+                        "Unmatched vendor bill lines and XML lines would both "
+                        "stay on the bill."
+                    )
+                )
+        if messages and not confirm:
+            raise UserError(
+                self.env._(
+                    "Confirm the quantity or amount difference before "
+                    "applying the XML.\n%s",
+                    "\n".join(messages),
+                )
+            )
+        return leftover_differs
+
+    def _apply_imported_fiscal_document(
+        self, fiscal_document, confirm_divergence=False, line_map=None
+    ):
+        """Replace this draft bill's fiscal shell with the official XML document.
+
+        Lines are paired only when the pair is unique or the user chose it.
+        A difference above 0.01, or leftover lines on both sides above that
+        tolerance, requires ``confirm_divergence``.
+        """
+        self.ensure_one()
+        if self.state != "draft":
+            raise UserError(self.env._("Cannot import in non draft Account Move!"))
+        already_applied = (
+            self._fiscal_lines_already_applied()
+            and self.fiscal_document_id == fiscal_document
+        )
+        if already_applied:
+            raise UserError(
+                self.env._(
+                    "The imported fiscal document is already applied to this bill."
+                )
+            )
+        invoice_lines = self._importable_invoice_lines()
+        fiscal_lines = fiscal_document.fiscal_line_ids
+        pairs, unmatched_invoice, unmatched_fiscal = self._pair_import_lines(
+            invoice_lines, fiscal_lines, line_map
+        )
+        leftover_differs = self._check_import_divergence(
+            pairs, unmatched_invoice, unmatched_fiscal, confirm_divergence
+        )
+        add_fiscal_lines = unmatched_fiscal
+        if unmatched_invoice and unmatched_fiscal and not leftover_differs:
+            # Within tolerance the XML line would only duplicate the bill line.
+            add_fiscal_lines = self.env["l10n_br_fiscal.document.line"]
+        notes = []
+        previous_lines = self.env["l10n_br_fiscal.document.line"]
+        for invoice_line, fiscal_line in pairs:
+            if self._values_differ(
+                invoice_line.quantity,
+                invoice_line.price_unit,
+                fiscal_line.quantity,
+                fiscal_line.price_unit,
+            ):
+                notes.append(
+                    self.env._(
+                        "%(product)s updated from the XML.",
+                        product=fiscal_line.product_id.display_name
+                        or invoice_line.name,
+                    )
+                )
+            old_line = invoice_line.fiscal_document_line_id
+            invoice_line.with_context(check_move_validity=False).write(
+                {
+                    "fiscal_document_line_id": fiscal_line.id,
+                    "quantity": fiscal_line.quantity,
+                    "price_unit": fiscal_line.price_unit,
+                }
+            )
+            old_line.invalidate_recordset(["account_line_ids"])
+            if old_line and old_line != fiscal_line and not old_line.account_line_ids:
+                previous_lines |= old_line
+        if unmatched_invoice and unmatched_fiscal and not leftover_differs:
+            notes.append(
+                self.env._(
+                    "XML lines within %(tolerance)s of the vendor bill were not added.",
+                    tolerance=LINE_MATCH_TOLERANCE,
+                )
+            )
+        for fiscal_line in add_fiscal_lines:
+            self._add_invoice_line_from_fiscal(fiscal_line)
+        previous_docs = previous_lines.document_id
+        previous_docs |= unmatched_invoice.mapped("fiscal_document_line_id.document_id")
+        previous_docs -= fiscal_document
+        unmatched_invoice.mapped("fiscal_document_line_id").filtered(
+            lambda line: line.document_id != fiscal_document
+        ).write({"document_id": fiscal_document.id})
+        self.env.flush_all()
+        if previous_lines:
+            previous_lines.exists().unlink()
+        if self.fiscal_document_id != fiscal_document:
+            invoice_date = self.invoice_date
+            if fiscal_document.document_date:
+                invoice_date = fields.Date.to_date(fiscal_document.document_date)
+            self.with_context(check_move_validity=False).write(
+                {
+                    "fiscal_document_id": fiscal_document.id,
+                    "invoice_date": invoice_date,
+                }
+            )
+        self.env.flush_all()
+        for previous in previous_docs.exists():
+            if not previous.move_ids and previous != fiscal_document:
+                # Lines moved onto the official document, or were replaced.
+                if not previous.fiscal_line_ids:
+                    previous.unlink()
+        if notes:
+            self.message_post(body="\n".join(notes))
+        return self
+
+    def _add_invoice_line_from_fiscal(self, fiscal_line):
+        product = fiscal_line.product_id
+        vals = {
+            "move_id": self.id,
+            "name": fiscal_line.name or product.display_name,
+            "product_id": product.id,
+            "quantity": fiscal_line.quantity,
+            "price_unit": fiscal_line.price_unit,
+            "fiscal_document_line_id": fiscal_line.id,
+        }
+        if fiscal_line.fiscal_operation_id:
+            vals["fiscal_operation_id"] = fiscal_line.fiscal_operation_id.id
+        if fiscal_line.fiscal_operation_line_id:
+            vals["fiscal_operation_line_id"] = fiscal_line.fiscal_operation_line_id.id
+        if fiscal_line.uom_id:
+            vals["product_uom_id"] = fiscal_line.uom_id.id
+        if product:
+            accounts = product.with_company(self.company_id)._get_product_accounts()
+            account = accounts.get("expense") or accounts.get("income")
+            if account:
+                vals["account_id"] = account.id
+        return (
+            self.env["account.move.line"]
+            .with_context(check_move_validity=False)
+            .create(vals)
+        )
 
     @api.model
     def import_fiscal_document(
