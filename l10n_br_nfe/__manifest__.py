@@ -29,6 +29,7 @@
         # Views
         "views/danfe_profile_view.xml",
         "views/res_company_view.xml",
+        "views/res_partner_view.xml",
         "views/nfe_document_view.xml",
         "views/nfe_document_line_view.xml",
         "views/nfe_di_view.xml",
