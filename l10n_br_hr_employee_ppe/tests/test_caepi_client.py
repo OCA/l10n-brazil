@@ -11,6 +11,7 @@ from odoo.tests.common import BaseCase
 
 from odoo.addons.l10n_br_hr_employee_ppe.lib.client import (
     CAEPIError,
+    _parse_date,
     download_and_parse,
     normalize_ca,
 )
@@ -83,28 +84,18 @@ class TestNormalizeCa(BaseCase):
 
 class TestParseDate(BaseCase):
     def test_valid_date(self):
-        from odoo.addons.l10n_br_hr_employee_ppe.lib.client import _parse_date
-
         self.assertEqual(_parse_date("25/12/2027"), date(2027, 12, 25))
 
     def test_empty_string(self):
-        from odoo.addons.l10n_br_hr_employee_ppe.lib.client import _parse_date
-
         self.assertIsNone(_parse_date(""))
 
     def test_none(self):
-        from odoo.addons.l10n_br_hr_employee_ppe.lib.client import _parse_date
-
         self.assertIsNone(_parse_date(None))
 
     def test_invalid_format(self):
-        from odoo.addons.l10n_br_hr_employee_ppe.lib.client import _parse_date
-
         self.assertIsNone(_parse_date("2027-12-25"))
 
     def test_whitespace_only(self):
-        from odoo.addons.l10n_br_hr_employee_ppe.lib.client import _parse_date
-
         self.assertIsNone(_parse_date("   "))
 
 
