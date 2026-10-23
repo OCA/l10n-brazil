@@ -81,6 +81,33 @@ class TestNormalizeCa(BaseCase):
         self.assertEqual(normalize_ca(None), "0")
 
 
+class TestParseDate(BaseCase):
+    def test_valid_date(self):
+        from odoo.addons.l10n_br_hr_employee_ppe.lib.client import _parse_date
+
+        self.assertEqual(_parse_date("25/12/2027"), date(2027, 12, 25))
+
+    def test_empty_string(self):
+        from odoo.addons.l10n_br_hr_employee_ppe.lib.client import _parse_date
+
+        self.assertIsNone(_parse_date(""))
+
+    def test_none(self):
+        from odoo.addons.l10n_br_hr_employee_ppe.lib.client import _parse_date
+
+        self.assertIsNone(_parse_date(None))
+
+    def test_invalid_format(self):
+        from odoo.addons.l10n_br_hr_employee_ppe.lib.client import _parse_date
+
+        self.assertIsNone(_parse_date("2027-12-25"))
+
+    def test_whitespace_only(self):
+        from odoo.addons.l10n_br_hr_employee_ppe.lib.client import _parse_date
+
+        self.assertIsNone(_parse_date("   "))
+
+
 class TestDownloadAndParse(BaseCase):
     def test_dedup_keeps_latest(self):
         zip_path = _make_zip(SAMPLE_LINES)
@@ -148,3 +175,142 @@ class TestDownloadAndParse(BaseCase):
             ):
                 download_and_parse()
         os.unlink(path)
+
+    def test_corrupt_zip_raises(self):
+        path = tempfile.NamedTemporaryFile(suffix=".zip", delete=False).name
+        with open(path, "wb") as fp:
+            fp.write(b"this is not a zip file")
+        with self.assertRaises(CAEPIError):
+            with patch(
+                "odoo.addons.l10n_br_hr_employee_ppe.lib.client."
+                "urllib.request.urlopen",
+                side_effect=_mock_urlopen(path),
+            ):
+                download_and_parse()
+        os.unlink(path)
+
+    def test_download_failure_raises(self):
+        with self.assertRaises(CAEPIError):
+            with patch(
+                "odoo.addons.l10n_br_hr_employee_ppe.lib.client."
+                "urllib.request.urlopen",
+                side_effect=OSError("Connection refused"),
+            ):
+                download_and_parse()
+
+    def test_empty_data_file_raises(self):
+        lines = ""
+        zip_path = _make_zip(lines)
+        with self.assertRaises(CAEPIError):
+            with patch(
+                "odoo.addons.l10n_br_hr_employee_ppe.lib.client."
+                "urllib.request.urlopen",
+                side_effect=_mock_urlopen(zip_path),
+            ):
+                download_and_parse()
+        os.unlink(zip_path)
+
+    def test_unknown_status_skipped(self):
+        lines = (
+            "NR Registro CA|DATA DE VALIDADE|SITUACAO|NR DO PROCESSO|CNPJ|"
+            "RAZAO SOCIAL|NATUREZA|EQUIPAMENTO|DESCRICAO EQUIPAMENTO|"
+            "MARCA CA|REFERENCIA|COR|APROVADO PARA LAUDO|RESTRICAO LAUDO|"
+            "OBSERVACAO ANALISE LAUDO|CNPJ LABORATORIO|"
+            "RAZAO SOCIAL LABORATORIO|NR LAUDO|NORMA\n"
+            "11111|01/01/2028|DESCONHECIDO|P|C|F|N|E||||C|A||||||N\n"
+        )
+        zip_path = _make_zip(lines)
+        try:
+            with patch(
+                "odoo.addons.l10n_br_hr_employee_ppe.lib.client."
+                "urllib.request.urlopen",
+                side_effect=_mock_urlopen(zip_path),
+            ):
+                rows = download_and_parse()
+        finally:
+            os.unlink(zip_path)
+        self.assertEqual(len(rows), 0)
+
+    def test_non_digit_ca_skipped(self):
+        lines = (
+            "NR Registro CA|DATA DE VALIDADE|SITUACAO|NR DO PROCESSO|CNPJ|"
+            "RAZAO SOCIAL|NATUREZA|EQUIPAMENTO|DESCRICAO EQUIPAMENTO|"
+            "MARCA CA|REFERENCIA|COR|APROVADO PARA LAUDO|RESTRICAO LAUDO|"
+            "OBSERVACAO ANALISE LAUDO|CNPJ LABORATORIO|"
+            "RAZAO SOCIAL LABORATORIO|NR LAUDO|NORMA\n"
+            "ABC-INVALID|01/01/2028|VÁLIDO|P|C|F|N|E||||C|A||||||N\n"
+        )
+        zip_path = _make_zip(lines)
+        try:
+            with patch(
+                "odoo.addons.l10n_br_hr_employee_ppe.lib.client."
+                "urllib.request.urlopen",
+                side_effect=_mock_urlopen(zip_path),
+            ):
+                rows = download_and_parse()
+        finally:
+            os.unlink(zip_path)
+        self.assertEqual(len(rows), 0)
+
+    def test_wrong_column_count_skipped(self):
+        lines = (
+            "NR Registro CA|DATA DE VALIDADE|SITUACAO|NR DO PROCESSO|CNPJ|"
+            "RAZAO SOCIAL|NATUREZA|EQUIPAMENTO|DESCRICAO EQUIPAMENTO|"
+            "MARCA CA|REFERENCIA|COR|APROVADO PARA LAUDO|RESTRICAO LAUDO|"
+            "OBSERVACAO ANALISE LAUDO|CNPJ LABORATORIO|"
+            "RAZAO SOCIAL LABORATORIO|NR LAUDO|NORMA\n"
+            "12345|01/01/2028|VÁLIDO\n"
+        )
+        zip_path = _make_zip(lines)
+        try:
+            with patch(
+                "odoo.addons.l10n_br_hr_employee_ppe.lib.client."
+                "urllib.request.urlopen",
+                side_effect=_mock_urlopen(zip_path),
+            ):
+                rows = download_and_parse()
+        finally:
+            os.unlink(zip_path)
+        self.assertEqual(len(rows), 0)
+
+    def test_header_only_returns_empty(self):
+        lines = (
+            "NR Registro CA|DATA DE VALIDADE|SITUACAO|NR DO PROCESSO|CNPJ|"
+            "RAZAO SOCIAL|NATUREZA|EQUIPAMENTO|DESCRICAO EQUIPAMENTO|"
+            "MARCA CA|REFERENCIA|COR|APROVADO PARA LAUDO|RESTRICAO LAUDO|"
+            "OBSERVACAO ANALISE LAUDO|CNPJ LABORATORIO|"
+            "RAZAO SOCIAL LABORATORIO|NR LAUDO|NORMA\n"
+        )
+        zip_path = _make_zip(lines)
+        try:
+            with patch(
+                "odoo.addons.l10n_br_hr_employee_ppe.lib.client."
+                "urllib.request.urlopen",
+                side_effect=_mock_urlopen(zip_path),
+            ):
+                rows = download_and_parse()
+        finally:
+            os.unlink(zip_path)
+        self.assertEqual(len(rows), 0)
+
+    def test_suspended_status_parsed(self):
+        lines = (
+            "NR Registro CA|DATA DE VALIDADE|SITUACAO|NR DO PROCESSO|CNPJ|"
+            "RAZAO SOCIAL|NATUREZA|EQUIPAMENTO|DESCRICAO EQUIPAMENTO|"
+            "MARCA CA|REFERENCIA|COR|APROVADO PARA LAUDO|RESTRICAO LAUDO|"
+            "OBSERVACAO ANALISE LAUDO|CNPJ LABORATORIO|"
+            "RAZAO SOCIAL LABORATORIO|NR LAUDO|NORMA\n"
+            "77777|15/03/2025|SUSPENSO|P|C|F|N|E||||C|A||||||N\n"
+        )
+        zip_path = _make_zip(lines)
+        try:
+            with patch(
+                "odoo.addons.l10n_br_hr_employee_ppe.lib.client."
+                "urllib.request.urlopen",
+                side_effect=_mock_urlopen(zip_path),
+            ):
+                rows = download_and_parse()
+        finally:
+            os.unlink(zip_path)
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]["situacao"], "suspended")
