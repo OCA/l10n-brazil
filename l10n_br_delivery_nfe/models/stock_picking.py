@@ -105,12 +105,19 @@ class StockPicking(models.Model):
         return vols_data
 
     def _get_pre_generated_volumes(self):
-        """Retreive and convert already generated volumes that are stored on picking"""
+        """Retreive and convert already generated volumes that are stored on picking
+
+        Only the fields declared by the wizard volume model are kept: the
+        picking volume inherits the whole NF-e spec (nfe40_vol_transp_id...).
+        """
+        wizard_fields = self.env["stock.invoice.onshipping.vol"]._fields
         vols_data = []
         for picking_id in self:
             for vol_id in picking_id.vol_ids:
                 vol_data = vol_id.copy_data()[0]
-                vols_data.append(vol_data)
+                vols_data.append(
+                    {k: v for k, v in vol_data.items() if k in wizard_fields}
+                )
         return vols_data
 
     def prepare_vols_data_from_picking(self):
