@@ -2,42 +2,22 @@
 <templates id="template" xml:space="preserve">
 
     <t
-        t-name="TicketScreen"
+        t-name="l10n_br_pos.TicketScreen"
         t-inherit="point_of_sale.TicketScreen"
         t-inherit-mode="extension"
-        owl="1"
     >
 
-        <xpath expr="//div[hasclass('header-row')]/div[2]" position="after">
-            <div class="col start">CPF/CNPJ</div>
-            <div class="col start wide">Chave</div>
+        <xpath expr="//div[hasclass('header-row')]/div[4]" position="after">
+            <div class="col p-2">CPF/CNPJ</div>
+            <div class="col wide p-2">Chave</div>
         </xpath>
 
-        <xpath
-            expr="//div[hasclass('header-row')]/div[hasclass('end')][1]"
-            position="after"
-        >
-            <div class="col start">Ações</div>
-        </xpath>
-
-        <xpath expr="//div[hasclass('order-row')]/div[2]" position="after">
-            <div class="col start">
+        <xpath expr="(//div[hasclass('order-row')])[1]/div[4]" position="after">
+            <div class="col p-2">
                 <t t-esc="order.get_cnpj_cpf ? order.get_cnpj_cpf() : ''" />
             </div>
-            <div class="col start wide">
+            <div class="col wide p-2">
                 <t t-esc="order.document_key || ''" />
-            </div>
-        </xpath>
-
-        <xpath
-            expr="//div[hasclass('order-row')]/div[hasclass('end')][1]"
-            position="after"
-        >
-            <div class="col start">
-                <button
-                    class="button"
-                    t-on-click.stop="() => reprint(order)"
-                >Reimprimir</button>
             </div>
         </xpath>
 

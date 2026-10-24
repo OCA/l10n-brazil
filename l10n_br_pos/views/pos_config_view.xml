@@ -36,7 +36,7 @@
                                 type="action"
                                 id="product_pos_map_button"
                                 name="%(l10n_br_pos.l10n_br_pos_product_fiscal_map_act_window)d"
-                                context="{'search_pos_config_id': active_id}"
+                                context="{'search_pos_config_id': id}"
                                 string="Tax x Products"
                             />
                             <field name="out_pos_fiscal_operation_id" />
@@ -64,11 +64,11 @@
                                 <field name="sat_environment" />
                                 <field
                                     name="cnpj_homologation"
-                                    attrs="{'invisible': [('sat_environment', '=', 'production')]}"
+                                    invisible="sat_environment == 'production'"
                                 />
                                 <field
                                     name="ie_homologation"
-                                    attrs="{'invisible': [('sat_environment', '=', 'production')]}"
+                                    invisible="sat_environment == 'production'"
                                 />
                                 <field name="cnpj_software_house" />
                                 <field name="sat_path" />

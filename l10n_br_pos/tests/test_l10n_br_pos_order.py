@@ -39,9 +39,9 @@ class TestL10nBrPosOrder(TransactionCase):
                 "amount_return": 0,
                 "amount_tax": atax,
                 "amount_total": untax + atax,
-                "creation_date": fields.Datetime.to_string(fields.Datetime.now()),
+                "date_order": fields.Datetime.to_string(fields.Datetime.now()),
                 "fiscal_position_id": False,
-                "pricelist_id": self.pos_config.available_pricelist_ids[0].id,
+                "pricelist_id": self.pos_config.pricelist_id.id,
                 "lines": [
                     [
                         0,
