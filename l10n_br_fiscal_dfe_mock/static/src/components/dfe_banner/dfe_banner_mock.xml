@@ -29,13 +29,6 @@
                         >
                             <i class="fa fa-power-off me-1" />Disable Mock
                         </button>
-                        <button
-                            type="button"
-                            class="btn btn-sm btn-outline-dark text-nowrap o_dfe_mock_reset_cooldown"
-                            t-on-click="onResetMockCooldown"
-                        >
-                            <i class="fa fa-refresh me-1" />Reset Cooldown
-                        </button>
                     </div>
                 </div>
                 <div
