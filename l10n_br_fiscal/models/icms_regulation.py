@@ -159,6 +159,22 @@ class ICMSRegulation(models.Model):
 
         return view_arch
 
+    @api.model
+    def _is_incoming_origin_partner(self, operation_line):
+        """True when the goods come from the partner to the company.
+
+        Entry operations (purchases and the like) have the partner's state as
+        origin. Sale returns and "return in" keep the direction of the
+        original sale (company -> partner), as the partner issues them with
+        the rate of that sale.
+        """
+        if not operation_line or operation_line.fiscal_operation_type != FISCAL_IN:
+            return False
+        return operation_line.fiscal_operation_id.fiscal_type not in (
+            "sale_refund",
+            "return_in",
+        )
+
     def _build_map_tax_def_domain(
         self,
         company,
@@ -168,8 +184,16 @@ class ICMSRegulation(models.Model):
         nbm=None,
         cest=None,
         ind_final=None,
+        operation_line=None,
     ):
         self.ensure_one()
+        # The ICMS rate follows the direction of the goods: on a purchase the
+        # origin state is the supplier's and the destination is the company's
+        # (e.g. GO -> SP is 12%, not the 7% of SP -> GO).
+        if self._is_incoming_origin_partner(operation_line):
+            company_state, partner_state = partner.state_id, company.state_id
+        else:
+            company_state, partner_state = company.state_id, partner.state_id
         domain = [
             ("icms_regulation_id", "=", self.id),
             ("state", "=", "approved"),
@@ -181,15 +205,15 @@ class ICMSRegulation(models.Model):
 
         if tax_group_icms.tax_domain in (TAX_DOMAIN_ICMS, TAX_DOMAIN_ICMS_ST):
             domain += [
-                ("state_from_id", "=", company.state_id.id),
-                ("state_to_ids", "=", partner.state_id.id),
+                ("state_from_id", "=", company_state.id),
+                ("state_to_ids", "=", partner_state.id),
             ]
 
         if tax_group_icms.tax_domain == TAX_DOMAIN_ICMS_ST:
             domain += [
                 "|",
-                ("state_to_ids", "=", partner.state_id.id),
-                ("state_to_ids", "=", company.state_id.id),
+                ("state_to_ids", "=", partner_state.id),
+                ("state_to_ids", "=", company_state.id),
                 "|",
                 ("ncm_ids", "=", False),
                 ("ncm_ids", "=", ncm.id),
@@ -206,8 +230,8 @@ class ICMSRegulation(models.Model):
 
         if tax_group_icms.tax_domain == TAX_DOMAIN_ICMS_FCP_ST:
             domain += [
-                ("state_from_id", "=", company.state_id.id),
-                ("state_to_ids", "=", partner.state_id.id),
+                ("state_from_id", "=", company_state.id),
+                ("state_to_ids", "=", partner_state.id),
                 "|",
                 ("ncm_ids", "=", False),
                 ("ncm_ids", "=", ncm.id),
@@ -301,7 +325,14 @@ class ICMSRegulation(models.Model):
         else:
             # ICMS
             domain = self._build_map_tax_def_domain(
-                company, partner, tax_group_icms, ncm, nbm, cest, ind_final
+                company,
+                partner,
+                tax_group_icms,
+                ncm,
+                nbm,
+                cest,
+                ind_final,
+                operation_line,
             )
 
             tax_definitions = self._tax_definition_search(
@@ -325,7 +356,14 @@ class ICMSRegulation(models.Model):
 
         # ICMS ST
         domain = self._build_map_tax_def_domain(
-            company, partner, tax_group_icmsst, ncm, nbm, cest, ind_final
+            company,
+            partner,
+            tax_group_icmsst,
+            ncm,
+            nbm,
+            cest,
+            ind_final,
+            operation_line,
         )
 
         tax_definitions = self._tax_definition_search(
@@ -414,7 +452,14 @@ class ICMSRegulation(models.Model):
 
         # FCP ST
         domain = self._build_map_tax_def_domain(
-            company, partner, tax_group_icmsfcpst, ncm, nbm, cest, ind_final
+            company,
+            partner,
+            tax_group_icmsfcpst,
+            ncm,
+            nbm,
+            cest,
+            ind_final,
+            operation_line,
         )
 
         tax_definitions = self._tax_definition_search(
