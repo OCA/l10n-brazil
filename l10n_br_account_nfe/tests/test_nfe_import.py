@@ -109,7 +109,7 @@ class NFeImportTest(TransactionCase):
                 "price_unit_com": 57.32,
                 "product_code": "B100618007170",
                 "quantity_com": 60.0,
-                "uom_internal": 61,
+                "uom_internal": self.env.ref("l10n_br_fiscal.UOM_MILHEIRO").id,
             },
         )
         self.assertDictEqual(
@@ -120,7 +120,7 @@ class NFeImportTest(TransactionCase):
                 "icms_value": "330.16",
                 "ncm_xml": "34060000",
                 "icms_percent": "12.0000",
-                "uom_internal": 61,
+                "uom_internal": self.env.ref("l10n_br_fiscal.UOM_MILHEIRO").id,
                 "cfop_xml": "6101",
                 "product_code": "B101518007170",
                 "ipi_value": "0.00",
@@ -149,7 +149,7 @@ class NFeImportTest(TransactionCase):
                 "price_unit_com": 57.32,
                 "product_code": "B100618007160",
                 "quantity_com": 30.0,
-                "uom_internal": 61,
+                "uom_internal": self.env.ref("l10n_br_fiscal.UOM_MILHEIRO").id,
             },
         )
 
