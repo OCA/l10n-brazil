@@ -67,3 +67,18 @@ class TestPaymentStatusBR(AccountMoveBRCommon, MailCommon):
         wiz = wiz_form.save()
         payments = wiz._create_payments()
         return payments
+
+    def test_new_invoice_shows_the_total_before_save(self):
+        """The totals of a new invoice follow the fiscal amounts of the lines."""
+        move_form = Form(
+            self.env["account.move"].with_context(default_move_type="out_invoice")
+        )
+        move_form.partner_id = self.partner_a
+        move_form.document_type_id = self.env.ref("l10n_br_fiscal.document_55")
+        move_form.document_serie_id = self.empresa_lc_document_55_serie_1
+        move_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+        with move_form.invoice_line_ids.new() as line_form:
+            line_form.product_id = self.product_a
+            line_form.quantity = 1
+            line_form.price_unit = 500
+        self.assertEqual(move_form.amount_untaxed, 500)
