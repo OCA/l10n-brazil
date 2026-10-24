@@ -240,12 +240,6 @@ msgid "Reset Consumed"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
-#. odoo-javascript
-#: code:addons/l10n_br_fiscal_dfe_mock/static/src/components/dfe_banner/dfe_banner_mock.xml:0
-msgid "Reset Cooldown"
-msgstr ""
-
-#. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__schema_type
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_search
 msgid "Schema Type"
