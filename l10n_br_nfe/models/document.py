@@ -614,7 +614,15 @@ class NFe(spec_models.StackedModel):
         related="amount_other_value",
     )
 
-    nfe40_vNF = fields.Monetary(related="fiscal_amount_total")
+    # The NF-e total is the value of the operation: the withholdings go in the
+    # retTrib group and do not reduce vNF (MOC, grupo W, vNF). The fiscal
+    # total of the document is net of them, so they are added back here.
+    nfe40_vNF = fields.Monetary(compute="_compute_nfe40_vNF")
+
+    @api.depends("fiscal_amount_total", "amount_tax_withholding")
+    def _compute_nfe40_vNF(self):
+        for doc in self:
+            doc.nfe40_vNF = doc.fiscal_amount_total + doc.amount_tax_withholding
 
     nfe40_vTotTrib = fields.Monetary(related="amount_estimate_tax")
 
@@ -933,7 +941,7 @@ class NFe(spec_models.StackedModel):
             # total automatically, with no code change.
             if not self._nfe_export_ibscbs_totals():
                 return False
-            return f"{self.fiscal_amount_total:.2f}"
+            return f"{self.nfe40_vNF:.2f}"
 
         return super()._export_field(xsd_field, class_obj, member_spec, export_value)
 
