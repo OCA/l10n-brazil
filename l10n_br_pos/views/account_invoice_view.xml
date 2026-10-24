@@ -16,23 +16,21 @@
                     <group col="4">
                         <field
                         name="pos_related_id"
-                        attrs="{'invisible': [('document_type', 'not in', ('sat'))]}"
+                        invisible="document_type not in 'sat'"
                     />
                     </group>
                 </xpath>
                 <field name="invoice_related_id" position="attributes">
                     <attribute
-                    name="attrs"
-                >{'invisible': [('document_type', 'in', 'sat')]}</attribute>
-                </field>
+                    name="invisible"
+                >document_type in 'sat'</attribute></field>
                 <xpath
-                expr='//group[@string="Nota Fiscal/Produtor/Cupom Fiscal"]'
+                expr="//group[@string=&quot;Nota Fiscal/Produtor/Cupom Fiscal&quot;]"
                 position="attributes"
             >
                     <attribute
-                    name="attrs"
-                >{'invisible': [('document_type', 'in', ('sat', 'nfe','cte', False))]}</attribute>
-                </xpath>
+                    name="invisible"
+                >document_type in ('sat', 'nfe', 'cte', False)</attribute></xpath>
             </field>
         </record>
 

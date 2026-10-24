@@ -8,57 +8,53 @@ Copyright (C) 2016-Today KMEE (https://kmee.com.br)
  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 */
 
-import PaymentScreen from "point_of_sale.PaymentScreen";
-import Registries from "point_of_sale.Registries";
+import {ErrorPopup} from "@point_of_sale/app/errors/popups/error_popup";
+import {PaymentScreen} from "@point_of_sale/app/screens/payment_screen/payment_screen";
 import {_t} from "@web/core/l10n/translation";
+import {patch} from "@web/core/utils/patch";
 import {validate_cnpj_cpf} from "@l10n_br_pos/js/util.esm";
 
-const L10nBrPosPaymentScreen = (OriginalPaymentScreen) =>
-    class extends OriginalPaymentScreen {
-        check_valid_cpf_cnpj(order) {
-            let result = true;
-            const partner = order.get_partner();
+patch(PaymentScreen.prototype, {
+    check_valid_cpf_cnpj(order) {
+        let result = true;
+        const partner = order.get_partner();
 
-            if (partner) {
-                const cnpj_cpf = partner.cnpj_cpf || partner.vat || partner.name;
+        if (partner) {
+            const cnpj_cpf = partner.cnpj_cpf || partner.vat || partner.name;
 
-                result = validate_cnpj_cpf(cnpj_cpf);
-                if (!result) {
-                    order.set_partner(null);
-                }
-            }
-
-            return result;
-        }
-
-        /**
-         * @override
-         */
-        async _isOrderValid(isForceValidate) {
-            const result = await super._isOrderValid(isForceValidate);
-
+            result = validate_cnpj_cpf(cnpj_cpf);
             if (!result) {
-                return false;
+                order.set_partner(null);
             }
-
-            if (this.env.pos.config.simplified_document_type) {
-                const order = this.currentOrder;
-                const isValid = this.check_valid_cpf_cnpj(order);
-
-                if (isValid) {
-                    return await order.document_send(this);
-                }
-                this.showPopup("ErrorPopup", {
-                    title: _t("CNPJ / CPF Inválido !"),
-                    body: _t("Insira um número de CNPJ / CPF válido para o cliente."),
-                });
-                return false;
-            }
-
-            return result;
         }
-    };
 
-Registries.Component.extend(PaymentScreen, L10nBrPosPaymentScreen);
+        return result;
+    },
 
-export default PaymentScreen;
+    /**
+     * @override
+     */
+    async _isOrderValid() {
+        const result = await super._isOrderValid(...arguments);
+
+        if (!result) {
+            return false;
+        }
+
+        if (this.pos.config.simplified_document_type) {
+            const order = this.currentOrder;
+            const isValid = this.check_valid_cpf_cnpj(order);
+
+            if (isValid) {
+                return await order.document_send(this);
+            }
+            this.popup.add(ErrorPopup, {
+                title: _t("CNPJ / CPF Inválido !"),
+                body: _t("Insira um número de CNPJ / CPF válido para o cliente."),
+            });
+            return false;
+        }
+
+        return result;
+    },
+});

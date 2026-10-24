@@ -3,7 +3,7 @@
 
 {
     "name": "Ponto de venda adaptado a legislação Brasileira",
-    "version": "16.0.1.0.2",
+    "version": "17.0.1.0.0",
     "author": "KMEE, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
     "license": "AGPL-3",
@@ -12,6 +12,7 @@
     "maintainers": ["mileo", "lfdivino", "luismalta", "ygcarvalh"],
     "depends": [
         "l10n_br_fiscal",
+        "l10n_br_fiscal_certificate",
         "l10n_br_account",
         "l10n_br_stock",
         "l10n_br_zip",
@@ -48,7 +49,7 @@
         "demo/pos_config_demo.xml",
     ],
     "assets": {
-        "point_of_sale.assets": [
+        "point_of_sale._assets_pos": [
             "l10n_br_pos/static/lib/JsBarcode.js",
             "l10n_br_pos/static/lib/qrcode.js",
             "l10n_br_pos/static/src/js/util.esm.js",
@@ -56,6 +57,9 @@
             "l10n_br_pos/static/src/js/Screens/PaymentScreen/PaymentScreen.esm.js",
             "l10n_br_pos/static/src/js/Screens/TicketScreen/TicketScreen.esm.js",
             "l10n_br_pos/static/src/xml/Screens/TicketScreen/TicketScreen.xml",
+        ],
+        "web.assets_tests": [
+            "l10n_br_pos/static/tests/tours/*.js",
         ],
     },
     "installable": True,
