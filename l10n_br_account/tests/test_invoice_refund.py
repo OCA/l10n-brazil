@@ -145,7 +145,12 @@ class TestInvoiceRefund(AccountMoveBRCommon):
         with self.assertRaises(UserError):
             move_reversal.reverse_moves()
 
-        invoice.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+        # Intentional test setup: change the fiscal operation on an already
+        # posted document. In real usage this is blocked by the edoc lock,
+        # so we bypass it explicitly here to reach the reversal path.
+        invoice.with_context(skip_edoc_lock=True).fiscal_operation_id = self.env.ref(
+            "l10n_br_fiscal.fo_venda"
+        )
 
         with self.assertRaises(UserError):
             move_reversal.reverse_moves()
