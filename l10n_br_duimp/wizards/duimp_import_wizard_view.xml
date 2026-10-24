@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2026 - TODAY, Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+     Copyright (C) 2026 - TODAY, KMEE (<https://kmee.com.br>)
+     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html -->
+<odoo>
+    <record id="duimp_import_wizard_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.document.import.wizard.duimp.form</field>
+        <field name="model">l10n_br_fiscal.document.import.wizard</field>
+        <field name="priority">32</field>
+        <field name="arch" type="xml">
+            <form string="Query DUIMP">
+                <group>
+                    <group>
+                        <field name="company_id" />
+                        <field name="duimp_number" required="1" />
+                        <field name="duimp_version" />
+                        <field
+                            name="fiscal_operation_id"
+                            options="{'no_create': True}"
+                        />
+                        <field name="fiscal_operation_type" invisible="1" />
+                        <field name="issuer_partner_id" string="Vendor" />
+                    </group>
+                    <group string="Import Costs (from the DUIMP extract)">
+                        <field name="company_currency_id" invisible="1" />
+                        <field name="duimp_afrmm_value" />
+                        <field name="duimp_siscomex_value" />
+                        <field name="duimp_capatazia_value" />
+                    </group>
+                </group>
+                <footer>
+                    <button
+                        name="action_consult_duimp"
+                        string="Query DUIMP"
+                        class="btn-primary"
+                        type="object"
+                    />
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="duimp_import_wizard_action" model="ir.actions.act_window">
+        <field name="name">Query DUIMP</field>
+        <field name="res_model">l10n_br_fiscal.document.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="duimp_import_wizard_form" />
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+        id="duimp_import_document_menu"
+        action="duimp_import_wizard_action"
+        name="Query DUIMP"
+        parent="account.menu_finance_payables"
+        sequence="4"
+        groups="l10n_br_fiscal.group_manager"
+    />
+</odoo>
