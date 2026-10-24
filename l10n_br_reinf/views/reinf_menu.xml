@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE - Luis Felipe Mileo <mileo@kmee.com.br>
+     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html -->
+<odoo>
+
+    <menuitem
+        id="reinf_menu"
+        name="EFD-Reinf"
+        parent="l10n_br_fiscal.fiscal_menu"
+        groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager"
+        sequence="40"
+    />
+
+    <menuitem
+        id="reinf_event_menu"
+        name="Events"
+        action="reinf_event_action"
+        parent="reinf_menu"
+        sequence="10"
+    />
+
+    <menuitem
+        id="reinf_batch_menu"
+        name="Batches"
+        action="reinf_batch_action"
+        parent="reinf_menu"
+        sequence="20"
+    />
+
+    <menuitem
+        id="reinf_configuration_menu"
+        name="Configuration"
+        parent="reinf_menu"
+        groups="l10n_br_fiscal.group_manager"
+        sequence="999"
+    />
+
+    <menuitem
+        id="reinf_nature_income_menu"
+        name="Natures of Income"
+        action="reinf_nature_income_action"
+        parent="reinf_configuration_menu"
+        sequence="10"
+    />
+
+    <menuitem
+        id="reinf_revenue_code_menu"
+        name="Revenue Codes"
+        action="reinf_revenue_code_action"
+        parent="reinf_configuration_menu"
+        sequence="20"
+    />
+
+</odoo>
