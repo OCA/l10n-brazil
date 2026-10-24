@@ -27,7 +27,13 @@ msgid "<option value=\"\">select...</option>"
 msgstr "<option value=\"\">selecione...</option>"
 
 #. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__br_currency_id
+msgid "BR Company Currency"
+msgstr ""
+
+#. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__cnpj_cpf
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "CNPJ/CPF"
 msgstr "CNPJ/CPF"
 
@@ -40,16 +46,6 @@ msgstr "CNPJ/CPF sem formatação"
 #: model:ir.model.fields,help:l10n_br_portal.field_res_partner__cnpj_cpf_stripped
 msgid "CNPJ/CPF without special characters"
 msgstr "CNPJ/CPF sem caracteres especiais"
-
-#. module: l10n_br_portal
-#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
-msgid "CNPJ/VAT"
-msgstr "CNPJ/VAT"
-
-#. module: l10n_br_portal
-#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
-msgid "CPF"
-msgstr "CPF"
 
 #. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
@@ -68,8 +64,9 @@ msgstr "Cidade"
 
 #. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__city_id
-msgid "City of Address"
-msgstr "Endereço da Cidade"
+#, fuzzy
+msgid "City ID"
+msgstr "Cidade"
 
 #. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
@@ -78,7 +75,10 @@ msgstr "Nome da Empresa"
 
 #. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
-msgid "Confirm<span class=\"fa fa-long-arrow-right\"/>"
+#, fuzzy
+msgid ""
+"Confirm\n"
+"                            <span class=\"fa fa-long-arrow-right\"/>"
 msgstr "Confirmar<span class=\"fa fa-long-arrow-right\"/>"
 
 #. module: l10n_br_portal
@@ -93,11 +93,6 @@ msgid "Country"
 msgstr "País"
 
 #. module: l10n_br_portal
-#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__display_name
-msgid "Display Name"
-msgstr "Nome Exibido"
-
-#. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__district
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "District"
@@ -109,20 +104,26 @@ msgid "Email"
 msgstr "E-mail"
 
 #. module: l10n_br_portal
-#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__id
-msgid "ID"
-msgstr "ID"
-
-#. module: l10n_br_portal
-#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner____last_update
-msgid "Last Modified on"
-msgstr "Última Modificação em"
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__equity_capital
+msgid "Equity Capital"
+msgstr ""
 
 #. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__legal_name
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "Legal Name"
 msgstr "Razão Social"
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__legal_nature_id
+#, fuzzy
+msgid "Legal Nature"
+msgstr "Razão Social"
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__cnae_main_id
+msgid "Main CNAE"
+msgstr ""
 
 #. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
@@ -133,6 +134,12 @@ msgstr "Celular"
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__l10n_br_im_code
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "Municipal Tax Number"
+msgstr "Número da Inscrição Municipal"
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__inscr_mun
+#, fuzzy
+msgid "Municipal Tax Number alias"
 msgstr "Número da Inscrição Municipal"
 
 #. module: l10n_br_portal
@@ -151,11 +158,6 @@ msgid "Phone"
 msgstr "Telefone"
 
 #. module: l10n_br_portal
-#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__l10n_br_rg_code
-msgid "RG"
-msgstr "RG"
-
-#. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "State / Province"
 msgstr "Estado / Província"
@@ -164,6 +166,12 @@ msgstr "Estado / Província"
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__l10n_br_ie_code
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "State Tax Number"
+msgstr "Número da Inscrição Estadual"
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__inscr_est
+#, fuzzy
+msgid "State Tax Number alias"
 msgstr "Número da Inscrição Estadual"
 
 #. module: l10n_br_portal
@@ -177,9 +185,22 @@ msgid "Street2"
 msgstr "Complemento"
 
 #. module: l10n_br_portal
-#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__suframa
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__l10n_br_isuf_code
 msgid "Suframa"
 msgstr "Suframa"
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__vat
+msgid "Tax ID"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,help:l10n_br_portal.field_res_partner__vat
+msgid ""
+"The Tax Identification Number. Values here will be validated based on the "
+"country format. You can use '/' to indicate that the partner is not subject "
+"to tax."
+msgstr ""
 
 #. module: l10n_br_portal
 #: model:ir.model.fields,help:l10n_br_portal.field_res_partner__legal_name
@@ -195,6 +216,27 @@ msgstr "Seu Nome"
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "Zip / Postal Code"
 msgstr "CEP"
+
+#~ msgid "CNPJ/VAT"
+#~ msgstr "CNPJ/VAT"
+
+#~ msgid "CPF"
+#~ msgstr "CPF"
+
+#~ msgid "City of Address"
+#~ msgstr "Endereço da Cidade"
+
+#~ msgid "Display Name"
+#~ msgstr "Nome Exibido"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificação em"
+
+#~ msgid "RG"
+#~ msgstr "RG"
 
 #~ msgid "Bairro"
 #~ msgstr "Bairro"
