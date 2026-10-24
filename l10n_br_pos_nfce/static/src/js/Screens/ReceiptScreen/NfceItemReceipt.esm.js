@@ -1,5 +1,3 @@
-/** @odoo-module */
-
 import {Component} from "@odoo/owl";
 
 export class NfceItemReceipt extends Component {

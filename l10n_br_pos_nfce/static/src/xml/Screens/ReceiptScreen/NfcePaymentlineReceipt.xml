@@ -2,8 +2,12 @@
 <templates id="template" xml:space="preserve">
     <t t-name="l10n_br_pos_nfce.NfcePaymentlineReceipt">
         <div class="nfcePaymentLine">
-            <p class="nfcePTag nfceTotalPayement"><t t-esc="paymentName" /></p>
-            <p class="nfcePTag nfceTotalPayement"><t t-esc="paymentAmount" /></p>
+            <p class="nfcePTag nfceTotalPayement">
+                <t t-esc="paymentName" />
+            </p>
+            <p class="nfcePTag nfceTotalPayement">
+                <t t-esc="paymentAmount" />
+            </p>
         </div>
     </t>
 </templates>

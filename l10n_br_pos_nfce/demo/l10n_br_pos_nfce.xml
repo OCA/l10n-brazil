@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="0">
-
     <record id="document_65_serie_2" model="l10n_br_fiscal.document.serie">
         <field name="code">2</field>
         <field name="name">Série 2</field>
@@ -59,7 +58,8 @@
 
     <record id="product_led_lamp" model="product.product">
         <field name="name">Led Lamp</field>
-        <field name="type">product</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True" />
         <field name="available_in_pos" eval="True" />
         <field name="list_price">0.90</field>
         <field name="default_code">112233</field>
@@ -94,5 +94,4 @@
         <field name="is_anonymous_consumer">True</field>
         <field name="city_id" ref="l10n_br_base.city_3550308" />
     </record>
-
 </odoo>

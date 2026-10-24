@@ -1,36 +1,4 @@
-/** @odoo-module **/
-
 import {Component} from "@odoo/owl";
-
-const BRAZILIAN_STATES_MAP = {
-    "Acre (BR)": "AC",
-    "Alagoas (BR)": "AL",
-    "Amazonas (BR)": "AM",
-    "Amapá (BR)": "AP",
-    "Bahia (BR)": "BA",
-    "Ceará (BR)": "CE",
-    "Distrito Federal (BR)": "DF",
-    "Espírito Santo (BR)": "ES",
-    "Goiás (BR)": "GO",
-    "Maranhão (BR)": "MA",
-    "Minas Gerais (BR)": "MG",
-    "Mato Grosso do Sul (BR)": "MS",
-    "Mato Grosso (BR)": "MT",
-    "Pará (BR)": "PA",
-    "Paraíba (BR)": "PB",
-    "Pernambuco (BR)": "PE",
-    "Piauí (BR)": "PI",
-    "Paraná (BR)": "PR",
-    "Rio de Janeiro (BR)": "RJ",
-    "Rio Grande do Norte (BR)": "RN",
-    "Rondônia (BR)": "RO",
-    "Roraima (BR)": "RR",
-    "Rio Grande do Sul (BR)": "RS",
-    "Santa Catarina (BR)": "SC",
-    "Sergipe (BR)": "SE",
-    "São Paulo (BR)": "SP",
-    "Tocantins (BR)": "TO",
-};
 
 export class NfceHeaderReceipt extends Component {
     static template = "l10n_br_pos_nfce.NfceHeaderReceipt";
@@ -54,7 +22,7 @@ export class NfceHeaderReceipt extends Component {
         const {street_name, street_number, district, city, zip, state} =
             this.companyAddress;
 
-        return `${street_name}, ${street_number} - ${district} ${city}/${BRAZILIAN_STATES_MAP[state]} - CEP: ${zip}`;
+        return `${street_name}, ${street_number} - ${district} ${city}/${state} - CEP: ${zip}`;
     }
 
     get companyLegalName() {

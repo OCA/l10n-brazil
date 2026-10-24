@@ -20,12 +20,15 @@ class TestPosNfceTour(odoo.tests.HttpCase):
         config.nfce_document_serie_id = self.env.ref(
             "l10n_br_pos_nfce.document_65_serie_2"
         )
+        config.cash_control = False
         config.with_user(admin).open_ui()
+        config.current_session_id.set_opening_control(0, None)
         # The transmission to the SEFAZ is not part of this test.
         document_class = type(self.env["l10n_br_fiscal.document"])
-        with mock.patch.object(
-            document_class, "action_document_confirm"
-        ), mock.patch.object(document_class, "action_document_send"):
+        with (
+            mock.patch.object(document_class, "action_document_confirm"),
+            mock.patch.object(document_class, "action_document_send"),
+        ):
             self.start_tour(
                 f"/pos/ui?config_id={config.id}",
                 "l10n_br_pos_nfce_tour",

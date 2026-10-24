@@ -1,5 +1,3 @@
-/** @odoo-module */
-
 import {Component} from "@odoo/owl";
 import {NfceFiscalInfoReceipt} from "@l10n_br_pos_nfce/js/Screens/ReceiptScreen/NfceFiscalInfoReceipt.esm";
 import {NfceFooterReceipt} from "@l10n_br_pos_nfce/js/Screens/ReceiptScreen/NfceFooterReceipt.esm";

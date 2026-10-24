@@ -6,12 +6,11 @@ from odoo.addons.point_of_sale.tests.common import TestPoSCommon
 
 
 class TestNFCePosOrderCommon(TestPoSCommon):
+    chart_template = "generic_coa"
+
     @classmethod
-    def setUpClass(cls, **kwargs):
-        super().setUpClass(
-            chart_template_ref="generic_coa",
-            **kwargs,
-        )
+    def setUpClass(cls):
+        super().setUpClass()
 
         cls.env.user.write(
             {

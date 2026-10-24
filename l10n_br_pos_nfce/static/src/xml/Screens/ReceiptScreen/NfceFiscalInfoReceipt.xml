@@ -3,8 +3,12 @@
     <t t-name="l10n_br_pos_nfce.NfceFiscalInfoReceipt">
         <div class="nfceFiscalInfo">
             <p class="nfcePTag">Consulte pela chave de acesso em:</p>
-            <p class="nfcePTag"><t t-esc="urlConsulta" /> </p>
-            <p class="nfcePTag nfceDocumentKey"><t t-esc="documentKeyFormatted" /></p>
+            <p class="nfcePTag">
+                <t t-esc="urlConsulta" />
+            </p>
+            <p class="nfcePTag nfceDocumentKey">
+                <t t-esc="documentKeyFormatted" />
+            </p>
             <!-- TODO: Pode haver ou não o código de barras -->
         </div>
     </t>

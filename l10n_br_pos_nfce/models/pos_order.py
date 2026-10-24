@@ -66,8 +66,8 @@ class PosOrder(models.Model):
         }
 
     @api.model
-    def _process_order(self, pos_order_vals, draft, existing_order):
-        res = super()._process_order(pos_order_vals, draft, existing_order)
+    def _process_order(self, pos_order_vals, existing_order):
+        res = super()._process_order(pos_order_vals, existing_order)
 
         created_order = self.browse(res)
         pos_config_id = created_order.session_id.config_id
@@ -105,6 +105,8 @@ class PosOrder(models.Model):
             finally:
                 created_order._clear_anonymous_consumer()
 
+            created_order.state_edoc = fiscal_document_id.state_edoc
+
         return res
 
     def _setup_anonymous_consumer(self):
@@ -115,7 +117,7 @@ class PosOrder(models.Model):
             {
                 "company_type": ("company" if len(self.cnpj_cpf) == 14 else "person"),
                 "ind_ie_dest": "9",
-                "cnpj_cpf": self.cnpj_cpf,
+                "vat": self.cnpj_cpf,
             }
         )
 
@@ -126,7 +128,7 @@ class PosOrder(models.Model):
         self.partner_id.write(
             {
                 "company_type": "person",
-                "cnpj_cpf": False,
+                "vat": False,
             }
         )
 
@@ -140,17 +142,6 @@ class PosOrder(models.Model):
             vals.update(order_line._prepare_nfce_tax_dict())
 
         return vals
-
-    @api.model
-    def create_from_ui(self, orders, draft=False):
-        response = super().create_from_ui(orders, draft)
-        for option in response:
-            order = self.env["pos.order"].search([("id", "=", option["id"])])
-            if order.document_type == MODELO_FISCAL_NFCE:
-                fiscal_document_id = order.account_move.fiscal_document_id
-                order.write({"state_edoc": fiscal_document_id.state_edoc})
-                option.update(order._prepare_fiscal_document_dict())
-        return response
 
     def _prepare_fiscal_document_dict(self):
         fiscal_document_id = self.account_move.fiscal_document_id
