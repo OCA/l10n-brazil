@@ -26,5 +26,5 @@ class PosConfig(models.Model):
     )
 
     nfce_city_ibge_code = fields.Char(
-        related="company_id.city_id.ibge_code",
+        related="company_id.partner_id.city_id.ibge_code",
     )

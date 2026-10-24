@@ -1,38 +1,30 @@
 /** @odoo-module **/
 
-import PaymentScreen from "point_of_sale.PaymentScreen";
-import Registries from "point_of_sale.Registries";
+import {PaymentScreen} from "@point_of_sale/app/screens/payment_screen/payment_screen";
+import {patch} from "@web/core/utils/patch";
 
-const L10nBrPosNfcePaymentScreen = (OriginalPaymentScreen) =>
-    class extends OriginalPaymentScreen {
-        check_valid_cpf_cnpj(order) {
-            const partner = order.get_partner();
-            if (partner && partner.is_anonymous_consumer) {
-                console.log("### CONSUMIDOR ANÔNIMO - BYPASS ###");
-                return true;
-            }
-
-            return super.check_valid_cpf_cnpj(order);
+patch(PaymentScreen.prototype, {
+    check_valid_cpf_cnpj(order) {
+        const partner = order.get_partner();
+        if (partner && partner.is_anonymous_consumer) {
+            return true;
         }
 
-        shouldDownloadInvoice() {
-            if (this.env.pos.config.simplified_document_type === "65") {
-                return false;
-            }
+        return super.check_valid_cpf_cnpj(...arguments);
+    },
 
-            return super.shouldDownloadInvoice();
+    shouldDownloadInvoice() {
+        if (this.pos.config.simplified_document_type === "65") {
+            return false;
         }
 
-        showScreen(screenName, props) {
-            return super.showScreen(screenName, props);
-        }
+        return super.shouldDownloadInvoice(...arguments);
+    },
 
-        get nextScreen() {
-            if (this.env.pos.config.simplified_document_type === "65") {
-                console.log("### NFCe -> ReceiptScreen ###");
-                return "ReceiptScreen";
-            }
-            return super.nextScreen;
+    get nextScreen() {
+        if (this.pos.config.simplified_document_type === "65") {
+            return "ReceiptScreen";
         }
-    };
-Registries.Component.extend(PaymentScreen, L10nBrPosNfcePaymentScreen);
+        return super.nextScreen;
+    },
+});

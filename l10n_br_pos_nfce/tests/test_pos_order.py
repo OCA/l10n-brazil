@@ -141,10 +141,11 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
         result = self.env["pos.order"].create_from_ui([order_data])
         order = self.env["pos.order"].browse(result[0]["id"])
 
-        self.env["pos.order"].cancel_nfce_from_ui(
-            order.pos_reference,
-            "Teste",
-        )
+        with mock.patch.object(NFe, "_document_cancel"):
+            self.env["pos.order"].cancel_nfce_from_ui(
+                order.pos_reference,
+                "Teste",
+            )
 
         refund_order = self.env["pos.order"].search(
             [

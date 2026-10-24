@@ -1,12 +1,12 @@
 /** @odoo-module */
 
-import PosComponent from "point_of_sale.PosComponent";
-import Registries from "point_of_sale.Registries";
+import {Component} from "@odoo/owl";
 
-class NfceTotalsReceipt extends PosComponent {
+export class NfceTotalsReceipt extends Component {
+    static template = "l10n_br_pos_nfce.NfceTotalsReceipt";
+    static props = {receipt: Object};
+
     setup() {
-        super.setup();
-
         this.order = this.props.receipt;
     }
 
@@ -15,7 +15,7 @@ class NfceTotalsReceipt extends PosComponent {
     }
 
     get totalOrderAmount() {
-        return (this.order.total_with_tax || 0).toLocaleString("pt-BR", {
+        return (this.order.amount_total || 0).toLocaleString("pt-BR", {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
         });
@@ -28,7 +28,3 @@ class NfceTotalsReceipt extends PosComponent {
         });
     }
 }
-
-NfceTotalsReceipt.template = "NfceTotalsReceipt";
-
-Registries.Component.add(NfceTotalsReceipt);

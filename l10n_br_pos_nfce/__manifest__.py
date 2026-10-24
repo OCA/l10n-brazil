@@ -5,7 +5,7 @@
     "name": "L10n Br Pos Nfce",
     "summary": """
         NFC-E no Ponto de Venda""",
-    "version": "16.0.1.0.0",
+    "version": "17.0.1.0.0",
     "license": "AGPL-3",
     "author": "KMEE,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
@@ -22,9 +22,8 @@
         "views/pos_config_view.xml",
     ],
     "assets": {
-        "point_of_sale.assets": [
+        "point_of_sale._assets_pos": [
             "l10n_br_pos_nfce/static/src/js/Screens/PaymentScreen/PaymentScreen.esm.js",
-            "l10n_br_pos_nfce/static/src/js/Screens/ReceiptScreen/ReceiptScreen.esm.js",
             "l10n_br_pos_nfce/static/src/js/Screens/ReceiptScreen/NfceOrderReceipt.esm.js",
             "l10n_br_pos_nfce/static/src/css/ReceiptOrder.css",
             "l10n_br_pos_nfce/static/src/js/models.esm.js",
@@ -45,7 +44,10 @@
             "l10n_br_pos_nfce/static/src/xml/Screens/ReceiptScreen/NfceTotalsReceipt.xml",
             "l10n_br_pos_nfce/static/src/xml/Screens/ReceiptScreen/NfcePaymentlineReceipt.xml",
             "l10n_br_pos_nfce/static/src/xml/Screens/ReceiptScreen/NfceItemReceipt.xml",
-            "l10n_br_pos_nfce/static/src/xml/Screens/ReceiptScreen/ReceiptScreen.xml",
+            "l10n_br_pos_nfce/static/src/xml/Screens/ReceiptScreen/OrderReceipt.xml",
+        ],
+        "web.assets_tests": [
+            "l10n_br_pos_nfce/static/tests/tours/*.js",
         ],
     },
     "demo": [

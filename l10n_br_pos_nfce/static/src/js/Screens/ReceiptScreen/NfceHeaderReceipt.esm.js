@@ -1,7 +1,6 @@
 /** @odoo-module **/
 
-import PosComponent from "point_of_sale.PosComponent";
-import Registries from "point_of_sale.Registries";
+import {Component} from "@odoo/owl";
 
 const BRAZILIAN_STATES_MAP = {
     "Acre (BR)": "AC",
@@ -33,10 +32,11 @@ const BRAZILIAN_STATES_MAP = {
     "Tocantins (BR)": "TO",
 };
 
-class NfceHeaderReceipt extends PosComponent {
-    setup() {
-        super.setup();
+export class NfceHeaderReceipt extends Component {
+    static template = "l10n_br_pos_nfce.NfceHeaderReceipt";
+    static props = {receipt: Object};
 
+    setup() {
         this.order = this.props.receipt;
         this.company = this.order.company;
         this.companyAddress = this.company.address;
@@ -65,7 +65,3 @@ class NfceHeaderReceipt extends PosComponent {
         return !this.order.authorization_protocol;
     }
 }
-
-NfceHeaderReceipt.template = "NfceHeaderReceipt";
-
-Registries.Component.add(NfceHeaderReceipt);
