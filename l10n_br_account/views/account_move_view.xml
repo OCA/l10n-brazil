@@ -94,6 +94,14 @@
                     domain="[('state', '=', 'approved'), ('fiscal_operation_type', '=', fiscal_operation_type)]"
                 />
                 <field
+                    name="edoc_refund_credit_type"
+                    attrs="{'invisible': [('edoc_purpose', '!=', '5')], 'required': [('edoc_purpose', '=', '5')], 'readonly': [('state', '!=', 'draft')]}"
+                />
+                <field
+                    name="edoc_refund_debit_type"
+                    attrs="{'invisible': [('edoc_purpose', '!=', '6')], 'required': [('edoc_purpose', '=', '6')], 'readonly': [('state', '!=', 'draft')]}"
+                />
+                <field
                     name="ind_final"
                     attrs="{'invisible': [('document_type_id', '=', False)], 'required': [('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"
                 />
