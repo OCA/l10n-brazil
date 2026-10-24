@@ -1,4 +1,5 @@
 # Copyright 2026 Engenere (<https://engenere.one>).
+# Copyright 2026 Escodoo - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 import base64
 import re
@@ -149,44 +150,75 @@ class L10nBrFiscalDfeDocument(models.Model):
             record.fiscal_document_id = record._match_fiscal_document(candidates)
 
     def _match_fiscal_document(self, candidates):
-        """Return the fiscal document imported from this inbox row.
+        """Return the official fiscal document imported from this inbox row.
 
-        ``candidates`` already share this access key. The default keeps the
-        document of the same company. A fiscal-type module overrides this
-        when its match differs and may ignore ``candidates``.
+        A key typed on a draft shell does not count: the XML has not been
+        applied until ``imported_document`` is set. Another company's document
+        with the same key is not this company's import.
         """
         self.ensure_one()
-        same_company = candidates.filtered(
-            lambda document, company=self.company_id: document.company_id == company
+        imported = candidates.filtered(
+            lambda document, company=self.company_id: document.imported_document
+            and document.company_id == company
         )
-        return (same_company or candidates)[:1]
+        return imported[:1]
+
+    def _domain_matching_imported_documents(self):
+        """Inbox rows whose company already imported that access key."""
+        imported = self.env["l10n_br_fiscal.document"].search(
+            [
+                ("imported_document", "=", True),
+                ("document_key", "!=", False),
+            ]
+        )
+        if not imported:
+            return [("id", "=", 0)]
+        grouped = {}
+        for document in imported:
+            grouped.setdefault(document.company_id.id, set()).add(document.document_key)
+        clauses = []
+        for company_id, keys in grouped.items():
+            clauses.append(
+                [
+                    "&",
+                    ("company_id", "=", company_id),
+                    ("access_key", "in", list(keys)),
+                ]
+            )
+        domain = []
+        if len(clauses) > 1:
+            domain.extend(["|"] * (len(clauses) - 1))
+        for clause in clauses:
+            domain.extend(clause)
+        return domain
 
     def _search_fiscal_document_id(self, operator, value):
-        """Inbox rows whose access key is already a fiscal document key."""
+        """Inbox rows linked to an imported fiscal document of the same company."""
         if operator in ("=", "!=") and not value:
-            key_operator = "not in" if operator == "=" else "in"
-            return [("access_key", key_operator, self._imported_access_keys())]
+            imported = self._domain_matching_imported_documents()
+            if operator == "=":
+                if imported == [("id", "=", 0)]:
+                    return []
+                return ["!"] + imported
+            return imported
         fiscal_documents = self.env["l10n_br_fiscal.document"]
         if operator in ("=", "in"):
             ids = value if operator == "in" else [value]
-            keys = fiscal_documents.browse([item for item in ids if item]).mapped(
-                "document_key"
+            keys = (
+                fiscal_documents.browse([item for item in ids if item])
+                .filtered("imported_document")
+                .mapped("document_key")
             )
             return [("access_key", "in", keys)]
         if operator in ("!=", "not in"):
             ids = value if operator == "not in" else [value]
-            keys = fiscal_documents.browse([item for item in ids if item]).mapped(
-                "document_key"
+            keys = (
+                fiscal_documents.browse([item for item in ids if item])
+                .filtered("imported_document")
+                .mapped("document_key")
             )
             return [("access_key", "not in", keys)]
         return NotImplemented
-
-    def _imported_access_keys(self):
-        return (
-            self.env["l10n_br_fiscal.document"]
-            .search([("document_key", "!=", False)])
-            .mapped("document_key")
-        )
 
     @api.depends("access_key", "company_id.vat")
     def _compute_is_own_document(self):
