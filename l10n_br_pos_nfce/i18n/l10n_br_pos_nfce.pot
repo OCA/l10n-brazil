@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -14,42 +14,42 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_pos_nfce
-#. openerp-web
+#. odoo-javascript
 #: code:addons/l10n_br_pos_nfce/static/src/xml/Screens/ReceiptScreen/NfceOrderReceipt.xml:0
 #, python-format
 msgid "# | COD | DESCRICAO | QUANTIDADE | UN | VL UNIT | VL TOTAL"
 msgstr ""
 
 #. module: l10n_br_pos_nfce
-#. openerp-web
+#. odoo-javascript
 #: code:addons/l10n_br_pos_nfce/static/src/xml/Screens/ReceiptScreen/NfceFooterReceipt.xml:0
 #, python-format
 msgid "Autorizacao:"
 msgstr ""
 
 #. module: l10n_br_pos_nfce
-#. openerp-web
+#. odoo-javascript
 #: code:addons/l10n_br_pos_nfce/static/src/xml/Screens/ReceiptScreen/NfceHeaderReceipt.xml:0
 #, python-format
 msgid "CNPJ:"
 msgstr ""
 
 #. module: l10n_br_pos_nfce
-#. openerp-web
+#. odoo-javascript
 #: code:addons/l10n_br_pos_nfce/static/src/xml/Screens/ReceiptScreen/NfceFooterReceipt.xml:0
 #, python-format
 msgid "CONSUMIDOR:"
 msgstr ""
 
 #. module: l10n_br_pos_nfce
-#. openerp-web
+#. odoo-javascript
 #: code:addons/l10n_br_pos_nfce/static/src/xml/Screens/ReceiptScreen/NfceFiscalInfoReceipt.xml:0
 #, python-format
 msgid "Consulte pela chave de acesso em:"
 msgstr ""
 
 #. module: l10n_br_pos_nfce
-#. openerp-web
+#. odoo-javascript
 #: code:addons/l10n_br_pos_nfce/static/src/xml/Screens/ReceiptScreen/NfceFooterReceipt.xml:0
 #, python-format
 msgid "Consumidor Nao Identificado"
@@ -61,7 +61,7 @@ msgid "Crédito"
 msgstr ""
 
 #. module: l10n_br_pos_nfce
-#. openerp-web
+#. odoo-javascript
 #: code:addons/l10n_br_pos_nfce/static/src/xml/Screens/ReceiptScreen/NfceTotalsReceipt.xml:0
 #, python-format
 msgid "Desconto"
@@ -70,14 +70,6 @@ msgstr ""
 #. module: l10n_br_pos_nfce
 #: model:account.payment.mode,name:l10n_br_pos_nfce.payment_mode_cash_test_nfce
 msgid "Dinheiro"
-msgstr ""
-
-#. module: l10n_br_pos_nfce
-#: model:ir.model.fields,field_description:l10n_br_pos_nfce.field_pos_config__display_name
-#: model:ir.model.fields,field_description:l10n_br_pos_nfce.field_pos_order__display_name
-#: model:ir.model.fields,field_description:l10n_br_pos_nfce.field_pos_order_line__display_name
-#: model:ir.model.fields,field_description:l10n_br_pos_nfce.field_pos_payment_method__display_name
-msgid "Display Name"
 msgstr ""
 
 #. module: l10n_br_pos_nfce
@@ -91,37 +83,39 @@ msgid "Document Serie Code"
 msgstr ""
 
 #. module: l10n_br_pos_nfce
-#: model:ir.model.fields,field_description:l10n_br_pos_nfce.field_pos_config__nfce_document_serie_sequence_number_next
-msgid "Document Serie Number"
-msgstr ""
-
-#. module: l10n_br_pos_nfce
-#. openerp-web
+#. odoo-javascript
 #: code:addons/l10n_br_pos_nfce/static/src/xml/Screens/ReceiptScreen/NfceHeaderReceipt.xml:0
 #, python-format
 msgid "Documento auxiliar da nota fiscal de consumidor eletrônica"
 msgstr ""
 
 #. module: l10n_br_pos_nfce
-#. openerp-web
+#. odoo-javascript
 #: code:addons/l10n_br_pos_nfce/static/src/xml/Screens/ReceiptScreen/NfceOrderReceipt.xml:0
 #, python-format
 msgid "EMITIDA EM AMBIENTE DE HOMOLOGAÇÃO – SEM VALOR FISCAL"
 msgstr ""
 
 #. module: l10n_br_pos_nfce
-#. openerp-web
+#. odoo-javascript
 #: code:addons/l10n_br_pos_nfce/static/src/xml/Screens/ReceiptScreen/NfceFooterReceipt.xml:0
 #, python-format
 msgid "Emissao:"
 msgstr ""
 
 #. module: l10n_br_pos_nfce
-#. openerp-web
+#. odoo-javascript
 #: code:addons/l10n_br_pos_nfce/static/src/xml/Screens/ReceiptScreen/NfceFooterReceipt.xml:0
 #: code:addons/l10n_br_pos_nfce/static/src/xml/Screens/ReceiptScreen/NfceHeaderReceipt.xml:0
 #, python-format
 msgid "Emitida em Contingencia"
+msgstr ""
+
+#. module: l10n_br_pos_nfce
+#. odoo-javascript
+#: code:addons/l10n_br_pos_nfce/static/src/js/Screens/OrderManagementScreen/ControlButtons/CancelOrderButton.esm.js:0
+#, python-format
+msgid "Enter reason for cancellation!"
 msgstr ""
 
 #. module: l10n_br_pos_nfce
@@ -135,18 +129,15 @@ msgid "IBGE Code"
 msgstr ""
 
 #. module: l10n_br_pos_nfce
-#: model:ir.model.fields,field_description:l10n_br_pos_nfce.field_pos_config__id
-#: model:ir.model.fields,field_description:l10n_br_pos_nfce.field_pos_order__id
-#: model:ir.model.fields,field_description:l10n_br_pos_nfce.field_pos_order_line__id
-#: model:ir.model.fields,field_description:l10n_br_pos_nfce.field_pos_payment_method__id
-msgid "ID"
-msgstr ""
-
-#. module: l10n_br_pos_nfce
-#. openerp-web
+#. odoo-javascript
 #: code:addons/l10n_br_pos_nfce/static/src/xml/Screens/ReceiptScreen/NfceHeaderReceipt.xml:0
 #, python-format
 msgid "IE:"
+msgstr ""
+
+#. module: l10n_br_pos_nfce
+#: model:ir.model,name:l10n_br_pos_nfce.model_l10n_br_fiscal_document
+msgid "Informações de exportação"
 msgstr ""
 
 #. module: l10n_br_pos_nfce
@@ -155,16 +146,6 @@ msgid "Is Contingency?"
 msgstr ""
 
 #. module: l10n_br_pos_nfce
-#: model:ir.model.fields,field_description:l10n_br_pos_nfce.field_pos_config____last_update
-#: model:ir.model.fields,field_description:l10n_br_pos_nfce.field_pos_order____last_update
-#: model:ir.model.fields,field_description:l10n_br_pos_nfce.field_pos_order_line____last_update
-#: model:ir.model.fields,field_description:l10n_br_pos_nfce.field_pos_payment_method____last_update
-msgid "Last Modified on"
-msgstr ""
-
-#. module: l10n_br_pos_nfce
-#: model:product.product,mdfe30_xProd:l10n_br_pos_nfce.product_led_lamp
-#: model:product.product,name:l10n_br_pos_nfce.product_led_lamp
 #: model:product.template,name:l10n_br_pos_nfce.product_led_lamp_product_template
 msgid "Led Lamp"
 msgstr ""
@@ -180,7 +161,7 @@ msgid "NFe Account Payment Mode"
 msgstr ""
 
 #. module: l10n_br_pos_nfce
-#. openerp-web
+#. odoo-javascript
 #: code:addons/l10n_br_pos_nfce/static/src/xml/Screens/ReceiptScreen/NfceFooterReceipt.xml:0
 #, python-format
 msgid "Numero:"
@@ -192,7 +173,7 @@ msgid "PIX"
 msgstr ""
 
 #. module: l10n_br_pos_nfce
-#. openerp-web
+#. odoo-javascript
 #: code:addons/l10n_br_pos_nfce/static/src/xml/Screens/ReceiptScreen/NfceFooterReceipt.xml:0
 #: code:addons/l10n_br_pos_nfce/static/src/xml/Screens/ReceiptScreen/NfceHeaderReceipt.xml:0
 #, python-format
@@ -220,41 +201,47 @@ msgid "Point of Sale Payment Methods"
 msgstr ""
 
 #. module: l10n_br_pos_nfce
-#. openerp-web
+#: model:ir.model,name:l10n_br_pos_nfce.model_pos_session
+msgid "Point of Sale Session"
+msgstr ""
+
+#. module: l10n_br_pos_nfce
+#. odoo-javascript
 #: code:addons/l10n_br_pos_nfce/static/src/xml/Screens/ReceiptScreen/NfceFooterReceipt.xml:0
 #, python-format
 msgid "Protocolo:"
 msgstr ""
 
 #. module: l10n_br_pos_nfce
-#. openerp-web
+#. odoo-javascript
 #: code:addons/l10n_br_pos_nfce/static/src/xml/Screens/ReceiptScreen/NfceTotalsReceipt.xml:0
 #, python-format
 msgid "Qtd total itens"
 msgstr ""
 
 #. module: l10n_br_pos_nfce
-#. openerp-web
+#. odoo-javascript
+#: code:addons/l10n_br_pos_nfce/static/src/js/Screens/OrderManagementScreen/ControlButtons/CancelOrderButton.esm.js:0
+#, python-format
+msgid "Reason for Cancellation?"
+msgstr ""
+
+#. module: l10n_br_pos_nfce
+#. odoo-javascript
 #: code:addons/l10n_br_pos_nfce/static/src/xml/Screens/ReceiptScreen/NfceFooterReceipt.xml:0
 #, python-format
 msgid "Serie:"
 msgstr ""
 
 #. module: l10n_br_pos_nfce
-#. openerp-web
+#. odoo-javascript
 #: code:addons/l10n_br_pos_nfce/static/src/xml/Screens/ReceiptScreen/NfceOrderReceipt.xml:0
 #, python-format
 msgid "TROCO"
 msgstr ""
 
 #. module: l10n_br_pos_nfce
-#: model:product.product,uom_name:l10n_br_pos_nfce.product_led_lamp
-#: model:product.template,uom_name:l10n_br_pos_nfce.product_led_lamp_product_template
-msgid "Units"
-msgstr ""
-
-#. module: l10n_br_pos_nfce
-#. openerp-web
+#. odoo-javascript
 #: code:addons/l10n_br_pos_nfce/static/src/xml/Screens/ReceiptScreen/NfceTotalsReceipt.xml:0
 #, python-format
 msgid "Valor total"
