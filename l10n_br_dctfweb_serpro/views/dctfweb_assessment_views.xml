@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <record id="view_dctfweb_assessment_form_serpro" model="ir.ui.view">
+        <field name="name">l10n_br_dctfweb.assessment.form.serpro</field>
+        <field name="model">l10n_br_dctfweb.assessment</field>
+        <field name="inherit_id" ref="l10n_br_dctfweb.view_dctfweb_assessment_form" />
+        <field name="arch" type="xml">
+            <button name="action_close" position="after">
+                <button
+                    name="action_serpro_close_mit"
+                    type="object"
+                    string="Close at the authority"
+                    states="assessed,closed"
+                    class="oe_highlight"
+                />
+                <button
+                    name="action_serpro_closing_status"
+                    type="object"
+                    string="Closing status"
+                    attrs="{'invisible': [('serpro_protocol', '=', False)]}"
+                />
+                <button
+                    name="action_serpro_transmit_dctfweb"
+                    type="object"
+                    string="Transmit DCTFWeb"
+                    states="closed"
+                />
+                <button
+                    name="action_serpro_issue_darf"
+                    type="object"
+                    string="Issue DARF"
+                    states="closed,transmitted"
+                />
+                <button
+                    name="action_serpro_receipt"
+                    type="object"
+                    string="Receipt"
+                    states="transmitted"
+                />
+                <button
+                    name="action_serpro_full_declaration"
+                    type="object"
+                    string="Full declaration"
+                    states="transmitted"
+                />
+            </button>
+
+            <xpath expr="//group[@name='totals']" position="inside">
+                <field name="dctfweb_category" />
+                <field name="immediate_transmission" />
+                <field name="rfb_situation" />
+                <field name="receipt_number" />
+            </xpath>
+
+            <xpath expr="//page[@name='origin']" position="after">
+                <page name="serpro" string="Transmission">
+                    <group>
+                        <group name="serpro_ids" string="At the authority">
+                            <field name="serpro_protocol" />
+                            <field name="serpro_assessment_id" />
+                            <field name="closing_status" />
+                        </group>
+                        <group name="serpro_files" string="Documents">
+                            <field name="declaration_xml_filename" invisible="1" />
+                            <field
+                                name="declaration_xml"
+                                filename="declaration_xml_filename"
+                            />
+                            <field
+                                name="signed_declaration_xml"
+                                filename="declaration_xml_filename"
+                            />
+                            <field name="darf_filename" invisible="1" />
+                            <field name="darf_file" filename="darf_filename" />
+                            <field name="full_declaration_filename" invisible="1" />
+                            <field
+                                name="full_declaration_file"
+                                filename="full_declaration_filename"
+                            />
+                        </group>
+                    </group>
+                    <button
+                        name="action_serpro_fetch_xml"
+                        type="object"
+                        string="Fetch declaration XML"
+                        states="closed,transmitted"
+                    />
+                    <button
+                        name="action_serpro_consult_assessment"
+                        type="object"
+                        string="Consult assessment"
+                        attrs="{'invisible': [('serpro_assessment_id', '=', False)]}"
+                    />
+                    <field name="transmission_count" invisible="1" />
+                    <field name="transmission_ids">
+                        <tree create="false">
+                            <field name="create_date" />
+                            <field name="system" />
+                            <field name="service" />
+                            <field name="billed" />
+                            <field name="status" />
+                            <field name="success" />
+                            <field name="messages" optional="show" />
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

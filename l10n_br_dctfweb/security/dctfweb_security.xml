@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <record id="dctfweb_assessment_company_rule" model="ir.rule">
+        <field name="name">DCTFWeb assessment: multi-company</field>
+        <field name="model_id" ref="model_l10n_br_dctfweb_assessment" />
+        <field
+            name="domain_force"
+        >['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="dctfweb_debit_company_rule" model="ir.rule">
+        <field name="name">DCTFWeb debit: multi-company</field>
+        <field name="model_id" ref="model_l10n_br_dctfweb_debit" />
+        <field
+            name="domain_force"
+        >['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="dctfweb_suspension_company_rule" model="ir.rule">
+        <field name="name">DCTFWeb suspension: multi-company</field>
+        <field name="model_id" ref="model_l10n_br_dctfweb_suspension" />
+        <field
+            name="domain_force"
+        >['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="dctfweb_suspension_line_company_rule" model="ir.rule">
+        <field name="name">DCTFWeb suspended debit: multi-company</field>
+        <field name="model_id" ref="model_l10n_br_dctfweb_suspension_line" />
+        <field
+            name="domain_force"
+        >['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="dctfweb_special_event_company_rule" model="ir.rule">
+        <field name="name">DCTFWeb special event: multi-company</field>
+        <field name="model_id" ref="model_l10n_br_dctfweb_special_event" />
+        <field
+            name="domain_force"
+        >['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>
