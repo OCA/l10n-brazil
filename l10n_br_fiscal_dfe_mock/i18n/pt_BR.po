@@ -67,6 +67,20 @@ msgid "DF-e Mock NSU"
 msgstr "NSU simulado do DF-e"
 
 #. module: l10n_br_fiscal_dfe_mock
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_dfe_mock/static/src/components/dfe_banner/dfe_banner_mock.esm.js:0
+msgid ""
+"DF-e queries are answered by the local pool, with no communication with "
+"SEFAZ."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_dfe_mock/static/src/components/dfe_banner/dfe_banner_mock.xml:0
+msgid "Disable Mock"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__display_name
 msgid "Display Name"
@@ -78,9 +92,18 @@ msgid "Document Types"
 msgstr "Tipos de Documento"
 
 #. module: l10n_br_fiscal_dfe_mock
-#: model:ir.model,name:l10n_br_fiscal_dfe_mock.model_l10n_br_fiscal_dfe_document
-msgid "Fiscal document from distribution service"
-msgstr "Documento fiscal do serviço de distribuição"
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_dfe_mock/static/src/components/dfe_banner/dfe_banner_mock.xml:0
+msgid "Enable Mock"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe_mock/wizards/dfe_mock_generate_wizard.py:0
+msgid ""
+"Events reference the NF-e generated in the same run. Select resNFe or "
+"procNFe as well."
+msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_generate_wizard_form
@@ -149,6 +172,12 @@ msgid "Last Updated on"
 msgstr "Última Atualização em"
 
 #. module: l10n_br_fiscal_dfe_mock
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_dfe_mock/static/src/components/dfe_banner/dfe_banner_mock.xml:0
+msgid "MOCK MODE ACTIVE"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
 #: model:ir.ui.menu,name:l10n_br_fiscal_dfe_mock.dfe_mock_separator
 msgid "Mock"
 msgstr "Simulação"
@@ -158,6 +187,12 @@ msgstr "Simulação"
 #: model:ir.ui.menu,name:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_menu
 msgid "Mock NSU Pool"
 msgstr "Pool de NSU simulados"
+
+#. module: l10n_br_fiscal_dfe_mock
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_dfe_mock/static/src/components/dfe_banner/dfe_banner_mock.esm.js:0
+msgid "Mock mode is off — DF-e queries reach the real SEFAZ."
+msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__nsu
@@ -182,6 +217,12 @@ msgid "No mock NSUs yet"
 msgstr "Nenhum NSU mock ainda"
 
 #. module: l10n_br_fiscal_dfe_mock
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe_mock/models/res_company.py:0
+msgid "Only fiscal managers can change the DF-e mock settings."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard__quantity
 msgid "Quantity"
 msgstr "Quantidade"
@@ -191,11 +232,6 @@ msgstr "Quantidade"
 #: code:addons/l10n_br_fiscal_dfe_mock/wizards/dfe_mock_generate_wizard.py:0
 msgid "Quantity must be at least 1."
 msgstr "A quantidade deve ser pelo menos 1."
-
-#. module: l10n_br_fiscal_dfe_mock
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.nfe_dfe_document_tree_mock
-msgid "Query NF-e"
-msgstr "Consultar NF-e"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model,name:l10n_br_fiscal_dfe_mock.model_l10n_br_nfe_md_event
@@ -209,11 +245,6 @@ msgid "Reset Consumed"
 msgstr "Resetar Consumido"
 
 #. module: l10n_br_fiscal_dfe_mock
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.nfe_dfe_document_tree_mock
-msgid "Reset Cooldown"
-msgstr "Resetar Cooldown"
-
-#. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__schema_type
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_search
 msgid "Schema Type"
@@ -224,11 +255,6 @@ msgstr "Tipo de Schema"
 #: code:addons/l10n_br_fiscal_dfe_mock/wizards/dfe_mock_generate_wizard.py:0
 msgid "Select at least one document type to generate."
 msgstr "Selecione pelo menos um tipo de documento para gerar."
-
-#. module: l10n_br_fiscal_dfe_mock
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.nfe_dfe_document_tree_mock
-msgid "Toggle Mock"
-msgstr "Alternar simulação"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_search
@@ -282,3 +308,15 @@ msgstr "resEvento"
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe_mock.selection__dfe_mock_nsu__schema_type__resnfe
 msgid "resNFe"
 msgstr "resNFe"
+
+#~ msgid "Fiscal document from distribution service"
+#~ msgstr "Documento fiscal do serviço de distribuição"
+
+#~ msgid "Query NF-e"
+#~ msgstr "Consultar NF-e"
+
+#~ msgid "Reset Cooldown"
+#~ msgstr "Resetar Cooldown"
+
+#~ msgid "Toggle Mock"
+#~ msgstr "Alternar simulação"
