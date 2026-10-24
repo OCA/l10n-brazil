@@ -314,7 +314,9 @@ class SpedMixin(models.AbstractModel):
                             field.comodel_name
                         ]._get_default_form_view()
                         field_tag.append(field_form)
-                wide_fields.append(E.separator(string=field.string))
+                wide_fields.append(
+                    E.separator(string=field._description_string(self.env))
+                )
                 wide_fields.append(field_tag)
             elif fname.isupper():
                 # alternate between left and right inner groups
