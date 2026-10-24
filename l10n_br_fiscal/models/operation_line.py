@@ -215,6 +215,8 @@ class OperationLine(models.Model):
     def _build_mapping_result_icms(self, mapping_result, tax_definition):
         if tax_definition and tax_definition.is_benefit:
             mapping_result["icms_tax_benefit_id"] = tax_definition.id
+            mapping_result["icms_relief_id"] = tax_definition.icms_relief_id.id
+            mapping_result["icms_relief_type"] = tax_definition.icms_relief_type
 
     def _build_mapping_result(self, mapping_result, tax_definition):
         mapping_result["taxes"][tax_definition.tax_domain] = tax_definition.tax_id
@@ -290,6 +292,10 @@ class OperationLine(models.Model):
               (l10n_br_fiscal.tax.ipi.guideline).
             - 'icms_tax_benefit_id': The determined ICMS tax benefit record
               ID (l10n_br_fiscal.tax.definition) or False.
+            - 'icms_relief_id': The determined ICMS relief record ID
+              (l10n_br_fiscal.icms.relief) or False.
+            - 'icms_relief_type': The determined indDeduzDeson indicator
+              ('0' or '1') for the ICMS relief.
             - 'tax_classification': The determined Tax Classification record
               (l10n_br_fiscal.tax.classification).
         """
@@ -298,6 +304,8 @@ class OperationLine(models.Model):
             "cfop": False,
             "ipi_guideline": self.env.ref("l10n_br_fiscal.tax_guideline_999"),
             "icms_tax_benefit_id": False,
+            "icms_relief_id": False,
+            "icms_relief_type": "0",
             "tax_classification": False,
         }
 
