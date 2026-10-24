@@ -70,6 +70,22 @@ class SaleSubscriptionLine(models.Model):
         store=True,
     )
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        # The form fills the fiscal operation of a line from its context. Lines
+        # created by code (crons, imports, APIs, other modules) inherit the one
+        # of the subscription, otherwise they would have no operation line, no
+        # fiscal taxes and the invoice would come out with a zero total.
+        for vals in vals_list:
+            if "fiscal_operation_id" in vals or not vals.get("sale_subscription_id"):
+                continue
+            subscription = self.env["sale.subscription"].browse(
+                vals["sale_subscription_id"]
+            )
+            if subscription.fiscal_operation_id:
+                vals["fiscal_operation_id"] = subscription.fiscal_operation_id.id
+        return super().create(vals_list)
+
     def _get_document(self):
         self.ensure_one()
         return self.sale_subscription_id

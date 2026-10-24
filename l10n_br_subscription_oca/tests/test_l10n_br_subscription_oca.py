@@ -53,6 +53,34 @@ class TestL10nBrSubscriptionOca(TransactionCase):
         self.assertEqual(invoice_line.fiscal_tax_ids, line.fiscal_tax_ids)
         self.assertAlmostEqual(invoice.amount_total, subscription.amount_total)
 
+    def test_lines_created_by_code_inherit_the_fiscal_operation(self):
+        subscription = self.env["sale.subscription"].create(
+            {
+                "partner_id": self.partner.id,
+                "template_id": self.template.id,
+                "pricelist_id": self.env.ref(
+                    "l10n_br_subscription_oca.pricelist_subscription"
+                ).id,
+                "fiscal_operation_id": self.fo_venda.id,
+                "sale_subscription_line_ids": [
+                    Command.create(
+                        {"product_id": self.product_service.id, "price_unit": 100.0}
+                    )
+                ],
+            }
+        )
+        line = subscription.sale_subscription_line_ids
+        self.assertEqual(line.fiscal_operation_id, self.fo_venda)
+        self.assertTrue(line.fiscal_operation_line_id)
+        self.assertTrue(line.fiscal_tax_ids)
+        invoice = subscription.create_invoice()
+        self.assertEqual(
+            invoice.document_type_id,
+            line.fiscal_operation_line_id.get_document_type(subscription.company_id),
+        )
+        self.assertAlmostEqual(invoice.amount_total, subscription.amount_total)
+        self.assertTrue(invoice.amount_total)
+
     def test_invoice_without_fiscal_operation(self):
         subscription = self._create_subscription(
             [self.product_service], self.env["l10n_br_fiscal.operation"]
