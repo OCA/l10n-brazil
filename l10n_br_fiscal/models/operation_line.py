@@ -1,6 +1,8 @@
 # Copyright (C) 2019  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import logging
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
@@ -23,12 +25,15 @@ from ..constants.fiscal import (
     TAX_ICMS_OR_ISSQN,
 )
 from ..constants.icms import ICMS_ORIGIN
+from .fiscal_cache import get_fiscal_txn_cache
+
+_logger = logging.getLogger(__name__)
 
 
 class OperationLine(models.Model):
     _name = "l10n_br_fiscal.operation.line"
     _description = "Fiscal Operation Line"
-    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _inherit = ["mail.thread", "mail.activity.mixin", "l10n_br_fiscal.cache.mixin"]
 
     fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
@@ -293,6 +298,96 @@ class OperationLine(models.Model):
             - 'tax_classification': The determined Tax Classification record
               (l10n_br_fiscal.tax.classification).
         """
+        self.ensure_one()
+
+        # Transaction-scoped memoization: this mapping is re-run with identical
+        # inputs several times per line by the onchange/compute cascade (and,
+        # with repeated products, across lines). The result is a pure function
+        # of the input record ids plus the config fields that drive the mapping
+        # branches, so we key on exactly those; invalidation on any fiscal
+        # definition change is handled by FiscalCacheMixin. See fiscal_cache.py.
+        cache = get_fiscal_txn_cache(self.env, "map_fiscal_taxes")
+        cache_key = self._map_fiscal_taxes_cache_key(
+            company,
+            partner,
+            product=product,
+            ncm=ncm,
+            nbm=nbm,
+            nbs=nbs,
+            cest=cest,
+            city_taxation_code=city_taxation_code,
+            national_taxation_code=national_taxation_code,
+            service_type=service_type,
+            ind_final=ind_final,
+        )
+        try:
+            if cache_key in cache:
+                # Hand out a copy: this is public API consumed by nfe/cte/mdfe
+                # and third parties, and callers mutate ``mapping_result``
+                # (e.g. ``mapping_result["taxes"][domain] = ...``); returning the
+                # shared cached object would corrupt it for every later line in
+                # the transaction. Mirrors ``_copy_compute_taxes_result``.
+                return self._copy_map_fiscal_taxes_result(cache[cache_key])
+        except TypeError:
+            # Honour the cache-key contract: an unhashable key component disables
+            # memoization for this call instead of raising.
+            _logger.debug(
+                "map_fiscal_taxes memoization skipped: unhashable cache key %r",
+                cache_key,
+            )
+            cache_key = None
+
+        mapping_result = self._map_fiscal_taxes(
+            company,
+            partner,
+            product=product,
+            fiscal_price=fiscal_price,
+            fiscal_quantity=fiscal_quantity,
+            ncm=ncm,
+            nbm=nbm,
+            nbs=nbs,
+            cest=cest,
+            city_taxation_code=city_taxation_code,
+            national_taxation_code=national_taxation_code,
+            service_type=service_type,
+            ind_final=ind_final,
+        )
+
+        if cache_key is not None:
+            cache[cache_key] = mapping_result
+            return self._copy_map_fiscal_taxes_result(mapping_result)
+        return mapping_result
+
+    @staticmethod
+    def _copy_map_fiscal_taxes_result(result):
+        """Shallow copy of a ``map_fiscal_taxes`` result safe to mutate.
+
+        Copies the outer dict and the inner ``taxes`` dict (the levels callers
+        reassign in place); the tax recordsets they hold are shared by reference
+        but only ever replaced, never mutated. Mirrors
+        :meth:`l10n_br_fiscal.tax._copy_compute_taxes_result`.
+        """
+        copied = dict(result)
+        copied["taxes"] = dict(result["taxes"])
+        return copied
+
+    def _map_fiscal_taxes(
+        self,
+        company,
+        partner,
+        product=None,
+        fiscal_price=None,
+        fiscal_quantity=None,
+        ncm=None,
+        nbm=None,
+        nbs=None,
+        cest=None,
+        city_taxation_code=None,
+        national_taxation_code=None,
+        service_type=None,
+        ind_final=None,
+    ):
+        """Uncached body of :meth:`map_fiscal_taxes` (see its docstring)."""
         mapping_result = {
             "taxes": {},
             "cfop": False,
@@ -300,8 +395,6 @@ class OperationLine(models.Model):
             "icms_tax_benefit_id": False,
             "tax_classification": False,
         }
-
-        self.ensure_one()
 
         # Define CFOP
         mapping_result["cfop"] = self._get_cfop(company, partner)
@@ -434,6 +527,81 @@ class OperationLine(models.Model):
             mapping_result["taxes"].pop(TAX_DOMAIN_ISSQN, None)
 
         return mapping_result
+
+    def _map_fiscal_taxes_cache_key(
+        self,
+        company,
+        partner,
+        product=None,
+        ncm=None,
+        nbm=None,
+        nbs=None,
+        cest=None,
+        city_taxation_code=None,
+        national_taxation_code=None,
+        service_type=None,
+        ind_final=None,
+    ):
+        """Stable, hashable key for ``map_fiscal_taxes`` memoization.
+
+        Encodes every input record id plus the scalar config fields the mapping
+        branches on (so a config change on company/partner/product produces a
+        different key). ``fiscal_price``/``fiscal_quantity`` are intentionally
+        excluded: they do not affect the mapping.
+
+        It also encodes the ``write_date`` of the definition-anchor records
+        already keyed here (the operation line, the company ICMS regulation and
+        tax classification, the partner fiscal profile): an in-place edit of one
+        of these bumps its ``write_date`` and thus the key, and a savepoint
+        rollback reverting the edit reverts ``write_date`` too, so the key
+        reverts with it (self-validating key — a stale entry becomes unreachable
+        rather than being served). Child definition rows they aggregate
+        (``tax_definition_ids`` ...) are versioned only in ordinary transactions
+        via ``FiscalCacheMixin``; see fiscal_cache.py for the exact residual
+        limitation.
+        """
+
+        def _rid(record):
+            return record.id if record else False
+
+        def _wdate(record):
+            return record.write_date if record else False
+
+        # NCM defaults to the product's NCM downstream; normalize it here so the
+        # key matches whether the caller passed ncm explicitly or not.
+        key_ncm = ncm or (product.ncm_id if product else None)
+        return (
+            self.id,
+            self.fiscal_operation_id.fiscal_operation_type,
+            self.fiscal_operation_id.fiscal_type,
+            company.id,
+            company.tax_framework,
+            _rid(company.icms_regulation_id),
+            _rid(company.tax_classification_id),
+            _rid(company.state_id),
+            _rid(company.country_id),
+            partner.id,
+            _rid(partner.state_id),
+            partner.ind_ie_dest,
+            _rid(partner.fiscal_profile_id),
+            _rid(partner.country_id),
+            _rid(product),
+            product.tax_icms_or_issqn if product else False,
+            product.icms_origin if product else False,
+            _rid(key_ncm),
+            _rid(nbm),
+            _rid(nbs),
+            _rid(cest),
+            _rid(city_taxation_code),
+            _rid(national_taxation_code),
+            _rid(service_type),
+            ind_final,
+            # Content-versioning of the definition-anchor records keyed above.
+            self.write_date,
+            _wdate(company.icms_regulation_id),
+            _wdate(company.tax_classification_id),
+            _wdate(partner.fiscal_profile_id),
+        )
 
     def action_review(self):
         self.write({"state": "review"})
