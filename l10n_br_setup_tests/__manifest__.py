@@ -16,6 +16,11 @@
         # "mrp",
         #        "l10n_br_sale_stock",
         "base_technical_features",
+        # Performance test framework moved here from l10n_br_account/l10n_br_sale
+        # (needs AccountMoveBRCommon, the fiscal demo records and the fiscal
+        # sale.order model).
+        "l10n_br_account",
+        "l10n_br_sale",
     ],
     "installable": True,
 }
