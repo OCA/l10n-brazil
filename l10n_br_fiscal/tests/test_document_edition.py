@@ -491,6 +491,78 @@ class TestDocumentEdition(TransactionCase):
         self.assertEqual(doc.ind_final, "0")
         self.assertEqual(line.ind_final, "0")
 
+    def _create_doc_ind_final(self, partner, operation):
+        doc_form = Form(
+            self.env["l10n_br_fiscal.document"].with_context(
+                default_fiscal_operation_type=operation.fiscal_operation_type,
+            )
+        )
+        doc_form.company_id = self.company
+        doc_form.partner_id = partner
+        doc_form.fiscal_operation_id = operation
+        with doc_form.fiscal_line_ids.new() as line_form:
+            line_form.product_id = self.env.ref("product.product_product_6")
+            line_form.price_unit = 100.0
+            line_form.quantity = 1.0
+        return doc_form.save()
+
+    def test_ind_final_non_contributor(self):
+        """An outgoing domestic document to a non-contributor must be a
+        final consumer operation, whatever the partner ind_final is
+        (NF-e rejection 696)."""
+        partner = self.env.ref("l10n_br_base.res_partner_cliente9_mg")
+        partner.ind_final = "0"
+        self.assertEqual(partner.ind_ie_dest, "9")
+
+        doc = self._create_doc_ind_final(
+            partner, self.env.ref("l10n_br_fiscal.fo_venda")
+        )
+        self.assertEqual(doc.ind_final, "1")
+        self.assertEqual(doc.fiscal_line_ids.ind_final, "1")
+
+        # A contributor keeps the value of the partner
+        partner_contrib = self.env.ref("l10n_br_base.res_partner_cliente1_sp")
+        partner_contrib.ind_final = "0"
+        doc.write({"partner_id": partner_contrib.id})
+        self.assertEqual(doc.ind_final, "0")
+        self.assertEqual(doc.fiscal_line_ids.ind_final, "0")
+
+        # Back to the non-contributor
+        doc.write({"partner_id": partner.id})
+        self.assertEqual(doc.ind_final, "1")
+        self.assertEqual(doc.fiscal_line_ids.ind_final, "1")
+
+    def test_ind_final_non_contributor_exceptions(self):
+        """Incoming, service and foreign documents keep the partner value."""
+        partner = self.env.ref("l10n_br_base.res_partner_cliente9_mg")
+        partner.ind_final = "0"
+        doc = self._create_doc_ind_final(
+            partner, self.env.ref("l10n_br_fiscal.fo_compras")
+        )
+        self.assertEqual(doc.ind_final, "0")
+        doc.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+        self.assertEqual(doc.ind_final, "1")
+        partner.ind_ie_dest = "1"
+        self.assertEqual(doc.ind_final, "0")
+        partner.ind_ie_dest = "9"
+        self.assertEqual(doc.ind_final, "1")
+        doc.document_type_id = self.env.ref("l10n_br_fiscal.document_SE")
+        self.assertEqual(doc.ind_final, "0")
+
+        partner_model = self.env["res.partner"].sudo()
+        foreign_partner = partner_model.create(
+            {
+                "name": "Foreign Customer",
+                "country_id": self.env.ref("base.us").id,
+                "ind_ie_dest": "9",
+                "ind_final": "0",
+            }
+        )
+        doc = self._create_doc_ind_final(
+            foreign_partner, self.env.ref("l10n_br_fiscal.fo_venda")
+        )
+        self.assertEqual(doc.ind_final, "0")
+
     def test_difal_calculation(self):
         partner = self.env.ref("l10n_br_base.res_partner_cliente5_pe")
         partner.ind_ie_dest = "9"
