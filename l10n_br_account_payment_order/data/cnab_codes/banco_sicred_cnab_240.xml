@@ -257,6 +257,20 @@
     </record>
 
     <!-- Codigo de Retorno do Movimento -->
+    <record id="sicredi_240_return_00" model="l10n_br_cnab.code">
+        <field name="name">Pagamento Efetuado</field>
+        <field name="code">00</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_748'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+    </record>
+
     <record id="sicredi_240_return_02" model="l10n_br_cnab.code">
         <field name="name">Entrada confirmada</field>
         <field name="code">02</field>

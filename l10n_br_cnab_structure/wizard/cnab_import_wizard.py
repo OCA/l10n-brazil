@@ -249,17 +249,63 @@ class CNABImportWizard(models.TransientModel):
         return details
 
     def _get_payment_way(self, code):
+        code = (code or "").strip()
+        if not code:
+            return self.env["cnab.payment.way"]
         batch_domain = [
             ("cnab_structure_id", "=", self.cnab_structure_id.id),
             ("code", "=", code),
         ]
         return self.env["cnab.payment.way"].search(batch_domain, limit=1)
 
-    def _get_batch_template(self, payment_way_code):
+    def _get_batch_by_service_type(self, batch_header_raw_line):
+        """
+        Fallback: when payment way code is empty, try to find the batch
+        template by matching the service type code (positions 10-11)
+        against the batch's line field definitions.
+        """
+        batches = self.env["l10n_br_cnab.batch"].search(
+            [("cnab_structure_id", "=", self.cnab_structure_id.id)]
+        )
+        if len(batches) == 1:
+            return batches
+        if not batch_header_raw_line or len(batch_header_raw_line) < 11:
+            return self.env["l10n_br_cnab.batch"]
+        service_type_code = batch_header_raw_line[9:11].strip()
+        if not service_type_code:
+            return self.env["l10n_br_cnab.batch"]
+        for batch in batches:
+            header_fields = batch.line_ids.filtered(
+                lambda line: line.type == "header"
+            ).mapped("field_ids")
+            for fld in header_fields:
+                if (
+                    fld.sending_dynamic_content
+                    and "payment_type_code" in fld.sending_dynamic_content
+                    and fld.start_pos == 10
+                    and fld.end_pos == 11
+                ):
+                    return batch
+        return self.env["l10n_br_cnab.batch"]
+
+    def _get_batch_template(self, payment_way_code, batch_header_raw_line=None):
         cnab_payment_way_id = self._get_payment_way(payment_way_code)
+        if not cnab_payment_way_id:
+            if batch_header_raw_line:
+                batch = self._get_batch_by_service_type(batch_header_raw_line)
+                if batch:
+                    return batch
+            raise UserError(
+                _(
+                    "Payment way code '%(code)s' not found for structure "
+                    "'%(structure)s'. Check the CNAB payment way configuration.",
+                    code=payment_way_code,
+                    structure=self.cnab_structure_id.name,
+                )
+            )
         batch_domain = [
             ("cnab_structure_id", "=", self.cnab_structure_id.id),
-            ("cnab_payment_way_ids", "in", [cnab_payment_way_id.id]),
+            ("cnab_payment_way_ids", "in", cnab_payment_way_id.ids),
         ]
         return self.env["l10n_br_cnab.batch"].search(batch_domain, limit=1)
 
@@ -274,8 +320,12 @@ class CNABImportWizard(models.TransientModel):
             batch_header_raw_line = self._filter_lines_from_type(
                 batch_lines, "header_batch"
             )[0]
-            payment_way_code = self._get_content(batch_header_raw_line, "payment_way")
-            batch_template = self._get_batch_template(payment_way_code)
+            payment_way_code = self._get_content(
+                batch_header_raw_line, "payment_way"
+            ).strip()
+            batch_template = self._get_batch_template(
+                payment_way_code, batch_header_raw_line
+            )
 
             batch["header_batch_line"] = {
                 "raw_line": batch_header_raw_line,

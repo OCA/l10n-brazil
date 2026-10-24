@@ -11,6 +11,7 @@ from tempfile import TemporaryDirectory
 from unidecode import unidecode
 
 from odoo import fields
+from odoo.exceptions import UserError
 from odoo.tests import Form
 from odoo.tests.common import tagged
 
@@ -389,6 +390,104 @@ class TestCNABStructure(AccountTestInvoicingCommon):
 
         cnab_log.action_confirm_return_log()
         self.assertTrue(cnab_log.event_ids.mapped("generated_move_id"))
+
+    def test_file_generete_and_return_without_payment_way(self):
+        """Return file without payment way code uses the service type fallback.
+
+        Some banks (e.g. Sicredi CNAB 240) send return files with an empty
+        payment way code in the batch header. In that case the batch template
+        must be found by the service type code of the batch header line.
+        """
+        invoice = self._create_test_invoice()
+        payment_order = self._create_payment_order(invoice)
+        payment_order.draft2open()
+        action = payment_order.open2generated()
+        delivery_cnab_file = self.attachment_model.browse(action["res_id"])
+
+        cnab_data = base64.b64decode(delivery_cnab_file.datas).decode()
+        lines = cnab_data.splitlines()
+
+        lines[1] = replace_chars(lines[1], 11, "  ")
+        lines[2] = replace_chars(lines[2], 154, "10112022")
+        lines[2] = replace_chars(lines[2], 172, "300")
+        lines[2] = replace_chars(lines[2], 230, "00")
+
+        return_data = "\r\n".join(lines).encode()
+
+        import_wizard = self.env["cnab.import.wizard"].create(
+            {
+                "journal_id": self.bank_journal_itau.id,
+                "return_file": base64.b64encode(return_data),
+                "filename": "TEST.RET",
+                "type": "outbound",
+                "cnab_structure_id": self.cnab_structure_itau_240.id,
+            }
+        )
+        action = import_wizard.with_context(default_type="outbound").import_cnab()
+        cnab_log = self.env["l10n_br_cnab.return.log"].browse(action["res_id"])
+
+        self.assertIsNotNone(cnab_log)
+        self.assertTrue(cnab_log.event_ids)
+
+    def test_get_batch_template_fallback_and_errors(self):
+        """Test payment way lookup, service type fallback and error cases."""
+        import_wizard = self.env["cnab.import.wizard"].create(
+            {
+                "journal_id": self.bank_journal_itau.id,
+                "return_file": False,
+                "filename": "TEST.RET",
+                "type": "outbound",
+                "cnab_structure_id": self.cnab_structure_itau_240.id,
+            }
+        )
+
+        # Empty or blank payment way code returns an empty recordset.
+        self.assertFalse(import_wizard._get_payment_way(""))
+        self.assertFalse(import_wizard._get_payment_way(False))
+        self.assertFalse(import_wizard._get_payment_way("  "))
+
+        # Unknown payment way without a batch header raw line raises UserError.
+        with self.assertRaises(UserError):
+            import_wizard._get_batch_template("99", None)
+
+        # Service type fallback: short raw line and blank service type
+        # return an empty batch recordset.
+        self.assertFalse(import_wizard._get_batch_by_service_type("123456789"))
+        self.assertFalse(import_wizard._get_batch_by_service_type(" " * 240))
+
+        # Structure with a single batch returns it directly.
+        single_batch_structure = self._create_valid_cnab_structure_complete()
+        single_batch_wizard = self.env["cnab.import.wizard"].create(
+            {
+                "journal_id": self.bank_journal_itau.id,
+                "return_file": False,
+                "filename": "TEST.RET",
+                "type": "outbound",
+                "cnab_structure_id": single_batch_structure.id,
+            }
+        )
+        self.assertEqual(
+            single_batch_wizard._get_batch_by_service_type("X" * 240),
+            single_batch_structure.batch_ids,
+        )
+
+        # Structure whose batches have no service type field at positions
+        # 10-11 returns an empty batch recordset.
+        no_match_structure = self._create_cnab_structure(name="No Service Type")
+        batch_a = self._create_batch(no_match_structure, "Batch A")
+        batch_b = self._create_batch(no_match_structure, "Batch B")
+        self._create_line_with_field(no_match_structure, batch_a, line_type="header")
+        self._create_line_with_field(no_match_structure, batch_b, line_type="header")
+        no_match_wizard = self.env["cnab.import.wizard"].create(
+            {
+                "journal_id": self.bank_journal_itau.id,
+                "return_file": False,
+                "filename": "TEST.RET",
+                "type": "outbound",
+                "cnab_structure_id": no_match_structure.id,
+            }
+        )
+        self.assertFalse(no_match_wizard._get_batch_by_service_type("X" * 240))
 
     def test_cnab_yaml_output(self):
         invoice = self._create_test_invoice()
