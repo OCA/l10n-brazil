@@ -1,12 +1,12 @@
 /** @odoo-module **/
 
-import PosComponent from "point_of_sale.PosComponent";
-import Registries from "point_of_sale.Registries";
+import {Component} from "@odoo/owl";
 
-class NfceFooterReceipt extends PosComponent {
+export class NfceFooterReceipt extends Component {
+    static template = "l10n_br_pos_nfce.NfceFooterReceipt";
+    static props = {receipt: Object};
+
     setup() {
-        super.setup();
-
         this.order = this.props.receipt;
     }
 
@@ -54,7 +54,3 @@ class NfceFooterReceipt extends PosComponent {
         return this.order.authorization_protocol;
     }
 }
-
-NfceFooterReceipt.template = "NfceFooterReceipt";
-
-Registries.Component.add(NfceFooterReceipt);

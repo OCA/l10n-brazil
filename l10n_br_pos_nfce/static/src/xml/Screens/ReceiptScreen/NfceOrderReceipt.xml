@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates id="template" xml:space="preserve">
 
-    <t t-name="NfceOrderReceipt" owl="1">
+    <t t-name="l10n_br_pos_nfce.NfceOrderReceipt">
         <div class="pos-receipt">
             <NfceHeaderReceipt company="receipt.company" receipt="receipt" />
             <hr class="nfceSeparator" />
@@ -20,8 +20,8 @@
                 </p>
 
                 <ul>
-                    <t t-foreach="receipt.orderlines" t-as="line" t-key="line.id">
-                        <NfceItemReceipt line="line" />
+                    <t t-foreach="receipt.orderlines" t-as="line" t-key="line_index">
+                        <NfceItemReceipt line="line" index="line_index" />
                     </t>
                 </ul>
             </div>

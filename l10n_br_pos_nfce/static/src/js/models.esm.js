@@ -1,509 +1,360 @@
 /** @odoo-module **/
 
-import {Order, PosGlobalState} from "point_of_sale.models";
-import Registries from "point_of_sale.Registries";
-
-import {ChaveEdoc} from "@l10n_br_pos_nfce/js/utils.esm";
 import {BRAZILIAN_STATES_IBGE_CODE_MAP, NFeXML} from "@l10n_br_pos_nfce/js/nfe-xml.esm";
+import {Order, Orderline} from "@point_of_sale/app/store/models";
+import {ChaveEdoc} from "@l10n_br_pos_nfce/js/utils.esm";
+import {PosStore} from "@point_of_sale/app/store/pos_store";
+import {patch} from "@web/core/utils/patch";
 
-const L10nBrNfceOrder = (Order) =>
-    class L10nBrNfceOrder extends Order {
-        async document_send(component) {
-            if (this.document_type !== "65") {
-                return super.document_send(...arguments);
-            }
+const getFirst = (val) => (Array.isArray(val) ? val[0] : val);
 
-            if (!this.get_partner()) {
-                const anonymousPartner = this.pos.db.get_partner_by_id(
-                    this.pos.config.partner_id ? this.pos.config.partner_id[0] : false
-                );
-
-                if (anonymousPartner) {
-                    this.set_partner(anonymousPartner);
-                }
-
-                if (component) {
-                    component.trigger("close-popup");
-                }
-            }
-
-            return true;
+patch(Order.prototype, {
+    async document_send() {
+        if (this.document_type !== "65") {
+            return super.document_send(...arguments);
         }
 
-        export_for_printing() {
-            const result = super.export_for_printing(...arguments);
+        if (!this.get_partner()) {
+            const anonymousPartner = this.pos.db.get_partner_by_id(
+                getFirst(this.pos.config.partner_id) || false
+            );
 
-            if (this.pos.config.simplified_document_type !== "65") {
-                return result;
+            if (anonymousPartner) {
+                this.set_partner(anonymousPartner);
             }
+        }
 
-            const {
-                cnpj_cpf,
-                inscr_est,
-                legal_name,
+        // The NFC-e is issued by the backend while the order is invoiced.
+        this.set_to_invoice(true);
+
+        return true;
+    },
+
+    export_for_printing() {
+        const result = super.export_for_printing(...arguments);
+
+        if (this.pos.config.simplified_document_type !== "65") {
+            return result;
+        }
+
+        const {
+            cnpj_cpf,
+            inscr_est,
+            legal_name,
+            street_name,
+            street_number,
+            district,
+            city_id,
+            zip,
+            state_id,
+        } = this.pos.company;
+
+        const {nfce_environment} = this.pos.config;
+
+        const companyInfo = {
+            cnpj_cpf,
+            inscr_est,
+            legal_name,
+            address: {
                 street_name,
                 street_number,
                 district,
-                city_id,
+                city: city_id ? city_id[1] : "",
                 zip,
-                state_id,
-            } = this.pos.company;
+                state: state_id ? state_id[1] : "",
+            },
+        };
 
-            const {nfce_environment} = this.pos.config;
+        result.company = Object.assign({}, result.company || {}, companyInfo);
 
-            const companyInfo = {
-                cnpj_cpf,
-                inscr_est,
-                legal_name,
-                address: {
-                    street_name,
-                    street_number,
-                    district,
-                    city: city_id ? city_id[1] : "",
-                    zip,
-                    state: state_id ? state_id[1] : "",
-                },
-            };
+        result.nfce_environment = nfce_environment;
 
-            result.company = Object.assign({}, result.company || {}, companyInfo);
+        return {
+            ...result,
+            is_nfce: true,
+            ...this._buildNFCeAdditionalInfo(),
+        };
+    },
 
-            result.nfce_environment = nfce_environment;
+    _buildNFCeAdditionalInfo() {
+        return {
+            url_consulta: this.url_consulta,
+            qr_code: this.qr_code,
+            authorization_protocol: this.authorization_protocol,
+            authorization_date_string: this.authorization_date_string,
+            document_date_string: this.document_date_string,
+            document_key: this.document_key,
+            document_number: this.document_number,
+            document_serie: this.document_serie,
+        };
+    },
 
-            return {
-                ...result,
-                ...this._buildNFCeAdditionalInfo(),
-            };
+    _getFiscalMap(line) {
+        const maps = this.pos.fiscal_map_by_template_id;
+        return maps ? maps[getFirst(line.product.product_tmpl_id)] : false;
+    },
+
+    get_total_icms() {
+        let totalICMS = 0;
+
+        for (const line of this.get_orderlines()) {
+            const productFiscalMap = this._getFiscalMap(line);
+
+            if (productFiscalMap && productFiscalMap.icms_cst_code === "00") {
+                totalICMS += parseFloat(productFiscalMap.icms_value) || 0;
+            }
         }
 
-        _buildNFCeAdditionalInfo() {
-            // Mudanças aqui para o padrao do odoo16 e tambem padrao da propria adaptacao
-            return {
-                url_consulta: this.url_consulta,
-                qr_code: this.qr_code,
+        return totalICMS;
+    },
 
-                authorization_protocol: this.authorization_protocol,
+    get_total_pis() {
+        let totalPIS = 0;
 
-                authorization_date_string: this.authorization_date_string,
+        for (const line of this.get_orderlines()) {
+            const productFiscalMap = this._getFiscalMap(line);
 
-                document_date_string: this.document_date_string,
-
-                document_key: this.document_key,
-
-                document_number: this.document_number,
-
-                document_serie: this.document_serie,
-            };
+            if (productFiscalMap) {
+                totalPIS += parseFloat(productFiscalMap.pis_value) || 0;
+            }
         }
 
-        _prepare_fiscal_json(json) {
-            if (super._prepare_fiscal_json) {
-                super._prepare_fiscal_json(...arguments);
-            }
+        return totalPIS;
+    },
 
-            json.document_type = this.document_type;
+    get_total_cofins() {
+        let totalCofins = 0;
+
+        for (const line of this.get_orderlines()) {
+            const productFiscalMap = this._getFiscalMap(line);
+
+            if (productFiscalMap) {
+                totalCofins += parseFloat(productFiscalMap.cofins_value) || 0;
+            }
         }
 
-        get_total_icms() {
-            const orderlines = this.get_orderlines();
-            let totalICMS = 0;
+        return totalCofins;
+    },
 
-            for (const line of orderlines) {
-                const productFiscalMap = this.pos.fiscal_map_by_template_id
-                    ? this.pos.fiscal_map_by_template_id[line.product.product_tmpl_id]
-                    : false;
+    get_total_without_discount() {
+        let totalWithoutDiscount = 0;
 
-                if (productFiscalMap && productFiscalMap.icms_cst_code === "00") {
-                    totalICMS += parseFloat(productFiscalMap.icms_value) || 0;
-                }
-            }
-
-            return totalICMS;
+        for (const line of this.get_orderlines()) {
+            totalWithoutDiscount +=
+                (parseFloat(line.product.lst_price) || 0) *
+                (parseFloat(line.quantity) || 0);
         }
 
-        get_total_pis() {
-            const orderlines = this.get_orderlines();
-            let totalPIS = 0;
+        return totalWithoutDiscount;
+    },
 
-            for (const line of orderlines) {
-                const productFiscalMap = this.pos.fiscal_map_by_template_id
-                    ? this.pos.fiscal_map_by_template_id[line.product.product_tmpl_id]
-                    : false;
+    get_total_icms_base() {
+        let totalICMSBase = 0;
 
-                if (productFiscalMap) {
-                    totalPIS += parseFloat(productFiscalMap.pis_value) || 0;
-                }
+        for (const line of this.get_orderlines()) {
+            const productFiscalMap = this._getFiscalMap(line);
+
+            if (productFiscalMap && productFiscalMap.icms_cst_code === "00") {
+                totalICMSBase += parseFloat(productFiscalMap.icms_base) || 0;
             }
-
-            return totalPIS;
         }
 
-        get_total_cofins() {
-            const orderlines = this.get_orderlines();
-            let totalCofins = 0;
+        return totalICMSBase;
+    },
+});
 
-            for (const line of orderlines) {
-                const productFiscalMap = this.pos.fiscal_map_by_template_id
-                    ? this.pos.fiscal_map_by_template_id[line.product.product_tmpl_id]
-                    : false;
+patch(Orderline.prototype, {
+    getDisplayData() {
+        const data = super.getDisplayData(...arguments);
 
-                if (productFiscalMap) {
-                    totalCofins += parseFloat(productFiscalMap.cofins_value) || 0;
-                }
-            }
-
-            return totalCofins;
+        if (this.pos.config.simplified_document_type !== "65") {
+            return data;
         }
 
-        get_total_without_discount() {
-            const orderlines = this.get_orderlines();
-            let totalWithoutDiscount = 0;
+        return {
+            ...data,
+            product_default_code: this.get_product().default_code || "",
+            unit_code: this.get_unit().name || "",
+            quantity: this.get_quantity(),
+            unit_price: this.get_unit_display_price(),
+            price_without_tax: this.get_price_without_tax(),
+        };
+    },
+});
 
-            for (const line of orderlines) {
-                totalWithoutDiscount +=
-                    (parseFloat(line.product.lst_price) || 0) *
-                    (parseFloat(line.quantity) || 0);
-            }
-
-            return totalWithoutDiscount;
+patch(PosStore.prototype, {
+    /**
+     * Keep the NFC-e flow on top of the standard order synchronization:
+     * after the backend authorizes the document, fetch its fiscal data and,
+     * if the backend is unreachable, fall back to contingency.
+     * @param {Array} orders Orders to synchronize.
+     * @returns {Promise<Array>} Backend ids of the synchronized orders.
+     */
+    async _save_to_server(orders) {
+        if (this.config.simplified_document_type !== "65") {
+            return super._save_to_server(...arguments);
         }
 
-        get_total_icms_base() {
-            const orderlines = this.get_orderlines();
-            let totalICMSBase = 0;
-
-            for (const line of orderlines) {
-                const productFiscalMap = this.pos.fiscal_map_by_template_id
-                    ? this.pos.fiscal_map_by_template_id[line.product.product_tmpl_id]
-                    : false;
-
-                if (productFiscalMap && productFiscalMap.icms_cst_code === "00") {
-                    totalICMSBase += parseFloat(productFiscalMap.icms_base) || 0;
-                }
+        let serverIds = [];
+        try {
+            serverIds = await super._save_to_server(...arguments);
+        } catch (error) {
+            if (error.code === 200) {
+                throw error;
             }
 
-            return totalICMSBase;
-        }
-    };
+            // Could not reach the backend: issue in contingency.
+            this._contingenciaNFCe(orders);
 
-Registries.Model.extend(Order, L10nBrNfceOrder);
-
-const L10nBrNfcePosGlobalState = (PosGlobalState) =>
-    class L10nBrNfcePosGlobalState extends PosGlobalState {
-        /**
-         * Mantém o fluxo antigo de envio de NFC-e,
-         * mas usando a API do Odoo 16.
-         */
-        async push_and_invoice_order(order) {
-            if (this.config.simplified_document_type !== "65") {
-                return super.push_and_invoice_order(...arguments);
-            }
-
-            if (!order.get_partner()) {
-                throw {
-                    code: 400,
-                    message: "Missing Customer",
-                    data: {},
-                };
-            }
-
-            return this.push_single_order(order, {
-                timeout: 30000,
-                to_invoice: true,
-            });
+            return orders.map((order) => ({
+                pos_reference: order.data.name,
+            }));
         }
 
-        /**
-         * Envio dos pedidos para o backend.
-         *
-         * O Odoo 16 já possui _save_to_server().
-         * Aqui interceptamos apenas quando for NFC-e.
-         */
-        async _save_to_server(orders, options = {}) {
-            if (this.config.simplified_document_type !== "65") {
-                return super._save_to_server(...arguments);
-            }
+        await this._fillNFCeAdditionalInfo(serverIds);
 
-            if (!orders || !orders.length) {
-                return [];
-            }
+        return serverIds;
+    },
 
-            const timeout =
-                typeof options.timeout === "number"
-                    ? options.timeout
-                    : 30000 * orders.length;
+    /**
+     * Receive the authorized NFC-e data from the backend.
+     * @param {Array} orders Result of create_from_ui.
+     */
+    async _fillNFCeAdditionalInfo(orders) {
+        if (!orders || !orders.length) {
+            return;
+        }
 
-            const ordersToSync = orders.filter(
-                (order) => !this.syncingOrders || !this.syncingOrders.has(order.id)
+        const currentOrder = this.get_order();
+
+        if (!currentOrder) {
+            return;
+        }
+
+        const orderOption = orders[0];
+
+        if (!orderOption.account_move) {
+            console.warn("NFC-e: create_from_ui did not return account_move.");
+            return;
+        }
+
+        const moves = await this.orm.read(
+            "account.move",
+            [orderOption.account_move],
+            [
+                "document_serie",
+                "document_number",
+                "document_key",
+                "document_date",
+                "authorization_date",
+                "authorization_protocol",
+                "document_type",
+                "fiscal_document_id",
+            ]
+        );
+
+        if (!moves || !moves.length) {
+            console.warn("NFC-e: account.move not found:", orderOption.account_move);
+            return;
+        }
+
+        const move = moves[0];
+        let supplement = null;
+
+        if (move.fiscal_document_id) {
+            const fiscalDocuments = await this.orm.read(
+                "l10n_br_fiscal.document",
+                [move.fiscal_document_id[0]],
+                ["nfe40_infNFeSupl"]
             );
 
-            if (!ordersToSync.length) {
-                return [];
-            }
+            if (fiscalDocuments.length && fiscalDocuments[0].nfe40_infNFeSupl) {
+                const supplementId = fiscalDocuments[0].nfe40_infNFeSupl[0];
 
-            if (this.syncingOrders) {
-                ordersToSync.forEach((order) => {
-                    this.syncingOrders.add(order.id);
-                });
-            }
-
-            this.set_synch("connecting", ordersToSync.length);
-
-            const orderIdsToSync = ordersToSync.map((order) => order.id);
-
-            const args = [
-                ordersToSync.map((order) => {
-                    order.to_invoice = options.to_invoice || false;
-                    return order;
-                }),
-                options.draft || false,
-            ];
-
-            try {
-                const serverIds = await this.env.services.rpc(
-                    {
-                        model: "pos.order",
-                        method: "create_from_ui",
-                        args: args,
-                        kwargs: {
-                            context: this.env.session.user_context,
-                        },
-                    },
-                    {
-                        timeout: timeout,
-                        shadow: !options.to_invoice,
-                    }
+                const supplements = await this.orm.read(
+                    "l10n_br_fiscal.document.supplement",
+                    [supplementId],
+                    ["qrcode", "url_key"]
                 );
 
-                for (const orderId of orderIdsToSync) {
-                    this.db.remove_order(orderId);
-
-                    if (this.syncingOrders) {
-                        this.syncingOrders.delete(orderId);
-                    }
+                if (supplements && supplements.length) {
+                    supplement = supplements[0];
                 }
-
-                this.failed = false;
-                this.set_synch("connected");
-
-                await this._fillNFCeAdditionalInfo(serverIds);
-
-                return serverIds;
-            } catch (error) {
-                if (this.syncingOrders) {
-                    ordersToSync.forEach((order) => {
-                        this.syncingOrders.delete(order.id);
-                    });
-                }
-
-                if (error.code === 200) {
-                    if ((!this.failed || options.show_error) && !options.to_invoice) {
-                        this.failed = error;
-                        this.set_synch("error");
-                    } else {
-                        this.set_synch("disconnected");
-                    }
-                    throw error;
-                }
-
-                /*
-                 * Se não conseguiu comunicar com o backend,
-                 * entra em contingência.
-                 */
-                this.set_synch("disconnected");
-
-                this._contingenciaNFCe(orders);
-
-                this.failed = true;
-
-                return orders.map((order) => ({
-                    pos_reference: order.data.name,
-                }));
             }
         }
 
-        /**
-         * Recebe do backend as informações da NFC-e autorizada.
-         */
-        async _fillNFCeAdditionalInfo(orders) {
-            if (!orders || !orders.length) {
-                return;
-            }
+        Object.assign(currentOrder, {
+            authorization_protocol: move.authorization_protocol,
+            document_key: move.document_key,
+            document_number: move.document_number,
+            document_serie: move.document_serie,
+            authorization_date_string: move.authorization_date,
+            document_date_string: move.document_date,
+            qr_code: supplement ? supplement.qrcode : false,
+            url_consulta: supplement ? supplement.url_key : false,
+        });
+    },
 
+    /**
+     * Contingency.
+     *
+     * The document number must come from the backend: the browser does not
+     * touch the backend sequence, so no local number is invented here.
+     * @param {Array} orders Orders that could not be synchronized.
+     */
+    _contingenciaNFCe(orders) {
+        const state = this.company.state_id ? this.company.state_id[1] : "";
+
+        const cnpj = (this.company.cnpj_cpf || "").replace(/\D/g, "");
+
+        const currentDate = new Date();
+
+        const yearMonth =
+            currentDate.getFullYear().toString().slice(-2) +
+            (currentDate.getMonth() + 1).toString().padStart(2, "0");
+
+        const serie = this.config.nfce_document_serie_code
+            ? this.config.nfce_document_serie_code.toString().padStart(3, "0")
+            : "001";
+
+        for (let i = 0; i < orders.length; i++) {
             const currentOrder = this.get_order();
 
             if (!currentOrder) {
-                return;
+                continue;
             }
 
-            const orderOption = orders[0];
-
-            if (!orderOption.account_move) {
-                console.warn("NFC-e: create_from_ui não retornou account_move.");
-                return;
-            }
-
-            const moves = await this.env.services.rpc({
-                model: "account.move",
-                method: "read",
-                args: [
-                    [orderOption.account_move],
-                    [
-                        "document_serie",
-                        "document_number",
-                        "document_key",
-                        "document_date",
-                        "authorization_date",
-                        "authorization_protocol",
-                        "document_type",
-                        "fiscal_document_id",
-                    ],
-                ],
-                kwargs: {
-                    context: this.env.session.user_context,
-                },
-            });
-
-            if (!moves || !moves.length) {
+            if (!currentOrder.document_number) {
                 console.warn(
-                    "NFC-e: account.move não encontrado:",
-                    orderOption.account_move
+                    "NFC-e in contingency: document number not available yet."
                 );
-                return;
+                continue;
             }
 
-            const move = moves[0];
+            currentOrder.document_serie = serie;
 
-            console.log("NFC-e ACCOUNT MOVE:", move);
-            let supplement = null;
+            const chaveEdoc = new ChaveEdoc(
+                false,
+                BRAZILIAN_STATES_IBGE_CODE_MAP[state],
+                yearMonth,
+                cnpj,
+                this.config.simplified_document_type,
+                serie,
+                currentOrder.document_number.toString().padStart(9, "0"),
+                "9"
+            );
 
-            if (move.fiscal_document_id) {
-                const fiscalDocuments = await this.env.services.rpc({
-                    model: "l10n_br_fiscal.document",
-                    method: "read",
-                    args: [[move.fiscal_document_id[0]], ["nfe40_infNFeSupl"]],
-                    kwargs: {
-                        context: this.env.session.user_context,
-                    },
-                });
+            currentOrder.document_key = chaveEdoc.generatedChave;
 
-                console.log("NFC-e FISCAL DOCUMENT:", fiscalDocuments);
+            currentOrder.document_date_string = currentDate.toLocaleString();
 
-                if (fiscalDocuments.length && fiscalDocuments[0].nfe40_infNFeSupl) {
-                    const supplementId = fiscalDocuments[0].nfe40_infNFeSupl[0];
-
-                    const supplements = await this.env.services.rpc({
-                        model: "l10n_br_fiscal.document.supplement",
-                        method: "read",
-                        args: [[supplementId], ["qrcode", "url_key"]],
-                        kwargs: {
-                            context: this.env.session.user_context,
-                        },
-                    });
-
-                    if (supplements && supplements.length) {
-                        supplement = supplements[0];
-                    }
-                }
-            }
-
-            Object.assign(currentOrder, {
-                authorization_protocol: move.authorization_protocol,
-
-                document_key: move.document_key,
-
-                document_number: move.document_number,
-
-                document_serie: move.document_serie,
-
-                authorization_date_string: move.authorization_date,
-
-                document_date_string: move.document_date,
-
-                qr_code: supplement ? supplement.qrcode : false,
-
-                url_consulta: supplement ? supplement.url_key : false,
-            });
-
-            console.log("NFC-e CURRENT ORDER:", currentOrder);
+            this._qrCodeNFCeContingency(currentOrder, chaveEdoc);
         }
+    },
 
-        /**
-         * Contingência.
-         *
-         * OBS:
-         * O mecanismo antigo utilizava
-         * nfce_document_serie_sequence_number_next,
-         * que foi removido no Odoo 16.
-         *
-         * Por enquanto deixamos a estrutura preparada,
-         * sem tentar alterar a sequence do backend pelo
-         * navegador.
-         */
-        _contingenciaNFCe(orders) {
-            const state = this.company.state_id ? this.company.state_id[1] : "";
+    async _qrCodeNFCeContingency(currentOrder, chaveEdoc) {
+        const xml = new NFeXML(this, currentOrder, chaveEdoc);
 
-            const cnpj = (this.company.cnpj_cpf || "").replace(/\D/g, "");
-
-            const currentDate = new Date();
-
-            const yearMonth =
-                currentDate.getFullYear().toString().slice(-2) +
-                (currentDate.getMonth() + 1).toString().padStart(2, "0");
-
-            const serie = this.config.nfce_document_serie_code
-                ? this.config.nfce_document_serie_code.toString().padStart(3, "0")
-                : "001";
-
-            /*
-             * O número precisa ser fornecido pelo backend
-             * no Odoo 16. Não usamos mais o campo antigo
-             * nfce_document_serie_sequence_number_next.
-             */
-            for (let i = 0; i < orders.length; i++) {
-                const currentOrder = this.get_order();
-
-                if (!currentOrder || currentOrder.document_number) {
-                    continue;
-                }
-
-                /*
-                 * Se o pedido já recebeu número do backend,
-                 * usamos ele.
-                 *
-                 * Caso contrário, não inventamos um número
-                 * local para evitar colisão de sequence.
-                 */
-                if (!currentOrder.document_number) {
-                    console.warn("NFC-e em contingência: número ainda não disponível.");
-                    continue;
-                }
-
-                currentOrder.document_serie = serie;
-
-                const chaveEdoc = new ChaveEdoc(
-                    false,
-                    BRAZILIAN_STATES_IBGE_CODE_MAP[state],
-                    yearMonth,
-                    cnpj,
-                    this.config.simplified_document_type,
-                    serie,
-                    currentOrder.document_number.toString().padStart(9, "0"),
-                    "9"
-                );
-
-                currentOrder.document_key = chaveEdoc.generatedChave;
-
-                currentOrder.document_date_string = currentDate.toLocaleString();
-
-                this._qrCodeNFCeContingency(currentOrder, chaveEdoc);
-            }
-        }
-
-        async _qrCodeNFCeContingency(currentOrder, chaveEdoc) {
-            const xml = new NFeXML(this, currentOrder, chaveEdoc);
-
-            currentOrder.qr_code = await xml.generateQRCodeText();
-        }
-    };
-
-Registries.Model.extend(PosGlobalState, L10nBrNfcePosGlobalState);
+        currentOrder.qr_code = await xml.generateQRCodeText();
+    },
+});

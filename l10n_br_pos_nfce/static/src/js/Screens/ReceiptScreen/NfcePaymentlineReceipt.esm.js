@@ -1,12 +1,12 @@
 /** @odoo-module */
 
-import PosComponent from "point_of_sale.PosComponent";
-import Registries from "point_of_sale.Registries";
+import {Component} from "@odoo/owl";
 
-class NfcePaymentlineReceipt extends PosComponent {
+export class NfcePaymentlineReceipt extends Component {
+    static template = "l10n_br_pos_nfce.NfcePaymentlineReceipt";
+    static props = {payment: Object};
+
     setup() {
-        super.setup();
-
         this.payment = this.props.payment;
     }
 
@@ -21,7 +21,3 @@ class NfcePaymentlineReceipt extends PosComponent {
         });
     }
 }
-
-NfcePaymentlineReceipt.template = "NfcePaymentlineReceipt";
-
-Registries.Component.add(NfcePaymentlineReceipt);
