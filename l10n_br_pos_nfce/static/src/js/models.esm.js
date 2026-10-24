@@ -95,14 +95,6 @@ const L10nBrNfceOrder = (Order) =>
             };
         }
 
-        _prepare_fiscal_json(json) {
-            if (super._prepare_fiscal_json) {
-                super._prepare_fiscal_json(...arguments);
-            }
-
-            json.document_type = this.document_type;
-        }
-
         get_total_icms() {
             const orderlines = this.get_orderlines();
             let totalICMS = 0;
@@ -189,29 +181,6 @@ Registries.Model.extend(Order, L10nBrNfceOrder);
 
 const L10nBrNfcePosGlobalState = (PosGlobalState) =>
     class L10nBrNfcePosGlobalState extends PosGlobalState {
-        /**
-         * Mantém o fluxo antigo de envio de NFC-e,
-         * mas usando a API do Odoo 16.
-         */
-        async push_and_invoice_order(order) {
-            if (this.config.simplified_document_type !== "65") {
-                return super.push_and_invoice_order(...arguments);
-            }
-
-            if (!order.get_partner()) {
-                throw {
-                    code: 400,
-                    message: "Missing Customer",
-                    data: {},
-                };
-            }
-
-            return this.push_single_order(order, {
-                timeout: 30000,
-                to_invoice: true,
-            });
-        }
-
         /**
          * Envio dos pedidos para o backend.
          *
