@@ -14,3 +14,4 @@ from . import test_nfe_ibscbs
 from . import test_nfe_workflow
 from . import test_nfe_legacy_edoc
 from . import test_autxml
+from . import test_nfe_dfereferenciado
