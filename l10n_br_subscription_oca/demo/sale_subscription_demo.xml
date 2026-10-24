@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="subscription_template_monthly" model="sale.subscription.template">
+        <field name="name">Mensal</field>
+        <field name="code">MENSAL</field>
+        <field name="recurring_rule_type">months</field>
+        <field name="recurring_interval">1</field>
+        <field name="invoicing_mode">draft</field>
+    </record>
+
+    <!-- Service subscription: the invoice is an NFS-e -->
+    <record id="subscription_service" model="sale.subscription">
+        <field name="partner_id" ref="l10n_br_base.res_partner_kmee" />
+        <field name="template_id" ref="subscription_template_monthly" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="date_start" eval="datetime.today().strftime('%Y-%m-%d')" />
+        <field
+            name="recurring_next_date"
+            eval="datetime.today().strftime('%Y-%m-%d')"
+        />
+    </record>
+
+    <record id="subscription_service_line" model="sale.subscription.line">
+        <field name="sale_subscription_id" ref="subscription_service" />
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
+        <field name="product_uom_qty">10</field>
+        <field name="price_unit">150</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
+    </record>
+
+    <!-- Goods subscription: the invoice is an NF-e -->
+    <record id="subscription_goods" model="sale.subscription">
+        <field name="partner_id" ref="l10n_br_base.res_partner_kmee" />
+        <field name="template_id" ref="subscription_template_monthly" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="date_start" eval="datetime.today().strftime('%Y-%m-%d')" />
+        <field
+            name="recurring_next_date"
+            eval="datetime.today().strftime('%Y-%m-%d')"
+        />
+    </record>
+
+    <record id="subscription_goods_line" model="sale.subscription.line">
+        <field name="sale_subscription_id" ref="subscription_goods" />
+        <field name="product_id" ref="product.product_delivery_01" />
+        <field name="product_uom_qty">1</field>
+        <field name="price_unit">70</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_revenda" />
+    </record>
+</odoo>
