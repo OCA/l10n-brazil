@@ -39,7 +39,6 @@ class PosOrder(models.Model):
     fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
         readonly=True,
-        states={"draft": [("readonly", False)]},
         default=_default_fiscal_operation,
         domain=lambda self: self._fiscal_operation_domain(),
     )
@@ -48,7 +47,6 @@ class PosOrder(models.Model):
         string="CNPJ/CPF",
         related=False,
         readonly=True,
-        states={"draft": [("readonly", False)]},
     )
 
     legal_name = fields.Char(
@@ -67,15 +65,13 @@ class PosOrder(models.Model):
         copy=False,
         index=True,
         readonly=True,
-        states={"draft": [("readonly", False)]},
     )
 
     document_rps_number = fields.Char(
-        string="Document Number",
+        string="Document RPS Number",
         copy=False,
         index=True,
         readonly=True,
-        states={"draft": [("readonly", False)]},
     )
 
     document_key = fields.Char(
@@ -83,19 +79,16 @@ class PosOrder(models.Model):
         copy=False,
         index=True,
         readonly=True,
-        states={"draft": [("readonly", False)]},
     )
 
     ind_pres = fields.Selection(
         default=NFCE_IND_PRES_DEFAULT,
         readonly=True,
-        states={"draft": [("readonly", False)]},
     )
 
     document_type_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.type",
         readonly=True,
-        states={"draft": [("readonly", False)]},
     )
 
     document_type = fields.Char(
@@ -132,13 +125,11 @@ class PosOrder(models.Model):
         comodel_name="l10n_br_fiscal.document.serie",
         domain="[('active', '=', True),('document_type_id', '=', document_type_id)]",
         readonly=True,
-        states={"draft": [("readonly", False)]},
     )
 
     document_serie = fields.Char(
         string="Serie Number",
         readonly=True,
-        states={"draft": [("readonly", False)]},
     )
 
     partner_shipping_id = fields.Many2one(
@@ -156,7 +147,6 @@ class PosOrder(models.Model):
         string="Goal",
         default="1",
         readonly=True,
-        states={"draft": [("readonly", False)]},
     )
 
     status_code = fields.Char(
@@ -168,7 +158,6 @@ class PosOrder(models.Model):
     )
 
     status_description = fields.Char(
-        string="Status Name",
         copy=False,
     )
 
@@ -208,7 +197,7 @@ class PosOrder(models.Model):
         copy=False,
     )
 
-    document_date = fields.Date(string="Date")
+    document_date = fields.Date()
 
     # TODO: Switch to events?
     document_file_id = fields.Many2one(
@@ -221,14 +210,12 @@ class PosOrder(models.Model):
         string="Cancel Session identifier number",
         copy=False,
         readonly=True,
-        states={"draft": [("readonly", False)]},
     )
     cancel_document_key = fields.Char(
         string="Cancel Key",
         copy=False,
         index=True,
         readonly=True,
-        states={"draft": [("readonly", False)]},
     )
     cancel_document_file_id = fields.Many2one(
         comodel_name="ir.attachment",

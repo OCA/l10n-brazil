@@ -20,8 +20,12 @@
         <field name="inherit_id" ref="point_of_sale.view_pos_pos_form" />
         <field name="arch" type="xml">
             <field name="fiscal_position_id" position="before">
-                <field name="cnpj_cpf" />
-                <field name="fiscal_operation_id" required="True" />
+                <field name="cnpj_cpf" readonly="state != 'draft'" />
+                <field
+                    name="fiscal_operation_id"
+                    required="True"
+                    readonly="state != 'draft'"
+                />
             </field>
             <field name="date_order" position="after">
                 <field name="fiscal_coupon_date" string="Tax Coupom Date" />
@@ -34,25 +38,27 @@
                     <field name="ind_pres" />
                   </group>
                   <group>
-                    <field name="document_type_id" required="1" />
-                    <label
-                        for="document_key"
-                        attrs="{'invisible': [('document_electronic', '=', False)]}"
+                    <field
+                        name="document_type_id"
+                        required="1"
+                        readonly="state != 'draft'"
                     />
-                    <div
-                        class="o_row"
-                        attrs="{'invisible': [('document_electronic', '=', False)]}"
-                    >
+                    <label for="document_key" invisible="not document_electronic" />
+                    <div class="o_row" invisible="not document_electronic">
                       <field name="document_key" force_save="1" class="oe_inline" />
                     </div>
                   </group>
                   <group>
                     <group name="document_header_right">
-                      <field name="document_serie_id" />
-                      <field name="document_serie" />
+                      <field name="document_serie_id" readonly="state != 'draft'" />
+                      <field name="document_serie" readonly="state != 'draft'" />
                     </group>
                     <group name="document_header_left">
-                      <field name="document_number" force_save="1" />
+                      <field
+                            name="document_number"
+                            force_save="1"
+                            readonly="state != 'draft'"
+                        />
                       <field name="authorization_file" />
                     </group>
                   </group>
