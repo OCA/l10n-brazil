@@ -981,10 +981,14 @@ class NFe(spec_models.StackedModel):
         if key == "nfe40_entrega" and self.env.context.get("edoc_type") == "in":
             enderEntreg_value = self.env["res.partner"].build_attrs(value, path=path)
             new_value.update(enderEntreg_value)
-            parent_domain = [("vat", "=", new_value.get("nfe40_CNPJ"))]
-            parent_partner_match = self.env["res.partner"].search(
-                parent_domain, limit=1
-            )
+            # An <entrega> without CNPJ has no owner to look for: searching
+            # vat = False would match the first partner without a vat.
+            delivery_cnpj = new_value.get("nfe40_CNPJ")
+            parent_partner_match = self.env["res.partner"]
+            if delivery_cnpj:
+                parent_partner_match = parent_partner_match.search(
+                    [("vat", "=", delivery_cnpj)], limit=1
+                )
             new_vals = {
                 "nfe40_CNPJ": False,
                 "type": "delivery",
