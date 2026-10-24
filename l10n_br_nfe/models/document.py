@@ -39,9 +39,13 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_STATE_CANCEL,
     DOCUMENT_STATE_DRAFT,
     DOCUMENT_STATE_OPEN,
+    EDOC_PURPOSE_CREDITO,
+    EDOC_PURPOSE_DEBITO,
     EVENT_ENV_HML,
     EVENT_ENV_PROD,
     EVENTO_RECEBIDO,
+    FISCAL_IN,
+    FISCAL_OUT,
     LOTE_PROCESSADO,
     MODELO_FISCAL_NFCE,
     MODELO_FISCAL_NFE,
@@ -62,8 +66,19 @@ from odoo.addons.spec_driven_model.models import spec_models
 from ..constants.nfe import (
     FISCAL_PAYMENT_MODE,
     NFCE_DANFE_LAYOUTS,
+    NFE_CREDIT_NOTE_TAX_CLASSIFICATION,
+    NFE_CREDIT_NOTE_TYPES_NO_REFERENCE,
+    NFE_CREDIT_NOTE_TYPES_ONE_REFERENCE,
+    NFE_CREDIT_NOTE_TYPES_WITH_TAXES,
     NFE_DANFE_LAYOUTS,
+    NFE_DEBIT_NOTE_ADVANCE_PAYMENT,
+    NFE_DEBIT_NOTE_ADVANCE_PAYMENT_TAX_GROUPS,
+    NFE_DEBIT_NOTE_ADVANCE_PAYMENT_TAX_GROUPS_2026,
+    NFE_DEBIT_NOTE_TAX_CLASSIFICATION,
+    NFE_DEBIT_NOTE_TYPES_WITH_TAXES,
     NFE_ENVIRONMENTS,
+    NFE_IBSCBS_GROUP_DEFAULT,
+    NFE_TAX_GROUP_DOMAINS,
     NFE_TRANSMISSIONS,
     NFE_VERSIONS,
 )
@@ -707,6 +722,8 @@ class NFe(spec_models.StackedModel):
         "fiscal_line_ids.cbs_base",
         "fiscal_line_ids.ibs_value",
         "fiscal_line_ids.cbs_value",
+        "fiscal_line_ids.ibs_cst_id",
+        "fiscal_line_ids.tax_classification_id",
     )
     def _compute_nfe40_IBSCBSTot_fields(self):
         """Compute IBSCBSTot fields from document lines"""
@@ -729,13 +746,17 @@ class NFe(spec_models.StackedModel):
                 record.nfe40_vCredPresCondSusCBS = 0.0
                 continue
 
-            # Calculate totals from lines
-            total_ibs_base = sum(record.fiscal_line_ids.mapped("ibs_base")) or sum(
-                record.fiscal_line_ids.mapped("cbs_base")
+            # Calculate totals from the lines that inform gIBSCBS: credit
+            # transfers and adjustments have their own groups
+            lines = record.fiscal_line_ids.filtered(
+                lambda line: line._nfe_ibscbs_group() == NFE_IBSCBS_GROUP_DEFAULT
+            )
+            total_ibs_base = sum(lines.mapped("ibs_base")) or sum(
+                lines.mapped("cbs_base")
             )
 
-            total_ibs_value = sum(record.fiscal_line_ids.mapped("ibs_value"))
-            total_cbs_value = sum(record.fiscal_line_ids.mapped("cbs_value"))
+            total_ibs_value = sum(lines.mapped("ibs_value"))
+            total_cbs_value = sum(lines.mapped("cbs_value"))
 
             # Calculate IBS UF and Municipal (simplified)
             # In a complete implementation, these should be calculated separately
@@ -795,6 +816,16 @@ class NFe(spec_models.StackedModel):
         export_dict["vCBS"] = self.nfe40_vCBS
         export_dict["vCredPres"] = self.nfe40_vCredPresCBS
         export_dict["vCredPresCondSus"] = self.nfe40_vCredPresCondSusCBS
+
+    def _export_tag_nfe_40_gestornocred(self, xsd_fields, class_obj, export_dict):
+        """Total of the credit reversal of the items (rules W59f-10 and
+        W59g-10)."""
+        lines = self.fiscal_line_ids.filtered(
+            lambda line: line._nfe_ibscbs_credit_reversal()
+        )
+        if lines:
+            export_dict["vIBSEstCred"] = sum(lines.mapped("ibs_value"))
+            export_dict["vCBSEstCred"] = sum(lines.mapped("cbs_value"))
 
     ##########################
     # NF-e tag: ISSQNtot
@@ -1192,6 +1223,170 @@ class NFe(spec_models.StackedModel):
                         )
                     ) from e
         return result
+
+    def _document_check(self):
+        result = super()._document_check()
+        for record in self.filtered(filter_processador_edoc_nfe):
+            record._check_nfe_credit_debit_note()
+        return result
+
+    def _nfe_note_forbidden_tax_groups(self):
+        """Tax groups of the items that the credit or debit note cannot
+        inform: it only informs IBS and CBS (NT 2025.002, rule B25-80)."""
+        self.ensure_one()
+        if self.edoc_purpose not in (EDOC_PURPOSE_CREDITO, EDOC_PURPOSE_DEBITO) or (
+            self.edoc_refund_credit_type in NFE_CREDIT_NOTE_TYPES_WITH_TAXES
+            or self.edoc_refund_debit_type in NFE_DEBIT_NOTE_TYPES_WITH_TAXES
+        ):
+            return set()
+        groups = set(NFE_TAX_GROUP_DOMAINS)
+        if self.edoc_refund_debit_type == NFE_DEBIT_NOTE_ADVANCE_PAYMENT:
+            groups -= set(NFE_DEBIT_NOTE_ADVANCE_PAYMENT_TAX_GROUPS)
+            if (self.document_date or fields.Datetime.now()).year == 2026:
+                groups -= set(NFE_DEBIT_NOTE_ADVANCE_PAYMENT_TAX_GROUPS_2026)
+        return groups
+
+    def _check_nfe_credit_debit_note(self):
+        """Check the credit and debit notes as the SEFAZ does (NT 2025.002)."""
+        self.ensure_one()
+        if self.issuer != DOCUMENT_ISSUER_COMPANY:
+            return
+        credit = self.edoc_purpose == EDOC_PURPOSE_CREDITO
+        debit = self.edoc_purpose == EDOC_PURPOSE_DEBITO
+        credit_type = self.edoc_refund_credit_type
+        debit_type = self.edoc_refund_debit_type
+        errors = []
+        if (credit or debit) and self.document_type_id.code != MODELO_FISCAL_NFE:
+            errors.append(_("Only a NF-e (model 55) can be a credit or debit note."))
+        # B25-110 and B25-120
+        if credit and self.fiscal_operation_type != FISCAL_IN:
+            errors.append(_("A credit note must be an incoming NF-e."))
+        if debit and self.fiscal_operation_type != FISCAL_OUT:
+            errors.append(_("A debit note must be an outgoing NF-e."))
+        # B25.1-10, B25.1-20, B25.2-10 and B25.2-20
+        if credit and not credit_type:
+            errors.append(_("Set the credit note type."))
+        if debit and not debit_type:
+            errors.append(_("Set the debit note type."))
+        if credit_type and not credit:
+            errors.append(_("Only a credit note can have a credit note type."))
+        if debit_type and not debit:
+            errors.append(_("Only a debit note can have a debit note type."))
+        if credit and credit_type:
+            errors += self._check_nfe_credit_note_references()
+        if self.document_type_id.code == MODELO_FISCAL_NFE:
+            errors += self._check_nfe_note_lines()
+        if errors:
+            raise UserError(
+                _(
+                    "NF-e credit or debit note:\n%(errors)s",
+                    errors="\n".join(errors),
+                )
+            )
+
+    def _check_nfe_credit_note_references(self):
+        self.ensure_one()
+        errors = []
+        credit_type = self.edoc_refund_credit_type
+        related = self.document_related_ids
+        # B25.2-30
+        if credit_type == "02" and (
+            (self.document_date or fields.Datetime.now()).year < 2029
+        ):
+            errors.append(_("The credit note type 02 can only be used from 2029."))
+        # B25-30, B25-40 and B25-65
+        if credit_type in NFE_CREDIT_NOTE_TYPES_ONE_REFERENCE and len(related) != 1:
+            errors.append(
+                _(
+                    "A credit note of type %(type)s must reference exactly one NF-e.",
+                    type=credit_type,
+                )
+            )
+        if credit_type in NFE_CREDIT_NOTE_TYPES_NO_REFERENCE and related:
+            errors.append(
+                _(
+                    "A credit note of type %(type)s cannot reference documents.",
+                    type=credit_type,
+                )
+            )
+        # B25-100: a return (type 03) can also reference a NFC-e
+        models = [MODELO_FISCAL_NFE]
+        if credit_type == "03":
+            models.append(MODELO_FISCAL_NFCE)
+        if related.filtered(lambda r: r.document_type_code not in models):
+            errors.append(
+                _(
+                    "A credit note can only reference NF-e (model 55), or a "
+                    "NFC-e (model 65) when it is a return (type 03)."
+                )
+            )
+        return errors
+
+    def _check_nfe_note_lines(self):
+        """cClassTrib of the note type (rules UB14-60, UB14-70 and UB14-80)
+        and taxes other than IBS and CBS (rule B25-80) on the items."""
+        self.ensure_one()
+        errors = []
+        note = False
+        required_code = False
+        if self.edoc_purpose == EDOC_PURPOSE_CREDITO:
+            note = (EDOC_PURPOSE_CREDITO, self.edoc_refund_credit_type)
+            required_code = NFE_CREDIT_NOTE_TAX_CLASSIFICATION.get(note[1])
+        elif self.edoc_purpose == EDOC_PURPOSE_DEBITO:
+            note = (EDOC_PURPOSE_DEBITO, self.edoc_refund_debit_type)
+            required_code = NFE_DEBIT_NOTE_TAX_CLASSIFICATION.get(note[1])
+        purpose_names = dict(
+            self._fields["edoc_purpose"]._description_selection(self.env)
+        )
+        note_codes = {}
+        for purpose, code_by_type in (
+            (EDOC_PURPOSE_CREDITO, NFE_CREDIT_NOTE_TAX_CLASSIFICATION),
+            (EDOC_PURPOSE_DEBITO, NFE_DEBIT_NOTE_TAX_CLASSIFICATION),
+        ):
+            for note_type, code in code_by_type.items():
+                note_codes.setdefault(code, []).append((purpose, note_type))
+        forbidden_domains = {
+            domain
+            for group in self._nfe_note_forbidden_tax_groups()
+            for domain in NFE_TAX_GROUP_DOMAINS[group]
+        }
+        for line in self.fiscal_line_ids:
+            label = line.name or line.product_id.display_name
+            code = line.tax_classification_id.code
+            if required_code and code != required_code:
+                errors.append(
+                    _(
+                        "%(line)s: the cClassTrib of this note type is %(code)s.",
+                        line=label,
+                        code=required_code,
+                    )
+                )
+            elif code in note_codes and note not in note_codes[code]:
+                errors.append(
+                    _(
+                        "%(line)s: the cClassTrib %(code)s is only accepted in "
+                        "%(notes)s.",
+                        line=label,
+                        code=code,
+                        notes=", ".join(
+                            f"{purpose_names[purpose]} {note_type}"
+                            for purpose, note_type in note_codes[code]
+                        ),
+                    )
+                )
+            taxes = line.fiscal_tax_ids.filtered(
+                lambda tax: tax.tax_domain in forbidden_domains
+            )
+            if taxes:
+                errors.append(
+                    _(
+                        "%(line)s: this note type only informs IBS and CBS, remove "
+                        "%(taxes)s.",
+                        line=label,
+                        taxes=", ".join(taxes.mapped("name")),
+                    )
+                )
+        return errors
 
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)

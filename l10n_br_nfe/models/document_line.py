@@ -6,6 +6,8 @@ import logging
 import sys
 from enum import Enum
 
+from xsdata.models.datatype import XmlPeriod
+
 from odoo import _, api, fields
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -17,6 +19,13 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 from odoo.addons.l10n_br_fiscal.constants.icms import ICMS_CST, ICMS_SN_CST
 from odoo.addons.l10n_br_fiscal.tools import remove_non_ascii_characters
 from odoo.addons.spec_driven_model.models import spec_models
+
+from ..constants.nfe import (
+    NFE_DEBIT_NOTE_STOCK_LOSS,
+    NFE_IBSCBS_CST_GROUP,
+    NFE_IBSCBS_GROUP_DEFAULT,
+    NFE_IBSCBS_GROUPS,
+)
 
 _logger = logging.getLogger(__name__)
 
@@ -387,6 +396,10 @@ class NFeLine(spec_models.StackedModel):
 
         if not self.tax_classification_id:
             xsd_fields.remove("nfe40_IBSCBS")
+
+        for tag in self.document_id._nfe_note_forbidden_tax_groups():
+            if tag in xsd_fields:
+                xsd_fields.remove(tag)
 
     ##################################################
     # NF-e tag: ICMS
@@ -989,28 +1002,60 @@ class NFeLine(spec_models.StackedModel):
         if self.tax_classification_id:
             export_dict["cClassTrib"] = self.tax_classification_id.code
 
-        if self.ibs_cst_id and self.ibs_cst_id.code:
-            export_dict["CST"] = self.ibs_cst_id.code
+        cst_code = self._nfe_ibscbs_cst_code()
+        if cst_code:
+            export_dict["CST"] = cst_code
 
-        # The choice branches are exclusive: keep only the one matching the
-        # CST, defaulting to gIBSCBS for every other CST (600, 000, ...)
-        # TODO the monophase (620), credit transfer (800) and period
-        # adjustment (811) groups have no export hook yet: their branch is
-        # kept here so the XSD choice is right once they are implemented.
-        remove_tags = {
-            "620": ["nfe40_gIBSCBS", "nfe40_gTransfCred", "nfe40_gAjusteCompet"],
-            "800": ["nfe40_gIBSCBS", "nfe40_gIBSCBSMono", "nfe40_gAjusteCompet"],
-            "811": ["nfe40_gIBSCBS", "nfe40_gIBSCBSMono", "nfe40_gTransfCred"],
-        }
-        default_remove = [
-            "nfe40_gIBSCBSMono",
-            "nfe40_gTransfCred",
-            "nfe40_gAjusteCompet",
-        ]
+        # The choice branches are exclusive: keep only the one of the CST.
+        # TODO the monophase group (620) has no export hook yet.
+        group = self._nfe_ibscbs_group()
+        for tag in NFE_IBSCBS_GROUPS:
+            if tag != group and tag in xsd_fields:
+                xsd_fields.remove(tag)
 
-        for tag_to_remove in remove_tags.get(self.ibs_cst_id.code, default_remove):
-            if tag_to_remove in xsd_fields:
-                xsd_fields.remove(tag_to_remove)
+    def _nfe_ibscbs_cst_code(self):
+        """CST of the IBSCBS group: the line CST or, for a line without IBS
+        tax, the first three digits of the cClassTrib (rule UB14-20)."""
+        self.ensure_one()
+        return self.ibs_cst_id.code or (self.tax_classification_id.code or "")[:3]
+
+    def _nfe_ibscbs_group(self):
+        """Branch of the IBSCBS choice that the line informs, if any."""
+        self.ensure_one()
+        return NFE_IBSCBS_CST_GROUP.get(
+            self._nfe_ibscbs_cst_code(), NFE_IBSCBS_GROUP_DEFAULT
+        )
+
+    def _nfe_ibscbs_credit_reversal(self):
+        """Whether the line informs the credit reversal (gEstornoCred): the
+        cClassTrib has ind_gEstornoCred or the note is a stock loss debit
+        note (rules UB116-10 and UB116-20)."""
+        self.ensure_one()
+        return bool(
+            self.tax_classification_id.credit_reversal
+            or self.document_id.edoc_refund_debit_type == NFE_DEBIT_NOTE_STOCK_LOSS
+        )
+
+    # Export nfe40_gTransfCred, nfe40_gAjusteCompet and nfe40_gEstornoCred
+
+    def _export_tag_nfe_40_gtransfcred(self, xsd_fields, class_obj, export_dict):
+        export_dict["vIBS"] = self.ibs_value
+        export_dict["vCBS"] = self.cbs_value
+
+    def _export_tag_nfe_40_gajustecompet(self, xsd_fields, class_obj, export_dict):
+        # The adjustment is informed in the period of the document
+        document_date = fields.Datetime.context_timestamp(
+            self, self.document_id.document_date or fields.Datetime.now()
+        )
+        export_dict["competApur"] = XmlPeriod(document_date.strftime("%Y-%m"))
+        export_dict["vIBS"] = self.ibs_value
+        export_dict["vCBS"] = self.cbs_value
+
+    def _export_tag_nfe_40_gestornocred(self, xsd_fields, class_obj, export_dict):
+        if not self._nfe_ibscbs_credit_reversal():
+            return
+        export_dict["vIBSEstCred"] = self.ibs_value
+        export_dict["vCBSEstCred"] = self.cbs_value
 
     # Export nfe40_gIBSCBS
 
