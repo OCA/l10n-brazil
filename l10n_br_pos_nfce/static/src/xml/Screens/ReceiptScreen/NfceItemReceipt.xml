@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates id="template" xml:space="preserve">
-    <t t-name="NfceItemReceipt" owl="1">
+    <t t-name="l10n_br_pos_nfce.NfceItemReceipt">
         <li class="nfcePTag" style="font-size: 18px !important;">
             <t t-esc="itemLine" />
         </li>

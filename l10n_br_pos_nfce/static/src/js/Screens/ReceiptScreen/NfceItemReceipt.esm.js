@@ -1,19 +1,17 @@
 /** @odoo-module */
 
-import PosComponent from "point_of_sale.PosComponent";
-import Registries from "point_of_sale.Registries";
+import {Component} from "@odoo/owl";
 
-class NfceItemReceipt extends PosComponent {
+export class NfceItemReceipt extends Component {
+    static template = "l10n_br_pos_nfce.NfceItemReceipt";
+    static props = {line: Object, index: Number};
+
     setup() {
-        super.setup();
-
         this.line = this.props.line;
     }
 
     get id() {
-        const lineCollections = this.env.pos.get_order().get_orderlines();
-
-        const index = lineCollections.findIndex((line) => line.id === this.line.id) + 1;
+        const index = this.props.index + 1;
 
         if (index < 100) {
             return String(index).padStart(3, "0");
@@ -27,7 +25,7 @@ class NfceItemReceipt extends PosComponent {
     }
 
     get productName() {
-        return this.line.product_name || "";
+        return this.line.productName || "";
     }
 
     get productQuantityUnit() {
@@ -38,7 +36,7 @@ class NfceItemReceipt extends PosComponent {
     }
 
     get productUnitValue() {
-        return (this.line.price || 0).toLocaleString("pt-BR", {
+        return (this.line.unit_price || 0).toLocaleString("pt-BR", {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
         });
@@ -61,7 +59,3 @@ class NfceItemReceipt extends PosComponent {
         ].join("\t");
     }
 }
-
-NfceItemReceipt.template = "NfceItemReceipt";
-
-Registries.Component.add(NfceItemReceipt);
