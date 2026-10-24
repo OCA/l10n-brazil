@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 KMEE -->
+<!-- License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <template id="redirect_form">
+        <form t-att-action="api_url" method="post">
+            <input type="hidden" name="reference" t-att-value="reference" />
+            <input type="hidden" name="access_token" t-att-value="access_token" />
+        </form>
+    </template>
+
+    <template id="qrcode_page" name="Pix QR Code">
+        <t t-call="web.frontend_layout">
+            <div id="wrap" class="oe_structure">
+                <div class="container py-5 o_bacenpix_qrcode text-center">
+                    <h3>Pay with Pix</h3>
+                    <p>
+                        Scan the QR code with the application of your bank, or
+                        copy the code below.
+                    </p>
+                    <img
+                        class="img img-fluid my-3"
+                        t-attf-src="/report/barcode/QR/{{ qr_code }}?width=300&amp;height=300"
+                        alt="Pix QR Code"
+                    />
+                    <div class="input-group my-3 mx-auto" style="max-width: 40rem;">
+                        <input
+                            type="text"
+                            id="o_bacenpix_payload"
+                            class="form-control"
+                            readonly="readonly"
+                            t-att-value="qr_code"
+                        />
+                    </div>
+                    <p class="text-muted">
+                        <span>Amount:</span>
+                        <span
+                            t-field="tx.amount"
+                            t-options="{'widget': 'monetary', 'display_currency': tx.currency_id}"
+                        />
+                        <span t-if="tx.bacenpix_expiration">
+                            <br />
+                            <span>Payable until</span>
+                            <span t-field="tx.bacenpix_expiration" />
+                        </span>
+                    </p>
+                    <div
+                        id="o_bacenpix_status"
+                        class="alert alert-info"
+                        t-att-data-reference="tx.reference"
+                        t-att-data-access-token="access_token"
+                    >
+                        Waiting for the payment...
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>
