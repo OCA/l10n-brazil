@@ -2099,6 +2099,23 @@ class NFe(spec_models.StackedModel):
             "unformatted_amount_discount_value": self.amount_discount_value,
             "contingency": self.nfe_transmission != "1",
             "homologation_environment": self.nfe_environment == "2",
+            **self._prepare_nfce_danfe_consumer_values(),
+        }
+
+    def _prepare_nfce_danfe_consumer_values(self):
+        """Identification of the consumer, the same one sent in the XML tag dest."""
+        consumer = self.nfe40_dest
+        vat = re.sub(r"\W", "", consumer.cnpj_cpf or "")
+        if not vat:
+            return {
+                "consumer_document": "",
+                "consumer_document_type": "",
+                "consumer_name": "",
+            }
+        return {
+            "consumer_document": consumer.cnpj_cpf,
+            "consumer_document_type": "CPF" if len(vat) == 11 else "CNPJ",
+            "consumer_name": consumer.legal_name or consumer.name,
         }
 
     def _prepare_nfce_danfe_line_values(self):
