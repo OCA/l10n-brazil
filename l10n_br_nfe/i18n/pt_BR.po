@@ -832,6 +832,11 @@ msgstr "Consulte pela chave de acesso em:"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
+msgid "Consumidor -"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
 msgid "Consumidor Nao Identificado"
 msgstr "Consumidor Não Identificado"
 
