@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright (C) 2026  Renato Lima - Akretion <renato.lima@akretion.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record id="fci_line_search" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.fci.line.search</field>
+        <field name="model">l10n_br_fiscal.fci.line</field>
+        <field name="arch" type="xml">
+            <search string="FCI Goods">
+                <field name="product_id" />
+                <field name="product_code" />
+                <field name="ncm_id" />
+                <field name="fci_code" />
+                <field name="fci_id" />
+                <filter
+                    name="filter_with_code"
+                    string="With FCI Control Number"
+                    domain="[('fci_code', '!=', False)]"
+                />
+                <filter
+                    name="filter_without_code"
+                    string="Without FCI Control Number"
+                    domain="[('fci_code', '=', False)]"
+                />
+                <group expand="0" string="Group By">
+                    <filter
+                        name="group_fci"
+                        string="FCI"
+                        context="{'group_by': 'fci_id'}"
+                    />
+                    <filter
+                        name="group_product"
+                        string="Product"
+                        context="{'group_by': 'product_id'}"
+                    />
+                    <filter
+                        name="group_state"
+                        string="Status"
+                        context="{'group_by': 'state'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="fci_line_tree" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.fci.line.tree</field>
+        <field name="model">l10n_br_fiscal.fci.line</field>
+        <field name="arch" type="xml">
+            <tree create="false">
+                <field name="fci_id" />
+                <field name="currency_id" invisible="1" />
+                <field name="product_id" />
+                <field name="ncm_id" optional="show" />
+                <field name="product_code" optional="hide" />
+                <field name="uom_code" optional="hide" />
+                <field name="amount_interstate" />
+                <field name="amount_imported" />
+                <field name="import_content" />
+                <field name="fci_code" />
+                <field name="validation_indicator" optional="hide" />
+                <field name="state" widget="badge" optional="hide" />
+            </tree>
+        </field>
+    </record>
+
+</odoo>

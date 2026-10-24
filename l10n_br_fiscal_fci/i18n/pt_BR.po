@@ -1,0 +1,1181 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_fiscal_fci
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-18 21:17+0000\n"
+"PO-Revision-Date: 2026-08-18 21:17+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
+#, python-format
+msgid "%(count)s goods of the file not found in this FCI: %(codes)s"
+msgstr ""
+"%(count)s mercadoria(s) do arquivo não encontrada(s) nesta FCI: %(codes)s"
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
+#, python-format
+msgid ""
+"%(count)s goods without FCI control number (rejected by the tax "
+"administration): %(codes)s"
+msgstr ""
+"%(count)s mercadoria(s) sem número de controle da FCI (rejeitada(s) pela "
+"administração tributária): %(codes)s"
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
+#, python-format
+msgid "%(count)s goods without a matching NCM: %(codes)s"
+msgstr "%(count)s mercadoria(s) sem NCM correspondente: %(codes)s"
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
+#, python-format
+msgid "%(count)s goods without a matching product: %(codes)s"
+msgstr "%(count)s mercadoria(s) sem produto correspondente: %(codes)s"
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
+#, python-format
+msgid "%s FCI control number(s) imported."
+msgstr "%s número(s) de controle da FCI importado(s)."
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_fci.selection__l10n_br_fiscal_fci_line__validation_indicator__100
+msgid "100 - FCI generated successfully"
+msgstr "100 - FCI gerada com sucesso"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_fci.selection__l10n_br_fiscal_fci_line__validation_indicator__200
+msgid "200 - Rejected: the informed NCM does not exist"
+msgstr "200 - FCI rejeitada: o NCM informado é inexistente"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_fci.selection__l10n_br_fiscal_fci_line__validation_indicator__300
+msgid "300 - Accepted: the informed unit of measure does not exist"
+msgstr "300 - FCI acolhida: a unidade de medida informada é inexistente"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_fci.selection__l10n_br_fiscal_fci_line__validation_indicator__400
+msgid "400 - Rejected: inconsistent amounts and/or import content"
+msgstr ""
+"400 - FCI rejeitada: valores monetários e/ou percentual do conteúdo de "
+"importação inconsistentes"
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/models/fci.py:0
+#, python-format
+msgid "A FCI file can not have more than %s goods lines."
+msgstr "Um arquivo de FCI não pode ter mais de %s mercadorias."
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__uom_code
+msgid ""
+"Abbreviation of the unit of measure of the goods, register 5020 field "
+"UNIDADE_MERCADORIA. Use '99' for units which are not in the table of the Ato"
+" COTEPE ICMS 61/2012."
+msgstr ""
+"Abreviatura da unidade de medida da mercadoria, campo UNIDADE_MERCADORIA do "
+"registro 5020. Utilize '99' para as unidades que não constam na tabela do "
+"Ato COTEPE ICMS 61/2012."
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_needaction
+msgid "Action Needed"
+msgstr "Ação Necessária"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__activity_ids
+msgid "Activities"
+msgstr "Atividades"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Decoração de Atividade Excepcional"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__activity_state
+msgid "Activity State"
+msgstr "Estado de Atividade"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Ícone do Tipo de Atividade"
+
+#. module: l10n_br_fiscal_fci
+#: model_terms:ir.actions.act_window,help:l10n_br_fiscal_fci.fci_action
+msgid "Add a new FCI"
+msgstr "Adicionar uma nova FCI"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__amount_imported
+msgid ""
+"Amount of the parcel imported from abroad per unit of measure, register 5020"
+" field VALOR_PARCELA_IMPORTADA_EXTERIOR."
+msgstr ""
+"Valor da parcela importada do exterior em cada unidade de medida, campo "
+"VALOR_PARCELA_IMPORTADA_EXTERIOR do registro 5020."
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_attachment_count
+msgid "Attachment Count"
+msgstr "Contagem de Anexos"
+
+#. module: l10n_br_fiscal_fci
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_form
+msgid "Back to Draft"
+msgstr "Voltar para Rascunho"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__cnpj_cpf
+msgid "CNPJ"
+msgstr "CNPJ"
+
+#. module: l10n_br_fiscal_fci
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_import_wizard_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__city_id
+msgid "City"
+msgstr "Município"
+
+#. module: l10n_br_fiscal_fci
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_import_wizard_form
+msgid "Close"
+msgstr "Fechar"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__company_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__company_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_search
+msgid "Company"
+msgstr "Empresa"
+
+#. module: l10n_br_fiscal_fci
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_form
+msgid "Confirm Transmission"
+msgstr "Confirmar Transmissão"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__create_uid
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_import_wizard__create_uid
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__create_uid
+msgid "Created by"
+msgstr "Criado por"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__create_date
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_import_wizard__create_date
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__create_date
+msgid "Created on"
+msgstr "Criado em"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__date
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_search
+msgid "Creation Date"
+msgstr "Data de Criação"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__currency_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__currency_id
+msgid "Currency"
+msgstr "Moeda"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__date
+msgid "Date used to build the file name, as required by the layout."
+msgstr ""
+"Data utilizada para compor o nome do arquivo, conforme exigido pelo leiaute."
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__name
+msgid "Description"
+msgstr "Descrição"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__display_name
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_import_wizard__display_name
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__display_name
+msgid "Display Name"
+msgstr "Nome exibido"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_fci.selection__l10n_br_fiscal_fci_header__state__done
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_search
+msgid "Done"
+msgstr "Concluído"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_fci.selection__l10n_br_fiscal_fci_header__state__draft
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_search
+msgid "Draft"
+msgstr "Rascunho"
+
+#. module: l10n_br_fiscal_fci
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_form
+msgid "Establishment"
+msgstr "Estabelecimento"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.actions.act_window,name:l10n_br_fiscal_fci.fci_action
+#: model:ir.model,name:l10n_br_fiscal_fci.model_l10n_br_fiscal_fci_header
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_import_wizard__fci_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__fci_id
+#: model:ir.ui.menu,name:l10n_br_fiscal_fci.fci_menu
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_line_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.product_template_form
+msgid "FCI"
+msgstr "FCI"
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
+#, python-format
+msgid "FCI %(name)s created with %(count)s goods."
+msgstr "FCI %(name)s criada com %(count)s mercadoria(s)."
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__fci_code
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_product_product__fci_code
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_product_template__fci_code
+msgid "FCI Control Number"
+msgstr "Número de Controle da FCI"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_product_product__fci_count
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_product_template__fci_count
+msgid "FCI Count"
+msgstr "Quantidade de FCI"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__file
+msgid "FCI File"
+msgstr "Arquivo da FCI"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.actions.act_window,name:l10n_br_fiscal_fci.fci_line_action
+#: model:ir.ui.menu,name:l10n_br_fiscal_fci.fci_line_menu
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_line_search
+msgid "FCI Goods"
+msgstr "Mercadorias da FCI"
+
+#. module: l10n_br_fiscal_fci
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.product_template_form
+msgid "FCI History"
+msgstr "Histórico de FCI"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model,name:l10n_br_fiscal_fci.model_l10n_br_fiscal_fci_line
+msgid "FCI Line"
+msgstr "Linha da FCI"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_product_product__fci_line_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_product_template__fci_line_ids
+msgid "FCI Lines"
+msgstr "Linhas da FCI"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__fci_code
+msgid ""
+"FCI control number returned by the tax administration, to be written in the "
+"NF-e field nFCI."
+msgstr ""
+"Número de controle da FCI retornado pela administração tributária, a ser "
+"informado no campo nFCI da NF-e."
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_import_wizard__file
+msgid ""
+"FCI file in the layout of the Ato COTEPE ICMS 61/2012, either a file to be "
+"transmitted or a file returned by the SEFAZ. The ZIP file downloaded from "
+"the FCI web system is also accepted."
+msgstr ""
+"Arquivo da FCI no leiaute do Ato COTEPE ICMS 61/2012, tanto um arquivo a ser"
+" transmitido quanto um arquivo retornado pela SEFAZ. O arquivo ZIP baixado "
+"do sistema FCI na web também é aceito."
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/models/product_template.py:0
+#, python-format
+msgid "FCI of %s"
+msgstr "FCI de %s"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_import_wizard__fci_id
+msgid ""
+"FCI updated by the return file. Leave it empty to create a new FCI from the "
+"imported file."
+msgstr ""
+"FCI atualizada pelo arquivo de retorno. Deixe em branco para criar uma nova "
+"FCI a partir do arquivo importado."
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_import_wizard__file
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_form
+msgid "File"
+msgstr "Arquivo"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_fci.selection__l10n_br_fiscal_fci_header__state__generated
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_search
+msgid "File Generated"
+msgstr "Arquivo Gerado"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__filename
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_import_wizard__filename
+msgid "File Name"
+msgstr "Nome do Arquivo"
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/models/fci.py:0
+#, python-format
+msgid ""
+"Fill in the reception protocol returned by the Validador/Transmissor before "
+"confirming the transmission of the FCI %s."
+msgstr ""
+"Informe o protocolo de recepção retornado pelo Validador/Transmissor antes "
+"de confirmar a transmissão da FCI %s."
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_follower_ids
+msgid "Followers"
+msgstr "Seguidores"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Seguidores (Parceiros)"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Ícone do Font Awesome. Ex: fa-tasks"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__gtin
+msgid "GTIN"
+msgstr "GTIN"
+
+#. module: l10n_br_fiscal_fci
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_form
+msgid "Generate File"
+msgstr "Gerar Arquivo"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__gtin
+msgid ""
+"Global Trade Item Number, register 5020 field CODIGO_GTIN. This field is "
+"optional."
+msgstr ""
+"Código Global Trade Item Number, campo CODIGO_GTIN do registro 5020. Este "
+"campo é opcional."
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__line_ids
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_form
+msgid "Goods"
+msgstr "Mercadorias"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__line_count
+msgid "Goods Count"
+msgstr "Quantidade de Mercadorias"
+
+#. module: l10n_br_fiscal_fci
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_line_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_search
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__has_message
+msgid "Has Message"
+msgstr "Tem uma mensagem"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__hash_code
+msgid "Hash Code"
+msgstr "Hash Code"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_import_wizard__id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__activity_exception_icon
+msgid "Icon"
+msgstr "Ícone"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ícone para indicar uma atividade excepcional."
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Se marcado, novas mensagens solicitarão sua atenção."
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_has_error
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Se marcado, algumas mensagens tem erro de entrega."
+
+#. module: l10n_br_fiscal_fci
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_import_wizard_form
+msgid "Import"
+msgstr "Importar"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__import_content
+msgid "Import Content (%)"
+msgstr "Conteúdo de Importação (%)"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.actions.act_window,name:l10n_br_fiscal_fci.fci_import_wizard_action
+#: model:ir.model,name:l10n_br_fiscal_fci.model_l10n_br_fiscal_fci_import_wizard
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_import_wizard_form
+msgid "Import FCI File"
+msgstr "Importar Arquivo de FCI"
+
+#. module: l10n_br_fiscal_fci
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_form
+msgid "Import Return File"
+msgstr "Importar Arquivo de Retorno"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__amount_imported
+msgid "Imported Amount"
+msgstr "Valor da Parcela Importada"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__product_code
+msgid ""
+"Internal code identifying the goods in the establishment, register 5020 "
+"field CODIGO_MERCADORIA."
+msgstr ""
+"Código interno que identifica a mercadoria no estabelecimento, campo "
+"CODIGO_MERCADORIA do registro 5020."
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__amount_interstate
+msgid "Interstate Output Amount"
+msgstr "Valor de Saída Interestadual"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_is_follower
+msgid "Is Follower"
+msgstr "É um seguidor"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_product_product__fci_code
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_product_template__fci_code
+msgid ""
+"Last FCI control number generated for this product in the current company. "
+"It must be written in the NF-e field nFCI of the interstate operations with "
+"this product."
+msgstr ""
+"Último número de controle da FCI gerado para este produto na empresa atual. "
+"Deve ser informado no campo nFCI da NF-e das operações interestaduais com "
+"este produto."
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header____last_update
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_import_wizard____last_update
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line____last_update
+msgid "Last Modified on"
+msgstr "Última modificação em"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__write_uid
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_import_wizard__write_uid
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__write_uid
+msgid "Last Updated by"
+msgstr "Última atualização por"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__write_date
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_import_wizard__write_date
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__write_date
+msgid "Last Updated on"
+msgstr "Última atualização em"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__layout_version
+msgid "Layout Version"
+msgstr "Versão do Leiaute"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__layout_version
+msgid "Layout version of the file, register 0000 field VERSAO_LEIAUTE."
+msgstr "Versão do leiaute do arquivo, campo VERSAO_LEIAUTE do registro 0000."
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__legal_name
+msgid "Legal Name"
+msgstr "Razão Social"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_main_attachment_id
+msgid "Main Attachment"
+msgstr "Anexo Principal"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_has_error
+msgid "Message Delivery error"
+msgstr "Erro na entrega da Mensagem"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_ids
+msgid "Messages"
+msgstr "Mensagens"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Prazo da Minha Atividade"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__ncm_id
+msgid "NCM"
+msgstr "NCM"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__ncm_code
+msgid "NCM Code"
+msgstr "Código NCM"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__name
+msgid "Name"
+msgstr "Nome"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Prazo Final para Próxima Atividade"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__activity_summary
+msgid "Next Activity Summary"
+msgstr "Próximo Sumário de Atividade"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__activity_type_id
+msgid "Next Activity Type"
+msgstr "Tipo da Próxima Atividade"
+
+#. module: l10n_br_fiscal_fci
+#: model_terms:ir.actions.act_window,help:l10n_br_fiscal_fci.fci_line_action
+msgid "No FCI goods found"
+msgstr "Nenhuma mercadoria de FCI encontrada"
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
+#, python-format
+msgid "No TXT file found inside the ZIP file %s."
+msgstr "Nenhum arquivo TXT encontrado dentro do arquivo ZIP %s."
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
+#, python-format
+msgid ""
+"No allowed company found with the CNPJ %s of the file. Check the CNPJ of "
+"your companies and the companies enabled in your user."
+msgstr ""
+"Nenhuma empresa permitida foi encontrada com o CNPJ %s do arquivo. Verifique"
+" o CNPJ das suas empresas e as empresas habilitadas no seu usuário."
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Número de Ações"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_has_error_counter
+msgid "Number of errors"
+msgstr "Número de Erros"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Número de mensagens que requerem ação"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Número de mensagens com erro de entrega"
+
+#. module: l10n_br_fiscal_fci
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_import_wizard_form
+msgid "Open FCI"
+msgstr "Abrir FCI"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__import_content
+msgid ""
+"Percentage of the import content, register 5020 field "
+"CONTEUDO_IMPORTACAO_CI."
+msgstr ""
+"Percentual do conteúdo de importação, campo CONTEUDO_IMPORTACAO_CI do "
+"registro 5020."
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model,name:l10n_br_fiscal_fci.model_product_template
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__product_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_line_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_search
+msgid "Product"
+msgstr "Produto"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__product_code
+msgid "Product Code"
+msgstr "Código do Produto"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__product_tmpl_id
+msgid "Product Template"
+msgstr "Modelo de Produto"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__product_id
+msgid ""
+"Product of the goods. It is not written in the file, it links the FCI "
+"control number to the product. It may be empty right after the import of a "
+"file generated in another platform, when no product matches the code of the "
+"goods."
+msgstr ""
+"Produto da mercadoria. Não é gravado no arquivo, serve para vincular o "
+"número de controle da FCI ao produto. Pode ficar vazio logo após a "
+"importação de um arquivo gerado em outra plataforma, quando nenhum produto "
+"corresponde ao código da mercadoria."
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__protocol_number
+msgid ""
+"Protocol number returned by the TED after the transmission of the file. It "
+"is used to query the FCI control numbers on the web."
+msgstr ""
+"Número do protocolo retornado pelo TED após a transmissão do arquivo. É "
+"utilizado para consultar os números de controle da FCI na web."
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__date_reception
+msgid "Reception Date"
+msgstr "Data de Recepção"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__protocol_number
+msgid "Reception Protocol"
+msgstr "Protocolo de Recepção"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__date_reception
+msgid "Register 0000 field DT_RECEPCAO_ARQUIVO of the return file."
+msgstr "Campo DT_RECEPCAO_ARQUIVO do registro 0000 do arquivo de retorno."
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__date_validation
+msgid "Register 0000 field DT_VALIDACAO_ARQUIVO of the return file."
+msgstr "Campo DT_VALIDACAO_ARQUIVO do registro 0000 do arquivo de retorno."
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__hash_code
+msgid "Register 0000 field HASH_CODE of the return file."
+msgstr "Campo HASH_CODE do registro 0000 do arquivo de retorno."
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__validation_indicator
+msgid "Register 0000 field IN_VALIDACAO_ARQUIVO of the return file."
+msgstr "Campo IN_VALIDACAO_ARQUIVO do registro 0000 do arquivo de retorno."
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__ncm_code
+msgid "Register 5020 field CODIGO_NCM."
+msgstr "Campo CODIGO_NCM do registro 5020."
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__validation_indicator
+msgid "Register 5020 field IN_VALIDACAO_FICHA of the return file."
+msgstr "Campo IN_VALIDACAO_FICHA do registro 5020 do arquivo de retorno."
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__name
+msgid "Register 5020 field NOME_MERCADORIA."
+msgstr "Campo NOME_MERCADORIA do registro 5020."
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__activity_user_id
+msgid "Responsible User"
+msgstr "Usuário Responsável"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_import_wizard__result
+msgid "Result"
+msgstr "Resultado"
+
+#. module: l10n_br_fiscal_fci
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_form
+msgid "Return"
+msgstr "Retorno"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__return_file
+msgid "Return File"
+msgstr "Arquivo de Retorno"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__return_filename
+msgid "Return File Name"
+msgstr "Nome do Arquivo de Retorno"
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
+#, python-format
+msgid "Return file of the FCI %s imported."
+msgstr "Arquivo de retorno da FCI %s importado."
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Erro no envio de SMS"
+
+#. module: l10n_br_fiscal_fci
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_import_wizard_form
+msgid ""
+"Select a FCI file in the layout of the Ato COTEPE ICMS\n"
+"                        61/2012:"
+msgstr "Selecione um arquivo de FCI no leiaute do Ato COTEPE ICMS 61/2012:"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__sequence
+msgid "Sequence"
+msgstr "Sequência"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__state_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_import_wizard__state
+msgid "State"
+msgstr "Estado"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__ie
+msgid "State Tax Number"
+msgstr "Inscrição Estadual"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__state
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__state
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_line_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_search
+msgid "Status"
+msgstr "Situação"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Status baseado em atividades\n"
+"Atrasado: Data definida já passou\n"
+"Hoje: Data de atividade é hoje\n"
+"Planejado: Atividades futuras."
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__street_name
+msgid "Street Name"
+msgstr "Logradouro"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__street_number
+msgid "Street Number"
+msgstr "Número"
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
+#, python-format
+msgid ""
+"The CNPJ %(file_cnpj)s of the file is different from the CNPJ "
+"%(company_cnpj)s of the company of the FCI %(name)s."
+msgstr ""
+"O CNPJ %(file_cnpj)s do arquivo é diferente do CNPJ %(company_cnpj)s da "
+"empresa da FCI %(name)s."
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/models/fci.py:0
+#, python-format
+msgid ""
+"The FCI %(name)s can not be generated:\n"
+"\n"
+"%(errors)s"
+msgstr ""
+"A FCI %(name)s não pode ser gerada:\n"
+"\n"
+"%(errors)s"
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/models/fci.py:0
+#, python-format
+msgid ""
+"The FCI %s already has FCI control numbers and can not be set back to draft."
+msgstr ""
+"A FCI %s já possui números de controle da FCI e não pode voltar para "
+"rascunho."
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/models/fci.py:0
+#, python-format
+msgid "The FCI %s was already transmitted and can not be set back to draft."
+msgstr "A FCI %s já foi transmitida e não pode voltar para rascunho."
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
+#, python-format
+msgid "The FCI %s was not transmitted yet, there is no return file to import."
+msgstr ""
+"A FCI %s ainda não foi transmitida, não há arquivo de retorno para importar."
+
+#. module: l10n_br_fiscal_fci
+#: model_terms:ir.actions.act_window,help:l10n_br_fiscal_fci.fci_action
+msgid ""
+"The FCI (Ficha de Conteúdo de Importação) informs the share of\n"
+"                the imported parcel in the total of the goods submitted to a\n"
+"                process of industrialization, as required by the Convênio ICMS\n"
+"                38/2013."
+msgstr ""
+"A FCI (Ficha de Conteúdo de Importação) informa a participação da parcela "
+"importada no total da mercadoria submetida a processo de industrialização, "
+"conforme exigido pelo Convênio ICMS 38/2013."
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/models/fci.py:0
+#, python-format
+msgid "The FCI must have at least one goods line."
+msgstr "A FCI deve ter ao menos uma mercadoria."
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/models/fci_line.py:0
+#, python-format
+msgid "The GTIN of the product %s must have 8, 12, 13 or 14 digits."
+msgstr "O GTIN do produto %s deve ter 8, 12, 13 ou 14 dígitos."
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/models/fci_line.py:0
+#, python-format
+msgid "The NCM %s can not start with two consecutive zeros."
+msgstr "O NCM %s não pode iniciar com dois zeros consecutivos."
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/models/fci_line.py:0
+#, python-format
+msgid "The NCM %s must have 8 digits to be used in a FCI."
+msgstr "O NCM %s deve ter 8 dígitos para ser utilizado em uma FCI."
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/models/fci_line.py:0
+#, python-format
+msgid "The NCM of the goods %s is empty."
+msgstr "O NCM da mercadoria %s está vazio."
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
+#, python-format
+msgid "The amount %s of the file is not valid."
+msgstr "O valor %s do arquivo não é válido."
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/models/fci_line.py:0
+#, python-format
+msgid "The code of the product %s is empty."
+msgstr "O código do produto %s está vazio."
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/models/fci.py:0
+#, python-format
+msgid "The company CNPJ is not filled in."
+msgstr "O CNPJ da empresa não está preenchido."
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/models/fci.py:0
+#, python-format
+msgid "The company State Tax Number is not filled in."
+msgstr "A Inscrição Estadual da empresa não está preenchida."
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/models/fci.py:0
+#, python-format
+msgid "The company ZIP code is not filled in."
+msgstr "O CEP da empresa não está preenchido."
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/models/fci.py:0
+#, python-format
+msgid "The company city is not filled in."
+msgstr "O município da empresa não está preenchido."
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/models/fci.py:0
+#, python-format
+msgid "The company state is not filled in."
+msgstr "O estado da empresa não está preenchido."
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/models/fci_line.py:0
+#, python-format
+msgid "The description of the product %s is empty."
+msgstr "A descrição do produto %s está vazia."
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
+#, python-format
+msgid ""
+"The file %s does not look like a FCI file: the registers 0000 and 5020 were "
+"not found."
+msgstr ""
+"O arquivo %s não parece ser um arquivo de FCI: os registros 0000 e 5020 não "
+"foram encontrados."
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
+#, python-format
+msgid ""
+"The file %s is not a return file: it has no FCI control number. Leave the "
+"FCI field empty to import it as a new FCI."
+msgstr ""
+"O arquivo %s não é um arquivo de retorno: não possui número de controle da "
+"FCI. Deixe o campo FCI em branco para importá-lo como uma nova FCI."
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
+#, python-format
+msgid "The file %s is not encoded in UTF-8, as required by the FCI layout."
+msgstr ""
+"O arquivo %s não está codificado em UTF-8, conforme exigido pelo leiaute da "
+"FCI."
+
+#. module: l10n_br_fiscal_fci
+#: model_terms:ir.actions.act_window,help:l10n_br_fiscal_fci.fci_line_action
+msgid ""
+"The goods of the transmitted FCI files and their FCI control\n"
+"                numbers are listed here."
+msgstr ""
+"As mercadorias dos arquivos de FCI transmitidos e os seus números de "
+"controle da FCI são listados aqui."
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/models/fci_line.py:0
+#, python-format
+msgid "The imported amount of the product %s must be greater than zero."
+msgstr "O valor da parcela importada do produto %s deve ser maior que zero."
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/models/fci_line.py:0
+#, python-format
+msgid ""
+"The interstate output amount of the product %s must be greater than zero."
+msgstr "O valor de saída interestadual do produto %s deve ser maior que zero."
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/models/fci_line.py:0
+#, python-format
+msgid ""
+"The unit '%s' does not belong to the table of the Ato COTEPE ICMS 61/2012. "
+"The file will be accepted but the validator will raise a warning. Use '99' "
+"for other units."
+msgstr ""
+"A unidade '%s' não pertence à tabela do Ato COTEPE ICMS 61/2012. O arquivo "
+"será aceito, mas o validador emitirá um alerta. Utilize '99' para outras "
+"unidades."
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/models/fci_line.py:0
+#, python-format
+msgid "The unit of measure of the product %s is empty."
+msgstr "A unidade de medida do produto %s está vazia."
+
+#. module: l10n_br_fiscal_fci
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_form
+msgid "Total"
+msgstr "Total"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__amount_interstate
+msgid ""
+"Total amount of the interstate output of the goods per unit of measure, "
+"register 5020 field VALOR_SAIDA_MERCADORIA_INTERESTADUAL."
+msgstr ""
+"Valor total da saída interestadual da mercadoria por unidade de medida, "
+"campo VALOR_SAIDA_MERCADORIA_INTERESTADUAL do registro 5020."
+
+#. module: l10n_br_fiscal_fci
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_form
+msgid "Transmission"
+msgstr "Transmissão"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_fci.selection__l10n_br_fiscal_fci_header__state__transmitted
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_search
+msgid "Transmitted"
+msgstr "Transmitida"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Tipo de atividade de exceção registrada."
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__uom_code
+msgid "Unit Code"
+msgstr "Código da Unidade"
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/models/fci_line.py:0
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__uom_id
+#, python-format
+msgid "Unit of Measure"
+msgstr "Unidade de Medida"
+
+#. module: l10n_br_fiscal_fci
+#. odoo-javascript
+#: code:addons/l10n_br_fiscal_fci/static/src/components/fci_upload/fci_upload.xml:0
+#, python-format
+msgid "Upload"
+msgstr "Enviar"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__legal_name
+msgid "Used in fiscal documents"
+msgstr "Usado em documentos fiscais"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__date_validation
+msgid "Validation Date"
+msgstr "Data de Validação"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__validation_indicator
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__validation_indicator
+msgid "Validation Indicator"
+msgstr "Indicador de Validação"
+
+#. module: l10n_br_fiscal_fci
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_line_search
+msgid "With FCI Control Number"
+msgstr "Com Número de Controle da FCI"
+
+#. module: l10n_br_fiscal_fci
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_line_search
+msgid "Without FCI Control Number"
+msgstr "Sem Número de Controle da FCI"
+
+#. module: l10n_br_fiscal_fci
+#. odoo-python
+#: code:addons/l10n_br_fiscal_fci/models/fci.py:0
+#, python-format
+msgid "You can only delete FCI in draft state!"
+msgstr "Você só pode excluir FCI em rascunho!"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__zip
+msgid "Zip"
+msgstr "CEP"
+
+#. module: l10n_br_fiscal_fci
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_import_wizard_form
+msgid ""
+"a file returned by the tax administration, from\n"
+"                            the restricted query of the FCI web system (option\n"
+"                            \"Download Arquivo de Retorno\"), either the TXT or\n"
+"                            the ZIP: the FCI control numbers are written in\n"
+"                            the goods of the FCI it comes from."
+msgstr ""
+"um arquivo retornado pela administração tributária, obtido na consulta "
+"restrita do sistema FCI na web (opção \"Download Arquivo de Retorno\"), "
+"tanto o TXT quanto o ZIP: os números de controle da FCI são gravados nas "
+"mercadorias da FCI de origem."
+
+#. module: l10n_br_fiscal_fci
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_import_wizard_form
+msgid ""
+"a file to be transmitted, generated here or in\n"
+"                            another platform: a draft FCI is created from it,\n"
+"                            so that it can be reviewed and completed in Odoo;"
+msgstr ""
+"um arquivo a ser transmitido, gerado aqui ou em outra plataforma: uma FCI em"
+" rascunho é criada a partir dele, para que possa ser revisada e completada "
+"no Odoo;"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_fci.selection__l10n_br_fiscal_fci_import_wizard__state__done
+msgid "done"
+msgstr "concluído"
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_fci.selection__l10n_br_fiscal_fci_import_wizard__state__init
+msgid "init"
+msgstr "init"
