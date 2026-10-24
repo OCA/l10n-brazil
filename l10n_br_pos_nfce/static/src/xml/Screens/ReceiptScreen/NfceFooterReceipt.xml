@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+    <t t-name="NfceFooterReceipt" owl="1">
+        <div class="nfceFooter">
+            <div class="footerText">
+                <div class="consumerInfo">
+                    <t t-if="hasConsumer">
+                        <p><b>CONSUMIDOR:</b> <t t-esc="hasConsumer" /></p>
+                    </t>
+                    <t t-else="">
+                        <p class="consumerNotIdentified">Consumidor Nao Identificado</p>
+                    </t>
+                </div>
+
+                <div class="fiscalDocumentInfo">
+                    <p class="nfcePTag">Numero: <t t-esc="documentNumber" /> Serie: <t
+                            t-esc="documentSerie"
+                        /></p>
+                    <p class="nfcePTag">Emissao: <t t-esc="documentDate" /></p>
+                </div>
+
+                <div class="protocolInfo">
+                    <t t-if="notIssuedInContingency">
+                        <p class="nfcePTag">Protocolo: <t
+                                t-esc="autorizationProtocol"
+                            /></p>
+                        <p class="nfcePTag">Autorizacao: <t
+                                t-esc="authorizationDate"
+                            /></p>
+                    </t>
+                    <t t-else="">
+                        <p class="nfcePTag inContingency">Emitida em Contingencia</p>
+                        <p class="nfcePTag">Pendente de Autorizacao</p>
+                    </t>
+                </div>
+            </div>
+  <!-- patch para funcionar o qrcode da mesma forma que foi feito no l10n_br_nfe/report/danfe_nfce.xml -->
+            <div class="footerQrCode">
+                <t t-if="qrCodeUrl">
+                    <div class="footerQrCode">
+                        <img
+                            t-att-src="qrCodeUrl"
+                            style="width: 120px; height: 120px;"
+                        />
+                    </div>
+                </t>
+            </div>
+        </div>
+    </t>
+</templates>
