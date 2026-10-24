@@ -26,6 +26,13 @@ DVA_TAGS = (
     "account_tag_dva_transfer",
 )
 
+SIMPLE_FINANCIAL_INCOME = (
+    "account_template_3410201",
+    "account_template_3410202",
+    "account_template_3410203",
+    "account_template_3410204",
+)
+
 
 @tagged("post_install", "-at_install")
 class TestAccountClassification(TransactionCase):
@@ -166,5 +173,47 @@ class TestAccountClassification(TransactionCase):
             wrong,
             "receitas classificadas na distribuição do valor adicionado: {}".format(
                 ", ".join(f"{t.code} {t.name}" for t in wrong[:10])
+            ),
+        )
+
+    def test_financial_income_uses_the_revenue_tag(self):
+        """Financial income must be selected by the DRE revenue line."""
+        expense_financial = self._tag("account_tag_expenses_financial")
+        wrong = self.templates.filtered(
+            lambda t: t.account_type in ("income", "income_other")
+            and expense_financial in t.tag_ids
+        )
+        self.assertFalse(
+            wrong,
+            "receitas financeiras classificadas como despesas: {}".format(
+                ", ".join(f"{t.code} {t.name}" for t in wrong[:10])
+            ),
+        )
+
+        data = self.env["ir.model.data"].search(
+            [
+                ("model", "=", "account.account.template"),
+                ("module", "=", "l10n_br_coa_simple"),
+                ("name", "in", SIMPLE_FINANCIAL_INCOME),
+            ]
+        )
+        if not data:  # pragma: no cover - optional module is absent in this path
+            self.skipTest("l10n_br_coa_simple is not installed")
+        self.assertEqual(
+            set(data.mapped("name")),
+            set(SIMPLE_FINANCIAL_INCOME),
+            "the simple chart financial-income accounts are incomplete",
+        )
+        simple_templates = self.env["account.account.template"].browse(
+            data.mapped("res_id")
+        )
+        revenue_financial = self._tag("account_tag_revenue_financial")
+        missing = simple_templates.filtered(
+            lambda template: revenue_financial not in template.tag_ids
+        )
+        self.assertFalse(
+            missing,
+            "receitas financeiras sem a classificação de receita: {}".format(
+                ", ".join(f"{t.code} {t.name}" for t in missing)
             ),
         )
