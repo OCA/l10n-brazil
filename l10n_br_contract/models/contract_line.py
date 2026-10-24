@@ -99,6 +99,31 @@ class ContractLine(models.Model):
             self._recompute_fiscal_tax_fields()
         return res
 
+    @api.model
+    def _get_quantity_dependent_fiscal_fields(self):
+        """Fiscal fields whose value depends on the quantity of the line."""
+        mixin_fields = self.env["l10n_br_fiscal.document.line.mixin"]._fields
+        quantity_computes = (
+            "_compute_fiscal_quantity",
+            "_compute_fiscal_amounts",
+            "_compute_tax_fields",
+        )
+        amount_suffixes = ("_base", "_value", "_base_wh", "credit_value")
+        return [
+            name
+            for name, field in mixin_fields.items()
+            if field.compute == "_compute_fiscal_quantity"
+            or (
+                field.compute in quantity_computes
+                and (
+                    field.compute == "_compute_fiscal_amounts"
+                    or name.startswith("amount_tax_")
+                    or name == "estimate_tax"
+                    or name.endswith(amount_suffixes)
+                )
+            )
+        ]
+
     def _prepare_invoice_line(self):
         self.ensure_one()
 
@@ -122,7 +147,13 @@ class ContractLine(models.Model):
         )
 
         if invoice_line_vals:
-            invoice_line_vals.update(self._prepare_br_fiscal_dict())
+            fiscal_vals = self._prepare_br_fiscal_dict()
+            # Amounts that scale with the quantity (bases, tax values, totals)
+            # must be computed by the invoice line from the invoiced quantity,
+            # not copied from the contract line quantity (variable quantity).
+            for fname in self._get_quantity_dependent_fiscal_fields():
+                fiscal_vals.pop(fname, None)
+            invoice_line_vals.update(fiscal_vals)
             invoice_line_vals["quantity"] = quantity
             invoice_line_vals["tax_ids"] = tax_ids.ids
         return invoice_line_vals
