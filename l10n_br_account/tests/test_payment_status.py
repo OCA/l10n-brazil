@@ -67,3 +67,13 @@ class TestPaymentStatusBR(AccountMoveBRCommon, MailCommon):
         wiz = wiz_form.save()
         payments = wiz._create_payments()
         return payments
+
+    def test_latam_document_check_is_the_brazilian_one(self):
+        """The l10n_br_account constraint must win over the latam one."""
+        methods = [
+            m
+            for m in self.env["account.move"]._constraint_methods
+            if m.__name__ == "_check_l10n_latam_documents"
+        ]
+        self.assertEqual(len(methods), 1)
+        self.assertIn("l10n_br_account", methods[0].__module__)
