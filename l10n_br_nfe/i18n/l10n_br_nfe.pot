@@ -1902,6 +1902,11 @@ msgid "Error on validating event: %(code)s - %(msg)s"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
+msgid "Espécie"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_veicprod__nfe40_espVeic
 msgid "Espécie de veículo"
 msgstr ""
@@ -3217,6 +3222,11 @@ msgid "Manifestation Type"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
+msgid "Marca"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_vol__nfe40_marca
 msgid "Marca dos volumes transportados"
 msgstr ""
@@ -3761,6 +3771,11 @@ msgid "Number of decimal places used to print the unit prices."
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
+msgid "Numeração"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_vol__nfe40_nVol
 msgid "Numeração dos volumes transportados"
 msgstr ""
@@ -4295,6 +4310,16 @@ msgid "Person Authorized to Download the NF-e XML"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
+msgid "Peso Bruto (kg)"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
+msgid "Peso Líquido (kg)"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_veicprod__nfe40_pesoB
 msgid "Peso bruto"
 msgstr ""
@@ -4509,6 +4534,7 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_exportind__nfe40_qExport
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
 msgid "Quantidade"
 msgstr ""
 
@@ -6206,6 +6232,11 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_infprodemb__nfe40_qVolEmb
 msgid "Volume do produto na embalagem"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
+msgid "Volumes"
 msgstr ""
 
 #. module: l10n_br_nfe
