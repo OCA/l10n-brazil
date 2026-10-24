@@ -2,7 +2,6 @@
 <!-- Copyright 2021 KMEE
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record model="ir.ui.view" id="l10n_br_pos_product_fiscal_map_form_view">
         <field name="name">l10n_br_pos.product_fiscal_map.form (in l10n_br_pos)</field>
         <field name="model">l10n_br_pos.product_fiscal_map</field>
@@ -62,13 +61,13 @@
         <field name="name">l10n_br_pos.product_fiscal_map.tree (in l10n_br_pos)</field>
         <field name="model">l10n_br_pos.product_fiscal_map</field>
         <field name="arch" type="xml">
-            <tree edit="false" create="false">
+            <list edit="false" create="false">
                 <field name="pos_config_id" />
                 <field name="product_tmpl_id" />
                 <field name="fiscal_operation_line_id" />
                 <field name="cfop_id" />
                 <field name="fiscal_tax_ids" widget="many2many_tags" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -78,9 +77,8 @@
     >
         <field name="name">L10n_br_pos Product_fiscal_map</field>
         <field name="res_model">l10n_br_pos.product_fiscal_map</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="domain">[]</field>
         <field name="context">{}</field>
     </record>
-
 </odoo>

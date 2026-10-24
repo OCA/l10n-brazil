@@ -6,7 +6,6 @@
         t-inherit="point_of_sale.TicketScreen"
         t-inherit-mode="extension"
     >
-
         <xpath expr="//div[hasclass('header-row')]/div[4]" position="after">
             <div class="col p-2">CPF/CNPJ</div>
             <div class="col wide p-2">Chave</div>
@@ -20,7 +19,6 @@
                 <t t-esc="order.document_key || ''" />
             </div>
         </xpath>
-
     </t>
 
 </templates>

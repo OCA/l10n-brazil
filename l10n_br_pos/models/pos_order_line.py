@@ -1,7 +1,7 @@
 # © 2016 KMEE INFORMATICA LTDA (https://kmee.com.br)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class PosOrderLine(models.Model):
@@ -41,3 +41,7 @@ class PosOrderLine(models.Model):
         store=True,
         readonly=True,
     )
+
+    @api.model
+    def _get_total_for_tax_totals(self):
+        return self.order_id.amount_total

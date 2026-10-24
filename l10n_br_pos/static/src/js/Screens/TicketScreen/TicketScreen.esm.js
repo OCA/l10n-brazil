@@ -1,5 +1,3 @@
-/** @odoo-module **/
-
 /*
 Copyright (C) 2026-Today Escodoo (https://www.escodoo.com.br)
 @author: Kaynnan Lemes kaynnan.lemes@escodoo.com.br

@@ -34,67 +34,62 @@ class TestL10nBrPosOrder(TransactionCase):
         current_session = self.pos_config.current_session_id
         untax, atax = self.compute_tax(self.led_lamp, 0.9)
         generic_order = {
-            "data": {
-                "amount_paid": untax + atax,
-                "amount_return": 0,
-                "amount_tax": atax,
-                "amount_total": untax + atax,
-                "date_order": fields.Datetime.to_string(fields.Datetime.now()),
-                "fiscal_position_id": False,
-                "pricelist_id": self.pos_config.pricelist_id.id,
-                "lines": [
-                    [
-                        0,
-                        0,
-                        {
-                            "discount": 0,
-                            "id": 42,
-                            "pack_lot_ids": [],
-                            "price_unit": 0.9,
-                            "product_id": self.led_lamp.id,
-                            "price_subtotal": 0.9,
-                            "price_subtotal_incl": 1.04,
-                            "qty": 1,
-                            "tax_ids": [(6, 0, self.led_lamp.taxes_id.ids)],
-                        },
-                    ]
-                ],
-                "name": "Order 00042-003-0014",
-                "partner_id": False,
-                "pos_session_id": current_session.id,
-                "sequence_number": 2,
-                "statement_ids": [
-                    [
-                        0,
-                        0,
-                        {
-                            "amount": untax + atax,
-                            "name": fields.Datetime.now(),
-                            "payment_method_id": self.cash_payment_method.id,
-                        },
-                    ]
-                ],
-                "uid": "00042-003-0014",
-                "user_id": self.env.uid,
-            },
-            "id": "00042-003-0014",
+            "amount_paid": untax + atax,
+            "amount_return": 0,
+            "amount_tax": atax,
+            "amount_total": untax + atax,
+            "date_order": fields.Datetime.to_string(fields.Datetime.now()),
+            "fiscal_position_id": False,
+            "pricelist_id": self.pos_config.pricelist_id.id,
+            "last_order_preparation_change": "{}",
+            "lines": [
+                [
+                    0,
+                    0,
+                    {
+                        "discount": 0,
+                        "pack_lot_ids": [],
+                        "price_unit": 0.9,
+                        "product_id": self.led_lamp.id,
+                        "price_subtotal": 0.9,
+                        "price_subtotal_incl": 1.04,
+                        "qty": 1,
+                        "tax_ids": [(6, 0, self.led_lamp.taxes_id.ids)],
+                    },
+                ]
+            ],
+            "name": "Order 00042-003-0014",
+            "partner_id": False,
+            "session_id": current_session.id,
+            "sequence_number": 2,
+            "payment_ids": [
+                [
+                    0,
+                    0,
+                    {
+                        "amount": untax + atax,
+                        "name": fields.Datetime.now(),
+                        "payment_method_id": self.cash_payment_method.id,
+                    },
+                ]
+            ],
+            "uuid": "00042-003-0014",
+            "user_id": self.env.uid,
             "to_invoice": False,
-            "authorization_date": "2022-01-01T12:00:00",
+            "authorization_date": "2022-01-01 12:00:00",
             "document_number": "123456",
-            "document_key": "Cfe35181104113837000100590001128550021551657445",
-            "document_type_id": 33,
-            "document_session_number": 123456,
+            "document_key": "35181104113837000100650010000000011234567890",
+            "document_type_id": self.env.ref("l10n_br_fiscal.document_65").id,
+            "document_session_number": "123456",
             "document_serie": "123456789",
-            "fiscal_operation_id": 1,
+            "fiscal_operation_id": self.pos_config.out_pos_fiscal_operation_id.id,
             "status_code": "06000",
-            "status_name": "Autorizado o Uso do CF-e",
+            "status_name": "Autorizado o uso da NFC-e",
             "state_edoc": "autorizada",
         }
-        self.env["pos.order"].create_from_ui([generic_order])
+        self.env["pos.order"].sync_from_ui([generic_order])
 
-    def test_create_from_ui_l10n_brazil(self):
-        orders_exported_to_ui = []
-
+    def test_sync_from_ui_l10n_brazil(self):
         session = self.env["pos.session"].create(
             {"config_id": self.pos_config.id, "user_id": self.env.uid}
         )
@@ -105,8 +100,9 @@ class TestL10nBrPosOrder(TransactionCase):
 
         self._generate_order()
 
-        for order in current_session.order_ids:
-            orders_exported_to_ui.append(order.export_for_ui())
+        orders_exported_to_ui = current_session.order_ids.read_pos_data(
+            [], self.pos_config.id
+        )["pos.order"]
 
         self.assertEqual(
             num_starting_orders + 1,

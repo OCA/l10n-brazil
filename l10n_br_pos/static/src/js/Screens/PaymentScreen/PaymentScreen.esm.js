@@ -1,5 +1,3 @@
-/** @odoo-module **/
-
 /*
 Copyright (C) 2016-Today KMEE (https://kmee.com.br)
 @author: Luis Felipe Mileo <mileo@kmee.com.br>
@@ -8,7 +6,7 @@ Copyright (C) 2016-Today KMEE (https://kmee.com.br)
  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 */
 
-import {ErrorPopup} from "@point_of_sale/app/errors/popups/error_popup";
+import {AlertDialog} from "@web/core/confirmation_dialog/confirmation_dialog";
 import {PaymentScreen} from "@point_of_sale/app/screens/payment_screen/payment_screen";
 import {_t} from "@web/core/l10n/translation";
 import {patch} from "@web/core/utils/patch";
@@ -20,7 +18,7 @@ patch(PaymentScreen.prototype, {
         const partner = order.get_partner();
 
         if (partner) {
-            const cnpj_cpf = partner.cnpj_cpf || partner.vat || partner.name;
+            const cnpj_cpf = partner.vat || partner.name;
 
             result = validate_cnpj_cpf(cnpj_cpf);
             if (!result) {
@@ -48,7 +46,7 @@ patch(PaymentScreen.prototype, {
             if (isValid) {
                 return await order.document_send(this);
             }
-            this.popup.add(ErrorPopup, {
+            this.dialog.add(AlertDialog, {
                 title: _t("CNPJ / CPF Inválido !"),
                 body: _t("Insira um número de CNPJ / CPF válido para o cliente."),
             });

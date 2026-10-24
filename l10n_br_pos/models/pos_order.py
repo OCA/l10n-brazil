@@ -2,10 +2,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import logging
-from datetime import datetime
 
 from odoo import api, fields, models
-from odoo.osv.expression import AND
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import SITUACAO_EDOC
 
@@ -56,7 +54,7 @@ class PosOrder(models.Model):
 
     ie = fields.Char(
         string="State Tax Number/RG",
-        related="partner_id.inscr_est",
+        related="partner_id.l10n_br_ie_code",
     )
 
     # Fiscal document fields
@@ -262,7 +260,7 @@ class PosOrder(models.Model):
             order._compute_amount()
 
     @api.model
-    def _process_order(self, order, draft, existing_order):
+    def _process_order(self, order, existing_order):
         order_id = super(
             PosOrder,
             self.with_context(
@@ -271,103 +269,9 @@ class PosOrder(models.Model):
                 mail_create_nosubscribe=True,
                 mail_notrack=True,
             ),
-        )._process_order(order, draft, existing_order)
+        )._process_order(order, existing_order)
 
         return order_id
-
-    @api.model
-    def _order_fields(self, ui_order):
-        order_fields = super()._order_fields(ui_order)
-        order_fields["status_code"] = ui_order.get("status_code")
-        order_fields["status_name"] = ui_order.get("status_name")
-        order_fields["status_description"] = ui_order.get("status_description")
-
-        # TODO: Save with utc
-        if ui_order.get("authorization_date"):
-            order_fields["authorization_date"] = datetime.fromisoformat(
-                ui_order.get("authorization_date")
-            )
-        order_fields["authorization_protocol"] = ui_order.get("authorization_protocol")
-        order_fields["authorization_file"] = ui_order.get("authorization_file")
-
-        if ui_order.get("cancel_date"):
-            order_fields["cancel_date"] = datetime.fromisoformat(
-                ui_order.get("cancel_date")
-            )
-        order_fields["cancel_protocol"] = ui_order.get("cancel_protocol")
-        order_fields["cancel_file"] = ui_order.get("cancel_file")
-
-        order_fields["state_edoc"] = ui_order.get("state_edoc")
-        order_fields["document_number"] = ui_order.get("document_number")
-        order_fields["document_serie"] = ui_order.get("document_serie")
-        order_fields["document_session_number"] = ui_order.get(
-            "document_session_number"
-        )
-        order_fields["document_rps_number"] = ui_order.get("document_rps_number")
-
-        order_fields["document_key"] = ui_order.get("document_key")
-        order_fields["document_date"] = ui_order.get("document_date")
-        order_fields["document_electronic"] = ui_order.get("document_electronic")
-
-        order_fields["document_qrcode_signature"] = ui_order.get(
-            "document_qrcode_signature"
-        )
-        order_fields["document_qrcode_url"] = ui_order.get("document_qrcode_url")
-
-        # order_fields['document_event_messages'] = ui_order.get('document_qrcode_url')
-
-        order_fields["fiscal_operation_id"] = ui_order.get("fiscal_operation_id")
-        order_fields["document_type_id"] = ui_order.get("document_type_id")
-        order_fields["document_type"] = ui_order.get("document_type")
-
-        order_fields["cnpj_cpf"] = ui_order.get("cnpj_cpf")
-
-        order_fields["additional_data"] = ui_order.get("additional_data")
-
-        return order_fields
-
-    def _export_for_ui(self, order):
-        res = super()._export_for_ui(order)
-
-        res["status_code"] = order.status_code
-        res["status_name"] = order.status_name
-        res["status_description"] = order.status_description
-
-        if order.authorization_date:
-            res["authorization_date"] = order.authorization_date.astimezone()
-
-        res["authorization_protocol"] = order.authorization_protocol
-        res["authorization_file"] = order.authorization_file
-
-        if order.cancel_date:
-            res["cancel_date"] = order.cancel_date.astimezone()
-        res["cancel_protocol"] = order.cancel_protocol
-        res["cancel_file"] = order.cancel_file
-
-        res["state_edoc"] = order.state_edoc
-        res["document_number"] = order.document_number
-        res["document_serie"] = order.document_serie
-        res["document_session_number"] = order.document_session_number
-        res["document_rps_number"] = order.document_rps_number
-
-        res["document_key"] = order.document_key
-        res["document_date"] = order.document_date
-        res["document_electronic"] = order.document_electronic
-
-        res["document_qrcode_signature"] = order.document_qrcode_signature
-        res["document_qrcode_url"] = order.document_qrcode_url
-
-        # res['document_event_messages'] = order.document_event_messages
-
-        res["fiscal_operation_id"] = order.fiscal_operation_id.id
-        res["document_type_id"] = order.document_type_id.id
-        res["document_type"] = order.document_type
-
-        res["cnpj_cpf"] = order.cnpj_cpf
-
-        res["additional_data"] = order.additional_data
-
-        return res
 
     def _populate_cancel_order_fields(self, order_vals):
         self.cancel_document_key = order_vals["chave_cfe"]
@@ -409,7 +313,9 @@ class PosOrder(models.Model):
     def cancel_order(self, result):
         _logger.info(f"Result: {result}")
         order = self.browse(result["order_id"])
-        order.write({"state": "cancel"})
+        # The core forbids moving a paid order to "cancel" through write(), but
+        # a cancelled fiscal document must take the order out of the paid ones.
+        order._write({"state": "cancel"})
 
         order._populate_cancel_order_fields(result)
 
@@ -422,19 +328,3 @@ class PosOrder(models.Model):
 
         refund_order = self.browse(res["res_id"])
         refund_order.pos_reference = f"{order.pos_reference}-cancelled"
-
-    @api.model
-    def search_paid_order_ids(self, config_id, domain, limit, offset):
-        """Search for 'paid' orders that satisfy the given domain, limit and offset."""
-        default_domain = [
-            "&",
-            ("config_id", "=", config_id),
-            "!",
-            "|",
-            ("state", "=", "draft"),
-            ("state", "=", "cancel"),
-        ]
-        real_domain = AND([domain, default_domain])
-        ids = self.search(AND([domain, default_domain]), limit=limit, offset=offset).ids
-        totalCount = self.search_count(real_domain)
-        return {"ids": ids, "totalCount": totalCount}

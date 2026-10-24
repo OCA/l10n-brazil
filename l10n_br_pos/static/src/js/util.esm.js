@@ -1,5 +1,3 @@
-/** @odoo-module **/
-
 /*
 Copyright (C) 2016-Today KMEE (https://kmee.com.br)
 @author: Luis Felipe Mileo <mileo@kmee.com.br>

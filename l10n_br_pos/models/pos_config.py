@@ -108,8 +108,9 @@ class PosConfig(models.Model):
     )
 
     certificate_nfe_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.certificate",
+        comodel_name="certificate.certificate",
         string="Digital certificate",
+        domain="[('scope', '=', 'l10n_br')]",
     )
 
     # SAT OPTIONS
@@ -190,19 +191,3 @@ class PosConfig(models.Model):
     def update_session_sat(self, config_id):
         config = self.browse(config_id)
         config.session_sat += 1
-
-    def _get_pos_ui_pos_config(self, params):
-        config = super()._get_pos_ui_pos_config(params)
-
-        config.update(
-            {
-                "out_pos_fiscal_operation_id": self.out_pos_fiscal_operation_id.id
-                if self.out_pos_fiscal_operation_id
-                else False,
-                "simplified_document_type_id": self.simplified_document_type_id.id
-                if self.simplified_document_type_id
-                else False,
-                "simplified_document_type": self.simplified_document_type,
-            }
-        )
-        return config

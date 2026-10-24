@@ -16,8 +16,10 @@ class TestL10nBrPosTour(odoo.tests.HttpCase):
             }
         )
         # Other fiscal modules may turn this demo config into an NFC-e one.
-        config.simplified_document_type_id = self.env.ref("l10n_br_fiscal.document_59")
+        config.simplified_document_type_id = False
+        config.cash_control = False
         config.with_user(admin).open_ui()
+        config.current_session_id.set_opening_control(0, None)
         self.start_tour(
             f"/pos/ui?config_id={config.id}", "l10n_br_pos_tour", login="admin"
         )

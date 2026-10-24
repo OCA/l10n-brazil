@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
-
     <record id="l10n_br_fiscal.cfop_5101" model="l10n_br_fiscal.cfop">
         <field name="is_pos" eval="True" />
     </record>
@@ -20,5 +19,4 @@
     <record id="l10n_br_fiscal.cfop_5949" model="l10n_br_fiscal.cfop">
         <field name="is_pos" eval="True" />
     </record>
-
 </odoo>
