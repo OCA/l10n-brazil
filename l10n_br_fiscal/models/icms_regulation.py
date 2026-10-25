@@ -3,7 +3,7 @@
 
 from lxml import etree
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 from ..constants.fiscal import (
     FINAL_CUSTOMER_YES,
@@ -22,9 +22,9 @@ VIEW = """
 <page name="uf_{0}" string="{1}">
     <notebook>
         <page name="uf_{0}_internal" string="Interno">
-            <separator name="icms_internal_{0}" string="Internal" />
+            <separator name="icms_internal_{0}" string="{7}" />
             <field name="icms_internal_{0}_ids" context="{{'list_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': {2}, 'default_state_from_id': {6}}}"/>
-            <separator name="icms_external_{0}" string="External" />
+            <separator name="icms_external_{0}" string="{8}" />
             <field name="icms_external_{0}_ids" context="{{'list_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': {2}, 'default_state_from_id': {6}}}"/>
         </page>
         <page name="uf_{0}_st" string="ST">
@@ -38,7 +38,7 @@ VIEW = """
                 <field name="icms_fcp_st_{0}_ids" nolabel="1" colspan="2" context="{{'list_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': {5}, 'default_state_from_id': {6}}}"/>
             </group>
         </page>
-        <page name="uf_{0}_benefit" string="Tax Benefit">
+        <page name="uf_{0}_benefit" string="{9}">
             <field name="tax_benefit_{0}_ids" context="{{'list_view_ref': 'l10n_br_fiscal.tax_definition_icms_benefit_tree', 'default_icms_regulation_id': id, 'default_is_benefit': True, 'default_tax_group_id': {2}, 'default_state_from_id': {6}}}" />
         </page>
     </notebook>
@@ -143,6 +143,12 @@ class ICMSRegulation(models.Model):
         tax_group_icmsfcp = self.env.ref("l10n_br_fiscal.tax_group_icmsfcp").id
         tax_group_icmsfcp_st = self.env.ref("l10n_br_fiscal.tax_group_icmsfcp_st").id
 
+        # View built in Python is not translated by Odoo, so translate here
+        # using the language of the environment (part of the view cache key).
+        label_internal = _("Internal")
+        label_external = _("External")
+        label_tax_benefit = _("Tax Benefit")
+
         for node in view_arch.xpath("//notebook"):
             for i, state in enumerate(br_states, start=1):
                 state_page = VIEW.format(
@@ -153,6 +159,9 @@ class ICMSRegulation(models.Model):
                     tax_group_icmsfcp,
                     tax_group_icmsfcp_st,
                     state.id,
+                    label_internal,
+                    label_external,
+                    label_tax_benefit,
                 )
                 node_page = etree.fromstring(state_page)
                 node.insert(i, node_page)
