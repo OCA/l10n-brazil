@@ -10,8 +10,6 @@ from odoo import _, api, fields, models
 from odoo.exceptions import AccessError
 from odoo.osv import expression
 
-from .. import tools
-
 
 class DataAbstract(models.AbstractModel):
     """
@@ -69,14 +67,9 @@ class DataAbstract(models.AbstractModel):
 
     @api.model
     def _get_invalid_records(self):
-        """Return active records whose validity window (date_start/date_end)
-        does not include today."""
+        """Return active records whose date_end is already past."""
         today = fields.Date.context_today(self)
-        active_records = self.search([("active", "=", True)])
-        valid_records = self.search(
-            [("active", "=", True)] + tools.date_validity_domain(today)
-        )
-        return active_records - valid_records
+        return self.search([("date_end", "!=", False), ("date_end", "<", today)])
 
     @api.model
     def _expire_invalid_records(self):
@@ -87,9 +80,8 @@ class DataAbstract(models.AbstractModel):
 
     @api.model
     def _cron_expire_fiscal_parametrization(self):
-        """Daily cron entry point: deactivate fiscal master data outside
-        their validity window, and mark expired fiscal operation lines and
-        tax definitions.
+        """Daily cron entry point: deactivate fiscal master data whose
+        date_end is already past.
 
         Iterates every concrete model that inherits from this abstract
         model (NCM, NBS, CFOP, CST, CEST, NBM, ...), including through the
@@ -103,9 +95,6 @@ class DataAbstract(models.AbstractModel):
             if not issubclass(model_class, abstract_class):
                 continue
             self.env[model_name]._expire_invalid_records()
-
-        self.env["l10n_br_fiscal.operation.line"]._expire_invalid_lines()
-        self.env["l10n_br_fiscal.tax.definition"]._expire_invalid_definitions()
 
     @api.depends("code")
     def _compute_code_unmasked(self):
