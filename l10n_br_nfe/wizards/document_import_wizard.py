@@ -142,7 +142,9 @@ class DocumentImportWizard(models.TransientModel):
     def _search_product_supplier_by_product_code(self, code):
         return self.env["product.supplierinfo"].search(
             [
-                ("partner_id", "=", self.partner_id.id),
+                # the preview runs before the document, and so before the
+                # partner, exist: only the issuer is known then
+                ("partner_id", "=", (self.partner_id or self.issuer_partner_id).id),
                 ("product_code", "=", code),
             ],
             limit=1,
