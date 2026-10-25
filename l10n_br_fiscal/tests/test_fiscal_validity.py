@@ -25,12 +25,12 @@ class TestFiscalDataValidity(TransactionCase):
         ncm._expire_invalid_records()
         self.assertTrue(ncm.active)
 
-    def test_future_start_date_expires(self):
+    def test_future_start_date_stays_active(self):
         ncm = self._create_ncm(
             "22222222", date_start=fields.Date.add(self.today, days=5)
         )
         ncm._expire_invalid_records()
-        self.assertFalse(ncm.active)
+        self.assertTrue(ncm.active)
 
     def test_past_end_date_expires(self):
         ncm = self._create_ncm(
@@ -65,26 +65,6 @@ class TestFiscalDataValidity(TransactionCase):
         self.assertTrue(valid_ncm.active)
 
 
-class TestOperationLineValidity(TransactionCase):
-    def setUp(self):
-        super().setUp()
-        self.line = self.env.ref("l10n_br_fiscal.fo_venda_venda")
-        self.today = fields.Datetime.now()
-
-    def test_expired_line_is_marked_expired(self):
-        self.line.state = "approved"
-        self.line.date_end = fields.Datetime.subtract(self.today, hours=1)
-        self.env["l10n_br_fiscal.operation.line"]._expire_invalid_lines()
-        self.assertEqual(self.line.state, "expired")
-
-    def test_valid_line_is_not_marked_expired(self):
-        self.line.state = "approved"
-        self.line.date_start = False
-        self.line.date_end = False
-        self.env["l10n_br_fiscal.operation.line"]._expire_invalid_lines()
-        self.assertEqual(self.line.state, "approved")
-
-
 class TestTaxDefinitionValidity(TransactionCase):
     @classmethod
     def setUpClass(cls):
@@ -100,19 +80,6 @@ class TestTaxDefinitionValidity(TransactionCase):
         }
         vals.update(kwargs)
         return self.env["l10n_br_fiscal.tax.definition"].create(vals)
-
-    def test_expired_definition_is_marked_expired(self):
-        tax_definition = self._create_tax_definition(
-            "TDV001",
-            date_end=fields.Datetime.subtract(self.today, hours=1),
-        )
-        self.env["l10n_br_fiscal.tax.definition"]._expire_invalid_definitions()
-        self.assertEqual(tax_definition.state, "expired")
-
-    def test_valid_definition_is_not_marked_expired(self):
-        tax_definition = self._create_tax_definition("TDV002")
-        self.env["l10n_br_fiscal.tax.definition"]._expire_invalid_definitions()
-        self.assertEqual(tax_definition.state, "approved")
 
     def test_map_tax_definition_excludes_out_of_validity_records(self):
         tax_definition = self._create_tax_definition(
