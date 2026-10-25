@@ -152,10 +152,12 @@ class DocumentImportWizardLine(models.TransientModel):
     def _create_product_supplier(self):
         vals = self._prepare_supplierinfo_vals()
         vals["partner_id"] = self.imported_partner_id.id
-        self.product_supplier_id = self.env["product.supplierinfo"].create(vals)
-        self.product_id.write(
+        # The de-para memory is a by-product of the import: the fiscal profile
+        # that runs it has no purchase (product.supplierinfo) access rights.
+        self.product_supplier_id = self.env["product.supplierinfo"].sudo().create(vals)
+        self.product_id.sudo().write(
             {"seller_ids": [Command.link(self.product_supplier_id.id)]}
         )
 
     def _update_product_supplier(self):
-        self.product_supplier_id.write(self._prepare_supplierinfo_vals())
+        self.product_supplier_id.sudo().write(self._prepare_supplierinfo_vals())
