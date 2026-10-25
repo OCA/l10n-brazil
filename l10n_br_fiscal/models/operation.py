@@ -231,8 +231,6 @@ class Operation(models.Model):
             ("state", "=", "approved"),
         ]
 
-        domain += tools.date_validity_domain(fields.Datetime.now())
-
         domain += [
             "|",
             ("company_tax_framework", "=", company.tax_framework),
@@ -271,7 +269,7 @@ class Operation(models.Model):
 
         return domain
 
-    def _has_icmsst(self, company, partner, product):
+    def _has_icmsst(self, company, partner, product, reference_date=None):
         if not company.icms_regulation_id or not product:
             return False
 
@@ -283,15 +281,18 @@ class Operation(models.Model):
                 ncm=product.ncm_id,
                 nbm=product.nbm_id,
                 cest=product.cest_id,
+                reference_date=reference_date,
             )
         )
 
-    def line_definition(self, company, partner, product):
+    def line_definition(self, company, partner, product, reference_date=None):
         self.ensure_one()
         if not company:
             company = self.env.company
 
-        lines = self.line_ids.search(self._line_domain(company, partner, product))
+        domain = self._line_domain(company, partner, product)
+        domain += tools.date_validity_domain(reference_date or fields.Datetime.now())
+        lines = self.line_ids.search(domain)
 
         if lines.filtered("is_icmsst"):
             # Only distinguish Operation Lines by ICMS ST when this Fiscal
@@ -299,7 +300,7 @@ class Operation(models.Model):
             # (e.g. "Sale" vs "Sale ICMS ST"). Otherwise, keep the
             # historical behavior of not distinguishing lines by ICMS ST,
             # so existing setups that don't use this feature are unaffected.
-            is_icmsst = self._has_icmsst(company, partner, product)
+            is_icmsst = self._has_icmsst(company, partner, product, reference_date)
             lines = lines.filtered(lambda line: line.is_icmsst == is_icmsst)
 
         return self._select_best_line(lines)

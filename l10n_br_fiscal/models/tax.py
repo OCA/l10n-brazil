@@ -475,7 +475,15 @@ class Tax(models.Model):
             )
         ):
             icms_tax_difal, _ = company.icms_regulation_id.map_tax_def_icms_difal(
-                company, partner, product, ncm, nbm, cest, operation_line, ind_final
+                company,
+                partner,
+                product,
+                ncm,
+                nbm,
+                cest,
+                operation_line,
+                ind_final,
+                kwargs.get("reference_date"),
             )
             icmsfcp_tax_difal = taxes_dict.get("icmsfcp", {})
 
