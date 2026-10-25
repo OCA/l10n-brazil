@@ -445,23 +445,29 @@ class NfeImportProducts(models.TransientModel):
         else:
             price = self.product_id.lst_price
 
-        self.product_supplier_id = self.env["product.supplierinfo"].create(
-            {
-                "product_id": self.product_id.id,
-                "product_name": self.product_name,
-                "product_code": self.product_code,
-                "price": price,
-                "partner_id": self.imported_partner_id.id,
-                "partner_uom_id": self.uom_internal.id,
-                "partner_uom_factor": self.uom_conversion_factor,
-            }
+        # The de-para memory is a by-product of the import: the fiscal profile
+        # that runs it has no purchase (product.supplierinfo) access rights.
+        self.product_supplier_id = (
+            self.env["product.supplierinfo"]
+            .sudo()
+            .create(
+                {
+                    "product_id": self.product_id.id,
+                    "product_name": self.product_name,
+                    "product_code": self.product_code,
+                    "price": price,
+                    "partner_id": self.imported_partner_id.id,
+                    "partner_uom_id": self.uom_internal.id,
+                    "partner_uom_factor": self.uom_conversion_factor,
+                }
+            )
         )
-        self.product_id.write(
+        self.product_id.sudo().write(
             {"seller_ids": [Command.link(self.product_supplier_id.id)]}
         )
 
     def _update_product_supplier(self):
-        self.product_supplier_id.write(
+        self.product_supplier_id.sudo().write(
             {
                 "product_id": self.product_id.id,
                 "product_name": self.product_name,
