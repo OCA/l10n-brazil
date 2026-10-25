@@ -57,30 +57,6 @@
                             <field name="certificate_nfe_id" />
                         </group>
                     </page>
-                    <page name="l10n_br_sat" string="SAT">
-                        <group>
-                            <group>
-                                <field name="sat_environment" />
-                                <field
-                                    name="cnpj_homologation"
-                                    invisible="sat_environment == 'production'"
-                                />
-                                <field
-                                    name="ie_homologation"
-                                    invisible="sat_environment == 'production'"
-                                />
-                                <field name="cnpj_software_house" />
-                                <field name="sat_path" />
-                                <field name="cashier_number" />
-                                <field name="activation_code" />
-                                <field name="signature_sat" />
-                                <field name="printer" />
-                                <field name="fiscal_printer_type" />
-                                <field name="printer_params" />
-                                <field name="session_sat" />
-                            </group>
-                        </group>
-                    </page>
                     <page name="l10n_br_ecf" string="ECF">
                         <group />
                     </page>

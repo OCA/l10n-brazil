@@ -3,19 +3,6 @@
 
 from odoo import api, fields, models
 
-PRINTER = [
-    ("epson-tm-t20", "Epson TM-T20"),
-    ("bematech-mp4200th", "Bematech MP4200TH"),
-    ("daruma-dr700", "Daruma DR700"),
-    ("elgin-i9", "Elgin I9"),
-]
-
-SIMPLIFIED_INVOICE_TYPE = [
-    ("nfce", "NFC-E"),
-    ("sat", "SAT"),
-    ("paf", "PAF-ECF"),
-]
-
 
 class PosConfig(models.Model):
     _inherit = "pos.config"
@@ -66,8 +53,7 @@ class PosConfig(models.Model):
 
     anonymous_simplified_limit = fields.Float(
         digits="Account",
-        help="Over this amount is not legally posible to create a Anonymous "
-        "NFC-E / CF-e",
+        help="Over this amount is not legally posible to create a Anonymous " "NFC-E",
         default=10000,
     )
 
@@ -113,49 +99,6 @@ class PosConfig(models.Model):
         domain="[('scope', '=', 'l10n_br')]",
     )
 
-    # SAT OPTIONS
-    # TODO: Rename field
-
-    sat_environment = fields.Selection(related="company_id.environment_sat", store=True)
-
-    cnpj_homologation = fields.Char(size=18)
-
-    ie_homologation = fields.Char(size=16)
-
-    cnpj_software_house = fields.Char(size=18)
-
-    sat_path = fields.Char()
-
-    # TODO: Can we use pos.config ID?
-    cashier_number = fields.Integer(copy=False)
-
-    activation_code = fields.Char()
-
-    signature_sat = fields.Char("Signature in CFe")
-
-    # Printer settings, can we use just ESC-POS protocol??
-    # These are SAT print parameters
-
-    printer = fields.Selection(
-        selection=PRINTER,
-    )
-
-    fiscal_printer_type = fields.Selection(
-        selection=[
-            ("BluetoothConnection", "Bluetooth"),
-            ("DummyConnection", "Dummy"),
-            ("FileConnection", "File"),
-            ("NetworkConnection", "Network"),
-            ("SerialConnection", "Serial"),
-            ("USBConnection", "USB"),
-            ("CupsConnection", "Cups"),
-        ],
-    )
-
-    printer_params = fields.Char(string="Printer parameters")
-
-    session_sat = fields.Integer(string="Last Session Value", default=1)
-
     save_identity_automatic = fields.Boolean(
         string="Save new client",
         help="Activating will create a new identity customer to the partners data",
@@ -186,8 +129,3 @@ class PosConfig(models.Model):
 
             for product in product_tmpl_ids:
                 product.update_pos_fiscal_map()
-
-    @api.model
-    def update_session_sat(self, config_id):
-        config = self.browse(config_id)
-        config.session_sat += 1

@@ -69,8 +69,6 @@
                 <page name="coupon_canceled" string="Cancellation">
                     <group>
                         <group name="cancel_document_header_right">
-                            <field name="cancel_document_key" />
-                            <field name="cancel_document_session_number" />
                             <field name="cancel_file" />
                         </group>
                     </group>

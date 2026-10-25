@@ -104,11 +104,6 @@ class PosOrder(models.Model):
         store=True,
     )
 
-    document_qrcode_signature = fields.Char(
-        string="QrCode Signature",
-        copy=False,
-    )
-
     document_qrcode_url = fields.Char(
         string="QrCode URL",
         copy=False,
@@ -190,11 +185,6 @@ class PosOrder(models.Model):
         index=True,
     )
 
-    document_session_number = fields.Char(
-        string="Session identifier number",
-        copy=False,
-    )
-
     document_date = fields.Date()
 
     # TODO: Switch to events?
@@ -202,17 +192,6 @@ class PosOrder(models.Model):
         comodel_name="ir.attachment",
         string="XML",
         copy=False,
-        readonly=True,
-    )
-    cancel_document_session_number = fields.Char(
-        string="Cancel Session identifier number",
-        copy=False,
-        readonly=True,
-    )
-    cancel_document_key = fields.Char(
-        string="Cancel Key",
-        copy=False,
-        index=True,
         readonly=True,
     )
     cancel_document_file_id = fields.Many2one(
@@ -273,12 +252,6 @@ class PosOrder(models.Model):
 
         return order_id
 
-    def _populate_cancel_order_fields(self, order_vals):
-        self.cancel_document_key = order_vals["chave_cfe"]
-        self.cancel_document_session_number = order_vals["numSessao"]
-        self.state_edoc = "cancelada"
-        self.cancel_file = order_vals["xml"]
-
     def _generate_refund_payments(self, refund_order):
         for payment in self.payment_ids:
             payment_wizard = self.env["pos.make.payment"].create(
@@ -308,23 +281,3 @@ class PosOrder(models.Model):
         self._generate_refund_payments(refund_order)
 
         return res
-
-    @api.model
-    def cancel_order(self, result):
-        _logger.info(f"Result: {result}")
-        order = self.browse(result["order_id"])
-        # The core forbids moving a paid order to "cancel" through write(), but
-        # a cancelled fiscal document must take the order out of the paid ones.
-        order._write({"state": "cancel"})
-
-        order._populate_cancel_order_fields(result)
-
-        res = order.with_context(
-            mail_create_nolog=True,
-            tracking_disable=True,
-            mail_create_nosubscribe=True,
-            mail_notrack=True,
-        ).refund()
-
-        refund_order = self.browse(res["res_id"])
-        refund_order.pos_reference = f"{order.pos_reference}-cancelled"

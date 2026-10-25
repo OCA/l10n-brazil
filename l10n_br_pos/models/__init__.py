@@ -6,7 +6,6 @@ from . import pos_order
 from . import pos_order_line
 from . import pos_config
 from . import cfop
-from . import document_related
 from . import l10n_br_pos_product_fiscal_map
 from . import product_template
 from . import mail_thread
