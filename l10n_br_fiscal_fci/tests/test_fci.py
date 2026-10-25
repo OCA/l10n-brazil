@@ -13,6 +13,7 @@ from odoo.addons.l10n_br_fiscal_fci.constants import (
     FCI_FILE_ENCODING,
     FCI_UTF8_STANDARD_TEXT,
 )
+from odoo.addons.l10n_br_fiscal_fci.tools import compute_import_content, format_amount
 
 FCI_CODE = "D1B1EAD4-5AEF-4648-A5E3-A5EB391B19BB"
 
@@ -22,6 +23,12 @@ class TestFCI(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.company = cls.env.company
+        cls.company.write(
+            {
+                "state_id": cls.env.ref("base.state_br_sp").id,
+                "city_id": cls.env.ref("l10n_br_base.city_3550308").id,
+            }
+        )
         cls.ncm = cls._get_ncm("8407.34.90", "Motores de pistão alternativo")
         cls.product = cls.env["product.product"].create(
             {
@@ -458,3 +465,63 @@ class TestFCI(TransactionCase):
             zip_file.writestr("readme.pdf", b"not a FCI file")
         with self.assertRaises(UserError):
             self._run_wizard(base64.b64encode(archive.getvalue()), "return.zip")
+
+    def test_round_half_up(self):
+        """A third decimal digit 5 rounds up, unlike the Python round()."""
+        self.assertEqual(round(0.125, 2), 0.12)
+        self.assertEqual(compute_import_content(0.125, 100), 0.13)
+        self.assertEqual(format_amount(0.125), "0,13")
+        self.assertEqual(compute_import_content(10, 0), 0.0)
+
+    def test_uom_code_fallback(self):
+        """A unit whose code and aliases are not in the table of the Ato
+        COTEPE becomes 99."""
+        self.fci.uom_id.write({"code": "xyz", "alias_ids": [(5, 0, 0)]})
+        self.fci._compute_uom_code()
+        self.assertEqual(self.fci.uom_code, "99")
+
+    def test_generate_file_pre_validations(self):
+        """The problems of the company and of the goods block the file."""
+        self.fci.write({"gtin": "123", "name": "", "product_code": ""})
+        self.company.write({"zip": False, "city_id": False, "state_id": False})
+        with self.assertRaises(UserError) as error:
+            self.fci_file.action_generate_file()
+        message = str(error.exception)
+        for text in ("ZIP", "city", "state", "GTIN", "description", "code of"):
+            self.assertIn(text, message)
+
+    def test_unlink_and_copy(self):
+        """Only a draft FCI is deleted and a copy is a new draft."""
+        self.fci_file.action_generate_file()
+        with self.assertRaises(UserError), self.cr.savepoint():
+            self.fci_file.unlink()
+        self.fci_file.action_back_to_draft()
+        copy = self.fci_file.copy()
+        self.assertEqual(copy.state, "draft")
+        self.assertEqual(copy.fci_count, 1)
+        copy.unlink()
+
+    def test_product_fci_code_is_the_latest(self):
+        """The product holds the control number of the most recent FCI."""
+        self.fci.fci_code = FCI_CODE
+        self.fci_file.date = "2026-01-01 10:00:00"
+        newer = self.fci_file.copy({"date": "2026-02-01 10:00:00"})
+        newer.fci_ids.fci_code = "newer-code"
+        template = self.product.product_tmpl_id
+        self.assertEqual(template.fci_code, "newer-code")
+        self.assertEqual(template.fci_count, 2)
+        action = template.action_view_fci()
+        self.assertEqual(action["domain"], [("product_tmpl_id", "=", template.id)])
+
+    def test_import_invalid_amount(self):
+        """An amount which is not a number refuses the file."""
+        self.fci_file.action_generate_file()
+        content = base64.b64decode(self.fci_file.file).decode(FCI_FILE_ENCODING)
+        content = content.replace("9123,45", "abc")
+        with self.assertRaises(UserError):
+            self._run_wizard(base64.b64encode(content.encode(FCI_FILE_ENCODING)))
+
+    def test_import_file_not_utf8(self):
+        """The layout requires UTF-8."""
+        with self.assertRaises(UserError):
+            self._run_wizard(base64.b64encode("ã".encode("latin-1")))
