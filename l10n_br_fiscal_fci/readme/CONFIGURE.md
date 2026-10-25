@@ -1,9 +1,9 @@
-The registers 0000 and 0010 of the file are filled in with the data of the
-company: CNPJ, name, legal name, state tax number, address, ZIP code, city
-and state. Make sure they are properly filled in before generating a file.
+Os registros 0000 e 0010 do arquivo são preenchidos com os dados da empresa:
+CNPJ, nome, razão social, inscrição estadual, endereço, CEP, município e UF.
+Confira se estão corretos antes de gerar um arquivo.
 
-The unit of measure of a goods is written with the abbreviation of the table
-of the Ato COTEPE ICMS 61/2012 (for instance `kg` and not `quilograma`). The
-abbreviation is taken from the *Code* field of the unit of measure of the
-product and falls back to `99` (other units) when the code is not in the
-table. The code can also be changed line by line.
+A unidade de medida da mercadoria é escrita com a abreviatura da tabela do
+Ato COTEPE ICMS 61/2012 (por exemplo `kg` e não `quilograma`). A abreviatura
+vem do campo *Código* da unidade de medida do produto e, se o código não
+constar na tabela, usa `99` (outras unidades). O código também pode ser
+alterado linha a linha.

@@ -29,5 +29,6 @@
             "l10n_br_fiscal_fci/static/src/components/**/*.xml",
         ],
     },
+    "development_status": "Beta",
     "installable": True,
 }

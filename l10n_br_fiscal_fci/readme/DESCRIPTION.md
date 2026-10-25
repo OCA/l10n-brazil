@@ -1,27 +1,27 @@
-This module implements the management of the **FCI** (Ficha de Conteúdo de
-Importação) required by the [Convênio ICMS
+Este módulo implementa a gestão da **FCI** (Ficha de Conteúdo de Importação)
+exigida pelo [Convênio ICMS
 38/2013](https://www.confaz.fazenda.gov.br/legislacao/convenios/2013/CV038_13)
-and by the [Ato COTEPE ICMS
+e pelo [Ato COTEPE ICMS
 61/2012](https://www.confaz.fazenda.gov.br/legislacao/atos/2012/ac061_12).
 
-Taxpayers which industrialize imported goods must inform the share of the
-imported parcel in the total of the resulting goods (Import Content) to the
-tax administration of the state of origin, through a digital file. For each
-goods of the transmitted file the tax administration generates a FCI control
-number, which must be written in the field `nFCI` of the NF-e of the
-interstate operations with that goods.
+O contribuinte que industrializa bens ou mercadorias importados deve informar
+à administração tributária da UF de origem a participação da parcela
+importada no total da mercadoria resultante (Conteúdo de Importação), por
+meio de arquivo digital. Para cada mercadoria do arquivo transmitido, a
+administração tributária gera um número de controle da FCI, que deve ser
+informado no campo `nFCI` da NF-e das operações interestaduais com aquela
+mercadoria.
 
-The module provides:
+O módulo oferece:
 
-- the *FCI* record (`l10n_br_fiscal.fci`), holding the data of one
-  digital file, and its goods (`l10n_br_fiscal.fci.line`), the register 5020
-  of the layout;
-- the generation of the TXT file in the layout of the Ato COTEPE ICMS
-  61/2012, ready to be validated and transmitted with the SEFAZ
-  Validador/Transmissor;
-- the computation of the Import Content with the rounding rule required by
-  the layout;
-- a wizard to read the return file downloaded from the FCI web system, which
-  fills in the FCI control number of each goods;
-- the FCI control number of the last FCI of each product, in the *Fiscal*
-  tab of the product.
+- o cadastro da *FCI* (`l10n_br_fiscal.fci`), com os dados de um arquivo
+  digital, e de suas mercadorias (`l10n_br_fiscal.fci.line`), o registro 5020
+  do leiaute;
+- a geração do arquivo TXT no leiaute do Ato COTEPE ICMS 61/2012, pronto para
+  ser validado e transmitido pelo Validador/Transmissor da SEFAZ;
+- o cálculo do Conteúdo de Importação com a regra de arredondamento exigida
+  pelo leiaute;
+- um assistente para ler o arquivo de retorno baixado do sistema FCI na web,
+  que preenche o número de controle da FCI de cada mercadoria;
+- o número de controle da última FCI de cada produto, na aba *Fiscal* do
+  produto.

@@ -1,21 +1,21 @@
-Go to *Fiscal > Product and Service > FCI* and create a new FCI.
+Acesse *Fiscal > Produto e Serviço > FCI* e crie uma nova FCI.
 
-1. Select the company whose establishment is declaring the FCI and add one
-   line per goods, filling in the *Interstate Output Amount* and the
-   *Imported Amount* per unit of measure. The *Import Content* is computed
-   with the rounding rule of the manual (`ROUND(x;y)`).
-2. Press **Generate File**. The TXT file is attached to the record with the
-   name pattern `CNPJ_AAAAMMDD_hhmmss.txt` required by the layout.
-3. Download the file and validate/transmit it with the SEFAZ
-   *Validador/Transmissor* application. Write the reception protocol
-   returned by the TED in the *Reception Protocol* field and press
-   **Confirm Transmission**.
-4. One or two hours after the transmission, download the return file in the
-   restricted query of the FCI web system ("Download Arquivo de Retorno"),
-   press **Import Return File** and select the downloaded file (the TXT or
-   the ZIP). The FCI control numbers are written in the goods lines and the
-   FCI is set to done.
+1. Selecione a empresa cujo estabelecimento está declarando a FCI e inclua uma
+   linha por mercadoria, informando o *Valor de Saída Interestadual* e o
+   *Valor da Parcela Importada* por unidade de medida. O *Conteúdo de
+   Importação* é calculado com a regra de arredondamento do manual
+   (`ROUND(x;y)`).
+2. Clique em **Gerar Arquivo**. O arquivo TXT é anexado ao registro com o nome
+   no padrão `CNPJ_AAAAMMDD_hhmmss.txt` exigido pelo leiaute.
+3. Baixe o arquivo e valide/transmita com o aplicativo *Validador/Transmissor*
+   da SEFAZ. Informe o protocolo de recepção devolvido pelo TED no campo
+   *Protocolo de Recepção* e clique em **Confirmar Transmissão**.
+4. Uma ou duas horas depois da transmissão, baixe o arquivo de retorno na
+   consulta restrita do sistema FCI na web (*Download Arquivo de Retorno*),
+   clique em **Importar Arquivo de Retorno** e selecione o arquivo baixado
+   (o TXT ou o ZIP). Os números de controle da FCI são gravados nas linhas
+   de mercadoria e a FCI passa para concluída.
 
-The FCI control number of the last FCI of a product is shown in the *Fiscal*
-tab of the product form and the whole history is available in
-*Fiscal > Product and Service > FCI Goods*.
+O número de controle da última FCI de um produto aparece na aba *Fiscal* do
+formulário do produto, e o histórico completo está em *Fiscal > Produto e
+Serviço > Mercadorias da FCI*.

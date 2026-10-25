@@ -28,33 +28,33 @@ L10n BR Fiscal FCI
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This module implements the management of the **FCI** (Ficha de Conteúdo
-de Importação) required by the `Convênio ICMS
+Este módulo implementa a gestão da **FCI** (Ficha de Conteúdo de
+Importação) exigida pelo `Convênio ICMS
 38/2013 <https://www.confaz.fazenda.gov.br/legislacao/convenios/2013/CV038_13>`__
-and by the `Ato COTEPE ICMS
+e pelo `Ato COTEPE ICMS
 61/2012 <https://www.confaz.fazenda.gov.br/legislacao/atos/2012/ac061_12>`__.
 
-Taxpayers which industrialize imported goods must inform the share of
-the imported parcel in the total of the resulting goods (Import Content)
-to the tax administration of the state of origin, through a digital
-file. For each goods of the transmitted file the tax administration
-generates a FCI control number, which must be written in the field
-``nFCI`` of the NF-e of the interstate operations with that goods.
+O contribuinte que industrializa bens ou mercadorias importados deve
+informar à administração tributária da UF de origem a participação da
+parcela importada no total da mercadoria resultante (Conteúdo de
+Importação), por meio de arquivo digital. Para cada mercadoria do
+arquivo transmitido, a administração tributária gera um número de
+controle da FCI, que deve ser informado no campo ``nFCI`` da NF-e das
+operações interestaduais com aquela mercadoria.
 
-The module provides:
+O módulo oferece:
 
-- the *FCI* record (``l10n_br_fiscal.fci``), holding the data of one
-  digital file, and its goods (``l10n_br_fiscal.fci.line``), the
-  register 5020 of the layout;
-- the generation of the TXT file in the layout of the Ato COTEPE ICMS
-  61/2012, ready to be validated and transmitted with the SEFAZ
-  Validador/Transmissor;
-- the computation of the Import Content with the rounding rule required
-  by the layout;
-- a wizard to read the return file downloaded from the FCI web system,
-  which fills in the FCI control number of each goods;
-- the FCI control number of the last FCI of each product, in the
-  *Fiscal* tab of the product.
+- o cadastro da *FCI* (``l10n_br_fiscal.fci``), com os dados de um
+  arquivo digital, e de suas mercadorias (``l10n_br_fiscal.fci.line``),
+  o registro 5020 do leiaute;
+- a geração do arquivo TXT no leiaute do Ato COTEPE ICMS 61/2012, pronto
+  para ser validado e transmitido pelo Validador/Transmissor da SEFAZ;
+- o cálculo do Conteúdo de Importação com a regra de arredondamento
+  exigida pelo leiaute;
+- um assistente para ler o arquivo de retorno baixado do sistema FCI na
+  web, que preenche o número de controle da FCI de cada mercadoria;
+- o número de controle da última FCI de cada produto, na aba *Fiscal* do
+  produto.
 
 **Table of contents**
 
@@ -64,62 +64,60 @@ The module provides:
 Installation
 ============
 
-This module depends only on ``l10n_br_fiscal``, no external library
-other than the ones already required by the Brazilian localization is
-needed.
+Este módulo depende apenas do ``l10n_br_fiscal``; não é necessária
+nenhuma biblioteca externa além das já exigidas pela localização
+brasileira.
 
 Configuration
 =============
 
-The registers 0000 and 0010 of the file are filled in with the data of
-the company: CNPJ, name, legal name, state tax number, address, ZIP
-code, city and state. Make sure they are properly filled in before
-generating a file.
+Os registros 0000 e 0010 do arquivo são preenchidos com os dados da
+empresa: CNPJ, nome, razão social, inscrição estadual, endereço, CEP,
+município e UF. Confira se estão corretos antes de gerar um arquivo.
 
-The unit of measure of a goods is written with the abbreviation of the
-table of the Ato COTEPE ICMS 61/2012 (for instance ``kg`` and not
-``quilograma``). The abbreviation is taken from the *Code* field of the
-unit of measure of the product and falls back to ``99`` (other units)
-when the code is not in the table. The code can also be changed line by
-line.
+A unidade de medida da mercadoria é escrita com a abreviatura da tabela
+do Ato COTEPE ICMS 61/2012 (por exemplo ``kg`` e não ``quilograma``). A
+abreviatura vem do campo *Código* da unidade de medida do produto e, se
+o código não constar na tabela, usa ``99`` (outras unidades). O código
+também pode ser alterado linha a linha.
 
 Usage
 =====
 
-Go to *Fiscal > Product and Service > FCI* and create a new FCI.
+Acesse *Fiscal > Produto e Serviço > FCI* e crie uma nova FCI.
 
-1. Select the company whose establishment is declaring the FCI and add
-   one line per goods, filling in the *Interstate Output Amount* and the
-   *Imported Amount* per unit of measure. The *Import Content* is
-   computed with the rounding rule of the manual (``ROUND(x;y)``).
-2. Press **Generate File**. The TXT file is attached to the record with
-   the name pattern ``CNPJ_AAAAMMDD_hhmmss.txt`` required by the layout.
-3. Download the file and validate/transmit it with the SEFAZ
-   *Validador/Transmissor* application. Write the reception protocol
-   returned by the TED in the *Reception Protocol* field and press
-   **Confirm Transmission**.
-4. One or two hours after the transmission, download the return file in
-   the restricted query of the FCI web system ("Download Arquivo de
-   Retorno"), press **Import Return File** and select the downloaded
-   file (the TXT or the ZIP). The FCI control numbers are written in the
-   goods lines and the FCI is set to done.
+1. Selecione a empresa cujo estabelecimento está declarando a FCI e
+   inclua uma linha por mercadoria, informando o *Valor de Saída
+   Interestadual* e o *Valor da Parcela Importada* por unidade de
+   medida. O *Conteúdo de Importação* é calculado com a regra de
+   arredondamento do manual (``ROUND(x;y)``).
+2. Clique em **Gerar Arquivo**. O arquivo TXT é anexado ao registro com
+   o nome no padrão ``CNPJ_AAAAMMDD_hhmmss.txt`` exigido pelo leiaute.
+3. Baixe o arquivo e valide/transmita com o aplicativo
+   *Validador/Transmissor* da SEFAZ. Informe o protocolo de recepção
+   devolvido pelo TED no campo *Protocolo de Recepção* e clique em
+   **Confirmar Transmissão**.
+4. Uma ou duas horas depois da transmissão, baixe o arquivo de retorno
+   na consulta restrita do sistema FCI na web (*Download Arquivo de
+   Retorno*), clique em **Importar Arquivo de Retorno** e selecione o
+   arquivo baixado (o TXT ou o ZIP). Os números de controle da FCI são
+   gravados nas linhas de mercadoria e a FCI passa para concluída.
 
-The FCI control number of the last FCI of a product is shown in the
-*Fiscal* tab of the product form and the whole history is available in
-*Fiscal > Product and Service > FCI Goods*.
+O número de controle da última FCI de um produto aparece na aba *Fiscal*
+do formulário do produto, e o histórico completo está em *Fiscal >
+Produto e Serviço > Mercadorias da FCI*.
 
 Known issues / Roadmap
 ======================
 
-- The transmission of the file is not automated: the file must be
-  validated and transmitted with the SEFAZ *Validador/Transmissor*
-  application, which is a Windows desktop program (there is no web
-  service for the FCI).
-- The FCI control number is not yet written in the NF-e: the field
-  ``nFCI`` (group I07 of the NF-e layout) is still a TODO of the
-  ``l10n_br_nfe`` module.
-- The goods lines are not filled in automatically from the fiscal
-  documents of the period, the amounts must be informed by the user.
+- A transmissão do arquivo não é automatizada: ele deve ser validado e
+  transmitido com o aplicativo *Validador/Transmissor* da SEFAZ, que é
+  um programa Windows (não existe web service para a FCI).
+- O número de controle da FCI ainda não é gravado na NF-e: o campo
+  ``nFCI`` (grupo I07 do leiaute da NF-e) continua como TODO do módulo
+  ``l10n_br_nfe``.
+- As mercadorias não são preenchidas automaticamente a partir dos
+  documentos fiscais do período; os valores são informados pelo usuário.
 
 Bug Tracker
 ===========
