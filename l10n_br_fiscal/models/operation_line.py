@@ -4,7 +4,6 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
-from .. import tools
 from ..constants.fiscal import (
     CFOP_DESTINATION_EXPORT,
     FISCAL_COMMENT_LINE,
@@ -177,19 +176,6 @@ class OperationLine(models.Model):
                 or line.cfop_external_id.is_icmsst
                 or line.cfop_export_id.is_icmsst
             )
-
-    @api.model
-    def _expire_invalid_lines(self):
-        """Mark as 'expired' operation lines outside their date validity
-        window (date_start/date_end)."""
-        today = fields.Datetime.now()
-        candidates = self.search([("state", "!=", "expired")])
-        valid = self.search(
-            [("state", "!=", "expired")] + tools.date_validity_domain(today)
-        )
-        expired = candidates - valid
-        if expired:
-            expired.write({"state": "expired"})
 
     def get_document_type(self, company):
         self.ensure_one()
