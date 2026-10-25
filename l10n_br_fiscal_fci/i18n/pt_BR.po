@@ -97,27 +97,27 @@ msgstr ""
 "Ato COTEPE ICMS 61/2012."
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_needaction
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__message_needaction
 msgid "Action Needed"
 msgstr "Ação Necessária"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__activity_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__activity_ids
 msgid "Activities"
 msgstr "Atividades"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__activity_exception_decoration
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__activity_exception_decoration
 msgid "Activity Exception Decoration"
 msgstr "Decoração de Atividade Excepcional"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__activity_state
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__activity_state
 msgid "Activity State"
 msgstr "Estado de Atividade"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__activity_type_icon
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__activity_type_icon
 msgid "Activity Type Icon"
 msgstr "Ícone do Tipo de Atividade"
 
@@ -136,7 +136,7 @@ msgstr ""
 "VALOR_PARCELA_IMPORTADA_EXTERIOR do registro 5020."
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_attachment_count
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__message_attachment_count
 msgid "Attachment Count"
 msgstr "Contagem de Anexos"
 
@@ -146,7 +146,7 @@ msgid "Back to Draft"
 msgstr "Voltar para Rascunho"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__cnpj_cpf
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__vat
 msgid "CNPJ"
 msgstr "CNPJ"
 
@@ -156,7 +156,7 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__city_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__city_id
 msgid "City"
 msgstr "Município"
 
@@ -166,7 +166,7 @@ msgid "Close"
 msgstr "Fechar"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__company_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__company_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__company_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_search
 msgid "Company"
@@ -178,33 +178,33 @@ msgid "Confirm Transmission"
 msgstr "Confirmar Transmissão"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__create_uid
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__create_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_import_wizard__create_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__create_uid
 msgid "Created by"
 msgstr "Criado por"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__create_date
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__create_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_import_wizard__create_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__create_date
 msgid "Created on"
 msgstr "Criado em"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__date
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__date
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_search
 msgid "Creation Date"
 msgstr "Data de Criação"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__currency_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__currency_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__currency_id
 msgid "Currency"
 msgstr "Moeda"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__date
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__date
 msgid "Date used to build the file name, as required by the layout."
 msgstr ""
 "Data utilizada para compor o nome do arquivo, conforme exigido pelo leiaute."
@@ -215,20 +215,20 @@ msgid "Description"
 msgstr "Descrição"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__display_name
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_import_wizard__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__display_name
 msgid "Display Name"
 msgstr "Nome exibido"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields.selection,name:l10n_br_fiscal_fci.selection__l10n_br_fiscal_fci_header__state__done
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_fci.selection__l10n_br_fiscal_fci__state__done
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_search
 msgid "Done"
 msgstr "Concluído"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields.selection,name:l10n_br_fiscal_fci.selection__l10n_br_fiscal_fci_header__state__draft
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_fci.selection__l10n_br_fiscal_fci__state__draft
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_search
 msgid "Draft"
 msgstr "Rascunho"
@@ -240,7 +240,7 @@ msgstr "Estabelecimento"
 
 #. module: l10n_br_fiscal_fci
 #: model:ir.actions.act_window,name:l10n_br_fiscal_fci.fci_action
-#: model:ir.model,name:l10n_br_fiscal_fci.model_l10n_br_fiscal_fci_header
+#: model:ir.model,name:l10n_br_fiscal_fci.model_l10n_br_fiscal_fci
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_import_wizard__fci_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__fci_id
 #: model:ir.ui.menu,name:l10n_br_fiscal_fci.fci_menu
@@ -272,7 +272,7 @@ msgid "FCI Count"
 msgstr "Quantidade de FCI"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__file
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__file
 msgid "FCI File"
 msgstr "Arquivo da FCI"
 
@@ -342,13 +342,13 @@ msgid "File"
 msgstr "Arquivo"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields.selection,name:l10n_br_fiscal_fci.selection__l10n_br_fiscal_fci_header__state__generated
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_fci.selection__l10n_br_fiscal_fci__state__generated
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_search
 msgid "File Generated"
 msgstr "Arquivo Gerado"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__filename
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__filename
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_import_wizard__filename
 msgid "File Name"
 msgstr "Nome do Arquivo"
@@ -365,17 +365,17 @@ msgstr ""
 "de confirmar a transmissão da FCI %s."
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_follower_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__message_follower_ids
 msgid "Followers"
 msgstr "Seguidores"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_partner_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__message_partner_ids
 msgid "Followers (Partners)"
 msgstr "Seguidores (Parceiros)"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__activity_type_icon
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
 msgstr "Ícone do Font Awesome. Ex: fa-tasks"
 
@@ -399,13 +399,13 @@ msgstr ""
 "campo é opcional."
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__line_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__line_ids
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_form
 msgid "Goods"
 msgstr "Mercadorias"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__line_count
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__line_count
 msgid "Goods Count"
 msgstr "Quantidade de Mercadorias"
 
@@ -416,40 +416,40 @@ msgid "Group By"
 msgstr "Agrupar por"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__has_message
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__has_message
 msgid "Has Message"
 msgstr "Tem uma mensagem"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__hash_code
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__hash_code
 msgid "Hash Code"
 msgstr "Hash Code"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_import_wizard__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__id
 msgid "ID"
 msgstr "ID"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__activity_exception_icon
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__activity_exception_icon
 msgid "Icon"
 msgstr "Ícone"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__activity_exception_icon
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__activity_exception_icon
 msgid "Icon to indicate an exception activity."
 msgstr "Ícone para indicar uma atividade excepcional."
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_needaction
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__message_needaction
 msgid "If checked, new messages require your attention."
 msgstr "Se marcado, novas mensagens solicitarão sua atenção."
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_has_error
-#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_has_sms_error
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__message_has_error
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Se marcado, algumas mensagens tem erro de entrega."
 
@@ -495,7 +495,7 @@ msgid "Interstate Output Amount"
 msgstr "Valor de Saída Interestadual"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_is_follower
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__message_is_follower
 msgid "Is Follower"
 msgstr "É um seguidor"
 
@@ -512,58 +512,58 @@ msgstr ""
 "este produto."
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header____last_update
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_import_wizard____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line____last_update
 msgid "Last Modified on"
 msgstr "Última modificação em"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__write_uid
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_import_wizard__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__write_uid
 msgid "Last Updated by"
 msgstr "Última atualização por"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__write_date
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_import_wizard__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__write_date
 msgid "Last Updated on"
 msgstr "Última atualização em"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__layout_version
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__layout_version
 msgid "Layout Version"
 msgstr "Versão do Leiaute"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__layout_version
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__layout_version
 msgid "Layout version of the file, register 0000 field VERSAO_LEIAUTE."
 msgstr "Versão do leiaute do arquivo, campo VERSAO_LEIAUTE do registro 0000."
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__legal_name
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__legal_name
 msgid "Legal Name"
 msgstr "Razão Social"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_main_attachment_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__message_main_attachment_id
 msgid "Main Attachment"
 msgstr "Anexo Principal"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_has_error
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__message_has_error
 msgid "Message Delivery error"
 msgstr "Erro na entrega da Mensagem"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__message_ids
 msgid "Messages"
 msgstr "Mensagens"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__my_activity_date_deadline
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__my_activity_date_deadline
 msgid "My Activity Deadline"
 msgstr "Prazo da Minha Atividade"
 
@@ -578,22 +578,22 @@ msgid "NCM Code"
 msgstr "Código NCM"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__name
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__name
 msgid "Name"
 msgstr "Nome"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__activity_date_deadline
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr "Prazo Final para Próxima Atividade"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__activity_summary
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__activity_summary
 msgid "Next Activity Summary"
 msgstr "Próximo Sumário de Atividade"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__activity_type_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__activity_type_id
 msgid "Next Activity Type"
 msgstr "Tipo da Próxima Atividade"
 
@@ -621,22 +621,22 @@ msgstr ""
 " o CNPJ das suas empresas e as empresas habilitadas no seu usuário."
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_needaction_counter
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__message_needaction_counter
 msgid "Number of Actions"
 msgstr "Número de Ações"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_has_error_counter
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__message_has_error_counter
 msgid "Number of errors"
 msgstr "Número de Erros"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_needaction_counter
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__message_needaction_counter
 msgid "Number of messages requiring action"
 msgstr "Número de mensagens que requerem ação"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_has_error_counter
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__message_has_error_counter
 msgid "Number of messages with delivery error"
 msgstr "Número de mensagens com erro de entrega"
 
@@ -686,7 +686,7 @@ msgstr ""
 "corresponde ao código da mercadoria."
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__protocol_number
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__protocol_number
 msgid ""
 "Protocol number returned by the TED after the transmission of the file. It "
 "is used to query the FCI control numbers on the web."
@@ -695,32 +695,32 @@ msgstr ""
 "utilizado para consultar os números de controle da FCI na web."
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__date_reception
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__date_reception
 msgid "Reception Date"
 msgstr "Data de Recepção"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__protocol_number
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__protocol_number
 msgid "Reception Protocol"
 msgstr "Protocolo de Recepção"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__date_reception
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__date_reception
 msgid "Register 0000 field DT_RECEPCAO_ARQUIVO of the return file."
 msgstr "Campo DT_RECEPCAO_ARQUIVO do registro 0000 do arquivo de retorno."
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__date_validation
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__date_validation
 msgid "Register 0000 field DT_VALIDACAO_ARQUIVO of the return file."
 msgstr "Campo DT_VALIDACAO_ARQUIVO do registro 0000 do arquivo de retorno."
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__hash_code
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__hash_code
 msgid "Register 0000 field HASH_CODE of the return file."
 msgstr "Campo HASH_CODE do registro 0000 do arquivo de retorno."
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__validation_indicator
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__validation_indicator
 msgid "Register 0000 field IN_VALIDACAO_ARQUIVO of the return file."
 msgstr "Campo IN_VALIDACAO_ARQUIVO do registro 0000 do arquivo de retorno."
 
@@ -740,7 +740,7 @@ msgid "Register 5020 field NOME_MERCADORIA."
 msgstr "Campo NOME_MERCADORIA do registro 5020."
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__activity_user_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__activity_user_id
 msgid "Responsible User"
 msgstr "Usuário Responsável"
 
@@ -755,12 +755,12 @@ msgid "Return"
 msgstr "Retorno"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__return_file
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__return_file
 msgid "Return File"
 msgstr "Arquivo de Retorno"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__return_filename
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__return_filename
 msgid "Return File Name"
 msgstr "Nome do Arquivo de Retorno"
 
@@ -772,7 +772,7 @@ msgid "Return file of the FCI %s imported."
 msgstr "Arquivo de retorno da FCI %s importado."
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__message_has_sms_error
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__message_has_sms_error
 msgid "SMS Delivery error"
 msgstr "Erro no envio de SMS"
 
@@ -789,18 +789,18 @@ msgid "Sequence"
 msgstr "Sequência"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__state_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__state_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_import_wizard__state
 msgid "State"
 msgstr "Estado"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__ie
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__ie
 msgid "State Tax Number"
 msgstr "Inscrição Estadual"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__state
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__state
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__state
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_line_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_search
@@ -808,7 +808,7 @@ msgid "Status"
 msgstr "Situação"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__activity_state
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__activity_state
 msgid ""
 "Status based on activities\n"
 "Overdue: Due date is already passed\n"
@@ -821,12 +821,12 @@ msgstr ""
 "Planejado: Atividades futuras."
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__street_name
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__street_name
 msgid "Street Name"
 msgstr "Logradouro"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__street_number
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__street_number
 msgid "Street Number"
 msgstr "Número"
 
@@ -1077,13 +1077,13 @@ msgid "Transmission"
 msgstr "Transmissão"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields.selection,name:l10n_br_fiscal_fci.selection__l10n_br_fiscal_fci_header__state__transmitted
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_fci.selection__l10n_br_fiscal_fci__state__transmitted
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_search
 msgid "Transmitted"
 msgstr "Transmitida"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__activity_exception_decoration
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__activity_exception_decoration
 msgid "Type of the exception activity on record."
 msgstr "Tipo de atividade de exceção registrada."
 
@@ -1108,17 +1108,17 @@ msgid "Upload"
 msgstr "Enviar"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__legal_name
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__legal_name
 msgid "Used in fiscal documents"
 msgstr "Usado em documentos fiscais"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__date_validation
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__date_validation
 msgid "Validation Date"
 msgstr "Data de Validação"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__validation_indicator
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__validation_indicator
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_line__validation_indicator
 msgid "Validation Indicator"
 msgstr "Indicador de Validação"
@@ -1141,7 +1141,7 @@ msgid "You can only delete FCI in draft state!"
 msgstr "Você só pode excluir FCI em rascunho!"
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_header__zip
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__zip
 msgid "Zip"
 msgstr "CEP"
 

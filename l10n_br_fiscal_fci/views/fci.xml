@@ -6,8 +6,8 @@
 <odoo>
 
     <record id="fci_search" model="ir.ui.view">
-        <field name="name">l10n_br_fiscal.fci.header.search</field>
-        <field name="model">l10n_br_fiscal.fci.header</field>
+        <field name="name">l10n_br_fiscal.fci.search</field>
+        <field name="model">l10n_br_fiscal.fci</field>
         <field name="arch" type="xml">
             <search string="FCI">
                 <field name="name" />
@@ -60,8 +60,8 @@
     </record>
 
     <record id="fci_tree" model="ir.ui.view">
-        <field name="name">l10n_br_fiscal.fci.header.tree</field>
-        <field name="model">l10n_br_fiscal.fci.header</field>
+        <field name="name">l10n_br_fiscal.fci.tree</field>
+        <field name="model">l10n_br_fiscal.fci</field>
         <field name="arch" type="xml">
             <tree js_class="fci_tree">
                 <field name="name" />
@@ -81,8 +81,8 @@
     </record>
 
     <record id="fci_form" model="ir.ui.view">
-        <field name="name">l10n_br_fiscal.fci.header.form</field>
-        <field name="model">l10n_br_fiscal.fci.header</field>
+        <field name="name">l10n_br_fiscal.fci.form</field>
+        <field name="model">l10n_br_fiscal.fci</field>
         <field name="arch" type="xml">
             <form string="FCI">
                 <header>
@@ -129,7 +129,7 @@
                             <field name="currency_id" invisible="1" />
                         </group>
                         <group name="establishment" string="Establishment">
-                            <field name="cnpj_cpf" />
+                            <field name="vat" />
                             <field name="ie" />
                             <field name="legal_name" />
                             <field name="city_id" />

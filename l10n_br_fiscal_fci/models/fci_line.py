@@ -25,7 +25,7 @@ class FCILine(models.Model):
     _order = "fci_id, sequence, id"
 
     fci_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.fci.header",
+        comodel_name="l10n_br_fiscal.fci",
         string="FCI",
         required=True,
         ondelete="cascade",

@@ -43,8 +43,8 @@ generates a FCI control number, which must be written in the field
 
 The module provides:
 
-- the *FCI* record (``l10n_br_fiscal.fci.header``), holding the data of
-  one digital file, and its goods (``l10n_br_fiscal.fci.line``), the
+- the *FCI* record (``l10n_br_fiscal.fci``), holding the data of one
+  digital file, and its goods (``l10n_br_fiscal.fci.line``), the
   register 5020 of the layout;
 - the generation of the TXT file in the layout of the Ato COTEPE ICMS
   61/2012, ready to be validated and transmitted with the SEFAZ

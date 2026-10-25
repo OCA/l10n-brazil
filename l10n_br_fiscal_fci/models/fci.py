@@ -27,7 +27,7 @@ class FCI(models.Model):
     layout of the Ato COTEPE ICMS 61/2012.
     """
 
-    _name = "l10n_br_fiscal.fci.header"
+    _name = "l10n_br_fiscal.fci"
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = "FCI"
     _order = "date desc, id desc"
@@ -94,8 +94,8 @@ class FCI(models.Model):
 
     # Company data written in the registers 0000 and 0010.
 
-    cnpj_cpf = fields.Char(
-        related="company_id.cnpj_cpf",
+    vat = fields.Char(
+        related="company_id.vat",
         string="CNPJ",
     )
 
@@ -194,7 +194,7 @@ class FCI(models.Model):
     @api.depends("company_id", "date")
     def _compute_name(self):
         for record in self:
-            cnpj = sanitize_code(record.company_id.cnpj_cpf) or "?"
+            cnpj = sanitize_code(record.company_id.vat) or "?"
             if record.date:
                 date = fields.Datetime.context_timestamp(record, record.date)
                 suffix = date.strftime("%Y%m%d-%H%M%S")
@@ -232,7 +232,7 @@ class FCI(models.Model):
                 _("A FCI file can not have more than %s goods lines.") % FCI_MAX_LINES
             )
         company = self.company_id
-        if not sanitize_code(company.cnpj_cpf):
+        if not sanitize_code(company.vat):
             errors.append(_("The company CNPJ is not filled in."))
         if not sanitize_code(company.l10n_br_ie_code):
             errors.append(_("The company State Tax Number is not filled in."))
@@ -261,7 +261,7 @@ class FCI(models.Model):
     def _prepare_register_0000(self):
         return self._prepare_register(
             "0000",
-            sanitize_code(self.company_id.cnpj_cpf, 14),
+            sanitize_code(self.company_id.vat, 14),
             sanitize_text(self.company_id.name, 255),
             self.layout_version,
         )
@@ -276,7 +276,7 @@ class FCI(models.Model):
         )
         return self._prepare_register(
             "0010",
-            sanitize_code(company.cnpj_cpf, 14),
+            sanitize_code(company.vat, 14),
             sanitize_text(company.legal_name or company.name, 255),
             sanitize_code(company.l10n_br_ie_code, 20),
             sanitize_text(address, 255),
@@ -357,7 +357,7 @@ class FCI(models.Model):
         self.ensure_one()
         date = fields.Datetime.context_timestamp(self, self.date)
         return "{}_{}.txt".format(
-            sanitize_code(self.company_id.cnpj_cpf, 14),
+            sanitize_code(self.company_id.vat, 14),
             date.strftime("%Y%m%d_%H%M%S"),
         )
 

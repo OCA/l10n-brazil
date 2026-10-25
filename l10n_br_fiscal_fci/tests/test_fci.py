@@ -31,7 +31,7 @@ class TestFCI(TransactionCase):
                 "ncm_id": cls.ncm.id,
             }
         )
-        cls.fci = cls.env["l10n_br_fiscal.fci.header"].create(
+        cls.fci = cls.env["l10n_br_fiscal.fci"].create(
             {
                 "company_id": cls.company.id,
                 "line_ids": [
@@ -180,9 +180,7 @@ class TestFCI(TransactionCase):
 
     def test_generate_file_without_lines(self):
         """A FCI without goods can not be generated."""
-        fci = self.env["l10n_br_fiscal.fci.header"].create(
-            {"company_id": self.company.id}
-        )
+        fci = self.env["l10n_br_fiscal.fci"].create({"company_id": self.company.id})
         with self.assertRaises(UserError):
             fci.action_generate_file()
 
@@ -245,9 +243,7 @@ class TestFCI(TransactionCase):
     def _import_return_file(self, **kwargs):
         wizard = (
             self.env["l10n_br_fiscal.fci.import.wizard"]
-            .with_context(
-                active_model="l10n_br_fiscal.fci.header", active_id=self.fci.id
-            )
+            .with_context(active_model="l10n_br_fiscal.fci", active_id=self.fci.id)
             .create(
                 {
                     "file": self._prepare_return_file(**kwargs),
@@ -385,7 +381,7 @@ class TestFCI(TransactionCase):
         self.assertEqual(self.fci.line_ids.fci_code, FCI_CODE)
         self.assertTrue(self.fci.hash_code)
         self.assertEqual(
-            self.env["l10n_br_fiscal.fci.header"].search_count(
+            self.env["l10n_br_fiscal.fci"].search_count(
                 [("protocol_number", "=", "11111")]
             ),
             1,

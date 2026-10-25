@@ -48,7 +48,7 @@ class FCIImportWizard(models.TransientModel):
     _description = "Import FCI File"
 
     fci_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.fci.header",
+        comodel_name="l10n_br_fiscal.fci",
         string="FCI",
         ondelete="cascade",
         help="FCI updated by the return file. Leave it empty to create a new "
@@ -75,7 +75,7 @@ class FCIImportWizard(models.TransientModel):
     @api.model
     def default_get(self, fields_list):
         values = super().default_get(fields_list)
-        if self.env.context.get("active_model") == "l10n_br_fiscal.fci.header":
+        if self.env.context.get("active_model") == "l10n_br_fiscal.fci":
             values.setdefault("fci_id", self.env.context.get("active_id"))
         return values
 
@@ -154,7 +154,7 @@ class FCIImportWizard(models.TransientModel):
         companies = self.env["res.company"].search(
             [("id", "in", self.env.companies.ids)]
         )
-        company = companies.filtered(lambda item: sanitize_code(item.cnpj_cpf) == cnpj)
+        company = companies.filtered(lambda item: sanitize_code(item.vat) == cnpj)
         if not company:
             raise UserError(
                 _(
@@ -282,7 +282,7 @@ class FCIImportWizard(models.TransientModel):
         Both are filled in by the tax administration, so a FCI transmitted
         from Odoo only has the protocol, typed in by the user.
         """
-        fci_model = self.env["l10n_br_fiscal.fci.header"]
+        fci_model = self.env["l10n_br_fiscal.fci"]
         header_values = self._prepare_header_values(registers)
         company_domain = [("company_id", "=", self._find_company(registers).id)]
         for field_name in ("hash_code", "protocol_number"):
@@ -323,7 +323,7 @@ class FCIImportWizard(models.TransientModel):
                     "filename": self.filename,
                 }
             )
-        return self.env["l10n_br_fiscal.fci.header"].create(values)
+        return self.env["l10n_br_fiscal.fci"].create(values)
 
     def _match_line(self, fci, register):
         """Find the line of the FCI matching a register 5020 of the file.
@@ -422,7 +422,7 @@ class FCIImportWizard(models.TransientModel):
 
     def _check_company(self, fci, registers):
         file_cnpj = sanitize_code(self._get_field(registers["0000"][0], 1))
-        company_cnpj = sanitize_code(fci.company_id.cnpj_cpf)
+        company_cnpj = sanitize_code(fci.company_id.vat)
         if file_cnpj and company_cnpj and file_cnpj != company_cnpj:
             raise UserError(
                 _(
@@ -500,7 +500,7 @@ class FCIImportWizard(models.TransientModel):
         self.ensure_one()
         return {
             "type": "ir.actions.act_window",
-            "res_model": "l10n_br_fiscal.fci.header",
+            "res_model": "l10n_br_fiscal.fci",
             "res_id": self.fci_id.id,
             "view_mode": "form",
             "views": [(False, "form")],

@@ -13,7 +13,7 @@ interstate operations with that goods.
 
 The module provides:
 
-- the *FCI* record (`l10n_br_fiscal.fci.header`), holding the data of one
+- the *FCI* record (`l10n_br_fiscal.fci`), holding the data of one
   digital file, and its goods (`l10n_br_fiscal.fci.line`), the register 5020
   of the layout;
 - the generation of the TXT file in the layout of the Ato COTEPE ICMS
