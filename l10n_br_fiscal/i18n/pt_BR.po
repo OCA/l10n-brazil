@@ -2999,6 +2999,12 @@ msgstr ""
 "etc..."
 
 #. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/icms_regulation.py:0
+msgid "External"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_fiscal_line_mixin_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_line_form
@@ -5540,6 +5546,12 @@ msgstr "O Inscr. Estadual/RG"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__amount_insurance_value
 msgid "Insurance Value"
 msgstr "Valor do Seguro"
+
+#. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/icms_regulation.py:0
+msgid "Internal"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cnae__internal_type
@@ -8380,6 +8392,8 @@ msgid "Tax Base Type"
 msgstr "Tipo de Base Tributária"
 
 #. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/icms_regulation.py:0
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icms_tax_benefit_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icms_tax_benefit_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
