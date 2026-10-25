@@ -8,7 +8,6 @@ Copyright (C) 2016-Today KMEE (https://kmee.com.br)
 */
 
 import {PosOrder} from "@point_of_sale/app/models/pos_order";
-import {PosStore} from "@point_of_sale/app/store/pos_store";
 import {patch} from "@web/core/utils/patch";
 import {validate_cnpj_cpf} from "@l10n_br_pos/js/util.esm";
 
@@ -24,21 +23,6 @@ const SITUACAO_EDOC = {
 };
 
 const getFirst = (val) => (Array.isArray(val) ? val[0] : val);
-
-patch(PosStore.prototype, {
-    async processServerData() {
-        await super.processServerData(...arguments);
-        const fiscalMapData = this.models["l10n_br_pos.product_fiscal_map"]
-            ? this.models["l10n_br_pos.product_fiscal_map"].getAll()
-            : [];
-        this.fiscal_map_by_template_id = {};
-        for (const line of fiscalMapData) {
-            if (line.product_tmpl_id) {
-                this.fiscal_map_by_template_id[getFirst(line.product_tmpl_id)] = line;
-            }
-        }
-    },
-});
 
 patch(PosOrder.prototype, {
     setup(vals) {
