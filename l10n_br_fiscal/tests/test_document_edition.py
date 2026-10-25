@@ -68,6 +68,7 @@ class TestDocumentEdition(TransactionCase):
                 tax_classification=self.env.ref(
                     "l10n_br_fiscal.fo_venda_revenda"
                 )._get_tax_classification(doc_form.company_id),
+                reference_date=False,
             )
 
             line_form.price_unit = 50

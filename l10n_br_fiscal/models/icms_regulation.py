@@ -169,6 +169,7 @@ class ICMSRegulation(models.Model):
         nbm=None,
         cest=None,
         ind_final=None,
+        reference_date=None,
     ):
         self.ensure_one()
         domain = [
@@ -179,7 +180,7 @@ class ICMSRegulation(models.Model):
             ("ind_final", "=", ind_final),
             ("ind_final", "=", False),
         ]
-        domain += tools.date_validity_domain(fields.Datetime.now())
+        domain += tools.date_validity_domain(reference_date or fields.Datetime.now())
 
         if tax_group_icms.tax_domain in (TAX_DOMAIN_ICMS, TAX_DOMAIN_ICMS_ST):
             domain += [
@@ -285,6 +286,7 @@ class ICMSRegulation(models.Model):
         cest=None,
         operation_line=None,
         ind_final=None,
+        reference_date=None,
     ):
         self.ensure_one()
         icms_taxes = self.env["l10n_br_fiscal.tax"]
@@ -303,7 +305,14 @@ class ICMSRegulation(models.Model):
         else:
             # ICMS
             domain = self._build_map_tax_def_domain(
-                company, partner, tax_group_icms, ncm, nbm, cest, ind_final
+                company,
+                partner,
+                tax_group_icms,
+                ncm,
+                nbm,
+                cest,
+                ind_final,
+                reference_date,
             )
 
             tax_definitions = self._tax_definition_search(
@@ -321,13 +330,21 @@ class ICMSRegulation(models.Model):
         cest=None,
         operation_line=None,
         ind_final=None,
+        reference_date=None,
     ):
         self.ensure_one()
         tax_group_icmsst = self.env.ref("l10n_br_fiscal.tax_group_icmsst")
 
         # ICMS ST
         domain = self._build_map_tax_def_domain(
-            company, partner, tax_group_icmsst, ncm, nbm, cest, ind_final
+            company,
+            partner,
+            tax_group_icmsst,
+            ncm,
+            nbm,
+            cest,
+            ind_final,
+            reference_date,
         )
 
         tax_definitions = self._tax_definition_search(
@@ -345,6 +362,7 @@ class ICMSRegulation(models.Model):
         cest=None,
         operation_line=None,
         ind_final=None,
+        reference_date=None,
     ):
         self.ensure_one()
         tax_definitions = self.env["l10n_br_fiscal.tax.definition"]
@@ -358,7 +376,14 @@ class ICMSRegulation(models.Model):
             and operation_line.fiscal_operation_type == FISCAL_IN
         ):
             domain = self._build_map_tax_def_domain(
-                partner, partner, tax_group_icms, ncm, nbm, cest, ind_final
+                partner,
+                partner,
+                tax_group_icms,
+                ncm,
+                nbm,
+                cest,
+                ind_final,
+                reference_date,
             )
 
             tax_definitions = self._tax_definition_search(
@@ -376,6 +401,7 @@ class ICMSRegulation(models.Model):
         cest=None,
         operation_line=None,
         ind_final=None,
+        reference_date=None,
     ):
         self.ensure_one()
         tax_definitions = self.env["l10n_br_fiscal.tax.definition"]
@@ -390,7 +416,14 @@ class ICMSRegulation(models.Model):
             and operation_line.fiscal_operation_type == FISCAL_IN
         ):
             domain = self._build_map_tax_def_domain(
-                partner, partner, tax_group_icmsfcp, ncm, nbm, cest, ind_final
+                partner,
+                partner,
+                tax_group_icmsfcp,
+                ncm,
+                nbm,
+                cest,
+                ind_final,
+                reference_date,
             )
 
             tax_definitions = self._tax_definition_search(
@@ -409,6 +442,7 @@ class ICMSRegulation(models.Model):
         cest=None,
         operation_line=None,
         ind_final=None,
+        reference_date=None,
     ):
         self.ensure_one()
         tax_definitions = self.env["l10n_br_fiscal.tax.definition"]
@@ -416,7 +450,14 @@ class ICMSRegulation(models.Model):
 
         # FCP ST
         domain = self._build_map_tax_def_domain(
-            company, partner, tax_group_icmsfcpst, ncm, nbm, cest, ind_final
+            company,
+            partner,
+            tax_group_icmsfcpst,
+            ncm,
+            nbm,
+            cest,
+            ind_final,
+            reference_date,
         )
 
         tax_definitions = self._tax_definition_search(
@@ -436,6 +477,7 @@ class ICMSRegulation(models.Model):
         cest=None,
         operation_line=None,
         ind_final=None,
+        reference_date=None,
     ):
         if product:
             if not ncm:
@@ -448,19 +490,51 @@ class ICMSRegulation(models.Model):
                 cest = product.cest_id
 
         icms_taxes, icms_def_taxes = self._map_tax_def_icms(
-            company, partner, product, ncm, nbm, cest, operation_line, ind_final
+            company,
+            partner,
+            product,
+            ncm,
+            nbm,
+            cest,
+            operation_line,
+            ind_final,
+            reference_date,
         )
 
         icms_def_taxes |= self._map_tax_def_icmsst(
-            company, partner, product, ncm, nbm, cest, operation_line, ind_final
+            company,
+            partner,
+            product,
+            ncm,
+            nbm,
+            cest,
+            operation_line,
+            ind_final,
+            reference_date,
         )
 
         icms_def_taxes |= self._map_tax_def_icmsfcp(
-            company, partner, product, ncm, nbm, cest, operation_line, ind_final
+            company,
+            partner,
+            product,
+            ncm,
+            nbm,
+            cest,
+            operation_line,
+            ind_final,
+            reference_date,
         )
 
         icms_def_taxes |= self._map_tax_def_icmsfcpst(
-            company, partner, product, ncm, nbm, cest, operation_line, ind_final
+            company,
+            partner,
+            product,
+            ncm,
+            nbm,
+            cest,
+            operation_line,
+            ind_final,
+            reference_date,
         )
 
         icms_taxes |= icms_def_taxes.mapped("tax_id")

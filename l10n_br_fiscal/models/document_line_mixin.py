@@ -323,6 +323,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                         company=line.company_id,
                         partner=line.partner_id,
                         product=line.product_id,
+                        reference_date=line._get_fiscal_reference_date(),
                     )
                 )
 
@@ -366,6 +367,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                     service_type=line.service_type_id,
                     ind_final=line.ind_final,
                     tax_classification=line.tax_classification_id,
+                    reference_date=line._get_fiscal_reference_date(),
                 )
                 line.cfop_id = mapping_result["cfop"]
                 line.ipi_guideline_id = mapping_result["ipi_guideline"]
@@ -526,6 +528,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                     icms_cst_id=line.icms_cst_id,
                     ind_final=line.ind_final,
                     icms_relief_id=line.icms_relief_id,
+                    reference_date=line._get_fiscal_reference_date(),
                 )
                 to_update.update(line._prepare_tax_fields(compute_result))
             else:
@@ -612,6 +615,9 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     def _get_document(self):
         self.ensure_one()
         return self.document_id
+
+    def _get_fiscal_reference_date(self):
+        return getattr(self._get_document(), "document_date", False)
 
     def _get_fiscal_partner(self):
         """
