@@ -229,7 +229,7 @@ class AccountPaymentLine(models.Model):
         for line in self:
             line.pix_transfer_type = False
             if line.payment_mode_domain != "pix_transfer":
-                return
+                continue
             if line.partner_pix_id:
                 line.pix_transfer_type = "pix_key"
             elif line.partner_bank_id:
