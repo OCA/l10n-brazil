@@ -3,7 +3,7 @@
 
 from unittest import mock
 
-from odoo import _, fields
+from odoo import fields
 from odoo.exceptions import UserError
 from odoo.tests.common import tagged
 
@@ -270,7 +270,7 @@ class TestImportExistingBill(AccountMoveBRCommon):
         wizard = self._wizard(bill, number="850", serie="1", key=key)
 
         def _boom(self_wizard):
-            raise UserError(_("XML rejected"))
+            raise UserError(self_wizard.env._("XML rejected"))
 
         with mock.patch.object(type(wizard), "_create_edoc_from_file", _boom):
             with self.assertRaises(UserError):
