@@ -15,7 +15,10 @@ class AccountChartTemplate(models.AbstractModel):
     def _load(self, template_code, company, install_demo, force_create=True):
         result = super()._load(template_code, company, install_demo, force_create)
         if company.currency_id == self.env.ref("base.BRL"):
-            self.load_fiscal_taxes([company])
+            # The company being loaded may not be in the allowed companies of
+            # the user (a company created from the form): the tax groups and
+            # taxes are created in that company.
+            self.with_company(company).load_fiscal_taxes([company])
         return result
 
     def _get_demo_data_move(self, company=False):

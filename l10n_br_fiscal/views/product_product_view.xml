@@ -40,7 +40,6 @@
                 <field name="ncm_id" />
                 <field name="standard_price" />
                 <field name="type" />
-                <field name="active" column_invisible="True" />
             </list>
         </field>
     </record>

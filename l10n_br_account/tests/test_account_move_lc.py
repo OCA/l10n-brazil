@@ -372,6 +372,50 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             move_vals,
         )
 
+    def test_amount_untaxed_in_currency_signed(self):
+        """Check the "Tax Excluded" column of the invoice list.
+
+        Odoo 18.0 displays amount_untaxed_in_currency_signed in that column,
+        the currency twin of amount_untaxed_signed, so it must show the same
+        fiscal amount as amount_untaxed and amount_untaxed_signed. It must
+        not fall back on the balance of the product lines, which is net of
+        the taxes included in the price (_fiscal_unsigned_amount_currency).
+        """
+        for move, expected in (
+            (self.move_out_venda, 1000.00),
+            (self.move_out_venda_with_icms_reduction, 1000.00),
+            (self.move_out_simples_remessa, 0.00),
+        ):
+            self.assertAlmostEqual(
+                move.amount_untaxed_in_currency_signed,
+                expected,
+                places=2,
+            )
+            # invoices in the company currency: both signed fields agree
+            self.assertAlmostEqual(
+                move.amount_untaxed_in_currency_signed,
+                move.amount_untaxed_signed,
+                places=2,
+            )
+
+        move_in_compra_para_revenda = self.init_invoice(
+            "in_invoice",
+            products=[self.product_a],
+            document_type=self.env.ref("l10n_br_fiscal.document_55"),
+            fiscal_operation=self.env.ref("l10n_br_fiscal.fo_compras"),
+            fiscal_operation_lines=[
+                self.env.ref("l10n_br_fiscal.fo_compras_compras_comercializacao")
+            ],
+            document_serie="1",
+            document_number="42",
+        )
+        # same amount as amount_untaxed_signed, with the sign of the entry
+        self.assertAlmostEqual(
+            move_in_compra_para_revenda.amount_untaxed_in_currency_signed,
+            -1000.00,
+            places=2,
+        )
+
     def test_venda_with_icms_reduction(self):
         product_line_vals_1 = {
             "name": self.product_a.display_name,

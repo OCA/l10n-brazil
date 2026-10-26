@@ -32,6 +32,26 @@ def load_demo_company_chart(env, company_xmlid="l10n_br_base.empresa_lucro_presu
         # _load() is what try_loading() wraps: it does not warn about a not
         # fully loaded registry, which is the case while the tests are running.
         env["account.chart.template"]._load("generic_coa", company, install_demo=False)
+    # Odoo 19 stamps account.tax.country_id and account.tax.group.country_id from
+    # the fiscal country of the company at creation, and the generic chart sets
+    # that fiscal country to the US. The company is Brazilian, so set it before
+    # the fiscal taxes are created: otherwise every move created with those
+    # taxes fails core's _validate_taxes_country, and the latam document types
+    # (whose domain filters on the fiscal country) resolve to nothing.
+    br = env.ref("base.br")
+    if company.account_fiscal_country_id != br and company.country_id == br:
+        company.account_fiscal_country_id = br
+        # The chart itself created taxes and tax groups under the US fiscal
+        # country; bring them along, or a non-fiscal invoice on this company
+        # still trips _validate_taxes_country.
+        groups = env["account.tax.group"].search(
+            [("company_id", "=", company.id), ("country_id", "!=", br.id)]
+        )
+        groups.write({"country_id": br.id})
+        taxes = env["account.tax"].search(
+            [("company_id", "=", company.id), ("country_id", "!=", br.id)]
+        )
+        taxes.write({"country_id": br.id})
     env["account.chart.template"].load_fiscal_taxes([company])
     company.currency_id = env.ref("base.BRL")
 
@@ -388,6 +408,14 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
                 )
                 if latam_doc_type:
                     move_form.l10n_latam_document_type_id = latam_doc_type
+        # vendor bills get a manual latam number, as in the import wizard
+        if (
+            document_number is not None
+            and "l10n_latam.document.type" in cls.env
+            and move_form.l10n_latam_use_documents
+            and move_form.l10n_latam_manual_document_number
+        ):
+            move_form.l10n_latam_document_number = document_number
 
         for index, product in enumerate(products):
             with move_form.invoice_line_ids.new() as line_form:

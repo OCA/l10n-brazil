@@ -58,7 +58,6 @@
                     <field name="product_id" force_save="1" invisible="1" />
                     <page name="fiscal_taxes" string="Taxes">
                         <group>
-                            <field name="tax_framework" invisible="1" />
                             <field
                                 name="tax_icms_or_issqn"
                                 force_save="1"
@@ -86,11 +85,6 @@
                                             force_save="1"
                                             readonly="cbs_tax_id != False"
                                             options="{'no_create': True, 'no_create_edit': True}"
-                                        />
-                                        <field
-                                            name="cbs_cst_code"
-                                            readonly="1"
-                                            invisible="1"
                                         />
                                         <field
                                             name="cbs_base_type"
@@ -132,11 +126,6 @@
                                             force_save="1"
                                             readonly="ibs_tax_id != False"
                                             options="{'no_create': True, 'no_create_edit': True}"
-                                        />
-                                        <field
-                                            name="ibs_cst_code"
-                                            readonly="1"
-                                            invisible="1"
                                         />
                                         <field
                                             name="ibs_base_type"
@@ -296,11 +285,6 @@
                                         force_save="1"
                                         readonly="icms_tax_id"
                                         options="{'no_create': True, 'no_create_edit': True}"
-                                    />
-                                    <field
-                                        name="icms_cst_code"
-                                        readonly="1"
-                                        invisible="1"
                                     />
                                     <field
                                         name="icms_origin"
@@ -619,11 +603,6 @@
                                         options="{'no_create': True, 'no_create_edit': True}"
                                     />
                                     <field
-                                        name="ipi_cst_code"
-                                        readonly="1"
-                                        invisible="1"
-                                    />
-                                    <field
                                         name="ipi_guideline_id"
                                         force_save="1"
                                         readonly="ipi_tax_id"
@@ -704,11 +683,6 @@
                                         options="{'no_create': True, 'no_create_edit': True}"
                                     />
                                     <field
-                                        name="pis_cst_code"
-                                        readonly="1"
-                                        invisible="1"
-                                    />
-                                    <field
                                         name="pis_credit_id"
                                         force_save="1"
                                         invisible="fiscal_operation_type == 'out'"
@@ -764,11 +738,6 @@
                                         force_save="1"
                                         readonly="pisst_tax_id"
                                         options="{'no_create': True, 'no_create_edit': True}"
-                                    />
-                                    <field
-                                        name="pisst_cst_code"
-                                        readonly="1"
-                                        invisible="1"
                                     />
                                 </group>
                                 <group>
@@ -848,11 +817,6 @@
                                         options="{'no_create': True, 'no_create_edit': True}"
                                     />
                                     <field
-                                        name="cofins_cst_code"
-                                        readonly="1"
-                                        invisible="1"
-                                    />
-                                    <field
                                         name="cofins_credit_id"
                                         force_save="1"
                                         invisible="fiscal_operation_type == 'out'"
@@ -908,11 +872,6 @@
                                         force_save="1"
                                         readonly="cofinsst_tax_id"
                                         options="{'no_create': True, 'no_create_edit': True}"
-                                    />
-                                    <field
-                                        name="cofinsst_cst_code"
-                                        readonly="1"
-                                        invisible="1"
                                     />
                                 </group>
                                 <group>

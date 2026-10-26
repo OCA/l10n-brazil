@@ -127,6 +127,12 @@ class Document(models.Model):
         copy=False,
     )
 
+    xml_error_message = fields.Text(
+        readonly=True,
+        string="XML validation errors",
+        copy=False,
+    )
+
     # Authorization Event Related Fields
     authorization_event_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.event",
@@ -248,6 +254,42 @@ class Document(models.Model):
                         "documents!"
                     )
                 )
+
+    @api.constrains("document_key")
+    def _check_key(self):
+        for record in self:
+            if not record.document_key:
+                return
+
+            documents = record.env["l10n_br_fiscal.document"].search_count(
+                [
+                    ("id", "!=", record.id),
+                    ("company_id", "=", record.company_id.id),
+                    ("issuer", "=", record.issuer),
+                    ("document_key", "=", record.document_key),
+                    (
+                        "document_type",
+                        "in",
+                        (
+                            MODELO_FISCAL_CTE,
+                            MODELO_FISCAL_NFCE,
+                            MODELO_FISCAL_NFE,
+                            MODELO_FISCAL_NFSE,
+                        ),
+                    ),
+                    ("state", "!=", "cancelada"),
+                ]
+            )
+
+            if documents:
+                raise ValidationError(
+                    self.env._(
+                        "There is already a fiscal document with this key: %(doc_key)s",
+                        doc_key=record.document_key,
+                    )
+                )
+            else:
+                ChaveEdoc(chave=record.document_key, validar=True)
 
     # -------------------------------------------------------------------------
     # State Machine Logic
@@ -564,15 +606,7 @@ class Document(models.Model):
         if self.issuer == DOCUMENT_ISSUER_COMPANY:
             if self.document_serie_id:
                 self.document_serie = self.document_serie_id.code
-
-                if self.document_type == MODELO_FISCAL_NFSE and not self.rps_number:
-                    self.rps_number = self.document_serie_id.next_seq_number()
-
-                if (
-                    self.document_type != MODELO_FISCAL_NFSE
-                    and not self.document_number
-                ):
-                    self.document_number = self.document_serie_id.next_seq_number()
+                self._document_number_from_serie()
 
             if not self.operation_name:
                 self.operation_name = ", ".join(
@@ -584,6 +618,23 @@ class Document(models.Model):
 
             if self.document_electronic and not self.document_key:
                 self._generate_key()
+
+    def _document_number_from_serie(self):
+        """Assign the number taken from the document serie.
+
+        Overridden by the NFS-e modules: a municipal NFS-e is numbered from
+        its RPS, so it assigns ``rps_number`` instead of ``document_number``.
+        """
+        if self.document_serie_id and not self.document_number:
+            self.document_number = self.document_serie_id.next_seq_number()
+
+    def _prepare_event_document_number(self):
+        """Number identifying the document in its events.
+
+        Overridden by the NFS-e modules to report the RPS number the
+        document was issued from.
+        """
+        return self.document_number
 
     def _document_send_logic(self):
         """

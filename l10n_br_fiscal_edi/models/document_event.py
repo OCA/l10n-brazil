@@ -361,12 +361,7 @@ class Event(models.Model):
             vals["document_type_id"] = document_id.document_type_id.id
             vals["document_serie_id"] = document_id.document_serie_id.id
 
-            if document_id.rps_number:
-                vals["document_number"] = document_id.rps_number
-                if document_id.document_number:
-                    vals["document_number"] += "-" + document_id.document_number
-            else:
-                vals["document_number"] = document_id.document_number
+            vals["document_number"] = document_id._prepare_event_document_number()
 
         if invalidate_number_id:
             #

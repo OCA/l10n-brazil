@@ -1,6 +1,8 @@
 # Copyright 2020 Akretion - Renato Lima <renato.lima@akretion.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from unittest.mock import patch
+
 from odoo.tests import TransactionCase
 from odoo.tools import float_compare
 
@@ -101,7 +103,6 @@ class TestFiscalTax(TransactionCase):
             "cest": False,
             "operation_line": self.env.ref("l10n_br_fiscal.fo_venda_venda"),
             "cfop": self.env.ref("l10n_br_fiscal.cfop_6101"),
-            "icmssn_range": False,
             "icms_origin": ICMS_ORIGIN_DEFAULT,
             "ind_final": FINAL_CUSTOMER_YES,
         }
@@ -276,8 +277,8 @@ class TestFiscalTax(TransactionCase):
         compute_result = fiscal_taxes.compute_taxes(**kwargs)
 
         test_result = {
-            "amount_included": 142.74,
-            "amount_not_included": 52.18,
+            "amount_included": 128.90,
+            "amount_not_included": 40.95,
             "amount_withholding": 0.0,
             "estimate_tax": 0.0,
             "taxes": {
@@ -290,38 +291,38 @@ class TestFiscalTax(TransactionCase):
                     "tax_value": 24.82,
                 },
                 "ipi": {
-                    "base": 347.85,
+                    "base": 272.98,
                     "base_reduction": 0.0,
                     "percent_amount": 15.0,
                     "percent_reduction": 0.0,
                     "value_amount": 0.0,
-                    "tax_value": 52.18,
+                    "tax_value": 40.95,
                 },
                 "icms": {
-                    "base": 450.8,
+                    "base": 425.73,
                     "base_reduction": 0.0,
                     "percent_amount": 17.00,
                     "percent_reduction": 0.0,
                     "value_amount": 0.0,
-                    "tax_value": 76.64,
-                    "add_to_base": 200.87,
-                    "remove_from_base": 74.87,
+                    "tax_value": 72.37,
+                    "add_to_base": 105.20,
+                    "remove_from_base": 0.0,
                 },
                 "pis": {
-                    "base": 323.03,
+                    "base": 248.16,
                     "base_reduction": 0.0,
                     "percent_amount": 2.10,
                     "percent_reduction": 0.0,
                     "value_amount": 0.0,
-                    "tax_value": 6.78,
+                    "tax_value": 5.21,
                 },
                 "cofins": {
-                    "base": 323.03,
+                    "base": 248.16,
                     "base_reduction": 0.0,
                     "percent_amount": 10.68,
                     "percent_reduction": 0.0,
                     "value_amount": 0.0,
-                    "tax_value": 34.5,
+                    "tax_value": 26.50,
                 },
             },
         }
@@ -387,3 +388,158 @@ class TestFiscalTax(TransactionCase):
         self.assertIn("7", ICMS_ORIGIN_TAX_IMPORTED)
         self.assertNotIn("4", ICMS_ORIGIN_TAX_IMPORTED)
         self.assertNotIn("5", ICMS_ORIGIN_TAX_IMPORTED)
+
+    def test_compute_taxes_without_cfop(self):
+        """A line with no CFOP must not fall back to the generic computation.
+
+        That is the service line taxed by ISSQN: l10n_br_account calls the
+        engine with ``cfop=None``. IBS and CBS still have to remove ICMS, PIS
+        and COFINS from their own base, an adjustment the specific method
+        makes and the generic one does not.
+        """
+        kwargs = self._create_compute_taxes_kwargs()
+        kwargs["cfop"] = None
+        kwargs["operation_line"] = False
+        currency = kwargs["company"].currency_id
+
+        fiscal_taxes = self.env["l10n_br_fiscal.tax"]
+        fiscal_taxes |= (
+            self.env.ref("l10n_br_fiscal.tax_icms_7")
+            + self.env.ref("l10n_br_fiscal.tax_pis_0_65")
+            + self.env.ref("l10n_br_fiscal.tax_cofins_3")
+            + self.env.ref("l10n_br_fiscal.tax_ibs_0_1")
+            + self.env.ref("l10n_br_fiscal.tax_cbs_0_9")
+        )
+
+        taxes = fiscal_taxes.compute_taxes(**kwargs)["taxes"]
+
+        gross_base = currency.round(kwargs["fiscal_price"] * kwargs["fiscal_quantity"])
+        removed = (
+            taxes["icms"]["tax_value"]
+            + taxes["pis"]["tax_value"]
+            + taxes["cofins"]["tax_value"]
+        )
+        for tax_domain in ("ibs", "cbs"):
+            self.assertEqual(
+                float_compare(
+                    taxes[tax_domain]["base"],
+                    gross_base - removed,
+                    precision_rounding=currency.rounding,
+                ),
+                0,
+                f"{tax_domain}: the base should exclude ICMS, PIS and COFINS, "
+                f"got {taxes[tax_domain]['base']}",
+            )
+
+    def test_compute_taxes_icmsfcp_without_cst(self):
+        """l10n_br_account calls the engine without icms_cst_id."""
+        kwargs = self._create_compute_taxes_kwargs()
+        fiscal_taxes = self.env.ref("l10n_br_fiscal.tax_icms_7") + self.env.ref(
+            "l10n_br_fiscal.tax_icmsfcp_2"
+        )
+        self.assertIn("icmsfcp", fiscal_taxes.compute_taxes(**kwargs)["taxes"])
+
+    def test_compute_taxes_error_is_not_swallowed(self):
+        """An error inside a _compute_<domain> must not become a generic one.
+
+        The dispatch resolves the specific method with a default instead of
+        catching AttributeError around the call. Without that, any failure
+        inside the specific method is silently traded for the generic
+        computation, the tax comes out wrong and nothing is reported.
+        """
+        kwargs = self._create_compute_taxes_kwargs()
+        fiscal_taxes = self.env.ref("l10n_br_fiscal.tax_icms_7")
+
+        def _raise_attribute_error(*args, **kwargs):
+            raise AttributeError("the specific computation failed")
+
+        with patch.object(type(fiscal_taxes), "_compute_icms", _raise_attribute_error):
+            with self.assertRaises(AttributeError):
+                fiscal_taxes.compute_taxes(**kwargs)
+
+    def test_compute_taxes_withholding_waiver(self):
+        """IRRF of R$ 10,00 or less is not withheld (dispensa legal).
+
+        Art. 67 of Lei 9.430/1996, art. 714 of RIR/2018 and Solução de
+        Consulta COSIT 258/2024: the IRRF on professional services of
+        R$ 10,00 or less is not withheld. The waiver lives on the tax
+        (``withholding_min_value``) so it does not touch the other
+        withholdings, which follow their own legal limits.
+        """
+        kwargs = self._create_compute_taxes_kwargs()
+        currency = kwargs["company"].currency_id
+        irpj_wh = self.env.ref("l10n_br_fiscal.tax_irpj_wh_1")
+
+        def _assert_irpj_wh(price, expected_value):
+            kwargs.update(
+                {
+                    "price_unit": price,
+                    "fiscal_price": price,
+                    "quantity": 1.0,
+                    "fiscal_quantity": 1.0,
+                }
+            )
+            compute_result = irpj_wh.compute_taxes(**kwargs)
+            irpj = compute_result["taxes"]["irpj_wh"]
+            self.assertEqual(
+                float_compare(
+                    irpj["base"], price, precision_rounding=currency.rounding
+                ),
+                0,
+            )
+            # the base and the rate are kept: the calculation is documented
+            self.assertEqual(
+                float_compare(irpj["percent_amount"], 1.5, precision_rounding=0.01),
+                0,
+            )
+            self.assertEqual(
+                float_compare(
+                    irpj["tax_value"],
+                    expected_value,
+                    precision_rounding=currency.rounding,
+                ),
+                0,
+                f"IRRF on {price}: expected {expected_value}, got {irpj['tax_value']}",
+            )
+            self.assertEqual(
+                float_compare(
+                    compute_result["amount_withholding"],
+                    expected_value,
+                    precision_rounding=currency.rounding,
+                ),
+                0,
+            )
+
+        # 406,27 x 1,5% = 6,09, the case reported on issue #5392
+        _assert_irpj_wh(406.27, 0.00)
+        # 666,67 x 1,5% = 10,00: the limit itself is dispensed
+        _assert_irpj_wh(666.67, 0.00)
+        # 700,00 x 1,5% = 10,50: above the limit, withheld
+        _assert_irpj_wh(700.00, 10.50)
+        _assert_irpj_wh(5000.00, 75.00)
+
+        # withdrawing the waiver (0,00) restores the plain computation
+        irpj_wh.withholding_min_value = 0.00
+        _assert_irpj_wh(406.27, 6.09)
+        irpj_wh.withholding_min_value = 10.00
+
+        # a withholding tax with no waiver configured keeps its value
+        kwargs.update(
+            {
+                "price_unit": 100.00,
+                "fiscal_price": 100.00,
+                "quantity": 1.0,
+                "fiscal_quantity": 1.0,
+            }
+        )
+        issqn_wh = self.env.ref("l10n_br_fiscal.tax_issqn_wh_3")
+        self.assertFalse(issqn_wh.withholding_min_value)
+        issqn_result = issqn_wh.compute_taxes(**kwargs)
+        self.assertEqual(
+            float_compare(
+                issqn_result["taxes"]["issqn_wh"]["tax_value"],
+                3.00,
+                precision_rounding=currency.rounding,
+            ),
+            0,
+        )

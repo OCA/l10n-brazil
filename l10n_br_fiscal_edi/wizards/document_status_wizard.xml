@@ -9,22 +9,15 @@
         <field name="model">l10n_br_fiscal.document.status.wizard</field>
         <field name="arch" type="xml">
             <form string="Document Status">
-                <field invisible="1" name="state" />
                 <group name="document_info">
                     <group name="document_info_right">
                         <field name="partner_id" readonly="1" />
                         <field name="document_id" readonly="1" />
                     </group>
                     <group name="document_info_left">
-                        <field name="document_type" invisible="1" />
                         <field name="document_type_id" readonly="1" />
                         <field name="document_serie" readonly="1" />
                         <field name="document_number" readonly="1" />
-                        <field
-                            name="rps_number"
-                            readonly="1"
-                            invisible="document_type != 'SE'"
-                        />
                     </group>
                 </group>
                 <group name="document_key_group">

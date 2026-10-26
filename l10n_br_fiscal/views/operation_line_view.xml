@@ -21,8 +21,6 @@
         <field name="model">l10n_br_fiscal.operation.line</field>
         <field name="arch" type="xml">
             <form string="Fiscal Operation Line">
-                <field name="fiscal_type" invisible="1" />
-                <field name="fiscal_operation_type" invisible="1" />
                 <header>
                     <button
                         name="action_review"
@@ -55,6 +53,7 @@
                         <page name="general" string="General">
                             <group name="gereral_settings">
                                 <field name="document_type_id" />
+                                <field name="require_product_on_tax_definition" />
                                 <field name="add_to_amount" />
                             </group>
                             <group name="general_tax_classification">

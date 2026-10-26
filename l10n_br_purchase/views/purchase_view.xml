@@ -12,7 +12,6 @@
         <field name="priority">100</field>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_ref']" position="after">
-                <field name="active_company_country_id" invisible="True" />
                 <field
                     name="fiscal_operation_id"
                     invisible="active_company_country_id != %(base.br)d"
@@ -31,19 +30,6 @@
                 <!-- this is a dynamic fiscal fields placeholder-->
                 <control name="fiscal_taxes_fields" string="Taxes" invisible="1" />
                 <!-- this is a dynamic fiscal fields placeholder-->
-                <!-- the fields below would be injected by the placeholders
-                    above, but we need to repeat them here to please the
-                    Form test framework or because they are used in some
-                    domain here that is checked before the dynamic fiscal
-                    placeholders kick in.
-                -->
-                <field name="fiscal_operation_type" column_invisible="1" />
-                <field name="cfop_id" column_invisible="1" />
-                <field name="tax_framework" column_invisible="1" />
-                <field name="fiscal_operation_id" column_invisible="1" />
-                <field name="freight_value" column_invisible="1" />
-                <field name="insurance_value" column_invisible="1" />
-                <field name="other_value" column_invisible="1" />
             </xpath>
             <xpath
                 expr="//field[@name='order_line']/list/field[@name='tax_ids']"
@@ -82,9 +68,6 @@
             <xpath expr="//field[@name='order_line']/form" position="inside">
                 <group name="fiscal_fields" invisible="1">
                     <!-- this is a dynamic fiscal fields placeholder-->
-                    <field name="fiscal_operation_type" invisible="1" readonly="1" />
-                    <field name="tax_icms_or_issqn" invisible="1" />
-                    <field name="product_uom_id" invisible="1" />
                 </group>
             </xpath>
             <xpath
@@ -169,7 +152,6 @@
                         invisible="not parent.fiscal_operation_id"
                     >
                         <group>
-                            <field name="delivery_costs" invisible="1" />
                             <field
                                 name="freight_value"
                                 readonly="delivery_costs == 'total'"
@@ -234,7 +216,6 @@
                 />
             </xpath>
             <xpath expr="//field[@name='tax_totals']" position="after">
-                <field name="delivery_costs" invisible="1" />
                 <field
                     name="amount_freight_value"
                     widget='monetary'

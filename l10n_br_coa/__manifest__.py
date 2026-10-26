@@ -6,7 +6,7 @@
     "name": "Base dos Planos de Contas",
     "summary": """
         Base do Planos de Contas brasileiros""",
-    "version": "19.0.1.2.0",
+    "version": "19.0.1.3.0",
     "license": "AGPL-3",
     "author": "Akretion, KMEE, Odoo Community Association (OCA)",
     "maintainers": ["renatonlima", "mileo"],
@@ -17,6 +17,11 @@
         # security
         # Data
         # "data/l10n_br_coa_template.xml",
+        # As etiquetas vêm ANTES do plano de propósito: ao carregar o
+        # `account.chart.template`, o core cria a conta de transferência de
+        # liquidez, e ela já nasce classificada (ver
+        # `_get_accounts_data_values`). Na ordem inversa a etiqueta
+        # ainda não existiria e a conta nasceria órfã.
         "data/account.account.tag.csv",
         # "data/template/account.tax.group.csv",
         # "data/template/account.tax.csv",

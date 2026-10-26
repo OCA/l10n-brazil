@@ -4,10 +4,8 @@
 
 from ast import literal_eval
 
-from erpbrasil.base.fiscal.edoc import ChaveEdoc
-
 from odoo import api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
 
 from ..constants.fiscal import (
     COMMENT_TYPE_COMMERCIAL,
@@ -24,10 +22,6 @@ from ..constants.fiscal import (
     EDOC_REFUND_CREDIT_TYPE,
     EDOC_REFUND_DEBIT_TYPE,
     FISCAL_IN_OUT_DICT,
-    MODELO_FISCAL_CTE,
-    MODELO_FISCAL_NFCE,
-    MODELO_FISCAL_NFE,
-    MODELO_FISCAL_NFSE,
     PUBLIC_ENTIRY_TYPE,
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_DENEGADA,
@@ -105,12 +99,6 @@ class Document(models.Model):
 
     fiscal_operation_type = fields.Selection(
         store=True,
-    )
-
-    rps_number = fields.Char(
-        string="RPS Number",
-        copy=False,
-        index=True,
     )
 
     document_date = fields.Datetime(
@@ -205,12 +193,6 @@ class Document(models.Model):
 
     imported_document = fields.Boolean(string="Imported", copy=False)
 
-    xml_error_message = fields.Text(
-        readonly=True,
-        string="XML validation errors",
-        copy=False,
-    )
-
     currency_id = fields.Many2one(
         related="company_id.currency_id",
         comodel_name="res.currency",
@@ -222,28 +204,6 @@ class Document(models.Model):
     # of objects where the fiscal mixin might be injected.
     state = fields.Selection(related="state_edoc", string="State")
 
-    transport_modal = fields.Selection(
-        selection=[
-            ("01", "Rodoviário"),
-            ("02", "Aéreo"),
-            ("03", "Aquaviário"),
-            ("04", "Ferroviário"),
-            ("05", "Dutoviário"),
-            ("06", "Multimodal"),
-        ],
-        string="Modal de Transporte",
-    )
-
-    service_provider = fields.Selection(
-        selection=[
-            ("0", "Remetente"),
-            ("1", "Expedidor"),
-            ("2", "Recebedor"),
-            ("3", "Destinatário"),
-            ("4", "Outros"),
-        ],
-        string="Tomador do Serviço",
-    )
     partner_legal_name = fields.Char(
         string="Legal Name",
         related="partner_id.legal_name",
@@ -267,42 +227,6 @@ class Document(models.Model):
     fiscal_additional_data = fields.Text()
 
     customer_additional_data = fields.Text()
-
-    @api.constrains("document_key")
-    def _check_key(self):
-        for record in self:
-            if not record.document_key:
-                return
-
-            documents = record.env["l10n_br_fiscal.document"].search_count(
-                [
-                    ("id", "!=", record.id),
-                    ("company_id", "=", record.company_id.id),
-                    ("issuer", "=", record.issuer),
-                    ("document_key", "=", record.document_key),
-                    (
-                        "document_type",
-                        "in",
-                        (
-                            MODELO_FISCAL_CTE,
-                            MODELO_FISCAL_NFCE,
-                            MODELO_FISCAL_NFE,
-                            MODELO_FISCAL_NFSE,
-                        ),
-                    ),
-                    ("state", "!=", "cancelada"),
-                ]
-            )
-
-            if documents:
-                raise ValidationError(
-                    self.env._(
-                        "There is already a fiscal document with this key: %(doc_key)s",
-                        doc_key=record.document_key,
-                    )
-                )
-            else:
-                ChaveEdoc(chave=record.document_key, validar=True)
 
     @api.constrains("document_number")
     def _check_number(self):
@@ -362,8 +286,9 @@ class Document(models.Model):
             type_serie_number += self.document_type
         if self.document_serie:
             type_serie_number += "/" + self.document_serie.zfill(3)
-        if self.document_number or self.rps_number:
-            type_serie_number += "/" + (self.document_number or self.rps_number)
+        document_number = self.document_number or self._get_provisional_number()
+        if document_number:
+            type_serie_number += "/" + document_number
 
         if self.env.context.get("fiscal_document_complete_name"):
             name += DOCUMENT_ISSUER_DICT.get(self.issuer, "")
@@ -389,6 +314,14 @@ class Document(models.Model):
             )
         return name
 
+    def _get_provisional_number(self):
+        """Number identifying the document before it is authorized.
+
+        A document issued from a provisional document (the NFS-e RPS)
+        overrides this so that a draft still has a readable name.
+        """
+        return False
+
     def _compute_display_name(self):
         for record in self:
             record.display_name = record._compute_document_name()
@@ -409,6 +342,31 @@ class Document(models.Model):
     @api.model
     def _get_fiscal_lines_field_name(self):
         return "fiscal_line_ids"
+
+    def _import_document_serie(self):
+        """Serie of an imported document issued by the company, by its code."""
+        self.ensure_one()
+        if self.document_serie_id:
+            return self.document_serie_id
+        serie = self.env["l10n_br_fiscal.document.serie"].search(
+            [
+                ("company_id", "=", self.company_id.id),
+                ("document_type_id", "=", self.document_type_id.id),
+                ("code", "=", self.document_serie),
+            ],
+            limit=1,
+        )
+        if not serie:
+            raise UserError(
+                self.env._(
+                    "Configure the serie %(serie)s of %(document_type)s for "
+                    "%(company)s before importing the documents it issued.",
+                    serie=self.document_serie,
+                    document_type=self.document_type_id.name,
+                    company=self.company_id.name,
+                )
+            )
+        return serie
 
     def unlink(self):
         forbidden_states_unlink = [

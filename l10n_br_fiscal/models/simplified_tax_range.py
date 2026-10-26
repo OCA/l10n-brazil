@@ -2,6 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import fields, models
+from odoo.tools import float_round
 
 
 class SimplifiedTaxRange(models.Model):
@@ -74,3 +75,34 @@ class SimplifiedTaxRange(models.Model):
     tax_cbs_percent = fields.Float(
         string="Tax CBS Percent", digits="Fiscal Tax Percent"
     )
+
+    def _get_effective_tax(self, revenue):
+        """Effective tax rate (%) of the Simples Nacional for a company whose
+        gross revenue of the last 12 months (RBT12) falls into this range::
+
+            (RBT12 x nominal rate - amount to be deducted) / RBT12
+
+        as defined by the LC 123/2006, art. 18, § 1º-A. Without revenue, which
+        is the case of the first month of activity, it is the nominal rate.
+        """
+        if not self:
+            return 0.0
+        self.ensure_one()
+        if not revenue:
+            return self.total_tax_percent
+        tax_amount = revenue * self.total_tax_percent / 100 - self.amount_deduced
+        return tax_amount / revenue * 100
+
+    def _get_effective_tax_percent(self, revenue, tax_domain):
+        """Effective rate (%) of one of the taxes unified by the Simples
+        Nacional: the effective tax rate times the share of that tax in the
+        range (LC 123/2006, art. 18, § 1º-B).
+
+        :param tax_domain: the tax, as in the tax_<tax_domain>_percent fields.
+        """
+        if not self:
+            return 0.0
+        share = self[f"tax_{tax_domain}_percent"]
+        return float_round(
+            self._get_effective_tax(revenue) * share / 100, precision_digits=2
+        )

@@ -40,7 +40,6 @@ from ..constants.fiscal import (
     TAX_DOMAIN_PIS,
     TAX_DOMAIN_PIS_ST,
     TAX_DOMAIN_PIS_WH,
-    TAX_FRAMEWORK_SIMPLES_ALL,
     TAX_ICMS_OR_ISSQN,
 )
 from ..constants.icms import (
@@ -81,21 +80,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     _name = "l10n_br_fiscal.document.line.mixin"
     _description = "Document Fiscal Mixin"
-
-    @api.model
-    def _default_icmssn_range_id(self):
-        company = self.env.company
-        stax_range_id = self.env["l10n_br_fiscal.simplified.tax.range"]
-
-        if self.env.context.get("default_company_id"):
-            company = self.env["res.company"].browse(
-                self.env.context.get("default_company_id")
-            )
-
-        if company.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
-            stax_range_id = company.simplified_tax_range_id
-
-        return stax_range_id
 
     @api.model
     def _operation_domain(self):
@@ -435,11 +419,11 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         "cest_id",
         "fiscal_operation_line_id",
         "cfop_id",
-        "icmssn_range_id",
         "icms_origin",
         "icms_cst_id",
         "ind_final",
         "icms_relief_id",
+        "tax_classification_id",
     )
     def _compute_tax_fields(self):
         """
@@ -489,7 +473,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                     cest=line.cest_id,
                     operation_line=line.fiscal_operation_line_id,
                     cfop=line.cfop_id,
-                    icmssn_range=line.icmssn_range_id,
                     icms_origin=line.icms_origin,
                     icms_cst_id=line.icms_cst_id,
                     ind_final=line.ind_final,
@@ -742,16 +725,13 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         cst_id = tax_dict.get("cst_id").id if tax_dict.get("cst_id") else False
         icmssn_base = tax_dict.get("base", 0.0)
         icmssn_credit_value = tax_dict.get("tax_value", 0.0)
-        simple_value = icmssn_base * self.icmssn_range_id.total_tax_percent
-        simple_without_icms_value = simple_value - icmssn_credit_value
         return {
             "icms_cst_id": cst_id,
             "icmssn_base": icmssn_base,
             "icmssn_percent": tax_dict.get("percent_amount"),
             "icmssn_reduction": tax_dict.get("percent_reduction"),
             "icmssn_credit_value": icmssn_credit_value,
-            "simple_value": simple_value,
-            "simple_without_icms_value": simple_without_icms_value,
+            "icmssn_range_id": tax_dict.get("icmssn_range_id", False),
         }
 
     def _prepare_fields_icmsst(self, tax_dict):
@@ -803,9 +783,20 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             "ii_value": tax_dict.get("tax_value", 0.00),
         }
 
+    def _get_ibscbs_cst_id(self, tax_dict, tax_domain):
+        """CST of IBS/CBS: derived from the cClassTrib, the tax CST is only
+        the fallback (a classification can point to a tax of another CST)."""
+        self.ensure_one()
+        cst = False
+        if self.tax_classification_id:
+            cst = self.tax_classification_id._get_cst(tax_domain)
+        if not cst:
+            cst = tax_dict.get("cst_id")
+        return cst.id if cst else False
+
     def _prepare_fields_cbs(self, tax_dict):
         self.ensure_one()
-        cst_id = tax_dict.get("cst_id").id if tax_dict.get("cst_id") else False
+        cst_id = self._get_ibscbs_cst_id(tax_dict, TAX_DOMAIN_CBS)
         return {
             "cbs_cst_id": cst_id,
             "cbs_base_type": tax_dict.get("base_type", False),
@@ -817,7 +808,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     def _prepare_fields_ibs(self, tax_dict):
         self.ensure_one()
-        cst_id = tax_dict.get("cst_id").id if tax_dict.get("cst_id") else False
+        cst_id = self._get_ibscbs_cst_id(tax_dict, TAX_DOMAIN_IBS)
         return {
             "ibs_cst_id": cst_id,
             "ibs_base_type": tax_dict.get("base_type", False),
@@ -1746,7 +1737,12 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     icmssn_range_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.simplified.tax.range",
         string="Simplified Range Tax",
-        default=_default_icmssn_range_id,
+        help="Range of the Simples Nacional annex that taxes the operation, "
+        "the one the company was in when the taxes of the line were computed.",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     icmssn_tax_id = fields.Many2one(
@@ -1914,7 +1910,9 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     cbs_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST CBS",
-        domain="[('cst_type', '=', fiscal_operation_type),('tax_domain', '=', 'cbs')]",
+        domain="['|', ('cst_type', '=', fiscal_operation_type),"
+        "('cst_type', '=', 'all'),"
+        "('tax_domain', '=', 'cbs')]",
         compute="_compute_tax_fields",
         store=True,
         precompute=True,
@@ -1984,7 +1982,9 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     ibs_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST IBS",
-        domain="[('cst_type', '=', fiscal_operation_type),('tax_domain', '=', 'ibs')]",
+        domain="['|', ('cst_type', '=', fiscal_operation_type),"
+        "('cst_type', '=', 'all'),"
+        "('tax_domain', '=', 'ibs')]",
         compute="_compute_tax_fields",
         store=True,
         precompute=True,
@@ -2738,22 +2738,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     inss_wh_value = fields.Monetary(
         string="INSS RET Value",
-        compute="_compute_tax_fields",
-        store=True,
-        precompute=True,
-        readonly=False,
-    )
-
-    simple_value = fields.Monetary(
-        string="National Simple Taxes",
-        compute="_compute_tax_fields",
-        store=True,
-        precompute=True,
-        readonly=False,
-    )
-
-    simple_without_icms_value = fields.Monetary(
-        string="National Simple Taxes without ICMS",
         compute="_compute_tax_fields",
         store=True,
         precompute=True,

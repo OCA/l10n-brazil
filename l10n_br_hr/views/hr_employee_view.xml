@@ -115,6 +115,15 @@
             <xpath expr="//field[@name='country_id']" position="replace">
                 <field name="country_id" invisible="1" />
             </xpath>
+            <!-- Odoo 19 moved employee_type from the Settings page to the
+                 Payroll page (Contract group): follow the field, the Brazilian
+                 relationship type belongs beside it. -->
+            <xpath
+                expr="//page[@name='payroll_information']//field[@name='employee_type']"
+                position="after"
+            >
+                <field name="employee_relationship_type" />
+            </xpath>
         </field>
     </record>
 

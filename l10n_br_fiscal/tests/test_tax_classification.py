@@ -167,3 +167,131 @@ class TestTaxClassification(TransactionCase):
         )
 
         self.assertNotIn("tax_classification_id", vals)
+
+    def _load_classification(self, code, values):
+        """Load a classification as a module update does."""
+        self.env["l10n_br_fiscal.tax.classification"].with_context(
+            install_module="l10n_br_fiscal"
+        )._load_records(
+            [{"xml_id": f"l10n_br_fiscal.tax_classification_{code}", "values": values}],
+            update=True,
+        )
+
+    def test_module_update_keeps_user_taxes(self):
+        """A data file reload fills empty taxes and keeps the user's ones."""
+        classification = self.env.ref("l10n_br_fiscal.tax_classification_200028")
+        user_tax = self.env.ref("l10n_br_fiscal.tax_ibs_0_1_red_40")
+        classification.write({"tax_ibs_id": user_tax.id, "tax_cbs_id": False})
+        file_cbs = self.env.ref("l10n_br_fiscal.tax_cbs_0_9_red_60")
+
+        self._load_classification(
+            "200028",
+            {
+                "name": "Updated name",
+                "tax_ibs_id": self.env.ref("l10n_br_fiscal.tax_ibs_0_1_red_60").id,
+                "tax_cbs_id": file_cbs.id,
+            },
+        )
+
+        self.assertEqual(classification.name, "Updated name")
+        # the tax chosen by the user stays, the empty one is filled
+        self.assertEqual(classification.tax_ibs_id, user_tax)
+        self.assertEqual(classification.tax_cbs_id, file_cbs)
+
+    def _ensure_account_tax_group(self, fiscal_group):
+        """Give the current company an account tax group for ``fiscal_group``.
+
+        Odoo 19 scopes account.tax.group per company and country, and the
+        Brazilian ones are only created for companies carrying a chart. The
+        test copies a fiscal tax, which creates its account.tax in the current
+        company: without a mapped group the create fails on the NOT NULL
+        tax_group_id the core computes.
+        """
+        account_group = self.env["account.tax.group"].search(
+            [("fiscal_tax_group_id", "=", fiscal_group.id)], limit=1
+        )
+        if account_group:
+            return account_group
+        # Odoo 19 validates the group country against the tax country, which
+        # follows the fiscal country of the company.
+        return self.env["account.tax.group"].create(
+            {
+                "name": fiscal_group.name,
+                "company_id": self.env.company.id,
+                "country_id": self.env.company.account_fiscal_country_id.id,
+                "fiscal_tax_group_id": fiscal_group.id,
+            }
+        )
+
+    def test_module_update_fixes_tax_of_another_cst(self):
+        """Only a tax carrying the cClassTrib CST replaces one that does not."""
+        classification = self.env.ref("l10n_br_fiscal.tax_classification_011002")
+        cst_011 = self.env.ref("l10n_br_fiscal.cst_ibs_011")
+        wrong_cst_tax = classification.tax_ibs_id  # CST 200 in the data file
+        self.assertEqual(wrong_cst_tax.cst_out_id.code, "200")
+        self._ensure_account_tax_group(wrong_cst_tax.tax_group_id)
+        right_cst_tax = wrong_cst_tax.copy(
+            {"name": "IBS CST 011", "cst_in_id": cst_011.id, "cst_out_id": cst_011.id}
+        )
+
+        self._load_classification("011002", {"tax_ibs_id": right_cst_tax.id})
+        self.assertEqual(classification.tax_ibs_id, right_cst_tax)
+
+        # and from then on the file no longer touches it
+        self._load_classification("011002", {"tax_ibs_id": wrong_cst_tax.id})
+        self.assertEqual(classification.tax_ibs_id, right_cst_tax)
+
+    def test_classification_taxes_match_cst(self):
+        """Every IBS/CBS tax of a classification carries the cClassTrib CST."""
+        imd = self.env["ir.model.data"].search(
+            [
+                ("module", "=", "l10n_br_fiscal"),
+                ("model", "=", "l10n_br_fiscal.tax.classification"),
+            ]
+        )
+        classifications = self.env["l10n_br_fiscal.tax.classification"].browse(
+            imd.mapped("res_id")
+        )
+        for classification in classifications:
+            if classification.code.startswith("011"):
+                # The 011xxx classifications still point to CST 200 and 000
+                # taxes, fixed in OCA/l10n-brazil#5133. The line CST comes
+                # from the classification anyway.
+                continue
+            for tax in classification.tax_ibs_id | classification.tax_cbs_id:
+                self.assertEqual(
+                    tax.cst_out_id.code,
+                    classification.code[:3],
+                    f"{classification.code}: {tax.name} has CST {tax.cst_out_id.code}",
+                )
+
+    def test_document_line_cst_from_tax_classification(self):
+        """The line IBS/CBS CST comes from the cClassTrib, not from the tax."""
+        # the data file points this CST 011 classification to CST 200 taxes
+        classification = self.env.ref("l10n_br_fiscal.tax_classification_011002")
+        self.assertEqual(classification.tax_ibs_id.cst_out_id.code, "200")
+        self.company.tax_classification_id = self.classification_company
+        self.operation_line.tax_classification_id = False
+
+        doc_form = Form(
+            self.env["l10n_br_fiscal.document"].with_context(
+                default_fiscal_operation_type="out",
+                default_company_id=self.company.id,
+            )
+        )
+        doc_form.partner_id = self.partner
+        doc_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+        doc_form.ind_final = "1"
+
+        with doc_form.fiscal_line_ids.new() as line_form:
+            line_form.product_id = self.product
+            line_form.fiscal_operation_line_id = self.operation_line
+            line_form.tax_classification_id = classification
+
+            # the line CST follows the classification, whatever the tax CST
+            self.assertEqual(
+                line_form.ibs_cst_id, self.env.ref("l10n_br_fiscal.cst_ibs_011")
+            )
+            self.assertEqual(
+                line_form.cbs_cst_id, self.env.ref("l10n_br_fiscal.cst_cbs_011")
+            )
