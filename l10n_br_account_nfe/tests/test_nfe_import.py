@@ -284,16 +284,21 @@ class NFeImportTest(TransactionCase):
 
     def test_import_in_nfe_completes_existing_bill(self):
         """A draft vendor bill with the XML number receives that NF-e."""
-        probe = self.env["l10n_br_fiscal.document.import.wizard"].create({})
         sample = base64.b64encode(self._nfe_sample_bytes())
-        with Form(probe) as import_form:
-            import_form.file = sample
-            import_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras")
+        # Form only keeps fields that are on the view. The legal name is not,
+        # so read it from the onchange before creating the missing supplier.
+        probe = self.env["l10n_br_fiscal.document.import.wizard"].create(
+            {"file": sample}
+        )
+        probe._onchange_file()
         partner = probe.issuer_partner_id
         if not partner:
             partner = self.env["res.partner"].create(
                 {
-                    "name": probe.issuer_legal_name or probe.issuer_name,
+                    "name": probe.issuer_legal_name
+                    or probe.issuer_name
+                    or "NF-e supplier",
+                    "legal_name": probe.issuer_legal_name,
                     "vat": probe.issuer_cnpj,
                     "is_company": True,
                     "country_id": self.env.ref("base.br").id,
