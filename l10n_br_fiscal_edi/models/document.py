@@ -511,6 +511,7 @@ class Document(models.Model):
                     errors=self.xml_error_message,
                 )
             )
+        self._refresh_future_document_date()
 
     def _after_document_send(self):
         # Trigger actual sending logic
@@ -557,6 +558,36 @@ class Document(models.Model):
             self.document_date = fields.Datetime.now()
         if not self.date_in_out:
             self.date_in_out = fields.Datetime.now()
+
+    def _refresh_future_document_date(self):
+        """Avoid the SEFAZ rejection 703 (emission date later than the
+        reception date) when the document is sent with a future emission date.
+
+        The date is replaced by the current one. As the document key carries
+        the emission year and month, it is rebuilt when the month changes.
+        """
+        self.ensure_one()
+        if (
+            self.issuer != DOCUMENT_ISSUER_COMPANY
+            or not self.document_electronic
+            or not self.document_date
+        ):
+            return
+        now = fields.Datetime.now()
+        if self.document_date <= now:
+            return
+        vals = {"document_date": now}
+        # The output date cannot be earlier than the emission date
+        if self.date_in_out and self.date_in_out < now:
+            vals["date_in_out"] = now
+        key_month = self.document_key and self.document_key[2:6]
+        new_month = fields.Datetime.context_timestamp(self, now).strftime("%y%m")
+        key_is_stale = bool(key_month) and key_month != new_month
+        if key_is_stale:
+            vals["document_key"] = False
+        self.write(vals)
+        if key_is_stale:
+            self._document_number()
 
     def _document_check(self):
         return True
