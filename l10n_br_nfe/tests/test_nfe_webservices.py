@@ -6,6 +6,7 @@
 import logging
 from unittest import mock
 
+from odoo.exceptions import UserError
 from odoo.fields import Datetime
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -13,6 +14,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_ENVIADA,
+    SITUACAO_EDOC_INUTILIZADA,
 )
 from odoo.addons.l10n_br_nfe.models.document import NFe
 
@@ -78,6 +80,60 @@ class TestNFeWebServices(TestNFeExport):
             .create({"document_id": nfe.id, "justification": "Era apenas um teste."})
         )
         inutilizar_wizard.doit()
+
+    def _create_invalidate_number(self, number_start, number_end):
+        nfe = self.nfe_list[0]["nfe"]
+        return self.env["l10n_br_fiscal.invalidate.number"].create(
+            {
+                "company_id": nfe.company_id.id,
+                "document_type_id": nfe.document_type_id.id,
+                "document_serie_id": nfe.document_serie_id.id,
+                "number_start": number_start,
+                "number_end": number_end,
+                "justification": "Era apenas um teste.",
+            }
+        )
+
+    @nfe_mock({"nfeInutilizacaoNF": "retInutNFe/nfe_inutilizacao.xml"})
+    def test_inutilizar_range_with_existing_document(self):
+        """A range with a number already used by a document is refused before
+        reaching the tax authority, instead of failing afterwards on the
+        document number constraint (which rolls back the Odoo record while the
+        number stays invalidated at the tax authority)."""
+        nfe = self.nfe_list[0]["nfe"]
+        number = int(nfe.document_number)
+        invalidate = self._create_invalidate_number(number - 1, number + 1)
+        model = type(invalidate)
+        with mock.patch.object(
+            model,
+            "_edoc_processor",
+            autospec=True,
+            side_effect=model._edoc_processor,
+        ) as processor:
+            with self.assertRaises(UserError) as error:
+                invalidate.action_invalidate()
+        processor.assert_not_called()
+        self.assertIn("already fiscal documents", error.exception.args[0])
+        self.assertIn(str(number), error.exception.args[0])
+        self.assertEqual(invalidate.state, "draft")
+
+    @nfe_mock({"nfeInutilizacaoNF": "retInutNFe/nfe_inutilizacao.xml"})
+    def test_inutilizar_range_without_existing_document(self):
+        nfe = self.nfe_list[0]["nfe"]
+        number = int(nfe.document_number) + 5000
+        invalidate = self._create_invalidate_number(number, number + 1)
+        invalidate.action_invalidate()
+        self.assertEqual(invalidate.state, "done")
+        documents = self.env["l10n_br_fiscal.document"].search(
+            [
+                ("document_serie_id", "=", nfe.document_serie_id.id),
+                ("document_number", "in", [str(number), str(number + 1)]),
+            ]
+        )
+        self.assertEqual(len(documents), 2)
+        self.assertEqual(
+            documents.mapped("state_edoc"), [SITUACAO_EDOC_INUTILIZADA] * 2
+        )
 
     @nfe_mock(
         {
