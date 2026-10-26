@@ -104,6 +104,7 @@
         "views/document_line_view.xml",
         "views/document_line_mixin_view.xml",
         "views/res_config_settings_view.xml",
+        "views/report_templates.xml",
         "views/uom_uom.xml",
         "views/invalidate_number_view.xml",
         "views/city_taxation_code.xml",
