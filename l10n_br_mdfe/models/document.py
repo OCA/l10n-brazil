@@ -676,7 +676,7 @@ class MDFe(spec_models.StackedModel):
             authorized_partners.append(company.accountant_id.id)
         if company.technical_support_id:
             authorized_partners.append(company.technical_support_id.id)
-        return authorized_partners
+        return [Command.link(partner_id) for partner_id in authorized_partners]
 
     mdfe30_autXML = fields.One2many(default=_default_mdfe30_autxml)
 
