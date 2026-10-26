@@ -167,3 +167,40 @@ class TestPaymentOrderOutboundPIX(AccountTestInvoicingCommon):
         payline.partner_id_change()
         payline._compute_pix_transfer_type()
         self.assertEqual(payline.pix_transfer_type, "payment")
+
+    def _create_pix_test_line(self, mode, partner):
+        payorder = self.payment_order_model.create({"payment_mode_id": mode.id})
+        payline = self.payment_line_model.create(
+            {
+                "communication_type": "normal",
+                "partner_id": partner.id,
+                "order_id": payorder.id,
+            }
+        )
+        payline.partner_id_change()
+        return payline
+
+    def test_pix_transfer_type_multiple_non_pix_lines(self):
+        """Every line of a recordset must get pix_transfer_type assigned."""
+        lines = self._create_pix_test_line(
+            self.ted_mode, self.partner_a
+        ) | self._create_pix_test_line(self.ted_mode, self.partner_a)
+        self.assertEqual(len(lines), 2)
+        lines.invalidate_recordset(["pix_transfer_type"])
+        self.assertEqual(lines.mapped("pix_transfer_type"), [False, False])
+
+    def test_pix_transfer_type_mixed_lines(self):
+        """A non-PIX line must not stop the compute for the following PIX lines."""
+        ted_line = self._create_pix_test_line(self.ted_mode, self.partner_a)
+        pix_line = self._create_pix_test_line(self.pix_mode, self.partner_a)
+        lines = ted_line | pix_line
+        lines.invalidate_recordset(["pix_transfer_type"])
+        self.assertEqual(lines.mapped("pix_transfer_type"), [False, "pix_key"])
+        # Opposite order, plus a third non-PIX line at the end
+        lines = (
+            pix_line
+            | ted_line
+            | self._create_pix_test_line(self.ted_mode, self.partner_a)
+        )
+        lines.invalidate_recordset(["pix_transfer_type"])
+        self.assertEqual(lines.mapped("pix_transfer_type"), ["pix_key", False, False])
