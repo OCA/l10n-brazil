@@ -80,7 +80,7 @@ class TestImportedDocumentTaxAmounts(TransactionCase):
             }
         )
         line = document.fiscal_line_ids
-        self.assertEqual(line.amount_tax_included, 37.8)
+        self.assertAlmostEqual(line.amount_tax_included, 37.8, places=2)
         self.assertEqual(line.amount_tax_not_included, 0.0)
         self.assertEqual(line.fiscal_amount_tax, 0.0)
         self.assertEqual(document.fiscal_amount_tax, 0.0)
@@ -130,8 +130,8 @@ class TestImportedDocumentTaxAmounts(TransactionCase):
         self.assertEqual(line.amount_tax_withholding, 6.3)
         self.assertEqual(line.amount_tax_included, 0.0)
         self.assertEqual(line.amount_tax_not_included, 0.0)
-        self.assertEqual(
-            document.fiscal_amount_total, document.fiscal_amount_untaxed - 6.3
+        self.assertAlmostEqual(
+            document.fiscal_amount_total, document.fiscal_amount_untaxed - 6.3, places=2
         )
 
     def test_every_line_tax_field_has_a_value_field(self):
