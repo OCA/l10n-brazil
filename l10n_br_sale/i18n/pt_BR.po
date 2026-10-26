@@ -1334,16 +1334,6 @@ msgid "NFC-e entrega em domicílio"
 msgstr "NFC-e entrega em domicílio"
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__simple_value
-msgid "National Simple Taxes"
-msgstr "Impostos do Simples Nacional"
-
-#. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__simple_without_icms_value
-msgid "National Simple Taxes without ICMS"
-msgstr "Impostos do Simples Nacional sem ICMS"
-
-#. module: l10n_br_sale
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__national_taxation_code_id
 msgid "National Taxation Code for the ISS tax (National NFS-e)"
 msgstr ""
@@ -1604,6 +1594,13 @@ msgstr ""
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__partner_is_public_entity
 msgid "Public Entity"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__icmssn_range_id
+msgid ""
+"Range of the Simples Nacional annex that taxes the operation, the one the "
+"company was in when the taxes of the line were computed."
 msgstr ""
 
 #. module: l10n_br_sale
@@ -1885,6 +1882,12 @@ msgid ""
 "(vICMSDeson) is deducted from the item value (vProd) and from the document "
 "total (vNF)."
 msgstr ""
+
+#~ msgid "National Simple Taxes"
+#~ msgstr "Impostos do Simples Nacional"
+
+#~ msgid "National Simple Taxes without ICMS"
+#~ msgstr "Impostos do Simples Nacional sem ICMS"
 
 #~ msgid "Additional Data"
 #~ msgstr "Dados Adicionais"
