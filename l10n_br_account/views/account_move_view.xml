@@ -551,4 +551,26 @@
             </xpath>
         </field>
     </record>
+
+    <record id="account_move_fiscal_search" model="ir.ui.view">
+        <field name="name">l10n_br_account.account.move.fiscal.search</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter" />
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <separator name="l10n_br_fiscal_report_filters" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="account_move_line_fiscal_search" model="ir.ui.view">
+        <field name="name">l10n_br_account.account.move.line.fiscal.search</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_account_move_line_filter" />
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <separator name="l10n_br_fiscal_report_filters" />
+            </xpath>
+        </field>
+    </record>
 </odoo>
