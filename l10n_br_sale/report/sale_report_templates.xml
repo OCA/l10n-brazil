@@ -40,22 +40,67 @@
                 />
             </td>
         </xpath>
+        <xpath
+            expr="//t[@t-set='address']/p[@t-if='doc.partner_id.vat']"
+            position="attributes"
+        >
+            <attribute
+                name="t-if"
+            >doc.partner_id.vat and not doc.company_id._get_report_option('report_partner_fiscal_data')</attribute>
+        </xpath>
+        <xpath expr="//t[@t-set='address']/p[last()]" position="after">
+            <t
+                t-if="doc.company_id._get_report_option('report_partner_fiscal_data')"
+                t-call="l10n_br_fiscal.report_partner_fiscal_data"
+            >
+                <t t-set="partner" t-value="doc.partner_id" />
+            </t>
+        </xpath>
+        <xpath expr="//div[@id='informations']" position="inside">
+            <t t-call="l10n_br_fiscal.report_fiscal_operation" />
+        </xpath>
+        <xpath
+            expr="//td[@name='td_name']/span[@t-field='line.name']"
+            position="before"
+        >
+            <t t-call="l10n_br_fiscal.report_line_product_code" />
+        </xpath>
+        <xpath expr="//td[@name='td_name']/span[@t-field='line.name']" position="after">
+            <t t-call="l10n_br_fiscal.report_line_fiscal_details" />
+        </xpath>
+        <xpath expr="//div[@name='total']//table" position="before">
+            <t t-set="fiscal_totals" t-value="doc._get_report_fiscal_totals()" />
+        </xpath>
+        <xpath
+            expr="//div[@name='total']//t[@t-call='account.document_tax_totals']"
+            position="attributes"
+        >
+            <attribute name="t-if">not fiscal_totals</attribute>
+        </xpath>
+        <xpath
+            expr="//div[@name='total']//t[@t-call='account.document_tax_totals']"
+            position="after"
+        >
+            <t t-if="fiscal_totals" t-call="l10n_br_fiscal.report_fiscal_totals">
+                <t t-set="currency" t-value="doc.currency_id" />
+            </t>
+        </xpath>
         <xpath expr="//div[@name='total']//t[@t-set='tax_totals']" position="before">
-            <tr t-if="doc.amount_freight_value">
+            <tr t-if="doc.amount_freight_value and not fiscal_totals">
                 <td name="td_amount_freight_label"><strong>Freight</strong></td>
                 <td name="td_amount_freight_value" class="text-end">
                     <span t-field="doc.amount_freight_value" />
                 </td>
             </tr>
 
-            <tr t-if="doc.amount_insurance_value">
+            <tr t-if="doc.amount_insurance_value and not fiscal_totals">
                 <td name="td_amount_insurance_label"><strong>Insurance</strong></td>
                 <td name="td_amount_insurance_value" class="text-end">
                     <span t-field="doc.amount_insurance_value" />
                 </td>
             </tr>
 
-            <tr t-if="doc.amount_other_value">
+            <tr t-if="doc.amount_other_value and not fiscal_totals">
                 <td name="td_amount_costs_label"><strong>Other Costs</strong></td>
                 <td name="td_amount_other_value" class="text-end">
                     <span t-field="doc.amount_other_value" />

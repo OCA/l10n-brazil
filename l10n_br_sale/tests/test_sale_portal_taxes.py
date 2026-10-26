@@ -73,3 +73,43 @@ class TestSalePortalTaxes(HttpCase):
             self.assertTrue(names)
             self.assertEqual(len(names), len(set(names)), names)
             self.assertFalse([n for n in names if "Dedutível" in n], names)
+
+    def _report_text(self, report_name):
+        content = self.env["ir.actions.report"]._render_qweb_html(
+            report_name, self.order.ids
+        )[0]
+        page = html.fromstring(content)
+        return page, " ".join(page.text_content().split())
+
+    def test_report_fiscal_layout(self):
+        """The printed order carries the fiscal data and its summary closes
+        on the document total, as the invoice summary does."""
+        line = self.order.order_line.filtered("product_id.default_code")[:1]
+        line.name = "Custom description"
+        page, text = self._report_text("sale.report_saleorder")
+        code = line.product_id.default_code
+        self.assertIn(f"[{code}] Custom description", text)
+        self.assertIn(f"CFOP {line.cfop_id.code}", text)
+        self.assertTrue(page.xpath("//div[@name='l10n_br_partner_fiscal_data']"))
+        self.assertIn("Document total", text)
+        totals = self.order._get_report_fiscal_totals()
+        self.assertAlmostEqual(totals["rows"][-1][1], self.order.amount_total)
+        self.order.action_confirm()
+        invoice = self.order._create_invoices()
+        totals = invoice._get_report_fiscal_totals()
+        self.assertAlmostEqual(totals["rows"][-1][1], invoice.amount_total)
+
+    def test_report_fiscal_layout_disabled(self):
+        """With the options off the order keeps the summary of the core."""
+        self.order.company_id.write(
+            {
+                "report_partner_fiscal_data": False,
+                "report_line_cfop": False,
+                "report_fiscal_totals": False,
+            }
+        )
+        self.assertFalse(self.order._get_report_fiscal_totals())
+        page, text = self._report_text("sale.report_saleorder")
+        self.assertFalse(page.xpath("//div[@name='l10n_br_partner_fiscal_data']"))
+        self.assertNotIn("CFOP", text)
+        self.assertNotIn("Document total", text)
