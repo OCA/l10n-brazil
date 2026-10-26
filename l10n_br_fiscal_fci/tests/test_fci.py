@@ -23,6 +23,12 @@ class TestFCI(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.company = cls.env.company
+        cls.company.write(
+            {
+                "state_id": cls.env.ref("base.state_br_sp").id,
+                "city_id": cls.env.ref("l10n_br_base.city_3550308").id,
+            }
+        )
         cls.ncm = cls._get_ncm("8407.34.90", "Motores de pistão alternativo")
         cls.product = cls.env["product.product"].create(
             {
