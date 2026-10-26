@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="stock_move_fiscal_report_search" model="ir.ui.view">
+        <field name="name">stock.move.fiscal.report.search</field>
+        <field name="model">stock.move</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <search string="Fiscal Stock Moves">
+                <field name="product_id" />
+                <field name="picking_id" />
+                <field name="fiscal_operation_id" />
+                <field name="cfop_id" />
+                <field name="ncm_id" />
+                <filter string="Done" name="done" domain="[('state', '=', 'done')]" />
+                <filter string="Date" name="date" date="date" />
+                <separator name="l10n_br_fiscal_report_filters" />
+                <group expand="0" string="Group By">
+                    <filter
+                        string="Product"
+                        name="groupby_product"
+                        context="{'group_by': 'product_id'}"
+                    />
+                    <filter
+                        string="Picking"
+                        name="groupby_picking"
+                        context="{'group_by': 'picking_id'}"
+                    />
+                    <filter
+                        string="Date"
+                        name="groupby_date"
+                        context="{'group_by': 'date:month'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="stock_move_fiscal_report_pivot" model="ir.ui.view">
+        <field name="name">stock.move.fiscal.report.pivot</field>
+        <field name="model">stock.move</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <pivot string="Fiscal Stock Moves" sample="1">
+                <field name="fiscal_operation_id" type="row" />
+                <field name="date" interval="month" type="col" />
+                <field name="product_qty" type="measure" />
+                <field name="icms_value" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+    <record id="stock_move_fiscal_report_graph" model="ir.ui.view">
+        <field name="name">stock.move.fiscal.report.graph</field>
+        <field name="model">stock.move</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <graph string="Fiscal Stock Moves" sample="1">
+                <field name="date" interval="month" />
+                <field name="fiscal_operation_id" />
+                <field name="product_qty" type="measure" />
+            </graph>
+        </field>
+    </record>
+
+    <record id="stock_move_fiscal_report_tree" model="ir.ui.view">
+        <field name="name">stock.move.fiscal.report.tree</field>
+        <field name="model">stock.move</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <tree create="0">
+                <field name="date" />
+                <field name="reference" />
+                <field name="product_id" />
+                <field name="fiscal_operation_id" />
+                <field name="cfop_id" />
+                <field name="ncm_id" optional="show" />
+                <field name="product_uom_qty" sum="Total" />
+                <field name="product_uom" groups="uom.group_uom" />
+                <field name="icms_value" optional="show" sum="Total" />
+                <field name="icmsst_value" optional="hide" sum="Total" />
+                <field name="ipi_value" optional="show" sum="Total" />
+                <field name="pis_value" optional="hide" sum="Total" />
+                <field name="cofins_value" optional="hide" sum="Total" />
+                <field name="state" optional="hide" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="stock_move_fiscal_report_action" model="ir.actions.act_window">
+        <field name="name">Fiscal Stock Moves</field>
+        <field name="res_model">stock.move</field>
+        <field name="view_mode">pivot,graph,tree</field>
+        <field name="domain">[('fiscal_operation_id', '!=', False)]</field>
+        <field name="search_view_id" ref="stock_move_fiscal_report_search" />
+        <field name="context">{'search_default_done': 1}</field>
+    </record>
+
+    <record
+        id="stock_move_fiscal_report_action_pivot"
+        model="ir.actions.act_window.view"
+    >
+        <field name="sequence" eval="1" />
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="stock_move_fiscal_report_pivot" />
+        <field name="act_window_id" ref="stock_move_fiscal_report_action" />
+    </record>
+
+    <record
+        id="stock_move_fiscal_report_action_graph"
+        model="ir.actions.act_window.view"
+    >
+        <field name="sequence" eval="2" />
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="stock_move_fiscal_report_graph" />
+        <field name="act_window_id" ref="stock_move_fiscal_report_action" />
+    </record>
+
+    <record
+        id="stock_move_fiscal_report_action_tree"
+        model="ir.actions.act_window.view"
+    >
+        <field name="sequence" eval="3" />
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="stock_move_fiscal_report_tree" />
+        <field name="act_window_id" ref="stock_move_fiscal_report_action" />
+    </record>
+
+    <menuitem
+        id="stock_move_fiscal_report_menu"
+        action="stock_move_fiscal_report_action"
+        parent="stock.menu_warehouse_report"
+        sequence="240"
+    />
+</odoo>
