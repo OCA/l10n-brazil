@@ -393,11 +393,6 @@ msgid "<strong>Cancelled</strong>"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
-msgid "<strong>XML validation errors:</strong>"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.cest_action
 msgid "A CEST is necessary to create fiscal operations for your fiscal moves."
 msgstr ""
@@ -928,6 +923,20 @@ msgid "Andresses"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
+msgid "Annex"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_res_company__simplified_tax_id
+msgid ""
+"Annex of the Simples Nacional of the main activity of the company, found "
+"from its main CNAE and, for the services the R factor moves between the "
+"Annex III and the Annex V, from its R factor. It applies to the operations "
+"whose CFOP does not tell their annex, such as services."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__annual_revenue
 msgid "Annual Revenue"
 msgstr ""
@@ -948,11 +957,6 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation_line__state__approved
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_definition__state__approved
 msgid "Approved"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__transport_modal__03
-msgid "Aquaviário"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -1002,11 +1006,6 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_dashboard_kanban
 msgid "Autorizados"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__transport_modal__02
-msgid "Aéreo"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -1286,6 +1285,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cofins_percent
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__cofins_percent
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__tax_cofins_percent
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.simplified_tax_range_tree
 msgid "COFINS %"
 msgstr ""
@@ -1436,6 +1436,7 @@ msgid "CPF"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__tax_cpp_percent
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.simplified_tax_range_tree
 msgid "CPP %"
 msgstr ""
@@ -1451,6 +1452,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__csll_percent
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__csll_percent
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__tax_csll_percent
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.simplified_tax_range_tree
 msgid "CSLL %"
 msgstr ""
@@ -1937,6 +1939,14 @@ msgid "Configuration"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/document.py:0
+msgid ""
+"Configure the serie %(serie)s of %(document_type)s for %(company)s before "
+"importing the documents it issued."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "Confirm"
 msgstr ""
@@ -2188,6 +2198,11 @@ msgid "Currency"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
+msgid "Current Effective Taxes for Simples Nacional"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.ncm_form
 msgid "Custom PIS/COFINS"
 msgstr ""
@@ -2424,7 +2439,6 @@ msgid "Destination Type"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__service_provider__3
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_import_wizard_form
 msgid "Destinatário"
 msgstr ""
@@ -2657,11 +2671,6 @@ msgid "Due Day"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__transport_modal__05
-msgid "Dutoviário"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_refund_debit_type__03
 msgid "Débitos de notas fiscais não processadas na apuração"
 msgstr ""
@@ -2672,11 +2681,21 @@ msgid "EMBALAGEM"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__simplified_tax_ids
+msgid "Effective Taxes"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__date_in_out
 msgid ""
 "Effective incoming/outgoing date of the goods (DT_E_S in the SPED "
 "bookkeeping). Defaults to today; adjust it when the physical receipt "
 "happened on another date."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__current_effective_tax
+msgid "Effective tax rate of the annex for the company, in its range."
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -2825,11 +2844,6 @@ msgid "Exigível"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__service_provider__1
-msgid "Expedidor"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__state__expired
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation_line__state__expired
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_definition__state__expired
@@ -2862,6 +2876,12 @@ msgstr ""
 msgid ""
 "Extends Odoo to helps you manage your brazilian fiscal documents, taxes and "
 "etc..."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/icms_regulation.py:0
+msgid "External"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -2918,11 +2938,6 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cest__segment__08
 msgid "Ferramentas"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__transport_modal__04
-msgid "Ferroviário"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -3416,6 +3431,16 @@ msgid "Gross Product/Service Amount"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_res_company__annual_revenue
+msgid ""
+"Gross revenue accumulated over the 12 months before the current assessment "
+"period (RBT12). Under the Simples Nacional it sets the range of each annex, "
+"hence the effective tax rates and the ICMS credit rate stated on the "
+"invoices, which is the one of the range the company was in the month before "
+"the operation (LC 123/2006, art. 18 and art. 23)."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_ipi_guideline__cst_group
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_ipi_guideline_search
 msgid "Group"
@@ -3558,6 +3583,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icms_percent
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icms_percent
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__tax_icms_percent
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.simplified_tax_range_tree
 msgid "ICMS %"
 msgstr ""
@@ -4778,6 +4804,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__ipi_percent
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__ipi_percent
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__tax_ipi_percent
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.simplified_tax_range_tree
 msgid "IPI %"
 msgstr ""
@@ -4871,6 +4898,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__irpj_percent
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__irpj_percent
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__tax_irpj_percent
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.simplified_tax_range_tree
 msgid "IRPJ %"
 msgstr ""
@@ -4944,6 +4972,7 @@ msgid "IS"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__tax_iss_percent
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.simplified_tax_range_tree
 msgid "ISS %"
 msgstr ""
@@ -5312,6 +5341,12 @@ msgid "Insurance Value"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/icms_regulation.py:0
+msgid "Internal"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cnae__internal_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__internal_type
 msgid "Internal Type"
@@ -5592,6 +5627,13 @@ msgid "Legal Nature already exists with this code!"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax__withholding_min_value
+msgid ""
+"Legal waiver of withholding (dispensa de retenção): when the value computed for this withholding tax is equal or lower than this amount, the tax is not withheld. For instance R$ 10,00 for the IRRF on professional services, per art. 67 of Lei 9.430/1996 and Solução de Consulta COSIT 258/2024.\n"
+"Kept empty (0,00) means no waiver. It applies to the value computed for one document line: the Brazilian law sets the limit per payment or credit event, which the fiscal engine cannot know when it computes the document."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__icmsst_base_type__1
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line_mixin__icmsst_base_type__1
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax__icmsst_base_type__1
@@ -5651,6 +5693,16 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_MWH
 msgid "MWH"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__simplified_tax_id
+msgid "Main Activity Annex"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__simplified_tax_range_id
+msgid "Main Activity Range"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -5786,8 +5838,8 @@ msgid "Messages"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__transport_modal
-msgid "Modal de Transporte"
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax__withholding_min_value
+msgid "Minimum Withholding Value"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -5808,11 +5860,6 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_refund_debit_type__04
 msgid "Multa e juros"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__transport_modal__06
-msgid "Multimodal"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -6029,18 +6076,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_pis_cofins_base__name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_pis_cofins_credit__name
 msgid "Name"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__simple_value
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__simple_value
-msgid "National Simple Taxes"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__simple_without_icms_value
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__simple_without_icms_value
-msgid "National Simple Taxes without ICMS"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -6421,6 +6456,15 @@ msgid "Operation Line"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/operation_line.py:0
+msgid ""
+"Operation Line %(line)s: Wildcard Tax Definitions (without NCM, CEST, NBM, "
+"or Taxation Code restrictions) must have at least one Product. Missing on: "
+"%(tax_definitions)s"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__line_inverse_id
 msgid "Operation Line Inverse"
 msgstr ""
@@ -6552,7 +6596,6 @@ msgid "Outras"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__service_provider__4
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_group__tax_domain__others
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_ipi_guideline__cst_group__outros
 msgid "Outros"
@@ -6598,6 +6641,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__pis_percent
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__pis_percent
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__tax_pis_percent
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.simplified_tax_range_tree
 msgid "PIS %"
 msgstr ""
@@ -7267,8 +7311,30 @@ msgid "ROLO"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__rps_number
-msgid "RPS Number"
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__current_range_id
+msgid "Range"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icmssn_range_id
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icmssn_range_id
+msgid ""
+"Range of the Simples Nacional annex that taxes the operation, the one the "
+"company was in when the taxes of the line were computed."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_res_company__simplified_tax_range_id
+msgid ""
+"Range of the annex of the main activity the company currently falls into, "
+"given its gross revenue of the last 12 months."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__current_range_id
+msgid ""
+"Range of the annex the company falls into, given its gross revenue of the "
+"last 12 months."
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -7286,11 +7352,6 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_company__profit_calculation__real
 msgid "Real"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__service_provider__2
-msgid "Recebedor"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -7378,13 +7439,13 @@ msgid "Related Produts"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__service_provider__0
-msgid "Remetente"
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__base_without_icms
+msgid "Remove ICMS value from Base"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__base_without_icms
-msgid "Remove ICMS value from Base"
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__require_product_on_tax_definition
+msgid "Require Product on Tax Definition"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -7450,18 +7511,6 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__ind_anula
 msgid "Revocation?"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__transport_modal__01
-msgid "Rodoviário"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_base_wizard_mixin__rps_number
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__rps_number
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_status_wizard__rps_number
-msgid "Rps Number"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -7695,6 +7744,13 @@ msgid "Simples Nacional"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_res_company__simplified_tax_ids
+msgid ""
+"Simples Nacional effective tax rate for each annex, based on the range the "
+"company currently falls into."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.simplified_tax_form
 msgid "Simplified Range"
 msgstr ""
@@ -7708,20 +7764,13 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.simplified_tax_action
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax_range__simplified_tax_id
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__simplified_tax_id
 #: model:ir.ui.menu,name:l10n_br_fiscal.simplified_tax_menu
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.simplified_tax_form
 msgid "Simplified Tax"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__simplified_tax_percent
-msgid "Simplified Tax Percent"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__simplified_tax_range_ids
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__simplified_tax_range_id
 msgid "Simplified Tax Range"
 msgstr ""
 
@@ -7933,6 +7982,8 @@ msgid "Tax Base Type"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/icms_regulation.py:0
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icms_tax_benefit_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icms_tax_benefit_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
@@ -8446,6 +8497,11 @@ msgid "Tax Percent"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__current_effective_tax
+msgid "Tax Rate %"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__withholding_at_place
 msgid "Tax Retention at place of provision"
 msgstr ""
@@ -8638,12 +8694,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_fiscal
-#. odoo-python
-#: code:addons/l10n_br_fiscal/models/document.py:0
-msgid "There is already a fiscal document with this key: %(doc_key)s"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.operation_dashboard_action
 msgid "This is the fiscal dashboard"
 msgstr ""
@@ -8674,11 +8724,6 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__state_to_ids
 msgid "To States"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__service_provider
-msgid "Tomador do Serviço"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -9005,6 +9050,16 @@ msgid "Website communication history"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__require_product_on_tax_definition
+msgid ""
+"When enabled, every wildcard Tax Definition (without NCM, CEST, NBM, "
+"City/National Taxation Code, or Service Type restrictions) linked to this "
+"Operation Line must have at least one Product before the line can be "
+"approved. This validation runs only when the line is set to approved state; "
+"changes to Tax Definitions after approval are not verified."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_indicator_form
 msgid "Where the operation is considered"
 msgstr ""
@@ -9018,11 +9073,6 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_group_form
 msgid "Withholding"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__xml_error_message
-msgid "XML validation errors"
 msgstr ""
 
 #. module: l10n_br_fiscal
