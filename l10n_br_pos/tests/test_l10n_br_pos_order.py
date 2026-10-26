@@ -120,6 +120,24 @@ class TestL10nBrPosOrder(TransactionCase):
             "Orders not exported to UI.",
         )
 
+    def test_pos_order_report(self):
+        session = self.env["pos.session"].create(
+            {"config_id": self.pos_config.id, "user_id": self.env.uid}
+        )
+        session.action_pos_session_open()
+        self._generate_order()
+        order = session.order_ids
+        self.env.flush_all()
+        report = self.env["report.pos.order"].with_company(order.company_id)
+        rows = report.search([("order_id", "in", order.ids)])
+        self.assertTrue(rows)
+        for fname in ("icms_value", "pis_value", "cofins_value", "estimate_tax"):
+            self.assertAlmostEqual(
+                sum(rows.mapped(fname)), sum(order.lines.mapped(fname)), places=2
+            )
+        arch = report.get_views([(False, "search")])["views"]["search"]["arch"]
+        self.assertIn('name="fiscal_out"', arch)
+
     def test_cancel_l10n_brazil(self):
         session = self.env["pos.session"].create(
             {"config_id": self.pos_config.id, "user_id": self.env.uid}
