@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="document_line_report_search" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.document.line.report.search</field>
+        <field name="model">l10n_br_fiscal.document.line.report</field>
+        <field name="arch" type="xml">
+            <search string="Fiscal Document Lines Analysis">
+                <field name="document_id" />
+                <field name="partner_id" />
+                <field name="product_id" />
+                <field name="cfop_id" />
+                <field name="ncm_id" />
+                <field name="fiscal_operation_id" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <filter name="date" string="Document Date" date="date" />
+                <filter name="date_in_out" string="Date In/Out" date="date_in_out" />
+                <separator name="l10n_br_fiscal_report_filters" />
+                <group expand="0" string="Group By">
+                    <filter
+                        name="groupby_partner"
+                        string="Partner"
+                        context="{'group_by': 'partner_id'}"
+                    />
+                    <filter
+                        name="groupby_product"
+                        string="Product"
+                        context="{'group_by': 'product_id'}"
+                    />
+                    <filter
+                        name="groupby_company"
+                        string="Company"
+                        context="{'group_by': 'company_id'}"
+                        groups="base.group_multi_company"
+                    />
+                    <filter
+                        name="groupby_date"
+                        string="Document Date"
+                        context="{'group_by': 'date:month'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="document_line_report_pivot" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.document.line.report.pivot</field>
+        <field name="model">l10n_br_fiscal.document.line.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Fiscal Document Lines Analysis" sample="1">
+                <field name="fiscal_operation_type" type="row" />
+                <field name="date" interval="month" type="col" />
+                <field name="amount_total" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+    <record id="document_line_report_graph" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.document.line.report.graph</field>
+        <field name="model">l10n_br_fiscal.document.line.report</field>
+        <field name="arch" type="xml">
+            <graph string="Fiscal Document Lines Analysis" sample="1">
+                <field name="date" interval="month" />
+                <field name="fiscal_operation_type" />
+                <field name="amount_total" type="measure" />
+            </graph>
+        </field>
+    </record>
+
+    <record id="document_line_report_list" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.document.line.report.list</field>
+        <field name="model">l10n_br_fiscal.document.line.report</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="date" />
+                <field name="document_id" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="partner_id" />
+                <field name="partner_state_id" optional="hide" />
+                <field name="product_id" />
+                <field name="fiscal_operation_type" optional="hide" />
+                <field name="cfop_id" />
+                <field name="ncm_id" optional="show" />
+                <field name="icms_cst_id" optional="hide" />
+                <field name="state_edoc" optional="hide" />
+                <field name="quantity" optional="hide" sum="Total" />
+                <field name="amount_untaxed" optional="hide" sum="Total" />
+                <field name="icms_base" optional="hide" sum="Total" />
+                <field name="icms_value" optional="show" sum="Total" />
+                <field name="icmsst_value" optional="show" sum="Total" />
+                <field name="ipi_value" optional="show" sum="Total" />
+                <field name="pis_value" optional="hide" sum="Total" />
+                <field name="cofins_value" optional="hide" sum="Total" />
+                <field name="issqn_value" optional="hide" sum="Total" />
+                <field name="cbs_value" optional="hide" sum="Total" />
+                <field name="ibs_value" optional="hide" sum="Total" />
+                <field name="amount_tax_withholding" optional="hide" sum="Total" />
+                <field name="amount_total" sum="Total" />
+            </list>
+        </field>
+    </record>
+
+    <record id="document_line_report_action" model="ir.actions.act_window">
+        <field name="name">Fiscal Document Lines Analysis</field>
+        <field name="res_model">l10n_br_fiscal.document.line.report</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="search_view_id" ref="document_line_report_search" />
+        <field name="context">{'search_default_fiscal_edoc_not_void': 1}</field>
+    </record>
+
+    <record id="document_line_report_cfop_action" model="ir.actions.act_window">
+        <field name="name">By CFOP and ICMS Rate</field>
+        <field name="res_model">l10n_br_fiscal.document.line.report</field>
+        <field name="view_mode">pivot,list</field>
+        <field name="search_view_id" ref="document_line_report_search" />
+        <field name="context">{
+            'search_default_fiscal_edoc_not_void': 1,
+            'pivot_row_groupby': ['cfop_id', 'icms_rate'],
+            'pivot_column_groupby': [],
+            'pivot_measures': ['amount_total', 'icms_base', 'icms_value', 'icmsst_base', 'icmsst_value', 'ipi_value'],
+        }</field>
+    </record>
+
+    <record id="document_line_report_cst_action" model="ir.actions.act_window">
+        <field name="name">By CST</field>
+        <field name="res_model">l10n_br_fiscal.document.line.report</field>
+        <field name="view_mode">pivot,list</field>
+        <field name="search_view_id" ref="document_line_report_search" />
+        <field name="context">{
+            'search_default_fiscal_edoc_not_void': 1,
+            'pivot_row_groupby': ['icms_cst_id'],
+            'pivot_column_groupby': [],
+            'pivot_measures': ['amount_total', 'icms_base', 'icms_value', 'pis_base', 'pis_value', 'cofins_base', 'cofins_value'],
+        }</field>
+    </record>
+
+    <record id="document_line_report_ncm_action" model="ir.actions.act_window">
+        <field name="name">By Product and NCM</field>
+        <field name="res_model">l10n_br_fiscal.document.line.report</field>
+        <field name="view_mode">pivot,list</field>
+        <field name="search_view_id" ref="document_line_report_search" />
+        <field name="context">{
+            'search_default_fiscal_edoc_not_void': 1,
+            'pivot_row_groupby': ['ncm_id', 'product_id'],
+            'pivot_column_groupby': [],
+            'pivot_measures': ['quantity', 'amount_total', 'icms_value', 'icmsst_value', 'ipi_value', 'pis_value', 'cofins_value'],
+        }</field>
+    </record>
+
+    <record id="document_line_report_state_action" model="ir.actions.act_window">
+        <field name="name">By State (ICMS ST and DIFAL)</field>
+        <field name="res_model">l10n_br_fiscal.document.line.report</field>
+        <field name="view_mode">pivot,list</field>
+        <field name="search_view_id" ref="document_line_report_search" />
+        <field name="context">{
+            'search_default_fiscal_edoc_not_void': 1,
+            'search_default_fiscal_out': 1,
+            'pivot_row_groupby': ['partner_state_id'],
+            'pivot_column_groupby': [],
+            'pivot_measures': ['amount_total', 'icmsst_base', 'icmsst_value', 'icmsfcpst_value', 'icms_destination_value', 'icms_origin_value', 'icmsfcp_value'],
+        }</field>
+    </record>
+
+    <record id="document_line_report_withholding_action" model="ir.actions.act_window">
+        <field name="name">Withholdings by Partner</field>
+        <field name="res_model">l10n_br_fiscal.document.line.report</field>
+        <field name="view_mode">pivot,list</field>
+        <field name="search_view_id" ref="document_line_report_search" />
+        <field name="context">{
+            'search_default_fiscal_edoc_not_void': 1,
+            'search_default_fiscal_with_withholding': 1,
+            'pivot_row_groupby': ['partner_id'],
+            'pivot_column_groupby': [],
+            'pivot_measures': ['amount_total', 'irpj_wh_value', 'csll_wh_value', 'pis_wh_value', 'cofins_wh_value', 'inss_wh_value', 'issqn_wh_value', 'amount_tax_withholding'],
+        }</field>
+    </record>
+
+    <record id="document_line_report_cbs_ibs_action" model="ir.actions.act_window">
+        <field name="name">CBS and IBS by Tax Classification</field>
+        <field name="res_model">l10n_br_fiscal.document.line.report</field>
+        <field name="view_mode">pivot,list</field>
+        <field name="search_view_id" ref="document_line_report_search" />
+        <field name="context">{
+            'search_default_fiscal_edoc_not_void': 1,
+            'search_default_fiscal_with_cbs_ibs': 1,
+            'pivot_row_groupby': ['tax_classification_id'],
+            'pivot_column_groupby': [],
+            'pivot_measures': ['amount_total', 'cbs_base', 'cbs_value', 'ibs_base', 'ibs_value'],
+        }</field>
+    </record>
+
+    <menuitem
+        id="report_menu"
+        name="Reports"
+        groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager"
+        parent="fiscal_menu"
+        sequence="800"
+    />
+
+    <menuitem
+        id="document_line_report_menu"
+        action="document_line_report_action"
+        parent="report_menu"
+        sequence="10"
+    />
+
+    <menuitem
+        id="document_line_report_cfop_menu"
+        action="document_line_report_cfop_action"
+        parent="report_menu"
+        sequence="20"
+    />
+
+    <menuitem
+        id="document_line_report_cst_menu"
+        action="document_line_report_cst_action"
+        parent="report_menu"
+        sequence="30"
+    />
+
+    <menuitem
+        id="document_line_report_ncm_menu"
+        action="document_line_report_ncm_action"
+        parent="report_menu"
+        sequence="40"
+    />
+
+    <menuitem
+        id="document_line_report_state_menu"
+        action="document_line_report_state_action"
+        parent="report_menu"
+        sequence="50"
+    />
+
+    <menuitem
+        id="document_line_report_withholding_menu"
+        action="document_line_report_withholding_action"
+        parent="report_menu"
+        sequence="60"
+    />
+
+    <menuitem
+        id="document_line_report_cbs_ibs_menu"
+        action="document_line_report_cbs_ibs_action"
+        parent="report_menu"
+        sequence="70"
+    />
+</odoo>
