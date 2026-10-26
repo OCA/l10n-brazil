@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- Invoice report: list each Brazilian tax once, one per row as the
+         sale report does, instead of one name per account tax (normal and
+         deductible pairs). -->
+    <template
+        id="report_invoice_document_l10n_br_account"
+        inherit_id="account.report_invoice_document"
+        priority="100"
+    >
+        <xpath expr="//span[@id='line_tax_ids']" position="replace">
+            <span id="line_tax_ids">
+                <t t-if="o.company_id.country_id.code == 'BR' and line.fiscal_tax_ids">
+                    <small
+                        t-foreach="line.fiscal_tax_ids.filtered(lambda x: x.percent_amount or x.value_amount)"
+                        t-as="tax"
+                        class="d-block"
+                        t-esc="tax.name"
+                    />
+                </t>
+                <t t-else="" t-out="taxes" />
+            </span>
+        </xpath>
+    </template>
+
+</odoo>

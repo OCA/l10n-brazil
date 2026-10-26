@@ -56,3 +56,20 @@ class TestSalePortalTaxes(HttpCase):
                 lambda tax: tax.percent_amount or tax.value_amount
             ):
                 self.assertIn(tax.name, totals)
+
+    def test_invoice_report_lists_each_tax_once(self):
+        """The invoice report lists each fiscal tax of the line once."""
+        self.order.action_confirm()
+        invoice = self.order._create_invoices()
+        content = self.env["ir.actions.report"]._render_qweb_html(
+            "account.report_invoice", invoice.ids
+        )[0]
+        columns = [
+            [" ".join(item.text_content().split()) for item in span.xpath(".//small")]
+            for span in html.fromstring(content).xpath("//span[@id='line_tax_ids']")
+        ]
+        self.assertTrue(columns)
+        for names in columns:
+            self.assertTrue(names)
+            self.assertEqual(len(names), len(set(names)), names)
+            self.assertFalse([n for n in names if "Dedutível" in n], names)
