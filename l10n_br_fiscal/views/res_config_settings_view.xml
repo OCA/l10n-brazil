@@ -141,6 +141,121 @@
                             </div>
                         </div>
                     </div>
+                    <h2>Printed Reports</h2>
+                    <div
+                        class="row mt16 o_settings_container"
+                        id="l10n_br_report_settings"
+                    >
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="report_company_fiscal_data" />
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="report_company_fiscal_data" />
+                                <div
+                                    class="text-muted"
+                                >Legal name, CNPJ, IE and IM of the company in the header of the reports.</div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="report_tax_framework" />
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="report_tax_framework" />
+                                <div
+                                    class="text-muted"
+                                >Simples Nacional or Regime Normal, below the company fiscal data.</div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="report_partner_fiscal_data" />
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="report_partner_fiscal_data" />
+                                <div
+                                    class="text-muted"
+                                >Legal name, CNPJ/CPF, IE (or the ICMS taxpayer status) and IM of the customer or vendor.</div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="report_fiscal_operation" />
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="report_fiscal_operation" />
+                                <div
+                                    class="text-muted"
+                                >Fiscal operation of the document, next to the date and the salesperson.</div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="report_line_classification" />
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="report_line_classification" />
+                                <div
+                                    class="text-muted"
+                                >NCM of the product, or service type and NBS, below the line description.</div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="report_line_cfop" />
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="report_line_cfop" />
+                                <div
+                                    class="text-muted"
+                                >CFOP below the line description. On quotations the CFOP may still change until the invoice.</div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="report_line_operation_line" />
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="report_line_operation_line" />
+                                <div
+                                    class="text-muted"
+                                >Fiscal operation line below the line description.</div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="report_fiscal_totals" />
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="report_fiscal_totals" />
+                                <div
+                                    class="text-muted"
+                                >Products, discount, freight, insurance, other costs and the taxes added to the price, the document total, the withholdings and the net amount. Only lines with a value are printed.</div>
+                                <div
+                                    class="content-group mt16"
+                                    attrs="{'invisible': [('report_fiscal_totals', '=', False)]}"
+                                >
+                                    <label
+                                        for="report_withholding_display"
+                                        class="o_light_label me-2"
+                                    />
+                                    <field name="report_withholding_display" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="report_included_taxes" />
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="report_included_taxes" />
+                                <div
+                                    class="text-muted"
+                                >Taxes already included in the price (ICMS, PIS, COFINS, ISS, IBS, CBS), below the totals.</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </xpath>
         </field>
