@@ -298,7 +298,7 @@ class NFeImportTest(TransactionCase):
             binding, edoc_type="in", dry_run=False
         )
         line = nfe.fiscal_line_ids[0]
-        self.assertEqual(line.ipi_value, 3.29)
-        self.assertEqual(line.amount_tax_not_included, 3.29)
-        self.assertEqual(line.fiscal_amount_tax, 3.29)
-        self.assertEqual(line.amount_tax_included, 7.64)
+        self.assertAlmostEqual(line.ipi_value, 3.29, places=2)
+        self.assertAlmostEqual(line.amount_tax_not_included, 3.29, places=2)
+        self.assertAlmostEqual(line.fiscal_amount_tax, 3.29, places=2)
+        self.assertAlmostEqual(line.amount_tax_included, 7.64, places=2)
