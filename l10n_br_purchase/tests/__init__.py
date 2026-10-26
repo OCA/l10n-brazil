@@ -5,3 +5,4 @@ from . import test_l10n_br_purchase_sn
 from . import test_purchase_edition
 from . import test_purchase_order_edition
 from . import test_purchase_report
+from . import test_search_filters

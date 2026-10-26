@@ -522,12 +522,25 @@ class L10nBrPurchaseBaseTest(TransactionCase):
 
     def test_purchase_report(self):
         """Test Purchase Report"""
-        self.env["purchase.report"]._read_group(
-            [("product_id", "=", self.env.ref("product.product_product_12").id)],
-            ["product_id"],
-            ["qty_ordered:sum", "price_average:avg"],
+        lines = self.po_products.order_line.filtered(lambda line: not line.display_type)
+        lines[0].discount_value = 5.0
+        self.env.flush_all()
+        rows = (
+            self.env["purchase.report"]
+            .with_company(self.po_products.company_id)
+            .search([("order_id", "=", self.po_products.id)])
         )
-        # TODO: Algo a ser validado?
+        for fname in ("icms_value", "ipi_value", "pis_value", "cofins_value"):
+            self.assertAlmostEqual(
+                sum(rows.mapped(fname)), sum(lines.mapped(fname)), places=2
+            )
+        # price_total already has the discount, IPI, ST and the other costs
+        self.assertAlmostEqual(
+            sum(rows.mapped("total_with_taxes")),
+            sum(lines.mapped("price_total"))
+            + sum(lines.mapped("amount_tax_withholding")),
+            places=2,
+        )
 
     def test_form_purchase(self):
         """Test Purchase with Form"""
@@ -674,7 +687,8 @@ class L10nBrPurchaseBaseTest(TransactionCase):
         # operation, so its invoice must not get a fiscal document. The vendor
         # is a fixture partner (not Brazilian), so dropping the fiscal
         # operation is enough to make the case explicit and independent from
-        # the way the demo purchase order was created.
+        # the way the demo purchase order was created. The fixture PO inherits
+        # the company default purchase fiscal operation, so clear it here.
         po_international.fiscal_operation_id = False
         po_international.with_context(tracking_disable=True).button_confirm()
         po_international.action_create_invoice()
