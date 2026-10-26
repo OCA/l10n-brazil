@@ -115,6 +115,7 @@
         "views/l10n_br_fiscal_action.xml",
         # Menus
         "views/l10n_br_fiscal_menu.xml",
+        "views/document_line_report_view.xml",
     ],
     "assets": {
         "web.assets_backend": [

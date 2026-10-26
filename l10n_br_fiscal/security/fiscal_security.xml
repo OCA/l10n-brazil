@@ -68,4 +68,10 @@
         <field eval="True" name="global" />
         <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
     </record>
+    <record id="l10n_br_fiscal_document_line_report_rule" model="ir.rule">
+        <field name="name">Fiscal Document Lines Analysis multi-company</field>
+        <field name="model_id" ref="model_l10n_br_fiscal_document_line_report" />
+        <field eval="True" name="global" />
+        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+    </record>
 </odoo>
