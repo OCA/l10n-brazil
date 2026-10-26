@@ -423,4 +423,26 @@
             </xpath>
         </field>
     </record>
+
+    <record id="sale_order_fiscal_search" model="ir.ui.view">
+        <field name="name">l10n_br_sale.sale.order.fiscal.search</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter" />
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <separator name="l10n_br_fiscal_report_filters" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale_order_line_fiscal_search" model="ir.ui.view">
+        <field name="name">l10n_br_sale.sale.order.line.fiscal.search</field>
+        <field name="model">sale.order.line</field>
+        <field name="inherit_id" ref="sale.view_sales_order_line_filter" />
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <separator name="l10n_br_fiscal_report_filters" />
+            </xpath>
+        </field>
+    </record>
 </odoo>
