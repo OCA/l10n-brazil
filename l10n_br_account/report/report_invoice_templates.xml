@@ -1,27 +1,101 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
-    <!-- Invoice report: list each Brazilian tax once, one per row as the
-         sale report does, instead of one name per account tax (normal and
-         deductible pairs). -->
     <template
         id="report_invoice_document_l10n_br_account"
         inherit_id="account.report_invoice_document"
         priority="100"
     >
+        <xpath
+            expr="//div[@id='partner_vat_address_not_same_as_shipping']"
+            position="attributes"
+        >
+            <attribute
+                name="t-if"
+            >o.partner_id.vat and not o.company_id._get_report_option('report_partner_fiscal_data')</attribute>
+        </xpath>
+        <xpath
+            expr="//div[@id='partner_vat_address_same_as_shipping']"
+            position="attributes"
+        >
+            <attribute
+                name="t-if"
+            >o.partner_id.vat and not o.company_id._get_report_option('report_partner_fiscal_data')</attribute>
+        </xpath>
+        <xpath expr="//div[@id='partner_vat_no_shipping']" position="attributes">
+            <attribute
+                name="t-if"
+            >o.partner_id.vat and not o.company_id._get_report_option('report_partner_fiscal_data')</attribute>
+        </xpath>
+        <xpath
+            expr="//div[@id='partner_vat_address_not_same_as_shipping']"
+            position="after"
+        >
+            <t t-call="l10n_br_account.report_invoice_partner_fiscal_data" />
+        </xpath>
+        <xpath
+            expr="//div[@id='partner_vat_address_same_as_shipping']"
+            position="after"
+        >
+            <t t-call="l10n_br_account.report_invoice_partner_fiscal_data" />
+        </xpath>
+        <xpath expr="//div[@id='partner_vat_no_shipping']" position="after">
+            <t t-call="l10n_br_account.report_invoice_partner_fiscal_data" />
+        </xpath>
+        <xpath expr="//div[@id='informations']" position="inside">
+            <t t-call="l10n_br_fiscal.report_fiscal_operation">
+                <t t-set="doc" t-value="o" />
+            </t>
+        </xpath>
+        <xpath
+            expr="//td[@name='account_invoice_line_name']/span[@t-field='line.name']"
+            position="before"
+        >
+            <t t-call="l10n_br_fiscal.report_line_product_code" />
+        </xpath>
+        <xpath
+            expr="//td[@name='account_invoice_line_name']/span[@t-field='line.name']"
+            position="after"
+        >
+            <t t-call="l10n_br_fiscal.report_line_fiscal_details" />
+        </xpath>
+        <!-- Each Brazilian tax once, one per row as the sale report does,
+             instead of one name per account tax (normal and deductible pairs) -->
         <xpath expr="//span[@id='line_tax_ids']" position="replace">
             <span id="line_tax_ids">
-                <t t-if="o.company_id.country_id.code == 'BR' and line.fiscal_tax_ids">
-                    <small
-                        t-foreach="line.fiscal_tax_ids.filtered(lambda x: x.percent_amount or x.value_amount)"
-                        t-as="tax"
-                        class="d-block"
-                        t-esc="tax.name"
-                    />
-                </t>
+                <t
+                    t-if="o.company_id.country_id.code == 'BR' and line.fiscal_tax_ids"
+                    t-call="l10n_br_fiscal.report_line_fiscal_taxes"
+                />
                 <t t-else="" t-out="taxes" />
             </span>
         </xpath>
+        <xpath expr="//div[@id='total']//table" position="before">
+            <t t-set="fiscal_totals" t-value="o._get_report_fiscal_totals()" />
+        </xpath>
+        <xpath
+            expr="//div[@id='total']//t[@t-call='account.document_tax_totals']"
+            position="attributes"
+        >
+            <attribute name="t-if">not fiscal_totals</attribute>
+        </xpath>
+        <xpath
+            expr="//div[@id='total']//t[@t-call='account.document_tax_totals']"
+            position="after"
+        >
+            <t t-if="fiscal_totals" t-call="l10n_br_fiscal.report_fiscal_totals">
+                <t t-set="currency" t-value="o.currency_id" />
+            </t>
+        </xpath>
+    </template>
+
+    <template id="report_invoice_partner_fiscal_data">
+        <t
+            t-if="o.company_id._get_report_option('report_partner_fiscal_data')"
+            t-call="l10n_br_fiscal.report_partner_fiscal_data"
+        >
+            <t t-set="partner" t-value="o.partner_id" />
+        </t>
     </template>
 
 </odoo>
