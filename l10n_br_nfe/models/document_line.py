@@ -253,7 +253,8 @@ class NFeLine(spec_models.StackedModel):
             or self.name
             or ""
         )
-        export_dict["xProd"] = nfe40_xProd[:120].replace("\n", " ").strip()
+        # the 120 characters the schema allows are cut generically on export
+        export_dict["xProd"] = nfe40_xProd.replace("\n", " ").strip()
 
         nfe40_cEAN = self.product_id.barcode or "SEM GTIN"
         export_dict["cEAN"] = export_dict["cEANTrib"] = nfe40_cEAN
