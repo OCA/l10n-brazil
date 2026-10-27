@@ -1,0 +1,1486 @@
+{
+  "version": 21,
+  "sheets": [
+    {
+      "id": "10dbbcec-6378-50ea-8fe4-03be2169c09c",
+      "name": "Dashboard",
+      "colNumber": 8,
+      "rowNumber": 120,
+      "rows": {
+        "11": {
+          "size": 40
+        }
+      },
+      "cols": {
+        "0": {
+          "size": 300
+        },
+        "1": {
+          "size": 110
+        },
+        "2": {
+          "size": 110
+        },
+        "3": {
+          "size": 110
+        },
+        "4": {
+          "size": 300
+        },
+        "5": {
+          "size": 110
+        },
+        "6": {
+          "size": 110
+        },
+        "7": {
+          "size": 110
+        }
+      },
+      "merges": [],
+      "cells": {
+        "A1": {
+          "content": "=_t(\"Fiscal overview\")"
+        },
+        "A12": {
+          "content": "=_t(\"Amounts by month (outgoing and incoming)\")"
+        },
+        "A31": {
+          "content": "=_t(\"Top CFOP\")"
+        },
+        "A32": {
+          "content": "=_t(\"CFOP\")"
+        },
+        "B32": {
+          "content": "=_t(\"Total\")"
+        },
+        "C32": {
+          "content": "=_t(\"ICMS\")"
+        },
+        "D32": {
+          "content": "=_t(\"IPI\")"
+        },
+        "A33": {
+          "content": "=PIVOT.HEADER(3,\"#cfop_id\",1)"
+        },
+        "B33": {
+          "content": "=PIVOT.VALUE(3,\"amount_total\",\"#cfop_id\",1)"
+        },
+        "C33": {
+          "content": "=PIVOT.VALUE(3,\"icms_value\",\"#cfop_id\",1)"
+        },
+        "D33": {
+          "content": "=PIVOT.VALUE(3,\"ipi_value\",\"#cfop_id\",1)"
+        },
+        "A34": {
+          "content": "=PIVOT.HEADER(3,\"#cfop_id\",2)"
+        },
+        "B34": {
+          "content": "=PIVOT.VALUE(3,\"amount_total\",\"#cfop_id\",2)"
+        },
+        "C34": {
+          "content": "=PIVOT.VALUE(3,\"icms_value\",\"#cfop_id\",2)"
+        },
+        "D34": {
+          "content": "=PIVOT.VALUE(3,\"ipi_value\",\"#cfop_id\",2)"
+        },
+        "A35": {
+          "content": "=PIVOT.HEADER(3,\"#cfop_id\",3)"
+        },
+        "B35": {
+          "content": "=PIVOT.VALUE(3,\"amount_total\",\"#cfop_id\",3)"
+        },
+        "C35": {
+          "content": "=PIVOT.VALUE(3,\"icms_value\",\"#cfop_id\",3)"
+        },
+        "D35": {
+          "content": "=PIVOT.VALUE(3,\"ipi_value\",\"#cfop_id\",3)"
+        },
+        "A36": {
+          "content": "=PIVOT.HEADER(3,\"#cfop_id\",4)"
+        },
+        "B36": {
+          "content": "=PIVOT.VALUE(3,\"amount_total\",\"#cfop_id\",4)"
+        },
+        "C36": {
+          "content": "=PIVOT.VALUE(3,\"icms_value\",\"#cfop_id\",4)"
+        },
+        "D36": {
+          "content": "=PIVOT.VALUE(3,\"ipi_value\",\"#cfop_id\",4)"
+        },
+        "A37": {
+          "content": "=PIVOT.HEADER(3,\"#cfop_id\",5)"
+        },
+        "B37": {
+          "content": "=PIVOT.VALUE(3,\"amount_total\",\"#cfop_id\",5)"
+        },
+        "C37": {
+          "content": "=PIVOT.VALUE(3,\"icms_value\",\"#cfop_id\",5)"
+        },
+        "D37": {
+          "content": "=PIVOT.VALUE(3,\"ipi_value\",\"#cfop_id\",5)"
+        },
+        "A38": {
+          "content": "=PIVOT.HEADER(3,\"#cfop_id\",6)"
+        },
+        "B38": {
+          "content": "=PIVOT.VALUE(3,\"amount_total\",\"#cfop_id\",6)"
+        },
+        "C38": {
+          "content": "=PIVOT.VALUE(3,\"icms_value\",\"#cfop_id\",6)"
+        },
+        "D38": {
+          "content": "=PIVOT.VALUE(3,\"ipi_value\",\"#cfop_id\",6)"
+        },
+        "A39": {
+          "content": "=PIVOT.HEADER(3,\"#cfop_id\",7)"
+        },
+        "B39": {
+          "content": "=PIVOT.VALUE(3,\"amount_total\",\"#cfop_id\",7)"
+        },
+        "C39": {
+          "content": "=PIVOT.VALUE(3,\"icms_value\",\"#cfop_id\",7)"
+        },
+        "D39": {
+          "content": "=PIVOT.VALUE(3,\"ipi_value\",\"#cfop_id\",7)"
+        },
+        "A40": {
+          "content": "=PIVOT.HEADER(3,\"#cfop_id\",8)"
+        },
+        "B40": {
+          "content": "=PIVOT.VALUE(3,\"amount_total\",\"#cfop_id\",8)"
+        },
+        "C40": {
+          "content": "=PIVOT.VALUE(3,\"icms_value\",\"#cfop_id\",8)"
+        },
+        "D40": {
+          "content": "=PIVOT.VALUE(3,\"ipi_value\",\"#cfop_id\",8)"
+        },
+        "A41": {
+          "content": "=PIVOT.HEADER(3,\"#cfop_id\",9)"
+        },
+        "B41": {
+          "content": "=PIVOT.VALUE(3,\"amount_total\",\"#cfop_id\",9)"
+        },
+        "C41": {
+          "content": "=PIVOT.VALUE(3,\"icms_value\",\"#cfop_id\",9)"
+        },
+        "D41": {
+          "content": "=PIVOT.VALUE(3,\"ipi_value\",\"#cfop_id\",9)"
+        },
+        "A42": {
+          "content": "=PIVOT.HEADER(3,\"#cfop_id\",10)"
+        },
+        "B42": {
+          "content": "=PIVOT.VALUE(3,\"amount_total\",\"#cfop_id\",10)"
+        },
+        "C42": {
+          "content": "=PIVOT.VALUE(3,\"icms_value\",\"#cfop_id\",10)"
+        },
+        "D42": {
+          "content": "=PIVOT.VALUE(3,\"ipi_value\",\"#cfop_id\",10)"
+        },
+        "E31": {
+          "content": "=_t(\"Top NCM (outgoing)\")"
+        },
+        "E32": {
+          "content": "=_t(\"NCM\")"
+        },
+        "F32": {
+          "content": "=_t(\"Total\")"
+        },
+        "G32": {
+          "content": "=_t(\"ICMS\")"
+        },
+        "H32": {
+          "content": "=_t(\"IPI\")"
+        },
+        "E33": {
+          "content": "=PIVOT.HEADER(4,\"#ncm_id\",1)"
+        },
+        "F33": {
+          "content": "=PIVOT.VALUE(4,\"amount_total\",\"#ncm_id\",1)"
+        },
+        "G33": {
+          "content": "=PIVOT.VALUE(4,\"icms_value\",\"#ncm_id\",1)"
+        },
+        "H33": {
+          "content": "=PIVOT.VALUE(4,\"ipi_value\",\"#ncm_id\",1)"
+        },
+        "E34": {
+          "content": "=PIVOT.HEADER(4,\"#ncm_id\",2)"
+        },
+        "F34": {
+          "content": "=PIVOT.VALUE(4,\"amount_total\",\"#ncm_id\",2)"
+        },
+        "G34": {
+          "content": "=PIVOT.VALUE(4,\"icms_value\",\"#ncm_id\",2)"
+        },
+        "H34": {
+          "content": "=PIVOT.VALUE(4,\"ipi_value\",\"#ncm_id\",2)"
+        },
+        "E35": {
+          "content": "=PIVOT.HEADER(4,\"#ncm_id\",3)"
+        },
+        "F35": {
+          "content": "=PIVOT.VALUE(4,\"amount_total\",\"#ncm_id\",3)"
+        },
+        "G35": {
+          "content": "=PIVOT.VALUE(4,\"icms_value\",\"#ncm_id\",3)"
+        },
+        "H35": {
+          "content": "=PIVOT.VALUE(4,\"ipi_value\",\"#ncm_id\",3)"
+        },
+        "E36": {
+          "content": "=PIVOT.HEADER(4,\"#ncm_id\",4)"
+        },
+        "F36": {
+          "content": "=PIVOT.VALUE(4,\"amount_total\",\"#ncm_id\",4)"
+        },
+        "G36": {
+          "content": "=PIVOT.VALUE(4,\"icms_value\",\"#ncm_id\",4)"
+        },
+        "H36": {
+          "content": "=PIVOT.VALUE(4,\"ipi_value\",\"#ncm_id\",4)"
+        },
+        "E37": {
+          "content": "=PIVOT.HEADER(4,\"#ncm_id\",5)"
+        },
+        "F37": {
+          "content": "=PIVOT.VALUE(4,\"amount_total\",\"#ncm_id\",5)"
+        },
+        "G37": {
+          "content": "=PIVOT.VALUE(4,\"icms_value\",\"#ncm_id\",5)"
+        },
+        "H37": {
+          "content": "=PIVOT.VALUE(4,\"ipi_value\",\"#ncm_id\",5)"
+        },
+        "E38": {
+          "content": "=PIVOT.HEADER(4,\"#ncm_id\",6)"
+        },
+        "F38": {
+          "content": "=PIVOT.VALUE(4,\"amount_total\",\"#ncm_id\",6)"
+        },
+        "G38": {
+          "content": "=PIVOT.VALUE(4,\"icms_value\",\"#ncm_id\",6)"
+        },
+        "H38": {
+          "content": "=PIVOT.VALUE(4,\"ipi_value\",\"#ncm_id\",6)"
+        },
+        "E39": {
+          "content": "=PIVOT.HEADER(4,\"#ncm_id\",7)"
+        },
+        "F39": {
+          "content": "=PIVOT.VALUE(4,\"amount_total\",\"#ncm_id\",7)"
+        },
+        "G39": {
+          "content": "=PIVOT.VALUE(4,\"icms_value\",\"#ncm_id\",7)"
+        },
+        "H39": {
+          "content": "=PIVOT.VALUE(4,\"ipi_value\",\"#ncm_id\",7)"
+        },
+        "E40": {
+          "content": "=PIVOT.HEADER(4,\"#ncm_id\",8)"
+        },
+        "F40": {
+          "content": "=PIVOT.VALUE(4,\"amount_total\",\"#ncm_id\",8)"
+        },
+        "G40": {
+          "content": "=PIVOT.VALUE(4,\"icms_value\",\"#ncm_id\",8)"
+        },
+        "H40": {
+          "content": "=PIVOT.VALUE(4,\"ipi_value\",\"#ncm_id\",8)"
+        },
+        "E41": {
+          "content": "=PIVOT.HEADER(4,\"#ncm_id\",9)"
+        },
+        "F41": {
+          "content": "=PIVOT.VALUE(4,\"amount_total\",\"#ncm_id\",9)"
+        },
+        "G41": {
+          "content": "=PIVOT.VALUE(4,\"icms_value\",\"#ncm_id\",9)"
+        },
+        "H41": {
+          "content": "=PIVOT.VALUE(4,\"ipi_value\",\"#ncm_id\",9)"
+        },
+        "E42": {
+          "content": "=PIVOT.HEADER(4,\"#ncm_id\",10)"
+        },
+        "F42": {
+          "content": "=PIVOT.VALUE(4,\"amount_total\",\"#ncm_id\",10)"
+        },
+        "G42": {
+          "content": "=PIVOT.VALUE(4,\"icms_value\",\"#ncm_id\",10)"
+        },
+        "H42": {
+          "content": "=PIVOT.VALUE(4,\"ipi_value\",\"#ncm_id\",10)"
+        },
+        "A45": {
+          "content": "=_t(\"Top customers\")"
+        },
+        "A46": {
+          "content": "=_t(\"Customer\")"
+        },
+        "B46": {
+          "content": "=_t(\"Total\")"
+        },
+        "C46": {
+          "content": "=_t(\"ICMS\")"
+        },
+        "A47": {
+          "content": "=PIVOT.HEADER(5,\"#partner_id\",1)"
+        },
+        "B47": {
+          "content": "=PIVOT.VALUE(5,\"amount_total\",\"#partner_id\",1)"
+        },
+        "C47": {
+          "content": "=PIVOT.VALUE(5,\"icms_value\",\"#partner_id\",1)"
+        },
+        "A48": {
+          "content": "=PIVOT.HEADER(5,\"#partner_id\",2)"
+        },
+        "B48": {
+          "content": "=PIVOT.VALUE(5,\"amount_total\",\"#partner_id\",2)"
+        },
+        "C48": {
+          "content": "=PIVOT.VALUE(5,\"icms_value\",\"#partner_id\",2)"
+        },
+        "A49": {
+          "content": "=PIVOT.HEADER(5,\"#partner_id\",3)"
+        },
+        "B49": {
+          "content": "=PIVOT.VALUE(5,\"amount_total\",\"#partner_id\",3)"
+        },
+        "C49": {
+          "content": "=PIVOT.VALUE(5,\"icms_value\",\"#partner_id\",3)"
+        },
+        "A50": {
+          "content": "=PIVOT.HEADER(5,\"#partner_id\",4)"
+        },
+        "B50": {
+          "content": "=PIVOT.VALUE(5,\"amount_total\",\"#partner_id\",4)"
+        },
+        "C50": {
+          "content": "=PIVOT.VALUE(5,\"icms_value\",\"#partner_id\",4)"
+        },
+        "A51": {
+          "content": "=PIVOT.HEADER(5,\"#partner_id\",5)"
+        },
+        "B51": {
+          "content": "=PIVOT.VALUE(5,\"amount_total\",\"#partner_id\",5)"
+        },
+        "C51": {
+          "content": "=PIVOT.VALUE(5,\"icms_value\",\"#partner_id\",5)"
+        },
+        "A52": {
+          "content": "=PIVOT.HEADER(5,\"#partner_id\",6)"
+        },
+        "B52": {
+          "content": "=PIVOT.VALUE(5,\"amount_total\",\"#partner_id\",6)"
+        },
+        "C52": {
+          "content": "=PIVOT.VALUE(5,\"icms_value\",\"#partner_id\",6)"
+        },
+        "A53": {
+          "content": "=PIVOT.HEADER(5,\"#partner_id\",7)"
+        },
+        "B53": {
+          "content": "=PIVOT.VALUE(5,\"amount_total\",\"#partner_id\",7)"
+        },
+        "C53": {
+          "content": "=PIVOT.VALUE(5,\"icms_value\",\"#partner_id\",7)"
+        },
+        "A54": {
+          "content": "=PIVOT.HEADER(5,\"#partner_id\",8)"
+        },
+        "B54": {
+          "content": "=PIVOT.VALUE(5,\"amount_total\",\"#partner_id\",8)"
+        },
+        "C54": {
+          "content": "=PIVOT.VALUE(5,\"icms_value\",\"#partner_id\",8)"
+        },
+        "A55": {
+          "content": "=PIVOT.HEADER(5,\"#partner_id\",9)"
+        },
+        "B55": {
+          "content": "=PIVOT.VALUE(5,\"amount_total\",\"#partner_id\",9)"
+        },
+        "C55": {
+          "content": "=PIVOT.VALUE(5,\"icms_value\",\"#partner_id\",9)"
+        },
+        "A56": {
+          "content": "=PIVOT.HEADER(5,\"#partner_id\",10)"
+        },
+        "B56": {
+          "content": "=PIVOT.VALUE(5,\"amount_total\",\"#partner_id\",10)"
+        },
+        "C56": {
+          "content": "=PIVOT.VALUE(5,\"icms_value\",\"#partner_id\",10)"
+        },
+        "E45": {
+          "content": "=_t(\"By partner state (outgoing)\")"
+        },
+        "E46": {
+          "content": "=_t(\"State\")"
+        },
+        "F46": {
+          "content": "=_t(\"Total\")"
+        },
+        "G46": {
+          "content": "=_t(\"ICMS ST\")"
+        },
+        "H46": {
+          "content": "=_t(\"DIFAL\")"
+        },
+        "E47": {
+          "content": "=PIVOT.HEADER(6,\"#partner_state_id\",1)"
+        },
+        "F47": {
+          "content": "=PIVOT.VALUE(6,\"amount_total\",\"#partner_state_id\",1)"
+        },
+        "G47": {
+          "content": "=PIVOT.VALUE(6,\"icmsst_value\",\"#partner_state_id\",1)"
+        },
+        "H47": {
+          "content": "=PIVOT.VALUE(6,\"icms_destination_value\",\"#partner_state_id\",1)"
+        },
+        "E48": {
+          "content": "=PIVOT.HEADER(6,\"#partner_state_id\",2)"
+        },
+        "F48": {
+          "content": "=PIVOT.VALUE(6,\"amount_total\",\"#partner_state_id\",2)"
+        },
+        "G48": {
+          "content": "=PIVOT.VALUE(6,\"icmsst_value\",\"#partner_state_id\",2)"
+        },
+        "H48": {
+          "content": "=PIVOT.VALUE(6,\"icms_destination_value\",\"#partner_state_id\",2)"
+        },
+        "E49": {
+          "content": "=PIVOT.HEADER(6,\"#partner_state_id\",3)"
+        },
+        "F49": {
+          "content": "=PIVOT.VALUE(6,\"amount_total\",\"#partner_state_id\",3)"
+        },
+        "G49": {
+          "content": "=PIVOT.VALUE(6,\"icmsst_value\",\"#partner_state_id\",3)"
+        },
+        "H49": {
+          "content": "=PIVOT.VALUE(6,\"icms_destination_value\",\"#partner_state_id\",3)"
+        },
+        "E50": {
+          "content": "=PIVOT.HEADER(6,\"#partner_state_id\",4)"
+        },
+        "F50": {
+          "content": "=PIVOT.VALUE(6,\"amount_total\",\"#partner_state_id\",4)"
+        },
+        "G50": {
+          "content": "=PIVOT.VALUE(6,\"icmsst_value\",\"#partner_state_id\",4)"
+        },
+        "H50": {
+          "content": "=PIVOT.VALUE(6,\"icms_destination_value\",\"#partner_state_id\",4)"
+        },
+        "E51": {
+          "content": "=PIVOT.HEADER(6,\"#partner_state_id\",5)"
+        },
+        "F51": {
+          "content": "=PIVOT.VALUE(6,\"amount_total\",\"#partner_state_id\",5)"
+        },
+        "G51": {
+          "content": "=PIVOT.VALUE(6,\"icmsst_value\",\"#partner_state_id\",5)"
+        },
+        "H51": {
+          "content": "=PIVOT.VALUE(6,\"icms_destination_value\",\"#partner_state_id\",5)"
+        },
+        "E52": {
+          "content": "=PIVOT.HEADER(6,\"#partner_state_id\",6)"
+        },
+        "F52": {
+          "content": "=PIVOT.VALUE(6,\"amount_total\",\"#partner_state_id\",6)"
+        },
+        "G52": {
+          "content": "=PIVOT.VALUE(6,\"icmsst_value\",\"#partner_state_id\",6)"
+        },
+        "H52": {
+          "content": "=PIVOT.VALUE(6,\"icms_destination_value\",\"#partner_state_id\",6)"
+        },
+        "E53": {
+          "content": "=PIVOT.HEADER(6,\"#partner_state_id\",7)"
+        },
+        "F53": {
+          "content": "=PIVOT.VALUE(6,\"amount_total\",\"#partner_state_id\",7)"
+        },
+        "G53": {
+          "content": "=PIVOT.VALUE(6,\"icmsst_value\",\"#partner_state_id\",7)"
+        },
+        "H53": {
+          "content": "=PIVOT.VALUE(6,\"icms_destination_value\",\"#partner_state_id\",7)"
+        },
+        "E54": {
+          "content": "=PIVOT.HEADER(6,\"#partner_state_id\",8)"
+        },
+        "F54": {
+          "content": "=PIVOT.VALUE(6,\"amount_total\",\"#partner_state_id\",8)"
+        },
+        "G54": {
+          "content": "=PIVOT.VALUE(6,\"icmsst_value\",\"#partner_state_id\",8)"
+        },
+        "H54": {
+          "content": "=PIVOT.VALUE(6,\"icms_destination_value\",\"#partner_state_id\",8)"
+        },
+        "E55": {
+          "content": "=PIVOT.HEADER(6,\"#partner_state_id\",9)"
+        },
+        "F55": {
+          "content": "=PIVOT.VALUE(6,\"amount_total\",\"#partner_state_id\",9)"
+        },
+        "G55": {
+          "content": "=PIVOT.VALUE(6,\"icmsst_value\",\"#partner_state_id\",9)"
+        },
+        "H55": {
+          "content": "=PIVOT.VALUE(6,\"icms_destination_value\",\"#partner_state_id\",9)"
+        },
+        "E56": {
+          "content": "=PIVOT.HEADER(6,\"#partner_state_id\",10)"
+        },
+        "F56": {
+          "content": "=PIVOT.VALUE(6,\"amount_total\",\"#partner_state_id\",10)"
+        },
+        "G56": {
+          "content": "=PIVOT.VALUE(6,\"icmsst_value\",\"#partner_state_id\",10)"
+        },
+        "H56": {
+          "content": "=PIVOT.VALUE(6,\"icms_destination_value\",\"#partner_state_id\",10)"
+        }
+      },
+      "styles": {
+        "A1": 1,
+        "A12": 1,
+        "A31": 1,
+        "A32": 2,
+        "B32:D32": 5,
+        "A33:D42": 3,
+        "E31": 1,
+        "E32": 2,
+        "F32:H32": 5,
+        "E33:H42": 3,
+        "A45": 1,
+        "A46": 2,
+        "B46:C46": 5,
+        "A47:C56": 3,
+        "E45": 1,
+        "E46": 2,
+        "F46:H46": 5,
+        "E47:H56": 3
+      },
+      "formats": {
+        "B33:D33": 1,
+        "B34:D34": 1,
+        "B35:D35": 1,
+        "B36:D36": 1,
+        "B37:D37": 1,
+        "B38:D38": 1,
+        "B39:D39": 1,
+        "B40:D40": 1,
+        "B41:D41": 1,
+        "B42:D42": 1,
+        "F33:H33": 1,
+        "F34:H34": 1,
+        "F35:H35": 1,
+        "F36:H36": 1,
+        "F37:H37": 1,
+        "F38:H38": 1,
+        "F39:H39": 1,
+        "F40:H40": 1,
+        "F41:H41": 1,
+        "F42:H42": 1,
+        "B47:C47": 1,
+        "B48:C48": 1,
+        "B49:C49": 1,
+        "B50:C50": 1,
+        "B51:C51": 1,
+        "B52:C52": 1,
+        "B53:C53": 1,
+        "B54:C54": 1,
+        "B55:C55": 1,
+        "B56:C56": 1,
+        "F47:H47": 1,
+        "F48:H48": 1,
+        "F49:H49": 1,
+        "F50:H50": 1,
+        "F51:H51": 1,
+        "F52:H52": 1,
+        "F53:H53": 1,
+        "F54:H54": 1,
+        "F55:H55": 1,
+        "F56:H56": 1
+      },
+      "borders": {},
+      "conditionalFormats": [],
+      "figures": [
+        {
+          "id": "79b2de03-8ca4-5f73-8b1e-cc721712c4c1",
+          "x": 0,
+          "y": 40,
+          "width": 230,
+          "height": 101,
+          "tag": "chart",
+          "data": {
+            "baselineColorDown": "#DC6965",
+            "baselineColorUp": "#00A04A",
+            "baselineMode": "percentage",
+            "title": {
+              "text": "Outgoing",
+              "bold": true,
+              "color": "#434343"
+            },
+            "type": "scorecard",
+            "background": "#EFF6FF",
+            "baseline": "Data!C2",
+            "baselineDescr": "since last period",
+            "keyValue": "Data!B2",
+            "humanize": true
+          }
+        },
+        {
+          "id": "e2786ac7-4b0d-5a44-9d26-b1754f3a7ce6",
+          "x": 245,
+          "y": 40,
+          "width": 230,
+          "height": 101,
+          "tag": "chart",
+          "data": {
+            "baselineColorDown": "#DC6965",
+            "baselineColorUp": "#00A04A",
+            "baselineMode": "percentage",
+            "title": {
+              "text": "Incoming",
+              "bold": true,
+              "color": "#434343"
+            },
+            "type": "scorecard",
+            "background": "#EFF6FF",
+            "baseline": "Data!C3",
+            "baselineDescr": "since last period",
+            "keyValue": "Data!B3",
+            "humanize": true
+          }
+        },
+        {
+          "id": "cc4a027e-f4f7-539c-ae33-bfee02c11be5",
+          "x": 490,
+          "y": 40,
+          "width": 230,
+          "height": 101,
+          "tag": "chart",
+          "data": {
+            "baselineColorDown": "#DC6965",
+            "baselineColorUp": "#00A04A",
+            "baselineMode": "percentage",
+            "title": {
+              "text": "ICMS (outgoing)",
+              "bold": true,
+              "color": "#434343"
+            },
+            "type": "scorecard",
+            "background": "#EFF6FF",
+            "baseline": "Data!C4",
+            "baselineDescr": "since last period",
+            "keyValue": "Data!B4",
+            "humanize": true
+          }
+        },
+        {
+          "id": "41a55c8a-47b7-538b-9a9c-ba6f01fd55f9",
+          "x": 735,
+          "y": 40,
+          "width": 230,
+          "height": 101,
+          "tag": "chart",
+          "data": {
+            "baselineColorDown": "#DC6965",
+            "baselineColorUp": "#00A04A",
+            "baselineMode": "percentage",
+            "title": {
+              "text": "ICMS ST (outgoing)",
+              "bold": true,
+              "color": "#434343"
+            },
+            "type": "scorecard",
+            "background": "#EFF6FF",
+            "baseline": "Data!C5",
+            "baselineDescr": "since last period",
+            "keyValue": "Data!B5",
+            "humanize": true
+          }
+        },
+        {
+          "id": "ae6d976f-70ee-59af-b5f0-1b2d001ab61a",
+          "x": 0,
+          "y": 151,
+          "width": 230,
+          "height": 101,
+          "tag": "chart",
+          "data": {
+            "baselineColorDown": "#DC6965",
+            "baselineColorUp": "#00A04A",
+            "baselineMode": "percentage",
+            "title": {
+              "text": "IPI (outgoing)",
+              "bold": true,
+              "color": "#434343"
+            },
+            "type": "scorecard",
+            "background": "#EFF6FF",
+            "baseline": "Data!C6",
+            "baselineDescr": "since last period",
+            "keyValue": "Data!B6",
+            "humanize": true
+          }
+        },
+        {
+          "id": "8f5f4264-f07e-5ac5-b6b8-59c1a4116f07",
+          "x": 245,
+          "y": 151,
+          "width": 230,
+          "height": 101,
+          "tag": "chart",
+          "data": {
+            "baselineColorDown": "#DC6965",
+            "baselineColorUp": "#00A04A",
+            "baselineMode": "percentage",
+            "title": {
+              "text": "PIS and COFINS (outgoing)",
+              "bold": true,
+              "color": "#434343"
+            },
+            "type": "scorecard",
+            "background": "#EFF6FF",
+            "baseline": "Data!C7",
+            "baselineDescr": "since last period",
+            "keyValue": "Data!B7",
+            "humanize": true
+          }
+        },
+        {
+          "id": "c569b68c-2201-5acc-b1d1-0c9d2188ec6b",
+          "x": 490,
+          "y": 151,
+          "width": 230,
+          "height": 101,
+          "tag": "chart",
+          "data": {
+            "baselineColorDown": "#DC6965",
+            "baselineColorUp": "#00A04A",
+            "baselineMode": "percentage",
+            "title": {
+              "text": "ISS (outgoing)",
+              "bold": true,
+              "color": "#434343"
+            },
+            "type": "scorecard",
+            "background": "#EFF6FF",
+            "baseline": "Data!C8",
+            "baselineDescr": "since last period",
+            "keyValue": "Data!B8",
+            "humanize": true
+          }
+        },
+        {
+          "id": "726a770f-791d-57e3-8938-11891077b340",
+          "x": 735,
+          "y": 151,
+          "width": 230,
+          "height": 101,
+          "tag": "chart",
+          "data": {
+            "baselineColorDown": "#DC6965",
+            "baselineColorUp": "#00A04A",
+            "baselineMode": "percentage",
+            "title": {
+              "text": "CBS and IBS (outgoing)",
+              "bold": true,
+              "color": "#434343"
+            },
+            "type": "scorecard",
+            "background": "#EFF6FF",
+            "baseline": "Data!C9",
+            "baselineDescr": "since last period",
+            "keyValue": "Data!B9",
+            "humanize": true
+          }
+        },
+        {
+          "id": "10a838c9-c265-5ab6-8688-081168451715",
+          "x": 0,
+          "y": 300,
+          "width": 1000,
+          "height": 345,
+          "tag": "chart",
+          "data": {
+            "title": {
+              "text": ""
+            },
+            "background": "#FFFFFF",
+            "legendPosition": "top",
+            "metaData": {
+              "groupBy": ["date:month", "fiscal_operation_type"],
+              "measure": "amount_total",
+              "order": null,
+              "resModel": "l10n_br_fiscal.document.line.report",
+              "mode": "bar"
+            },
+            "searchParams": {
+              "comparison": null,
+              "context": {},
+              "domain": [
+                ["state_edoc", "not in", ["cancelada", "denegada", "inutilizada"]]
+              ],
+              "groupBy": ["date", "fiscal_operation_type"],
+              "orderBy": []
+            },
+            "type": "odoo_bar",
+            "verticalAxisPosition": "left",
+            "stacked": false,
+            "fieldMatching": {
+              "59931394-1d47-5631-951d-c5bf434c7d08": {
+                "chain": "date",
+                "type": "date",
+                "offset": 0
+              },
+              "7979d38e-832f-5a00-93b7-c99b10e76c68": {
+                "chain": "company_id",
+                "type": "many2one"
+              },
+              "84289dc2-8bd0-5606-abb1-669a035c4eed": {
+                "chain": "fiscal_operation_id",
+                "type": "many2one"
+              },
+              "1881ca14-b0bd-57c6-bc56-cd1c5d65709e": {
+                "chain": "cfop_id",
+                "type": "many2one"
+              },
+              "7ef0a956-5751-50c1-8650-71b3f103cd0c": {
+                "chain": "partner_state_id",
+                "type": "many2one"
+              }
+            },
+            "cumulative": false
+          }
+        }
+      ],
+      "tables": [],
+      "areGridLinesVisible": false,
+      "isVisible": true,
+      "headerGroups": {
+        "ROW": [],
+        "COL": []
+      },
+      "dataValidationRules": [],
+      "comments": {}
+    },
+    {
+      "id": "89b28cae-611b-53cf-80ed-6088ecf54d37",
+      "name": "Data",
+      "colNumber": 8,
+      "rowNumber": 40,
+      "rows": {},
+      "cols": {
+        "0": {
+          "size": 220
+        }
+      },
+      "merges": [],
+      "cells": {
+        "A1": {
+          "content": "=_t(\"KPI\")"
+        },
+        "B1": {
+          "content": "=_t(\"Current\")"
+        },
+        "C1": {
+          "content": "=_t(\"Previous\")"
+        },
+        "A2": {
+          "content": "=_t(\"Outgoing\")"
+        },
+        "B2": {
+          "content": "=IFERROR(PIVOT.VALUE(1,\"amount_total\",\"fiscal_operation_type\",\"out\"),0)"
+        },
+        "C2": {
+          "content": "=IFERROR(PIVOT.VALUE(2,\"amount_total\",\"fiscal_operation_type\",\"out\"),0)"
+        },
+        "A3": {
+          "content": "=_t(\"Incoming\")"
+        },
+        "B3": {
+          "content": "=IFERROR(PIVOT.VALUE(1,\"amount_total\",\"fiscal_operation_type\",\"in\"),0)"
+        },
+        "C3": {
+          "content": "=IFERROR(PIVOT.VALUE(2,\"amount_total\",\"fiscal_operation_type\",\"in\"),0)"
+        },
+        "A4": {
+          "content": "=_t(\"ICMS (outgoing)\")"
+        },
+        "B4": {
+          "content": "=IFERROR(PIVOT.VALUE(1,\"icms_value\",\"fiscal_operation_type\",\"out\"),0)"
+        },
+        "C4": {
+          "content": "=IFERROR(PIVOT.VALUE(2,\"icms_value\",\"fiscal_operation_type\",\"out\"),0)"
+        },
+        "A5": {
+          "content": "=_t(\"ICMS ST (outgoing)\")"
+        },
+        "B5": {
+          "content": "=IFERROR(PIVOT.VALUE(1,\"icmsst_value\",\"fiscal_operation_type\",\"out\"),0)"
+        },
+        "C5": {
+          "content": "=IFERROR(PIVOT.VALUE(2,\"icmsst_value\",\"fiscal_operation_type\",\"out\"),0)"
+        },
+        "A6": {
+          "content": "=_t(\"IPI (outgoing)\")"
+        },
+        "B6": {
+          "content": "=IFERROR(PIVOT.VALUE(1,\"ipi_value\",\"fiscal_operation_type\",\"out\"),0)"
+        },
+        "C6": {
+          "content": "=IFERROR(PIVOT.VALUE(2,\"ipi_value\",\"fiscal_operation_type\",\"out\"),0)"
+        },
+        "A7": {
+          "content": "=_t(\"PIS and COFINS (outgoing)\")"
+        },
+        "B7": {
+          "content": "=IFERROR(PIVOT.VALUE(1,\"pis_value\",\"fiscal_operation_type\",\"out\"),0)+IFERROR(PIVOT.VALUE(1,\"cofins_value\",\"fiscal_operation_type\",\"out\"),0)"
+        },
+        "C7": {
+          "content": "=IFERROR(PIVOT.VALUE(2,\"pis_value\",\"fiscal_operation_type\",\"out\"),0)+IFERROR(PIVOT.VALUE(2,\"cofins_value\",\"fiscal_operation_type\",\"out\"),0)"
+        },
+        "A8": {
+          "content": "=_t(\"ISS (outgoing)\")"
+        },
+        "B8": {
+          "content": "=IFERROR(PIVOT.VALUE(1,\"issqn_value\",\"fiscal_operation_type\",\"out\"),0)"
+        },
+        "C8": {
+          "content": "=IFERROR(PIVOT.VALUE(2,\"issqn_value\",\"fiscal_operation_type\",\"out\"),0)"
+        },
+        "A9": {
+          "content": "=_t(\"CBS and IBS (outgoing)\")"
+        },
+        "B9": {
+          "content": "=IFERROR(PIVOT.VALUE(1,\"cbs_value\",\"fiscal_operation_type\",\"out\"),0)+IFERROR(PIVOT.VALUE(1,\"ibs_value\",\"fiscal_operation_type\",\"out\"),0)"
+        },
+        "C9": {
+          "content": "=IFERROR(PIVOT.VALUE(2,\"cbs_value\",\"fiscal_operation_type\",\"out\"),0)+IFERROR(PIVOT.VALUE(2,\"ibs_value\",\"fiscal_operation_type\",\"out\"),0)"
+        }
+      },
+      "styles": {},
+      "formats": {
+        "B2:C40": 1
+      },
+      "borders": {},
+      "conditionalFormats": [],
+      "figures": [],
+      "tables": [],
+      "areGridLinesVisible": true,
+      "isVisible": false,
+      "headerGroups": {
+        "ROW": [],
+        "COL": []
+      },
+      "dataValidationRules": [],
+      "comments": {}
+    }
+  ],
+  "styles": {
+    "1": {
+      "textColor": "#01666b",
+      "bold": true,
+      "fontSize": 16
+    },
+    "2": {
+      "bold": true,
+      "fontSize": 11,
+      "textColor": "#434343"
+    },
+    "3": {
+      "textColor": "#434343",
+      "verticalAlign": "middle"
+    },
+    "4": {
+      "textColor": "#666666",
+      "italic": true,
+      "fontSize": 9
+    },
+    "5": {
+      "bold": true,
+      "fontSize": 11,
+      "textColor": "#434343",
+      "align": "right"
+    }
+  },
+  "formats": {
+    "1": "#,##0.00"
+  },
+  "borders": {},
+  "revisionId": "START_REVISION",
+  "uniqueFigureIds": true,
+  "settings": {
+    "locale": {
+      "name": "English (US)",
+      "code": "en_US",
+      "thousandsSeparator": ",",
+      "decimalSeparator": ".",
+      "dateFormat": "mm/dd/yyyy",
+      "timeFormat": "hh:mm:ss",
+      "formulaArgSeparator": ",",
+      "weekStart": 7
+    }
+  },
+  "pivots": {
+    "1": {
+      "type": "ODOO",
+      "fieldMatching": {
+        "59931394-1d47-5631-951d-c5bf434c7d08": {
+          "chain": "date",
+          "type": "date",
+          "offset": 0
+        },
+        "7979d38e-832f-5a00-93b7-c99b10e76c68": {
+          "chain": "company_id",
+          "type": "many2one"
+        },
+        "84289dc2-8bd0-5606-abb1-669a035c4eed": {
+          "chain": "fiscal_operation_id",
+          "type": "many2one"
+        },
+        "1881ca14-b0bd-57c6-bc56-cd1c5d65709e": {
+          "chain": "cfop_id",
+          "type": "many2one"
+        },
+        "7ef0a956-5751-50c1-8650-71b3f103cd0c": {
+          "chain": "partner_state_id",
+          "type": "many2one"
+        }
+      },
+      "context": {},
+      "domain": [["state_edoc", "not in", ["cancelada", "denegada", "inutilizada"]]],
+      "id": "1",
+      "measures": [
+        {
+          "id": "amount_total",
+          "fieldName": "amount_total"
+        },
+        {
+          "id": "icms_value",
+          "fieldName": "icms_value"
+        },
+        {
+          "id": "icmsst_value",
+          "fieldName": "icmsst_value"
+        },
+        {
+          "id": "ipi_value",
+          "fieldName": "ipi_value"
+        },
+        {
+          "id": "pis_value",
+          "fieldName": "pis_value"
+        },
+        {
+          "id": "cofins_value",
+          "fieldName": "cofins_value"
+        },
+        {
+          "id": "issqn_value",
+          "fieldName": "issqn_value"
+        },
+        {
+          "id": "cbs_value",
+          "fieldName": "cbs_value"
+        },
+        {
+          "id": "ibs_value",
+          "fieldName": "ibs_value"
+        },
+        {
+          "id": "amount_tax_withholding",
+          "fieldName": "amount_tax_withholding"
+        }
+      ],
+      "model": "l10n_br_fiscal.document.line.report",
+      "name": "Fiscal - current period",
+      "formulaId": "1",
+      "columns": [],
+      "rows": [
+        {
+          "fieldName": "fiscal_operation_type"
+        }
+      ]
+    },
+    "2": {
+      "type": "ODOO",
+      "fieldMatching": {
+        "59931394-1d47-5631-951d-c5bf434c7d08": {
+          "chain": "date",
+          "type": "date",
+          "offset": -1
+        },
+        "7979d38e-832f-5a00-93b7-c99b10e76c68": {
+          "chain": "company_id",
+          "type": "many2one"
+        },
+        "84289dc2-8bd0-5606-abb1-669a035c4eed": {
+          "chain": "fiscal_operation_id",
+          "type": "many2one"
+        },
+        "1881ca14-b0bd-57c6-bc56-cd1c5d65709e": {
+          "chain": "cfop_id",
+          "type": "many2one"
+        },
+        "7ef0a956-5751-50c1-8650-71b3f103cd0c": {
+          "chain": "partner_state_id",
+          "type": "many2one"
+        }
+      },
+      "context": {},
+      "domain": [["state_edoc", "not in", ["cancelada", "denegada", "inutilizada"]]],
+      "id": "2",
+      "measures": [
+        {
+          "id": "amount_total",
+          "fieldName": "amount_total"
+        },
+        {
+          "id": "icms_value",
+          "fieldName": "icms_value"
+        },
+        {
+          "id": "icmsst_value",
+          "fieldName": "icmsst_value"
+        },
+        {
+          "id": "ipi_value",
+          "fieldName": "ipi_value"
+        },
+        {
+          "id": "pis_value",
+          "fieldName": "pis_value"
+        },
+        {
+          "id": "cofins_value",
+          "fieldName": "cofins_value"
+        },
+        {
+          "id": "issqn_value",
+          "fieldName": "issqn_value"
+        },
+        {
+          "id": "cbs_value",
+          "fieldName": "cbs_value"
+        },
+        {
+          "id": "ibs_value",
+          "fieldName": "ibs_value"
+        },
+        {
+          "id": "amount_tax_withholding",
+          "fieldName": "amount_tax_withholding"
+        }
+      ],
+      "model": "l10n_br_fiscal.document.line.report",
+      "name": "Fiscal - previous period",
+      "formulaId": "2",
+      "columns": [],
+      "rows": [
+        {
+          "fieldName": "fiscal_operation_type"
+        }
+      ]
+    },
+    "3": {
+      "type": "ODOO",
+      "fieldMatching": {
+        "59931394-1d47-5631-951d-c5bf434c7d08": {
+          "chain": "date",
+          "type": "date",
+          "offset": 0
+        },
+        "7979d38e-832f-5a00-93b7-c99b10e76c68": {
+          "chain": "company_id",
+          "type": "many2one"
+        },
+        "84289dc2-8bd0-5606-abb1-669a035c4eed": {
+          "chain": "fiscal_operation_id",
+          "type": "many2one"
+        },
+        "1881ca14-b0bd-57c6-bc56-cd1c5d65709e": {
+          "chain": "cfop_id",
+          "type": "many2one"
+        },
+        "7ef0a956-5751-50c1-8650-71b3f103cd0c": {
+          "chain": "partner_state_id",
+          "type": "many2one"
+        }
+      },
+      "context": {},
+      "domain": [["state_edoc", "not in", ["cancelada", "denegada", "inutilizada"]]],
+      "id": "3",
+      "measures": [
+        {
+          "id": "amount_total",
+          "fieldName": "amount_total"
+        },
+        {
+          "id": "icms_value",
+          "fieldName": "icms_value"
+        },
+        {
+          "id": "ipi_value",
+          "fieldName": "ipi_value"
+        }
+      ],
+      "model": "l10n_br_fiscal.document.line.report",
+      "name": "By CFOP",
+      "formulaId": "3",
+      "columns": [],
+      "rows": [
+        {
+          "fieldName": "cfop_id"
+        }
+      ],
+      "sortedColumn": {
+        "groupId": [[], []],
+        "measure": "amount_total",
+        "order": "desc"
+      }
+    },
+    "4": {
+      "type": "ODOO",
+      "fieldMatching": {
+        "59931394-1d47-5631-951d-c5bf434c7d08": {
+          "chain": "date",
+          "type": "date",
+          "offset": 0
+        },
+        "7979d38e-832f-5a00-93b7-c99b10e76c68": {
+          "chain": "company_id",
+          "type": "many2one"
+        },
+        "84289dc2-8bd0-5606-abb1-669a035c4eed": {
+          "chain": "fiscal_operation_id",
+          "type": "many2one"
+        },
+        "1881ca14-b0bd-57c6-bc56-cd1c5d65709e": {
+          "chain": "cfop_id",
+          "type": "many2one"
+        },
+        "7ef0a956-5751-50c1-8650-71b3f103cd0c": {
+          "chain": "partner_state_id",
+          "type": "many2one"
+        }
+      },
+      "context": {},
+      "domain": [
+        ["state_edoc", "not in", ["cancelada", "denegada", "inutilizada"]],
+        ["fiscal_operation_type", "=", "out"]
+      ],
+      "id": "4",
+      "measures": [
+        {
+          "id": "amount_total",
+          "fieldName": "amount_total"
+        },
+        {
+          "id": "icms_value",
+          "fieldName": "icms_value"
+        },
+        {
+          "id": "ipi_value",
+          "fieldName": "ipi_value"
+        }
+      ],
+      "model": "l10n_br_fiscal.document.line.report",
+      "name": "By NCM (outgoing)",
+      "formulaId": "4",
+      "columns": [],
+      "rows": [
+        {
+          "fieldName": "ncm_id"
+        }
+      ],
+      "sortedColumn": {
+        "groupId": [[], []],
+        "measure": "amount_total",
+        "order": "desc"
+      }
+    },
+    "5": {
+      "type": "ODOO",
+      "fieldMatching": {
+        "59931394-1d47-5631-951d-c5bf434c7d08": {
+          "chain": "date",
+          "type": "date",
+          "offset": 0
+        },
+        "7979d38e-832f-5a00-93b7-c99b10e76c68": {
+          "chain": "company_id",
+          "type": "many2one"
+        },
+        "84289dc2-8bd0-5606-abb1-669a035c4eed": {
+          "chain": "fiscal_operation_id",
+          "type": "many2one"
+        },
+        "1881ca14-b0bd-57c6-bc56-cd1c5d65709e": {
+          "chain": "cfop_id",
+          "type": "many2one"
+        },
+        "7ef0a956-5751-50c1-8650-71b3f103cd0c": {
+          "chain": "partner_state_id",
+          "type": "many2one"
+        }
+      },
+      "context": {},
+      "domain": [
+        ["state_edoc", "not in", ["cancelada", "denegada", "inutilizada"]],
+        ["fiscal_operation_type", "=", "out"]
+      ],
+      "id": "5",
+      "measures": [
+        {
+          "id": "amount_total",
+          "fieldName": "amount_total"
+        },
+        {
+          "id": "icms_value",
+          "fieldName": "icms_value"
+        }
+      ],
+      "model": "l10n_br_fiscal.document.line.report",
+      "name": "By customer",
+      "formulaId": "5",
+      "columns": [],
+      "rows": [
+        {
+          "fieldName": "partner_id"
+        }
+      ],
+      "sortedColumn": {
+        "groupId": [[], []],
+        "measure": "amount_total",
+        "order": "desc"
+      }
+    },
+    "6": {
+      "type": "ODOO",
+      "fieldMatching": {
+        "59931394-1d47-5631-951d-c5bf434c7d08": {
+          "chain": "date",
+          "type": "date",
+          "offset": 0
+        },
+        "7979d38e-832f-5a00-93b7-c99b10e76c68": {
+          "chain": "company_id",
+          "type": "many2one"
+        },
+        "84289dc2-8bd0-5606-abb1-669a035c4eed": {
+          "chain": "fiscal_operation_id",
+          "type": "many2one"
+        },
+        "1881ca14-b0bd-57c6-bc56-cd1c5d65709e": {
+          "chain": "cfop_id",
+          "type": "many2one"
+        },
+        "7ef0a956-5751-50c1-8650-71b3f103cd0c": {
+          "chain": "partner_state_id",
+          "type": "many2one"
+        }
+      },
+      "context": {},
+      "domain": [
+        ["state_edoc", "not in", ["cancelada", "denegada", "inutilizada"]],
+        ["fiscal_operation_type", "=", "out"]
+      ],
+      "id": "6",
+      "measures": [
+        {
+          "id": "amount_total",
+          "fieldName": "amount_total"
+        },
+        {
+          "id": "icmsst_value",
+          "fieldName": "icmsst_value"
+        },
+        {
+          "id": "icms_destination_value",
+          "fieldName": "icms_destination_value"
+        }
+      ],
+      "model": "l10n_br_fiscal.document.line.report",
+      "name": "By partner state (outgoing)",
+      "formulaId": "6",
+      "columns": [],
+      "rows": [
+        {
+          "fieldName": "partner_state_id"
+        }
+      ],
+      "sortedColumn": {
+        "groupId": [[], []],
+        "measure": "amount_total",
+        "order": "desc"
+      }
+    }
+  },
+  "pivotNextId": 7,
+  "customTableStyles": {},
+  "odooVersion": 12,
+  "globalFilters": [
+    {
+      "id": "59931394-1d47-5631-951d-c5bf434c7d08",
+      "type": "date",
+      "label": "Period",
+      "defaultValue": "last_month",
+      "rangeType": "relative"
+    },
+    {
+      "id": "7979d38e-832f-5a00-93b7-c99b10e76c68",
+      "type": "relation",
+      "label": "Company",
+      "modelName": "res.company",
+      "defaultValue": [],
+      "defaultValueDisplayNames": [],
+      "rangeType": "year"
+    },
+    {
+      "id": "84289dc2-8bd0-5606-abb1-669a035c4eed",
+      "type": "relation",
+      "label": "Fiscal Operation",
+      "modelName": "l10n_br_fiscal.operation",
+      "defaultValue": [],
+      "defaultValueDisplayNames": [],
+      "rangeType": "year"
+    },
+    {
+      "id": "1881ca14-b0bd-57c6-bc56-cd1c5d65709e",
+      "type": "relation",
+      "label": "CFOP",
+      "modelName": "l10n_br_fiscal.cfop",
+      "defaultValue": [],
+      "defaultValueDisplayNames": [],
+      "rangeType": "year"
+    },
+    {
+      "id": "7ef0a956-5751-50c1-8650-71b3f103cd0c",
+      "type": "relation",
+      "label": "Partner State",
+      "modelName": "res.country.state",
+      "defaultValue": [],
+      "defaultValueDisplayNames": [],
+      "rangeType": "year"
+    }
+  ],
+  "lists": {},
+  "listNextId": 1,
+  "chartOdooMenusReferences": {}
+}

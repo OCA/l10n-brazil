@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="dashboard_group_fiscal" model="spreadsheet.dashboard.group">
+        <field name="name">Fiscal</field>
+        <field name="sequence">250</field>
+    </record>
+
+    <record id="dashboard_fiscal" model="spreadsheet.dashboard">
+        <field name="name">Fiscal Overview</field>
+        <field
+            name="spreadsheet_binary_data"
+            type="base64"
+            file="l10n_br_fiscal_spreadsheet_dashboard/data/files/fiscal_dashboard.json"
+        />
+        <field
+            name="main_data_model_ids"
+            eval="[(4, ref('l10n_br_fiscal.model_l10n_br_fiscal_document_line_report'))]"
+        />
+        <field name="dashboard_group_id" ref="dashboard_group_fiscal" />
+        <field
+            name="group_ids"
+            eval="[Command.link(ref('l10n_br_fiscal.group_user'))]"
+        />
+        <field name="sequence">10</field>
+        <field name="is_published">True</field>
+    </record>
+
+    <record id="dashboard_fiscal_assessment" model="spreadsheet.dashboard">
+        <field name="name">Tax Assessment Check</field>
+        <field
+            name="spreadsheet_binary_data"
+            type="base64"
+            file="l10n_br_fiscal_spreadsheet_dashboard/data/files/fiscal_assessment_dashboard.json"
+        />
+        <field
+            name="main_data_model_ids"
+            eval="[(4, ref('l10n_br_fiscal.model_l10n_br_fiscal_document_line_report'))]"
+        />
+        <field name="dashboard_group_id" ref="dashboard_group_fiscal" />
+        <field
+            name="group_ids"
+            eval="[Command.link(ref('l10n_br_fiscal.group_user'))]"
+        />
+        <field name="sequence">20</field>
+        <field name="is_published">True</field>
+    </record>
+
+    <record id="dashboard_tax_reform" model="spreadsheet.dashboard">
+        <field name="name">Tax Reform (CBS and IBS)</field>
+        <field
+            name="spreadsheet_binary_data"
+            type="base64"
+            file="l10n_br_fiscal_spreadsheet_dashboard/data/files/tax_reform_dashboard.json"
+        />
+        <field
+            name="main_data_model_ids"
+            eval="[(4, ref('l10n_br_fiscal.model_l10n_br_fiscal_document_line_report'))]"
+        />
+        <field name="dashboard_group_id" ref="dashboard_group_fiscal" />
+        <field
+            name="group_ids"
+            eval="[Command.link(ref('l10n_br_fiscal.group_user'))]"
+        />
+        <field name="sequence">30</field>
+        <field name="is_published">True</field>
+    </record>
+</odoo>
