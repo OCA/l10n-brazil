@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- The repair order of Odoo 18 is a technical sheet without prices: the
+         values and the fiscal summary are in the quotation. Here the order
+         carries the fiscal data of the customer and the fiscal operation. -->
+    <template
+        id="report_repair_order"
+        inherit_id="repair.report_repairorder"
+        priority="100"
+    >
+        <xpath expr="//p[@t-if='o.partner_id']" position="after">
+            <t t-if="o.company_id._get_report_option('report_partner_fiscal_data')">
+                <t t-call="l10n_br_fiscal.report_partner_fiscal_data">
+                    <t t-set="partner" t-value="o.partner_id" />
+                </t>
+            </t>
+        </xpath>
+        <xpath expr="//p[@t-if='o.user_id']" position="after">
+            <t t-call="l10n_br_fiscal.report_fiscal_operation">
+                <t t-set="doc" t-value="o" />
+                <t t-set="col_class" t-value="'m-0'" />
+            </t>
+        </xpath>
+    </template>
+</odoo>
