@@ -6,12 +6,73 @@
         inherit_id="purchase.report_purchaseorder_document"
     >
 
+        <xpath
+            expr="//t[@t-set='address']/div[@t-field='o.partner_id']"
+            position="attributes"
+        >
+            <attribute
+                name="t-if"
+            >not o.company_id._get_report_option('report_partner_fiscal_data')</attribute>
+        </xpath>
+        <xpath
+            expr="//t[@t-set='address']/div[@t-field='o.partner_id']"
+            position="after"
+        >
+            <t t-if="o.company_id._get_report_option('report_partner_fiscal_data')">
+                <div
+                    t-field="o.partner_id"
+                    t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'
+                />
+                <t t-call="l10n_br_fiscal.report_partner_fiscal_data">
+                    <t t-set="partner" t-value="o.partner_id" />
+                </t>
+            </t>
+        </xpath>
+        <xpath expr="//div[@id='informations']" position="inside">
+            <t t-call="l10n_br_fiscal.report_fiscal_operation">
+                <t t-set="doc" t-value="o" />
+                <t t-set="col_class" t-value="'col-3 bm-2'" />
+            </t>
+        </xpath>
+        <xpath expr="//td[@id='product']/span[@t-field='line.name']" position="before">
+            <t t-call="l10n_br_fiscal.report_line_product_code" />
+        </xpath>
+        <xpath expr="//td[@id='product']/span[@t-field='line.name']" position="after">
+            <t t-call="l10n_br_fiscal.report_line_fiscal_details" />
+        </xpath>
+        <xpath expr="//td[@name='td_taxes']/span" position="attributes">
+            <attribute name="t-if">o.company_id.country_id.code != 'BR'</attribute>
+        </xpath>
+        <xpath expr="//td[@name='td_taxes']/span" position="after">
+            <t
+                t-if="o.company_id.country_id.code == 'BR'"
+                t-call="l10n_br_fiscal.report_line_fiscal_taxes"
+            />
+        </xpath>
+        <xpath expr="//div[@id='total']//table" position="before">
+            <t t-set="fiscal_totals" t-value="o._get_report_fiscal_totals()" />
+        </xpath>
+        <xpath
+            expr="//div[@id='total']//t[@t-call='account.document_tax_totals']"
+            position="attributes"
+        >
+            <attribute name="t-if">not fiscal_totals</attribute>
+        </xpath>
+        <xpath
+            expr="//div[@id='total']//t[@t-call='account.document_tax_totals']"
+            position="after"
+        >
+            <t t-if="fiscal_totals" t-call="l10n_br_fiscal.report_fiscal_totals">
+                <t t-set="currency" t-value="o.currency_id" />
+            </t>
+        </xpath>
+
         <!-- Inclusão de outros Totais usados no Brasil -->
         <xpath
             expr="//div[@id='total']/div/table/t[@t-call='account.document_tax_totals']"
             position="before"
         >
-        <tr>
+        <tr t-if="not fiscal_totals">
             <td>Gross</td>
             <td class="text-end">
                 <span
@@ -20,7 +81,7 @@
                     />
             </td>
         </tr>
-        <tr>
+        <tr t-if="not fiscal_totals">
             <td>Discount</td>
             <td class="text-end">
                 <span
