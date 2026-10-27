@@ -100,6 +100,19 @@
                                     attrs="{'invisible': [('fiscal_type', '=', '00'), ('cfop_id', '=', False)]}"
                                 />
                             </group>
+                            <group
+                                name="ref_document"
+                                string="Referenced Document"
+                                attrs="{'invisible': [('edoc_purpose', '!=', '4')]}"
+                            >
+                                <field name="document_id" invisible="1" />
+                                <field name="edoc_purpose" invisible="1" />
+                                <field
+                                    name="ref_document_related_id"
+                                    options="{'no_create': True}"
+                                />
+                                <field name="ref_document_item" />
+                            </group>
                         </group>
                     </page>
                     <page name="fiscal_taxes" string="Taxes" />
