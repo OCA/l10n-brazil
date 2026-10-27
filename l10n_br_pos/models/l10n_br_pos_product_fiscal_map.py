@@ -83,5 +83,8 @@ class L10nBrPosProductFiscalMap(models.Model):
 
     ind_final = fields.Selection(related="partner_id.ind_final")
 
+    def _get_document(self):
+        return self.env["l10n_br_fiscal.document"]
+
     def _get_product_price(self):
         self.price_unit = 1
