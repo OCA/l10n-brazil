@@ -21,6 +21,7 @@
         "data/res_company.xml",
         "views/res_company.xml",
         "views/repair_order.xml",
+        "report/repair_templates_repair_order.xml",
     ],
     "demo": ["demo/res_company.xml", "demo/repair_order.xml"],
     "installable": True,
