@@ -32,6 +32,7 @@ class AccountMove(models.Model):
     _inherit = [
         _name,
         "l10n_br_account.decorator.mixin",
+        "l10n_br_fiscal.report.filter.mixin",
     ]
 
     # an account.move has normally 0 or 1 related fiscal document:

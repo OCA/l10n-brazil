@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="l10n_br_pos_report_pos_order_search" model="ir.ui.view">
+        <field name="name">l10n_br_pos.report.pos.order.search</field>
+        <field name="model">report.pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_report_pos_order_search" />
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <separator name="l10n_br_fiscal_report_filters" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

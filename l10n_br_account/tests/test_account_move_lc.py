@@ -144,6 +144,25 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "Venda de produção do estabelecimento",
         )
 
+    def test_invoice_report_sign(self):
+        """Vendor bill taxes are negative in the invoice analysis, as the amounts"""
+        self.env.flush_all()
+        for move, sign in (
+            (self.move_out_venda, 1),
+            (self.move_in_compra_para_revenda, -1),
+        ):
+            lines = move.invoice_line_ids
+            self.assertTrue(any(lines.mapped("icms_value")))
+            rows = (
+                self.env["account.invoice.report"]
+                .with_company(move.company_id)
+                .search([("move_id", "=", move.id)])
+            )
+            for fname in ("icms_value", "pis_value", "cofins_value"):
+                self.assertAlmostEqual(
+                    sum(rows.mapped(fname)), sign * sum(lines.mapped(fname)), places=2
+                )
+
     def test_venda(self):
         product_line_vals_1 = {
             "name": self.product_a.display_name,
