@@ -1785,8 +1785,8 @@ class NFe(spec_models.StackedModel):
             event_id.set_done(
                 status_code=retevento.infEvento.cStat,
                 response=retevento.infEvento.xMotivo,
-                protocol_date=fields.Datetime.to_string(
-                    datetime.fromisoformat(retevento.infEvento.dhRegEvento)
+                protocol_date=tax_authority_date_to_utc(
+                    retevento.infEvento.dhRegEvento
                 ),
                 protocol_number=retevento.infEvento.nProt,
                 file_response_xml=processo.retorno.content.decode("utf-8"),
