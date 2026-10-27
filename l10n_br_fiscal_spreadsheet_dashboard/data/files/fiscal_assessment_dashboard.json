@@ -1,0 +1,407 @@
+{
+  "version": 21,
+  "sheets": [
+    {
+      "id": "9327cfb8-55c2-511e-82da-acf393a0a3af",
+      "name": "Dashboard",
+      "colNumber": 8,
+      "rowNumber": 120,
+      "rows": {},
+      "cols": {
+        "0": {
+          "size": 200
+        },
+        "1": {
+          "size": 150
+        },
+        "2": {
+          "size": 150
+        },
+        "3": {
+          "size": 150
+        },
+        "4": {
+          "size": 150
+        },
+        "5": {
+          "size": 150
+        },
+        "6": {
+          "size": 150
+        },
+        "7": {
+          "size": 150
+        }
+      },
+      "merges": [],
+      "cells": {
+        "A1": {
+          "content": "=_t(\"Tax assessment check\")"
+        },
+        "A2": {
+          "content": "=_t(\"Debits are the taxes of the outgoing documents and credits the taxes of the incoming ones. Credits depend on the CST of each entry: this is a check, the legal assessment is in the SPED.\")"
+        },
+        "A4": {
+          "content": "=_t(\"Tax\")"
+        },
+        "B4": {
+          "content": "=_t(\"Debits (outgoing)\")"
+        },
+        "C4": {
+          "content": "=_t(\"Credits (incoming)\")"
+        },
+        "D4": {
+          "content": "=_t(\"Balance\")"
+        },
+        "A5": {
+          "content": "ICMS"
+        },
+        "B5": {
+          "content": "=IFERROR(PIVOT.VALUE(1,\"icms_value\",\"fiscal_operation_type\",\"out\"),0)"
+        },
+        "C5": {
+          "content": "=IFERROR(PIVOT.VALUE(1,\"icms_value\",\"fiscal_operation_type\",\"in\"),0)"
+        },
+        "D5": {
+          "content": "=B5-C5"
+        },
+        "A6": {
+          "content": "ICMS ST"
+        },
+        "B6": {
+          "content": "=IFERROR(PIVOT.VALUE(1,\"icmsst_value\",\"fiscal_operation_type\",\"out\"),0)"
+        },
+        "C6": {
+          "content": "=IFERROR(PIVOT.VALUE(1,\"icmsst_value\",\"fiscal_operation_type\",\"in\"),0)"
+        },
+        "D6": {
+          "content": "=B6-C6"
+        },
+        "A7": {
+          "content": "IPI"
+        },
+        "B7": {
+          "content": "=IFERROR(PIVOT.VALUE(1,\"ipi_value\",\"fiscal_operation_type\",\"out\"),0)"
+        },
+        "C7": {
+          "content": "=IFERROR(PIVOT.VALUE(1,\"ipi_value\",\"fiscal_operation_type\",\"in\"),0)"
+        },
+        "D7": {
+          "content": "=B7-C7"
+        },
+        "A8": {
+          "content": "PIS"
+        },
+        "B8": {
+          "content": "=IFERROR(PIVOT.VALUE(1,\"pis_value\",\"fiscal_operation_type\",\"out\"),0)"
+        },
+        "C8": {
+          "content": "=IFERROR(PIVOT.VALUE(1,\"pis_value\",\"fiscal_operation_type\",\"in\"),0)"
+        },
+        "D8": {
+          "content": "=B8-C8"
+        },
+        "A9": {
+          "content": "COFINS"
+        },
+        "B9": {
+          "content": "=IFERROR(PIVOT.VALUE(1,\"cofins_value\",\"fiscal_operation_type\",\"out\"),0)"
+        },
+        "C9": {
+          "content": "=IFERROR(PIVOT.VALUE(1,\"cofins_value\",\"fiscal_operation_type\",\"in\"),0)"
+        },
+        "D9": {
+          "content": "=B9-C9"
+        },
+        "A10": {
+          "content": "CBS"
+        },
+        "B10": {
+          "content": "=IFERROR(PIVOT.VALUE(1,\"cbs_value\",\"fiscal_operation_type\",\"out\"),0)"
+        },
+        "C10": {
+          "content": "=IFERROR(PIVOT.VALUE(1,\"cbs_value\",\"fiscal_operation_type\",\"in\"),0)"
+        },
+        "D10": {
+          "content": "=B10-C10"
+        },
+        "A11": {
+          "content": "IBS"
+        },
+        "B11": {
+          "content": "=IFERROR(PIVOT.VALUE(1,\"ibs_value\",\"fiscal_operation_type\",\"out\"),0)"
+        },
+        "C11": {
+          "content": "=IFERROR(PIVOT.VALUE(1,\"ibs_value\",\"fiscal_operation_type\",\"in\"),0)"
+        },
+        "D11": {
+          "content": "=B11-C11"
+        },
+        "A13": {
+          "content": "=_t(\"ICMS by month (outgoing and incoming)\")"
+        }
+      },
+      "styles": {
+        "A1": 1,
+        "A2": 4,
+        "A4": 2,
+        "A5:D11": 3,
+        "B4:D4": 5,
+        "A13": 1
+      },
+      "formats": {
+        "B5:D11": 1
+      },
+      "borders": {},
+      "conditionalFormats": [],
+      "figures": [
+        {
+          "id": "d245cc93-1dcb-52aa-9d04-e86985e3bacf",
+          "x": 0,
+          "y": 330,
+          "width": 1000,
+          "height": 300,
+          "tag": "chart",
+          "data": {
+            "title": {
+              "text": ""
+            },
+            "background": "#FFFFFF",
+            "legendPosition": "top",
+            "metaData": {
+              "groupBy": ["date:month", "fiscal_operation_type"],
+              "measure": "icms_value",
+              "order": null,
+              "resModel": "l10n_br_fiscal.document.line.report",
+              "mode": "bar"
+            },
+            "searchParams": {
+              "comparison": null,
+              "context": {},
+              "domain": [
+                ["state_edoc", "not in", ["cancelada", "denegada", "inutilizada"]]
+              ],
+              "groupBy": ["date", "fiscal_operation_type"],
+              "orderBy": []
+            },
+            "type": "odoo_bar",
+            "verticalAxisPosition": "left",
+            "stacked": false,
+            "fieldMatching": {
+              "c25fa024-8f35-5665-993f-9a440f39e09f": {
+                "chain": "date",
+                "type": "date",
+                "offset": 0
+              },
+              "6cbe216f-6b73-522f-b43c-4dc987bccfcd": {
+                "chain": "company_id",
+                "type": "many2one"
+              },
+              "a1a823d5-16e0-57c8-ae27-1385f529aaf4": {
+                "chain": "fiscal_operation_id",
+                "type": "many2one"
+              },
+              "ce2eda9e-b8dd-5109-8995-000f4fb7d535": {
+                "chain": "cfop_id",
+                "type": "many2one"
+              }
+            },
+            "cumulative": false
+          }
+        }
+      ],
+      "tables": [],
+      "areGridLinesVisible": false,
+      "isVisible": true,
+      "headerGroups": {
+        "ROW": [],
+        "COL": []
+      },
+      "dataValidationRules": [],
+      "comments": {}
+    },
+    {
+      "id": "da9ad3f4-a957-528c-85af-243ef7281e9a",
+      "name": "Data",
+      "colNumber": 8,
+      "rowNumber": 40,
+      "rows": {},
+      "cols": {
+        "0": {
+          "size": 220
+        }
+      },
+      "merges": [],
+      "cells": {},
+      "styles": {},
+      "formats": {
+        "B2:C40": 1
+      },
+      "borders": {},
+      "conditionalFormats": [],
+      "figures": [],
+      "tables": [],
+      "areGridLinesVisible": true,
+      "isVisible": false,
+      "headerGroups": {
+        "ROW": [],
+        "COL": []
+      },
+      "dataValidationRules": [],
+      "comments": {}
+    }
+  ],
+  "styles": {
+    "1": {
+      "textColor": "#01666b",
+      "bold": true,
+      "fontSize": 16
+    },
+    "2": {
+      "bold": true,
+      "fontSize": 11,
+      "textColor": "#434343"
+    },
+    "3": {
+      "textColor": "#434343",
+      "verticalAlign": "middle"
+    },
+    "4": {
+      "textColor": "#666666",
+      "italic": true,
+      "fontSize": 9
+    },
+    "5": {
+      "bold": true,
+      "fontSize": 11,
+      "textColor": "#434343",
+      "align": "right"
+    }
+  },
+  "formats": {
+    "1": "#,##0.00"
+  },
+  "borders": {},
+  "revisionId": "START_REVISION",
+  "uniqueFigureIds": true,
+  "settings": {
+    "locale": {
+      "name": "English (US)",
+      "code": "en_US",
+      "thousandsSeparator": ",",
+      "decimalSeparator": ".",
+      "dateFormat": "mm/dd/yyyy",
+      "timeFormat": "hh:mm:ss",
+      "formulaArgSeparator": ",",
+      "weekStart": 7
+    }
+  },
+  "pivots": {
+    "1": {
+      "type": "ODOO",
+      "fieldMatching": {
+        "c25fa024-8f35-5665-993f-9a440f39e09f": {
+          "chain": "date",
+          "type": "date",
+          "offset": 0
+        },
+        "6cbe216f-6b73-522f-b43c-4dc987bccfcd": {
+          "chain": "company_id",
+          "type": "many2one"
+        },
+        "a1a823d5-16e0-57c8-ae27-1385f529aaf4": {
+          "chain": "fiscal_operation_id",
+          "type": "many2one"
+        },
+        "ce2eda9e-b8dd-5109-8995-000f4fb7d535": {
+          "chain": "cfop_id",
+          "type": "many2one"
+        }
+      },
+      "context": {},
+      "domain": [["state_edoc", "not in", ["cancelada", "denegada", "inutilizada"]]],
+      "id": "1",
+      "measures": [
+        {
+          "id": "icms_value",
+          "fieldName": "icms_value"
+        },
+        {
+          "id": "icmsst_value",
+          "fieldName": "icmsst_value"
+        },
+        {
+          "id": "ipi_value",
+          "fieldName": "ipi_value"
+        },
+        {
+          "id": "pis_value",
+          "fieldName": "pis_value"
+        },
+        {
+          "id": "cofins_value",
+          "fieldName": "cofins_value"
+        },
+        {
+          "id": "cbs_value",
+          "fieldName": "cbs_value"
+        },
+        {
+          "id": "ibs_value",
+          "fieldName": "ibs_value"
+        }
+      ],
+      "model": "l10n_br_fiscal.document.line.report",
+      "name": "Taxes by direction",
+      "formulaId": "1",
+      "columns": [],
+      "rows": [
+        {
+          "fieldName": "fiscal_operation_type"
+        }
+      ]
+    }
+  },
+  "pivotNextId": 2,
+  "customTableStyles": {},
+  "odooVersion": 12,
+  "globalFilters": [
+    {
+      "id": "c25fa024-8f35-5665-993f-9a440f39e09f",
+      "type": "date",
+      "label": "Period",
+      "defaultValue": "last_month",
+      "rangeType": "relative"
+    },
+    {
+      "id": "6cbe216f-6b73-522f-b43c-4dc987bccfcd",
+      "type": "relation",
+      "label": "Company",
+      "modelName": "res.company",
+      "defaultValue": [],
+      "defaultValueDisplayNames": [],
+      "rangeType": "year"
+    },
+    {
+      "id": "a1a823d5-16e0-57c8-ae27-1385f529aaf4",
+      "type": "relation",
+      "label": "Fiscal Operation",
+      "modelName": "l10n_br_fiscal.operation",
+      "defaultValue": [],
+      "defaultValueDisplayNames": [],
+      "rangeType": "year"
+    },
+    {
+      "id": "ce2eda9e-b8dd-5109-8995-000f4fb7d535",
+      "type": "relation",
+      "label": "CFOP",
+      "modelName": "l10n_br_fiscal.cfop",
+      "defaultValue": [],
+      "defaultValueDisplayNames": [],
+      "rangeType": "year"
+    }
+  ],
+  "lists": {},
+  "listNextId": 1,
+  "chartOdooMenusReferences": {}
+}
