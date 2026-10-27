@@ -80,6 +80,67 @@
                             <field name="module_l10n_br_cte" />
                         </setting>
                     </block>
+                    <block
+                        title="Printed Reports"
+                        name="l10n_br_report_settings"
+                        id="l10n_br_report_settings"
+                    >
+                        <setting
+                            help="Legal name, CNPJ, IE and IM of the company in the header of the reports."
+                        >
+                            <field name="report_company_fiscal_data" />
+                        </setting>
+                        <setting
+                            help="Simples Nacional or Regime Normal, below the company fiscal data."
+                        >
+                            <field name="report_tax_framework" />
+                        </setting>
+                        <setting
+                            help="Legal name, CNPJ/CPF, IE (or the ICMS taxpayer status) and IM of the customer or vendor."
+                        >
+                            <field name="report_partner_fiscal_data" />
+                        </setting>
+                        <setting
+                            help="Fiscal operation of the document, next to the date and the salesperson."
+                        >
+                            <field name="report_fiscal_operation" />
+                        </setting>
+                        <setting
+                            help="NCM of the product, or service type and NBS, below the line description."
+                        >
+                            <field name="report_line_classification" />
+                        </setting>
+                        <setting
+                            help="CFOP below the line description. On quotations the CFOP may still change until the invoice."
+                        >
+                            <field name="report_line_cfop" />
+                        </setting>
+                        <setting
+                            help="Fiscal operation line below the line description."
+                        >
+                            <field name="report_line_operation_line" />
+                        </setting>
+                        <setting
+                            help="Products, discount, freight, insurance, other costs and the taxes added to the price, the document total, the withholdings and the net amount. Only lines with a value are printed."
+                        >
+                            <field name="report_fiscal_totals" />
+                            <div
+                                class="content-group mt16"
+                                invisible="not report_fiscal_totals"
+                            >
+                                <label
+                                    for="report_withholding_display"
+                                    class="o_light_label me-2"
+                                />
+                                <field name="report_withholding_display" />
+                            </div>
+                        </setting>
+                        <setting
+                            help="Taxes already included in the price (ICMS, PIS, COFINS, ISS, IBS, CBS), below the totals."
+                        >
+                            <field name="report_included_taxes" />
+                        </setting>
+                    </block>
                 </app>
             </xpath>
         </field>

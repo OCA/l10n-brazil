@@ -1,7 +1,7 @@
 # Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 from ..constants.fiscal import (
@@ -124,6 +124,91 @@ class FiscalDocumentMixin(models.AbstractModel):
     def _get_product_amount_lines(self):
         fiscal_line_ids = self._get_amount_lines()
         return fiscal_line_ids.filtered(lambda line: line.product_id.type != "service")
+
+    def _get_report_line_amounts(self):
+        """Tax values by tax group, and the other values the lines add to or
+        remove from their total, with the same rules as the line amounts
+        (e.g. taxes added on imports, ICMS relief)."""
+        delivery = {"freight_value", "insurance_value", "other_value"}
+        lines = self._get_amount_lines()
+        by_group, adjustments = {}, {}
+        for line in lines:
+            line_added = set(line._add_fields_to_amount()) - delivery
+            signed = [(field, 1) for field in line_added]
+            signed += [(field, -1) for field in line._rm_fields_to_amount()]
+            for key in signed:
+                adjustments[key] = adjustments.get(key, 0.0) + line[key[0]]
+            for tax in line.fiscal_tax_ids:
+                field = f"{tax.tax_domain}_value"
+                if (
+                    field in line_added
+                    or not line._fields.get(field)
+                    or not line[field]
+                ):
+                    continue
+                group = tax.tax_group_id
+                by_group[group] = by_group.get(group, 0.0) + line[field]
+        changes = []
+        for (field, sign), amount in adjustments.items():
+            label = lines._fields[field]._description_string(self.env)
+            changes.append((f"{'(+)' if sign > 0 else '(-)'} {label}", sign * amount))
+        return by_group, changes
+
+    def _get_report_fiscal_totals(self):
+        """Brazilian totals summary of the printed reports, or False to keep
+        the summary of the document. Each tax goes where its group says:
+        added to the price, included in it or withheld."""
+        self.ensure_one()
+        company = self.company_id
+        if not company._get_report_option("report_fiscal_totals"):
+            return False
+        if not self.fiscal_operation_id:
+            return False
+        by_group, adjustments = self._get_report_line_amounts()
+        groups = sorted(by_group, key=lambda group: group.sequence)
+        changes = [
+            (_("(-) Discount"), -self.amount_discount_value),
+            (_("(+) Freight"), self.amount_freight_value),
+            (_("(+) Insurance"), self.amount_insurance_value),
+            (_("(+) Other costs"), self.amount_other_value),
+        ]
+        changes += adjustments
+        changes += [
+            (f"(+) {group.name}", by_group[group])
+            for group in groups
+            if not group.tax_include and not group.tax_withholding
+        ]
+        rows = [(_("Products and services"), self.amount_price_gross, False)]
+        rows += [(label, abs(amount), False) for label, amount in changes if amount]
+        total = self.amount_price_gross + sum(amount for _label, amount in changes)
+        rows.append((_("Document total"), total, True))
+
+        withheld = [
+            (group.name, by_group[group]) for group in groups if group.tax_withholding
+        ]
+        if withheld:
+            if company.report_withholding_display == "grouped":
+                names = ", ".join(name for name, _amount in withheld)
+                rows.append(
+                    (
+                        _("(-) Withholdings (%s)") % names,
+                        sum(amount for _name, amount in withheld),
+                        False,
+                    )
+                )
+            else:
+                rows += [(f"(-) {name}", amount, False) for name, amount in withheld]
+            net = total - sum(amount for _name, amount in withheld)
+            rows.append((_("Net amount"), net, True))
+
+        included = []
+        if company.report_included_taxes:
+            included = [
+                (group.name, by_group[group])
+                for group in groups
+                if group.tax_include and not group.tax_withholding
+            ]
+        return {"rows": rows, "included": included}
 
     @api.model
     def _get_amount_fields(self):
