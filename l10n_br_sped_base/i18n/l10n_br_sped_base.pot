@@ -136,6 +136,13 @@ msgid "Fiscal Uom"
 msgstr ""
 
 #. module: l10n_br_sped_base
+#. odoo-python
+#: code:addons/l10n_br_sped_base/models/sped_declaration.py:0
+#, python-format
+msgid "Flush Registers"
+msgstr ""
+
+#. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__message_follower_ids
 msgid "Followers"
 msgstr ""
@@ -148,6 +155,13 @@ msgstr ""
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,help:l10n_br_sped_base.field_l10n_br_sped_declaration__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: l10n_br_sped_base
+#. odoo-python
+#: code:addons/l10n_br_sped_base/models/sped_declaration.py:0
+#, python-format
+msgid "Generate SPED File"
 msgstr ""
 
 #. module: l10n_br_sped_base
@@ -284,6 +298,13 @@ msgid "Odoo Reference"
 msgstr ""
 
 #. module: l10n_br_sped_base
+#. odoo-python
+#: code:addons/l10n_br_sped_base/models/sped_declaration.py:0
+#, python-format
+msgid "Pull Registers from Odoo"
+msgstr ""
+
+#. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__res_id
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_mixin__res_id
 msgid "Record ID"
@@ -297,6 +318,13 @@ msgid "Register %(code)s doesn't match Odoo %(kind)s SPED structure!"
 msgstr ""
 
 #. module: l10n_br_sped_base
+#. odoo-python
+#: code:addons/l10n_br_sped_base/models/sped_declaration.py:0
+#, python-format
+msgid "Reset to Draft"
+msgstr ""
+
+#. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__activity_user_id
 msgid "Responsible User"
 msgstr ""
@@ -304,6 +332,13 @@ msgstr ""
 #. module: l10n_br_sped_base
 #: model:ir.ui.menu,name:l10n_br_sped_base.menu_root
 msgid "SPED"
+msgstr ""
+
+#. module: l10n_br_sped_base
+#. odoo-python
+#: code:addons/l10n_br_sped_base/models/sped_declaration.py:0
+#, python-format
+msgid "Set to Done"
 msgstr ""
 
 #. module: l10n_br_sped_base
