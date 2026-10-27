@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="dda_match_wizard_view_form" model="ir.ui.view">
+        <field name="name">l10n_br_dda.match.wizard.form</field>
+        <field name="model">l10n_br_dda.match.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="debit_id" invisible="1" />
+                <field name="company_id" invisible="1" />
+                <field name="currency_id" invisible="1" />
+                <group>
+                    <group string="Boleto">
+                        <field name="beneficiary_name" />
+                        <field name="beneficiary_vat" />
+                        <field name="guarantor_name" />
+                        <field name="boleto_amount" />
+                        <field name="boleto_due" />
+                        <field name="boleto_number" />
+                    </group>
+                    <group string="Options">
+                        <field name="due_policy" />
+                        <field name="total_selected" />
+                    </group>
+                </group>
+                <field name="candidate_ids" nolabel="1">
+                    <tree editable="bottom" create="false" delete="false">
+                        <field name="selected" />
+                        <field
+                            name="move_line_ids"
+                            widget="many2many_tags"
+                            readonly="1"
+                        />
+                        <field name="score" readonly="1" />
+                        <field name="amount_total" readonly="1" />
+                        <field name="amount_diff" readonly="1" />
+                        <field name="date_diff" readonly="1" />
+                        <field name="evidence" readonly="1" />
+                        <field name="currency_id" invisible="1" />
+                    </tree>
+                </field>
+                <group>
+                    <field name="extra_line_ids" widget="many2many_tags" />
+                </group>
+                <footer>
+                    <button
+                        name="action_confirm"
+                        type="object"
+                        string="Link"
+                        class="btn-primary"
+                    />
+                    <button
+                        name="action_create_bill"
+                        type="object"
+                        string="Create a new bill"
+                    />
+                    <button special="cancel" string="Cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

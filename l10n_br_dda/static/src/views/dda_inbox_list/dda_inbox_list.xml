@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t
+        t-name="l10n_br_dda.InboxListView"
+        t-inherit="web.ListView"
+        t-inherit-mode="primary"
+        owl="1"
+    >
+        <xpath expr="//t[@t-component='props.Renderer']" position="before">
+            <DdaDashboard
+                resModel="resModel"
+                version="inbox.version"
+                records="model.root.records"
+            />
+        </xpath>
+    </t>
+
+    <t
+        t-name="l10n_br_dda.InboxListView.Buttons"
+        t-inherit="web.ListView.Buttons"
+        t-inherit-mode="primary"
+        owl="1"
+    >
+        <xpath expr="//div[hasclass('o_list_buttons')]" position="inside">
+            <button
+                t-if="nbSelected"
+                type="button"
+                class="btn btn-primary o_dda_apply_selected ms-2"
+                t-on-click="onClickApplySelected"
+            >
+                Apply recommended actions
+            </button>
+            <button
+                type="button"
+                class="btn btn-link o_dda_help"
+                title="Keyboard shortcuts"
+                aria-label="Keyboard shortcuts"
+                t-on-click="onClickHelp"
+            >
+                ?
+            </button>
+        </xpath>
+    </t>
+
+    <t t-name="l10n_br_dda.Dashboard" owl="1">
+        <div class="o_dda_dashboard">
+            <div
+                t-if="state.data"
+                class="o_dda_counters"
+                role="group"
+                aria-label="Bills by status"
+            >
+                <button
+                    t-foreach="counters"
+                    t-as="item"
+                    t-key="item.key"
+                    type="button"
+                    class="o_dda_counter btn btn-light border text-start"
+                    t-att-class="{'o_dda_counter_active active border-primary': item.active, 'o_dda_counter_alert': item.alert}"
+                    t-att-data-key="item.key"
+                    t-att-aria-pressed="item.active ? 'true' : 'false'"
+                    t-on-click="() => this.onCounterClick(item)"
+                >
+                    <span class="o_dda_counter_value" t-esc="item.value" />
+                    <span class="o_dda_counter_label" t-esc="item.label" />
+                </button>
+            </div>
+            <div
+                t-if="state.data"
+                class="o_dda_sources"
+                role="group"
+                aria-label="Sync sources"
+            >
+                <span
+                    t-if="!sources.length"
+                    class="o_dda_no_sources text-muted small"
+                >No sync source yet.</span>
+                <t t-foreach="sources" t-as="source" t-key="source.key">
+                    <t t-set="meta" t-value="sourceMeta(source)" />
+                    <button
+                        type="button"
+                        class="o_dda_source btn btn-sm"
+                        t-att-class="meta.className"
+                        t-att-data-key="source.key"
+                        t-att-data-state="source.state"
+                        t-att-title="source.message"
+                        t-att-disabled="!source.action"
+                        t-on-click="() => this.onSourceClick(source)"
+                    >
+                        <i
+                            t-attf-class="fa {{ meta.icon }} me-1"
+                            role="img"
+                            t-att-aria-label="meta.text"
+                        />
+                        <span class="o_dda_source_name" t-esc="source.name" />
+                        <span class="o_dda_source_state" t-esc="meta.text" />
+                        <span
+                            class="o_dda_source_sync text-muted"
+                            t-esc="relativeSync(source)"
+                        />
+                    </button>
+                </t>
+            </div>
+            <div t-if="state.error" class="o_dda_error text-muted small">
+                Status unavailable. The list below is still up to date.
+            </div>
+        </div>
+    </t>
+
+    <t t-name="l10n_br_dda.BatchSummaryDialog" owl="1">
+        <Dialog size="'md'" title="env._t('Apply recommended actions')">
+            <div class="o_dda_batch_summary">
+                <p class="mb-2">
+                    <t t-esc="props.preview.count" />
+                    bill(s) selected.
+                </p>
+                <ul class="o_dda_batch_lines list-unstyled mb-2">
+                    <li t-foreach="lines" t-as="line" t-key="line.key">
+                        <strong t-esc="line.count" />
+                        <span t-esc="' ' + line.label" />
+                    </li>
+                </ul>
+                <p t-if="props.preview.total" class="o_dda_batch_total fw-bold mb-0">
+                    Total: <t t-esc="props.totalText" />
+                </p>
+                <p class="text-muted small mt-2 mb-0">
+                    You can undo this for a few seconds after confirming.
+                </p>
+            </div>
+            <t t-set-slot="footer" owl="1">
+                <button
+                    type="button"
+                    class="btn btn-primary o_dda_batch_confirm"
+                    t-on-click="onConfirm"
+                >Confirm</button>
+                <button
+                    type="button"
+                    class="btn btn-secondary o_dda_batch_cancel"
+                    t-on-click="props.close"
+                >Cancel</button>
+            </t>
+        </Dialog>
+    </t>
+
+    <t t-name="l10n_br_dda.ShortcutsDialog" owl="1">
+        <Dialog size="'md'" title="env._t('Keyboard shortcuts')">
+            <table class="o_dda_shortcuts table table-sm mb-0">
+                <tbody>
+                    <tr t-foreach="shortcuts" t-as="shortcut" t-key="shortcut.key">
+                        <td class="text-nowrap">
+                            <kbd t-esc="shortcut.key" />
+                        </td>
+                        <td t-esc="shortcut.label" />
+                    </tr>
+                </tbody>
+            </table>
+            <p class="o_dda_shortcuts_note text-muted small mt-2 mb-0">
+                The shortcuts are off while the cursor is in the search box.
+                Press Arrow Down to go from the search box to the list.
+            </p>
+            <t t-set-slot="footer" owl="1">
+                <button
+                    type="button"
+                    class="btn btn-primary o_dda_shortcuts_close"
+                    t-on-click="props.close"
+                >Close</button>
+            </t>
+        </Dialog>
+    </t>
+
+</templates>
