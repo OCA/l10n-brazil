@@ -205,6 +205,15 @@ class AccountMove(models.Model):
     def _get_fiscal_lines_field_name(self):
         return "invoice_line_ids"
 
+    def _get_report_fiscal_totals(self):
+        # _inherits brings the fields of the fiscal document, not its methods
+        self.ensure_one()
+        return (
+            self.fiscal_document_id._get_report_fiscal_totals()
+            if self.fiscal_document_id
+            else False
+        )
+
     @api.onchange("ind_final")
     def _onchange_ind_final(self):
         """Propagate ind_final from the invoice header to its lines.
