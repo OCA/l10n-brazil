@@ -202,22 +202,13 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         return arch, view
 
     @api.depends(
-        "discount_value",
         "amount_tax_not_included",
         "amount_tax_withholding",
-        "price_unit",
-        "quantity",
-        "fiscal_operation_line_id",
-        "cfop_id",
         "icms_relief_value",
-        "insurance_value",
-        "other_value",
-        "freight_value",
         "pis_value",
         "cofins_value",
         "icms_value",
         "ii_value",
-        "ii_customhouse_charges",
     )
     def _compute_fiscal_amounts(self):
         for record in self:
@@ -305,9 +296,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                 )
 
     @api.depends(
-        "partner_id",
         "fiscal_operation_line_id",
-        "product_id",
         "ncm_id",
         "nbs_id",
         "nbm_id",
@@ -401,7 +390,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     def _onchange_fiscal_taxes(self):
         self._update_fiscal_tax_ids()
 
-    @api.depends("icms_tax_id", "icmssn_tax_id", "fiscal_operation_line_id")
+    @api.depends("icms_tax_id", "icmssn_tax_id")
     def _compute_icms_cst_id(self):
         for line in self.filtered(lambda ln: not ln._is_imported()):
             tax = line.icms_tax_id or line.icmssn_tax_id
@@ -412,12 +401,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                 line.icms_cst_id = tax.cst_from_tax(fiscal_operation_type)
 
     @api.depends(
-        "partner_id",
         "fiscal_tax_ids",
-        "product_id",
-        "price_unit",
-        "quantity",
-        "uom_id",
         "fiscal_price",
         "fiscal_quantity",
         "uot_id",
@@ -427,15 +411,9 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         "ii_iof_value",
         "other_value",
         "freight_value",
-        "ncm_id",
-        "nbs_id",
-        "nbm_id",
-        "cest_id",
-        "fiscal_operation_line_id",
         "cfop_id",
         "icmssn_range_id",
         "icms_origin",
-        "ind_final",
         "icms_relief_id",
     )
     def _compute_tax_fields(self):
