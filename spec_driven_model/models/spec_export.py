@@ -283,6 +283,7 @@ class SpecMixinExport(models.AbstractModel):
             for key, value in export_dict.items()
             if key in binding_class.__dataclass_fields__ and value is not None
         }
+        self._truncate_xsd_strings(binding_class, sliced_dict)
         return binding_class(**sliced_dict)
 
     def _export_field(self, xsd_field, class_obj, field_spec, export_value=None):
@@ -358,6 +359,45 @@ class SpecMixinExport(models.AbstractModel):
         return relational_data
 
     @api.model
+    def _truncate_xsd_strings(self, binding_class, values):
+        """
+        Cut the string values longer than the maxLength of their schema field.
+
+        The xsdata bindings carry the xs:maxLength restriction of every
+        element/attribute in the metadata of the dataclass field, so the
+        schema is the single source of truth for the maximum size of a value
+        and no Odoo module has to hard code the cut of each tag.
+
+        We cannot rely on the xsd_type of the spec fields for that: it is
+        missing on the tags declared with an anonymous restriction (the NFe
+        natOp and xNome, declared as a restriction of TString, are such
+        cases) and it never carries the length itself.
+
+        This mutates and returns values (the export_dict of the caller).
+        """
+        dataclass_fields = getattr(binding_class, "__dataclass_fields__", {})
+        for key, value in values.items():
+            if not isinstance(value, str):
+                continue
+            field_spec = dataclass_fields.get(key)
+            max_length = field_spec and field_spec.metadata.get("max_length")
+            if not max_length or len(value) <= max_length:
+                continue
+            # rstrip because the XSD patterns usually force the last
+            # character to be a non space one
+            values[key] = value[:max_length].rstrip()
+            _logger.info(
+                "Cutting %s.%s to the %s characters allowed by the schema "
+                "(the value had %s): %r",
+                binding_class.__qualname__,
+                key,
+                max_length,
+                len(value),
+                value,
+            )
+        return values
+
+    @api.model
     def _format_float_xsd(self, value, xsd_type):
         """
         Format a float according to the decimal places of its xsd_type
@@ -429,4 +469,5 @@ class SpecMixinExport(models.AbstractModel):
             for key in binding_class.__dataclass_fields__.keys()
             if kwargs.get(key) is not None
         }
+        self._truncate_xsd_strings(binding_class, sliced_kwargs)
         return binding_class(**sliced_kwargs)
