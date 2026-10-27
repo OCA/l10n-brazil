@@ -139,3 +139,26 @@ class TestDocumentReferenceDate(TransactionCase):
         backdated = fields.Datetime.subtract(self.today, days=60)
         self.assertIn(self.tax_ipi_nt, self._new_line_taxes(backdated))
         self.assertNotIn(self.tax_ipi_nt, self._new_line_taxes(self.today))
+
+    def test_changing_the_document_date_maps_the_lines_again(self):
+        """The line is mapped when it is added; the date typed afterwards has to
+        map it again, otherwise the taxes stay on the date it had before."""
+        backdated = fields.Datetime.subtract(self.today, days=60)
+        doc_form = Form(
+            self.env["l10n_br_fiscal.document"].with_context(
+                default_fiscal_operation_type="out",
+            )
+        )
+        doc_form.company_id = self.company
+        doc_form.partner_id = self.env.ref("l10n_br_base.res_partner_cliente1_sp")
+        doc_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+        doc_form.document_date = self.today
+        with doc_form.fiscal_line_ids.new() as line_form:
+            line_form.product_id = self.env.ref("product.product_product_6")
+            self.assertNotIn(self.tax_ipi_nt, line_form.fiscal_tax_ids)
+        doc_form.document_date = backdated
+        with doc_form.fiscal_line_ids.edit(0) as line_form:
+            self.assertIn(self.tax_ipi_nt, line_form.fiscal_tax_ids)
+        doc_form.document_date = self.today
+        with doc_form.fiscal_line_ids.edit(0) as line_form:
+            self.assertNotIn(self.tax_ipi_nt, line_form.fiscal_tax_ids)
