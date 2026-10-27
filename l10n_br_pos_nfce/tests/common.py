@@ -11,6 +11,9 @@ class TestNFCePosOrderCommon(TestPoSCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        # The journals were created while the company was Brazilian (default
+        # of l10n_br_base) and TestPoSCommon moves it to another country.
+        cls.change_company_country(cls.company, cls.env.ref("base.br"))
 
         cls.env.user.write(
             {
