@@ -16,6 +16,7 @@ from odoo_test_helper import FakeModelLoader
 from odoo import fields
 from odoo.exceptions import UserError
 from odoo.tests import TransactionCase
+from odoo.tools.translate import code_translations
 
 from odoo.addons import l10n_br_sped_base
 from odoo.addons.l10n_br_sped_base.models.sped_mixin import SPED_ENCODING
@@ -354,6 +355,50 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
             '<field name="IND_SIT_ESP"',
             arch,
         )
+
+    def test_declaration_buttons_are_translatable(self):
+        """The header buttons are built in code: their labels must go through
+        the translation function, or no .po file can ever translate them."""
+        labels = {
+            "button_populate_sped_from_odoo": "Pull Registers from Odoo",
+            "button_flush_registers": "Flush Registers",
+            "button_done": "Set to Done",
+            "button_draft": "Reset to Draft",
+            "button_create_sped_files": "Generate SPED File",
+        }
+        fake_pt_br = {label: f"{label} (pt)" for label in labels.values()}
+        declaration_model = self.env["l10n_br_sped.fake.0000"]
+
+        arch, _view = declaration_model._get_view(view_type="form")
+        for name, label in labels.items():
+            button = arch.xpath(f"//header/button[@name='{name}']")[0]
+            self.assertEqual(button.get("string"), label)
+
+        self.env["res.lang"]._activate_lang("pt_BR")
+        with patch.object(
+            code_translations, "get_python_translations", return_value=fake_pt_br
+        ):
+            arch, _view = declaration_model.with_context(lang="pt_BR")._get_view(
+                view_type="form"
+            )
+        for name, label in labels.items():
+            button = arch.xpath(f"//header/button[@name='{name}']")[0]
+            self.assertEqual(button.get("string"), fake_pt_br[label])
+
+    def test_declaration_children_separator_is_translated(self):
+        """The title above each child registers list is built in code from the
+        field label, which must come already translated."""
+        self.env["res.lang"]._activate_lang("pt_BR")
+        register_model = self.env["l10n_br_sped.fake.i010"]
+        field = self.env["ir.model.fields"]._get(register_model._name, "reg_I050_ids")
+        field.with_context(lang="pt_BR").field_description = "Plano de contas (pt)"
+
+        arch, _view = register_model.with_context(lang="pt_BR")._get_view(
+            view_type="form"
+        )
+        titles = arch.xpath("//separator/@string")
+        self.assertIn("Plano de contas (pt)", titles)
+        self.assertNotIn(register_model._fields["reg_I050_ids"].string, titles)
 
     def test_populate_and_split_attachment_creation(self):
         declaration = self.declaration
