@@ -131,13 +131,14 @@ class FiscalDocumentMixin(models.AbstractModel):
         (e.g. taxes added on imports, ICMS relief)."""
         delivery = {"freight_value", "insurance_value", "other_value"}
         lines = self._get_amount_lines()
-        by_group, adjustments = {}, {}
+        by_group, adjustments, labels = {}, {}, {}
         for line in lines:
             line_added = set(line._add_fields_to_amount()) - delivery
             signed = [(field, 1) for field in line_added]
             signed += [(field, -1) for field in line._rm_fields_to_amount()]
             for key in signed:
                 adjustments[key] = adjustments.get(key, 0.0) + line[key[0]]
+                labels[key[0]] = line._fields[key[0]]._description_string(self.env)
             for tax in line.fiscal_tax_ids:
                 field = f"{tax.tax_domain}_value"
                 if (
@@ -150,8 +151,8 @@ class FiscalDocumentMixin(models.AbstractModel):
                 by_group[group] = by_group.get(group, 0.0) + line[field]
         changes = []
         for (field, sign), amount in adjustments.items():
-            label = lines._fields[field]._description_string(self.env)
-            changes.append((f"{'(+)' if sign > 0 else '(-)'} {label}", sign * amount))
+            sign_label = "(+)" if sign > 0 else "(-)"
+            changes.append((f"{sign_label} {labels[field]}", sign * amount))
         return by_group, changes
 
     def _get_report_fiscal_totals(self):
