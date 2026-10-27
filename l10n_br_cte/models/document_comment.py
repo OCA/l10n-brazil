@@ -21,15 +21,13 @@ class CTeComment(spec_models.StackedModel):
     cte40_xTexto = fields.Text()
 
     def _export_field(self, xsd_field, class_obj, member_spec, export_value=None):
+        # the 20 characters of xCampo and the 160 of xTexto in ObsCont (60 in
+        # ObsFisco) are cut generically on export, from the XSD maxLength:
         if xsd_field == "cte40_xCampo":
-            return self.name[:20].strip()
-        if xsd_field == "cte40_xTexto":
-            if "doc" in self.env.context:
-                doc_id = self.env.context["doc"]
-                doc = self.env["l10n_br_fiscal.document"].browse(doc_id)
-                vals = {"user": self.env.user, "ctx": self._context, "doc": doc}
-                message = self.compute_message(vals).strip()
-                if self.comment_type == "fiscal":
-                    return message[:60]
-                return message[:160]
+            return self.name.strip()
+        if xsd_field == "cte40_xTexto" and "doc" in self.env.context:
+            doc_id = self.env.context["doc"]
+            doc = self.env["l10n_br_fiscal.document"].browse(doc_id)
+            vals = {"user": self.env.user, "ctx": self._context, "doc": doc}
+            return self.compute_message(vals).strip()
         return super()._export_field(xsd_field, class_obj, member_spec, export_value)
