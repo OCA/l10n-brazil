@@ -1,0 +1,515 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_dda_brbank
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-27 03:24+0000\n"
+"PO-Revision-Date: 2026-10-27 03:24+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_dda_brbank
+#. odoo-python
+#: code:addons/l10n_br_dda_brbank/models/bank_connection.py:0
+#, python-format
+msgid "%(count)s boletos listed (%(mode)s)."
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#. odoo-python
+#: code:addons/l10n_br_dda_brbank/models/bank_connection.py:0
+#, python-format
+msgid "%s boletos synchronized."
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_bank_connection_connection__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_bank_connection_connection__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_bank_connection_connection__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_bank_connection_connection__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_dda_event__attempts
+msgid "Attempts"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model,name:l10n_br_dda_brbank.model_l10n_br_bank_connection_connection
+msgid "Bank Connection"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda_brbank.dda_event_form
+msgid "Boletos of the event"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,help:l10n_br_dda_brbank.field_l10n_br_dda_event__debits_json
+msgid ""
+"Boletos of the event as values of the DDA inbox, kept until the event is "
+"processed."
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_dda_event__connection_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda_brbank.dda_event_search
+msgid "Connection"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_dda_event__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_dda_event__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda_brbank.bank_connection_form_dda
+msgid "DDA"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model,name:l10n_br_dda_brbank.model_l10n_br_dda_event
+msgid "DDA Bank Event"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.actions.act_window,name:l10n_br_dda_brbank.dda_event_action
+#: model:ir.ui.menu,name:l10n_br_dda_brbank.dda_event_menu
+msgid "DDA Bank Events"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_bank_connection_connection__dda_enabled
+msgid "DDA Enabled"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_bank_connection_connection__dda_event_ids
+msgid "DDA Events"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_bank_connection_connection__dda_sync_status_ids
+msgid "DDA Synchronization"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.actions.server,name:l10n_br_dda_brbank.ir_cron_dda_reconcile_ir_actions_server
+#: model:ir.cron,cron_name:l10n_br_dda_brbank.ir_cron_dda_reconcile
+msgid "DDA bank: daily reconciliation"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.actions.server,name:l10n_br_dda_brbank.ir_cron_dda_incremental_ir_actions_server
+#: model:ir.cron,cron_name:l10n_br_dda_brbank.ir_cron_dda_incremental
+msgid "DDA bank: incremental pull"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.actions.server,name:l10n_br_dda_brbank.ir_cron_dda_process_events_ir_actions_server
+#: model:ir.cron,cron_name:l10n_br_dda_brbank.ir_cron_dda_process_events
+msgid "DDA bank: process webhook events"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.actions.server,name:l10n_br_dda_brbank.ir_cron_dda_purge_events_ir_actions_server
+#: model:ir.cron,cron_name:l10n_br_dda_brbank.ir_cron_dda_purge_events
+msgid "DDA bank: purge processed events"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model,name:l10n_br_dda_brbank.model_l10n_br_dda_debit
+msgid "DDA boleto"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#. odoo-python
+#: code:addons/l10n_br_dda_brbank/models/bank_connection.py:0
+#: code:addons/l10n_br_dda_brbank/models/bank_connection.py:0
+#, python-format
+msgid "DDA disabled."
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#. odoo-python
+#: code:addons/l10n_br_dda_brbank/models/bank_connection.py:0
+#, python-format
+msgid "DDA enabled at the bank."
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#. odoo-python
+#: code:addons/l10n_br_dda_brbank/models/bank_connection.py:0
+#, python-format
+msgid "DDA enabled, waiting for the first synchronization."
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#. odoo-python
+#: code:addons/l10n_br_dda_brbank/models/bank_connection.py:0
+#, python-format
+msgid "DDA enabled."
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda_brbank.bank_connection_form_dda
+msgid ""
+"DDA event(s) waiting to be\n"
+"                        processed or retried. See the events below."
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#. odoo-python
+#: code:addons/l10n_br_dda_brbank/models/bank_connection.py:0
+#, python-format
+msgid "DDA was disabled at the bank."
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#. odoo-python
+#: code:addons/l10n_br_dda_brbank/models/bank_connection.py:0
+#, python-format
+msgid "DDA: %(count)s boletos, total %(total)s."
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields.selection,name:l10n_br_dda_brbank.selection__l10n_br_dda_event__event_type__dda_ativado
+msgid "DDA_ATIVADO"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields.selection,name:l10n_br_dda_brbank.selection__l10n_br_dda_event__event_type__dda_desativado
+msgid "DDA_DESATIVADO"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields.selection,name:l10n_br_dda_brbank.selection__l10n_br_dda_event__event_type__debito_alterado
+msgid "DEBITO_ALTERADO"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields.selection,name:l10n_br_dda_brbank.selection__l10n_br_dda_event__event_type__debito_novo
+msgid "DEBITO_NOVO"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields.selection,name:l10n_br_dda_brbank.selection__l10n_br_dda_event__event_type__debito_pago
+msgid "DEBITO_PAGO"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_bank_connection_connection__dda_available
+msgid "Dda Available"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_bank_connection_connection__dda_last_cursor
+msgid "Dda Last Cursor"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_bank_connection_connection__dda_pending_events
+msgid "Dda Pending Events"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_dda_event__debits_json
+msgid "Debits Json"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda_brbank.bank_connection_form_dda
+msgid "Disable DDA"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_dda_event__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda_brbank.bank_connection_form_dda
+msgid "Enable DDA"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#. odoo-python
+#: code:addons/l10n_br_dda_brbank/models/bank_connection.py:0
+#, python-format
+msgid "Enable DDA on this connection first."
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_dda_event__event_id
+msgid "Event"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_dda_event__event_type
+msgid "Event Type"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,help:l10n_br_dda_brbank.field_l10n_br_dda_event__payload
+msgid "Event as received, masked by the library."
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda_brbank.bank_connection_form_dda
+msgid "Events"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,help:l10n_br_dda_brbank.field_l10n_br_bank_connection_connection__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda_brbank.dda_event_search
+msgid "Group By"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_dda_event__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_bank_connection_connection__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,help:l10n_br_dda_brbank.field_l10n_br_bank_connection_connection__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_dda_event__last_error
+msgid "Last Error"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_bank_connection_connection__dda_last_full
+msgid "Last Full Reconciliation"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_bank_connection_connection__dda_last_incremental
+msgid "Last Incremental Pull"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_dda_event____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_dda_event__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_dda_event__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda_brbank.bank_connection_form_dda
+msgid "Last synchronization"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda_brbank.dda_event_form
+msgid "Masked payload"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_bank_connection_connection__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_bank_connection_connection__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_bank_connection_connection__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_bank_connection_connection__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_dda_event__next_attempt_at
+msgid "Next Attempt At"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#. odoo-python
+#: code:addons/l10n_br_dda_brbank/models/bank_connection.py:0
+#, python-format
+msgid "No new boleto arrives until DDA is enabled again on the connection."
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#. odoo-python
+#: code:addons/l10n_br_dda_brbank/models/dda_debit.py:0
+#, python-format
+msgid "No synchronization yet."
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_dda_event__occurred_at
+msgid "Occurred At"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_dda_event__payload
+msgid "Payload"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda_brbank.dda_event_form
+msgid "Process again"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields.selection,name:l10n_br_dda_brbank.selection__l10n_br_dda_event__state__done
+msgid "Processed"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields.selection,name:l10n_br_dda_brbank.selection__l10n_br_dda_event__state__quarantine
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda_brbank.dda_event_search
+msgid "Quarantine"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_bank_connection_connection__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields.selection,name:l10n_br_dda_brbank.selection__l10n_br_dda_event__state__error
+msgid "Retrying"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_dda_event__state
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda_brbank.dda_event_search
+msgid "State"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,help:l10n_br_dda_brbank.field_l10n_br_bank_connection_connection__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda_brbank.bank_connection_form_dda
+msgid "Synchronize now"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#. odoo-python
+#: code:addons/l10n_br_dda_brbank/models/bank_connection.py:0
+#, python-format
+msgid "The bank adapter of %s does not support this DDA operation."
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#. odoo-python
+#: code:addons/l10n_br_dda_brbank/models/dda_event.py:0
+#, python-format
+msgid "The bank still lists the boleto as open."
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda_brbank.bank_connection_form_dda
+msgid ""
+"The bank stops sending new boletos. The ones already captured stay in the "
+"inbox. Continue?"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,help:l10n_br_dda_brbank.field_l10n_br_bank_connection_connection__dda_enabled
+msgid "The connection captures the boletos registered against its CNPJ."
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#. odoo-python
+#: code:addons/l10n_br_dda_brbank/models/dda_debit.py:0
+#, python-format
+msgid "The connection needs attention."
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.constraint,message:l10n_br_dda_brbank.constraint_l10n_br_dda_event_connection_event_unique
+msgid "This DDA event was already received."
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields.selection,name:l10n_br_dda_brbank.selection__l10n_br_dda_event__state__new
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda_brbank.dda_event_search
+msgid "To Process"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,help:l10n_br_dda_brbank.field_l10n_br_bank_connection_connection__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#: model:ir.model.fields,help:l10n_br_dda_brbank.field_l10n_br_bank_connection_connection__dda_last_cursor
+msgid ""
+"Where an interrupted pull resumes: mode, due date filter and cursor of the "
+"page."
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#. odoo-python
+#: code:addons/l10n_br_dda_brbank/models/bank_connection.py:0
+#, python-format
+msgid "full"
+msgstr ""
+
+#. module: l10n_br_dda_brbank
+#. odoo-python
+#: code:addons/l10n_br_dda_brbank/models/bank_connection.py:0
+#, python-format
+msgid "incremental"
+msgstr ""
