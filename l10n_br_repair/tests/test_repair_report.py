@@ -21,3 +21,6 @@ class TestRepairReport(TransactionCase):
         self.assertTrue(page.xpath("//div[@name='informations_fiscal_operation']"))
         self.assertIn("Document total", text)
         self.assertIn(f"CFOP {repair.operations[:1].cfop_id.code}", text)
+        if repair.partner_invoice_id.vat == repair.partner_id.vat:
+            # the address block does not repeat the tax ID of the fiscal data
+            self.assertEqual(text.count(repair.partner_id.vat), 1)
