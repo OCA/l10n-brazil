@@ -53,6 +53,7 @@ from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import (
     DOCUMENT_STATE_REJECTED,
     DOCUMENT_STATE_SENDING,
 )
+from odoo.addons.l10n_br_fiscal_edi.tools import tax_authority_date_to_utc
 from odoo.addons.spec_driven_model.models import spec_models
 
 from ..constants.nfe import (
@@ -65,7 +66,6 @@ from ..constants.nfe import (
     NFE_TRANSMISSIONS,
     NFE_VERSIONS,
 )
-from ..tools import tax_authority_date_to_utc
 
 SITUACAO_EDOC_CANCELADA = DOCUMENT_STATE_CANCEL
 SITUACAO_EDOC_EM_DIGITACAO = DOCUMENT_STATE_DRAFT

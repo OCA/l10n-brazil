@@ -10,8 +10,7 @@ from requests import Session
 from odoo import models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import EVENT_ENV_HML, EVENT_ENV_PROD
-
-from ..tools import tax_authority_date_to_utc
+from odoo.addons.l10n_br_fiscal_edi.tools import tax_authority_date_to_utc
 
 
 class InvalidateNumber(models.Model):
