@@ -65,37 +65,6 @@ class DataAbstract(models.AbstractModel):
             raise AccessError(_("You don't have permission to unarchive records."))
         return super().action_unarchive()
 
-    @api.model
-    def _get_invalid_records(self):
-        """Return active records whose date_end is already past."""
-        today = fields.Date.context_today(self)
-        return self.search([("date_end", "!=", False), ("date_end", "<", today)])
-
-    @api.model
-    def _expire_invalid_records(self):
-        """Deactivate records that fell outside their date validity window."""
-        invalid_records = self._get_invalid_records()
-        if invalid_records:
-            invalid_records.write({"active": False})
-
-    @api.model
-    def _cron_expire_fiscal_parametrization(self):
-        """Daily cron entry point: deactivate fiscal master data whose
-        date_end is already past.
-
-        Iterates every concrete model that inherits from this abstract
-        model (NCM, NBS, CFOP, CST, CEST, NBM, ...), including through the
-        intermediate `data.product.abstract` / `data.ncm.nbs.abstract`
-        abstractions.
-        """
-        abstract_class = self.pool["l10n_br_fiscal.data.abstract"]
-        for model_name, model_class in self.pool.models.items():
-            if model_class._abstract or model_class._transient:
-                continue
-            if not issubclass(model_class, abstract_class):
-                continue
-            self.env[model_name]._expire_invalid_records()
-
     @api.depends("code")
     def _compute_code_unmasked(self):
         for r in self:
