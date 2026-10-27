@@ -1224,16 +1224,6 @@ msgid "NCM"
 msgstr "NCM"
 
 #. module: l10n_br_sale_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__simple_value
-msgid "National Simple Taxes"
-msgstr "Impostos do Simples Nacional"
-
-#. module: l10n_br_sale_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__simple_without_icms_value
-msgid "National Simple Taxes without ICMS"
-msgstr "Impostos do Simples Nacional sem ICMS"
-
-#. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order_line__national_taxation_code_id
 msgid "National Taxation Code for the ISS tax (National NFS-e)"
 msgstr ""
@@ -1433,6 +1423,13 @@ msgstr "Quantidade do Produto (UOM)"
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__partner_is_public_entity
 msgid "Public Entity"
 msgstr "Entidade Pública"
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmssn_range_id
+msgid ""
+"Range of the Simples Nacional annex that taxes the operation, the one the "
+"company was in when the taxes of the line were computed."
+msgstr ""
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__partner_receivering_id
@@ -1756,6 +1753,12 @@ msgstr ""
 #: model:product.pricelist,name:l10n_br_sale_blanket_order.sale_blanket_order_pricelist_demo
 msgid "l10n_br_sale_blanket_order demo pricelist"
 msgstr ""
+
+#~ msgid "National Simple Taxes"
+#~ msgstr "Impostos do Simples Nacional"
+
+#~ msgid "National Simple Taxes without ICMS"
+#~ msgstr "Impostos do Simples Nacional sem ICMS"
 
 #~ msgid "Additional Data"
 #~ msgstr "Dados Adicionais"
