@@ -369,6 +369,7 @@
                                     <field name="code" />
                                     <field name="description" />
                                     <field name="gen_liquidation_move" />
+                                    <field name="not_accepted" />
                                 </list>
                             </field>
                         </page>
