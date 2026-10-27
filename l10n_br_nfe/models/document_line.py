@@ -537,6 +537,7 @@ class NFeLine(spec_models.StackedModel):
                     # DESONERAÇÃO DO IMCS
                     "vICMSDeson": f"{self.icms_relief_value:.2f}",
                     "motDesICMS": self.icms_relief_id.code,
+                    "indDeduzDeson": self.icms_relief_type,
                 }
             )
         return icms
@@ -1473,6 +1474,7 @@ class NFeLine(spec_models.StackedModel):
                     f"l10n_br_fiscal.icms_relief_{mot_des_icms}"
                 ).id
             map_binding_attr("vICMSDeson", "icms_relief_value")
+            map_binding_attr("indDeduzDeson", "icms_relief_type")
             map_binding_attr("vICMSSubstituto", "icms_substitute")
 
             # ICMS ST fields
