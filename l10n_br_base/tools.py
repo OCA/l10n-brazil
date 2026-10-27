@@ -22,7 +22,7 @@ def check_ie(env, l10n_br_ie_code, state, country):
     :return:
     """
     if env and l10n_br_ie_code and state and country:
-        if country != env.ref("base.br"):
+        if country.code != "BR":
             return  # skip check
 
         disable_ie_validation = env["ir.config_parameter"].sudo().get_param(
