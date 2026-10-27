@@ -111,7 +111,7 @@
             >
                 <attribute
                     name="attrs"
-                >{'invisible': ['|', ('state_edoc', '!=', 'autorizada'), ('imported_document', '=', True)]}</attribute>
+                >{'invisible': ['|', '|', ('state_edoc', '!=', 'autorizada'), ('imported_document', '=', True), ('document_type', '=', '65')]}</attribute>
             </xpath>
             <xpath
                 expr="//header/button[@name='action_create_return']"
