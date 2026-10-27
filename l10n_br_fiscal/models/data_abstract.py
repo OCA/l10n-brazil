@@ -78,24 +78,6 @@ class DataAbstract(models.AbstractModel):
         if invalid_records:
             invalid_records.write({"active": False})
 
-    @api.model
-    def _cron_expire_fiscal_parametrization(self):
-        """Daily cron entry point: deactivate fiscal master data whose
-        date_end is already past.
-
-        Iterates every concrete model that inherits from this abstract
-        model (NCM, NBS, CFOP, CST, CEST, NBM, ...), including through the
-        intermediate `data.product.abstract` / `data.ncm.nbs.abstract`
-        abstractions.
-        """
-        abstract_class = self.pool["l10n_br_fiscal.data.abstract"]
-        for model_name, model_class in self.pool.models.items():
-            if model_class._abstract or model_class._transient:
-                continue
-            if not issubclass(model_class, abstract_class):
-                continue
-            self.env[model_name]._expire_invalid_records()
-
     @api.depends("code")
     def _compute_code_unmasked(self):
         for r in self:

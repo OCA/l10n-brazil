@@ -55,15 +55,6 @@ class TestFiscalDataValidity(TransactionCase):
         ncm._expire_invalid_records()
         self.assertTrue(ncm.active)
 
-    def test_cron_expires_across_fiscal_data_models(self):
-        expired_ncm = self._create_ncm(
-            "66666666", date_end=fields.Date.subtract(self.today, days=1)
-        )
-        valid_ncm = self._create_ncm("77777777")
-        self.env["l10n_br_fiscal.data.abstract"]._cron_expire_fiscal_parametrization()
-        self.assertFalse(expired_ncm.active)
-        self.assertTrue(valid_ncm.active)
-
 
 class TestTaxDefinitionValidity(TransactionCase):
     @classmethod
@@ -106,7 +97,6 @@ class TestTaxDefinitionValidity(TransactionCase):
 
     def test_future_rule_is_found_on_its_date(self):
         tax_definition = self._create_future_tax_definition("TDV004")
-        self.env["l10n_br_fiscal.data.abstract"]._cron_expire_fiscal_parametrization()
         self.assertIn(
             tax_definition,
             self._map(tax_definition, fields.Datetime.add(self.today, days=6)),
