@@ -369,7 +369,51 @@ class AccountTax(models.Model):
                 )
                 break
 
+        self._set_fiscal_group_amounts(res, base_lines, company)
         return res
+
+    @api.model
+    def _set_fiscal_group_amounts(self, tax_totals, base_lines, company):
+        """Show the fiscal values of the lines in the tax groups of tax_totals.
+
+        The deductible account taxes cancel the normal ones in the standard
+        tax group amounts, so the summary of the portal and of the reports
+        would list the taxes as zero or negative. The real values live in the
+        fiscal fields of the lines.
+        """
+        lines = [
+            line
+            for line in base_lines
+            if line.get("record") is not None
+            and hasattr(line["record"], "fiscal_operation_line_id")
+        ]
+        if not lines:
+            return
+        rate = lines[0].get("rate") or 1.0
+        records = [line["record"] for line in lines]
+        tax_groups = self.env["account.tax.group"]
+        for subtotal in tax_totals["subtotals"]:
+            for group in subtotal["tax_groups"]:
+                fiscal_group = tax_groups.browse(group["id"]).fiscal_tax_group_id
+                field_name = f"{fiscal_group.tax_domain}_value"
+                if (
+                    not fiscal_group
+                    or fiscal_group.tax_withholding
+                    or field_name not in records[0]._fields
+                ):
+                    continue
+                amount = sum(record[field_name] for record in records)
+                amount_company = company.currency_id.round(amount / rate)
+                # keep base + taxes = total, as the delta above does
+                for values in (tax_totals, subtotal):
+                    for key, new, old in (
+                        ("_currency", amount, group["tax_amount_currency"]),
+                        ("", amount_company, group["tax_amount"]),
+                    ):
+                        values["tax_amount" + key] += new - old
+                        values["base_amount" + key] -= new - old
+                group["tax_amount_currency"] = amount
+                group["tax_amount"] = amount_company
 
     @api.model
     def _distribute_delta_amount_smoothly(
