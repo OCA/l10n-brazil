@@ -219,6 +219,52 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         )
         self.assertEqual(imported_po.order_line[0].name, "Some product desc")
 
+    def _export_po_line_name(self, line_name):
+        """Export a purchase order with a single line named line_name and
+        return the productName of its binding."""
+        po = self.env["fake.purchase.order"].create(
+            {
+                "name": "PO XSD",
+                "date_order": "2024-10-08",
+                "partner_id": self.env.ref("base.res_partner_1").id,
+                "dest_address_id": self.env.ref("base.res_partner_1").id,
+            }
+        )
+        self.env["fake.purchase.order.line"].create(
+            {
+                "name": line_name,
+                "product_qty": 1,
+                "price_unit": 13,
+                "order_id": po.id,
+            }
+        )
+        po_binding = po._build_binding(spec_schema="poxsd", spec_version="10")
+        return po, po_binding.items.item[0].product_name
+
+    def test_export_cuts_values_longer_than_the_xsd_max_length(self):
+        """
+        A string longer than the maxLength of its schema field is cut on
+        export, the Odoo record keeping the full value.
+
+        The maxLength is read from the binding metadata, which xsdata fills
+        from the XSD restriction, so the schema is the single source of
+        truth and no Odoo module hard codes the size of each tag.
+        """
+        line_name = "Some product description way too long for the schema"
+        po, product_name = self._export_po_line_name(line_name)
+        self.assertEqual(product_name, "Some product descrip")
+        self.assertEqual(len(product_name), 20)
+        # the Odoo record is left untouched:
+        self.assertEqual(po.order_line.name, line_name)
+
+        # a value under the limit is exported as is:
+        _, product_name = self._export_po_line_name("Some product desc")
+        self.assertEqual(product_name, "Some product desc")
+
+        # a cut must not leave the trailing space the XSD patterns forbid:
+        _, product_name = self._export_po_line_name("1234567890123456789 a")
+        self.assertEqual(product_name, "1234567890123456789")
+
     def test_polymorphic_comodel_from_binding_type(self):
         binding_type = "Cte.Tcte.Ide"
         expected_model_name = "cte.40.ide"

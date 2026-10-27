@@ -33,7 +33,14 @@
       <xsd:element name='item' minOccurs='0' maxOccurs='unbounded'>
         <xsd:complexType>
           <xsd:sequence>
-            <xsd:element name='productName' type='xsd:string'/>
+            <xsd:element name='productName'>
+              <xsd:simpleType>
+                <xsd:restriction base='xsd:string'>
+                  <xsd:minLength value='1'/>
+                  <xsd:maxLength value='20'/>
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
             <xsd:element name='quantity'>
               <xsd:simpleType>
                 <xsd:restriction base='xsd:positiveInteger'>
