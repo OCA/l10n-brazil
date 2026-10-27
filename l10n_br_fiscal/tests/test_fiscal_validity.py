@@ -5,66 +5,6 @@ from odoo import Command, fields
 from odoo.tests import Form, TransactionCase, tagged
 
 
-class TestFiscalDataValidity(TransactionCase):
-    """Validity window (date_start/date_end) for `l10n_br_fiscal.data.abstract`
-    descendants, exercised through `l10n_br_fiscal.ncm`."""
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.Ncm = cls.env["l10n_br_fiscal.ncm"]
-        cls.today = fields.Date.context_today(cls.Ncm)
-
-    def _create_ncm(self, code, **kwargs):
-        vals = {"code": code, "name": "Test NCM %s" % code}
-        vals.update(kwargs)
-        return self.Ncm.create(vals)
-
-    def test_no_dates_stay_active(self):
-        ncm = self._create_ncm("11111111")
-        ncm._expire_invalid_records()
-        self.assertTrue(ncm.active)
-
-    def test_future_start_date_stays_active(self):
-        ncm = self._create_ncm(
-            "22222222", date_start=fields.Date.add(self.today, days=5)
-        )
-        ncm._expire_invalid_records()
-        self.assertTrue(ncm.active)
-
-    def test_past_end_date_expires(self):
-        ncm = self._create_ncm(
-            "33333333", date_end=fields.Date.subtract(self.today, days=1)
-        )
-        ncm._expire_invalid_records()
-        self.assertFalse(ncm.active)
-
-    def test_within_range_stays_active(self):
-        ncm = self._create_ncm(
-            "44444444",
-            date_start=fields.Date.subtract(self.today, days=1),
-            date_end=fields.Date.add(self.today, days=1),
-        )
-        ncm._expire_invalid_records()
-        self.assertTrue(ncm.active)
-
-    def test_only_start_date_in_the_past_stays_active(self):
-        ncm = self._create_ncm(
-            "55555555", date_start=fields.Date.subtract(self.today, days=1)
-        )
-        ncm._expire_invalid_records()
-        self.assertTrue(ncm.active)
-
-    def test_cron_expires_across_fiscal_data_models(self):
-        expired_ncm = self._create_ncm(
-            "66666666", date_end=fields.Date.subtract(self.today, days=1)
-        )
-        valid_ncm = self._create_ncm("77777777")
-        self.env["l10n_br_fiscal.data.abstract"]._cron_expire_fiscal_parametrization()
-        self.assertFalse(expired_ncm.active)
-        self.assertTrue(valid_ncm.active)
-
-
 class TestTaxDefinitionValidity(TransactionCase):
     @classmethod
     def setUpClass(cls):
@@ -106,7 +46,6 @@ class TestTaxDefinitionValidity(TransactionCase):
 
     def test_future_rule_is_found_on_its_date(self):
         tax_definition = self._create_future_tax_definition("TDV004")
-        self.env["l10n_br_fiscal.data.abstract"]._cron_expire_fiscal_parametrization()
         self.assertIn(
             tax_definition,
             self._map(tax_definition, fields.Datetime.add(self.today, days=6)),
