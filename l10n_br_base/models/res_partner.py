@@ -50,15 +50,14 @@ class Partner(models.Model):
         help="Is it a Brazilian partner?",
     )
 
-    @api.returns("self", lambda value: value.id)
-    def copy(self, default=None):
-        if self.is_br_partner:
-            if default is None:
-                default = {}
-            if "vat" not in default:
-                # CNPJ should be unique:
-                default["vat"] = None
-        return super().copy(default)
+    def copy_data(self, default=None):
+        vals_list = super().copy_data(default=default)
+        if not default or "vat" not in default:
+            for partner, vals in zip(self, vals_list, strict=True):
+                if partner.is_br_partner:
+                    # CNPJ/CPF should be unique:
+                    vals["vat"] = None
+        return vals_list
 
     def _commercial_sync_from_company(self):
         """
