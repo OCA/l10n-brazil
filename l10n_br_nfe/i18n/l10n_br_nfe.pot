@@ -914,6 +914,11 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
+msgid "Consumidor -"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
 msgid "Consumidor Nao Identificado"
 msgstr ""
 
@@ -4973,13 +4978,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_supplement__nfe40_qrCode
 msgid "Texto com o QR-Code impresso no DANFE NFC-e"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,help:l10n_br_nfe.field_account_bank_statement_line__nfe40_transporta
-#: model:ir.model.fields,help:l10n_br_nfe.field_account_move__nfe40_transporta
-#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_transporta
-msgid "The partner that is doing the delivery service."
 msgstr ""
 
 #. module: l10n_br_nfe
