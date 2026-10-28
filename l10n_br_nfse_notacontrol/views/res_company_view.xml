@@ -11,11 +11,11 @@
                 <field name="nfse_notacontrol" />
                 <field
                     name="nfse_notacontrol_algorithm"
-                    attrs="{'invisible': [('nfse_notacontrol', '=', False)]}"
+                    invisible="not nfse_notacontrol"
                 />
                 <field
                     name="nfse_notacontrol_simulated"
-                    attrs="{'invisible': [('nfse_notacontrol', '=', False)]}"
+                    invisible="not nfse_notacontrol"
                 />
             </group>
         </field>
