@@ -324,6 +324,12 @@ class L10nBrSaleBLanketOrderTest(TransactionCase):
         expected_subtotal = full_price_subtotal * partial_qty / bo_line.quantity
         self.assertAlmostEqual(so_line.price_subtotal, expected_subtotal, 2)
         self.assertNotAlmostEqual(so_line.price_subtotal, full_price_subtotal, 2)
+        # The order totals come from its lines, not from the blanket order
+        self.assertAlmostEqual(sale_order.amount_price_gross, so_line.price_gross, 2)
+        self.assertAlmostEqual(sale_order.amount_tax, so_line.price_tax, 2)
+        self.assertAlmostEqual(
+            sale_order.amount_financial_total, so_line.financial_total, 2
+        )
 
     def test_onchange_product_keeps_taxes_id_from_fiscal(self):
         """Inline tree product onchange must not leave taxes_id empty on BR CoA.

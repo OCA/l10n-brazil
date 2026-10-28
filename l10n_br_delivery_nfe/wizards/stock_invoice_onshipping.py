@@ -27,6 +27,11 @@ class StockInvoiceOnshipping(models.TransientModel):
             )
             for vol_id in vol_ids
         ]
+        if vol_ids:
+            # The picking fiscal dict carries its own total_weight (0.0), and a
+            # value given on create overrides the compute of the fiscal
+            # document, so the sum of the volumes must be given here.
+            values["total_weight"] = sum(vol_ids.mapped("nfe40_pesoB"))
 
         return invoice, values
 
@@ -59,6 +64,12 @@ class StockInvoiceOnshipping(models.TransientModel):
         if not picking_ids:
             raise UserError(_("No picking 2binvoiced!"))
 
+        # Without carrier and without Incoterm there is no transport (modFrete 9):
+        # no volume is suggested. Volumes already generated are kept and the user
+        # can still add volumes by hand.
+        picking_ids = picking_ids.filtered(
+            lambda p: p.has_vol or p.carrier_id or p.sale_id.incoterm
+        )
         vols_data = picking_ids.prepare_vols_data_from_picking()
         vol_ids = [Command.create(vol) for vol in vols_data]
 

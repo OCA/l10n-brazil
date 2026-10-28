@@ -15,4 +15,19 @@
             </field>
         </field>
     </record>
+
+    <record id="l10n_br_delivery_nfe-nfe_40_vol_tree" model="ir.ui.view">
+        <field name="name">l10n_br_delivery_nfe.nfe.40.vol.tree</field>
+        <field name="model">nfe.40.vol</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="nfe40_qVol" />
+                <field name="nfe40_esp" />
+                <field name="nfe40_marca" />
+                <field name="nfe40_nVol" />
+                <field name="nfe40_pesoL" />
+                <field name="nfe40_pesoB" />
+            </list>
+        </field>
+    </record>
 </odoo>

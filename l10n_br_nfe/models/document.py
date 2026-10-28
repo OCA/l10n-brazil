@@ -89,6 +89,18 @@ def filter_processador_edoc_nfe(record):
     return False
 
 
+def filter_imported_nfe(record):
+    """NF-e of a third party imported from its XML (no processor involved)."""
+    return bool(
+        record.original_xml_file_id
+        and record.document_type_id.code == MODELO_FISCAL_NFE
+    )
+
+
+def filter_nfe_pdf(record):
+    return filter_processador_edoc_nfe(record) or filter_imported_nfe(record)
+
+
 class NFe(spec_models.StackedModel):
     _name = "l10n_br_fiscal.document"
     _inherit = ["l10n_br_fiscal.document", "nfe.40.infnfe"]
@@ -107,9 +119,11 @@ class NFe(spec_models.StackedModel):
     _nfe_search_keys = ["nfe40_Id"]
 
     # When dynamic stacking is applied the NFe structure is:
+    # (+ content of the m2o is stacked in the parent / - standard m2o /
+    # ≡ o2m; the mapped Odoo model may follow the tag)
     INFNFE_TREE = """
-> <infnfe>
-    > <ide>
++ <infnfe>
+    + <ide>
         ≡ <NFref> l10n_br_fiscal.document.related
         - <gPagAntecipado>
     - <emit> res.company
@@ -119,27 +133,27 @@ class NFe(spec_models.StackedModel):
     - <entrega> res.partner
     ≡ <autXML> l10n_br_nfe.autxml
     ≡ <det> l10n_br_fiscal.document.line
-    > <total>
-        > <ICMSTot>
-        > <ISSQNtot>
-        > <retTrib>
-    > <transp>
+    + <total>
+        + <ICMSTot>
+        + <ISSQNtot>
+        + <retTrib>
+    + <transp>
         - <transporta> res.partner
         - <retTransp>
         - <veicTransp>
         ≡ <reboque>
         ≡ <vol>
-    > <cobr>
-        > <fat>
+    + <cobr>
+        + <fat>
         ≡ <dup>
-    > <pag>
+    + <pag>
         ≡ <detPag>
     - <infIntermed>
-    > <infAdic>
+    + <infAdic>
         ≡ <obsCont>
         ≡ <obsFisco>
         ≡ <procRef>
-    > <exporta>
+    + <exporta>
     - <compra>
     - <cana>
     - <infRespTec> res.partner
@@ -921,9 +935,7 @@ class NFe(spec_models.StackedModel):
                     for f in comodel._fields
                     if f.startswith(self._spec_prefix())
                     and f in self._fields.keys()
-                    and f
-                    # don't try to nfe40_fat id when reading nfe40_cobr for instance
-                    not in self._get_stacking_points().keys()
+                    and f not in self._get_stacking_points().keys()
                 ]
                 sub_tag_read = self.read(fields)[0]
                 if not any(
@@ -942,6 +954,17 @@ class NFe(spec_models.StackedModel):
             res = super()._export_many2one(field_name, xsd_required, class_obj)
             if self.company_l10n_br_ie_code_st:
                 res.IEST = self.company_l10n_br_ie_code_st
+            return res
+
+        if field_name == "nfe40_dest" and self.document_type == MODELO_FISCAL_NFCE:
+            if not self.partner_id.vat:
+                return None
+
+            # CPF or CNPJ come from the partner, without punctuation
+            res = super()._export_many2one(field_name, xsd_required, class_obj)
+            res.enderDest = None
+            res.xNome = None
+
             return res
 
         return super()._export_many2one(field_name, xsd_required, class_obj)
@@ -1162,12 +1185,28 @@ class NFe(spec_models.StackedModel):
             self.env.invalidate_all()
             inf_nfe = record._build_binding("nfe", "40")
 
+            if (
+                record.document_type == MODELO_FISCAL_NFCE
+                and inf_nfe.ide.tpAmb == "2"
+                and inf_nfe.det
+            ):
+                inf_nfe.det[0].prod.xProd = (
+                    "NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO "
+                    "- SEM VALOR FISCAL"
+                )
+
             inf_nfe_supl = None
+
             if record.nfe40_infNFeSupl:
                 inf_nfe_supl = record.nfe40_infNFeSupl._build_binding("nfe", "40")
 
-            nfe = Nfe(infNFe=inf_nfe, infNFeSupl=inf_nfe_supl, signature=None)
+            nfe = Nfe(
+                infNFe=inf_nfe,
+                infNFeSupl=inf_nfe_supl,
+                signature=None,
+            )
             edocs.append(nfe)
+
         return edocs
 
     def _edoc_processor(self):
@@ -1602,18 +1641,19 @@ class NFe(spec_models.StackedModel):
             )
 
     def view_pdf(self):
-        if not self.filtered(filter_processador_edoc_nfe):
+        if not self.filtered(filter_nfe_pdf):
             return super().view_pdf()
 
         if self.document_type == MODELO_FISCAL_NFCE:
             return self.action_danfe_nfce_report()
 
-        if not self.authorization_file_id or not self.file_report_id:
+        has_xml = self.authorization_file_id or self.original_xml_file_id
+        if not has_xml or not self.file_report_id:
             self.make_pdf()
         return self._target_new_tab(self.file_report_id)
 
     def make_pdf(self):
-        if not self.filtered(filter_processador_edoc_nfe):
+        if not self.filtered(filter_nfe_pdf):
             return super().make_pdf()
 
         attachment_data = {
@@ -1884,15 +1924,20 @@ class NFe(spec_models.StackedModel):
         )
 
     def _prepare_nfce_danfe_values(self):
+        date = fields.Datetime.context_timestamp(self, self.document_date).strftime(
+            "%d/%m/%Y %H:%M:%S"
+        )
         return {
             "company_ie": self.company_id.l10n_br_ie_code,
             "company_cnpj": self.company_id.vat_formatted_cnpj,
             "company_legal_name": self.company_id.legal_name,
+            "company_name": self.company_id.name,
             "company_street": self.company_id.street,
             "company_number": self.company_id.street_number,
             "company_district": self.company_id.district,
             "company_city": self.company_id.city_id.display_name,
             "company_state": self.company_id.state_id.name,
+            "partner_cpf": self.partner_id.vat or "",
             "lines": self._prepare_nfce_danfe_line_values(),
             "total_product_quantity": len(
                 self.fiscal_line_ids.filtered(lambda line: line.product_id)
@@ -1906,9 +1951,7 @@ class NFe(spec_models.StackedModel):
             "document_key": self.document_key,
             "document_number": self.document_number,
             "document_serie": self.document_serie,
-            "document_date": self.document_date.astimezone().strftime(
-                "%d/%m/%y %H:%M:%S"
-            ),
+            "document_date": date,
             "authorization_protocol": self.authorization_protocol,
             "document_qrcode": self.get_nfce_qrcode(),
             "system_env": self.nfe40_tpAmb,
@@ -1916,6 +1959,23 @@ class NFe(spec_models.StackedModel):
             "unformatted_amount_discount_value": self.amount_discount_value,
             "contingency": self.nfe_transmission != "1",
             "homologation_environment": self.nfe_environment == "2",
+            **self._prepare_nfce_danfe_consumer_values(),
+        }
+
+    def _prepare_nfce_danfe_consumer_values(self):
+        """Identification of the consumer, the same one sent in the XML tag dest."""
+        consumer = self.nfe40_dest
+        vat = re.sub(r"\W", "", consumer.vat or "")
+        if not vat:
+            return {
+                "consumer_document": "",
+                "consumer_document_type": "",
+                "consumer_name": "",
+            }
+        return {
+            "consumer_document": consumer.vat_formatted_cnpj or vat,
+            "consumer_document_type": "CPF" if len(vat) == 11 else "CNPJ",
+            "consumer_name": consumer.legal_name or consumer.name,
         }
 
     def _prepare_nfce_danfe_line_values(self):

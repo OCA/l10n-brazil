@@ -235,6 +235,25 @@ class CNABFileParser(FileParser):
                 ]
             )
 
+            if len(account_move_line) > 1:
+                # O mesmo Nosso Número pode acabar se repetindo no Diário,
+                # ex.: sequência reiniciada/recriada, mais de um Modo de
+                # Pagamento usando o mesmo Diário ou dados migrados. É usado
+                # o título ainda em Aberto para evitar o erro
+                # "Expected singleton" e uma baixa indevida.
+                account_move_line = account_move_line.filtered(
+                    lambda aml: not aml.reconciled and aml.amount_residual
+                )
+                if len(account_move_line) > 1:
+                    # O Seu Número/Número do Documento vai na Remessa e volta
+                    # no Retorno, podendo ser usado como desempate.
+                    seu_numero = str(linha_cnab.get("documento_numero") or "").strip()
+                    account_move_line = account_move_line.filtered_domain(
+                        [("document_number", "=", seu_numero)]
+                    )
+                if len(account_move_line) > 1:
+                    account_move_line = account_move_line.browse()
+
             # Linha não encontrada
             if not account_move_line:
                 self.cnab_return_events.append(

@@ -18,6 +18,7 @@ class TestDeliveryNFe(TestBrPickingInvoicingCommon):
         self.prod2 = self.env.ref("product.product_product_16")
         self._change_user_company(self.env.ref("l10n_br_base.empresa_lucro_presumido"))
         picking = self.env.ref("l10n_br_stock_account.lucro_presumido-picking_1")
+        picking.carrier_id = self.env.ref("l10n_br_delivery.test_br_delivery_carrier")
         self.brand_id1 = self.env["product.brand"].create({"name": "marca teste"})
         self.brand_id2 = self.env["product.brand"].create({"name": "marca2 teste"})
 
@@ -157,6 +158,8 @@ class TestDeliveryNFe(TestBrPickingInvoicingCommon):
         picking.button_validate()
 
         self.assertEqual(picking.state, "done")
+        # The carrier changes the put in pack flow: set it after the delivery
+        picking.carrier_id = self.env.ref("l10n_br_delivery.test_br_delivery_carrier")
         wizard_obj = self.invoice_wizard.with_context(
             active_ids=picking.ids,
             active_model=picking._name,
@@ -289,3 +292,36 @@ class TestDeliveryNFe(TestBrPickingInvoicingCommon):
             1,
             "Unexpected value for picking number_of_volumes.",
         )
+
+    def _done_picking_wizard_vols(self, picking):
+        """Validate the picking and return the volumes the wizard suggests."""
+        self._change_user_company(self.env.ref("l10n_br_base.empresa_lucro_presumido"))
+        self.env.ref("product.product_product_12").weight = 2
+        picking.set_to_be_invoiced()
+        self.picking_move_state(picking)
+        wizard_obj = self.env["stock.invoice.onshipping"].with_context(
+            active_ids=picking.ids,
+            active_model=picking._name,
+            active_id=picking.id,
+        )
+        wizard = wizard_obj.create(
+            wizard_obj.default_get(wizard_obj.fields_get().keys())
+        )
+        return wizard.vol_ids
+
+    def test_no_volume_suggested_without_carrier_and_incoterm(self):
+        """Without carrier and Incoterm (modFrete 9) no volume is suggested."""
+        # the picking belongs to the Lucro Presumido company: switch before
+        # writing it, 18.0 record rules reject a cross-company write
+        self._change_user_company(self.env.ref("l10n_br_base.empresa_lucro_presumido"))
+        picking = self.env.ref("l10n_br_stock_account.lucro_presumido-picking_1")
+        picking.carrier_id = False
+        self.assertFalse(picking.sale_id.incoterm)
+        self.assertFalse(self._done_picking_wizard_vols(picking))
+
+    def test_volume_suggested_with_carrier(self):
+        """With a carrier the volume is suggested as before."""
+        self._change_user_company(self.env.ref("l10n_br_base.empresa_lucro_presumido"))
+        picking = self.env.ref("l10n_br_stock_account.lucro_presumido-picking_1")
+        picking.carrier_id = self.env.ref("l10n_br_delivery.test_br_delivery_carrier")
+        self.assertTrue(self._done_picking_wizard_vols(picking))
