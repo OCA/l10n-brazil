@@ -5,6 +5,7 @@ import logging
 import random
 from types import SimpleNamespace
 
+import pytz
 from lxml import etree
 
 from odoo import _, api, fields, models
@@ -14,6 +15,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_REJEITADA,
 )
+from odoo.addons.l10n_br_nfse_nacional.models.document import BRAZIL_TZ
 
 _logger = logging.getLogger(__name__)
 
@@ -23,6 +25,23 @@ except ImportError:  # pragma: no cover
     _logger.debug("erpbrasil.edoc without the NotaControl provider")
 
 SIMULATED = "SIMULADO"
+
+# DPS 1.01 (NotaControl layout of Goiania, schema_v101.xsd)
+DPS_VERSION = "1.01"
+# tpRetPisCofins: 1.00 had 1 (retained) / 2 (not retained); 1.01 splits
+# PIS/COFINS/CSLL: 3 = all retained, 0 = none retained
+TP_RET_PIS_COFINS_101 = {"1": "3", "2": "0"}
+# IBSCBS group as in the NFS-e the city portal issues (DPS 1.01): regular
+# NFS-e, service operation indicator, the taker is the recipient, CST 000 /
+# cClassTrib 000001 (full taxation, no IBS/CBS value in 2026). Only used when
+# l10n_br_nfse_nacional did not export the group (line without RTC data).
+IBSCBS_DEFAULT = {
+    "finNFSe": "0",
+    "cIndOp": "050101",
+    "indDest": "0",
+    "CST": "000",
+    "cClassTrib": "000001",
+}
 
 
 class _SimulatedResponse:
@@ -130,6 +149,18 @@ class L10nBrFiscalDocument(models.Model):
                 f"{registration.zfill(14)}{serie.zfill(5)}{str(number).zfill(15)}"
             )
 
+    def _compute_nfse10_dates(self):
+        """l10n_br_nfse_nacional already labels dhEmi in Brazilian local time,
+        but takes dCompet from the UTC date: after 21:00 the DPS would be
+        competent on the next day, after its own emission."""
+        res = super()._compute_nfse10_dates()
+        for rec in self.filtered(
+            lambda r: r.company_id.nfse_notacontrol and r.document_date
+        ):
+            local = pytz.utc.localize(rec.document_date).astimezone(BRAZIL_TZ)
+            rec.nfse10_dCompet = local.strftime("%Y-%m-%d")
+        return res
+
     def _notacontrol_provider(self, session=None):
         self.ensure_one()
         company = self.company_id
@@ -160,14 +191,18 @@ class L10nBrFiscalDocument(models.Model):
         if self.company_id.nfse_notacontrol_simulated:
             session = _SimulatedSession(self)
         provider = self._notacontrol_provider(session=session)
-        dps_xml = self._notacontrol_adjust_dps(self.serialize()[0].to_xml())
+        city_code = self.fiscal_line_ids.city_taxation_code_id[:1].code
+        dps_xml = self._notacontrol_adjust_dps(
+            self.serialize()[0].to_xml(), city_taxation_code=city_code
+        )
         retorno = provider.recepcionar_lote_dps_sincrono([dps_xml], self.id)
         self._notacontrol_process_response(retorno, simulated=bool(session))
 
     @staticmethod
-    def _notacontrol_adjust_dps(dps_xml):
+    def _notacontrol_adjust_dps(dps_xml, city_taxation_code=None):
         """NotaControl rule for a provider that is the issuer itself: send
-        CNPJ/CPF, IM, contact and tax regime, but NOT name nor address."""
+        CNPJ/CPF, IM, contact and tax regime, but NOT name nor address.
+        The municipal taxation code goes right after cTribNac, unmasked."""
         if isinstance(dps_xml, str):
             dps_xml = dps_xml.encode("utf-8")
         root = etree.fromstring(dps_xml)
@@ -176,7 +211,55 @@ class L10nBrFiscalDocument(models.Model):
             for tag in ("xNome", "end", "NIF", "cNaoNIF"):
                 for el in prest.findall(f"{{{NS}}}{tag}"):
                     prest.remove(el)
+        code = "".join(c for c in city_taxation_code or "" if c.isdigit())
+        ctribnac = root.find(f".//{{{NS}}}cServ/{{{NS}}}cTribNac")
+        if code and ctribnac is not None:
+            for old in ctribnac.getparent().findall(f"{{{NS}}}cTribMun"):
+                old.getparent().remove(old)
+            el = etree.Element(f"{{{NS}}}cTribMun")
+            el.text = code
+            ctribnac.addnext(el)
+        L10nBrFiscalDocument._notacontrol_dps_101(root)
         return etree.tostring(root, encoding=str)
+
+    @staticmethod
+    def _notacontrol_dps_101(root):
+        """The NotaControl batch is 1.01 and refuses (E160) a DPS 1.00: raise
+        the version, drop empty groups left by the binding, map
+        tpRetPisCofins to the 1.01 domain, keep pAliq after tpRetISSQN and add
+        the IBSCBS group when l10n_br_nfse_nacional did not export it."""
+        root.set("versao", DPS_VERSION)
+        changed = True
+        while changed:  # an emptied parent may become empty too
+            changed = False
+            for el in list(root.iter()):
+                if el is root or not isinstance(el.tag, str):
+                    continue
+                if len(el) == 0 and not (el.text or "").strip() and not el.attrib:
+                    el.getparent().remove(el)
+                    changed = True
+        for el in root.iter(f"{{{NS}}}tpRetPisCofins"):
+            el.text = TP_RET_PIS_COFINS_101.get(el.text, el.text)
+        for trib_mun in root.iter(f"{{{NS}}}tribMun"):
+            aliq = trib_mun.find(f"{{{NS}}}pAliq")
+            ret = trib_mun.find(f"{{{NS}}}tpRetISSQN")
+            if aliq is not None and ret is not None:
+                ret.addnext(aliq)
+        inf = root.find(f"{{{NS}}}infDPS")
+        if inf is None or inf.find(f"{{{NS}}}IBSCBS") is not None:
+            return
+
+        def sub(parent, tag, text=None):
+            el = etree.SubElement(parent, f"{{{NS}}}{tag}")
+            el.text = text
+            return el
+
+        ibscbs = sub(inf, "IBSCBS")
+        for tag in ("finNFSe", "cIndOp", "indDest"):
+            sub(ibscbs, tag, IBSCBS_DEFAULT[tag])
+        g = sub(sub(sub(ibscbs, "valores"), "trib"), "gIBSCBS")
+        sub(g, "CST", IBSCBS_DEFAULT["CST"])
+        sub(g, "cClassTrib", IBSCBS_DEFAULT["cClassTrib"])
 
     def _notacontrol_authorization_event(self, retorno):
         """The event is normally created at confirmation (_document_export);
@@ -225,12 +308,14 @@ class L10nBrFiscalDocument(models.Model):
                     % {"label": SIMULATED}
                 )
             return
-        message = retorno.mensagem or _("HTTP %s") % retorno.http_status
-        code = (
-            retorno.mensagens[0].codigo
-            if retorno.mensagens
-            else str(retorno.http_status)
+        mensagens = retorno.mensagens or self._notacontrol_response_messages(
+            retorno.xml_resposta
         )
+        message = "\n".join(
+            " - ".join(p for p in (m.codigo, m.mensagem, m.correcao) if p)
+            for m in mensagens
+        ) or (_("HTTP %s") % retorno.http_status)
+        code = mensagens[0].codigo if mensagens else str(retorno.http_status)
         self.write(
             {
                 "edoc_error_message": message,
@@ -247,6 +332,29 @@ class L10nBrFiscalDocument(models.Model):
         )
         self.message_post(body=_("NFS-e rejected by NotaControl:\n%s") % message)
         self._change_state(SITUACAO_EDOC_REJEITADA)
+
+    @staticmethod
+    def _notacontrol_response_messages(xml_resposta):
+        """The provider misses ListaMensagemRetorno when the answer comes as
+        RecepcionarLoteDpsSincronoResponse/EnviarLoteDpsSincronoResposta
+        (no *Result wrapper): read it here so the rejection shows its code."""
+        if not xml_resposta:
+            return []
+        if isinstance(xml_resposta, bytes):
+            xml_resposta = xml_resposta.decode("utf-8", "replace")
+        xml_resposta = xml_resposta.lstrip("\ufeff").strip()
+        try:
+            doc = etree.fromstring(xml_resposta.encode("utf-8"))
+        except etree.XMLSyntaxError:
+            return []
+        return [
+            SimpleNamespace(
+                codigo=m.findtext(f"{{{NS}}}Codigo") or "",
+                mensagem=m.findtext(f"{{{NS}}}Mensagem") or "",
+                correcao=m.findtext(f"{{{NS}}}Correcao") or "",
+            )
+            for m in doc.iter(f"{{{NS}}}MensagemRetorno")
+        ]
 
     def _adn_cancel(self, justificative, motive):
         self.ensure_one()
