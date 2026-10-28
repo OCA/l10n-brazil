@@ -5,7 +5,13 @@
 from odoo import api, fields
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK_SIMPLES_ALL
+from odoo.addons.l10n_br_nfse.constants.nfse import ISSQN_TO_TRIBUTACAO_ISS
 from odoo.addons.spec_driven_model.models import spec_models
+
+# xDescServ is TSDesc2000 in the schema: 2000 characters. The composed
+# description of a real note runs around 330, so the cut is a safety net and
+# not a business rule.
+LIMITE_XDESCSERV = 2000
 
 
 class L10nBrFiscalDocumentLine(spec_models.SpecModel):
@@ -92,17 +98,57 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
     )
 
     # Fields mapped to tags
-    nfse10_cLocPrestacao = fields.Char(related="issqn_fg_city_id.ibge_code")
+    # Where the service is PERFORMED, not where the ISSQN taxable event is:
+    # see issqn_service_city_id in l10n_br_fiscal. It used to be related to the
+    # taxable event, which falls back to the company city when there is no
+    # municipal code, and that is why the note always went out with the
+    # issuer's city.
+    nfse10_cLocPrestacao = fields.Char(related="issqn_service_city_id.ibge_code")
     nfse10_cTribNac = fields.Char(related="national_taxation_code_id.code")
     nfse10_cTribMun = fields.Char(related="city_taxation_code_id.code")
-    nfse10_cNBS = fields.Char(related="nbs_id.code")
-    nfse10_xDescServ = fields.Char(related="name")
+    nfse10_cNBS = fields.Char(related="nbs_id.code_unmasked")
+
+    # The NFS-e has no per item additional information tag: what the note
+    # carries about the service is xDescServ and nothing else. Customers do
+    # ask for the measurement report, the contract, the order, the period, the
+    # cost center, the due date and the bank details in there.
+    #
+    # The line's `additional_data` is already the rendered text of the fiscal
+    # line comments (l10n_br_fiscal.comment whose object is the line), Jinja
+    # templates with `doc` and `item` in the context, configured on the
+    # operation line itself. `manual_additional_data` joins the same rendering
+    # for the part that changes per note. Only the wire to xDescServ was
+    # missing.
+    #
+    # Composed text REPLACES the name instead of being appended to it: the
+    # real note does not prefix the product name, and a template that wants it
+    # writes ${item.name}. With no comment at all it falls back to the line
+    # name, which is today's behavior.
+    nfse10_xDescServ = fields.Char(compute="_compute_nfse10_xdescserv")
+
+    @api.depends("name", "additional_data")
+    def _compute_nfse10_xdescserv(self):
+        for rec in self:
+            text = (rec.additional_data or "").strip() or (rec.name or "").strip()
+            rec.nfse10_xDescServ = text[:LIMITE_XDESCSERV] or False
 
     nfse10_vServ = fields.Char(compute="_compute_nfse10_valores")
     nfse10_vDescIncond = fields.Char(compute="_compute_nfse10_valores")
     nfse10_vDescCond = fields.Char(compute="_compute_nfse10_valores")
 
-    nfse10_tribISSQN = fields.Selection(default="1")
+    nfse10_tribISSQN = fields.Selection(
+        compute="_compute_nfse10_tribISSQN",
+        store=True,
+        readonly=False,
+    )
+
+    @api.depends("issqn_eligibility")
+    def _compute_nfse10_tribISSQN(self):
+        for record in self:
+            record.nfse10_tribISSQN = ISSQN_TO_TRIBUTACAO_ISS.get(
+                record.issqn_eligibility, "1"
+            )
+
     nfse10_tpRetISSQN = fields.Selection(compute="_compute_nfse10_trib_mun")
     nfse10_pAliq = fields.Char(compute="_compute_nfse10_trib_mun")
 
@@ -129,12 +175,18 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
     nfse10_pTotTribEst = fields.Char(compute="_compute_nfse10_tot_trib")
     nfse10_pTotTribMun = fields.Char(compute="_compute_nfse10_tot_trib")
 
+    @api.depends("discount_value", "issqn_desc_cond_amount")
     def _compute_nfse10_self(self):
         for rec in self:
             rec.nfse10_locPrest = rec.id
             rec.nfse10_cServ = rec.id
             rec.nfse10_vServPrest = rec.id
-            rec.nfse10_vDescCondIncond = rec.id
+            # Optional group: pointing it at the record always serializes an
+            # empty <vDescCondIncond/>, because both children are False when
+            # there is no discount, and an empty tag is refused by the XSD.
+            rec.nfse10_vDescCondIncond = (
+                rec.id if (rec.discount_value or rec.issqn_desc_cond_amount) else False
+            )
             rec.nfse10_trib = rec.id
             rec.nfse10_tribMun = rec.id
             rec.nfse10_tribFed = rec.id

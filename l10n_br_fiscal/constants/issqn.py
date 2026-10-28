@@ -12,7 +12,12 @@ ISSQN_ELIGIBILITY = [
 ]
 
 
-ISSQN_ELIGIBILITY_DEFAULT = "2"
+# "Exigivel" e o caso comum de uma nota de servico. Com o default em "2",
+# nao incidencia, toda linha nasce declarando que o ISS nao incide: o mapa
+# ISSQN_TO_TRIBUTACAO_ISS manda isso para tribISSQN 3 no DPS da NFS-e
+# nacional, e a nota sai dizendo nao incidencia ao lado de uma aliquota de
+# ISS, contradicao que uma nota real do emissor nacional nao tem.
+ISSQN_ELIGIBILITY_DEFAULT = "1"
 
 ISSQN_INCENTIVE = [
     ("1", "Sim"),
