@@ -702,7 +702,6 @@ class AccountMove(models.Model):
             move_form.document_type_id = fiscal_document.document_type_id
             move_form.fiscal_document_id = fiscal_document
             move_form.fiscal_operation_id = fiscal_document.fiscal_operation_id
-            move_form.document_serie = fiscal_document.document_serie
 
         unit_and_prices = []
         for line in fiscal_document.fiscal_line_ids:
@@ -746,6 +745,9 @@ class AccountMove(models.Model):
 
         move_form.save()
         move = self.env["account.move"].browse(move_form.id)
+        # Set document_serie after save to avoid invisible field issue
+        if not move_id or not move.fiscal_document_id or not move.document_serie:
+            move.write({"document_serie": fiscal_document.document_serie})
 
         invoice_line_write_vals = []
         dummy_lines_to_unlink = self.env["l10n_br_fiscal.document.line"]
