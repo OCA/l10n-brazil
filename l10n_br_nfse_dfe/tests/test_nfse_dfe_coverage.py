@@ -146,7 +146,7 @@ class TestNfseDfeCoverage(TransactionCase):
             "l10n_br_nfse_dfe.action_nfse_dfe_document",
         )
         company._dfe_document_action_xmlid("nfe")
-        search = company.action_nfse_search_specific()
+        search = company.action_search_specific("nfse")
         self.assertEqual(search["context"]["default_fiscal_type"], "nfse")
         company_model = self.env["res.company"].with_company(company)
         banner = company_model.dfe_action_specific_search("nfse")
@@ -165,7 +165,7 @@ class TestNfseDfeCoverage(TransactionCase):
             type(company), "_nfse_document_distribution", return_value=None
         ) as nfse_loop:
             company.nfse_dfe_next_query = False
-            company.action_nfse_document_distribution()
+            company.action_document_distribution("nfse")
         nfse_loop.assert_called_once()
         parent = (
             "odoo.addons.l10n_br_fiscal_dfe.models.res_company."
