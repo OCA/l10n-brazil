@@ -4,6 +4,7 @@
 from unittest import mock
 
 from lxml import etree
+from nfelib.nfse.bindings.v1_0.dps_v1_01 import Dps
 
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests.common import TransactionCase, tagged
@@ -56,6 +57,10 @@ class TestNfseNotaControl(TransactionCase):
                 "name": "Cliente NotaControl",
                 "is_company": True,
                 "vat": "44.621.819/0001-41",
+                "zip": "74000-000",
+                "street_name": "Avenida Goias",
+                "street_number": "100",
+                "district": "Centro",
                 "city_id": cls.goiania.id,
                 "state_id": cls.goiania.state_id.id,
             }
@@ -133,7 +138,8 @@ class TestNfseNotaControl(TransactionCase):
     def test_adjust_dps_removes_provider_name_and_address(self):
         dps = (
             f'<DPS xmlns="{NS}"><infDPS><prest><CNPJ>1</CNPJ><IM>2</IM>'
-            "<xNome>X</xNome><end><xLgr>Y</xLgr></end><regTrib/></prest>"
+            "<xNome>X</xNome><end><xLgr>Y</xLgr></end>"
+            "<regTrib><opSimpNac>1</opSimpNac></regTrib></prest>"
             "</infDPS></DPS>"
         )
         prest = etree.fromstring(self.doc._notacontrol_adjust_dps(dps).encode()).find(
@@ -141,6 +147,117 @@ class TestNfseNotaControl(TransactionCase):
         )
         tags = [etree.QName(el).localname for el in prest]
         self.assertEqual(tags, ["CNPJ", "IM", "regTrib"])
+
+    def test_adjust_dps_adds_nine_digit_city_code(self):
+        dps = (
+            f'<DPS xmlns="{NS}"><infDPS><serv><cServ><cTribNac>140101</cTribNac>'
+            "<cTribMun>140</cTribMun><xDescServ>S</xDescServ></cServ></serv>"
+            "</infDPS></DPS>"
+        )
+        cserv = etree.fromstring(
+            self.doc._notacontrol_adjust_dps(
+                dps, city_taxation_code="3316301-01"
+            ).encode()
+        ).find(f".//{{{NS}}}cServ")
+        tags = [(etree.QName(el).localname, el.text) for el in cserv]
+        self.assertEqual(
+            tags,
+            [("cTribNac", "140101"), ("cTribMun", "331630101"), ("xDescServ", "S")],
+        )
+
+    def test_adjust_dps_to_version_101(self):
+        dps = (
+            f'<DPS xmlns="{NS}" versao="1.00"><infDPS><valores>'
+            "<vServPrest><vServ>10.00</vServ></vServPrest><vDescCondIncond/>"
+            "<trib><tribMun><tribISSQN>1</tribISSQN><pAliq>2.00</pAliq>"
+            "<tpRetISSQN>1</tpRetISSQN></tribMun><tribFed><piscofins>"
+            "<CST>06</CST><tpRetPisCofins>2</tpRetPisCofins></piscofins>"
+            "</tribFed></trib></valores></infDPS></DPS>"
+        )
+        root = etree.fromstring(self.doc._notacontrol_adjust_dps(dps).encode())
+        self.assertEqual(root.get("versao"), "1.01")
+        self.assertIsNone(root.find(f".//{{{NS}}}vDescCondIncond"))
+        self.assertEqual(root.findtext(f".//{{{NS}}}tpRetPisCofins"), "0")
+        trib_mun = [
+            etree.QName(el).localname for el in root.find(f".//{{{NS}}}tribMun")
+        ]
+        self.assertEqual(trib_mun, ["tribISSQN", "tpRetISSQN", "pAliq"])
+        inf = root.find(f"{{{NS}}}infDPS")
+        self.assertEqual(etree.QName(inf[-1]).localname, "IBSCBS")
+        self.assertEqual(inf.findtext(f".//{{{NS}}}cClassTrib"), "000001")
+
+    def test_adjust_dps_keeps_exported_ibscbs(self):
+        dps = (
+            f'<DPS xmlns="{NS}" versao="1.00"><infDPS><IBSCBS><finNFSe>0</finNFSe>'
+            "<cIndOp>030101</cIndOp></IBSCBS></infDPS></DPS>"
+        )
+        root = etree.fromstring(self.doc._notacontrol_adjust_dps(dps).encode())
+        self.assertEqual(len(root.findall(f".//{{{NS}}}IBSCBS")), 1)
+        self.assertEqual(root.findtext(f".//{{{NS}}}cIndOp"), "030101")
+
+    def test_competence_is_local_date(self):
+        self.doc.document_date = "2026-09-25 01:30:00"  # UTC, 22:30 in Goiania
+        self.assertEqual(self.doc.nfse10_dhEmi, "2026-09-24T22:30:00-03:00")
+        self.assertEqual(self.doc.nfse10_dCompet, "2026-09-24")
+
+    def test_rejection_read_from_soap_answer(self):
+        answer = (
+            '\ufeff<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">'
+            f'<s:Body><RecepcionarLoteDpsSincronoResponse xmlns="{NS}">'
+            "<EnviarLoteDpsSincronoResposta><ListaMensagemRetorno><MensagemRetorno>"
+            "<Codigo>E160</Codigo><Mensagem>Arquivo em desacordo com o XML Schema."
+            "</Mensagem></MensagemRetorno></ListaMensagemRetorno>"
+            "</EnviarLoteDpsSincronoResposta></RecepcionarLoteDpsSincronoResponse>"
+            "</s:Body></s:Envelope>"
+        )
+        self.doc._notacontrol_process_response(retorno(xml_resposta=answer))
+        self.assertEqual(self.doc.status_code, "E160")
+        self.assertIn("XML Schema", self.doc.edoc_error_message)
+
+    def _city_code(self):
+        return self.env["l10n_br_fiscal.city.taxation.code"].create(
+            {"code": "331630101", "name": "Manutencao de aeronaves"}
+        )
+
+    def test_city_code_left_out_of_serialization(self):
+        line = self.doc.fiscal_line_ids[0]
+        line.city_taxation_code_id = self._city_code()
+        self.assertFalse(line.nfse10_cTribMun)
+
+    def test_serialized_dps_packed_for_notacontrol(self):
+        """The real 18.0 serialization, adjusted as it is sent."""
+        self.doc.document_date = "2026-10-20 13:00:00"  # set on confirmation
+        self.doc.fiscal_line_ids[0].city_taxation_code_id = self._city_code()
+        sent = []
+
+        def send(dps_list, lote):
+            sent.extend(dps_list)
+            return retorno(mensagens=[], http_status=500)
+
+        provider = mock.Mock(recepcionar_lote_dps_sincrono=send)
+        with mock.patch.object(
+            type(self.doc), "_notacontrol_provider", return_value=provider
+        ):
+            self.doc._adn_send_for_authorization()
+        root = etree.fromstring(sent[0].encode())
+        self.assertEqual(root.get("versao"), "1.01")
+        inf = root.find(f"{{{NS}}}infDPS")
+        self.assertEqual(inf.get("Id"), self.doc.nfse10_Id)
+        self.assertEqual(inf.findtext(f"{{{NS}}}nDPS"), "42")
+        cserv = [
+            (etree.QName(el).localname, el.text) for el in inf.find(f".//{{{NS}}}cServ")
+        ]
+        self.assertEqual(cserv[:2], [("cTribNac", "140101"), ("cTribMun", "331630101")])
+        prest = [etree.QName(el).localname for el in inf.find(f"{{{NS}}}prest")]
+        self.assertNotIn("xNome", prest)
+        self.assertNotIn("end", prest)
+        self.assertIsNotNone(inf.find(f"{{{NS}}}IBSCBS"))
+        # apart from Goiania's 9-digit cTribMun, the DPS is a valid national
+        # DPS 1.01
+        for el in inf.iter(f"{{{NS}}}cTribMun"):
+            el.getparent().remove(el)
+        errors = Dps.schema_validation(etree.tostring(root, encoding=str))
+        self.assertEqual(errors, [])
 
     def test_authorized_response(self):
         self.doc._notacontrol_process_response(

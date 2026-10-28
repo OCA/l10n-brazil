@@ -13,3 +13,9 @@ transport:
 The module keeps the DPS serialization of `l10n_br_nfse_nacional` and only
 replaces sending, response handling and cancellation, delegating the protocol
 to the `NotaControl` provider of `erpbrasil.edoc`.
+
+For NotaControl companies the DPS is also adjusted to what the Goiânia
+webservice accepts: version 1.01, empty groups removed, `tpRetPisCofins` in the
+1.01 domain, the 9-digit municipal taxation code (`cTribMun`) right after
+`cTribNac`, the competence date in local time and a default IBSCBS group when
+the line does not export one.
