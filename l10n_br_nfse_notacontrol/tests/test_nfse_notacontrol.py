@@ -5,7 +5,7 @@ from unittest import mock
 
 from lxml import etree
 
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo.tests.common import TransactionCase, tagged
 
 from ..models.document import _SimulatedSession
@@ -33,7 +33,7 @@ class TestNfseNotaControl(TransactionCase):
         cls.goiania = cls.env["res.city"].search([("ibge_code", "=", "5208707")])
         cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
         # the demo company IE is from SP: drop it before moving to GO
-        cls.company.partner_id.inscr_est = False
+        cls.company.partner_id.l10n_br_ie_code = False
         cls.company.partner_id.write(
             {
                 "city_id": cls.goiania.id,
@@ -55,7 +55,7 @@ class TestNfseNotaControl(TransactionCase):
             {
                 "name": "Cliente NotaControl",
                 "is_company": True,
-                "cnpj_cpf": "44.621.819/0001-41",
+                "vat": "44.621.819/0001-41",
                 "city_id": cls.goiania.id,
                 "state_id": cls.goiania.state_id.id,
             }
@@ -113,7 +113,7 @@ class TestNfseNotaControl(TransactionCase):
     def test_dps_number_and_id(self):
         """nDPS comes from the RPS number and the Id follows TSIdDPS."""
         self.assertEqual(self.doc.nfse10_nDPS, "42")
-        cnpj = "".join(c for c in self.company.cnpj_cpf if c.isdigit())
+        cnpj = self.company.partner_id.cnpj_cpf_stripped
         expected = f"DPS52087072{cnpj.zfill(14)}00001{'42'.zfill(15)}"
         self.assertEqual(self.doc.nfse10_Id, expected)
         self.assertEqual(len(self.doc.nfse10_Id), 45)
@@ -167,50 +167,54 @@ class TestNfseNotaControl(TransactionCase):
         self.assertIn("Informe cTribMun", self.doc.edoc_error_message)
 
     def test_send_uses_notacontrol_not_adn(self):
-        with mock.patch(
-            f"{PROVIDER}.recepcionar_lote_dps_sincrono",
-            return_value=retorno(
-                sucesso=True,
-                protocolo="P",
-                chaves_acesso=["5" * 50],
-                numeros_nfse=["1"],
-                nfse_xml=["<Nfse/>"],
-            ),
-        ) as send, mock.patch(
-            "odoo.addons.l10n_br_nfse_nacional.transport.adn_rest"
-            ".AdnRestClient.post_dps"
-        ) as adn, mock.patch(
-            "odoo.addons.l10n_br_nfse_notacontrol.models.document.Certificado"
+        with (
+            mock.patch(
+                f"{PROVIDER}.recepcionar_lote_dps_sincrono",
+                return_value=retorno(
+                    sucesso=True,
+                    protocolo="P",
+                    chaves_acesso=["5" * 50],
+                    numeros_nfse=["1"],
+                    nfse_xml=["<Nfse/>"],
+                ),
+            ) as send,
+            mock.patch(
+                "odoo.addons.l10n_br_nfse_nacional.transport.adn_rest"
+                ".AdnRestClient.post_dps"
+            ) as adn,
+            self._mock_certificate(),
         ):
-            self.company.certificate_nfe_id = self.env[
-                "l10n_br_fiscal.certificate"
-            ].search([], limit=1)
             self.doc._adn_send_for_authorization()
         send.assert_called_once()
         adn.assert_not_called()
         self.assertEqual(self.doc.state_edoc, "autorizada")
 
-    def _set_certificate(self):
-        self.company.certificate_nfe_id = self.env["l10n_br_fiscal.certificate"].search(
-            [], limit=1
-        )
+    def _mock_certificate(self):
+        """No real A1 certificate in the tests: the signer is mocked."""
+        return mock.patch.object(type(self.company), "_get_br_ecertificate")
 
     def test_provider_requires_municipal_registration(self):
-        self._set_certificate()
         self.company.partner_id.l10n_br_im_code = False
-        with self.assertRaises(UserError):
+        with self._mock_certificate(), self.assertRaises(UserError):
+            self.doc._notacontrol_provider()
+
+    def test_provider_requires_certificate(self):
+        self.company.certificate_id = False
+        with self.assertRaises(ValidationError):
             self.doc._notacontrol_provider()
 
     def test_provider_is_built_with_company_data(self):
-        self._set_certificate()
-        with mock.patch(
-            "odoo.addons.l10n_br_nfse_notacontrol.models.document.Certificado"
-        ), mock.patch(
-            "odoo.addons.l10n_br_nfse_notacontrol.models.document.NotaControl"
-        ) as provider:
+        with (
+            self._mock_certificate(),
+            mock.patch(
+                "odoo.addons.l10n_br_nfse_notacontrol.models.document.NotaControl"
+            ) as provider,
+        ):
             self.doc._notacontrol_provider(session="S")
         args, kwargs = provider.call_args
         self.assertEqual(args[2], 5208707)
+        self.assertEqual(args[3], self.company.partner_id.cnpj_cpf_stripped)
+        self.assertEqual(args[4], "778151")
         self.assertEqual(kwargs["algoritmo"], "sha1")
         self.assertEqual(kwargs["session"], "S")
 
@@ -251,10 +255,15 @@ class TestNfseNotaControl(TransactionCase):
                 )
             )
         )
-        with mock.patch.object(
-            type(self.doc), "_notacontrol_provider", return_value=provider
-        ) as build, mock.patch.object(
-            type(self.doc), "serialize", return_value=[mock.Mock(to_xml=lambda: "<a/>")]
+        with (
+            mock.patch.object(
+                type(self.doc), "_notacontrol_provider", return_value=provider
+            ) as build,
+            mock.patch.object(
+                type(self.doc),
+                "serialize",
+                return_value=[mock.Mock(to_xml=lambda: "<a/>")],
+            ),
         ):
             self.doc._adn_send_for_authorization()
         self.assertTrue(build.call_args.kwargs["session"])
@@ -267,9 +276,10 @@ class TestNfseNotaControl(TransactionCase):
             [("ibge_code", "=", "3550308")]
         )
         base = "odoo.addons.l10n_br_nfse_nacional.models.document.L10nBrFiscalDocument"
-        with mock.patch(f"{base}._adn_send_for_authorization") as send, mock.patch(
-            f"{base}._adn_cancel", return_value=True
-        ) as cancel:
+        with (
+            mock.patch(f"{base}._adn_send_for_authorization") as send,
+            mock.patch(f"{base}._adn_cancel", return_value=True) as cancel,
+        ):
             self.doc._adn_send_for_authorization()
             self.doc._adn_cancel("Justificativa longa o bastante", "1")
         send.assert_called_once()
@@ -282,12 +292,16 @@ class TestNfseNotaControl(TransactionCase):
 
     def _cancel(self, cancel_return):
         provider = mock.Mock(cancelar_nfse=mock.Mock(return_value=cancel_return))
-        with mock.patch.object(
-            type(self.doc), "_notacontrol_provider", return_value=provider
-        ), mock.patch.object(
-            type(self.doc), "_build_cancel_pedreg", return_value="PED"
-        ), mock.patch.object(
-            type(self.doc), "_serialize_pedreg", return_value="<ped/>"
+        with (
+            mock.patch.object(
+                type(self.doc), "_notacontrol_provider", return_value=provider
+            ),
+            mock.patch.object(
+                type(self.doc), "_build_cancel_pedreg", return_value="PED"
+            ),
+            mock.patch.object(
+                type(self.doc), "_serialize_pedreg", return_value="<ped/>"
+            ),
         ):
             return self.doc._adn_cancel("Justificativa longa o bastante", "1")
 

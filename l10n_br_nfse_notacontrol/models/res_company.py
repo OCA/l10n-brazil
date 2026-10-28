@@ -1,7 +1,7 @@
 # Copyright 2026 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 try:
     from erpbrasil.edoc.provedores.notacontrol import MUNICIPIOS
@@ -32,7 +32,8 @@ class ResCompany(models.Model):
         "simulated. Every document touched is flagged as SIMULATED.",
     )
 
+    @api.depends("partner_id.city_id.ibge_code")
     def _compute_nfse_notacontrol(self):
         for company in self:
-            ibge = company.city_id.ibge_code or ""
+            ibge = company.partner_id.city_id.ibge_code or ""
             company.nfse_notacontrol = ibge.isdigit() and int(ibge) in MUNICIPIOS
