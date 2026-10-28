@@ -18,7 +18,6 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 _logger = logging.getLogger(__name__)
 
 try:
-    from erpbrasil.assinatura.certificado import Certificado
     from erpbrasil.edoc.provedores.notacontrol import NS, NotaControl
 except ImportError:  # pragma: no cover
     _logger.debug("erpbrasil.edoc without the NotaControl provider")
@@ -48,7 +47,7 @@ class _SimulatedSession:
         self.sent = data.decode("utf-8")
         doc = self.document
         now = fields.Datetime.context_timestamp(doc, fields.Datetime.now())
-        cnpj = "".join(c for c in doc.company_id.cnpj_cpf or "" if c.isdigit())
+        cnpj = doc.company_id.partner_id.cnpj_cpf_stripped or ""
         number = str(doc.rps_number or doc.document_number or doc.id).zfill(13)
         # 50-position key: city, issuing environment, registration type,
         # CNPJ, number, YYMM, random code and check digit
@@ -80,10 +79,11 @@ class L10nBrFiscalDocument(models.Model):
     # For NotaControl companies the DPS follows the national layout strictly:
     # the NFS-e workflow numbers the RPS (rps_number), not document_number,
     # and the DPS Id has its own 45-position layout (TSIdDPS). Other companies
-    # keep the l10n_br_nfse_nacional behaviour. related=False: a redefined
-    # field would otherwise keep the original related and ignore the compute.
-    nfse10_nDPS = fields.Char(related=False, compute="_compute_nfse10_ndps")
-    nfse10_Id = fields.Char(related=False, compute="_compute_nfse10_dps_id")
+    # keep the l10n_br_nfse_nacional behaviour. related=None: a redefined
+    # field would otherwise keep the original related and ignore the compute
+    # (None and not False: the spec_driven_model import reads field.related).
+    nfse10_nDPS = fields.Char(related=None, compute="_compute_nfse10_ndps")
+    nfse10_Id = fields.Char(related=None, compute="_compute_nfse10_dps_id")
 
     @api.model
     def _prepare_import_dict(
@@ -121,9 +121,8 @@ class L10nBrFiscalDocument(models.Model):
             if not number or not rec.company_id.city_id.ibge_code:
                 rec.nfse10_Id = False
                 continue
-            registration = "".join(
-                c for c in (rec.company_id.cnpj_cpf or "") if c.isalnum()
-            ).upper()
+            partner = rec.company_id.partner_id
+            registration = (partner.cnpj_cpf_stripped or "").upper()
             reg_type = "2" if len(registration) == 14 else "1"
             serie = "".join(c for c in (rec.document_serie or "") if c.isdigit())
             rec.nfse10_Id = (
@@ -134,28 +133,21 @@ class L10nBrFiscalDocument(models.Model):
     def _notacontrol_provider(self, session=None):
         self.ensure_one()
         company = self.company_id
-        if not company.certificate:
-            raise UserError(
-                _("Configure the company A1 certificate to issue the NFS-e.")
-            )
-        if not company.inscr_mun:
+        if not company.l10n_br_im_code:
             raise UserError(
                 _(
                     "The NotaControl webservice requires the company municipal "
                     "registration (IM)."
                 )
             )
-        transmissao = SimpleNamespace(
-            certificado=Certificado(
-                company.certificate.file, company.certificate.password
-            )
-        )
+        # raises when the company has no valid A1 certificate
+        transmissao = SimpleNamespace(certificado=company._get_br_ecertificate())
         return NotaControl(
             transmissao,
             company.nfse_environment,
             int(company.city_id.ibge_code),
-            company.cnpj_cpf,
-            company.inscr_mun,
+            company.partner_id.cnpj_cpf_stripped,
+            company.l10n_br_im_code,
             algoritmo=company.nfse_notacontrol_algorithm or "sha1",
             session=session,
         )
