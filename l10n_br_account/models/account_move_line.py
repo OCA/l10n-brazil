@@ -68,6 +68,17 @@ class AccountMoveLine(models.Model):
     price_unit = fields.Float(inverse="_inverse_price_unit")
     product_uom_id = fields.Many2one(inverse="_inverse_product_uom_id")
 
+    # _inherits brings the fields of the fiscal line, not its methods
+    def _get_report_product_code(self):
+        self.ensure_one()
+        line = self.fiscal_document_line_id
+        return line._get_report_product_code() if line else ""
+
+    def _get_report_fiscal_details(self):
+        self.ensure_one()
+        line = self.fiscal_document_line_id
+        return line._get_report_fiscal_details() if line else ""
+
     @api.onchange("product_id")
     def _inverse_product_id(self):
         for line in self:
