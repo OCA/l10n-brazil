@@ -1770,9 +1770,9 @@ class NFe(spec_models.StackedModel):
                 raise UserError(mensagem)
 
             if retevento.infEvento.chNFe == self.document_key:
-                if retevento.infEvento.cStat == CANCELADO_FORA_PRAZO:
+                if retevento.infEvento.cStat in CANCELADO_FORA_PRAZO:
                     self.state_fiscal = SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO
-                elif retevento.infEvento.cStat == CANCELADO_DENTRO_PRAZO:
+                elif retevento.infEvento.cStat in CANCELADO_DENTRO_PRAZO:
                     self.state_fiscal = SITUACAO_FISCAL_CANCELADO
 
                 self.state_edoc = SITUACAO_EDOC_CANCELADA
