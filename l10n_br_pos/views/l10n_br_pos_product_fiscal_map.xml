@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2021 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="l10n_br_pos_product_fiscal_map_form_view">
+        <field name="name">l10n_br_pos.product_fiscal_map.form (in l10n_br_pos)</field>
+        <field name="model">l10n_br_pos.product_fiscal_map</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group name="fiscal_fields" invisible="1">
+                        <field name="currency_id" invisible="1" />
+                        <field name="fiscal_operation_type" invisible="1" />
+                        <field name="company_id" invisible="1" />
+                        <field name="tax_framework" invisible="1" />
+                        <field name="fiscal_genre_id" invisible="1" />
+                        <field name="fiscal_genre_code" invisible="1" />
+                        <field name="fiscal_type" invisible="1" />
+                    </group>
+                    <group>
+                        <field name="partner_id" />
+                        <field name="quantity" />
+                        <field name="uom_id" />
+                        <field name="price_unit" />
+                        <field name="tax_framework" />
+                        <field name="company_id" />
+                        <field name="pos_config_id" />
+                        <field name="fiscal_operation_id" />
+                        <field name="fiscal_operation_line_id" />
+                        <field name="cfop_id" />
+                        <field name="product_tmpl_id" />
+                        <field name="product_id" />
+                        <field name="fiscal_tax_ids" widget="many2many_tags" />
+                    </group>
+                    <notebook>
+                        <page name="fiscal_taxes" string="Taxes" />
+                        <page name="fiscal_line_extra_info" string="Taxes" />
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter" />
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="l10n_br_pos_product_fiscal_map_search_view">
+        <field
+            name="name"
+        >l10n_br_pos.product_fiscal_map.search (in l10n_br_pos)</field>
+        <field name="model">l10n_br_pos.product_fiscal_map</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="pos_config_id" />
+                <field name="product_tmpl_id" />
+                <field name="fiscal_operation_line_id" />
+                <field name="cfop_id" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="l10n_br_pos_product_fiscal_map_tree_view">
+        <field name="name">l10n_br_pos.product_fiscal_map.tree (in l10n_br_pos)</field>
+        <field name="model">l10n_br_pos.product_fiscal_map</field>
+        <field name="arch" type="xml">
+            <tree edit="false" create="false">
+                <field name="pos_config_id" />
+                <field name="product_tmpl_id" />
+                <field name="fiscal_operation_line_id" />
+                <field name="cfop_id" />
+                <field name="fiscal_tax_ids" widget="many2many_tags" />
+            </tree>
+        </field>
+    </record>
+
+    <record
+        model="ir.actions.act_window"
+        id="l10n_br_pos_product_fiscal_map_act_window"
+    >
+        <field name="name">L10n_br_pos Product_fiscal_map</field>
+        <field name="res_model">l10n_br_pos.product_fiscal_map</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+</odoo>

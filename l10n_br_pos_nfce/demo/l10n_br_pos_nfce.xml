@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="0">
+
+    <record id="document_65_serie_2" model="l10n_br_fiscal.document.serie">
+        <field name="code">2</field>
+        <field name="name">Série 2</field>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_65" />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="active">True</field>
+    </record>
+
+    <record id="pos_invoice_journal_cash" model="account.journal">
+        <field name="name">POS Invoice Cash</field>
+        <field name="code">POSCash</field>
+        <field name="type">cash</field>
+        <!-- avoid being selected as default journal -->
+        <field name="sequence">25</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+    </record>
+
+    <record id="payment_mode_cash_test_nfce" model="account.payment.mode">
+        <field name="name">Dinheiro</field>
+        <field name="payment_type">inbound</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field
+            name="payment_method_id"
+            ref="account.account_payment_method_manual_in"
+        />
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="pos_invoice_journal_cash" />
+        <field name="fiscal_payment_mode">01</field>
+    </record>
+
+    <record id="payment_mode_credit_test_nfce" model="account.payment.mode">
+        <field name="name">Crédito</field>
+        <field name="payment_type">inbound</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field
+            name="payment_method_id"
+            ref="account.account_payment_method_manual_in"
+        />
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="pos_invoice_journal_cash" />
+        <field name="fiscal_payment_mode">03</field>
+    </record>
+
+    <record id="payment_mode_pix_text_nfce" model="account.payment.mode">
+        <field name="name">PIX</field>
+        <field name="payment_type">inbound</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field
+            name="payment_method_id"
+            ref="account.account_payment_method_manual_in"
+        />
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="pos_invoice_journal_cash" />
+        <field name="fiscal_payment_mode">99</field>
+    </record>
+
+    <record id="product_led_lamp" model="product.product">
+        <field name="name">Led Lamp</field>
+        <field name="type">product</field>
+        <field name="available_in_pos" eval="True" />
+        <field name="list_price">0.90</field>
+        <field name="default_code">112233</field>
+        <field name="fiscal_type">00</field>
+        <field name="icms_origin">0</field>
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_21061000" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_21" />
+    </record>
+
+    <record id="l10n_br_base.empresa_lucro_presumido" model="res.company">
+        <field name="nfe_default_serie_id" ref="document_65_serie_2" />
+    </record>
+
+    <record id="l10n_br_pos.pos_config_presumido" model="pos.config">
+        <field name="simplified_document_type_id" ref="l10n_br_fiscal.document_65" />
+        <field name="out_pos_fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+    </record>
+
+    <record id="l10n_br_pos.presumido_dinheiro" model="pos.payment.method">
+        <field name="payment_mode_id" ref="payment_mode_cash_test_nfce" />
+    </record>
+
+    <record id="l10n_br_pos.presumido_credito_visa" model="pos.payment.method">
+        <field name="payment_mode_id" ref="payment_mode_credit_test_nfce" />
+    </record>
+
+    <record id="l10n_br_pos.presumido_pix" model="pos.payment.method">
+        <field name="payment_mode_id" ref="payment_mode_pix_text_nfce" />
+    </record>
+
+    <record id="l10n_br_fiscal.res_partner_anonimo" model="res.partner">
+        <field name="is_anonymous_consumer">True</field>
+        <field name="city_id" ref="l10n_br_base.city_3550308" />
+    </record>
+
+</odoo>
