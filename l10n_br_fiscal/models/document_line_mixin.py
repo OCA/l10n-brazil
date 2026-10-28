@@ -6,7 +6,7 @@ from copy import deepcopy
 from lxml import etree
 from lxml.builder import E
 
-from odoo import Command, api, fields, models
+from odoo import Command, _, api, fields, models
 
 from ..constants.fiscal import (
     CFOP_DESTINATION_EXPORT,
@@ -916,6 +916,33 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     @api.model
     def _rm_fields_to_amount(self):
         return ["icms_relief_value"]
+
+    def _get_report_product_code(self):
+        """Product reference printed before the description, as the product
+        display name does, unless the description already starts with it."""
+        self.ensure_one()
+        code = self.product_id.default_code
+        if code and not (self.name or "").startswith(f"[{code}]"):
+            return f"[{code}] "
+        return ""
+
+    def _get_report_fiscal_details(self):
+        """Fiscal classification printed below the line description."""
+        self.ensure_one()
+        company = self.company_id
+        details = []
+        if company.report_line_classification:
+            if self.service_type_id:
+                details.append(_("Service %s") % self.service_type_id.code)
+                if self.nbs_id:
+                    details.append(f"NBS {self.nbs_id.code}")
+            elif self.ncm_id and (self.ncm_id.code_unmasked or "").strip("0"):
+                details.append(f"NCM {self.ncm_id.code}")
+        if company.report_line_cfop and self.cfop_id:
+            details.append(f"CFOP {self.cfop_id.code}")
+        if company.report_line_operation_line and self.fiscal_operation_line_id:
+            details.append(self.fiscal_operation_line_id.name)
+        return " | ".join(details)
 
     def _is_imported(self):
         # When the mixin is used for instance
