@@ -102,6 +102,19 @@
                     <field name="service_type" />
                     <field name="payment_method_code" invisible="1" />
                 </group>
+                <!-- Dados do Split Payment do IBS/CBS (LC 214/2025), preenchidos
+                     a partir do Documento Fiscal da Fatura quando o
+                     l10n_br_account está instalado: é ele que cria, via
+                     _inherits, a relação do account.move com o
+                     l10n_br_fiscal.document, onde estão a Chave do DF-e e os
+                     totais de IBS/CBS. Sem ele os campos ficam vazios e o CNAB
+                     continua funcionando, veja
+                     https://github.com/OCA/l10n-brazil/issues/5146 -->
+                <group name="split_payment" string="Split Payment IBS/CBS (DF-e)">
+                    <field name="l10n_br_document_key" readonly="1" />
+                    <field name="l10n_br_ibs_value" readonly="1" />
+                    <field name="l10n_br_cbs_value" readonly="1" />
+                </group>
             </xpath>
         </field>
     </record>

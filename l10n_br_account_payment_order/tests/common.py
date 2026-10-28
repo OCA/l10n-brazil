@@ -94,6 +94,26 @@ class CNABTestCommon(AccountTestInvoicingCommon):
             },
         )
 
+        # Conta Contabil do Imposto CBS
+        cls.cbs_account = create_with_form_account_account(
+            cls.env,
+            {
+                "name": "Imposto CBS",
+                "code": "32303",
+                "account_type": "expense",
+            },
+        )
+
+        # Conta Contabil do Imposto IBS
+        cls.ibs_account = create_with_form_account_account(
+            cls.env,
+            {
+                "name": "Imposto IBS",
+                "code": "32304",
+                "account_type": "expense",
+            },
+        )
+
         # Método de Pagamento
         cls.pay_method_type_240 = cls.env.ref(
             "l10n_br_account_payment_order.payment_mode_type_cnab240"
@@ -238,6 +258,8 @@ class CNABTestCommon(AccountTestInvoicingCommon):
             "discount_account_id": cls.discount_account,
             "rebate_account_id": cls.rebate_account,
             "not_payment_account_id": cls.not_payment_account,
+            "cbs_account_id": cls.cbs_account,
+            "ibs_account_id": cls.ibs_account,
             "boleto_discount_perc": "1",
             "boleto_interest_perc": "2",
             "boleto_days_protest": "5",

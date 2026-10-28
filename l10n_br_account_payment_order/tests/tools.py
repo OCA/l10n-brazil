@@ -99,6 +99,8 @@ def create_with_form_l10n_br_cnab_config(env, values):
         cnab_config.discount_account_id = values.get("discount_account_id")
         cnab_config.rebate_account_id = values.get("rebate_account_id")
         cnab_config.not_payment_account_id = values.get("not_payment_account_id")
+        cnab_config.cbs_account_id = values.get("cbs_account_id")
+        cnab_config.ibs_account_id = values.get("ibs_account_id")
         cnab_config.sending_code_id = values.get("sending_code_id")
         cnab_config.write_off_code_id = values.get("write_off_code_id")
 
