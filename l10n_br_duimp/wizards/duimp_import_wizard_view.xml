@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- Copyright (C) 2026 - TODAY, Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+<!-- Copyright (C) 2026 – TODAY, Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
      Copyright (C) 2026 - TODAY, KMEE (<https://kmee.com.br>)
      License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html -->
 <odoo>
@@ -52,9 +52,9 @@
     <menuitem
         id="duimp_import_document_menu"
         action="duimp_import_wizard_action"
-        name="Query DUIMP"
-        parent="account.menu_finance_payables"
-        sequence="4"
+        name="Query"
+        parent="l10n_br_duimp.l10n_br_duimp_menu"
+        sequence="15"
         groups="l10n_br_fiscal.group_manager"
     />
 </odoo>

@@ -1,4 +1,5 @@
 # Copyright (C) 2026 - TODAY, KMEE (<https://kmee.com.br>)
+# Copyright 2026 - TODAY, Cristiano Mafra Junior <cristiano.mafra@escodoo.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo.tests import TransactionCase
@@ -29,7 +30,7 @@ def grant_nfe_access(env):
 def duimp_fake_payload():
     """A minimal but structurally-complete DUIMP payload (two items, one
     with per-item taxes) used across the tests. Mirrors the JSON shape
-    assumed by the mapping in ``l10n_br_duimp.declaracao`` (still to be
+    assumed by the mapping in ``l10n_br_duimp.declaration`` (still to be
     validated against a real Portal Único response - see B2)."""
     dados_gerais = {
         "identificacao": {
@@ -40,10 +41,10 @@ def duimp_fake_payload():
         },
         "tributos": {
             "tributosCalculados": [
-                {"tipo": "II", "valoresBRL": {"devido": 1541.00}},
-                {"tipo": "IPI", "valoresBRL": {"devido": 500.00}},
-                {"tipo": "PIS", "valoresBRL": {"devido": 210.00}},
-                {"tipo": "COFINS", "valoresBRL": {"devido": 970.00}},
+                {"type": "II", "valoresBRL": {"devido": 1541.00}},
+                {"type": "IPI", "valoresBRL": {"devido": 500.00}},
+                {"type": "PIS", "valoresBRL": {"devido": 210.00}},
+                {"type": "COFINS", "valoresBRL": {"devido": 970.00}},
             ]
         },
         "importador": {"nome": "Test Importer SA", "ni": "12345678000195"},
@@ -95,7 +96,7 @@ def duimp_fake_payload():
                 },
                 "calculosTributos": [
                     {
-                        "tipo": "II",
+                        "type": "II",
                         "baseCalculo": 5300.00,
                         "aliquotaAdValorem": 16.0,
                         "valoresBRL": {"devido": 848.00, "aRecolher": 848.00},
@@ -127,8 +128,8 @@ def duimp_fake_payload():
                 "acrescimosDeducoes": [
                     {
                         "codigo": "16",
-                        "denominacao": "Frete internacional",
-                        "tipo": "ACRESCIMO",
+                        "description": "Frete internacional",
+                        "type": "ACRESCIMO",
                         "valorReais": 300.00,
                         "valorMoedaNegociada": 57.14,
                         "moedaNegociada": {"codigo": "220"},
@@ -136,14 +137,14 @@ def duimp_fake_payload():
                     },
                     {
                         "codigo": "99",
-                        "denominacao": "Desconto comercial",
-                        "tipo": "DEDUCAO",
+                        "description": "Desconto comercial",
+                        "type": "DEDUCAO",
                         "valorReais": 100.00,
                     },
                 ],
                 "calculosTributos": [
                     {
-                        "tipo": "II",
+                        "type": "II",
                         "baseCalculo": 4950.00,
                         "aliquotaAdValorem": 14.0,
                         "valoresBRL": {"devido": 693.00, "aRecolher": 693.00},
@@ -183,13 +184,13 @@ class DuimpCommon(TransactionCase):
         )
 
     def _create_declaracao(self, afrmm=0.0, siscomex=0.0, capatazia=0.0):
-        declaracao = self.env["l10n_br_duimp.declaracao"].create(
+        declaracao = self.env["l10n_br_duimp.declaration"].create(
             {
                 "numero": self.dados_gerais["identificacao"]["numero"],
                 "company_id": self.company.id,
-                "afrmm_total": afrmm,
+                "afrmm_amount": afrmm,
                 "taxa_siscomex_total": siscomex,
-                "capatazia_total": capatazia,
+                "handling_fee_amount": capatazia,
             }
         )
         declaracao._import_from_payload(self.dados_gerais, self.itens)

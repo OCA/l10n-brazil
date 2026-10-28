@@ -1,4 +1,5 @@
 # Copyright (C) 2026 - TODAY, Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+# Copyright 2026 - TODAY, Cristiano Mafra Junior <cristiano.mafra@escodoo.com.br>
 # Copyright (C) 2026 - TODAY, KMEE (<https://kmee.com.br>)
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
@@ -8,8 +9,8 @@ from odoo import fields, models
 class Document(models.Model):
     _inherit = "l10n_br_fiscal.document"
 
-    duimp_declaracao_id = fields.Many2one(
-        comodel_name="l10n_br_duimp.declaracao",
+    duimp_declaration_id = fields.Many2one(
+        comodel_name="l10n_br_duimp.declaration",
         string="DUIMP",
         copy=False,
         help="Persistent DUIMP that originated this fiscal document.",

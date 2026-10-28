@@ -1,4 +1,5 @@
 # Copyright (C) 2026 - TODAY, Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+# Copyright 2026 - TODAY, Cristiano Mafra Junior <cristiano.mafra@escodoo.com.br>
 # Copyright (C) 2026 - TODAY, KMEE (<https://kmee.com.br>)
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
@@ -24,11 +25,11 @@ DUIMP_GENERAL_DATA = {
     "identificacao": {"numero": DUIMP_NUMBER, "versao": 1},
     "tributos": {
         "tributosCalculados": [
-            {"tipo": "II", "valoresBRL": {"devido": 20625.01}},
-            {"tipo": "IPI", "valoresBRL": {"devido": 11095.51}},
-            {"tipo": "PIS", "valoresBRL": {"devido": 3057.61}},
-            {"tipo": "COFINS", "valoresBRL": {"devido": 14115.22}},
-            {"tipo": "TAXA_UTILIZACAO", "valoresBRL": {"devido": 223.64}},
+            {"type": "II", "valoresBRL": {"devido": 20625.01}},
+            {"type": "IPI", "valoresBRL": {"devido": 11095.51}},
+            {"type": "PIS", "valoresBRL": {"devido": 3057.61}},
+            {"type": "COFINS", "valoresBRL": {"devido": 14115.22}},
+            {"type": "TAXA_UTILIZACAO", "valoresBRL": {"devido": 223.64}},
         ]
     },
 }
@@ -178,27 +179,27 @@ class TestDuimpImportWizard(AccountMoveBRCommon):
         fake = webservice or FakeDuimpWebservice()
         with patch.object(ResCompany, "_get_duimp_webservice", new=lambda self: fake):
             action = wizard.action_consult_duimp()
-        return self.env["l10n_br_duimp.declaracao"].browse(action["res_id"])
+        return self.env["l10n_br_duimp.declaration"].browse(action["res_id"])
 
     def test_consult_creates_persistent_declaracao(self):
         declaracao = self._consult_wizard()
         self.assertTrue(declaracao.exists())
-        self.assertEqual(declaracao.numero, DUIMP_NUMBER)
-        self.assertEqual(declaracao.versao, 1)
+        self.assertEqual(declaracao.number, DUIMP_NUMBER)
+        self.assertEqual(declaracao.version, 1)
         self.assertEqual(declaracao.state, "open")
         self.assertEqual(len(declaracao.item_ids), 1)
         item = declaracao.item_ids
-        self.assertEqual(item.quantidade, 846.0)
-        self.assertAlmostEqual(item.valor_aduaneiro, 145600.16)
-        self.assertAlmostEqual(item.valor_frete_rateado, 11947.04)
-        self.assertAlmostEqual(item.valor_seguro_rateado, 720.13)
+        self.assertEqual(item.quantity, 846.0)
+        self.assertAlmostEqual(item.customs_value, 145600.16)
+        self.assertAlmostEqual(item.allocated_freight, 11947.04)
+        self.assertAlmostEqual(item.allocated_insurance, 720.13)
         # products are auto-matched by codigoProduto == default_code
         self.assertEqual(item.product_id, self.product)
         # the exporter name matches an existing partner (best-effort)
-        self.assertEqual(declaracao.fornecedor_partner_id, self.partner)
+        self.assertEqual(declaracao.partner_id, self.partner)
         # header federal taxes
-        self.assertAlmostEqual(declaracao.ii_total, 20625.01)
-        self.assertAlmostEqual(declaracao.cofins_total, 14115.22)
+        self.assertAlmostEqual(declaracao.ii_amount, 20625.01)
+        self.assertAlmostEqual(declaracao.cofins_amount, 14115.22)
 
     def test_consult_without_exporter_name_leaves_vendor_unset(self):
         """A DUIMP whose items carry no exporter/manufacturer name still
@@ -212,9 +213,9 @@ class TestDuimpImportWizard(AccountMoveBRCommon):
         }
         declaracao = self._consult_wizard(FakeDuimpWebservice(items=[item]))
 
-        self.assertFalse(declaracao.fornecedor_partner_id)
+        self.assertFalse(declaracao.partner_id)
         self.assertEqual(len(declaracao.item_ids), 1)
-        self.assertEqual(declaracao.item_ids.codigo_produto, "102")
+        self.assertEqual(declaracao.item_ids.product_code, "102")
         self.assertEqual(declaracao.item_ids.product_id, self.product)
 
     def test_match_vendor_fallbacks(self):
@@ -224,23 +225,23 @@ class TestDuimpImportWizard(AccountMoveBRCommon):
         operator = partner_model.create({"name": "OP LTDA", "is_company": True})
 
         with self.subTest(case="no_items"):
-            declaracao.fornecedor_partner_id = False
+            declaracao.partner_id = False
             declaracao._match_vendor([])
-            self.assertFalse(declaracao.fornecedor_partner_id)
+            self.assertFalse(declaracao.partner_id)
 
         with self.subTest(case="fabricante_fallback"):
-            declaracao.fornecedor_partner_id = False
+            declaracao.partner_id = False
             declaracao._match_vendor(
                 [{"dadosOperadorFabricante": {"nome": "FAB LTDA"}}]
             )
-            self.assertEqual(declaracao.fornecedor_partner_id, manufacturer)
+            self.assertEqual(declaracao.partner_id, manufacturer)
 
         with self.subTest(case="nome_operador_fallback"):
-            declaracao.fornecedor_partner_id = False
+            declaracao.partner_id = False
             declaracao._match_vendor(
                 [{"dadosOperadorExportador": {"nomeOperador": "OP LTDA"}}]
             )
-            self.assertEqual(declaracao.fornecedor_partner_id, operator)
+            self.assertEqual(declaracao.partner_id, operator)
 
     def test_get_document_serie_reuses_existing(self):
         declaracao = self._consult_wizard()
@@ -274,7 +275,7 @@ class TestDuimpImportWizard(AccountMoveBRCommon):
         self.assertEqual(declaracao.account_move_id, move)
         self.assertTrue(move.fiscal_document_id.imported_document)
         self.assertEqual(move.fiscal_document_id.duimp_number, DUIMP_NUMBER)
-        self.assertEqual(move.fiscal_document_id.duimp_declaracao_id, declaracao)
+        self.assertEqual(move.fiscal_document_id.duimp_declaration_id, declaracao)
         fiscal_lines = move.fiscal_document_id.fiscal_line_ids
         self.assertEqual(len(fiscal_lines), 1)
         fiscal_line = fiscal_lines[0]
@@ -313,7 +314,7 @@ class TestDuimpImportWizard(AccountMoveBRCommon):
             webservice=FakeDuimpWebservice(items=DUIMP_ITEMS_ZERO_VALUE)
         )
         item = declaracao.item_ids
-        self.assertAlmostEqual(item.valor_aduaneiro, 0.0)
+        self.assertAlmostEqual(item.customs_value, 0.0)
         self.assertAlmostEqual(item.amount_afrmm, 0.0)
 
     def test_consult_reuses_open_declaracao(self):
@@ -328,8 +329,8 @@ class TestDuimpImportWizard(AccountMoveBRCommon):
         fake = FakeDuimpWebservice()
         with patch.object(ResCompany, "_get_duimp_webservice", new=lambda self: fake):
             action = wizard.action_consult_duimp()
-        declaracao = self.env["l10n_br_duimp.declaracao"].browse(action["res_id"])
-        self.assertAlmostEqual(declaracao.afrmm_total, 1000.0)
+        declaracao = self.env["l10n_br_duimp.declaration"].browse(action["res_id"])
+        self.assertAlmostEqual(declaracao.afrmm_amount, 1000.0)
         self.assertAlmostEqual(declaracao.taxa_siscomex_total, 223.64)
         # single item receives the full allocation
         self.assertAlmostEqual(declaracao.item_ids.amount_afrmm, 1000.0, places=2)
@@ -343,7 +344,7 @@ class TestDuimpImportWizard(AccountMoveBRCommon):
     def test_generate_invoice_validations(self):
         with self.subTest(scenario="no_vendor"):
             declaracao = self._consult_wizard()
-            declaracao.fornecedor_partner_id = False
+            declaracao.partner_id = False
             declaracao.item_ids.cfop_id = self.cfop
             with self.assertRaises(UserError):
                 declaracao.action_generate_vendor_bill()

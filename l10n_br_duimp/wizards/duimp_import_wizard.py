@@ -1,4 +1,5 @@
 # Copyright (C) 2026 - TODAY, Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+# Copyright 2026 - TODAY, Cristiano Mafra Junior <cristiano.mafra@escodoo.com.br>
 # Copyright (C) 2026 - TODAY, KMEE (<https://kmee.com.br>)
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
@@ -13,24 +14,6 @@ _logger = logging.getLogger(__name__)
 
 
 class DocumentImportWizard(models.TransientModel):
-    """Extends the generic fiscal document importer
-    (``l10n_br_fiscal.document.import.wizard``, normally used to parse an
-    uploaded NFe/CTe/MDFe XML file) to also query a DUIMP (Declaração
-    Única de Importação) directly from the Portal Único Siscomex REST API
-    by number/version.
-
-    Unlike NFe/CTe/MDFe, the DUIMP has no official downloadable XML: it is
-    only available through the authenticated REST API (mTLS with the
-    e-CPF digital certificate of the person representing the company),
-    see ``models/duimp_webservice.py``.
-
-    Instead of building a transient preview grid and creating the fiscal
-    document straight from the wizard, this creates a **persistent**
-    ``l10n_br_duimp.declaracao`` and opens it, so the product/CFOP
-    matching, cost entry and invoice generation happen on the persistent
-    record (auditable, re-queryable, versionable).
-    """
-
     _inherit = "l10n_br_fiscal.document.import.wizard"
 
     duimp_number = fields.Char(string="DUIMP Number")
@@ -83,21 +66,28 @@ class DocumentImportWizard(models.TransientModel):
 
         declaracao = self._get_or_create_declaracao()
         declaracao._import_from_payload(general_data, items)
-        vals = {
-            "afrmm_total": self.duimp_afrmm_value,
-            "taxa_siscomex_total": self.duimp_siscomex_value,
-            "capatazia_total": self.duimp_capatazia_value,
-            "state": "open",
-        }
+        # Only the costs actually typed in the wizard are written back:
+        # AFRMM and the Siscomex fee are read from the payload by
+        # _prepare_header_totals_from_items, so writing the (empty) wizard
+        # fields unconditionally would zero what was just imported.
+        vals = {"state": "open"}
+        for wizard_field, declaracao_field in (
+            ("duimp_afrmm_value", "afrmm_amount"),
+            ("duimp_siscomex_value", "taxa_siscomex_total"),
+            ("duimp_capatazia_value", "handling_fee_amount"),
+        ):
+            value = self[wizard_field]
+            if value:
+                vals[declaracao_field] = value
         if self.fiscal_operation_id:
             vals["fiscal_operation_id"] = self.fiscal_operation_id.id
         declaracao.write(vals)
         if self.issuer_partner_id:
-            declaracao.fornecedor_partner_id = self.issuer_partner_id
+            declaracao.partner_id = self.issuer_partner_id
         return declaracao.get_formview_action()
 
     def _get_or_create_declaracao(self):
-        declaracao_model = self.env["l10n_br_duimp.declaracao"]
+        declaracao_model = self.env["l10n_br_duimp.declaration"]
         # When no version is given, reuse the latest non-invoiced
         # declaration of this number: the payload bumps "versao" on
         # import, so filtering on versao == 0 here would create a

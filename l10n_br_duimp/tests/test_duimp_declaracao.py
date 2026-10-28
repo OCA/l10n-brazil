@@ -1,4 +1,5 @@
 # Copyright (C) 2026 - TODAY, KMEE (<https://kmee.com.br>)
+# Copyright 2026 - TODAY, Cristiano Mafra Junior <cristiano.mafra@escodoo.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo.exceptions import UserError
@@ -11,26 +12,26 @@ from .common import DUIMP_NUMBER, PRODUCT_CODE_1, DuimpCommon
 class TestDuimpDeclaracao(DuimpCommon):
     def test_import_payload_creates_persistent_records(self):
         declaracao = self._create_declaracao()
-        self.assertEqual(declaracao.numero, DUIMP_NUMBER)
-        self.assertEqual(declaracao.versao, 1)
-        self.assertEqual(declaracao.situacao, "REGISTRADA")
+        self.assertEqual(declaracao.number, DUIMP_NUMBER)
+        self.assertEqual(declaracao.version, 1)
+        self.assertEqual(declaracao.status, "REGISTRADA")
         self.assertEqual(len(declaracao.item_ids), 2)
-        self.assertEqual(len(declaracao.pagamento_ids), 1)
+        self.assertEqual(len(declaracao.payment_ids), 1)
         # header federal taxes
-        self.assertAlmostEqual(declaracao.ii_total, 1541.00)
-        self.assertAlmostEqual(declaracao.cofins_total, 970.00)
+        self.assertAlmostEqual(declaracao.ii_amount, 1541.00)
+        self.assertAlmostEqual(declaracao.cofins_amount, 970.00)
 
     def test_import_payload_maps_item_fields(self):
         declaracao = self._create_declaracao()
-        item = declaracao.item_ids.filtered(lambda i: i.numero_item == "1")
-        self.assertEqual(item.codigo_produto, PRODUCT_CODE_1)
-        self.assertEqual(item.ncm_codigo, "84821010")
-        self.assertAlmostEqual(item.quantidade, 100.0)
-        self.assertAlmostEqual(item.valor_aduaneiro, 5300.00)
+        item = declaracao.item_ids.filtered(lambda i: i.item_number == "1")
+        self.assertEqual(item.product_code, PRODUCT_CODE_1)
+        self.assertEqual(item.ncm_code, "84821010")
+        self.assertAlmostEqual(item.quantity, 100.0)
+        self.assertAlmostEqual(item.customs_value, 5300.00)
         self.assertAlmostEqual(item.price_unit, 50.00)  # 5000 / 100
-        self.assertEqual(len(item.tributo_ids), 1)
-        self.assertEqual(item.tributo_ids.tipo, "II")
-        self.assertAlmostEqual(item.tributo_ids.valor_devido, 848.00)
+        self.assertEqual(len(item.tax_ids), 1)
+        self.assertEqual(item.tax_ids.type, "II")
+        self.assertAlmostEqual(item.tax_ids.amount_due, 848.00)
 
     def test_import_payload_maps_parties_and_clearance(self):
         """The parties/clearance/cargo header block must come out of the
@@ -39,16 +40,16 @@ class TestDuimpDeclaracao(DuimpCommon):
         requires them.
         """
         declaracao = self._create_declaracao()
-        self.assertEqual(declaracao.importador_nome, "Test Importer SA")
-        self.assertEqual(declaracao.importador_numero, "12345678000195")
+        self.assertEqual(declaracao.importer_name, "Test Importer SA")
+        self.assertEqual(declaracao.importer_number, "12345678000195")
         self.assertEqual(declaracao.incoterm, "FOB")
-        self.assertEqual(declaracao.urf_despacho_nome, "PORTO DE SANTOS")
-        self.assertEqual(declaracao.uf_desembaraco, "SP")
-        self.assertEqual(str(declaracao.data_desembaraco), "2026-02-10")
-        self.assertEqual(declaracao.via_transporte_codigo, "01")
-        self.assertEqual(declaracao.caracterizacao_operacao_codigo, "1")
-        self.assertAlmostEqual(declaracao.frete_total, 300.00)
-        self.assertAlmostEqual(declaracao.seguro_total, 150.00)
+        self.assertEqual(declaracao.clearance_office_name, "PORTO DE SANTOS")
+        self.assertEqual(declaracao.clearance_state, "SP")
+        self.assertEqual(str(declaracao.clearance_date), "2026-02-10")
+        self.assertEqual(declaracao.transport_mode_code, "01")
+        self.assertEqual(declaracao.operation_type_code, "1")
+        self.assertAlmostEqual(declaracao.total_freight, 300.00)
+        self.assertAlmostEqual(declaracao.total_insurance, 150.00)
 
     def test_payload_path_missing_steps(self):
         declaracao = self._create_declaracao()
@@ -68,18 +69,18 @@ class TestDuimpDeclaracao(DuimpCommon):
         generated invoice line.
         """
         declaracao = self._create_declaracao()
-        item = declaracao.item_ids.filtered(lambda i: i.numero_item == "2")
-        self.assertEqual(len(item.acrescimo_deducao_ids), 2)
+        item = declaracao.item_ids.filtered(lambda i: i.item_number == "2")
+        self.assertEqual(len(item.addition_deduction_ids), 2)
 
-        acrescimo = item.acrescimo_deducao_ids.filtered(lambda a: a.codigo == "16")
+        acrescimo = item.addition_deduction_ids.filtered(lambda a: a.codigo == "16")
         self.assertAlmostEqual(acrescimo.valor, 300.00)
-        self.assertEqual(acrescimo.denominacao, "Frete internacional")
+        self.assertEqual(acrescimo.description, "Frete internacional")
         self.assertAlmostEqual(acrescimo.moeda_taxa, 5.25)
         self.assertEqual(acrescimo.moeda_negociada_id, self.env.ref("base.USD"))
-        self.assertEqual(acrescimo.declaracao_id, declaracao)
+        self.assertEqual(acrescimo.declaration_id, declaracao)
 
         # a "DEDUCAO" is stored as a negative amount
-        deducao = item.acrescimo_deducao_ids.filtered(lambda a: a.codigo == "99")
+        deducao = item.addition_deduction_ids.filtered(lambda a: a.codigo == "99")
         self.assertAlmostEqual(deducao.valor, -100.00)
 
         # net +200.00 over 40 units => +5.00 per unit
@@ -90,35 +91,35 @@ class TestDuimpDeclaracao(DuimpCommon):
 
     def test_import_payload_maps_item_currency(self):
         declaracao = self._create_declaracao()
-        item = declaracao.item_ids.filtered(lambda i: i.numero_item == "1")
-        self.assertEqual(item.moeda_venda_id, self.env.ref("base.USD"))
-        self.assertAlmostEqual(item.taxa_cambio_venda, 5.25)
-        self.assertAlmostEqual(item.valor_unitario, 9.52)
+        item = declaracao.item_ids.filtered(lambda i: i.item_number == "1")
+        self.assertEqual(item.trade_currency_id, self.env.ref("base.USD"))
+        self.assertAlmostEqual(item.exchange_rate, 5.25)
+        self.assertAlmostEqual(item.trade_unit_value, 9.52)
 
     def test_import_payload_maps_pagamento(self):
         declaracao = self._create_declaracao()
-        pagamento = declaracao.pagamento_ids
-        self.assertEqual(pagamento.codigo_receita, "0086")
-        self.assertEqual(str(pagamento.data_pagamento), "2026-02-11")
-        self.assertEqual(pagamento.numero_retificacao, "0")
+        pagamento = declaracao.payment_ids
+        self.assertEqual(pagamento.revenue_code, "0086")
+        self.assertEqual(str(pagamento.payment_date), "2026-02-11")
+        self.assertEqual(pagamento.amendment_number, "0")
 
     def test_auto_match_product_by_code(self):
         declaracao = self._create_declaracao()
-        item1 = declaracao.item_ids.filtered(lambda i: i.numero_item == "1")
-        item2 = declaracao.item_ids.filtered(lambda i: i.numero_item == "2")
+        item1 = declaracao.item_ids.filtered(lambda i: i.item_number == "1")
+        item2 = declaracao.item_ids.filtered(lambda i: i.item_number == "2")
         self.assertEqual(item1.product_id, self.product_1)
         self.assertEqual(item2.product_id, self.product_2)
 
     def test_total_customs_value(self):
         declaracao = self._create_declaracao()
-        self.assertAlmostEqual(declaracao.total_valor_aduaneiro, 5300.00 + 4950.00)
+        self.assertAlmostEqual(declaracao.total_customs_value, 5300.00 + 4950.00)
 
     def test_cost_allocation_by_customs_value(self):
         # AFRMM 1000 + Siscomex 300 allocated proportionally to the
         # customs value of each item (5300 / 10250 and 4950 / 10250).
         declaracao = self._create_declaracao(afrmm=1000.0, siscomex=300.0)
-        item1 = declaracao.item_ids.filtered(lambda i: i.numero_item == "1")
-        item2 = declaracao.item_ids.filtered(lambda i: i.numero_item == "2")
+        item1 = declaracao.item_ids.filtered(lambda i: i.item_number == "1")
+        item2 = declaracao.item_ids.filtered(lambda i: i.item_number == "2")
         total = 5300.00 + 4950.00
         self.assertAlmostEqual(item1.amount_afrmm, 1000.0 * 5300.0 / total, places=2)
         self.assertAlmostEqual(item2.amount_afrmm, 1000.0 * 4950.0 / total, places=2)
@@ -134,11 +135,11 @@ class TestDuimpDeclaracao(DuimpCommon):
 
     def test_addition_deduction_changes_final_price(self):
         declaracao = self._create_declaracao()
-        item = declaracao.item_ids.filtered(lambda i: i.numero_item == "1")
+        item = declaracao.item_ids.filtered(lambda i: i.item_number == "1")
         # without additions/deductions, final == price_unit
         self.assertAlmostEqual(item.final_price_unit, item.price_unit)
-        self.env["l10n_br_duimp.acrescimo.deducao"].create(
-            {"item_id": item.id, "denominacao": "Royalties", "valor": 500.00}
+        self.env["l10n_br_duimp.addition.deduction"].create(
+            {"item_id": item.id, "description": "Royalties", "valor": 500.00}
         )
         item.invalidate_recordset()
         # +500 over 100 units => +5.0/unit
@@ -147,7 +148,7 @@ class TestDuimpDeclaracao(DuimpCommon):
 
     def test_prepare_document_line_uses_per_item_taxes(self):
         declaracao = self._create_declaracao(afrmm=1000.0, siscomex=300.0)
-        item = declaracao.item_ids.filtered(lambda i: i.numero_item == "1")
+        item = declaracao.item_ids.filtered(lambda i: i.item_number == "1")
         vals = declaracao._prepare_document_line_values(
             self.env["l10n_br_fiscal.document"], item
         )
@@ -163,7 +164,7 @@ class TestDuimpDeclaracao(DuimpCommon):
     def test_generate_invoice_requires_products(self):
         declaracao = self._create_declaracao()
         declaracao.item_ids.write({"product_id": False})
-        declaracao.fornecedor_partner_id = self.vendor
+        declaracao.partner_id = self.vendor
         with self.assertRaises(UserError):
             declaracao.action_generate_vendor_bill()
 

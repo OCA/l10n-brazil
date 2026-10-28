@@ -1,29 +1,34 @@
 # Copyright (C) 2026 - TODAY, KMEE (<https://kmee.com.br>)
+# Copyright 2026 - TODAY, Cristiano Mafra Junior <cristiano.mafra@escodoo.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+
+from ..constants.duimp import DUIMP_UOM_XMLID
 
 
 class L10nBrDuimpItem(models.Model):
-    """A single DUIMP item.
-
-    The DUIMP taxes merchandise **per item** (unlike the DI, which groups
-    it into "adições"), so this model merges the two DI concepts
-    ``l10n_br_di.adicao`` and ``l10n_br_di.mercadoria`` into one. The
-    proportional-allocation maths (additions/deductions, Siscomex fee,
-    AFRMM, capatazia → ``final_price_unit``/``amount_other``) is ported
-    from ``l10n_br_di.mercadoria._compute_totals`` (KMEE 14.0); what
-    changes is the allocation base: the DI rateava por adição, the DUIMP
-    rateia por item sobre o valor aduaneiro total da declaração.
-    """
+    """DUIMP item with per-item taxes and cost allocation."""
 
     _name = "l10n_br_duimp.item"
     _inherit = "l10n_br_duimp.mixin"
     _description = "DUIMP Item"
-    _order = "declaracao_id, numero_item"
+    _order = "declaration_id, item_number"
 
-    declaracao_id = fields.Many2one(
-        comodel_name="l10n_br_duimp.declaracao",
+    def name_get(self):
+        """Without this the item shows up as "l10n_br_duimp.item,36"
+        wherever it is referenced, e.g. in the per-item tax breakdown."""
+        result = []
+        for item in self:
+            label = _("Item %s") % (item.item_number or "?")
+            detail = item.product_id.display_name or item.product_code
+            if detail:
+                label = f"{label} - {detail}"
+            result.append((item.id, label))
+        return result
+
+    declaration_id = fields.Many2one(
+        comodel_name="l10n_br_duimp.declaration",
         string="Declaration",
         required=True,
         ondelete="cascade",
@@ -31,73 +36,62 @@ class L10nBrDuimpItem(models.Model):
 
     company_id = fields.Many2one(
         comodel_name="res.company",
-        related="declaracao_id.company_id",
+        related="declaration_id.company_id",
         store=True,
     )
     currency_id = fields.Many2one(
         comodel_name="res.currency",
-        related="declaracao_id.currency_id",
+        related="declaration_id.currency_id",
     )
 
-    # --- Data returned by the DUIMP payload -----------------------------
-    numero_item = fields.Char(string="Item No.", index=True)
-    codigo_produto = fields.Char(
-        string="DUIMP Product Code",
-        help="codigoProduto from the importer's own product catalogue "
-        "(CATP). Used to auto-match the internal product.",
+    item_number = fields.Char(string="Item No.", index=True)
+    product_code = fields.Char(string="DUIMP Product Code")
+    ncm_code = fields.Char(string="NCM")
+    description = fields.Char()
+    exporter_code = fields.Char(
+        help="exportador.codigo (CATP operator code, e.g. OPE_3). The "
+        "payload carries no exporter name, so this code is what a partner "
+        "de-para can be built on (res.partner.ref).",
     )
-    ncm_codigo = fields.Char(string="NCM")
-    descricao = fields.Char(string="Description")
+    siscomex_fee = fields.Monetary(
+        string="Siscomex Fee (item)",
+        help="tributos.mercadoria.taxaUtilizacao reported for this item.",
+    )
 
-    quantidade = fields.Float(string="Quantity", digits="Product Unit of Measure")
-    unidade_comercializada = fields.Char(string="Traded UoM")
+    quantity = fields.Float(digits="Product Unit of Measure")
+    trade_uom = fields.Char(string="Traded UoM")
 
-    moeda_venda_id = fields.Many2one(
+    trade_currency_id = fields.Many2one(
         comodel_name="res.currency", string="Negotiated Currency"
     )
-    taxa_cambio_venda = fields.Float(string="Exchange Rate", digits=(12, 8))
+    exchange_rate = fields.Float(digits=(12, 8))
 
-    valor_unitario = fields.Float(
+    trade_unit_value = fields.Float(
         string="Unit Price (Currency)",
         digits=(12, 8),
         help="Unit price in the negotiated currency, when the DUIMP "
         "reports it; otherwise 0.",
     )
-
-    # --- De-para (item ↔ internal Odoo records) -------------------------
     product_id = fields.Many2one(comodel_name="product.product", string="Product")
     uom_id = fields.Many2one(comodel_name="uom.uom", string="Unit of Measure")
     cfop_id = fields.Many2one(comodel_name="l10n_br_fiscal.cfop", string="CFOP")
-
-    # --- Monetary values already in BRL (from the DUIMP payload) --------
     price_unit = fields.Monetary(
         string="Unit Price (BRL)",
         help="Unit price already converted to BRL.",
     )
-    valor_mercadoria = fields.Monetary(string="Merchandise Value")
-    valor_aduaneiro = fields.Monetary(
-        string="Customs Value",
-        help="II (Import Duty) tax base reported by the DUIMP; used as "
-        "the allocation base for header-level costs and taxes.",
-    )
-    valor_frete_rateado = fields.Monetary(string="Allocated Freight")
-    valor_seguro_rateado = fields.Monetary(string="Allocated Insurance")
-
-    # --- Relations ------------------------------------------------------
-    acrescimo_deducao_ids = fields.One2many(
-        comodel_name="l10n_br_duimp.acrescimo.deducao",
+    merchandise_value = fields.Monetary()
+    customs_value = fields.Monetary()
+    allocated_freight = fields.Monetary()
+    allocated_insurance = fields.Monetary()
+    addition_deduction_ids = fields.One2many(
+        comodel_name="l10n_br_duimp.addition.deduction",
         inverse_name="item_id",
         string="Additions/Deductions",
     )
-    tributo_ids = fields.One2many(
-        comodel_name="l10n_br_duimp.item.tributo",
+    tax_ids = fields.One2many(
+        comodel_name="l10n_br_duimp.item.tax",
         inverse_name="item_id",
-        string="Tributes",
-    )
-
-    # --- Computed allocation (ported from l10n_br_di.mercadoria) --------
-    amount_subtotal_brl = fields.Monetary(
-        string="Subtotal (BRL)", compute="_compute_totals", store=True
+        string="Taxes",
     )
     addition_deduction = fields.Monetary(
         string="Additions/Deductions (BRL)", compute="_compute_totals", store=True
@@ -133,65 +127,84 @@ class L10nBrDuimpItem(models.Model):
     )
 
     @api.depends(
-        "quantidade",
+        "quantity",
         "price_unit",
-        "valor_aduaneiro",
-        "acrescimo_deducao_ids.valor",
-        "declaracao_id.afrmm_total",
-        "declaracao_id.taxa_siscomex_total",
-        "declaracao_id.capatazia_total",
-        "declaracao_id.total_valor_aduaneiro",
+        "customs_value",
+        "addition_deduction_ids.amount",
+        "declaration_id.afrmm_amount",
+        "declaration_id.siscomex_fee_amount",
+        "declaration_id.handling_fee_amount",
+        "declaration_id.total_customs_value",
     )
     def _compute_totals(self):
         for line in self:
-            declaracao = line.declaracao_id
-            line.amount_subtotal_brl = line.quantidade * line.price_unit
-
-            line.addition_deduction = sum(line.acrescimo_deducao_ids.mapped("valor"))
+            declaration = line.declaration_id
+            line.addition_deduction = sum(line.addition_deduction_ids.mapped("amount"))
             line.unit_addition_deduction = (
-                line.addition_deduction / line.quantidade if line.quantidade else 0.0
+                line.addition_deduction / line.quantity if line.quantity else 0.0
             )
-
-            # Header-level costs are allocated proportionally to the item's
-            # customs value (valorAduaneiro), the same base Siscomex uses.
-            total_aduaneiro = declaracao.total_valor_aduaneiro
+            total_customs_value = declaration.total_customs_value
             proportion = (
-                (line.valor_aduaneiro / total_aduaneiro) if total_aduaneiro else 0.0
+                (line.customs_value / total_customs_value)
+                if total_customs_value
+                else 0.0
             )
-            line.amount_afrmm = proportion * declaracao.afrmm_total
-            line.amount_siscomex = proportion * declaracao.taxa_siscomex_total
-            line.amount_capatazia = proportion * declaracao.capatazia_total
+            line.amount_afrmm = proportion * declaration.afrmm_amount
+            line.amount_siscomex = proportion * declaration.siscomex_fee_amount
+            line.amount_capatazia = proportion * declaration.handling_fee_amount
             line.amount_other = (
                 line.amount_afrmm + line.amount_siscomex + line.amount_capatazia
             )
 
             line.final_price_unit = line.price_unit + line.unit_addition_deduction
-            line.amount_total = line.final_price_unit * line.quantidade
+            line.amount_total = line.final_price_unit * line.quantity
 
     def _match_product(self):
-        """Auto-match the internal product from the DUIMP ``codigoProduto``
-        (CATP) and NCM.
+        """Auto-match the internal product from the DUIMP item.
 
-        Implements the auto-match the DI left as a TODO
-        (``l10n_br_di.mercadoria._match_product_unit``). The DUIMP makes
-        it feasible because every item carries the importer's own product
-        code. Full CATP catalogue sync is phase 2; here we only read the
-        code to reconcile against existing products.
+        Only unambiguous matches are applied. The DUIMP product code comes
+        from the importer's own catalogue (CATP) and is often very short
+        ("38", "39"), so an ``ilike`` on it would happily match an
+        unrelated product; and an NCM is shared by many products by
+        definition. A guess here is silent and ends up on the vendor bill,
+        so whatever is ambiguous is left for the user to pick.
         """
         Product = self.env["product.product"]
         for line in self:
             if line.product_id:
                 continue
             product = Product.browse()
-            if line.codigo_produto:
+            if line.product_code:
                 product = Product.search(
-                    [("default_code", "=", line.codigo_produto)], limit=1
-                ) or Product.search([("barcode", "=", line.codigo_produto)], limit=1)
-            if not product and line.ncm_codigo:
-                product = Product.search(
-                    [("ncm_id.code_unmasked", "=", line.ncm_codigo)], limit=1
+                    [("default_code", "=", line.product_code)], limit=1
+                ) or Product.search([("barcode", "=", line.product_code)], limit=1)
+            if not product and line.ncm_code:
+                candidates = Product.search(
+                    [("ncm_id.code_unmasked", "=", line.ncm_code)], limit=2
                 )
+                # exactly one product with this NCM: unambiguous
+                product = candidates if len(candidates) == 1 else Product.browse()
             if product:
                 line.product_id = product
-                if not line.uom_id:
+                if not line.uom_id and product.uom_id:
                     line.uom_id = product.uom_id
+        self._match_uom()
+
+    def _match_uom(self):
+        """Map the Siscomex commercial unit to an Odoo unit of measure.
+
+        Only used when the matched product does not already impose one:
+        the product's own unit is what the rest of the purchase flow
+        expects. A unit that is not in the de-para is left empty for the
+        user to pick, since inventing one silently changes the quantity
+        the vendor bill carries.
+        """
+        for line in self:
+            if line.uom_id or not line.trade_uom:
+                continue
+            xmlid = DUIMP_UOM_XMLID.get(line.trade_uom.strip().upper())
+            if not xmlid:
+                continue
+            uom = self.env.ref(xmlid, raise_if_not_found=False)
+            if uom:
+                line.uom_id = uom

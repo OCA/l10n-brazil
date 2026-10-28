@@ -1,16 +1,8 @@
 # Copyright (C) 2026 - TODAY, Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+# Copyright 2026 - TODAY, Cristiano Mafra Junior <cristiano.mafra@escodoo.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-"""Constants for the Portal Único Siscomex DUIMP REST API integration.
-
-References:
-
-- https://docs.portalunico.siscomex.gov.br/api/plat/ (authentication)
-- https://api-docs.portalunico.siscomex.gov.br/swagger/duimp.html
-  (Consulta aos Dados da Duimp)
-- https://github.com/samuelfac/portalunico.siscomex.gov.br (community
-  OpenAPI-generated client used to validate the JSON field names)
-"""
+# Constants for the Portal Único Siscomex DUIMP REST API integration.
 
 DUIMP_ENVIRONMENT_VALIDATION = "validation"
 DUIMP_ENVIRONMENT_PRODUCTION = "production"
@@ -26,54 +18,19 @@ DUIMP_ENVIRONMENT_SELECTION = [
 ]
 
 DUIMP_AUTH_PATH = "/portal/api/autenticar"
-
-# Base path of the "Intervenientes Privados" DUIMP microservice (a
-# different backend than the /portal/api/autenticar SSO gateway above).
-# Confirmed by probing https://val.portalunico.siscomex.gov.br directly:
-# requests without this prefix are rejected by the edge server with a
-# bare Apache 403 (the route is never routed to the DUIMP application),
-# while requests with it reach the app and return its own JSON
-# "Usuário não autenticado" (DIMP-ER8990) error when no token is sent.
 DUIMP_API_PATH_PREFIX = "/duimp-api/api/ext/duimp"
-
-# The version segment is mandatory on the live API: a general-data/items
-# request without it 404s at the application level (RESTEASY003210,
-# "no matching route"), it is not silently resolved to the latest
-# version. When the caller does not know the version yet, default to 1
-# (every DUIMP starts at version 1 when first registered).
 DUIMP_DEFAULT_VERSION = 1
-
 DUIMP_ROLE_TYPE_DEFAULT = "IMPEXP"
-
 DUIMP_DOCUMENT_TYPE_CODE = "55"
-
-# "tipo" values of the header-level "tributos.tributosCalculados" list
-# that are mapped into l10n_br_fiscal.document.line tax fields, keyed by
-# the field prefix used on l10n_br_fiscal.document.line.mixin (ii_*,
-# ipi_*, pis_*, cofins_*). ICMS is intentionally absent: it is a state
-# (not federal) tax and this federal DUIMP service never returns it.
 DUIMP_TAX_FIELD_PREFIX = {
     "II": "ii",
     "IPI": "ipi",
     "PIS": "pis",
     "COFINS": "cofins",
 }
-
-# Default lookback window (in days) used to prefill the search wizard's
-# date range when listing the DUIMPs registered for the company.
 DUIMP_SEARCH_DEFAULT_DAYS = 60
-
-# The Portal Único rejects a new /portal/api/autenticar call if the same
-# user authenticated less than 60 seconds ago (HTTP 422 PLAT-ER2033,
-# "O token gerado deve ser reaproveitado"), confirmed live: a second
-# "Search DUIMP" click right after the first one raised it. The token
-# must be cached and reused across calls instead of re-authenticating
-# every time; this TTL (in seconds) bounds how long a cached token is
-# trusted before authenticating again.
 DUIMP_TOKEN_CACHE_SECONDS = 300
 
-# State machine of the persistent l10n_br_duimp.declaracao, mirroring the
-# lifecycle used by KMEE's l10n_br_di.declaracao (14.0).
 DUIMP_STATE_SELECTION = [
     ("draft", "Draft"),
     ("open", "Open"),
@@ -81,50 +38,142 @@ DUIMP_STATE_SELECTION = [
     ("canceled", "Canceled"),
 ]
 
-# Federal tribute types persisted on l10n_br_duimp.item.tributo. Besides
-# the four taxes that map to fiscal document line fields, the DUIMP also
-# reports the Siscomex utilisation fee ("Taxa de Utilização"), kept for
-# auditing/landed-cost purposes (phase 2).
-DUIMP_TRIBUTO_TYPE_SELECTION = [
+# Order follows the sequence the taxes are assessed in, which is also the
+# order they are listed in: the selection order drives the "sequence"
+# stored on each tax line, so the item breakdown does not come out sorted
+# alphabetically.
+#
+# The labels of the Brazilian federal taxes (II, IPI, PIS, COFINS, CBS,
+# IBS, CIDE) are kept in Portuguese on purpose: they are the official
+# names of the tax, not a description we chose, the same way CFOP/NCM
+# labels stay in Portuguese elsewhere in l10n_br_fiscal.
+DUIMP_TAX_TYPE_SELECTION = [
     ("II", "II - Imposto de Importação"),
     ("IPI", "IPI - Imposto sobre Produtos Industrializados"),
     ("PIS", "PIS/PASEP-Importação"),
     ("COFINS", "COFINS-Importação"),
+    ("CBS", "CBS - Contribuição sobre Bens e Serviços"),
+    ("IBS_ESTADUAL", "IBS Estadual"),
+    ("IBS_MUNICIPAL", "IBS Municipal"),
     ("CIDE", "CIDE"),
     ("ANTIDUMPING", "Direito Antidumping"),
     ("TAXA_UTILIZACAO", "Taxa de Utilização do Siscomex"),
-    ("OUTRO", "Outro"),
+    ("OUTRO", "Other"),
 ]
 
-# Where each l10n_br_duimp.declaracao header field is read from in the
-# "Consulta aos Dados da Duimp" payload, as dotted paths tried in order
-# (the first non-empty one wins).
-#
-# Four of these feed NF-e tags that the layout marks as required inside
-# the import-declaration group (nfe40_xLocDesemb, nfe40_UFDesemb,
-# nfe40_dDesemb and nfe40_tpViaTransp, filled by l10n_br_duimp_nfe), so
-# leaving them empty produces a DI group that does not validate.
-#
-# NOTE: like the rest of the mapping in this module, these paths follow
-# the public documentation and the community client and were not
-# validated against a real Portal Único response yet. They are kept in a
-# single table so correcting them against a real payload is a one-place
-# edit, and every field below is editable on the declaration form, so a
-# path that turns out wrong is corrected by hand instead of blocking the
-# invoice.
-DUIMP_HEADER_PAYLOAD_PATHS = {
-    "importador_nome": ("importador.nome",),
-    "importador_numero": ("importador.ni", "importador.numero"),
-    "incoterm": ("condicaoVenda.incoterm", "carga.incoterm"),
-    "urf_despacho_nome": ("despacho.urfDespacho.nome", "carga.urfDespachoNome"),
-    "uf_desembaraco": ("despacho.ufDesembaraco", "carga.ufDesembaraco"),
-    "data_desembaraco": ("despacho.dataDesembaraco",),
-    "via_transporte_codigo": ("carga.viaTransporte.codigo",),
-    "caracterizacao_operacao_codigo": ("carga.caracterizacaoOperacao.codigo",),
-    "frete_total": ("carga.frete.totalReais", "carga.frete.valorBRL"),
-    "seguro_total": ("carga.seguro.totalReais", "carga.seguro.valorBRL"),
+DUIMP_TAX_SEQUENCE = {
+    code: index for index, (code, _label) in enumerate(DUIMP_TAX_TYPE_SELECTION)
 }
 
-# Of the fields above, the ones that need date parsing / are monetary.
-DUIMP_HEADER_DATE_FIELDS = ("data_desembaraco",)
-DUIMP_HEADER_MONETARY_FIELDS = ("frete_total", "seguro_total")
+# Header fields read straight from the payload, as dotted paths tried in
+# order. Only paths confirmed against a real "Consulta aos Dados da Duimp"
+# response belong here: a guessed path that never resolves is worse than no
+# mapping, because it makes an empty field look mapped.
+#
+# Keys are l10n_br_duimp.declaration field names.
+DUIMP_HEADER_PAYLOAD_PATHS = {
+    "clearance_office_code": ("carga.unidadeDeclarada.codigo",),
+    "origin_country_code": ("carga.paisProcedencia.codigo",),
+    "cargo_identification": ("carga.identificacao",),
+}
+
+# Fields the real payload does NOT carry in any structured node, left for
+# manual entry (some only exist inside the free-text
+# "identificacao.informacaoComplementar"):
+#   incoterm_id                -> per item, and null on real responses
+#   clearance_office_name      -> only the code is returned
+#   clearance_state, clearance_date
+#   transport_mode_code        -> "VIA DE TRANSPORTE : 04 - AEREA"
+#   operation_type_code
+# They are editable on the declaration form so the NF-e import-declaration
+# group can still be completed by hand.
+
+
+# Federal taxes the payload returns at header level but that have no
+# counterpart field on l10n_br_fiscal.document.line: kept on the
+# declaration for auditing/landed cost only, never pushed to the invoice.
+# CBS/IBS come from the tax reform and the DUIMP already returns them.
+#
+# Values are l10n_br_duimp.declaration field names.
+DUIMP_HEADER_EXTRA_TAX_FIELD = {
+    "CBS": "cbs_total",
+    "IBS_ESTADUAL": "ibs_estadual_total",
+    "IBS_MUNICIPAL": "ibs_municipal_total",
+    "TAXA_UTILIZACAO": "siscomex_usage_fee_amount",
+}
+
+# Siscomex commercial unit -> Odoo uom.uom xmlid. Only unambiguous
+# equivalences are listed: the unit the DUIMP reports is always kept as
+# text in l10n_br_duimp.item.trade_uom, and a unit that is not here simply
+# leaves uom_id empty for the user to pick, rather than being forced into
+# "Units" and silently changing what is invoiced.
+# Units with no Odoo counterpart (PAR, MILHEIRO, GRAMA QUILATE, ...) are
+# intentionally absent.
+DUIMP_UOM_XMLID = {
+    "UNIDADE": "uom.product_uom_unit",
+    "PECA": "uom.product_uom_unit",
+    "ROLO": "uom.product_uom_unit",
+    "CAIXA": "uom.product_uom_unit",
+    "JOGO": "uom.product_uom_unit",
+    "DUZIA": "uom.product_uom_dozen",
+    "QUILOGRAMA": "uom.product_uom_kgm",
+    "QUILOGRAMA LIQUIDO": "uom.product_uom_kgm",
+    "GRAMA": "uom.product_uom_gram",
+    "TONELADA METRICA": "uom.product_uom_ton",
+    "LITRO": "uom.product_uom_litre",
+    "METRO": "uom.product_uom_meter",
+    "METRO CUBICO": "uom.product_uom_cubic_meter",
+    "QUILOMETRO": "uom.product_uom_km",
+}
+
+# Fields recovered from "identificacao.informacaoComplementar", the free
+# text block of the DUIMP. Several of them exist nowhere else in the
+# response - notably the ICMS, which this federal service never returns
+# in a structured node, and the transport mode and clearance location,
+# which the NF-e import-declaration group requires.
+#
+# The block is "LABEL <padding> : VALUE" per line, so each entry is a
+# regex with a single capture group. Nothing here is authoritative: every
+# target field stays editable, and a label that changes format simply
+# leaves its field empty instead of breaking the import.
+#
+# Keys are l10n_br_duimp.declaration field names; the regexes match the
+# Portuguese labels Siscomex itself prints in that block, which do not
+# change with our own field naming.
+DUIMP_FREE_TEXT_PATTERNS = {
+    "transport_mode_code": r"^VIA DE TRANSPORTE\s*:\s*(\d+)",
+    "bonded_warehouse": r"^RECINTO ALFANDEGADO\s*:\s*(.+?)\s*$",
+    "gross_weight": r"^PESO BRUTO KG\s*:\s*([\d.,]+)",
+    "net_weight": r"^PESO LIQUIDO KG\s*:\s*([\d.,]+)",
+    "shipping_date": r"^DATA DE EMBARQUE\s*:\s*(\d{2}/\d{2}/\d{4})",
+    "arrival_date": r"^DATA DE CHEGADA\s*:\s*(\d{2}/\d{2}/\d{4})",
+    "icms_amount": r"^ICMS A RECOLHER - R\$\s*:\s*([\d.,]+)",
+}
+
+DUIMP_FREE_TEXT_DATE_FIELDS = ("shipping_date", "arrival_date")
+DUIMP_FREE_TEXT_MONETARY_FIELDS = ("gross_weight", "net_weight", "icms_amount")
+
+# "BASE DE CALCULO" appears only inside the ICMS block, but it is anchored
+# to that heading so a future layout with other tax blocks cannot pick up
+# the wrong one.
+DUIMP_FREE_TEXT_ICMS_BASE = (
+    r"TOTAL DOS IMPOSTOS - ICMS.*?^BASE DE CALCULO\s*:\s*([\d.,]+)"
+)
+
+# "caracterizacaoImportacao.indicador" (per item) is what the NF-e calls
+# tpIntermedio in the import-declaration group: 1-por conta propria,
+# 2-por conta e ordem, 3-encomenda. The DUIMP spells it out instead of
+# numbering it, so it needs translating.
+DUIMP_CARACTERIZACAO_TPINTERMEDIO = {
+    "IMPORTACAO_DIRETA": "1",
+    "IMPORTACAO_POR_CONTA_E_ORDEM": "2",
+    "CONTA_E_ORDEM": "2",
+    "IMPORTACAO_POR_ENCOMENDA": "3",
+    "ENCOMENDA": "3",
+}
+
+# Tax reform taxes that DO have fields on l10n_br_fiscal.document.line.
+# The DUIMP splits the IBS into its state and municipal shares, while the
+# line carries a single IBS (the total), so the two are summed.
+DUIMP_CBS_TYPE = "CBS"
+DUIMP_IBS_TYPES = ("IBS_ESTADUAL", "IBS_MUNICIPAL")

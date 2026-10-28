@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- Copyright (C) 2026 - TODAY, Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+<!-- Copyright (C) 2026 – TODAY, Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
      License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html -->
 <odoo>
     <record id="duimp_search_wizard_line_tree" model="ir.ui.view">
@@ -22,8 +22,6 @@
         <field name="arch" type="xml">
             <form string="Search DUIMP">
                 <group>
-                    <!-- Defaults to the logged-in company; only shown when
-                         the user actually has more than one to choose from. -->
                     <field
                         name="company_id"
                         groups="base.group_multi_company"
@@ -68,9 +66,9 @@
     <menuitem
         id="duimp_search_wizard_menu"
         action="duimp_search_wizard_action"
-        name="Search DUIMP"
-        parent="account.menu_finance_payables"
-        sequence="4"
+        name="Search"
+        parent="l10n_br_duimp.l10n_br_duimp_menu"
+        sequence="20"
         groups="l10n_br_fiscal.group_manager"
     />
 </odoo>

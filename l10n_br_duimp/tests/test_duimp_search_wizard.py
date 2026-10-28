@@ -1,4 +1,5 @@
 # Copyright (C) 2026 - TODAY, Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+# Copyright 2026 - TODAY, Cristiano Mafra Junior <cristiano.mafra@escodoo.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from unittest.mock import patch
@@ -131,10 +132,10 @@ class TestDuimpSearchWizard(AccountMoveBRCommon):
         with patch.object(ResCompany, "_get_duimp_webservice", new=lambda self: fake):
             action = wizard.action_import_selected()
 
-        declaracoes = self.env["l10n_br_duimp.declaracao"].search(
+        declaracoes = self.env["l10n_br_duimp.declaration"].search(
             [("id", "in", action["domain"][0][2])]
         )
         self.assertEqual(len(declaracoes), 1)
-        self.assertEqual(declaracoes.numero, DUIMP_NUMBER)
+        self.assertEqual(declaracoes.number, DUIMP_NUMBER)
         self.assertEqual(declaracoes.state, "open")
         self.assertTrue(declaracoes.item_ids)

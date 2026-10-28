@@ -1,4 +1,5 @@
 # Copyright (C) 2026 - TODAY, Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+# Copyright 2026 - TODAY, Cristiano Mafra Junior <cristiano.mafra@escodoo.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from datetime import timedelta
@@ -10,14 +11,6 @@ from ..constants.duimp import DUIMP_SEARCH_DEFAULT_DAYS
 
 
 class DuimpSearchWizard(models.TransientModel):
-    """Lists the DUIMPs registered for the company (via
-    ``DuimpWebservice.search_access_keys_by_importer``, keyed by CNPJ and
-    a date range) instead of requiring the DUIMP number to be typed in
-    manually, and lets the user multi-select which ones to import.
-    DUIMPs already linked to an existing ``l10n_br_fiscal.document`` are
-    left out of the results.
-    """
-
     _name = "l10n_br_duimp.search_wizard"
     _description = "Search DUIMPs available for import"
 
@@ -85,13 +78,6 @@ class DuimpSearchWizard(models.TransientModel):
         return self._reopen()
 
     def _prepare_search_line_values(self, webservice, duimp_number):
-        """Fetches the general data of each candidate DUIMP so the user
-        has enough context (registration date/situation) to decide what
-        to import. The exact key names of ``situacao``/``dataRegistro``
-        are a best-effort read (see the same caveat in
-        ``DocumentImportWizard._duimp_exporter_name``): missing keys are
-        left blank rather than raising, since this is only informational.
-        """
         general_data = webservice.get_general_data(duimp_number)
         identification = general_data.get("identificacao") or {}
         situation = general_data.get("situacao") or {}
@@ -99,7 +85,9 @@ class DuimpSearchWizard(models.TransientModel):
             "wizard_id": self.id,
             "duimp_number": duimp_number,
             "duimp_version": identification.get("versao"),
-            "registration_date": identification.get("dataRegistro"),
+            "registration_date": self.env[
+                "l10n_br_duimp.declaration"
+            ]._parse_payload_date(identification.get("dataRegistro")),
             "situation": situation.get("situacaoDuimp")
             or situation.get("descricaoSituacaoAtual"),
         }
@@ -110,7 +98,7 @@ class DuimpSearchWizard(models.TransientModel):
         if not selected_lines:
             raise UserError(_("Select at least one DUIMP to import!"))
 
-        declaracoes = self.env["l10n_br_duimp.declaracao"]
+        declaracoes = self.env["l10n_br_duimp.declaration"]
         for line in selected_lines:
             wizard = self.env["l10n_br_fiscal.document.import.wizard"].create(
                 {
@@ -125,7 +113,7 @@ class DuimpSearchWizard(models.TransientModel):
         return {
             "name": _("DUIMP Imports"),
             "type": "ir.actions.act_window",
-            "res_model": "l10n_br_duimp.declaracao",
+            "res_model": "l10n_br_duimp.declaration",
             "view_mode": "tree,form",
             "domain": [("id", "in", declaracoes.ids)],
             "target": "current",
@@ -160,6 +148,9 @@ class DuimpSearchWizardLine(models.TransientModel):
 
     duimp_version = fields.Integer(string="Version", readonly=True)
 
-    registration_date = fields.Char(readonly=True)
+    # Date, not Char: the payload returns a full ISO timestamp
+    # ("2026-10-19T09:22:50-0300") and showing it raw is unreadable and
+    # does not sort or filter as a date.
+    registration_date = fields.Date(readonly=True)
 
     situation = fields.Char(readonly=True)

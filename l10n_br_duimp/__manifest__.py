@@ -1,4 +1,5 @@
 # Copyright (C) 2026 - TODAY, Escodoo
+# Copyright 2026 - TODAY, Cristiano Mafra Junior <cristiano.mafra@escodoo.com.br>
 # Copyright (C) 2026 - TODAY, KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
@@ -25,11 +26,13 @@
     "data": [
         "security/ir.model.access.csv",
         "data/res_currency_data.xml",
-        "views/duimp_declaracao_view.xml",
+        "views/duimp_menu.xml",
+        "views/duimp_declaration_view.xml",
         "views/res_company_view.xml",
         "views/res_currency_view.xml",
         "wizards/duimp_import_wizard_view.xml",
         "wizards/duimp_search_wizard_view.xml",
+        "wizards/duimp_tax_warning_wizard_view.xml",
     ],
     "demo": [
         "demo/l10n_br_duimp_demo.xml",

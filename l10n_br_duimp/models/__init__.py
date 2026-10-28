@@ -1,12 +1,14 @@
+# Copyright 2026 - TODAY, Cristiano Mafra Junior <cristiano.mafra@escodoo.com.br>
+# License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 from . import duimp_mixin
 from . import duimp_webservice
 from . import res_currency
 from . import res_company
-from . import duimp_declaracao
+from . import duimp_declaration
 from . import duimp_item
-from . import duimp_item_tributo
-from . import duimp_acrescimo_deducao
-from . import duimp_pagamento
+from . import duimp_item_tax
+from . import duimp_addition_deduction
+from . import duimp_payment
 from . import document
 from . import document_line
 from . import document_line_mixin

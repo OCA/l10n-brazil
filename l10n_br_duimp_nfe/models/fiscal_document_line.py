@@ -1,4 +1,5 @@
 # Copyright (C) 2022-Today - Engenere (<https://engenere.one>)
+# Copyright 2026 - TODAY, Cristiano Mafra Junior <cristiano.mafra@escodoo.com.br>
 # @author Antônio S. Pereira Neto <neto@engenere.one>
 # Copyright (C) 2024-Today - KMEE (<https://kmee.com.br>)
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
@@ -53,32 +54,30 @@ class FiscalDocumentLine(models.Model):
                     line.nfe40_DI = [(5, 0, 0)]
                 continue
 
-            declaracao = item.declaracao_id
+            declaracao = item.declaration_id
             nfe40_adi_dict = {
                 "nfe40_nAdicao": "1",
                 # nfe40_nSeqAdic is Char in the layout; int() only drops
                 # leading zeros ("01" -> "1")
-                "nfe40_nSeqAdic": str(int(item.numero_item or 1)),
-                "nfe40_cFabricante": item.codigo_produto,
+                "nfe40_nSeqAdic": str(int(item.item_number or 1)),
+                "nfe40_cFabricante": item.product_code,
             }
             nfe40_DI_dict = {
                 "nfe40_DI_prod_id": line.id,
-                "nfe40_nDI": declaracao.numero,
-                "nfe40_dDI": declaracao.data_registro,
-                "nfe40_xLocDesemb": declaracao.urf_despacho_nome,
+                "nfe40_nDI": declaracao.number,
+                "nfe40_dDI": declaracao.registration_date,
+                "nfe40_xLocDesemb": declaracao.clearance_office_name,
                 # nfe40_UFDesemb is related to state_clearance_id.code, so it
                 # has to be set through the state, not written directly
                 "state_clearance_id": self._duimp_clearance_state(
-                    declaracao.uf_desembaraco
+                    declaracao.clearance_state
                 ).id,
-                "nfe40_dDesemb": declaracao.data_desembaraco,
+                "nfe40_dDesemb": declaracao.clearance_date,
                 "nfe40_vAFRMM": item.amount_afrmm,
-                "nfe40_tpViaTransp": (declaracao.via_transporte_codigo or "").lstrip(
-                    "0"
-                )
+                "nfe40_tpViaTransp": (declaracao.transport_mode_code or "").lstrip("0")
                 or False,
-                "nfe40_tpIntermedio": declaracao.caracterizacao_operacao_codigo,
-                "nfe40_cExportador": item.codigo_produto,
+                "nfe40_tpIntermedio": declaracao.operation_type_code,
+                "nfe40_cExportador": item.product_code,
                 "nfe40_adi": [(0, 0, nfe40_adi_dict)],
             }
             line.nfe40_DI = [(5, 0, 0), (0, 0, nfe40_DI_dict)]
