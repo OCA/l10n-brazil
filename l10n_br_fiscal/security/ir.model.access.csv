@@ -104,3 +104,5 @@
 "l10n_br_fiscal_national_taxation_code_manager","Fiscal National Taxation Code for Manager","model_l10n_br_fiscal_national_taxation_code","l10n_br_fiscal.group_user",1,1,1,1
 "l10n_br_fiscal_document_status_wizard_user",l10n_br_fiscal_document_status_wizard,model_l10n_br_fiscal_document_status_wizard,base.group_user,1,1,1,1
 "l10n_br_fiscal_document_import_wizard_user",l10n_br_fiscal_document_import_wizard_user,model_l10n_br_fiscal_document_import_wizard,base.group_user,1,1,1,1
+"l10n_br_fiscal_document_line_report_user","Fiscal Document Lines Analysis for User","model_l10n_br_fiscal_document_line_report","l10n_br_fiscal.group_user",1,0,0,0
+"l10n_br_fiscal_document_line_report_manager","Fiscal Document Lines Analysis for Manager","model_l10n_br_fiscal_document_line_report","l10n_br_fiscal.group_manager",1,0,0,0
