@@ -676,6 +676,11 @@ msgstr ""
 "            relacionadas a uma operação fiscal."
 
 #. module: l10n_br_fiscal_edi
+#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document__original_xml_file_id
+msgid "Original XML File"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_cancel_wizard__partner_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_correction_wizard__partner_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__partner_id
@@ -874,6 +879,13 @@ msgstr "XML"
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__file_response_id
 msgid "XML Response"
 msgstr "Resposta XML"
+
+#. module: l10n_br_fiscal_edi
+#: model:ir.model.fields,help:l10n_br_fiscal_edi.field_l10n_br_fiscal_document__original_xml_file_id
+msgid ""
+"XML of a document issued by a third party, kept as received when the "
+"document is imported. It is not an authorization event."
+msgstr ""
 
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document__xml_error_message
