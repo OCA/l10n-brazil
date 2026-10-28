@@ -1,0 +1,89 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_delivery_frenet
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: l10n_br_delivery_frenet
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_frenet.view_delivery_carrier_form
+msgid "Box Height (cm)"
+msgstr "Altura da Caixa (cm)"
+
+#. module: l10n_br_delivery_frenet
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_frenet.view_delivery_carrier_form
+msgid "Box Length (cm)"
+msgstr "Comprimento da Caixa (cm)"
+
+#. module: l10n_br_delivery_frenet
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_frenet.view_delivery_carrier_form
+msgid "Box Width (cm)"
+msgstr "Largura da Caixa (cm)"
+
+#. module: l10n_br_delivery_frenet
+#. odoo-python
+#: code:addons/l10n_br_delivery_frenet/models/delivery_carrier.py:0
+msgid "Cancel the shipment at the Frenet panel."
+msgstr "Cancele o envio no painel da Frenet."
+
+#. module: l10n_br_delivery_frenet
+#. odoo-python
+#: code:addons/l10n_br_delivery_frenet/models/delivery_carrier.py:0
+msgid "Estimated delivery: %s working day(s)."
+msgstr "Prazo estimado: %s dia(s) útil(eis)."
+
+#. module: l10n_br_delivery_frenet
+#. odoo-python
+#: code:addons/l10n_br_delivery_frenet/models/delivery_carrier.py:0
+msgid "Frenet Services"
+msgstr "Serviços Frenet"
+
+#. module: l10n_br_delivery_frenet
+#. odoo-python
+#: code:addons/l10n_br_delivery_frenet/models/delivery_carrier.py:0
+msgid "Frenet could not be reached, try again later."
+msgstr "A Frenet está fora do ar, tente novamente mais tarde."
+
+#. module: l10n_br_delivery_frenet
+#. odoo-python
+#: code:addons/l10n_br_delivery_frenet/models/delivery_carrier.py:0
+msgid "No shipping service is enabled in Frenet."
+msgstr "Nenhum serviço de entrega está habilitado na Frenet."
+
+#. module: l10n_br_delivery_frenet
+#. odoo-python
+#: code:addons/l10n_br_delivery_frenet/models/delivery_carrier.py:0
+msgid "Service unavailable for this address."
+msgstr "Serviço indisponível para este endereço."
+
+#. module: l10n_br_delivery_frenet
+#. odoo-python
+#: code:addons/l10n_br_delivery_frenet/models/delivery_carrier.py:0
+msgid "Set the Frenet token on the delivery method %s."
+msgstr "Informe o token da Frenet no método de entrega %s."
+
+#. module: l10n_br_delivery_frenet
+#. odoo-python
+#: code:addons/l10n_br_delivery_frenet/models/delivery_carrier.py:0
+msgid "Set the ZIP code of the delivery address."
+msgstr "Informe o CEP do endereço de entrega."
+
+#. module: l10n_br_delivery_frenet
+#. odoo-python
+#: code:addons/l10n_br_delivery_frenet/models/delivery_carrier.py:0
+msgid "Synchronize the Frenet services first."
+msgstr "Sincronize os serviços da Frenet primeiro."
+
+#. module: l10n_br_delivery_frenet
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_frenet.view_delivery_carrier_form
+msgid "Synchronize Frenet Services"
+msgstr "Sincronizar Serviços Frenet"
