@@ -1,7 +1,7 @@
 # Copyright 2026 Escodoo - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 from ..constants.nfse_dfe import NFSE_EVENT_LABELS
 
@@ -25,5 +25,5 @@ class DFe(models.Model):
             if not label and code[:1] in "eE":
                 label = NFSE_EVENT_LABELS.get(code[1:])
             if label:
-                record.event_type_dfe_label = self.env._(label)
+                record.event_type_dfe_label = _(label)
         return

@@ -4,18 +4,17 @@
     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 -->
 <odoo>
-    <!-- NFS-e list: the dfe_document_list js_class renders the DF-e banner,
-         using the default_fiscal_type of the action context. -->
+    <!-- NFS-e list: banner_route renders the DF-e banner of the NFS-e. -->
     <record model="ir.ui.view" id="nfse_dfe_document_tree">
         <field name="name">l10n_br_fiscal_dfe.document.tree.nfse</field>
         <field name="model">l10n_br_fiscal_dfe.document</field>
         <field name="priority">20</field>
         <field name="arch" type="xml">
-            <list
-                js_class="dfe_document_list"
+            <tree
                 create="false"
                 edit="false"
                 delete="false"
+                banner_route="/l10n_br_fiscal_dfe/document_banner/nfse"
                 decoration-success="color_status == 'green'"
                 decoration-info="color_status == 'blue'"
                 decoration-muted="color_status == 'muted'"
@@ -34,7 +33,7 @@
                 <field name="vat" />
                 <field name="partner_id" />
                 <field name="document_amount" string="Amount" widget="monetary" />
-                <field name="currency_id" column_invisible="1" />
+                <field name="currency_id" invisible="1" />
                 <field name="fiscal_document_id" />
                 <field name="document_state_label" string="State" />
                 <button
@@ -54,16 +53,16 @@
                     string="Import"
                     type="object"
                     icon="fa-file-text-o"
-                    invisible="fiscal_document_id"
+                    attrs="{'invisible': [('fiscal_document_id', '!=', False)]}"
                 />
-            </list>
+            </tree>
         </field>
     </record>
 
     <record id="action_nfse_dfe_document" model="ir.actions.act_window">
         <field name="name">Third-party NFS-e</field>
         <field name="res_model">l10n_br_fiscal_dfe.document</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">tree,form</field>
         <field
             name="domain"
         >[('fiscal_type', '=', 'nfse'), ('is_own_document', '=', False)]</field>
@@ -73,7 +72,7 @@
         <field
             name="view_ids"
             eval="[(5, 0, 0),
-                   (0, 0, {'view_mode': 'list',
+                   (0, 0, {'view_mode': 'tree',
                            'view_id': ref('nfse_dfe_document_tree')}),
                    (0, 0, {'view_mode': 'form',
                            'view_id': ref('l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_form')})]"

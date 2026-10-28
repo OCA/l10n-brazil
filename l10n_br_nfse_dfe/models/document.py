@@ -3,7 +3,7 @@
 
 import re
 
-from odoo import api, models
+from odoo import _, api, models
 from odoo.exceptions import ValidationError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import MODELO_FISCAL_NFSE
@@ -39,7 +39,7 @@ class L10nBrFiscalDocument(models.Model):
             )
             if duplicates:
                 raise ValidationError(
-                    self.env._(
+                    _(
                         "There is already a fiscal document with this key: %(doc_key)s",
                         doc_key=record.document_key,
                     )

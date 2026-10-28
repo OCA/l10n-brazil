@@ -149,18 +149,19 @@ class TestNfseDfeCoverage(TransactionCase):
         search = company.action_nfse_search_specific()
         self.assertEqual(search["context"]["default_fiscal_type"], "nfse")
         company_model = self.env["res.company"].with_company(company)
-        banner = company_model.dfe_action_specific_search("nfse")
+        banner = company_model.action_banner_specific_search_nfse()
         self.assertEqual(banner["res_model"], "dfe.specific.search.wizard")
         self.assertEqual(banner["context"]["default_fiscal_type"], "nfse")
         with mock.patch.object(
             type(company), "action_document_distribution", return_value=None
         ):
-            self.assertFalse(company_model.dfe_action_search_all("nfse"))
+            reload = company_model.action_banner_search_all_nfse()
+        self.assertEqual(reload["tag"], "reload")
         window = {"type": "ir.actions.act_window"}
         with mock.patch.object(
             type(company), "action_document_distribution", return_value=window
         ):
-            self.assertEqual(company_model.dfe_action_search_all("nfse"), window)
+            self.assertEqual(company_model.action_banner_search_all_nfse(), window)
         with mock.patch.object(
             type(company), "_nfse_document_distribution", return_value=None
         ) as nfse_loop:
@@ -196,19 +197,19 @@ class TestNfseDfeCoverage(TransactionCase):
     def test_certificate_and_request_cleanup(self):
         company = self.company
         with mock.patch.object(
-            type(company), "_get_br_certificate", return_value=False
+            type(company), "_nfse_ecnpj_certificate", return_value=False
         ):
             with self.assertRaises(UserError):
                 company._nfse_certificate_pem()
             with self.assertRaises(UserError):
                 company._nfse_client()
         certificate = mock.Mock()
-        certificate.content = base64.b64encode(b"not-a-certificate")
-        certificate.pkcs12_password = False
+        certificate.file = base64.b64encode(b"not-a-certificate")
+        certificate.password = False
         certificate.with_context.return_value = certificate
         with (
             mock.patch.object(
-                type(company), "_get_br_certificate", return_value=certificate
+                type(company), "_nfse_ecnpj_certificate", return_value=certificate
             ),
             mock.patch(
                 "odoo.addons.l10n_br_nfse_dfe.models.res_company."
@@ -218,17 +219,17 @@ class TestNfseDfeCoverage(TransactionCase):
         ):
             with self.assertRaises(UserError):
                 company._nfse_certificate_pem()
-        certificate.pkcs12_password = "secret"
-        certificate.content = base64.b64encode(_pkcs12_bytes())
+        certificate.password = "secret"
+        certificate.file = base64.b64encode(_pkcs12_bytes())
         with mock.patch.object(
-            type(company), "_get_br_certificate", return_value=certificate
+            type(company), "_nfse_ecnpj_certificate", return_value=certificate
         ):
             pem = company._nfse_certificate_pem()
         self.assertIn(b"BEGIN", pem)
         company.nfse_dfe_environment = "producao"
         with (
             mock.patch.object(
-                type(company), "_get_br_certificate", return_value=certificate
+                type(company), "_nfse_ecnpj_certificate", return_value=certificate
             ),
             mock.patch(
                 "odoo.addons.l10n_br_nfse_dfe.models.res_company.NfseClient"
@@ -237,7 +238,7 @@ class TestNfseDfeCoverage(TransactionCase):
             company._nfse_client()
         client_cls.assert_called_once_with(
             ambiente="1",
-            pkcs12_data=base64.b64decode(certificate.content),
+            pkcs12_data=base64.b64decode(certificate.file),
             pkcs12_password="secret",
         )
         company.nfse_dfe_environment = "producao_restrita"

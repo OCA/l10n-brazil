@@ -16,7 +16,7 @@ from cryptography.hazmat.primitives.serialization import (
 )
 from nfelib.nfse.client.v1_0.nfse import NfseClient
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal_dfe.constants.dfe import (
@@ -118,6 +118,18 @@ class ResCompany(models.Model):
         self.ensure_one()
         return self.action_search_specific("nfse")
 
+    @api.model
+    def action_banner_search_all_nfse(self):
+        """Called from the NFS-e banner button — delegates to current company."""
+        company = self.env.company
+        result = company.action_document_distribution("nfse")
+        return result or {"type": "ir.actions.client", "tag": "reload"}
+
+    @api.model
+    def action_banner_specific_search_nfse(self):
+        """Called from the NFS-e banner button — delegates to current company."""
+        return self.env.company.action_search_specific("nfse")
+
     def _nfse_ambiente(self):
         """Map the company environment to the nfelib code (1 or 2)."""
         self.ensure_one()
@@ -130,19 +142,24 @@ class ResCompany(models.Model):
         cnpj = re.sub(r"\D", "", self.vat or "")
         return cnpj or None
 
+    def _nfse_ecnpj_certificate(self):
+        """Return the company e-CNPJ, as superuser: the users don't read it."""
+        self.ensure_one()
+        return self.sudo().certificate_ecnpj_id
+
     def _nfse_client(self):
         """Build an ADN client from the company e-CNPJ."""
         self.ensure_one()
-        certificate = self._get_br_certificate(only_ecnpj=True)
-        if not certificate or not certificate.content:
+        certificate = self._nfse_ecnpj_certificate()
+        if not certificate or not certificate.file:
             raise UserError(
                 _("Configure an e-CNPJ certificate before querying the ADN.")
             )
         certificate = certificate.with_context(bin_size=False)
         return NfseClient(
             ambiente=self._nfse_ambiente(),
-            pkcs12_data=base64.b64decode(certificate.content),
-            pkcs12_password=certificate.pkcs12_password or "",
+            pkcs12_data=base64.b64decode(certificate.file),
+            pkcs12_password=certificate.password or "",
         )
 
     @staticmethod
@@ -193,13 +210,13 @@ class ResCompany(models.Model):
 
     def _nfse_certificate_pem(self):
         self.ensure_one()
-        certificate = self._get_br_certificate(only_ecnpj=True)
-        if not certificate or not certificate.content:
+        certificate = self._nfse_ecnpj_certificate()
+        if not certificate or not certificate.file:
             raise UserError(
                 _("Configure an e-CNPJ certificate before querying the ADN.")
             )
-        pfx = base64.b64decode(certificate.with_context(bin_size=False).content)
-        password = certificate.pkcs12_password or None
+        pfx = base64.b64decode(certificate.with_context(bin_size=False).file)
+        password = certificate.password or None
         password_bytes = password.encode() if isinstance(password, str) else password
         key, cert, _extra = pkcs12.load_key_and_certificates(pfx, password_bytes)
         if not key or not cert:

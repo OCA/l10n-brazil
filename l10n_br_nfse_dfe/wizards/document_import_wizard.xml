@@ -12,7 +12,7 @@
             <xpath expr="//field[@name='fiscal_operation_id']" position="after">
                 <field
                     name="product_id"
-                    invisible="document_type != 'SE'"
+                    attrs="{'invisible': [('document_type', '!=', 'SE')]}"
                     domain="[('type', '=', 'service')]"
                 />
             </xpath>
