@@ -43,6 +43,33 @@ DICT_BRCOBRANCA_CURRENCY = {
     "R$": "9",
 }
 
+# Dados do Split Payment do IBS/CBS (LC 214/2025) que o BRCobranca informa em
+# cada linha de título do retorno quando o arquivo tem os registros opcionais
+# Segmento X-03 (dados fiscais e valores de CBS/IBS) e X-04 (valores da
+# liquidação do boleto) do Retorno de Cobrança do Layout Padrão Febraban 240
+# posições V11.0, veja https://github.com/OCA/l10n-brazil/issues/5146 .
+# Chave no JSON do BRCobranca (nome do atributo da gem na linha do retorno) ->
+# campo do l10n_br_cnab.return.event: os campos de texto vão como vieram e os
+# de valor passam por CNABFileParser.cnab_str_to_float.
+DICT_SPLIT_PAYMENT_CHAR_FIELDS = {
+    "documento_fiscal": "split_payment_document_key",
+    "id_split": "split_payment_identifier",
+    "tipo_id_split": "split_payment_identifier_type",
+}
+DICT_SPLIT_PAYMENT_VALUE_FIELDS = {
+    "valor_cbs_informado": "split_payment_cbs_informed",
+    "valor_ibs_informado": "split_payment_ibs_informed",
+    "valor_cbs_corrigido": "split_payment_cbs_corrected",
+    "valor_ibs_corrigido": "split_payment_ibs_corrected",
+    "valor_cbs_em_aberto": "split_payment_cbs_open",
+    "valor_ibs_em_aberto": "split_payment_ibs_open",
+    "valor_cbs_segregado": "split_payment_cbs_segregated",
+    "valor_ibs_segregado": "split_payment_ibs_segregated",
+    "valor_pago_ausente_split": "split_payment_absent_value",
+    "valor_repassado_novo_titular": "split_payment_transferred_value",
+    "valor_residual": "split_payment_residual_value",
+}
+
 
 def get_brcobranca_bank(bank_account_id, payment_method_code):
     bank_name_brcobranca = DICT_BRCOBRANCA_BANK.get(bank_account_id.bank_id.code_bc)

@@ -44,3 +44,5 @@ Informe o **Diário Contábil** referente ao Banco e a **Configuração CNAB** q
 Caso o CNAB e Banco escolhidos possua um campo específico que seja preciso implementar considere fazer um PR no módulo **l10n_br_account_payment_order** aqui https://github.com/OCA/l10n-brazil/blob/16.0/l10n_br_account_payment_order/models/l10n_br_cnab_boleto_fields.py#L307 .
 
 Configure as permissões de acesso dos usuários, as opções são CNAB **Usuário** e **Gerente**.
+
+**Split Payment do IBS/CBS (LC 214/2025):** com a opção **Informar Split Payment (IBS/CBS)** marcada na **Configuração CNAB** (campo do módulo l10n_br_account_payment_order) os dados da linha de pagamento são enviados ao BRCobranca como os atributos `documento_fiscal`, `valor_ibs` e `valor_cbs`, que geram o registro opcional Segmento X-03 da Remessa de Cobrança; no retorno, os Segmentos X-03 e X-04 preenchem os campos `split_payment_*` do **Evento do Retorno**. A imagem do Boleto_CNAB_API precisa ter a versão da gem que implementa esses registros, veja https://github.com/OCA/l10n-brazil/issues/5146 .
