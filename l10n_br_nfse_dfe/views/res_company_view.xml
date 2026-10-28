@@ -14,17 +14,6 @@
                     <group name="nfse_dfe_settings" string="NFS-e DF-e Settings">
                         <group>
                             <field name="nfse_dfe_environment" />
-                            <button
-                                name="action_nfse_document_distribution"
-                                type="object"
-                                string="Search NFS-e"
-                                class="btn-primary"
-                            />
-                            <button
-                                name="action_nfse_search_specific"
-                                type="object"
-                                string="Specific Search"
-                            />
                         </group>
                         <group>
                             <field name="nfse_auto_fetch" />

@@ -110,14 +110,6 @@ class ResCompany(models.Model):
             return "l10n_br_nfse_dfe.action_nfse_dfe_document"
         return super()._dfe_document_action_xmlid(fiscal_type)
 
-    def action_nfse_document_distribution(self):
-        self.ensure_one()
-        return self.action_document_distribution("nfse")
-
-    def action_nfse_search_specific(self):
-        self.ensure_one()
-        return self.action_search_specific("nfse")
-
     @api.model
     def action_banner_search_all_nfse(self):
         """Called from the NFS-e banner button — delegates to current company."""
