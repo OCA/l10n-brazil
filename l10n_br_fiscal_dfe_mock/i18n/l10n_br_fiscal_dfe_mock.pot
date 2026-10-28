@@ -14,8 +14,20 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__access_key
+msgid "44 digits for NF-e, 50 for NFS-e."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__access_key
 msgid "Access Key"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_generate_wizard_form
+msgid ""
+"Authorized national NFS-e issued to this company, as the\n"
+"                    ADN distributes them."
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
@@ -99,6 +111,13 @@ msgstr ""
 msgid ""
 "Events reference the NF-e generated in the same run. Select resNFe or "
 "procNFe as well."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard__fiscal_type
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__fiscal_type
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_search
+msgid "Fiscal Type"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
@@ -191,13 +210,38 @@ msgid "Mock mode is off — DF-e queries reach the real SEFAZ."
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe_mock.selection__dfe_mock_generate_wizard__fiscal_type__nfe
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe_mock.selection__dfe_mock_nsu__fiscal_type__nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_search
+msgid "NF-e"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe_mock.selection__dfe_mock_generate_wizard__fiscal_type__nfse
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe_mock.selection__dfe_mock_nsu__fiscal_type__nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_search
+msgid "NFS-e"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe_mock.selection__dfe_mock_nsu__schema_type__nfse
+msgid "NFSe"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__nsu
 msgid "NSU"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.constraint,message:l10n_br_fiscal_dfe_mock.constraint_dfe_mock_nsu_nsu_company_unique
-msgid "NSU must be unique per company."
+msgid "NSU must be unique per company and fiscal type."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe_mock/wizards/dfe_mock_generate_wizard.py:0
+msgid "No demo partner has a CNPJ to issue a mock NFS-e with."
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
