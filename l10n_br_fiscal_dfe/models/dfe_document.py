@@ -179,7 +179,7 @@ class L10nBrFiscalDfeDocument(models.Model):
                 "document_key"
             )
             return [("access_key", "not in", keys)]
-        return NotImplemented
+        raise UserError(_("Operation not supported"))
 
     def _imported_access_keys(self):
         return (
