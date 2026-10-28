@@ -30,8 +30,6 @@ from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     AUTORIZADO,
     CANCELADO,
-    CANCELADO_DENTRO_PRAZO,
-    CANCELADO_FORA_PRAZO,
     DENEGADO,
     DOCUMENT_ISSUER_COMPANY,
     DOCUMENT_STATE_CANCEL,
@@ -47,8 +45,6 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFE,
     PROCESSADOR_OCA,
     SERVICO_PARALIZADO,
-    SITUACAO_FISCAL_CANCELADO,
-    SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
 )
 from odoo.addons.l10n_br_fiscal.tools import remove_non_ascii_characters
 from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import (
@@ -63,6 +59,7 @@ from odoo.addons.spec_driven_model.models import spec_models
 from ..constants.nfe import (
     FISCAL_PAYMENT_MODE,
     NFCE_DANFE_LAYOUTS,
+    NFE_CANCEL_STATE_FISCAL,
     NFE_DANFE_LAYOUTS,
     NFE_ENVIRONMENTS,
     NFE_PAYMENT_INDICATOR_CASH,
@@ -1467,6 +1464,7 @@ class NFe(spec_models.StackedModel):
         }
         state = state_map.get(c_stat, SITUACAO_EDOC_REJEITADA)
         self._change_state(state, force_change_status)
+        self._nfe_set_cancel_state_fiscal(c_stat)
 
     def _nfelib_update_status_and_save_data(self, process):
         """_nfe_update_status_and_save_data variant for the nfelib clients.
@@ -1516,6 +1514,18 @@ class NFe(spec_models.StackedModel):
         }
         state = state_map.get(c_stat, SITUACAO_EDOC_REJEITADA)
         self._change_state(state, force_change_status)
+        self._nfe_set_cancel_state_fiscal(c_stat)
+
+    def _nfe_set_cancel_state_fiscal(self, c_stat):
+        """Set the fiscal state of an NF-e cancelled at SEFAZ, from the cStat
+        of the cancel event (135/155) or of the status query (101/151). An
+        NF-e found cancelled by the status query has no cancel event of its
+        own, e.g. when the cancel response was lost and the retry got cStat
+        573. Without the fiscal state, the SPED guard of
+        _before_document_back2draft() would let it go back to draft."""
+        state_fiscal = NFE_CANCEL_STATE_FISCAL.get(c_stat)
+        if state_fiscal:
+            self.state_fiscal = state_fiscal
 
     def _nfe_save_protocol(self, inf_prot, nfe_proc_xml=None):
         if not self.authorization_event_id:
@@ -1707,10 +1717,11 @@ class NFe(spec_models.StackedModel):
             Determines if the NF-e is registered in SEFAZ by analyzing the status code:
             - 100: NF-e authorized - found and valid.
             - 101: NF-e cancellation approved - found but cancelled.
+            - 151: NF-e cancellation approved out of time - found but cancelled.
             - 110: NF-e use denied - present but restricted.
             Returns True for these codes, indicating the NF-e's registration in SEFAZ.
             """
-            return c_stat in ["100", "101", "110"]
+            return c_stat in ["100", "101", "110", "151"]
 
         nfe_manager = self._edoc_processor()
         check_response = nfe_manager.consulta_documento(chave=self.document_key)
@@ -2015,11 +2026,7 @@ class NFe(spec_models.StackedModel):
                 raise UserError(mensagem)
 
             if retevento.infEvento.chNFe == self.document_key:
-                if retevento.infEvento.cStat == CANCELADO_FORA_PRAZO:
-                    self.state_fiscal = SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO
-                elif retevento.infEvento.cStat == CANCELADO_DENTRO_PRAZO:
-                    self.state_fiscal = SITUACAO_FISCAL_CANCELADO
-
+                self._nfe_set_cancel_state_fiscal(retevento.infEvento.cStat)
                 self.state_edoc = SITUACAO_EDOC_CANCELADA
                 self.cancel_event_id.set_done(
                     status_code=retevento.infEvento.cStat,
