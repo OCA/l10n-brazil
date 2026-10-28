@@ -7,6 +7,7 @@
         name="Assisted Assessment"
         sequence="96"
         groups="l10n_br_assisted_assessment.group_user"
+        web_icon="l10n_br_assisted_assessment,static/description/icon.png"
     />
     <menuitem
         id="menu_assessment_period"
