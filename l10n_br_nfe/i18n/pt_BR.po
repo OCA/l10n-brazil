@@ -983,6 +983,11 @@ msgstr "Consulte pela chave de acesso em:"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
+msgid "Consumidor -"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
 msgid "Consumidor Nao Identificado"
 msgstr "Consumidor Não Identificado"
 
@@ -5114,13 +5119,6 @@ msgid "Texto com o QR-Code impresso no DANFE NFC-e"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,help:l10n_br_nfe.field_account_bank_statement_line__nfe40_transporta
-#: model:ir.model.fields,help:l10n_br_nfe.field_account_move__nfe40_transporta
-#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_transporta
-msgid "The partner that is doing the delivery service."
-msgstr "O parceiro que está executando o serviço de entrega."
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_di__nfe40_UFDesemb
 #: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_di__nfe40_UFTerceiro
 msgid "The state code."
@@ -6903,6 +6901,9 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_avulsa__nfe40_xOrgao
 msgid "Órgão emitente"
 msgstr ""
+
+#~ msgid "The partner that is doing the delivery service."
+#~ msgstr "O parceiro que está executando o serviço de entrega."
 
 #~ msgid "Bairro"
 #~ msgstr "Bairro"
