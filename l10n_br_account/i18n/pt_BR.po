@@ -1963,6 +1963,12 @@ msgid "Operation Name"
 msgstr "Nome da Operação"
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__original_xml_file_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__original_xml_file_id
+msgid "Original XML File"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_other_value
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_other_value
 msgid "Other Costs"
@@ -2682,6 +2688,14 @@ msgstr "Versão"
 #: code:addons/l10n_br_account/models/account_move.py:0
 msgid "Without a fiscal document: %s"
 msgstr "Sem documento fiscal: %s"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__original_xml_file_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__original_xml_file_id
+msgid ""
+"XML of a document issued by a third party, kept as received when the "
+"document is imported. It is not an authorization event."
+msgstr ""
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__xml_error_message
