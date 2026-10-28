@@ -137,6 +137,9 @@
                 <field name="tariff_charge" optional="show" />
                 <field name="occurrences" optional="show" />
                 <field name="str_motiv_a" optional="hide" />
+                <field name="split_payment_document_key" optional="hide" />
+                <field name="split_payment_cbs_segregated" optional="hide" />
+                <field name="split_payment_ibs_segregated" optional="hide" />
             </tree>
         </field>
     </record>
@@ -182,6 +185,22 @@
                             <field name="str_motiv_c" />
                             <field name="str_motiv_d" />
                             <field name="str_motiv_e" />
+                        </group>
+                        <group string="Split Payment (IBS/CBS)">
+                            <field name="split_payment_document_key" />
+                            <field name="split_payment_identifier" />
+                            <field name="split_payment_identifier_type" />
+                            <field name="split_payment_cbs_informed" />
+                            <field name="split_payment_ibs_informed" />
+                            <field name="split_payment_cbs_corrected" />
+                            <field name="split_payment_ibs_corrected" />
+                            <field name="split_payment_cbs_open" />
+                            <field name="split_payment_ibs_open" />
+                            <field name="split_payment_cbs_segregated" />
+                            <field name="split_payment_ibs_segregated" />
+                            <field name="split_payment_absent_value" />
+                            <field name="split_payment_transferred_value" />
+                            <field name="split_payment_residual_value" />
                         </group>
                     </group>
                     <group string="Linhas de Ordem de Pagamentos">

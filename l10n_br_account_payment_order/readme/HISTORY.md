@@ -1,3 +1,7 @@
+## 16.0.9.3.0 (2026-10-28)
+
+- \[ADD\] Campo use_split_payment na Configuração do CNAB e o método _prepare_split_payment_vals na linha de pagamento: dados do Split Payment do IBS/CBS (LC 214/2025) incluídos no dicionário do Boleto montado pelo _prepare_boleto_line_vals (o módulo processador do CNAB só mapeia o retorno)
+
 ## 16.0.9.0.0 (2025-10-02)
 
 - \[REF\] Alterado o Código de Juros Mora de Char para Objeto/l10n_br_cnab.code

@@ -183,7 +183,109 @@ class AccountMoveLine(models.Model):
             if self.env.context.get("discount_value"):
                 vals["discount_value"] = self.env.context.get("discount_value")
 
+        # Dados do Split Payment do IBS/CBS, veja
+        # https://github.com/OCA/l10n-brazil/issues/5146
+        vals.update(self._prepare_split_payment_line_vals())
+
         return vals
+
+    def _prepare_split_payment_line_vals(self):
+        """
+        Prepara os valores de IBS/CBS e a Chave do Documento Fiscal (DF-e)
+        usados no Split Payment (LC 214/2025) a partir do Documento Fiscal da
+        Fatura. Os campos só são preenchidos quando existe a relação do
+        account.move com o l10n_br_fiscal.document, criada pelo l10n_br_account
+        via _inherits: sem o módulo fiscal (o
+        l10n_br_account_payment_order não depende dele) nada é informado e o
+        CNAB continua funcionando com os campos vazios. A presença é verificada
+        no registry (e não em ir.module.module) para não consultar o banco a
+        cada linha.
+        """
+        self.ensure_one()
+        if "fiscal_document_id" not in self.move_id._fields:
+            return {}
+        # O l10n_br_account vincula (via _inherits) o account.move ao
+        # l10n_br_fiscal.document onde estão a Chave do DF-e e os totais de
+        # IBS/CBS. São usados os totais do Documento porque as parcelas
+        # (linhas de vencimento) não possuem os valores de IBS/CBS.
+        fiscal_document = self.move_id.fiscal_document_id
+        # Os campos de IBS/CBS são do l10n_br_fiscal: se ele for anterior a eles
+        # o CNAB segue com os campos vazios em vez de dar AttributeError.
+        if not fiscal_document or "amount_ibs_value" not in fiscal_document._fields:
+            return {}
+        vals = {}
+        if fiscal_document.document_key:
+            vals["l10n_br_document_key"] = fiscal_document.document_key
+        # O CBS/IBS Informado é do TÍTULO (e não do Documento Fiscal), veja
+        # _split_payment_apportionment_values
+        (
+            vals["l10n_br_ibs_value"],
+            vals["l10n_br_cbs_value"],
+        ) = self._split_payment_apportionment_values(
+            fiscal_document.amount_ibs_value, fiscal_document.amount_cbs_value
+        )
+        return vals
+
+    def _split_payment_apportionment_values(self, total_ibs_value, total_cbs_value):
+        """Rateia o IBS/CBS do Documento Fiscal entre as parcelas do título.
+
+        O CBS/IBS Informado (campos X102/X103 do Segmento X-03) é do TÍTULO e
+        não do Documento Fiscal: em fatura com mais de uma parcela cada boleto
+        leva a MESMA Chave do DF-e com o tributo da sua parcela, porque o CBS e
+        o IBS informados (separados ou somados) não podem ser superiores ao
+        valor nominal do título - código 'X1' do Layout Padrão Febraban 240
+        posições V11.0. O rateio é
+        linear pelo valor das parcelas e, quando a parcela já tiver recebimento
+        parcial, o tributo é reduzido na mesma proporção do residual (que é o
+        valor do título informado no arquivo). As n-1 primeiras parcelas ficam
+        com o valor arredondado e a ÚLTIMA com a diferença das anteriores, para
+        a soma dos títulos fechar o que cabe às parcelas informadas.
+        """
+        installments = self._split_payment_installments()
+        total_installments = sum(installments.mapped("amount_currency"))
+        if not total_installments:
+            # Sem parcelas/valores não há o que ratear: o tributo do Documento
+            # Fiscal fica no título inteiro
+            return total_ibs_value, total_cbs_value
+        # O valor do título no arquivo é o residual da parcela (veja
+        # account_payment_order: amount_residual_currency)
+        proportions = [
+            installment.amount_residual_currency / total_installments
+            for installment in installments
+        ]
+        informed_positions = [
+            position for position, proportion in enumerate(proportions) if proportion
+        ]
+        if not informed_positions:
+            # Todos os títulos já recebidos: não há tributo a informar
+            return 0.0, 0.0
+        apportioned_ibs = [
+            self.currency_id.round(total_ibs_value * proportion)
+            for proportion in proportions
+        ]
+        apportioned_cbs = [
+            self.currency_id.round(total_cbs_value * proportion)
+            for proportion in proportions
+        ]
+        position = installments.ids.index(self.id)
+        if position == informed_positions[-1]:
+            # A última parcela informada fica com a diferença do arredondamento
+            # das parcelas anteriores
+            apportioned_ibs[position] = total_ibs_value * sum(proportions) - sum(
+                apportioned_ibs[:position]
+            )
+            apportioned_cbs[position] = total_cbs_value * sum(proportions) - sum(
+                apportioned_cbs[:position]
+            )
+        return apportioned_ibs[position], apportioned_cbs[position]
+
+    def _split_payment_installments(self):
+        """Parcelas (linhas de vencimento) do título a que a linha pertence."""
+        installments = self.move_id.line_ids.filtered(
+            lambda line: line.account_id.account_type
+            in ("asset_receivable", "liability_payable")
+        )
+        return installments.sorted("date_maturity")
 
     def create_payment_line_from_move_line(self, payment_order):
         """

@@ -4,6 +4,13 @@
 
 from odoo import fields, models
 
+_SPLIT_PAYMENT_HELP = (
+    "Dado do Split Payment do IBS/CBS devolvido pelo Banco nos registros "
+    "opcionais Segmento X-03 e X-04 do Retorno de Cobrança (Layout Padrão "
+    "Febraban 240 posições V11.0), veja "
+    "https://github.com/OCA/l10n-brazil/issues/5146 ."
+)
+
 
 class L10nBrCNABReturnEvent(models.Model):
     """
@@ -82,4 +89,70 @@ class L10nBrCNABReturnEvent(models.Model):
     payment_value = fields.Float(string="Valor do Pagamento")
     move_line_id = fields.Many2one(
         comodel_name="account.move.line", string="Journal Item", ondelete="restrict"
+    )
+
+    # Dados do Split Payment do IBS/CBS (LC 214/2025) devolvidos pelo Banco nos
+    # registros opcionais Segmento X-03 (dados fiscais e valores de CBS/IBS) e
+    # Segmento X-04 (valores da liquidação do boleto) do Retorno de Cobrança do
+    # Layout Padrão Febraban 240 posições V11.0 (11/09/2026), veja
+    # https://github.com/OCA/l10n-brazil/issues/5146
+    split_payment_document_key = fields.Char(
+        string="Chave do Documento Fiscal (Split Payment)",
+        help=_SPLIT_PAYMENT_HELP + " Campo X101.",
+    )
+    split_payment_identifier = fields.Char(
+        string="ID Split (Split Payment)",
+        help=_SPLIT_PAYMENT_HELP + " Campo X112.",
+    )
+    split_payment_identifier_type = fields.Char(
+        string="Tipo do ID Split (Split Payment)",
+        help=_SPLIT_PAYMENT_HELP + " Campo X113.",
+    )
+    split_payment_cbs_informed = fields.Float(
+        string="CBS Informado (Split Payment)",
+        help=_SPLIT_PAYMENT_HELP + " Campo X102.",
+    )
+    split_payment_ibs_informed = fields.Float(
+        string="IBS Informado (Split Payment)",
+        help=_SPLIT_PAYMENT_HELP + " Campo X103.",
+    )
+    split_payment_cbs_corrected = fields.Float(
+        string="CBS Corrigido (Split Payment)",
+        help=_SPLIT_PAYMENT_HELP + " Campo X104.",
+    )
+    split_payment_ibs_corrected = fields.Float(
+        string="IBS Corrigido (Split Payment)",
+        help=_SPLIT_PAYMENT_HELP + " Campo X105.",
+    )
+    split_payment_cbs_open = fields.Float(
+        string="CBS em Aberto (Split Payment)",
+        help=_SPLIT_PAYMENT_HELP + " Campo X106.",
+    )
+    split_payment_ibs_open = fields.Float(
+        string="IBS em Aberto (Split Payment)",
+        help=_SPLIT_PAYMENT_HELP + " Campo X107.",
+    )
+    split_payment_cbs_segregated = fields.Float(
+        string="CBS Segregado (Split Payment)",
+        help=_SPLIT_PAYMENT_HELP + " Campo X108.",
+    )
+    split_payment_ibs_segregated = fields.Float(
+        string="IBS Segregado (Split Payment)",
+        help=_SPLIT_PAYMENT_HELP + " Campo X109.",
+    )
+    split_payment_absent_value = fields.Float(
+        string="Valor Pago Ausente de CBS/IBS (Split Payment)",
+        help=_SPLIT_PAYMENT_HELP + " Campo X115, do Segmento X-04.",
+    )
+    split_payment_transferred_value = fields.Float(
+        string="Valor Repassado ao Novo Titular (Split Payment)",
+        help=_SPLIT_PAYMENT_HELP
+        + " Campo X117, do Segmento X-04. Enviado quando a liquidação ocorre"
+        " em quatro partes.",
+    )
+    split_payment_residual_value = fields.Float(
+        string="Valor Residual (Split Payment)",
+        help=_SPLIT_PAYMENT_HELP
+        + " Campo X118, do Segmento X-04: sobra que retorna ao Beneficiário"
+        " original.",
     )
