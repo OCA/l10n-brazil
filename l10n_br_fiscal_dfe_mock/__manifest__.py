@@ -4,7 +4,7 @@
     "name": "DF-e Mock (SEFAZ Virtual)",
     "summary": "Mock SEFAZ and ADN DF-e distribution for development "
     "without A1 certificate.",
-    "version": "18.0.1.1.0",
+    "version": "18.0.1.2.0",
     "license": "AGPL-3",
     "author": "Engenere, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
