@@ -1,0 +1,1185 @@
+{
+  "version": 21,
+  "sheets": [
+    {
+      "id": "3e36b805-3f6f-592f-a6f6-f84cdc781d5a",
+      "name": "Dashboard",
+      "colNumber": 8,
+      "rowNumber": 120,
+      "rows": {},
+      "cols": {
+        "0": {
+          "size": 260
+        },
+        "1": {
+          "size": 120
+        },
+        "2": {
+          "size": 120
+        },
+        "3": {
+          "size": 120
+        },
+        "4": {
+          "size": 260
+        },
+        "5": {
+          "size": 110
+        },
+        "6": {
+          "size": 110
+        },
+        "7": {
+          "size": 110
+        }
+      },
+      "merges": [],
+      "cells": {
+        "A1": {
+          "content": "=_t(\"Tax reform (CBS and IBS)\")"
+        },
+        "A8": {
+          "content": "=_t(\"By tax classification (cClassTrib)\")"
+        },
+        "A9": {
+          "content": "=_t(\"Classification\")"
+        },
+        "B9": {
+          "content": "=_t(\"Base\")"
+        },
+        "C9": {
+          "content": "=_t(\"CBS\")"
+        },
+        "D9": {
+          "content": "=_t(\"IBS\")"
+        },
+        "A10": {
+          "content": "=PIVOT.HEADER(3,\"#tax_classification_id\",1)"
+        },
+        "B10": {
+          "content": "=PIVOT.VALUE(3,\"cbs_base\",\"#tax_classification_id\",1)"
+        },
+        "C10": {
+          "content": "=PIVOT.VALUE(3,\"cbs_value\",\"#tax_classification_id\",1)"
+        },
+        "D10": {
+          "content": "=PIVOT.VALUE(3,\"ibs_value\",\"#tax_classification_id\",1)"
+        },
+        "A11": {
+          "content": "=PIVOT.HEADER(3,\"#tax_classification_id\",2)"
+        },
+        "B11": {
+          "content": "=PIVOT.VALUE(3,\"cbs_base\",\"#tax_classification_id\",2)"
+        },
+        "C11": {
+          "content": "=PIVOT.VALUE(3,\"cbs_value\",\"#tax_classification_id\",2)"
+        },
+        "D11": {
+          "content": "=PIVOT.VALUE(3,\"ibs_value\",\"#tax_classification_id\",2)"
+        },
+        "A12": {
+          "content": "=PIVOT.HEADER(3,\"#tax_classification_id\",3)"
+        },
+        "B12": {
+          "content": "=PIVOT.VALUE(3,\"cbs_base\",\"#tax_classification_id\",3)"
+        },
+        "C12": {
+          "content": "=PIVOT.VALUE(3,\"cbs_value\",\"#tax_classification_id\",3)"
+        },
+        "D12": {
+          "content": "=PIVOT.VALUE(3,\"ibs_value\",\"#tax_classification_id\",3)"
+        },
+        "A13": {
+          "content": "=PIVOT.HEADER(3,\"#tax_classification_id\",4)"
+        },
+        "B13": {
+          "content": "=PIVOT.VALUE(3,\"cbs_base\",\"#tax_classification_id\",4)"
+        },
+        "C13": {
+          "content": "=PIVOT.VALUE(3,\"cbs_value\",\"#tax_classification_id\",4)"
+        },
+        "D13": {
+          "content": "=PIVOT.VALUE(3,\"ibs_value\",\"#tax_classification_id\",4)"
+        },
+        "A14": {
+          "content": "=PIVOT.HEADER(3,\"#tax_classification_id\",5)"
+        },
+        "B14": {
+          "content": "=PIVOT.VALUE(3,\"cbs_base\",\"#tax_classification_id\",5)"
+        },
+        "C14": {
+          "content": "=PIVOT.VALUE(3,\"cbs_value\",\"#tax_classification_id\",5)"
+        },
+        "D14": {
+          "content": "=PIVOT.VALUE(3,\"ibs_value\",\"#tax_classification_id\",5)"
+        },
+        "A15": {
+          "content": "=PIVOT.HEADER(3,\"#tax_classification_id\",6)"
+        },
+        "B15": {
+          "content": "=PIVOT.VALUE(3,\"cbs_base\",\"#tax_classification_id\",6)"
+        },
+        "C15": {
+          "content": "=PIVOT.VALUE(3,\"cbs_value\",\"#tax_classification_id\",6)"
+        },
+        "D15": {
+          "content": "=PIVOT.VALUE(3,\"ibs_value\",\"#tax_classification_id\",6)"
+        },
+        "A16": {
+          "content": "=PIVOT.HEADER(3,\"#tax_classification_id\",7)"
+        },
+        "B16": {
+          "content": "=PIVOT.VALUE(3,\"cbs_base\",\"#tax_classification_id\",7)"
+        },
+        "C16": {
+          "content": "=PIVOT.VALUE(3,\"cbs_value\",\"#tax_classification_id\",7)"
+        },
+        "D16": {
+          "content": "=PIVOT.VALUE(3,\"ibs_value\",\"#tax_classification_id\",7)"
+        },
+        "A17": {
+          "content": "=PIVOT.HEADER(3,\"#tax_classification_id\",8)"
+        },
+        "B17": {
+          "content": "=PIVOT.VALUE(3,\"cbs_base\",\"#tax_classification_id\",8)"
+        },
+        "C17": {
+          "content": "=PIVOT.VALUE(3,\"cbs_value\",\"#tax_classification_id\",8)"
+        },
+        "D17": {
+          "content": "=PIVOT.VALUE(3,\"ibs_value\",\"#tax_classification_id\",8)"
+        },
+        "A18": {
+          "content": "=PIVOT.HEADER(3,\"#tax_classification_id\",9)"
+        },
+        "B18": {
+          "content": "=PIVOT.VALUE(3,\"cbs_base\",\"#tax_classification_id\",9)"
+        },
+        "C18": {
+          "content": "=PIVOT.VALUE(3,\"cbs_value\",\"#tax_classification_id\",9)"
+        },
+        "D18": {
+          "content": "=PIVOT.VALUE(3,\"ibs_value\",\"#tax_classification_id\",9)"
+        },
+        "A19": {
+          "content": "=PIVOT.HEADER(3,\"#tax_classification_id\",10)"
+        },
+        "B19": {
+          "content": "=PIVOT.VALUE(3,\"cbs_base\",\"#tax_classification_id\",10)"
+        },
+        "C19": {
+          "content": "=PIVOT.VALUE(3,\"cbs_value\",\"#tax_classification_id\",10)"
+        },
+        "D19": {
+          "content": "=PIVOT.VALUE(3,\"ibs_value\",\"#tax_classification_id\",10)"
+        },
+        "E8": {
+          "content": "=_t(\"By CBS CST\")"
+        },
+        "E9": {
+          "content": "=_t(\"CST\")"
+        },
+        "F9": {
+          "content": "=_t(\"Base\")"
+        },
+        "G9": {
+          "content": "=_t(\"CBS\")"
+        },
+        "H9": {
+          "content": "=_t(\"IBS\")"
+        },
+        "E10": {
+          "content": "=PIVOT.HEADER(4,\"#cbs_cst_id\",1)"
+        },
+        "F10": {
+          "content": "=PIVOT.VALUE(4,\"cbs_base\",\"#cbs_cst_id\",1)"
+        },
+        "G10": {
+          "content": "=PIVOT.VALUE(4,\"cbs_value\",\"#cbs_cst_id\",1)"
+        },
+        "H10": {
+          "content": "=PIVOT.VALUE(4,\"ibs_value\",\"#cbs_cst_id\",1)"
+        },
+        "E11": {
+          "content": "=PIVOT.HEADER(4,\"#cbs_cst_id\",2)"
+        },
+        "F11": {
+          "content": "=PIVOT.VALUE(4,\"cbs_base\",\"#cbs_cst_id\",2)"
+        },
+        "G11": {
+          "content": "=PIVOT.VALUE(4,\"cbs_value\",\"#cbs_cst_id\",2)"
+        },
+        "H11": {
+          "content": "=PIVOT.VALUE(4,\"ibs_value\",\"#cbs_cst_id\",2)"
+        },
+        "E12": {
+          "content": "=PIVOT.HEADER(4,\"#cbs_cst_id\",3)"
+        },
+        "F12": {
+          "content": "=PIVOT.VALUE(4,\"cbs_base\",\"#cbs_cst_id\",3)"
+        },
+        "G12": {
+          "content": "=PIVOT.VALUE(4,\"cbs_value\",\"#cbs_cst_id\",3)"
+        },
+        "H12": {
+          "content": "=PIVOT.VALUE(4,\"ibs_value\",\"#cbs_cst_id\",3)"
+        },
+        "E13": {
+          "content": "=PIVOT.HEADER(4,\"#cbs_cst_id\",4)"
+        },
+        "F13": {
+          "content": "=PIVOT.VALUE(4,\"cbs_base\",\"#cbs_cst_id\",4)"
+        },
+        "G13": {
+          "content": "=PIVOT.VALUE(4,\"cbs_value\",\"#cbs_cst_id\",4)"
+        },
+        "H13": {
+          "content": "=PIVOT.VALUE(4,\"ibs_value\",\"#cbs_cst_id\",4)"
+        },
+        "E14": {
+          "content": "=PIVOT.HEADER(4,\"#cbs_cst_id\",5)"
+        },
+        "F14": {
+          "content": "=PIVOT.VALUE(4,\"cbs_base\",\"#cbs_cst_id\",5)"
+        },
+        "G14": {
+          "content": "=PIVOT.VALUE(4,\"cbs_value\",\"#cbs_cst_id\",5)"
+        },
+        "H14": {
+          "content": "=PIVOT.VALUE(4,\"ibs_value\",\"#cbs_cst_id\",5)"
+        },
+        "E15": {
+          "content": "=PIVOT.HEADER(4,\"#cbs_cst_id\",6)"
+        },
+        "F15": {
+          "content": "=PIVOT.VALUE(4,\"cbs_base\",\"#cbs_cst_id\",6)"
+        },
+        "G15": {
+          "content": "=PIVOT.VALUE(4,\"cbs_value\",\"#cbs_cst_id\",6)"
+        },
+        "H15": {
+          "content": "=PIVOT.VALUE(4,\"ibs_value\",\"#cbs_cst_id\",6)"
+        },
+        "E16": {
+          "content": "=PIVOT.HEADER(4,\"#cbs_cst_id\",7)"
+        },
+        "F16": {
+          "content": "=PIVOT.VALUE(4,\"cbs_base\",\"#cbs_cst_id\",7)"
+        },
+        "G16": {
+          "content": "=PIVOT.VALUE(4,\"cbs_value\",\"#cbs_cst_id\",7)"
+        },
+        "H16": {
+          "content": "=PIVOT.VALUE(4,\"ibs_value\",\"#cbs_cst_id\",7)"
+        },
+        "E17": {
+          "content": "=PIVOT.HEADER(4,\"#cbs_cst_id\",8)"
+        },
+        "F17": {
+          "content": "=PIVOT.VALUE(4,\"cbs_base\",\"#cbs_cst_id\",8)"
+        },
+        "G17": {
+          "content": "=PIVOT.VALUE(4,\"cbs_value\",\"#cbs_cst_id\",8)"
+        },
+        "H17": {
+          "content": "=PIVOT.VALUE(4,\"ibs_value\",\"#cbs_cst_id\",8)"
+        },
+        "E18": {
+          "content": "=PIVOT.HEADER(4,\"#cbs_cst_id\",9)"
+        },
+        "F18": {
+          "content": "=PIVOT.VALUE(4,\"cbs_base\",\"#cbs_cst_id\",9)"
+        },
+        "G18": {
+          "content": "=PIVOT.VALUE(4,\"cbs_value\",\"#cbs_cst_id\",9)"
+        },
+        "H18": {
+          "content": "=PIVOT.VALUE(4,\"ibs_value\",\"#cbs_cst_id\",9)"
+        },
+        "E19": {
+          "content": "=PIVOT.HEADER(4,\"#cbs_cst_id\",10)"
+        },
+        "F19": {
+          "content": "=PIVOT.VALUE(4,\"cbs_base\",\"#cbs_cst_id\",10)"
+        },
+        "G19": {
+          "content": "=PIVOT.VALUE(4,\"cbs_value\",\"#cbs_cst_id\",10)"
+        },
+        "H19": {
+          "content": "=PIVOT.VALUE(4,\"ibs_value\",\"#cbs_cst_id\",10)"
+        },
+        "A22": {
+          "content": "=_t(\"Current taxes x CBS and IBS by NCM (outgoing)\")"
+        },
+        "A23": {
+          "content": "=_t(\"NCM\")"
+        },
+        "B23": {
+          "content": "=_t(\"Untaxed amount\")"
+        },
+        "C23": {
+          "content": "=_t(\"Current taxes\")"
+        },
+        "D23": {
+          "content": "=_t(\"CBS and IBS\")"
+        },
+        "E23": {
+          "content": "=_t(\"Current load\")"
+        },
+        "F23": {
+          "content": "=_t(\"New load\")"
+        },
+        "A24": {
+          "content": "=IFERROR(PIVOT.HEADER(5,\"#ncm_id\",1),\"\")"
+        },
+        "B24": {
+          "content": "=IF(A24=\"\",\"\",IFERROR(PIVOT.VALUE(5,\"amount_untaxed\",\"#ncm_id\",1),0))"
+        },
+        "C24": {
+          "content": "=IF(A24=\"\",\"\",IFERROR(PIVOT.VALUE(5,\"icms_value\",\"#ncm_id\",1),0)+IFERROR(PIVOT.VALUE(5,\"pis_value\",\"#ncm_id\",1),0)+IFERROR(PIVOT.VALUE(5,\"cofins_value\",\"#ncm_id\",1),0)+IFERROR(PIVOT.VALUE(5,\"issqn_value\",\"#ncm_id\",1),0)+IFERROR(PIVOT.VALUE(5,\"ipi_value\",\"#ncm_id\",1),0))"
+        },
+        "D24": {
+          "content": "=IF(A24=\"\",\"\",IFERROR(PIVOT.VALUE(5,\"cbs_value\",\"#ncm_id\",1),0)+IFERROR(PIVOT.VALUE(5,\"ibs_value\",\"#ncm_id\",1),0))"
+        },
+        "E24": {
+          "content": "=IF(A24=\"\",\"\",IFERROR(C24/B24,0))"
+        },
+        "F24": {
+          "content": "=IF(A24=\"\",\"\",IFERROR(D24/B24,0))"
+        },
+        "A25": {
+          "content": "=IFERROR(PIVOT.HEADER(5,\"#ncm_id\",2),\"\")"
+        },
+        "B25": {
+          "content": "=IF(A25=\"\",\"\",IFERROR(PIVOT.VALUE(5,\"amount_untaxed\",\"#ncm_id\",2),0))"
+        },
+        "C25": {
+          "content": "=IF(A25=\"\",\"\",IFERROR(PIVOT.VALUE(5,\"icms_value\",\"#ncm_id\",2),0)+IFERROR(PIVOT.VALUE(5,\"pis_value\",\"#ncm_id\",2),0)+IFERROR(PIVOT.VALUE(5,\"cofins_value\",\"#ncm_id\",2),0)+IFERROR(PIVOT.VALUE(5,\"issqn_value\",\"#ncm_id\",2),0)+IFERROR(PIVOT.VALUE(5,\"ipi_value\",\"#ncm_id\",2),0))"
+        },
+        "D25": {
+          "content": "=IF(A25=\"\",\"\",IFERROR(PIVOT.VALUE(5,\"cbs_value\",\"#ncm_id\",2),0)+IFERROR(PIVOT.VALUE(5,\"ibs_value\",\"#ncm_id\",2),0))"
+        },
+        "E25": {
+          "content": "=IF(A25=\"\",\"\",IFERROR(C25/B25,0))"
+        },
+        "F25": {
+          "content": "=IF(A25=\"\",\"\",IFERROR(D25/B25,0))"
+        },
+        "A26": {
+          "content": "=IFERROR(PIVOT.HEADER(5,\"#ncm_id\",3),\"\")"
+        },
+        "B26": {
+          "content": "=IF(A26=\"\",\"\",IFERROR(PIVOT.VALUE(5,\"amount_untaxed\",\"#ncm_id\",3),0))"
+        },
+        "C26": {
+          "content": "=IF(A26=\"\",\"\",IFERROR(PIVOT.VALUE(5,\"icms_value\",\"#ncm_id\",3),0)+IFERROR(PIVOT.VALUE(5,\"pis_value\",\"#ncm_id\",3),0)+IFERROR(PIVOT.VALUE(5,\"cofins_value\",\"#ncm_id\",3),0)+IFERROR(PIVOT.VALUE(5,\"issqn_value\",\"#ncm_id\",3),0)+IFERROR(PIVOT.VALUE(5,\"ipi_value\",\"#ncm_id\",3),0))"
+        },
+        "D26": {
+          "content": "=IF(A26=\"\",\"\",IFERROR(PIVOT.VALUE(5,\"cbs_value\",\"#ncm_id\",3),0)+IFERROR(PIVOT.VALUE(5,\"ibs_value\",\"#ncm_id\",3),0))"
+        },
+        "E26": {
+          "content": "=IF(A26=\"\",\"\",IFERROR(C26/B26,0))"
+        },
+        "F26": {
+          "content": "=IF(A26=\"\",\"\",IFERROR(D26/B26,0))"
+        },
+        "A27": {
+          "content": "=IFERROR(PIVOT.HEADER(5,\"#ncm_id\",4),\"\")"
+        },
+        "B27": {
+          "content": "=IF(A27=\"\",\"\",IFERROR(PIVOT.VALUE(5,\"amount_untaxed\",\"#ncm_id\",4),0))"
+        },
+        "C27": {
+          "content": "=IF(A27=\"\",\"\",IFERROR(PIVOT.VALUE(5,\"icms_value\",\"#ncm_id\",4),0)+IFERROR(PIVOT.VALUE(5,\"pis_value\",\"#ncm_id\",4),0)+IFERROR(PIVOT.VALUE(5,\"cofins_value\",\"#ncm_id\",4),0)+IFERROR(PIVOT.VALUE(5,\"issqn_value\",\"#ncm_id\",4),0)+IFERROR(PIVOT.VALUE(5,\"ipi_value\",\"#ncm_id\",4),0))"
+        },
+        "D27": {
+          "content": "=IF(A27=\"\",\"\",IFERROR(PIVOT.VALUE(5,\"cbs_value\",\"#ncm_id\",4),0)+IFERROR(PIVOT.VALUE(5,\"ibs_value\",\"#ncm_id\",4),0))"
+        },
+        "E27": {
+          "content": "=IF(A27=\"\",\"\",IFERROR(C27/B27,0))"
+        },
+        "F27": {
+          "content": "=IF(A27=\"\",\"\",IFERROR(D27/B27,0))"
+        },
+        "A28": {
+          "content": "=IFERROR(PIVOT.HEADER(5,\"#ncm_id\",5),\"\")"
+        },
+        "B28": {
+          "content": "=IF(A28=\"\",\"\",IFERROR(PIVOT.VALUE(5,\"amount_untaxed\",\"#ncm_id\",5),0))"
+        },
+        "C28": {
+          "content": "=IF(A28=\"\",\"\",IFERROR(PIVOT.VALUE(5,\"icms_value\",\"#ncm_id\",5),0)+IFERROR(PIVOT.VALUE(5,\"pis_value\",\"#ncm_id\",5),0)+IFERROR(PIVOT.VALUE(5,\"cofins_value\",\"#ncm_id\",5),0)+IFERROR(PIVOT.VALUE(5,\"issqn_value\",\"#ncm_id\",5),0)+IFERROR(PIVOT.VALUE(5,\"ipi_value\",\"#ncm_id\",5),0))"
+        },
+        "D28": {
+          "content": "=IF(A28=\"\",\"\",IFERROR(PIVOT.VALUE(5,\"cbs_value\",\"#ncm_id\",5),0)+IFERROR(PIVOT.VALUE(5,\"ibs_value\",\"#ncm_id\",5),0))"
+        },
+        "E28": {
+          "content": "=IF(A28=\"\",\"\",IFERROR(C28/B28,0))"
+        },
+        "F28": {
+          "content": "=IF(A28=\"\",\"\",IFERROR(D28/B28,0))"
+        },
+        "A29": {
+          "content": "=IFERROR(PIVOT.HEADER(5,\"#ncm_id\",6),\"\")"
+        },
+        "B29": {
+          "content": "=IF(A29=\"\",\"\",IFERROR(PIVOT.VALUE(5,\"amount_untaxed\",\"#ncm_id\",6),0))"
+        },
+        "C29": {
+          "content": "=IF(A29=\"\",\"\",IFERROR(PIVOT.VALUE(5,\"icms_value\",\"#ncm_id\",6),0)+IFERROR(PIVOT.VALUE(5,\"pis_value\",\"#ncm_id\",6),0)+IFERROR(PIVOT.VALUE(5,\"cofins_value\",\"#ncm_id\",6),0)+IFERROR(PIVOT.VALUE(5,\"issqn_value\",\"#ncm_id\",6),0)+IFERROR(PIVOT.VALUE(5,\"ipi_value\",\"#ncm_id\",6),0))"
+        },
+        "D29": {
+          "content": "=IF(A29=\"\",\"\",IFERROR(PIVOT.VALUE(5,\"cbs_value\",\"#ncm_id\",6),0)+IFERROR(PIVOT.VALUE(5,\"ibs_value\",\"#ncm_id\",6),0))"
+        },
+        "E29": {
+          "content": "=IF(A29=\"\",\"\",IFERROR(C29/B29,0))"
+        },
+        "F29": {
+          "content": "=IF(A29=\"\",\"\",IFERROR(D29/B29,0))"
+        },
+        "A30": {
+          "content": "=IFERROR(PIVOT.HEADER(5,\"#ncm_id\",7),\"\")"
+        },
+        "B30": {
+          "content": "=IF(A30=\"\",\"\",IFERROR(PIVOT.VALUE(5,\"amount_untaxed\",\"#ncm_id\",7),0))"
+        },
+        "C30": {
+          "content": "=IF(A30=\"\",\"\",IFERROR(PIVOT.VALUE(5,\"icms_value\",\"#ncm_id\",7),0)+IFERROR(PIVOT.VALUE(5,\"pis_value\",\"#ncm_id\",7),0)+IFERROR(PIVOT.VALUE(5,\"cofins_value\",\"#ncm_id\",7),0)+IFERROR(PIVOT.VALUE(5,\"issqn_value\",\"#ncm_id\",7),0)+IFERROR(PIVOT.VALUE(5,\"ipi_value\",\"#ncm_id\",7),0))"
+        },
+        "D30": {
+          "content": "=IF(A30=\"\",\"\",IFERROR(PIVOT.VALUE(5,\"cbs_value\",\"#ncm_id\",7),0)+IFERROR(PIVOT.VALUE(5,\"ibs_value\",\"#ncm_id\",7),0))"
+        },
+        "E30": {
+          "content": "=IF(A30=\"\",\"\",IFERROR(C30/B30,0))"
+        },
+        "F30": {
+          "content": "=IF(A30=\"\",\"\",IFERROR(D30/B30,0))"
+        },
+        "A31": {
+          "content": "=IFERROR(PIVOT.HEADER(5,\"#ncm_id\",8),\"\")"
+        },
+        "B31": {
+          "content": "=IF(A31=\"\",\"\",IFERROR(PIVOT.VALUE(5,\"amount_untaxed\",\"#ncm_id\",8),0))"
+        },
+        "C31": {
+          "content": "=IF(A31=\"\",\"\",IFERROR(PIVOT.VALUE(5,\"icms_value\",\"#ncm_id\",8),0)+IFERROR(PIVOT.VALUE(5,\"pis_value\",\"#ncm_id\",8),0)+IFERROR(PIVOT.VALUE(5,\"cofins_value\",\"#ncm_id\",8),0)+IFERROR(PIVOT.VALUE(5,\"issqn_value\",\"#ncm_id\",8),0)+IFERROR(PIVOT.VALUE(5,\"ipi_value\",\"#ncm_id\",8),0))"
+        },
+        "D31": {
+          "content": "=IF(A31=\"\",\"\",IFERROR(PIVOT.VALUE(5,\"cbs_value\",\"#ncm_id\",8),0)+IFERROR(PIVOT.VALUE(5,\"ibs_value\",\"#ncm_id\",8),0))"
+        },
+        "E31": {
+          "content": "=IF(A31=\"\",\"\",IFERROR(C31/B31,0))"
+        },
+        "F31": {
+          "content": "=IF(A31=\"\",\"\",IFERROR(D31/B31,0))"
+        },
+        "A32": {
+          "content": "=IFERROR(PIVOT.HEADER(5,\"#ncm_id\",9),\"\")"
+        },
+        "B32": {
+          "content": "=IF(A32=\"\",\"\",IFERROR(PIVOT.VALUE(5,\"amount_untaxed\",\"#ncm_id\",9),0))"
+        },
+        "C32": {
+          "content": "=IF(A32=\"\",\"\",IFERROR(PIVOT.VALUE(5,\"icms_value\",\"#ncm_id\",9),0)+IFERROR(PIVOT.VALUE(5,\"pis_value\",\"#ncm_id\",9),0)+IFERROR(PIVOT.VALUE(5,\"cofins_value\",\"#ncm_id\",9),0)+IFERROR(PIVOT.VALUE(5,\"issqn_value\",\"#ncm_id\",9),0)+IFERROR(PIVOT.VALUE(5,\"ipi_value\",\"#ncm_id\",9),0))"
+        },
+        "D32": {
+          "content": "=IF(A32=\"\",\"\",IFERROR(PIVOT.VALUE(5,\"cbs_value\",\"#ncm_id\",9),0)+IFERROR(PIVOT.VALUE(5,\"ibs_value\",\"#ncm_id\",9),0))"
+        },
+        "E32": {
+          "content": "=IF(A32=\"\",\"\",IFERROR(C32/B32,0))"
+        },
+        "F32": {
+          "content": "=IF(A32=\"\",\"\",IFERROR(D32/B32,0))"
+        },
+        "A33": {
+          "content": "=IFERROR(PIVOT.HEADER(5,\"#ncm_id\",10),\"\")"
+        },
+        "B33": {
+          "content": "=IF(A33=\"\",\"\",IFERROR(PIVOT.VALUE(5,\"amount_untaxed\",\"#ncm_id\",10),0))"
+        },
+        "C33": {
+          "content": "=IF(A33=\"\",\"\",IFERROR(PIVOT.VALUE(5,\"icms_value\",\"#ncm_id\",10),0)+IFERROR(PIVOT.VALUE(5,\"pis_value\",\"#ncm_id\",10),0)+IFERROR(PIVOT.VALUE(5,\"cofins_value\",\"#ncm_id\",10),0)+IFERROR(PIVOT.VALUE(5,\"issqn_value\",\"#ncm_id\",10),0)+IFERROR(PIVOT.VALUE(5,\"ipi_value\",\"#ncm_id\",10),0))"
+        },
+        "D33": {
+          "content": "=IF(A33=\"\",\"\",IFERROR(PIVOT.VALUE(5,\"cbs_value\",\"#ncm_id\",10),0)+IFERROR(PIVOT.VALUE(5,\"ibs_value\",\"#ncm_id\",10),0))"
+        },
+        "E33": {
+          "content": "=IF(A33=\"\",\"\",IFERROR(C33/B33,0))"
+        },
+        "F33": {
+          "content": "=IF(A33=\"\",\"\",IFERROR(D33/B33,0))"
+        }
+      },
+      "styles": {
+        "A1": 1,
+        "A8": 1,
+        "A9": 2,
+        "B9:D9": 5,
+        "A10:D19": 3,
+        "E8": 1,
+        "E9": 2,
+        "F9:H9": 5,
+        "E10:H19": 3,
+        "A22": 1,
+        "A23": 2,
+        "B23:F23": 5,
+        "A24:F33": 3
+      },
+      "formats": {
+        "B10:D10": 1,
+        "B11:D11": 1,
+        "B12:D12": 1,
+        "B13:D13": 1,
+        "B14:D14": 1,
+        "B15:D15": 1,
+        "B16:D16": 1,
+        "B17:D17": 1,
+        "B18:D18": 1,
+        "B19:D19": 1,
+        "F10:H10": 1,
+        "F11:H11": 1,
+        "F12:H12": 1,
+        "F13:H13": 1,
+        "F14:H14": 1,
+        "F15:H15": 1,
+        "F16:H16": 1,
+        "F17:H17": 1,
+        "F18:H18": 1,
+        "F19:H19": 1,
+        "B24:D24": 1,
+        "E24:F24": 2,
+        "B25:D25": 1,
+        "E25:F25": 2,
+        "B26:D26": 1,
+        "E26:F26": 2,
+        "B27:D27": 1,
+        "E27:F27": 2,
+        "B28:D28": 1,
+        "E28:F28": 2,
+        "B29:D29": 1,
+        "E29:F29": 2,
+        "B30:D30": 1,
+        "E30:F30": 2,
+        "B31:D31": 1,
+        "E31:F31": 2,
+        "B32:D32": 1,
+        "E32:F32": 2,
+        "B33:D33": 1,
+        "E33:F33": 2
+      },
+      "borders": {},
+      "conditionalFormats": [],
+      "figures": [
+        {
+          "id": "e43512ad-adaa-53dd-90ae-8b6f47611609",
+          "x": 0,
+          "y": 40,
+          "width": 230,
+          "height": 101,
+          "tag": "chart",
+          "data": {
+            "baselineColorDown": "#DC6965",
+            "baselineColorUp": "#00A04A",
+            "baselineMode": "percentage",
+            "title": {
+              "text": "CBS (outgoing)",
+              "bold": true,
+              "color": "#434343"
+            },
+            "type": "scorecard",
+            "background": "#EFF6FF",
+            "baseline": "Data!C2",
+            "baselineDescr": "since last period",
+            "keyValue": "Data!B2",
+            "humanize": true
+          }
+        },
+        {
+          "id": "6d9eae4f-e2a6-5277-a5ec-619e53c6f79d",
+          "x": 245,
+          "y": 40,
+          "width": 230,
+          "height": 101,
+          "tag": "chart",
+          "data": {
+            "baselineColorDown": "#DC6965",
+            "baselineColorUp": "#00A04A",
+            "baselineMode": "percentage",
+            "title": {
+              "text": "IBS (outgoing)",
+              "bold": true,
+              "color": "#434343"
+            },
+            "type": "scorecard",
+            "background": "#EFF6FF",
+            "baseline": "Data!C3",
+            "baselineDescr": "since last period",
+            "keyValue": "Data!B3",
+            "humanize": true
+          }
+        },
+        {
+          "id": "ca0a25d1-4db3-5161-b329-373868808962",
+          "x": 490,
+          "y": 40,
+          "width": 230,
+          "height": 101,
+          "tag": "chart",
+          "data": {
+            "baselineColorDown": "#DC6965",
+            "baselineColorUp": "#00A04A",
+            "baselineMode": "percentage",
+            "title": {
+              "text": "Current taxes (outgoing)",
+              "bold": true,
+              "color": "#434343"
+            },
+            "type": "scorecard",
+            "background": "#EFF6FF",
+            "baseline": "Data!C4",
+            "baselineDescr": "since last period",
+            "keyValue": "Data!B4",
+            "humanize": true
+          }
+        },
+        {
+          "id": "9b1ac05a-a0a5-5f3e-ab08-13f9af7a82c9",
+          "x": 735,
+          "y": 40,
+          "width": 230,
+          "height": 101,
+          "tag": "chart",
+          "data": {
+            "baselineColorDown": "#DC6965",
+            "baselineColorUp": "#00A04A",
+            "baselineMode": "percentage",
+            "title": {
+              "text": "CBS base (outgoing)",
+              "bold": true,
+              "color": "#434343"
+            },
+            "type": "scorecard",
+            "background": "#EFF6FF",
+            "baseline": "Data!C5",
+            "baselineDescr": "since last period",
+            "keyValue": "Data!B5",
+            "humanize": true
+          }
+        }
+      ],
+      "tables": [],
+      "areGridLinesVisible": false,
+      "isVisible": true,
+      "headerGroups": {
+        "ROW": [],
+        "COL": []
+      },
+      "dataValidationRules": [],
+      "comments": {}
+    },
+    {
+      "id": "c35c74ae-4a95-5ef0-91a8-abdb00c9ecf4",
+      "name": "Data",
+      "colNumber": 8,
+      "rowNumber": 40,
+      "rows": {},
+      "cols": {
+        "0": {
+          "size": 220
+        }
+      },
+      "merges": [],
+      "cells": {
+        "A1": {
+          "content": "=_t(\"KPI\")"
+        },
+        "B1": {
+          "content": "=_t(\"Current\")"
+        },
+        "C1": {
+          "content": "=_t(\"Previous\")"
+        },
+        "A2": {
+          "content": "=_t(\"CBS (outgoing)\")"
+        },
+        "B2": {
+          "content": "=IFERROR(PIVOT.VALUE(1,\"cbs_value\",\"fiscal_operation_type\",\"out\"),0)"
+        },
+        "C2": {
+          "content": "=IFERROR(PIVOT.VALUE(2,\"cbs_value\",\"fiscal_operation_type\",\"out\"),0)"
+        },
+        "A3": {
+          "content": "=_t(\"IBS (outgoing)\")"
+        },
+        "B3": {
+          "content": "=IFERROR(PIVOT.VALUE(1,\"ibs_value\",\"fiscal_operation_type\",\"out\"),0)"
+        },
+        "C3": {
+          "content": "=IFERROR(PIVOT.VALUE(2,\"ibs_value\",\"fiscal_operation_type\",\"out\"),0)"
+        },
+        "A4": {
+          "content": "=_t(\"Current taxes (outgoing)\")"
+        },
+        "B4": {
+          "content": "=IFERROR(PIVOT.VALUE(1,\"icms_value\",\"fiscal_operation_type\",\"out\"),0)+IFERROR(PIVOT.VALUE(1,\"pis_value\",\"fiscal_operation_type\",\"out\"),0)+IFERROR(PIVOT.VALUE(1,\"cofins_value\",\"fiscal_operation_type\",\"out\"),0)+IFERROR(PIVOT.VALUE(1,\"issqn_value\",\"fiscal_operation_type\",\"out\"),0)+IFERROR(PIVOT.VALUE(1,\"ipi_value\",\"fiscal_operation_type\",\"out\"),0)"
+        },
+        "C4": {
+          "content": "=IFERROR(PIVOT.VALUE(2,\"icms_value\",\"fiscal_operation_type\",\"out\"),0)+IFERROR(PIVOT.VALUE(2,\"pis_value\",\"fiscal_operation_type\",\"out\"),0)+IFERROR(PIVOT.VALUE(2,\"cofins_value\",\"fiscal_operation_type\",\"out\"),0)+IFERROR(PIVOT.VALUE(2,\"issqn_value\",\"fiscal_operation_type\",\"out\"),0)+IFERROR(PIVOT.VALUE(2,\"ipi_value\",\"fiscal_operation_type\",\"out\"),0)"
+        },
+        "A5": {
+          "content": "=_t(\"CBS base (outgoing)\")"
+        },
+        "B5": {
+          "content": "=IFERROR(PIVOT.VALUE(1,\"cbs_base\",\"fiscal_operation_type\",\"out\"),0)"
+        },
+        "C5": {
+          "content": "=IFERROR(PIVOT.VALUE(2,\"cbs_base\",\"fiscal_operation_type\",\"out\"),0)"
+        }
+      },
+      "styles": {},
+      "formats": {
+        "B2:C40": 1
+      },
+      "borders": {},
+      "conditionalFormats": [],
+      "figures": [],
+      "tables": [],
+      "areGridLinesVisible": true,
+      "isVisible": false,
+      "headerGroups": {
+        "ROW": [],
+        "COL": []
+      },
+      "dataValidationRules": [],
+      "comments": {}
+    }
+  ],
+  "styles": {
+    "1": {
+      "textColor": "#01666b",
+      "bold": true,
+      "fontSize": 16
+    },
+    "2": {
+      "bold": true,
+      "fontSize": 11,
+      "textColor": "#434343"
+    },
+    "3": {
+      "textColor": "#434343",
+      "verticalAlign": "middle"
+    },
+    "4": {
+      "textColor": "#666666",
+      "italic": true,
+      "fontSize": 9
+    },
+    "5": {
+      "bold": true,
+      "fontSize": 11,
+      "textColor": "#434343",
+      "align": "right"
+    }
+  },
+  "formats": {
+    "1": "#,##0.00",
+    "2": "0.00%"
+  },
+  "borders": {},
+  "revisionId": "START_REVISION",
+  "uniqueFigureIds": true,
+  "settings": {
+    "locale": {
+      "name": "English (US)",
+      "code": "en_US",
+      "thousandsSeparator": ",",
+      "decimalSeparator": ".",
+      "dateFormat": "mm/dd/yyyy",
+      "timeFormat": "hh:mm:ss",
+      "formulaArgSeparator": ",",
+      "weekStart": 7
+    }
+  },
+  "pivots": {
+    "1": {
+      "type": "ODOO",
+      "fieldMatching": {
+        "54e7e597-8b8c-501c-bbf0-d9814600a6ac": {
+          "chain": "date",
+          "type": "date",
+          "offset": 0
+        },
+        "4305fb1a-f60d-5f30-bab3-e25c525f415f": {
+          "chain": "company_id",
+          "type": "many2one"
+        },
+        "fba8b651-2b1a-595c-8fc4-0ba553359cb9": {
+          "chain": "fiscal_operation_id",
+          "type": "many2one"
+        },
+        "41752dfb-56ab-5c65-b5fd-bf702b68962d": {
+          "chain": "cfop_id",
+          "type": "many2one"
+        }
+      },
+      "context": {},
+      "domain": [
+        ["state_edoc", "not in", ["cancelada", "denegada", "inutilizada"]],
+        ["fiscal_operation_type", "=", "out"]
+      ],
+      "id": "1",
+      "measures": [
+        {
+          "id": "amount_untaxed",
+          "fieldName": "amount_untaxed"
+        },
+        {
+          "id": "icms_value",
+          "fieldName": "icms_value"
+        },
+        {
+          "id": "pis_value",
+          "fieldName": "pis_value"
+        },
+        {
+          "id": "cofins_value",
+          "fieldName": "cofins_value"
+        },
+        {
+          "id": "issqn_value",
+          "fieldName": "issqn_value"
+        },
+        {
+          "id": "ipi_value",
+          "fieldName": "ipi_value"
+        },
+        {
+          "id": "cbs_base",
+          "fieldName": "cbs_base"
+        },
+        {
+          "id": "cbs_value",
+          "fieldName": "cbs_value"
+        },
+        {
+          "id": "ibs_value",
+          "fieldName": "ibs_value"
+        }
+      ],
+      "model": "l10n_br_fiscal.document.line.report",
+      "name": "Reform - current period",
+      "formulaId": "1",
+      "columns": [],
+      "rows": [
+        {
+          "fieldName": "fiscal_operation_type"
+        }
+      ]
+    },
+    "2": {
+      "type": "ODOO",
+      "fieldMatching": {
+        "54e7e597-8b8c-501c-bbf0-d9814600a6ac": {
+          "chain": "date",
+          "type": "date",
+          "offset": -1
+        },
+        "4305fb1a-f60d-5f30-bab3-e25c525f415f": {
+          "chain": "company_id",
+          "type": "many2one"
+        },
+        "fba8b651-2b1a-595c-8fc4-0ba553359cb9": {
+          "chain": "fiscal_operation_id",
+          "type": "many2one"
+        },
+        "41752dfb-56ab-5c65-b5fd-bf702b68962d": {
+          "chain": "cfop_id",
+          "type": "many2one"
+        }
+      },
+      "context": {},
+      "domain": [
+        ["state_edoc", "not in", ["cancelada", "denegada", "inutilizada"]],
+        ["fiscal_operation_type", "=", "out"]
+      ],
+      "id": "2",
+      "measures": [
+        {
+          "id": "amount_untaxed",
+          "fieldName": "amount_untaxed"
+        },
+        {
+          "id": "icms_value",
+          "fieldName": "icms_value"
+        },
+        {
+          "id": "pis_value",
+          "fieldName": "pis_value"
+        },
+        {
+          "id": "cofins_value",
+          "fieldName": "cofins_value"
+        },
+        {
+          "id": "issqn_value",
+          "fieldName": "issqn_value"
+        },
+        {
+          "id": "ipi_value",
+          "fieldName": "ipi_value"
+        },
+        {
+          "id": "cbs_base",
+          "fieldName": "cbs_base"
+        },
+        {
+          "id": "cbs_value",
+          "fieldName": "cbs_value"
+        },
+        {
+          "id": "ibs_value",
+          "fieldName": "ibs_value"
+        }
+      ],
+      "model": "l10n_br_fiscal.document.line.report",
+      "name": "Reform - previous period",
+      "formulaId": "2",
+      "columns": [],
+      "rows": [
+        {
+          "fieldName": "fiscal_operation_type"
+        }
+      ]
+    },
+    "3": {
+      "type": "ODOO",
+      "fieldMatching": {
+        "54e7e597-8b8c-501c-bbf0-d9814600a6ac": {
+          "chain": "date",
+          "type": "date",
+          "offset": 0
+        },
+        "4305fb1a-f60d-5f30-bab3-e25c525f415f": {
+          "chain": "company_id",
+          "type": "many2one"
+        },
+        "fba8b651-2b1a-595c-8fc4-0ba553359cb9": {
+          "chain": "fiscal_operation_id",
+          "type": "many2one"
+        },
+        "41752dfb-56ab-5c65-b5fd-bf702b68962d": {
+          "chain": "cfop_id",
+          "type": "many2one"
+        }
+      },
+      "context": {},
+      "domain": [
+        ["state_edoc", "not in", ["cancelada", "denegada", "inutilizada"]],
+        ["fiscal_operation_type", "=", "out"]
+      ],
+      "id": "3",
+      "measures": [
+        {
+          "id": "cbs_base",
+          "fieldName": "cbs_base"
+        },
+        {
+          "id": "cbs_value",
+          "fieldName": "cbs_value"
+        },
+        {
+          "id": "ibs_value",
+          "fieldName": "ibs_value"
+        }
+      ],
+      "model": "l10n_br_fiscal.document.line.report",
+      "name": "By tax classification",
+      "formulaId": "3",
+      "columns": [],
+      "rows": [
+        {
+          "fieldName": "tax_classification_id"
+        }
+      ],
+      "sortedColumn": {
+        "groupId": [[], []],
+        "measure": "cbs_value",
+        "order": "desc"
+      }
+    },
+    "4": {
+      "type": "ODOO",
+      "fieldMatching": {
+        "54e7e597-8b8c-501c-bbf0-d9814600a6ac": {
+          "chain": "date",
+          "type": "date",
+          "offset": 0
+        },
+        "4305fb1a-f60d-5f30-bab3-e25c525f415f": {
+          "chain": "company_id",
+          "type": "many2one"
+        },
+        "fba8b651-2b1a-595c-8fc4-0ba553359cb9": {
+          "chain": "fiscal_operation_id",
+          "type": "many2one"
+        },
+        "41752dfb-56ab-5c65-b5fd-bf702b68962d": {
+          "chain": "cfop_id",
+          "type": "many2one"
+        }
+      },
+      "context": {},
+      "domain": [
+        ["state_edoc", "not in", ["cancelada", "denegada", "inutilizada"]],
+        ["fiscal_operation_type", "=", "out"]
+      ],
+      "id": "4",
+      "measures": [
+        {
+          "id": "cbs_base",
+          "fieldName": "cbs_base"
+        },
+        {
+          "id": "cbs_value",
+          "fieldName": "cbs_value"
+        },
+        {
+          "id": "ibs_value",
+          "fieldName": "ibs_value"
+        }
+      ],
+      "model": "l10n_br_fiscal.document.line.report",
+      "name": "By CBS CST",
+      "formulaId": "4",
+      "columns": [],
+      "rows": [
+        {
+          "fieldName": "cbs_cst_id"
+        }
+      ],
+      "sortedColumn": {
+        "groupId": [[], []],
+        "measure": "cbs_value",
+        "order": "desc"
+      }
+    },
+    "5": {
+      "type": "ODOO",
+      "fieldMatching": {
+        "54e7e597-8b8c-501c-bbf0-d9814600a6ac": {
+          "chain": "date",
+          "type": "date",
+          "offset": 0
+        },
+        "4305fb1a-f60d-5f30-bab3-e25c525f415f": {
+          "chain": "company_id",
+          "type": "many2one"
+        },
+        "fba8b651-2b1a-595c-8fc4-0ba553359cb9": {
+          "chain": "fiscal_operation_id",
+          "type": "many2one"
+        },
+        "41752dfb-56ab-5c65-b5fd-bf702b68962d": {
+          "chain": "cfop_id",
+          "type": "many2one"
+        }
+      },
+      "context": {},
+      "domain": [
+        ["state_edoc", "not in", ["cancelada", "denegada", "inutilizada"]],
+        ["fiscal_operation_type", "=", "out"]
+      ],
+      "id": "5",
+      "measures": [
+        {
+          "id": "amount_untaxed",
+          "fieldName": "amount_untaxed"
+        },
+        {
+          "id": "icms_value",
+          "fieldName": "icms_value"
+        },
+        {
+          "id": "pis_value",
+          "fieldName": "pis_value"
+        },
+        {
+          "id": "cofins_value",
+          "fieldName": "cofins_value"
+        },
+        {
+          "id": "issqn_value",
+          "fieldName": "issqn_value"
+        },
+        {
+          "id": "ipi_value",
+          "fieldName": "ipi_value"
+        },
+        {
+          "id": "cbs_value",
+          "fieldName": "cbs_value"
+        },
+        {
+          "id": "ibs_value",
+          "fieldName": "ibs_value"
+        }
+      ],
+      "model": "l10n_br_fiscal.document.line.report",
+      "name": "By NCM: current x new",
+      "formulaId": "5",
+      "columns": [],
+      "rows": [
+        {
+          "fieldName": "ncm_id"
+        }
+      ],
+      "sortedColumn": {
+        "groupId": [[], []],
+        "measure": "amount_untaxed",
+        "order": "desc"
+      }
+    }
+  },
+  "pivotNextId": 6,
+  "customTableStyles": {},
+  "odooVersion": 12,
+  "globalFilters": [
+    {
+      "id": "54e7e597-8b8c-501c-bbf0-d9814600a6ac",
+      "type": "date",
+      "label": "Period",
+      "defaultValue": "last_month",
+      "rangeType": "relative"
+    },
+    {
+      "id": "4305fb1a-f60d-5f30-bab3-e25c525f415f",
+      "type": "relation",
+      "label": "Company",
+      "modelName": "res.company",
+      "defaultValue": [],
+      "defaultValueDisplayNames": [],
+      "rangeType": "year"
+    },
+    {
+      "id": "fba8b651-2b1a-595c-8fc4-0ba553359cb9",
+      "type": "relation",
+      "label": "Fiscal Operation",
+      "modelName": "l10n_br_fiscal.operation",
+      "defaultValue": [],
+      "defaultValueDisplayNames": [],
+      "rangeType": "year"
+    },
+    {
+      "id": "41752dfb-56ab-5c65-b5fd-bf702b68962d",
+      "type": "relation",
+      "label": "CFOP",
+      "modelName": "l10n_br_fiscal.cfop",
+      "defaultValue": [],
+      "defaultValueDisplayNames": [],
+      "rangeType": "year"
+    }
+  ],
+  "lists": {},
+  "listNextId": 1,
+  "chartOdooMenusReferences": {}
+}
