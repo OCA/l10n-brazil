@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ====
 NF-e
 ====
@@ -17,7 +13,7 @@ NF-e
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
@@ -61,6 +57,14 @@ Módulos relacionados:
   do módulo ``l10n_br_nfe`` com o módulo ``delivery`` do Odoo (tags de
   transportadora e de frete em especial)
 
+O módulo também imprime a **DANFE Simplificado - Etiqueta** de uma NF-e
+autorizada: a DANFE simplificada em formato de etiqueta de envio (NT
+2020.004; MOC 7.0 Anexo II, item 3.12), para colar no pacote entregue a
+serviços de entrega como Correios ou JadLog. A etiqueta é renderizada
+pela biblioteca
+`BrazilFiscalReport <https://github.com/Engenere/BrazilFiscalReport>`__,
+por padrão no papel térmico usual de 100 x 150 mm.
+
 **Table of contents**
 
 .. contents::
@@ -81,10 +85,26 @@ exibidos na descrição do produto e carimbo de rodapé, entre outras. Cada
 empresa usa o perfil escolhido no campo *Perfil de DANFE*, na aba
 *Fiscal > NF-e* do cadastro da empresa.
 
+A etiqueta (DANFE Simplificado - Etiqueta) também usa o perfil de DANFE,
+seção *Simplified DANFE - Label*:
+
+- o tamanho do papel, 100 x 150 mm por padrão (a NT 2020.004 exige pelo
+  menos 55 mm de largura), e as margens;
+- imprimir ou não o total da NF-e (opcional desde a NT 2020.004 v1.10),
+  o endereço de entrega e a lista de itens.
+
+A fonte é a mesma do perfil.
+
 Usage
 =====
 
 O menu de NF-e se encontra dentro do menu fiscal.
+
+Para imprimir a etiqueta de envio, abra uma NF-e autorizada em *Fiscal >
+Documentos* e imprima *DANFE Simplificado - Etiqueta* pelo menu
+*Imprimir*. A etiqueta sai por padrão em papel térmico adesivo de 100 x
+150 mm, para colar no pacote despachado por serviços de entrega como os
+Correios ou a Jadlog e levar com ele ao ponto de postagem.
 
 Known issues / Roadmap
 ======================
@@ -132,6 +152,10 @@ Contributors
 - `ENGENERE <https://engenere.one>`__:
 
   - Antônio S. Pereira Neto <neto@engenere.one>
+
+- `PopSolutions <https://popsolutions.co>`__:
+
+  - Marcos Méndez <popsolutions.co@gmail.com>
 
 Maintainers
 -----------
