@@ -341,6 +341,10 @@ def _parse_nfse_binding(xml_bytes):
         document = Nfse.from_xml(xml_text, config=_NFSE_PARSER_CONFIG)
     except (ParserError, ValueError):
         return None
+    # nfelib picks the binding by the XML root: once the NF-e bindings are
+    # loaded (l10n_br_nfe does it), an NF-e comes back as an NfeProc.
+    if not isinstance(document, Nfse):
+        return None
     return document.infNFSe or None
 
 
