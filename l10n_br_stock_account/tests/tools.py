@@ -28,23 +28,6 @@ def create_with_form_br_account_journal(env, values):
     return journal.save()
 
 
-def create_with_form_br_res_partner(env, values):
-    with Form(env["res.partner"]) as partner:
-        partner.name = values.get("name")
-        partner.country_id = values.get("country_id")
-        partner.state_id = values.get("state_id")
-        partner.city_id = values.get("city_id")
-        partner.zip = values.get("zip")
-        partner.street_name = values.get("street_name")
-        partner.street_number = values.get("street_number")
-        partner.l10n_br_ie_code = values.get("l10n_br_ie_code")
-        partner.fiscal_profile_id = values.get("fiscal_profile_id")
-        if values.get("company_type"):
-            partner.company_type = values.get("company_type")
-            partner.parent_id = values.get("parent_id")
-    return partner.save()
-
-
 def create_and_configure_br_company(env, company_values, fiscal_ops):
     company = env["res.company"].create(company_values)
     env.user.company_ids |= company
@@ -117,22 +100,33 @@ def create_br_minimal_chart(env, company):
         # Load fiscal taxes for the company
         if not company.chart_template:
             chart_template = env["account.chart.template"]
-            chart_template.try_loading("generic_coa", company, install_demo=True)
+            chart_template.try_loading("generic_coa", company, install_demo=False)
         env["account.chart.template"].load_fiscal_taxes(companies=[company])
 
 
-def create_br_journal_and_set_fiscal_ops(env, company, fiscal_ops):
+def create_br_journal_and_set_fiscal_ops(env, company, fiscal_ops, journal_type="sale"):
+    """Create a Journal and set it on the given Brazilian Fiscal Operations.
+
+    :param journal_type: "sale" (default, used by the Outgoing Fiscal
+        Operations) or "purchase" (needed when the document created from the
+        Picking is a purchase one, ex.: the return of an Incoming Picking, which
+        is invoiced as in_refund).
+    """
     doc_type_55 = env["l10n_br_fiscal.document.type"].search([("code", "=", "55")])
     company.document_type_id = doc_type_55
-    env["l10n_br_fiscal.document.serie"].create(
-        {
-            "code": "1",
-            "name": "Série 1",
-            "document_type_id": doc_type_55.id,
-            "company_id": company.id,
-            "active": True,
-        }
-    )
+    if not env["l10n_br_fiscal.document.serie"].search(
+        [("company_id", "=", company.id), ("document_type_id", "=", doc_type_55.id)],
+        limit=1,
+    ):
+        env["l10n_br_fiscal.document.serie"].create(
+            {
+                "code": "1",
+                "name": "Série 1",
+                "document_type_id": doc_type_55.id,
+                "company_id": company.id,
+                "active": True,
+            }
+        )
 
     account_revenue = env["account.account"].search(
         [
@@ -142,14 +136,18 @@ def create_br_journal_and_set_fiscal_ops(env, company, fiscal_ops):
         limit=1,
     )
     data_journal_base = {
-        "type": "sale",
+        "type": journal_type,
         "default_account_id": account_revenue,
         "company_id": company,
     }
     for fiscal_op in fiscal_ops:
+        code = fiscal_op.name[:3]
+        if journal_type != "sale":
+            # Evita o conflito de código com o Diário da mesma Operação Fiscal
+            code = (journal_type[:1] + fiscal_op.name)[:3]
         data_journal = data_journal_base | {
             "name": "Diário" + fiscal_op.name,
-            "code": fiscal_op.name[:3],
+            "code": code.upper(),
         }
         journal = create_with_form_br_account_journal(env, data_journal)
         fiscal_op.with_company(company).journal_id = journal
