@@ -46,6 +46,12 @@ The module keeps the DPS serialization of ``l10n_br_nfse_nacional`` and
 only replaces sending, response handling and cancellation, delegating
 the protocol to the ``NotaControl`` provider of ``erpbrasil.edoc``.
 
+For NotaControl companies the DPS is also adjusted to what the Goiânia
+webservice accepts: version 1.01, empty groups removed,
+``tpRetPisCofins`` in the 1.01 domain, the 9-digit municipal taxation
+code (``cTribMun``) right after ``cTribNac``, the competence date in
+local time and a default IBSCBS group when the line does not export one.
+
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
    Only for development or testing purpose, do not use in production.
@@ -78,8 +84,14 @@ On the company:
 Known issues / Roadmap
 ======================
 
-- DPS 1.01 with the IBS/CBS group, mandatory in NotaControl for service
-  dates after 2026-10-01 (depends on ``l10n_br_nfse_nacional``).
+- The IBSCBS group falls back to fixed values (CST 000, cClassTrib
+  000001, cIndOp 050101) when the line carries no RTC data; fill the
+  line RTC data to have it exported by ``l10n_br_nfse_nacional``
+  instead.
+- The 9-digit municipal taxation code of Goiânia is injected after the
+  national serialization, because the national XSD accepts only 3
+  digits; the DPS is validated against the national XSD, not the
+  NotaControl ``schema_v101.xsd``.
 - Cancellation through the e101103 event of the NotaControl sample; the
   base module builds e101101.
 - Confirm the signature algorithm in the homologation environment.
