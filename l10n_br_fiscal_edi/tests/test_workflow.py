@@ -1,8 +1,12 @@
 # Copyright (C) 2020  KMEE INFORMATICA LTDA
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from datetime import timedelta
 from unittest.mock import patch
 
+from erpbrasil.base.fiscal.edoc import ChaveEdoc
+
+from odoo import fields
 from odoo.exceptions import UserError
 from odoo.tests import TransactionCase
 
@@ -17,6 +21,20 @@ from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import (
     DOCUMENT_STATE_DENIED,
     DOCUMENT_STATE_REJECTED,
 )
+
+
+def _key_for_month(year_month):
+    """Valid NF-e key (the check digit is computed) for the given YYMM."""
+    return ChaveEdoc(
+        ano_mes=year_month,
+        cnpj_cpf_emitente="00000000000191",
+        codigo_uf="35",
+        forma_emissao=1,
+        modelo_documento="55",
+        numero_documento="1",
+        numero_serie="1",
+        validar=False,
+    ).chave
 
 
 class TestWorkflow(TransactionCase):
@@ -259,3 +277,97 @@ class TestWorkflow(TransactionCase):
         ):
             self.fiscal_document.action_document_confirm()
         self.assertEqual(self.fiscal_document.state_edoc, DOCUMENT_STATE_AUTHORIZED)
+
+    def _confirm_electronic(self):
+        self.fiscal_document.document_electronic = True
+        self.fiscal_document.action_document_confirm()
+        self.assertEqual(self.fiscal_document.state_edoc, DOCUMENT_STATE_OPEN)
+
+    def test_send_with_future_emission_date_uses_now(self):
+        """A future emission date makes SEFAZ reject the NF-e (cStat 703)."""
+        self._confirm_electronic()
+        doc = self.fiscal_document
+        before = fields.Datetime.now()
+        future = before + timedelta(days=3)
+        doc.document_date = future
+        doc.date_in_out = future
+        doc.action_document_send()
+        self.assertGreaterEqual(doc.document_date, before)
+        self.assertLessEqual(doc.document_date, fields.Datetime.now())
+        # An output date that is not earlier than the emission date is kept
+        self.assertEqual(doc.date_in_out, future)
+
+    def test_send_with_future_emission_date_moves_past_date_in_out(self):
+        """The output date cannot be earlier than the emission date."""
+        self._confirm_electronic()
+        doc = self.fiscal_document
+        before = fields.Datetime.now()
+        doc.document_date = before + timedelta(days=3)
+        doc.date_in_out = before - timedelta(days=1)
+        doc.action_document_send()
+        self.assertGreaterEqual(doc.document_date, before)
+        self.assertGreaterEqual(doc.date_in_out, before)
+        self.assertGreaterEqual(doc.date_in_out, doc.document_date)
+
+    def test_future_emission_date_is_kept_when_not_issued_by_the_company(self):
+        self._confirm_electronic()
+        doc = self.fiscal_document
+        future = fields.Datetime.now() + timedelta(days=3)
+        doc.document_date = future
+        doc.issuer = "partner"
+        doc._refresh_future_document_date()
+        self.assertEqual(doc.document_date, future)
+
+    def test_future_emission_date_is_kept_when_not_electronic(self):
+        doc = self.fiscal_document
+        future = fields.Datetime.now() + timedelta(days=3)
+        doc.document_date = future
+        doc.document_electronic = False
+        doc._refresh_future_document_date()
+        self.assertEqual(doc.document_date, future)
+
+    def test_send_with_future_emission_date_rebuilds_key(self):
+        """The document key carries the emission year and month, so it is
+        generated again when the new emission date is in another month."""
+        self._confirm_electronic()
+        doc = self.fiscal_document
+        doc.document_date = fields.Datetime.now() + timedelta(days=60)
+        # Key of a month other than the current one, as built for the future date
+        stale_key = _key_for_month("9901")
+        doc.document_key = stale_key
+
+        def fake_generate_key(records):
+            for rec in records:
+                date = fields.Datetime.context_timestamp(rec, rec.document_date)
+                rec.document_key = _key_for_month(date.strftime("%y%m"))
+
+        with patch.object(
+            type(doc), "_generate_key", autospec=True, side_effect=fake_generate_key
+        ) as generate_key:
+            doc.action_document_send()
+        generate_key.assert_called_once()
+        self.assertNotEqual(doc.document_key, stale_key)
+        self.assertEqual(
+            doc.document_key[2:6],
+            fields.Datetime.context_timestamp(doc, doc.document_date).strftime("%y%m"),
+        )
+
+    def test_send_with_future_emission_date_same_month_keeps_key(self):
+        self._confirm_electronic()
+        doc = self.fiscal_document
+        now_local = fields.Datetime.context_timestamp(doc, fields.Datetime.now())
+        doc.document_date = fields.Datetime.now() + timedelta(minutes=30)
+        key = _key_for_month(now_local.strftime("%y%m"))
+        doc.document_key = key
+        with patch.object(type(doc), "_generate_key", autospec=True) as generate_key:
+            doc.action_document_send()
+        generate_key.assert_not_called()
+        self.assertEqual(doc.document_key, key)
+
+    def test_send_with_past_emission_date_keeps_it(self):
+        self._confirm_electronic()
+        doc = self.fiscal_document
+        past = fields.Datetime.now() - timedelta(hours=5)
+        doc.document_date = past
+        doc.action_document_send()
+        self.assertEqual(doc.document_date, past)
