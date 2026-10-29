@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -16,12 +16,14 @@ msgstr ""
 #. module: l10n_br_nfse_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
+#, python-format
 msgid "ADN rate limit (HTTP 429). Next query respects Retry-After."
 msgstr ""
 
 #. module: l10n_br_nfse_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
+#, python-format
 msgid "ADN returned an empty NFS-e batch."
 msgstr ""
 
@@ -43,6 +45,8 @@ msgstr ""
 #. module: l10n_br_nfse_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
+#: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
+#, python-format
 msgid "Configure an e-CNPJ certificate before querying the ADN."
 msgstr ""
 
@@ -53,6 +57,7 @@ msgstr ""
 
 #. module: l10n_br_nfse_dfe
 #: model:ir.actions.server,name:l10n_br_nfse_dfe.ir_cron_search_nfse_dfe_documents_ir_actions_server
+#: model:ir.cron,cron_name:l10n_br_nfse_dfe.ir_cron_search_nfse_dfe_documents
 msgid "DF-e - Search NFS-e Documents"
 msgstr ""
 
@@ -75,6 +80,7 @@ msgstr ""
 #. module: l10n_br_nfse_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
+#, python-format
 msgid "Documents found."
 msgstr ""
 
@@ -88,19 +94,10 @@ msgstr ""
 #. module: l10n_br_nfse_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
+#, python-format
 msgid ""
 "Error searching NFS-e documents.\n"
 "%(error)s"
-msgstr ""
-
-#. module: l10n_br_nfse_dfe
-#: model:ir.model,name:l10n_br_nfse_dfe.model_l10n_br_fiscal_document
-msgid "Fiscal Document"
-msgstr ""
-
-#. module: l10n_br_nfse_dfe
-#: model:ir.model,name:l10n_br_nfse_dfe.model_l10n_br_fiscal_document_line
-msgid "Fiscal Document Line"
 msgstr ""
 
 #. module: l10n_br_nfse_dfe
@@ -117,6 +114,13 @@ msgid "Fiscal document from distribution service"
 msgstr ""
 
 #. module: l10n_br_nfse_dfe
+#: model:ir.model,name:l10n_br_nfse_dfe.model_l10n_br_fiscal_document_line
+msgid ""
+"Grupo a ser informado nas vendas interestarduais para consumidor final,\n"
+"não contribuinte de ICMS"
+msgstr ""
+
+#. module: l10n_br_nfse_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_document_tree
 msgid "Import"
 msgstr ""
@@ -129,7 +133,13 @@ msgstr ""
 #. module: l10n_br_nfse_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/models/dfe_document.py:0
+#, python-format
 msgid "Import NFS-e XML"
+msgstr ""
+
+#. module: l10n_br_nfse_dfe
+#: model:ir.model,name:l10n_br_nfse_dfe.model_l10n_br_fiscal_document
+msgid "Informações de exportação"
 msgstr ""
 
 #. module: l10n_br_nfse_dfe
@@ -188,6 +198,7 @@ msgstr ""
 #. module: l10n_br_nfse_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
+#, python-format
 msgid "NFS-e NSU %(nsu)s was not found in the ADN response."
 msgstr ""
 
@@ -199,12 +210,14 @@ msgstr ""
 #. module: l10n_br_nfse_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
+#, python-format
 msgid "NFS-e distribution OK (ultNSU=%(nsu)s)."
 msgstr ""
 
 #. module: l10n_br_nfse_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
+#, python-format
 msgid "NFS-e distribution did not advance the NSU."
 msgstr ""
 
@@ -216,18 +229,21 @@ msgstr ""
 #. module: l10n_br_nfse_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
+#, python-format
 msgid "NFS-e event without a 50-digit access key was skipped."
 msgstr ""
 
 #. module: l10n_br_nfse_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
+#, python-format
 msgid "NFS-e item NSU %(nsu)s was skipped: %(error)s"
 msgstr ""
 
 #. module: l10n_br_nfse_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
+#, python-format
 msgid "NFS-e item without a 50-digit access key was skipped."
 msgstr ""
 
@@ -239,18 +255,23 @@ msgstr ""
 #. module: l10n_br_nfse_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
+#: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
+#: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
+#, python-format
 msgid "No NFS-e documents found."
 msgstr ""
 
 #. module: l10n_br_nfse_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/models/dfe_document.py:0
+#, python-format
 msgid "No complete DF-e found."
 msgstr ""
 
 #. module: l10n_br_nfse_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
+#, python-format
 msgid "No more NFS-e documents (HTTP 404)."
 msgstr ""
 
@@ -272,6 +293,7 @@ msgstr ""
 #. module: l10n_br_nfse_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
+#, python-format
 msgid "Rate limited by the ADN."
 msgstr ""
 
@@ -281,13 +303,9 @@ msgid "Restricted Production"
 msgstr ""
 
 #. module: l10n_br_nfse_dfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_res_company_form
-msgid "Search NFS-e"
-msgstr ""
-
-#. module: l10n_br_nfse_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/wizards/document_import_wizard.py:0
+#, python-format
 msgid "Service"
 msgstr ""
 
@@ -301,11 +319,6 @@ msgstr ""
 msgid ""
 "Service product applied when a national NFS-e is imported and the wizard has"
 " no product yet."
-msgstr ""
-
-#. module: l10n_br_nfse_dfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_res_company_form
-msgid "Specific Search"
 msgstr ""
 
 #. module: l10n_br_nfse_dfe
@@ -326,36 +339,42 @@ msgstr ""
 #. module: l10n_br_nfse_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/wizards/document_import_wizard.py:0
+#, python-format
 msgid "The NFS-e XML does not contain a 50-digit access key."
 msgstr ""
 
 #. module: l10n_br_nfse_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/wizards/specific_search_wizard.py:0
+#, python-format
 msgid "The NFS-e access key must have 50 digits."
 msgstr ""
 
 #. module: l10n_br_nfse_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
+#, python-format
 msgid "The Sefin Nacional response does not contain an NFS-e."
 msgstr ""
 
 #. module: l10n_br_nfse_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
+#, python-format
 msgid "The e-CNPJ certificate could not be read."
 msgstr ""
 
 #. module: l10n_br_nfse_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
+#, python-format
 msgid "The service rate limit is active. Try again later."
 msgstr ""
 
 #. module: l10n_br_nfse_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/models/document.py:0
+#, python-format
 msgid "There is already a fiscal document with this key: %(doc_key)s"
 msgstr ""
 
@@ -368,6 +387,7 @@ msgstr ""
 #. module: l10n_br_nfse_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
+#, python-format
 msgid "This NFS-e was not found."
 msgstr ""
 
@@ -389,5 +409,6 @@ msgstr ""
 #. module: l10n_br_nfse_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/models/dfe_document.py:0
+#, python-format
 msgid "You can only import the NFS-e when the DF-e is completed."
 msgstr ""
