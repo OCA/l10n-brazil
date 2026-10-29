@@ -288,8 +288,7 @@ class L10nBrFiscalDfeDocument(models.Model):
         return {
             "type": "ir.actions.act_url",
             "url": (
-                f"/web/content/{zip_attachment.id}"
-                f"/{zip_attachment.name}?download=true"
+                f"/web/content/{zip_attachment.id}/{zip_attachment.name}?download=true"
             ),
             "target": "self",
         }
