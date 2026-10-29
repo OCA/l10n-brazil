@@ -15,3 +15,4 @@ requests_pkcs12<1.23
 # breaks with it; pyopenssl 22.1.0 works with it and holds it at 38.x.
 pyopenssl==22.1.0
 brbank>=0.0.11  # Needed by l10n_br_bank_connection and l10n_br_account_payment_order_brbank
+brbank>=0.0.9  # Needed by l10n_br_payment_schedule
