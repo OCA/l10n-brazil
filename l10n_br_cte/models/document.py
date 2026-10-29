@@ -2000,7 +2000,7 @@ class CTe(spec_models.StackedModel):
             binding = binding.CTe
         document = (
             self.env["cte.40.tcte_infcte"]
-            .with_context(**self._cte_import_context(edoc_type, dry_run))
+            .with_context(**self._cte_import_context(edoc_type))
             .build_from_binding("cte", "40", binding.infCte, dry_run=dry_run)
         )
 

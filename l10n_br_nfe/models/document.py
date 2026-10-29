@@ -229,8 +229,8 @@ class NFe(spec_models.StackedModel):
                 and record.document_type_id.prefix
                 and record.document_key
             ):
-                record.nfe40_Id = "{}{}".format(
-                    record.document_type_id.prefix, record.document_key
+                record.nfe40_Id = (
+                    f"{record.document_type_id.prefix}{record.document_key}"
                 )
             else:
                 record.nfe40_Id = None
@@ -1859,17 +1859,15 @@ class NFe(spec_models.StackedModel):
 
         self.file_report_id = self.env["ir.attachment"].create(attachment_data)
 
-    # Models that may NEVER be auto-created during supplier NFe imports.
-    # These are reference/master data that should exist before import.
-    # Mirrors the match_or_create_m2o overrides that were actually imported in
+    # Reference/master data that is never auto-created during NFe imports:
+    # it should already exist when the import runs.
+    # Mirrors the match_or_create_m2o overrides that were actually present in
     # models/__init__.py (res_country.py was dead code and is therefore NOT
     # listed here: res.country creation was never forbidden).
-    # NOTE: product.product is intentionally NOT in this list because existing
-    # tests and workflows expect products to be auto-created during NFe import.
-    # Callers who want to forbid product creation (Renato's concern about
-    # unmapped products) can add it via:
-    #   .with_context(spec_create_forbidden_models=['product.product'])
-    # or use spec_create_allowed_models for a strict whitelist.
+    # NOTE: product.product is NOT part of this list on purpose: products are
+    # still created by default (historical behaviour). _nfe_import_context()
+    # adds it to the policy with the 'raise' action when the
+    # allow_product_creation context key is False.
     NFE_IMPORT_FORBIDDEN_MODELS = [
         "res.country.state",
         "res.city",
@@ -1878,7 +1876,7 @@ class NFe(spec_models.StackedModel):
         "l10n_br_fiscal.tax.ipi.guideline",
     ]
 
-    def _nfe_import_context(self, edoc_type, dry_run=False):
+    def _nfe_import_context(self, edoc_type):
         """Build the context with the appropriate spec import create policy.
 
         For supplier NFe imports (edoc_type='in'), we also forbid creating
@@ -1918,7 +1916,7 @@ class NFe(spec_models.StackedModel):
             binding = binding.NFe
         document = (
             self.env["nfe.40.infnfe"]
-            .with_context(**self._nfe_import_context(edoc_type, dry_run))
+            .with_context(**self._nfe_import_context(edoc_type))
             .build_from_binding("nfe", "40", binding.infNFe, dry_run=dry_run)
         )
 
