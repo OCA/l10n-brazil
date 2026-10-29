@@ -3,6 +3,7 @@ import os
 import re
 from unittest.mock import MagicMock, patch
 
+from odoo import Command
 from odoo.tests import TransactionCase
 
 from odoo.addons import l10n_br_nfe
@@ -173,6 +174,24 @@ class NFeImportWizardTest(TransactionCase):
 
         first_product.product_id = old_product_id
         self.assertNotEqual(first_product.product_id, self.product_1)
+        # The fiscal profile imports the XML without purchase access rights
+        fiscal_user = self.env["res.users"].create(
+            {
+                "name": "Fiscal importer",
+                "login": "fiscal_importer",
+                "groups_id": [
+                    Command.set(
+                        [
+                            self.env.ref("base.group_user").id,
+                            self.env.ref("l10n_br_fiscal.group_manager").id,
+                            self.env.ref("l10n_br_nfe.group_manager").id,
+                        ]
+                    )
+                ],
+            }
+        )
+        first_product.with_user(fiscal_user)._find_or_create_product_supplierinfo()
+        self.assertIn(first_product.product_supplier_id, old_product_id.seller_ids)
 
         self.wizard.partner_id = self.partner_1
         first_product.product_supplier_id = self.env["product.supplierinfo"].create(
@@ -185,7 +204,7 @@ class NFeImportWizardTest(TransactionCase):
         )
         wiz_supplier_id = first_product.product_supplier_id
 
-        first_product._find_or_create_product_supplierinfo()
+        first_product.with_user(fiscal_user)._find_or_create_product_supplierinfo()
         self.assertEqual(wiz_supplier_id.product_id, first_product.product_id)
         self.assertEqual(wiz_supplier_id.partner_uom_id, first_product.uom_internal)
         self.assertEqual(wiz_supplier_id.product_name, first_product.product_name)
