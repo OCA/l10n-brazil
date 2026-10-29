@@ -7,3 +7,5 @@
 # `AttributeError: module 'lib' has no attribute 'GEN_EMAIL'`.
 # Drop this pin once the CI image ships cryptography >= 42 and pyOpenSSL >= 24.
 signxml==3.2.2
+# l10n_br_mdfe_spec tests: sample documents and xsdata bindings from nfelib
+nfelib
