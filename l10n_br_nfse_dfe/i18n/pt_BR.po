@@ -291,11 +291,6 @@ msgid "Restricted Production"
 msgstr "Produção Restrita"
 
 #. module: l10n_br_nfse_dfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_res_company_form
-msgid "Search NFS-e"
-msgstr "Pesquisar NFS-e"
-
-#. module: l10n_br_nfse_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/wizards/document_import_wizard.py:0
 msgid "Service"
@@ -309,16 +304,11 @@ msgstr "Produto de Serviço"
 #. module: l10n_br_nfse_dfe
 #: model:ir.model.fields,help:l10n_br_nfse_dfe.field_res_company__nfse_import_product_id
 msgid ""
-"Service product applied when a national NFS-e is imported and the wizard has"
-" no product yet."
+"Service product applied when a national NFS-e is imported and the wizard has "
+"no product yet."
 msgstr ""
 "Produto de serviço aplicado quando uma NFS-e nacional é importada e o "
 "assistente ainda não tem um produto."
-
-#. module: l10n_br_nfse_dfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_res_company_form
-msgid "Specific Search"
-msgstr "Busca específica"
 
 #. module: l10n_br_nfse_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_document_tree
@@ -403,3 +393,9 @@ msgstr "XML"
 #: code:addons/l10n_br_nfse_dfe/models/dfe_document.py:0
 msgid "You can only import the NFS-e when the DF-e is completed."
 msgstr "Você só pode importar a NFS-e quando o DF-e estiver completo."
+
+#~ msgid "Search NFS-e"
+#~ msgstr "Pesquisar NFS-e"
+
+#~ msgid "Specific Search"
+#~ msgstr "Busca específica"
