@@ -9,7 +9,7 @@
     "author": "Akretion, KMEE, Odoo Community Association (OCA)",
     "maintainers": ["mbcosta"],
     "website": "https://github.com/OCA/l10n-brazil",
-    "version": "16.0.2.3.1",
+    "version": "16.0.2.4.0",
     "depends": [
         "l10n_br_nfe",
         "l10n_br_account",
