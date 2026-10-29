@@ -25,6 +25,17 @@
             <field name="state_fiscal" position="after">
                 <field name="move_ids" invisible="1" />
             </field>
+            <xpath expr="//header" position="inside">
+                <field name="imported_document" invisible="1" />
+                <button
+                    name="action_generate_account_move"
+                    type="object"
+                    string="Generate Invoice"
+                    class="btn-primary"
+                    groups="l10n_br_fiscal.group_user"
+                    attrs="{'invisible': ['|', ('imported_document', '=', False), ('move_count', '!=', 0)]}"
+                />
+            </xpath>
         </field>
     </record>
 </odoo>
