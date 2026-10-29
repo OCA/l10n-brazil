@@ -39,6 +39,8 @@ class DocumentImportWizard(models.TransientModel):
 
     file = fields.Binary(string="File to Import")
 
+    file_name = fields.Char()
+
     allow_product_creation = fields.Boolean(
         string="Create unmapped products",
         default=False,
