@@ -48,8 +48,6 @@ class IrActionsReport(models.Model):
         logo = False
         if nfe.issuer == "company" and nfe.company_id.logo:
             logo = base64.b64decode(nfe.company_id.logo)
-        elif nfe.issuer != "company" and nfe.company_id.logo_web:
-            logo = base64.b64decode(nfe.company_id.logo_web)
 
         if logo:
             tmpLogo = BytesIO()
