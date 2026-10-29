@@ -1,0 +1,36 @@
+<!--
+    Copyright 2026 Engenere (<https://engenere.one>)
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+    <record id="l10n_br_fiscal_dfe_dfe_rule" model="ir.rule">
+        <field name="name">DF-e multi-company</field>
+        <field name="model_id" search="[('model', '=', 'l10n_br_fiscal_dfe.dfe')]" />
+        <field eval="True" name="global" />
+        <field
+            name="domain_force"
+        >['|',('company_id','=',False),('company_id','in',company_ids)]</field>
+    </record>
+    <record id="l10n_br_fiscal_dfe_document_rule" model="ir.rule">
+        <field name="name">DF-e Document multi-company</field>
+        <field
+            name="model_id"
+            search="[('model', '=', 'l10n_br_fiscal_dfe.document')]"
+        />
+        <field eval="True" name="global" />
+        <field
+            name="domain_force"
+        >['|',('company_id','=',False),('company_id','in',company_ids)]</field>
+    </record>
+    <record id="l10n_br_fiscal_dfe_log_rule" model="ir.rule">
+        <field name="name">DF-e Distribution Log multi-company</field>
+        <field
+            name="model_id"
+            search="[('model', '=', 'l10n_br_fiscal_dfe.distribution_log')]"
+        />
+        <field eval="True" name="global" />
+        <field
+            name="domain_force"
+        >['|',('company_id','=',False),('company_id','in',company_ids)]</field>
+    </record>
+</odoo>
