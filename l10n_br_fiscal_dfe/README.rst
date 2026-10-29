@@ -21,13 +21,13 @@ Monitor de DF-e (Base)
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-brazil/tree/18.0/l10n_br_fiscal_dfe
+    :target: https://github.com/OCA/l10n-brazil/tree/19.0/l10n_br_fiscal_dfe
     :alt: OCA/l10n-brazil
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-brazil-18-0/l10n-brazil-18-0-l10n_br_fiscal_dfe
+    :target: https://translation.odoo-community.org/projects/l10n-brazil-19-0/l10n-brazil-19-0-l10n_br_fiscal_dfe
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=18.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=19.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
@@ -45,31 +45,31 @@ parametrizado por tipo de documento (``fiscal_type``).
 Os módulos específicos implementam apenas o que é particular de cada
 documento fiscal:
 
-- ``l10n_br_nfe_dfe`` — DF-e de NF-e (NFeDistribuicaoDFe, `NT
-  2014.002 <https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=P0U3lU1Fe40=>`__)
-- ``l10n_br_cte_dfe`` — DF-e de CT-e (CTeDistribuicaoDFe) — futuro
+-  ``l10n_br_nfe_dfe`` — DF-e de NF-e (NFeDistribuicaoDFe, `NT
+   2014.002 <https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=P0U3lU1Fe40=>`__)
+-  ``l10n_br_cte_dfe`` — DF-e de CT-e (CTeDistribuicaoDFe) — futuro
 
 Funcionalidades genéricas:
 
-- **Motor de distribuição** em ``res.company``, parametrizado por
-  ``fiscal_type`` (campos ``{fiscal_type}_last_nsu``,
-  ``{fiscal_type}_max_nsu``, ``{fiscal_type}_dfe_last_query``, etc.
-  definidos pelos módulos específicos)
-- **Modelos genéricos**: ``l10n_br_fiscal_dfe.dfe`` (payload XML por
-  NSU) e ``l10n_br_fiscal_dfe.document`` (documento agrupado por chave
-  de acesso)
-- **Consulta manual** — assistente de busca específica por chave de
-  acesso (com validação do dígito verificador) ou por NSU
-- **Painel (banner)** genérico — componente Owl ``DfeBanner``,
-  alimentado por ``res.company.dfe_get_banner_data(fiscal_type)``,
-  exibido nas listas dos módulos específicos via a ``js_class``
-  ``dfe_document_list``
-- **Notificações no Inbox** — notifica usuários sobre novos documentos
-  de terceiros (preferência por usuário)
-- **Matching automático de parceiro** pelo CNPJ da chave de acesso
-- **Log de distribuição** com request/response SOAP para depuração
-- **Suporte multi-empresa** com record rules
-- **Canal queue_job** ``root.dfe`` para as consultas automáticas
+-  **Motor de distribuição** em ``res.company``, parametrizado por
+   ``fiscal_type`` (campos ``{fiscal_type}_last_nsu``,
+   ``{fiscal_type}_max_nsu``, ``{fiscal_type}_dfe_last_query``, etc.
+   definidos pelos módulos específicos)
+-  **Modelos genéricos**: ``l10n_br_fiscal_dfe.dfe`` (payload XML por
+   NSU) e ``l10n_br_fiscal_dfe.document`` (documento agrupado por chave
+   de acesso)
+-  **Consulta manual** — assistente de busca específica por chave de
+   acesso (com validação do dígito verificador) ou por NSU
+-  **Painel (banner)** genérico — componente Owl ``DfeBanner``,
+   alimentado por ``res.company.dfe_get_banner_data(fiscal_type)``,
+   exibido nas listas dos módulos específicos via a ``js_class``
+   ``dfe_document_list``
+-  **Notificações no Inbox** — notifica usuários sobre novos documentos
+   de terceiros (preferência por usuário)
+-  **Matching automático de parceiro** pelo CNPJ da chave de acesso
+-  **Log de distribuição** com request/response SOAP para depuração
+-  **Suporte multi-empresa** com record rules
+-  **Canal queue_job** ``root.dfe`` para as consultas automáticas
 
 **Table of contents**
 
@@ -82,7 +82,8 @@ Installation
 Dependências Python
 -------------------
 
-- ``erpbrasil.base`` — validação de chave de acesso (dígito verificador)
+-  ``erpbrasil.base`` — validação de chave de acesso (dígito
+   verificador)
 
 Os módulos específicos declaram suas próprias dependências (ex.:
 ``l10n_br_nfe_dfe`` requer ``nfelib`` e ``brazilfiscalreport``).
@@ -154,8 +155,8 @@ Usage
 Este módulo é uma base técnica. O uso funcional acontece nos módulos
 específicos de cada documento fiscal:
 
-- **NF-e**: instale ``l10n_br_nfe_dfe`` e acesse **Faturamento >
-  Consultas DF-e > NF-e de Terceiros**.
+-  **NF-e**: instale ``l10n_br_nfe_dfe`` e acesse **Faturamento >
+   Consultas DF-e > NF-e de Terceiros**.
 
 O menu **Faturamento > Consultas DF-e** também dá acesso às visões
 genéricas (todos os documentos, registros DF-e brutos e logs de
@@ -167,7 +168,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-brazil/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_fiscal_dfe%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_fiscal_dfe%0Aversion:%2019.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -183,21 +184,21 @@ Authors
 Contributors
 ------------
 
-- `Engenere <https://engenere.one>`__:
+-  `Engenere <https://engenere.one>`__:
 
-  - Felipe Motter <felipe@engenere.one>
-  - Antônio Neto <neto@engenere.one>
-  - Cristiano Mafra Junior
+   -  Felipe Motter <felipe@engenere.one>
+   -  Antônio Neto <neto@engenere.one>
+   -  Cristiano Mafra Junior
 
-- `KMEE <https://www.kmee.com.br>`__:
+-  `KMEE <https://www.kmee.com.br>`__:
 
-  - Luis Felipe Miléo <mileo@kmee.com.br>
-  - Gabriel Cardoso <gabriel.cardoso@kmee.com.br>
-  - Felipe Zago <felipe.zago@kmee.com.br>
+   -  Luis Felipe Miléo <mileo@kmee.com.br>
+   -  Gabriel Cardoso <gabriel.cardoso@kmee.com.br>
+   -  Felipe Zago <felipe.zago@kmee.com.br>
 
-- `Akretion <https://akretion.com>`__:
+-  `Akretion <https://akretion.com>`__:
 
-  - Raphaël Valyi <rvalyi@akretion.com>
+   -  Raphaël Valyi <rvalyi@akretion.com>
 
 Maintainers
 -----------
@@ -226,6 +227,6 @@ Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-felipemotter| |maintainer-antoniospneto| |maintainer-rvalyi| 
 
-This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/18.0/l10n_br_fiscal_dfe>`_ project on GitHub.
+This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/19.0/l10n_br_fiscal_dfe>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.

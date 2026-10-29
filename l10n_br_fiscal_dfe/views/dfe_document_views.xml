@@ -185,7 +185,7 @@
                     date="document_emission_date"
                 />
                 <separator />
-                <group expand="0" string="Group By">
+                <group>
                     <filter
                         name="group_fiscal_type"
                         string="Fiscal Type"

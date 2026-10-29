@@ -21,13 +21,10 @@ class L10nBrFiscalDfeDocument(models.Model):
     _description = "Fiscal document from distribution service"
     _order = "id desc"
 
-    _sql_constraints = [
-        (
-            "access_key_company_uniq",
-            "unique(access_key, company_id)",
-            "A DFe with this access key already exists for this company.",
-        ),
-    ]
+    _access_key_company_uniq = models.Constraint(
+        "unique(access_key, company_id)",
+        "A DFe with this access key already exists for this company.",
+    )
 
     access_key = fields.Char(size=50, required=True, index=True)
 
@@ -163,6 +160,10 @@ class L10nBrFiscalDfeDocument(models.Model):
 
     def _search_fiscal_document_id(self, operator, value):
         """Inbox rows whose access key is already a fiscal document key."""
+        # Odoo 19 hands ``= False`` and ``!= False`` over as ``in [False]`` and
+        # ``not in [False]``
+        if operator in ("in", "not in") and list(value) == [False]:
+            operator, value = ("=" if operator == "in" else "!="), False
         if operator in ("=", "!=") and not value:
             key_operator = "not in" if operator == "=" else "in"
             return [("access_key", key_operator, self._imported_access_keys())]

@@ -9,6 +9,7 @@ from unittest import mock
 from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
 
+from odoo.addons.l10n_br_fiscal.tests.tools import load_fiscal_fixture_files
 from odoo.addons.l10n_br_fiscal_dfe.tools import utils
 
 
@@ -27,6 +28,7 @@ class TestDfeBase(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        load_fiscal_fixture_files(cls.env)
         cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
 
     def test_utils_format_nsu(self):
