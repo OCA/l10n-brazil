@@ -77,6 +77,7 @@
                 </group>
                 <group
                     string="Linhas de Retorno do CNAB"
+                    groups="l10n_br_account_payment_order.group_cnab_user"
                     invisible="payment_method_code not in ('400', '240', '500')"
                     colspan="2"
                 >
