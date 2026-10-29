@@ -416,12 +416,22 @@ msgid "Event Type"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__fiscal_document_id
+msgid "Fiscal Document"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_dfe_specific_search_wizard__fiscal_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__fiscal_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__fiscal_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__fiscal_type
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_search
 msgid "Fiscal Type"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__fiscal_document_id
+msgid "Fiscal document already imported with this access key."
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
@@ -581,6 +591,13 @@ msgstr ""
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__operation_type
 msgid "Operation Type"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/models/dfe_document.py:0
+#, python-format
+msgid "Operation not supported"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
@@ -755,6 +772,11 @@ msgstr ""
 #. module: l10n_br_fiscal_dfe
 #: model:ir.ui.menu,name:l10n_br_fiscal_dfe.dfe_document_menu
 msgid "Third-party Documents"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_search
+msgid "To import"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
