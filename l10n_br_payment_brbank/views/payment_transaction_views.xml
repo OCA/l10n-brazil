@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="payment_transaction_form_brbank" model="ir.ui.view">
+        <field name="name">payment.transaction.form.brbank</field>
+        <field name="model">payment.transaction</field>
+        <field name="inherit_id" ref="payment.payment_transaction_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//header/field[@name='state']" position="before">
+                <field name="brbank_supports_pdf" invisible="1" />
+                <field name="brbank_supports_instruction" invisible="1" />
+                <field name="brbank_supports_write_off" invisible="1" />
+                <button
+                    name="action_brbank_register"
+                    type="object"
+                    string="Register at the bank"
+                    class="oe_highlight"
+                    invisible="provider_code != 'brbank' or provider_reference or state != 'draft'"
+                />
+                <button
+                    name="action_brbank_check_status"
+                    type="object"
+                    string="Check at the bank"
+                    invisible="provider_code != 'brbank' or not provider_reference"
+                />
+                <button
+                    name="action_brbank_download_pdf"
+                    type="object"
+                    string="Boleto PDF"
+                    invisible="provider_code != 'brbank' or not provider_reference or not brbank_supports_pdf"
+                />
+                <button
+                    name="action_brbank_new_instruction"
+                    type="object"
+                    string="Bank instruction"
+                    invisible="provider_code != 'brbank' or not provider_reference or state != 'authorized' or not brbank_supports_instruction"
+                />
+                <button
+                    name="action_brbank_write_off"
+                    type="object"
+                    string="Write off at the bank"
+                    confirm="The bank will cancel this boleto. Continue?"
+                    invisible="provider_code != 'brbank' or not provider_reference or state != 'authorized' or not brbank_supports_write_off"
+                />
+            </xpath>
+            <xpath expr="//group[@name='boleto_info']" position="inside">
+                <field name="brbank_seu_numero" invisible="provider_code != 'brbank'" />
+                <field name="brbank_nosso_numero" invisible="not brbank_nosso_numero" />
+                <field
+                    name="brbank_bank_status"
+                    invisible="provider_code != 'brbank'"
+                />
+                <field
+                    name="brbank_review_message"
+                    class="text-warning"
+                    invisible="not brbank_review_message"
+                />
+                <field name="brbank_paid_amount" invisible="not brbank_paid_amount" />
+                <field name="brbank_paid_date" invisible="not brbank_paid_date" />
+                <field name="brbank_last_check" invisible="provider_code != 'brbank'" />
+            </xpath>
+            <xpath expr="//group[@name='technical_info']" position="inside">
+                <field
+                    name="brbank_idempotency_key"
+                    invisible="provider_code != 'brbank'"
+                />
+            </xpath>
+            <xpath expr="//sheet" position="inside">
+                <group
+                    string="Bank Instructions"
+                    name="brbank_instructions"
+                    invisible="not brbank_instruction_ids"
+                >
+                    <field name="brbank_instruction_ids" nolabel="1" colspan="2" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
