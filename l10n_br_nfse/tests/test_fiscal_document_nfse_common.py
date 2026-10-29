@@ -21,7 +21,12 @@ class TestFiscalDocumentNFSeCommon(TransactionCase):
 
         load_fiscal_fixture_files(cls.env)
         load_fixture_files(
-            cls.env, "l10n_br_fiscal", file_names=["fiscal_document_nfse_demo.xml"]
+            cls.env,
+            "l10n_br_fiscal",
+            file_names=[
+                "city_taxation_code_demo.xml",
+                "fiscal_document_nfse_demo.xml",
+            ],
         )
         load_fixture_files(
             cls.env,

@@ -16,7 +16,16 @@ class TestDocumentRpsNumber(TransactionCase):
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         load_fiscal_fixture_files(cls.env)
         load_fixture_files(
-            cls.env, "l10n_br_fiscal", file_names=["fiscal_document_nfse_demo.xml"]
+            cls.env,
+            "l10n_br_fiscal",
+            file_names=[
+                "city_taxation_code_demo.xml",
+                "fiscal_document_nfse_demo.xml",
+            ],
+        )
+        # the RPS number of the demo NFS-e is set by the l10n_br_nfse demo data
+        load_fixture_files(
+            cls.env, "l10n_br_nfse", file_names=["fiscal_document_demo.xml"]
         )
         cls.nfse = cls.env.ref("l10n_br_fiscal.demo_nfse_same_state")
 
