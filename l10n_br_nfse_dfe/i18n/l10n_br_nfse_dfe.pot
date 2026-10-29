@@ -281,11 +281,6 @@ msgid "Restricted Production"
 msgstr ""
 
 #. module: l10n_br_nfse_dfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_res_company_form
-msgid "Search NFS-e"
-msgstr ""
-
-#. module: l10n_br_nfse_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/wizards/document_import_wizard.py:0
 msgid "Service"
@@ -301,11 +296,6 @@ msgstr ""
 msgid ""
 "Service product applied when a national NFS-e is imported and the wizard has"
 " no product yet."
-msgstr ""
-
-#. module: l10n_br_nfse_dfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_res_company_form
-msgid "Specific Search"
 msgstr ""
 
 #. module: l10n_br_nfse_dfe
