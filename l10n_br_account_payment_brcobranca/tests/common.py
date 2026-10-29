@@ -470,7 +470,7 @@ class TestBRCobrancaCommon(CNABTestCommon):
                 "name": "Banco do SICREDI - CNAB 240 (inbound)",
                 "bank_id": cls.env.ref("l10n_br_base.res_bank_748"),
                 "payment_method_id": cls.pay_method_type_240,
-                "boleto_wallet": "3",
+                "boleto_wallet": "1",
                 "boleto_variation": "19",
                 "boleto_interest_code_id": cls.env.ref(
                     "l10n_br_account_payment_order.febrabam_240_boleto_interest_code_2"
