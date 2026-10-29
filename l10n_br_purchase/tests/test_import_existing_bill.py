@@ -205,15 +205,23 @@ class TestImportPurchaseBill(L10nBrPurchaseBaseTest):
 
     def test_xped_position_skips_a_section_line(self):
         order = self.po_products.copy()
+        # purchase.order.line._order is sequence, id. A line created after the
+        # order is copied is appended to the cached one2many, so give the
+        # section a lower sequence and read the lines again.
         self.env["purchase.order.line"].create(
             {
                 "order_id": order.id,
                 "name": "Section",
                 "display_type": "line_section",
-                "sequence": 0,
-                "product_qty": 0,
+                "sequence": min(order.order_line.mapped("sequence")) - 1,
+                "product_id": False,
+                "product_qty": 0.0,
+                "product_uom": False,
+                "price_unit": 0.0,
+                "date_planned": False,
             }
         )
+        order.invalidate_recordset(["order_line"])
         self._confirm(order)
         product_lines = self._product_lines(order)
         self.assertEqual(order.order_line[0].display_type, "line_section")
