@@ -1,0 +1,273 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_payment_schedule
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-29 10:18+0000\n"
+"PO-Revision-Date: 2026-10-29 10:18+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+
+#. module: l10n_br_payment_schedule
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment_schedule.payment_instrument_reader_form
+msgid "Apply"
+msgstr "Aplicar"
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_account_move_line__payment_barcode
+msgid "Barcode"
+msgstr "Código de barras"
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields,help:l10n_br_payment_schedule.field_account_move_line__payment_barcode
+msgid ""
+"Barcode (44 digits) of the boleto or guia to pay. The digitable line is "
+"accepted too; the check digits are verified."
+msgstr ""
+"Código de barras (44 dígitos) do boleto ou da guia a pagar. A linha "
+"digitável também é aceita; os dígitos verificadores são conferidos."
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_account_move_line__payment_barcode_type
+msgid "Barcode Type"
+msgstr "Tipo do código"
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields,help:l10n_br_payment_schedule.field_l10n_br_payment_schedule_instrument_reader__text
+msgid ""
+"Barcode or digitable line of a boleto or guia, or a Pix copy and paste code."
+msgstr ""
+"Código de barras ou linha digitável de boleto ou guia, ou um Pix copia e "
+"cola."
+
+#. module: l10n_br_payment_schedule
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment_schedule.payment_instrument_reader_form
+msgid "Barcode, digitable line or Pix copy and paste"
+msgstr "Código de barras, linha digitável ou Pix copia e cola"
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields.selection,name:l10n_br_payment_schedule.selection__account_move_line__payment_barcode_type__boleto
+msgid "Boleto"
+msgstr "Boleto"
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields.selection,name:l10n_br_payment_schedule.selection__l10n_br_payment_schedule_instrument_reader__kind__barcode
+msgid "Boleto or Guia"
+msgstr "Boleto ou guia"
+
+#. module: l10n_br_payment_schedule
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment_schedule.payment_instrument_reader_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields,help:l10n_br_payment_schedule.field_account_move_line__payment_pix_check
+msgid ""
+"Checked: the Pix key is the CNPJ or CPF of the partner. To check at the "
+"bank: other key types and dynamic QR codes, whose receiver only the bank can"
+" confirm."
+msgstr ""
+"Conferido: a chave Pix é o CNPJ ou CPF do parceiro. A conferir no banco: "
+"outros tipos de chave e QR dinâmico, cujo recebedor só o banco confirma."
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_l10n_br_payment_schedule_instrument_reader__text
+msgid "Code"
+msgstr "Código"
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_l10n_br_payment_schedule_instrument_reader__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_l10n_br_payment_schedule_instrument_reader__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_account_move_line__payment_digitable_line
+msgid "Digitable Line"
+msgstr "Linha digitável"
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_l10n_br_payment_schedule_instrument_reader__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_l10n_br_payment_schedule_instrument_reader__error
+msgid "Error"
+msgstr "Erro"
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields.selection,name:l10n_br_payment_schedule.selection__account_move_line__payment_barcode_type__guia
+msgid "Guia"
+msgstr "Guia"
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_l10n_br_payment_schedule_instrument_reader__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_br_payment_schedule
+#. odoo-python
+#: code:addons/l10n_br_payment_schedule/models/account_move_line.py:0
+#, python-format
+msgid "Invalid Pix copy and paste code: %s"
+msgstr "Pix copia e cola inválido: %s"
+
+#. module: l10n_br_payment_schedule
+#. odoo-python
+#: code:addons/l10n_br_payment_schedule/models/account_move_line.py:0
+#, python-format
+msgid "Invalid barcode or digitable line: %s"
+msgstr "Código de barras ou linha digitável inválido: %s"
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model,name:l10n_br_payment_schedule.model_account_move_line
+msgid "Journal Item"
+msgstr "Item de diário"
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_l10n_br_payment_schedule_instrument_reader__kind
+msgid "Kind"
+msgstr "Tipo"
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_l10n_br_payment_schedule_instrument_reader____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_l10n_br_payment_schedule_instrument_reader__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_l10n_br_payment_schedule_instrument_reader__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_l10n_br_payment_schedule_instrument_reader__message
+msgid "Message"
+msgstr "Mensagem"
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_l10n_br_payment_schedule_instrument_reader__move_line_id
+msgid "Move Line"
+msgstr "Item de diário"
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_l10n_br_payment_schedule_instrument_reader__partner_id
+msgid "Partner"
+msgstr "Parceiro"
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields.selection,name:l10n_br_payment_schedule.selection__l10n_br_payment_schedule_instrument_reader__kind__pix
+msgid "Pix"
+msgstr "Pix"
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_account_move_line__payment_pix_copy_paste
+msgid "Pix Copy and Paste"
+msgstr "Pix copia e cola"
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_account_move_line__partner_pix_id
+msgid "Pix Key"
+msgstr "Chave Pix"
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_l10n_br_payment_schedule_instrument_reader__pix_key
+msgid "Pix Key in the Code"
+msgstr "Chave Pix do código"
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_account_move_line__payment_pix_check
+#: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_l10n_br_payment_schedule_instrument_reader__pix_receiver
+msgid "Pix Receiver"
+msgstr "Recebedor do Pix"
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields,help:l10n_br_payment_schedule.field_account_move_line__payment_pix_copy_paste
+msgid "Pix copy and paste code (BR Code) given by the supplier."
+msgstr "Pix copia e cola (BR Code) enviado pelo fornecedor."
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields,help:l10n_br_payment_schedule.field_l10n_br_payment_schedule_instrument_reader__pix_key_id
+msgid "Pix key of the partner that matches the code."
+msgstr "Chave Pix do parceiro que corresponde ao código."
+
+#. module: l10n_br_payment_schedule
+#. odoo-python
+#: code:addons/l10n_br_payment_schedule/models/account_move_line.py:0
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment_schedule.account_move_line_payment_schedule_tree
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment_schedule.payment_instrument_reader_form
+#, python-format
+msgid "Read Boleto or Pix"
+msgstr "Ler boleto ou Pix"
+
+#. module: l10n_br_payment_schedule
+#. odoo-python
+#: code:addons/l10n_br_payment_schedule/wizards/payment_instrument_reader.py:0
+#, python-format
+msgid "Read a code first."
+msgstr "Leia um código primeiro."
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model,name:l10n_br_payment_schedule.model_l10n_br_payment_schedule_instrument_reader
+msgid "Read the Boleto or Pix of a Payment Schedule Item"
+msgstr "Leitura do boleto ou Pix de um título da programação de pagamentos"
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields.selection,name:l10n_br_payment_schedule.selection__account_move_line__payment_pix_check__checked
+msgid "Receiver Checked"
+msgstr "Recebedor conferido"
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields.selection,name:l10n_br_payment_schedule.selection__account_move_line__payment_pix_check__mismatch
+msgid "Receiver Differs from the Partner"
+msgstr "Recebedor diferente do parceiro"
+
+#. module: l10n_br_payment_schedule
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment_schedule.payment_instrument_reader_form
+msgid "Register Pix Key on the Partner"
+msgstr "Cadastrar a chave Pix no parceiro"
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_l10n_br_payment_schedule_instrument_reader__pix_key_id
+msgid "Registered Pix Key"
+msgstr "Chave Pix cadastrada"
+
+#. module: l10n_br_payment_schedule
+#. odoo-python
+#: code:addons/l10n_br_payment_schedule/wizards/payment_instrument_reader.py:0
+#, python-format
+msgid ""
+"The amount of the code (%(code)s) differs from the open amount of the item "
+"(%(due)s)."
+msgstr ""
+"O valor do código (%(code)s) é diferente do valor em aberto do título "
+"(%(due)s)."
+
+#. module: l10n_br_payment_schedule
+#. odoo-python
+#: code:addons/l10n_br_payment_schedule/wizards/payment_instrument_reader.py:0
+#, python-format
+msgid "There is no new Pix key to register."
+msgstr "Não há chave Pix nova para cadastrar."
+
+#. module: l10n_br_payment_schedule
+#: model:ir.model.fields.selection,name:l10n_br_payment_schedule.selection__account_move_line__payment_pix_check__to_check
+msgid "To Check at the Bank"
+msgstr "A conferir no banco"
