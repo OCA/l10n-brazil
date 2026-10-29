@@ -154,34 +154,3 @@ class AccountPaymentLine(models.Model):
                 continue
             return rule
         return False
-
-    def _compute_cnab_payment_way_id(self):
-        for line in self:
-            mode = line.order_id.payment_mode_id
-            cnab_structure = line.order_id.cnab_structure_id
-
-            rule = line._get_matching_rule()
-
-            if rule:
-                line.cnab_payment_way_id = rule.payment_way_id
-                line.service_type = rule.service_type
-            else:
-                ways = mode.cnab_payment_way_ids.filtered(
-                    lambda w, s=cnab_structure: w.cnab_structure_id == s
-                )
-
-                if ways:
-                    line.cnab_payment_way_id = ways[0]
-                else:
-                    line.cnab_payment_way_id = False
-                    raise UserError(
-                        _(
-                            "CNAB payment way not found.\n"
-                            "Payment Mode: %(payment_mode)s\n"
-                            "CNAB Structure: %(cnab_structure)s"
-                        )
-                        % {
-                            "payment_mode": mode.name,
-                            "cnab_structure": cnab_structure.name,
-                        }
-                    )
