@@ -15,8 +15,11 @@ class AccountMove(models.Model):
         ):
             return res
 
-        self.fiscal_document_id._compute_nfe40_dup()
-        for dup in self.fiscal_document_id.nfe40_dup:
+        # nfe.40.dup is limited to the NF-e groups. Saving an imported bill
+        # recomputes payment terms for accounting users who are not in them.
+        document = self.fiscal_document_id.sudo()
+        document._compute_nfe40_dup()
+        for dup in document.nfe40_dup:
             key = frozendict(
                 {
                     "move_id": self.id,
