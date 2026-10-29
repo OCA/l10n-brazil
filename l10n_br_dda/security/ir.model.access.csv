@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_dda_debit_user,dda.debit.user,model_l10n_br_dda_debit,l10n_br_dda.group_dda_user,1,1,1,0
+access_dda_debit_manager,dda.debit.manager,model_l10n_br_dda_debit,l10n_br_dda.group_dda_manager,1,1,1,1
+access_dda_source_user,dda.debit.source.user,model_l10n_br_dda_debit_source,l10n_br_dda.group_dda_user,1,0,0,0
+access_dda_source_manager,dda.debit.source.manager,model_l10n_br_dda_debit_source,l10n_br_dda.group_dda_manager,1,1,1,1
+access_dda_allocation_user,dda.allocation.user,model_l10n_br_dda_allocation,l10n_br_dda.group_dda_user,1,1,1,1
+access_dda_match_user,dda.match.user,model_l10n_br_dda_match,l10n_br_dda.group_dda_user,1,1,1,1
+access_dda_match_wizard_user,dda.match.wizard.user,model_l10n_br_dda_match_wizard,l10n_br_dda.group_dda_user,1,1,1,1
+access_dda_match_wizard_line_user,dda.match.wizard.line.user,model_l10n_br_dda_match_wizard_line,l10n_br_dda.group_dda_user,1,1,1,1
+access_dda_ignore_wizard_user,dda.ignore.wizard.user,model_l10n_br_dda_ignore_wizard,l10n_br_dda.group_dda_user,1,1,1,1
+access_dda_import_wizard_user,dda.import.wizard.user,model_l10n_br_dda_import_wizard,l10n_br_dda.group_dda_user,1,1,1,1

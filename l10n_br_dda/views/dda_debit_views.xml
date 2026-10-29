@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="dda_debit_view_list" model="ir.ui.view">
+        <field name="name">l10n_br_dda.debit.list</field>
+        <field name="model">l10n_br_dda.debit</field>
+        <field name="arch" type="xml">
+            <list
+                js_class="dda_inbox_list"
+                decoration-danger="state in ('new', 'suggested', 'suspect') and date_due &lt; current_date"
+                decoration-warning="state in ('new', 'suggested', 'suspect') and days_to_due &gt;= 0 and days_to_due &lt;= 3"
+                decoration-muted="state in ('ignored', 'cancelled', 'expired', 'paid', 'paid_elsewhere')"
+                multi_edit="0"
+            >
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="date_due" />
+                <field name="beneficiary_name" />
+                <field name="beneficiary_vat_display" optional="hide" />
+                <field
+                    name="beneficiary_vat"
+                    string="Beneficiary CNPJ (digits)"
+                    groups="base.group_no_one"
+                    optional="hide"
+                />
+                <field name="partner_id" optional="show" />
+                <field name="amount" sum="Total" />
+                <field name="divergence_amount" optional="hide" />
+                <field name="suggestion_label" string="Suggestion" />
+                <field name="alert_labels" optional="show" />
+                <field name="alert_codes" groups="base.group_no_one" optional="hide" />
+                <field
+                    name="state"
+                    widget="badge"
+                    decoration-info="state in ('new', 'suggested')"
+                    decoration-success="state in ('linked', 'in_payment', 'paid')"
+                    decoration-danger="state in ('suspect', 'cancelled')"
+                    decoration-warning="state in ('paid_elsewhere', 'expired')"
+                />
+                <field name="recommended_action" widget="dda_recommended_action" />
+                <field name="recommended_label" column_invisible="1" />
+                <field name="days_to_due" column_invisible="1" />
+                <field name="currency_id" column_invisible="1" />
+            </list>
+        </field>
+    </record>
+
+    <record id="dda_debit_view_form" model="ir.ui.view">
+        <field name="name">l10n_br_dda.debit.form</field>
+        <field name="model">l10n_br_dda.debit</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="action_apply_recommended_notify"
+                        type="object"
+                        class="btn-primary"
+                        string="Apply recommended action"
+                        invisible="recommended_action in ('none', 'review', 'verify')"
+                    />
+                    <button
+                        name="action_open_match_wizard"
+                        type="object"
+                        string="Link to a title"
+                        invisible="state not in ('new', 'suggested', 'suspect')"
+                    />
+                    <button
+                        name="action_create_bill"
+                        type="object"
+                        string="Create draft bill"
+                        invisible="state not in ('new', 'suggested') or bill_id"
+                    />
+                    <button
+                        name="action_open_ignore_wizard"
+                        type="object"
+                        string="Ignore"
+                        invisible="state not in ('new', 'suggested', 'suspect')"
+                    />
+                    <button
+                        name="action_mark_verified"
+                        type="object"
+                        string="Record verification"
+                        groups="l10n_br_dda.group_dda_approver"
+                        invisible="state != 'suspect'"
+                    />
+                    <button
+                        name="action_add_to_payment_order"
+                        type="object"
+                        string="Add to payment order"
+                        invisible="state != 'linked'"
+                    />
+                    <button
+                        name="action_undo"
+                        type="object"
+                        string="Undo"
+                        invisible="not last_action"
+                    />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_visible="new,suggested,linked,in_payment,paid"
+                    />
+                </header>
+                <sheet>
+                    <div
+                        class="alert alert-danger"
+                        role="alert"
+                        invisible="not is_suspect"
+                    >
+                        This CNPJ never issued a boleto to you and there is no
+                        matching bill. Confirm with the vendor before paying: the
+                        boleto stays blocked until an approver records the
+                        verification.
+                    </div>
+                    <div
+                        class="alert alert-warning"
+                        role="alert"
+                        invisible="not alert_assignment"
+                    >
+                        The boleto is issued by another company in the name of the
+                        vendor (guarantor). Confirm the assignment before paying.
+                    </div>
+                    <div
+                        class="alert alert-warning"
+                        role="alert"
+                        invisible="not alert_duplicate"
+                    >
+                        Another boleto of the same beneficiary has the same amount
+                        and due date: it may be a duplicate.
+                    </div>
+                    <field name="currency_id" invisible="1" />
+                    <field name="last_action" invisible="1" />
+                    <field name="is_suspect" invisible="1" />
+                    <field name="alert_assignment" invisible="1" />
+                    <field name="alert_duplicate" invisible="1" />
+                    <field name="recommended_action" invisible="1" />
+                    <div class="oe_title">
+                        <h1>
+                            <field name="display_name" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Beneficiary">
+                            <field name="partner_id" />
+                            <field name="beneficiary_name" />
+                            <field name="beneficiary_trade_name" />
+                            <field name="beneficiary_vat_display" />
+                            <field
+                                name="beneficiary_vat"
+                                string="Beneficiary CNPJ (digits)"
+                                groups="base.group_no_one"
+                            />
+                            <field name="guarantor_name" />
+                            <field name="guarantor_vat_display" />
+                            <field
+                                name="guarantor_vat"
+                                string="Guarantor CNPJ (digits)"
+                                groups="base.group_no_one"
+                            />
+                            <field name="issuer_bank" />
+                        </group>
+                        <group string="Boleto">
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                            <field name="payer_cnpj_display" />
+                            <field
+                                name="payer_cnpj"
+                                string="Payer CNPJ (digits)"
+                                groups="base.group_no_one"
+                            />
+                            <field name="digitable_line" />
+                            <field name="barcode" />
+                            <field name="document_number" />
+                            <field name="date_due" />
+                            <field name="date_limit" />
+                            <field name="amount" />
+                            <field name="discount_amount" />
+                            <field name="interest_amount" />
+                            <field name="fine_amount" />
+                        </group>
+                    </group>
+                    <group string="What to do" invisible="recommended_action == 'none'">
+                        <field name="recommended_label" />
+                        <field name="suggestion_label" />
+                    </group>
+                    <notebook>
+                        <page string="Link" name="link">
+                            <group>
+                                <field name="link_mode" />
+                                <field name="linked_by_id" />
+                                <field name="divergence_amount" />
+                                <field name="payment_order_id" />
+                                <field name="bill_id" />
+                                <field name="user_id" />
+                            </group>
+                            <field name="allocation_ids" nolabel="1">
+                                <list>
+                                    <field name="move_line_id" />
+                                    <field name="move_id" />
+                                    <field name="amount" />
+                                    <field name="currency_id" column_invisible="1" />
+                                </list>
+                            </field>
+                            <field name="match_ids" nolabel="1" readonly="1">
+                                <list>
+                                    <field name="label" />
+                                    <field name="score" />
+                                    <field name="amount_total" />
+                                    <field name="amount_diff" />
+                                    <field name="date_diff" />
+                                    <field name="is_strict" />
+                                    <field name="evidence" />
+                                    <field name="currency_id" column_invisible="1" />
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Alerts" name="alerts">
+                            <group>
+                                <field name="alert_labels" />
+                                <field name="alert_codes" groups="base.group_no_one" />
+                                <field name="alert_unknown_partner" />
+                                <field name="alert_no_title" />
+                                <field name="alert_duplicate" />
+                                <field name="alert_assignment" />
+                                <field name="verified_by_id" />
+                                <field name="verified_date" />
+                                <field name="ignore_reason" />
+                            </group>
+                        </page>
+                        <page
+                            string="Technical data"
+                            name="technical"
+                            groups="l10n_br_dda.group_dda_manager"
+                        >
+                            <field name="source_ids">
+                                <list>
+                                    <field name="source_type" />
+                                    <field name="source_key" />
+                                    <field name="external_id" />
+                                    <field name="last_seen" />
+                                </list>
+                            </field>
+                            <field name="raw_payload" />
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter />
+            </form>
+        </field>
+    </record>
+
+    <record id="dda_debit_view_kanban" model="ir.ui.view">
+        <field name="name">l10n_br_dda.debit.kanban</field>
+        <field name="model">l10n_br_dda.debit</field>
+        <field name="arch" type="xml">
+            <kanban
+                default_group_by="state"
+                group_create="false"
+                group_delete="false"
+                group_edit="false"
+                records_draggable="false"
+            >
+                <field name="currency_id" />
+                <field name="state" />
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex justify-content-between">
+                            <field name="beneficiary_name" class="fw-bold" />
+                            <field name="amount" widget="monetary" />
+                        </div>
+                        <div class="text-muted">
+                            <field name="date_due" />
+                            <span t-if="record.document_number.raw_value">
+                                -
+                                <field name="document_number" />
+                            </span>
+                        </div>
+                        <field name="suggestion_label" />
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="dda_debit_view_search" model="ir.ui.view">
+        <field name="name">l10n_br_dda.debit.search</field>
+        <field name="model">l10n_br_dda.debit</field>
+        <field name="arch" type="xml">
+            <search>
+                <field
+                    name="beneficiary_name"
+                    filter_domain="['|', '|', ('beneficiary_name', 'ilike', self), ('beneficiary_vat', 'ilike', self), ('partner_id', 'ilike', self)]"
+                    string="Beneficiary"
+                />
+                <field name="digitable_line" />
+                <field name="document_number" />
+                <field name="partner_id" />
+                <field name="user_id" />
+                <filter
+                    name="my_queue"
+                    string="My queue today"
+                    domain="[('state', 'in', ['new', 'suggested', 'suspect']), '|', ('user_id', '=', uid), ('user_id', '=', False)]"
+                />
+                <filter
+                    name="without_title"
+                    string="Without title"
+                    domain="[('state', 'in', ['new', 'suggested', 'suspect']), ('alert_codes', 'ilike', 'no_title')]"
+                />
+                <filter
+                    name="amount_divergence"
+                    string="Amount divergence"
+                    domain="[('state', 'in', ['suggested', 'linked']), ('divergence_amount', '!=', 0)]"
+                />
+                <filter
+                    name="suspects"
+                    string="Suspects"
+                    domain="[('state', '=', 'suspect')]"
+                />
+                <separator />
+                <filter
+                    name="new"
+                    string="New"
+                    domain="[('state', 'in', ['new', 'suggested'])]"
+                />
+                <filter
+                    name="due_7"
+                    string="Due in 7 days"
+                    domain="[('state', 'in', ['new', 'suggested', 'suspect', 'linked']), ('date_due', '&gt;=', context_today().strftime('%Y-%m-%d')), ('date_due', '&lt;=', (context_today() + relativedelta(days=7)).strftime('%Y-%m-%d'))]"
+                />
+                <filter
+                    name="overdue"
+                    string="Overdue without action"
+                    domain="[('state', 'in', ['new', 'suggested', 'suspect']), ('date_due', '&lt;', context_today().strftime('%Y-%m-%d'))]"
+                />
+                <separator />
+                <filter
+                    name="in_payment"
+                    string="In payment order"
+                    domain="[('state', '=', 'in_payment')]"
+                />
+                <group expand="0" string="Group By">
+                    <filter
+                        name="group_company"
+                        string="Company"
+                        context="{'group_by': 'company_id'}"
+                        groups="base.group_multi_company"
+                    />
+                    <filter
+                        name="group_partner"
+                        string="Vendor"
+                        context="{'group_by': 'partner_id'}"
+                    />
+                    <filter
+                        name="group_state"
+                        string="State"
+                        context="{'group_by': 'state'}"
+                    />
+                    <filter
+                        name="group_due_week"
+                        string="Due week"
+                        context="{'group_by': 'date_due:week'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_dda_debit" model="ir.actions.act_window">
+        <field name="name">DDA Boletos</field>
+        <field name="res_model">l10n_br_dda.debit</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="search_view_id" ref="dda_debit_view_search" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No new boleto.
+            </p>
+            <p>
+                The boletos registered against the CNPJ of your company appear here,
+                from the bank API or from a DDA return file.
+            </p>
+        </field>
+    </record>
+
+    <record id="server_action_dda_apply_recommended" model="ir.actions.server">
+        <field name="name">Apply recommended actions</field>
+        <field name="model_id" ref="model_l10n_br_dda_debit" />
+        <field name="binding_model_id" ref="model_l10n_br_dda_debit" />
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_apply_recommended_notify()</field>
+    </record>
+
+    <record id="server_action_dda_ignore" model="ir.actions.server">
+        <field name="name">Ignore</field>
+        <field name="model_id" ref="model_l10n_br_dda_debit" />
+        <field name="binding_model_id" ref="model_l10n_br_dda_debit" />
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_open_ignore_wizard()</field>
+    </record>
+
+    <record id="server_action_dda_add_to_payment" model="ir.actions.server">
+        <field name="name">Add to payment order</field>
+        <field name="model_id" ref="model_l10n_br_dda_debit" />
+        <field name="binding_model_id" ref="model_l10n_br_dda_debit" />
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">records.action_add_to_payment_order()</field>
+    </record>
+
+    <record id="server_action_dda_assign_me" model="ir.actions.server">
+        <field name="name">Assign to me</field>
+        <field name="model_id" ref="model_l10n_br_dda_debit" />
+        <field name="binding_model_id" ref="model_l10n_br_dda_debit" />
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">records.write({'user_id': env.user.id})</field>
+    </record>
+</odoo>

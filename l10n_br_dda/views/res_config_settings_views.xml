@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="res_config_settings_view_form_dda" model="ir.ui.view">
+        <field name="name">res.config.settings.form.dda</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='account']" position="inside">
+                <block
+                    title="DDA"
+                    name="dda_settings"
+                    groups="l10n_br_dda.group_dda_manager"
+                >
+                    <setting
+                        id="dda_auto_link_setting"
+                        company_dependent="1"
+                        help="Link a boleto by itself only when the strict rule is met (same CNPJ, exact amount, same due date, single candidate)."
+                    >
+                        <field name="dda_auto_link" />
+                    </setting>
+                    <setting
+                        id="dda_create_bill_mode_setting"
+                        company_dependent="1"
+                        help="What to recommend for a boleto without a title."
+                    >
+                        <field name="dda_create_bill_mode" />
+                    </setting>
+                    <setting
+                        id="dda_date_tolerance_setting"
+                        company_dependent="1"
+                        help="Days of difference between the boleto and the title still suggested."
+                    >
+                        <field name="dda_date_tolerance" />
+                    </setting>
+                    <setting
+                        id="dda_amount_tolerance_setting"
+                        company_dependent="1"
+                        help="Amount difference still suggested (never linked by itself)."
+                    >
+                        <field name="dda_amount_tolerance" />
+                    </setting>
+                    <setting
+                        id="dda_payment_mode_setting"
+                        company_dependent="1"
+                        help="Payment mode of the order that receives the boletos."
+                    >
+                        <field name="dda_payment_mode_id" />
+                    </setting>
+                    <setting
+                        id="dda_difference_accounts_setting"
+                        string="Difference accounts"
+                        company_dependent="1"
+                        help="Accounts of the interest, fine and discount that differ from the title at the write-off."
+                    >
+                        <div class="content-group">
+                            <div class="row mt16">
+                                <label
+                                    for="dda_interest_account_id"
+                                    class="col-lg-4 o_light_label"
+                                />
+                                <field name="dda_interest_account_id" />
+                            </div>
+                            <div class="row">
+                                <label
+                                    for="dda_fine_account_id"
+                                    class="col-lg-4 o_light_label"
+                                />
+                                <field name="dda_fine_account_id" />
+                            </div>
+                            <div class="row">
+                                <label
+                                    for="dda_discount_account_id"
+                                    class="col-lg-4 o_light_label"
+                                />
+                                <field name="dda_discount_account_id" />
+                            </div>
+                        </div>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>
