@@ -105,20 +105,10 @@ msgid "Import"
 msgstr ""
 
 #. module: l10n_br_nfe_dfe
-#: model:ir.model,name:l10n_br_nfe_dfe.model_l10n_br_fiscal_document_import_wizard
-msgid "Import Document Wizard"
-msgstr ""
-
-#. module: l10n_br_nfe_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfe_dfe/models/dfe_document.py:0
 #, python-format
 msgid "Import NF-e XML"
-msgstr ""
-
-#. module: l10n_br_nfe_dfe
-#: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_l10n_br_fiscal_dfe_document__fiscal_document_id
-msgid "Imported Document"
 msgstr ""
 
 #. module: l10n_br_nfe_dfe
