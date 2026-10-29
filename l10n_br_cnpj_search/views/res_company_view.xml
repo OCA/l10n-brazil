@@ -10,11 +10,16 @@
             </field>
             <field name="vat" position="replace">
                 <label for="vat" string="CNPJ" invisible="show_l10n_br" />
+                <field name="vat" invisible="show_l10n_br" />
+            </field>
+            <field name="vat_formatted_cnpj" position="replace">
+                <label for="vat_formatted_cnpj" invisible="not show_l10n_br" />
                 <div class="o_row" colspan="1">
-                    <field name="vat" invisible="show_l10n_br" />
+                    <field name="vat_formatted_cnpj" invisible="not show_l10n_br" />
                     <button
                         name="action_open_cnpj_search_wizard"
                         type="object"
+                        invisible="not show_l10n_br"
                         class="btn-sm btn-link mb4 fa fa-search oe_edit_only oe_inline"
                         aria-label="Pesquisar CNPJ"
                         title="Pesquisar CNPJ"
