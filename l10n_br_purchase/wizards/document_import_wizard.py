@@ -186,7 +186,10 @@ class DocumentImportWizard(models.TransientModel):
         return self.env["purchase.order.line"]
 
     def _purchase_product_lines(self, order):
-        lines = order.order_line
+        # purchase.order.line is ordered by sequence, id. A line created in
+        # this transaction is appended to the cached one2many, so sort again
+        # before counting nItemPed.
+        lines = order.order_line.sorted(key=lambda line: (line.sequence, line.id))
         if "display_type" in lines._fields:
             lines = lines.filtered(lambda line: not line.display_type)
         return lines
