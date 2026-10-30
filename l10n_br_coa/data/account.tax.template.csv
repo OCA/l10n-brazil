@@ -14,6 +14,7 @@ l10n_br_coa.tax_template_icms_out_deductible,"ICMS Saida Dedutível",ICMS,0.00,s
 l10n_br_coa.tax_template_out_icmssn,"ICMS SN Saida","ICMS SN",0.00,sale,0,0,0,l10n_br_coa.tax_group_icmssn,l10n_br_coa.l10n_br_coa_template
 l10n_br_coa.tax_template_in_icmssn,"ICMS SN Entrada","ICMS SN",0.00,purchase,0,0,0,l10n_br_coa.tax_group_icmssn,l10n_br_coa.l10n_br_coa_template
 l10n_br_coa.tax_template_out_icms_subist,"ICMS Saida Subist","ICMS Subist",0.00,sale,0,0,0,l10n_br_coa.tax_group_icmsst,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_icms_st_out_deductible,"ICMS Saida Subist Dedutível","ICMS Subist",0.00,sale,0,1,0,l10n_br_coa.tax_group_icmsst,l10n_br_coa.l10n_br_coa_template
 l10n_br_coa.tax_template_in_icms_subist,"ICMS Entrada Subist","ICMS Subist",0.00,purchase,0,0,0,l10n_br_coa.tax_group_icmsst,l10n_br_coa.l10n_br_coa_template
 l10n_br_coa.tax_template_out_icmsfcp,"ICMS Saida FCP","ICMS FCP",0.00,sale,0,0,0,l10n_br_coa.tax_group_icmsfcp,l10n_br_coa.l10n_br_coa_template
 l10n_br_coa.tax_template_in_icmsfcp,"ICMS Entrada FCP","ICMS FCP",0.00,purchase,0,0,0,l10n_br_coa.tax_group_icmsfcp,l10n_br_coa.l10n_br_coa_template
