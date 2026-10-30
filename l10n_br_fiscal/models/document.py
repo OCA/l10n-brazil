@@ -20,6 +20,8 @@ from ..constants.fiscal import (
     DOCUMENT_STATE_OPEN,
     DOCUMENT_STATES,
     EDOC_PURPOSE,
+    EDOC_PURPOSE_CREDITO,
+    EDOC_PURPOSE_DEBITO,
     EDOC_PURPOSE_NORMAL,
     EDOC_REFUND_CREDIT_TYPE,
     EDOC_REFUND_DEBIT_TYPE,
@@ -186,11 +188,19 @@ class Document(models.Model):
     edoc_refund_debit_type = fields.Selection(
         selection=EDOC_REFUND_DEBIT_TYPE,
         string="Tipo de Nota de Débito",
+        compute="_compute_edoc_refund_type",
+        store=True,
+        readonly=False,
+        precompute=True,
     )
 
     edoc_refund_credit_type = fields.Selection(
         selection=EDOC_REFUND_CREDIT_TYPE,
         string="Tipo de Nota de Crédito",
+        compute="_compute_edoc_refund_type",
+        store=True,
+        readonly=False,
+        precompute=True,
     )
 
     public_entity_type = fields.Selection(
@@ -522,6 +532,15 @@ class Document(models.Model):
     def _compute_edoc_purpose(self):
         for record in self:
             record.edoc_purpose = record.fiscal_operation_id.edoc_purpose
+
+    @api.depends("edoc_purpose")
+    def _compute_edoc_refund_type(self):
+        # Only a credit (debit) note has a credit (debit) note type
+        for record in self:
+            if record.edoc_purpose != EDOC_PURPOSE_CREDITO:
+                record.edoc_refund_credit_type = False
+            if record.edoc_purpose != EDOC_PURPOSE_DEBITO:
+                record.edoc_refund_debit_type = False
 
     def __document_comment_vals(self):
         return {

@@ -388,6 +388,10 @@ class NFeLine(spec_models.StackedModel):
         if not self.tax_classification_id:
             xsd_fields.remove("nfe40_IBSCBS")
 
+        for tag in self.document_id._nfe_note_forbidden_tax_groups():
+            if tag in xsd_fields:
+                xsd_fields.remove(tag)
+
     ##################################################
     # NF-e tag: ICMS
     # Grupo N01. ICMS Normal e ST
