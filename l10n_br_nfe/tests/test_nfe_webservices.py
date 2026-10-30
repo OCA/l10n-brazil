@@ -6,6 +6,7 @@
 import logging
 from unittest import mock
 
+from odoo.exceptions import UserError
 from odoo.fields import Datetime
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -13,6 +14,8 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_ENVIADA,
+    SITUACAO_FISCAL_CANCELADO,
+    SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
 )
 from odoo.addons.l10n_br_nfe.models.document import NFe
 
@@ -68,6 +71,43 @@ class TestNFeWebServices(TestNFeExport):
                 Datetime.to_string(nfe.cancel_event_id.protocol_date),
                 "2023-07-05 16:52:52",
             )
+            # The homologated cancellation marks the document as cancelled
+            # for SPED purposes, and the SPED guard then refuses to take it
+            # back to draft: its number and key were consumed at SEFAZ, so
+            # re-sending them would be rejected as a duplicate (cStat 204).
+            self.assertEqual(nfe.state_fiscal, SITUACAO_FISCAL_CANCELADO)
+            with self.assertRaises(UserError):
+                nfe.action_document_back2draft()
+            self.assertEqual(nfe.state_edoc, SITUACAO_EDOC_CANCELADA)
+
+    @nfe_mock(
+        {
+            "nfeAutorizacaoLote": "retEnviNFe/lote_recebido.xml",
+            "nfeRetAutorizacaoLote": "retConsReciNFe/autorizada.xml",
+            "nfeRecepcaoEvento": "retEnvEvento/nfe_cancelamento_fora_prazo.xml",
+        }
+    )
+    def test_enviar_e_cancelar_fora_prazo(self):
+        """A cancellation homologated out of time (cStat 155) marks the
+        document as extemporaneously cancelled, and the SPED guard refuses
+        to take it back to draft all the same."""
+        nfe = self.nfe_list[0]["nfe"]
+        nfe.action_document_send()
+        self.assertEqual(nfe.state_edoc, SITUACAO_EDOC_AUTORIZADA)
+
+        cancel_wizard = (
+            self.env["l10n_br_fiscal.document.cancel.wizard"]
+            .with_context(active_model="l10n_br_fiscal.document", active_id=nfe.id)
+            .create({"document_id": nfe.id, "justification": "Era apenas um teste."})
+        )
+        cancel_wizard.doit()
+
+        self.assertEqual(nfe.state_edoc, SITUACAO_EDOC_CANCELADA)
+        self.assertEqual(nfe.cancel_event_id.status_code, "155")
+        self.assertEqual(nfe.state_fiscal, SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO)
+        with self.assertRaises(UserError):
+            nfe.action_document_back2draft()
+        self.assertEqual(nfe.state_edoc, SITUACAO_EDOC_CANCELADA)
 
     @nfe_mock({"nfeInutilizacaoNF": "retInutNFe/nfe_inutilizacao.xml"})
     def test_inutilizar(self):
