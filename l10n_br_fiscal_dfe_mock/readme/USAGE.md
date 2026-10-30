@@ -14,6 +14,10 @@ No menu **Fiscal › Consultas DF-e › Mock**:
 - **Gerar NSU Mock**: cria resumos (resNFe), NF-e completas (procNFe) e
   eventos no pool local de NSUs.
 - **Pool de NSU Mock**: lista os NSUs gerados e permite resetar os consumidos.
+  Numa NFS-e autorizada, **Registrar Cancelamento** enfileira um evento novo
+  (código 101101, outro NSU, a mesma chave). A linha da nota não muda.
+  A consulta seguinte da NFS-e grava o evento na caixa e marca a nota como
+  cancelada.
 
 Com o modo mock ligado, manifestar *Ciência da Operação* em um resumo gera a
 NF-e completa correspondente no pool, que chega na consulta seguinte.

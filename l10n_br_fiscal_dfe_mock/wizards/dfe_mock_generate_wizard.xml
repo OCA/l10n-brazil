@@ -22,7 +22,9 @@
                 </group>
                 <div invisible="fiscal_type != 'nfse'" class="text-muted">
                     Authorized national NFS-e issued to this company, as the
-                    ADN distributes them.
+                    ADN distributes them. A supplier cancellation is not a
+                    status on this note: register it later from the mock pool,
+                    as a new event.
                 </div>
                 <footer>
                     <button
