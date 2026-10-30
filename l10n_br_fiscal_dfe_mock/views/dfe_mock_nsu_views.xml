@@ -11,6 +11,7 @@
         <field name="arch" type="xml">
             <tree decoration-muted="consumed == True">
                 <field name="nsu" />
+                <field name="fiscal_type" />
                 <field name="schema_type" />
                 <field name="access_key" />
                 <field name="consumed" />
@@ -38,6 +39,7 @@
                     <group>
                         <group>
                             <field name="nsu" />
+                            <field name="fiscal_type" />
                             <field name="schema_type" />
                             <field name="access_key" />
                         </group>
@@ -73,6 +75,17 @@
                 <field name="access_key" />
                 <field name="schema_type" />
                 <filter
+                    name="type_nfe"
+                    string="NF-e"
+                    domain="[('fiscal_type', '=', 'nfe')]"
+                />
+                <filter
+                    name="type_nfse"
+                    string="NFS-e"
+                    domain="[('fiscal_type', '=', 'nfse')]"
+                />
+                <separator />
+                <filter
                     name="unconsumed"
                     string="Unconsumed"
                     domain="[('consumed', '=', False)]"
@@ -84,6 +97,11 @@
                 />
                 <separator />
                 <group expand="0" string="Group By">
+                    <filter
+                        name="group_fiscal_type"
+                        string="Fiscal Type"
+                        context="{'group_by': 'fiscal_type'}"
+                    />
                     <filter
                         name="group_schema"
                         string="Schema Type"
