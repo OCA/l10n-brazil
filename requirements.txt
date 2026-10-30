@@ -10,8 +10,8 @@ erpbrasil.assinatura
 erpbrasil.edoc
 erpbrasil.transmissao
 nfelib
-nfelib>=2.6.0
 nfelib>=3.2.0
+nfelib[soap]>=3.2.0
 nfselib.paulistana
 num2words
 phonenumbers
