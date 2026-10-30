@@ -256,6 +256,7 @@ class OperationLine(models.Model):
         national_taxation_code=None,
         service_type=None,
         ind_final=None,
+        reference_date=None,
     ):
         """
         Map and determine the applicable fiscal taxes, CFOP, IPI guideline,
@@ -296,6 +297,9 @@ class OperationLine(models.Model):
             (l10n_br_fiscal.service.type).
         :param ind_final: (Passed to icms_regulation_id.map_tax; not directly
             used for tax calculation here)
+        :param reference_date: Optional datetime used to check tax
+            definition date_start/date_end validity; defaults to now()
+            when not provided.
         :return: A dictionary containing:
             - 'taxes': A dictionary of applicable tax records
               (l10n_br_fiscal.tax) keyed by their tax_domain.
@@ -335,6 +339,7 @@ class OperationLine(models.Model):
             city_taxation_code=city_taxation_code,
             national_taxation_code=national_taxation_code,
             service_type=service_type,
+            reference_date=reference_date,
         ):
             self._build_mapping_result(mapping_result, tax_definition)
 
@@ -382,6 +387,7 @@ class OperationLine(models.Model):
                     cest=cest,
                     operation_line=self,
                     ind_final=ind_final,
+                    reference_date=reference_date,
                 )
 
                 for tax_def in icms_tax_defs:
@@ -402,6 +408,7 @@ class OperationLine(models.Model):
             city_taxation_code=city_taxation_code,
             national_taxation_code=national_taxation_code,
             service_type=service_type,
+            reference_date=reference_date,
         ):
             self._build_mapping_result(mapping_result, tax_definition)
 
@@ -419,6 +426,7 @@ class OperationLine(models.Model):
             city_taxation_code=city_taxation_code,
             national_taxation_code=national_taxation_code,
             service_type=service_type,
+            reference_date=reference_date,
         ):
             self._build_mapping_result(mapping_result, tax_definition)
 
@@ -436,6 +444,7 @@ class OperationLine(models.Model):
             city_taxation_code=city_taxation_code,
             national_taxation_code=national_taxation_code,
             service_type=service_type,
+            reference_date=reference_date,
         ):
             self._build_mapping_result(mapping_result, tax_definition)
 

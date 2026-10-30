@@ -102,6 +102,7 @@ class TestDocumentEdition(TransactionCase):
                 ],
                 service_type=self.env["l10n_br_fiscal.service.type"],
                 ind_final="1",
+                reference_date=False,
             )
 
             line_form.price_unit = 50
