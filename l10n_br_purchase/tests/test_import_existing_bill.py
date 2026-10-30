@@ -17,6 +17,16 @@ def _nfe_access_key(body):
     return body + str(check)
 
 
+class _PurchaseMatchLine:
+    """Fields ``_match_purchase_line`` reads from a fiscal line."""
+
+    def __init__(self, company, order_ref, item, product):
+        self.company_id = company
+        self.partner_order = order_ref or ""
+        self.partner_order_line = item or ""
+        self.product_id = product
+
+
 class TestImportPurchaseBill(L10nBrPurchaseBaseTest):
     @classmethod
     def setUpClass(cls):
@@ -139,15 +149,10 @@ class TestImportPurchaseBill(L10nBrPurchaseBaseTest):
         order = self._copied_product_order(same_product=True)
         product_lines = self._product_lines(order)
         self.assertEqual(len(product_lines), 2)
-        document = self._document_from_order(order, self.document_type_55, self._key(3))
-        fiscal_lines = document.fiscal_line_ids.sorted("id")
-        for position, fiscal_line in enumerate(fiscal_lines, start=1):
-            self._set_line_reference(fiscal_line, order.name, str(position))
-        move = self._link_document(document)
-        for position, fiscal_line in enumerate(fiscal_lines, start=1):
+        for position, purchase_line in enumerate(product_lines, start=1):
             self.assertEqual(
-                self._linked_purchase_line(move, fiscal_line),
-                product_lines[position - 1],
+                self._match_xped(order, order.name, str(position)),
+                purchase_line,
             )
 
     def test_xped_vendor_reference_and_position_links_each_purchase_line(self):
@@ -155,15 +160,10 @@ class TestImportPurchaseBill(L10nBrPurchaseBaseTest):
         order.partner_ref = "VENDOR-REF-1"
         self.assertNotEqual(order.name, order.partner_ref)
         product_lines = self._product_lines(order)
-        document = self._document_from_order(order, self.document_type_55, self._key(4))
-        fiscal_lines = document.fiscal_line_ids.sorted("id")
-        for position, fiscal_line in enumerate(fiscal_lines, start=1):
-            self._set_line_reference(fiscal_line, order.partner_ref, str(position))
-        move = self._link_document(document)
-        for position, fiscal_line in enumerate(fiscal_lines, start=1):
+        for position, purchase_line in enumerate(product_lines, start=1):
             self.assertEqual(
-                self._linked_purchase_line(move, fiscal_line),
-                product_lines[position - 1],
+                self._match_xped(order, order.partner_ref, str(position)),
+                purchase_line,
             )
 
     def test_partner_order_on_the_line_links_when_the_po_name_differs(self):
@@ -172,36 +172,19 @@ class TestImportPurchaseBill(L10nBrPurchaseBaseTest):
         target.partner_order = "SUP-99"
         target.partner_order_line = "7"
         self.assertNotEqual(order.name, "SUP-99")
-        document = self._document_from_order(order, self.document_type_55, self._key(5))
-        fiscal_line = document.fiscal_line_ids.filtered(
-            lambda line, product=target.product_id: line.product_id == product
-        )[:1]
-        self._set_line_reference(fiscal_line, "SUP-99", "7")
-        move = self._link_document(document)
-        self.assertEqual(self._linked_purchase_line(move, fiscal_line), target)
+        self.assertEqual(self._match_xped(order, "SUP-99", "7"), target)
 
     def test_divergent_purchase_keys_leave_the_line_open(self):
         order = self._copied_product_order()
-        product_lines = self._product_lines(order)
-        second = product_lines[1]
+        second = self._product_lines(order)[1]
         second.partner_order = order.name
         second.partner_order_line = "1"
-        document = self._document_from_order(order, self.document_type_55, self._key(6))
-        fiscal_line = document.fiscal_line_ids.filtered(
-            lambda line, product=second.product_id: line.product_id == product
-        )[:1]
-        self._set_line_reference(fiscal_line, order.name, "1")
-        move = self._link_document(document)
-        self.assertFalse(self._linked_purchase_line(move, fiscal_line))
+        self.assertFalse(self._match_xped(order, order.name, "1"))
 
     def test_xped_name_without_item_stays_open_when_several_lines_match(self):
         order = self._copied_product_order()
-        document = self._document_from_order(order, self.document_type_55, self._key(7))
-        for fiscal_line in document.fiscal_line_ids:
-            self._set_line_reference(fiscal_line, order.name, "")
-        move = self._link_document(document)
-        for fiscal_line in document.fiscal_line_ids:
-            self.assertFalse(self._linked_purchase_line(move, fiscal_line))
+        self.assertGreater(len(self._product_lines(order)), 1)
+        self.assertFalse(self._match_xped(order, order.name, ""))
 
     def test_xped_position_skips_a_section_line(self):
         order = self.po_products.copy()
@@ -226,13 +209,7 @@ class TestImportPurchaseBill(L10nBrPurchaseBaseTest):
         product_lines = self._product_lines(order)
         self.assertEqual(order.order_line[0].display_type, "line_section")
         self.assertEqual(len(product_lines), 2)
-        document = self._document_from_order(order, self.document_type_55, self._key(8))
-        fiscal_line = document.fiscal_line_ids.sorted("id")[0]
-        self._set_line_reference(fiscal_line, order.name, "1")
-        move = self._link_document(document)
-        self.assertEqual(
-            self._linked_purchase_line(move, fiscal_line), product_lines[0]
-        )
+        self.assertEqual(self._match_xped(order, order.name, "1"), product_lines[0])
 
     def _copied_product_order(self, same_product=False):
         order = self.po_products.copy()
@@ -245,22 +222,15 @@ class TestImportPurchaseBill(L10nBrPurchaseBaseTest):
     def _product_lines(self, order):
         return order.order_line.filtered(lambda line: not line.display_type)
 
-    def _set_line_reference(self, fiscal_line, order_ref, item):
-        fiscal_line.partner_order = order_ref
-        fiscal_line.partner_order_line = item or False
-
-    def _link_document(self, document):
-        move = self._invoice_from_document(document)
-        wizard = self.env["l10n_br_fiscal.document.import.wizard"].create({})
-        wizard._link_purchase_order_lines(move, document)
-        return move
-
-    def _linked_purchase_line(self, move, fiscal_line):
-        invoice_line = move.invoice_line_ids.filtered(
-            lambda line, fiscal_line=fiscal_line: line.fiscal_document_line_id
-            == fiscal_line
-        )[:1]
-        return invoice_line.purchase_line_id
+    def _match_xped(self, order, order_ref, item, product=None):
+        fiscal_line = _PurchaseMatchLine(
+            order.company_id,
+            order_ref,
+            item,
+            product or self.env["product.product"],
+        )
+        wizard = self.env["l10n_br_fiscal.document.import.wizard"].new({})
+        return wizard._match_purchase_line(fiscal_line, order.partner_id)
 
     def _document_from_order(self, order, document_type, key):
         operation_line = self.fiscal_operation_line
