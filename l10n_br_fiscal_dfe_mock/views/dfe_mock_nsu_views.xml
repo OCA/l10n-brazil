@@ -15,6 +15,13 @@
                 <field name="schema_type" />
                 <field name="access_key" />
                 <field name="consumed" />
+                <button
+                    name="action_register_nfse_cancellation"
+                    type="object"
+                    string="Register Cancellation"
+                    invisible="fiscal_type != 'nfse' or schema_type != 'NFSe'"
+                    groups="l10n_br_fiscal.group_manager"
+                />
                 <field name="company_id" groups="base.group_multi_company" />
             </list>
         </field>
@@ -27,6 +34,14 @@
         <field name="arch" type="xml">
             <form>
                 <header>
+                    <button
+                        name="action_register_nfse_cancellation"
+                        string="Register Cancellation"
+                        type="object"
+                        invisible="fiscal_type != 'nfse' or schema_type != 'NFSe'"
+                        class="btn-secondary"
+                        groups="l10n_br_fiscal.group_manager"
+                    />
                     <button
                         name="action_reset_consumed"
                         string="Reset Consumed"
@@ -140,6 +155,17 @@
         <field name="res_model">dfe.mock.generate.wizard</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
+    </record>
+
+    <!-- Server action: queue a supplier cancellation for the selected notes -->
+    <record id="action_register_nfse_cancellation_multi" model="ir.actions.server">
+        <field name="name">Register NFS-e Cancellation</field>
+        <field name="model_id" ref="model_dfe_mock_nsu" />
+        <field name="binding_model_id" ref="model_dfe_mock_nsu" />
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_register_nfse_cancellation()</field>
+        <field name="groups_id" eval="[(4, ref('l10n_br_fiscal.group_manager'))]" />
     </record>
 
     <!-- Server action: reset consumed from list view -->

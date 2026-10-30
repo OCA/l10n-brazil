@@ -1,3 +1,4 @@
+# Copyright 2026 - TODAY Escodoo - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # Copyright 2026 Engenere (<https://engenere.one>)
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 
@@ -300,8 +301,32 @@ class ResCompany(models.Model):
         )
 
     def _nfse_consulta_eventos(self, chave):
-        """Answer the event list offline: the mock pool holds no NFS-e event."""
+        """Answer the event list from cancellation rows pooled for this key.
+
+        The ADN lists events apart from the note. An empty pool is the 404
+        the connector already treats as "this note has no events".
+        """
         self.ensure_one()
         if not self.dfe_mock_mode:
             return super()._nfse_consulta_eventos(chave)
-        return NfseHttpResponse(status_code=404, body={}, headers={}, text="")
+        records = (
+            self.env["dfe.mock.nsu"]
+            .sudo()
+            .search(
+                [
+                    ("company_id", "=", self.id),
+                    ("fiscal_type", "=", "nfse"),
+                    ("schema_type", "=", "EVENTO"),
+                    ("access_key", "=", chave),
+                ],
+                order="nsu asc",
+            )
+        )
+        if not records:
+            return NfseHttpResponse(status_code=404, body={}, headers={}, text="")
+        return NfseHttpResponse(
+            status_code=200,
+            body={"LoteDFe": [record._nfse_mock_lote_item() for record in records]},
+            headers={},
+            text="",
+        )

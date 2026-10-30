@@ -1,3 +1,4 @@
+# Copyright 2026 - TODAY Escodoo - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # Copyright 2026 - TODAY, Escodoo
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
@@ -152,3 +153,76 @@ class TestNfseMockDistribution(TransactionCase):
             self.assertRaises(UserError),
         ):
             self.company._nfse_search_specific(access_key="9" * 50)
+
+    def _inbox(self, access_key):
+        return self.env["l10n_br_fiscal_dfe.document"].search(
+            [
+                ("company_id", "=", self.company.id),
+                ("fiscal_type", "=", "nfse"),
+                ("access_key", "=", access_key),
+            ]
+        )
+
+    def _pull(self, reset_cursor=False):
+        vals = {"nfse_dfe_next_query": False}
+        if reset_cursor:
+            vals["nfse_last_nsu"] = "0"
+        self.company.sudo().write(vals)
+        self.company._nfse_document_distribution()
+
+    def test_cancellation_is_a_later_event(self):
+        """The note row stays authorized. The cancel is the next NSU."""
+        note = self._generate(quantity=1)
+        note_xml = note.xml_content
+        event = note.action_register_nfse_cancellation()
+        self.assertEqual(event["type"], "ir.actions.client")
+        pooled = self.env["dfe.mock.nsu"].search(
+            [
+                ("company_id", "=", self.company.id),
+                ("fiscal_type", "=", "nfse"),
+                ("access_key", "=", note.access_key),
+            ],
+            order="nsu asc",
+        )
+        self.assertEqual(pooled.mapped("schema_type"), ["NFSe", "EVENTO"])
+        self.assertEqual(note.xml_content, note_xml)
+        self.assertGreater(pooled[1].nsu, note.nsu)
+        item = pooled[1]._nfse_mock_lote_item()
+        self.assertEqual(item["TipoDocumento"], "EVENTO")
+        self.assertEqual(item["TipoEvento"], "101101")
+        self.assertEqual(item["ChaveAcesso"], note.access_key)
+        with self.assertRaises(UserError):
+            note.action_register_nfse_cancellation()
+
+    def test_cancellation_refuses_a_row_that_is_not_the_note(self):
+        note = self._generate(quantity=1)
+        note.action_register_nfse_cancellation()
+        event = note._nfse_cancellation_event()
+        with self.assertRaises(UserError):
+            event.action_register_nfse_cancellation()
+
+    def test_event_list_serves_the_pooled_cancellation(self):
+        """A key with no event is 404. After registering, the ADN list has it."""
+        note = self._generate(quantity=1)
+        missing = self.company._nfse_consulta_eventos(note.access_key)
+        self.assertEqual(missing.status_code, 404)
+        note.action_register_nfse_cancellation()
+        found = self.company._nfse_consulta_eventos(note.access_key)
+        self.assertEqual(found.status_code, 200)
+        self.assertEqual(found.body["LoteDFe"][0]["TipoDocumento"], "EVENTO")
+        # Listing events does not consume the row or move the note.
+        self.assertFalse(note.consumed)
+
+    def test_distribution_cancels_the_inbox(self):
+        """The second pull applies the event the way the ADN feed does."""
+        note = self._generate(quantity=1)
+        self._pull(reset_cursor=True)
+        inbox = self._inbox(note.access_key)
+        self.assertEqual(inbox.document_state, "1")
+        note.action_register_nfse_cancellation()
+        inbox.invalidate_recordset()
+        self.assertEqual(inbox.document_state, "1")
+        self._pull()
+        inbox.invalidate_recordset()
+        self.assertEqual(inbox.document_state, "3")
+        self.assertIn("101101", inbox.dfe_ids.mapped("event_type_dfe"))
