@@ -8,7 +8,6 @@ import logging
 import re
 import string
 import sys
-from datetime import datetime
 
 from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
@@ -57,6 +56,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
 )
 from odoo.addons.l10n_br_fiscal.constants.icms import ICMS_CST, ICMS_SN_CST
+from odoo.addons.l10n_br_fiscal_edi.tools import tax_authority_date_to_utc
 from odoo.addons.spec_driven_model.models import spec_models
 
 from ..constants.cte import (
@@ -1706,12 +1706,7 @@ class CTe(spec_models.StackedModel):
         else:
             state = SITUACAO_EDOC_REJEITADA
         if self.authorization_event_id and infProt.nProt:
-            if isinstance(infProt.dhRecbto, datetime):
-                protocol_date = fields.Datetime.to_string(infProt.dhRecbto)
-            else:
-                protocol_date = fields.Datetime.to_string(
-                    datetime.fromisoformat(infProt.dhRecbto)
-                )
+            protocol_date = tax_authority_date_to_utc(infProt.dhRecbto)
 
             self.authorization_event_id.set_done(
                 status_code=infProt.cStat,
@@ -1813,9 +1808,7 @@ class CTe(spec_models.StackedModel):
             self.cancel_event_id.set_done(
                 status_code=resposta.cStat,
                 response=resposta.xMotivo,
-                protocol_date=fields.Datetime.to_string(
-                    datetime.fromisoformat(resposta.dhRegEvento)
-                ),
+                protocol_date=tax_authority_date_to_utc(resposta.dhRegEvento),
                 protocol_number=resposta.nProt,
                 file_response_xml=process.retorno.content.decode("utf-8"),
             )
@@ -1868,9 +1861,7 @@ class CTe(spec_models.StackedModel):
         event_id.set_done(
             status_code=resposta.cStat,
             response=resposta.xMotivo,
-            protocol_date=fields.Datetime.to_string(
-                datetime.fromisoformat(resposta.dhRegEvento)
-            ),
+            protocol_date=tax_authority_date_to_utc(resposta.dhRegEvento),
             protocol_number=resposta.nProt,
             file_response_xml=process.retorno.content.decode("utf-8"),
         )
