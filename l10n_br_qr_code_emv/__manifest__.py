@@ -10,7 +10,7 @@
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Beta",
     "maintainers": ["ygcarvalh"],
-    "version": "18.0.1.0.0",
+    "version": "19.0.1.0.0",
     "depends": ["account_qr_code_emv", "l10n_br_base"],
     "installable": True,
 }
