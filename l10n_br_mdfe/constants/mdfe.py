@@ -18,12 +18,13 @@ MDFE_EMIT_TYPES = [
 MDFE_EMIT_TYPE_DEFAULT = "2"
 
 MDFE_TRANSP_TYPE = [
+    ("", "Não Aplicável (veículo próprio)"),
     ("1", "Empresa de Transporte de Cargas – ETC"),
     ("2", "Transportador Autônomo de Cargas – TAC"),
     ("3", "Cooperativa de Transporte de Cargas – CTC"),
 ]
 
-MDFE_TRANSP_TYPE_DEFAULT = "1"
+MDFE_TRANSP_TYPE_DEFAULT = ""
 
 MDFE_TRANSMISSIONS = [
     ("1", "Emissão Normal"),
