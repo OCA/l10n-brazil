@@ -24,3 +24,11 @@ Módulos relacionados:
 - existe também o módulo `l10n_br_delivery_nfe` que faz a integração do
   módulo `l10n_br_nfe` com o módulo `delivery` do Odoo (tags de
   transportadora e de frete em especial)
+
+O módulo também imprime a **DANFE Simplificado - Etiqueta** de uma NF-e
+autorizada: a DANFE simplificada em formato de etiqueta de envio (NT
+2020.004; MOC 7.0 Anexo II, item 3.12), para colar no pacote entregue a
+serviços de entrega como Correios ou JadLog. A etiqueta é renderizada
+pela biblioteca
+[BrazilFiscalReport](https://github.com/Engenere/BrazilFiscalReport),
+por padrão no papel térmico usual de 100 x 150 mm.
