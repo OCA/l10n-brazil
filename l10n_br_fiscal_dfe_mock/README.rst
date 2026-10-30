@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 =========================
 DF-e Mock (SEFAZ Virtual)
 =========================
@@ -17,7 +13,7 @@ DF-e Mock (SEFAZ Virtual)
 .. |badge1| image:: https://img.shields.io/badge/maturity-Alpha-red.png
     :target: https://odoo-community.org/page/development-status
     :alt: Alpha
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
@@ -34,9 +30,10 @@ DF-e Mock (SEFAZ Virtual)
 
 Mock do serviço SEFAZ DF-e para desenvolvimento sem certificado A1.
 
-Substitui as chamadas à SEFAZ por respostas locais, permitindo testar o
-fluxo completo de distribuição, manifestação e importação de documentos
-fiscais eletrônicos em ambiente de desenvolvimento.
+Substitui as chamadas à SEFAZ e ao ADN por respostas locais, permitindo
+testar o fluxo completo de distribuição, manifestação, cancelamento de
+NFS-e e importação de documentos fiscais eletrônicos em ambiente de
+desenvolvimento.
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
@@ -67,7 +64,10 @@ No menu **Fiscal › Consultas DF-e › Mock**:
 - **Gerar NSU Mock**: cria resumos (resNFe), NF-e completas (procNFe) e
   eventos no pool local de NSUs.
 - **Pool de NSU Mock**: lista os NSUs gerados e permite resetar os
-  consumidos.
+  consumidos. Numa NFS-e autorizada, **Registrar Cancelamento**
+  enfileira um evento novo (código 101101, outro NSU, a mesma chave). A
+  linha da nota não muda. A consulta seguinte da NFS-e grava o evento na
+  caixa e marca a nota como cancelada.
 
 Com o modo mock ligado, manifestar *Ciência da Operação* em um resumo
 gera a NF-e completa correspondente no pool, que chega na consulta
