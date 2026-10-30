@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="res_partner_view_form_dda" model="ir.ui.view">
+        <field name="name">res.partner.form.dda</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="account.view_partner_property_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='accounting']" position="inside">
+                <group name="dda" string="DDA">
+                    <field name="dda_assignee_ids" widget="many2many_tags" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

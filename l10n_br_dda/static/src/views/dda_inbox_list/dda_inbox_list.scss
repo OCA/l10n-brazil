@@ -1,0 +1,119 @@
+.o_dda_dashboard {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.5rem;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid $border-color;
+    background-color: $white;
+
+    .o_dda_counters,
+    .o_dda_sources {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .o_dda_sources {
+        margin-left: auto;
+    }
+
+    .o_dda_counter {
+        display: flex;
+        flex-direction: column;
+        min-width: 7rem;
+        padding: 0.35rem 0.75rem;
+        line-height: 1.2;
+
+        .o_dda_counter_value {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .o_dda_counter_label {
+            font-size: 0.8rem;
+            color: $text-muted;
+        }
+
+        &.o_dda_counter_alert .o_dda_counter_value {
+            color: $danger;
+        }
+
+        &.o_dda_counter_active {
+            box-shadow: 0 0 0 2px $o-brand-primary;
+        }
+    }
+
+    .o_dda_source {
+        border: 1px solid $border-color;
+        border-radius: 1rem;
+        background-color: $white;
+        white-space: nowrap;
+
+        .o_dda_source_name {
+            font-weight: 600;
+        }
+
+        .o_dda_source_state {
+            margin: 0 0.35rem;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        &.o_dda_source_ok .fa,
+        &.o_dda_source_ok .o_dda_source_state {
+            color: $success;
+        }
+
+        &.o_dda_source_warning .fa,
+        &.o_dda_source_warning .o_dda_source_state {
+            color: $warning;
+        }
+
+        &.o_dda_source_error {
+            border-color: $danger;
+
+            .fa,
+            .o_dda_source_state {
+                color: $danger;
+            }
+        }
+
+        &[disabled] {
+            opacity: 1;
+            cursor: default;
+        }
+    }
+
+    @media (max-width: 767.98px) {
+        padding: 0.5rem;
+
+        .o_dda_counters,
+        .o_dda_sources {
+            width: 100%;
+            margin-left: 0;
+        }
+
+        .o_dda_counter {
+            flex: 1 1 calc(50% - 0.5rem);
+            min-width: 0;
+        }
+
+        .o_dda_source {
+            flex: 1 1 100%;
+            white-space: normal;
+            text-align: left;
+        }
+    }
+}
+
+.o_list_view .o_data_row.o_dda_row_focus {
+    box-shadow: inset 3px 0 0 $o-brand-primary;
+    background-color: rgba($o-brand-primary, 0.06);
+}
+
+.o_dda_recommended_action {
+    white-space: nowrap;
+}
