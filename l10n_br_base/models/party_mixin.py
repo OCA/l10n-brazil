@@ -34,6 +34,12 @@ class PartyMixin(models.AbstractModel):
         unaccent=False,
     )
 
+    vat_formatted_cnpj = fields.Char(
+        string="VAT Formatted (Brazil)",
+        compute="_compute_vat_formatted_cnpj",
+        help="CNPJ or CPF formatted with proper punctuation and special characters",
+    )
+
     l10n_br_ie_code = fields.Char(
         string="State Tax Number",
         size=17,
@@ -161,6 +167,34 @@ class PartyMixin(models.AbstractModel):
                 )
             else:
                 record.cnpj_cpf_stripped = False
+
+    @api.depends("vat", "country_id")
+    def _compute_vat_formatted_cnpj(self):
+        for record in self:
+            vat_formatted_cnpj = False
+            if record.vat and record.country_id and record.country_id.code == "BR":
+                vat_formatted_cnpj = cnpj_cpf.formata(record.vat)
+            record.vat_formatted_cnpj = vat_formatted_cnpj
+
+    def _normalize_vat(self, vals):
+        """Strip punctuation from Brazilian VAT values so they can be stored
+        unformatted. This is a no-op helper in 16.0; it will become active in
+        18.0 while keeping the API stable for forward-ports.
+        """
+        if not isinstance(vals, dict):
+            return
+        vat = vals.get("vat")
+        if not vat:
+            return
+        country_id = vals.get("country_id")
+        if country_id:
+            country = self.env["res.country"].browse(country_id)
+        elif self and len(self) == 1:
+            country = self.country_id
+        else:
+            country = self.env.company.country_id
+        if country and country.code == "BR":
+            vals["vat"] = misc.punctuation_rm(str(vat))
 
     @api.onchange("zip")
     def _onchange_zip(self):
