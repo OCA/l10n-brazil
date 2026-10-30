@@ -57,6 +57,14 @@
                                 name="xml_content"
                                 widget="ace"
                                 options="{'mode': 'xml'}"
+                                invisible="id"
+                            />
+                            <field
+                                name="xml_pretty"
+                                widget="ace"
+                                options="{'mode': 'xml'}"
+                                readonly="1"
+                                invisible="not id"
                             />
                         </page>
                     </notebook>
