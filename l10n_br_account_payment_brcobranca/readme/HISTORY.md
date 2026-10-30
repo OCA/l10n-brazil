@@ -1,3 +1,7 @@
+## 16.0.6.5.0 (2026-10-28)
+
+- \[IMP\] Dados do Split Payment do IBS/CBS (LC 214/2025): Segmento X-03 na Remessa de Cobrança e Segmentos X-03/X-04 no Evento do retorno, a partir da opção use_split_payment da Configuração do CNAB
+
 ## 16.0.4.0.0 (2025-03-06)
 
 - \[REF\] Alterado o Código de Protesto de Char para Objeto/l10n_br_cnab.code
