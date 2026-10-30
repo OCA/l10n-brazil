@@ -75,6 +75,7 @@
 
     <record id="l10n_br_pos.pos_config_presumido" model="pos.config">
         <field name="simplified_document_type_id" ref="l10n_br_fiscal.document_65" />
+        <field name="nfce_document_serie_id" ref="document_65_serie_2" />
         <field name="out_pos_fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
     </record>
 
