@@ -231,6 +231,83 @@ class CNABStructure(models.Model):
         states={"draft": [("readonly", False)]},
     )
 
+    def copy(self, default=None):
+        """Duplicate the structure together with everything that belongs to it.
+
+        The One2many fields are not copied by the ORM, so a plain duplicate
+        would only carry the header. The children refer to each other
+        (batches, payment ways, lines, groups, fields and conditions), so the
+        references are remapped to the new records instead of pointing back to
+        the original structure.
+        """
+        new_structures = self.browse()
+        for structure in self:
+            new = super(CNABStructure, structure).copy(default)
+            structure._copy_children_to(new)
+            new_structures |= new
+        return new_structures
+
+    def _copy_children_to(self, new):
+        self.ensure_one()
+        way_map = {}
+        for way in self.cnab_payment_way_ids:
+            way_map[way.id] = way.copy(
+                {"cnab_structure_id": new.id, "batch_id": False}
+            ).id
+        batch_map = {}
+        for batch in self.batch_ids:
+            new_batch = batch.copy({"cnab_structure_id": new.id})
+            batch_map[batch.id] = new_batch.id
+        for way in self.cnab_payment_way_ids.filtered("batch_id"):
+            self.env["cnab.payment.way"].browse(way_map[way.id]).batch_id = batch_map[
+                way.batch_id.id
+            ]
+        for model_field in (
+            "cnab_pix_key_type_ids",
+            "cnab_pix_transfer_type_ids",
+            "cnab_occurrence_ids",
+        ):
+            for record in self[model_field]:
+                record.copy({"cnab_structure_id": new.id})
+        for rule in self.cnab_payment_rule_ids:
+            rule.copy(
+                {
+                    "cnab_structure_id": new.id,
+                    "payment_way_id": way_map.get(rule.payment_way_id.id),
+                }
+            )
+        group_map = {}
+        field_map = {}
+        conditions = self.env["cnab.line.group.field.condition"]
+        for line in self.line_ids:
+            new_line = line.copy(
+                {
+                    "cnab_structure_id": new.id,
+                    "batch_id": batch_map.get(line.batch_id.id, False),
+                    "cnab_payment_way_ids": [
+                        (6, 0, [way_map[w.id] for w in line.cnab_payment_way_ids])
+                    ],
+                }
+            )
+            for group in line.group_ids:
+                group_map[group.id] = group.copy({"cnab_line_id": new_line.id}).id
+                conditions |= group.condition_ids
+            for field in line.field_ids:
+                field_map[field.id] = field.copy(
+                    {
+                        "cnab_line_id": new_line.id,
+                        "cnab_group_id": group_map.get(field.cnab_group_id.id, False),
+                    }
+                ).id
+        for condition in conditions:
+            condition.copy(
+                {
+                    "cnab_group_id": group_map[condition.cnab_group_id.id],
+                    "field_id": field_map.get(condition.field_id.id, False),
+                }
+            )
+        return new
+
     @api.onchange("cnab_format", "payment_type")
     def _onchange_cnab_format(self):
         if self.cnab_format == "240":
