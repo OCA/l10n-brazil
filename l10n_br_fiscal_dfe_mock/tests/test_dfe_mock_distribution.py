@@ -283,3 +283,18 @@ class TestDfeMockDistribution(TransactionCase):
             proc_xml.findtext(".//nfe:dest/nfe:xNome", namespaces=ns),
             "Empresa <Mock> & Cia",
         )
+
+    def test_xml_pretty_indents_for_display_only(self):
+        record = self._create_nsu("000000000000099")
+        self.assertEqual(record.xml_content, SAMPLE_RES_NFE)
+        self.assertNotIn("\n", record.xml_content)
+        self.assertIn("\n", record.xml_pretty)
+        self.assertIn("<chNFe", record.xml_pretty)
+        record.xml_content = "not xml"
+        self.assertEqual(record.xml_pretty, "not xml")
+        record.xml_content = "<resNFe"
+        self.assertEqual(record.xml_pretty, "<resNFe")
+        arch = self.env["dfe.mock.nsu"].get_view(view_type="form")["arch"]
+        pretty = arch[arch.index('name="xml_pretty"') :]
+        self.assertIn('widget="ace"', pretty)
+        self.assertLess(pretty.index('widget="ace"'), pretty.index('readonly="1"'))
