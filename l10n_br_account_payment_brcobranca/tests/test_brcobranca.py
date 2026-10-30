@@ -469,3 +469,56 @@ class TestPaymentOrder(TestBRCobrancaCommon):
         self.assertEqual(len(parser.cnab_return_events), 1)
         self.assertEqual(parser.cnab_return_events[0]["move_line_id"], move_line.id)
         self.assertEqual(move_line.cnab_state, "accepted")
+
+    def test_brcobranca_error_message(self):
+        """Mensagem de erro da API que o usuário vê ao enviar a Remessa.
+
+        A API responde as recusas de payload em JSON, com o texto para o
+        usuário na chave `erro` (a frase nomeia o BRCobranca, que é quem não
+        conhece o campo recebido), e as demais falhas voltam em texto, que é o
+        que vale, veja https://github.com/OCA/l10n-brazil/issues/5146 .
+        """
+
+        class FakeResponse:
+            def __init__(self, text, json_body=None):
+                self.text = text
+                self.json_body = json_body
+
+            def json(self):
+                if self.json_body is None:
+                    raise ValueError("Response body is not JSON.")
+                return self.json_body
+
+        payment_order = self.env["account.payment.order"]
+
+        # Recusa de chave desconhecida: o texto para o usuário está em `erro`
+        self.assertEqual(
+            payment_order._get_brcobranca_error_message(
+                FakeResponse(
+                    '{"campos_desconhecidos": ["l10n_br_document_key"], "erro": '
+                    '"Campos desconhecidos no BRCobranca: l10n_br_document_key"}',
+                    {
+                        "campos_desconhecidos": ["l10n_br_document_key"],
+                        "erro": "Campos desconhecidos no BRCobranca: "
+                        "l10n_br_document_key",
+                    },
+                )
+            ),
+            "Campos desconhecidos no BRCobranca: l10n_br_document_key",
+        )
+
+        # Corpo em texto (validação do BRCobranca): volta como veio
+        self.assertEqual(
+            payment_order._get_brcobranca_error_message(
+                FakeResponse("Registro rejeitado pelo BRCobranca")
+            ),
+            "Registro rejeitado pelo BRCobranca",
+        )
+
+        # JSON sem a chave `erro`: o corpo original é o que sobra
+        self.assertEqual(
+            payment_order._get_brcobranca_error_message(
+                FakeResponse('["Registro rejeitado"]', ["Registro rejeitado"])
+            ),
+            '["Registro rejeitado"]',
+        )

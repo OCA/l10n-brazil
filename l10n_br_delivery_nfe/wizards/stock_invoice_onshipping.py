@@ -41,6 +41,7 @@ class StockInvoiceOnshipping(models.TransientModel):
             "nfe40_qVol": data.nfe40_qVol,
             "nfe40_esp": data.nfe40_esp,
             "nfe40_marca": data.nfe40_marca,
+            "nfe40_nVol": data.nfe40_nVol,
             "nfe40_pesoL": data.nfe40_pesoL,
             "nfe40_pesoB": data.nfe40_pesoB,
         }
