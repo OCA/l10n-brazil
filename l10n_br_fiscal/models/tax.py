@@ -33,6 +33,7 @@ from ..constants.icms import (
     ICMS_ST_BASE_TYPE_DEFAULT,
     ICSM_CST_CSOSN_ST_BASE,
 )
+from .fiscal_cache import get_fiscal_txn_cache
 
 TAX_DICT_VALUES = {
     "name": False,
@@ -118,6 +119,7 @@ class Tax(models.Model):
     """
 
     _name = "l10n_br_fiscal.tax"
+    _inherit = "l10n_br_fiscal.cache.mixin"
     _order = "sequence, tax_domain, name"
     _description = "Fiscal Tax"
 
@@ -905,6 +907,20 @@ class Tax(models.Model):
               TAX_DICT_VALUES).
         """
 
+        # Transaction-scoped memoization: within a single save this is called
+        # 3-6x per line with identical kwargs (fiscal precompute + totals +
+        # account tax hooks) and again on every line that repeats the same
+        # product/price/quantity. The computation is pure, so we return the
+        # cached result. Invalidation on any fiscal definition/tax change is
+        # handled by FiscalCacheMixin. See fiscal_cache.py.
+        cache = get_fiscal_txn_cache(self.env, "compute_taxes")
+        cache_key = self._compute_taxes_cache_key(kwargs)
+        if cache_key is not None and cache_key in cache:
+            # Callers mutate the returned per-tax dicts in place (e.g.
+            # account.tax flips ``base`` sign for negative bases), so never hand
+            # out the cached object itself.
+            return self._copy_compute_taxes_result(cache[cache_key])
+
         result_amounts = {
             "amount_included": 0.00,
             "amount_not_included": 0.00,
@@ -941,7 +957,92 @@ class Tax(models.Model):
         # Estimate taxes
         result_amounts["estimate_tax"] = self._compute_estimate_taxes(**kwargs)
         result_amounts["taxes"] = taxes
+
+        if cache_key is not None:
+            cache[cache_key] = result_amounts
+            # Keep the cached object pristine; the first caller also gets a copy.
+            return self._copy_compute_taxes_result(result_amounts)
         return result_amounts
+
+    @staticmethod
+    def _copy_compute_taxes_result(result):
+        """Shallow copy of a ``compute_taxes`` result safe to mutate.
+
+        Copies the top-level dict and each per-tax-domain dict (the levels that
+        callers mutate in place); the leaf values (scalars/records) are shared
+        by reference but only ever replaced, never mutated.
+        """
+        copied = dict(result)
+        copied["taxes"] = {
+            domain: dict(values) if isinstance(values, dict) else values
+            for domain, values in result["taxes"].items()
+        }
+        return copied
+
+    def _compute_taxes_cache_key(self, kwargs):
+        """Stable, hashable key for ``compute_taxes`` memoization.
+
+        Normalizes every kwarg to a hashable value: recordsets become their
+        (sorted) id tuple, scalars (floats included, unrounded) are used as-is.
+        ``self`` is included as its sorted id tuple (the result is independent
+        of input order, since ``compute_taxes`` sorts by compute sequence).
+        Returns ``None`` to disable memoization if any kwarg cannot be reduced
+        to a hashable value, so an unexpected input never risks a wrong cache
+        hit.
+
+        On top of the input ids the key also encodes:
+
+        * the ``write_date`` of the fiscal taxes themselves. This makes the key
+          *content-versioned*: an in-place edit of a tax rate
+          (``percent_amount``/``percent_reduction``...) bumps ``write_date`` and
+          thus changes the key by construction, and a savepoint rollback that
+          reverts the edit reverts ``write_date`` too, so the key reverts with
+          it. A stale entry left behind by such a rollback becomes unreachable
+          instead of being served (self-validating key). See fiscal_cache.py.
+        * the config scalars the engine reads *directly* from ``company`` and
+          ``partner`` (they live on ``res.company``/``res.partner``, which do not
+          inherit ``FiscalCacheMixin``, so an in-transaction edit of them is not
+          observed otherwise). Symmetric with the ``map_fiscal_taxes`` key.
+
+        ``self`` and the recordset kwargs may still be ``NewId`` (unsaved)
+        records in the create/onchange precompute cascade, which is exactly the
+        hot path this memoization targets. All id handling goes through ``.ids``
+        (which resolves NewId records to their concrete origin id and drops
+        origin-less ones), so the key stays orderable and hashable; the aligned
+        ``write_date`` tuple is read from the origin records for the same reason.
+        """
+        normalized = []
+        for name in sorted(kwargs):
+            value = kwargs[name]
+            if isinstance(value, models.BaseModel):
+                value = tuple(sorted(value.ids))
+            elif value is not None and not isinstance(value, bool | int | float | str):
+                # Unexpected input type: do not risk a wrong cache hit.
+                return None
+            normalized.append((name, value))
+
+        # ``.ids`` yields concrete (origin) ids only, so it is always sortable;
+        # read each tax's ``write_date`` from the origin records and align it to
+        # that same id order.
+        tax_ids = tuple(sorted(self.ids))
+        write_date_by_id = {tax.id: tax.write_date for tax in self._origin}
+        tax_versions = tuple(write_date_by_id.get(tax_id) for tax_id in tax_ids)
+
+        company = kwargs.get("company")
+        partner = kwargs.get("partner")
+        config_scalars = (
+            partner.ind_ie_dest if partner else False,
+            company.tax_framework if company else False,
+            company.simplified_tax_percent if company else False,
+            company.state_id.id if company else False,
+            partner.state_id.id if partner else False,
+        )
+        return (
+            tax_ids,
+            tax_versions,
+            config_scalars,
+            tuple(normalized),
+        )
 
     @api.depends("icmsst_base_type")
     def _compute_tax_base_type(self):
