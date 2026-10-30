@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="paperformat_dere_rfb_assessment" model="report.paperformat">
+        <field name="name">DeRE RFB Assessment</field>
+        <field name="format">A4</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">52</field>
+        <field name="margin_bottom">18</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">46</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="action_report_dere_rfb_assessment" model="ir.actions.report">
+        <field name="name">DeRE RFB Assessment</field>
+        <field name="model">l10n_br_dere.declaration</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_br_dere.report_dere_rfb_assessment</field>
+        <field name="report_file">l10n_br_dere.report_dere_rfb_assessment</field>
+        <field
+            name="print_report_name"
+        >'DeRE RFB Assessment - %s' % (object.per_apur or '')</field>
+        <field name="paperformat_id" ref="paperformat_dere_rfb_assessment" />
+        <field name="binding_model_id" ref="model_l10n_br_dere_declaration" />
+        <field name="binding_type">report</field>
+        <field name="groups_id" eval="[(4, ref('l10n_br_dere.group_user'))]" />
+    </record>
+
+    <template id="report_dere_rfb_assessment">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="company" t-value="o.company_id" />
+                <t t-call="web.external_layout">
+                    <div class="page dere-rfb">
+                        <style>
+                            .dere-rfb h2 { margin: 0 0 8px; font-size: 18px; }
+                            .dere-rfb h3 { margin: 12px 0 4px; font-size: 13px; }
+                            .dere-rfb table { width: 100%; font-size: 10px; }
+                            .dere-rfb th, .dere-rfb td { vertical-align: top; }
+                            .dere-rfb tr { page-break-inside: avoid; }
+                        </style>
+                        <h2>RFB Assessment</h2>
+                        <div class="row mb-3">
+                            <div class="col-4">
+                                <strong>Declaration</strong>
+                                <div t-field="o.name" />
+                            </div>
+                            <div class="col-4">
+                                <strong>Assessment period</strong>
+                                <div t-field="o.per_apur" />
+                            </div>
+                            <div class="col-4">
+                                <strong>State</strong>
+                                <div t-field="o.state" />
+                            </div>
+                        </div>
+                        <div t-if="o.rfb_mismatch" class="alert alert-warning">
+                            The RFB return differs from the local data or used
+                            another receipt than the events in force.
+                        </div>
+                        <div
+                            t-if="o.state == 'reopened' and o.rfb_assessment_event_id"
+                            class="alert alert-info"
+                        >
+                            The period was reopened. The assessment below comes
+                            from the previous closing and will be replaced by
+                            the next D-9199.
+                        </div>
+                        <t t-if="o.rfb_assessment_event_id">
+                            <h3>Receipts used by the closing</h3>
+                            <table class="table table-sm">
+                                <tbody>
+                                    <tr>
+                                        <td>Assessment return</td>
+                                        <td>
+                                            <span t-field="o.rfb_assessment_event_id" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Trial balance receipt used</td>
+                                        <td>
+                                            <span t-field="o.rfb_nr_recibo_balancete" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Technical-reserve receipt used</td>
+                                        <td>
+                                            <span t-field="o.rfb_nr_recibo_aplic_fin" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Deduction receipts used</td>
+                                        <td>
+                                            <span t-field="o.rfb_nr_recibo_rel_dedu" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <h3>Assessed taxes</h3>
+                            <table class="table table-sm">
+                                <tbody>
+                                    <tr>
+                                        <td>RFB municipal IBS</td>
+                                        <td class="text-end">
+                                            <span t-field="o.rfb_v_ibs_mun" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>RFB state IBS</td>
+                                        <td class="text-end">
+                                            <span t-field="o.rfb_v_ibs_uf" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>RFB total IBS</td>
+                                        <td class="text-end">
+                                            <span t-field="o.rfb_v_ibs_tot" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>RFB CBS</td>
+                                        <td class="text-end">
+                                            <span t-field="o.rfb_v_cbs" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>RFB IS</td>
+                                        <td class="text-end">
+                                            <span t-field="o.rfb_v_is" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </t>
+                        <t t-if="o.tax_assessment_line_ids">
+                            <h3>Tax bases</h3>
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Regime</th>
+                                        <th>Code</th>
+                                        <th>Description</th>
+                                        <th class="text-end">IBS base</th>
+                                        <th class="text-end">IBS</th>
+                                        <th class="text-end">CBS base</th>
+                                        <th class="text-end">CBS</th>
+                                        <th class="text-end">IS</th>
+                                        <th>Memory</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        t-foreach="o.tax_assessment_line_ids"
+                                        t-as="line"
+                                    >
+                                        <td>
+                                            <span t-field="line.regime" />
+                                        </td>
+                                        <td>
+                                            <span t-field="line.dere12_codBC" />
+                                        </td>
+                                        <td>
+                                            <span t-field="line.dere12_xDetBC" />
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-field="line.dere12_vBCApurIBS" />
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-field="line.dere12_vIBSTot" />
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-field="line.dere12_vBCApurCBS" />
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-field="line.dere12_vCBS" />
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-field="line.dere12_vIS" />
+                                        </td>
+                                        <td>
+                                            <span
+                                                t-field="line.dere12_memoriaCalculo"
+                                            />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </t>
+                        <t t-if="o.rfb_total_ids">
+                            <h3>RFB totals</h3>
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Event</th>
+                                        <th>Taxation code</th>
+                                        <th>ISS indicator</th>
+                                        <th class="text-end">Assessed total</th>
+                                        <th class="text-end">Local assessed total</th>
+                                        <th class="text-end">Difference</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        t-foreach="o.rfb_total_ids"
+                                        t-as="total"
+                                        t-att-style="'color: #a00;' if total.has_difference else None"
+                                    >
+                                        <td>
+                                            <span t-field="total.event_type" />
+                                        </td>
+                                        <td>
+                                            <span t-field="total.dere12_codTrib" />
+                                        </td>
+                                        <td>
+                                            <span t-field="total.dere12_indTribISS" />
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-field="total.dere12_vApurTot" />
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-field="total.local_v_apur" />
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-field="total.difference" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

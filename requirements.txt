@@ -9,6 +9,7 @@ erpbrasil-base>=2.4.2
 erpbrasil.assinatura
 erpbrasil.edoc
 erpbrasil.transmissao
+lxml
 nfelib
 nfelib>=3.2.0
 nfelib[soap]>=3.2.0
@@ -17,6 +18,7 @@ num2words
 phonenumbers
 pyyaml
 requests
+signxml
 transitions
 unidecode
 workalendar
