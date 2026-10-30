@@ -491,18 +491,35 @@ EDOC_PURPOSE_NORMAL = "1"
 EDOC_PURPOSE_COMPLEMENTAR = "2"
 EDOC_PURPOSE_AJUSTE = "3"
 EDOC_PURPOSE_DEVOLUCAO = "4"
+EDOC_PURPOSE_CREDITO = "5"
+EDOC_PURPOSE_DEBITO = "6"
 
+# NT 2025.002, tpNFDebito (B25.1) and tpNFCredito (B25.2)
 EDOC_REFUND_DEBIT_TYPE = [
     ("01", "Transferência de créditos para Cooperativas"),
     ("02", "Anulação de Crédito por Saídas Imunes/Isentas"),
     ("03", "Débitos de notas fiscais não processadas na apuração"),
     ("04", "Multa e juros"),
-    ("05", "Transferência de crédito de sucessão"),
+    ("05", "Transferência de crédito na sucessão"),
+    ("06", "Pagamento antecipado"),
+    ("07", "Perda em estoque (Perecimento, Perda, Furto, Roubo)"),
+    ("08", "Desenquadramento do Simples Nacional"),
 ]
 
-# TODO - Implementar nas proximas versões da NT da Reforma tributária
 EDOC_REFUND_CREDIT_TYPE = [
-    ("00", "Não Implementado"),
+    ("01", "Multa e juros"),
+    (
+        "02",
+        "Apropriação de crédito presumido de IBS sobre o saldo devedor na ZFM",
+    ),
+    (
+        "03",
+        "Retorno por recusa total na entrega ou por não localização do "
+        "destinatário na tentativa de entrega",
+    ),
+    ("04", "Redução de valores"),
+    ("05", "Transferência de crédito na sucessão"),
+    ("06", "Retorno por recusa parcial na entrega"),
 ]
 
 PROCESSADOR_NENHUM = "nenhum"

@@ -1,6 +1,22 @@
 # Copyright (C) 2019  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    TAX_DOMAIN_COFINS,
+    TAX_DOMAIN_COFINS_ST,
+    TAX_DOMAIN_ICMS,
+    TAX_DOMAIN_ICMS_FCP,
+    TAX_DOMAIN_ICMS_FCP_ST,
+    TAX_DOMAIN_ICMS_SN,
+    TAX_DOMAIN_ICMS_ST,
+    TAX_DOMAIN_II,
+    TAX_DOMAIN_IPI,
+    TAX_DOMAIN_ISSQN,
+    TAX_DOMAIN_ISSQN_WH,
+    TAX_DOMAIN_PIS,
+    TAX_DOMAIN_PIS_ST,
+)
+
 NFE_VERSIONS = [("1.10", "1.10"), ("2.00", "2.00"), ("3.10", "3.10"), ("4.00", "4.00")]
 
 
@@ -85,3 +101,86 @@ FISCAL_PAYMENT_MODE = [
     ("90", "90 - Sem Pagamento"),
     ("99", "99 - Outros"),
 ]
+
+
+# Credit and debit notes (NT 2025.002)
+
+# cClassTrib of the credit and debit note types that require one, the other
+# types accept any classification (rules UB14-70 and UB14-80). These
+# classifications are only accepted in their note types (rule UB14-60).
+NFE_DEBIT_NOTE_TAX_CLASSIFICATION = {
+    "01": "800002",
+    "02": "811001",
+    "03": "811002",
+    "05": "800001",
+    "07": "410030",
+    "08": "811003",
+}
+
+NFE_CREDIT_NOTE_TAX_CLASSIFICATION = {
+    "02": "810001",
+    "05": "800001",
+}
+
+# Credit note types that must reference exactly one NF-e (rules B25-30 and
+# B25-40) and the one that cannot reference documents (rule B25-65)
+NFE_CREDIT_NOTE_TYPES_ONE_REFERENCE = ("01", "03", "04")
+NFE_CREDIT_NOTE_TYPES_NO_REFERENCE = ("02",)
+
+# Tax groups of the NF-e item and the taxes they inform. A credit or debit
+# note only informs IBS and CBS, except the types below (rule B25-80).
+NFE_TAX_GROUP_DOMAINS = {
+    "nfe40_ICMS": (
+        TAX_DOMAIN_ICMS,
+        TAX_DOMAIN_ICMS_SN,
+        TAX_DOMAIN_ICMS_ST,
+        TAX_DOMAIN_ICMS_FCP,
+        TAX_DOMAIN_ICMS_FCP_ST,
+    ),
+    "nfe40_ICMSUFDest": (TAX_DOMAIN_ICMS,),
+    "nfe40_IPI": (TAX_DOMAIN_IPI,),
+    "nfe40_II": (TAX_DOMAIN_II,),
+    "nfe40_ISSQN": (TAX_DOMAIN_ISSQN, TAX_DOMAIN_ISSQN_WH),
+    "nfe40_PIS": (TAX_DOMAIN_PIS,),
+    "nfe40_PISST": (TAX_DOMAIN_PIS_ST,),
+    "nfe40_COFINS": (TAX_DOMAIN_COFINS,),
+    "nfe40_COFINSST": (TAX_DOMAIN_COFINS_ST,),
+}
+
+NFE_CREDIT_NOTE_TYPES_WITH_TAXES = ("03", "04", "06")
+NFE_DEBIT_NOTE_TYPES_WITH_TAXES = ("07",)
+
+# Branch of the IBSCBS choice that a CST informs, by the indicators of the CST
+# table of IT 2025.002 v1.70: 620 informs gIBSCBSMono, 800 gTransfCred and
+# 811 gAjusteCompet; 400, 410, 810 and 820 have no ind_gIBSCBS and inform
+# none (rules UB13-20, UB13-39, UB13-44, UB112-10). The others inform gIBSCBS.
+NFE_IBSCBS_GROUP_DEFAULT = "nfe40_gIBSCBS"
+NFE_IBSCBS_GROUPS = (
+    "nfe40_gIBSCBS",
+    "nfe40_gIBSCBSMono",
+    "nfe40_gTransfCred",
+    "nfe40_gAjusteCompet",
+)
+NFE_IBSCBS_CST_GROUP = {
+    "400": False,
+    "410": False,
+    "620": "nfe40_gIBSCBSMono",
+    "800": "nfe40_gTransfCred",
+    "810": False,
+    "811": "nfe40_gAjusteCompet",
+    "820": False,
+}
+
+# The stock loss debit note always informs the credit reversal (UB116-20)
+NFE_DEBIT_NOTE_STOCK_LOSS = "07"
+
+# The advance payment debit note also informs IPI, and PIS and COFINS when
+# issued in 2026 (rule B25-80, exceptions 2 and 3)
+NFE_DEBIT_NOTE_ADVANCE_PAYMENT = "06"
+NFE_DEBIT_NOTE_ADVANCE_PAYMENT_TAX_GROUPS = ("nfe40_IPI",)
+NFE_DEBIT_NOTE_ADVANCE_PAYMENT_TAX_GROUPS_2026 = (
+    "nfe40_PIS",
+    "nfe40_PISST",
+    "nfe40_COFINS",
+    "nfe40_COFINSST",
+)
