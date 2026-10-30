@@ -179,6 +179,11 @@ msgid "ID"
 msgstr "ID"
 
 #. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__xml_pretty
+msgid "Indented XML"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__write_uid
 msgid "Last Updated by"
