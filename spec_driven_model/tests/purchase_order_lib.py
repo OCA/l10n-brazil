@@ -29,6 +29,8 @@ class Items:
                 "type": "Element",
                 "namespace": "http://tempuri.org/PurchaseOrderSchema.xsd",
                 "required": True,
+                "min_length": 1,
+                "max_length": 20,
             },
         )
         quantity: Optional[int] = field(

@@ -50,6 +50,80 @@ class TestXMLValidation(TransactionCase):
         self.assertTrue("CEP" in document.xml_error_message)
         self.assertEqual(document.state_edoc, SITUACAO_EDOC_A_ENVIAR)
 
+    def test_xml_nfe_string_fields_cut_to_the_xsd_max_length(self):
+        """The NF-e schema limits natOp and xNome to 60 characters (TString).
+
+        The cut is generic: spec_driven_model reads the maxLength of the
+        schema field from the binding metadata, so l10n_br_nfe hard codes no
+        cut at all and the Odoo records keep their full value.
+        """
+        company = self.env.ref("l10n_br_base.empresa_lucro_presumido")
+        self.env.user.company_ids += company
+        self.env.user.company_id = company
+        partner = self.env.ref("l10n_br_base.res_partner_cliente7_rs")
+        fiscal_operation = self.env.ref("l10n_br_fiscal.fo_venda")
+        nat_op = "Retorno de mercadoria ou bem remetido para conserto ou reparo"
+        legal_name = (
+            "Comercio Importacao e Exportacao de Produtos Industriais "
+            "e Agricolas Ltda"
+        )
+        fiscal_operation.name = nat_op
+        partner.legal_name = legal_name
+        company.partner_id.write({"legal_name": legal_name, "name": legal_name})
+
+        document = self.env["l10n_br_fiscal.document"].create(
+            {
+                "partner_id": partner.id,
+                "document_type_id": self.env.ref("l10n_br_fiscal.document_55").id,
+                "fiscal_operation_id": fiscal_operation.id,
+            }
+        )
+
+        # natOp is 61 characters long in the fiscal operation:
+        self.assertEqual(document.nfe40_natOp, nat_op)
+        ide = document._build_binding(
+            spec_schema="nfe", spec_version="40", class_name="nfe.40.ide"
+        )
+        self.assertEqual(ide.natOp, nat_op[:60])
+        self.assertEqual(len(ide.natOp), 60)
+
+        # xNome is 73 characters long in the partner legal name:
+        for class_name in ("nfe.40.dest", "nfe.40.tlocal", "nfe.40.transporta"):
+            binding = partner._build_binding(
+                spec_schema="nfe", spec_version="40", class_name=class_name
+            )
+            self.assertEqual(binding.xNome, legal_name[:60], class_name)
+
+        emit = company._build_binding(
+            spec_schema="nfe", spec_version="40", class_name="nfe.40.emit"
+        )
+        self.assertEqual(emit.xNome, legal_name[:60])
+        self.assertEqual(emit.xFant, legal_name[:60])
+
+        # xProd: the schema allows 120 characters, l10n_br_nfe does not cut it
+        # anymore, only the line breaks are replaced:
+        product = self.env.ref("product.product_product_4c")
+        product_name = "Produto " + "x" * 130
+        product.name = product_name
+        line = self.env["l10n_br_fiscal.document.line"].create(
+            {
+                "document_id": document.id,
+                "company_id": document.company_id.id,
+                "partner_id": document.partner_id.id,
+                "fiscal_operation_type": document.fiscal_operation_type,
+                "fiscal_operation_id": document.fiscal_operation_id.id,
+                "product_id": product.id,
+            }
+        )
+        prod = line._build_binding(
+            spec_schema="nfe", spec_version="40", class_name="nfe.40.prod"
+        )
+        self.assertEqual(prod.xProd, product_name[:120])
+
+        # the Odoo records keep the full value:
+        self.assertEqual(partner.legal_name, legal_name)
+        self.assertEqual(company.partner_id.legal_name, legal_name)
+
     def test_xml_nfe_taxes(self):
         """This method tests multiple tax fields for NFe lines and NFe totals.
         warning: failures in this method could indicate errors in fiscal or account
