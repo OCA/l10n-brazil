@@ -99,6 +99,76 @@
                                 <field name="comment_ids" widget="many2many_tags" />
                             </group>
                         </page>
+                        <page name="help" string="Ajuda">
+                            <div class="alert alert-info" role="alert">
+                                <strong>Você não escolhe a linha, o sistema
+                                escolhe.</strong> Cada operação tem uma ou mais
+                                linhas, e na hora de emitir o documento o sistema
+                                seleciona sozinho a que melhor combina com a
+                                situação.
+                            </div>
+                            <h4>O que o sistema olha para escolher a linha</h4>
+                            <table class="table table-sm" style="max-width:720px;">
+                                <tr>
+                                    <td style="width:40%;"><strong>O regime da sua
+                                    empresa</strong></td>
+                                    <td>Simples Nacional ou regime normal (Lucro
+                                    Presumido ou Real)?</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Quem recebe</strong></td>
+                                    <td>é contribuinte do ICMS, contribuinte isento
+                                    ou não contribuinte? E qual é o regime
+                                    tributário dele?</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>O produto</strong></td>
+                                    <td>é mercadoria para revenda, matéria-prima,
+                                    material de uso e consumo, ativo imobilizado ou
+                                    serviço? É nacional ou importado?</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Substituição tributária</strong></td>
+                                    <td>se a operação tem uma linha própria para
+                                    ICMS ST, ela é usada quando o produto tem ST
+                                    para o estado de destino.</td>
+                                </tr>
+                            </table>
+                            <p>A linha só é usada se estiver
+                            <strong>aprovada</strong> e dentro do período de
+                            validade (datas de início e fim da linha). Quando
+                            mais de uma linha serve, <strong>vence a mais
+                            específica</strong>, isto é, a que tem mais condições
+                            preenchidas.</p>
+                            <h4>Para onde vai a mercadoria</h4>
+                            <p>A linha tem três CFOPs: um para dentro do estado,
+                            um para outro estado e um para o exterior. O sistema
+                            usa o que corresponde ao endereço de quem recebe.</p>
+                            <h4>Linhas por regime tributário</h4>
+                            <p>Uma linha pode ser marcada para valer só num regime
+                            de empresa (o campo de regime tributário da empresa,
+                            no topo da linha). Para uma operação atender empresas
+                            de regimes diferentes, crie uma linha para cada regime,
+                            cada uma com os seus impostos. Quando a operação tem
+                            linhas assim,
+                            o sistema usa a do regime da <strong>sua
+                            empresa</strong>: a do Simples Nacional emite com os
+                            códigos próprios do Simples (CSOSN) e a do regime
+                            normal com os códigos do regime normal (CST).
+                            <strong>Não apague essas linhas</strong>: se a empresa
+                            mudar de regime, o sistema passa a usar a outra linha
+                            sozinho, sem reconfiguração.</p>
+                            <h4>Definições de imposto da linha</h4>
+                            <p>A aba de definições de imposto guarda
+                            <strong>exceções</strong>: impostos que nesta linha
+                            fogem do padrão (ex.: uma remessa que não paga
+                            PIS/COFINS porque não é venda). Se estiver vazia,
+                            valem as outras camadas: os impostos padrão da
+                            empresa, o NCM e o regulamento do ICMS (nas empresas
+                            do regime normal), as regras do CFOP e as do perfil
+                            fiscal do parceiro. Para vendas e compras comuns,
+                            isso basta.</p>
+                        </page>
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">

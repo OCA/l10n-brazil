@@ -107,6 +107,33 @@
                             options="{'no_create': True, 'no_create_edit': True}"
                         />
                     </group>
+                    <notebook>
+                        <page name="help" string="Ajuda">
+                            <div class="alert alert-info" role="alert">
+                                <strong>Este cadastro é uma alíquota</strong>: um
+                                percentual (ou um valor por unidade) com os códigos
+                                fiscais (CST) de entrada e de saída já definidos. As
+                                regras e as operações apontam para as alíquotas
+                                daqui.
+                            </div>
+                            <div class="alert alert-warning" role="alert">
+                                <strong>Cuidado ao editar:</strong> alterar o
+                                percentual aqui muda o cálculo em <em>todos</em> os
+                                lugares que usam esta alíquota. Se a mudança vale só
+                                para um caso, o caminho certo é criar uma alíquota
+                                nova e apontar a regra específica para ela.
+                            </div>
+                            <ul>
+                                <li>As alíquotas padrão do Brasil (ICMS por estado,
+                                IPI, PIS/COFINS por regime) já vêm cadastradas e são
+                                mantidas pela comunidade. Normalmente você não
+                                precisa criar nenhuma.</li>
+                                <li>Alíquota com percentual zero não significa "sem
+                                regra": o código fiscal dela (isento, suspenso, não
+                                tributado...) é o que sai na nota.</li>
+                            </ul>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>

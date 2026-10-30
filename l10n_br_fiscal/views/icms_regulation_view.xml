@@ -30,7 +30,41 @@
                         <field name="name" required="1" />
                         <field name="icms_imported_tax_id" required="1" />
                     </group>
-                    <notebook />
+                    <!-- The state pages are added after the help page by
+                         _apply_state_tax_definition_tabs (models/icms_regulation.py) -->
+                    <notebook>
+                        <page name="help" string="Ajuda">
+                            <div class="alert alert-info" role="alert">
+                                <strong>O regulamento do ICMS é a tabela que
+                                responde: "saindo do estado X para o estado Y, qual
+                                é o ICMS?"</strong> É daqui que sai o ICMS das
+                                vendas e compras comuns, sem você configurar nada
+                                por operação.
+                            </div>
+                            <ul>
+                                <li>As alíquotas internas e interestaduais de todos
+                                os estados já vêm cadastradas e são mantidas pela
+                                comunidade. Cada estado tem a sua aba, com o ICMS,
+                                o ICMS ST, o FCP e os benefícios fiscais.</li>
+                                <li>Benefícios estaduais (redução de base, isenção
+                                para determinados produtos) entram aqui como regras
+                                por estado e NCM.</li>
+                                <li>Só as regras <strong>aprovadas</strong> valem.
+                                Quando mais de uma serve, o benefício fiscal vem
+                                primeiro, depois a regra específica do NCM, CEST ou
+                                produto e, por último, a regra geral do estado.</li>
+                                <li>Empresas do <strong>Simples Nacional</strong> não
+                                usam esta tabela: o ICMS delas é recolhido no DAS,
+                                com o percentual do anexo e da faixa calculados na
+                                empresa.</li>
+                            </ul>
+                            <div class="alert alert-warning" role="alert">
+                                Alterações aqui afetam <em>todas</em> as vendas e
+                                compras das empresas que usam este regulamento. Na
+                                dúvida, confirme com o seu contador antes de mudar.
+                            </div>
+                        </page>
+                    </notebook>
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" groups="base.group_user" />
