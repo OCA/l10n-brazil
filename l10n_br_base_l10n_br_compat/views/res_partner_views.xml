@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="l10n_br.br_partner_address_form" model="ir.ui.view">
+        <field name="active">False</field>
+    </record>
+
+    <record id="l10n_br.br_partner_tax_fields_form" model="ir.ui.view">
+        <field name="active">False</field>
+    </record>
+
+    <record id="l10n_latam_base.view_partner_latam_form" model="ir.ui.view">
+        <field name="active">False</field>
+    </record>
+
+    <record id="base_vat.view_partner_base_vat_form" model="ir.ui.view">
+        <field name="active">False</field>
+    </record>
+</odoo>
