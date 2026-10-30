@@ -19,6 +19,10 @@ from nfelib.nfse.client.v1_0.nfse import NfseClient
 from odoo import _, fields, models
 from odoo.exceptions import UserError
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    DOCUMENT_STATE_CANCEL,
+    MODELO_FISCAL_NFSE,
+)
 from odoo.addons.l10n_br_fiscal_dfe.constants.dfe import (
     CSTAT_CONSUMO_INDEVIDO,
     CSTAT_NO_DOCS,
@@ -616,7 +620,8 @@ class ResCompany(models.Model):
 
         A request (``PEDIDO_REGISTRO_EVENTO``) and a denied request do not
         change the note. Called after the note and after the event, so the
-        arrival order does not matter.
+        arrival order does not matter. A registered cancellation also marks
+        the imported fiscal document. The vendor bill is left as it is.
         """
         cancelled = document.dfe_ids.filtered(
             lambda rec: rec.document_type_dfe == "event"
@@ -626,6 +631,34 @@ class ResCompany(models.Model):
         state = NFSE_STATE_CANCELLED if cancelled else NFSE_STATE_AUTHORIZED
         if document.document_state != state:
             document.sudo().write({"document_state": state})
+        if state == NFSE_STATE_CANCELLED:
+            self._nfse_cancel_imported_fiscal_documents(document)
+
+    def _nfse_cancel_imported_fiscal_documents(self, inbox):
+        """Set ``state_edoc`` on fiscal documents imported from this NFS-e.
+
+        A key typed on a draft that was never imported does not count, and
+        another company's document is left alone. Writing the fiscal state
+        does not cancel or unreconcile the vendor bill.
+        """
+        inbox.ensure_one()
+        if not inbox.access_key or not inbox.company_id:
+            return
+        documents = (
+            self.env["l10n_br_fiscal.document"]
+            .sudo()
+            .search(
+                [
+                    ("document_key", "=", inbox.access_key),
+                    ("company_id", "=", inbox.company_id.id),
+                    ("imported_document", "=", True),
+                    ("document_type_id.code", "=", MODELO_FISCAL_NFSE),
+                    ("state_edoc", "!=", DOCUMENT_STATE_CANCEL),
+                ]
+            )
+        )
+        if documents:
+            documents.write({"state_edoc": DOCUMENT_STATE_CANCEL})
 
     def _nfse_search_specific(self, access_key=None, nsu=None):
         self.ensure_one()
