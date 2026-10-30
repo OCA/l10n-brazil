@@ -1,2 +1,4 @@
 - [AKRETION](https://akretion.com/pt-BR/):
   - Raphaël Valyi \<<raphael.valyi@akretion.com.br>\>
+- [KMEE](https://www.kmee.com.br):
+  - Luis Felipe Mileo \<<mileo@kmee.com.br>\>
