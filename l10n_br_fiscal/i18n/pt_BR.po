@@ -3066,6 +3066,11 @@ msgid "Ferramentas"
 msgstr "Ferramentas"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__file_name
+msgid "File Name"
+msgstr "Nome do Arquivo"
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__file
 msgid "File to Import"
 msgstr "Arquivo a Importar"
@@ -11062,9 +11067,6 @@ msgstr "PIS RET"
 
 #~ msgid "File"
 #~ msgstr "Arquivo"
-
-#~ msgid "File Name"
-#~ msgstr "Nome do Arquivo"
 
 #~ msgid "Is Valid?"
 #~ msgstr "É válido?"
