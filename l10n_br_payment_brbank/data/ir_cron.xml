@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="1">
+    <!-- Polling as the safety net of the webhooks. -->
+    <record id="ir_cron_brbank_reconcile" model="ir.cron">
+        <field name="name">Boleto brbank: reconcile titles with the banks</field>
+        <field name="model_id" ref="payment.model_payment_transaction" />
+        <field name="state">code</field>
+        <field name="code">model._cron_brbank_reconcile()</field>
+        <field name="interval_number">30</field>
+        <field name="interval_type">minutes</field>
+        <field name="numbercall">-1</field>
+        <field name="active" eval="True" />
+    </record>
+
+    <!-- The controller triggers it at once; the period covers lost triggers. -->
+    <record id="ir_cron_brbank_process_events" model="ir.cron">
+        <field name="name">Boleto brbank: process bank webhook events</field>
+        <field name="model_id" ref="model_l10n_br_brbank_event" />
+        <field name="state">code</field>
+        <field name="code">model._cron_process_events()</field>
+        <field name="interval_number">10</field>
+        <field name="interval_type">minutes</field>
+        <field name="numbercall">-1</field>
+        <field name="active" eval="True" />
+    </record>
+</odoo>
