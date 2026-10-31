@@ -1,0 +1,821 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_bank_connection
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-29 10:12+0000\n"
+"PO-Revision-Date: 2026-10-29 10:12+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid " (required)"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid " [secret]"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.constraint,message:l10n_br_bank_connection.constraint_l10n_br_bank_connection_sync_status_connection_domain_unique
+msgid "A connection has one synchronization status per domain."
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.constraint,message:l10n_br_bank_connection.constraint_l10n_br_bank_connection_token_connection_key_unique
+msgid "A connection has one token per key."
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__password
+msgid "API Password"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__api_base_url_override
+msgid "API URL Override"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__username
+msgid "API Username"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid "Access token obtained."
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,help:l10n_br_bank_connection.field_l10n_br_bank_connection_token__key
+msgid "Account and scope of the token."
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__active
+msgid "Active"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__adapter
+msgid "Adapter"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,help:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__adapter
+msgid "Adapter of the brbank library that talks to the bank."
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_form
+msgid "Advanced"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_search
+msgid "Archived"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid "Asynchronous instructions"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid "Asynchronous registration"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_search
+msgid "Bank"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,help:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__pix_profile
+msgid "Bank (PSP) of the Pix BACEN adapter."
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model,name:l10n_br_bank_connection.model_l10n_br_bank_connection_connection
+msgid "Bank Connection"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model,name:l10n_br_bank_connection.model_l10n_br_bank_connection_token
+msgid "Bank Connection Access Token"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model,name:l10n_br_bank_connection.model_l10n_br_bank_connection_sync_status
+msgid "Bank Connection Synchronization Status"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.actions.act_window,name:l10n_br_bank_connection.bank_connection_action
+#: model:ir.ui.menu,name:l10n_br_bank_connection.bank_connection_menu
+msgid "Bank Connections"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_form
+msgid "Bank Settings"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_form
+msgid "Bank account"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:res.groups,name:l10n_br_bank_connection.group_bank_connection_admin
+msgid "Bank connections: administrator"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields.selection,name:l10n_br_bank_connection.selection__l10n_br_bank_connection_sync_status__domain__collection
+msgid "Billing"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid "Boleto PDF"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid "CNAB remittance"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__cnpj
+msgid "CNPJ"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,help:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__cnpj
+msgid ""
+"CNPJ of the account holder, as the bank knows it. Defaults to the CNPJ of "
+"the company."
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__capability_labels
+msgid "Capability Labels"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__certificate
+msgid "Certificate (PEM)"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid "Choose the bank adapter first."
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__client_id
+msgid "Client ID"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__client_secret
+msgid "Client Secret"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_sync_status__color
+msgid "Color"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_form
+msgid "Connect"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields.selection,name:l10n_br_bank_connection.selection__l10n_br_bank_connection_connection__state__connected
+msgid "Connected"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_sync_status__connection_id
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_token__connection_id
+msgid "Connection"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__create_uid
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_sync_status__create_uid
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_token__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__create_date
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_sync_status__create_date
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_token__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:res.groups,comment:l10n_br_bank_connection.group_bank_connection_admin
+msgid ""
+"Creates and edits bank connections and starts the consent\n"
+"            at the bank. Credentials stay readable by system administrators only."
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_form
+msgid "Credentials"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields.selection,name:l10n_br_bank_connection.selection__l10n_br_bank_connection_sync_status__domain__dda
+msgid "DDA"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid "DDA (authorized direct debits)"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__display_name
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_sync_status__display_name
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_token__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_sync_status__domain
+msgid "Domain"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__environment
+msgid "Environment"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields.selection,name:l10n_br_bank_connection.selection__l10n_br_bank_connection_connection__state__error
+#: model:ir.model.fields.selection,name:l10n_br_bank_connection.selection__l10n_br_bank_connection_sync_status__state__error
+msgid "Error"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_token__expires_at
+msgid "Expires At"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,help:l10n_br_bank_connection.field_l10n_br_bank_connection_token__expires_at
+msgid "Expiry as epoch seconds."
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__secret_config
+msgid "Extra Secrets"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__extra_config
+msgid "Extra Settings"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_form
+msgid "Fill settings template"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid "Hybrid boleto (Pix QR code)"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid "Hybrid boleto only"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__id
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_sync_status__id
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_token__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,help:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,help:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid "Immediate Pix charge"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid "Incomplete configuration of the connection %(name)s (%(details)s)."
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid "Instructions (due date, rebate)"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__is_pix
+msgid "Is Pix"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,help:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__secret_config
+msgid ""
+"JSON object with the bank specific secrets (developer key, API key, webhook "
+"secret...)."
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,help:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__extra_config
+msgid ""
+"JSON object with the bank specific settings (agreement, wallet, client "
+"number...). Use 'Fill settings template' to get the keys."
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_token__key
+msgid "Key"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_sync_status__last_date
+msgid "Last Date"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__last_error
+msgid "Last Error"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__write_uid
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_sync_status__write_uid
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_token__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__write_date
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_sync_status__write_date
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_token__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_sync_status__message
+msgid "Message"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__name
+msgid "Name"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields.selection,name:l10n_br_bank_connection.selection__l10n_br_bank_connection_connection__state__needs_reconsent
+msgid "Needs Reconsent"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_search
+msgid "Needs attention"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields.selection,name:l10n_br_bank_connection.selection__l10n_br_bank_connection_connection__state__draft
+msgid "Not Connected"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,help:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,help:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,help:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__refresh_token
+msgid ""
+"OAuth refresh token obtained at the bank (authorization code flow, see "
+"Connect). The bank may return a new one at each renewal: the connection "
+"keeps it up to date by itself."
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,help:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__scopes
+msgid ""
+"OAuth scopes asked at the consent. Empty uses the default of the adapter."
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields.selection,name:l10n_br_bank_connection.selection__l10n_br_bank_connection_sync_status__state__ok
+msgid "OK"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__oauth_expires
+msgid "Oauth Expires"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__oauth_state
+msgid "Oauth State"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__oauth_supported
+msgid "Oauth Supported"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__oauth_verifier
+msgid "Oauth Verifier"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__pix_key
+msgid "Pix Key"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__pix_profile
+msgid "Pix Profile"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid "Pix charge with due date"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,help:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__api_base_url_override
+msgid ""
+"Points the adapter to another server (bank simulator, tests). Leave empty to"
+" use the bank environment."
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__private_key
+msgid "Private Key (PEM)"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields.selection,name:l10n_br_bank_connection.selection__l10n_br_bank_connection_connection__environment__prod
+msgid "Production"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_kanban
+msgid "Reconnect"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__refresh_token
+msgid "Refresh Token"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_form
+msgid "Rotate webhook token"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,help:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__token_url_override
+msgid "Same for the OAuth token endpoint."
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__sandbox_validated
+msgid "Sandbox Validated"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid "Save the connection first."
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__scopes
+msgid "Scopes"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__settings_help
+msgid "Settings Help"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__state
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_sync_status__state
+#: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_search
+msgid "State"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__sync_status_ids
+#: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_form
+msgid "Synchronization"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_kanban
+msgid "Test"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields.selection,name:l10n_br_bank_connection.selection__l10n_br_bank_connection_connection__environment__test
+msgid "Test (bank sandbox)"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_form
+msgid "Test connection"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid "The adapter %s does not use the authorization code flow."
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid "The adapter has no token step."
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid ""
+"The bank adapter %s has no test environment: every call reaches production. "
+"Use the production environment and validate it with a low amount."
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid "The bank adapter %s is not installed in the brbank library."
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid "The bank connection %s is archived."
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid "The bank did not return a refresh token."
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid "The bank refused the authorization code: %s"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid ""
+"The bank refused the configuration of the connection %(name)s: %(error)s"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid "The consent was not started or already used."
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_form
+msgid ""
+"The current webhook URL stops working. Register the new one at the bank. "
+"Continue?"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid "The field %s must hold a JSON object."
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_form
+msgid ""
+"This bank adapter has not been validated in the bank sandbox\n"
+"                        yet. Test it with low amounts before using it in production."
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__token_url_override
+msgid "Token URL Override"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__uses_certificate
+msgid "Uses Certificate"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__uses_client_id
+msgid "Uses Client"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__uses_client_secret
+msgid "Uses Client Secret"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__uses_password
+msgid "Uses Password"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__uses_pix_key
+msgid "Uses Pix Key"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__uses_refresh_token
+msgid "Uses Refresh Token"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__uses_username
+msgid "Uses Username"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_token__value
+msgid "Value"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields.selection,name:l10n_br_bank_connection.selection__l10n_br_bank_connection_sync_status__state__warning
+msgid "Warning"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+#: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_form
+msgid "Webhook"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__webhook_token
+msgid "Webhook Token"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__webhook_url
+msgid "Webhook URL"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,help:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid "Write-off"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,help:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__certificate
+msgid ""
+"mTLS certificate. It only goes to a temporary file in memory while the TLS "
+"context is built."
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid "missing: %s"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid "secrets typed in Extra Settings, move them to Extra Secrets: %s"
+msgstr ""
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid "unknown or invalid: %s"
+msgstr ""
