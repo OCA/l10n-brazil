@@ -98,6 +98,14 @@ ICMS_SN_CST_WITH_CREDIT = ["101", "201"]
 ICMS_SN_CST_WITHOUT_CREDIT = ["102", "103", "202", "203", "300", "400", "500", "900"]
 
 
+# Tax of the Simples Nacional without credit that takes the place of the one
+# with credit (by its CSOSN) when the recipient cannot take the credit
+ICMS_SN_TAX_WITHOUT_CREDIT = {
+    "101": "l10n_br_fiscal.tax_icms_sn_sem_credito",
+    "201": "l10n_br_fiscal.tax_icms_sn_sem_credito_st",
+}
+
+
 ICMS_DIFAL_PARTITION = {
     2016: {"difal_origin_perc": 60.00, "difal_dest_perc": 40.00},
     2017: {"difal_origin_perc": 40.00, "difal_dest_perc": 60.00},
