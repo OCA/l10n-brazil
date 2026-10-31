@@ -1,0 +1,407 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_account_payment_order_brbank
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-31 04:20+0000\n"
+"PO-Revision-Date: 2026-10-31 04:20+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_account_payment_order_brbank
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order_brbank/models/account_payment_api_batch.py:0
+msgid "%(user)s authorized %(count)s payment(s) at the bank on %(date)s."
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order_brbank.account_payment_order_form
+msgid "Authorize at the Bank"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order_brbank.field_account_payment_mode__api_provider
+msgid "Bank API Provider"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model,name:l10n_br_account_payment_order_brbank.model_l10n_br_bank_connection_connection
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order_brbank.field_account_payment_mode__bank_connection_id
+msgid "Bank Connection"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order_brbank.field_account_payment_order__brbank_can_authorize
+msgid "Brbank Can Authorize"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order_brbank.field_account_payment_mode__brbank_uses_contract
+msgid "Brbank Uses Contract"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order_brbank.field_account_payment_mode__brbank_uses_ted_purpose
+msgid "Brbank Uses Ted Purpose"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order_brbank.account_payment_order_form
+msgid ""
+"Depending on how this account is set up at the bank, the money leaves as "
+"soon as the bank receives each payment or waits for an approval in the "
+"internet banking. Send these payments?"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order_brbank.selection__account_payment_mode__brbank_send_notice__account_setting
+msgid "Depends on the approval setting of the account"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order_brbank/models/bank_connection.py:0
+msgid ""
+"Incomplete payment configuration of the connection %(name)s: %(details)s"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order_brbank/models/account_payment_api_batch.py:0
+msgid "Invalid payment data of %(owner)s: %(errors)s"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model.fields,help:l10n_br_account_payment_order_brbank.field_l10n_br_bank_connection_connection__brbank_payment_secrets
+msgid ""
+"JSON object with the secrets of the payment API that the charge secrets do "
+"not have."
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model.fields,help:l10n_br_account_payment_order_brbank.field_l10n_br_bank_connection_connection__brbank_payment_settings
+msgid ""
+"JSON object with the settings of the payment API that the charge settings do"
+" not have."
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model,name:l10n_br_account_payment_order_brbank.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order_brbank.field_account_payment_mode__brbank_payment_kind
+msgid "Kind of Payments"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order_brbank/models/account_payment_api_batch.py:0
+msgid ""
+"No answer from the bank and no identifier to ask for it: check the bank "
+"statement before paying this title again."
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order_brbank/models/account_payment_api_batch.py:0
+msgid ""
+"No answer from the bank: the payment may have been made. Odoo keeps asking "
+"the bank."
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order_brbank.account_payment_order_form
+msgid ""
+"No money leaves on send: the bank only validates the payments, and they are "
+"paid when you use Authorize at the Bank. Send these payments?"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order_brbank.account_payment_order_form
+msgid ""
+"No money leaves on send: the payments wait for an approver in the bank "
+"channel (app or internet banking). Send these payments?"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order_brbank/models/account_payment_api_batch.py:0
+msgid ""
+"Not sent, because the bank did not answer an earlier payment. It can go in a"
+" new payment order."
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order_brbank/models/account_payment_order.py:0
+msgid "Only accounting managers authorize at the bank."
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order_brbank.selection__account_payment_mode__brbank_payment_kind__128
+msgid "Other"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order_brbank.selection__account_payment_mode__brbank_send_notice__pays_on_send
+msgid "Paid when the bank receives it"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model,name:l10n_br_account_payment_order_brbank.model_account_payment_api_batch
+msgid "Payment Batch Sent to a Bank API"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order_brbank.field_account_payment_mode__brbank_contract
+msgid "Payment Contract"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order_brbank.field_l10n_br_bank_connection_connection__brbank_payment_settings_help
+msgid "Payment Keys"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model,name:l10n_br_account_payment_order_brbank.model_account_payment_line
+msgid "Payment Lines"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model,name:l10n_br_account_payment_order_brbank.model_account_payment_mode
+msgid "Payment Modes"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model,name:l10n_br_account_payment_order_brbank.model_account_payment_order
+msgid "Payment Order"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order_brbank.field_l10n_br_bank_connection_connection__brbank_payment_secrets
+msgid "Payment Secrets"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order_brbank.field_l10n_br_bank_connection_connection__brbank_payment_settings
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order_brbank.bank_connection_form
+msgid "Payment Settings"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model.fields,help:l10n_br_account_payment_order_brbank.field_account_payment_mode__brbank_contract
+msgid "Payment agreement of the company at the bank (PGT at Banco do Brasil)."
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order_brbank/models/account_payment_api_batch.py:0
+msgid ""
+"Payment line %(line)s is a %(kind)s, which the connection %(connection)s "
+"cannot pay through the bank API. Nothing was sent."
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order_brbank/models/account_payment_api_batch.py:0
+msgid "Payment line %(line)s: %(error)s"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order_brbank/models/account_payment_api_batch.py:0
+msgid "Payment line %s has no Pix key nor bank account."
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order_brbank/models/account_payment_api_batch.py:0
+msgid "Payment line %s has no bank account."
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order_brbank/models/account_payment_mode.py:0
+msgid ""
+"Payment mode %s moves money from Odoo, with no approval at the bank: it "
+"requires the second factor."
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order_brbank/models/account_payment_mode.py:0
+msgid "Payment mode %s sends through brbank: set the bank connection."
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order_brbank/models/account_payment_mode.py:0
+msgid "Payment mode %s sends through this bank: set the payment contract."
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order_brbank/models/account_payment_order.py:0
+msgid "Payment order %s has nothing to authorize."
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model.fields,help:l10n_br_account_payment_order_brbank.field_account_payment_mode__api_provider
+msgid ""
+"Payment orders of this mode are sent to the bank through this provider "
+"instead of a payment file. Each provider module adds its value."
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order_brbank/models/account_payment_api_batch.py:0
+msgid "Pix"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order_brbank.field_account_payment_line__pix_copy_paste
+msgid "Pix Copy and Paste"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order_brbank/models/account_payment_api_batch.py:0
+msgid "Pix copy and paste"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model.fields,help:l10n_br_account_payment_order_brbank.field_account_payment_mode__brbank_ted_purpose
+msgid "Purpose code sent with TED transfers to other banks (bank table)."
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order_brbank.field_account_payment_mode__api_require_second_factor
+msgid "Require Second Factor"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order_brbank.selection__account_payment_mode__brbank_payment_kind__127
+msgid "Salaries"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order_brbank.account_payment_order_form
+msgid "Send to Bank"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model.fields,help:l10n_br_account_payment_order_brbank.field_account_payment_mode__api_require_second_factor
+msgid ""
+"Sending to the bank asks for a code from the user's authenticator app, once "
+"per action."
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order_brbank.selection__account_payment_mode__brbank_payment_kind__126
+msgid "Suppliers"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order_brbank/models/account_payment_api_batch.py:0
+msgid "TED"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order_brbank.field_account_payment_mode__brbank_ted_purpose
+msgid "TED Purpose Code"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order_brbank/models/bank_connection.py:0
+msgid "The bank adapter %s cannot send payments."
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order_brbank/models/bank_connection.py:0
+msgid "The bank connection %s is archived."
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order_brbank/models/account_payment_api_batch.py:0
+msgid "The bank did not reserve a batch number: %s"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order_brbank/models/account_payment_api_batch.py:0
+msgid "The bank journal of %s has no bank account."
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order_brbank/models/account_payment_api_batch.py:0
+msgid "The bank refused the batch: %s"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order_brbank.selection__account_payment_mode__brbank_send_notice__authorize_in_odoo
+msgid "The bank waits for the authorization from Odoo"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order_brbank/models/account_payment_api_batch.py:0
+msgid ""
+"The connection %s cannot cancel payments through the bank API: cancel them "
+"in the bank channel."
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order_brbank.account_payment_order_form
+msgid ""
+"The money leaves the account as soon as the bank receives each payment: this"
+" bank has no approval step after this one. Send these payments?"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order_brbank.account_payment_order_form
+msgid ""
+"The money leaves the account now, and this cannot be undone from Odoo. "
+"Authorize these payments at the bank?"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order_brbank.selection__account_payment_mode__brbank_send_notice__bank_approval
+msgid "Waits for the approval at the bank"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order_brbank.field_account_payment_mode__brbank_send_notice
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order_brbank.field_account_payment_order__brbank_send_notice
+msgid "What Sending Does"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order_brbank/models/account_payment_api_batch.py:0
+msgid "boleto"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order_brbank.selection__account_payment_mode__api_provider__brbank
+msgid "brbank (Brazilian banks)"
+msgstr ""
+
+#. module: l10n_br_account_payment_order_brbank
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order_brbank/models/account_payment_api_batch.py:0
+msgid "guia"
+msgstr ""
