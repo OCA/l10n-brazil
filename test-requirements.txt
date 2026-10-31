@@ -3,3 +3,6 @@ odoo-test-helper  # Needed by spec_driven_model
 pyopenssl==22.1.0
 xmldiff
 brbank>=0.0.11  # Needed by l10n_br_bank_connection and l10n_br_account_payment_order_brbank
+odoo-addon-account_payment_order_api @ git+https://github.com/OCA/bank-payment.git@refs/pull/1648/head#subdirectory=setup/account_payment_order_api
+odoo-addon-account_payment_schedule @ git+https://github.com/OCA/bank-payment.git@refs/pull/1649/head#subdirectory=setup/account_payment_schedule
+odoo-addon-l10n_br_payment_schedule @ git+https://github.com/OCA/l10n-brazil.git@refs/pull/5553/head#subdirectory=l10n_br_payment_schedule
