@@ -1,0 +1,2 @@
+- Paying a dynamic Pix QR code directly, through the bank API.
+- Linking the boleto of the DDA (`l10n_br_dda`) as the instrument of the item.
