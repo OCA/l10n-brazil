@@ -180,6 +180,18 @@ class ResCompany(spec_models.SpecModel):
             else:
                 rec.nfe40_choice_emit = "nfe40_CPF"
 
+    def _export_field(self, xsd_field, class_obj, member_spec, export_value=None):
+        if xsd_field in ("nfe40_xNome", "nfe40_xFant"):
+            # The NF-e schema limits the issuer xNome and xFant to 60
+            # characters (TString 2-60 and 1-60)
+            value = super()._export_field(
+                xsd_field, class_obj, member_spec, export_value
+            )
+            if isinstance(value, str):
+                value = value[:60].strip()
+            return value
+        return super()._export_field(xsd_field, class_obj, member_spec, export_value)
+
     def _build_attr(self, node, fields, vals, path, attr):
         if attr[0] == "enderEmit" and self.env.context.get("edoc_type") == "in":
             # we don't want to try build a related partner_id for enderEmit
