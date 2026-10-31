@@ -70,6 +70,12 @@ msgid "Esp."
 msgstr ""
 
 #. module: l10n_br_delivery_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_invoice_onshipping_vol_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_picking_vol_form
+msgid "Espécie"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__nfe40_esp
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__nfe40_esp
 msgid "Espécie dos volumes transportados"
@@ -122,6 +128,8 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_l10n_br_delivery_nfe_invoice_onshipping
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_picking_withcarrier_out_form_inherit
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_generate_volumes
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_invoice_onshipping_vol_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_picking_vol_form
 msgid "Marca"
 msgstr ""
 
@@ -194,6 +202,12 @@ msgid "Number of Volumes"
 msgstr ""
 
 #. module: l10n_br_delivery_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_invoice_onshipping_vol_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_picking_vol_form
+msgid "Numeração"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__nfe40_nVol
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__nfe40_nVol
 msgid "Numeração dos volumes transportados"
@@ -213,10 +227,22 @@ msgid "Peso B."
 msgstr ""
 
 #. module: l10n_br_delivery_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_invoice_onshipping_vol_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_picking_vol_form
+msgid "Peso Bruto (kg)"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_l10n_br_delivery_nfe_invoice_onshipping
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_picking_withcarrier_out_form_inherit
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_generate_volumes
 msgid "Peso L."
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_invoice_onshipping_vol_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_picking_vol_form
+msgid "Peso Líquido (kg)"
 msgstr ""
 
 #. module: l10n_br_delivery_nfe
@@ -246,6 +272,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_picking_withcarrier_out_form_inherit
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_generate_volumes
 msgid "Qt Vol"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_invoice_onshipping_vol_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_picking_vol_form
+msgid "Quantidade"
 msgstr ""
 
 #. module: l10n_br_delivery_nfe
