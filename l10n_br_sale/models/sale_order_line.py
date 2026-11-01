@@ -111,7 +111,12 @@ class SaleOrderLine(models.Model):
 
     # Fields compute need parameter compute_sudo
     price_subtotal = fields.Monetary(compute_sudo=True)
-    price_tax = fields.Monetary(compute_sudo=True)
+    # Redefining the field as Monetary drops the compute of the Float field of
+    # the sale module: without it, the taxes are only stored as a side effect
+    # of the computation of price_subtotal
+    price_tax = fields.Monetary(
+        compute="_compute_amount", store=True, precompute=True, compute_sudo=True
+    )
 
     user_total_discount = fields.Boolean(compute="_compute_user_total_discount")
     user_discount_value = fields.Boolean(compute="_compute_user_discount_value")
@@ -178,11 +183,21 @@ class SaleOrderLine(models.Model):
         "insurance_value",
         "other_value",
         "tax_ids",
+        # The fiscal amounts are computed from the tax values, which are not
+        # ready yet when the line is created on the server (e.g. by a wizard)
+        "fiscal_amount_untaxed",
+        "fiscal_amount_tax",
+        "fiscal_amount_total",
     )
     def _compute_amount(self):
         """Compute the amounts of the SO line."""
         result = super()._compute_amount()
         for line in self:
+            # price_gross is computed by this method too: assign it, otherwise
+            # it is reset and the order totals are computed with a gross of 0
+            line.price_gross = (line.currency_id or self.env.ref("base.BRL")).round(
+                line.price_unit * line.quantity
+            )
             if line.fiscal_operation_id:
                 line.update(
                     {

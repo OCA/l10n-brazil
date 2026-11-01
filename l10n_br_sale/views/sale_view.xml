@@ -96,6 +96,27 @@
                 />
             </field>
             <field name="tax_totals" position="after">
+                <!-- tax_totals is hidden for brazilian companies (see _get_view) -->
+                <field
+                    name="amount_tax"
+                    widget='monetary'
+                    options="{'currency_field': 'currency_id'}"
+                    invisible="company_country_id != %(base.br)d"
+                />
+                <div
+                    class="oe_subtotal_footer_separator oe_inline o_td_label"
+                    invisible="company_country_id != %(base.br)d"
+                >
+                    <label for="amount_total" />
+                </div>
+                <field
+                    name="amount_total"
+                    nolabel="1"
+                    class="oe_subtotal_footer_separator"
+                    widget='monetary'
+                    options="{'currency_field': 'currency_id'}"
+                    invisible="company_country_id != %(base.br)d"
+                />
                 <field
                     name="amount_financial_total"
                     widget='monetary'
