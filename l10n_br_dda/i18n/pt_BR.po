@@ -1,0 +1,2196 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_dda
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-29 10:10+0000\n"
+"PO-Revision-Date: 2026-10-27 02:48+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid ""
+" The boleto settles %s installments: it goes as one payment line, on the "
+"first one."
+msgstr ""
+" O boleto quita %s parcelas: vai como uma linha de pagamento, na primeira."
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "%(action)s undone by %(user)s."
+msgstr "%(action)s desfeito por %(user)s."
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/dda_inbox_service.esm.js:0
+msgid ""
+"%(done)s of %(total)s actions undone. The others can no longer be reverted."
+msgstr ""
+"%(done)s de %(total)s ações desfeitas. As demais não podem mais ser "
+"revertidas."
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/account_move_line.py:0
+msgid ""
+"%(line)s is paid by the DDA boleto %(boleto)s, which goes to the payment "
+"order on %(first)s."
+msgstr "%(line)s é pago pelo boleto DDA %(boleto)s, que vai para a ordem de pagamento em %(first)s."
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/dda_inbox_service.esm.js:0
+msgid ""
+"%(linked)s linked, %(bills)s bills created, %(ignored)s ignored, %(skipped)s"
+" skipped. Total: %(total)s"
+msgstr ""
+"%(linked)s vinculados, %(bills)s faturas criadas, %(ignored)s ignorados, "
+"%(skipped)s pulados. Total: %(total)s"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid ""
+"%(linked)s links, %(bills)s draft bills, %(skipped)s skipped; total "
+"%(total).2f"
+msgstr ""
+"%(linked)s vínculos, %(bills)s faturas em rascunho, %(skipped)s pulados; "
+"total %(total).2f"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "%s candidates"
+msgstr "%s candidatos"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid ""
+"%s is a suspect boleto: an approver has to record the verification before "
+"payment."
+msgstr ""
+"%s é um boleto suspeito: um aprovador precisa registrar a verificação antes "
+"do pagamento."
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "%s is already linked to another DDA boleto."
+msgstr "%s já está vinculado a outro boleto DDA."
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "%s is not an open payable line of the company."
+msgstr "%s não é uma linha a pagar em aberto da empresa."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields.selection,name:l10n_br_dda.selection__l10n_br_dda_debit_source__source_type__api
+msgid "API"
+msgstr "API"
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.res_config_settings_view_form_dda
+msgid ""
+"Accounts of the interest, fine and discount that differ from the title at "
+"the write-off."
+msgstr "Contas dos juros, multa e desconto que diferem do título na baixa."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__message_needaction
+msgid "Action Needed"
+msgstr "Requer ação"
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/dda_inbox_service.esm.js:0
+msgid "Action undone."
+msgstr "Ação desfeita."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__activity_ids
+msgid "Activities"
+msgstr "Atividades"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Decoração de exceção da atividade"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__activity_state
+msgid "Activity State"
+msgstr "Estado da atividade"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Ícone do tipo de atividade"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+#: model:ir.actions.server,name:l10n_br_dda.server_action_dda_add_to_payment
+#: model:ir.model.fields.selection,name:l10n_br_dda.selection__l10n_br_dda_debit__recommended_action__add_to_payment
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_form
+msgid "Add to payment order"
+msgstr "Adicionar à ordem de pagamento"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Added to the payment order %(order)s by %(user)s.%(extra)s"
+msgstr "Adicionado à ordem de pagamento %(order)s por %(user)s.%(extra)s"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__alert_assignment
+msgid "Alert Assignment"
+msgstr "Alerta de cessão"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__alert_codes
+msgid "Alert Codes"
+msgstr "Códigos de alerta"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__alert_duplicate
+msgid "Alert Duplicate"
+msgstr "Alerta de duplicidade"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__alert_no_title
+msgid "Alert No Title"
+msgstr "Alerta sem título"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__alert_unknown_partner
+msgid "Alert Unknown Partner"
+msgstr "Alerta de fornecedor desconhecido"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__alert_labels
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_form
+msgid "Alerts"
+msgstr "Alertas"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__allocation_ids
+msgid "Allocations"
+msgstr "Alocações"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_allocation__amount
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__amount
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard__boleto_amount
+msgid "Amount"
+msgstr "Valor"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match__amount_diff
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard_line__amount_diff
+msgid "Amount Diff"
+msgstr "Diferença de valor"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match__amount_total
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard_line__amount_total
+msgid "Amount Total"
+msgstr "Valor total"
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.res_config_settings_view_form_dda
+msgid "Amount difference still suggested (never linked by itself)."
+msgstr "Diferença de valor ainda sugerida (nunca vinculada sozinha)."
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Amount differs by %s"
+msgstr "O valor difere em %s"
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_search
+msgid "Amount divergence"
+msgstr "Divergência de valor"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Amount within the tolerance (difference %s)"
+msgstr "Valor dentro da tolerância (diferença %s)"
+
+#. module: l10n_br_dda
+#: model:ir.model,name:l10n_br_dda.model_l10n_br_cnab_structure
+msgid ""
+"An structure with header, body and trailer that make up the CNAB structure."
+msgstr ""
+"Uma estrutura com cabeçalho, corpo e rodapé que compõe a estrutura CNAB."
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_form
+msgid ""
+"Another boleto of the same beneficiary has the same amount\n"
+"                        and due date: it may be a duplicate."
+msgstr ""
+"Outro boleto do mesmo beneficiário tem o mesmo valor e vencimento: pode ser "
+"duplicidade."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_l10n_br_dda_debit__raw_payload
+msgid "Answer of the source, already masked."
+msgstr "Resposta da fonte, já mascarada."
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_form
+msgid "Apply recommended action"
+msgstr "Aplicar ação recomendada"
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_inbox_list.xml:0
+#: model:ir.actions.server,name:l10n_br_dda.server_action_dda_apply_recommended
+msgid "Apply recommended actions"
+msgstr "Aplicar ações recomendadas"
+
+#. module: l10n_br_dda
+#: model:ir.actions.server,name:l10n_br_dda.server_action_dda_assign_me
+msgid "Assign to me"
+msgstr "Atribuir a mim"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__user_id
+msgid "Assigned to"
+msgstr "Atribuído a"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields.selection,name:l10n_br_dda.selection__l10n_br_dda_match__identity_kind__assignment
+msgid "Assignment"
+msgstr "Cessão"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Assignment: check the assignee"
+msgstr "Cessão: confirme o cessionário"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Assignment: the boleto is not issued by the vendor"
+msgstr "Cessão: o boleto não é emitido pelo fornecedor"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__message_attachment_count
+msgid "Attachment Count"
+msgstr "Contagem de anexos"
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_dashboard.esm.js:0
+msgid "Attention"
+msgstr "Atenção"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields.selection,name:l10n_br_dda.selection__l10n_br_dda_debit__link_mode__auto
+msgid "Automatic rule"
+msgstr "Regra automática"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_import_wizard__bank_id
+msgid "Bank"
+msgstr "Banco"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__bank_updated_at
+msgid "Bank Updated At"
+msgstr "Banco atualizou em"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__barcode
+msgid "Barcode"
+msgstr "Código de barras"
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_search
+msgid "Beneficiary"
+msgstr "Beneficiário"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__beneficiary_vat
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard__beneficiary_vat
+msgid "Beneficiary CNPJ"
+msgstr "CNPJ do beneficiário"
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_list
+msgid "Beneficiary CNPJ (digits)"
+msgstr "CNPJ do beneficiário (dígitos)"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__beneficiary_vat_display
+msgid "Beneficiary CNPJ (masked)"
+msgstr "CNPJ do beneficiário (mascarado)"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__beneficiary_name
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard__beneficiary_name
+msgid "Beneficiary Name"
+msgstr "Nome do beneficiário"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__beneficiary_trade_name
+msgid "Beneficiary Trade Name"
+msgstr "Nome fantasia do beneficiário"
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_inbox_list.xml:0
+msgid "Bills by status"
+msgstr "Faturas por situação"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_match_wizard_view_form
+msgid "Boleto"
+msgstr "Boleto"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_l10n_br_dda_match__amount_diff
+msgid "Boleto amount minus the open amount of the lines."
+msgstr "Valor do boleto menos o valor em aberto das linhas."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_l10n_br_dda_debit__divergence_amount
+msgid ""
+"Boleto amount minus the open amount of the title (suggested or linked). "
+"Nothing edits the invoice: the difference goes to the write-off."
+msgstr ""
+"Valor do boleto menos o valor em aberto do título (sugerido ou vinculado). "
+"Nada edita a fatura: a diferença vai na baixa."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_ignore_wizard__debit_ids
+msgid "Boletos"
+msgstr "Boletos"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+#: model:ir.model.fields.selection,name:l10n_br_dda.selection__l10n_br_dda_debit_source__source_type__cnab
+msgid "CNAB file"
+msgstr "Arquivo CNAB"
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_inbox_list.xml:0
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_ignore_wizard_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_import_wizard_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_match_wizard_view_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields.selection,name:l10n_br_dda.selection__l10n_br_dda_debit__state__cancelled
+msgid "Cancelled by beneficiary"
+msgstr "Cancelado pelo beneficiário"
+
+#. module: l10n_br_dda
+#: model:ir.model,name:l10n_br_dda.model_l10n_br_dda_match_wizard_line
+msgid "Candidate title of the DDA link wizard"
+msgstr "Título candidato do assistente de vínculo DDA"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard__candidate_ids
+msgid "Candidates"
+msgstr "Candidatos"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Captured from %(type)s (%(key)s)."
+msgstr "Capturado de %(type)s (%(key)s)."
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/wizards/dda_import_wizard.py:0
+msgid "Choose the DDA structure and the file."
+msgstr "Escolha a estrutura DDA e o arquivo."
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_inbox_list.xml:0
+msgid "Close"
+msgstr "Fechar"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_import_wizard__cnab_structure_id
+msgid "Cnab Structure"
+msgstr "Estrutura CNAB"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_import_wizard__cnab_format
+msgid "Code (Do Not Modify)"
+msgstr "Código (não modificar)"
+
+#. module: l10n_br_dda
+#: model:ir.model,name:l10n_br_dda.model_res_company
+msgid "Companies"
+msgstr "Empresas"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_allocation__company_id
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__company_id
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit_source__company_id
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_import_wizard__company_id
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match__company_id
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard__company_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_search
+msgid "Company"
+msgstr "Empresa"
+
+#. module: l10n_br_dda
+#: model:ir.model,name:l10n_br_dda.model_res_config_settings
+msgid "Config Settings"
+msgstr "Configurações"
+
+#. module: l10n_br_dda
+#: model:res.groups,comment:l10n_br_dda.group_dda_manager
+msgid "Configure the policies and see the technical data of the boletos."
+msgstr "Configura as políticas e vê os dados técnicos dos boletos."
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_inbox_list.xml:0
+msgid "Confirm"
+msgstr "Confirmar"
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/dda_inbox_service.esm.js:0
+msgid "Confirm before paying"
+msgstr "Confirme antes de pagar"
+
+#. module: l10n_br_dda
+#: model:ir.model,name:l10n_br_dda.model_res_partner
+msgid "Contact"
+msgstr "Contato"
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/dda_inbox_service.esm.js:0
+msgid ""
+"Could not undo: the bill is already in an exported payment order or was "
+"changed."
+msgstr ""
+"Não foi possível desfazer: a fatura já está em uma ordem de pagamento "
+"exportada ou foi alterada."
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_match_wizard_view_form
+msgid "Create a new bill"
+msgstr "Criar uma nova fatura"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields.selection,name:l10n_br_dda.selection__l10n_br_dda_debit__recommended_action__create_bill
+msgid "Create bill"
+msgstr "Criar fatura"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_form
+msgid "Create draft bill"
+msgstr "Criar fatura em rascunho"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__bill_id
+msgid "Created bill"
+msgstr "Fatura criada"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_allocation__create_uid
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__create_uid
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit_source__create_uid
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_ignore_wizard__create_uid
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_import_wizard__create_uid
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match__create_uid
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard__create_uid
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard_line__create_uid
+msgid "Created by"
+msgstr "Criado por"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_allocation__create_date
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__create_date
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit_source__create_date
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_ignore_wizard__create_date
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_import_wizard__create_date
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match__create_date
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard__create_date
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard_line__create_date
+msgid "Created on"
+msgstr "Criado em"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_allocation__currency_id
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__currency_id
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match__currency_id
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard__currency_id
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard_line__currency_id
+msgid "Currency"
+msgstr "Moeda"
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.res_config_settings_view_form_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.res_partner_view_form_dda
+msgid "DDA"
+msgstr "DDA"
+
+#. module: l10n_br_dda
+#: model:res.groups,name:l10n_br_dda.group_dda_approver
+msgid "DDA / Approver"
+msgstr "DDA / Aprovador"
+
+#. module: l10n_br_dda
+#: model:res.groups,name:l10n_br_dda.group_dda_manager
+msgid "DDA / Manager"
+msgstr "DDA / Gestor"
+
+#. module: l10n_br_dda
+#: model:res.groups,name:l10n_br_dda.group_dda_user
+msgid "DDA / User"
+msgstr "DDA / Usuário"
+
+#. module: l10n_br_dda
+#: model:ir.actions.act_window,name:l10n_br_dda.action_dda_debit
+#: model:ir.ui.menu,name:l10n_br_dda.menu_dda_debit
+msgid "DDA Boletos"
+msgstr "Boletos DDA"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_res_company__dda_amount_tolerance
+#: model:ir.model.fields,field_description:l10n_br_dda.field_res_config_settings__dda_amount_tolerance
+msgid "DDA amount tolerance"
+msgstr "Tolerância de valor do DDA"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_res_partner__dda_assignee_ids
+#: model:ir.model.fields,field_description:l10n_br_dda.field_res_users__dda_assignee_ids
+msgid "DDA assignees"
+msgstr "Cessionários DDA"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_res_company__dda_auto_link
+#: model:ir.model.fields,field_description:l10n_br_dda.field_res_config_settings__dda_auto_link
+msgid "DDA automatic link"
+msgstr "Vínculo automático do DDA"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_res_company__dda_create_bill_mode
+#: model:ir.model.fields,field_description:l10n_br_dda.field_res_config_settings__dda_create_bill_mode
+msgid "DDA bill creation"
+msgstr "Criação de fatura do DDA"
+
+#. module: l10n_br_dda
+#: model:ir.model,name:l10n_br_dda.model_l10n_br_dda_debit
+msgid "DDA boleto"
+msgstr "Boleto DDA"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "DDA boleto %s"
+msgstr "Boleto DDA %s"
+
+#. module: l10n_br_dda
+#: model:ir.model,name:l10n_br_dda.model_l10n_br_dda_allocation
+msgid "DDA boleto allocation"
+msgstr "Alocação de boleto DDA"
+
+#. module: l10n_br_dda
+#: model:ir.model,name:l10n_br_dda.model_l10n_br_dda_debit_source
+msgid "DDA boleto source"
+msgstr "Fonte do boleto DDA"
+
+#. module: l10n_br_dda
+#: model:ir.model,name:l10n_br_dda.model_l10n_br_dda_match
+msgid "DDA boleto suggestion"
+msgstr "Sugestão de boleto DDA"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_res_company__dda_discount_account_id
+#: model:ir.model.fields,field_description:l10n_br_dda.field_res_config_settings__dda_discount_account_id
+msgid "DDA discount account"
+msgstr "Conta de desconto do DDA"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_res_company__dda_date_tolerance
+#: model:ir.model.fields,field_description:l10n_br_dda.field_res_config_settings__dda_date_tolerance
+msgid "DDA due date tolerance (days)"
+msgstr "Tolerância de vencimento do DDA (dias)"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_res_company__dda_fine_account_id
+#: model:ir.model.fields,field_description:l10n_br_dda.field_res_config_settings__dda_fine_account_id
+msgid "DDA fine account"
+msgstr "Conta de multa do DDA"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_res_company__dda_interest_account_id
+#: model:ir.model.fields,field_description:l10n_br_dda.field_res_config_settings__dda_interest_account_id
+msgid "DDA interest account"
+msgstr "Conta de juros do DDA"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_res_company__dda_payment_mode_id
+#: model:ir.model.fields,field_description:l10n_br_dda.field_res_config_settings__dda_payment_mode_id
+msgid "DDA payment mode"
+msgstr "Modo de pagamento do DDA"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_cnab_structure__is_dda_return
+msgid "DDA return"
+msgstr "Retorno DDA"
+
+#. module: l10n_br_dda
+#: model:ir.actions.server,name:l10n_br_dda.ir_cron_dda_expire_ir_actions_server
+msgid "DDA: expire boletos past their limit date"
+msgstr "DDA: expirar boletos após a data limite"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match__date_diff
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard_line__date_diff
+msgid "Date Diff"
+msgstr "Diferença de dias"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__date_due
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard__boleto_due
+msgid "Date Due"
+msgstr "Vencimento"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__date_limit
+msgid "Date Limit"
+msgstr "Data limite"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__days_to_due
+msgid "Days To Due"
+msgstr "Dias para o vencimento"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_l10n_br_dda_match__date_diff
+msgid "Days between the due dates of the boleto and the title; -1 if unknown."
+msgstr "Dias entre os vencimentos do boleto e do título; -1 se desconhecido."
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.res_config_settings_view_form_dda
+msgid "Days of difference between the boleto and the title still suggested."
+msgstr "Dias de diferença entre o boleto e o título ainda sugeridos."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_allocation__debit_id
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit_source__debit_id
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match__debit_id
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard__debit_id
+msgid "Debit"
+msgstr "Débito"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_import_wizard__bank_account_cnab_id
+msgid "Default Account"
+msgstr "Conta padrão"
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.res_config_settings_view_form_dda
+msgid "Difference accounts"
+msgstr "Contas de diferença"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_res_company__dda_amount_tolerance
+#: model:ir.model.fields,help:l10n_br_dda.field_res_config_settings__dda_amount_tolerance
+msgid ""
+"Difference between the boleto and the title still accepted as a suggestion "
+"(never as an automatic link)."
+msgstr ""
+"Diferença entre o boleto e o título ainda aceita como sugestão (nunca como "
+"vínculo automático)."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_res_company__dda_date_tolerance
+#: model:ir.model.fields,help:l10n_br_dda.field_res_config_settings__dda_date_tolerance
+msgid ""
+"Difference in days between the boleto and the title still accepted as a "
+"suggestion."
+msgstr ""
+"Diferença em dias entre o boleto e o título ainda aceita como sugestão."
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Different document number"
+msgstr "Número do documento diferente"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__digitable_line
+msgid "Digitable Line"
+msgstr "Linha digitável"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__discount_amount
+msgid "Discount Amount"
+msgstr "Valor do desconto"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_allocation__display_name
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__display_name
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit_source__display_name
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_ignore_wizard__display_name
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_import_wizard__display_name
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match__display_name
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard__display_name
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard_line__display_name
+msgid "Display Name"
+msgstr "Nome exibido"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__divergence_amount
+msgid "Divergence Amount"
+msgstr "Divergência de valor"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__document_number
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard__boleto_number
+msgid "Document Number"
+msgstr "Número do documento"
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/dda_inbox_service.esm.js:0
+msgid "Done"
+msgstr "Concluído"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields.selection,name:l10n_br_dda.selection__res_company__dda_create_bill_mode__draft
+msgid "Draft bill"
+msgstr "Fatura em rascunho"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Draft vendor bill %(bill)s created by %(user)s."
+msgstr "Fatura de fornecedor em rascunho %(bill)s criada por %(user)s."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard__due_policy
+msgid "Due Policy"
+msgstr "Política de vencimento"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Due date %s days apart"
+msgstr "Vencimento %s dias de diferença"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Due date %s days apart (outside the tolerance)"
+msgstr "Vencimento %s dias de diferença (fora da tolerância)"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Due date changed to %(new)s from the DDA boleto (it was %(old)s)."
+msgstr ""
+"Vencimento alterado para %(new)s a partir do boleto DDA (era %(old)s)."
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_dashboard.esm.js:0
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_search
+msgid "Due in 7 days"
+msgstr "Vencem em 7 dias"
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_search
+msgid "Due week"
+msgstr "Semana de vencimento"
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_dashboard.esm.js:0
+msgid "Error"
+msgstr "Erro"
+
+#. module: l10n_br_dda
+#: model:res.groups,comment:l10n_br_dda.group_dda_approver
+msgid ""
+"Everything of the user plus releasing a suspect boleto with a recorded "
+"verification."
+msgstr ""
+"Tudo do usuário mais liberar um boleto suspeito com verificação registrada."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match__evidence
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard_line__evidence
+msgid "Evidence"
+msgstr "Evidência"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields.selection,name:l10n_br_dda.selection__l10n_br_dda_debit__state__expired
+msgid "Expired"
+msgstr "Expirado"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit_source__external_id
+msgid "External"
+msgstr "Externo"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_import_wizard__filename
+msgid "Filename"
+msgstr "Nome do arquivo"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__fine_amount
+msgid "Fine Amount"
+msgstr "Valor da multa"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__message_follower_ids
+msgid "Followers"
+msgstr "Seguidores"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Seguidores (parceiros)"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_l10n_br_dda_debit__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Ícone Font Awesome, por exemplo fa-tasks"
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_search
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__guarantor_vat
+msgid "Guarantor CNPJ"
+msgstr "CNPJ do sacador avalista"
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_form
+msgid "Guarantor CNPJ (digits)"
+msgstr "CNPJ do sacador avalista (dígitos)"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__guarantor_vat_display
+msgid "Guarantor CNPJ (masked)"
+msgstr "CNPJ do sacador avalista (mascarado)"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__guarantor_name
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard__guarantor_name
+msgid "Guarantor Name"
+msgstr "Nome do sacador avalista"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__has_message
+msgid "Has Message"
+msgstr "Tem mensagem"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_allocation__id
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__id
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit_source__id
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_ignore_wizard__id
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_import_wizard__id
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match__id
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard__id
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard_line__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__activity_exception_icon
+msgid "Icon"
+msgstr "Ícone"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_l10n_br_dda_debit__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ícone para indicar uma atividade de exceção."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_l10n_br_dda_debit_source__external_id
+msgid "Identifier of the boleto at the source."
+msgstr "Identificador do boleto na fonte."
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Identify the vendor of the boleto before creating the bill."
+msgstr "Identifique o fornecedor do boleto antes de criar a fatura."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match__identity_kind
+msgid "Identity Kind"
+msgstr "Tipo de identidade"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_l10n_br_dda_debit__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Se marcado, novas mensagens requerem sua atenção."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_l10n_br_dda_debit__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Se marcado, algumas mensagens têm erro de entrega."
+
+#. module: l10n_br_dda
+#: model:ir.actions.server,name:l10n_br_dda.server_action_dda_ignore
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_ignore_wizard_view_form
+msgid "Ignore"
+msgstr "Ignorar"
+
+#. module: l10n_br_dda
+#: model:ir.model,name:l10n_br_dda.model_l10n_br_dda_ignore_wizard
+msgid "Ignore DDA boletos"
+msgstr "Ignorar boletos DDA"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__ignore_reason
+msgid "Ignore Reason"
+msgstr "Motivo para ignorar"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Ignore boletos"
+msgstr "Ignorar boletos"
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_dialogs.esm.js:0
+msgid "Ignore the focused bill"
+msgstr "Ignorar a fatura em foco"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields.selection,name:l10n_br_dda.selection__l10n_br_dda_debit__state__ignored
+msgid "Ignored"
+msgstr "Ignorado"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Ignored by %(user)s: %(reason)s"
+msgstr "Ignorado por %(user)s: %(reason)s"
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_import_wizard_view_form
+msgid "Import"
+msgstr "Importar"
+
+#. module: l10n_br_dda
+#: model:ir.actions.act_window,name:l10n_br_dda.action_dda_import_wizard
+#: model:ir.ui.menu,name:l10n_br_dda.menu_dda_import
+msgid "Import DDA file"
+msgstr "Importar arquivo DDA"
+
+#. module: l10n_br_dda
+#: model:ir.model,name:l10n_br_dda.model_l10n_br_dda_import_wizard
+msgid "Import a DDA return file (CNAB)"
+msgstr "Importar um arquivo de retorno DDA (CNAB)"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/wizards/dda_import_wizard.py:0
+msgid "Imported boletos"
+msgstr "Boletos importados"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields.selection,name:l10n_br_dda.selection__l10n_br_dda_debit__state__in_payment
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_search
+msgid "In payment order"
+msgstr "Em ordem de pagamento"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Inform why the boleto is ignored."
+msgstr "Informe por que o boleto é ignorado."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__interest_amount
+msgid "Interest Amount"
+msgstr "Valor dos juros"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__message_is_follower
+msgid "Is Follower"
+msgstr "É seguidor"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__is_suspect
+msgid "Is Suspect"
+msgstr "É suspeito"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__issuer_bank
+msgid "Issuer Bank"
+msgstr "Banco emissor"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_import_wizard__journal_id
+msgid "Journal"
+msgstr "Diário"
+
+#. module: l10n_br_dda
+#: model:ir.model,name:l10n_br_dda.model_account_move
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_allocation__move_id
+msgid "Journal Entry"
+msgstr "Lançamento contábil"
+
+#. module: l10n_br_dda
+#: model:ir.model,name:l10n_br_dda.model_account_move_line
+msgid "Journal Item"
+msgstr "Item do diário"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields.selection,name:l10n_br_dda.selection__l10n_br_dda_match_wizard__due_policy__keep
+msgid "Keep the data of the title"
+msgstr "Manter os dados do título"
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_inbox_list.xml:0
+msgid "Keyboard shortcuts"
+msgstr "Atalhos de teclado"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match__label
+msgid "Label"
+msgstr "Rótulo"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__last_action
+msgid "Last Action"
+msgstr "Última ação"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit_source__last_seen
+msgid "Last Seen"
+msgstr "Visto pela última vez"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_allocation__write_uid
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__write_uid
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit_source__write_uid
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_ignore_wizard__write_uid
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_import_wizard__write_uid
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match__write_uid
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard__write_uid
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard_line__write_uid
+msgid "Last Updated by"
+msgstr "Última atualização por"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_allocation__write_date
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__write_date
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit_source__write_date
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_ignore_wizard__write_date
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_import_wizard__write_date
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match__write_date
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard__write_date
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard_line__write_date
+msgid "Last Updated on"
+msgstr "Última atualização em"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Last file imported."
+msgstr "Último arquivo importado."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields.selection,name:l10n_br_dda.selection__l10n_br_dda_debit__recommended_action__link
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_match_wizard_view_form
+msgid "Link"
+msgstr "Vincular"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Link %s installments"
+msgstr "Vincular %s parcelas"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__link_mode
+msgid "Link Mode"
+msgstr "Modo de vínculo"
+
+#. module: l10n_br_dda
+#: model:ir.model,name:l10n_br_dda.model_l10n_br_dda_match_wizard
+msgid "Link a DDA boleto to payable lines"
+msgstr "Vincular um boleto DDA a linhas a pagar"
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.res_config_settings_view_form_dda
+msgid ""
+"Link a boleto by itself only when the strict rule is met (same CNPJ, exact "
+"amount, same due date, single candidate)."
+msgstr ""
+"Vincula o boleto sozinho apenas quando a regra estrita é cumprida (mesmo "
+"CNPJ, valor exato, mesmo vencimento, candidato único)."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_res_company__dda_auto_link
+#: model:ir.model.fields,help:l10n_br_dda.field_res_config_settings__dda_auto_link
+msgid ""
+"Link a boleto to its payable line by itself only when the strict rule is "
+"met: same full CNPJ, exact amount, same due date, same document number when "
+"both sides have one, and a single candidate."
+msgstr ""
+"Vincula um boleto à sua linha a pagar sozinho apenas quando a regra estrita "
+"é cumprida: mesmo CNPJ completo, valor exato, mesmo vencimento, mesmo número"
+" do documento quando os dois lados o têm, e um único candidato."
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Link boleto"
+msgstr "Vincular boleto"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields.selection,name:l10n_br_dda.selection__l10n_br_dda_debit__recommended_action__link_many
+msgid "Link installments"
+msgstr "Vincular parcelas"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Link to %s"
+msgstr "Vincular a %s"
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_form
+msgid "Link to a title"
+msgstr "Vincular a um título"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields.selection,name:l10n_br_dda.selection__l10n_br_dda_debit__state__linked
+msgid "Linked"
+msgstr "Vinculado"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__linked_by_id
+msgid "Linked By"
+msgstr "Vinculado por"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Linked to %(names)s by %(who)s."
+msgstr "Vinculado a %(names)s por %(who)s."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields.selection,name:l10n_br_dda.selection__l10n_br_dda_debit__link_mode__manual
+#: model:ir.model.fields.selection,name:l10n_br_dda.selection__l10n_br_dda_debit_source__source_type__manual
+msgid "Manual"
+msgstr "Manual"
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/dda_inbox_service.esm.js:0
+msgid "Mark as verified"
+msgstr "Marcar como verificada"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard_line__match_id
+msgid "Match"
+msgstr "Sugestão"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__message_has_error
+msgid "Message Delivery error"
+msgstr "Erro de entrega da mensagem"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__message_ids
+msgid "Messages"
+msgstr "Mensagens"
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_dialogs.esm.js:0
+msgid "Move to the next bill"
+msgstr "Ir para a próxima fatura"
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_dialogs.esm.js:0
+msgid "Move to the previous bill"
+msgstr "Ir para a fatura anterior"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Prazo da minha atividade"
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_search
+msgid "My queue today"
+msgstr "Minha fila de hoje"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields.selection,name:l10n_br_dda.selection__res_company__dda_create_bill_mode__never
+msgid "Never"
+msgstr "Nunca"
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_dashboard.esm.js:0
+#: model:ir.model.fields.selection,name:l10n_br_dda.selection__l10n_br_dda_debit__state__new
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_search
+msgid "New"
+msgstr "Novo"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Prazo da próxima atividade"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__activity_summary
+msgid "Next Activity Summary"
+msgstr "Resumo da próxima atividade"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__activity_type_id
+msgid "Next Activity Type"
+msgstr "Tipo da próxima atividade"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "No file imported yet."
+msgstr "Nenhum arquivo importado ainda."
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "No matching bill"
+msgstr "Sem fatura correspondente"
+
+#. module: l10n_br_dda
+#: model_terms:ir.actions.act_window,help:l10n_br_dda.action_dda_debit
+msgid "No new boleto."
+msgstr "Nenhum boleto novo."
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_inbox_list.xml:0
+msgid "No sync source yet."
+msgstr "Nenhuma fonte de sincronização ainda."
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "No title"
+msgstr "Sem título"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_l10n_br_dda_debit__is_suspect
+msgid ""
+"No title and an unknown vendor (or a possible duplicate): blocked for "
+"payment until somebody records the verification."
+msgstr ""
+"Sem título e com fornecedor desconhecido (ou possível duplicidade): "
+"bloqueado para pagamento até alguém registrar a verificação."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields.selection,name:l10n_br_dda.selection__l10n_br_dda_debit__recommended_action__none
+msgid "None"
+msgstr "Nenhum"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Not applied: %s"
+msgstr "Não aplicado: %s"
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/dda_inbox_service.esm.js:0
+msgid "Nothing to undo."
+msgstr "Nada para desfazer."
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/dda_inbox_service.esm.js:0
+msgid "Nothing was applied: the selected bills need your review."
+msgstr "Nada foi aplicado: as faturas selecionadas precisam de sua revisão."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Número de ações"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__message_has_error_counter
+msgid "Number of errors"
+msgstr "Número de erros"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_l10n_br_dda_debit__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Número de mensagens que requerem ação"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_l10n_br_dda_debit__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Número de mensagens com erro de entrega"
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_dashboard.esm.js:0
+msgid "OK"
+msgstr "OK"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_l10n_br_dda_match__is_multi
+msgid "One boleto for several installments of the same vendor."
+msgstr "Um boleto para várias parcelas do mesmo fornecedor."
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/wizards/dda_import_wizard.py:0
+msgid "Only CNAB 240 DDA files are supported."
+msgstr "Apenas arquivos DDA CNAB 240 são suportados."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_l10n_br_dda_import_wizard__journal_id
+msgid "Only journals where the CNAB Import is allowed."
+msgstr "Apenas diários em que a importação CNAB é permitida."
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Only linked boletos go to a payment order (%s)."
+msgstr "Apenas boletos vinculados vão para uma ordem de pagamento (%s)."
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_dialogs.esm.js:0
+msgid "Open the link wizard for the focused bill"
+msgstr "Abrir o assistente de vínculo da fatura em foco"
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_match_wizard_view_form
+msgid "Options"
+msgstr "Opções"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard__extra_line_ids
+msgid "Other titles"
+msgstr "Outros títulos"
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_dashboard.esm.js:0
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_search
+msgid "Overdue without action"
+msgstr "Vencidos sem ação"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields.selection,name:l10n_br_dda.selection__l10n_br_dda_debit__state__paid
+msgid "Paid"
+msgstr "Pago"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields.selection,name:l10n_br_dda.selection__l10n_br_dda_debit__state__paid_elsewhere
+msgid "Paid elsewhere"
+msgstr "Pago por fora"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_l10n_br_dda_allocation__amount
+msgid ""
+"Part of the boleto that settles this payable line (the open amount of the "
+"line when it was allocated)."
+msgstr ""
+"Parte do boleto que quita esta linha a pagar (o valor em aberto da linha "
+"quando foi alocada)."
+
+#. module: l10n_br_dda
+#: model:ir.model,name:l10n_br_dda.model_account_partial_reconcile
+msgid "Partial Reconcile"
+msgstr "Reconciliação parcial"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_res_partner__dda_assignee_ids
+#: model:ir.model.fields,help:l10n_br_dda.field_res_users__dda_assignee_ids
+msgid ""
+"Partners (factoring, securitization, collection platforms) that may issue "
+"boletos in the name of this vendor. A boleto of an assignee is suggested for"
+" this vendor as an assignment, never linked by itself."
+msgstr ""
+"Parceiros (factoring, securitização, plataformas de cobrança) que podem "
+"emitir boletos em nome deste fornecedor. O boleto de um cessionário é "
+"sugerido para este fornecedor como cessão, nunca vinculado sozinho."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_allocation__move_line_id
+msgid "Payable line"
+msgstr "Linha a pagar"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match__move_line_ids
+msgid "Payable lines"
+msgstr "Linhas a pagar"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__payer_cnpj
+msgid "Payer CNPJ"
+msgstr "CNPJ do pagador"
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_form
+msgid "Payer CNPJ (digits)"
+msgstr "CNPJ do pagador (dígitos)"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__payer_cnpj_display
+msgid "Payer CNPJ (masked)"
+msgstr "CNPJ do pagador (mascarado)"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_import_wizard__payment_method_ids
+msgid "Payment Method"
+msgstr "Método de pagamento"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__payment_order_id
+msgid "Payment Order"
+msgstr "Ordem de pagamento"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_res_company__dda_payment_mode_id
+#: model:ir.model.fields,help:l10n_br_dda.field_res_config_settings__dda_payment_mode_id
+msgid "Payment mode (CNAB) of the payment order that receives the boletos."
+msgstr "Modo de pagamento (CNAB) da ordem de pagamento que recebe os boletos."
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.res_config_settings_view_form_dda
+msgid "Payment mode of the order that receives the boletos."
+msgstr "Modo de pagamento da ordem que recebe os boletos."
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Possible duplicate"
+msgstr "Possível duplicidade"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Post the draft bill"
+msgstr "Lançar a fatura em rascunho"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__raw_payload
+msgid "Raw Payload"
+msgstr "Conteúdo bruto"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_ignore_wizard__reason
+msgid "Reason"
+msgstr "Motivo"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__recommended_action
+msgid "Recommended Action"
+msgstr "Ação recomendada"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__recommended_label
+msgid "Recommended Label"
+msgstr "Rótulo recomendado"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__recommended_move_line_id
+msgid "Recommended Move Line"
+msgstr "Linha de lançamento recomendada"
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/fields/dda_recommended_action/dda_recommended_action_field.esm.js:0
+msgid "Recommended action"
+msgstr "Ação recomendada"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Recommended actions"
+msgstr "Ações recomendadas"
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/dda_inbox_service.esm.js:0
+msgid "Recommended actions applied"
+msgstr "Ações recomendadas aplicadas"
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_form
+msgid "Record verification"
+msgstr "Registrar verificação"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Refused at the bank (DDA)."
+msgstr "Recusado no banco (DDA)."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__activity_user_id
+msgid "Responsible User"
+msgstr "Usuário responsável"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_import_wizard__return_file
+msgid "Return File"
+msgstr "Arquivo de retorno"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+#: model:ir.model.fields.selection,name:l10n_br_dda.selection__l10n_br_dda_debit__recommended_action__review
+msgid "Review"
+msgstr "Revisar"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Review %s candidates"
+msgstr "Revisar %s candidatos"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Review the suggestion"
+msgstr "Revisar a sugestão"
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_dialogs.esm.js:0
+msgid "Run the recommended action of the focused bill"
+msgstr "Executar a ação recomendada da fatura em foco"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+#: model:ir.model.fields.selection,name:l10n_br_dda.selection__l10n_br_dda_match__identity_kind__full
+msgid "Same CNPJ"
+msgstr "Mesmo CNPJ"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields.selection,name:l10n_br_dda.selection__l10n_br_dda_match__identity_kind__root
+msgid "Same CNPJ root"
+msgstr "Mesma raiz de CNPJ"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Same CNPJ root, another establishment"
+msgstr "Mesma raiz de CNPJ, outro estabelecimento"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Same amount"
+msgstr "Mesmo valor"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Same document number"
+msgstr "Mesmo número do documento"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Same due date"
+msgstr "Mesmo vencimento"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match__score
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard_line__score
+msgid "Score"
+msgstr "Pontuação"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_l10n_br_dda_match_wizard__extra_line_ids
+msgid "Search another payable line of the company."
+msgstr "Buscar outra linha a pagar da empresa."
+
+#. module: l10n_br_dda
+#: model:res.groups,comment:l10n_br_dda.group_dda_user
+msgid ""
+"See the DDA inbox of the companies they work for, link boletos, create draft"
+" bills and ignore boletos."
+msgstr ""
+"Vê a caixa de entrada DDA das empresas em que trabalha, vincula boletos, "
+"cria faturas em rascunho e ignora boletos."
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Select at least one payable line."
+msgstr "Selecione ao menos uma linha a pagar."
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/wizards/dda_match_wizard.py:0
+msgid "Select at least one title."
+msgstr "Selecione ao menos um título."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard_line__selected
+msgid "Selected"
+msgstr "Selecionado"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Set the DDA payment mode in the accounting settings first."
+msgstr ""
+"Defina antes o modo de pagamento do DDA nas configurações de contabilidade."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match__is_multi
+msgid "Several installments"
+msgstr "Várias parcelas"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit_source__source_key
+msgid "Source Key"
+msgstr "Chave da fonte"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit_source__source_type
+msgid "Source Type"
+msgstr "Tipo da fonte"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__source_ids
+msgid "Sources"
+msgstr "Fontes"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_allocation__state
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__state
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_search
+msgid "State"
+msgstr "Estado"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_l10n_br_dda_debit__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Situação com base nas atividades\n"
+"Atrasada: a data de vencimento já passou\n"
+"Hoje: a data da atividade é hoje\n"
+"Planejada: atividades futuras."
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_inbox_list.xml:0
+msgid "Status unavailable. The list below is still up to date."
+msgstr "Situação indisponível. A lista abaixo continua atualizada."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match__is_strict
+msgid "Strict rule"
+msgstr "Regra estrita"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields.selection,name:l10n_br_dda.selection__l10n_br_dda_debit__state__suggested
+msgid "Suggested"
+msgstr "Sugerido"
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_list
+msgid "Suggestion"
+msgstr "Sugestão"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__suggestion_label
+msgid "Suggestion Label"
+msgstr "Rótulo da sugestão"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__match_ids
+msgid "Suggestions"
+msgstr "Sugestões"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_l10n_br_dda_match__amount_total
+msgid "Sum of the open amounts of the payable lines."
+msgstr "Soma dos valores em aberto das linhas a pagar."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields.selection,name:l10n_br_dda.selection__l10n_br_dda_debit__state__suspect
+msgid "Suspect"
+msgstr "Suspeito"
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_dashboard.esm.js:0
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_search
+msgid "Suspects"
+msgstr "Suspeitos"
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_inbox_list.xml:0
+msgid "Sync sources"
+msgstr "Fontes de sincronização"
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_form
+msgid "Technical data"
+msgstr "Dados técnicos"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid ""
+"The bank reports this boleto as paid and it is not in a payment order of "
+"Odoo. Nothing was posted."
+msgstr ""
+"O banco informa que o boleto foi pago e ele não está em uma ordem de "
+"pagamento do Odoo. Nada foi lançado."
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid ""
+"The bank reports this boleto as paid. The accounting entry comes from the "
+"payment return or the bank statement."
+msgstr ""
+"O banco informa que o boleto foi pago. O lançamento contábil vem do retorno "
+"do pagamento ou do extrato."
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid ""
+"The beneficiary cancelled or wrote off the DDA boleto %s. Do not pay it."
+msgstr "O beneficiário cancelou ou baixou o boleto DDA %s. Não pague."
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/dda_inbox_service.esm.js:0
+msgid "The bill was added to the payment order."
+msgstr "A fatura foi adicionada à ordem de pagamento."
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/dda_inbox_service.esm.js:0
+msgid "The bill was marked as verified."
+msgstr "A fatura foi marcada como verificada."
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "The boleto %(name)s is %(state)s: the action is not available anymore."
+msgstr "O boleto %(name)s está %(state)s: a ação não está mais disponível."
+
+#. module: l10n_br_dda
+#: model:ir.model.constraint,message:l10n_br_dda.constraint_l10n_br_dda_debit_source_unique_source
+msgid "The boleto already has this source."
+msgstr "O boleto já tem esta fonte."
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "The boleto is already in a payment order."
+msgstr "O boleto já está em uma ordem de pagamento."
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_form
+msgid ""
+"The boleto is issued by another company in the name of the\n"
+"                        vendor (guarantor). Confirm the assignment before paying."
+msgstr ""
+"O boleto é emitido por outra empresa em nome do fornecedor (sacador "
+"avalista). Confirme a cessão antes de pagar."
+
+#. module: l10n_br_dda
+#: model_terms:ir.actions.act_window,help:l10n_br_dda.action_dda_debit
+msgid ""
+"The boletos registered against the CNPJ of your company appear here,\n"
+"                from the bank API or from a DDA return file."
+msgstr ""
+"Os boletos registrados contra o CNPJ da sua empresa aparecem aqui, pela API "
+"do banco ou por um arquivo de retorno DDA."
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "The company has no purchase journal."
+msgstr "A empresa não tem diário de compras."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_l10n_br_cnab_structure__is_dda_return
+msgid ""
+"The file of this structure lists the boletos registered against the CNPJ of "
+"the company (DDA). It is read by the DDA import, not by the return of "
+"collection."
+msgstr ""
+"O arquivo desta estrutura lista os boletos registrados contra o CNPJ da "
+"empresa (DDA). É lido pela importação DDA, não pelo retorno de cobrança."
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "The installments add up to %(total)s but the boleto is %(amount)s."
+msgstr "As parcelas somam %(total)s mas o boleto é de %(amount)s."
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "The last file is older than 7 days."
+msgstr "O último arquivo tem mais de 7 dias."
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "The limit date of the boleto has passed."
+msgstr "A data limite do boleto passou."
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "The payable line was reconciled: boleto paid."
+msgstr "A linha a pagar foi conciliada: boleto pago."
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_inbox_list.xml:0
+msgid ""
+"The shortcuts are off while the cursor is in the search box.\n"
+"                Press Arrow Down to go from the search box to the list."
+msgstr ""
+"Os atalhos ficam desligados enquanto o cursor está na caixa de busca.\n"
+"Pressione Seta para baixo para ir da caixa de busca para a lista."
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "The source reports this boleto as open again."
+msgstr "A fonte informa que o boleto está em aberto de novo."
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/wizards/dda_import_wizard.py:0
+msgid "The structure is not a DDA return layout."
+msgstr "A estrutura não é um leiaute de retorno DDA."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_l10n_br_dda_match__is_strict
+msgid "The suggestion satisfies the rule of the automatic link."
+msgstr "A sugestão satisfaz a regra do vínculo automático."
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_form
+msgid ""
+"This CNPJ never issued a boleto to you and there is no\n"
+"                        matching bill. Confirm with the vendor before paying: the\n"
+"                        boleto stays blocked until an approver records the\n"
+"                        verification."
+msgstr ""
+"Este CNPJ nunca emitiu boleto para você e não há fatura correspondente. "
+"Confirme com o fornecedor antes de pagar: o boleto fica bloqueado até um "
+"aprovador registrar a verificação."
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/dda_inbox_service.esm.js:0
+msgid ""
+"This bill is flagged as suspicious. Confirm with the supplier before marking"
+" it as verified."
+msgstr ""
+"Esta fatura está marcada como suspeita. Confirme com o fornecedor antes de "
+"marcá-la como verificada."
+
+#. module: l10n_br_dda
+#: model:ir.model.constraint,message:l10n_br_dda.constraint_l10n_br_dda_debit_unique_boleto
+msgid "This boleto already exists for the payer."
+msgstr "Este boleto já existe para o pagador."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_l10n_br_dda_import_wizard__cnab_format
+msgid ""
+"This code is used in the code of the Odoo module that handles this payment "
+"method. Therefore, if you change it, the generation of the payment file may "
+"fail."
+msgstr ""
+"Este código é usado no código do módulo Odoo que trata este método de "
+"pagamento. Portanto, se você alterá-lo, a geração do arquivo de pagamento "
+"pode falhar."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard_line__move_line_ids
+msgid "Titles"
+msgstr "Títulos"
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_list
+msgid "Total"
+msgstr "Total"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard__total_selected
+msgid "Total Selected"
+msgstr "Total selecionado"
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_inbox_list.xml:0
+msgid "Total:"
+msgstr "Total:"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_import_wizard__type
+msgid "Type"
+msgstr "Tipo"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_l10n_br_dda_debit__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Tipo da atividade de exceção no registro."
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/dda_inbox_service.esm.js:0
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_form
+msgid "Undo"
+msgstr "Desfazer"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__undo_stack
+msgid "Undo Stack"
+msgstr "Pilha de desfazer"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Undo is not possible anymore."
+msgstr "Não é mais possível desfazer."
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_dialogs.esm.js:0
+msgid "Undo the last action"
+msgstr "Desfazer a última ação"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Unknown vendor"
+msgstr "Fornecedor desconhecido"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields.selection,name:l10n_br_dda.selection__l10n_br_dda_match_wizard__due_policy__update
+msgid "Update the due date of the title"
+msgstr "Atualizar o vencimento do título"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__partner_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_search
+msgid "Vendor"
+msgstr "Fornecedor"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_l10n_br_dda_debit__partner_id
+msgid "Vendor identified by the CNPJ of the beneficiary or of the guarantor."
+msgstr ""
+"Fornecedor identificado pelo CNPJ do beneficiário ou do sacador avalista."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__verified_by_id
+msgid "Verified By"
+msgstr "Verificado por"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__verified_date
+msgid "Verified Date"
+msgstr "Data da verificação"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Verified by %s: the boleto was confirmed with the vendor."
+msgstr "Verificado por %s: o boleto foi confirmado com o fornecedor."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields.selection,name:l10n_br_dda.selection__l10n_br_dda_debit__recommended_action__verify
+msgid "Verify"
+msgstr "Verificar"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "Verify vendor"
+msgstr "Verificar fornecedor"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_debit__website_message_ids
+msgid "Website Messages"
+msgstr "Mensagens do site"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_l10n_br_dda_debit__website_message_ids
+msgid "Website communication history"
+msgstr "Histórico de comunicação do site"
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_form
+msgid "What to do"
+msgstr "O que fazer"
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.res_config_settings_view_form_dda
+msgid "What to recommend for a boleto without a title."
+msgstr "O que recomendar para um boleto sem título."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_l10n_br_dda_match_wizard__due_policy
+msgid ""
+"When the due dates differ. The amount is never changed: the difference goes "
+"to the write-off."
+msgstr ""
+"Quando os vencimentos diferem. O valor nunca é alterado: a diferença vai na "
+"baixa."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_l10n_br_dda_debit_source__source_key
+msgid "Where the boleto came from, for instance connection:5 or cnab:<hash>."
+msgstr "De onde veio o boleto, por exemplo connection:5 ou cnab:<hash>."
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_res_company__dda_create_bill_mode
+#: model:ir.model.fields,help:l10n_br_dda.field_res_config_settings__dda_create_bill_mode
+msgid ""
+"Whether the recommended action for a boleto without a title is to create a "
+"vendor bill in draft."
+msgstr ""
+"Se a ação recomendada para um boleto sem título é criar uma fatura de "
+"fornecedor em rascunho."
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_ignore_wizard_view_form
+msgid "Why is the boleto ignored?"
+msgstr "Por que o boleto é ignorado?"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,help:l10n_br_dda.field_l10n_br_dda_match__evidence
+msgid "Why the suggestion was made, one reason per line."
+msgstr "Por que a sugestão foi feita, um motivo por linha."
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_dashboard.esm.js:0
+msgid "With divergence"
+msgstr "Com divergência"
+
+#. module: l10n_br_dda
+#: model_terms:ir.ui.view,arch_db:l10n_br_dda.dda_debit_view_search
+msgid "Without title"
+msgstr "Sem título"
+
+#. module: l10n_br_dda
+#: model:ir.model.fields,field_description:l10n_br_dda.field_l10n_br_dda_match_wizard_line__wizard_id
+msgid "Wizard"
+msgstr "Assistente"
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "You are not allowed to do this action."
+msgstr "Você não tem permissão para esta ação."
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_inbox_list.xml:0
+msgid "You can undo this for a few seconds after confirming."
+msgstr "Você pode desfazer por alguns segundos após confirmar."
+
+#. module: l10n_br_dda
+#. odoo-python
+#: code:addons/l10n_br_dda/models/dda_debit.py:0
+msgid "automatic rule"
+msgstr "regra automática"
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_inbox_list.xml:0
+msgid "bill(s) selected."
+msgstr "fatura(s) selecionada(s)."
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_dialogs.esm.js:0
+msgid "need your review and will be skipped"
+msgstr "precisam de revisão e serão puladas"
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_dashboard.esm.js:0
+msgid "never synced"
+msgstr "nunca sincronizado"
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_dialogs.esm.js:0
+msgid "new bills will be created"
+msgstr "novas faturas serão criadas"
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_dashboard.esm.js:0
+msgid "synced"
+msgstr "sincronizado"
+
+#. module: l10n_br_dda
+#. odoo-javascript
+#: code:addons/l10n_br_dda/static/src/views/dda_inbox_list/dda_dialogs.esm.js:0
+msgid "will be linked to a bill"
+msgstr "serão vinculadas a uma fatura"
