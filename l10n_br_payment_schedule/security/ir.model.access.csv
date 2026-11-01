@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_instrument_reader,access_instrument_reader,model_l10n_br_payment_schedule_instrument_reader,account_payment_order.group_account_payment,1,1,1,1
