@@ -1,0 +1,228 @@
+# Copyright 2026 - TODAY Escodoo - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+
+import logging
+
+from odoo import models
+
+_logger = logging.getLogger(__name__)
+
+
+class DocumentImportWizard(models.TransientModel):
+    _inherit = "l10n_br_fiscal.document.import.wizard"
+
+    def _xped_from_file(self):
+        """Return (xPed, nItemPed) for each NF-e line. Empty for other XML."""
+        if not self.file:
+            return []
+        try:
+            binding = self._parse_file()
+        except Exception:
+            _logger.debug("Imported file has no NF-e lines to match a purchase order")
+            return []
+        inf = getattr(binding, "infNFe", None)
+        nested = getattr(binding, "NFe", None)
+        if inf is None and nested is not None:
+            inf = getattr(nested, "infNFe", None)
+        if inf is None:
+            return []
+        rows = []
+        for det in getattr(inf, "det", []) or []:
+            prod = getattr(det, "prod", None)
+            if prod is None:
+                continue
+            rows.append(
+                (
+                    (getattr(prod, "xPed", None) or "").strip(),
+                    (getattr(prod, "nItemPed", None) or "").strip(),
+                )
+            )
+        return rows
+
+    def _get_xml_line_previews(self):
+        previews = super()._get_xml_line_previews()
+        orders = self._xped_from_file()
+        for index, preview in enumerate(previews):
+            if index >= len(orders):
+                break
+            preview["partner_order"], preview["partner_order_line"] = orders[index]
+        return previews
+
+    def _referenced_purchase_orders(self):
+        orders = self.env["purchase.order"]
+        refs = [order for order, _item in self._xped_from_file() if order]
+        refs += [
+            line.partner_order for line in self.match_line_ids if line.partner_order
+        ]
+        refs = list(dict.fromkeys(refs))
+        partner_ids = self._issuer_partner_ids()
+        if not refs or not partner_ids or not self.company_id:
+            return orders
+        lines = self.env["purchase.order.line"].search(
+            [
+                ("partner_order", "in", refs),
+                ("order_id.company_id", "=", self.company_id.id),
+                ("order_id.state", "in", ("purchase", "done")),
+                ("order_id.partner_id", "in", partner_ids),
+            ]
+        )
+        orders = lines.order_id
+        orders |= self.env["purchase.order"].search(
+            [
+                ("company_id", "=", self.company_id.id),
+                ("state", "in", ("purchase", "done")),
+                ("partner_id", "in", partner_ids),
+                "|",
+                ("name", "in", refs),
+                ("partner_ref", "in", refs),
+            ]
+        )
+        return orders
+
+    def _is_strong_move_match(self, move):
+        if super()._is_strong_move_match(move):
+            return True
+        orders = self._referenced_purchase_orders()
+        if len(orders) != 1:
+            return False
+        bills = orders.invoice_ids.filtered(
+            lambda bill: bill.state == "draft"
+            and bill.move_type == "in_invoice"
+            and bill.company_id == self.company_id
+        )
+        return len(bills) == 1 and move == bills
+
+    def _match_purchase_line(self, fiscal_line, partner):
+        """Return one purchase line for this fiscal line.
+
+        An xPed links a single line, in this order:
+
+        1. ``partner_order`` and ``partner_order_line`` on the purchase
+           line, equal to xPed and nItemPed.
+        2. xPed equal to the name or vendor reference of one confirmed
+           order. nItemPed is the 1-based position among product lines
+           (a section or a note does not count). Without nItemPed, the
+           order must have a single line still to invoice.
+
+        When both keys find a line and the lines differ, nothing is
+        linked. Several matching orders or lines are left open. Without
+        an xPed, the unique open line of the product is used.
+        """
+        purchase_lines = self.env["purchase.order.line"]
+        if not partner or not fiscal_line.company_id:
+            return purchase_lines
+        domain = self._purchase_line_domain(partner, fiscal_line.company_id)
+        order_ref = (fiscal_line.partner_order or "").strip()
+        item = (fiscal_line.partner_order_line or "").strip()
+        if not order_ref:
+            return self._match_open_product_line(purchase_lines, domain, fiscal_line)
+        by_line_ref, ambiguous = self._match_partner_order_line(
+            purchase_lines, domain, order_ref, item
+        )
+        if ambiguous:
+            return purchase_lines
+        by_order_ref = self._match_order_reference(
+            partner, fiscal_line.company_id, order_ref, item
+        )
+        if by_line_ref and by_order_ref and by_line_ref != by_order_ref:
+            return purchase_lines
+        return by_line_ref or by_order_ref or purchase_lines
+
+    def _purchase_partner_ids(self, partner):
+        commercial = partner.commercial_partner_id
+        return list(
+            dict.fromkeys(commercial.ids + commercial.child_ids.ids + partner.ids)
+        )
+
+    def _purchase_line_domain(self, partner, company):
+        return [
+            ("order_id.partner_id", "in", self._purchase_partner_ids(partner)),
+            ("order_id.state", "in", ("purchase", "done")),
+            ("order_id.company_id", "=", company.id),
+        ]
+
+    def _match_partner_order_line(self, purchase_lines, domain, order_ref, item):
+        """Exact xPed and nItemPed stored on the purchase line.
+
+        Returns ``(line, ambiguous)``. ``ambiguous`` is true when more
+        than one line carries that pair, so the order name must not be
+        used as a tie-break.
+        """
+        if not item or "partner_order" not in purchase_lines._fields:
+            return purchase_lines.browse(), False
+        exact = purchase_lines.search(
+            domain
+            + [
+                ("partner_order", "=", order_ref),
+                ("partner_order_line", "=", item),
+            ]
+        )
+        if len(exact) == 1:
+            return exact, False
+        if len(exact) > 1:
+            return purchase_lines.browse(), True
+        return purchase_lines.browse(), False
+
+    def _match_order_reference(self, partner, company, order_ref, item):
+        """xPed as the purchase order name or vendor reference."""
+        orders = self.env["purchase.order"].search(
+            [
+                ("partner_id", "in", self._purchase_partner_ids(partner)),
+                ("state", "in", ("purchase", "done")),
+                ("company_id", "=", company.id),
+                "|",
+                ("name", "=", order_ref),
+                ("partner_ref", "=", order_ref),
+            ]
+        )
+        if len(orders) != 1:
+            return self.env["purchase.order.line"]
+        product_lines = self._purchase_product_lines(orders)
+        if item:
+            return self._purchase_line_at_position(product_lines, item)
+        open_lines = product_lines.filtered("qty_to_invoice")
+        if len(open_lines) == 1:
+            return open_lines
+        return self.env["purchase.order.line"]
+
+    def _purchase_product_lines(self, order):
+        # purchase.order.line is ordered by sequence, id. A line created in
+        # this transaction is appended to the cached one2many, so sort again
+        # before counting nItemPed.
+        lines = order.order_line.sorted(key=lambda line: (line.sequence, line.id))
+        if "display_type" in lines._fields:
+            lines = lines.filtered(lambda line: not line.display_type)
+        return lines
+
+    def _purchase_line_at_position(self, product_lines, item):
+        try:
+            position = int(item)
+        except ValueError:
+            return product_lines.browse()
+        if position < 1 or position > len(product_lines):
+            return product_lines.browse()
+        return product_lines[position - 1]
+
+    def _match_open_product_line(self, purchase_lines, domain, fiscal_line):
+        if not fiscal_line.product_id:
+            return purchase_lines.browse()
+        by_product = purchase_lines.search(
+            domain + [("product_id", "=", fiscal_line.product_id.id)]
+        )
+        open_lines = by_product.filtered("qty_to_invoice")
+        if len(open_lines) == 1:
+            return open_lines
+        return purchase_lines.browse()
+
+    def _link_purchase_order_lines(self, move, fiscal_document):
+        for fiscal_line in fiscal_document.fiscal_line_ids:
+            invoice_line = move.invoice_line_ids.filtered(
+                lambda line, fiscal_line=fiscal_line: line.fiscal_document_line_id
+                == fiscal_line
+            )[:1]
+            if not invoice_line or invoice_line.purchase_line_id:
+                continue
+            purchase_line = self._match_purchase_line(fiscal_line, move.partner_id)
+            if purchase_line:
+                invoice_line.purchase_line_id = purchase_line
+        return move
