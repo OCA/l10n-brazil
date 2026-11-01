@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://www.dere.gov.br/schemas/evtRetornoTabela/v1_0_1"
+           targetNamespace="http://www.dere.gov.br/schemas/evtRetornoTabela/v1_0_1"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+
+	<xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema.xsd"/>
+
+	<xs:element name="DeRE">
+		<xs:annotation>
+			<xs:documentation>Envelope raiz dos eventos da DeRE</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="evtRetornoTabela">
+					<xs:annotation>
+						<xs:documentation>Retorno de eventos de tabela.</xs:documentation>
+					</xs:annotation>
+
+					<xs:complexType>
+						<xs:sequence>
+
+							<xs:element name="ideContrib" minOccurs="1" maxOccurs="1">
+								<xs:annotation>
+									<xs:documentation>Informações de identificação do contribuinte</xs:documentation>
+								</xs:annotation>
+
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="nrInsc">
+											<xs:simpleType>
+												<xs:annotation>
+													<xs:documentation>Número de inscrição do contribuinte (CNPJ raiz).</xs:documentation>
+												</xs:annotation>
+												<xs:restriction base="xs:string">
+													<xs:pattern value="[0-9A-Z]{8}"/>
+													<xs:maxLength value="8"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+
+							<xs:element name="ideStatus" minOccurs="1" maxOccurs="1">
+								<xs:annotation>
+									<xs:documentation>Situação do processamento do do evento</xs:documentation>
+								</xs:annotation>
+
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="cdRetorno" minOccurs="1" maxOccurs="1">
+											<xs:simpleType>
+												<xs:annotation>
+													<xs:documentation>
+														Código indicativo do status do retorno. Valores:
+														0 - ERRO;
+														1 - SUCESSO;
+													</xs:documentation>
+												</xs:annotation>
+												<xs:restriction base="xs:byte">
+													<xs:enumeration value="0"/>
+													<xs:enumeration value="1"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+
+										<xs:element name="descRetorno" minOccurs="1" maxOccurs="1">
+											<xs:simpleType>
+												<xs:annotation>
+													<xs:documentation>
+														Descrição literal do status do retorno.
+													</xs:documentation>
+												</xs:annotation>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="Erro"/>
+													<xs:enumeration value="Sucesso"/>
+													<xs:minLength value="4"/>
+													<xs:maxLength value="7"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+
+										<xs:element name="ocorrencias" minOccurs="0" maxOccurs="10">
+											<xs:annotation>
+												<xs:documentation>Informações de ocorrências registradas</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="codigo" minOccurs="1" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>Código numérico da ocorrência</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:minLength value="1"/>
+																<xs:maxLength value="6" />
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+
+													<xs:element name="descricao" minOccurs="1" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>Descrição detalhada da ocorrência (mensagem de erro ou aviso)</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:minLength value="1"/>
+																<xs:maxLength value="2048" />
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+
+													<xs:element name="tipo" type="xs:unsignedByte">
+														<xs:annotation>
+															<xs:documentation>
+																Classificação do tipo da ocorrência. Valores:
+																1 - Erro;
+																2 - Aviso;
+															</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+
+													<xs:element name="localizacao" minOccurs="0" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>Identificação do campo ou grupo onde a ocorrência foi detectada</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:minLength value="1"/>
+																<xs:maxLength value="2048" />
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+
+							<xs:element name="infoRecEv" minOccurs="1" maxOccurs="1">
+								<xs:annotation>
+									<xs:documentation>Informações de processamento dos eventos</xs:documentation>
+								</xs:annotation>
+
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="nrRecibo" minOccurs="0" maxOccurs="1">
+											<xs:simpleType>
+												<xs:annotation>
+													<xs:documentation>
+														Número do recibo do evento processado com sucesso. Validação: Preenchido somente quando {cdRetorno} = [1] (Sucesso).
+													</xs:documentation>
+												</xs:annotation>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="31"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="protocoloLote" minOccurs="0" maxOccurs="1">
+											<xs:simpleType>
+												<xs:annotation>
+													<xs:documentation>Número do protocolo de entrega do lote</xs:documentation>
+												</xs:annotation>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="28"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="dhRecepcao" type="xs:dateTime" minOccurs="1" maxOccurs="1">
+											<xs:annotation>
+												<xs:documentation>Data e hora da recepção do evento (UTC)</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="dhProcess"  type="xs:dateTime" minOccurs="1" maxOccurs="1">
+											<xs:annotation>
+												<xs:documentation>Data e hora do início do processamento do evento (UTC)</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="tpEv" minOccurs="1" maxOccurs="1">
+											<xs:simpleType>
+												<xs:annotation>
+													<xs:documentation>Sigla de identificação do tipo de evento. Exemplo: D-1001, D-1011</xs:documentation>
+												</xs:annotation>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="6"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="hash" minOccurs="1" maxOccurs="1">
+											<xs:simpleType>
+												<xs:annotation>
+													<xs:documentation>Hashcode do arquivo processado</xs:documentation>
+												</xs:annotation>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="44"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+
+							<xs:element name="infoEvento" minOccurs="0" maxOccurs="1">
+								<xs:annotation>
+									<xs:documentation>Informações do evento processado</xs:documentation>
+								</xs:annotation>
+
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="idePeriodo" minOccurs="1" maxOccurs="1">
+											<xs:annotation>
+												<xs:documentation>Grupo de identificação do período de validade do evento</xs:documentation>
+											</xs:annotation>
+
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="iniValid" minOccurs="1" maxOccurs="1">
+														<xs:simpleType>
+															<xs:annotation>
+																<xs:documentation>
+																	Data de início da validade informada no evento.
+																	Máscara: AAAA-MM-DD
+																</xs:documentation>
+															</xs:annotation>
+															<xs:restriction base="xs:date" />
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="fimValid" minOccurs="0" maxOccurs="1">
+														<xs:simpleType>
+															<xs:annotation>
+																<xs:documentation>
+																	Data de término da validade informada no evento, se houver.
+																	Máscara: AAAA-MM-DD
+																	Não informado se for indeterminada/aberta
+																</xs:documentation>
+															</xs:annotation>
+															<xs:restriction base="xs:date" />
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="novaValidade" minOccurs="0" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>
+																Novo período de validade.
+																Preenchido exclusivamente em casos de alteração de vigência de evento já existente.
+															</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="iniValid" minOccurs="1" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:annotation>
+																			<xs:documentation>
+																				Data de início da nova validade das informações.
+																				Máscara: AAAA-MM-DD
+																			</xs:documentation>
+																		</xs:annotation>
+																		<xs:restriction base="xs:date" />
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="fimValid" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:annotation>
+																			<xs:documentation>
+																				Data de término da nova validade das informações, se houver.
+																				Máscara: AAAA-MM-DD
+																				Não informado se for indeterminada/aberta
+																			</xs:documentation>
+																		</xs:annotation>
+																		<xs:restriction base="xs:date" />
+																	</xs:simpleType>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+
+							<xs:element name="extratoEventos" minOccurs="0" maxOccurs="1">
+								<xs:annotation>
+									<xs:documentation>Grupo contendo o extrato completo das vigências ativas para os eventos processados da respectiva tabela. Retorna a 'Foto' atualizada após o processamento.</xs:documentation>
+								</xs:annotation>
+
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="detEvento" minOccurs="0" maxOccurs="100">
+											<xs:annotation>
+												<xs:documentation>Detalhamento do evento constante na tabela do contribuinte</xs:documentation>
+											</xs:annotation>
+
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="nrRecibo" minOccurs="1" maxOccurs="1">
+														<xs:simpleType>
+															<xs:annotation>
+																<xs:documentation>
+																	Número do recibo do evento que fundamenta a vigência deste período.
+																</xs:documentation>
+															</xs:annotation>
+															<xs:restriction base="xs:string">
+																<xs:maxLength value="31" />
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="iniValid" minOccurs="1" maxOccurs="1">
+														<xs:simpleType>
+															<xs:annotation>
+																<xs:documentation>
+																	Data de início de validade informada pelo contribuinte.
+																	Máscara: AAAA-MM-DD
+																</xs:documentation>
+															</xs:annotation>
+															<xs:restriction base="xs:date" />
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="fimValid" minOccurs="0" maxOccurs="1">
+														<xs:simpleType>
+															<xs:annotation>
+																<xs:documentation>
+																	Data de fim de validade informada pelo contribuinte.
+																	Máscara: AAAA-MM-DD
+																</xs:documentation>
+															</xs:annotation>
+															<xs:restriction base="xs:date" />
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="fimValidEfetiva" minOccurs="0" maxOccurs="1">
+														<xs:simpleType>
+															<xs:annotation>
+																<xs:documentation>
+																	Data limite da validade do evento considerada pelo sistema. Corresponde à data efetiva de encerramento do período, aplicando-se as regras de não-sobreposição.
+																	Máscara: AAAA-MM-DD
+																</xs:documentation>
+															</xs:annotation>
+															<xs:restriction base="xs:date" />
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="indAjusteAuto" minOccurs="0" maxOccurs="1">
+														<xs:simpleType>
+															<xs:annotation>
+																<xs:documentation>
+																	Indicador se este período sofreu corte temporal com a atribuição do campo {fimValidEfetiva} pelo sistema em razão da existência de outro evento com vigência posterior.
+																	0 – Não;
+																	1 – Sim (houve corte pelo sistema);
+																</xs:documentation>
+															</xs:annotation>
+															<xs:restriction base="xs:byte">
+																<xs:enumeration value="0"/>
+																<xs:enumeration value="1"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="detLacuna" minOccurs="0" maxOccurs="100">
+											<xs:annotation>
+												<xs:documentation>Detalhamento de período descoberto (sem cobertura de evento) na linha do tempo</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="iniLacuna" minOccurs="1" maxOccurs="1">
+														<xs:simpleType>
+															<xs:annotation>
+																<xs:documentation>
+																	Data de início do período da lacuna.
+																	Máscara: AAAA-MM-DD
+																</xs:documentation>
+															</xs:annotation>
+															<xs:restriction base="xs:date" />
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="fimLacuna" minOccurs="0" maxOccurs="1">
+														<xs:simpleType>
+															<xs:annotation>
+																<xs:documentation>
+																	Data fim do período da lacuna (vazio se indeterminada).
+																	Máscara: AAAA-MM-DD
+																	Não informado se for indeterminada/aberta
+																</xs:documentation>
+															</xs:annotation>
+															<xs:restriction base="xs:date" />
+														</xs:simpleType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+
+						</xs:sequence>
+
+						<xs:attribute name="id" use="required">
+							<xs:simpleType>
+								<xs:annotation>
+									<xs:documentation>Identificação única do evento (campo id do evento transmitido pelo contribuinte, a que se refere este retorno)</xs:documentation>
+								</xs:annotation>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="42"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element ref="ds:Signature"/>
+
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

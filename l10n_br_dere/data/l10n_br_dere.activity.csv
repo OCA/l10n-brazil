@@ -1,0 +1,42 @@
+id,name,code,table_code
+activity_21_01a,Credit operations,01A,21
+activity_21_02a,Foreign-exchange operations,02A,21
+activity_21_03a,Securities operations,03A,21
+activity_21_04a,Securitization,04A,21
+activity_21_05a,Factoring,05A,21
+activity_21_06a,Operating lease,06A,21
+activity_21_06b,Finance lease,06B,21
+activity_21_07a,Consortium administration,07A,21
+activity_21_08a,Asset and fund management,08A,21
+activity_21_09a,Payment arrangements - acquirer,09A,21
+activity_21_09b,Payment arrangements - scheme owner,09B,21
+activity_21_09c,Payment arrangements - card issuer,09C,21
+activity_21_09d,Payment arrangements - loyalty administration,09D,21
+activity_21_09e,Payment arrangements - own loyalty program,09E,21
+activity_21_09f,Payment arrangements - meal food or transport voucher,09F,21
+activity_21_09z,Payment arrangements - other,09Z,21
+activity_21_10a,Organized-market and central-depositary entities,10A,21
+activity_21_11a,Property and personal insurance without survival cover,11A,21
+activity_21_11b,Personal insurance with survival cover,11B,21
+activity_21_12a,Reinsurance,12A,21
+activity_21_13a,Open complementary pension,13A,21
+activity_21_13b,Closed complementary pension,13B,21
+activity_21_14a,Capitalization,14A,21
+activity_21_15a,Intermediation of consortium insurance pension and capitalization,15A,21
+activity_21_16a,Virtual-asset services,16A,21
+activity_21_17a,Mutual patrimonial protection,17A,21
+activity_31_01a,Health insurers,01A,31
+activity_31_02a,Benefit administrators,02A,31
+activity_31_03a,Health-plan operator cooperatives,03A,31
+activity_31_04a,Health-insurance cooperatives,04A,31
+activity_31_05a,Other health-plan operators,05A,31
+activity_31_06a,Funeral assistance plans,06A,31
+activity_31_07a,Animal health-care plans,07A,31
+activity_31_08a,Self-management health-care plans,08A,31
+activity_41_01a,Sports betting,01A,41
+activity_41_01b,Turf betting,01B,41
+activity_41_01c,Lottery products,01C,41
+activity_41_01d,Online games (iGaming),01D,41
+activity_41_01e,Fantasy sport,01E,41
+activity_41_01f,Sweepstakes,01F,41
+activity_41_01g,Other bets,01G,41
