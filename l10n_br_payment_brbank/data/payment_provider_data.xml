@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<!-- One provider per bank and per Pix profile: a new bank is only data. -->
+<odoo noupdate="1">
+    <record id="payment_provider_brbank_inter" model="payment.provider">
+        <field name="name">Banco Inter (Boleto)</field>
+        <field name="code">brbank</field>
+        <field name="brbank_adapter">inter</field>
+        <field name="state">disabled</field>
+        <field name="is_published" eval="False" />
+        <field
+            name="image_128"
+            type="base64"
+            file="l10n_br_payment_brbank/static/description/icon.png"
+        />
+        <field name="module_id" ref="base.module_l10n_br_payment_brbank" />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment.payment_method_boleto')])]"
+        />
+    </record>
+    <record id="payment_provider_brbank_pinbank" model="payment.provider">
+        <field name="name">PinBank (Boleto)</field>
+        <field name="code">brbank</field>
+        <field name="brbank_adapter">pinbank</field>
+        <field name="state">disabled</field>
+        <field name="is_published" eval="False" />
+        <field
+            name="image_128"
+            type="base64"
+            file="l10n_br_payment_brbank/static/description/icon.png"
+        />
+        <field name="module_id" ref="base.module_l10n_br_payment_brbank" />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment.payment_method_boleto')])]"
+        />
+    </record>
+    <record id="payment_provider_brbank_sicoob" model="payment.provider">
+        <field name="name">Sicoob (Boleto)</field>
+        <field name="code">brbank</field>
+        <field name="brbank_adapter">sicoob</field>
+        <field name="state">disabled</field>
+        <field name="is_published" eval="False" />
+        <field
+            name="image_128"
+            type="base64"
+            file="l10n_br_payment_brbank/static/description/icon.png"
+        />
+        <field name="module_id" ref="base.module_l10n_br_payment_brbank" />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment.payment_method_boleto')])]"
+        />
+    </record>
+    <record id="payment_provider_brbank_sicredi" model="payment.provider">
+        <field name="name">Sicredi (Boleto)</field>
+        <field name="code">brbank</field>
+        <field name="brbank_adapter">sicredi</field>
+        <field name="state">disabled</field>
+        <field name="is_published" eval="False" />
+        <field
+            name="image_128"
+            type="base64"
+            file="l10n_br_payment_brbank/static/description/icon.png"
+        />
+        <field name="module_id" ref="base.module_l10n_br_payment_brbank" />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment.payment_method_boleto')])]"
+        />
+    </record>
+    <record id="payment_provider_brbank_bb" model="payment.provider">
+        <field name="name">Banco do Brasil (Boleto)</field>
+        <field name="code">brbank</field>
+        <field name="brbank_adapter">bb</field>
+        <field name="state">disabled</field>
+        <field name="is_published" eval="False" />
+        <field
+            name="image_128"
+            type="base64"
+            file="l10n_br_payment_brbank/static/description/icon.png"
+        />
+        <field name="module_id" ref="base.module_l10n_br_payment_brbank" />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment.payment_method_boleto')])]"
+        />
+    </record>
+    <record id="payment_provider_brbank_itau" model="payment.provider">
+        <field name="name">Itaú (Boleto)</field>
+        <field name="code">brbank</field>
+        <field name="brbank_adapter">itau</field>
+        <field name="state">disabled</field>
+        <field name="is_published" eval="False" />
+        <field
+            name="image_128"
+            type="base64"
+            file="l10n_br_payment_brbank/static/description/icon.png"
+        />
+        <field name="module_id" ref="base.module_l10n_br_payment_brbank" />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment.payment_method_boleto')])]"
+        />
+    </record>
+    <record id="payment_provider_brbank_bradesco" model="payment.provider">
+        <field name="name">Bradesco (Boleto)</field>
+        <field name="code">brbank</field>
+        <field name="brbank_adapter">bradesco</field>
+        <field name="state">disabled</field>
+        <field name="is_published" eval="False" />
+        <field
+            name="image_128"
+            type="base64"
+            file="l10n_br_payment_brbank/static/description/icon.png"
+        />
+        <field name="module_id" ref="base.module_l10n_br_payment_brbank" />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment.payment_method_boleto')])]"
+        />
+    </record>
+    <record id="payment_provider_brbank_santander" model="payment.provider">
+        <field name="name">Santander (Boleto)</field>
+        <field name="code">brbank</field>
+        <field name="brbank_adapter">santander</field>
+        <field name="state">disabled</field>
+        <field name="is_published" eval="False" />
+        <field
+            name="image_128"
+            type="base64"
+            file="l10n_br_payment_brbank/static/description/icon.png"
+        />
+        <field name="module_id" ref="base.module_l10n_br_payment_brbank" />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment.payment_method_boleto')])]"
+        />
+    </record>
+    <record id="payment_provider_brbank_btg" model="payment.provider">
+        <field name="name">BTG Pactual (Boleto)</field>
+        <field name="code">brbank</field>
+        <field name="brbank_adapter">btg</field>
+        <field name="state">disabled</field>
+        <field name="is_published" eval="False" />
+        <field
+            name="image_128"
+            type="base64"
+            file="l10n_br_payment_brbank/static/description/icon.png"
+        />
+        <field name="module_id" ref="base.module_l10n_br_payment_brbank" />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment.payment_method_boleto')])]"
+        />
+    </record>
+    <record id="payment_provider_brbank_c6" model="payment.provider">
+        <field name="name">C6 Bank (Boleto)</field>
+        <field name="code">brbank</field>
+        <field name="brbank_adapter">c6</field>
+        <field name="state">disabled</field>
+        <field name="is_published" eval="False" />
+        <field
+            name="image_128"
+            type="base64"
+            file="l10n_br_payment_brbank/static/description/icon.png"
+        />
+        <field name="module_id" ref="base.module_l10n_br_payment_brbank" />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment.payment_method_boleto')])]"
+        />
+    </record>
+    <record id="payment_provider_brbank_banrisul" model="payment.provider">
+        <field name="name">Banrisul (Boleto)</field>
+        <field name="code">brbank</field>
+        <field name="brbank_adapter">banrisul</field>
+        <field name="state">disabled</field>
+        <field name="is_published" eval="False" />
+        <field
+            name="image_128"
+            type="base64"
+            file="l10n_br_payment_brbank/static/description/icon.png"
+        />
+        <field name="module_id" ref="base.module_l10n_br_payment_brbank" />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment.payment_method_boleto')])]"
+        />
+    </record>
+    <record id="payment_provider_brbank_unicred" model="payment.provider">
+        <field name="name">Unicred (Boleto)</field>
+        <field name="code">brbank</field>
+        <field name="brbank_adapter">unicred</field>
+        <field name="state">disabled</field>
+        <field name="is_published" eval="False" />
+        <field
+            name="image_128"
+            type="base64"
+            file="l10n_br_payment_brbank/static/description/icon.png"
+        />
+        <field name="module_id" ref="base.module_l10n_br_payment_brbank" />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment.payment_method_boleto')])]"
+        />
+    </record>
+    <record id="payment_provider_brbank_caixa" model="payment.provider">
+        <field name="name">Caixa (Boleto)</field>
+        <field name="code">brbank</field>
+        <field name="brbank_adapter">caixa</field>
+        <field name="state">disabled</field>
+        <field name="is_published" eval="False" />
+        <field
+            name="image_128"
+            type="base64"
+            file="l10n_br_payment_brbank/static/description/icon.png"
+        />
+        <field name="module_id" ref="base.module_l10n_br_payment_brbank" />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment.payment_method_boleto')])]"
+        />
+    </record>
+    <record id="payment_provider_brbank_safra" model="payment.provider">
+        <field name="name">Safra (Boleto)</field>
+        <field name="code">brbank</field>
+        <field name="brbank_adapter">safra</field>
+        <field name="state">disabled</field>
+        <field name="is_published" eval="False" />
+        <field
+            name="image_128"
+            type="base64"
+            file="l10n_br_payment_brbank/static/description/icon.png"
+        />
+        <field name="module_id" ref="base.module_l10n_br_payment_brbank" />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment.payment_method_boleto')])]"
+        />
+    </record>
+    <record id="payment_provider_brbank_pix_inter" model="payment.provider">
+        <field name="name">Pix Banco Inter</field>
+        <field name="code">brbank</field>
+        <field name="brbank_adapter">pix_bacen</field>
+        <field name="brbank_pix_perfil">inter</field>
+        <field name="state">disabled</field>
+        <field name="is_published" eval="False" />
+        <field
+            name="image_128"
+            type="base64"
+            file="l10n_br_payment_brbank/static/description/icon.png"
+        />
+        <field name="module_id" ref="base.module_l10n_br_payment_brbank" />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment.payment_method_pix')])]"
+        />
+    </record>
+    <record id="payment_provider_brbank_pix_bb" model="payment.provider">
+        <field name="name">Pix Banco do Brasil</field>
+        <field name="code">brbank</field>
+        <field name="brbank_adapter">pix_bacen</field>
+        <field name="brbank_pix_perfil">bb</field>
+        <field name="state">disabled</field>
+        <field name="is_published" eval="False" />
+        <field
+            name="image_128"
+            type="base64"
+            file="l10n_br_payment_brbank/static/description/icon.png"
+        />
+        <field name="module_id" ref="base.module_l10n_br_payment_brbank" />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment.payment_method_pix')])]"
+        />
+    </record>
+    <record id="payment_provider_brbank_pix_sicoob" model="payment.provider">
+        <field name="name">Pix Sicoob</field>
+        <field name="code">brbank</field>
+        <field name="brbank_adapter">pix_bacen</field>
+        <field name="brbank_pix_perfil">sicoob</field>
+        <field name="state">disabled</field>
+        <field name="is_published" eval="False" />
+        <field
+            name="image_128"
+            type="base64"
+            file="l10n_br_payment_brbank/static/description/icon.png"
+        />
+        <field name="module_id" ref="base.module_l10n_br_payment_brbank" />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment.payment_method_pix')])]"
+        />
+    </record>
+    <record id="payment_provider_brbank_pix_sicredi" model="payment.provider">
+        <field name="name">Pix Sicredi</field>
+        <field name="code">brbank</field>
+        <field name="brbank_adapter">pix_bacen</field>
+        <field name="brbank_pix_perfil">sicredi</field>
+        <field name="state">disabled</field>
+        <field name="is_published" eval="False" />
+        <field
+            name="image_128"
+            type="base64"
+            file="l10n_br_payment_brbank/static/description/icon.png"
+        />
+        <field name="module_id" ref="base.module_l10n_br_payment_brbank" />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment.payment_method_pix')])]"
+        />
+    </record>
+    <record id="payment_provider_brbank_pix_itau" model="payment.provider">
+        <field name="name">Pix Itaú</field>
+        <field name="code">brbank</field>
+        <field name="brbank_adapter">pix_bacen</field>
+        <field name="brbank_pix_perfil">itau</field>
+        <field name="state">disabled</field>
+        <field name="is_published" eval="False" />
+        <field
+            name="image_128"
+            type="base64"
+            file="l10n_br_payment_brbank/static/description/icon.png"
+        />
+        <field name="module_id" ref="base.module_l10n_br_payment_brbank" />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment.payment_method_pix')])]"
+        />
+    </record>
+    <record id="payment_provider_brbank_pix_bradesco" model="payment.provider">
+        <field name="name">Pix Bradesco</field>
+        <field name="code">brbank</field>
+        <field name="brbank_adapter">pix_bacen</field>
+        <field name="brbank_pix_perfil">bradesco</field>
+        <field name="state">disabled</field>
+        <field name="is_published" eval="False" />
+        <field
+            name="image_128"
+            type="base64"
+            file="l10n_br_payment_brbank/static/description/icon.png"
+        />
+        <field name="module_id" ref="base.module_l10n_br_payment_brbank" />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment.payment_method_pix')])]"
+        />
+    </record>
+    <record id="payment_provider_brbank_pix_santander" model="payment.provider">
+        <field name="name">Pix Santander</field>
+        <field name="code">brbank</field>
+        <field name="brbank_adapter">pix_bacen</field>
+        <field name="brbank_pix_perfil">santander</field>
+        <field name="state">disabled</field>
+        <field name="is_published" eval="False" />
+        <field
+            name="image_128"
+            type="base64"
+            file="l10n_br_payment_brbank/static/description/icon.png"
+        />
+        <field name="module_id" ref="base.module_l10n_br_payment_brbank" />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment.payment_method_pix')])]"
+        />
+    </record>
+    <record id="payment_provider_brbank_pix_efi" model="payment.provider">
+        <field name="name">Pix Efí</field>
+        <field name="code">brbank</field>
+        <field name="brbank_adapter">pix_bacen</field>
+        <field name="brbank_pix_perfil">efi</field>
+        <field name="state">disabled</field>
+        <field name="is_published" eval="False" />
+        <field
+            name="image_128"
+            type="base64"
+            file="l10n_br_payment_brbank/static/description/icon.png"
+        />
+        <field name="module_id" ref="base.module_l10n_br_payment_brbank" />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment.payment_method_pix')])]"
+        />
+    </record>
+</odoo>

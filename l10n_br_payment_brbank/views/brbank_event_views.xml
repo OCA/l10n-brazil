@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="brbank_event_list" model="ir.ui.view">
+        <field name="name">l10n_br.brbank.event.list</field>
+        <field name="model">l10n_br.brbank.event</field>
+        <field name="arch" type="xml">
+            <list
+                create="false"
+                edit="false"
+                decoration-success="state == 'done'"
+                decoration-danger="state == 'error'"
+                decoration-muted="state == 'ignored'"
+            >
+                <field name="create_date" />
+                <field name="connection_id" />
+                <field name="bank" />
+                <field name="reference" />
+                <field name="event_type" />
+                <field name="amount_paid" optional="show" />
+                <field name="transaction_id" optional="show" />
+                <field name="attempts" optional="hide" />
+                <field name="state" />
+                <field name="result_message" />
+            </list>
+        </field>
+    </record>
+
+    <record id="brbank_event_form" model="ir.ui.view">
+        <field name="name">l10n_br.brbank.event.form</field>
+        <field name="model">l10n_br.brbank.event</field>
+        <field name="arch" type="xml">
+            <form create="false" edit="false">
+                <header>
+                    <button
+                        name="action_process"
+                        type="object"
+                        string="Process again"
+                        invisible="state not in ('new', 'error')"
+                    />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="connection_id" />
+                            <field name="provider_id" groups="base.group_no_one" />
+                            <field name="bank" />
+                            <field name="reference" />
+                            <field name="event_type" />
+                        </group>
+                        <group>
+                            <field name="occurred_at" />
+                            <field name="amount_paid" />
+                            <field name="transaction_id" />
+                            <field name="attempts" />
+                            <field name="result_message" />
+                        </group>
+                    </group>
+                    <group string="Masked payload" groups="base.group_no_one">
+                        <field name="raw_payload" nolabel="1" colspan="2" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="brbank_event_search" model="ir.ui.view">
+        <field name="name">l10n_br.brbank.event.search</field>
+        <field name="model">l10n_br.brbank.event</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="reference" />
+                <field name="connection_id" />
+                <filter
+                    name="filter_new"
+                    string="To Process"
+                    domain="[('state', '=', 'new')]"
+                />
+                <filter
+                    name="filter_error"
+                    string="Error"
+                    domain="[('state', '=', 'error')]"
+                />
+            </search>
+        </field>
+    </record>
+
+    <record id="brbank_event_action" model="ir.actions.act_window">
+        <field name="name">Bank Webhook Events</field>
+        <field name="res_model">l10n_br.brbank.event</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        id="brbank_event_menu"
+        action="brbank_event_action"
+        parent="account.root_payment_menu"
+        sequence="90"
+        groups="account.group_account_manager"
+    />
+</odoo>
