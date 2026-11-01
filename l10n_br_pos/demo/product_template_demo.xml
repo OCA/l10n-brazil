@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="product_desk_pad" model="product.product">
+        <field name="name">Desk Pad</field>
+        <field name="available_in_pos" eval="True" />
+        <field name="list_price">1.98</field>
+        <field name="default_code">BRPOS_0001</field>
+        <field name="is_storable" eval="True" />
+        <field name="fiscal_type">00</field>
+        <field name="icms_origin">0</field>
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94033000" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_94" />
+    </record>
+
+    <record id="product_led_lamp" model="product.product">
+        <field name="name">Led Lamp</field>
+        <field name="available_in_pos" eval="True" />
+        <field name="list_price">0.90</field>
+        <field name="default_code">BRPOS_0002</field>
+        <field name="is_storable" eval="True" />
+        <field name="fiscal_type">00</field>
+        <field name="icms_origin">0</field>
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94033000" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_94" />
+    </record>
+</odoo>
