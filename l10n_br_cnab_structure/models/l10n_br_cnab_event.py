@@ -122,7 +122,42 @@ class CNABReturnEvent(models.Model):
                 self.create_liq_move()
             elif self.tariff_charge > 0:
                 self.create_tariff_move()
+            self._update_outbound_cnab_state()
             self.state = "confirmed"
+
+    def _get_occurrences(self):
+        codes = [
+            code
+            for code in (
+                self.occurrence_code_1,
+                self.occurrence_code_2,
+                self.occurrence_code_3,
+                self.occurrence_code_4,
+                self.occurrence_code_5,
+            )
+            if code
+        ]
+        return self.env["cnab.occurrence"].search(
+            [
+                ("cnab_structure_id", "=", self.cnab_structure_id.id),
+                ("code", "in", codes),
+            ]
+        )
+
+    def _update_outbound_cnab_state(self):
+        """Keep the CNAB state of the paid journal items in sync with the return.
+
+        Outbound journal items stay as "exported" after the payment order is
+        uploaded, so a liquidated line could still be proposed by the payment
+        line wizard and a rejected one could never be proposed again. The
+        occurrence tells which case it is.
+        """
+        if self.cnab_return_log_id.type != "outbound" or not self.move_line_ids:
+            return
+        if self.gen_liquidation_move:
+            self.move_line_ids.write({"cnab_state": "done"})
+        elif any(self._get_occurrences().mapped("not_accepted")):
+            self.move_line_ids.write({"cnab_state": "not_accepted"})
 
     def set_occurrence_date(self):
         if not self.occurrence_date:
@@ -216,8 +251,21 @@ class CNABReturnEvent(models.Model):
 
     # TODO We aren't handling multi-currency.
     def _get_outstanding_account(self, payment_type):
-        """Outstanding payments account, which left res.company in 18.0."""
+        """Outstanding payments account, which left res.company in 18.0.
+
+        The account configured on the payment method lines of the journal
+        comes first, as it does for the payments themselves; the chart
+        template account is only a fallback.
+        """
         self.ensure_one()
+        method_lines = (
+            self.journal_id.inbound_payment_method_line_ids
+            if payment_type == "inbound"
+            else self.journal_id.outbound_payment_method_line_ids
+        )
+        account = method_lines.filtered("payment_account_id")[:1].payment_account_id
+        if account:
+            return account
         company = self.journal_id.company_id
         account_ref = (
             "account_journal_payment_debit_account_id"
