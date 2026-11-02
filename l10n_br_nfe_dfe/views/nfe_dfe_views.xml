@@ -58,7 +58,7 @@
                     icon="fa-file-code-o"
                 />
                 <button
-                    string="DANFE"
+                    string="PDF"
                     name="make_pdf"
                     type="object"
                     icon="fa-file-pdf-o"
@@ -96,9 +96,6 @@
             ref="l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_form"
         />
         <field name="arch" type="xml">
-            <xpath expr="//button[@name='make_pdf']" position="attributes">
-                <attribute name="string">DANFE</attribute>
-            </xpath>
             <xpath expr="//button[@name='import_document']" position="attributes">
                 <attribute name="invisible">fiscal_document_id</attribute>
             </xpath>
