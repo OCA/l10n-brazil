@@ -1,7 +1,7 @@
 # Copyright (C) 2026  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 from ..constants import (
@@ -234,14 +234,14 @@ class FCI(models.Model):
         if self.uom_code and self.uom_code not in FCI_UOM_CODES:
             return {
                 "warning": {
-                    "title": _("Unit of Measure"),
-                    "message": _(
+                    "title": self.env._("Unit of Measure"),
+                    "message": self.env._(
                         "The unit '%s' does not belong to the table of the "
                         "Ato COTEPE ICMS 61/2012. The file will be accepted "
                         "but the validator will raise a warning. Use '99' "
-                        "for other units."
-                    )
-                    % self.uom_code,
+                        "for other units.",
+                        self.uom_code,
+                    ),
                 }
             }
 
@@ -251,13 +251,17 @@ class FCI(models.Model):
             code = fci.ncm_code or ""
             if len(code) != 8 or not code.isdigit():
                 raise ValidationError(
-                    _("The NCM %s must have 8 digits to be used in a FCI.")
-                    % fci.ncm_id.code
+                    self.env._(
+                        "The NCM %s must have 8 digits to be used in a FCI.",
+                        fci.ncm_id.code,
+                    )
                 )
             if code.startswith("00"):
                 raise ValidationError(
-                    _("The NCM %s can not start with two consecutive zeros.")
-                    % fci.ncm_id.code
+                    self.env._(
+                        "The NCM %s can not start with two consecutive zeros.",
+                        fci.ncm_id.code,
+                    )
                 )
 
     @api.constrains("amount_interstate", "amount_imported")
@@ -265,19 +269,19 @@ class FCI(models.Model):
         for fci in self:
             if fci.amount_interstate <= 0:
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "The interstate output amount of the product %s must "
-                        "be greater than zero."
+                        "be greater than zero.",
+                        fci.product_id.display_name,
                     )
-                    % fci.product_id.display_name
                 )
             if fci.amount_imported <= 0:
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "The imported amount of the product %s must be "
-                        "greater than zero."
+                        "greater than zero.",
+                        fci.product_id.display_name,
                     )
-                    % fci.product_id.display_name
                 )
 
     def _check_before_generate(self):
@@ -286,21 +290,27 @@ class FCI(models.Model):
         errors = []
         product_name = self.product_id.display_name or self.name or self.product_code
         if not self.ncm_id:
-            errors.append(_("The NCM of the goods %s is empty.") % product_name)
+            errors.append(self.env._("The NCM of the goods %s is empty.", product_name))
         if not self.name:
             errors.append(
-                _("The description of the product %s is empty.") % product_name
+                self.env._("The description of the product %s is empty.", product_name)
             )
         if not self.product_code:
-            errors.append(_("The code of the product %s is empty.") % product_name)
+            errors.append(
+                self.env._("The code of the product %s is empty.", product_name)
+            )
         if not self.uom_code:
             errors.append(
-                _("The unit of measure of the product %s is empty.") % product_name
+                self.env._(
+                    "The unit of measure of the product %s is empty.", product_name
+                )
             )
         if self.gtin and len(self.gtin) not in (8, 12, 13, 14):
             errors.append(
-                _("The GTIN of the product %s must have 8, 12, 13 or 14 digits.")
-                % product_name
+                self.env._(
+                    "The GTIN of the product %s must have 8, 12, 13 or 14 digits.",
+                    product_name,
+                )
             )
         return errors
 

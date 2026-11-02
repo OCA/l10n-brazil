@@ -4,7 +4,6 @@
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <odoo>
-
     <record id="product_template_form" model="ir.ui.view">
         <field name="name">l10n_br_fiscal_fci.product.template.form</field>
         <field name="model">product.template</field>
@@ -12,7 +11,6 @@
         <field name="arch" type="xml">
             <xpath expr="//page[@name='fiscal']" position="inside">
                 <group name="fci" string="FCI">
-                    <field name="fci_count" invisible="1" />
                     <field name="fci_code" />
                     <button
                         name="action_view_fci"
@@ -20,11 +18,10 @@
                         string="FCI History"
                         class="btn-link"
                         icon="fa-list"
-                        attrs="{'invisible': [('fci_count', '=', 0)]}"
+                        invisible="not fci_count"
                     />
                 </group>
             </xpath>
         </field>
     </record>
-
 </odoo>

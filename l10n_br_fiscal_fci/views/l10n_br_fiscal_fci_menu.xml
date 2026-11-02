@@ -4,7 +4,6 @@
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <odoo>
-
     <!-- FCI -->
     <menuitem
         id="fci_file_menu"
@@ -24,5 +23,4 @@
         parent="l10n_br_fiscal.product_service_menu"
         sequence="60"
     />
-
 </odoo>

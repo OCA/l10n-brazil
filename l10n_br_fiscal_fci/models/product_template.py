@@ -1,7 +1,7 @@
 # Copyright (C) 2026  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 
 
 class ProductTemplate(models.Model):
@@ -46,5 +46,5 @@ class ProductTemplate(models.Model):
         )
         action["domain"] = [("product_tmpl_id", "=", self.id)]
         action["context"] = {"search_default_group_fci": 1}
-        action["display_name"] = _("FCI of %s") % self.display_name
+        action["display_name"] = self.env._("FCI of %s", self.display_name)
         return action

@@ -9,8 +9,9 @@ import zipfile
 from datetime import datetime
 
 import pytz
+from markupsafe import Markup
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 from ..constants import (
@@ -96,19 +97,21 @@ class FCIImportWizard(models.TransientModel):
                 ]
                 if not names:
                     raise UserError(
-                        _("No TXT file found inside the ZIP file %s.")
-                        % (self.filename or "")
+                        self.env._(
+                            "No TXT file found inside the ZIP file %s.",
+                            self.filename or "",
+                        )
                     )
                 content = zip_file.read(names[0])
         try:
             return content.decode(FCI_FILE_ENCODING)
         except UnicodeDecodeError as error:
             raise UserError(
-                _(
+                self.env._(
                     "The file %s is not encoded in UTF-8, as required by the "
-                    "FCI layout."
+                    "FCI layout.",
+                    self.filename or "",
                 )
-                % (self.filename or "")
             ) from error
 
     def _parse_file(self, content):
@@ -122,11 +125,11 @@ class FCIImportWizard(models.TransientModel):
             registers.setdefault(values[0], []).append(values)
         if "0000" not in registers or "5020" not in registers:
             raise UserError(
-                _(
+                self.env._(
                     "The file %s does not look like a FCI file: the registers "
-                    "0000 and 5020 were not found."
+                    "0000 and 5020 were not found.",
+                    self.filename or "",
                 )
-                % (self.filename or "")
             )
         return registers
 
@@ -157,12 +160,12 @@ class FCIImportWizard(models.TransientModel):
         company = companies.filtered(lambda item: sanitize_code(item.vat) == cnpj)
         if not company:
             raise UserError(
-                _(
+                self.env._(
                     "No allowed company found with the CNPJ %s of the file. "
                     "Check the CNPJ of your companies and the companies "
-                    "enabled in your user."
+                    "enabled in your user.",
+                    cnpj,
                 )
-                % cnpj
             )
         return company[0]
 
@@ -241,7 +244,7 @@ class FCIImportWizard(models.TransientModel):
             return float(value.replace(".", "").replace(",", "."))
         except ValueError as error:
             raise UserError(
-                _("The amount %s of the file is not valid.") % value
+                self.env._("The amount %s of the file is not valid.", value)
             ) from error
 
     def _prepare_fci_values(self, register):
@@ -381,22 +384,22 @@ class FCIImportWizard(models.TransientModel):
         if fci_file:
             if not is_return:
                 raise UserError(
-                    _(
+                    self.env._(
                         "The file %s is not a return file: it has no FCI "
                         "control number. Leave the FCI field empty to import "
-                        "it as a new FCI."
+                        "it as a new FCI.",
+                        self.filename or "",
                     )
-                    % (self.filename or "")
                 )
             if fci_file.state == "draft":
                 raise UserError(
-                    _(
+                    self.env._(
                         "The FCI %s was not transmitted yet, there is no "
-                        "return file to import."
+                        "return file to import.",
+                        fci_file.name,
                     )
-                    % fci_file.name
                 )
-            self._check_company(fci_file, registers)
+            self._check_fci_company(fci_file, registers)
             result = self._prepare_return_result(
                 fci_file, *self._import_return_values(fci_file, registers)
             )
@@ -418,25 +421,23 @@ class FCIImportWizard(models.TransientModel):
 
         self.fci_file_id = fci_file
         self.result = result
-        fci_file.message_post(body=result.replace("\n", "<br/>"))
+        fci_file.message_post(body=Markup("<br/>").join(result.split("\n")))
         self.state = "done"
         return self._reopen()
 
-    def _check_company(self, fci_file, registers):
+    def _check_fci_company(self, fci_file, registers):
         file_cnpj = sanitize_code(self._get_field(registers["0000"][0], 1))
         company_cnpj = sanitize_code(fci_file.company_id.vat)
         if file_cnpj and company_cnpj and file_cnpj != company_cnpj:
             raise UserError(
-                _(
+                self.env._(
                     "The CNPJ %(file_cnpj)s of the file is different from the "
                     "CNPJ %(company_cnpj)s of the company of the FCI "
-                    "%(name)s."
+                    "%(name)s.",
+                    file_cnpj=file_cnpj,
+                    company_cnpj=company_cnpj,
+                    name=fci_file.name,
                 )
-                % {
-                    "file_cnpj": file_cnpj,
-                    "company_cnpj": company_cnpj,
-                    "name": fci_file.name,
-                }
             )
 
     ##########################################
@@ -445,46 +446,53 @@ class FCIImportWizard(models.TransientModel):
 
     def _prepare_created_result(self, fci_file):
         lines = [
-            _("FCI %(name)s created with %(count)s goods.")
-            % {"name": fci_file.name, "count": len(fci_file.fci_ids)},
+            self.env._(
+                "FCI %(name)s created with %(count)s goods.",
+                name=fci_file.name,
+                count=len(fci_file.fci_ids),
+            ),
         ]
         without_product = fci_file.fci_ids.filtered(lambda fci: not fci.product_id)
         if without_product:
             lines.append(
-                _("%(count)s goods without a matching product: %(codes)s")
-                % {
-                    "count": len(without_product),
-                    "codes": ", ".join(without_product.mapped("product_code")),
-                }
+                self.env._(
+                    "%(count)s goods without a matching product: %(codes)s",
+                    count=len(without_product),
+                    codes=", ".join(without_product.mapped("product_code")),
+                )
             )
         without_ncm = fci_file.fci_ids.filtered(lambda fci: not fci.ncm_id)
         if without_ncm:
             lines.append(
-                _("%(count)s goods without a matching NCM: %(codes)s")
-                % {
-                    "count": len(without_ncm),
-                    "codes": ", ".join(without_ncm.mapped("product_code")),
-                }
+                self.env._(
+                    "%(count)s goods without a matching NCM: %(codes)s",
+                    count=len(without_ncm),
+                    codes=", ".join(without_ncm.mapped("product_code")),
+                )
             )
         return "\n".join(lines)
 
     def _prepare_return_result(self, fci_file, imported, rejected, not_found):
         lines = [
-            _("Return file of the FCI %s imported.") % fci_file.name,
-            _("%s FCI control number(s) imported.") % len(imported),
+            self.env._("Return file of the FCI %s imported.", fci_file.name),
+            self.env._("%s FCI control number(s) imported.", len(imported)),
         ]
         if rejected:
             lines.append(
-                _(
+                self.env._(
                     "%(count)s goods without FCI control number (rejected by "
-                    "the tax administration): %(codes)s"
+                    "the tax administration): %(codes)s",
+                    count=len(rejected),
+                    codes=", ".join(rejected),
                 )
-                % {"count": len(rejected), "codes": ", ".join(rejected)}
             )
         if not_found:
             lines.append(
-                _("%(count)s goods of the file not found in this FCI: %(codes)s")
-                % {"count": len(not_found), "codes": ", ".join(not_found)}
+                self.env._(
+                    "%(count)s goods of the file not found in this FCI: %(codes)s",
+                    count=len(not_found),
+                    codes=", ".join(not_found),
+                )
             )
         return "\n".join(lines)
 

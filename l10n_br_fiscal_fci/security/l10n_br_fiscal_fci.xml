@@ -4,7 +4,6 @@
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <odoo noupdate="1">
-
     <record id="l10n_br_fiscal_fci_file_rule" model="ir.rule">
         <field name="name">FCI File multi-company</field>
         <field name="model_id" ref="model_l10n_br_fiscal_fci_file" />
@@ -18,5 +17,4 @@
         <field eval="True" name="global" />
         <field name="domain_force">[('company_id', 'in', company_ids)]</field>
     </record>
-
 </odoo>

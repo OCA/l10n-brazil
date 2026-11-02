@@ -4,7 +4,6 @@
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <odoo>
-
     <record id="fci_file_search" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.fci.file.search</field>
         <field name="model">l10n_br_fiscal.fci.file</field>
@@ -63,7 +62,7 @@
         <field name="name">l10n_br_fiscal.fci.file.tree</field>
         <field name="model">l10n_br_fiscal.fci.file</field>
         <field name="arch" type="xml">
-            <tree js_class="fci_file_tree">
+            <list js_class="fci_file_tree">
                 <field name="name" />
                 <field name="date" />
                 <field name="company_id" groups="base.group_multi_company" />
@@ -76,7 +75,7 @@
                     decoration-warning="state == 'transmitted'"
                     decoration-success="state == 'done'"
                 />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -90,28 +89,28 @@
                         name="action_generate_file"
                         type="object"
                         string="Generate File"
-                        states="draft"
+                        invisible="state != 'draft'"
                         class="oe_highlight"
                     />
                     <button
                         name="action_set_transmitted"
                         type="object"
                         string="Confirm Transmission"
-                        states="generated"
+                        invisible="state != 'generated'"
                         class="oe_highlight"
                     />
                     <button
                         name="action_import_return_file"
                         type="object"
                         string="Import Return File"
-                        attrs="{'invisible': [('state', 'not in', ('transmitted', 'done'))]}"
+                        invisible="state not in ('transmitted', 'done')"
                         class="oe_highlight"
                     />
                     <button
                         name="action_back_to_draft"
                         type="object"
                         string="Back to Draft"
-                        states="generated"
+                        invisible="state != 'generated'"
                     />
                     <field name="state" widget="statusbar" />
                 </header>
@@ -123,8 +122,12 @@
                     </div>
                     <group>
                         <group name="fci_data" string="FCI">
-                            <field name="company_id" options="{'no_create': True}" />
-                            <field name="date" />
+                            <field
+                                name="company_id"
+                                readonly="state != 'draft'"
+                                options="{'no_create': True}"
+                            />
+                            <field name="date" readonly="state != 'draft'" />
                             <field name="layout_version" />
                             <field name="currency_id" invisible="1" />
                         </group>
@@ -138,11 +141,15 @@
                     </group>
                     <notebook>
                         <page name="lines" string="Goods">
-                            <field name="fci_ids" nolabel="1">
-                                <tree editable="bottom">
+                            <field
+                                name="fci_ids"
+                                nolabel="1"
+                                readonly="state != 'draft'"
+                            >
+                                <list editable="bottom">
                                     <field name="sequence" widget="handle" />
-                                    <field name="company_id" invisible="1" />
-                                    <field name="currency_id" invisible="1" />
+                                    <field name="company_id" column_invisible="1" />
+                                    <field name="currency_id" column_invisible="1" />
                                     <field
                                         name="product_id"
                                         options="{'no_create': True}"
@@ -160,7 +167,7 @@
                                         name="validation_indicator"
                                         optional="hide"
                                     />
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page name="file" string="File">
@@ -169,16 +176,19 @@
                                     <field
                                         name="file"
                                         filename="filename"
-                                        attrs="{'invisible': [('file', '=', False)]}"
+                                        invisible="not file"
                                     />
                                     <field name="filename" invisible="1" />
-                                    <field name="protocol_number" />
+                                    <field
+                                        name="protocol_number"
+                                        readonly="state != 'generated'"
+                                    />
                                 </group>
                                 <group name="return_data" string="Return">
                                     <field
                                         name="return_file"
                                         filename="return_filename"
-                                        attrs="{'invisible': [('return_file', '=', False)]}"
+                                        invisible="not return_file"
                                     />
                                     <field name="return_filename" invisible="1" />
                                     <field name="hash_code" />
@@ -190,13 +200,8 @@
                         </page>
                     </notebook>
                 </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids" />
-                    <field name="activity_ids" />
-                    <field name="message_ids" />
-                </div>
+                <chatter />
             </form>
         </field>
     </record>
-
 </odoo>

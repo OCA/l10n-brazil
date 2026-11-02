@@ -3,7 +3,7 @@
 
 import base64
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 from ..constants import (
@@ -41,18 +41,14 @@ class FCIFile(models.Model):
     date = fields.Datetime(
         string="Creation Date",
         required=True,
-        readonly=True,
         default=fields.Datetime.now,
-        states={"draft": [("readonly", False)]},
         help="Date used to build the file name, as required by the layout.",
     )
 
     company_id = fields.Many2one(
         comodel_name="res.company",
         required=True,
-        readonly=True,
         default=lambda self: self.env.company,
-        states={"draft": [("readonly", False)]},
     )
 
     currency_id = fields.Many2one(
@@ -82,8 +78,6 @@ class FCIFile(models.Model):
         comodel_name="l10n_br_fiscal.fci",
         inverse_name="fci_file_id",
         string="Goods",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
         copy=True,
     )
 
@@ -145,8 +139,6 @@ class FCIFile(models.Model):
 
     protocol_number = fields.Char(
         string="Reception Protocol",
-        readonly=True,
-        states={"generated": [("readonly", False)]},
         copy=False,
         tracking=True,
         help="Protocol number returned by the TED after the transmission of "
@@ -209,7 +201,7 @@ class FCIFile(models.Model):
 
     def unlink(self):
         if self.filtered(lambda fci_file: fci_file.state != "draft"):
-            raise UserError(_("You can only delete FCI in draft state!"))
+            raise UserError(self.env._("You can only delete FCI in draft state!"))
         return super().unlink()
 
     def copy(self, default=None):
@@ -226,28 +218,33 @@ class FCIFile(models.Model):
         self.ensure_one()
         errors = []
         if not self.fci_ids:
-            errors.append(_("The FCI must have at least one goods line."))
+            errors.append(self.env._("The FCI must have at least one goods line."))
         if len(self.fci_ids) > FCI_MAX_LINES:
             errors.append(
-                _("A FCI file can not have more than %s goods lines.") % FCI_MAX_LINES
+                self.env._(
+                    "A FCI file can not have more than %s goods lines.", FCI_MAX_LINES
+                )
             )
         company = self.company_id
         if not sanitize_code(company.vat):
-            errors.append(_("The company CNPJ is not filled in."))
+            errors.append(self.env._("The company CNPJ is not filled in."))
         if not sanitize_code(company.l10n_br_ie_code):
-            errors.append(_("The company State Tax Number is not filled in."))
+            errors.append(self.env._("The company State Tax Number is not filled in."))
         if not sanitize_code(company.zip):
-            errors.append(_("The company ZIP code is not filled in."))
+            errors.append(self.env._("The company ZIP code is not filled in."))
         if not company.city_id:
-            errors.append(_("The company city is not filled in."))
+            errors.append(self.env._("The company city is not filled in."))
         if not company.state_id:
-            errors.append(_("The company state is not filled in."))
+            errors.append(self.env._("The company state is not filled in."))
         for fci in self.fci_ids:
             errors += fci._check_before_generate()
         if errors:
             raise UserError(
-                _("The FCI %(name)s can not be generated:\n\n%(errors)s")
-                % {"name": self.name, "errors": "\n".join("- %s" % e for e in errors)}
+                self.env._(
+                    "The FCI %(name)s can not be generated:\n\n%(errors)s",
+                    name=self.name,
+                    errors="\n".join(f"- {error}" for error in errors),
+                )
             )
 
     def _prepare_register(self, *fields_values):
@@ -378,19 +375,19 @@ class FCIFile(models.Model):
         for record in self:
             if record.state not in ("draft", "generated"):
                 raise UserError(
-                    _(
+                    self.env._(
                         "The FCI %s was already transmitted and can not be "
-                        "set back to draft."
+                        "set back to draft.",
+                        record.name,
                     )
-                    % record.name
                 )
             if record.fci_ids.filtered("fci_code"):
                 raise UserError(
-                    _(
+                    self.env._(
                         "The FCI %s already has FCI control numbers and can "
-                        "not be set back to draft."
+                        "not be set back to draft.",
+                        record.name,
                     )
-                    % record.name
                 )
             record.write(
                 {
@@ -405,12 +402,12 @@ class FCIFile(models.Model):
         for record in self:
             if not record.protocol_number:
                 raise UserError(
-                    _(
+                    self.env._(
                         "Fill in the reception protocol returned by the "
                         "Validador/Transmissor before confirming the "
-                        "transmission of the FCI %s."
+                        "transmission of the FCI %s.",
+                        record.name,
                     )
-                    % record.name
                 )
             record.state = "transmitted"
         return True
