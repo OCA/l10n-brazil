@@ -2460,6 +2460,11 @@ msgid "Devolver"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__document_type_ids
+msgid "Digital Fiscal Documents that accept this indicator"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__discount_value
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__discount_value
 msgid "Discount Value"
@@ -2938,6 +2943,11 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cest__segment__08
 msgid "Ferramentas"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__file_name
+msgid "File Name"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -5607,6 +5617,11 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__legal_basis
+msgid "Legal Basis"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_legal_name
 msgid "Legal Name"
 msgstr ""
@@ -5995,6 +6010,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.nfe_document_action
 #: model:ir.ui.menu,name:l10n_br_fiscal.document_nfe_menu
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_indicator_search
 msgid "NF-e"
 msgstr ""
 
@@ -6020,7 +6036,13 @@ msgstr ""
 #: model:ir.actions.act_window,name:l10n_br_fiscal.nfse_document_action
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__module_l10n_br_nfse
 #: model:ir.ui.menu,name:l10n_br_fiscal.document_nfse_menu
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_indicator_search
 msgid "NFS-e"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__nfse_incidence_location
+msgid "NFS-e IBS Incidence Location"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -6217,6 +6239,12 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_purpose__6
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__edoc_purpose__6
 msgid "Nota de Débito"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__note
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_indicator_form
+msgid "Note"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -6493,8 +6521,8 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__code
 msgid ""
-"Operation indicator code according to Annex VII of NT 004/2025 (e.g., "
-"020101, 030101)"
+"Operation indicator code according to Annex VII of the NFS-e (e.g., 020101, "
+"030101)"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -7178,6 +7206,13 @@ msgid "Profit Calculation"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__legal_basis
+msgid ""
+"Provision of Complementary Law No. 214/2025 that defines the place of the "
+"operation"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_is_public_entity
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__partner_is_public_entity
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile__is_public_entity
@@ -7402,6 +7437,7 @@ msgid "Related CEST"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__document_type_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_classification__document_type_ids
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_classification_tree
 msgid "Related DFes"
@@ -9057,6 +9093,11 @@ msgid ""
 "Operation Line must have at least one Product before the line can be "
 "approved. This validation runs only when the line is set to approved state; "
 "changes to Tax Definitions after approval are not verified."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__nfse_incidence_location
+msgid "Where the IBS is due in the NFS-e for this indicator"
 msgstr ""
 
 #. module: l10n_br_fiscal
