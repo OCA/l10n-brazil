@@ -53,12 +53,19 @@
                 />
             </field>
             <field name="vat" position="replace">
+                <field name="vat" nolabel="1" invisible="show_l10n_br" />
+            </field>
+            <field name="vat_formatted_cnpj" position="replace">
                 <div class="o_row" colspan="4">
-                    <field name="vat" nolabel="1" invisible="show_l10n_br" />
+                    <field
+                        name="vat_formatted_cnpj"
+                        nolabel="1"
+                        invisible="not show_l10n_br"
+                    />
                     <button
                         name="action_open_cnpj_search_wizard"
                         type="object"
-                        invisible="country_id != %(base.br)d and is_company != True"
+                        invisible="not show_l10n_br"
                         class="btn-sm btn-link mb4 fa fa-search oe_edit_only oe_inline"
                         aria-label="Pesquisar CNPJ"
                         title="Pesquisar CNPJ"

@@ -51,8 +51,11 @@ class AccountTax(models.Model):
             refund_repartition_line = tax.refund_repartition_line_ids.filtered(
                 lambda line: line.repartition_type == "tax"
             )
-            if refund_repartition_line and refund_account_id:
-                refund_repartition_line.account_id = refund_account_id
+            if refund_repartition_line:
+                # The factor follows the invoice line whether or not there is a
+                # refund account: core requires both distributions to match.
+                if refund_account_id:
+                    refund_repartition_line.account_id = refund_account_id
                 refund_repartition_line.factor_percent = (
                     -100 if tax.deductible or tax.withholdable else 100
                 )

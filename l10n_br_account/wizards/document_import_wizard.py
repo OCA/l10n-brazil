@@ -102,6 +102,7 @@ class DocumentImportWizard(models.TransientModel):
         wizard = self.env["l10n_br_fiscal.document.import.wizard"].create(
             {
                 "file": attachments[0].datas,
+                "file_name": attachments[0].name,
                 "first_imported_move_id": self.first_imported_move_id or move_id,
             }
         )

@@ -52,7 +52,7 @@
                     </group>
                 </group>
 
-                <group>
+                <group invisible="provider_name != 'cpfcnpj'">
                     <group name="federal_revenue" string="Federal Revenue">
                         <field name="company_size" />
                         <field name="cnpj_status" />

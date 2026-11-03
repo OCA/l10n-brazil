@@ -51,6 +51,7 @@
         "data/l10n_br_fiscal.tax.classification.csv",
         "data/l10n_br_fiscal.service.type.csv",
         "data/l10n_br_fiscal.operation.indicator.csv",
+        "data/l10n_br_fiscal_operation_indicator_data.xml",
         "data/simplified_tax_data.xml",
         "data/operation_data.xml",
         "data/l10n_br_fiscal_tax_icms_data.xml",
