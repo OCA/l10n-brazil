@@ -12,6 +12,7 @@ from lxml.builder import E
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools.misc import format_date
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
@@ -4391,6 +4392,43 @@ class RegistroH005(models.Model):
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.h005"
     _inherit = "l10n_br_sped.efd_icms_ipi.20.h005"
+
+    def _get_inventory_name(self):
+        """The register has no name field, so the default name is the technical
+        identifier (``l10n_br_sped.efd_icms_ipi.h005,1``). The inventory is
+        identified by its date."""
+        self.ensure_one()
+        if not self.DT_INV:
+            return _("Inventory")
+        return _("Inventory of %(date)s", date=format_date(self.env, self.DT_INV))
+
+    def name_get(self):
+        return [(register.id, register._get_inventory_name()) for register in self]
+
+    @api.model
+    def _name_search(
+        self, name="", args=None, operator="ilike", limit=100, name_get_uid=None
+    ):
+        """Search by the displayed name, as the register has no name column.
+
+        There is one H005 per inventory date, so matching in Python over the
+        (already filtered) registers is cheap.
+        """
+        if not name or operator not in ("ilike", "like", "=ilike", "=like", "="):
+            return super()._name_search(
+                name, args, operator=operator, limit=limit, name_get_uid=name_get_uid
+            )
+        registers = self.with_user(name_get_uid or self.env.uid).search(args or [])
+        needle = name.lower()
+        if operator in ("=", "=ilike", "=like"):
+            matches = registers.filtered(
+                lambda r: r._get_inventory_name().lower() == needle
+            )
+        else:
+            matches = registers.filtered(
+                lambda r: needle in r._get_inventory_name().lower()
+            )
+        return matches[:limit].ids if limit else matches.ids
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
