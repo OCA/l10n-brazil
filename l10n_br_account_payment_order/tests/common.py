@@ -732,12 +732,12 @@ class CNABTestCommon(AccountTestInvoicingCommon):
     def _run_payment_order_workflow(self, payment_order, test_not_create_file=True):
         """Run all Payment Order Workflow"""
         # Verifica os campos CNAB na linhas de pagamentos
-        assert payment_order.payment_line_ids.mapped(
-            "own_number"
-        ), "own_number field is not filled in Payment Line."
-        assert payment_order.payment_line_ids.mapped(
-            "instruction_move_code_id"
-        ), "instruction_move_code_id field are not filled in Payment Line."
+        assert payment_order.payment_line_ids.mapped("own_number"), (
+            "own_number field is not filled in Payment Line."
+        )
+        assert payment_order.payment_line_ids.mapped("instruction_move_code_id"), (
+            "instruction_move_code_id field are not filled in Payment Line."
+        )
 
         payment_order.draft2open()
         payment_order.with_context(
