@@ -405,8 +405,8 @@ class L10nBrCNABChangeMethods(models.Model):
         reason = (
             "Movement Instruction Code Updated for Request to "
             "Change Title Value, because partial payment "
-            "of %d done."
-        ) % (self.debit - self.amount_residual)
+            f"of {int(self.debit - self.amount_residual)} done."
+        )
 
         self.create_payment_line_from_move_line(payorder)
 

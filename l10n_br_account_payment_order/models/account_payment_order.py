@@ -233,13 +233,12 @@ class AccountPaymentOrder(models.Model):
             f"{self.payment_mode_id.cnab_config_id.cnab_company_bank_code}"
             f"{month_code}{day}"
         )
-        exist = self.env["ir.attachment"].read_group(
+        exist = self.env["ir.attachment"]._read_group(
             domain=[
                 ("res_model", "=", "account.payment.order"),
                 ("name", "like", file_name),
                 ("res_id", "!=", self.id),
             ],
-            fields=["name"],
             groupby=["res_id"],
         )
         if exist:

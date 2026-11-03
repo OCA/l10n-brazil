@@ -28,10 +28,11 @@ from .tools import (
 
 @tagged("post_install", "-at_install")
 class CNABTestCommon(AccountTestInvoicingCommon):
+    chart_template = "generic_coa"
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.chart_template = "generic_coa"
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
 
         companies = cls.env["res.company"].search([])

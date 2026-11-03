@@ -11,10 +11,11 @@ from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 @tagged("post_install", "-at_install")
 class TestPaymentOrderOutboundPIX(AccountTestInvoicingCommon):
+    chart_template = "generic_coa"
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.chart_template = "generic_coa"
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.company = cls.company_data["company"]
         if hasattr(cls.company, "_localization_use_documents"):
