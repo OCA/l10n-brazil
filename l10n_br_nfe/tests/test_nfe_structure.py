@@ -156,6 +156,7 @@ class NFeStructure(TransactionCase):
             "nfe40_COFINSST",
             "nfe40_ICMS",
             "nfe40_ICMSPart",
+            "nfe40_ICMSPrevistoPagtoAntecip",
             "nfe40_ICMSST",
             "nfe40_ICMSUFDest",
             "nfe40_II",
@@ -185,7 +186,7 @@ class NFeStructure(TransactionCase):
         base_class = self.env["l10n_br_fiscal.document.line"]
         tree, visited = self.get_stacked_tree(base_class)
         self.assertEqual(tree, NFeLine.DET_TREE)
-        self.assertEqual(len(visited), 24)
+        self.assertEqual(len(visited), 25)
 
     def test_nfref_tree(self):
         base_class = self.env["l10n_br_fiscal.document.related"]
