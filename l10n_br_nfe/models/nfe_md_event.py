@@ -16,6 +16,22 @@ from ..constants import mdest as MD
 
 _logger = logging.getLogger(__name__)
 
+# Codes with which SEFAZ registers a manifestation event. 136 ("Evento
+# registrado, mas nao vinculado a NF-e") is a success too: the event carries a
+# protocol, only its link to the NF-e is made later by the Ambiente Nacional
+# (seen when manifesting notes fetched from the DF-e backlog, days after their
+# emission).
+EVENT_REGISTERED_CODES = ["135", "136"]
+
+# Rejections meaning the manifestation is already settled at SEFAZ, so there is
+# nothing left to send: the event is marked as done instead of raising (a retry
+# would get the same answer forever).
+#   573: duplicate event, this manifestation was already registered.
+#   655: ciencia sent after the recipient already registered a final
+#        manifestation (confirmacao, desconhecimento or operacao nao realizada),
+#        which supersedes it.
+EVENT_SETTLED_CODES = ("573", "655")
+
 
 class NfeRecipientManifestationEvent(models.Model):
     _name = "l10n_br_nfe.md_event"
@@ -94,9 +110,12 @@ class NfeRecipientManifestationEvent(models.Model):
         else:
             inf_evento = result.resposta.retEvento[0].infEvento
             if inf_evento.cStat not in valid_codes:
-                if inf_evento.cStat == "573":
+                if inf_evento.cStat in EVENT_SETTLED_CODES:
                     _logger.warning(
-                        "MDE duplicate event (573) for key %s — marking as done",
+                        "MDE event already settled at SEFAZ (%s - %s) for key %s"
+                        " — marking as done",
+                        inf_evento.cStat,
+                        inf_evento.xMotivo,
                         self.access_key,
                     )
                     self.response_xml = result.retorno._content.decode("utf-8")
@@ -140,10 +159,13 @@ class NfeRecipientManifestationEvent(models.Model):
 
     def action_confirm(self):
         event_mapping = {
-            MD.MANIF_CIENTE: ("ciencia_da_operacao", ["135"]),
-            MD.MANIF_CONFIRMADO: ("confirmacao_da_operacao", ["135"]),
-            MD.MANIF_DESCONHECIDO: ("desconhecimento_da_operacao", ["135"]),
-            MD.MANIF_NAO_REALIZADO: ("operacao_nao_realizada", ["135"]),
+            MD.MANIF_CIENTE: ("ciencia_da_operacao", EVENT_REGISTERED_CODES),
+            MD.MANIF_CONFIRMADO: ("confirmacao_da_operacao", EVENT_REGISTERED_CODES),
+            MD.MANIF_DESCONHECIDO: (
+                "desconhecimento_da_operacao",
+                EVENT_REGISTERED_CODES,
+            ),
+            MD.MANIF_NAO_REALIZADO: ("operacao_nao_realizada", EVENT_REGISTERED_CODES),
         }
         for record in self:
             operation, valid_codes = event_mapping[record.event_type]
