@@ -154,3 +154,55 @@ class TestNFeMDE(TransactionCase):
 
         self.assertEqual(self.mde_id.state, "done")
         self.assertTrue(self.mde_id.response_xml)
+
+    def test_event_136_registered_not_linked_is_success(self):
+        """136 (registered, not yet linked to the NF-e) is a registered event:
+        keep the protocol and mark the MDE as done, like 135."""
+        proc_136 = _FakeProcessor(
+            {
+                "ciencia_da_operacao": _FakeResult(
+                    inf_cstat="136",
+                    inf_xmotivo="Evento registrado, mas nao vinculado a NF-e",
+                )
+            }
+        )
+        with mock.patch(
+            "odoo.addons.l10n_br_nfe.models.nfe_md_event.NfeRecipientManifestationEvent._get_processor",
+            return_value=proc_136,
+        ):
+            self.mde_id.event_type = "ciente"
+            self.mde_id.state = "draft"
+            self.mde_id.action_confirm()
+
+        self.assertEqual(self.mde_id.state, "done")
+        self.assertEqual(self.mde_id.protocol, "12345")
+        self.assertTrue(self.mde_id.protocol_date)
+
+    def test_event_655_after_final_manifestation_treated_as_done(self):
+        """655 (ciencia after a final manifestation) is settled at SEFAZ:
+        mark the MDE as done instead of raising, like 573."""
+        proc_655 = _FakeProcessor(
+            {
+                "ciencia_da_operacao": _FakeResult(
+                    inf_cstat="655",
+                    inf_xmotivo=(
+                        "Evento de Ciencia da Operacao informado apos a "
+                        "manifestacao final do destinatario"
+                    ),
+                )
+            }
+        )
+        with (
+            mock.patch(
+                "odoo.addons.l10n_br_nfe.models.nfe_md_event.NfeRecipientManifestationEvent._get_processor",
+                return_value=proc_655,
+            ),
+            mute_logger("odoo.addons.l10n_br_nfe.models.nfe_md_event"),
+        ):
+            self.mde_id.event_type = "ciente"
+            self.mde_id.state = "draft"
+            self.mde_id.action_confirm()
+
+        self.assertEqual(self.mde_id.state, "done")
+        self.assertFalse(self.mde_id.protocol)
+        self.assertTrue(self.mde_id.response_xml)
