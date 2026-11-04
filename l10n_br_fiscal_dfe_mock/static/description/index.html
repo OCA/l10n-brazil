@@ -373,8 +373,8 @@ ul.auto-toc {
 <p>Mock do serviço SEFAZ DF-e para desenvolvimento sem certificado A1.</p>
 <p>Substitui as chamadas à SEFAZ e ao ADN por respostas locais, permitindo
 testar o fluxo completo de distribuição, manifestação, cancelamento de
-NFS-e e importação de documentos fiscais eletrônicos em ambiente de
-desenvolvimento.</p>
+NFS-e e de NF-e e importação de documentos fiscais eletrônicos em
+ambiente de desenvolvimento.</p>
 <div class="admonition important">
 <p class="first admonition-title">Important</p>
 <p class="last">This is an alpha version, the data model and design can change at any time without warning.
@@ -414,7 +414,9 @@ eventos no pool local de NSUs.</li>
 consumidos. Numa NFS-e autorizada, <strong>Registrar Cancelamento</strong>
 enfileira um evento novo (código 101101, outro NSU, a mesma chave). A
 linha da nota não muda. A consulta seguinte da NFS-e grava o evento na
-caixa e marca a nota como cancelada.</li>
+caixa e marca a nota como cancelada. Num resumo ou numa NF-e completa,
+o mesmo botão enfileira o <tt class="docutils literal">procEventoNFe</tt> 110111. A consulta
+seguinte grava o evento na nota e a situação dela continua Autorizada.</li>
 </ul>
 <p>Com o modo mock ligado, manifestar <em>Ciência da Operação</em> em um resumo
 gera a NF-e completa correspondente no pool, que chega na consulta

@@ -4,6 +4,7 @@
 
 import base64
 import gzip
+import re
 from io import BytesIO
 
 from lxml import etree
@@ -15,6 +16,11 @@ from odoo.exceptions import UserError
 # as it was distributed; the event is a later NSU on the same feed.
 NFSE_MOCK_CANCEL_EVENT_CODE = "101101"
 _NFSE_EVENT_NS = "http://www.sped.fazenda.gov.br/nfse"
+# Supplier cancellation registered at SEFAZ. The procNFe stays authorized;
+# the connector only stores this event on the inbox document.
+NFE_MOCK_CANCEL_EVENT_CODE = "110111"
+_NFE_EVENT_NS = "http://www.portalfiscal.inf.br/nfe"
+_NFE_NOTE_SCHEMAS = ("resNFe", "procNFe")
 
 
 def pretty_xml(value):
@@ -96,11 +102,11 @@ class DfeMockNsu(models.Model):
         self.write({"consumed": False})
 
     @api.model
-    def _next_nfse_nsu(self, company):
+    def _next_mock_nsu(self, company, fiscal_type):
         last = self.search(
             [
                 ("company_id", "=", company.id),
-                ("fiscal_type", "=", "nfse"),
+                ("fiscal_type", "=", fiscal_type),
             ],
             order="nsu desc",
             limit=1,
@@ -108,6 +114,9 @@ class DfeMockNsu(models.Model):
         if not last:
             return 1
         return int(last.nsu) + 1
+
+    def _next_nfse_nsu(self, company):
+        return self._next_mock_nsu(company, "nfse")
 
     def _nfse_cancellation_event(self):
         """Return the pooled supplier-cancellation event of this note."""
@@ -194,16 +203,142 @@ class DfeMockNsu(models.Model):
                     "This NFS-e already has a cancellation event in the mock pool."
                 )
             )
+        return self._cancellation_notification(
+            self.env._("NFS-e cancellation"),
+            self.env._(
+                "Queued %(count)s cancellation event(s). Run the NFS-e "
+                "distribution to update the inbox.",
+                count=len(created),
+            ),
+        )
+
+    def _nfe_cancellation_event(self):
+        """Return the pooled supplier-cancellation event of this NF-e."""
+        self.ensure_one()
+        marker = f"<tpEvento>{NFE_MOCK_CANCEL_EVENT_CODE}</tpEvento>"
+        return self.search(
+            [
+                ("company_id", "=", self.company_id.id),
+                ("fiscal_type", "=", "nfe"),
+                ("schema_type", "=", "procEventoNFe"),
+                ("access_key", "=", self.access_key),
+            ]
+        ).filtered(lambda rec: marker in (rec.xml_content or ""))[:1]
+
+    def _nfe_event_datetime(self):
+        local = fields.Datetime.context_timestamp(self, fields.Datetime.now())
+        offset = local.strftime("%z") or "+0000"
+        return f"{local.strftime('%Y-%m-%dT%H:%M:%S')}{offset[:3]}:{offset[3:]}"
+
+    def _nfe_cancellation_event_xml(self):
+        """Registered NF-e cancellation (``procEventoNFe``, ``tpEvento`` 110111).
+
+        SEFAZ distributes this as a later NSU. The authorized proc stays as
+        it was; the connector files the event and does not change the note
+        situation.
+        """
+        self.ensure_one()
+        access_key = re.sub(r"\D", "", self.access_key or "")
+        code = NFE_MOCK_CANCEL_EVENT_CODE
+        when = self._nfe_event_datetime()
+        ident = f"ID{code}{access_key}01"
+        return (
+            f'<procEventoNFe xmlns="{_NFE_EVENT_NS}" versao="1.00">'
+            '<evento versao="1.00">'
+            f'<infEvento Id="{ident}">'
+            f"<cOrgao>{access_key[:2]}</cOrgao><tpAmb>2</tpAmb>"
+            f"<CNPJ>{access_key[6:20]}</CNPJ>"
+            f"<chNFe>{access_key}</chNFe>"
+            f"<dhEvento>{when}</dhEvento>"
+            f"<tpEvento>{code}</tpEvento>"
+            "<nSeqEvento>1</nSeqEvento>"
+            "<verEvento>1.00</verEvento>"
+            '<detEvento versao="1.00">'
+            "<descEvento>Cancelamento</descEvento>"
+            "<nProt>135260000000001</nProt>"
+            "<xJust>Cancellation registered by the supplier</xJust>"
+            "</detEvento>"
+            "</infEvento></evento>"
+            '<retEvento versao="1.00"><infEvento>'
+            "<tpAmb>2</tpAmb><verAplic>1.0</verAplic>"
+            f"<cOrgao>{access_key[:2]}</cOrgao><cStat>135</cStat>"
+            "<xMotivo>Evento registrado e vinculado a NF-e</xMotivo>"
+            f"<chNFe>{access_key}</chNFe>"
+            f"<tpEvento>{code}</tpEvento>"
+            f"<dhRegEvento>{when}</dhRegEvento>"
+            "<nProt>135260000000001</nProt>"
+            "</infEvento></retEvento>"
+            "</procEventoNFe>"
+        )
+
+    def action_register_nfe_cancellation(self):
+        """Queue a supplier cancellation for the selected NF-e summaries or procs.
+
+        Does not rewrite the note. The next NF-e distribution stores the
+        event on the inbox document and leaves its situation authorized.
+        """
+        if self.filtered(
+            lambda rec: rec.fiscal_type != "nfe"
+            or rec.schema_type not in _NFE_NOTE_SCHEMAS
+        ):
+            raise UserError(
+                self.env._(
+                    "Select the NF-e summary or the complete NF-e. The "
+                    "cancellation is a new event in the feed, not a change "
+                    "of this row."
+                )
+            )
+        created = self.browse()
+        for company in self.company_id:
+            current = self._next_mock_nsu(company, "nfe")
+            notes = self.filtered(
+                lambda rec, company=company: rec.company_id == company
+            )
+            seen = set()
+            for note in notes:
+                access_key = re.sub(r"\D", "", note.access_key or "")
+                if access_key in seen:
+                    continue
+                seen.add(access_key)
+                if note._nfe_cancellation_event():
+                    continue
+                if len(access_key) != 44:
+                    raise UserError(
+                        self.env._("This NF-e note has no access key to cancel.")
+                    )
+                created |= self.create(
+                    {
+                        "nsu": str(current).zfill(15),
+                        "fiscal_type": "nfe",
+                        "schema_type": "procEventoNFe",
+                        "xml_content": note._nfe_cancellation_event_xml(),
+                        "access_key": access_key,
+                        "company_id": company.id,
+                    }
+                )
+                current += 1
+        if not created:
+            raise UserError(
+                self.env._(
+                    "This NF-e already has a cancellation event in the mock pool."
+                )
+            )
+        return self._cancellation_notification(
+            self.env._("NF-e cancellation"),
+            self.env._(
+                "Queued %(count)s cancellation event(s). Run the NF-e "
+                "distribution to store the event. The note stays authorized.",
+                count=len(created),
+            ),
+        )
+
+    def _cancellation_notification(self, title, message):
         return {
             "type": "ir.actions.client",
             "tag": "display_notification",
             "params": {
-                "title": self.env._("NFS-e cancellation"),
-                "message": self.env._(
-                    "Queued %(count)s cancellation event(s). Run the NFS-e "
-                    "distribution to update the inbox.",
-                    count=len(created),
-                ),
+                "title": title,
+                "message": message,
                 "type": "success",
                 "sticky": False,
             },

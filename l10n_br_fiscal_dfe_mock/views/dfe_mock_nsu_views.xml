@@ -22,6 +22,13 @@
                     invisible="fiscal_type != 'nfse' or schema_type != 'NFSe'"
                     groups="l10n_br_fiscal.group_manager"
                 />
+                <button
+                    name="action_register_nfe_cancellation"
+                    type="object"
+                    string="Register Cancellation"
+                    invisible="fiscal_type != 'nfe' or schema_type not in ('resNFe', 'procNFe')"
+                    groups="l10n_br_fiscal.group_manager"
+                />
                 <field name="company_id" groups="base.group_multi_company" />
             </list>
         </field>
@@ -39,6 +46,14 @@
                         string="Register Cancellation"
                         type="object"
                         invisible="fiscal_type != 'nfse' or schema_type != 'NFSe'"
+                        class="btn-secondary"
+                        groups="l10n_br_fiscal.group_manager"
+                    />
+                    <button
+                        name="action_register_nfe_cancellation"
+                        string="Register Cancellation"
+                        type="object"
+                        invisible="fiscal_type != 'nfe' or schema_type not in ('resNFe', 'procNFe')"
                         class="btn-secondary"
                         groups="l10n_br_fiscal.group_manager"
                     />
@@ -163,6 +178,17 @@
         <field name="res_model">dfe.mock.generate.wizard</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
+    </record>
+
+    <!-- Server action: queue a supplier cancellation for the selected NF-e -->
+    <record id="action_register_nfe_cancellation_multi" model="ir.actions.server">
+        <field name="name">Register NF-e Cancellation</field>
+        <field name="model_id" ref="model_dfe_mock_nsu" />
+        <field name="binding_model_id" ref="model_dfe_mock_nsu" />
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_register_nfe_cancellation()</field>
+        <field name="groups_id" eval="[(4, ref('l10n_br_fiscal.group_manager'))]" />
     </record>
 
     <!-- Server action: queue a supplier cancellation for the selected notes -->

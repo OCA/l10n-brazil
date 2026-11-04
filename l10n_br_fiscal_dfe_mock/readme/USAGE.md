@@ -18,6 +18,9 @@ No menu **Fiscal › Consultas DF-e › Mock**:
   (código 101101, outro NSU, a mesma chave). A linha da nota não muda.
   A consulta seguinte da NFS-e grava o evento na caixa e marca a nota como
   cancelada.
+  Num resumo ou numa NF-e completa, o mesmo botão enfileira o
+  ``procEventoNFe`` 110111. A consulta seguinte grava o evento na nota e
+  a situação dela continua Autorizada.
 
 Com o modo mock ligado, manifestar *Ciência da Operação* em um resumo gera a
 NF-e completa correspondente no pool, que chega na consulta seguinte.
