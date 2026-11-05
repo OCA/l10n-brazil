@@ -128,6 +128,21 @@ class TestNfseImport(TransactionCase):
         wizard = self._wizard()
         self.assertFalse(wizard.fiscal_operation_id)
 
+    def test_company_operation_is_used_on_import(self):
+        other_line = self._extra_inbound_issqn_line()
+        self.company.nfse_import_fiscal_operation_id = other_line.fiscal_operation_id
+        wizard = self._wizard()
+        self.assertEqual(wizard.fiscal_operation_id, other_line.fiscal_operation_id)
+        _binding, document = wizard._create_edoc_from_file()
+        self.assertEqual(document.fiscal_operation_id, other_line.fiscal_operation_id)
+        self.assertEqual(document.fiscal_line_ids.fiscal_operation_line_id, other_line)
+
+    def test_an_empty_company_operation_keeps_the_issqn_line_search(self):
+        self.assertFalse(self.company.nfse_import_fiscal_operation_id)
+        service_line = self.env.ref("l10n_br_fiscal.fo_compras_servico")
+        wizard = self._wizard()
+        self.assertEqual(wizard.fiscal_operation_id, service_line.fiscal_operation_id)
+
     def test_a_changed_operation_keeps_the_users_choice(self):
         service_line = self.env.ref("l10n_br_fiscal.fo_compras_servico")
         other_line = self._extra_inbound_issqn_line()

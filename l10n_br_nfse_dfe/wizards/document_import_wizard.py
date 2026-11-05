@@ -93,7 +93,27 @@ class DocumentImportWizard(models.TransientModel):
         return self.env["l10n_br_fiscal.operation.line"]
 
     def _nfse_default_operation(self):
+        """Company default wins. An empty default uses the only ISSQN line."""
+        self.ensure_one()
+        operation = self.company_id.nfse_import_fiscal_operation_id
+        if operation:
+            return operation
         return self._nfse_issqn_operation_line().fiscal_operation_id
+
+    def _nfse_issqn_line_of(self, operation):
+        """Return the operation's only approved ISSQN line."""
+        if not operation:
+            return self.env["l10n_br_fiscal.operation.line"]
+        lines = self.env["l10n_br_fiscal.operation.line"].search(
+            [
+                ("fiscal_operation_id", "=", operation.id),
+                ("state", "=", "approved"),
+                ("tax_icms_or_issqn", "=", TAX_DOMAIN_ISSQN),
+            ]
+        )
+        if len(lines) == 1:
+            return lines
+        return self.env["l10n_br_fiscal.operation.line"]
 
     def _create_edoc_from_file(self):
         binding = self._parse_file()
@@ -123,11 +143,8 @@ class DocumentImportWizard(models.TransientModel):
         )
         line_vals = self._nfse_line_vals(binding)
         line.write(line_vals)
-        operation_line = self._nfse_issqn_operation_line()
-        if (
-            operation_line
-            and self.fiscal_operation_id == operation_line.fiscal_operation_id
-        ):
+        operation_line = self._nfse_issqn_line_of(self.fiscal_operation_id)
+        if operation_line:
             # Assigning the operation line recomputes the tax classification
             # from the operation. The national XML already carries it.
             line.fiscal_operation_line_id = operation_line
