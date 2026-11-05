@@ -21,6 +21,10 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 
 from ..constants.currency import CURRENCY_BACEN_CODE
 from ..constants.nfse import (
+    FOREIGN_TRADE_LINK,
+    FOREIGN_TRADE_MODE,
+    FOREIGN_TRADE_SUPPORT_PROVIDER,
+    FOREIGN_TRADE_SUPPORT_RECIPIENT,
     ISSQN_TO_TRIBUTACAO_ISS,
     NFSE_ENVIRONMENTS,
     OPERATION_NATURE,
@@ -72,6 +76,31 @@ class Document(models.Model):
         selection=NFSE_ENVIRONMENTS,
         string="NFSe Environment",
         default=lambda self: self.env.company.nfse_environment,
+    )
+
+    nfse_foreign_trade_mode = fields.Selection(
+        selection=FOREIGN_TRADE_MODE,
+        string="Foreign Trade Service Mode",
+        default=lambda self: self.env.company.nfse_foreign_trade_mode or "1",
+        help="mdPrestacao: used only when the invoice is in foreign currency.",
+    )
+    nfse_foreign_trade_link = fields.Selection(
+        selection=FOREIGN_TRADE_LINK,
+        string="Foreign Trade Link",
+        default="0",
+        help="vincPrest: link between the parties.",
+    )
+    nfse_foreign_trade_support_provider = fields.Selection(
+        selection=FOREIGN_TRADE_SUPPORT_PROVIDER,
+        string="Foreign Trade Support (Provider)",
+        default="01",
+        help="mecAFComexP: support mechanism used by the provider.",
+    )
+    nfse_foreign_trade_support_recipient = fields.Selection(
+        selection=FOREIGN_TRADE_SUPPORT_RECIPIENT,
+        string="Foreign Trade Support (Recipient)",
+        default="01",
+        help="mecAFComexT: support mechanism used by the recipient.",
     )
 
     civil_construction_code = fields.Char()
@@ -178,6 +207,10 @@ class Document(models.Model):
             "codigo_moeda": CURRENCY_BACEN_CODE.get(currency.name),
             "valor_servico_moeda_original": round(original_value, 2),
             "taxa_cambio": rate,
+            "modo_prestacao": self.nfse_foreign_trade_mode,
+            "vinculo_negocio": self.nfse_foreign_trade_link,
+            "mecanismo_prestador": self.nfse_foreign_trade_support_provider,
+            "mecanismo_tomador": self.nfse_foreign_trade_support_recipient,
         }
 
     def _prepare_dados_servico(self):
