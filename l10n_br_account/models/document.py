@@ -354,6 +354,30 @@ class FiscalDocument(models.Model):
 
         return action
 
+    def _vendor_bill_import_block_reason(self):
+        """Stop a second vendor bill for a document already in use.
+
+        A posted bill and a draft bill are different reasons. A cancelled
+        bill no longer holds the document.
+        """
+        self.ensure_one()
+        moves = self.move_ids.filtered(
+            lambda move: move.move_type in ("in_invoice", "in_refund")
+            and move.state != "cancel"
+        )
+        posted = moves.filtered(lambda move: move.state == "posted")
+        if posted:
+            return _(
+                "This document is already posted on %(invoice)s.",
+                invoice=posted[:1].display_name,
+            )
+        if moves:
+            return _(
+                "This document is already linked to %(invoice)s.",
+                invoice=moves[:1].display_name,
+            )
+        return False
+
     def _check_document_import(self):
         """Ensure an imported fiscal document has the minimum data required
         to generate a valid account move (and a sound SPED basis).
@@ -382,3 +406,4 @@ class FiscalDocument(models.Model):
                 _("The document cannot be imported due to incomplete lines:\n%s")
                 % "\n".join(errors)
             )
+    
