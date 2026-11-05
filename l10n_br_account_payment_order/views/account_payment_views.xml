@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="l10n_br-view_account_payment_invoice_form" model="ir.ui.view">
+        <field
+            name="name"
+        >l10n_br_account_payment_order.view.account.payment.invoice.form</field>
+        <field name="model">account.payment</field>
+        <field name="priority">99</field>
+        <field
+            name="inherit_id"
+            ref="account_payment.view_account_payment_form_inherit_payment"
+        />
+        <field name="arch" type="xml">
+            <!-- TODO - Idealmente isso deveria ser resolvido com um
+                  domain=[('code', 'not in', ('400','240','500'))]
+                  no campo payment_method_id, mas mesmo adicionando isso na
+                  visão ou sobre escrevendo o campo não funciona e não gera
+                  erros, não consegui identificar o motivo do problema (
+                  seria algum problema no orm ? Não encontrei um issue aberto
+                  com referencia a isso ), para reproduzir o erro basta tentar
+                  incluir o domain no campo como comentado acima e testar
+                  na tela.
+                  Testar na migração.
+            -->
+            <field name="payment_method_line_id" position="attributes">
+                <attribute
+                    name="domain"
+                >[('code', 'not in', ('400','240','500'))]</attribute>
+            </field>
+        </field>
+    </record>
+</odoo>
