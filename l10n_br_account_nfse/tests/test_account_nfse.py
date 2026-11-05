@@ -32,8 +32,11 @@ class TestAccountNfseForeignCurrency(TransactionCase):
                 "company_id": self.company.id,
             }
         )
-        move.invoice_currency_rate = rate
         self.nfse.move_ids = [(6, 0, move.ids)]
+        # set the rate last and flush, so that no recompute overrides it
+        move.write({"invoice_currency_rate": rate})
+        move.flush_recordset()
+        self.assertAlmostEqual(move.invoice_currency_rate, rate, places=10)
         return move
 
     def test_no_invoice_changes_nothing(self):
