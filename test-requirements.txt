@@ -7,5 +7,4 @@
 # `AttributeError: module 'lib' has no attribute 'GEN_EMAIL'`.
 # Drop this pin once the CI image ships cryptography >= 42 and pyOpenSSL >= 24.
 signxml==3.2.2
-odoo-addon-l10n_br_account_payment_order @ git+https://github.com/OCA/l10n-brazil.git@refs/pull/5578/head#subdirectory=l10n_br_account_payment_order
 odoo-addon-account_move_base_import @ git+https://github.com/OCA/account-reconcile.git@refs/pull/1076/head#subdirectory=account_move_base_import
