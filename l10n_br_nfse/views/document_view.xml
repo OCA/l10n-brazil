@@ -33,6 +33,16 @@
                     <field name="civil_construction_code" />
                     <field name="civil_construction_art" />
                 </group>
+                <group
+                    name="nfse_foreign_trade"
+                    string="Foreign Trade"
+                    invisible="document_type != 'SE'"
+                >
+                    <field name="nfse_foreign_trade_mode" />
+                    <field name="nfse_foreign_trade_link" />
+                    <field name="nfse_foreign_trade_support_provider" />
+                    <field name="nfse_foreign_trade_support_recipient" />
+                </group>
             </group>
         </field>
     </record>

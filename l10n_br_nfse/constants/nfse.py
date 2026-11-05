@@ -43,3 +43,37 @@ ISSQN_TO_TRIBUTACAO_ISS = {
     "6": "1",  # Suspensa (Judicial) → Operação tributável
     "7": "1",  # Suspensa (Administrativo) → Operação tributável
 }
+
+# Foreign trade group (comExt) of the NFS-e Nacional, same codes as the
+# TSModoPrestacao, TSVincPrest, TSMecAFComExPrest and TSMecAFComExToma types.
+FOREIGN_TRADE_MODE = [
+    ("0", "Unknown"),
+    ("1", "Cross-border"),
+    ("2", "Consumption in Brazil"),
+    ("3", "Temporary movement of individuals"),
+    ("4", "Consumption abroad"),
+]
+FOREIGN_TRADE_LINK = [
+    ("0", "No link with the provider/recipient"),
+    ("1", "Controlled"),
+    ("2", "Controlling"),
+    ("3", "Affiliated"),
+    ("4", "Head office"),
+    ("5", "Branch"),
+    ("6", "Other link"),
+    ("9", "Unknown"),
+]
+FOREIGN_TRADE_SUPPORT_PROVIDER = [
+    ("00", "Unknown"),
+    ("01", "None"),
+    ("02", "ACC"),
+    ("03", "ACE"),
+    ("04", "BNDES-Exim post-shipment"),
+    ("05", "BNDES-Exim pre-shipment"),
+    ("06", "FGE"),
+    ("07", "PROEX equalization"),
+    ("08", "PROEX financing"),
+]
+FOREIGN_TRADE_SUPPORT_RECIPIENT = [("00", "Unknown"), ("01", "None")] + [
+    (f"{n:02d}", f"Mechanism {n:02d}") for n in range(2, 27)
+]

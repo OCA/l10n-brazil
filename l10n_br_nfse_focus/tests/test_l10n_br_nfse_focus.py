@@ -1904,11 +1904,18 @@ class TestL10nBrNfseFocus(common.TransactionCase):
             "codigo_moeda": "220",
             "valor_servico_moeda_original": 1000.0,
             "taxa_cambio": 4.9,
+            "modo_prestacao": "4",
+            "vinculo_negocio": "1",
+            "mecanismo_prestador": "02",
+            "mecanismo_tomador": "03",
         }
         group = nfse_nacional._prepare_foreign_trade_nacional(service)
         self.assertEqual(group["codigo_moeda"], "220")
         self.assertEqual(group["valor_servico_ext"], 1000.0)
-        self.assertEqual(group["modo_prestacao"], 1)
+        self.assertEqual(group["modo_prestacao"], 4)
+        self.assertEqual(group["vinculo_negocio"], 1)
+        self.assertEqual(group["mecanismo_comercio_ext_prestador"], "02")
+        self.assertEqual(group["mecanismo_comercio_ext_tomador"], "03")
 
         # Currency without a known BACEN code: the group is not sent.
         service["comercio_exterior"]["codigo_moeda"] = None

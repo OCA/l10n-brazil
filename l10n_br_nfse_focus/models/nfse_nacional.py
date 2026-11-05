@@ -453,22 +453,26 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
         by l10n_br_nfse). Field names follow the Focus NFe NFSe Nacional
         field list (DPS), group comExt.
 
-        The modes and links default to the most common export case
-        (cross-border, no link between the parties, no support mechanism, no
-        temporary movement of goods, not sent to MDIC).
+        Mode, link and support mechanisms come from the document (fields
+        nfse_foreign_trade_*). Temporary movement of goods and MDIC keep the
+        fixed values "no" and "not sent".
         """
         foreign_trade = service_info.get("comercio_exterior")
         if not foreign_trade or not foreign_trade.get("codigo_moeda"):
             return {}
         return {
-            "modo_prestacao": 1,
-            "vinculo_negocio": 0,
+            "modo_prestacao": int(foreign_trade.get("modo_prestacao") or 1),
+            "vinculo_negocio": int(foreign_trade.get("vinculo_negocio") or 0),
             "codigo_moeda": foreign_trade["codigo_moeda"],
             "valor_servico_ext": round(
                 foreign_trade["valor_servico_moeda_original"], 2
             ),
-            "mecanismo_comercio_ext_prestador": "01",
-            "mecanismo_comercio_ext_tomador": "01",
+            "mecanismo_comercio_ext_prestador": (
+                foreign_trade.get("mecanismo_prestador") or "01"
+            ),
+            "mecanismo_comercio_ext_tomador": (
+                foreign_trade.get("mecanismo_tomador") or "01"
+            ),
             "movimentacao_temporaria_bens": 1,
             "mdic": 0,
         }

@@ -3,6 +3,7 @@
 
 from unittest.mock import patch
 
+from odoo import fields
 from odoo.tests.common import TransactionCase
 
 from odoo.addons.l10n_br_base.tests.tools import load_fixture_files
@@ -26,6 +27,8 @@ class TestNfseForeignCurrency(TransactionCase):
         cls.line = cls.nfse.fiscal_line_ids[0]
         cls.usd = cls.env.ref("base.USD")
         cls.line.write({"price_unit": 1000.0, "quantity": 1.0})
+        now = fields.Datetime.now()
+        cls.nfse.write({"document_date": now, "date_in_out": now})
 
     def _foreign(self):
         return patch.object(
@@ -80,6 +83,11 @@ class TestNfseForeignCurrency(TransactionCase):
             foreign["valor_servico_moeda_original"], round(self.line.price_gross, 2)
         )
         self.assertEqual(foreign["taxa_cambio"], RATE)
+        self.assertEqual(foreign["modo_prestacao"], "1")
+        self.nfse.nfse_foreign_trade_mode = "4"
+        with self._foreign():
+            foreign = self.nfse._prepare_dados_servico()["comercio_exterior"]
+        self.assertEqual(foreign["modo_prestacao"], "4")
         self.assertEqual(
             rps["total_recebido"], round(self.nfse.amount_price_gross * RATE, 2)
         )
