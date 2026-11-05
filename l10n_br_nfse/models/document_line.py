@@ -65,28 +65,41 @@ class DocumentLine(models.Model):
                 )
         return arch, view
 
-    def _prepare_line_service(self):
-        return {
-            "valor_servicos": round(self.price_gross, 2),
-            "valor_deducoes": round(self.fiscal_deductions_value, 2),
-            "valor_pis": round(self.pis_value, 2) or round(self.pis_wh_value, 2),
-            "valor_pis_retido": round(self.pis_wh_value, 2),
-            "valor_cofins": round(self.cofins_value, 2)
-            or round(self.cofins_wh_value, 2),
-            "valor_cofins_retido": round(self.cofins_wh_value, 2),
-            "valor_inss": round(self.inss_value, 2) or round(self.inss_wh_value, 2),
-            "valor_inss_retido": round(self.inss_wh_value, 2),
-            "valor_ir": round(self.irpj_value, 2) or round(self.irpj_wh_value, 2),
-            "valor_ir_retido": round(self.irpj_wh_value, 2),
-            "valor_csll": round(self.csll_value, 2) or round(self.csll_wh_value, 2),
-            "valor_csll_retido": round(self.csll_wh_value, 2),
+    def _prepare_line_service(self, rate=1.0):
+        """Return the service values of the line, in the company currency.
+
+        :param rate: multiplier from the invoice currency to the company
+            currency (1.0 when both are the same). Monetary values are
+            multiplied before rounding, so the rounding is done once, in the
+            currency the NFS-e is issued in. The ISS amounts are recomputed
+            from the converted base, instead of converting the ISS computed
+            in the invoice currency, so that base x rate always matches the
+            amount the city hall validates.
+        """
+
+        def conv(value):
+            return round((value or 0.0) * rate, 2)
+
+        vals = {
+            "valor_servicos": conv(self.price_gross),
+            "valor_deducoes": conv(self.fiscal_deductions_value),
+            "valor_pis": conv(self.pis_value) or conv(self.pis_wh_value),
+            "valor_pis_retido": conv(self.pis_wh_value),
+            "valor_cofins": conv(self.cofins_value) or conv(self.cofins_wh_value),
+            "valor_cofins_retido": conv(self.cofins_wh_value),
+            "valor_inss": conv(self.inss_value) or conv(self.inss_wh_value),
+            "valor_inss_retido": conv(self.inss_wh_value),
+            "valor_ir": conv(self.irpj_value) or conv(self.irpj_wh_value),
+            "valor_ir_retido": conv(self.irpj_wh_value),
+            "valor_csll": conv(self.csll_value) or conv(self.csll_wh_value),
+            "valor_csll_retido": conv(self.csll_wh_value),
             "iss_retido": "1" if self.issqn_wh_percent else "2",
-            "valor_iss": round(self.issqn_value, 2),
-            "valor_iss_retido": round(self.issqn_wh_value, 2),
-            "outras_retencoes": round(self.other_retentions_value, 2),
-            "base_calculo": round(self.issqn_base, 2) or round(self.issqn_wh_base, 2),
+            "valor_iss": conv(self.issqn_value),
+            "valor_iss_retido": conv(self.issqn_wh_value),
+            "outras_retencoes": conv(self.other_retentions_value),
+            "base_calculo": conv(self.issqn_base) or conv(self.issqn_wh_base),
             "aliquota": (self.issqn_percent / 100) or (self.issqn_wh_percent / 100),
-            "valor_liquido_nfse": round(self.amount_taxed, 2),
+            "valor_liquido_nfse": conv(self.amount_taxed),
             "item_lista_servico": self.service_type_id.code
             and self.service_type_id.code.replace(".", ""),
             "codigo_tributacao_nacional": self.national_taxation_code_id.code or None,
@@ -100,18 +113,18 @@ class DocumentLine(models.Model):
             "ibs_cbs_classificacao_tributaria": self.tax_classification_id.code
             or "000000",
             "ibs_cbs_situacao_tributaria": self.ibs_cst_code or "000",
-            "ibs_cbs_base_calculo": round(self.issqn_base, 2),
-            "valor_desconto_incondicionado": round(self.discount_value, 2),
+            "ibs_cbs_base_calculo": conv(self.issqn_base),
+            "valor_desconto_incondicionado": conv(self.discount_value),
             "ibs_uf_aliquota": round(self.ibs_percent, 2) if self.ibs_percent else None,
             "ibs_mun_aliquota": 0.0,
             "cbs_aliquota": round(self.cbs_percent, 2) if self.cbs_percent else None,
-            "ibs_uf_valor": round(self.ibs_value, 2) if self.ibs_value else None,
+            "ibs_uf_valor": conv(self.ibs_value) if self.ibs_value else None,
             "ibs_mun_valor": 0.0,
-            "cbs_valor": round(self.cbs_value, 2) if self.cbs_value else None,
+            "cbs_valor": conv(self.cbs_value) if self.cbs_value else None,
             "situacao_tributaria_pis": self.pis_cst_code or "",
             "situacao_tributaria_cofins": self.cofins_cst_code or "",
-            "base_calculo_pis": round(self.pis_base, 2),
-            "base_calculo_cofins": round(self.cofins_base, 2),
+            "base_calculo_pis": conv(self.pis_base),
+            "base_calculo_cofins": conv(self.cofins_base),
             "aliquota_pis": round(self.pis_percent, 2) if self.pis_percent else 0.0,
             "aliquota_cofins": (
                 round(self.cofins_percent, 2) if self.cofins_percent else 0.0
@@ -120,3 +133,10 @@ class DocumentLine(models.Model):
                 "1" if (self.pis_wh_value or self.cofins_wh_value) else "2"
             ),
         }
+        if rate != 1.0:
+            base = vals["base_calculo"]
+            if self.issqn_value:
+                vals["valor_iss"] = round(base * self.issqn_percent / 100, 2)
+            if self.issqn_wh_value:
+                vals["valor_iss_retido"] = round(base * self.issqn_wh_percent / 100, 2)
+        return vals

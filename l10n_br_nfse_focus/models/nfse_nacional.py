@@ -439,9 +439,39 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
                 else False
             ),
             **tax_data,
+            **self._prepare_foreign_trade_nacional(service_info),
         }
 
         return payload
+
+    @staticmethod
+    def _prepare_foreign_trade_nacional(service_info):
+        """Prepare the foreign trade group (comExt) of the NFSe Nacional.
+
+        Only present when the invoice currency is not the company one, and
+        then ``valor_servico`` and the taxes are already in reais (converted
+        by l10n_br_nfse). Field names follow the Focus NFe NFSe Nacional
+        field list (DPS), group comExt.
+
+        The modes and links default to the most common export case
+        (cross-border, no link between the parties, no support mechanism, no
+        temporary movement of goods, not sent to MDIC).
+        """
+        foreign_trade = service_info.get("comercio_exterior")
+        if not foreign_trade or not foreign_trade.get("codigo_moeda"):
+            return {}
+        return {
+            "modo_prestacao": 1,
+            "vinculo_negocio": 0,
+            "codigo_moeda": foreign_trade["codigo_moeda"],
+            "valor_servico_ext": round(
+                foreign_trade["valor_servico_moeda_original"], 2
+            ),
+            "mecanismo_comercio_ext_prestador": "01",
+            "mecanismo_comercio_ext_tomador": "01",
+            "movimentacao_temporaria_bens": 1,
+            "mdic": 0,
+        }
 
     @api.model
     def query_focus_nfse_nacional_by_ref(self, ref, company, environment):
