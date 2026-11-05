@@ -205,11 +205,11 @@
           <nOCA>OCA56789</nOCA>
           <dPrevAereo>2024-11-22</dPrevAereo>
           <natCarga>
-            <xDime>Dimensão Padrão</xDime>
+            <xDime>Dim. Padrão</xDime>
           </natCarga>
           <tarifa>
             <CL>TEST_CL</CL>
-            <cTar>TAR123</cTar>
+            <cTar>TAR1</cTar>
             <vTar>0.00</vTar>
           </tarifa>
           <peri>

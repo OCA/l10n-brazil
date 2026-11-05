@@ -202,7 +202,7 @@
       <infModal versaoModal="4.00">
         <ferrov>
           <tpTraf>1</tpTraf>
-          <fluxo>Fluxo Norte-Sul</fluxo>
+          <fluxo>Norte-Sul</fluxo>
         </ferrov>
       </infModal>
     </infCTeNorm>
