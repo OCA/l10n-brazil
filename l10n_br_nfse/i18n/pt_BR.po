@@ -277,6 +277,11 @@ msgid "Bairro"
 msgstr ""
 
 #. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcenderimovel__nfse10_xBairro
+msgid "Bairro do endereço do imóvel"
+msgstr ""
+
+#. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Base de Cálculo"
 msgstr "Base de Cálculo"
@@ -314,21 +319,6 @@ msgid ""
 "a emissão dessa nota pelo tomador do serviço ou intermediário (preenchimento "
 "obrigatório caso a nota esteja sendo emitida pelo Tomador ou intermediário "
 "do serviço)."
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocdedred__nfse10_chNFe
-msgid "Chave de Acesso da NF-e"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocdedred__nfse10_chNFSe
-msgid "Chave de Acesso da NFS-e"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcdocdedred__nfse10_chNFSe
-msgid "Chave de Acesso da NFS-e (Padrão Nacional)"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -408,6 +398,11 @@ msgid "Complemento do endereço"
 msgstr ""
 
 #. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcenderimovel__nfse10_xCpl
+msgid "Complemento do endereço do imóvel"
+msgstr ""
+
+#. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Complemento:"
 msgstr "Complemento:"
@@ -434,7 +429,7 @@ msgstr "Cupom"
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcinfoobra__nfse10_cCIB
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfoimovel__nfse10_cCIB
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcunidadesimobiliarias__nfse10_cCIB
 msgid "Código"
 msgstr ""
 
@@ -446,16 +441,6 @@ msgstr ""
 #. module: l10n_br_nfse
 #: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcibscbs__nfse10_cLocalidadeIncid
 msgid "Código IBGE da localidade de incidência do IBS/CBS (local da operação)"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocoutnfse__nfse10_cMunNFSeMun
-msgid "Código Município emissor"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcdocoutnfse__nfse10_cMunNFSeMun
-msgid "Código Município emissor da nota eletrônica municipal (Tabela do IBGE)"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -484,23 +469,35 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfotributossitclas__nfse10_cClassTrib
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfobensmoveis__nfse10_cNCMBemMovel
+msgid "Código da Nomenclatura Comum do Mercosul"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcinfobensmoveis__nfse10_cNCMBemMovel
+msgid ""
+"Código da Nomenclatura Comum do Mercosul (NCM) do bem móvel objeto da "
+"locação."
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfotribibscbs__nfse10_cClassTrib
 msgid "Código de Classificação Tributária"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcinfotributossitclas__nfse10_cClassTrib
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcinfotribibscbs__nfse10_cClassTrib
 msgid "Código de Classificação Tributária do IBS e da CBS"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfotributossitclas__nfse10_CST
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfotribibscbs__nfse10_CST
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfotributostribregular__nfse10_CSTReg
 msgid "Código de Situação Tributária do IBS"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcinfotributossitclas__nfse10_CST
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcinfotribibscbs__nfse10_CST
 msgid "Código de Situação Tributária do IBS e da CBS"
 msgstr ""
 
@@ -510,15 +507,9 @@ msgid "Código de Situação Tributária do IBS e da CBS de tributação regular
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocoutnfse__nfse10_cVerifNFSeMun
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Código de Verificação"
 msgstr "Código de Verificação"
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcdocoutnfse__nfse10_cVerifNFSeMun
-msgid "Código de Verificação da nota eletrônica municipal"
-msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcsubstituicao__nfse10_cMotivo
@@ -539,7 +530,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcinfoimovel__nfse10_cCIB
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcunidadesimobiliarias__nfse10_cCIB
 msgid "Código do Cadastro Imobiliário Brasileiro - CIB"
 msgstr ""
 
@@ -562,6 +553,16 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcenderecoemitente__nfse10_cMun
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcendernac__nfse10_cMun
 msgid "Código do município"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfoimovel__nfse10_cMun
+msgid "Código do município do endereço"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcinfoimovel__nfse10_cMun
+msgid "Código do município do endereço do imóvel (Tabela do IBGE)"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -615,6 +616,17 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcenderimovel__nfse10_CEP
+msgid "Código numérico"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcenderimovel__nfse10_CEP
+msgid ""
+"Código numérico do Endereçamento Postal nacional (CEP) do endereço do imóvel."
+msgstr ""
+
+#. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcinfnfse__nfse10_DPS
 msgid "DPS"
 msgstr ""
@@ -635,32 +647,22 @@ msgid "Dados do Tomador de Serviços"
 msgstr "Dados do Tomador de Serviços"
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtclistadoc__nfse10_dtCompDoc
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocajustebc__nfse10_dtCompDoc
 msgid "Data da competência"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtclistadoc__nfse10_dtCompDoc
-msgid ""
-"Data da competência do documento dedutível\n"
-"Ano, mês e dia (AAAA-MM-DD)"
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcdocajustebc__nfse10_dtCompDoc
+msgid "Data da competência do documento dedutível. Ano, mês e dia (AAAA-MM-DD)"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocdedred__nfse10_dtEmiDoc
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtclistadoc__nfse10_dtEmiDoc
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocajustebc__nfse10_dtEmiDoc
 msgid "Data da emissão do documento dedutível"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtclistadoc__nfse10_dtEmiDoc
-msgid ""
-"Data da emissão do documento dedutível\n"
-"Ano, mês e dia (AAAA-MM-DD)"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcdocdedred__nfse10_dtEmiDoc
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcdocajustebc__nfse10_dtEmiDoc
 msgid "Data da emissão do documento dedutível. Ano, mês e dia (AAAA-MM-DD)"
 msgstr ""
 
@@ -682,6 +684,19 @@ msgstr ""
 #. module: l10n_br_nfse
 #: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcatvevento__nfse10_dtIni
 msgid "Data de início da atividade de evento. Ano, Mês e Dia (AAAA-MM-DD)"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtclocacaoimovel__nfse10_dVencOrig
+msgid "Data de vencimento original Ano"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtclocacaoimovel__nfse10_dVencOrig
+msgid ""
+"Data de vencimento original Ano, Mês e Dia (AAAA-MM-DD) (Informar data de "
+"vencimento original do aluguel, renda ou equivalente na operação de locação, "
+"cessão onerosa ou arrendamento de bens imóveis)"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -715,13 +730,18 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocdedred__nfse10_xDescOutDed
-msgid "Descrição da Dedução/Redução"
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfobensmoveis__nfse10_xNCMBemMovel
+msgid "Descrição do Bem Móvel objeto da locação"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcdocdedred__nfse10_xDescOutDed
-msgid "Descrição da Dedução/Redução quando a opção é '99 – Outras Deduções'"
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocajustebc__nfse10_xTpAjusteBC
+msgid "Descrição do ajuste"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcdocajustebc__nfse10_xTpAjusteBC
+msgid "Descrição do ajuste quando o tipo informado exige detalhamento"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -800,16 +820,16 @@ msgid "Descrição do motivo da substituição da NFS-e"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtclistadoc__nfse10_xTpReeRepRes
-msgid "Descrição do reembolso"
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcvaloresbcimoveis__nfse10_xTpAjusteBCLocImoveis
+msgid "Descrição do tipo de parcela"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtclistadoc__nfse10_xTpReeRepRes
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcvaloresbcimoveis__nfse10_xTpAjusteBCLocImoveis
 msgid ""
-"Descrição do reembolso ou ressarcimento quando a opção é \n"
-"'99 – Outros reembolsos ou ressarcimentos recebidos por valores pagos "
-"relativos a operações por conta e ordem de terceiro'"
+"Descrição do tipo de parcela não integrante da base de cálculo do IBS e da "
+"CBS quando a opção for '99  = Outras parcelas inclusas no aluguel ou "
+"equivalente'."
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -867,18 +887,6 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcenderextsimples__nfse10_xEstProvReg
 msgid ""
 "Estado, província ou região da cidade no exterior do prestador do serviço."
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtclistadocfornec__nfse10_NIF
-msgid "Este elemento só deverá ser preenchido"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtclistadocfornec__nfse10_NIF
-msgid ""
-"Este elemento só deverá ser preenchido para fornecedores não residentes no "
-"Brasil"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -965,18 +973,18 @@ msgid "Grupo de Totalizadores"
 msgstr ""
 
 #. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocajustebc__nfse10_dFeNacional
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcemitente__nfse10_enderNac
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcinfodedred__nfse10_documentos
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tclistadocdedred__nfse10_docDedRed
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcinfoajustebc__nfse10_documentos
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tclistadocajustebc__nfse10_docAjusteBC
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfoibscbs__nfse10_imovel
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfotributossitclas__nfse10_gTribRegular
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtclistadoc__nfse10_dFeNacional
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtctotalcibs__nfse10_gTribRegular
 msgid "Grupo de informações"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtclistadoc__nfse10_docFiscalOutro
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocajustebc__nfse10_docFiscalOutro
 msgid "Grupo de informações (docFiscalOutro)"
 msgstr ""
 
@@ -1013,52 +1021,32 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocdedred__nfse10_NFNFS
-msgid "Grupo de informações de NF ou NFS"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcdocdedred__nfse10_NFNFS
-msgid "Grupo de informações de NF ou NFS (Modelo não eletrônico)"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocdedred__nfse10_NFSeMun
-msgid "Grupo de informações de Outras NFS-e"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcdocdedred__nfse10_NFSeMun
-msgid "Grupo de informações de Outras NFS-e (Padrão anterior de NFS-e)"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtclistadoc__nfse10_docOutro
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocajustebc__nfse10_docOutro
 msgid "Grupo de informações de documento"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtclistadoc__nfse10_docFiscalOutro
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcdocajustebc__nfse10_docFiscalOutro
 msgid ""
 "Grupo de informações de documento fiscais, eletrônicos ou não, que não se "
 "encontram no repositório nacional"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtclistadoc__nfse10_docOutro
-msgid "Grupo de informações de documento não fiscal."
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcdocajustebc__nfse10_docOutro
+msgid "Grupo de informações de documento não fiscal"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcinfodedred__nfse10_documentos
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tclistadocdedred__nfse10_docDedRed
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcinfoajustebc__nfse10_documentos
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tclistadocajustebc__nfse10_docAjusteBC
 msgid ""
-"Grupo de informações de documento utilizado para Dedução/Redução do valor do "
-"serviço"
+"Grupo de informações de documento utilizado para ajuste dos valores de base "
+"de cálculo (ISSQN e/ou IBS/CBS)"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtclistadoc__nfse10_dFeNacional
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcdocajustebc__nfse10_dFeNacional
 msgid ""
 "Grupo de informações de documentos fiscais eletrônicos que se encontram no "
 "repositório nacional"
@@ -1071,34 +1059,33 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfovaloresibscbs__nfse10_trib
+msgid "Grupo de informações de tributação"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcinfovaloresibscbs__nfse10_trib
+msgid "Grupo de informações de tributação do IBS e da CBS"
+msgstr ""
+
+#. module: l10n_br_nfse
 #: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtctotalcibs__nfse10_gTribRegular
 msgid "Grupo de informações de tributação regular"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocdedred__nfse10_fornec
-msgid "Grupo de informações do Fornecedor"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcdocdedred__nfse10_fornec
-msgid "Grupo de informações do Fornecedor em Deduções de Serviços"
-msgstr ""
-
-#. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfodest__nfse10_end
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcunidadesimobiliarias__nfse10_end
 msgid "Grupo de informações do endereço"
 msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcinfoobra__nfse10_end
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfoimovel__nfse10_end
 msgid "Grupo de informações do endereço da obra"
 msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcinfoobra__nfse10_end
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcinfoimovel__nfse10_end
 msgid "Grupo de informações do endereço da obra do serviço prestado"
 msgstr ""
 
@@ -1108,18 +1095,23 @@ msgid "Grupo de informações do endereço do Destinatário do serviço"
 msgstr ""
 
 #. module: l10n_br_nfse
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcunidadesimobiliarias__nfse10_end
+msgid "Grupo de informações do endereço do imóvel."
+msgstr ""
+
+#. module: l10n_br_nfse
 #: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcemitente__nfse10_enderNac
 msgid "Grupo de informações do endereço nacional do Emitente da NFS-e"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtclistadoc__nfse10_fornec
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocajustebc__nfse10_fornec
 msgid "Grupo de informações do fornecedor"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtclistadoc__nfse10_fornec
-msgid "Grupo de informações do fornecedor do documento referenciado"
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcdocajustebc__nfse10_fornec
+msgid "Grupo de informações do fornecedor do serviço prestado"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -1143,13 +1135,13 @@ msgid "Grupo de informações geradas pelo sistema referentes ao IBS e à CBS"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfotributosibscbs__nfse10_gIBSCBS
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfotribibscbs__nfse10_gIBSCBS
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfotributossitclas__nfse10_gDif
 msgid "Grupo de informações relacionadas"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcinfotributosibscbs__nfse10_gIBSCBS
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcinfotribibscbs__nfse10_gIBSCBS
 msgid "Grupo de informações relacionadas ao IBS e à CBS"
 msgstr ""
 
@@ -1159,19 +1151,9 @@ msgid "Grupo de informações relacionadas ao diferimento para IBS e CBS"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfovaloresibscbs__nfse10_trib
-msgid "Grupo de informações relacionados"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcinfovaloresibscbs__nfse10_trib
-msgid "Grupo de informações relacionados aos tributos IBS e CBS"
-msgstr ""
-
-#. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcatvevento__nfse10_end
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfoibscbs__nfse10_dest
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfovaloresibscbs__nfse10_gReeRepRes
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfoimovel__nfse10_gLocacao
 msgid "Grupo de informações relativas"
 msgstr ""
 
@@ -1181,12 +1163,16 @@ msgid "Grupo de informações relativas (valores)"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcinfovaloresibscbs__nfse10_gReeRepRes
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcunidadesimobiliarias__nfse10_gAjusteBCLocImoveis
+msgid "Grupo de informações relativas a valores"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcunidadesimobiliarias__nfse10_gAjusteBCLocImoveis
 msgid ""
-"Grupo de informações relativas a valores incluídos neste documento e "
-"recebidos por motivo de estarem relacionadas \n"
-"a operações de terceiros, objeto de reembolso, repasse ou ressarcimento pelo "
-"recebedor, já tributados e aqui referenciados"
+"Grupo de informações relativas a valores de ajuste (dedução/redução) da Base "
+"de Cálculo do IBS e da CBS referentes às operações de locação, cessão "
+"onerosa ou arrendamento de bens imóveis"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -1202,9 +1188,27 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfse
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcinfoibscbs__nfse10_bensMoveis
+msgid "Grupo de informações relativas aos bens móveis objetos de locação"
+msgstr ""
+
+#. module: l10n_br_nfse
 #: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcinfoibscbs__nfse10_valores
 msgid ""
 "Grupo de informações relativas aos valores do serviço prestado para IBS e CBS"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcinfoimovel__nfse10_gLocacao
+msgid ""
+"Grupo de informações relativas às operações de locação, cessão onerosa ou "
+"arrendamento de bens imóveis"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcinfoimovel__nfse10_gUnidImob
+msgid ""
+"Grupo de informações relativas às unidades imobiliárias objeto da operação"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -1277,19 +1281,6 @@ msgstr ""
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtctotalcibs__nfse10_gCBS
 msgid "Grupo de valores referentes à CBS"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinforeerepres__nfse10_documentos
-msgid "Grupo relativo"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcinforeerepres__nfse10_documentos
-msgid ""
-"Grupo relativo aos documentos referenciados nos casos de reembolso, repasse "
-"e ressarcimento que serão \n"
-"considerados na base de cálculo do ISSQN, do IBS e da CBS"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -1377,27 +1368,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocdedred__nfse10_tpDedRed
-msgid "Identificação da Dedução/Redução"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcdocdedred__nfse10_tpDedRed
-msgid ""
-"Identificação da Dedução/Redução:\n"
-"1 – Alimentação e bebidas/frigobar;\n"
-"2 – Materiais;\n"
-"3 - Produção Externa;\n"
-"4 - Reembolso de despesas;\n"
-"5 – Repasse consorciado;\n"
-"6 – Repasse plano de saúde;\n"
-"7 – Serviços;\n"
-"8 – Subempreitada de mão de obra;\n"
-"9 - Profissional parceiro;\n"
-"99 – Outras deduções;"
-msgstr ""
-
-#. module: l10n_br_nfse
 #: model:ir.model.fields,help:l10n_br_nfse.field_res_company__nfse_use_city_pdf
 msgid ""
 "If enabled, the NFSe Paulistana PDF will be generated by the São Paulo City "
@@ -1427,16 +1397,6 @@ msgid "Indica operação de uso ou consumo pessoal (art. 57)"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfoibscbs__nfse10_finNFSe
-msgid "Indicador da finalidade da emissão"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcinfoibscbs__nfse10_finNFSe
-msgid "Indicador da finalidade da emissão de NFS-e"
-msgstr ""
-
-#. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcinfocompl__nfse10_xInfComp
 msgid "Informações complementares"
 msgstr ""
@@ -1448,13 +1408,13 @@ msgstr "Insc. Municipal"
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcinfoobra__nfse10_inscImobFisc
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfoimovel__nfse10_inscImobFisc
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcunidadesimobiliarias__nfse10_inscImobFisc
 msgid "Inscrição imobiliária fiscal"
 msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcinfoobra__nfse10_inscImobFisc
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcinfoimovel__nfse10_inscImobFisc
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcunidadesimobiliarias__nfse10_inscImobFisc
 msgid ""
 "Inscrição imobiliária fiscal (código fornecido pela Prefeitura Municipal "
 "para a identificação da obra ou para fins de recolhimento do IPTU)"
@@ -1526,7 +1486,7 @@ msgid ""
 "19 - REIDI;\n"
 "20 - REPENEC;\n"
 "21 - REPES;\n"
-"22 - RETAERO; \n"
+"22 - RETAERO;\n"
 "23 - RETID;\n"
 "24 - Royalties, Assistência Técnica, Científica e Assemelhados;\n"
 "25 - Serviços de avaliação da conformidade vinculados aos Acordos da OMC;\n"
@@ -1549,11 +1509,6 @@ msgid "Microempresario e Empresa de Pequeno Porte(ME EPP)"
 msgstr "Microempresario e Empresa de Pequeno Porte(ME EPP)"
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocnfnfs__nfse10_modNFS
-msgid "Modelo da Nota Fiscal NF ou NFS"
-msgstr ""
-
-#. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tccomexterior__nfse10_mdPrestacao
 msgid "Modo de Prestação"
 msgstr ""
@@ -1573,38 +1528,36 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcatvevento__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcbeneficiomunicipal__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tccomexterior__brl_currency_id
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocdedred__brl_currency_id
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocnfnfs__brl_currency_id
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocoutnfse__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocajustebc__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcemitente__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcenderecoemitente__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcenderext__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcenderextsimples__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcenderimovel__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcendernac__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcenderobraevento__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcexigsuspensa__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcinfnfse__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcinfoajustebc__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcinfocompl__brl_currency_id
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcinfodedred__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcinfoitemped__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcinfoobra__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcinforefnfse__brl_currency_id
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tclistadocdedred__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tclistadocajustebc__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcibscbs__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfobensmoveis__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfodest__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfoibscbs__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfoimovel__brl_currency_id
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinforeerepres__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfotribibscbs__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfotributosdif__brl_currency_id
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfotributosibscbs__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfotributossitclas__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfotributostribregular__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfovaloresibscbs__brl_currency_id
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtclistadoc__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtclistadocdfe__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtclistadocfiscaloutro__brl_currency_id
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtclistadocfornec__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtclistadocoutro__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtclocacaoimovel__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtctotalcbs__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtctotalcbscredpres__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtctotalcibs__brl_currency_id
@@ -1614,6 +1567,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtctotalibsuf__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtctotaltribcompragov__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtctotaltribregular__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcunidadesimobiliarias__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcvaloresbcimoveis__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcvaloresibscbs__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcvaloresibscbsfed__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcvaloresibscbsmun__brl_currency_id
@@ -1626,13 +1581,11 @@ msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfodest__nfse10_cNaoNIF
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtclistadocfornec__nfse10_cNaoNIF
 msgid "Motivo para não informação do NIF"
 msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcinfodest__nfse10_cNaoNIF
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtclistadocfornec__nfse10_cNaoNIF
 msgid ""
 "Motivo para não informação do NIF:\n"
 "0 - Não informado na nota de origem;\n"
@@ -1684,14 +1637,24 @@ msgid "Natureza Operação"
 msgstr "Natureza Operação"
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocdedred__nfse10_docDedRed_TCListaDocDedRed_id
-msgid "Nfse10 Docdedred Tclistadocdedred"
-msgstr "Documentos de dedução/redução da lista de documentos"
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfobensmoveis__nfse10_bensMoveis_TCRTCInfoIBSCBS_id
+msgid "Nfse10 Bensmoveis Tcrtcinfoibscbs"
+msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtclistadoc__nfse10_documentos_TCRTCInfoReeRepRes_id
-msgid "Nfse10 Documentos Tcrtcinforeerepres"
-msgstr "Documentos da informação de reembolso/repasse/ressarcimento"
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocajustebc__nfse10_docAjusteBC_TCListaDocAjusteBC_id
+msgid "Nfse10 Docajustebc Tclistadocajustebc"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcvaloresbcimoveis__nfse10_gAjusteBCLocImoveis_TCRTCUnidadesImobiliarias_id
+msgid "Nfse10 Gajustebclocimoveis Tcrtcunidadesimobiliarias"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcunidadesimobiliarias__nfse10_gUnidImob_TCRTCInfoImovel_id
+msgid "Nfse10 Gunidimob Tcrtcinfoimovel"
+msgstr ""
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
@@ -1711,16 +1674,6 @@ msgstr ""
 #. module: l10n_br_nfse
 #: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcinfodest__nfse10_xNome
 msgid "Nome / Nome Empresarial do do Destinatário do serviço"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtclistadocfornec__nfse10_xNome
-msgid "Nome / Razão Social do do Fornecedor"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtclistadocfornec__nfse10_xNome
-msgid "Nome / Razão Social do do Fornecedor do serviço"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -1771,24 +1724,17 @@ msgid "Número da Declaração de Importação (DI/DSI/DA/DRI-E) averbado"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocnfnfs__nfse10_nNFS
-msgid "Número da Nota Fiscal NF ou NFS"
-msgstr ""
-
-#. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcemitente__nfse10_IM
 msgid "Número da inscrição municipal"
 msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfodest__nfse10_CPF
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtclistadocfornec__nfse10_CPF
 msgid "Número da inscrição no Cadastro"
 msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfodest__nfse10_CNPJ
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtclistadocfornec__nfse10_CNPJ
 msgid "Número da inscrição no Cadastro Nacional"
 msgstr ""
 
@@ -1800,29 +1746,10 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtclistadocfornec__nfse10_CNPJ
-msgid ""
-"Número da inscrição no Cadastro Nacional de Pessoa Jurídica (CNPJ) do "
-"Fornecedor do serviço"
-msgstr ""
-
-#. module: l10n_br_nfse
 #: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcinfodest__nfse10_CPF
 msgid ""
 "Número da inscrição no Cadastro de Pessoa Física (CPF) do Destinatário do "
 "serviço"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtclistadocfornec__nfse10_CPF
-msgid ""
-"Número da inscrição no Cadastro de Pessoa Física (CPF) do Fornecedor do "
-"serviço"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocoutnfse__nfse10_nNFSeMun
-msgid "Número da nota eletrônica municipal"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -1835,16 +1762,6 @@ msgstr ""
 msgid ""
 "Número de Identificação Fiscal fornecido por órgão de administração "
 "tributária no exterior"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocdedred__nfse10_nDocFisc
-msgid "Número de documento fiscal"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocdedred__nfse10_nDoc
-msgid "Número de documento não fiscal"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -1977,6 +1894,16 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcenderimovel__nfse10_nro
+msgid "Número no logradouro do endereço"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcenderimovel__nfse10_nro
+msgid "Número no logradouro do endereço do imóvel."
+msgstr ""
+
+#. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcinfnfse__nfse10_nDFSe
 msgid "Número sequencial do documento gerado"
 msgstr ""
@@ -1997,7 +1924,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcinfnfse__nfse10_nNFSe
 msgid ""
 "Número sequencial por tipo de emitente da NFS-e.\n"
-"            A Sefin Nacional NFS-e irá gerar o número da NFS-e de forma "
+"\t\t\t\t\t\tA Sefin Nacional NFS-e irá gerar o número da NFS-e de forma "
 "sequencial por emitente. Por se tratar de um ambiente altamente "
 "transacional, a Sefin Nacional NFS-e não irá reutilizar números inutilizados "
 "durante a geração da NFS-e."
@@ -2065,6 +1992,18 @@ msgstr "PIS"
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcvaloresibscbsfed__nfse10_pRedAliqCBS
 msgid "Percentual da redução de alíquota da CBS"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtclocacaoimovel__nfse10_pCopropriedade
+msgid "Percentual de Copropriedade"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtclocacaoimovel__nfse10_pCopropriedade
+msgid ""
+"Percentual de Copropriedade (Caso só haja um locador, cedente ou arrendador, "
+"informar o Percentual de Copropriedade de 100%)"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -2155,6 +2094,16 @@ msgid "Produção"
 msgstr "Produção"
 
 #. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfobensmoveis__nfse10_qtdNCMBemMovel
+msgid "Quantidade do Bem Móvel objeto"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcinfobensmoveis__nfse10_qtdNCMBemMovel
+msgid "Quantidade do Bem Móvel objeto da locação."
+msgstr ""
+
+#. module: l10n_br_nfse
 #: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__rps_type__2
 msgid "RPS Nota Fiscal Conjugada (Mista)"
 msgstr "RPS Nota Fiscal Conjugada (Mista)"
@@ -2214,11 +2163,6 @@ msgid "Sociedade de Profissionais"
 msgstr "Sociedade de Profissionais"
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocnfnfs__nfse10_serieNFS
-msgid "Série Nota Fiscal NF ou NFS"
-msgstr ""
-
-#. module: l10n_br_nfse
 #: model:ir.model,name:l10n_br_nfse.model_nfse_10_tcatvevento
 msgid "TCAtvEvento"
 msgstr ""
@@ -2234,18 +2178,8 @@ msgid "TCComExterior"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model,name:l10n_br_nfse.model_nfse_10_tcdocdedred
-msgid "TCDocDedRed"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model,name:l10n_br_nfse.model_nfse_10_tcdocnfnfs
-msgid "TCDocNFNFS"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model,name:l10n_br_nfse.model_nfse_10_tcdocoutnfse
-msgid "TCDocOutNFSe"
+#: model:ir.model,name:l10n_br_nfse.model_nfse_10_tcdocajustebc
+msgid "TCDocAjusteBC"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -2261,6 +2195,11 @@ msgstr ""
 #. module: l10n_br_nfse
 #: model:ir.model,name:l10n_br_nfse.model_nfse_10_tcenderextsimples
 msgid "TCEnderExtSimples"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model,name:l10n_br_nfse.model_nfse_10_tcenderimovel
+msgid "TCEnderImovel"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -2289,13 +2228,13 @@ msgid "TCInfNFSe"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model,name:l10n_br_nfse.model_nfse_10_tcinfocompl
-msgid "TCInfoCompl"
+#: model:ir.model,name:l10n_br_nfse.model_nfse_10_tcinfoajustebc
+msgid "TCInfoAjusteBC"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model,name:l10n_br_nfse.model_nfse_10_tcinfodedred
-msgid "TCInfoDedRed"
+#: model:ir.model,name:l10n_br_nfse.model_nfse_10_tcinfocompl
+msgid "TCInfoCompl"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -2314,13 +2253,18 @@ msgid "TCInfoRefNFSe"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model,name:l10n_br_nfse.model_nfse_10_tclistadocdedred
-msgid "TCListaDocDedRed"
+#: model:ir.model,name:l10n_br_nfse.model_nfse_10_tclistadocajustebc
+msgid "TCListaDocAjusteBC"
 msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model,name:l10n_br_nfse.model_nfse_10_tcrtcibscbs
 msgid "TCRTCIBSCBS"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model,name:l10n_br_nfse.model_nfse_10_tcrtcinfobensmoveis
+msgid "TCRTCInfoBensMoveis"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -2339,18 +2283,13 @@ msgid "TCRTCInfoImovel"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model,name:l10n_br_nfse.model_nfse_10_tcrtcinforeerepres
-msgid "TCRTCInfoReeRepRes"
+#: model:ir.model,name:l10n_br_nfse.model_nfse_10_tcrtcinfotribibscbs
+msgid "TCRTCInfoTribIBSCBS"
 msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model,name:l10n_br_nfse.model_nfse_10_tcrtcinfotributosdif
 msgid "TCRTCInfoTributosDif"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model,name:l10n_br_nfse.model_nfse_10_tcrtcinfotributosibscbs
-msgid "TCRTCInfoTributosIBSCBS"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -2369,11 +2308,6 @@ msgid "TCRTCInfoValoresIBSCBS"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model,name:l10n_br_nfse.model_nfse_10_tcrtclistadoc
-msgid "TCRTCListaDoc"
-msgstr ""
-
-#. module: l10n_br_nfse
 #: model:ir.model,name:l10n_br_nfse.model_nfse_10_tcrtclistadocdfe
 msgid "TCRTCListaDocDFe"
 msgstr ""
@@ -2384,13 +2318,13 @@ msgid "TCRTCListaDocFiscalOutro"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model,name:l10n_br_nfse.model_nfse_10_tcrtclistadocfornec
-msgid "TCRTCListaDocFornec"
+#: model:ir.model,name:l10n_br_nfse.model_nfse_10_tcrtclistadocoutro
+msgid "TCRTCListaDocOutro"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model,name:l10n_br_nfse.model_nfse_10_tcrtclistadocoutro
-msgid "TCRTCListaDocOutro"
+#: model:ir.model,name:l10n_br_nfse.model_nfse_10_tcrtclocacaoimovel
+msgid "TCRTCLocacaoImovel"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -2436,6 +2370,16 @@ msgstr ""
 #. module: l10n_br_nfse
 #: model:ir.model,name:l10n_br_nfse.model_nfse_10_tcrtctotaltribregular
 msgid "TCRTCTotalTribRegular"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model,name:l10n_br_nfse.model_nfse_10_tcrtcunidadesimobiliarias
+msgid "TCRTCUnidadesImobiliarias"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model,name:l10n_br_nfse.model_nfse_10_tcrtcvaloresbcimoveis
+msgid "TCRTCValoresBCImoveis"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -2501,6 +2445,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocajustebc__nfse10_tpAjusteBC
+msgid "Tipo de Ajuste"
+msgstr ""
+
+#. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfoibscbs__nfse10_tpOper
 msgid "Tipo de Operação"
 msgstr ""
@@ -2518,17 +2467,22 @@ msgid "Tipo de ente governamental"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtclistadoc__nfse10_tpReeRepRes
-msgid "Tipo de valor incluído neste documento"
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcvaloresbcimoveis__nfse10_tpAjusteBCLocImoveis
+msgid "Tipo de parcela não integrante da base"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtclistadoc__nfse10_tpReeRepRes
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcvaloresbcimoveis__nfse10_tpAjusteBCLocImoveis
 msgid ""
-"Tipo de valor incluído neste documento, recebido por motivo de estarem "
-"relacionadas a operações de terceiros, \n"
-"objeto de reembolso, repasse ou ressarcimento pelo recebedor, já tributados "
-"e aqui referenciados"
+"Tipo de parcela não integrante da base de cálculo do IBS e da CBS;\n"
+"01 = Tributos inclusos no aluguel ou equivalente (Ex.: IPTU, Contribuição de "
+"melhoria) - apenas para NBS 1.1002.10.00 ou 1.1002.20.00;\n"
+"02 = Emolumento incluso no aluguel ou equivalente - apenas para NBS "
+"1.1002.10.00 ou 1.1002.20.00;\n"
+"03 = Condomínio incluso no aluguel ou equivalente - apenas para NBS "
+"1.1002.10.00 ou 1.1002.20.00;\n"
+"04 = Redutor Social - apenas para a NBS 1.1002.10.00;\n"
+"99 = Outras parcelas inclusas no aluguel ou equivalente;"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -2541,6 +2495,16 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcenderecoemitente__nfse10_xLgr
 #: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcenderobraevento__nfse10_xLgr
 msgid "Tipo e nome do logradouro da localização do imóvel"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcenderimovel__nfse10_xLgr
+msgid "Tipo e nome do logradouro do endereço"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcenderimovel__nfse10_xLgr
+msgid "Tipo e nome do logradouro do endereço do imóvel."
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -2674,9 +2638,9 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcvaloresnfse__nfse10_vBC
 msgid ""
 "Valor da Base de Cálculo do ISSQN (R$) = Valor do Serviço - Desconto "
-"Incondicionado - Deduções/Reduções - Benefício Municipal\n"
-"vBC = vServ - descIncond - (vDR ou vCalcDR + vCalcReeRepRes) - (vRedBCBM ou "
-"VCalcBM)"
+"Incondicionado - Ajustes (Deduções/Reduções) - Benefício Municipal\n"
+"\t\t\t\t\t\tvBC = vServ - descIncond - (vAjusteBCISSQN + vCalcAjusteBCISSQN) "
+"- (vRedBCBM ou VCalcBM)"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -2689,9 +2653,10 @@ msgstr ""
 msgid ""
 "Valor da base de cálculo (BC) do IBS/CBS antes das reduções para cálculo do "
 "tributo bruto\n"
-"vBC = vServ - descIncond – vCalcReeRepRes – vISSQN – vPIS - vCOFINS (até "
-"2026) ou\n"
-"vBC = vServ - descIncond – vCalcReeRepRes – vISSQN (até 2032)"
+"\t\t\t\t\t\tvBC = vServ - descIncond – (vCalcAjusteBCIBSCBS ou "
+"vCalcAjusteBCLocImoveis) – vISSQN – vPIS - vCOFINS (até 2026) ou\n"
+"            vBC = vServ - descIncond – (vCalcAjusteBCIBSCBS ou "
+"vCalcAjusteBCLocImoveis) – vISSQN (a partir de 2027 até 2032)"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -2812,16 +2777,21 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtclistadoc__nfse10_vlrReeRepRes
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcvaloresibscbs__nfse10_vCalcReeRepRes
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcvaloresnfse__nfse10_vCalcDR
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcvaloresibscbs__nfse10_vCalcAjusteBCLocImoveis
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcvaloresnfse__nfse10_vCalcBM
 msgid "Valor monetário"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcvaloresnfse__nfse10_vCalcDR
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcvaloresnfse__nfse10_vCalcAjusteBCISSQN
+msgid "Valor monetário (R$) do ajuste"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcvaloresnfse__nfse10_vCalcAjusteBCISSQN
 msgid ""
-"Valor monetário (R$) de dedução/redução da base de cálculo (BC) do ISSQN."
+"Valor monetário (R$) do ajuste (dedução/redução) da base de cálculo (BC) do "
+"ISSQN."
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -2832,26 +2802,38 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcvaloresibscbs__nfse10_vCalcReeRepRes
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcvaloresibscbs__nfse10_vCalcAjusteBCIBSCBS
 msgid ""
-"Valor monetário (R$) total relativo ao fornecimento próprio de bens "
-"materiais ou relacionados a operações de terceiros, \n"
-"objeto de reembolso, repasse ou ressarcimento pelo recebedor, já tributados "
-"e aqui referenciados e que não integram \n"
-"da base de cálculo (BC) do ISSQN, do IBS e da CBS."
+"Valor monetário (R$) total relativo a glosa de serviços de saúde ou a "
+"operações de terceiros, objeto de reembolso,\n"
+"repasse ou ressarcimento pelo recebedor, devidamente referenciados, e que "
+"não integram da base de cálculo (BC) do IBS e da CBS."
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtclistadoc__nfse10_vlrReeRepRes
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcvaloresibscbs__nfse10_vCalcAjusteBCLocImoveis
 msgid ""
-"Valor monetário (total ou parcial, conforme documento informado) utilizado "
-"para não inclusão na base de cálculo \n"
-"do ISS e do IBS e da CBS da NFS-e que está sendo emitida (R$)"
+"Valor monetário (R$) total relativo aos valores de ajuste (dedução/redução) "
+"da Base de Cálculo do IBS e da CBS referentes às operações de locação, "
+"cessão onerosa ou arrendamento de bens imóveis. Apenas para os subitens "
+"99.03."
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcvaloresnfse__nfse10_vCalcBM
-msgid "Valor monetário (vCalcBM)"
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcvaloresibscbs__nfse10_vCalcAjusteBCIBSCBS
+msgid "Valor monetário (vCalcAjusteBCIBSCBS)"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocajustebc__nfse10_vAjusteAplic
+msgid "Valor monetário efetivamente utilizado"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcdocajustebc__nfse10_vAjusteAplic
+msgid ""
+"Valor monetário efetivamente utilizado para ajuste de base(s) de cálculo do "
+"valor do serviço da NFS-e que está sendo emitida (R$)"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -2867,13 +2849,19 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcinfodedred__nfse10_vDR
-msgid "Valor monetário padrão"
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcinfoajustebc__nfse10_vAjusteBCISSQN
+msgid "Valor monetário padrão para ajuste"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcinfodedred__nfse10_vDR
-msgid "Valor monetário padrão para dedução/redução do valor do serviço"
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcinfoajustebc__nfse10_vAjusteBCISSQN
+msgid ""
+"Valor monetário padrão para ajuste dos valores de base de cálculo do ISSQN"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocajustebc__nfse10_vTotDoc
+msgid "Valor monetário total"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -2897,24 +2885,22 @@ msgid "Valor monetário total aproximado dos tributos municipais (R$)."
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcdocdedred__nfse10_vDedutivelRedutivel
-msgid ""
-"Valor monetário total dedutível/redutível no documento informado (R$).\n"
-"Este é o valor total no documento informado que é passível de dedução/"
-"redução."
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcdocajustebc__nfse10_vTotDoc
+msgid "Valor monetário total do documento informado (R$)"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocdedred__nfse10_vDeducaoReducao
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcvaloresbcimoveis__nfse10_vAjusteBCLocImoveis
 msgid "Valor monetário utilizado"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcdocdedred__nfse10_vDeducaoReducao
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtcvaloresbcimoveis__nfse10_vAjusteBCLocImoveis
 msgid ""
-"Valor monetário utilizado para dedução/redução do valor do serviço da NFS-e "
-"que está sendo emitida (R$).\n"
-"Deve ser menor ou igual ao valor deduzível/redutível (vDedutivelRedutivel)."
+"Valor monetário utilizado para não inclusão na base de cálculo do IBS e da "
+"CBS da NFS-e que está sendo emitida (R$). (Informar o valor total da parcela "
+"não integrante da base de cálculo - IPTU, Condomínio, Redutor social, etc. "
+"-, não devendo ser inserido o valor proporcional do coproprietário)"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -2930,13 +2916,28 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcinfodedred__nfse10_pDR
-msgid "Valor percentual padrão"
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcinfoajustebc__nfse10_pAjusteBCISSQN
+msgid "Valor percentual padrão para ajuste"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcinfodedred__nfse10_pDR
-msgid "Valor percentual padrão para dedução/redução do valor do serviço"
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcinfoajustebc__nfse10_pAjusteBCISSQN
+msgid ""
+"Valor percentual padrão para ajuste dos valores de base de cálculo do ISSQN"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtclocacaoimovel__nfse10_vTotOper
+msgid "Valor total da operação com bem imóvel"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtclocacaoimovel__nfse10_vTotOper
+msgid ""
+"Valor total da operação com bem imóvel (Informar o valor total da operação "
+"de locação, cessão onerosa ou arrendamento de bens imóveis, associado ao "
+"aluguel, renda ou equivalente, conforme art. 255 da LC 214/2025). Não deverá "
+"ser inserido neste campo o valor proporcional do coproprietário."
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -2949,6 +2950,32 @@ msgstr ""
 msgid ""
 "Valor total das retenções de tributos da NFS-e.\n"
 "Valor total de retenções (R$) = Σ(vRetCP + vRetIRRF+ vRetCSLL + ISSQN*)"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtclocacaoimovel__nfse10_vDescCondTot
+msgid "Valor total do Desconto Condicionado"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtclocacaoimovel__nfse10_vDescCondTot
+msgid ""
+"Valor total do Desconto Condicionado (Informar o valor total do desconto "
+"incondicionado na operação de locação, cessão onerosa ou arrendamento de "
+"bens imóveis)"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtclocacaoimovel__nfse10_vDescIncondTot
+msgid "Valor total do Desconto Incondicionado"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcrtclocacaoimovel__nfse10_vDescIncondTot
+msgid ""
+"Valor total do Desconto Incondicionado (Informar o valor total do desconto "
+"incondicionado na operação de locação, cessão onerosa ou arrendamento de "
+"bens imóveis)"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -3010,9 +3037,19 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfoibscbs__nfse10_bensMoveis
+msgid "bensMoveis"
+msgstr ""
+
+#. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "com a utilização do Código de Verificação.<br/>"
 msgstr "com a utilização do Código de Verificação.<br/>"
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcinfoimovel__nfse10_gUnidImob
+msgid "gUnidImob"
+msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtctotaltribregular__nfse10_pAliqEfeRegCBS
@@ -3062,11 +3099,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocdedred__nfse10_vDedutivelRedutivel
-msgid "vDedutivelRedutivel"
-msgstr ""
-
-#. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tctribtotalmonet__nfse10_vTotTribEst
 msgid "vTotTribEst"
 msgstr ""
@@ -3080,6 +3112,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtctotaltribregular__nfse10_vTribRegIBSMun
 msgid "vTribRegIBSMun"
 msgstr ""
+
+#~ msgid "Nfse10 Docdedred Tclistadocdedred"
+#~ msgstr "Documentos de dedução/redução da lista de documentos"
+
+#~ msgid "Nfse10 Documentos Tcrtcinforeerepres"
+#~ msgstr "Documentos da informação de reembolso/repasse/ressarcimento"
 
 #~ msgid "0,00"
 #~ msgstr "0,00"
