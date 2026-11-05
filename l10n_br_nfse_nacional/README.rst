@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ==============
 NFS-e Nacional
 ==============
@@ -17,7 +13,7 @@ NFS-e Nacional
 .. |badge1| image:: https://img.shields.io/badge/maturity-Alpha-red.png
     :target: https://odoo-community.org/page/development-status
     :alt: Alpha
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
@@ -173,8 +169,8 @@ Known issues / Roadmap
 - Emissão, rejeição legível, cancelamento pelo evento ``101101`` e
   consulta de cancelamento feito fora do Odoo.
 - DANFSe gerado do XML autorizado.
-- Grupo ``IBSCBS`` da DPS (leiaute 1.01, reforma tributária) montado a
-  partir do ``cClassTrib``, do ``CST`` e do indicador de operação
+- Grupo ``IBSCBS`` da DPS (leiaute 1.04.01, reforma tributária) montado
+  a partir do ``cClassTrib``, do ``CST`` e do indicador de operação
   (``cIndOp``) da linha.
 
 **Limitações conhecidas**
@@ -190,9 +186,11 @@ Known issues / Roadmap
   (herdado do produto e editável na linha): quem tem a classificação mas
   não informou o indicador nem o CST recebe a DPS sem o grupo, com o
   motivo registrado no log.
-- No grupo ``IBSCBS``, ``finNFSe`` e ``indDest`` saem como ``"0"``: o
-  leiaute 1.01 só tem ``"0"`` (NFS-e regular) para ``finNFSe`` e o
-  ``indDest = "1"`` depende do grupo ``dest``, ainda não exportado.
+- No grupo ``IBSCBS``, ``CST`` e ``cClassTrib`` saem direto em
+  ``valores/trib`` e o ``indDest`` sai como ``"0"``: o leiaute 1.04.01
+  (NT 009) tirou o ``finNFSe`` do grupo (ele agora vai em ``infDPS``,
+  obrigatório e sempre ``"0"``) e o ``indDest = "1"`` depende do grupo
+  ``dest``, ainda não exportado.
 - CNAB e cobrança bancária não se aplicam a este módulo.
 - Não existe inutilização de numeração para a NFS-e Nacional (a
   numeração da DPS é livre).

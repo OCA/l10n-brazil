@@ -11,6 +11,7 @@ erpbrasil.edoc
 erpbrasil.transmissao
 nfelib
 nfelib>=3.2.0
+nfelib>=3.3.0
 nfelib[soap]>=3.2.0
 nfselib.paulistana
 num2words
