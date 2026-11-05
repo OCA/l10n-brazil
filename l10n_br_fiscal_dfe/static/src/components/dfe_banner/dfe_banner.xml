@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Copyright 2026 Engenere (<https://engenere.one>)
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<templates xml:space="preserve">
+
+    <t t-name="l10n_br_fiscal_dfe.DfeBanner">
+        <div
+            t-if="state.data"
+            class="o_dfe_banner container-fluid border-bottom py-3 px-4 bg-view"
+        >
+            <div class="mb-3">
+                <button
+                    type="button"
+                    class="btn btn-primary me-2 o_dfe_banner_search_all"
+                    t-on-click="onSearchAll"
+                >
+                    <i class="fa fa-search me-1" />Search All
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-secondary o_dfe_banner_specific_search"
+                    t-on-click="onSpecificSearch"
+                >
+                    <i class="fa fa-key me-1" />Specific Search
+                </button>
+            </div>
+
+            <div
+                t-if="state.data.is_homologation"
+                class="alert alert-warning d-flex align-items-center mb-3"
+                role="alert"
+            >
+                <i class="fa fa-exclamation-triangle me-2 fs-4" />
+                <span>DF-e environment is set to <b>Homologação</b> (testing).</span>
+            </div>
+
+            <div
+                t-if="state.data.inactivity_warning"
+                class="alert alert-warning d-flex align-items-center mb-3"
+                role="alert"
+            >
+                <i class="fa fa-exclamation-triangle me-2 fs-4" />
+                <span t-esc="inactivityMessage" />
+            </div>
+
+            <div class="row g-3 align-items-stretch">
+                <div class="col-sm-6 col-xl">
+                    <div class="o_dfe_banner_tile border rounded h-100 p-3 shadow-sm">
+                        <div
+                            class="d-flex align-items-center justify-content-between mb-1"
+                        >
+                            <div class="d-flex align-items-center">
+                                <i class="fa fa-clock-o text-primary me-2" />
+                                <span class="text-muted small fw-bold">Last Query</span>
+                            </div>
+                            <button
+                                t-if="state.data.log_action_id"
+                                type="button"
+                                class="btn btn-sm btn-outline-primary py-0 px-1"
+                                title="View query logs"
+                                t-on-click="() => this.openAction(state.data.log_action_id)"
+                            >
+                                <i class="fa fa-external-link" />
+                            </button>
+                        </div>
+                        <div
+                            class="fs-5 fw-bold"
+                            t-esc="formatDateTime(state.data.last_query)"
+                        />
+                        <div
+                            t-if="state.data.last_status"
+                            class="text-muted small text-truncate mt-1"
+                            t-att-title="state.data.last_status"
+                        >
+                            <t t-esc="state.data.last_status_code" /> - <t
+                            t-esc="state.data.last_status"
+                        />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-xl">
+                    <div class="o_dfe_banner_tile border rounded h-100 p-3 shadow-sm">
+                        <div class="d-flex align-items-center mb-1">
+                            <i class="fa fa-calendar text-primary me-2" />
+                            <span class="text-muted small fw-bold">Next Query</span>
+                        </div>
+                        <div
+                            class="fs-5 fw-bold"
+                            t-esc="formatDateTime(state.data.next_query)"
+                        />
+                        <div class="mt-1">
+                            <span t-if="state.data.auto_fetch" class="badge bg-success">
+                                <i class="fa fa-check me-1" />Auto-fetch active
+                            </span>
+                            <span t-else="" class="badge bg-secondary">
+                                <i class="fa fa-pause me-1" />Auto-fetch off
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-xl">
+                    <div class="o_dfe_banner_tile border rounded h-100 p-3 shadow-sm">
+                        <div
+                            class="d-flex align-items-center justify-content-between mb-1"
+                        >
+                            <div class="d-flex align-items-center">
+                                <i class="fa fa-signal text-info me-2" />
+                                <span class="text-muted small fw-bold">NSU</span>
+                            </div>
+                            <button
+                                t-if="state.data.nsu_action_id"
+                                type="button"
+                                class="btn btn-sm btn-outline-info py-0 px-1"
+                                title="View NSU records"
+                                t-on-click="() => this.openAction(state.data.nsu_action_id)"
+                            >
+                                <i class="fa fa-external-link" />
+                            </button>
+                        </div>
+                        <div class="d-flex align-items-baseline gap-1">
+                            <span class="fs-5 fw-bold" t-esc="state.data.last_nsu" />
+                            <span class="text-muted small">/ <t
+                                t-esc="state.data.max_nsu"
+                            /></span>
+                        </div>
+                        <div class="mt-1">
+                            <span t-if="state.data.nsu_synced" class="badge bg-success">
+                                <i class="fa fa-check me-1" />Synced
+                            </span>
+                            <span t-else="" class="badge bg-warning text-dark">
+                                <i class="fa fa-refresh me-1" />Pending
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-xl">
+                    <div class="o_dfe_banner_tile border rounded h-100 p-3 shadow-sm">
+                        <div class="d-flex align-items-center mb-1">
+                            <i class="fa fa-file-text-o text-success me-2" />
+                            <span
+                                class="text-muted small fw-bold"
+                            >Documents Today</span>
+                        </div>
+                        <div class="fs-5 fw-bold" t-esc="state.data.today_count" />
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-xl">
+                    <div class="o_dfe_banner_tile border rounded h-100 p-3 shadow-sm">
+                        <div class="d-flex align-items-center mb-1">
+                            <i class="fa fa-download text-warning me-2" />
+                            <span class="text-muted small fw-bold">Pending Import</span>
+                        </div>
+                        <div class="fs-5 fw-bold">
+                            <span
+                                t-if="state.data.pending_import_count"
+                                class="text-warning"
+                                t-esc="state.data.pending_import_count"
+                            />
+                            <span t-else="" class="text-success">0</span>
+                        </div>
+                        <div class="text-muted small mt-1">
+                            Complete documents not imported
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>
