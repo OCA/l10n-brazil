@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="True">
+    <!-- Bradesco CNAB 400 -->
+    <record
+        id="l10n_br_account_payment_order.cnab_config_bradesco_400"
+        model="l10n_br_cnab.config"
+    >
+        <field name="cnab_processor">brcobranca</field>
+    </record>
+
+    <!-- Modo de Pagamento cobrança Bradesco 240 -->
+    <record
+        id="l10n_br_account_payment_order.cnab_config_bradesco_240"
+        model="l10n_br_cnab.config"
+    >
+        <field name="cnab_processor">brcobranca</field>
+    </record>
+
+    <!-- Payment Mode Cobrança Unicred 400 -->
+    <record
+        id="l10n_br_account_payment_order.cnab_config_unicred_400"
+        model="l10n_br_cnab.config"
+    >
+        <field name="cnab_processor">brcobranca</field>
+    </record>
+
+    <!-- Payment Mode Cobrança Unicred 240 -->
+    <record
+        id="l10n_br_account_payment_order.cnab_config_unicred_240"
+        model="l10n_br_cnab.config"
+    >
+        <field name="cnab_processor">brcobranca</field>
+    </record>
+
+    <!-- Payment Mode Cobrança AILOS 240 -->
+    <record
+        id="l10n_br_account_payment_order.cnab_config_ailos_240"
+        model="l10n_br_cnab.config"
+    >
+        <field name="cnab_processor">brcobranca</field>
+    </record>
+
+    <!-- Modo de Pagamento cobrança Itau 240 -->
+    <record
+        id="l10n_br_account_payment_order.cnab_config_itau_240"
+        model="l10n_br_cnab.config"
+    >
+        <field name="cnab_processor">brcobranca</field>
+    </record>
+
+    <!-- Modo de Pagamento cobrança Itau 400 -->
+    <record
+        id="l10n_br_account_payment_order.cnab_config_itau_400"
+        model="l10n_br_cnab.config"
+    >
+        <field name="cnab_processor">brcobranca</field>
+    </record>
+
+    <!-- Modo de Pagamento cobrança Caixa Economica Federal 240 -->
+    <record
+        id="l10n_br_account_payment_order.cnab_config_cef_240"
+        model="l10n_br_cnab.config"
+    >
+        <field name="cnab_processor">brcobranca</field>
+    </record>
+
+    <!-- Modo de Pagamento cobrança Caixa Economica Federal 400 -->
+    <record
+        id="l10n_br_account_payment_order.cnab_config_cef_400"
+        model="l10n_br_cnab.config"
+    >
+        <field name="cnab_processor">brcobranca</field>
+    </record>
+
+    <!-- Modo de Pagamento Cobrança SICRED 240 -->
+    <record
+        id="l10n_br_account_payment_order.cnab_config_sicredi_240"
+        model="l10n_br_cnab.config"
+    >
+        <field name="cnab_processor">brcobranca</field>
+    </record>
+
+    <!-- Payment Mode Cobrança Banco do Brasil 400 -->
+    <record
+        id="l10n_br_account_payment_order.cnab_config_bb_400"
+        model="l10n_br_cnab.config"
+    >
+        <field name="cnab_processor">brcobranca</field>
+    </record>
+
+    <!-- Payment Mode Cobrança Banco do Brasil 240 -->
+    <record
+        id="l10n_br_account_payment_order.cnab_config_bb_240"
+        model="l10n_br_cnab.config"
+    >
+        <field name="cnab_processor">brcobranca</field>
+    </record>
+
+    <!-- Bradesco 400 -->
+    <record
+        id="l10n_br_account_payment_order.cnab_config_santander_400"
+        model="l10n_br_cnab.config"
+    >
+        <field name="cnab_processor">brcobranca</field>
+    </record>
+
+    <!-- Bradesco 240 -->
+    <record
+        id="l10n_br_account_payment_order.cnab_config_santander_240"
+        model="l10n_br_cnab.config"
+    >
+        <field name="cnab_processor">brcobranca</field>
+    </record>
+
+    <!-- Nordeste 400 -->
+    <record
+        id="l10n_br_account_payment_order.cnab_config_nordeste_400"
+        model="l10n_br_cnab.config"
+    >
+        <field name="cnab_processor">brcobranca</field>
+    </record>
+</odoo>

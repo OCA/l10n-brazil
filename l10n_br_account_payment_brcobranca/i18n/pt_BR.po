@@ -1,0 +1,241 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_account_payment_brcobranca
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2024-09-20 20:06+0000\n"
+"Last-Translator: Rodrigo Sottomaior Macedo "
+"<sottomaiormacedotec@sottomaiormacedo.tech>\n"
+"Language-Team: none\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.6.2\n"
+
+#. module: l10n_br_account_payment_brcobranca
+#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_journal__return_auto_reconcile
+msgid "Automatic Reconcile payment returns"
+msgstr "Reconciliar automaticamente as devoluções de pagamento"
+
+#. module: l10n_br_account_payment_brcobranca
+#. odoo-python
+#: code:addons/l10n_br_account_payment_brcobranca/constants/br_cobranca.py:0
+#, python-format
+msgid ""
+"BRCobranca API URL is not configured.\n"
+"\n"
+" Set the URL using one of the these methods:\n"
+"\n"
+"1. Set the environment variable: BRCOBRANCA_API_URL=http://"
+"boleto_cnab_api:9292\n"
+"2. Configure the URL in Odoo configuration file: brcobranca_api_url=http://"
+"boleto_cnab_api:9292\n"
+"3. Set the URL in System Parameters: brcobranca_api_url=http://"
+"boleto_cnab_api:9292\n"
+msgstr ""
+"A URL da API do BRCobranca não está configurada.\n"
+"\n"
+"Defina a URL usando um destes métodos:\n"
+"\n"
+"1. Defina a variável de ambiente: BRCOBRANCA_API_URL=http://"
+"boleto_cnab_api:9292\n"
+"2. Configure a URL no arquivo de configuração do Odoo: "
+"brcobranca_api_url=http://boleto_cnab_api:9292\n"
+"3. Defina a URL nos Parâmetros do Sistema: brcobranca_api_url=http://"
+"boleto_cnab_api:9292\n"
+
+#. module: l10n_br_account_payment_brcobranca
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_brcobranca.selection__account_journal__import_type__cnab240
+msgid "CNAB 240"
+msgstr "CNAB 240"
+
+#. module: l10n_br_account_payment_brcobranca
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_brcobranca.selection__account_journal__import_type__cnab400
+msgid "CNAB 400"
+msgstr "CNAB 400"
+
+#. module: l10n_br_account_payment_brcobranca
+#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move_line__cnab_returned_ref
+msgid "CNAB Returned Reference"
+msgstr "Referência Retornada CNAB"
+
+#. module: l10n_br_account_payment_brcobranca
+#: model:ir.model.fields,help:l10n_br_account_payment_brcobranca.field_account_journal__import_type
+msgid ""
+"Choose here the method by which you want to import account moves for this "
+"journal."
+msgstr ""
+"Escolha aqui o método pelo qual você deseja importar lançamentos de diário "
+"para este diário."
+
+#. module: l10n_br_account_payment_brcobranca
+#: model:ir.model.fields,help:l10n_br_account_payment_brcobranca.field_account_journal__return_auto_reconcile
+msgid "Enable automatic payment return reconciliation."
+msgstr "Habilitar reconciliação do retorno de pagamento automático."
+
+#. module: l10n_br_account_payment_brcobranca
+#: model:ir.ui.menu,name:l10n_br_account_payment_brcobranca.move_importer_menu_brcobranca
+msgid "Import Batch File"
+msgstr "Importar Arquivo de Lote"
+
+#. module: l10n_br_account_payment_brcobranca
+#: model:ir.model,name:l10n_br_account_payment_brcobranca.model_credit_statement_import
+msgid "Import Batch File wizard"
+msgstr "Importar Arquivo de Lote wizard"
+
+#. module: l10n_br_account_payment_brcobranca
+#. odoo-python
+#: code:addons/l10n_br_account_payment_brcobranca/models/account_move.py:0
+#, python-format
+msgid ""
+"It is not possible generated boletos\n"
+"Make sure the Invoice are in Confirm state and Payment Mode method are CNAB."
+msgstr ""
+"Não é possível gerar boletos\n"
+"Esteja certo de que as Faturas estejam no estado Confirmado e Método do Modo "
+"de Pagamento sejam CNAB."
+
+#. module: l10n_br_account_payment_brcobranca
+#: model:ir.model,name:l10n_br_account_payment_brcobranca.model_account_journal
+msgid "Journal"
+msgstr "Diário"
+
+#. module: l10n_br_account_payment_brcobranca
+#: model:ir.model,name:l10n_br_account_payment_brcobranca.model_account_move
+msgid "Journal Entry"
+msgstr "Lançamento de Diário"
+
+#. module: l10n_br_account_payment_brcobranca
+#: model:ir.model,name:l10n_br_account_payment_brcobranca.model_account_move_line
+msgid "Journal Item"
+msgstr "Item de Diário"
+
+#. module: l10n_br_account_payment_brcobranca
+#. odoo-python
+#: code:addons/l10n_br_account_payment_brcobranca/models/account_journal.py:0
+#, python-format
+msgid ""
+"Missing column! Column %s you try to import is not present in the move line!"
+msgstr ""
+"Coluna faltando! Coluna %s que você tenta importar não está presente no item "
+"de diário!"
+
+#. module: l10n_br_account_payment_brcobranca
+#. odoo-python
+#: code:addons/l10n_br_account_payment_brcobranca/models/account_journal.py:0
+#, python-format
+msgid "Nothing to import: The file is empty"
+msgstr "Nada a importar: O arquivo está vazio"
+
+#. module: l10n_br_account_payment_brcobranca
+#: model:ir.model,name:l10n_br_account_payment_brcobranca.model_account_payment_line
+msgid "Payment Lines"
+msgstr "Linhas de Pagamento"
+
+#. module: l10n_br_account_payment_brcobranca
+#: model:ir.model,name:l10n_br_account_payment_brcobranca.model_account_payment_mode
+msgid "Payment Modes"
+msgstr "Modos de Pagamento"
+
+#. module: l10n_br_account_payment_brcobranca
+#: model:ir.model,name:l10n_br_account_payment_brcobranca.model_account_payment_order
+msgid "Payment Order"
+msgstr "Ordem de Pagamento"
+
+#. module: l10n_br_account_payment_brcobranca
+#. odoo-python
+#: code:addons/l10n_br_account_payment_brcobranca/models/account_journal.py:0
+#, python-format
+msgid "Statement import error The statement cannot be created: %(st)s"
+msgstr ""
+"Erro de importação de declaração A declaração não pode ser criada: %(st)s"
+
+#. module: l10n_br_account_payment_brcobranca
+#. odoo-python
+#: code:addons/l10n_br_account_payment_brcobranca/constants/br_cobranca.py:0
+#, python-format
+msgid "The Bank %(bank)s CNAB %(cnab_code)s is not implemented in BRCobranca."
+msgstr ""
+"O Banco %(bank)s CNAB %(cnab_code)s não está implementada em BRCobranca."
+
+#. module: l10n_br_account_payment_brcobranca
+#. odoo-python
+#: code:addons/l10n_br_account_payment_brcobranca/models/account_payment_order.py:0
+#, python-format
+msgid ""
+"The CNAB %(cnab_type)s for Bank %(bank_name)s are not implemented in "
+"BRCobranca."
+msgstr ""
+"O CNAB %(cnab_type)s para Banco %(bank_name)s não são implementadas em "
+"BRCobranca."
+
+#. module: l10n_br_account_payment_brcobranca
+#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_journal__import_type
+msgid "Type of import"
+msgstr "Tipo de importação"
+
+#~ msgid "Display Name"
+#~ msgstr "Nome Exibido"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificação em"
+
+#, python-format
+#~ msgid "Statement import error The statement cannot be created: %s"
+#~ msgstr "Erro de importação de extrato. O extrato não pode ser criado: %s"
+
+#, python-format
+#~ msgid "The Bank {} CNAB {} is not implemented in BRCobranca."
+#~ msgstr "O banco {} CNAB {} não está implantado no BRCobranca."
+
+#, python-format
+#~ msgid "The CNAB {} for Bank {} are not implemented in BRCobranca."
+#~ msgstr "O CNAB {} para o banco {} não está implementado no BRCobranca."
+
+#, python-format
+#~ msgid ""
+#~ "Inform the URL where BRCobranca API are running in Odoo Configuration "
+#~ "file or if you are using docky in the docker-compose.yml file. Example:\n"
+#~ "BRCOBRANCA_API_URL=http://boleto_cnab_api:9292"
+#~ msgstr ""
+#~ "Informar a URL onde a API BR Cobranca está executando no arquivo de "
+#~ "Configuração Odoo ou , caso esteja usando docky no arquivo docker-compose."
+#~ "yml. Exemplo:\n"
+#~ "BRCOBRANCA_API_URL=http://boleto_cnab_api:9292"
+
+#~ msgid "Boleto PDF"
+#~ msgstr "Boleto PDF"
+
+#~ msgid "Code (Do Not Modify)"
+#~ msgstr "Código (não modificar)"
+
+#~ msgid "Imprimir Boleto"
+#~ msgstr "Imprimir Boleto"
+
+#~ msgid ""
+#~ "This code is used in the code of the Odoo module that handles this "
+#~ "payment method. Therefore, if you change it, the generation of the "
+#~ "payment file may fail."
+#~ msgstr ""
+#~ "Este código é usado no código do módulo Odoo que lida com este método de "
+#~ "pagamento. Portanto, se você alterá-lo, a geração do arquivo de pagamento "
+#~ "pode falhar."
+
+#~ msgid "Bank Payment Lines"
+#~ msgstr "Linhas de Pagamento Bancário"
+
+#, python-format
+#~ msgid "The Bank %s CNAB %s is not implemented in BRCobranca."
+#~ msgstr "O Banco %s CNAB %s não implementado no BRCobranca."
+
+#, python-format
+#~ msgid "The CNAB %s for Bank %s are not implemented in BRCobranca."
+#~ msgstr "O CNAB %s para Banco %s não implementado no BRCobranca."
