@@ -895,6 +895,22 @@ class TestDFe(TransactionCase):
         with self.assertRaises(UserError):
             dfe_doc.import_document()
 
+    def test_cancelled_nfe_import_is_refused(self):
+        dfe_doc = self.env["l10n_br_fiscal_dfe.document"].create(
+            {
+                "access_key": "35200159594315000157550010000000012062777162",
+                "company_id": self.company.id,
+                "fiscal_type": "nfe",
+                "document_state": "3",
+            }
+        )
+        with self.assertRaises(UserError) as cancelled:
+            dfe_doc.with_context(lang="en_US").import_document()
+        self.assertEqual(
+            str(cancelled.exception),
+            "This document was cancelled at the source.",
+        )
+
     # ── Distribution log tests ────────────────────────────────────────────
 
     def test_distribution_log_display_name(self):
