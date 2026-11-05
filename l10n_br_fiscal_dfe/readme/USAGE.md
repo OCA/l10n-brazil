@@ -7,3 +7,7 @@ específicos de cada documento fiscal:
 O menu **Faturamento > Consultas DF-e** também dá acesso às visões
 genéricas (todos os documentos, registros DF-e brutos e logs de
 distribuição) para depuração.
+
+O botão **Importar** só segue quando o documento está autorizado e ainda
+sem fatura de fornecedor. Cancelado ou denegado na origem, já lançado ou
+já vinculado a uma fatura fica bloqueado, e o motivo aparece no documento.
