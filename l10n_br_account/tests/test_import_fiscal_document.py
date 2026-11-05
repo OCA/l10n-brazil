@@ -175,3 +175,60 @@ class TestImportFiscalDocument(AccountMoveBRCommon):
             self.env["account.move"].sudo().import_fiscal_document(
                 document, move_type="out_invoice"
             )
+
+    def _vendor_bill_for(self, document):
+        move_form = (
+            self.env["account.move"]
+            .sudo()
+            .import_fiscal_document(document, move_type="in_invoice")
+        )
+        return self.env["account.move"].sudo().browse(move_form.id)
+
+    def _import_wizard(self, document):
+        if not document.company_id:
+            document.company_id = self.env.company
+        return self.env["l10n_br_fiscal.document.import.wizard"].create(
+            {
+                "company_id": document.company_id.id,
+                "document_key": document.document_key,
+            }
+        )
+
+    def test_a_linked_bill_blocks_the_import_confirmation(self):
+        document = self.fiscal_document_to_import
+        document.document_key = "35200159594315000157550010000000012062777169"
+        move = self._vendor_bill_for(document)
+        self.assertEqual(move.state, "draft")
+        self.assertEqual(move.fiscal_document_id, document)
+        before = self.env["account.move"].search_count([])
+        with self.assertRaises(UserError) as blocked:
+            self._import_wizard(document).with_context(
+                lang="en_US"
+            ).action_import_and_open_move()
+        self.assertIn(
+            move.with_context(lang="en_US").display_name, str(blocked.exception)
+        )
+        self.assertIn("linked", str(blocked.exception))
+        self.assertEqual(self.env["account.move"].search_count([]), before)
+
+    def test_a_posted_bill_blocks_the_import_confirmation(self):
+        document = self.fiscal_document_to_import
+        document.document_key = "35200159594315000157550010000000012062777168"
+        move = self._vendor_bill_for(document)
+        move.state = "posted"
+        before = self.env["account.move"].search_count([])
+        with self.assertRaises(UserError) as blocked:
+            self._import_wizard(document).with_context(
+                lang="en_US"
+            ).action_import_and_open_move()
+        self.assertIn(
+            move.with_context(lang="en_US").display_name, str(blocked.exception)
+        )
+        self.assertIn("posted", str(blocked.exception))
+        self.assertEqual(self.env["account.move"].search_count([]), before)
+
+    def test_an_available_document_passes_the_bill_check(self):
+        document = self.fiscal_document_to_import
+        document.document_key = "35200159594315000157550010000000012062777167"
+        self._import_wizard(document)._check_imported_bill_allowed()
+        self.assertFalse(document._vendor_bill_import_block_reason())

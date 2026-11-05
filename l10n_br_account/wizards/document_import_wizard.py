@@ -3,6 +3,7 @@
 
 
 from odoo import fields, models
+from odoo.exceptions import UserError
 
 
 class DocumentImportWizard(models.TransientModel):
@@ -22,6 +23,42 @@ class DocumentImportWizard(models.TransientModel):
     # to the next imported account.move from there.
     first_imported_move_id = fields.Integer()
 
+    def _check_imported_bill_allowed(self):
+        """Refuse a vendor bill the inbox or an existing bill already blocks.
+
+        Runs before the fiscal document is created, so a refused confirmation
+        leaves no invoice behind.
+        """
+        self.ensure_one()
+        if self.file and not (self.document_key or "").replace(" ", ""):
+            self._onchange_file()
+        key = (self.document_key or "").replace(" ", "")
+        if not key:
+            return
+        inbox_model = self.env.get("l10n_br_fiscal_dfe.document")
+        if inbox_model is not None:
+            inbox = inbox_model.search(
+                [
+                    ("access_key", "=", key),
+                    ("company_id", "=", self.company_id.id),
+                ],
+                limit=1,
+            )
+            if inbox:
+                inbox._check_import_allowed()
+        document = self.env["l10n_br_fiscal.document"].search(
+            [
+                ("document_key", "=", key),
+                ("company_id", "=", self.company_id.id),
+            ],
+            limit=1,
+        )
+        if not document:
+            return
+        reason = document._vendor_bill_import_block_reason()
+        if reason:
+            raise UserError(reason)
+
     def action_import_and_open_move(self):
         """
         This is the import wizard confirmation action that will
@@ -30,6 +67,7 @@ class DocumentImportWizard(models.TransientModel):
         the next file if any, either it redirect to the imported
         account.move(s) at the end of the attachments sequence.
         """
+        self._check_imported_bill_allowed()
         _binding, fiscal_document = self._import_edoc()
         fiscal_document._check_document_import()
         move_type = f"{self.fiscal_operation_type}_invoice"
