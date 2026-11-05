@@ -6,7 +6,7 @@
 import base64
 from unittest import mock
 
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
 from odoo.tests.common import TransactionCase
 
 from odoo.addons.l10n_br_fiscal_dfe.tools import utils
@@ -200,3 +200,36 @@ class TestDfeBase(TransactionCase):
             [("id", "=", inbox.id), ("fiscal_document_id", "=", False)]
         )
         self.assertFalse(linked)
+
+    def test_import_block_reason_follows_the_source_state(self):
+        document = self.env["l10n_br_fiscal_dfe.document"].create(
+            {
+                "access_key": "35200159594315000157550010000000012062777160",
+                "company_id": self.company.id,
+                "fiscal_type": "nfe",
+                "document_state": "1",
+            }
+        )
+        english = document.with_context(lang="en_US")
+        self.assertFalse(english.import_block_reason)
+        document.document_state = "3"
+        self.assertEqual(
+            english.import_block_reason,
+            "This document was cancelled at the source.",
+        )
+        with self.assertRaises(UserError) as cancelled:
+            english._check_import_allowed()
+        self.assertEqual(
+            str(cancelled.exception),
+            "This document was cancelled at the source.",
+        )
+        document.document_state = "2"
+        self.assertEqual(
+            english.import_block_reason,
+            "This document was denied at the source.",
+        )
+        document.document_state = "9"
+        self.assertEqual(
+            english.import_block_reason,
+            "Only an authorized document can be imported.",
+        )

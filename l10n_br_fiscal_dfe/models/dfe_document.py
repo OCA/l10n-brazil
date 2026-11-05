@@ -122,6 +122,13 @@ class L10nBrFiscalDfeDocument(models.Model):
         "the document.",
     )
 
+    import_block_reason = fields.Char(
+        string="Block Reason",
+        compute="_compute_import_block_reason",
+        help="Why this document cannot be imported. Empty when the import "
+        "can proceed.",
+    )
+
     @api.depends("access_key")
     def _compute_partner_id(self):
         Partner = self.env["res.partner"]
@@ -328,6 +335,70 @@ class L10nBrFiscalDfeDocument(models.Model):
             ),
             "target": "self",
         }
+
+    @api.depends("document_state", "access_key", "company_id", "fiscal_document_id")
+    def _compute_import_block_reason(self):
+        for record in self:
+            record.import_block_reason = record._get_import_block_reason()
+
+    def _get_import_block_reason(self):
+        """Return why this inbox document cannot be imported.
+
+        An authorized document with no vendor bill is available. A missing
+        source state only blocks once the complete XML is already here.
+        """
+        self.ensure_one()
+        state = self.document_state
+        if state == "3":
+            return _("This document was cancelled at the source.")
+        if state == "2":
+            return _("This document was denied at the source.")
+        if state and state != "1":
+            return _("Only an authorized document can be imported.")
+        if state == "1" or self._has_complete_xml():
+            if state != "1":
+                return _("Only an authorized document can be imported.")
+            return self._get_import_invoice_block_reason()
+        return False
+
+    def _has_complete_xml(self):
+        self.ensure_one()
+        complete = self._get_complete_dfe()
+        return bool(complete and complete.attachment_id)
+
+    def _same_company_fiscal_document(self):
+        """Fiscal document of this company that shares the access key."""
+        self.ensure_one()
+        document = self.fiscal_document_id
+        if document and document.company_id == self.company_id:
+            return document
+        if not self.access_key:
+            return self.env["l10n_br_fiscal.document"]
+        return self.env["l10n_br_fiscal.document"].search(
+            [
+                ("document_key", "=", self.access_key),
+                ("company_id", "=", self.company_id.id),
+            ],
+            limit=1,
+        )
+
+    def _get_import_invoice_block_reason(self):
+        """Block a document already posted or linked to a vendor bill.
+
+        The bill lives on the fiscal document once accounting is installed.
+        A cancelled bill does not keep the document unavailable.
+        """
+        self.ensure_one()
+        document = self._same_company_fiscal_document()
+        if not document or not hasattr(document, "_vendor_bill_import_block_reason"):
+            return False
+        return document._vendor_bill_import_block_reason()
+
+    def _check_import_allowed(self):
+        self.ensure_one()
+        reason = self._get_import_block_reason()
+        if reason:
+            raise UserError(reason)
 
     def import_document(self):
         """Import the document into the fiscal system.

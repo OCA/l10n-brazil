@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ======================
 Monitor de DF-e (Base)
 ======================
@@ -17,7 +13,7 @@ Monitor de DF-e (Base)
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
@@ -160,6 +156,11 @@ específicos de cada documento fiscal:
 O menu **Faturamento > Consultas DF-e** também dá acesso às visões
 genéricas (todos os documentos, registros DF-e brutos e logs de
 distribuição) para depuração.
+
+O botão **Importar** só segue quando o documento está autorizado e ainda
+sem fatura de fornecedor. Cancelado ou denegado na origem, já lançado ou
+já vinculado a uma fatura fica bloqueado, e o motivo aparece no
+documento.
 
 Bug Tracker
 ===========
