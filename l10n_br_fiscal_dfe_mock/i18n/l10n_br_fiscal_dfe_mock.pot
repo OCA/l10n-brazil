@@ -27,7 +27,9 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_generate_wizard_form
 msgid ""
 "Authorized national NFS-e issued to this company, as the\n"
-"                    ADN distributes them."
+"                    ADN distributes them. A supplier cancellation is not a\n"
+"                    status on this note: register it later from the mock pool,\n"
+"                    as a new event."
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
@@ -97,6 +99,11 @@ msgstr ""
 #. module: l10n_br_fiscal_dfe_mock
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_generate_wizard_form
 msgid "Document Types"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe_mock.selection__dfe_mock_nsu__schema_type__evento
+msgid "EVENTO"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
@@ -222,10 +229,22 @@ msgid "NF-e"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe_mock/models/dfe_mock_nsu.py:0
+msgid "NF-e cancellation"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe_mock.selection__dfe_mock_generate_wizard__fiscal_type__nfse
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe_mock.selection__dfe_mock_nsu__fiscal_type__nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_search
 msgid "NFS-e"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe_mock/models/dfe_mock_nsu.py:0
+msgid "NFS-e cancellation"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
@@ -278,8 +297,40 @@ msgid "Quantity must be at least 1."
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe_mock/models/dfe_mock_nsu.py:0
+msgid ""
+"Queued %(count)s cancellation event(s). Run the NF-e distribution to store "
+"the event. The note stays authorized."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe_mock/models/dfe_mock_nsu.py:0
+msgid ""
+"Queued %(count)s cancellation event(s). Run the NFS-e distribution to update"
+" the inbox."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model,name:l10n_br_fiscal_dfe_mock.model_l10n_br_nfe_md_event
 msgid "Recipient Manifestation"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_tree
+msgid "Register Cancellation"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.actions.server,name:l10n_br_fiscal_dfe_mock.action_register_nfe_cancellation_multi
+msgid "Register NF-e Cancellation"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#: model:ir.actions.server,name:l10n_br_fiscal_dfe_mock.action_register_nfse_cancellation_multi
+msgid "Register NFS-e Cancellation"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
@@ -298,6 +349,46 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_fiscal_dfe_mock/wizards/dfe_mock_generate_wizard.py:0
 msgid "Select at least one document type to generate."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe_mock/models/dfe_mock_nsu.py:0
+msgid ""
+"Select the NF-e summary or the complete NF-e. The cancellation is a new "
+"event in the feed, not a change of this row."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe_mock/models/dfe_mock_nsu.py:0
+msgid ""
+"Select the NFS-e note. The cancellation is a new event in the feed, not a "
+"change of this row."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe_mock/models/dfe_mock_nsu.py:0
+msgid "This NF-e already has a cancellation event in the mock pool."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe_mock/models/dfe_mock_nsu.py:0
+msgid "This NF-e note has no access key to cancel."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe_mock/models/dfe_mock_nsu.py:0
+msgid "This NFS-e already has a cancellation event in the mock pool."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe_mock
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe_mock/models/dfe_mock_nsu.py:0
+msgid "This NFS-e note has no access key to cancel."
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe_mock
