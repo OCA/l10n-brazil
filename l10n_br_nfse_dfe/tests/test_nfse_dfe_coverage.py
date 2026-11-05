@@ -532,6 +532,7 @@ class TestNfseDfeCoverage(TransactionCase):
                 "company_id": company.id,
                 "fiscal_type": "nfse",
                 "vat": "",
+                "document_state": "1",
             }
         )
         self.assertFalse(nfse_doc.partner_id)
