@@ -1,4 +1,5 @@
 # Copyright 2026 Engenere (<https://engenere.one>)
+# Copyright 2026 - TODAY Escodoo - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 
 import gzip
@@ -8,7 +9,7 @@ from unittest import mock
 from lxml import etree
 
 from odoo import fields
-from odoo.exceptions import AccessError
+from odoo.exceptions import AccessError, UserError
 from odoo.tests.common import TransactionCase
 
 from ..models.res_company import MockDfeClient
@@ -298,3 +299,65 @@ class TestDfeMockDistribution(TransactionCase):
         pretty = arch[arch.index('name="xml_pretty"') :]
         self.assertIn('widget="ace"', pretty)
         self.assertLess(pretty.index('widget="ace"'), pretty.index('readonly="1"'))
+
+    def _generate_proc_nfe(self):
+        wizard = self.env["dfe.mock.generate.wizard"].create(
+            {
+                "company_id": self.company.id,
+                "fiscal_type": "nfe",
+                "quantity": 1,
+                "generate_res_nfe": False,
+                "generate_proc_nfe": True,
+                "generate_res_evento": False,
+                "generate_proc_evento_nfe": False,
+            }
+        )
+        wizard.action_generate()
+        return self.env["dfe.mock.nsu"].search(
+            [
+                ("company_id", "=", self.company.id),
+                ("fiscal_type", "=", "nfe"),
+                ("schema_type", "=", "procNFe"),
+            ]
+        )
+
+    def _pull_nfe(self, reset_cursor=False):
+        vals = {"nfe_dfe_next_query": False}
+        if reset_cursor:
+            vals["nfe_last_nsu"] = "0"
+        self.company.sudo().write(vals)
+        self.company._dfe_document_distribution("nfe")
+
+    def test_nfe_cancellation_is_a_later_event(self):
+        """The proc stays authorized. The cancel is the next NSU."""
+        note = self._generate_proc_nfe()
+        note_xml = note.xml_content
+        self._pull_nfe(reset_cursor=True)
+        inbox = self.env["l10n_br_fiscal_dfe.document"].search(
+            [
+                ("company_id", "=", self.company.id),
+                ("fiscal_type", "=", "nfe"),
+                ("access_key", "=", note.access_key),
+            ]
+        )
+        self.assertEqual(inbox.document_state, "1")
+        action = note.action_register_nfe_cancellation()
+        self.assertEqual(action["type"], "ir.actions.client")
+        self.assertEqual(note.xml_content, note_xml)
+        event = note._nfe_cancellation_event()
+        self.assertEqual(event.schema_type, "procEventoNFe")
+        self.assertGreater(event.nsu, note.nsu)
+        self.assertIn("<tpEvento>110111</tpEvento>", event.xml_content)
+        self._pull_nfe()
+        inbox.invalidate_recordset()
+        self.assertEqual(inbox.document_state, "1")
+        self.assertIn("110111", inbox.dfe_ids.mapped("event_type_dfe"))
+        with self.assertRaises(UserError):
+            note.action_register_nfe_cancellation()
+
+    def test_nfe_cancellation_refuses_an_event_row(self):
+        note = self._generate_proc_nfe()
+        note.action_register_nfe_cancellation()
+        event = note._nfe_cancellation_event()
+        with self.assertRaises(UserError):
+            event.action_register_nfe_cancellation()
