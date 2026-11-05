@@ -476,11 +476,6 @@ msgid "Grupo de informações relativas"
 msgstr ""
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vDedRed
-msgid "Grupo de informações relativas (vDedRed)"
-msgstr ""
-
-#. module: l10n_br_nfse_nacional
 #: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_cServ
 #: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_cServ
 msgid "Grupo de informações relativas ao código do serviço prestado"
@@ -493,10 +488,10 @@ msgid "Grupo de informações relativas ao local da prestação do serviço"
 msgstr ""
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vDedRed
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vAjusteBC
 msgid ""
-"Grupo de informações relativas ao valores para dedução/redução do valor da "
-"base de cálculo (valor do serviço)"
+"Grupo de informações relativas ao valores para ajuste dos valores de base de"
+" cálculo"
 msgstr ""
 
 #. module: l10n_br_nfse_nacional
@@ -561,7 +556,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_tpImunidade
 msgid ""
 "Identificação da Imunidade do ISSQN – somente para o caso de Imunidade.\n"
-"Tipos de Imunidades:            \n"
+"Tipos de Imunidades:\n"
 "0 - Imunidade (tipo não informado na nota de origem);\n"
 "1 - Patrimônio, renda ou serviços, uns dos outros (CF88, Art 150, VI, a);\n"
 "2 - Templos de qualquer culto (CF88, Art 150, VI, b);\n"
@@ -582,6 +577,16 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move__nfse10_tpAmb
 #: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_tpAmb
 msgid "Identificação do Ambiente: 1 - Produção; 2 - Homologação"
+msgstr ""
+
+#. module: l10n_br_nfse_nacional
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_finNFSe
+msgid "Indicador da finalidade da emissão"
+msgstr ""
+
+#. module: l10n_br_nfse_nacional
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_finNFSe
+msgid "Indicador da finalidade da emissão de NFS-e"
 msgstr ""
 
 #. module: l10n_br_nfse_nacional
@@ -632,10 +637,10 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_cMotivoEmisTI
 msgid ""
 "Motivo da Emissão da DPS pelo Tomador/Intermediário:\n"
-"            1 - Importação de Serviço;\n"
-"            2 - Tomador/Intermediário obrigado a emitir NFS-e por legislação municipal;\n"
-"            3 - Tomador/Intermediário emitindo NFS-e por recusa de emissão pelo prestador;\n"
-"            4 - Tomador/Intermediário emitindo por rejeitar a NFS-e emitida pelo prestador;"
+"\t\t\t\t\t\t1 - Importação de Serviço;\n"
+"\t\t\t\t\t\t2 - Tomador/Intermediário obrigado a emitir NFS-e por legislação municipal;\n"
+"\t\t\t\t\t\t3 - Tomador/Intermediário emitindo NFS-e por recusa de emissão pelo prestador;\n"
+"\t\t\t\t\t\t4 - Tomador/Intermediário emitindo por rejeitar a NFS-e emitida pelo prestador;"
 msgstr ""
 
 #. module: l10n_br_nfse_nacional
@@ -848,8 +853,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_cLocEmi
 msgid ""
 "O código de município utilizado pelo Sistema Nacional NFS-e é o código definido para cada município pertencente ao ''Anexo V – Tabela de Código de Municípios do IBGE'', que consta ao final do Manual de Orientação ao Contribuinte do ISSQN para a Sefin Nacional NFS-e.\n"
-"            O município emissor da NFS-e é aquele município em que o emitente da DPS está cadastrado e autorizado a 'emitir uma NFS-e', ou seja, emitir uma DPS para que o sistema nacional valide as informações nela prestadas e gere a NFS-e correspondente para o emitente.\n"
-"            Para que o sistema nacional emita a NFS-e o município emissor deve ser conveniado e estar ativo no sistema nacional. Além disso o convênio do município deve permitir que os contribuintes do município utilize os emissores públicos do Sistema Nacional NFS-e"
+"\t\t\t\t\t\tO município emissor da NFS-e é aquele município em que o emitente da DPS está cadastrado e autorizado a 'emitir uma NFS-e', ou seja, emitir uma DPS para que o sistema nacional valide as informações nela prestadas e gere a NFS-e correspondente para o emitente.\n"
+"\t\t\t\t\t\tPara que o sistema nacional emita a NFS-e o município emissor deve ser conveniado e estar ativo no sistema nacional. Além disso o convênio do município deve permitir que os contribuintes do município utilize os emissores públicos do Sistema Nacional NFS-e"
 msgstr ""
 
 #. module: l10n_br_nfse_nacional
@@ -1116,12 +1121,6 @@ msgid "Valor do débito de PIS apuração própria (R$)."
 msgstr ""
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_vServ
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vServ
-msgid "Valor dos serviços em R$"
-msgstr ""
-
-#. module: l10n_br_nfse_nacional
 #: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_vDescIncond
 #: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vDescIncond
 msgid "Valor monetário"
@@ -1154,13 +1153,33 @@ msgstr ""
 #. module: l10n_br_nfse_nacional
 #: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_vDescCond
 #: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vDescCond
-msgid "Valor monetário do desconto condicionado (R$)"
+msgid ""
+"Valor monetário do desconto condicionado (R$). (Para os códigos de "
+"tributação nacional do subitem 99.03, vDescCond = pCopropriedade x "
+"vDescCondTot)"
 msgstr ""
 
 #. module: l10n_br_nfse_nacional
 #: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_vDescIncond
 #: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vDescIncond
-msgid "Valor monetário do desconto incondicionado (R$)"
+msgid ""
+"Valor monetário do desconto incondicionado (R$). (Para os códigos de "
+"tributação nacional do subitem 99.03, vDescIncond = pCopropriedade x "
+"vDescIncondTot)"
+msgstr ""
+
+#. module: l10n_br_nfse_nacional
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_vServ
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vServ
+msgid "Valor monetário do serviço (R$)"
+msgstr ""
+
+#. module: l10n_br_nfse_nacional
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_vServ
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vServ
+msgid ""
+"Valor monetário do serviço (R$). (Para os códigos de tributação nacional do "
+"subitem 99.03, vServ = pCopropriedade x vTotOper)"
 msgstr ""
 
 #. module: l10n_br_nfse_nacional
@@ -1292,6 +1311,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move__nfse10_toma
 #: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_toma
 msgid "toma"
+msgstr ""
+
+#. module: l10n_br_nfse_nacional
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vAjusteBC
+msgid "vAjusteBC"
 msgstr ""
 
 #. module: l10n_br_nfse_nacional
