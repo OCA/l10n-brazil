@@ -12,6 +12,7 @@ erpbrasil.transmissao
 nfelib
 nfelib>=2.6.0
 nfelib>=3.2.0
+nfelib>=3.3.0
 nfselib.paulistana
 num2words
 phonenumbers

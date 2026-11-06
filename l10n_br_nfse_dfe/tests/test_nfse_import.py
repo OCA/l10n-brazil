@@ -172,6 +172,15 @@ class TestNfseImport(TransactionCase):
         self.assertIn(line.pis_tax_id, line.fiscal_tax_ids)
         self.assertIn(line.cofins_tax_id, line.fiscal_tax_ids)
 
+    def test_import_reads_the_nt009_ibs_cbs_classification(self):
+        """NT 009 moved CST and cClassTrib out of the gIBSCBS group."""
+        parsed = parse_nfse_xml(_reform_nfse_xml(nt009_layout=True))
+        self.assertEqual(parsed["ibs_cbs_cst"], "200")
+        self.assertEqual(parsed["tax_classification_code"], "200052")
+        self.assertEqual(parsed["ibs_value"], 2.50)
+        self.assertEqual(parsed["cbs_value"], 22.53)
+        self.assertEqual(parsed["pis_value"], 25.44)
+
     def test_import_creates_unknown_provider(self):
         cnpj = "12345678000195"
         self.assertFalse(
@@ -248,9 +257,21 @@ class TestNfseImport(TransactionCase):
         self.assertEqual(document.fiscal_line_ids.product_id, product)
 
 
-def _reform_nfse_xml():
-    """Minimal national NFS-e with the IBS/CBS layout of a real inbound note."""
+def _reform_nfse_xml(nt009_layout=False):
+    """Minimal national NFS-e with the IBS/CBS layout of a real inbound note.
+
+    ``nt009_layout`` writes CST and cClassTrib under ``valores/trib``, where
+    leiaute 1.04.01 (NT 009) puts them. The default keeps them inside the
+    ``gIBSCBS`` group of the previous layout, as notes already authorized do.
+    """
     key = "3" * 50
+    classification = (
+        "<valores><trib><CST>200</CST><cClassTrib>200052</cClassTrib>"
+        "<gIBSCBS><cCredPres>01</cCredPres></gIBSCBS></trib></valores>"
+        if nt009_layout
+        else "<valores><trib><gIBSCBS><CST>200</CST>"
+        "<cClassTrib>200052</cClassTrib></gIBSCBS></trib></valores>"
+    )
     return f"""<?xml version="1.0" encoding="UTF-8"?>
 <NFSe xmlns="http://www.sped.fazenda.gov.br/nfse">
   <infNFSe Id="NFS{key}">
@@ -325,10 +346,7 @@ def _reform_nfse_xml():
           </trib>
         </valores>
         <IBSCBS>
-          <valores><trib><gIBSCBS>
-            <CST>200</CST>
-            <cClassTrib>200052</cClassTrib>
-          </gIBSCBS></trib></valores>
+          {classification}
         </IBSCBS>
       </infDPS>
     </DPS>

@@ -14,8 +14,7 @@ from nfelib import CommonMixin
 from nfelib.nfse.bindings.v1_0.dps_v1_01 import Dps
 from nfelib.nfse.bindings.v1_0.ped_reg_evento_v1_01 import PedRegEvento
 from nfelib.nfse.bindings.v1_0.tipos_complexos_v1_01 import (
-    TcrtcinfoTributosIbscbs,
-    TcrtcinfoTributosSitClas,
+    TcrtcinfoTribIbscbs,
     TcrtcinfoValoresIbscbs,
 )
 from nfelib.nfse.bindings.v1_0.tipos_eventos_v1_01 import (
@@ -91,6 +90,10 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
     nfse10_nDPS = fields.Char(related="document_number")
     nfse10_dCompet = fields.Char(compute="_compute_nfse10_dates")
     nfse10_tpEmit = fields.Selection(default="1")
+    # Leiaute 1.04.01 (NT 009) moved finNFSe from the IBSCBS group to infDPS,
+    # where it is mandatory. The schema only allows "0" (regular NFS-e): a
+    # substitution is declared by its own subst group.
+    nfse10_finNFSe = fields.Selection(default="0")
     nfse10_cLocEmi = fields.Char(related="company_id.partner_id.city_id.ibge_code")
 
     nfse10_prest = fields.Many2one("res.company", related="company_id")
@@ -212,7 +215,7 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
         return False
 
     def _export_tag_nfse_10_ibscbs(self, xsd_fields, class_obj, export_dict):
-        """Export the IBSCBS group declared in the DPS (leiaute 1.01, RTC).
+        """Export the IBSCBS group declared in the DPS (leiaute 1.04.01, RTC).
 
         Dispatched by spec_driven_model through the per tag hooks while
         exporting the nfse10_IBSCBS field of the nfse.10.tcinfdps class: its
@@ -226,25 +229,25 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
         The classification (CST and cClassTrib) and the operation indicator
         (cIndOp) come from the line, exactly like the NF-e IBSCBS group; the
         amounts of the group are declared by the Sefin in the NFS-e, not in
-        the DPS.
+        the DPS. Leiaute 1.04.01 (NT 009) keeps CST and cClassTrib directly
+        under valores/trib: the gIBSCBS group below them only carries the
+        credit presumption, regular taxation and deferred amounts.
         """
         if not self._nfse_export_ibscbs():
             return
         line = self._nfse_ibscbs_line()
-        gIBSCBS = TcrtcinfoTributosSitClas(
-            CST=line.ibs_cst_id.code or line.cbs_cst_id.code,
-            cClassTrib=line.tax_classification_id.code,
-        )
-        # finNFSe only has "0" (NFS-e regular) in the 1.01 schema and
-        # indDest = "1" comes with the dest group, which is not exported yet:
-        # both stay constants instead of new document fields holding a single
-        # possible value.
+        # indDest = "0" (the recipient is the tomador identified in the
+        # NFS-e) comes with the dest group, which is not exported yet: it
+        # stays a constant instead of a new document field holding a single
+        # possible value for the documents this module emits.
         export_dict.update(
-            finNFSe="0",
             cIndOp=line.operation_indicator_id.code,
             indDest="0",
             valores=TcrtcinfoValoresIbscbs(
-                trib=TcrtcinfoTributosIbscbs(gIBSCBS=gIBSCBS)
+                trib=TcrtcinfoTribIbscbs(
+                    CST=line.ibs_cst_id.code or line.cbs_cst_id.code,
+                    cClassTrib=line.tax_classification_id.code,
+                )
             ),
         )
 

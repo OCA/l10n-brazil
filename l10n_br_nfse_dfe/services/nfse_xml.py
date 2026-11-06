@@ -195,12 +195,56 @@ def _node_text(parent, *names):
     return _xsd_text(_walk(parent, *names))
 
 
-def _ibs_cbs_values(inf_nfse, inf_dps):
+def _legacy_ibs_cbs_classification(xml_bytes):
+    """CST and cClassTrib of a DPS in the pre-NT 009 layout.
+
+    nfelib 3.3.0 only models the NT 009 position, so the tags nested in
+    ``trib/gIBSCBS`` of an older note are dropped by the binding and have to
+    be read from the XML.
+    """
+    if not xml_bytes:
+        return None, None
+    try:
+        root = etree.fromstring(
+            xml_bytes.encode() if isinstance(xml_bytes, str) else xml_bytes
+        )
+    except etree.XMLSyntaxError:
+        return None, None
+    group = (
+        ".//*[local-name()='infDPS']/*[local-name()='IBSCBS']"
+        "/*[local-name()='valores']/*[local-name()='trib']"
+        "/*[local-name()='gIBSCBS']"
+    )
+    return (
+        _text(root, group + "/*[local-name()='CST']"),
+        _text(root, group + "/*[local-name()='cClassTrib']"),
+    )
+
+
+def _ibs_cbs_classification(inf_dps, xml_bytes=None):
+    """Return the ``(CST, cClassTrib)`` pair of the DPS.
+
+    NT 009 (leiaute 1.04.01) moved both tags directly under
+    ``infDPS/IBSCBS/valores/trib``. Notes issued with the previous layout keep
+    them inside ``trib/gIBSCBS``, so read the newer position first and fall
+    back to the old one.
+    """
+    trib = _walk(inf_dps, "IBSCBS", "valores", "trib")
+    for node in (trib, _node(trib, "gIBSCBS")):
+        cst = _node_text(node, "CST")
+        classification = _node_text(node, "cClassTrib")
+        if cst or classification:
+            return cst, classification
+    return _legacy_ibs_cbs_classification(xml_bytes)
+
+
+def _ibs_cbs_values(inf_nfse, inf_dps, xml_bytes=None):
     """Read IBS/CBS totals and the DPS classification.
 
     Amounts live under ``infNFSe/IBSCBS``. CST and cClassTrib live under
-    ``infDPS/IBSCBS``. The fiscal line has one IBS rate, so the UF nominal
-    rate is kept and the value is the IBS total (UF + municipal).
+    ``infDPS/IBSCBS/valores/trib`` (NT 009), or under its ``gIBSCBS`` group on
+    notes of the previous layout. The fiscal line has one IBS rate, so the UF
+    nominal rate is kept and the value is the IBS total (UF + municipal).
     """
     ibscbs = _node(inf_nfse, "IBSCBS")
     base = _amount(_node_text(ibscbs, "valores", "vBC"))
@@ -209,7 +253,7 @@ def _ibs_cbs_values(inf_nfse, inf_dps):
         ibs_value = _amount(
             _node_text(ibscbs, "totCIBS", "gIBS", "gIBSUFTot", "vIBSUF")
         ) + _amount(_node_text(ibscbs, "totCIBS", "gIBS", "gIBSMunTot", "vIBSMun"))
-    classification = _walk(inf_dps, "IBSCBS", "valores", "trib", "gIBSCBS")
+    ibs_cbs_cst, tax_classification_code = _ibs_cbs_classification(inf_dps, xml_bytes)
     return {
         "ibs_base": base,
         "ibs_percent": _amount(_node_text(ibscbs, "valores", "uf", "pIBSUF")),
@@ -219,8 +263,8 @@ def _ibs_cbs_values(inf_nfse, inf_dps):
         "cbs_percent": _amount(_node_text(ibscbs, "valores", "fed", "pCBS")),
         "cbs_reduction": _amount(_node_text(ibscbs, "valores", "fed", "pRedAliqCBS")),
         "cbs_value": _amount(_node_text(ibscbs, "totCIBS", "gCBS", "vCBS")),
-        "ibs_cbs_cst": _node_text(classification, "CST"),
-        "tax_classification_code": _node_text(classification, "cClassTrib"),
+        "ibs_cbs_cst": ibs_cbs_cst,
+        "tax_classification_code": tax_classification_code,
     }
 
 
@@ -386,7 +430,7 @@ def parse_nfse_xml(xml_bytes):
         "service_nbs_code": _digits(_node_text(service, "cNBS")),
         "issqn_city_ibge": _digits(_node_text(inf_nfse, "cLocIncid")),
         "rps_number": _node_text(inf_dps, "nDPS"),
-        **_ibs_cbs_values(inf_nfse, inf_dps),
+        **_ibs_cbs_values(inf_nfse, inf_dps, xml_bytes),
         **_federal_tax_values(inf_dps),
     }
 

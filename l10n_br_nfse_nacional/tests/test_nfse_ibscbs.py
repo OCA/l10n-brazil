@@ -53,11 +53,11 @@ class TestNfseIbscbs(TransactionCase):
     def test_export_ibscbs(self):
         ibscbs = self._export_ibscbs()
         self.assertTrue(ibscbs)
-        self.assertEqual(ibscbs.finNFSe, "0")
         self.assertEqual(ibscbs.cIndOp, "030101")
         self.assertEqual(ibscbs.indDest, "0")
-        self.assertEqual(ibscbs.valores.trib.gIBSCBS.CST, "000")
-        self.assertEqual(ibscbs.valores.trib.gIBSCBS.cClassTrib, "000001")
+        self.assertEqual(ibscbs.valores.trib.CST, "000")
+        self.assertEqual(ibscbs.valores.trib.cClassTrib, "000001")
+        self.assertIsNone(ibscbs.valores.trib.gIBSCBS)
 
     def test_export_ibscbs_cbs_cst_fallback(self):
         """A CBS only line still exports the single CST of the DPS group."""
@@ -65,7 +65,7 @@ class TestNfseIbscbs(TransactionCase):
         self.line.cbs_cst_id = self.env.ref("l10n_br_fiscal.cst_cbs_000")
         ibscbs = self._export_ibscbs()
         self.assertTrue(ibscbs)
-        self.assertEqual(ibscbs.valores.trib.gIBSCBS.CST, "000")
+        self.assertEqual(ibscbs.valores.trib.CST, "000")
 
     def test_export_ibscbs_without_rtc_classification(self):
         self.line.tax_classification_id = False
@@ -95,18 +95,21 @@ class TestNfseIbscbs(TransactionCase):
         """The serialized DPS carries the RTC group of the line."""
         xml = self.nfse._serialize([])[0].to_xml()
 
+        # leiaute 1.04.01: finNFSe belongs to infDPS, after cMotivoEmisTI
+        self.assertEqual(_find(xml, "./nfse:infDPS/nfse:finNFSe").text, "0")
         ibscbs = _find(xml, "./nfse:infDPS/nfse:IBSCBS")
         self.assertIsNotNone(ibscbs)
         self.assertEqual(
             _find(xml, "./nfse:infDPS/nfse:IBSCBS/nfse:cIndOp").text, "030101"
         )
         self.assertEqual(_find(xml, "./nfse:infDPS/nfse:IBSCBS/nfse:indDest").text, "0")
-        gibscbs = _find(
+        trib = _find(
             xml,
-            "./nfse:infDPS/nfse:IBSCBS/nfse:valores/nfse:trib/nfse:gIBSCBS",
+            "./nfse:infDPS/nfse:IBSCBS/nfse:valores/nfse:trib",
         )
-        self.assertEqual(_find(gibscbs, "./nfse:CST").text, "000")
-        self.assertEqual(_find(gibscbs, "./nfse:cClassTrib").text, "000001")
+        self.assertEqual(_find(trib, "./nfse:CST").text, "000")
+        self.assertEqual(_find(trib, "./nfse:cClassTrib").text, "000001")
+        self.assertIsNone(_find(trib, "./nfse:gIBSCBS"))
 
     def test_dps_without_rtc_data_has_no_ibscbs(self):
         """A DPS with no RTC data keeps the legacy 1.00 shape."""
