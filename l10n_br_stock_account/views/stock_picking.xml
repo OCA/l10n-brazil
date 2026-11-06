@@ -27,13 +27,13 @@
                 <attribute name="readonly">1</attribute>
                 <attribute name="force_save">1</attribute>
             </field>
-            <field name="move_ids_without_package" position="attributes">
+            <field name="move_ids" position="attributes">
                 <attribute
                     name="context"
                 >{'default_invoice_state': invoice_state, 'address_in_id': partner_id, 'default_picking_type_id': picking_type_id, 'default_picking_id': id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_fiscal_operation_id': fiscal_operation_id, 'default_company_id': company_id, 'default_partner_id': partner_id, 'picking_type_code': picking_type_code}</attribute>
             </field>
             <xpath
-                expr="//field[@name='move_ids_without_package']//list/field[@name='product_id']"
+                expr="//field[@name='move_ids']//list/field[@name='product_id']"
                 position="before"
             >
                 <button
@@ -44,7 +44,7 @@
                 />
             </xpath>
             <xpath
-                expr="//field[@name='move_ids_without_package']//list/field[@name='invoice_state']"
+                expr="//field[@name='move_ids']//list/field[@name='invoice_state']"
                 position="after"
             >
                 <field

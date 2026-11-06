@@ -52,15 +52,6 @@ class StockPicking(models.Model):
 
         return arch, view
 
-    def _put_in_pack(self, move_line_ids, create_package_level=True):
-        package = super()._put_in_pack(move_line_ids)
-        if (
-            package
-            and self.picking_type_id.pre_generate_fiscal_document_number == "pack"
-        ):
-            self._generate_document_number()
-        return package
-
     def button_validate(self):
         result = super().button_validate()
         for record in self:

@@ -54,7 +54,7 @@ class StockInvoiceOnshipping(models.TransientModel):
         self.ensure_one()
         if self.fiscal_operation_journal:
             pickings = self._load_pickings()
-            picking = fields.first(pickings)
+            picking = pickings[:1]
             journal = picking.fiscal_operation_id.journal_id
             if not journal:
                 raise UserError(
@@ -76,7 +76,7 @@ class StockInvoiceOnshipping(models.TransientModel):
         self._pre_generate_document_number(pickings)
 
         invoice, values = super()._build_invoice_values_from_pickings(pickings)
-        picking = fields.first(pickings)
+        picking = pickings[:1]
         if not picking.fiscal_operation_id:
             # Caso de Fatura Internacional, sem os dados Fiscais do Brasil
             return invoice, values
@@ -144,7 +144,7 @@ class StockInvoiceOnshipping(models.TransientModel):
         """
 
         values = super()._get_invoice_line_values(moves, invoice_values, invoice)
-        move = fields.first(moves)
+        move = moves[:1]
 
         if not move.fiscal_operation_id and move.picking_id.fiscal_operation_id:
             # moves created before the picking operation reached them

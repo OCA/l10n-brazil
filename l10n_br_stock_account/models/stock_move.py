@@ -144,13 +144,13 @@ class StockMove(models.Model):
             vals.pop("fiscal_tax_ids", None)
         return super()._add_precomputed_values(vals_list)
 
-    @api.model
-    def _setup_base(self):
-        res = super()._setup_base()
+    def _post_model_setup__(self):
+        # Odoo 19 replaced _setup_base() by _post_model_setup__().
+        res = super()._post_model_setup__()
         # The l10n_br_fiscal.document.line.mixin fields are precomputed by
         # default, but stock.move depends on non-precomputed fields like
         # partner_id and quantity. All those precomputed computed fields must
-        # be disabled to avoid the Odoo 18 warnings during registry setup.
+        # be disabled to avoid the warnings during registry setup.
         mixin_classes = [
             klass
             for klass in self._model_classes__
@@ -190,7 +190,7 @@ class StockMove(models.Model):
         # No contexto de create/precompute o compute do mixin já retorna sem
         # fazer nada (document_line_mixin.py:322), então o SELECT de existência
         # abaixo seria uma query inútil: só roda quando o contexto não pede.
-        if self.ids and not self._context.get("skip_compute_fiscal_tax_ids"):
+        if self.ids and not self.env.context.get("skip_compute_fiscal_tax_ids"):
             self.env.cr.execute(
                 "SELECT id FROM stock_move WHERE id IN %s", (tuple(self.ids),)
             )
@@ -264,7 +264,13 @@ class StockMove(models.Model):
             # stock.rule._get_rule_domain) e o
             # _prepare_br_fiscal_dict devolve o id: substitui pelo recordset
             values["company_id"] = self.company_id
-        values.update(super()._prepare_procurement_values())
+        core_values = super()._prepare_procurement_values()
+        # Desde a 19.0 o core também devolve `partner_id`, vazio quando a
+        # Regra do Move não é make_to_order: sem o Parceiro o Move criado
+        # pela Regra perde a Linha da Operação Fiscal no recálculo
+        if values.get("partner_id") and not core_values.get("partner_id"):
+            core_values.pop("partner_id", None)
+        values.update(core_values)
         return values
 
     def _get_price_unit_invoice(self, inv_type, partner, qty=1):

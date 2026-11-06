@@ -4,12 +4,11 @@
 
 from odoo.tests import Form
 
-from odoo.addons.stock_picking_invoicing.tests.tools import (
+from .common import TestBrPickingInvoicingCommon
+from .tools import (
     create_with_form_inv_onshipping,
     create_with_form_pck_backorder,
 )
-
-from .common import TestBrPickingInvoicingCommon
 
 
 class InvoicingPickingTest(TestBrPickingInvoicingCommon):
@@ -170,7 +169,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         picking.action_confirm()
         picking.action_assign()
 
-        for move in picking.move_ids_without_package:
+        for move in picking.move_ids:
             # Force Split
             move.quantity = 1
 
@@ -232,7 +231,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         # Por padrão a definição dos campos está por Linha
         picking.company_id.delivery_costs = "line"
         # Teste definindo os valores Por Linha
-        for line in picking.move_ids_without_package:
+        for line in picking.move_ids:
             line.price_unit = 100.0
             line.freight_value = 10.0
             line.insurance_value = 10.0
@@ -336,7 +335,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         picking.set_to_be_invoiced()
         picking.fiscal_operation_id = False
         # Force product availability
-        for move in picking.move_ids_without_package:
+        for move in picking.move_ids:
             # test split
             move.product_uom_qty = 2
             move.quantity = 1
@@ -382,12 +381,11 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
     def test_move_inherits_picking_fiscal_operation(self):
         """A move created in, or attached to, a picking with a fiscal operation
         takes that operation; the operation line comes from the regular compute."""
-        self._change_user_company(self.env.ref("base.main_company"))
-        picking = self.env.ref("l10n_br_stock_account.main_company-picking_2")
+        # Odoo 19 installs no demo data by default: use a picking of the setup
+        picking = self.picking_out_br_1
         self.assertTrue(picking.fiscal_operation_id)
         template = picking.move_ids[0]
         vals = {
-            "name": template.product_id.name,
             "product_id": template.product_id.id,
             "product_uom": template.product_uom.id,
             "product_uom_qty": 1,
@@ -452,7 +450,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         picking.picking_type_id.pre_generate_fiscal_document_number = "pack"
         picking.action_confirm()
         picking.action_assign()
-        for move in picking.move_ids_without_package:
+        for move in picking.move_ids:
             move.quantity = move.product_uom_qty
         picking.action_put_in_pack()
         picking.button_validate()
