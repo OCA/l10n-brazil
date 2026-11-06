@@ -877,19 +877,108 @@ class TestL10nBrNfseFocus(common.TransactionCase):
 
         self.assertEqual(result["base_calculo_pis_cofins"], 150.0)
 
-    def test_prepare_tax_data_nacional_aliquota_calculation(self):
-        """Tests aliquota_pis/cofins are computed from valor and base when present."""
+    def test_prepare_dados_servico_nacional_exposes_withholding_tax_data(self):
+        """Tests that NFSe Nacional receives retention bases and rates."""
+        document = self.nfse_demo
+        document.company_id.focusnfe_nfse_type = "nfse_nacional"
+        line = document.fiscal_line_ids.filtered(lambda line: line.product_id)[:1]
+        self.assertTrue(line)
+
+        line.write(
+            {
+                "pis_wh_base": 100.0,
+                "pis_wh_percent": 0.65,
+                "pis_wh_value": 0.65,
+                "cofins_wh_base": 100.0,
+                "cofins_wh_percent": 3.0,
+                "cofins_wh_value": 3.0,
+            }
+        )
+
+        service_data = document._prepare_dados_servico()
+
+        self.assertEqual(service_data["base_calculo_pis_retido"], 100.0)
+        self.assertEqual(service_data["aliquota_pis_retido"], 0.65)
+        self.assertEqual(service_data["base_calculo_cofins_retido"], 100.0)
+        self.assertEqual(service_data["aliquota_cofins_retido"], 3.0)
+
+    def test_prepare_tax_data_nacional_uses_nominal_tax_trio(self):
+        """Tests the nominal base, rate and value are sent together.
+
+        The rate is the one configured on the tax, not derived from the value,
+        so a value that does not match base x rate is not hidden by the payload.
+        """
         nfse_nacional = self.env["focusnfe.nfse.nacional"]
         service_info = {
+            "situacao_tributaria_pis": "01",
             "base_calculo_pis": 100.0,
-            "valor_pis": 1.5,
-            "valor_cofins": 3.0,
+            "base_calculo_cofins": 100.0,
+            "aliquota_pis": 1.65,
+            "aliquota_cofins": 7.6,
+            "valor_pis": 1.65,
+            "valor_cofins": 7.6,
         }
 
         result = nfse_nacional._prepare_tax_data_nacional(service_info, 100.0)
 
-        self.assertEqual(result["aliquota_pis"], "1.50")
+        self.assertEqual(result["base_calculo_pis_cofins"], 100.0)
+        self.assertEqual(result["aliquota_pis"], "1.65")
+        self.assertEqual(result["aliquota_cofins"], "7.60")
+        self.assertEqual(result["valor_pis"], 1.65)
+        self.assertEqual(result["valor_cofins"], 7.6)
+
+    def test_prepare_tax_data_nacional_uses_withholding_tax_trio(self):
+        """Tests the withholding base, rate and value are sent together when the
+        tax is retained, instead of mixing the withheld value with the nominal
+        rate."""
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        service_info = {
+            "situacao_tributaria_pis": "01",
+            "base_calculo_pis": 200.0,
+            "base_calculo_cofins": 200.0,
+            "aliquota_pis": 1.65,
+            "aliquota_cofins": 7.6,
+            "valor_pis": 3.3,
+            "valor_cofins": 15.2,
+            "base_calculo_pis_retido": 100.0,
+            "base_calculo_cofins_retido": 100.0,
+            "aliquota_pis_retido": 0.65,
+            "aliquota_cofins_retido": 3.0,
+            "valor_pis_retido": 0.65,
+            "valor_cofins_retido": 3.0,
+        }
+
+        result = nfse_nacional._prepare_tax_data_nacional(service_info, 200.0)
+
+        self.assertEqual(result["base_calculo_pis_cofins"], 100.0)
+        self.assertEqual(result["aliquota_pis"], "0.65")
         self.assertEqual(result["aliquota_cofins"], "3.00")
+        self.assertEqual(result["valor_pis"], 0.65)
+        self.assertEqual(result["valor_cofins"], 3.0)
+        self.assertEqual(result["tipo_retencao_pis_cofins"], "4")
+
+    def test_prepare_tax_data_nacional_zeroes_exempt_cst_values(self):
+        """Tests exempt CSTs keep base, rates and values consistent at zero."""
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        for cst in ("00", "08", "09"):
+            service_info = {
+                "situacao_tributaria_pis": cst,
+                "base_calculo_pis": 100.0,
+                "base_calculo_cofins": 100.0,
+                "aliquota_pis": 1.65,
+                "aliquota_cofins": 7.6,
+                "valor_pis": 1.65,
+                "valor_cofins": 7.6,
+            }
+
+            result = nfse_nacional._prepare_tax_data_nacional(service_info, 100.0)
+
+            with self.subTest(cst=cst):
+                self.assertEqual(result["base_calculo_pis_cofins"], 0.0)
+                self.assertEqual(result["aliquota_pis"], "0.00")
+                self.assertEqual(result["aliquota_cofins"], "0.00")
+                self.assertEqual(result["valor_pis"], 0.0)
+                self.assertEqual(result["valor_cofins"], 0.0)
 
     def test_compute_tipo_retencao_pis_cofins_nt007_codes(self):
         """Tests the NT 007 tpRetPisCofins code for every retention combination.
