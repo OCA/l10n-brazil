@@ -100,6 +100,27 @@ class TestDfeBase(TransactionCase):
         )
         self.assertEqual(doc.document_state_label, "42")
 
+    def test_utilization_stays_empty_when_the_source_cancels(self):
+        """An authorized inbox row is available until the source voids it."""
+        doc = self.env["l10n_br_fiscal_dfe.document"].create(
+            {
+                "access_key": "35200199999999999999550010000000019999999993",
+                "company_id": self.company.id,
+                "fiscal_type": "nfe",
+                "document_state": "1",
+            }
+        )
+        self.assertEqual(doc.utilization, "available")
+
+        doc.document_state = False
+        self.assertEqual(doc.utilization, "available")
+
+        doc.document_state = "3"
+        self.assertFalse(doc.utilization)
+
+        doc.document_state = "2"
+        self.assertFalse(doc.utilization)
+
     def test_xml_pretty_formatting(self):
         dfe = self.env["l10n_br_fiscal_dfe.dfe"].create(
             {

@@ -107,6 +107,18 @@ class L10nBrFiscalDfeDocument(models.Model):
         help="Fiscal document already imported with this access key.",
     )
 
+    utilization = fields.Selection(
+        selection=[
+            ("available", "Available"),
+            ("posted", "Posted"),
+        ],
+        compute="_compute_utilization",
+        help="Available while the document is still authorized at the "
+        "source and no vendor bill is posted. Posted while a vendor "
+        "bill is posted. Empty when the source cancelled or denied "
+        "the document.",
+    )
+
     @api.depends("access_key")
     def _compute_partner_id(self):
         Partner = self.env["res.partner"]
@@ -157,6 +169,29 @@ class L10nBrFiscalDfeDocument(models.Model):
             lambda document, company=self.company_id: document.company_id == company
         )
         return (same_company or candidates)[:1]
+
+    @api.depends("document_state", "access_key", "company_id")
+    def _compute_utilization(self):
+        for record in self:
+            record.utilization = record._get_utilization()
+
+    def _get_utilization(self):
+        """Available, posted, or empty when the source cancelled it.
+
+        A posted vendor bill is reported by ``dfe_utilization_from_bills``
+        on the fiscal document when ``l10n_br_account`` is installed. This
+        module does not depend on accounting. Codes ``2`` and ``3`` are
+        the denied and cancelled situations shared by the NF-e and NFS-e
+        inboxes.
+        """
+        self.ensure_one()
+        if self.document_state in ("2", "3"):
+            return False
+        document = self.fiscal_document_id
+        utilization = False
+        if document and hasattr(document, "dfe_utilization_from_bills"):
+            utilization = document.dfe_utilization_from_bills()
+        return utilization or "available"
 
     def _search_fiscal_document_id(self, operator, value):
         """Inbox rows whose access key is already a fiscal document key."""
