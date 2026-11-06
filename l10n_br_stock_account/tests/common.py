@@ -397,9 +397,9 @@ class TestBrPickingInvoicingCommon(TestStockPickingInvoicingCommon):
                         line.fiscal_tax_ids,
                         "Error to map fiscal_tax_ids in invoice line.",
                     )
-                    assert (
-                        line.ind_final
-                    ), "Error field ind_final in Invoice Line not None"
+                    assert line.ind_final, (
+                        "Error field ind_final in Invoice Line not None"
+                    )
                     # Verifica se o campo tax_ids da Fatura esta igual ao da Separação
                     mv_line = picking.move_ids.filtered(
                         lambda ln, line=line: (
