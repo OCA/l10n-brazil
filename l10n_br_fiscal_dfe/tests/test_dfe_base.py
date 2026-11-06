@@ -233,3 +233,64 @@ class TestDfeBase(TransactionCase):
             english.import_block_reason,
             "Only an authorized document can be imported.",
         )
+
+    def test_a_complete_xml_without_a_source_state_is_blocked(self):
+        access_key = _nfe_access_key("3520015959431500015755001000000008206277716")
+        document = self.env["l10n_br_fiscal_dfe.document"].create(
+            {
+                "access_key": access_key,
+                "company_id": self.company.id,
+                "fiscal_type": "nfe",
+            }
+        )
+        payload = self.env["l10n_br_fiscal_dfe.dfe"].create(
+            {
+                "dfe_document_id": document.id,
+                "access_key": access_key,
+                "company_id": self.company.id,
+                "document_type_dfe": "complete",
+                "fiscal_type": "nfe",
+            }
+        )
+        payload.attachment_id = self.env["ir.attachment"].create(
+            {
+                "name": "complete.xml",
+                "datas": base64.b64encode(b"<nfe/>"),
+                "res_model": payload._name,
+                "res_id": payload.id,
+            }
+        )
+        self.assertEqual(
+            document.with_context(lang="en_US").import_block_reason,
+            "Only an authorized document can be imported.",
+        )
+
+    def test_an_authorized_document_uses_the_same_company_fiscal_document(self):
+        access_key = _nfe_access_key("3520015959431500015755001000000009206277716")
+        fiscal_document = self.env["l10n_br_fiscal.document"].create(
+            {
+                "company_id": self.company.id,
+                "document_type_id": self.env.ref("l10n_br_fiscal.document_55").id,
+                "partner_id": self.env.ref("l10n_br_base.res_partner_cliente1_sp").id,
+                "document_key": access_key,
+            }
+        )
+        inbox = self.env["l10n_br_fiscal_dfe.document"].create(
+            {
+                "access_key": access_key,
+                "company_id": self.company.id,
+                "fiscal_type": "nfe",
+                "document_state": "1",
+            }
+        )
+        self.assertEqual(inbox._same_company_fiscal_document(), fiscal_document)
+        self.assertFalse(inbox._get_import_invoice_block_reason())
+
+    def test_a_row_without_an_access_key_has_no_fiscal_document(self):
+        inbox = self.env["l10n_br_fiscal_dfe.document"].new(
+            {
+                "company_id": self.company.id,
+                "fiscal_type": "nfe",
+            }
+        )
+        self.assertFalse(inbox._same_company_fiscal_document())
