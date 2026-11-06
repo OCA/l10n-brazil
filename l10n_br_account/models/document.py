@@ -387,3 +387,20 @@ class FiscalDocument(models.Model):
                 _("The document cannot be imported due to incomplete lines:\n%s")
                 % "\n".join(errors)
             )
+
+    def dfe_utilization_from_bills(self):
+        """Inbox utilization while a vendor bill for this document is posted.
+
+        ``l10n_br_fiscal_dfe`` calls this when accounting is installed. A
+        draft or cancelled bill does not count, so cancelling the bill
+        returns an authorized inbox row to available.
+        """
+        self.ensure_one()
+        posted = self.move_ids.filtered(
+            lambda move: (
+                move.company_id == self.company_id
+                and move.move_type in ("in_invoice", "in_refund")
+                and move.state == "posted"
+            )
+        )
+        return "posted" if posted else False
