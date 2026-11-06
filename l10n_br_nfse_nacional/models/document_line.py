@@ -93,8 +93,10 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
 
     # Fields mapped to tags
     nfse10_cLocPrestacao = fields.Char(related="issqn_fg_city_id.ibge_code")
-    nfse10_cTribNac = fields.Char(related="national_taxation_code_id.code")
-    nfse10_cTribMun = fields.Char(related="city_taxation_code_id.code")
+    # The NFSe schema patterns only accept the unmasked codes: the fiscal
+    # tables store them formatted (17.09.01, 1.1404.43.00) for the UI.
+    nfse10_cTribNac = fields.Char(related="national_taxation_code_id.code_unmasked")
+    nfse10_cTribMun = fields.Char(related="city_taxation_code_id.code_unmasked")
     nfse10_cNBS = fields.Char(related="nbs_id.code_unmasked")
     nfse10_xDescServ = fields.Char(related="name")
 
