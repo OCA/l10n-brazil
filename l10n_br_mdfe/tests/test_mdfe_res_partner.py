@@ -5,11 +5,14 @@ from erpbrasil.base.misc import format_zipcode
 
 from odoo.tests import TransactionCase
 
+from .tools import load_mdfe_fixture_files
+
 
 class TestMDFeResPartner(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        load_mdfe_fixture_files(cls.env)
         cls.partner_id = cls.env.ref("l10n_br_base.res_partner_kmee")
 
     def test_compute_fields(self):

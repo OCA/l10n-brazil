@@ -9,11 +9,14 @@ from nfelib.nfe.ws.edoc_legacy import MDFeAdapter
 from odoo.exceptions import ValidationError
 from odoo.tests import TransactionCase
 
+from .tools import load_mdfe_fixture_files
+
 
 class MDFeDocumentTest(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        load_mdfe_fixture_files(cls.env)
 
         FiscalDocument = cls.env["l10n_br_fiscal.document"]
 

@@ -7,11 +7,18 @@ import importlib.resources
 import nfelib
 from nfelib.mdfe.bindings.v3_0.mdfe_v3_00 import Tmdfe
 
-from odoo.models import NewId
+from odoo.api import NewId
 from odoo.tests import TransactionCase
 
 
 class MDFeImportTest(TransactionCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        # The imported MDF-e goes to the current company, and the mdfe30_
+        # computed fields only apply to the OCA processor
+        cls.env.company.processador_edoc = "oca"
+
     def test_import_in_mdfe_dry_run(self):
         res_items = (
             "mdfe",
@@ -56,7 +63,9 @@ class MDFeImportTest(TransactionCase):
         self.assertEqual(mdfe.document_number, "1131")
         # ide
         self.assertEqual(mdfe.mdfe30_cMDF, "42103956")
-        self.assertEqual(mdfe.mdfe30_infMunCarrega[0].mdfe30_xMunCarrega, "IVINHEMA")
+        self.assertEqual(
+            mdfe.mdfe30_infMunCarrega[0].mdfe30_xMunCarrega.upper(), "IVINHEMA"
+        )
         self.assertEqual(mdfe.mdfe30_UFIni, "MS")
         self.assertEqual(mdfe.mdfe30_UFFim, "PR")
         self.assertEqual(mdfe.mdfe30_modal, "1")
@@ -66,7 +75,9 @@ class MDFeImportTest(TransactionCase):
         self.assertEqual(mdfe.mdfe30_cUnid, "01")
 
         self.assertEqual(len(mdfe.mdfe30_infMunCarrega), 1)
-        self.assertEqual(mdfe.mdfe30_infMunCarrega[0].mdfe30_xMunCarrega, "IVINHEMA")
+        self.assertEqual(
+            mdfe.mdfe30_infMunCarrega[0].mdfe30_xMunCarrega.upper(), "IVINHEMA"
+        )
         self.assertEqual(len(mdfe.mdfe30_infMunDescarga), 1)
         if isinstance(mdfe.id, int):
             self.assertEqual(

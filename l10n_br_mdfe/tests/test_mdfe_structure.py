@@ -10,12 +10,14 @@ from odoo.tests import TransactionCase
 from odoo.addons.spec_driven_model.models.spec_models import SpecModel
 
 from ..models.document import MDFe
+from .tools import load_mdfe_fixture_files
 
 
 class MDFeStructure(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        load_mdfe_fixture_files(cls.env)
 
     @classmethod
     def get_stacked_tree(cls, klass):
