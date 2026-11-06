@@ -983,10 +983,7 @@ class MDFe(spec_models.StackedModel):
                 )
             if not record.company_id.state_id:
                 raise ValidationError(
-                    _(
-                        "To Generate EDoc Key, you need to fill the State "
-                        "on company %s."
-                    )
+                    _("To Generate EDoc Key, you need to fill the State on company %s.")
                     % record.company_id.display_name
                 )
             if not record.document_type_id:

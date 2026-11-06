@@ -153,8 +153,7 @@ class MDFeDocumentTest(TransactionCase):
             self.sn_company_id, number="90204", serie="30"
         )
         self.env.cr.execute(
-            "UPDATE l10n_br_fiscal_document SET document_serie = '9A1' "
-            "WHERE id = %s",
+            "UPDATE l10n_br_fiscal_document SET document_serie = '9A1' WHERE id = %s",
             (document.id,),
         )
         document.invalidate_recordset(["document_serie"])
