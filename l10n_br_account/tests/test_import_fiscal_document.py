@@ -192,7 +192,7 @@ class TestImportFiscalDocument(AccountMoveBRCommon):
 
     def test_a_linked_bill_blocks_the_import_confirmation(self):
         document = self.fiscal_document_to_import
-        document.document_key = "35200159594315000157550010000000012062777169"
+        document.document_key = "35200159594315000157550010000000022062777169"
         move = self._vendor_bill_for(document)
         self.assertEqual(move.state, "draft")
         self.assertEqual(move.fiscal_document_id, document)
@@ -209,7 +209,7 @@ class TestImportFiscalDocument(AccountMoveBRCommon):
 
     def test_a_posted_bill_blocks_the_import_confirmation(self):
         document = self.fiscal_document_to_import
-        document.document_key = "35200159594315000157550010000000012062777168"
+        document.document_key = "35200159594315000157550010000000032062777166"
         move = self._vendor_bill_for(document)
         move.state = "posted"
         before = self.env["account.move"].search_count([])
@@ -225,6 +225,6 @@ class TestImportFiscalDocument(AccountMoveBRCommon):
 
     def test_an_available_document_passes_the_bill_check(self):
         document = self.fiscal_document_to_import
-        document.document_key = "35200159594315000157550010000000012062777167"
+        document.document_key = "35200159594315000157550010000000042062777163"
         self._import_wizard(document)._check_imported_bill_allowed()
         self.assertFalse(document._vendor_bill_import_block_reason())
