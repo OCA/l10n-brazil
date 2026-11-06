@@ -161,12 +161,17 @@ class AccountMoveLine(models.Model):
                     #  modulo account_payment_order na v14
                     "ml_maturity_date": self.date_maturity,
                     "move_id": self.move_id.id,
-                    "service_type": self._get_default_service_type(),
                     "discount_value": self.currency_id.round(
                         self.amount_currency * (self.boleto_discount_perc / 100)
                     ),
                 }
             )
+            # Sem tipo de serviço padrão (lançamento que não é fatura de
+            # fornecedor), não envia o campo: o valor vazio anularia o tipo
+            # calculado pela regra de pagamento da estrutura CNAB
+            service_type = self._get_default_service_type()
+            if service_type:
+                vals["service_type"] = service_type
 
             # Se for uma solicitação de baixa do título é preciso informar o
             # campo debit o codigo original coloca o amount_residual
