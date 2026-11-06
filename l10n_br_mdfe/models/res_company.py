@@ -126,7 +126,7 @@ class ResCompany(spec_models.SpecModel):
         self, values, model=None, parent_dict=None, defaults_model=None
     ):
         # we disable enderEmit related creation with dry_run=True
-        context = self._context.copy()
+        context = self.env.context.copy()
         context["dry_run"] = True
         values = super(ResCompany, self.with_context(**context))._prepare_import_dict(
             values, model, parent_dict, defaults_model

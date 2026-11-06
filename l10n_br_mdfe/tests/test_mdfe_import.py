@@ -7,7 +7,7 @@ import importlib.resources
 import nfelib
 from nfelib.mdfe.bindings.v3_0.mdfe_v3_00 import Tmdfe
 
-from odoo.models import NewId
+from odoo.api import NewId
 from odoo.tests import TransactionCase
 
 
