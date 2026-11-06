@@ -12,7 +12,7 @@ def create_with_form_br_stock_picking(env, values, line_values=False):
         picking.invoice_state = "2binvoiced"
         picking.fiscal_operation_id = values.get("fiscal_operation_id")
         for value in line_values:
-            with picking.move_ids_without_package.new() as line:
+            with picking.move_ids.new() as line:
                 line.product_id = value.get("product_id")
                 line.product_uom_qty = value.get("product_uom_qty")
 
@@ -107,7 +107,7 @@ def create_br_minimal_chart(env, company):
         # Set default company accounts
         company.account_journal_suspense_account_id = receivable_account.id
         # Set product category accounts for this company
-        product_category = env.ref("product.product_category_all")
+        product_category = env.ref("product.product_category_goods")
         product_category.with_company(
             company
         ).property_account_income_categ_id = income_account
@@ -117,22 +117,25 @@ def create_br_minimal_chart(env, company):
         # Load fiscal taxes for the company
         if not company.chart_template:
             chart_template = env["account.chart.template"]
-            chart_template.try_loading("generic_coa", company, install_demo=True)
+            chart_template.try_loading("generic_coa", company, install_demo=False)
         env["account.chart.template"].load_fiscal_taxes(companies=[company])
 
 
 def create_br_journal_and_set_fiscal_ops(env, company, fiscal_ops):
     doc_type_55 = env["l10n_br_fiscal.document.type"].search([("code", "=", "55")])
     company.document_type_id = doc_type_55
-    env["l10n_br_fiscal.document.serie"].create(
-        {
-            "code": "1",
-            "name": "Série 1",
-            "document_type_id": doc_type_55.id,
-            "company_id": company.id,
-            "active": True,
-        }
-    )
+    # In 19.0 the test company is the main company, which may already have it
+    serie_values = {
+        "code": "1",
+        "document_type_id": doc_type_55.id,
+        "company_id": company.id,
+    }
+    if not env["l10n_br_fiscal.document.serie"].search(
+        [(key, "=", value) for key, value in serie_values.items()]
+    ):
+        env["l10n_br_fiscal.document.serie"].create(
+            serie_values | {"name": "Série 1", "active": True}
+        )
 
     account_revenue = env["account.account"].search(
         [
@@ -153,3 +156,78 @@ def create_br_journal_and_set_fiscal_ops(env, company, fiscal_ops):
         }
         journal = create_with_form_br_account_journal(env, data_journal)
         fiscal_op.with_company(company).journal_id = journal
+
+
+# The helpers below come from stock_picking_invoicing/tests/tools.py of 18.0,
+# which no longer exists in 19.0.
+
+
+def create_with_form_product_product(env, values):
+    with Form(env["product.product"]) as product:
+        product.name = values.get("name")
+        product.lst_price = values.get("lst_price")
+        product.taxes_id = values.get("taxes_id")
+        product.supplier_taxes_id = values.get("supplier_taxes_id")
+        product.property_account_income_id = values.get("property_account_income_id")
+        product.standard_price = values.get("standard_price")
+        product.type = values.get("type")
+        if values.get("type") == "consu":
+            product.is_storable = values.get("is_storable")
+            if "invoice_policy" in env["product.product"]._fields:
+                product.invoice_policy = values.get("invoice_policy")
+        product.sale_ok = True
+        product.purchase_ok = True
+
+    return product.save()
+
+
+def create_with_form_stock_picking(env, values, line_values=False):
+    with Form(env["stock.picking"]) as picking:
+        picking.partner_id = values.get("partner_id")
+        picking.picking_type_id = values.get("picking_type_id")
+        for value in line_values:
+            with picking.move_ids.new() as line:
+                line.product_id = value.get("product_id")
+                line.product_uom_qty = value.get("product_uom_qty")
+
+    return picking.save()
+
+
+def create_with_form_inv_onshipping(env, pickings):
+    with Form(
+        env["stock.invoice.onshipping"].with_context(
+            active_ids=pickings.ids,
+            active_model=pickings._name,
+        )
+    ) as wzd_inv:
+        wzd_inv.group = "partner_product"
+        result = wzd_inv.save()
+
+    result.action_generate()
+
+    return pickings.mapped("invoice_ids")
+
+
+def create_with_form_return_picking(env, picking):
+    return_wizard_form = Form(
+        env["stock.return.picking"].with_context(
+            active_id=picking.id, active_model="stock.picking"
+        )
+    )
+    return_wizard_form.invoice_state = "2binvoiced"
+    return_wizard = return_wizard_form.save()
+    return_wizard.product_return_moves[0].quantity = 1
+    result_wizard = return_wizard.action_create_returns()
+    return env["stock.picking"].browse(result_wizard.get("res_id"))
+
+
+def create_with_form_pck_backorder(env, picking):
+    res_dict_for_back_order = picking.button_validate()
+    backorder_wizard = Form(
+        env[res_dict_for_back_order["res_model"]].with_context(
+            **res_dict_for_back_order["context"]
+        )
+    ).save()
+    backorder_wizard.process()
+
+    return env["stock.picking"].search([("backorder_id", "=", picking.id)])

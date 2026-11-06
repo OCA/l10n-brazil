@@ -70,7 +70,6 @@
     </record>
 
     <record model="stock.move" id="main_company-move_1_1">
-        <field name="name">Test - l10n_br_stock_account - 1</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_16" />
@@ -93,7 +92,6 @@
     </record>
 
     <record model="stock.move" id="main_company-move_1_2">
-        <field name="name">Test - l10n_br_stock_account - 1</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_12" />
@@ -117,7 +115,6 @@
 
     <!-- usado para o teste de não agrupar qdo operação fiscal for diferente -->
     <record model="stock.move" id="main_company-move_1_3">
-        <field name="name">Test - l10n_br_stock_account - 1</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_16" />
@@ -152,7 +149,6 @@
     </record>
 
     <record model="stock.move" id="main_company-move_2_1">
-        <field name="name">Test - l10n_br_stock_account - 2</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_16" />
@@ -176,7 +172,6 @@
     </record>
 
     <record model="stock.move" id="main_company-move_2_2">
-        <field name="name">Test - l10n_br_stock_account - 1</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_12" />
@@ -200,7 +195,6 @@
 
     <!-- usado para o teste de não agrupar qdo operação fiscal for diferente -->
     <record model="stock.move" id="main_company-move_2_3">
-        <field name="name">Test - l10n_br_stock_account - 1</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_16" />
@@ -241,9 +235,6 @@
     </record>
 
     <record model="stock.move" id="main_company-move_3_1">
-        <field
-            name="name"
-        >Test - l10n_br_stock_account 1 - Endereço entrega diferente Faturamento</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_address_ak3" />
         <field name="product_id" ref="product.product_product_16" />
@@ -266,9 +257,6 @@
     </record>
 
     <record model="stock.move" id="main_company-move_3_2">
-        <field
-            name="name"
-        >Teste - l10n_br_stock_account 1 - Endereço entrega diferente Faturamento</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_address_ak3" />
         <field name="product_id" ref="product.product_product_12" />
@@ -292,9 +280,6 @@
 
     <!-- usado para o teste de não agrupar qdo operação fiscal for diferente -->
     <record model="stock.move" id="main_company-move_3_3">
-        <field
-            name="name"
-        >Teste - l10n_br_stock_account 1 - Endereço entrega diferente Faturamento</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_address_ak3" />
         <field name="product_id" ref="product.product_product_16" />
@@ -331,9 +316,6 @@
     </record>
 
     <record model="stock.move" id="main_company-move_4_1">
-        <field
-            name="name"
-        >Test - l10n_br_stock_account 1 - Endereço entrega diferente Faturamento</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
         <field name="product_id" ref="product.product_product_16" />
@@ -356,9 +338,6 @@
     </record>
 
     <record model="stock.move" id="main_company-move_4_2">
-        <field
-            name="name"
-        >Teste - l10n_br_stock_account 1 - Endereço entrega diferente Faturamento</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
         <field name="product_id" ref="product.product_product_12" />
@@ -382,9 +361,6 @@
 
     <!-- usado para o teste de não agrupar qdo operação fiscal for diferente -->
     <record model="stock.move" id="main_company-move_4_3">
-        <field
-            name="name"
-        >Teste - l10n_br_stock_account 1 - Endereço entrega diferente Faturamento</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
         <field name="product_id" ref="product.product_product_16" />
@@ -431,9 +407,6 @@
     </record>
 
     <record model="stock.move" id="main_company-move_5_1">
-        <field
-            name="name"
-        >l10n_br_stock_account - Endereço entrega diferente Faturamento 5</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field
             name="partner_id"
@@ -459,9 +432,6 @@
     </record>
 
     <record model="stock.move" id="main_company-move_5_2">
-        <field
-            name="name"
-        >l10n_br_stock_account - Endereço entrega diferente Faturamento 5</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field
             name="partner_id"
@@ -488,9 +458,6 @@
 
     <!-- usado para o teste de não agrupar qdo operação fiscal for diferente -->
     <record model="stock.move" id="main_company-move_5_3">
-        <field
-            name="name"
-        >l10n_br_stock_account - Endereço entrega diferente Faturamento 5</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field
             name="partner_id"
@@ -530,9 +497,6 @@
     </record>
 
     <record model="stock.move" id="main_company-move_6_1">
-        <field
-            name="name"
-        >l10n_br_stock_account - Endereço entrega diferente Faturamento 6</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente2_sp" />
         <field name="product_id" ref="product.product_product_16" />
@@ -555,9 +519,6 @@
     </record>
 
     <record model="stock.move" id="main_company-move_6_2">
-        <field
-            name="name"
-        >l10n_br_stock_account - Endereço entrega diferente Faturamento 6</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente2_sp" />
         <field name="product_id" ref="product.product_product_12" />
@@ -581,9 +542,6 @@
 
     <!-- usado para o teste de não agrupar qdo operação fiscal for diferente -->
     <record model="stock.move" id="main_company-move_6_3">
-        <field
-            name="name"
-        >l10n_br_stock_account - Endereço entrega diferente Faturamento 6</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente2_sp" />
         <field name="product_id" ref="product.product_product_16" />
@@ -632,9 +590,6 @@
     </record>
 
     <record model="stock.move" id="main_company-move_7_1">
-        <field
-            name="name"
-        >l10n_br_stock_account - Partner com Endereço de Faturamento 7</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field
             name="partner_id"
@@ -660,9 +615,6 @@
     </record>
 
     <record model="stock.move" id="main_company-move_7_2">
-        <field
-            name="name"
-        >l10n_br_stock_account - Endereço entrega diferente Faturamento 7</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field
             name="partner_id"
@@ -689,9 +641,6 @@
 
     <!-- usado para o teste de não agrupar qdo operação fiscal for diferente -->
     <record model="stock.move" id="main_company-move_7_3">
-        <field
-            name="name"
-        >l10n_br_stock_account - Endereço entrega diferente Faturamento 7</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field
             name="partner_id"
@@ -731,9 +680,6 @@
     </record>
 
     <record model="stock.move" id="main_company-move_8_1">
-        <field
-            name="name"
-        >l10n_br_stock_account - Endereço entrega diferente Faturamento 8</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente2_sp" />
         <field name="product_id" ref="product.product_product_16" />
@@ -756,9 +702,6 @@
     </record>
 
     <record model="stock.move" id="main_company-move_8_2">
-        <field
-            name="name"
-        >l10n_br_stock_account - Endereço entrega diferente Faturamento 8</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente2_sp" />
         <field name="product_id" ref="product.product_product_12" />
@@ -782,9 +725,6 @@
 
     <!-- usado para o teste de não agrupar qdo operação fiscal for diferente -->
     <record model="stock.move" id="main_company-move_8_3">
-        <field
-            name="name"
-        >l10n_br_stock_account - Endereço entrega diferente Faturamento 8</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente2_sp" />
         <field name="product_id" ref="product.product_product_16" />
@@ -828,7 +768,6 @@
     </record>
 
     <record model="stock.move" id="lucro_presumido-move_1_1">
-        <field name="name">Test - l10n_br_stock_account - 1</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_16" />
@@ -854,7 +793,6 @@
     </record>
 
     <record model="stock.move" id="lucro_presumido-move_1_2">
-        <field name="name">Test - l10n_br_stock_account - 1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">2</field>
@@ -897,7 +835,6 @@
     </record>
 
     <record model="stock.move" id="lucro_presumido-move_2_1">
-        <field name="name">Test - l10n_br_stock_account - 1</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_16" />
@@ -923,7 +860,6 @@
     </record>
 
     <record model="stock.move" id="lucro_presumido-move_2_2">
-        <field name="name">Test - l10n_br_stock_account - 1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">2</field>
@@ -966,7 +902,6 @@
     </record>
 
     <record model="stock.move" id="lucro_real-move_1_1">
-        <field name="name">Test - l10n_br_stock_account - 1</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_16" />
@@ -992,7 +927,6 @@
     </record>
 
     <record model="stock.move" id="lucro_real-move_1_2">
-        <field name="name">Test - l10n_br_stock_account - 1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">2</field>
@@ -1035,7 +969,6 @@
     </record>
 
     <record model="stock.move" id="lucro_real-move_2_1">
-        <field name="name">Test - l10n_br_stock_account - 1</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_16" />
@@ -1061,7 +994,6 @@
     </record>
 
     <record model="stock.move" id="lucro_real-move_2_2">
-        <field name="name">Test - l10n_br_stock_account - 1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">2</field>
@@ -1104,7 +1036,6 @@
     </record>
 
     <record model="stock.move" id="simples_nacional-move_1_1">
-        <field name="name">Test - l10n_br_stock_account - 1</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_16" />
@@ -1130,7 +1061,6 @@
     </record>
 
     <record model="stock.move" id="simples_nacional-move_1_2">
-        <field name="name">Test - l10n_br_stock_account - 1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">2</field>
@@ -1173,7 +1103,6 @@
     </record>
 
     <record model="stock.move" id="simples_nacional-move_2_1">
-        <field name="name">Test - l10n_br_stock_account - 1</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_16" />
@@ -1199,7 +1128,6 @@
     </record>
 
     <record model="stock.move" id="simples_nacional-move_2_2">
-        <field name="name">Test - l10n_br_stock_account - 1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">2</field>

@@ -82,7 +82,6 @@ class StockRuleTest(TransactionCase):
             "move_ids": [
                 Command.create(
                     {
-                        "name": "/",
                         "product_id": product.id,
                         "product_uom": product.uom_id.id,
                         "product_uom_qty": 10.00,
@@ -122,8 +121,9 @@ class StockRuleTest(TransactionCase):
         # stock module to run this test, the method won't be an attribute
         # of stock.procurement at this moment. For that reason we mute the
         # logger when running the scheduler.
-        with mute_logger("odoo.addons.stock.models.procurement"):
-            self.env["procurement.group"].run_scheduler()
+        # In 19.0 the scheduler moved from procurement.group to stock.rule.
+        with mute_logger("odoo.addons.stock.models.stock_rule"):
+            self.env["stock.rule"].run_scheduler()
 
         # Check that a picking was created from stock to output.
         moves = self.env["stock.move"].search(

@@ -3,10 +3,13 @@
 
 from lxml import etree
 
-from odoo.tests import TransactionCase
+from .common import TestBrPickingInvoicingCommon
 
 
-class TestStockMoveFiscalReport(TransactionCase):
+class TestStockMoveFiscalReport(TestBrPickingInvoicingCommon):
+    # The moves with a fiscal operation come from the pickings of the test
+    # base: the OCA CI of 19.0 installs no demo data.
+
     def test_search_view_filters(self):
         view = self.env.ref("l10n_br_stock_account.stock_move_fiscal_report_search")
         arch = self.env["stock.move"].get_views([(view.id, "search")])["views"][
@@ -25,11 +28,12 @@ class TestStockMoveFiscalReport(TransactionCase):
         domain = [("fiscal_operation_id", "!=", False)]
         moves = self.env["stock.move"].search(domain)
         self.assertTrue(moves)
-        groups = self.env["stock.move"].read_group(
-            domain, ["icms_value:sum"], ["cfop_id"], lazy=False
+        # read_group is deprecated since 19.0
+        groups = self.env["stock.move"]._read_group(
+            domain, ["cfop_id"], ["icms_value:sum"]
         )
         self.assertAlmostEqual(
-            sum(group["icms_value"] for group in groups),
+            sum(icms_value for _cfop, icms_value in groups),
             sum(moves.mapped("icms_value")),
             places=2,
         )
@@ -39,7 +43,9 @@ class TestStockMoveFiscalReport(TransactionCase):
         foreign = self.env["res.company"].create(
             {"name": "Foreign company", "country_id": self.env.ref("base.us").id}
         )
-        brazilian = self.env.ref("l10n_br_base.empresa_lucro_presumido")
+        brazilian = self.env["res.company"].create(
+            {"name": "Brazilian company", "country_id": self.env.ref("base.br").id}
+        )
         self.env.registry.clear_cache("templates")
         archs = [
             self.env["stock.picking"]

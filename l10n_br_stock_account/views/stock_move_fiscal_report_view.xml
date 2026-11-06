@@ -14,23 +14,22 @@
                 <filter string="Done" name="done" domain="[('state', '=', 'done')]" />
                 <filter string="Date" name="date" date="date" />
                 <separator name="l10n_br_fiscal_report_filters" />
-                <group expand="0" string="Group By">
-                    <filter
-                        string="Product"
-                        name="groupby_product"
-                        context="{'group_by': 'product_id'}"
-                    />
-                    <filter
-                        string="Picking"
-                        name="groupby_picking"
-                        context="{'group_by': 'picking_id'}"
-                    />
-                    <filter
-                        string="Date"
-                        name="groupby_date"
-                        context="{'group_by': 'date:month'}"
-                    />
-                </group>
+                <separator />
+                <filter
+                    string="Product"
+                    name="groupby_product"
+                    context="{'group_by': 'product_id'}"
+                />
+                <filter
+                    string="Picking"
+                    name="groupby_picking"
+                    context="{'group_by': 'picking_id'}"
+                />
+                <filter
+                    string="Date"
+                    name="groupby_date"
+                    context="{'group_by': 'date:month'}"
+                />
             </search>
         </field>
     </record>
