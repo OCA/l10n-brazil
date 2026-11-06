@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  História ponta-a-ponta da consignação (lado consignante), Empresa Lucro Presumido:
+  1) remete 10 un em consignação ao cliente contribuinte de SP;
+  2) fatura 6 un efetivamente vendidas pelo consignatário (sem novo ICMS);
+  3) recebe de volta 4 un não vendidas (crédito de ICMS espelhando a remessa).
+-->
+<odoo noupdate="1">
+
+    <!-- 1) Remessa em consignação -->
+    <record id="demo_consig_remessa" model="l10n_br_fiscal.document">
+        <field name="fiscal_operation_id" ref="fo_consig_rem" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
+        <field
+            name="document_serie_id"
+            ref="l10n_br_fiscal.empresa_lc_document_55_serie_1"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="document_serie">1</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="user_id" ref="base.user_demo" />
+        <field name="fiscal_operation_type">out</field>
+    </record>
+
+    <record id="demo_consig_remessa_line" model="l10n_br_fiscal.document.line">
+        <field name="document_id" ref="demo_consig_remessa" />
+        <field name="name">Mercadoria remetida em consignação</field>
+        <field name="product_id" ref="product.product_product_6" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="quantity">10</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="fo_consig_rem" />
+        <field name="fiscal_operation_line_id" ref="fo_consig_rem_line" />
+    </record>
+
+    <!-- 2) Faturamento da venda (6 un) -->
+    <record id="demo_consig_faturamento" model="l10n_br_fiscal.document">
+        <field name="fiscal_operation_id" ref="fo_consig_fat" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
+        <field
+            name="document_serie_id"
+            ref="l10n_br_fiscal.empresa_lc_document_55_serie_1"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="document_serie">1</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="user_id" ref="base.user_demo" />
+        <field name="fiscal_operation_type">out</field>
+    </record>
+
+    <record id="demo_consig_faturamento_line" model="l10n_br_fiscal.document.line">
+        <field name="document_id" ref="demo_consig_faturamento" />
+        <field name="name">Faturamento de mercadoria em consignação</field>
+        <field name="product_id" ref="product.product_product_6" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="quantity">6</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="fo_consig_fat" />
+        <field name="fiscal_operation_line_id" ref="fo_consig_fat_line" />
+    </record>
+
+    <!-- 3) Devolução recebida (4 un não vendidas) -->
+    <record id="demo_consig_devolucao" model="l10n_br_fiscal.document">
+        <field name="fiscal_operation_id" ref="fo_consig_ret" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
+        <field
+            name="document_serie_id"
+            ref="l10n_br_fiscal.empresa_lc_document_55_serie_1"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="document_serie">1</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="user_id" ref="base.user_demo" />
+        <field name="fiscal_operation_type">in</field>
+    </record>
+
+    <record id="demo_consig_devolucao_line" model="l10n_br_fiscal.document.line">
+        <field name="document_id" ref="demo_consig_devolucao" />
+        <field name="name">Devolução de mercadoria em consignação</field>
+        <field name="product_id" ref="product.product_product_6" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="quantity">4</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_operation_id" ref="fo_consig_ret" />
+        <field name="fiscal_operation_line_id" ref="fo_consig_ret_line" />
+    </record>
+
+</odoo>

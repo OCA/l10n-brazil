@@ -53,6 +53,7 @@
         "data/l10n_br_fiscal_operation_indicator_data.xml",
         "data/simplified_tax_data.xml",
         "data/operation_data.xml",
+        "data/fiscal_operation_consignacao.xml",
         "data/l10n_br_fiscal_tax_icms_data.xml",
         # the following csv data files will be loaded as noupdate=True
         # and will be trimmed down when demo mode is True (faster):
@@ -131,6 +132,7 @@
         "demo/res_users_demo.xml",
         "demo/icms_tax_definition_demo.xml",
         "demo/fiscal_document_demo.xml",
+        "demo/fiscal_document_consignacao_demo.xml",
     ],
     "installable": True,
     "application": True,
