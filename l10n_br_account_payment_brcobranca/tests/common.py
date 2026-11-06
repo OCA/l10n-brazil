@@ -8,6 +8,7 @@ import os
 import urllib.parse
 
 from odoo import Command
+from odoo.exceptions import ValidationError
 from odoo.tests import tagged
 from odoo.tests.common import _super_send
 from odoo.tools import file_path
@@ -1017,6 +1018,10 @@ class TestBRCobrancaCommon(CNABTestCommon):
         if not self._check_ci_no_brcobranca():
             self._invoice_confirm_workflow(invoice)
             payment_order = self._get_draft_payment_order(invoice)
+            # Verifica os detalhes do caso Itau 400
+            if invoice.payment_mode_id == self.pay_mode_itau_400:
+                self._check_itau_400_details(invoice, payment_order)
+
             self._run_payment_order_workflow(payment_order, test_not_create_file=False)
 
     def _run_import_return_file(self, test_file, journal):
@@ -1052,3 +1057,25 @@ class TestBRCobrancaCommon(CNABTestCommon):
                 "Test skipped because Enviroment are setting for CI_NO_BRCOBRANCA."
             )
             return True
+
+    def _check_itau_400_details(self, invoice, payment_order):
+        # Campo documento maior que 25 mesmo removendo Zeros a esquerda
+        # e outros caracteres gera erro no campo 'documento'
+        for line in payment_order.payment_line_ids:
+            line.document_number = "00001234567890/1234567890/01-01-27"
+        # Valor menor que 25 não gera erro no campo 'documento' mas no campo
+        # 'numero' não pode ser maior do que 10
+        with self.assertRaises(ValidationError):
+            self._run_payment_order_workflow(payment_order, test_not_create_file=False)
+        # Valor menor que 25 não gera erro no campo 'documento' mas no campo
+        # 'numero' não pode ser maior do que 10
+        for line in payment_order.payment_line_ids:
+            line.document_number = "00001234567890/01-01-27"
+        with self.assertRaises(ValidationError):
+            self._run_payment_order_workflow(payment_order, test_not_create_file=False)
+
+        # Apesar do campo ser maior do que 10 o método vai buscar remover os Zeros
+        # a esquerda e outros caracteres que não sejam números para diminuir o
+        # tamanho se não for possível vair retornar erro.
+        for line in payment_order.payment_line_ids:
+            line.document_number = "00045678/01-01"
