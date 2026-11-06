@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Modalidades especiais de importação: conta e ordem, admissão temporária e
+  drawback (modalidade suspensão).
+
+  - CONTA E ORDEM (IN RFB 1.861/2018): a importadora/trading executa o despacho
+    mas o dono é o adquirente; os créditos de importação são do adquirente
+    (Lei 10.865/2004, art. 15, § 8º). Três operações: entrada da importadora
+    (3949, PIS/COFINS-Importação SEM crédito), remessa ao adquirente (5949,
+    ICMS/IPI destacados para o adquirente creditar) e aquisição pelo adquirente
+    (1949, créditos de importação).
+  - IMPORTAÇÃO POR ENCOMENDA: NÃO tem operação própria. O importador importa em
+    nome próprio (fo_importacao) e vende ao encomendante (fo_venda); o
+    encomendante compra (fo_compras). O diferencial é declaratório (DI/DUIMP e
+    NF-e identificam o encomendante), não tributário.
+  - ADMISSÃO TEMPORÁRIA (Reg. Aduaneiro art. 353; Conv. ICMS 58/99): entrada
+    3930 com suspensão total (II/IPI/PIS/COFINS/ICMS) e reexportação 7930.
+    Utilização econômica (suspensão parcial de 1% ao mês) é variante
+    parametrizável, fora do caso geral.
+  - DRAWBACK SUSPENSÃO (Conv. ICMS 27/90): importação de insumo 3127 com
+    suspensão, exportação vinculada 7127 e devoluções dedicadas (7211/3211).
+    Modalidades isenção e restituição ficam fora (são declaratórias ou de
+    apuração, não de operação).
+
+  II não possui CST no modelo brasileiro: as definitions de suspensão do II
+  usam tax_ii_suspensao sem cst_id.
+-->
+<odoo noupdate="1">
+
+    <record id="comment_conta_ordem_import" model="l10n_br_fiscal.comment">
+        <field name="name">Importação por conta e ordem</field>
+        <field
+            name="comment"
+        >Operação de importação por conta e ordem de terceiro, nos termos da IN RFB 1.861/2018, conforme DI/DUIMP referenciada. Créditos de II/IPI/PIS/COFINS-Importação pertencem ao adquirente (Lei 10.865/2004, art. 15, § 8º).</field>
+        <field name="comment_type">fiscal</field>
+        <field name="object">l10n_br_fiscal.document.mixin</field>
+    </record>
+    <record id="comment_admissao_temporaria" model="l10n_br_fiscal.comment">
+        <field name="name">Admissão temporária</field>
+        <field
+            name="comment"
+        >Bem admitido temporariamente sob suspensão total de tributos (Regulamento Aduaneiro, art. 353; Convênio ICMS 58/99), conforme DI/DUIMP e prazo de permanência do regime.</field>
+        <field name="comment_type">fiscal</field>
+        <field name="object">l10n_br_fiscal.document.mixin</field>
+    </record>
+    <record id="comment_drawback" model="l10n_br_fiscal.comment">
+        <field name="name">Drawback suspensão</field>
+        <field
+            name="comment"
+        >Operação sob regime de drawback, modalidade suspensão, conforme Ato Concessório referenciado. Tributos federais e ICMS suspensos (Convênio ICMS 27/90), condicionados à exportação do produto resultante.</field>
+        <field name="comment_type">fiscal</field>
+        <field name="object">l10n_br_fiscal.document.mixin</field>
+    </record>
+
+    <!-- ============ CONTA E ORDEM ============ -->
+
+    <!-- Entrada da importadora (trading): tributos recolhidos por ela, créditos
+         de PIS/COFINS-Importação NÃO tomados (são do adquirente, CST 70). -->
+    <record id="fo_importacao_conta_ordem" model="l10n_br_fiscal.operation">
+        <field name="code">IMP-CO</field>
+        <field name="name">Importação por conta e ordem (entrada da importadora)</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">other</field>
+        <field name="default_price_unit">cost_price</field>
+        <field name="state">approved</field>
+        <field
+            name="comment_ids"
+            eval="[(6, 0, [ref('comment_conta_ordem_import')])]"
+        />
+    </record>
+    <record id="fo_imp_co_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_importacao_conta_ordem" />
+        <field name="name">Entrada de importação por conta e ordem</field>
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_3949" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_imp_co_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_imp_co_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_importacao_2_1" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_70" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_imp_co_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_imp_co_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_importacao_9_65" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_70" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- Remessa da importadora ao adquirente: ICMS/IPI destacados (default)
+         para o adquirente creditar; não é receita de venda (PIS/COFINS 49). -->
+    <record id="fo_remessa_conta_ordem_import" model="l10n_br_fiscal.operation">
+        <field name="code">REM-CO-IMP</field>
+        <field name="name">Remessa de importação por conta e ordem ao adquirente</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">other</field>
+        <field name="state">approved</field>
+        <field
+            name="comment_ids"
+            eval="[(6, 0, [ref('comment_conta_ordem_import')])]"
+        />
+    </record>
+    <record id="fo_rem_co_imp_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_remessa_conta_ordem_import" />
+        <field name="name">Remessa de importação por conta e ordem</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5949" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6949" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_co_imp_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_rem_co_imp_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_rem_co_imp_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_rem_co_imp_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- Aquisição pelo adquirente: o real comprador, toma os créditos de
+         importação (PIS/COFINS-Importação CST 50; ICMS/IPI pelo destaque). -->
+    <record id="fo_aquisicao_conta_ordem" model="l10n_br_fiscal.operation">
+        <field name="code">AQ-CO</field>
+        <field name="name">Aquisição de importação por conta e ordem</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">purchase</field>
+        <field name="default_price_unit">cost_price</field>
+        <field
+            name="return_fiscal_operation_id"
+            ref="l10n_br_fiscal.fo_devolucao_compras"
+        />
+        <field name="state">approved</field>
+        <field
+            name="comment_ids"
+            eval="[(6, 0, [ref('comment_conta_ordem_import')])]"
+        />
+    </record>
+    <record id="fo_aq_co_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_aquisicao_conta_ordem" />
+        <field name="name">Aquisição de importação por conta e ordem</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1949" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2949" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_aq_co_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_aq_co_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_importacao_2_1" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_50" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_aq_co_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_aq_co_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_importacao_9_65" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_50" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- ============ ADMISSÃO TEMPORÁRIA ============ -->
+
+    <!-- Reexportação (alvo do return da admissão) -->
+    <record id="fo_reexportacao_temporaria" model="l10n_br_fiscal.operation">
+        <field name="code">REEXP-TEMP</field>
+        <field name="name">Reexportação de admissão temporária</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">return_out</field>
+        <field name="state">approved</field>
+        <field
+            name="comment_ids"
+            eval="[(6, 0, [ref('comment_admissao_temporaria')])]"
+        />
+    </record>
+    <record id="fo_reexp_temp_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_reexportacao_temporaria" />
+        <field name="name">Reexportação de admissão temporária</field>
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_7930" />
+        <field name="product_type">08</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_reexp_temp_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_reexp_temp_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_suspensao" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_50" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_reexp_temp_ipi" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_reexp_temp_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_suspensao" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_55" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_reexp_temp_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_reexp_temp_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_susp" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_09" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_reexp_temp_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_reexp_temp_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_susp" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_09" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_reexp_temp_ii" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_reexp_temp_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ii" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ii_suspensao" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- Admissão temporária (entrada com suspensão total) -->
+    <record id="fo_admissao_temporaria" model="l10n_br_fiscal.operation">
+        <field name="code">ADM-TEMP</field>
+        <field name="name">Admissão temporária</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">other</field>
+        <field name="default_price_unit">cost_price</field>
+        <field name="return_fiscal_operation_id" ref="fo_reexportacao_temporaria" />
+        <field name="state">approved</field>
+        <field
+            name="comment_ids"
+            eval="[(6, 0, [ref('comment_admissao_temporaria')])]"
+        />
+    </record>
+    <record id="fo_adm_temp_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_admissao_temporaria" />
+        <field name="name">Admissão temporária (suspensão total)</field>
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_3930" />
+        <field name="product_type">08</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_adm_temp_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_adm_temp_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_suspensao" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_50" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_adm_temp_ipi" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_adm_temp_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_suspensao" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_05" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_adm_temp_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_adm_temp_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_susp" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_72" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_adm_temp_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_adm_temp_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_susp" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_72" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_adm_temp_ii" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_adm_temp_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ii" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ii_suspensao" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- ============ DRAWBACK (modalidade suspensão) ============ -->
+
+    <!-- Devolução da compra sob drawback (alvo do return da importação) -->
+    <record id="fo_drawback_dev_compra" model="l10n_br_fiscal.operation">
+        <field name="code">DRAW-DEV-C</field>
+        <field name="name">Devolução de importação sob drawback</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">purchase_refund</field>
+        <field name="state">approved</field>
+        <field name="comment_ids" eval="[(6, 0, [ref('comment_drawback')])]" />
+    </record>
+    <record id="fo_draw_dev_c_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_drawback_dev_compra" />
+        <field name="name">Devolução de importação sob drawback</field>
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_7211" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+
+    <!-- Importação de insumo sob drawback (suspensão) -->
+    <record id="fo_drawback_importacao" model="l10n_br_fiscal.operation">
+        <field name="code">DRAW-IMP</field>
+        <field name="name">Drawback suspensão - importação de insumo</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">purchase</field>
+        <field name="default_price_unit">cost_price</field>
+        <field name="return_fiscal_operation_id" ref="fo_drawback_dev_compra" />
+        <field name="state">approved</field>
+        <field name="comment_ids" eval="[(6, 0, [ref('comment_drawback')])]" />
+    </record>
+    <record id="fo_draw_imp_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_drawback_importacao" />
+        <field name="name">Importação de insumo sob drawback</field>
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_3127" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_draw_imp_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_draw_imp_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_suspensao" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_50" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_draw_imp_ipi" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_draw_imp_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_suspensao" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_05" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_draw_imp_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_draw_imp_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_susp" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_72" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_draw_imp_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_draw_imp_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_susp" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_72" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_draw_imp_ii" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_draw_imp_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ii" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ii_suspensao" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- Devolução da venda sob drawback (alvo do return da exportação) -->
+    <record id="fo_drawback_dev_venda" model="l10n_br_fiscal.operation">
+        <field name="code">DRAW-DEV-V</field>
+        <field name="name">Devolução de exportação sob drawback</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">sale_refund</field>
+        <field name="state">approved</field>
+        <field name="comment_ids" eval="[(6, 0, [ref('comment_drawback')])]" />
+    </record>
+    <record id="fo_draw_dev_v_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_drawback_dev_venda" />
+        <field name="name">Devolução de exportação sob drawback</field>
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_3211" />
+        <field name="product_type">04</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+
+    <!-- Exportação do produto sob drawback -->
+    <record id="fo_drawback_exportacao" model="l10n_br_fiscal.operation">
+        <field name="code">DRAW-EXP</field>
+        <field name="name">Drawback suspensão - exportação do produto</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">sale</field>
+        <field name="return_fiscal_operation_id" ref="fo_drawback_dev_venda" />
+        <field name="state">approved</field>
+        <field name="comment_ids" eval="[(6, 0, [ref('comment_drawback')])]" />
+    </record>
+    <record id="fo_draw_exp_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_drawback_exportacao" />
+        <field name="name">Exportação de produto sob drawback</field>
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_7127" />
+        <field name="product_type">04</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_draw_exp_ipi" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_draw_exp_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_suspensao" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_55" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_draw_exp_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_draw_exp_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_draw_exp_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_draw_exp_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+
+</odoo>
