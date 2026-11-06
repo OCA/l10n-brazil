@@ -231,6 +231,9 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
         "company_id.simplified_tax_range_id.total_tax_percent",
         "pis_percent",
         "cofins_percent",
+        "irpj_percent",
+        "csll_percent",
+        "inss_percent",
         "issqn_percent",
     )
     def _compute_nfse10_tot_trib(self):
@@ -256,7 +259,19 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
                 rec.nfse10_indTotTrib = False
                 rec.nfse10_pTotTribSN = False
                 rec.nfse10_pTotTrib = rec.id
-                federal = (rec.pis_percent or 0.0) + (rec.cofins_percent or 0.0)
+                # The approximate federal burden of a service adds the
+                # withheld IRPJ, CSLL and INSS to PIS/COFINS: leaving them out
+                # understates pTotTribFed and the DANFSE approximate total.
+                federal = sum(
+                    rec[f] or 0.0
+                    for f in (
+                        "pis_percent",
+                        "cofins_percent",
+                        "irpj_percent",
+                        "csll_percent",
+                        "inss_percent",
+                    )
+                )
                 rec.nfse10_pTotTribFed = f"{federal:.2f}"
                 rec.nfse10_pTotTribEst = "0.00"
                 rec.nfse10_pTotTribMun = f"{rec.issqn_percent or 0.0:.2f}"
