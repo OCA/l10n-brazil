@@ -56,8 +56,9 @@ class L10nBrSaleBaseTest:
         cls.so_services = cls.env.ref(cls.so_services_ref)
         cls.so_product_service = cls.env.ref(cls.so_product_service_ref)
 
-        # Set warehouse on sale orders if stock is installed
-        if "stock.warehouse" in cls.env:
+        # Set warehouse on sale orders if sale_stock is installed (stock alone
+        # does not add sale.order.warehouse_id)
+        if "warehouse_id" in cls.env["sale.order"]._fields:
             for so in [cls.so_products, cls.so_services, cls.so_product_service]:
                 if not so.warehouse_id:
                     so.warehouse_id = cls.warehouse.id
