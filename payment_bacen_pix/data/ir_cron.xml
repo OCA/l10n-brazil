@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 KMEE -->
+<!-- License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="1">
+    <record id="cron_poll_pending_transactions" model="ir.cron">
+        <field name="name">Pix: Poll the charges waiting for a payment</field>
+        <field name="model_id" ref="payment.model_payment_transaction" />
+        <field name="state">code</field>
+        <field name="code">model._cron_bacenpix_poll_pending_transactions()</field>
+        <field name="interval_number">10</field>
+        <field name="interval_type">minutes</field>
+        <field name="numbercall">-1</field>
+        <field name="active" eval="False" />
+    </record>
+</odoo>

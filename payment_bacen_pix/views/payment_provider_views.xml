@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 KMEE -->
+<!-- License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="payment_provider_form" model="ir.ui.view">
+        <field name="name">Pix Provider Form</field>
+        <field name="model">payment.provider</field>
+        <field name="inherit_id" ref="payment.payment_provider_form" />
+        <field name="arch" type="xml">
+            <group name="provider_credentials" position="inside">
+                <group attrs="{'invisible': [('code', '!=', 'bacenpix')]}">
+                    <field name="bacenpix_psp" />
+                    <field
+                        name="bacenpix_key"
+                        attrs="{'required': [('code', '=', 'bacenpix'), ('state', '!=', 'disabled')]}"
+                    />
+                    <field
+                        name="bacenpix_client_id"
+                        password="True"
+                        attrs="{'required': [('code', '=', 'bacenpix'), ('state', '!=', 'disabled')]}"
+                    />
+                    <field
+                        name="bacenpix_client_secret"
+                        password="True"
+                        attrs="{'required': [('code', '=', 'bacenpix'), ('state', '!=', 'disabled')]}"
+                    />
+                    <field
+                        name="bacenpix_app_key"
+                        password="True"
+                        attrs="{'invisible': [('bacenpix_psp', '!=', 'bb')]}"
+                    />
+                    <field name="bacenpix_certificate" filename="Certificate" />
+                    <field name="bacenpix_private_key" filename="Private Key" />
+                    <field name="bacenpix_expiration" />
+                </group>
+            </group>
+        </field>
+    </record>
+
+    <record id="payment_transaction_form" model="ir.ui.view">
+        <field name="name">Pix Transaction Form</field>
+        <field name="model">payment.transaction</field>
+        <field name="inherit_id" ref="payment.payment_transaction_form" />
+        <field name="arch" type="xml">
+            <field name="provider_reference" position="after">
+                <field name="bacenpix_txid" />
+                <field name="bacenpix_expiration" />
+            </field>
+        </field>
+    </record>
+
+</odoo>
