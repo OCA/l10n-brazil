@@ -1,7 +1,7 @@
 # Copyright 2026 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields
+from odoo import api, fields, models
 
 from odoo.addons.spec_driven_model.models import spec_models
 
@@ -37,13 +37,10 @@ class MDFeAutXML(spec_models.SpecModel):
         compute_sudo=True,
     )
 
-    _sql_constraints = [
-        (
-            "autxml_partner_document_uniq",
-            'unique("mdfe30_autXML_infMDFe_id", partner_id)',
-            "This partner is already authorized to download this document XML.",
-        ),
-    ]
+    _autxml_partner_document_uniq = models.Constraint(
+        'unique("mdfe30_autXML_infMDFe_id", partner_id)',
+        "This partner is already authorized to download this document XML.",
+    )
 
     @api.depends("partner_id.mdfe30_CNPJ", "partner_id.mdfe30_CPF")
     def _compute_mdfe30_cnpj_cpf(self):

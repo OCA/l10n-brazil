@@ -26,7 +26,10 @@ class MDFeModalRodoviario(spec_models.StackedModel):
 
     mdfe30_disp = fields.One2many(related="document_id.mdfe30_disp")
 
-    mdfe30_categCombVeic = fields.Selection(related="document_id.mdfe30_categCombVeic")
+    mdfe30_categCombVeic = fields.Selection(
+        compute="_compute_document_selections",
+        inverse="_inverse_document_selections",
+    )
 
     mdfe30_infContratante = fields.One2many(related="document_id.mdfe30_infContratante")
 
@@ -50,15 +53,51 @@ class MDFeModalRodoviario(spec_models.StackedModel):
 
     mdfe30_capM3 = fields.Char(related="document_id.mdfe30_capM3")
 
-    mdfe30_tpRod = fields.Selection(related="document_id.mdfe30_tpRod")
+    mdfe30_tpRod = fields.Selection(
+        compute="_compute_document_selections",
+        inverse="_inverse_document_selections",
+    )
 
-    mdfe30_tpCar = fields.Selection(related="document_id.mdfe30_tpCar")
+    mdfe30_tpCar = fields.Selection(
+        compute="_compute_document_selections",
+        inverse="_inverse_document_selections",
+    )
 
-    mdfe30_UF = fields.Selection(related="document_id.mdfe30_UF")
+    mdfe30_UF = fields.Selection(
+        compute="_compute_document_selections",
+        inverse="_inverse_document_selections",
+    )
 
     mdfe30_veicReboque = fields.One2many(related="document_id.mdfe30_veicReboque")
 
     mdfe30_lacRodo = fields.One2many(related="document_id.mdfe30_lacRodo")
+
+    # Selection fields of the spec mixin mirrored from the document. They are
+    # not related fields because Odoo 19 warns when a related field redefines
+    # a field that declares a selection.
+    _document_selection_fields = [
+        "mdfe30_categCombVeic",
+        "mdfe30_tpRod",
+        "mdfe30_tpCar",
+        "mdfe30_UF",
+    ]
+
+    @api.depends(*[f"document_id.{name}" for name in _document_selection_fields])
+    def _compute_document_selections(self):
+        for record in self:
+            for name in self._document_selection_fields:
+                record[name] = record.document_id[name]
+
+    def _inverse_document_selections(self):
+        document_fields = self.env["l10n_br_fiscal.document"]._fields
+        names = [
+            name
+            for name in self._document_selection_fields
+            if not document_fields[name].compute or document_fields[name].inverse
+        ]
+        for record in self.filtered("document_id"):
+            for name in names:
+                record.document_id[name] = record[name]
 
     # @api.depends("document_id.mdfe30_infContratante")
     # def _compute_contractor(self):

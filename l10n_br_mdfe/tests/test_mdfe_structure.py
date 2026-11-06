@@ -5,17 +5,23 @@ from io import StringIO
 
 from odoo import Command
 from odoo.exceptions import UserError
-from odoo.tests import TransactionCase
+from odoo.tests import TransactionCase, tagged
 
 from odoo.addons.spec_driven_model.models.spec_models import SpecModel
 
 from ..models.document import MDFe
+from .tools import load_mdfe_fixture_files
 
 
+# The tables of the remaining spec models (e.g. mdfe_30_infmuncarrega) are
+# created by the spec_driven_model hook at the end of the modules loading,
+# after the at_install tests of l10n_br_mdfe ran.
+@tagged("post_install", "-at_install")
 class MDFeStructure(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        load_mdfe_fixture_files(cls.env)
 
     @classmethod
     def get_stacked_tree(cls, klass):

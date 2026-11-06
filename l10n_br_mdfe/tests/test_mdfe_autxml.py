@@ -4,11 +4,14 @@
 from odoo import Command
 from odoo.tests import TransactionCase
 
+from .tools import load_mdfe_fixture_files
+
 
 class TestMDFeAutXml(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        load_mdfe_fixture_files(cls.env)
         cls.document = cls.env.ref("l10n_br_mdfe.demo_mdfe_lc_modal_rodoviario")
         cls.accountant = cls.env["res.partner"].create({"name": "Accountant"})
 
@@ -66,7 +69,7 @@ class TestMDFeAutXml(TransactionCase):
                 "login": "mdfe_autxml_fiscal_user",
                 "company_id": self.document.company_id.id,
                 "company_ids": [Command.set(self.document.company_id.ids)],
-                "groups_id": [
+                "group_ids": [
                     Command.set(
                         [
                             self.env.ref("base.group_user").id,

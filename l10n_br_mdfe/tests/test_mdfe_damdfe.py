@@ -5,9 +5,15 @@ from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
 
 from .test_mdfe_serialize import TestMDFeSerialize
+from .tools import load_mdfe_fixture_files
 
 
 class TestDamdfeGeneration(TransactionCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        load_mdfe_fixture_files(cls.env)
+
     def test_generate_damdfe_brazil_fiscal_report(self):
         mdfe = self.env.ref("l10n_br_mdfe.demo_mdfe_lc_modal_rodoviario")
         TestMDFeSerialize.prepare_modal_rodoviario_data(mdfe)

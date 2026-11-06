@@ -15,6 +15,8 @@ from odoo.tools import config
 
 from odoo.addons import l10n_br_mdfe
 
+from .tools import load_mdfe_fixture_files
+
 _logger = logging.getLogger(__name__)
 
 
@@ -22,6 +24,7 @@ class TestMDFeSerialize(TransactionCase):
     @classmethod
     def setUpClass(cls, mdfe_list):
         super().setUpClass()
+        load_mdfe_fixture_files(cls.env)
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.mdfe_list = mdfe_list
         for mdfe_data in cls.mdfe_list:
@@ -239,6 +242,7 @@ class TestMDFeRequiredFields(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        load_mdfe_fixture_files(cls.env)
         cls.mdfe = cls.env.ref("l10n_br_mdfe.demo_mdfe_lc_modal_rodoviario")
         TestMDFeSerialize.prepare_modal_rodoviario_data(cls.mdfe)
 
