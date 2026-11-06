@@ -10,6 +10,7 @@
                     <group name="certificate" string="Certificate">
                         <group>
                             <field name="certificate_ecnpj_id" />
+                            <field name="certificate_ecpf_id" />
                         </group>
                         <group>
                             <field name="certificate_nfe_id" />
