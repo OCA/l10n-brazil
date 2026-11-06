@@ -2,7 +2,7 @@
 # @author Antônio S. Pereira Neto <neto@engenere.one>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import fields
+from odoo import Command, fields
 from odoo.exceptions import UserError
 from odoo.tests.common import tagged
 
@@ -207,3 +207,42 @@ class TestPaymentOrderOutboundPIX(AccountTestInvoicingCommon):
         )
         lines.invalidate_recordset(["pix_transfer_type"])
         self.assertEqual(lines.mapped("pix_transfer_type"), ["pix_key", False, False])
+
+    def test_service_type_only_for_vendor_bill(self):
+        """A journal entry must not send an empty service type to the line."""
+        self.invoice.action_post()
+        order = self.payment_order_model.create({"payment_mode_id": self.pix_mode.id})
+        payable = "liability_payable"
+        bill_line = self.invoice.line_ids.filtered(lambda r: r.account_type == payable)
+        self.assertEqual(
+            bill_line._prepare_payment_line_vals(order)["service_type"], "20"
+        )
+        entry = self.env["account.move"].create(
+            {
+                "move_type": "entry",
+                "journal_id": self.company_data["default_journal_misc"].id,
+                "line_ids": [
+                    Command.create(
+                        {
+                            "account_id": self.company_data[
+                                "default_account_expense"
+                            ].id,
+                            "debit": 300.0,
+                        }
+                    ),
+                    Command.create(
+                        {
+                            "account_id": self.company_data[
+                                "default_account_payable"
+                            ].id,
+                            "partner_id": self.partner_a.id,
+                            "credit": 300.0,
+                        }
+                    ),
+                ],
+            }
+        )
+        entry.action_post()
+        entry_line = entry.line_ids.filtered(lambda r: r.account_type == payable)
+        entry_line.payment_mode_id = self.pix_mode
+        self.assertNotIn("service_type", entry_line._prepare_payment_line_vals(order))
