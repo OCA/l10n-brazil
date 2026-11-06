@@ -50,6 +50,7 @@
                     decoration-muted="manifestation_status == 'sem_manifestacao'"
                 />
                 <field name="document_state_label" string="State" />
+                <field name="utilization" optional="show" />
                 <button
                     string="XML"
                     name="action_download_xml"
