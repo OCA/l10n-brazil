@@ -1613,9 +1613,6 @@ class CTe(spec_models.StackedModel):
         if not self.filtered(filter_processador_edoc_cte):
             return super()._edoc_processor()
 
-        if not self.company_id.certificate_nfe_id:
-            raise UserError(_("Certificate not found"))
-
         certificado = self.company_id._get_br_ecertificate()
         session = Session()
         session.verify = False
