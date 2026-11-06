@@ -28,17 +28,6 @@ DFE_INTERVAL_NO_DOCS = timedelta(hours=1, minutes=1)  # 137: no docs (cooldown +
 DFE_INTERVAL_RATE_LIMITED = timedelta(hours=1, minutes=1)  # 656: rate limit + margin
 DFE_INTERVAL_ERROR = timedelta(minutes=15)  # Network/exception error
 
-EVENT_TYPE_LABELS = {
-    "210200": "Confirmação da Operação",
-    "210210": "Ciência da Operação",
-    "210220": "Desconhecimento da Operação",
-    "210240": "Operação não Realizada",
-    "110110": "Carta de Correção",
-    "110111": "Cancelamento",
-    "110112": "Cancelamento por Substituição",
-    "110140": "EPEC",
-}
-
 DFE_DESCRIPTION_MAP = {
     "procNFe": "XML NF-e completo (procNFe) via distribuição DF-e",
     "resNFe": "Resumo de NF-e (resNFe) via distribuição DF-e",

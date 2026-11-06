@@ -33,6 +33,13 @@
                                 context="{'default_document_type_id': id}"
                             />
                         </page>
+                        <page
+                            name="event_type"
+                            string="Event Types"
+                            attrs="{'invisible': [('electronic', '=', False)]}"
+                        >
+                            <field name="event_type_ids" />
+                        </page>
                     </notebook>
                 </sheet>
             </form>

@@ -16,6 +16,8 @@
         <field name="arch" type="xml">
             <tree edit="false" create="false">
                 <field name="type" />
+                <field name="service_id" optional="hide" />
+                <field name="event_type_id" optional="hide" />
                 <field name="company_id" />
                 <field name="response" />
                 <field name="origin" />
@@ -39,6 +41,8 @@
                 <sheet>
                     <group>
                         <field name="type" />
+                        <field name="service_id" />
+                        <field name="event_type_id" />
                         <field name="company_id" />
                         <field name="document_id" />
                         <field name="document_type_id" />
