@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import Command, fields
+from odoo.exceptions import ValidationError
 from odoo.tests.common import tagged
 
 from odoo.addons.l10n_br_account.tests.common import AccountMoveBRCommon
@@ -558,3 +559,97 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
         move.invalidate_recordset(["date"])
         vals = move._prepare_wh_invoice(wh_line, fiscal_group)
         self.assertEqual(vals["invoice_date_due"], fields.Date.to_date("2026-02-28"))
+
+    def _create_state_treasury(self, name, state_ref):
+        return self.env["res.partner"].create(
+            {
+                "name": name,
+                "state_id": self.env.ref(state_ref).id,
+                "country_id": self.env.ref("base.br").id,
+                "wh_state_treasury": True,
+            }
+        )
+
+    def test_state_scope_resolves_state_treasury(self):
+        """A state scoped tax group resolves the treasury of the delivery state."""
+        tax_group = self.env.ref("l10n_br_fiscal.tax_group_icmsst")
+        self.assertEqual(tax_group.tax_scope, "state")
+        treasury = self._create_state_treasury("SEFAZ SP", "base.state_br_sp")
+
+        move = self.move_in_compra_para_revenda
+        move.partner_id.state_id = self.env.ref("base.state_br_sp")
+
+        self.assertEqual(tax_group._get_tax_authority_partner(move), treasury)
+
+    def test_state_scope_uses_delivery_state(self):
+        """The delivery address wins over the invoice address."""
+        tax_group = self.env.ref("l10n_br_fiscal.tax_group_icmsst")
+        self._create_state_treasury("SEFAZ SP", "base.state_br_sp")
+        treasury_rj = self._create_state_treasury("SEFAZ RJ", "base.state_br_rj")
+
+        move = self.move_in_compra_para_revenda
+        move.partner_id.state_id = self.env.ref("base.state_br_sp")
+        move.partner_shipping_id = self.env["res.partner"].create(
+            {
+                "name": "Filial RJ",
+                "state_id": self.env.ref("base.state_br_rj").id,
+                "country_id": self.env.ref("base.br").id,
+            }
+        )
+
+        self.assertEqual(tax_group._get_tax_authority_partner(move), treasury_rj)
+
+    def test_state_scope_falls_back_to_tax_group_partner(self):
+        """Without a registered treasury, the tax group partner is used."""
+        tax_group = self.env.ref("l10n_br_fiscal.tax_group_icmsst")
+        tax_group.partner_id = self.test_partner
+
+        move = self.move_in_compra_para_revenda
+        move.partner_id.state_id = self.env.ref("base.state_br_ac")
+
+        self.assertEqual(tax_group._get_tax_authority_partner(move), self.test_partner)
+
+    def test_unique_state_treasury(self):
+        """Only one treasury partner may exist per state."""
+        self._create_state_treasury("SEFAZ SP", "base.state_br_sp")
+        with self.assertRaises(ValidationError):
+            self._create_state_treasury("SEFAZ SP duplicada", "base.state_br_sp")
+
+    def test_city_scope_without_invoice_lines(self):
+        """A city scoped tax group resolves the city hall of the invoice partner
+        city when the move has no invoice lines (regression for an IndexError)."""
+        tax_group = self.env.ref("l10n_br_fiscal.tax_group_issqn_wh")
+        self.assertEqual(tax_group.tax_scope, "city")
+        city_sp = self.env.ref("l10n_br_base.city_3550308")
+        city_rj = self.env.ref("l10n_br_base.city_3304557")
+        partner_model = self.env["res.partner"]
+        cityhall_sp = partner_model.create(
+            {
+                "name": "Prefeitura de São Paulo",
+                "city_id": city_sp.id,
+                "state_id": self.env.ref("base.state_br_sp").id,
+                "country_id": self.env.ref("base.br").id,
+                "wh_cityhall": True,
+            }
+        )
+        partner_model.create(
+            {
+                "name": "Prefeitura do Rio de Janeiro",
+                "city_id": city_rj.id,
+                "state_id": self.env.ref("base.state_br_rj").id,
+                "country_id": self.env.ref("base.br").id,
+                "wh_cityhall": True,
+            }
+        )
+        move = self.init_invoice(
+            "in_invoice",
+            partner=self.test_partner,
+            document_type=self.env.ref("l10n_br_fiscal.document_55"),
+            fiscal_operation=self.env.ref("l10n_br_fiscal.fo_compras"),
+            document_serie="1",
+            document_number="57",
+        )
+        self.assertFalse(move.invoice_line_ids)
+        self.assertEqual(move.partner_id.city_id, city_sp)
+
+        self.assertEqual(tax_group._get_tax_authority_partner(move), cityhall_sp)
