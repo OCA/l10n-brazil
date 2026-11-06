@@ -33,7 +33,10 @@ class MDFeModalAquaviario(spec_models.StackedModel):
 
     mdfe30_prtTrans = fields.Char(related="document_id.mdfe30_prtTrans")
 
-    mdfe30_tpNav = fields.Selection(related="document_id.mdfe30_tpNav")
+    mdfe30_tpNav = fields.Selection(
+        compute="_compute_document_selections",
+        inverse="_inverse_document_selections",
+    )
 
     mdfe30_infTermCarreg = fields.One2many(related="document_id.mdfe30_infTermCarreg")
 
@@ -42,6 +45,28 @@ class MDFeModalAquaviario(spec_models.StackedModel):
     )
 
     mdfe30_infEmbComb = fields.One2many(related="document_id.mdfe30_infEmbComb")
+
+    # Selection fields of the spec mixin mirrored from the document. They are
+    # not related fields because Odoo 19 warns when a related field redefines
+    # a field that declares a selection.
+    _document_selection_fields = ["mdfe30_tpNav"]
+
+    @api.depends(*[f"document_id.{name}" for name in _document_selection_fields])
+    def _compute_document_selections(self):
+        for record in self:
+            for name in self._document_selection_fields:
+                record[name] = record.document_id[name]
+
+    def _inverse_document_selections(self):
+        document_fields = self.env["l10n_br_fiscal.document"]._fields
+        names = [
+            name
+            for name in self._document_selection_fields
+            if not document_fields[name].compute or document_fields[name].inverse
+        ]
+        for record in self.filtered("document_id"):
+            for name in names:
+                record.document_id[name] = record[name]
 
     mdfe30_infUnidCargaVazia = fields.One2many(
         related="document_id.mdfe30_infUnidCargaVazia"

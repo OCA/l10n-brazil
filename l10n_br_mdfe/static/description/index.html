@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
-<title>MDFe</title>
+<title>README.rst</title>
 <style type="text/css">
 
 /*
@@ -374,15 +374,15 @@ ul.auto-toc {
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! source digest: sha256:a3ed17b292ca0d59d8ccac2d02387865d42508d5611a61ea4d99c3d7222891ab
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/license-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/18.0/l10n_br_mdfe"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-18-0/l10n-brazil-18-0-l10n_br_mdfe"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=18.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/license-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/19.0/l10n_br_mdfe"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-19-0/l10n-brazil-19-0-l10n_br_mdfe"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=19.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
 <p>Este módulo permite a emissão de MDF-e.</p>
 <p>Mais especificamente ele:</p>
 <ul class="simple">
-<li>mapea os campos de MDF-e do módulo <tt class="docutils literal">l10n_br_mdfe_spec</tt> com os campos
-Odoo.</li>
+<li>mapea os campos de MDF-e do módulo <tt class="docutils literal">l10n_br_mdfe_spec</tt> com os
+campos Odoo.</li>
 <li>usa a logica do módulo <tt class="docutils literal">spec_driven_model</tt> para realizar esse
-mapeamento de forma dinâmica, em especial ele usa o sistema de modelos
-com várias camadas, ou <tt class="docutils literal">StackedModel</tt>, com os modelos
+mapeamento de forma dinâmica, em especial ele usa o sistema de
+modelos com várias camadas, ou <tt class="docutils literal">StackedModel</tt>, com os modelos
 <tt class="docutils literal">l10n_br_fiscal.document</tt> e <tt class="docutils literal">l10n_br_fiscal.document.related</tt> que
 tem varios niveis hierarquicos de elementos XML que estão sendo
 denormalizados dentro desses modelos Odoo</li>
@@ -423,7 +423,8 @@ financeiro.</p>
 </ul>
 </li>
 <li><strong>Configurar o Parceiro da Fatura:</strong><ul>
-<li>Configure o parceiro para ser o mesmo da empresa emissora do MDF-e.</li>
+<li>Configure o parceiro para ser o mesmo da empresa emissora do
+MDF-e.</li>
 </ul>
 </li>
 <li><strong>Adicionar uma Linha na Aba Produtos:</strong><ul>
@@ -450,8 +451,8 @@ para a SEFAZ.</li>
 <p><strong>Considerações Adicionais</strong></p>
 <ul class="simple">
 <li><strong>Operação Fiscal:</strong> Certifique-se de que a operação fiscal esteja
-parametrizada corretamente para evitar a adição de valores financeiros
-ao documento.</li>
+parametrizada corretamente para evitar a adição de valores
+financeiros ao documento.</li>
 <li><strong>CFOP:</strong> No caso de utilização de um produto cadastrado e que
 carregue o CFOP para a linha da fatura, verifique a configuração do
 CFOP para garantir que ele não gere impacto financeiro no montante da
@@ -469,7 +470,7 @@ valores financeiros associados.</p>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-brazil/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-<a class="reference external" href="https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_mdfe%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
+<a class="reference external" href="https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_mdfe%0Aversion:%2019.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
@@ -518,7 +519,7 @@ mission is to support the collaborative development of Odoo features and
 promote its widespread use.</p>
 <p>Current <a class="reference external" href="https://odoo-community.org/page/maintainer-role">maintainers</a>:</p>
 <p><a class="reference external image-reference" href="https://github.com/mileo"><img alt="mileo" src="https://github.com/mileo.png?size=40px" /></a> <a class="reference external image-reference" href="https://github.com/marcelsavegnago"><img alt="marcelsavegnago" src="https://github.com/marcelsavegnago.png?size=40px" /></a> <a class="reference external image-reference" href="https://github.com/rvalyi"><img alt="rvalyi" src="https://github.com/rvalyi.png?size=40px" /></a></p>
-<p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-brazil/tree/18.0/l10n_br_mdfe">OCA/l10n-brazil</a> project on GitHub.</p>
+<p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-brazil/tree/19.0/l10n_br_mdfe">OCA/l10n-brazil</a> project on GitHub.</p>
 <p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
 </div>
 </div>
