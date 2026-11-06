@@ -406,4 +406,3 @@ class FiscalDocument(models.Model):
                 _("The document cannot be imported due to incomplete lines:\n%s")
                 % "\n".join(errors)
             )
-    

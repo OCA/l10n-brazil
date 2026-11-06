@@ -5,6 +5,8 @@ from odoo import fields
 from odoo.exceptions import UserError
 from odoo.tests.common import tagged
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import DOCUMENT_STATE_CANCEL
+
 from .common import AccountMoveBRCommon
 
 
@@ -179,3 +181,64 @@ class TestImportFiscalDocument(AccountMoveBRCommon):
         document.document_key = "35200159594315000157550010000000042062777163"
         self._import_wizard(document)._check_imported_bill_allowed()
         self.assertFalse(document._vendor_bill_import_block_reason())
+
+    def test_cancelling_an_imported_bill_keeps_the_partner_document(self):
+        """A document the supplier issued stays as the source left it."""
+        document = self.fiscal_document_to_import
+        document.imported_document = True
+        move = self._vendor_bill_for(document)
+        state_before = document.state_edoc
+
+        self.assertTrue(move._cancel_keeps_fiscal_document())
+        move.button_cancel()
+
+        self.assertEqual(move.state, "cancel")
+        self.assertEqual(document.state_edoc, state_before)
+
+    def test_cancelling_a_company_document_cancels_the_fiscal_document(self):
+        """A document this company issued is still cancelled with the bill."""
+        document = self.env["l10n_br_fiscal.document"].create(
+            {
+                "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_venda").id,
+                "document_type_id": self.document_type_55.id,
+                "document_serie": "1",
+                "document_number": "4953",
+                "document_date": fields.Date.from_string("2026-08-17"),
+                "issuer": "company",
+                "partner_id": self.partner_a.id,
+                "fiscal_operation_type": "out",
+                "imported_document": True,
+            }
+        )
+        self.env["l10n_br_fiscal.document.line"].create(
+            {
+                "document_id": document.id,
+                "name": "Sale Test",
+                "product_id": self.product_a.id,
+                "fiscal_operation_type": "out",
+                "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_venda").id,
+                "fiscal_operation_line_id": self.env.ref(
+                    "l10n_br_fiscal.fo_venda_venda"
+                ).id,
+            }
+        )
+        document.document_serie_id = self.env["l10n_br_fiscal.document.serie"].create(
+            {
+                "name": "Serie 1",
+                "code": "1",
+                "document_type_id": self.document_type_55.id,
+                "company_id": document.company_id.id,
+            }
+        )
+        move = (
+            self.env["account.move"]
+            .sudo()
+            .import_fiscal_document(document, move_type="out_invoice")
+        )
+        move = self.env["account.move"].sudo().browse(move.id)
+
+        self.assertFalse(move._cancel_keeps_fiscal_document())
+        move.button_cancel()
+
+        self.assertEqual(move.state, "cancel")
+        self.assertEqual(document.state_edoc, DOCUMENT_STATE_CANCEL)

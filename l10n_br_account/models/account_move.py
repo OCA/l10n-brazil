@@ -635,8 +635,20 @@ class AccountMove(models.Model):
 
     def button_cancel(self):
         for doc in self.filtered(lambda d: d.document_type_id):
+            if doc._cancel_keeps_fiscal_document():
+                continue
             doc.fiscal_document_id.action_document_cancel()
         return super().button_cancel()
+
+    def _cancel_keeps_fiscal_document(self):
+        """An imported supplier document stays as the source left it.
+
+        Cancelling the vendor bill must not cancel a document the partner
+        issued. A document this company issued is still cancelled with the
+        bill.
+        """
+        self.ensure_one()
+        return bool(self.imported_document and self.issuer == DOCUMENT_ISSUER_PARTNER)
 
     def button_import_fiscal_document(self):
         """
