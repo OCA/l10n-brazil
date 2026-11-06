@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE - Luis Felipe Mileo <mileo@kmee.com.br>
+     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html -->
+<odoo>
+
+    <record id="reinf_event_tree" model="ir.ui.view">
+        <field name="model">l10n_br_reinf.event</field>
+        <field name="arch" type="xml">
+            <tree decoration-danger="state == 'rejected'">
+                <field name="period" />
+                <field name="event_type" />
+                <field name="event_key" optional="show" />
+                <field name="partner_id" optional="show" />
+                <field name="receipt_number" optional="show" />
+                <field name="protocol_number" optional="hide" />
+                <field name="environment" optional="hide" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="state" widget="badge" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="reinf_event_form" model="ir.ui.view">
+        <field name="model">l10n_br_reinf.event</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="action_validate"
+                        string="Validate"
+                        type="object"
+                        class="oe_highlight"
+                        attrs="{'invisible': [('state', '!=', 'draft')]}"
+                    />
+                    <button
+                        name="action_set_draft"
+                        string="Back to Draft"
+                        type="object"
+                        attrs="{'invisible': [('state', 'not in', ('validated', 'pending', 'rejected'))]}"
+                    />
+                    <button
+                        name="action_generate_xml"
+                        string="Generate XML"
+                        type="object"
+                        attrs="{'invisible': [('state', 'not in', ('draft', 'validated'))]}"
+                    />
+                    <button
+                        name="action_rectify"
+                        string="Rectify"
+                        type="object"
+                        attrs="{'invisible': [('state', '!=', 'accepted')]}"
+                    />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="event_type" />
+                        </h1>
+                        <h3>
+                            <field name="event_key" placeholder="Not generated yet" />
+                        </h3>
+                    </div>
+                    <group>
+                        <group name="identification">
+                            <field name="period" />
+                            <field name="partner_id" />
+                            <field name="rectify_indicator" />
+                            <field
+                                name="rectified_event_id"
+                                attrs="{'invisible': [('rectified_event_id', '=', False)]}"
+                            />
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                        </group>
+                        <group name="transmission" string="Transmission">
+                            <field name="environment" />
+                            <field name="batch_id" />
+                            <field name="protocol_number" />
+                            <field name="receipt_number" />
+                            <field name="receipt_date" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="response" string="Response">
+                            <group>
+                                <field name="status_code" />
+                                <field name="response" />
+                                <field name="message" />
+                                <field name="lot_receipt_number" />
+                            </group>
+                            <field name="occurrence_ids" nolabel="1" />
+                        </page>
+                        <page name="files" string="Files">
+                            <group>
+                                <field name="r1000_id" />
+                                <field name="file_request_id" />
+                                <field name="file_response_id" />
+                            </group>
+                        </page>
+                        <page name="origin" string="Source">
+                            <group>
+                                <field name="origin" />
+                                <field name="origin_model" />
+                                <field name="origin_id" />
+                                <field name="event_group" />
+                                <field name="inscription_type" />
+                                <field name="inscription" />
+                                <field name="sequence" />
+                            </group>
+                        </page>
+                        <page name="rectifications" string="Rectifications">
+                            <field name="rectification_ids" nolabel="1" />
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="reinf_event_search" model="ir.ui.view">
+        <field name="model">l10n_br_reinf.event</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="event_key" />
+                <field name="period" />
+                <field name="partner_id" />
+                <field name="receipt_number" />
+                <filter
+                    name="filter_draft"
+                    string="Draft"
+                    domain="[('state', '=', 'draft')]"
+                />
+                <filter
+                    name="filter_accepted"
+                    string="Accepted"
+                    domain="[('state', '=', 'accepted')]"
+                />
+                <filter
+                    name="filter_rejected"
+                    string="Rejected"
+                    domain="[('state', '=', 'rejected')]"
+                />
+                <group expand="0" string="Group By">
+                    <filter
+                        name="group_period"
+                        string="Period"
+                        context="{'group_by': 'period'}"
+                    />
+                    <filter
+                        name="group_event_type"
+                        string="Event"
+                        context="{'group_by': 'event_type'}"
+                    />
+                    <filter
+                        name="group_state"
+                        string="Status"
+                        context="{'group_by': 'state'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="reinf_event_action" model="ir.actions.act_window">
+        <field name="name">EFD-Reinf Events</field>
+        <field name="res_model">l10n_br_reinf.event</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>
