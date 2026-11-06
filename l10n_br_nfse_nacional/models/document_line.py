@@ -93,9 +93,11 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
 
     # Fields mapped to tags
     nfse10_cLocPrestacao = fields.Char(related="issqn_fg_city_id.ibge_code")
-    nfse10_cTribNac = fields.Char(related="national_taxation_code_id.code")
-    nfse10_cTribMun = fields.Char(related="city_taxation_code_id.code")
-    nfse10_cNBS = fields.Char(related="nbs_id.code")
+    # The NFSe schema patterns only accept the unmasked codes: the fiscal
+    # tables store them formatted (17.09.01, 1.1404.43.00) for the UI.
+    nfse10_cTribNac = fields.Char(related="national_taxation_code_id.code_unmasked")
+    nfse10_cTribMun = fields.Char(related="city_taxation_code_id.code_unmasked")
+    nfse10_cNBS = fields.Char(related="nbs_id.code_unmasked")
     nfse10_xDescServ = fields.Char(related="name")
 
     nfse10_vServ = fields.Char(compute="_compute_nfse10_valores")
@@ -229,6 +231,9 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
         "company_id.simplified_tax_range_id.total_tax_percent",
         "pis_percent",
         "cofins_percent",
+        "irpj_percent",
+        "csll_percent",
+        "inss_percent",
         "issqn_percent",
     )
     def _compute_nfse10_tot_trib(self):
@@ -254,7 +259,19 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
                 rec.nfse10_indTotTrib = False
                 rec.nfse10_pTotTribSN = False
                 rec.nfse10_pTotTrib = rec.id
-                federal = (rec.pis_percent or 0.0) + (rec.cofins_percent or 0.0)
+                # The approximate federal burden of a service adds the
+                # withheld IRPJ, CSLL and INSS to PIS/COFINS: leaving them out
+                # understates pTotTribFed and the DANFSE approximate total.
+                federal = sum(
+                    rec[f] or 0.0
+                    for f in (
+                        "pis_percent",
+                        "cofins_percent",
+                        "irpj_percent",
+                        "csll_percent",
+                        "inss_percent",
+                    )
+                )
                 rec.nfse10_pTotTribFed = f"{federal:.2f}"
                 rec.nfse10_pTotTribEst = "0.00"
                 rec.nfse10_pTotTribMun = f"{rec.issqn_percent or 0.0:.2f}"

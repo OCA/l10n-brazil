@@ -8,6 +8,7 @@
         <nDPS>2</nDPS>
         <dCompet>2023-09-09</dCompet>
         <tpEmit>1</tpEmit>
+        <finNFSe>0</finNFSe>
         <cLocEmi>3550308</cLocEmi>
         <prest>
             <CNPJ>81583054000129</CNPJ>
@@ -36,8 +37,8 @@
             </locPrest>
             <cServ>
                 <cTribNac>010101</cTribNac>
-                <xDescServ>Teste de NF Nacional com imposto</xDescServ>
                 <cNBS>111111111</cNBS>
+                <xDescServ>Teste de NF Nacional com imposto</xDescServ>
             </cServ>
         </serv>
         <valores>

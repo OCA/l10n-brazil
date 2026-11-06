@@ -8,7 +8,7 @@
 - Emissão, rejeição legível, cancelamento pelo evento `101101` e consulta de
   cancelamento feito fora do Odoo.
 - DANFSe gerado do XML autorizado.
-- Grupo `IBSCBS` da DPS (leiaute 1.01, reforma tributária) montado a partir do
+- Grupo `IBSCBS` da DPS (leiaute 1.04.01, reforma tributária) montado a partir do
   `cClassTrib`, do `CST` e do indicador de operação (`cIndOp`) da linha.
 
 **Limitações conhecidas**
@@ -23,9 +23,10 @@
   `cIndOp` do indicador de operação da própria linha (herdado do produto e
   editável na linha): quem tem a classificação mas não informou o indicador nem
   o CST recebe a DPS sem o grupo, com o motivo registrado no log.
-- No grupo `IBSCBS`, `finNFSe` e `indDest` saem como `"0"`: o leiaute 1.01 só
-  tem `"0"` (NFS-e regular) para `finNFSe` e o `indDest = "1"` depende do grupo
-  `dest`, ainda não exportado.
+- No grupo `IBSCBS`, `CST` e `cClassTrib` saem direto em `valores/trib` e o
+  `indDest` sai como `"0"`: o leiaute 1.04.01 (NT 009) tirou o `finNFSe` do
+  grupo (ele agora vai em `infDPS`, obrigatório e sempre `"0"`) e o
+  `indDest = "1"` depende do grupo `dest`, ainda não exportado.
 - CNAB e cobrança bancária não se aplicam a este módulo.
 - Não existe inutilização de numeração para a NFS-e Nacional (a numeração da DPS
   é livre).
