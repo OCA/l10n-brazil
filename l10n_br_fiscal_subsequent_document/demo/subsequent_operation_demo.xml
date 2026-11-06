@@ -6,5 +6,6 @@
         <field name="subsequent_operation_id" ref="l10n_br_fiscal.fo_entrega_futura" />
         <field name="operation_document_type_id" ref="l10n_br_fiscal.document_55" />
         <field name="generation_situation">a_enviar</field>
+        <field name="reference_document" eval="True" />
     </record>
 </odoo>
