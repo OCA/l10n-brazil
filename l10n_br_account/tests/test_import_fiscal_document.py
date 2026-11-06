@@ -1,6 +1,9 @@
 # Copyright 2026 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import base64
+from unittest.mock import patch
+
 from odoo import fields
 from odoo.exceptions import UserError
 from odoo.tests.common import tagged
@@ -232,3 +235,49 @@ class TestImportFiscalDocument(AccountMoveBRCommon):
         document.document_key = "35200159594315000157550010000000042062777163"
         self._import_wizard(document)._check_imported_bill_allowed()
         self.assertFalse(document._vendor_bill_import_block_reason())
+
+    def test_the_wizard_uses_the_env_company_when_the_document_has_none(self):
+        document = self.fiscal_document_to_import.copy()
+        document.company_id = False
+        document.document_key = "35200159594315000157550010000000102062777160"
+        wizard = self._import_wizard(document)
+        self.assertEqual(document.company_id, self.env.company)
+        self.assertEqual(wizard.company_id, self.env.company)
+
+    def test_a_file_without_a_key_is_read_before_the_bill_check(self):
+        wizard = self.env["l10n_br_fiscal.document.import.wizard"].create(
+            {
+                "company_id": self.env.company.id,
+                "file": base64.b64encode(b"<xml/>"),
+            }
+        )
+        with patch.object(type(wizard), "_onchange_file", autospec=True) as onchange:
+            wizard._check_imported_bill_allowed()
+        onchange.assert_called_once()
+
+    def test_a_blocked_inbox_stops_the_wizard_before_the_bill(self):
+        inbox_model = self.env.get("l10n_br_fiscal_dfe.document")
+        if inbox_model is None:
+            self.skipTest("The DF-e inbox is not installed.")
+        key = "35200159594315000157550010000000992062777160"
+        inbox_model.sudo().create(
+            {
+                "access_key": key,
+                "company_id": self.env.company.id,
+                "fiscal_type": "nfe",
+                "document_state": "3",
+            }
+        )
+        wizard = self.env["l10n_br_fiscal.document.import.wizard"].create(
+            {
+                "company_id": self.env.company.id,
+                "document_key": key,
+                "file": base64.b64encode(b"<nfe/>"),
+            }
+        )
+        with self.assertRaises(UserError) as blocked:
+            wizard.with_context(lang="en_US")._check_imported_bill_allowed()
+        self.assertEqual(
+            str(blocked.exception),
+            "This document was cancelled at the source.",
+        )
