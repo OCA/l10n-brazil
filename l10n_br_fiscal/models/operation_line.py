@@ -137,6 +137,21 @@ class OperationLine(models.Model):
         copy=True,
     )
 
+    # Behavior for additional values and costs
+    additional_values_definition = fields.Selection(
+        selection=[
+            ("tax", "Defined In Tax (Default)"),
+            ("add", "Include"),
+            ("do_not_add", "Do not Include"),
+        ],
+        default="tax",
+        required=True,
+        string="Include other values in tax base",
+        help="Defined In Tax: use the setting of each tax group. Include or Do not "
+        "Include: override it for every tax of the line (freight, insurance and "
+        "other costs added to or removed from the base).",
+    )
+
     comment_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.comment",
         domain=[("object", "=", FISCAL_COMMENT_LINE)],
