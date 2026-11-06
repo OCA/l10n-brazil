@@ -12,6 +12,7 @@ from datetime import datetime
 
 from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
+from erpbrasil.base.misc import punctuation_rm
 from erpbrasil.edoc.cte import TransmissaoCTE
 from lxml import etree
 from nfelib.cte.bindings.v4_0.cte_v4_00 import Cte
@@ -77,6 +78,16 @@ from ..constants.cte import (
     CTE_TYPE_DEFAULT,
 )
 from ..constants.modal import CTE_MODAL_VERSION_DEFAULT
+
+TOMA4_PARTNER_FIELDS = (
+    "cte40_CNPJ",
+    "cte40_CPF",
+    "cte40_IE",
+    "cte40_xNome",
+    "cte40_xFant",
+    "cte40_fone",
+    "cte40_email",
+)
 
 CTE_XML_NAMESPACE = {"cte": "http://www.portalfiscal.inf.br/cte"}
 
@@ -1420,7 +1431,31 @@ class CTe(spec_models.StackedModel):
             "imported_document": True,
         }
 
+    def _export_toma4_field(self, xsd_field):
+        """The "Outros" service taker (toma4) is identified by partner_id."""
+        partner = self.partner_id
+        cnpj_cpf_number = punctuation_rm(partner.vat or "")
+        if xsd_field == "cte40_CNPJ":
+            return cnpj_cpf_number if len(cnpj_cpf_number) == 14 else False
+        if xsd_field == "cte40_CPF":
+            return cnpj_cpf_number if len(cnpj_cpf_number) == 11 else False
+        if xsd_field == "cte40_IE":
+            return partner.cte40_IE or False
+        if xsd_field == "cte40_xNome":
+            if self.env.context.get("tpAmb") == "2":
+                return "CTE EMITIDO EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL"
+            return partner.legal_name or partner.name
+        if xsd_field == "cte40_xFant":
+            return partner.name if partner.legal_name else False
+        if xsd_field == "cte40_fone":
+            return partner.cte40_fone or False
+        if xsd_field == "cte40_email":
+            return partner.email or False
+        return False
+
     def _export_field(self, xsd_field, class_obj, member_spec, export_value=None):
+        if class_obj._name == "cte.40.tcte_toma4" and xsd_field in TOMA4_PARTNER_FIELDS:
+            return self._export_toma4_field(xsd_field)
         if xsd_field == "cte40_tpAmb":
             self.env.context = dict(self.env.context)
             self.env.context.update({"tpAmb": self[xsd_field]})
