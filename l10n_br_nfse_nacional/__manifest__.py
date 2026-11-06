@@ -9,7 +9,10 @@
     "development_status": "Alpha",
     "external_dependencies": {
         "python": [
-            "nfelib",
+            # The NFS-e NT 009 (leiaute 1.04.01) bindings first shipped in
+            # nfelib 3.3.0: finNFSe moved to infDPS and
+            # TcrtcinfoTributosIbscbs became TcrtcinfoTribIbscbs.
+            "nfelib>=3.3.0",
             "brazilfiscalreport",
             "erpbrasil.assinatura",
             "requests",
