@@ -1,0 +1,23 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"reinf_event_user","EFD-Reinf Event for User",model_l10n_br_reinf_event,l10n_br_fiscal.group_user,1,0,0,0
+"reinf_event_manager","EFD-Reinf Event for Manager",model_l10n_br_reinf_event,l10n_br_fiscal.group_manager,1,1,1,1
+"reinf_batch_user","EFD-Reinf Batch for User",model_l10n_br_reinf_batch,l10n_br_fiscal.group_user,1,0,0,0
+"reinf_batch_manager","EFD-Reinf Batch for Manager",model_l10n_br_reinf_batch,l10n_br_fiscal.group_manager,1,1,1,1
+"reinf_occurrence_user","EFD-Reinf Occurrence for User",model_l10n_br_reinf_occurrence,l10n_br_fiscal.group_user,1,0,0,0
+"reinf_occurrence_manager","EFD-Reinf Occurrence for Manager",model_l10n_br_reinf_occurrence,l10n_br_fiscal.group_manager,1,1,1,1
+"reinf_nature_income_user","EFD-Reinf Nature of Income for User",model_l10n_br_reinf_nature_income,l10n_br_fiscal.group_user,1,0,0,0
+"reinf_nature_income_manager","EFD-Reinf Nature of Income for Manager",model_l10n_br_reinf_nature_income,l10n_br_fiscal.group_manager,1,1,1,1
+"reinf_revenue_code_user","EFD-Reinf Revenue Code for User",model_l10n_br_reinf_revenue_code,l10n_br_fiscal.group_user,1,0,0,0
+"reinf_revenue_code_manager","EFD-Reinf Revenue Code for Manager",model_l10n_br_reinf_revenue_code,l10n_br_fiscal.group_manager,1,1,1,1
+"reinf_nature_income_tax_user","EFD-Reinf Nature of Income Tax Mapping for User",model_l10n_br_reinf_nature_income_tax,l10n_br_fiscal.group_user,1,0,0,0
+"reinf_nature_income_tax_manager","EFD-Reinf Nature of Income Tax Mapping for Manager",model_l10n_br_reinf_nature_income_tax,l10n_br_fiscal.group_manager,1,1,1,1
+"reinf_r1000_user","EFD-Reinf R-1000 for User",model_l10n_br_reinf_r1000,l10n_br_fiscal.group_user,1,0,0,0
+"reinf_r1000_manager","EFD-Reinf R-1000 for Manager",model_l10n_br_reinf_r1000,l10n_br_fiscal.group_manager,1,1,1,1
+"reinf_calculation_user","EFD-Reinf Calculation for User",model_l10n_br_reinf_calculation,l10n_br_fiscal.group_user,1,0,0,0
+"reinf_calculation_manager","EFD-Reinf Calculation for Manager",model_l10n_br_reinf_calculation,l10n_br_fiscal.group_manager,1,1,1,1
+"reinf_calculation_line_user","EFD-Reinf Calculation Line for User",model_l10n_br_reinf_calculation_line,l10n_br_fiscal.group_user,1,0,0,0
+"reinf_calculation_line_manager","EFD-Reinf Calculation Line for Manager",model_l10n_br_reinf_calculation_line,l10n_br_fiscal.group_manager,1,1,1,1
+"reinf_calculation_exception_user","EFD-Reinf Calculation Exception for User",model_l10n_br_reinf_calculation_exception,l10n_br_fiscal.group_user,1,0,0,0
+"reinf_calculation_exception_manager","EFD-Reinf Calculation Exception for Manager",model_l10n_br_reinf_calculation_exception,l10n_br_fiscal.group_manager,1,1,1,1
+"reinf_darf_user","EFD-Reinf DARF Mirror for User",model_l10n_br_reinf_darf,l10n_br_fiscal.group_user,1,0,0,0
+"reinf_darf_manager","EFD-Reinf DARF Mirror for Manager",model_l10n_br_reinf_darf,l10n_br_fiscal.group_manager,1,1,1,1
