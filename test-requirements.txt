@@ -11,3 +11,4 @@ xmldiff
 # cryptography 3.4.8, and installing a newer cryptography there breaks
 # pyOpenSSL (oca_install_addons can no longer probe the addons path).
 requests_pkcs12<1.23
+odoo-addon-web_list_record_popup @ git+https://github.com/OCA/web.git@refs/pull/3522/head#subdirectory=web_list_record_popup
