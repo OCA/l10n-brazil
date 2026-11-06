@@ -608,11 +608,15 @@ msgid "Identificação do Ambiente: 1 - Produção; 2 - Homologação"
 msgstr ""
 
 #. module: l10n_br_nfse_nacional
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_bank_statement_line__nfse10_finNFSe
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move__nfse10_finNFSe
 #: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_finNFSe
 msgid "Indicador da finalidade da emissão"
 msgstr ""
 
 #. module: l10n_br_nfse_nacional
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_bank_statement_line__nfse10_finNFSe
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move__nfse10_finNFSe
 #: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_finNFSe
 msgid "Indicador da finalidade da emissão de NFS-e"
 msgstr ""
