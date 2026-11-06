@@ -1,0 +1,633 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Família TRANSFERÊNCIA ENTRE FILIAIS (mesmo titular). NÃO existe no core 16.0.
+  Caso geral: ICMS DESTACADO (CST 00) para operacionalizar a transferência
+  obrigatória do crédito (LC 204/2023 + Conv. ICMS 178/2023). A não incidência
+  pura (STF ADC 49) é variante parametrizável pelo contador (não default).
+
+  Modelagem DRY: onde o ICMS/IPI incidem normalmente (mercadoria), NÃO se cria
+  tax.definition — o engine resolve a alíquota pela UF/produto. tax.definition
+  só onde o tratamento difere: PIS/COFINS não incidem (CST 49 saída / 98
+  entrada); ativo e uso/consumo sem destaque de ICMS (CST 90); IPI na revenda/
+  entrada de comerciante não destaca (CST 49).
+
+  ADC 49 (variante): trocar as linhas de mercadoria para ICMS tax_icms_nt/CST 41.
+-->
+<odoo noupdate="1">
+
+    <record id="comment_transferencia" model="l10n_br_fiscal.comment">
+        <field name="name">Transferência entre filiais</field>
+        <field
+            name="comment"
+        >Transferência entre estabelecimentos do mesmo titular. ICMS destacado para transferência de crédito (LC 204/2023, Conv. ICMS 178/2023). Sem incidência de PIS/COFINS. Não incidência de ICMS por ausência de circulação jurídica (STF ADC 49) na variante aplicável.</field>
+        <field name="comment_type">fiscal</field>
+        <field name="object">l10n_br_fiscal.document.mixin</field>
+    </record>
+
+    <!-- Devolução de transferência (entrada) — retorna o que EU remeti; alvo do return da saída -->
+    <record id="fo_devolucao_transferencia_entrada" model="l10n_br_fiscal.operation">
+        <field name="code">DEV-TRF-ENT</field>
+        <field name="name">Devolução de transferência (entrada)</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">return_in</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_dev_transf_ent_ind" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_devolucao_transferencia_entrada" />
+        <field name="name">Devolução de transferência (industrialização)</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1208" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2208" />
+        <field name="product_type">04</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_dev_transf_ent_com" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_devolucao_transferencia_entrada" />
+        <field name="name">Devolução de transferência (comercialização)</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1209" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2209" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+
+    <!-- Devolução de transferência (saída) — devolvo o que RECEBI; alvo do return da entrada -->
+    <record id="fo_devolucao_transferencia_saida" model="l10n_br_fiscal.operation">
+        <field name="code">DEV-TRF-SAI</field>
+        <field name="name">Devolução de transferência (saída)</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">return_out</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_dev_transf_sai_ind" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_devolucao_transferencia_saida" />
+        <field name="name">Devolução de transferência (industrialização)</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5208" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6208" />
+        <field name="product_type">04</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_dev_transf_sai_com" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_devolucao_transferencia_saida" />
+        <field name="name">Devolução de transferência (comercialização)</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5209" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6209" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+
+    <!-- Transferência de saída (ida) -->
+    <record id="fo_transferencia_saida" model="l10n_br_fiscal.operation">
+        <field name="code">TRF-SAI</field>
+        <field name="name">Transferência de saída</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">other</field>
+        <field
+            name="return_fiscal_operation_id"
+            ref="fo_devolucao_transferencia_entrada"
+        />
+        <field name="state">approved</field>
+        <field name="comment_ids" eval="[(6, 0, [ref('comment_transferencia')])]" />
+    </record>
+    <record id="fo_transf_saida_producao" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_transferencia_saida" />
+        <field name="name">Transferência de produção (industrialização)</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5151" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6151" />
+        <field name="product_type">04</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_transf_saida_producao_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_transf_saida_producao" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_transf_saida_producao_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_transf_saida_producao" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_transf_saida_revenda" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_transferencia_saida" />
+        <field name="name">Transferência para comercialização</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5152" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6152" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_transf_saida_revenda_ipi" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_transf_saida_revenda" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_transf_saida_revenda_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_transf_saida_revenda" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_transf_saida_revenda_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_transf_saida_revenda" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_transf_saida_ativo" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_transferencia_saida" />
+        <field name="name">Transferência de ativo imobilizado</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5552" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6552" />
+        <field name="product_type">08</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_transf_saida_ativo_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_transf_saida_ativo" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_90" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_transf_saida_uso" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_transferencia_saida" />
+        <field name="name">Transferência de material de uso e consumo</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5557" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6557" />
+        <field name="product_type">07</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_transf_saida_uso_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_transf_saida_uso" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_90" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- Transferência de entrada -->
+    <record id="fo_transferencia_entrada" model="l10n_br_fiscal.operation">
+        <field name="code">TRF-ENT</field>
+        <field name="name">Transferência de entrada</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">other</field>
+        <field
+            name="return_fiscal_operation_id"
+            ref="fo_devolucao_transferencia_saida"
+        />
+        <field name="state">approved</field>
+        <field name="comment_ids" eval="[(6, 0, [ref('comment_transferencia')])]" />
+    </record>
+    <record id="fo_transf_entrada_producao" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_transferencia_entrada" />
+        <field name="name">Entrada de transferência de produção</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1151" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2151" />
+        <field name="product_type">04</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_transf_entrada_revenda" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_transferencia_entrada" />
+        <field name="name">Entrada de transferência para comercialização</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1152" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2152" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_transf_entrada_ativo" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_transferencia_entrada" />
+        <field name="name">Entrada de transferência de ativo imobilizado</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1552" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2552" />
+        <field name="product_type">08</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_transf_entrada_ativo_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_transf_entrada_ativo" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_90" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_transf_entrada_uso" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_transferencia_entrada" />
+        <field name="name">Entrada de transferência de material de uso e consumo</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1557" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2557" />
+        <field name="product_type">07</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_transf_entrada_uso_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_transf_entrada_uso" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_90" />
+        <field name="state">approved</field>
+    </record>
+
+
+    <!-- ================= Simples Nacional =================
+         Linhas irmãs para empresa do Simples (company_tax_framework=1): o
+         seletor de linha prefere a mais específica, então a empresa SN casa
+         estas (CSOSN via grupo icmssn) e os demais regimes casam as genéricas
+         (CST). Empresa em excesso de sublimite (framework=2) recolhe ICMS fora
+         do DAS e cai na genérica com CST — correto. Regra geral: movimento sem
+         receita/titularidade = CSOSN 400; ajuste/simbólica = 900; linha de
+         receita não fixa ICMS (herda a tributação SN da empresa). Mapa a
+         ratificar com contador (transferência de mercadoria: ADC 49). -->
+    <record id="fo_dev_transf_ent_ind_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_devolucao_transferencia_entrada" />
+        <field
+            name="name"
+        >Devolução de transferência (industrialização) - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1208" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2208" />
+        <field name="product_type">04</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_dev_transf_ent_ind_sn_icmssn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_dev_transf_ent_ind_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_dev_transf_ent_com_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_devolucao_transferencia_entrada" />
+        <field
+            name="name"
+        >Devolução de transferência (comercialização) - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1209" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2209" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_dev_transf_ent_com_sn_icmssn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_dev_transf_ent_com_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_dev_transf_sai_ind_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_devolucao_transferencia_saida" />
+        <field
+            name="name"
+        >Devolução de transferência (industrialização) - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5208" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6208" />
+        <field name="product_type">04</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_dev_transf_sai_ind_sn_icmssn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_dev_transf_sai_ind_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_dev_transf_sai_com_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_devolucao_transferencia_saida" />
+        <field
+            name="name"
+        >Devolução de transferência (comercialização) - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5209" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6209" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_dev_transf_sai_com_sn_icmssn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_dev_transf_sai_com_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_transf_saida_producao_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_transferencia_saida" />
+        <field
+            name="name"
+        >Transferência de produção (industrialização) - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5151" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6151" />
+        <field name="product_type">04</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_transf_saida_producao_pis_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_transf_saida_producao_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_transf_saida_producao_cofins_sn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_transf_saida_producao_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_transf_saida_producao_sn_icmssn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_transf_saida_producao_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_transf_saida_revenda_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_transferencia_saida" />
+        <field name="name">Transferência para comercialização - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5152" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6152" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_transf_saida_revenda_ipi_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_transf_saida_revenda_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_transf_saida_revenda_pis_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_transf_saida_revenda_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49" />
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_transf_saida_revenda_cofins_sn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_transf_saida_revenda_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49" />
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_transf_saida_revenda_sn_icmssn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_transf_saida_revenda_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_transf_saida_ativo_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_transferencia_saida" />
+        <field name="name">Transferência de ativo imobilizado - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5552" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6552" />
+        <field name="product_type">08</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_transf_saida_ativo_sn_icmssn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_transf_saida_ativo_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_transf_saida_uso_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_transferencia_saida" />
+        <field
+            name="name"
+        >Transferência de material de uso e consumo - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5557" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6557" />
+        <field name="product_type">07</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_transf_saida_uso_sn_icmssn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_transf_saida_uso_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_transf_entrada_producao_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_transferencia_entrada" />
+        <field
+            name="name"
+        >Entrada de transferência de produção - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1151" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2151" />
+        <field name="product_type">04</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_transf_entrada_producao_sn_icmssn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_transf_entrada_producao_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_transf_entrada_revenda_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_transferencia_entrada" />
+        <field
+            name="name"
+        >Entrada de transferência para comercialização - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1152" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2152" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_transf_entrada_revenda_sn_icmssn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_transf_entrada_revenda_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_transf_entrada_ativo_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_transferencia_entrada" />
+        <field
+            name="name"
+        >Entrada de transferência de ativo imobilizado - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1552" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2552" />
+        <field name="product_type">08</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_transf_entrada_ativo_sn_icmssn"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_transf_entrada_ativo_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_transf_entrada_uso_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_transferencia_entrada" />
+        <field
+            name="name"
+        >Entrada de transferência de material de uso e consumo - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1557" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2557" />
+        <field name="product_type">07</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_transf_entrada_uso_sn_icmssn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_transf_entrada_uso_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+
+</odoo>
