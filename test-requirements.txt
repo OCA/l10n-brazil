@@ -7,3 +7,7 @@
 # `AttributeError: module 'lib' has no attribute 'GEN_EMAIL'`.
 # Drop this pin once the CI image ships cryptography >= 42 and pyOpenSSL >= 24.
 signxml==3.2.2
+# l10n_br_mdfe tests compare serialized XML with xmldiff
+xmldiff
+odoo-addon-spec_driven_model @ git+https://github.com/OCA/l10n-brazil.git@refs/pull/5272/head#subdirectory=spec_driven_model
+odoo-addon-l10n_br_mdfe_spec @ git+https://github.com/OCA/l10n-brazil.git@refs/pull/5275/head#subdirectory=l10n_br_mdfe_spec
