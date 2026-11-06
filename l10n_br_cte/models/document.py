@@ -169,7 +169,7 @@ class CTe(spec_models.StackedModel):
                 ≡ <infNFe>
                 ≡ <infOutros>
         -   + <infModal>
-        + <autXML>
+        ≡ <autXML> l10n_br_cte.autxml
         + <infRespTec>
     + <infCTeSupl>"""
 
@@ -1089,7 +1089,10 @@ class CTe(spec_models.StackedModel):
             authorized_partners.append(company.accountant_id.id)
         if company.technical_support_id:
             authorized_partners.append(company.technical_support_id.id)
-        return authorized_partners
+        return [
+            Command.create({"partner_id": partner_id})
+            for partner_id in authorized_partners
+        ]
 
     ##########################
     # CT-e tag: autXML

@@ -14,3 +14,5 @@ l10n_br_cte_modal_duto_user,l10n_br_cte_modal_duto_user,model_l10n_br_cte_modal_
 
 l10n_br_cte_cargo_quantity_infos_user,l10n_br_cte_cargo_quantity_infos_user,model_l10n_br_cte_cargo_quantity_infos,base.group_user,1,1,1,1
 l10n_br_cte_transported_vehicles_user,l10n_br_cte_transported_vehicles_user,model_l10n_br_cte_transported_vehicles,base.group_user,1,1,1,1
+l10n_br_cte_autxml_user,CTe autXML for User,model_l10n_br_cte_autxml,l10n_br_fiscal.group_user,1,1,1,0
+l10n_br_cte_autxml_manager,CTe autXML for Manager,model_l10n_br_cte_autxml,l10n_br_fiscal.group_manager,1,1,1,1
