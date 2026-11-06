@@ -2,14 +2,11 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from odoo.tests import tagged
 
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 from odoo.addons.stock_picking_invoicing.tests.common import (
-    TestStockPickingInvoicingCommon,
-)
-from odoo.addons.stock_picking_invoicing.tests.tools import (
-    create_with_form_inv_onshipping,
-    create_with_form_pck_backorder,
-    create_with_form_return_picking,
+    TestPickingInvoicingCommon,
 )
 
 from .tools import (
@@ -17,15 +14,26 @@ from .tools import (
     create_br_journal_and_set_fiscal_ops,
     create_with_form_br_res_partner,
     create_with_form_br_stock_picking,
+    create_with_form_inv_onshipping,
+    create_with_form_pck_backorder,
+    create_with_form_product_product,
+    create_with_form_return_picking,
+    create_with_form_stock_picking,
 )
 
 
-class TestBrPickingInvoicingCommon(TestStockPickingInvoicingCommon):
+# The 18.0 base of stock_picking_invoicing was tagged post_install; the 19.0 one
+# is not, and at install time the company has no chart of accounts yet.
+@tagged("post_install", "-at_install")
+class TestBrPickingInvoicingCommon(
+    AccountTestInvoicingCommon, TestPickingInvoicingCommon
+):
     chart_template = "generic_coa"
 
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls._setup_picking_invoicing_data()
         # Add main company to test user to access demo data from other modules
         cls.env.user.company_ids |= cls.env.ref("base.main_company")
         cls.get_default_groups()
@@ -60,6 +68,13 @@ class TestBrPickingInvoicingCommon(TestStockPickingInvoicingCommon):
                 "tax_classification_id": cls.env.ref(
                     "l10n_br_fiscal.tax_classification_000001"
                 ).id,
+                # In 19.0 the test company is the main company, with no
+                # Brazilian address: l10n_br_fiscal_edi needs it for the key.
+                "country_id": cls.env.ref("base.br").id,
+                "state_id": cls.env.ref("base.state_br_sp").id,
+                "city_id": cls.env.ref("l10n_br_base.city_3550308").id,
+                "zip": "01001-000",
+                "vat": "81.936.191/0001-08",
             }
         )
         cls.fiscal_ops = (
@@ -292,6 +307,66 @@ class TestBrPickingInvoicingCommon(TestStockPickingInvoicingCommon):
             move_vals_1 + move_vals_2 + move_vals_3,
         )
         cls.picking_out_br_sn_1.move_ids[2].fiscal_operation_id = cls.op_bonificacao
+
+    @classmethod
+    def _setup_picking_invoicing_data(cls):
+        # Data created by TestStockPickingInvoicingCommon of stock_picking_invoicing
+        # in 18.0; its 19.0 test base no longer creates it.
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+        company = cls.env.company
+
+        cls.tax_model = cls.env["account.tax"]
+        cls.tax_sale_1 = cls.tax_model.create(
+            {"name": "Sale tax 20", "type_tax_use": "sale", "amount": "20.00"}
+        )
+        cls.tax_sale_2 = cls.tax_model.create(
+            {"name": "Sale tax 10", "type_tax_use": "sale", "amount": "10.00"}
+        )
+        cls.tax_purchase_1 = cls.tax_model.create(
+            {"name": "Purchase tax 10", "type_tax_use": "purchase", "amount": "10.00"}
+        )
+        cls.tax_purchase_2 = cls.tax_model.create(
+            {"name": "Purchase tax 20", "type_tax_use": "purchase", "amount": "20.00"}
+        )
+        cls.account_revenue = cls.env["account.account"].search(
+            [("account_type", "=", "expense_direct_cost")], limit=1
+        )
+        cls.common_product_values = {
+            "lst_price": "15000",
+            "taxes_id": cls.tax_sale_1 + cls.tax_sale_2,
+            "supplier_taxes_id": cls.tax_purchase_1 + cls.tax_purchase_2,
+            "property_account_income_id": cls.account_revenue,
+            "standard_price": "500",
+            "is_storable": True,
+            "invoice_policy": "order",
+        }
+        cls.product_storable_1 = create_with_form_product_product(
+            cls.env, cls.common_product_values | {"name": "Test 1", "type": "consu"}
+        )
+        cls.product_storable_2 = create_with_form_product_product(
+            cls.env, cls.common_product_values | {"name": "Test 2", "type": "consu"}
+        )
+
+        fiscal_position = cls.env["account.fiscal.position"].create(
+            {
+                "name": "Test - Stock Picking Invoicing",
+                "company_id": company.id,
+                "auto_apply": 1,
+            }
+        )
+        cls.partner_a.property_account_position_id = fiscal_position
+
+        cls.picking_type_out = cls.env["stock.picking.type"].search(
+            [("company_id", "=", company.id), ("code", "=", "outgoing")], limit=1
+        )
+        cls.picking_type_in = cls.env["stock.picking.type"].search(
+            [("company_id", "=", company.id), ("code", "=", "incoming")], limit=1
+        )
+        cls.picking_out_1 = create_with_form_stock_picking(
+            cls.env,
+            {"partner_id": cls.partner_a, "picking_type_id": cls.picking_type_out},
+            [{"product_id": cls.product_storable_1, "product_uom_qty": 1}],
+        )
 
     @classmethod
     def get_default_groups(cls):
