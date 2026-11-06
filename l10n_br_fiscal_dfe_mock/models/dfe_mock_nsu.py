@@ -234,8 +234,7 @@ class DfeMockNsu(models.Model):
         """Registered NF-e cancellation (``procEventoNFe``, ``tpEvento`` 110111).
 
         SEFAZ distributes this as a later NSU. The authorized proc stays as
-        it was; the connector files the event and does not change the note
-        situation.
+        it was. The connector files the event and marks the inbox cancelled.
         """
         self.ensure_one()
         access_key = re.sub(r"\D", "", self.access_key or "")
