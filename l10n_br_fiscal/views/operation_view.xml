@@ -127,6 +127,81 @@
                         <page name="notes" string="Notes">
                             <field name="comment_ids" />
                         </page>
+                        <page name="help" string="Ajuda">
+                            <div class="alert alert-info" role="alert">
+                                <strong>A operação fiscal diz ao sistema o que a sua
+                                empresa está fazendo</strong>: vendendo, comprando,
+                                devolvendo, transferindo entre filiais, mandando
+                                mercadoria para industrialização... É a partir dela que
+                                o sistema preenche sozinho o CFOP, os impostos e as
+                                mensagens da nota fiscal.
+                            </div>
+                            <h4>Como funciona</h4>
+                            <div
+                                style="display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:12px 0;"
+                            >
+                                <div
+                                    style="border:1px solid #ccc; border-radius:8px; padding:10px 14px; background:#f8f9fa;"
+                                >
+                                    1. Você cria um pedido ou uma fatura<br /><small
+                                        class="text-muted"
+                                    >venda, compra, transferência...</small>
+                                </div>
+                                <div style="font-size:20px;">→</div>
+                                <div
+                                    style="border:1px solid #ccc; border-radius:8px; padding:10px 14px; background:#f8f9fa;"
+                                >
+                                    2. Escolhe a operação<br /><small
+                                        class="text-muted"
+                                    >ex.: "Venda", "Bonificação"</small>
+                                </div>
+                                <div style="font-size:20px;">→</div>
+                                <div
+                                    style="border:1px solid #ccc; border-radius:8px; padding:10px 14px; background:#f8f9fa;"
+                                >
+                                    3. O sistema escolhe a linha certa<br /><small
+                                        class="text-muted"
+                                    >conforme o cliente, o produto e o regime da sua empresa</small>
+                                </div>
+                                <div style="font-size:20px;">→</div>
+                                <div
+                                    style="border:1px solid #b8e0b8; border-radius:8px; padding:10px 14px; background:#eaf7ea;"
+                                >
+                                    4. A nota sai pronta<br /><small
+                                        class="text-muted"
+                                    >CFOP, impostos e mensagens preenchidos</small>
+                                </div>
+                            </div>
+                            <h4>Boas práticas</h4>
+                            <ul>
+                                <li><strong>Antes de criar uma operação nova</strong>,
+                                veja se já existe uma parecida. As operações mais
+                                comuns (venda, compra, devolução, transferência,
+                                bonificação, simples remessa, industrialização por
+                                encomenda...) já vêm cadastradas.</li>
+                                <li>Se precisar de uma variação, <strong>duplique uma
+                                operação parecida</strong> e ajuste a cópia. É mais
+                                seguro do que começar do zero.</li>
+                                <li>A <strong>operação de retorno</strong> liga a ida à
+                                volta: a "Venda", por exemplo, aponta para a
+                                "Devolução de Venda". É ela que o sistema usa para
+                                preencher a operação quando você devolve um
+                                documento.</li>
+                                <li>Só operações <strong>aprovadas</strong> aparecem nos
+                                documentos. Deixe a operação em rascunho enquanto
+                                estiver configurando e aprove quando terminar: as
+                                linhas são aprovadas junto.</li>
+                                <li><strong>Várias empresas no mesmo banco?</strong>
+                                Uma operação sem empresa preenchida vale para todas.
+                                O que muda conforme o regime de cada empresa (CST no
+                                regime normal, CSOSN no Simples Nacional) vem dos
+                                impostos padrão da própria empresa e das linhas
+                                específicas de cada regime, quando a operação tiver.
+                                Se uma empresa precisa de um comportamento só dela,
+                                duplique a operação e preencha o campo Empresa na
+                                cópia: a mudança não afeta as outras.</li>
+                            </ul>
+                        </page>
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">

@@ -158,6 +158,29 @@
                             </group>
                             <field name="tax_estimate_ids" />
                         </page>
+                        <page name="help" string="Ajuda">
+                            <div class="alert alert-info" role="alert">
+                                <strong>O NCM é a classificação fiscal do
+                                produto.</strong> Nas empresas do regime normal, é
+                                dele que vem o IPI de cada item e, quando o NCM tem
+                                uma regra própria de PIS/COFINS (aba de PIS/COFINS
+                                personalizado), também esses impostos. Cadastre uma
+                                só regra de PIS/COFINS por NCM. Produto com NCM
+                                errado significa imposto errado em todas as notas.
+                            </div>
+                            <ul>
+                                <li>A tabela oficial completa já vem cadastrada. O
+                                seu trabalho é <strong>escolher o NCM certo em cada
+                                produto</strong>, não cadastrar NCMs.</li>
+                                <li>Quem define o NCM correto de um produto é o
+                                <strong>contador ou o fornecedor</strong>. A nota de
+                                compra é uma boa referência, mas confirme, pois o
+                                fornecedor também erra.</li>
+                                <li>O NCM, junto com o CEST, também determina se o
+                                produto tem <strong>substituição
+                                tributária</strong> em cada estado.</li>
+                            </ul>
+                        </page>
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">
