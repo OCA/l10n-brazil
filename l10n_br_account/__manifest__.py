@@ -19,6 +19,7 @@
         # security
         "security/ir.model.access.csv",
         "security/l10n_br_account_security.xml",
+        "data/mail_activity_type.xml",
         # Views
         "views/account_tax_view.xml",
         "views/fiscal_operation_view.xml",

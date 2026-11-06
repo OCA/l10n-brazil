@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2026 - TODAY Escodoo - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record
+        id="mail_activity_fiscal_document_cancelled_at_source"
+        model="mail.activity.type"
+    >
+        <field name="name">Fiscal document cancelled at the source</field>
+        <field name="summary">Fiscal document cancelled at the source</field>
+        <field name="res_model">account.move</field>
+        <field name="icon">fa-exclamation-triangle</field>
+        <field name="decoration_type">warning</field>
+        <field name="delay_count">0</field>
+        <field name="delay_unit">days</field>
+        <field name="delay_from">current_date</field>
+    </record>
+</odoo>
