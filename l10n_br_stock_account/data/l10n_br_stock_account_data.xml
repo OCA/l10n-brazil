@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <!-- Default fiscal_type for product.product to avoid Form validation errors
+         in tests when l10n_br_fiscal is installed -->
+    <function model="ir.default" name="set">
+        <value eval="'product.product'" />
+        <value eval="'fiscal_type'" />
+        <value eval="'00'" />
+    </function>
+    <function model="ir.default" name="set">
+        <value eval="'product.product'" />
+        <value eval="'ncm_id'" />
+        <value
+            eval="obj().env['l10n_br_fiscal.ncm'].search([('code', '=', '0000.00.00')], limit=1).id"
+            model="l10n_br_fiscal.ncm"
+        />
+    </function>
+
+    <!-- res.company -->
+    <record id="base.main_company" model="res.company">
+        <field
+            name="stock_fiscal_operation_id"
+            ref="l10n_br_fiscal.fo_simples_remessa"
+        />
+        <field name="stock_in_fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="stock_out_fiscal_operation_id"
+            ref="l10n_br_fiscal.fo_simples_remessa"
+        />
+    </record>
+</odoo>
