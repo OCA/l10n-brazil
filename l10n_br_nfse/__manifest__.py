@@ -13,7 +13,7 @@
         "python": [
             "erpbrasil.edoc",
             "erpbrasil.transmissao",
-            "erpbrasil-base>=2.4.2",
+            "erpbrasil-base>=2.5.0",
         ],
     },
     "depends": [
