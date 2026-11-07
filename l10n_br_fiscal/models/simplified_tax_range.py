@@ -96,7 +96,8 @@ class SimplifiedTaxRange(models.Model):
     def _get_effective_tax_percent(self, revenue, tax_domain):
         """Effective rate (%) of one of the taxes unified by the Simples
         Nacional: the effective tax rate times the share of that tax in the
-        range (LC 123/2006, art. 18, § 1º-B).
+        range (LC 123/2006, art. 18, § 1º-B). It keeps 4 decimal places, the
+        ones the NF-e takes for the ICMS credit rate (pCredSN).
 
         :param tax_domain: the tax, as in the tax_<tax_domain>_percent fields.
         """
@@ -104,5 +105,5 @@ class SimplifiedTaxRange(models.Model):
             return 0.0
         share = self[f"tax_{tax_domain}_percent"]
         return float_round(
-            self._get_effective_tax(revenue) * share / 100, precision_digits=2
+            self._get_effective_tax(revenue) * share / 100, precision_digits=4
         )
