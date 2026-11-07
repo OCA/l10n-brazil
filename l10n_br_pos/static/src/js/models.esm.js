@@ -9,11 +9,10 @@ Copyright (C) 2016-Today KMEE (https://kmee.com.br)
  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 */
 
-import {Order, Orderline, Paymentline, PosGlobalState} from "point_of_sale.models";
+import {Order, Paymentline} from "point_of_sale.models";
 import {Gui} from "point_of_sale.Gui";
 import Registries from "point_of_sale.Registries";
 import {_t} from "@web/core/l10n/translation";
-import {patch} from "@web/core/utils/patch";
 import {validate_cnpj_cpf} from "@l10n_br_pos/js/util.esm";
 
 const SITUACAO_EDOC = {
@@ -26,25 +25,6 @@ const SITUACAO_EDOC = {
     denegada: "Denegada",
     inutilizada: "Inutilizada",
 };
-
-if (PosGlobalState) {
-    patch(PosGlobalState.prototype, "l10n_br_pos.PosGlobalState", {
-        async _load_server_data() {
-            const result = await super._load_server_data(...arguments);
-            const fiscalMapData = this.models["l10n_br_pos.product_fiscal_map"] || [];
-            this.fiscal_map_by_template_id = {};
-            for (const line of fiscalMapData) {
-                if (line.product_tmpl_id) {
-                    const tmplId = Array.isArray(line.product_tmpl_id)
-                        ? line.product_tmpl_id[0]
-                        : line.product_tmpl_id;
-                    this.fiscal_map_by_template_id[tmplId] = line;
-                }
-            }
-            return result;
-        },
-    });
-}
 
 const L10nBrOrder = (BaseOrder) =>
     class extends BaseOrder {
@@ -85,11 +65,6 @@ const L10nBrOrder = (BaseOrder) =>
 
         export_as_JSON() {
             const json = super.export_as_JSON(...arguments);
-            if (json.lines) {
-                json.lines = json.lines.filter(
-                    (l) => l.qty !== 0 || l.price_unit !== 0
-                );
-            }
             Object.assign(json, {
                 state_edoc: this.state_edoc,
                 cnpj_cpf: this.get_cnpj_cpf(),
@@ -140,34 +115,6 @@ const L10nBrOrder = (BaseOrder) =>
 
 if (Order) {
     Registries.Model.extend(Order, L10nBrOrder);
-}
-
-const L10nBrOrderline = (BaseOrderline) =>
-    class extends BaseOrderline {
-        export_as_JSON() {
-            const json = super.export_as_JSON(...arguments);
-            const product = this.get_product();
-            const fiscalMap = this.pos.fiscal_map_by_template_id
-                ? this.pos.fiscal_map_by_template_id[product.product_tmpl_id]
-                : false;
-
-            if (fiscalMap) {
-                Object.assign(json, {
-                    cfop: fiscalMap.cfop_code,
-                    icms_cst_code: fiscalMap.icms_cst_code,
-                    icms_percent: fiscalMap.icms_percent,
-                    ncm:
-                        fiscalMap.ncm_code === "00000000"
-                            ? "99999999"
-                            : fiscalMap.ncm_code,
-                });
-            }
-            return json;
-        }
-    };
-
-if (Orderline) {
-    Registries.Model.extend(Orderline, L10nBrOrderline);
 }
 
 const L10nBrPaymentline = (BasePaymentline) =>
