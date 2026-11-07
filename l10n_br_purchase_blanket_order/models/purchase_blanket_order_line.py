@@ -102,6 +102,7 @@ class PurchaseBlanketOrderLine(models.Model):
                 "_compute_fiscal_price",
                 "_compute_fiscal_tax_ids",
                 "_compute_tax_fields",
+                "_compute_icms_cst_id",
                 "_compute_fiscal_operation_line_id",
                 "_compute_comment_ids",
             ) and getattr(mixin_field, "precompute", False):
@@ -180,7 +181,6 @@ class PurchaseBlanketOrderLine(models.Model):
         "fiscal_operation_line_id",
         "cfop_id",
         "icms_origin",
-        "icms_cst_id",
         "ind_final",
         "icms_relief_id",
         "order_id.company_id",
