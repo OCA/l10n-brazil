@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <template
+        id="report_invoice_document_boleto"
+        inherit_id="account.report_invoice_document"
+    >
+        <xpath expr="//p[@name='payment_communication']/.." position="after">
+            <t
+                t-set="boleto_transactions"
+                t-value="o.move_type == 'out_invoice' and o._boleto_report_transactions()"
+            />
+            <div
+                t-if="boleto_transactions"
+                id="boleto_titles"
+                class="mt-4"
+                style="page-break-inside: avoid;"
+            >
+                <strong>How to pay</strong>
+                <table class="table table-sm o_main_table mt-2">
+                    <thead>
+                        <tr>
+                            <th class="text-start">Due Date</th>
+                            <th class="text-end">Amount</th>
+                            <th class="text-start">Boleto / Pix</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="boleto_transactions" t-as="title">
+                            <td class="text-start">
+                                <span t-field="title.due_date" />
+                            </td>
+                            <td class="text-end">
+                                <span
+                                    t-field="title.amount"
+                                    t-options='{"widget": "monetary", "display_currency": title.currency_id}'
+                                />
+                            </td>
+                            <td class="text-start">
+                                <div t-if="title.digitable_line">
+                                    <small>Digitable line:</small>
+                                    <span
+                                        class="font-monospace"
+                                        t-field="title.digitable_line"
+                                    />
+                                </div>
+                                <div t-if="title.pix_copia_cola">
+                                    <small>Pix copy and paste:</small>
+                                    <span
+                                        class="font-monospace text-break"
+                                        t-field="title.pix_copia_cola"
+                                    />
+                                    <div>
+                                        <img
+                                            alt="Pix QR code"
+                                            t-att-src="'/report/barcode/?barcode_type=QR&amp;value=%s&amp;width=140&amp;height=140' % quote_plus(title.pix_copia_cola)"
+                                        />
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </xpath>
+    </template>
+</odoo>
