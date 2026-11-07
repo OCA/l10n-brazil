@@ -31,37 +31,36 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 )
 from odoo.addons.l10n_br_nfe.models.document import NFe
 
+from . import test_nfce, test_nfe_webservices, test_nfe_workflow
 from .mock_utils import NFeEdocLegacyMixin, nfe_mock
-from .test_nfce import TestNFCe
 from .test_nfe_serialize import TestNFeExport
-from .test_nfe_webservices import TestNFeWebServices
-from .test_nfe_workflow import (
-    NFE_LC_DEMO,
-    RecordingNFeMock,
-    TestNFeWorkflowBack2Draft,
-    TestNFeWorkflowDenial,
-    TestNFeWorkflowRejection,
-)
+from .test_nfe_workflow import NFE_LC_DEMO, RecordingNFeMock
 
 
-class TestNFeWebServicesLegacyEdoc(NFeEdocLegacyMixin, TestNFeWebServices):
+class TestNFeWebServicesLegacyEdoc(
+    NFeEdocLegacyMixin, test_nfe_webservices.TestNFeWebServices
+):
     """test_nfe_webservices scenarios over the legacy erpbrasil.edoc stack."""
 
 
-class TestNFCeLegacyEdoc(NFeEdocLegacyMixin, TestNFCe):
+class TestNFCeLegacyEdoc(NFeEdocLegacyMixin, test_nfce.TestNFCe):
     """test_nfce scenarios over the legacy erpbrasil.edoc stack."""
 
 
-class TestNFeWorkflowRejectionLegacyEdoc(NFeEdocLegacyMixin, TestNFeWorkflowRejection):
+class TestNFeWorkflowRejectionLegacyEdoc(
+    NFeEdocLegacyMixin, test_nfe_workflow.TestNFeWorkflowRejection
+):
     """Rejection -> correction -> resend over the legacy stack."""
 
 
-class TestNFeWorkflowDenialLegacyEdoc(NFeEdocLegacyMixin, TestNFeWorkflowDenial):
+class TestNFeWorkflowDenialLegacyEdoc(
+    NFeEdocLegacyMixin, test_nfe_workflow.TestNFeWorkflowDenial
+):
     """Denial (denegada) of an own NF-e over the legacy stack."""
 
 
 class TestNFeWorkflowBack2DraftLegacyEdoc(
-    NFeEdocLegacyMixin, TestNFeWorkflowBack2Draft
+    NFeEdocLegacyMixin, test_nfe_workflow.TestNFeWorkflowBack2Draft
 ):
     """back2draft from every reachable state over the legacy stack."""
 
