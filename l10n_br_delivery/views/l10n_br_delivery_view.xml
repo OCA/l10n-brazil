@@ -15,8 +15,11 @@
                     <group string="Vehicle Data">
                         <field name="name" />
                         <field name="active" />
+                        <field name="owner_id" />
                         <field name="description" />
                         <field name="plate" />
+                        <field name="vehicle_code" />
+                        <field name="renavam" />
                         <field name="driver" />
                         <field name="rntc_code" />
                         <field name="country_id" />
@@ -25,6 +28,11 @@
                         <field name="manufacture_year" />
                         <field name="model_year" />
                         <field name="type" />
+                        <field name="wheel_type" />
+                        <field name="body_type" />
+                        <field name="tara" />
+                        <field name="capacity_kg" />
+                        <field name="capacity_m3" />
                     </group>
                 </sheet>
             </form>
@@ -39,6 +47,7 @@
             <tree>
                 <field colspan="4" name="name" />
                 <field name="plate" />
+                <field name="renavam" />
                 <field name="manufacture_year" />
             </tree>
         </field>
