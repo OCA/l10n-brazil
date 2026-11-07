@@ -206,6 +206,25 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
         return company
 
     @classmethod
+    def _mirror_latam_document_type(cls, document_type):
+        fiscal_country = cls.company_data["company"].account_fiscal_country_id
+        domain = [
+            ("code", "=", document_type.code),
+            ("country_id", "=", fiscal_country.id),
+        ]
+        if cls.env["l10n_latam.document.type"].search_count(domain):
+            return
+        cls.env["l10n_latam.document.type"].create(
+            {
+                "name": document_type.name,
+                "code": document_type.code,
+                "country_id": fiscal_country.id,
+                "internal_type": "invoice",
+                "doc_code_prefix": "NFe",
+            }
+        )
+
+    @classmethod
     def configure_normal_company_taxes(cls):
         # Tax configuration for normal company
         tax_def_model = cls.env["l10n_br_fiscal.tax.definition"]
