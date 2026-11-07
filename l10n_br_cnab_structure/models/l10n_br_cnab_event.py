@@ -88,25 +88,26 @@ class CNABReturnEvent(models.Model):
             else:
                 record.balance = 0
 
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
         """Override Create Method"""
-        event = super().create(vals)
-        if not event.cnab_return_log_id.cnab_structure_id:
-            # if there is no cnab_structure_id it is because the return file is not
-            # being processed by this module, so there is nothing to do here.
-            return event
-        event.load_description_occurrences()
-        event.load_bank_payment_line()
-        event.check_gen_liquidation_move()
-        event.set_move_line_ids()
-        event.set_occurrence_date()
-        if event.state != "error":
-            if event.gen_liquidation_move or event.tariff_charge > 0:
-                event.state = "ready"
-            else:
-                event.state = "confirmed"
-        return event
+        events = super().create(vals_list)
+        for event in events:
+            if not event.cnab_return_log_id.cnab_structure_id:
+                # if there is no cnab_structure_id it is because the return file is
+                # not being processed by this module, so there is nothing to do here.
+                continue
+            event.load_description_occurrences()
+            event.load_bank_payment_line()
+            event.check_gen_liquidation_move()
+            event.set_move_line_ids()
+            event.set_occurrence_date()
+            if event.state != "error":
+                if event.gen_liquidation_move or event.tariff_charge > 0:
+                    event.state = "ready"
+                else:
+                    event.state = "confirmed"
+        return events
 
     def confirm_event(self):
         if self.state != "ignored":
