@@ -152,13 +152,14 @@
                                 <p style="margin-bottom: 0;">Emitida em Contingencia</p>
                                 <p style="margin-bottom: 0;">Pendente de Autorizacao</p>
                             </t>
-                            <t t-else="">
+                            <t t-elif="authorization_protocol">
                                 <p style="margin-bottom: 0;">Protocolo: <t
                                         t-esc="authorization_protocol"
                                     /></p>
-                                <p style="margin-bottom: 0;">Autorizacao: <t
-                                        t-esc="document_date"
-                                    /></p>
+                                <p
+                                    t-if="authorization_date"
+                                    style="margin-bottom: 0;"
+                                >Autorizacao: <t t-esc="authorization_date" /></p>
                             </t>
                         </div>
                     </div>
