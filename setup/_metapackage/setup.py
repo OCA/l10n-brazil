@@ -36,6 +36,7 @@ setuptools.setup(
         'odoo-addon-l10n_br_fiscal_dfe>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_fiscal_dfe_mock>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_fiscal_edi>=16.0dev,<16.1dev',
+        'odoo-addon-l10n_br_fiscal_fci>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_fiscal_notification>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_fiscal_queue>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_fiscal_subsequent_document>=16.0dev,<16.1dev',
