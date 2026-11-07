@@ -6,16 +6,25 @@ def post_init_hook(env):
     """Allow to use demo main_company for Brazilian fiscal operations"""
 
     br_demo_companies = []
+    # l10n_br_coa_simple and l10n_br_coa_generic may be installed before this
+    # module: their demo company keeps that chart and only gets the fiscal taxes.
+    loaded_demo_companies = env["res.company"]
     demo_simple = env.ref(
         "l10n_br_base.empresa_simples_nacional", raise_if_not_found=False
     )
-    if demo_simple:
+    if demo_simple and demo_simple.chart_template == "br_oca_simple":
+        loaded_demo_companies |= demo_simple
+    elif demo_simple:
         demo_simple.chart_template = "generic_coa"  # "br_oca_simple"
         br_demo_companies.append(demo_simple)
     demo_lp = env.ref("l10n_br_base.empresa_lucro_presumido", raise_if_not_found=False)
-    if demo_lp:
+    if demo_lp and demo_lp.chart_template == "br_oca_generic":
+        loaded_demo_companies |= demo_lp
+    elif demo_lp:
         demo_lp.chart_template = "br_oca_generic"
         br_demo_companies.append(demo_lp)
+    if loaded_demo_companies:
+        env["account.chart.template"].load_fiscal_taxes(loaded_demo_companies)
 
     for company in env["res.company"].with_context(active_test=False).search([]):
         if "br_oca" in env["account.chart.template"]._get_parent_template(
