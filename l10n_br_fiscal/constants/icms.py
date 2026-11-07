@@ -105,38 +105,12 @@ ICMS_DIFAL_PARTITION = {
 }
 
 
-ICMS_DIFAL_UNIQUE_BASE = [
-    "DF",
-    "ES",
-    "MA",
-    "MS",
-    "PE",
-    "RJ",
-    "RN",
-    "RR",
-]
-
-
-ICMS_DIFAL_DOUBLE_BASE = [
-    "AC",
-    "AL",
-    "AP",
-    "AM",
-    "BA",
+# Non-taxpayer DIFAL: states that gross up the single base with the
+# destination internal rate and FCP (LC 87/1996, art. 13, par. 7).
+# MG: Lei 6.763/1975, art. 13, par. 1-C. CE: SEFAZ-CE guidance.
+ICMS_DIFAL_INSIDE_BASE = [
     "CE",
-    "GO",
     "MG",
-    "MT",
-    "PA",
-    "PB",
-    "PI",
-    "PR",
-    "RO",
-    "RS",
-    "SC",
-    "SE",
-    "SP",
-    "TO",
 ]
 
 
