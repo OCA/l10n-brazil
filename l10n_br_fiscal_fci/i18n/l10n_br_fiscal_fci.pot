@@ -6,8 +6,6 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-31 21:33+0000\n"
-"PO-Revision-Date: 2026-10-31 21:33+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -418,7 +416,6 @@ msgstr ""
 
 #. module: l10n_br_fiscal_fci
 #: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__message_has_error
-#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
@@ -544,6 +541,11 @@ msgstr ""
 #. module: l10n_br_fiscal_fci
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__name
 msgid "Name"
+msgstr ""
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
@@ -723,11 +725,6 @@ msgstr ""
 #: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
 #, python-format
 msgid "Return file of the FCI %s imported."
-msgstr ""
-
-#. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__message_has_sms_error
-msgid "SMS Delivery error"
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
@@ -1055,6 +1052,16 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__validation_indicator
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__validation_indicator
 msgid "Validation Indicator"
+msgstr ""
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__website_message_ids
+msgid "Website communication history"
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
