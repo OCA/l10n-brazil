@@ -65,6 +65,19 @@ class DataAbstract(models.AbstractModel):
             raise AccessError(_("You don't have permission to unarchive records."))
         return super().action_unarchive()
 
+    @api.model
+    def _get_invalid_records(self):
+        """Return active records whose date_end is already past."""
+        today = fields.Date.context_today(self)
+        return self.search([("date_end", "!=", False), ("date_end", "<", today)])
+
+    @api.model
+    def _expire_invalid_records(self):
+        """Deactivate records that fell outside their date validity window."""
+        invalid_records = self._get_invalid_records()
+        if invalid_records:
+            invalid_records.write({"active": False})
+
     @api.depends("code")
     def _compute_code_unmasked(self):
         for r in self:

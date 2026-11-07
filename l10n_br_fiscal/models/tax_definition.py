@@ -453,6 +453,7 @@ class TaxDefinition(models.Model):
         city_taxation_code=None,
         national_taxation_code=None,
         service_type=None,
+        reference_date=None,
     ):
         """
         Filter and return tax definitions that match the given criteria.
@@ -488,6 +489,8 @@ class TaxDefinition(models.Model):
             (l10n_br_fiscal.national.taxation.code).
         :param service_type: Optional Service Type record
             (l10n_br_fiscal.service.type).
+        :param reference_date: Optional datetime checked against date_start
+            and date_end; defaults to now.
         :return: A recordset of matching
             l10n_br_fiscal.tax.definition.
         """
@@ -507,6 +510,9 @@ class TaxDefinition(models.Model):
         domain = [
             ("state", "!=", "expired"),
             ("id", "in", self.ids),
+        ]
+        domain += tools.date_validity_domain(reference_date or fields.Datetime.now())
+        domain += [
             "|",
             ("state_to_ids", "=", False),
             ("state_to_ids", "=", partner.state_id.id),
