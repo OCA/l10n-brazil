@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="bank_connection_kanban" model="ir.ui.view">
+        <field name="name">l10n_br_bank_connection.connection.kanban</field>
+        <field name="model">l10n_br_bank_connection.connection</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state">
+                <field name="state" />
+                <field name="oauth_supported" />
+                <field name="last_error" />
+                <templates>
+                    <t t-name="card" class="p-0">
+                        <div
+                            t-attf-class="h-100 p-2 border-start border-4 #{record.state.raw_value == 'connected' and 'border-success' or record.state.raw_value == 'draft' and 'border-secondary' or 'border-danger'}"
+                        >
+                            <div class="d-flex justify-content-between">
+                                <field name="name" class="fw-bold" />
+                                <field
+                                    name="environment"
+                                    widget="badge"
+                                    decoration-warning="environment == 'test'"
+                                    decoration-success="environment == 'prod'"
+                                />
+                            </div>
+                            <div class="text-muted">
+                                <field name="adapter" />
+                            </div>
+                            <div class="text-muted small">
+                                <field name="capability_labels" />
+                            </div>
+                            <div class="mt-1">
+                                <field
+                                    name="sync_status_ids"
+                                    widget="many2many_tags"
+                                    options="{'color_field': 'color'}"
+                                />
+                            </div>
+                            <div
+                                class="text-danger small mt-1"
+                                t-if="record.last_error.raw_value"
+                            >
+                                <field name="last_error" />
+                            </div>
+                            <div class="mt-2">
+                                <button
+                                    t-if="record.oauth_supported.raw_value"
+                                    type="object"
+                                    name="action_oauth_connect"
+                                    class="btn btn-sm btn-primary"
+                                >Reconnect</button>
+                                <button
+                                    type="object"
+                                    name="action_test_connection"
+                                    class="btn btn-sm btn-secondary"
+                                >Test</button>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="bank_connection_list" model="ir.ui.view">
+        <field name="name">l10n_br_bank_connection.connection.list</field>
+        <field name="model">l10n_br_bank_connection.connection</field>
+        <field name="arch" type="xml">
+            <list
+                decoration-success="state == 'connected'"
+                decoration-danger="state in ('error', 'needs_reconsent')"
+                decoration-muted="state == 'draft'"
+            >
+                <field name="name" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="adapter" />
+                <field name="environment" />
+                <field name="cnpj" optional="hide" />
+                <field name="capability_labels" optional="show" />
+                <field name="state" />
+            </list>
+        </field>
+    </record>
+
+    <record id="bank_connection_form" model="ir.ui.view">
+        <field name="name">l10n_br_bank_connection.connection.form</field>
+        <field name="model">l10n_br_bank_connection.connection</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="action_oauth_connect"
+                        type="object"
+                        string="Connect"
+                        class="btn-primary"
+                        invisible="not oauth_supported or state != 'draft'"
+                    />
+                    <button
+                        name="action_oauth_connect"
+                        type="object"
+                        string="Reconnect"
+                        invisible="not oauth_supported or state == 'draft'"
+                    />
+                    <button
+                        name="action_test_connection"
+                        type="object"
+                        string="Test connection"
+                        invisible="state == 'draft' and oauth_supported"
+                    />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <field name="oauth_supported" invisible="1" />
+                    <field name="sandbox_validated" invisible="1" />
+                    <field name="uses_client_id" invisible="1" />
+                    <field name="uses_client_secret" invisible="1" />
+                    <field name="uses_username" invisible="1" />
+                    <field name="uses_password" invisible="1" />
+                    <field name="uses_certificate" invisible="1" />
+                    <field name="uses_pix_key" invisible="1" />
+                    <field name="uses_refresh_token" invisible="1" />
+                    <field name="is_pix" invisible="1" />
+                    <widget
+                        name="web_ribbon"
+                        title="Archived"
+                        bg_color="text-bg-danger"
+                        invisible="active"
+                    />
+                    <div
+                        class="alert alert-warning"
+                        role="alert"
+                        invisible="not adapter or sandbox_validated"
+                    >
+                        This bank adapter has not been validated in the bank sandbox
+                        yet. Test it with low amounts before using it in production.
+                    </div>
+                    <div
+                        class="alert alert-danger"
+                        role="alert"
+                        invisible="not last_error"
+                    >
+                        <field name="last_error" />
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" />
+                        <h1>
+                            <field name="name" placeholder="Bank account" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group name="main">
+                            <field name="active" invisible="1" />
+                            <field name="adapter" />
+                            <field
+                                name="pix_profile"
+                                invisible="not is_pix"
+                                required="is_pix"
+                            />
+                            <field name="environment" />
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                            <field name="cnpj" />
+                        </group>
+                        <group name="status">
+                            <field name="capability_labels" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page
+                            string="Credentials"
+                            name="credentials"
+                            groups="base.group_system"
+                        >
+                            <group>
+                                <group>
+                                    <field
+                                        name="client_id"
+                                        invisible="not uses_client_id"
+                                    />
+                                    <field
+                                        name="client_secret"
+                                        password="True"
+                                        invisible="not uses_client_secret"
+                                    />
+                                    <field
+                                        name="username"
+                                        invisible="not uses_username"
+                                    />
+                                    <field
+                                        name="password"
+                                        password="True"
+                                        invisible="not uses_password"
+                                    />
+                                    <field
+                                        name="pix_key"
+                                        invisible="not uses_pix_key"
+                                    />
+                                    <field
+                                        name="refresh_token"
+                                        password="True"
+                                        invisible="not uses_refresh_token"
+                                    />
+                                    <field
+                                        name="scopes"
+                                        invisible="not oauth_supported"
+                                    />
+                                    <field
+                                        name="certificate"
+                                        invisible="not uses_certificate"
+                                    />
+                                    <field
+                                        name="private_key"
+                                        invisible="not uses_certificate"
+                                    />
+                                </group>
+                            </group>
+                        </page>
+                        <page
+                            string="Bank Settings"
+                            name="settings"
+                            groups="base.group_system"
+                        >
+                            <group>
+                                <field name="settings_help" />
+                                <field
+                                    name="extra_config"
+                                    widget="code"
+                                    options="{'mode': 'python'}"
+                                />
+                                <field
+                                    name="secret_config"
+                                    widget="code"
+                                    options="{'mode': 'python'}"
+                                />
+                                <button
+                                    name="action_fill_settings_template"
+                                    type="object"
+                                    string="Fill settings template"
+                                    class="btn-secondary"
+                                    colspan="2"
+                                />
+                            </group>
+                        </page>
+                        <page
+                            string="Webhook"
+                            name="webhook"
+                            groups="base.group_system"
+                        >
+                            <group>
+                                <field name="webhook_url" widget="CopyClipboardChar" />
+                                <button
+                                    name="action_rotate_webhook_token"
+                                    type="object"
+                                    string="Rotate webhook token"
+                                    class="btn-secondary"
+                                    confirm="The current webhook URL stops working. Register the new one at the bank. Continue?"
+                                    colspan="2"
+                                />
+                            </group>
+                        </page>
+                        <page string="Synchronization" name="sync">
+                            <field name="sync_status_ids">
+                                <list
+                                    decoration-danger="state == 'error'"
+                                    decoration-warning="state == 'warning'"
+                                >
+                                    <field name="domain" />
+                                    <field name="last_date" />
+                                    <field name="state" />
+                                    <field name="message" />
+                                </list>
+                            </field>
+                        </page>
+                        <page
+                            string="Advanced"
+                            name="advanced"
+                            groups="base.group_no_one"
+                        >
+                            <group>
+                                <field name="api_base_url_override" />
+                                <field name="token_url_override" />
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter />
+            </form>
+        </field>
+    </record>
+
+    <record id="bank_connection_search" model="ir.ui.view">
+        <field name="name">l10n_br_bank_connection.connection.search</field>
+        <field name="model">l10n_br_bank_connection.connection</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="adapter" />
+                <field name="cnpj" />
+                <filter
+                    name="filter_problem"
+                    string="Needs attention"
+                    domain="[('state', 'in', ('error', 'needs_reconsent'))]"
+                />
+                <filter
+                    name="filter_archived"
+                    string="Archived"
+                    domain="[('active', '=', False)]"
+                />
+                <group>
+                    <filter
+                        name="group_state"
+                        string="State"
+                        context="{'group_by': 'state'}"
+                    />
+                    <filter
+                        name="group_adapter"
+                        string="Bank"
+                        context="{'group_by': 'adapter'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="bank_connection_action" model="ir.actions.act_window">
+        <field name="name">Bank Connections</field>
+        <field name="res_model">l10n_br_bank_connection.connection</field>
+        <field name="view_mode">kanban,list,form</field>
+    </record>
+
+    <menuitem
+        id="bank_connection_menu"
+        name="Bank Connections"
+        action="bank_connection_action"
+        parent="account.menu_finance_configuration"
+        sequence="55"
+        groups="group_bank_connection_admin"
+    />
+</odoo>

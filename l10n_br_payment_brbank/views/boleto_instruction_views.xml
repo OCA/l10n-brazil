@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="boleto_instruction_form" model="ir.ui.view">
+        <field name="name">l10n_br.boleto.instruction.form</field>
+        <field name="model">l10n_br.boleto.instruction</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="action_send"
+                        type="object"
+                        string="Send to the bank"
+                        class="oe_highlight"
+                        invisible="state != 'draft'"
+                    />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field
+                                name="transaction_id"
+                                readonly="state != 'draft'"
+                                options="{'no_create': True}"
+                            />
+                            <field
+                                name="command"
+                                widget="radio"
+                                readonly="state != 'draft'"
+                            />
+                            <field
+                                name="new_due_date"
+                                invisible="command != 'prorrogacao'"
+                                required="command == 'prorrogacao'"
+                                readonly="state != 'draft'"
+                            />
+                            <field name="currency_id" invisible="1" />
+                            <field
+                                name="amount"
+                                invisible="command != 'abatimento'"
+                                required="command == 'abatimento'"
+                                readonly="state != 'draft'"
+                            />
+                        </group>
+                        <group>
+                            <field name="provider_id" />
+                            <field name="result_message" />
+                            <field name="idempotency_key" groups="base.group_no_one" />
+                            <field name="bank_response" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="boleto_instruction_list" model="ir.ui.view">
+        <field name="name">l10n_br.boleto.instruction.list</field>
+        <field name="model">l10n_br.boleto.instruction</field>
+        <field name="arch" type="xml">
+            <list
+                decoration-success="state == 'done'"
+                decoration-danger="state in ('rejected', 'error')"
+            >
+                <field name="create_date" />
+                <field name="transaction_id" />
+                <field name="command" />
+                <field name="new_due_date" optional="show" />
+                <field name="currency_id" invisible="1" />
+                <field name="amount" optional="show" />
+                <field name="state" />
+                <field name="result_message" />
+            </list>
+        </field>
+    </record>
+
+    <record id="boleto_instruction_search" model="ir.ui.view">
+        <field name="name">l10n_br.boleto.instruction.search</field>
+        <field name="model">l10n_br.boleto.instruction</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="transaction_id" />
+                <field name="command" />
+                <filter
+                    name="filter_draft"
+                    string="Draft"
+                    domain="[('state', '=', 'draft')]"
+                />
+                <filter
+                    name="filter_failed"
+                    string="Rejected or Error"
+                    domain="[('state', 'in', ('rejected', 'error'))]"
+                />
+            </search>
+        </field>
+    </record>
+
+    <record id="boleto_instruction_action" model="ir.actions.act_window">
+        <field name="name">Boleto Instructions</field>
+        <field name="res_model">l10n_br.boleto.instruction</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        id="boleto_instruction_menu"
+        action="boleto_instruction_action"
+        parent="account.menu_finance_receivables"
+        sequence="120"
+        groups="account.group_account_invoice"
+    />
+</odoo>

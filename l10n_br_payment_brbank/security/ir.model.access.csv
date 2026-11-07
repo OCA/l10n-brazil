@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_boleto_instruction_invoice,boleto.instruction.invoice,model_l10n_br_boleto_instruction,account.group_account_invoice,1,1,1,0
+access_boleto_instruction_manager,boleto.instruction.manager,model_l10n_br_boleto_instruction,account.group_account_manager,1,1,1,1
+access_brbank_event_manager,brbank.event.manager,model_l10n_br_brbank_event,account.group_account_manager,1,0,0,0
+access_brbank_event_system,brbank.event.system,model_l10n_br_brbank_event,base.group_system,1,1,1,1
