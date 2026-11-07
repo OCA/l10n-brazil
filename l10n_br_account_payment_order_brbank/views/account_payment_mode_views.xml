@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="account_payment_mode_form" model="ir.ui.view">
+        <field name="model">account.payment.mode</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_order_api.account_payment_mode_form"
+        />
+        <field name="arch" type="xml">
+            <field name="api_require_second_factor" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'invisible': [('api_provider', '=', False)], 'readonly': [('brbank_send_notice', 'in', ['authorize_in_odoo', 'account_setting', 'pays_on_send'])]}</attribute>
+            </field>
+            <field name="api_provider" position="after">
+                <field name="brbank_uses_contract" invisible="1" />
+                <field name="brbank_uses_ted_purpose" invisible="1" />
+                <field
+                    name="bank_connection_id"
+                    attrs="{'invisible': [('api_provider', '!=', 'brbank')], 'required': [('api_provider', '=', 'brbank')]}"
+                />
+                <field
+                    name="brbank_send_notice"
+                    attrs="{'invisible': [('brbank_send_notice', '=', False)]}"
+                />
+                <field
+                    name="brbank_contract"
+                    attrs="{'invisible': [('brbank_uses_contract', '=', False)], 'required': [('brbank_uses_contract', '=', True)]}"
+                />
+                <field
+                    name="brbank_payment_kind"
+                    attrs="{'invisible': [('brbank_uses_contract', '=', False)]}"
+                />
+                <field
+                    name="brbank_ted_purpose"
+                    attrs="{'invisible': [('brbank_uses_ted_purpose', '=', False)]}"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="account_payment_order_form" model="ir.ui.view">
+        <field name="model">account.payment.order</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_order_api.account_payment_order_form"
+        />
+        <field name="arch" type="xml">
+            <button name="action_api_send" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'invisible': ['|', ('api_can_send', '=', False), ('brbank_send_notice', '!=', False)]}</attribute>
+            </button>
+            <button name="action_api_send" position="after">
+                <field name="brbank_send_notice" invisible="1" />
+                <field name="brbank_can_authorize" invisible="1" />
+                <button
+                    name="action_api_send"
+                    type="object"
+                    string="Send to Bank"
+                    class="oe_highlight"
+                    attrs="{'invisible': ['|', ('api_can_send', '=', False), ('brbank_send_notice', '!=', 'pays_on_send')]}"
+                    confirm="The money leaves the account as soon as the bank receives each payment: this bank has no approval step after this one. Send these payments?"
+                />
+                <button
+                    name="action_api_send"
+                    type="object"
+                    string="Send to Bank"
+                    class="oe_highlight"
+                    attrs="{'invisible': ['|', ('api_can_send', '=', False), ('brbank_send_notice', '!=', 'account_setting')]}"
+                    confirm="Depending on how this account is set up at the bank, the money leaves as soon as the bank receives each payment or waits for an approval in the internet banking. Send these payments?"
+                />
+                <button
+                    name="action_api_send"
+                    type="object"
+                    string="Send to Bank"
+                    class="oe_highlight"
+                    attrs="{'invisible': ['|', ('api_can_send', '=', False), ('brbank_send_notice', '!=', 'bank_approval')]}"
+                    confirm="No money leaves on send: the payments wait for an approver in the bank channel (app or internet banking). Send these payments?"
+                />
+                <button
+                    name="action_api_send"
+                    type="object"
+                    string="Send to Bank"
+                    class="oe_highlight"
+                    attrs="{'invisible': ['|', ('api_can_send', '=', False), ('brbank_send_notice', '!=', 'authorize_in_odoo')]}"
+                    confirm="No money leaves on send: the bank only validates the payments, and they are paid when you use Authorize at the Bank. Send these payments?"
+                />
+                <button
+                    name="action_brbank_authorize"
+                    type="object"
+                    string="Authorize at the Bank"
+                    class="oe_highlight"
+                    groups="account.group_account_manager"
+                    attrs="{'invisible': [('brbank_can_authorize', '=', False)]}"
+                    confirm="The money leaves the account now, and this cannot be undone from Odoo. Authorize these payments at the bank?"
+                />
+            </button>
+        </field>
+    </record>
+    <record id="account_payment_line_form" model="ir.ui.view">
+        <field name="model">account.payment.line</field>
+        <field
+            name="inherit_id"
+            ref="l10n_br_account_payment_order.l10n_br_account_payment_order_payment_line_form"
+        />
+        <field name="arch" type="xml">
+            <field name="partner_pix_id" position="after">
+                <field
+                    name="pix_copy_paste"
+                    attrs="{'invisible': [('payment_type', '=', 'inbound')]}"
+                />
+            </field>
+        </field>
+    </record>
+    <record id="account_payment_line_tree" model="ir.ui.view">
+        <field name="model">account.payment.line</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_order.account_payment_line_tree"
+        />
+        <field name="arch" type="xml">
+            <field name="partner_bank_id" position="after">
+                <field name="pix_copy_paste" optional="hide" />
+            </field>
+        </field>
+    </record>
+</odoo>
