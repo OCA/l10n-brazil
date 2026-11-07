@@ -79,6 +79,7 @@ class DocumentNfe(models.Model):
         "move_ids",
         "move_ids.payment_mode_id",
         "amount_financial_total",
+        "amount_tax_withholding",
         "nfe40_tpNF",
     )
     def _compute_nfe40_detpag(self):
@@ -100,7 +101,10 @@ class DocumentNfe(models.Model):
                     "nfe40_indPag": A_PRAZO if rec._is_installment() > 0 else A_VISTA,
                     "nfe40_tPag": rec.move_ids.payment_mode_id.fiscal_payment_mode
                     or "",
-                    "nfe40_vPag": rec.amount_financial_total,
+                    # The withheld taxes are settled by the buyer, so the
+                    # payments add up to vNF (rejection 865).
+                    "nfe40_vPag": rec.amount_financial_total
+                    + rec.amount_tax_withholding,
                 }
             detpag_current = {
                 field: getattr(detpag, field, None)
