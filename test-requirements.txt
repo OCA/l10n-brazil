@@ -2,3 +2,4 @@
 odoo-test-helper  # Needed by spec_driven_model
 pyopenssl==22.1.0
 xmldiff
+odoo-addon-account_payment_schedule @ git+https://github.com/OCA/bank-payment.git@refs/pull/1649/head#subdirectory=setup/account_payment_schedule
