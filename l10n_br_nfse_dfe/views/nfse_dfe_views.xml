@@ -37,6 +37,7 @@
                 <field name="currency_id" column_invisible="1" />
                 <field name="fiscal_document_id" />
                 <field name="document_state_label" string="State" />
+                <field name="import_block_reason" optional="show" />
                 <button
                     string="XML"
                     name="action_download_xml"
@@ -54,7 +55,7 @@
                     string="Import"
                     type="object"
                     icon="fa-file-text-o"
-                    invisible="fiscal_document_id"
+                    invisible="import_block_reason"
                 />
             </list>
         </field>
