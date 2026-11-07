@@ -4,10 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-31 21:33+0000\n"
-"PO-Revision-Date: 2026-10-31 21:33+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,14 +16,12 @@ msgstr ""
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
-#, python-format
 msgid "%(count)s goods of the file not found in this FCI: %(codes)s"
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
-#, python-format
 msgid ""
 "%(count)s goods without FCI control number (rejected by the tax "
 "administration): %(codes)s"
@@ -34,21 +30,18 @@ msgstr ""
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
-#, python-format
 msgid "%(count)s goods without a matching NCM: %(codes)s"
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
-#, python-format
 msgid "%(count)s goods without a matching product: %(codes)s"
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
-#, python-format
 msgid "%s FCI control number(s) imported."
 msgstr ""
 
@@ -75,7 +68,6 @@ msgstr ""
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/models/fci_file.py:0
-#, python-format
 msgid "A FCI file can not have more than %s goods lines."
 msgstr ""
 
@@ -244,7 +236,6 @@ msgstr ""
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
-#, python-format
 msgid "FCI %(name)s created with %(count)s goods."
 msgstr ""
 
@@ -297,7 +288,6 @@ msgstr ""
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/models/product_template.py:0
-#, python-format
 msgid "FCI of %s"
 msgstr ""
 
@@ -329,7 +319,6 @@ msgstr ""
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/models/fci_file.py:0
-#, python-format
 msgid ""
 "Fill in the reception protocol returned by the Validador/Transmissor before "
 "confirming the transmission of the FCI %s."
@@ -412,13 +401,17 @@ msgid "Icon to indicate an exception activity."
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__vat
+msgid "Identification Number for selected type"
+msgstr ""
+
+#. module: l10n_br_fiscal_fci
 #: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__message_needaction
 msgid "If checked, new messages require your attention."
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
 #: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__message_has_error
-#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
@@ -476,13 +469,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci____last_update
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file____last_update
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_import_wizard____last_update
-msgid "Last Modified on"
-msgstr ""
-
-#. module: l10n_br_fiscal_fci
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_import_wizard__write_uid
@@ -509,11 +495,6 @@ msgstr ""
 #. module: l10n_br_fiscal_fci
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__legal_name
 msgid "Legal Name"
-msgstr ""
-
-#. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__message_main_attachment_id
-msgid "Main Attachment"
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
@@ -547,6 +528,11 @@ msgid "Name"
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
+
+#. module: l10n_br_fiscal_fci
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr ""
@@ -569,14 +555,12 @@ msgstr ""
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
-#, python-format
 msgid "No TXT file found inside the ZIP file %s."
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
-#, python-format
 msgid ""
 "No allowed company found with the CNPJ %s of the file. Check the CNPJ of "
 "your companies and the companies enabled in your user."
@@ -721,13 +705,7 @@ msgstr ""
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
-#, python-format
 msgid "Return file of the FCI %s imported."
-msgstr ""
-
-#. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__message_has_sms_error
-msgid "SMS Delivery error"
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
@@ -746,6 +724,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__state_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_import_wizard__state
 msgid "State"
+msgstr ""
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__l10n_br_ie_code
+msgid "State Tax Identification Number. Should contain 9-14 digits."
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
@@ -783,7 +766,6 @@ msgstr ""
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
-#, python-format
 msgid ""
 "The CNPJ %(file_cnpj)s of the file is different from the CNPJ "
 "%(company_cnpj)s of the company of the FCI %(name)s."
@@ -792,7 +774,6 @@ msgstr ""
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/models/fci_file.py:0
-#, python-format
 msgid ""
 "The FCI %(name)s can not be generated:\n"
 "\n"
@@ -802,7 +783,6 @@ msgstr ""
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/models/fci_file.py:0
-#, python-format
 msgid ""
 "The FCI %s already has FCI control numbers and can not be set back to draft."
 msgstr ""
@@ -810,14 +790,12 @@ msgstr ""
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/models/fci_file.py:0
-#, python-format
 msgid "The FCI %s was already transmitted and can not be set back to draft."
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
-#, python-format
 msgid "The FCI %s was not transmitted yet, there is no return file to import."
 msgstr ""
 
@@ -833,106 +811,84 @@ msgstr ""
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/models/fci_file.py:0
-#, python-format
 msgid "The FCI must have at least one goods line."
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/models/fci.py:0
-#, python-format
 msgid "The GTIN of the product %s must have 8, 12, 13 or 14 digits."
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/models/fci.py:0
-#, python-format
 msgid "The NCM %s can not start with two consecutive zeros."
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/models/fci.py:0
-#, python-format
 msgid "The NCM %s must have 8 digits to be used in a FCI."
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/models/fci.py:0
-#, python-format
 msgid "The NCM of the goods %s is empty."
-msgstr ""
-
-#. module: l10n_br_fiscal_fci
-#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__vat
-msgid ""
-"The Tax Identification Number. Values here will be validated based on the "
-"country format. You can use '/' to indicate that the partner is not subject "
-"to tax."
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
-#, python-format
 msgid "The amount %s of the file is not valid."
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/models/fci.py:0
-#, python-format
 msgid "The code of the product %s is empty."
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/models/fci_file.py:0
-#, python-format
 msgid "The company CNPJ is not filled in."
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/models/fci_file.py:0
-#, python-format
 msgid "The company State Tax Number is not filled in."
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/models/fci_file.py:0
-#, python-format
 msgid "The company ZIP code is not filled in."
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/models/fci_file.py:0
-#, python-format
 msgid "The company city is not filled in."
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/models/fci_file.py:0
-#, python-format
 msgid "The company state is not filled in."
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/models/fci.py:0
-#, python-format
 msgid "The description of the product %s is empty."
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
-#, python-format
 msgid ""
 "The file %s does not look like a FCI file: the registers 0000 and 5020 were "
 "not found."
@@ -941,7 +897,6 @@ msgstr ""
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
-#, python-format
 msgid ""
 "The file %s is not a return file: it has no FCI control number. Leave the "
 "FCI field empty to import it as a new FCI."
@@ -950,7 +905,6 @@ msgstr ""
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
-#, python-format
 msgid "The file %s is not encoded in UTF-8, as required by the FCI layout."
 msgstr ""
 
@@ -964,14 +918,12 @@ msgstr ""
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/models/fci.py:0
-#, python-format
 msgid "The imported amount of the product %s must be greater than zero."
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/models/fci.py:0
-#, python-format
 msgid ""
 "The interstate output amount of the product %s must be greater than zero."
 msgstr ""
@@ -979,7 +931,6 @@ msgstr ""
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/models/fci.py:0
-#, python-format
 msgid ""
 "The unit '%s' does not belong to the table of the Ato COTEPE ICMS 61/2012. "
 "The file will be accepted but the validator will raise a warning. Use '99' "
@@ -989,7 +940,6 @@ msgstr ""
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/models/fci.py:0
-#, python-format
 msgid "The unit of measure of the product %s is empty."
 msgstr ""
 
@@ -1030,14 +980,12 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/models/fci.py:0
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__uom_id
-#, python-format
 msgid "Unit of Measure"
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
 #. odoo-javascript
 #: code:addons/l10n_br_fiscal_fci/static/src/components/fci_upload/fci_upload.xml:0
-#, python-format
 msgid "Upload"
 msgstr ""
 
@@ -1058,6 +1006,16 @@ msgid "Validation Indicator"
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: l10n_br_fiscal_fci
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_search
 msgid "With FCI Control Number"
 msgstr ""
@@ -1070,7 +1028,6 @@ msgstr ""
 #. module: l10n_br_fiscal_fci
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/models/fci_file.py:0
-#, python-format
 msgid "You can only delete FCI in draft state!"
 msgstr ""
 
