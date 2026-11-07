@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="group_dda_user" model="res.groups">
+        <field name="name">DDA / User</field>
+        <field name="category_id" ref="base.module_category_accounting_accounting" />
+        <field
+            name="implied_ids"
+            eval="[Command.link(ref('account.group_account_invoice'))]"
+        />
+        <field
+            name="comment"
+        >See the DDA inbox of the companies they work for, link boletos, create draft bills and ignore boletos.</field>
+    </record>
+
+    <record id="group_dda_approver" model="res.groups">
+        <field name="name">DDA / Approver</field>
+        <field name="category_id" ref="base.module_category_accounting_accounting" />
+        <field name="implied_ids" eval="[Command.link(ref('group_dda_user'))]" />
+        <field
+            name="comment"
+        >Everything of the user plus releasing a suspect boleto with a recorded verification.</field>
+    </record>
+
+    <record id="group_dda_manager" model="res.groups">
+        <field name="name">DDA / Manager</field>
+        <field name="category_id" ref="base.module_category_accounting_accounting" />
+        <field name="implied_ids" eval="[Command.link(ref('group_dda_approver'))]" />
+        <field
+            name="comment"
+        >Configure the policies and see the technical data of the boletos.</field>
+    </record>
+
+    <record id="base.user_admin" model="res.users">
+        <field name="groups_id" eval="[Command.link(ref('group_dda_manager'))]" />
+    </record>
+
+    <record id="rule_dda_debit_company" model="ir.rule">
+        <field name="name">DDA boleto: multi-company</field>
+        <field name="model_id" ref="model_l10n_br_dda_debit" />
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_dda_source_company" model="ir.rule">
+        <field name="name">DDA boleto source: multi-company</field>
+        <field name="model_id" ref="model_l10n_br_dda_debit_source" />
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_dda_allocation_company" model="ir.rule">
+        <field name="name">DDA allocation: multi-company</field>
+        <field name="model_id" ref="model_l10n_br_dda_allocation" />
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_dda_match_company" model="ir.rule">
+        <field name="name">DDA suggestion: multi-company</field>
+        <field name="model_id" ref="model_l10n_br_dda_match" />
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+</odoo>
