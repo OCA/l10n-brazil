@@ -2,3 +2,4 @@
 odoo-test-helper  # Needed by spec_driven_model
 pyopenssl==22.1.0
 xmldiff
+odoo-addon-account-tax-balance>=16.0dev,<16.1dev  # Needed by l10n_br_tax_assessment
