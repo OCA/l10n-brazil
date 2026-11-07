@@ -1,0 +1,1140 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_payment_brbank
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-31 05:03+0000\n"
+"PO-Revision-Date: 2026-10-31 05:03+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_payment_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment_brbank.portal_invoice_page_brbank
+msgid "<i class=\"fa fa-download\" title=\"Download\"/> Boleto"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/boleto_instruction.py:0
+#, python-format
+msgid "A due date extension needs the new date."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields.selection,name:l10n_br_payment_brbank.selection__l10n_br_boleto_instruction__state__done
+msgid "Accepted"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/boleto_instruction.py:0
+#, python-format
+msgid "Accepted by the bank."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,help:l10n_br_payment_brbank.field_payment_provider__brbank_rebate_account_id
+msgid "Account of the credit note posted when the bank accepts a rebate."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,help:l10n_br_payment_brbank.field_payment_provider__brbank_adapter
+msgid "Adapter of the brbank library that talks to the bank."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_brbank_event__amount_paid
+msgid "Amount Paid"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_payment_transaction__brbank_paid_amount
+msgid "Amount Paid at the Bank"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,help:l10n_br_payment_brbank.field_l10n_br_boleto_instruction__bank_response
+msgid "Answer of the bank, masked: no personal data, no secret."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_brbank_event__attempts
+msgid "Attempts"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields.selection,name:l10n_br_payment_brbank.selection__l10n_br_brbank_event__event_type__baixado
+msgid "BAIXADO"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:payment.provider,name:l10n_br_payment_brbank.payment_provider_brbank_btg
+msgid "BTG Pactual (Boleto)"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:payment.provider,name:l10n_br_payment_brbank.payment_provider_brbank_inter
+msgid "Banco Inter (Boleto)"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:payment.provider,name:l10n_br_payment_brbank.payment_provider_brbank_bb
+msgid "Banco do Brasil (Boleto)"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_brbank_event__bank
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment_brbank.payment_provider_form_brbank
+msgid "Bank"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,help:l10n_br_payment_brbank.field_payment_provider__brbank_pix_perfil
+msgid "Bank (PSP) of the Pix BACEN adapter."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_payment_provider__brbank_adapter
+msgid "Bank Adapter"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_account_payment_mode__brbank_capabilities
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_payment_provider__brbank_capabilities
+msgid "Bank Capabilities"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model,name:l10n_br_payment_brbank.model_l10n_br_bank_connection_connection
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_payment_provider__brbank_connection_id
+msgid "Bank Connection"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_transaction.py:0
+#, python-format
+msgid "Bank Instruction"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_payment_transaction__brbank_instruction_ids
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment_brbank.payment_transaction_form_brbank
+msgid "Bank Instructions"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_instruction__bank_response
+msgid "Bank Response"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_payment_transaction__brbank_bank_status
+msgid "Bank Status"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model,name:l10n_br_payment_brbank.model_l10n_br_brbank_event
+msgid "Bank Webhook Event"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.actions.act_window,name:l10n_br_payment_brbank.brbank_event_action
+#: model:ir.ui.menu,name:l10n_br_payment_brbank.brbank_event_menu
+msgid "Bank Webhook Events"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment_brbank.invoice_form_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment_brbank.payment_transaction_form_brbank
+msgid "Bank instruction"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/boleto_instruction.py:0
+#, python-format
+msgid "Bank instruction not applied to the invoice"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/brbank_event.py:0
+#, python-format
+msgid "Bank status after the query: %s"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/boleto_instruction.py:0
+#, python-format
+msgid "Bank unavailable, send it again later: %s"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:payment.provider,name:l10n_br_payment_brbank.payment_provider_brbank_banrisul
+msgid "Banrisul (Boleto)"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model,name:l10n_br_payment_brbank.model_l10n_br_boleto_instruction
+msgid "Boleto Bank Instruction"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.actions.act_window,name:l10n_br_payment_brbank.boleto_instruction_action
+#: model:ir.ui.menu,name:l10n_br_payment_brbank.boleto_instruction_menu
+msgid "Boleto Instructions"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment_brbank.payment_transaction_form_brbank
+msgid "Boleto PDF"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.actions.server,name:l10n_br_payment_brbank.ir_cron_brbank_process_events_ir_actions_server
+#: model:ir.cron,cron_name:l10n_br_payment_brbank.ir_cron_brbank_process_events
+msgid "Boleto brbank: process bank webhook events"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.actions.server,name:l10n_br_payment_brbank.ir_cron_brbank_reconcile_ir_actions_server
+#: model:ir.cron,cron_name:l10n_br_payment_brbank.ir_cron_brbank_reconcile
+msgid "Boleto brbank: reconcile titles with the banks"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_transaction.py:0
+#, python-format
+msgid "Boleto written off at the bank: review"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:payment.provider,name:l10n_br_payment_brbank.payment_provider_brbank_bradesco
+msgid "Bradesco (Boleto)"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields.selection,name:l10n_br_payment_brbank.selection__payment_provider__code__brbank
+msgid "Brazilian bank (brbank)"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_account_move_line__brbank_instruction_available
+msgid "Brbank Instruction Available"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_payment_provider__brbank_is_pix
+msgid "Brbank Is Pix"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_payment_provider__brbank_supports_instruction
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_payment_transaction__brbank_supports_instruction
+msgid "Brbank Supports Instruction"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_payment_provider__brbank_supports_pdf
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_payment_transaction__brbank_supports_pdf
+msgid "Brbank Supports Pdf"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_payment_provider__brbank_supports_webhook
+msgid "Brbank Supports Webhook"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_payment_provider__brbank_supports_write_off
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_payment_transaction__brbank_supports_write_off
+msgid "Brbank Supports Write Off"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:payment.provider,name:l10n_br_payment_brbank.payment_provider_brbank_c6
+msgid "C6 Bank (Boleto)"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_transaction.py:0
+#, python-format
+msgid "CPF/CNPJ"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:payment.provider,name:l10n_br_payment_brbank.payment_provider_brbank_caixa
+msgid "Caixa (Boleto)"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment_brbank.payment_transaction_form_brbank
+msgid "Check at the bank"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_provider.py:0
+#, python-format
+msgid "Choose the bank adapter of the provider."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_provider.py:0
+#, python-format
+msgid "Choose the bank connection of the provider %s."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_transaction.py:0
+#, python-format
+msgid "City"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_account_payment_mode__payment_provider_code
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_payment_provider__code
+msgid "Code"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_instruction__command
+msgid "Command"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_instruction__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_brbank_event__connection_id
+msgid "Connection"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,help:l10n_br_payment_brbank.field_payment_provider__brbank_nosso_numero_sequence_id
+msgid ""
+"Created at the first title of a bank whose nosso numero is chosen by the "
+"issuer. Numbers are never reused."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_instruction__create_uid
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_brbank_event__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_instruction__create_date
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_brbank_event__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,help:l10n_br_payment_brbank.field_payment_provider__brbank_connection_id
+msgid ""
+"Credentials, token and webhook of the bank account this provider uses. One "
+"connection can serve several providers (boleto and Pix, for instance)."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_instruction__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_instruction__display_name
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_brbank_event__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields.selection,name:l10n_br_payment_brbank.selection__l10n_br_boleto_instruction__state__draft
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment_brbank.boleto_instruction_search
+msgid "Draft"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/boleto_instruction.py:0
+#, python-format
+msgid "Due date extension"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields.selection,name:l10n_br_payment_brbank.selection__l10n_br_boleto_instruction__state__error
+#: model:ir.model.fields.selection,name:l10n_br_payment_brbank.selection__l10n_br_brbank_event__state__error
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment_brbank.brbank_event_search
+msgid "Error"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_brbank_event__event_type
+msgid "Event Type"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,help:l10n_br_payment_brbank.field_l10n_br_brbank_event__raw_payload
+msgid "Event as received, masked by the library."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_instruction__id
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_brbank_event__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_instruction__idempotency_key
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_payment_transaction__brbank_idempotency_key
+msgid "Idempotency Key"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields.selection,name:l10n_br_payment_brbank.selection__l10n_br_brbank_event__state__ignored
+msgid "Ignored"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:payment.provider,name:l10n_br_payment_brbank.payment_provider_brbank_itau
+msgid "Itaú (Boleto)"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model,name:l10n_br_payment_brbank.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model,name:l10n_br_payment_brbank.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,help:l10n_br_payment_brbank.field_payment_transaction__brbank_idempotency_key
+msgid ""
+"Key sent to the bank with the registration: repeating the call with the same"
+" key never creates a second title."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields.selection,name:l10n_br_payment_brbank.selection__l10n_br_brbank_event__event_type__liquidado
+msgid "LIQUIDADO"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_payment_transaction__brbank_last_check
+msgid "Last Bank Check"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_instruction____last_update
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_brbank_event____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_instruction__write_uid
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_brbank_event__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_instruction__write_date
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_brbank_event__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment_brbank.brbank_event_form
+msgid "Masked payload"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_instruction__name
+msgid "Name"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_instruction__new_due_date
+msgid "New Due Date"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/brbank_event.py:0
+#, python-format
+msgid "No transaction found."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_payment_transaction__brbank_nosso_numero
+msgid "Nosso Numero Sent"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_payment_provider__brbank_nosso_numero_sequence_id
+msgid "Nosso Numero Sequence"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_provider.py:0
+#, python-format
+msgid "Nosso numero: %s"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_brbank_event__occurred_at
+msgid "Occurred At"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/boleto_instruction.py:0
+#, python-format
+msgid "Only a draft instruction can be sent."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_payment_transaction__brbank_seu_numero
+msgid "Our Reference at the Bank"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields.selection,name:l10n_br_payment_brbank.selection__l10n_br_brbank_event__event_type__pendente_registro
+msgid "PENDENTE_REGISTRO"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_payment_transaction__brbank_paid_date
+msgid "Payment Date"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model,name:l10n_br_payment_brbank.model_account_payment_mode
+msgid "Payment Modes"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model,name:l10n_br_payment_brbank.model_payment_provider
+msgid "Payment Provider"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model,name:l10n_br_payment_brbank.model_payment_transaction
+msgid "Payment Transaction"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:payment.provider,name:l10n_br_payment_brbank.payment_provider_brbank_pinbank
+msgid "PinBank (Boleto)"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:payment.provider,name:l10n_br_payment_brbank.payment_provider_brbank_pix_inter
+msgid "Pix Banco Inter"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:payment.provider,name:l10n_br_payment_brbank.payment_provider_brbank_pix_bb
+msgid "Pix Banco do Brasil"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:payment.provider,name:l10n_br_payment_brbank.payment_provider_brbank_pix_bradesco
+msgid "Pix Bradesco"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:payment.provider,name:l10n_br_payment_brbank.payment_provider_brbank_pix_efi
+msgid "Pix Efí"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:payment.provider,name:l10n_br_payment_brbank.payment_provider_brbank_pix_itau
+msgid "Pix Itaú"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_payment_provider__brbank_pix_perfil
+msgid "Pix Profile"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:payment.provider,name:l10n_br_payment_brbank.payment_provider_brbank_pix_santander
+msgid "Pix Santander"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:payment.provider,name:l10n_br_payment_brbank.payment_provider_brbank_pix_sicoob
+msgid "Pix Sicoob"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:payment.provider,name:l10n_br_payment_brbank.payment_provider_brbank_pix_sicredi
+msgid "Pix Sicredi"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment_brbank.brbank_event_form
+msgid "Process again"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields.selection,name:l10n_br_payment_brbank.selection__l10n_br_brbank_event__state__done
+msgid "Processed"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/boleto_instruction.py:0
+#, python-format
+msgid "Protest"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_instruction__provider_id
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_brbank_event__provider_id
+msgid "Provider"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,help:l10n_br_payment_brbank.field_l10n_br_brbank_event__provider_id
+msgid "Provider the event was received for, when known."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields.selection,name:l10n_br_payment_brbank.selection__l10n_br_brbank_event__event_type__registrado
+msgid "REGISTRADO"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields.selection,name:l10n_br_payment_brbank.selection__l10n_br_brbank_event__event_type__rejeitado
+msgid "REJEITADO"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_brbank_event__raw_payload
+msgid "Raw Payload"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/boleto_instruction.py:0
+#, python-format
+msgid "Rebate"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_payment_provider__brbank_rebate_account_id
+msgid "Rebate Account"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_instruction__amount
+msgid "Rebate Amount"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/boleto_instruction.py:0
+#: code:addons/l10n_br_payment_brbank/models/boleto_instruction.py:0
+#, python-format
+msgid "Rebate of the boleto %s"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_brbank_event__reference
+msgid "Reference"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment_brbank.payment_transaction_form_brbank
+msgid "Register at the bank"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields.selection,name:l10n_br_payment_brbank.selection__l10n_br_boleto_instruction__state__rejected
+msgid "Rejected"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment_brbank.boleto_instruction_search
+msgid "Rejected or Error"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_instruction__result_message
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_brbank_event__result_message
+msgid "Result"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_payment_transaction__brbank_review_message
+msgid "Review Needed"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:payment.provider,name:l10n_br_payment_brbank.payment_provider_brbank_safra
+msgid "Safra (Boleto)"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:payment.provider,name:l10n_br_payment_brbank.payment_provider_brbank_santander
+msgid "Santander (Boleto)"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment_brbank.boleto_instruction_form
+msgid "Send to the bank"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/boleto_instruction.py:0
+#, python-format
+msgid ""
+"Set the rebate account of the payment provider %s before sending a rebate."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:payment.provider,name:l10n_br_payment_brbank.payment_provider_brbank_sicoob
+msgid "Sicoob (Boleto)"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:payment.provider,name:l10n_br_payment_brbank.payment_provider_brbank_sicredi
+msgid "Sicredi (Boleto)"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_transaction.py:0
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_instruction__state
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_brbank_event__state
+#, python-format
+msgid "State"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_transaction.py:0
+#, python-format
+msgid "Street"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,help:l10n_br_payment_brbank.field_payment_transaction__brbank_nosso_numero
+msgid ""
+"Taken from the sequence of the provider before the first registration call "
+"and sent again on every retry of this title."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/boleto_instruction.py:0
+#, python-format
+msgid ""
+"The bank accepted a rebate of %(amount)s on the boleto %(ref)s: credit note "
+"%(note)s."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/boleto_instruction.py:0
+#, python-format
+msgid ""
+"The bank accepted the instruction %(name)s, but Odoo could not apply it to "
+"the invoice: %(error)s. Apply it by hand."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/boleto_instruction.py:0
+#, python-format
+msgid ""
+"The bank accepted the new due date of the boleto %(ref)s: %(old)s -> "
+"%(new)s."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment_brbank.account_payment_mode_form_brbank
+msgid ""
+"The bank adapter of this provider has not been validated in\n"
+"                    the bank sandbox yet."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_transaction.py:0
+#, python-format
+msgid "The bank could not handle the request for %(ref)s: %(error)s"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_transaction.py:0
+#, python-format
+msgid "The bank does not provide the boleto PDF."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/boleto_instruction.py:0
+#, python-format
+msgid "The bank had already applied it."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_transaction.py:0
+#, python-format
+msgid "The bank is unavailable, the registration will be retried: %s"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/boleto_instruction.py:0
+#, python-format
+msgid "The bank of this provider does not accept this instruction."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_transaction.py:0
+#, python-format
+msgid "The bank refused the boleto of the transaction %(ref)s: %(error)s"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_transaction.py:0
+#, python-format
+msgid "The bank rejected the boleto."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_transaction.py:0
+#, python-format
+msgid ""
+"The bank reports the boleto %s as written off, and no write-off was sent "
+"from Odoo: it may have been paid by Pix. Check it at the bank."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_transaction.py:0
+#, python-format
+msgid ""
+"The bank title of the transaction %(ref)s has invalid data: %(fields)s."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment_brbank.payment_transaction_form_brbank
+msgid "The bank will cancel this boleto. Continue?"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_transaction.py:0
+#, python-format
+msgid ""
+"The boleto %s was written off at the bank. The title remains open: the "
+"customer still owes this amount."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_transaction.py:0
+#, python-format
+msgid "The boleto PDF is not available yet."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/boleto_instruction.py:0
+#, python-format
+msgid "The boleto is not registered at the bank."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_provider.py:0
+#, python-format
+msgid ""
+"The connection %(connection)s uses another bank adapter than the provider "
+"%(provider)s."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_transaction.py:0
+#, python-format
+msgid ""
+"The customer of the transaction %(ref)s is missing data the bank requires: "
+"%(fields)s."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.constraint,message:l10n_br_payment_brbank.constraint_l10n_br_boleto_instruction_idempotency_key_unique
+msgid "The idempotency key of a bank instruction must be unique."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.constraint,message:l10n_br_payment_brbank.constraint_payment_transaction_brbank_idempotency_key_unique
+msgid "The idempotency key of a bank title must be unique."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_provider.py:0
+#, python-format
+msgid ""
+"The nosso numero sequence of the provider %(name)s reached %(number)s, "
+"beyond the %(digits)s digits the bank accepts. Agree with the bank on a new "
+"wallet or agreement before issuing more boletos."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_provider.py:0
+#, python-format
+msgid "The payment provider %s has no bank connection."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_provider.py:0
+#, python-format
+msgid "The payment provider %s is disabled."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/account_move.py:0
+#, python-format
+msgid "The payment provider %s of the payment mode is disabled."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/boleto_instruction.py:0
+#, python-format
+msgid "The rebate must be above zero and below the boleto amount."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/boleto_instruction.py:0
+#, python-format
+msgid "The rebate must be below the open amount of the installment."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,help:l10n_br_payment_brbank.field_account_payment_mode__payment_provider_code
+#: model:ir.model.fields,help:l10n_br_payment_brbank.field_payment_provider__code
+msgid "The technical code of this payment provider."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_transaction.py:0
+#, python-format
+msgid "The transaction %s has no due date for the boleto."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment_brbank.payment_provider_form_brbank
+msgid ""
+"This bank adapter has not been validated in the bank sandbox\n"
+"                    yet. Test it with low amounts before using it in production."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.constraint,message:l10n_br_payment_brbank.constraint_l10n_br_brbank_event_connection_event_unique
+msgid "This bank event was already received."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/account_move_line.py:0
+#, python-format
+msgid "This installment has no registered boleto."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_provider.py:0
+#, python-format
+msgid "This provider is not a brbank provider."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields.selection,name:l10n_br_payment_brbank.selection__l10n_br_brbank_event__state__new
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment_brbank.brbank_event_search
+msgid "To Process"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_instruction__transaction_id
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_brbank_event__transaction_id
+msgid "Transaction"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:payment.provider,name:l10n_br_payment_brbank.payment_provider_brbank_unicred
+msgid "Unicred (Boleto)"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_account_payment_mode__brbank_sandbox_validated
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_payment_provider__brbank_sandbox_validated
+msgid "Validated in Sandbox"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment_brbank.payment_transaction_form_brbank
+msgid "Write off at the bank"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/boleto_instruction.py:0
+#, python-format
+msgid "Write-off"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_transaction.py:0
+#, python-format
+msgid "Written off at the bank."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model_terms:payment.provider,auth_msg:l10n_br_payment_brbank.payment_provider_brbank_banrisul
+#: model_terms:payment.provider,auth_msg:l10n_br_payment_brbank.payment_provider_brbank_bb
+#: model_terms:payment.provider,auth_msg:l10n_br_payment_brbank.payment_provider_brbank_bradesco
+#: model_terms:payment.provider,auth_msg:l10n_br_payment_brbank.payment_provider_brbank_btg
+#: model_terms:payment.provider,auth_msg:l10n_br_payment_brbank.payment_provider_brbank_c6
+#: model_terms:payment.provider,auth_msg:l10n_br_payment_brbank.payment_provider_brbank_caixa
+#: model_terms:payment.provider,auth_msg:l10n_br_payment_brbank.payment_provider_brbank_inter
+#: model_terms:payment.provider,auth_msg:l10n_br_payment_brbank.payment_provider_brbank_itau
+#: model_terms:payment.provider,auth_msg:l10n_br_payment_brbank.payment_provider_brbank_pinbank
+#: model_terms:payment.provider,auth_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_bb
+#: model_terms:payment.provider,auth_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_bradesco
+#: model_terms:payment.provider,auth_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_efi
+#: model_terms:payment.provider,auth_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_inter
+#: model_terms:payment.provider,auth_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_itau
+#: model_terms:payment.provider,auth_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_santander
+#: model_terms:payment.provider,auth_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_sicoob
+#: model_terms:payment.provider,auth_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_sicredi
+#: model_terms:payment.provider,auth_msg:l10n_br_payment_brbank.payment_provider_brbank_safra
+#: model_terms:payment.provider,auth_msg:l10n_br_payment_brbank.payment_provider_brbank_santander
+#: model_terms:payment.provider,auth_msg:l10n_br_payment_brbank.payment_provider_brbank_sicoob
+#: model_terms:payment.provider,auth_msg:l10n_br_payment_brbank.payment_provider_brbank_sicredi
+#: model_terms:payment.provider,auth_msg:l10n_br_payment_brbank.payment_provider_brbank_unicred
+msgid "Your payment has been authorized."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model_terms:payment.provider,cancel_msg:l10n_br_payment_brbank.payment_provider_brbank_banrisul
+#: model_terms:payment.provider,cancel_msg:l10n_br_payment_brbank.payment_provider_brbank_bb
+#: model_terms:payment.provider,cancel_msg:l10n_br_payment_brbank.payment_provider_brbank_bradesco
+#: model_terms:payment.provider,cancel_msg:l10n_br_payment_brbank.payment_provider_brbank_btg
+#: model_terms:payment.provider,cancel_msg:l10n_br_payment_brbank.payment_provider_brbank_c6
+#: model_terms:payment.provider,cancel_msg:l10n_br_payment_brbank.payment_provider_brbank_caixa
+#: model_terms:payment.provider,cancel_msg:l10n_br_payment_brbank.payment_provider_brbank_inter
+#: model_terms:payment.provider,cancel_msg:l10n_br_payment_brbank.payment_provider_brbank_itau
+#: model_terms:payment.provider,cancel_msg:l10n_br_payment_brbank.payment_provider_brbank_pinbank
+#: model_terms:payment.provider,cancel_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_bb
+#: model_terms:payment.provider,cancel_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_bradesco
+#: model_terms:payment.provider,cancel_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_efi
+#: model_terms:payment.provider,cancel_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_inter
+#: model_terms:payment.provider,cancel_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_itau
+#: model_terms:payment.provider,cancel_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_santander
+#: model_terms:payment.provider,cancel_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_sicoob
+#: model_terms:payment.provider,cancel_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_sicredi
+#: model_terms:payment.provider,cancel_msg:l10n_br_payment_brbank.payment_provider_brbank_safra
+#: model_terms:payment.provider,cancel_msg:l10n_br_payment_brbank.payment_provider_brbank_santander
+#: model_terms:payment.provider,cancel_msg:l10n_br_payment_brbank.payment_provider_brbank_sicoob
+#: model_terms:payment.provider,cancel_msg:l10n_br_payment_brbank.payment_provider_brbank_sicredi
+#: model_terms:payment.provider,cancel_msg:l10n_br_payment_brbank.payment_provider_brbank_unicred
+msgid "Your payment has been cancelled."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model_terms:payment.provider,pending_msg:l10n_br_payment_brbank.payment_provider_brbank_banrisul
+#: model_terms:payment.provider,pending_msg:l10n_br_payment_brbank.payment_provider_brbank_bb
+#: model_terms:payment.provider,pending_msg:l10n_br_payment_brbank.payment_provider_brbank_bradesco
+#: model_terms:payment.provider,pending_msg:l10n_br_payment_brbank.payment_provider_brbank_btg
+#: model_terms:payment.provider,pending_msg:l10n_br_payment_brbank.payment_provider_brbank_c6
+#: model_terms:payment.provider,pending_msg:l10n_br_payment_brbank.payment_provider_brbank_caixa
+#: model_terms:payment.provider,pending_msg:l10n_br_payment_brbank.payment_provider_brbank_inter
+#: model_terms:payment.provider,pending_msg:l10n_br_payment_brbank.payment_provider_brbank_itau
+#: model_terms:payment.provider,pending_msg:l10n_br_payment_brbank.payment_provider_brbank_pinbank
+#: model_terms:payment.provider,pending_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_bb
+#: model_terms:payment.provider,pending_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_bradesco
+#: model_terms:payment.provider,pending_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_efi
+#: model_terms:payment.provider,pending_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_inter
+#: model_terms:payment.provider,pending_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_itau
+#: model_terms:payment.provider,pending_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_santander
+#: model_terms:payment.provider,pending_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_sicoob
+#: model_terms:payment.provider,pending_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_sicredi
+#: model_terms:payment.provider,pending_msg:l10n_br_payment_brbank.payment_provider_brbank_safra
+#: model_terms:payment.provider,pending_msg:l10n_br_payment_brbank.payment_provider_brbank_santander
+#: model_terms:payment.provider,pending_msg:l10n_br_payment_brbank.payment_provider_brbank_sicoob
+#: model_terms:payment.provider,pending_msg:l10n_br_payment_brbank.payment_provider_brbank_sicredi
+#: model_terms:payment.provider,pending_msg:l10n_br_payment_brbank.payment_provider_brbank_unicred
+msgid ""
+"Your payment has been successfully processed but is waiting for approval."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model_terms:payment.provider,done_msg:l10n_br_payment_brbank.payment_provider_brbank_banrisul
+#: model_terms:payment.provider,done_msg:l10n_br_payment_brbank.payment_provider_brbank_bb
+#: model_terms:payment.provider,done_msg:l10n_br_payment_brbank.payment_provider_brbank_bradesco
+#: model_terms:payment.provider,done_msg:l10n_br_payment_brbank.payment_provider_brbank_btg
+#: model_terms:payment.provider,done_msg:l10n_br_payment_brbank.payment_provider_brbank_c6
+#: model_terms:payment.provider,done_msg:l10n_br_payment_brbank.payment_provider_brbank_caixa
+#: model_terms:payment.provider,done_msg:l10n_br_payment_brbank.payment_provider_brbank_inter
+#: model_terms:payment.provider,done_msg:l10n_br_payment_brbank.payment_provider_brbank_itau
+#: model_terms:payment.provider,done_msg:l10n_br_payment_brbank.payment_provider_brbank_pinbank
+#: model_terms:payment.provider,done_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_bb
+#: model_terms:payment.provider,done_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_bradesco
+#: model_terms:payment.provider,done_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_efi
+#: model_terms:payment.provider,done_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_inter
+#: model_terms:payment.provider,done_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_itau
+#: model_terms:payment.provider,done_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_santander
+#: model_terms:payment.provider,done_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_sicoob
+#: model_terms:payment.provider,done_msg:l10n_br_payment_brbank.payment_provider_brbank_pix_sicredi
+#: model_terms:payment.provider,done_msg:l10n_br_payment_brbank.payment_provider_brbank_safra
+#: model_terms:payment.provider,done_msg:l10n_br_payment_brbank.payment_provider_brbank_santander
+#: model_terms:payment.provider,done_msg:l10n_br_payment_brbank.payment_provider_brbank_sicoob
+#: model_terms:payment.provider,done_msg:l10n_br_payment_brbank.payment_provider_brbank_sicredi
+#: model_terms:payment.provider,done_msg:l10n_br_payment_brbank.payment_provider_brbank_unicred
+msgid "Your payment has been successfully processed. Thank you!"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_transaction.py:0
+#, python-format
+msgid "ZIP code"
+msgstr ""
