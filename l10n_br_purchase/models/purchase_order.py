@@ -49,6 +49,16 @@ class PurchaseOrder(models.Model):
     )
 
     @api.model
+    def _get_view_cache_key(self, view_id=None, view_type="form", **options):
+        """Separate cached views whose fiscal line edit mode differs."""
+        key = super()._get_view_cache_key(view_id, view_type, **options)
+        return key + (
+            self.env.company.country_id.code == "BR",
+            self.env.user.has_group("l10n_br_purchase.group_line_fiscal_detail"),
+            bool(self.env.context.get("force_line_fiscal_detail")),
+        )
+
+    @api.model
     def _get_view(self, view_id=None, view_type="form", **options):
         arch, view = super()._get_view(view_id, view_type, **options)
         if self.env.company.country_id.code != "BR":
