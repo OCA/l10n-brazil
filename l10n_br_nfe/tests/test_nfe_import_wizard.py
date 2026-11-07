@@ -36,14 +36,17 @@ class NFeImportWizardTest(TransactionCase):
         cls.product_1 = cls.env["product.product"].create({"name": "Product Test 1"})
         cls.partner_1 = cls.env["res.partner"].create({"name": "Partner Test 1"})
 
-    def _prepare_wizard(self, xml):
+    def _prepare_wizard(self, xml, company=None):
+        if company is None:
+            company = self.env.ref("base.main_company")
         self.wizard = self.env["l10n_br_fiscal.document.import.wizard"].create(
             {
-                "company_id": self.env.ref("base.main_company").id,
+                "company_id": company.id,
                 "file": base64.b64encode(xml),
             }
         )
         self.wizard._onchange_file()
+        return self.wizard
 
     def check_edoc(self, edoc):
         self.assertEqual(
@@ -148,6 +151,31 @@ class NFeImportWizardTest(TransactionCase):
 
         self.assertFalse(edoc.authorization_event_id)
         self.assertEqual(edoc.state_edoc, state_edoc)
+
+    def test_received_nfe_uses_the_company_operation_when_set(self):
+        company = self.env.ref("l10n_br_base.empresa_simples_nacional")
+        self.assertFalse(company.nfe_import_fiscal_operation_id)
+        guessed = self._prepare_wizard(self.xml_1, company).fiscal_operation_id
+        operation = self.env.ref("l10n_br_fiscal.fo_entrada_remessa")
+        self.assertEqual(operation.fiscal_operation_type, "in")
+        self.assertNotEqual(operation, guessed)
+        company.nfe_import_fiscal_operation_id = operation
+        wizard = self._prepare_wizard(self.xml_1, company)
+        self.assertEqual(wizard.fiscal_operation_type, "in")
+        self.assertEqual(wizard.fiscal_operation_id, operation)
+        wizard.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras")
+        _binding, edoc = wizard._create_edoc_from_file()
+        self.assertEqual(
+            edoc.fiscal_operation_id, self.env.ref("l10n_br_fiscal.fo_compras")
+        )
+
+    def test_an_outgoing_nfe_ignores_the_import_operation(self):
+        company = self.env.ref("l10n_br_base.empresa_lucro_presumido")
+        operation = self.env.ref("l10n_br_fiscal.fo_entrada_remessa")
+        company.nfe_import_fiscal_operation_id = operation
+        wizard = self._prepare_wizard(self.xml_1, company)
+        self.assertEqual(wizard.fiscal_operation_type, "out")
+        self.assertNotEqual(wizard.fiscal_operation_id, operation)
 
     def FIXME_test_set_fiscal_operation_type(self):
         self._prepare_wizard(self.xml_1)
