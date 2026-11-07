@@ -4,7 +4,7 @@
 import base64
 import os
 
-from odoo import Command
+from odoo import Command, fields
 from odoo.exceptions import UserError
 from odoo.tests import Form, TransactionCase
 
@@ -271,3 +271,76 @@ class NFeImportTest(TransactionCase):
         document.fiscal_line_ids[0].product_id = False
         with self.assertRaises(UserError):
             document._check_document_import()
+
+    def _nfe_sample_bytes(self):
+        file_path = os.path.join(
+            l10n_br_account_nfe.__path__[0],
+            "tests",
+            "nfe",
+            "35231149647316000169550010000661061151600085-nfe.xml",
+        )
+        with open(file_path, "rb") as file:
+            return file.read()
+
+    def test_import_in_nfe_completes_existing_bill(self):
+        """A draft vendor bill with the XML number receives that NF-e."""
+        sample = base64.b64encode(self._nfe_sample_bytes())
+        # Form only keeps fields that are on the view. The legal name is not,
+        # so read it from the onchange before creating the missing supplier.
+        probe = self.env["l10n_br_fiscal.document.import.wizard"].create(
+            {"file": sample}
+        )
+        probe._onchange_file()
+        partner = probe.issuer_partner_id
+        if not partner:
+            partner = self.env["res.partner"].create(
+                {
+                    "name": probe.issuer_legal_name
+                    or probe.issuer_name
+                    or "NF-e supplier",
+                    "legal_name": probe.issuer_legal_name,
+                    "vat": probe.issuer_cnpj,
+                    "is_company": True,
+                    "country_id": self.env.ref("base.br").id,
+                }
+            )
+        bill_form = Form(
+            self.env["account.move"].with_context(default_move_type="in_invoice")
+        )
+        bill_form.partner_id = partner
+        bill_form.invoice_date = fields.Date.from_string("2023-11-16")
+        bill_form.document_type_id = self.env.ref("l10n_br_fiscal.document_55")
+        bill_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras")
+        bill_form.document_number = probe.document_number
+        bill_form.document_serie = probe.document_serie
+        if (
+            "l10n_latam.document.type" in self.env
+            and bill_form.l10n_latam_use_documents
+            and bill_form.l10n_latam_manual_document_number
+        ):
+            bill_form.l10n_latam_document_number = probe.document_number
+        bill = bill_form.save()
+
+        wizard = self.env["l10n_br_fiscal.document.import.wizard"].create({})
+        with Form(wizard) as import_form:
+            import_form.file = sample
+            import_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras")
+            self.assertEqual(import_form.target_move_id, bill)
+        action = wizard.action_import_and_open_move()
+        move = self.env["account.move"].browse(action["res_id"])
+        self.assertEqual(move, bill)
+        self.assertEqual(
+            move.document_key, "35231149647316000169550010000661061151600085"
+        )
+        self.assertTrue(move.imported_document)
+        self.assertEqual(len(move.invoice_line_ids), 4)
+        self.assertEqual(
+            self.env["account.move"].search_count(
+                [
+                    ("partner_id", "=", move.partner_id.id),
+                    ("move_type", "=", "in_invoice"),
+                    ("document_key", "=", move.document_key),
+                ]
+            ),
+            1,
+        )
