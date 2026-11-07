@@ -18,15 +18,15 @@ from ..constants.fiscal import (
     TAX_BASE_TYPE_PERCENT,
     TAX_BASE_TYPE_VALUE,
     TAX_DOMAIN_ICMS,
+    TAX_DOMAIN_ICMS_FCP,
     TAX_DOMAIN_ICMS_ST,
 )
 from ..constants.icms import (
     ICMS_BASE_TYPE,
     ICMS_BASE_TYPE_DEFAULT,
     ICMS_CST_RELIEF,
-    ICMS_DIFAL_DOUBLE_BASE,
+    ICMS_DIFAL_INSIDE_BASE,
     ICMS_DIFAL_PARTITION,
-    ICMS_DIFAL_UNIQUE_BASE,
     ICMS_ORIGIN_TAX_IMPORTED,
     ICMS_SN_CST_WITH_CREDIT,
     ICMS_ST_BASE_TYPE,
@@ -508,11 +508,11 @@ class Tax(models.Model):
         tax_dict.update(self._compute_tax(tax, taxes_dict, **kwargs))
         tax_dict.update({"icms_base_type": tax.icms_base_type})
 
-        # DIFAL
-        # TODO
-        # and operation_line.ind_final == FINAL_CUSTOMER_YES):
+        # DIFAL: only for non-taxpayers, a taxpayer recipient pays its own
+        # DIFAL (LC 87/1996, art. 4, par. 2)
         if (
             cfop
+            and company.icms_regulation_id
             and cfop.destination == CFOP_DESTINATION_EXTERNAL
             and partner.ind_ie_dest == NFE_IND_IE_DEST_9
             and tax_dict.get("tax_value")
@@ -527,13 +527,9 @@ class Tax(models.Model):
             icms_tax_difal, _ = company.icms_regulation_id.map_tax_def_icms_difal(
                 company, partner, product, ncm, nbm, cest, operation_line, ind_final
             )
-            icmsfcp_tax_difal = taxes_dict.get("icmsfcp", {})
 
             # Difal - Origin Percent
             icms_origin_perc = tax_dict.get("percent_amount")
-
-            # Difal - Origin Value
-            icms_origin_value = tax_dict.get("tax_value")
 
             # Difal - Destination Percent
             icms_dest_perc = 0.00
@@ -541,31 +537,22 @@ class Tax(models.Model):
                 icms_dest_perc = icms_tax_difal[0].percent_amount
 
             # Difal - FCP Percent
-            icmsfcp_perc = 0.00
-            if icmsfcp_tax_difal:
-                icmsfcp_perc = icmsfcp_tax_difal.get("percent_amount")
+            # FCP is computed after ICMS, so its rate is read from the tax itself
+            icmsfcp_tax = self.filtered(lambda t: t.tax_domain == TAX_DOMAIN_ICMS_FCP)
+            icmsfcp_perc = icmsfcp_tax[:1].percent_amount
 
-            # Difal - Base
-            icms_base = tax_dict.get("base")
-            difal_icms_base = 0.00
-
-            # Difal - ICMS Dest Value
-            icms_dest_value = currency.round(icms_base * (icms_dest_perc / 100))
-
-            if partner.state_id.code in ICMS_DIFAL_UNIQUE_BASE:
-                difal_icms_base = icms_base
-
-            if partner.state_id.code in ICMS_DIFAL_DOUBLE_BASE:
+            # Difal - Base: the same single base for origin and destination
+            # (LC 87/1996, art. 13, X), grossed up in some states (par. 7)
+            difal_icms_base = tax_dict.get("base")
+            if partner.state_id.code in ICMS_DIFAL_INSIDE_BASE:
                 difal_icms_base = currency.round(
-                    (icms_base - icms_origin_value)
-                    / (1 - ((icms_dest_perc + icmsfcp_perc) / 100))
+                    difal_icms_base / (1 - ((icms_dest_perc + icmsfcp_perc) / 100))
                 )
 
-                icms_dest_value = currency.round(
-                    difal_icms_base * (icms_dest_perc / 100)
-                )
-
-            difal_value = icms_dest_value - icms_origin_value
+            # Difal - Value (Conv. ICMS 236/2021, cl. 2, par. 1)
+            difal_value = currency.round(
+                difal_icms_base * ((icms_dest_perc - icms_origin_perc) / 100)
+            )
 
             # Difal - Sharing Percent
             date_year = fields.Date.today().year
