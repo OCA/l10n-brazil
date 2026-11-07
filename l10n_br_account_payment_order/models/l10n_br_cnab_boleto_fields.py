@@ -317,6 +317,27 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
         tracking=True,
     )
 
+    # Split Payment do IBS/CBS (LC 214/2025): o Banco faz a segregação no
+    # pagamento/recebimento eletrônico e o layout do CNAB 240 passou a prever
+    # registros opcionais com os dados fiscais e os valores dos tributos. A
+    # decisão de informar é da Configuração do CNAB, porque o registro é
+    # opcional no layout e depende do Banco aceitar a versão que o prevê. Os
+    # dados vêm dos campos de IBS/CBS da linha de pagamento
+    # (_prepare_split_payment_vals), entram no dicionário do Boleto montado por
+    # _prepare_boleto_line_vals e quem os escreve no arquivo é o módulo
+    # processador do CNAB; o gating usa os códigos de `sending_code_id` e
+    # `change_title_value_code_id` declarados acima, veja
+    # https://github.com/OCA/l10n-brazil/issues/5146
+    use_split_payment = fields.Boolean(
+        string="Informar Split Payment (IBS/CBS)",
+        help="Informa no arquivo CNAB os dados do Split Payment do IBS/CBS "
+        "(Chave do Documento Fiscal, valor do IBS e valor do CBS). O registro "
+        "é opcional no layout e depende do Banco aceitar a versão que o "
+        "prevê; os dados vêm dos campos de IBS/CBS da linha de pagamento e são "
+        "informados na Remessa de Cobrança pelo módulo processador do CNAB. "
+        "Veja https://github.com/OCA/l10n-brazil/issues/5146 .",
+    )
+
     # Campos Especificos de cada Banco
 
     # Sicredi e Sicoob

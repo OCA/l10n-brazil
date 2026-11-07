@@ -13,7 +13,12 @@ from odoo.exceptions import UserError
 
 from odoo.addons.account_move_base_import.parser.file_parser import FileParser
 
-from ..constants.br_cobranca import TIMEOUT, get_brcobranca_api_url
+from ..constants.br_cobranca import (
+    DICT_SPLIT_PAYMENT_CHAR_FIELDS,
+    DICT_SPLIT_PAYMENT_VALUE_FIELDS,
+    TIMEOUT,
+    get_brcobranca_api_url,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -315,6 +320,8 @@ class CNABFileParser(FileParser):
                 #    obj_account_move_line.company_id.partner_id.name,
                 # 'tipo_moeda': evento.credito_moeda_tipo,
             }
+            # Dados do Split Payment do IBS/CBS (Segmentos X-03 e X-04)
+            cnab_return_log_event.update(self._get_split_payment_event_vals(linha_cnab))
 
             # Caso de Pagamento deve criar os Lançamentos de Diário
             if cod_ocorrencia in cnab_liq_move_code:
@@ -454,6 +461,31 @@ class CNABFileParser(FileParser):
         #    |  201  | 00000000201 |   201  |
 
         return nosso_numero_sem_dig.lstrip("0")
+
+    def _get_split_payment_event_vals(self, linha_cnab):
+        """Dados do Split Payment do IBS/CBS dos registros Segmento X-03 e X-04.
+
+        O BRCobranca informa esses dados em todas as linhas de título do
+        retorno e devolve vazio quando o arquivo não tem os registros
+        opcionais Segmento X-03/X-04, por isso apenas os campos preenchidos
+        entram no Evento do Retorno. Veja
+        https://github.com/OCA/l10n-brazil/issues/5146 .
+        """
+        char_field_pairs = DICT_SPLIT_PAYMENT_CHAR_FIELDS.items()
+        value_field_pairs = DICT_SPLIT_PAYMENT_VALUE_FIELDS.items()
+        vals = {
+            event_field: linha_cnab[brcobranca_key]
+            for brcobranca_key, event_field in char_field_pairs
+            if linha_cnab.get(brcobranca_key)
+        }
+        vals.update(
+            {
+                event_field: self.cnab_str_to_float(linha_cnab[brcobranca_key])
+                for brcobranca_key, event_field in value_field_pairs
+                if linha_cnab.get(brcobranca_key)
+            }
+        )
+        return vals
 
     def _get_accounting_entries(self, linha_cnab, account_move_line, payment_lines):
         row_list = []

@@ -2,6 +2,7 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import base64
 import os
 
 from odoo import fields
@@ -18,6 +19,32 @@ from odoo.addons.l10n_br_account_payment_brcobranca.parser.cnab_file_parser impo
 from odoo.addons.l10n_br_account_payment_brcobranca.tests.common import (
     TestBRCobrancaCommon,
 )
+
+# Dados do Split Payment (IBS/CBS) usados nos testes, veja
+# https://github.com/OCA/l10n-brazil/issues/5146 . A chave do Documento Fiscal e
+# o ID do split são os mesmos do arquivo de retorno de exemplo.
+SPLIT_PAYMENT_DOCUMENT_KEY = "35260647906085000135550010000012341000012345"
+SPLIT_PAYMENT_IDENTIFIER = "E2E12345678901234567890123456789012"
+# Campo do Evento do Retorno (l10n_br_cnab.return.event) -> (valor esperado,
+# campo do JSON do BRCobranca). Os valores são do Segmento X-03 (dados fiscais e
+# CBS/IBS) e do Segmento X-04 (valores da liquidação) do Layout Padrão Febraban
+# 240 posições V11.0.
+SPLIT_PAYMENT_EVENT_VALUES = {
+    "split_payment_document_key": (SPLIT_PAYMENT_DOCUMENT_KEY, "documento_fiscal"),
+    "split_payment_identifier": (SPLIT_PAYMENT_IDENTIFIER, "id_split"),
+    "split_payment_identifier_type": ("E2E", "tipo_id_split"),
+    "split_payment_cbs_informed": (1.8, "valor_cbs_informado"),
+    "split_payment_ibs_informed": (0.2, "valor_ibs_informado"),
+    "split_payment_cbs_corrected": (1.8, "valor_cbs_corrigido"),
+    "split_payment_ibs_corrected": (0.2, "valor_ibs_corrigido"),
+    "split_payment_cbs_open": (0.0, "valor_cbs_em_aberto"),
+    "split_payment_ibs_open": (0.0, "valor_ibs_em_aberto"),
+    "split_payment_cbs_segregated": (1.8, "valor_cbs_segregado"),
+    "split_payment_ibs_segregated": (0.2, "valor_ibs_segregado"),
+    "split_payment_absent_value": (1.8, "valor_pago_ausente_split"),
+    "split_payment_transferred_value": (1.8, "valor_repassado_novo_titular"),
+    "split_payment_residual_value": (0.0, "valor_residual"),
+}
 
 
 @tagged("post_install", "-at_install")
@@ -498,3 +525,181 @@ class TestPaymentOrder(TestBRCobrancaCommon):
             ),
             '["Registro rejeitado"]',
         )
+
+    def test_split_payment(self):
+        """Contrato do Split Payment do IBS/CBS (LC 214/2025) com o BRCobranca.
+
+        O que é do módulo comum não é testado aqui: o dicionário do Boleto
+        montado pelo `_prepare_boleto_line_vals` (com os atributos
+        `documento_fiscal`, `valor_ibs` e `valor_cbs`) e quando informar são
+        cobertos no l10n_br_account_payment_order, veja
+        `test_payment_line_split_payment_boleto_vals`. Aqui ficam as duas coisas
+        que são do processador, veja
+        https://github.com/OCA/l10n-brazil/issues/5146 :
+
+        1. o contrato do dicionário com a API, que não aceita os nomes dos
+           campos do Odoo: o BRCobranca faz send "#{campo}=" em cada chave e
+           uma chave desconhecida gera NoMethodError, então a API recusa o
+           payload com HTTP 400 e a mensagem "Campos desconhecidos no
+           payload: <chaves>";
+        2. o mapeamento dos Segmentos X-03 (dados fiscais e CBS/IBS) e X-04
+           (valores da liquidação) do Retorno no Evento do Retorno
+           (l10n_br_cnab.return.event).
+
+        A Configuração CNAB usada é a da CAIXA 240, que tem os Códigos de
+        Movimento da Entrada e da Alteração do Valor do Título. O caminho de
+        ponta a ponta (remessa/retorno na API) é o
+        test_split_payment_ailos_cnab_240.
+        """
+        # 1) Contrato do dicionário do Boleto com a API: com o Split Payment
+        # informado, as chaves têm de ser as do BRCobranca e não as do Odoo,
+        # que a API recusa com HTTP 400
+        self._invoice_confirm_workflow(self.invoice_cef_240)
+        payment_order = self._get_draft_payment_order(self.invoice_cef_240)
+        line = payment_order.payment_line_ids[0]
+        cnab_config = payment_order.payment_mode_id.cnab_config_id
+        # A linha criada ao confirmar a fatura está na Entrada de Títulos, um
+        # dos eventos em que o Segmento X-03 é previsto
+        self.assertEqual(line.instruction_move_code_id, cnab_config.sending_code_id)
+        line.date = fields.Date.today()
+        cnab_config.use_split_payment = True
+        line.write(
+            {
+                "l10n_br_document_key": SPLIT_PAYMENT_DOCUMENT_KEY,
+                "l10n_br_ibs_value": 0.2,
+                "l10n_br_cbs_value": 1.8,
+            }
+        )
+        # O dicionário do Boleto é montado no módulo comum
+        # (l10n_br_account_payment_order) e já sai com os atributos do
+        # BRCobranca que geram o Segmento X-03, o processador não tem o que
+        # acrescentar aqui: o que se verifica neste módulo é só o contrato
+        # abaixo.
+        self.assertFalse(
+            {"l10n_br_document_key", "l10n_br_ibs_value", "l10n_br_cbs_value"}
+            & set(line._prepare_boleto_line_vals())
+        )
+
+        # 2) Mapeamento dos Segmentos X-03/X-04 no Evento do Retorno, com os
+        # valores crus do arquivo (15 posições, as 2 últimas decimais)
+        parser = CNABFileParser(self.journal_ailos)
+        # Arquivo sem os Segmentos X-03/X-04: nenhum campo entra no Evento
+        self.assertFalse(parser._get_split_payment_event_vals({"nosso_numero": "1"}))
+        from_file = {
+            brcobranca_key: f"{value * 100:015.0f}"
+            if isinstance(value, float)
+            else value
+            for value, brcobranca_key in SPLIT_PAYMENT_EVENT_VALUES.values()
+        }
+        self.assertEqual(
+            parser._get_split_payment_event_vals(from_file),
+            {
+                event_field: value
+                for event_field, (value, _) in SPLIT_PAYMENT_EVENT_VALUES.items()
+            },
+        )
+
+    def test_split_payment_ailos_cnab_240(self):
+        """Remessa e Retorno CNAB 240 do AILOS com o Split Payment IBS/CBS.
+
+        A remessa sai com o Segmento X-03 nas posições do Layout Padrão Febraban
+        240 posições V11.0 e com os trailers contando o registro; o retorno
+        CNAB240AILOS_SPLIT_PAYMENT.RET traz os Segmentos X-03/X-04 em apenas um
+        dos títulos (o outro fica vazio) e a fatura fica conciliada, veja
+        https://github.com/OCA/l10n-brazil/issues/5146 . Só uma das linhas de
+        pagamento informa os dados: o tributo é do título e não pode vazar para
+        o outro (o rateio entre as parcelas é testado no
+        l10n_br_account_payment_order). O contrato das duas pontas, sem a API, é
+        o test_split_payment.
+        """
+        if not self._check_ci_no_brcobranca():
+            # Reiniciando a sequencia de Nosso Numero para casar com os Nosso
+            # Numeros do arquivo de retorno (a sequencia não é revertida junto
+            # com a transação do teste, mesmo procedimento do teste do Sicredi)
+            self.own_number_seq_ailos.number_next = 1
+            self._invoice_confirm_workflow(self.invoice_ailos_240)
+            payment_order = self._get_draft_payment_order(self.invoice_ailos_240)
+            payment_lines = payment_order.payment_line_ids
+            self.assertEqual(len(payment_lines), 2)
+            payment_order.payment_mode_id.cnab_config_id.use_split_payment = True
+            payment_lines[0].write(
+                {
+                    "l10n_br_document_key": SPLIT_PAYMENT_DOCUMENT_KEY,
+                    "l10n_br_ibs_value": 0.2,
+                    "l10n_br_cbs_value": 1.8,
+                }
+            )
+            self._run_payment_order_workflow(payment_order, test_not_create_file=False)
+
+            # Remessa: o Segmento X-03 do título que tem os dados
+            attachment = self.env["ir.attachment"].search(
+                [
+                    ("res_model", "=", "account.payment.order"),
+                    ("res_id", "=", payment_order.id),
+                ],
+                order="id desc",
+                limit=1,
+            )
+            self.assertTrue(attachment, "Payment file attachment not created.")
+            content = base64.b64decode(attachment.datas).decode()
+            lines = [line for line in content.replace("\r", "").split("\n") if line]
+            # CNAB é formato de posição fixa: uma linha com 241 quebra o arquivo
+            self.assertEqual({len(line) for line in lines}, {240})
+            # Segmento X-03: 'X' na posição 14 e identificação 03 nas 16-17
+            x03_lines = [
+                line for line in lines if line[13] == "X" and line[15:17] == "03"
+            ]
+            self.assertEqual(len(x03_lines), 1)
+            x03_line = x03_lines[0]
+            # CBS/IBS Informado no padrão 13 dígitos inteiros e 2 decimais
+            self.assertEqual(
+                (x03_line[17:67].strip(), x03_line[67:82], x03_line[82:97]),
+                (SPLIT_PAYMENT_DOCUMENT_KEY, "000000000000180", "000000000000020"),
+            )
+            # Do X104 em diante é preenchido pelo Banco no retorno
+            self.assertFalse(x03_line[97:].strip())
+            # Os trailers contam o registro a mais (o AILOS sobrescreve o
+            # total_segmentos por causa do Segmento R opcional)
+            batch_trailer = [line for line in lines if line[7] == "5"][0]
+            file_trailer = [line for line in lines if line[7] == "9"][0]
+            detail_lines = [line for line in lines if line[7] == "3"]
+            self.assertEqual(int(batch_trailer[17:23]), len(detail_lines) + 2)
+            self.assertEqual(int(file_trailer[23:29]), len(lines))
+
+            # Retorno: os Segmentos X-03/X-04 chegam no Evento do título
+            moves = self._run_import_return_file(
+                "CNAB240AILOS_SPLIT_PAYMENT.RET",
+                self.journal_ailos,
+            )
+            events = moves.cnab_return_log_id.event_ids
+            self.assertEqual(len(events), 2)
+            split_event = events.filtered(lambda e: e.own_number == "1")
+            self.assertEqual(len(split_event), 1)
+            expected = {
+                event_field: value
+                for event_field, (value, _) in SPLIT_PAYMENT_EVENT_VALUES.items()
+            }
+            self.assertEqual(
+                {event_field: split_event[event_field] for event_field in expected},
+                expected,
+            )
+            # O título sem os registros não herda os dados do anterior
+            event_without_split = events.filtered(lambda e: e.own_number == "2")
+            self.assertEqual(len(event_without_split), 1)
+            self.assertFalse(
+                [
+                    event_field
+                    for event_field in expected
+                    if event_without_split[event_field]
+                ]
+            )
+
+            # Conciliação da fatura: os dois títulos foram liquidados pelo
+            # retorno e não sobra saldo a receber
+            self.assertEqual(self.invoice_ailos_240.payment_state, "paid")
+            installments = self.invoice_ailos_240.line_ids.filtered(
+                lambda line: line.account_id.account_type == "asset_receivable"
+            )
+            self.assertEqual(len(installments), 2)
+            self.assertTrue(all(installments.mapped("reconciled")))
+            self.assertEqual(sum(installments.mapped("amount_residual")), 0.0)

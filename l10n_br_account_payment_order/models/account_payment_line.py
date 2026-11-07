@@ -180,6 +180,33 @@ class AccountPaymentLine(models.Model):
     # com a account.invoice referente, já que a AML pode ser apagada
     move_id = fields.Many2one(comodel_name="account.move", string="Fatura")
 
+    # Campos usados no Split Payment do IBS/CBS (LC 214/2025), que passa a
+    # ser feito pelo PSP/Banco nos pagamentos/recebimentos eletrônicos.
+    # São preenchidos apenas quando o l10n_br_account está instalado, porque é
+    # ele que cria (via _inherits) a relação do account.move com o
+    # l10n_br_fiscal.document onde estão a Chave do DF-e e os totais de IBS/CBS,
+    # veja models/account_move_line.py::_prepare_split_payment_line_vals, assim
+    # o CNAB continua podendo ser usado sem a dependência obrigatória do fiscal.
+    l10n_br_ibs_value = fields.Monetary(
+        string="Valor IBS",
+        currency_field="currency_id",
+        readonly=True,
+        copy=False,
+    )
+
+    l10n_br_cbs_value = fields.Monetary(
+        string="Valor CBS",
+        currency_field="currency_id",
+        readonly=True,
+        copy=False,
+    )
+
+    l10n_br_document_key = fields.Char(
+        string="Chave do Documento Fiscal",
+        readonly=True,
+        copy=False,
+    )
+
     @api.depends("percent_interest", "amount_currency", "currency_id")
     def _compute_interest(self):
         for record in self:
@@ -251,13 +278,67 @@ class AccountPaymentLine(models.Model):
                     )
                 )
 
+    def _prepare_split_payment_vals(self):
+        """Dados do Split Payment do IBS/CBS que devem ir ao arquivo CNAB.
+
+        O registro é opcional no layout e acompanha a Entrada de Títulos e as
+        Alterações, e não as Instruções ao Banco (quadro de eventos do Layout
+        Padrão Febraban 240 posições, pág. 66), por isso os dados só são
+        informados quando a Configuração do CNAB tem a opção marcada e a linha
+        tem o Código de Envio ou o de Alteração do Valor do Título. Os códigos
+        comparados são os configurados na Configuração CNAB do Banco usado
+        (`sending_code_id` e `change_title_value_code_id`), e não deduzidos de
+        uma lista fixa, porque cada Banco escolhe o conjunto de Códigos de
+        Movimento que aceita.
+
+        Os nomes das chaves são os mesmos do dicionário do Boleto enviado ao
+        Boleto_CNAB_API/BRCobranca (`documento_fiscal`, `valor_ibs` e
+        `valor_cbs`), como o restante do `_prepare_boleto_line_vals`, que
+        geram o registro opcional Segmento X-03 da Remessa de Cobrança do
+        Layout Padrão Febraban 240 posições V11.0 (11/09/2026), veja
+        https://github.com/OCA/l10n-brazil/issues/5146 . Um processador que use
+        outra biblioteca e outro dicionário sobrescreve o
+        `_prepare_boleto_line_vals`, que é onde ele monta a sua Remessa.
+
+        O CBS e o IBS Informado (campos X102/X103 do Segmento X-03) precisam
+        ser informados em conjunto, mesmo que um deles seja zero: é essa
+        combinação que sinaliza a opção pelo Split Payment, e a Chave do
+        Documento Fiscal (X101) é opcional.
+        """
+        self.ensure_one()
+        cnab_config = self.order_id.payment_mode_id.cnab_config_id
+        if not cnab_config.use_split_payment:
+            return {}
+        if self.instruction_move_code_id.code not in (
+            cnab_config.sending_code_id.code,
+            cnab_config.change_title_value_code_id.code,
+        ):
+            # Nas Instruções ao Banco, como o Pedido de Baixa, o Segmento X-03
+            # não é previsto
+            return {}
+        if not (
+            self.l10n_br_document_key
+            or self.l10n_br_ibs_value
+            or self.l10n_br_cbs_value
+        ):
+            # Sem dados do Split Payment no Documento Fiscal o arquivo continua
+            # o mesmo (não informa nem os valores zerados)
+            return {}
+        vals = {
+            "valor_ibs": self.l10n_br_ibs_value,
+            "valor_cbs": self.l10n_br_cbs_value,
+        }
+        if self.l10n_br_document_key:
+            vals["documento_fiscal"] = self.l10n_br_document_key
+        return vals
+
     # TODO: Implementar métodos para outros tipos cnab.
     #   _prepare_pagamento_line_vals
     #   _prepare_debito_automatico_line_vals
     #   _prepare_[...]_line_vals
 
     def _prepare_boleto_line_vals(self):
-        return {
+        vals = {
             "valor": self.amount_currency,
             "data_vencimento": self.date.strftime("%Y/%m/%d"),
             "nosso_numero": self.own_number,
@@ -277,3 +358,7 @@ class AccountPaymentLine(models.Model):
             # o campo Code do objeto.
             "identificacao_ocorrencia": self.instruction_move_code_id.code,
         }
+        # Dados do Split Payment do IBS/CBS (LC 214/2025) que devem acompanhar
+        # a Remessa, veja https://github.com/OCA/l10n-brazil/issues/5146
+        vals.update(self._prepare_split_payment_vals())
+        return vals
