@@ -116,7 +116,44 @@ class InvalidateNumber(models.Model):
             raise UserError(_("You can delete only draft Invalidate Number Range !"))
         return super().unlink()
 
+    def _get_existing_documents(self):
+        """Company documents already using a number of the range."""
+        self.ensure_one()
+        numbers = [str(n) for n in range(self.number_start, self.number_end + 1)]
+        return self.env["l10n_br_fiscal.document"].search(
+            [
+                ("company_id", "=", self.company_id.id),
+                ("issuer", "=", "company"),
+                ("document_type_id", "=", self.document_type_id.id),
+                ("document_serie", "=", self.document_serie_id.code),
+                ("document_number", "in", numbers),
+            ]
+        )
+
+    def _check_existing_documents(self):
+        """Refuse the range before anything is sent to the tax authority.
+
+        Creating the invalidated documents afterwards would fail on the
+        document number constraint and roll back the whole transaction, while
+        the numbers would stay invalidated at the tax authority.
+        """
+        for record in self:
+            documents = record._get_existing_documents()
+            if documents:
+                raise UserError(
+                    _(
+                        "It is not possible to invalidate this range: there "
+                        "are already fiscal documents using the numbers: "
+                        "%(numbers)s. Adjust the range, or invalidate the "
+                        "existing document from the document itself.",
+                        numbers=", ".join(
+                            sorted(set(documents.mapped("document_number")), key=int)
+                        ),
+                    )
+                )
+
     def action_invalidate(self):
+        self._check_existing_documents()
         for record in self:
             record._invalidate()
 
