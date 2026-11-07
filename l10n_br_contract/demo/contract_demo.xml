@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Contract with only products -->
+    <record id="contract_only_product" model="contract.contract">
+        <field name="name">Main l10n_br_contract - Produtos</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_kmee" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="company_id" ref="base.main_company" />
+        <field
+            name="contract_line_ids"
+            eval="[
+                Command.create({
+                    'name': '[FURN_7777] Office Chair',
+                    'date_start': datetime.today().strftime('%Y-%m-%d'),
+                    'date_end': (datetime.today() + relativedelta(months=12)).strftime('%Y-%m-%d'),
+                    'product_id': ref('product.product_delivery_01'),
+                    'quantity': 1,
+                    'uom_id': ref('uom.product_uom_unit'),
+                    'price_unit': 70,
+                    'fiscal_operation_id': ref('l10n_br_fiscal.fo_venda'),
+                    'fiscal_operation_line_id': ref('l10n_br_fiscal.fo_venda_revenda'),
+                    'recurring_invoicing_type': 'pre-paid',
+                    'recurring_interval': 1,
+                    'recurring_rule_type': 'monthly',
+                }),
+                Command.create({
+                    'name': '[FURN_8888] Office Lamp',
+                    'date_start': datetime.today().strftime('%Y-%m-%d'),
+                    'date_end': (datetime.today() + relativedelta(months=12)).strftime('%Y-%m-%d'),
+                    'product_id': ref('product.product_delivery_02'),
+                    'quantity': 1,
+                    'uom_id': ref('uom.product_uom_unit'),
+                    'price_unit': 40,
+                    'fiscal_operation_id': ref('l10n_br_fiscal.fo_venda'),
+                    'fiscal_operation_line_id': ref('l10n_br_fiscal.fo_venda_revenda'),
+                    'recurring_invoicing_type': 'pre-paid',
+                    'recurring_interval': 1,
+                    'recurring_rule_type': 'monthly',
+                }),
+            ]"
+        />
+    </record>
+
+    <!-- Contract with only services -->
+    <record id="contract_only_service" model="contract.contract">
+        <field name="name">Main l10n_br_contract - Serviços</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_kmee" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="company_id" ref="base.main_company" />
+        <field
+            name="contract_line_ids"
+            eval="[
+                Command.create({
+                    'name': '[ODOO_DEV] Customized Odoo Development',
+                    'date_start': datetime.today().strftime('%Y-%m-%d'),
+                    'date_end': (datetime.today() + relativedelta(months=12)).strftime('%Y-%m-%d'),
+                    'product_id': ref('l10n_br_fiscal.customized_development_sale'),
+                    'quantity': 1,
+                    'uom_id': ref('uom.product_uom_hour'),
+                    'price_unit': 1,
+                    'fiscal_operation_id': ref('l10n_br_fiscal.fo_venda'),
+                    'fiscal_operation_line_id': ref('l10n_br_fiscal.fo_venda_servico'),
+                    'recurring_invoicing_type': 'pre-paid',
+                    'recurring_interval': 1,
+                    'recurring_rule_type': 'monthly',
+                }),
+            ]"
+        />
+    </record>
+
+    <!-- Contract with products and services -->
+    <record id="contract_product_service" model="contract.contract">
+        <field name="name">Main l10n_br_contract - Produtos e Serviços</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_kmee" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="company_id" ref="base.main_company" />
+        <field
+            name="contract_line_ids"
+            eval="[
+                Command.create({
+                    'name': '[FURN_7777] Office Chair',
+                    'date_start': datetime.today().strftime('%Y-%m-%d'),
+                    'date_end': (datetime.today() + relativedelta(months=12)).strftime('%Y-%m-%d'),
+                    'product_id': ref('product.product_delivery_01'),
+                    'quantity': 1,
+                    'uom_id': ref('uom.product_uom_unit'),
+                    'price_unit': 70,
+                    'fiscal_operation_id': ref('l10n_br_fiscal.fo_venda'),
+                    'fiscal_operation_line_id': ref('l10n_br_fiscal.fo_venda_revenda'),
+                    'recurring_invoicing_type': 'pre-paid',
+                    'recurring_interval': 1,
+                    'recurring_rule_type': 'monthly',
+                }),
+                Command.create({
+                    'name': '[FURN_8888] Office Lamp',
+                    'date_start': datetime.today().strftime('%Y-%m-%d'),
+                    'date_end': (datetime.today() + relativedelta(months=12)).strftime('%Y-%m-%d'),
+                    'product_id': ref('product.product_delivery_02'),
+                    'quantity': 1,
+                    'uom_id': ref('uom.product_uom_unit'),
+                    'price_unit': 40,
+                    'fiscal_operation_id': ref('l10n_br_fiscal.fo_venda'),
+                    'fiscal_operation_line_id': ref('l10n_br_fiscal.fo_venda_revenda'),
+                    'recurring_invoicing_type': 'pre-paid',
+                    'recurring_interval': 1,
+                    'recurring_rule_type': 'monthly',
+                }),
+                Command.create({
+                    'name': '[ODOO_DEV] Customized Odoo Development',
+                    'date_start': datetime.today().strftime('%Y-%m-%d'),
+                    'date_end': (datetime.today() + relativedelta(months=12)).strftime('%Y-%m-%d'),
+                    'product_id': ref('l10n_br_fiscal.customized_development_sale'),
+                    'quantity': 1,
+                    'uom_id': ref('uom.product_uom_hour'),
+                    'price_unit': 1,
+                    'fiscal_operation_id': ref('l10n_br_fiscal.fo_venda'),
+                    'fiscal_operation_line_id': ref('l10n_br_fiscal.fo_venda_servico'),
+                    'recurring_invoicing_type': 'pre-paid',
+                    'recurring_interval': 1,
+                    'recurring_rule_type': 'monthly',
+                }),
+            ]"
+        />
+    </record>
+</odoo>
