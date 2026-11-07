@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t t-name="l10n_br_dda.RecommendedActionField">
+        <button
+            t-if="visible"
+            type="button"
+            class="o_dda_recommended_action btn btn-sm"
+            t-att-class="buttonClass"
+            t-att-data-action="value"
+            t-att-disabled="state.busy"
+            t-on-click.stop="onClick"
+            t-esc="label"
+        />
+    </t>
+
+</templates>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="dda_event_company_rule" model="ir.rule">
+        <field name="name">DDA event: multi-company</field>
+        <field name="model_id" ref="model_l10n_br_dda_event" />
+        <field
+            name="domain_force"
+        >[('connection_id.company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

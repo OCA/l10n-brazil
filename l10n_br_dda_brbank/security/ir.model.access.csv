@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_dda_event_manager,dda.event.manager,model_l10n_br_dda_event,l10n_br_dda.group_dda_manager,1,1,0,0
+access_dda_event_connection_admin,dda.event.connection.admin,model_l10n_br_dda_event,l10n_br_bank_connection.group_bank_connection_admin,1,1,0,0
+access_dda_event_account_manager,dda.event.account.manager,model_l10n_br_dda_event,account.group_account_manager,1,0,0,0

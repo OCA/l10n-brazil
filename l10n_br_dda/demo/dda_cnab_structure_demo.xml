@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+
+     SIMULATED layout: it only exercises the DDA import. It is not the layout of
+     any bank. Real layouts are registered by each bank as data, like this one. -->
+<odoo>
+    <record id="cnab_structure_dda_simulated" model="l10n_br_cnab.structure">
+        <field name="name">DDA return (FEBRABAN 240, simulated)</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341" />
+        <field
+            name="payment_method_id"
+            ref="l10n_br_account_payment_order.payment_mode_type_cnab240"
+        />
+        <field name="is_dda_return" eval="True" />
+        <field name="conf_bank_start_pos">1</field>
+        <field name="conf_bank_end_pos">3</field>
+        <field name="conf_batch_start_pos">4</field>
+        <field name="conf_batch_end_pos">7</field>
+        <field name="conf_record_type_start_pos">8</field>
+        <field name="conf_record_type_end_pos">8</field>
+        <field name="conf_segment_start_pos">14</field>
+        <field name="conf_segment_end_pos">14</field>
+        <field name="conf_payment_way_start_pos">12</field>
+        <field name="conf_payment_way_end_pos">13</field>
+        <field name="conf_detail_start_pos">9</field>
+        <field name="conf_detail_end_pos">13</field>
+        <field name="record_type_file_header_id">0</field>
+        <field name="record_type_file_trailer_id">9</field>
+        <field name="record_type_batch_header_id">1</field>
+        <field name="record_type_batch_trailer_id">5</field>
+        <field name="record_type_detail_id">3</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="cnab_batch_dda_simulated" model="l10n_br_cnab.batch">
+        <field name="name">DDA (simulated)</field>
+        <field name="cnab_structure_id" ref="cnab_structure_dda_simulated" />
+        <field name="state">approved</field>
+    </record>
+
+    <record id="cnab_payment_way_dda_simulated" model="cnab.payment.way">
+        <field name="code">01</field>
+        <field name="description">DDA (simulated)</field>
+        <field name="cnab_structure_id" ref="cnab_structure_dda_simulated" />
+        <field name="batch_id" ref="cnab_batch_dda_simulated" />
+    </record>
+
+    <record id="cnab_line_dda_simulated_segment_a" model="l10n_br_cnab.line">
+        <field name="sequence">10</field>
+        <field name="type">segment</field>
+        <field name="segment_code">A</field>
+        <field name="communication_flow">return</field>
+        <field name="cnab_structure_id" ref="cnab_structure_dda_simulated" />
+        <field name="batch_id" ref="cnab_batch_dda_simulated" />
+        <field name="requerid" eval="True" />
+        <field name="state">approved</field>
+    </record>
+
+    <record
+        id="cnab_field_dda_simulated_digitable_line"
+        model="l10n_br_cnab.line.field"
+    >
+        <field name="name">DIGITABLE LINE</field>
+        <field name="meaning">DIGITABLE LINE</field>
+        <field name="cnab_line_id" ref="cnab_line_dda_simulated_segment_a" />
+        <field name="start_pos">15</field>
+        <field name="end_pos">61</field>
+        <field name="assumed_comma">0</field>
+        <field name="type">alpha</field>
+        <field name="content_dest_field">digitable_line</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record
+        id="cnab_field_dda_simulated_beneficiary_vat"
+        model="l10n_br_cnab.line.field"
+    >
+        <field name="name">BENEFICIARY CNPJ</field>
+        <field name="meaning">BENEFICIARY CNPJ</field>
+        <field name="cnab_line_id" ref="cnab_line_dda_simulated_segment_a" />
+        <field name="start_pos">62</field>
+        <field name="end_pos">75</field>
+        <field name="assumed_comma">0</field>
+        <field name="type">alpha</field>
+        <field name="content_dest_field">beneficiary_vat</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record
+        id="cnab_field_dda_simulated_beneficiary_name"
+        model="l10n_br_cnab.line.field"
+    >
+        <field name="name">BENEFICIARY NAME</field>
+        <field name="meaning">BENEFICIARY NAME</field>
+        <field name="cnab_line_id" ref="cnab_line_dda_simulated_segment_a" />
+        <field name="start_pos">76</field>
+        <field name="end_pos">115</field>
+        <field name="assumed_comma">0</field>
+        <field name="type">alpha</field>
+        <field name="content_dest_field">beneficiary_name</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="cnab_field_dda_simulated_payer_cnpj" model="l10n_br_cnab.line.field">
+        <field name="name">PAYER CNPJ</field>
+        <field name="meaning">PAYER CNPJ</field>
+        <field name="cnab_line_id" ref="cnab_line_dda_simulated_segment_a" />
+        <field name="start_pos">116</field>
+        <field name="end_pos">129</field>
+        <field name="assumed_comma">0</field>
+        <field name="type">alpha</field>
+        <field name="content_dest_field">payer_cnpj</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="cnab_field_dda_simulated_date_due" model="l10n_br_cnab.line.field">
+        <field name="name">DUE DATE DDMMYYYY</field>
+        <field name="meaning">DUE DATE DDMMYYYY</field>
+        <field name="cnab_line_id" ref="cnab_line_dda_simulated_segment_a" />
+        <field name="start_pos">130</field>
+        <field name="end_pos">137</field>
+        <field name="assumed_comma">0</field>
+        <field name="type">alpha</field>
+        <field name="content_dest_field">date_due</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="cnab_field_dda_simulated_amount" model="l10n_br_cnab.line.field">
+        <field name="name">AMOUNT</field>
+        <field name="meaning">AMOUNT</field>
+        <field name="cnab_line_id" ref="cnab_line_dda_simulated_segment_a" />
+        <field name="start_pos">138</field>
+        <field name="end_pos">152</field>
+        <field name="assumed_comma">2</field>
+        <field name="type">num</field>
+        <field name="content_dest_field">amount</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record
+        id="cnab_field_dda_simulated_document_number"
+        model="l10n_br_cnab.line.field"
+    >
+        <field name="name">DOCUMENT NUMBER</field>
+        <field name="meaning">DOCUMENT NUMBER</field>
+        <field name="cnab_line_id" ref="cnab_line_dda_simulated_segment_a" />
+        <field name="start_pos">153</field>
+        <field name="end_pos">167</field>
+        <field name="assumed_comma">0</field>
+        <field name="type">alpha</field>
+        <field name="content_dest_field">document_number</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="cnab_field_dda_simulated_guarantor_vat" model="l10n_br_cnab.line.field">
+        <field name="name">GUARANTOR CNPJ</field>
+        <field name="meaning">GUARANTOR CNPJ</field>
+        <field name="cnab_line_id" ref="cnab_line_dda_simulated_segment_a" />
+        <field name="start_pos">168</field>
+        <field name="end_pos">181</field>
+        <field name="assumed_comma">0</field>
+        <field name="type">alpha</field>
+        <field name="content_dest_field">guarantor_vat</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record
+        id="cnab_field_dda_simulated_guarantor_name"
+        model="l10n_br_cnab.line.field"
+    >
+        <field name="name">GUARANTOR NAME</field>
+        <field name="meaning">GUARANTOR NAME</field>
+        <field name="cnab_line_id" ref="cnab_line_dda_simulated_segment_a" />
+        <field name="start_pos">182</field>
+        <field name="end_pos">221</field>
+        <field name="assumed_comma">0</field>
+        <field name="type">alpha</field>
+        <field name="content_dest_field">guarantor_name</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="cnab_field_dda_simulated_status_code" model="l10n_br_cnab.line.field">
+        <field name="name">STATUS 1 OPEN 2 PAID 3 CANCELLED</field>
+        <field name="meaning">STATUS 1 OPEN 2 PAID 3 CANCELLED</field>
+        <field name="cnab_line_id" ref="cnab_line_dda_simulated_segment_a" />
+        <field name="start_pos">222</field>
+        <field name="end_pos">222</field>
+        <field name="assumed_comma">0</field>
+        <field name="type">alpha</field>
+        <field name="content_dest_field">status_code</field>
+        <field name="state">approved</field>
+    </record>
+</odoo>
