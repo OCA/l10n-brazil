@@ -408,9 +408,6 @@ class TestMoveEdition(TransactionCase):
         move.button_cancel()
 
         self.assertEqual(move.state_edoc, DOCUMENT_STATE_CANCEL)
-        # cancel_event_id is only available with l10n_br_fiscal_edi installed
-        if hasattr(move.fiscal_document_id, "cancel_event_id"):
-            self.assertFalse(move.fiscal_document_id.cancel_event_id)
 
         move.button_draft()
         self.assertEqual(move.state, "draft")

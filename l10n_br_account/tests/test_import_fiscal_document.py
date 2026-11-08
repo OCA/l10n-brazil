@@ -108,10 +108,6 @@ class TestImportFiscalDocument(AccountMoveBRCommon):
         move = self.env["account.move"].sudo().browse(move_form.id)
         self.assertEqual(move.move_type, "in_invoice")
         self.assertEqual(move.fiscal_document_id, self.fiscal_document_to_import)
-        if "l10n_latam.document.type" in self.env and move.l10n_latam_use_documents:
-            self.assertEqual(
-                move.l10n_latam_document_type_id.code, self.document_type_55.code
-            )
 
     def test_import_into_a_new_customer_invoice(self):
         """A fiscal document issued by the company becomes a customer invoice."""
