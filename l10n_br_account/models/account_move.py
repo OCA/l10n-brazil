@@ -632,6 +632,8 @@ class AccountMove(models.Model):
                 move.state_edoc == DOCUMENT_STATE_CANCEL
                 and move.document_number
                 and move.issuer == DOCUMENT_ISSUER_COMPANY
+                # cancel_event_id comes from l10n_br_fiscal_edi, not a dependency
+                and "cancel_event_id" in move.fiscal_document_id._fields
                 and move.fiscal_document_id.cancel_event_id
             ):
                 raise UserError(
