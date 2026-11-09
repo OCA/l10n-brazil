@@ -2657,14 +2657,6 @@ msgstr ""
 
 #. module: l10n_br_account
 #. odoo-python
-#: code:addons/l10n_br_account/models/account_move.py:0
-msgid ""
-"You can't set this document number: %(doc_number)s to draft because this "
-"document is cancelled in SEFAZ"
-msgstr ""
-
-#. module: l10n_br_account
-#. odoo-python
 #: code:addons/l10n_br_account/models/document.py:0
 msgid "You cannot delete a fiscal document which is not in draft state!"
 msgstr ""
