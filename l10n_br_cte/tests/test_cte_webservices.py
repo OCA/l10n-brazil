@@ -126,9 +126,19 @@ class TestCTeWebServices(TestCTeSerialize):
 
     def test_certificate_required(self):
         """Without a certificate the processor refuses to be built."""
-        self.cte.company_id.certificate_nfe_id = False
+        company = self.cte.company_id
+        company.write({"certificate_nfe_id": False, "certificate_ecnpj_id": False})
+        company.invalidate_recordset(["certificate"])
         with self.assertRaises(UserError):
             self.cte._edoc_processor()
+
+    def test_ecnpj_certificate_accepted(self):
+        """An e-CNPJ certificate alone is enough to transmit the CT-e."""
+        company = self.cte.company_id
+        ecnpj = company.certificate_nfe_id.copy({"type": "e-cnpj"})
+        company.write({"certificate_nfe_id": False, "certificate_ecnpj_id": ecnpj.id})
+        company.invalidate_recordset(["certificate"])
+        self.assertTrue(self.cte._edoc_processor())
 
     def test_cancel_authorized(self):
         """A CT-e cancellation event (cStat 135) cancels the document."""
