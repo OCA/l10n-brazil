@@ -900,29 +900,35 @@ class NFe(spec_models.StackedModel):
 
     ##########################
     # NF-e tag: autXML
-    # Compute Methods
     ##########################
 
-    def _default_nfe40_autxml(self):
-        company = self.env.company
-        authorized_partners = []
+    def _get_nfe40_autxml_values(self, company):
+        """Partners the company authorizes to download the XML."""
+        partners = self.env["res.partner"]
         if company.accountant_id and company.nfe_authorize_accountant_download_xml:
-            authorized_partners.append(company.accountant_id.id)
+            partners |= company.accountant_id
         if (
             company.technical_support_id
             and company.nfe_authorize_technical_download_xml
         ):
-            authorized_partners.append(company.technical_support_id.id)
-        return [
-            Command.create({"partner_id": partner_id})
-            for partner_id in authorized_partners
-        ]
+            partners |= company.technical_support_id
+        return [Command.create({"partner_id": partner.id}) for partner in partners]
 
-    ##########################
-    # NF-e tag: autXML
-    ##########################
-
-    nfe40_autXML = fields.One2many(default=_default_nfe40_autxml)
+    @api.model_create_multi
+    def create(self, vals_list):
+        # Not a field default: the copy of the field in account.move (_inherits)
+        # still points to the abstract spec model, which has no partner_id.
+        company_model = self.env["res.company"]
+        for vals in vals_list:
+            if "nfe40_autXML" in vals:
+                continue
+            company = (
+                company_model.browse(vals["company_id"])
+                if vals.get("company_id")
+                else self.env.company
+            )
+            vals["nfe40_autXML"] = self._get_nfe40_autxml_values(company)
+        return super().create(vals_list)
 
     ################################
     # Framework Spec model's methods
