@@ -4,6 +4,7 @@
 import base64
 import gzip
 import logging
+import string
 from types import SimpleNamespace
 from unittest import mock
 
@@ -123,6 +124,23 @@ class TestCTeWebServices(TestCTeSerialize):
         self.assertEqual(assina.call_args.args[2], edoc.infCte.Id)
         signed_xml = validate.call_args.args[0]
         self.assertIn("Signature", signed_xml)
+
+    def test_toma4_identification(self):
+        """The "Outros" service taker is identified by partner_id."""
+        self.cte.service_provider = "4"
+        with mock.patch.object(CTe, "_validate_xml"):
+            self.cte._document_export()
+        xml = base64.b64decode(self.cte.send_file_id.datas).decode()
+        toma4 = xml.split("<toma4>")[1].split("</toma4>")[0]
+        partner = self.cte.partner_id
+        self.assertIn(
+            "<CNPJ>%s</CNPJ>"
+            % partner.cnpj_cpf.translate(str.maketrans("", "", string.punctuation)),
+            toma4,
+        )
+        self.assertIn("<xNome>", toma4)
+        self.assertIn("<enderToma>", toma4)
+        self.assertNotIn("<toma3>", xml)
 
     def test_certificate_required(self):
         """Without a certificate the processor refuses to be built."""
