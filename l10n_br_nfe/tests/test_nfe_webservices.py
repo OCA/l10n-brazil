@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 
+import base64
 import logging
 from unittest import mock
 
@@ -78,6 +79,36 @@ class TestNFeWebServices(TestNFeExport):
             .create({"document_id": nfe.id, "justification": "Era apenas um teste."})
         )
         inutilizar_wizard.doit()
+
+    def test_inutilizar_client_certificate(self):
+        """The NF-e and NFC-e number invalidation clients present the company
+        certificate on the TLS connection, like the transmission ones: without
+        a real certificate the SEFAZ refuses the connection (HTTP 403)."""
+        self.env["ir.config_parameter"].sudo().set_param(
+            "l10n_br_nfe.nfelib_soap_transmission", "True"
+        )
+        company = self.nfe_list[0]["nfe"].company_id
+        module = "odoo.addons.l10n_br_nfe.models.invalidate_number"
+        for code, client_name in (("55", "NfeClient"), ("65", "NfceClient")):
+            invalidate = self.env["l10n_br_fiscal.invalidate.number"].new(
+                {
+                    "company_id": company.id,
+                    "document_type_id": self.env.ref(
+                        f"l10n_br_fiscal.document_{code}"
+                    ).id,
+                }
+            )
+            with mock.patch(f"{module}.{client_name}") as client:
+                invalidate._edoc_processor()
+            kwargs = client.call_args.kwargs
+            # 18.0 keeps the PKCS#12 as a base64 Binary and decodes it before
+            # handing it to the client (certificate.file/password are gone).
+            self.assertEqual(
+                kwargs["pkcs12_data"], base64.b64decode(company.certificate.content)
+            )
+            self.assertEqual(
+                kwargs["pkcs12_password"], company.certificate.pkcs12_password
+            )
 
     @nfe_mock(
         {
