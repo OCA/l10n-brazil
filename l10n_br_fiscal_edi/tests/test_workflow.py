@@ -259,3 +259,30 @@ class TestWorkflow(TransactionCase):
         ):
             self.fiscal_document.action_document_confirm()
         self.assertEqual(self.fiscal_document.state_edoc, DOCUMENT_STATE_AUTHORIZED)
+
+    def test_back2draft_refused_when_cancelled_in_sefaz(self):
+        """A company document whose cancellation is registered in SEFAZ
+        cannot go back to draft."""
+        serie = self.env.ref("l10n_br_fiscal.document_55_serie_1")
+        document = self.fiscal_document
+        document.write(
+            {
+                "document_type_id": serie.document_type_id.id,
+                "document_serie_id": serie.id,
+                "document_electronic": True,
+                "document_number": "42",
+                "state_edoc": DOCUMENT_STATE_CANCEL,
+            }
+        )
+        document.cancel_event_id = self.env["l10n_br_fiscal.event"].create(
+            {
+                "type": "2",
+                "company_id": document.company_id.id,
+                "document_type_id": serie.document_type_id.id,
+                "document_serie_id": serie.id,
+                "document_number": "42",
+            }
+        )
+        with self.assertRaisesRegex(UserError, "cancelled in SEFAZ"):
+            document.action_document_back2draft()
+        self.assertEqual(document.state_edoc, DOCUMENT_STATE_CANCEL)

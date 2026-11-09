@@ -626,22 +626,9 @@ class AccountMove(models.Model):
             # been cancelled by action_document_cancel() above, so skip the
             # back2draft to keep it in 'cancelada' (matching 16.0 behavior).
             return super().button_draft()
-        # Process fiscal documents first to sync their state
+        # Process fiscal documents first to sync their state (the fiscal
+        # document refuses back2draft when its cancellation is registered in SEFAZ)
         for move in self.filtered(lambda d: d.document_type_id):
-            if (
-                move.state_edoc == DOCUMENT_STATE_CANCEL
-                and move.document_number
-                and move.issuer == DOCUMENT_ISSUER_COMPANY
-                and move.fiscal_document_id.cancel_event_id
-            ):
-                raise UserError(
-                    self.env._(
-                        "You can't set this document number: %(doc_number)s to draft "
-                        "because this document is cancelled in SEFAZ",
-                        doc_number=move.document_number,
-                    )
-                )
-
             # Sync fiscal document state (this is idempotent)
             # Pass in_button_draft context to prevent document.py from
             # calling button_draft again (which would cause double super call)
