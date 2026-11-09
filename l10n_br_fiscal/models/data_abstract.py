@@ -8,6 +8,7 @@ from lxml import etree
 
 from odoo import api, fields, models
 from odoo.exceptions import AccessError
+from odoo.fields import Domain
 
 
 class DataAbstract(models.AbstractModel):
@@ -113,6 +114,14 @@ class DataAbstract(models.AbstractModel):
                 ("code", operator, name),
                 ("code_unmasked", "ilike", name + "%"),
             ]
+        elif operator in ("in", "not in"):
+            # Odoo 19 turns ("many2one_field", "=", "code") into an "in"
+            # search on the display name: keep matching on the code too
+            aggregator = Domain.AND if operator == "not in" else Domain.OR
+            return aggregator(
+                [Domain("name", operator, value), Domain("code", operator, value)]
+            )
+        return super()._search_display_name(operator, value)
 
     @api.depends("name", "code")
     def _compute_display_name(self):
