@@ -301,7 +301,7 @@ class ResPartner(spec_models.SpecModel):
             match = self.search(domain_cnpj, limit=1)
             if match:
                 if (
-                    not self._context.get("dry_run")
+                    not self.env.context.get("dry_run")
                     and tax_framework
                     and match.tax_framework != tax_framework
                 ):
@@ -313,7 +313,7 @@ class ResPartner(spec_models.SpecModel):
         vals = self._prepare_import_dict(
             rec_dict, model=model, parent_dict=parent_dict, defaults_model=model
         )
-        if self._context.get("dry_run", False):
+        if self.env.context.get("dry_run", False):
             rec_id = self.new(vals).id
         else:
             rec = self.with_context(parent_dict=parent_dict).create(vals)

@@ -3,11 +3,14 @@
 
 from odoo.tests import TransactionCase
 
+from .tools import load_nfe_fixture_files
+
 
 class TestNFCeResPartner(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        load_nfe_fixture_files(cls.env)
         cls.partner_id = cls.env.ref("l10n_br_base.res_partner_kmee")
         cls.partner_id.is_anonymous_consumer = True
 

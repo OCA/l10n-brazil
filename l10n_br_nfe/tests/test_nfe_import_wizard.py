@@ -11,12 +11,14 @@ from odoo.tools import mute_logger
 from odoo.addons import l10n_br_nfe
 
 from ..wizards.document_import_wizard import DocumentImportWizard
+from .tools import load_nfe_fixture_files
 
 
 class NFeImportWizardTest(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        load_nfe_fixture_files(cls.env)
 
         def test_xml_path(filename):
             return os.path.join(
@@ -187,7 +189,7 @@ class NFeImportWizardTest(TransactionCase):
             {
                 "name": "Fiscal importer",
                 "login": "fiscal_importer",
-                "groups_id": [
+                "group_ids": [
                     Command.set(
                         [
                             self.env.ref("base.group_user").id,

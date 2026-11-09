@@ -5,7 +5,7 @@
         <field name="model">product.supplierinfo</field>
         <field name="inherit_id" ref="product.product_supplierinfo_tree_view" />
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='product_uom']" position="before">
+            <xpath expr="//field[@name='product_uom_id']" position="before">
                 <field name="product_code" />
                 <field name="partner_uom_factor" />
             </xpath>

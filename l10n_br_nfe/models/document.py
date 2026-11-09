@@ -6,7 +6,6 @@ import base64
 import logging
 import re
 import string
-import threading
 from datetime import datetime
 
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
@@ -26,6 +25,7 @@ from xsdata.models.datatype import XmlDateTime
 
 from odoo import Command, _, api, fields
 from odoo.exceptions import UserError, ValidationError
+from odoo.modules import module as odoo_module
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -934,13 +934,6 @@ class NFe(spec_models.StackedModel):
         return bool(self.fiscal_line_ids.filtered("tax_classification_id"))
 
     def _export_field(self, xsd_field, class_obj, member_spec, export_value=None):
-        if xsd_field == "nfe40_tpAmb":
-            self.env.context = dict(self.env.context)
-            self.env.context.update({"tpAmb": self[xsd_field]})
-            return super()._export_field(
-                xsd_field, class_obj, member_spec, export_value
-            )
-
         if xsd_field == "nfe40_vNFTot":
             # NT 2025.002 (rule W60): total of the NF-e considering the
             # IBS/CBS/IS taxes. This mirrors fiscal_amount_total, which
@@ -1075,7 +1068,7 @@ class NFe(spec_models.StackedModel):
                 value.enderEmit, path=path
             )
             new_value.update(enderEmit_value)
-            company_vat = self.env.company.vat.translate(
+            company_vat = (self.env.company.vat or "").translate(
                 str.maketrans("", "", string.punctuation)
             )
             emit_vat = False
@@ -1106,7 +1099,7 @@ class NFe(spec_models.StackedModel):
                 value.enderDest, path=path
             )
             new_value.update(enderDest_value)
-            company_vat = self.env.company.vat.translate(
+            company_vat = (self.env.company.vat or "").translate(
                 str.maketrans("", "", string.punctuation)
             )
             if new_value.get("nfe40_CNPJ"):
@@ -1227,7 +1220,11 @@ class NFe(spec_models.StackedModel):
         for record in self.filtered(filter_processador_edoc_nfe):
             record.flush_model()
             self.env.invalidate_all()
-            inf_nfe = record._build_binding("nfe", "40")
+            # tpAmb in the context lets the related records (e.g. the
+            # recipient partner) adapt their export to the environment
+            inf_nfe = record.with_context(tpAmb=record.nfe_environment)._build_binding(
+                "nfe", "40"
+            )
 
             if (
                 record.document_type == MODELO_FISCAL_NFCE
@@ -1741,7 +1738,7 @@ class NFe(spec_models.StackedModel):
                     # transmission.
                     self._nfe_process_send_asynchronous(service_response)
                     # Commit to secure receipt info for future queries.
-                    in_testing = getattr(threading.current_thread(), "testing", False)
+                    in_testing = odoo_module.current_test
                     if not in_testing:
                         self.env.cr.commit()  # pylint: disable=invalid-commit
 
@@ -1783,7 +1780,7 @@ class NFe(spec_models.StackedModel):
                     # transmission.
                     self._nfe_process_send_asynchronous(service_response)
                     # Commit to secure receipt info for future queries.
-                    in_testing = getattr(threading.current_thread(), "testing", False)
+                    in_testing = odoo_module.current_test
                     if not in_testing:
                         # WTF
                         # see https://github.com/odoo/odoo/pull/216018

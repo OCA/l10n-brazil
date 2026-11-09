@@ -4,11 +4,14 @@
 from odoo import Command
 from odoo.tests import TransactionCase
 
+from .tools import load_nfe_fixture_files
+
 
 class TestAutXml(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        load_nfe_fixture_files(cls.env)
         cls.partner = cls.env["res.partner"].create({"name": "AutXML Partner"})
         cls.document = cls.env.ref("l10n_br_nfe.demo_nfe_same_state")
 

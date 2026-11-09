@@ -4,11 +4,14 @@
 from odoo import Command, fields
 from odoo.tests.common import TransactionCase
 
+from .tools import load_nfe_fixture_files
+
 
 class TestNFePaymentGroup(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        load_nfe_fixture_files(cls.env)
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
         cls.env.user.company_ids += company
