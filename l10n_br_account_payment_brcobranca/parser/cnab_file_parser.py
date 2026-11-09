@@ -13,7 +13,12 @@ from odoo.exceptions import UserError
 
 from odoo.addons.account_move_base_import.parser.file_parser import FileParser
 
-from ..constants.br_cobranca import TIMEOUT, get_brcobranca_api_url
+from ..constants.br_cobranca import (
+    DICT_SPLIT_PAYMENT_CHAR_FIELDS,
+    DICT_SPLIT_PAYMENT_VALUE_FIELDS,
+    TIMEOUT,
+    get_brcobranca_api_url,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -315,6 +320,8 @@ class CNABFileParser(FileParser):
                 #    obj_account_move_line.company_id.partner_id.name,
                 # 'tipo_moeda': evento.credito_moeda_tipo,
             }
+            # Dados do Split Payment do IBS/CBS (Segmentos X-03 e X-04)
+            cnab_return_log_event.update(self._get_split_payment_event_vals(linha_cnab))
 
             # Caso de Pagamento deve criar os Lançamentos de Diário
             if cod_ocorrencia in cnab_liq_move_code:
@@ -454,6 +461,31 @@ class CNABFileParser(FileParser):
         #    |  201  | 00000000201 |   201  |
 
         return nosso_numero_sem_dig.lstrip("0")
+
+    def _get_split_payment_event_vals(self, linha_cnab):
+        """Dados do Split Payment do IBS/CBS dos registros Segmento X-03 e X-04.
+
+        O BRCobranca informa esses dados em todas as linhas de título do
+        retorno e devolve vazio quando o arquivo não tem os registros
+        opcionais Segmento X-03/X-04, por isso apenas os campos preenchidos
+        entram no Evento do Retorno. Veja
+        https://github.com/OCA/l10n-brazil/issues/5146 .
+        """
+        char_field_pairs = DICT_SPLIT_PAYMENT_CHAR_FIELDS.items()
+        value_field_pairs = DICT_SPLIT_PAYMENT_VALUE_FIELDS.items()
+        vals = {
+            event_field: linha_cnab[brcobranca_key]
+            for brcobranca_key, event_field in char_field_pairs
+            if linha_cnab.get(brcobranca_key)
+        }
+        vals.update(
+            {
+                event_field: self.cnab_str_to_float(linha_cnab[brcobranca_key])
+                for brcobranca_key, event_field in value_field_pairs
+                if linha_cnab.get(brcobranca_key)
+            }
+        )
+        return vals
 
     def _get_accounting_entries(self, linha_cnab, account_move_line, payment_lines):
         row_list = []
@@ -627,11 +659,15 @@ class CNABFileParser(FileParser):
                     }
                 )
 
+        valor_cbs, valor_ibs = self._get_accounting_entries_split_payment(
+            row_list, linha_cnab, account_move_line, payment_lines, data_credito
+        )
+
         # Linha da Fatura a ser reconciliada com o Pagamento em Aberto,
         # necessário atualizar o Valor Recebido pois o Odoo não
         # aceita a conciliação nem com um Valor Menor ou Maior.
         valor_recebido_calculado = (
-            valor_recebido + valor_desconto + valor_abatimento
+            valor_recebido + valor_desconto + valor_abatimento + valor_cbs + valor_ibs
         ) - valor_juros_mora
 
         # No itaú(341) o valor recebido (valor principal) já vem com a tarifa descontada
@@ -667,8 +703,82 @@ class CNABFileParser(FileParser):
             "rebate_value": valor_abatimento,
             "tariff_charge": valor_tarifa,
         }
-
         return row_list, log_event_payment
+
+    def _get_accounting_entries_split_payment(
+        self, row_list, linha_cnab, account_move_line, payment_lines, data_credito
+    ):
+        # Valor Imposto CBS
+        valor_cbs = valor_ibs = 0.0
+        cnab_config = account_move_line.payment_mode_id.cnab_config_id
+        if linha_cnab.get("valor_cbs_informado"):
+            valor_cbs = self.cnab_str_to_float(linha_cnab["valor_cbs_informado"])
+
+            if valor_cbs > 0.0:
+                row_credito = {
+                    "name": "Imposto CBS (boleto) " + account_move_line.document_number,
+                    "debit": 0.0,
+                    "credit": valor_cbs,
+                    "account_id": self.journal.default_account_id.id,
+                    "type": "tarifa",
+                    "partner_id": account_move_line.company_id.partner_id.id,
+                    "payment_line_ids": payment_lines.ids,
+                    "cnab_returned_ref": account_move_line.document_number,
+                }
+
+                row_debito = {
+                    "name": "Imposto CBS (boleto) " + account_move_line.document_number,
+                    "debit": valor_cbs,
+                    "credit": 0.0,
+                    "type": "tarifa",
+                    "account_id": cnab_config.cbs_account_id.id,
+                    "payment_line_ids": payment_lines.ids,
+                    "cnab_returned_ref": account_move_line.document_number,
+                }
+
+                # Passa a chave 'date' APENAS se houver data_credito válida
+                if data_credito:
+                    row_credito["date"] = data_credito
+                    row_debito["date"] = data_credito
+
+                row_list.append(row_credito)
+                row_list.append(row_debito)
+
+        # Valor Imposto IBS
+        if linha_cnab.get("valor_ibs_informado"):
+            valor_ibs = self.cnab_str_to_float(linha_cnab["valor_ibs_informado"])
+
+            if valor_ibs > 0.0:
+                row_credito = {
+                    "name": "Imposto IBS (boleto) " + account_move_line.document_number,
+                    "debit": 0.0,
+                    "credit": valor_ibs,
+                    "account_id": self.journal.default_account_id.id,
+                    "type": "tarifa",
+                    "partner_id": account_move_line.company_id.partner_id.id,
+                    "payment_line_ids": payment_lines.ids,
+                    "cnab_returned_ref": account_move_line.document_number,
+                }
+
+                row_debito = {
+                    "name": "Imposto IBS (boleto) " + account_move_line.document_number,
+                    "debit": valor_ibs,
+                    "credit": 0.0,
+                    "type": "tarifa",
+                    "account_id": cnab_config.ibs_account_id.id,
+                    "payment_line_ids": payment_lines.ids,
+                    "cnab_returned_ref": account_move_line.document_number,
+                }
+
+                # Passa a chave 'date' APENAS se houver data_credito válida
+                if data_credito:
+                    row_credito["date"] = data_credito
+                    row_debito["date"] = data_credito
+
+                row_list.append(row_credito)
+                row_list.append(row_debito)
+
+        return valor_cbs, valor_ibs
 
     def cnab_str_to_float(self, value):
         # Até onde vi independente do tamanho do campo os
