@@ -33,10 +33,12 @@
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
-                    <h2>
+                    <div class="oe_title">
                         <label for="name" />
-                        <field name="name" />
-                    </h2>
+                        <h2>
+                            <field name="name" />
+                        </h2>
+                    </div>
                     <group>
                         <group string="Company and Partner" name="tax_framework">
                             <field name="company_tax_framework" />
