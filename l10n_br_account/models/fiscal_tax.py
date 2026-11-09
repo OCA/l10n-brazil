@@ -63,6 +63,11 @@ class FiscalTax(models.Model):
         for fiscal_tax in self:
             account_taxes = fiscal_tax._account_taxes()
             if not account_taxes:
+                account_tax_group = fiscal_tax.tax_group_id.account_tax_group()
+                if not account_tax_group:
+                    # no chart of accounts installed with this tax group:
+                    # account.tax requires a tax group, nothing to create
+                    continue
                 tax_users = {"sale": "out", "purchase": "in"}
 
                 for tax_use in tax_users.keys():
@@ -70,7 +75,7 @@ class FiscalTax(models.Model):
                         "name": fiscal_tax.name + " " + tax_users.get(tax_use),
                         "type_tax_use": tax_use,
                         "fiscal_tax_ids": [Command.link(fiscal_tax.id)],
-                        "tax_group_id": fiscal_tax.tax_group_id.account_tax_group().id,
+                        "tax_group_id": account_tax_group.id,
                         "amount": 0.00,
                     }
 
