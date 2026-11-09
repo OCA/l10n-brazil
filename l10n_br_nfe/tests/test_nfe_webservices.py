@@ -79,6 +79,31 @@ class TestNFeWebServices(TestNFeExport):
         )
         inutilizar_wizard.doit()
 
+    def test_inutilizar_client_certificate(self):
+        """The NF-e and NFC-e number invalidation clients present the company
+        certificate on the TLS connection, like the transmission ones: with
+        `fake_certificate` the SEFAZ refuses the connection (HTTP 403)."""
+        self.env["ir.config_parameter"].sudo().set_param(
+            "l10n_br_nfe.nfelib_soap_transmission", "True"
+        )
+        company = self.nfe_list[0]["nfe"].company_id
+        module = "odoo.addons.l10n_br_nfe.models.invalidate_number"
+        for code, client_name in (("55", "NfeClient"), ("65", "NfceClient")):
+            invalidate = self.env["l10n_br_fiscal.invalidate.number"].new(
+                {
+                    "company_id": company.id,
+                    "document_type_id": self.env.ref(
+                        f"l10n_br_fiscal.document_{code}"
+                    ).id,
+                }
+            )
+            with mock.patch(f"{module}.{client_name}") as client:
+                invalidate._edoc_processor()
+            kwargs = client.call_args.kwargs
+            self.assertIs(kwargs["fake_certificate"], False, client_name)
+            self.assertEqual(kwargs["pkcs12_data"], company.certificate.file)
+            self.assertEqual(kwargs["pkcs12_password"], company.certificate.password)
+
     @nfe_mock(
         {
             "nfeAutorizacaoLote": "retEnviNFe/lote_recebido.xml",
