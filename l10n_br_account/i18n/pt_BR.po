@@ -2705,16 +2705,6 @@ msgstr "Erros de validação do XML"
 
 #. module: l10n_br_account
 #. odoo-python
-#: code:addons/l10n_br_account/models/account_move.py:0
-msgid ""
-"You can't set this document number: %(doc_number)s to draft because this "
-"document is cancelled in SEFAZ"
-msgstr ""
-"Não é possível voltar para provisório o documento de número %(doc_number)s "
-"porque ele está cancelado na SEFAZ"
-
-#. module: l10n_br_account
-#. odoo-python
 #: code:addons/l10n_br_account/models/document.py:0
 msgid "You cannot delete a fiscal document which is not in draft state!"
 msgstr "Não é possível excluir um documento fiscal que não esteja em rascunho!"
@@ -2737,6 +2727,13 @@ msgstr ""
 "indDeduzDeson (NT 2023.004): indica se o valor da desoneração do ICMS "
 "(vICMSDeson) é deduzido do valor do item (vProd) e do total do documento "
 "(vNF)."
+
+#~ msgid ""
+#~ "You can't set this document number: %(doc_number)s to draft because this "
+#~ "document is cancelled in SEFAZ"
+#~ msgstr ""
+#~ "Não é possível voltar para provisório o documento de número %"
+#~ "(doc_number)s porque ele está cancelado na SEFAZ"
 
 #~ msgid "National Simple Taxes"
 #~ msgstr "Impostos do Simples Nacional"
