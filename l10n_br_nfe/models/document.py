@@ -1167,9 +1167,10 @@ class NFe(spec_models.StackedModel):
                     if not line.product_id.default_code and not line.nfe40_cProd:
                         raise ValidationError(
                             _(
-                                f"The product {line.product_id.display_name} "
-                                f"must have a default code or the product code "
-                                f"line field (nfe40_cProd) should be filled."
+                                "The product %s must have a default code or the "
+                                "product code line field (nfe40_cProd) should be "
+                                "filled.",
+                                line.product_id.display_name,
                             )
                         )
 
@@ -1233,9 +1234,10 @@ class NFe(spec_models.StackedModel):
                 and inf_nfe.ide.tpAmb == "2"
                 and inf_nfe.det
             ):
-                inf_nfe.det[0].prod.xProd = (
-                    "NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO "
-                    "- SEM VALOR FISCAL"
+                inf_nfe.det[
+                    0
+                ].prod.xProd = (
+                    "NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL"
                 )
 
             inf_nfe_supl = None
@@ -1318,9 +1320,11 @@ class NFe(spec_models.StackedModel):
         if self.nfe_environment != company_nfe_environment:
             raise UserError(
                 _(
-                    f"Nf-e environment: {self.nfe_environment}"
-                    " cannot be different from what is configured "
-                    f"in the company: {company_nfe_environment}"
+                    "Nf-e environment: %(nfe_environment)s cannot be different "
+                    "from what is configured in the company: "
+                    "%(company_nfe_environment)s",
+                    nfe_environment=self.nfe_environment,
+                    company_nfe_environment=company_nfe_environment,
                 )
             )
 
