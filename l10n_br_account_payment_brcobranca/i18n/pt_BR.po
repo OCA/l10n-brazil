@@ -187,6 +187,24 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
+#. odoo-python
+#: code:addons/l10n_br_account_payment_brcobranca/models/account_payment_line.py:0
+#, python-format
+msgid ""
+"The lenght of the field 'documento' can't be more than 25 caracters:\n"
+" %(doc)s"
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
+#. odoo-python
+#: code:addons/l10n_br_account_payment_brcobranca/models/account_payment_line.py:0
+#, python-format
+msgid ""
+"The lenght of the field 'numero' can't be more than 10 caracters:\n"
+" %(num)s"
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_journal__import_type
 msgid "Type of import"
 msgstr "Tipo de importação"
