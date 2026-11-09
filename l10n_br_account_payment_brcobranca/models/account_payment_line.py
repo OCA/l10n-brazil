@@ -6,7 +6,8 @@
 
 import logging
 
-from odoo import models
+from odoo import _, models
+from odoo.exceptions import ValidationError
 
 from ..constants.br_cobranca import modulo11
 
@@ -46,6 +47,51 @@ class AccountPaymentLine(models.Model):
     def _prepare_bank_line_itau(self, cnab_config, linhas_pagamentos):
         if cnab_config.payment_method_code == "400":
             self._prepare_cod_primeira_instrucao_protest(cnab_config, linhas_pagamentos)
+
+            # O Nº do Documento (posicoes 111 a 120) tem 10 caracteres e o
+            # BRCobranca completa com zeros mas nao corta: um numero maior
+            # desloca o resto da linha e o banco recusa o arquivo. O numero
+            # segue o formato DOCUMENTO/PARCELA-TOTAL, entao sem o total de
+            # parcelas ele cabe. O numero completo continua na identificacao
+            # do titulo na empresa (posicoes 38 a 62, 25 caracteres).
+            numero = str(linhas_pagamentos.get("numero") or "")
+            if numero:
+                result = numero
+                numero_sem_zeros = numero.lstrip("0")
+                numero_limpo = "".join(
+                    char for char in numero_sem_zeros if char.isalnum()
+                )
+                if len(numero) > 25:
+                    result = numero_sem_zeros
+                    if len(numero_sem_zeros) > 25:
+                        result = numero_limpo
+                        if len(numero_limpo) > 25:
+                            raise ValidationError(
+                                _(
+                                    "The lenght of the field 'documento' can't be more "
+                                    "than 25 caracters:\n %(doc)s",
+                                    doc=numero_limpo,
+                                )
+                            )
+
+                linhas_pagamentos["documento"] = result
+
+                # TODO: É melhor "cortar" o número silenciosamente
+                #  ou mostrar o erro?
+                # linhas_pagamentos["numero"] = numero[-10:]
+                if len(result) > 10:
+                    result = numero_sem_zeros
+                    if len(numero_sem_zeros) > 10:
+                        result = numero_limpo
+                        if len(numero_limpo) > 10:
+                            raise ValidationError(
+                                _(
+                                    "The lenght of the field 'numero' can't be more "
+                                    "than 10 caracters:\n %(num)s",
+                                    num=numero_limpo,
+                                )
+                            )
+                linhas_pagamentos["numero"] = result
 
     def _prepare_bank_line_banco_brasil(self, cnab_config, linhas_pagamentos):
         self._prepare_cod_primeira_instrucao_protest(cnab_config, linhas_pagamentos)
