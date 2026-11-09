@@ -10,7 +10,6 @@
 
     <record id="group_user" model="res.groups">
         <field name="name">NFe User</field>
-        <field name="category_id" ref="l10n_br_nfe.module_category_l10n_br_nfe" />
     </record>
 
     <record id="group_manager" model="res.groups">
@@ -19,12 +18,11 @@
             name="implied_ids"
             eval="[Command.link(ref('l10n_br_nfe.group_user'))]"
         />
-        <field name="category_id" ref="l10n_br_nfe.module_category_l10n_br_nfe" />
     </record>
 
     <record id="base.user_admin" model="res.users">
         <field
-            name="groups_id"
+            name="group_ids"
             eval="[Command.link(ref('l10n_br_nfe.group_manager'))]"
         />
     </record>

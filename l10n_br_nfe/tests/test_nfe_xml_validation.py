@@ -6,10 +6,17 @@ from odoo.tools import float_compare
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import SITUACAO_EDOC_A_ENVIAR
 
+from .tools import load_nfe_fixture_files
+
 _logger = logging.getLogger(__name__)
 
 
 class TestXMLValidation(TransactionCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        load_nfe_fixture_files(cls.env)
+
     def test_xml_nfe_validation(self):
         """In this test case, the CEP is deleted from the partner's record on purpose,
         when confirming the NF-e an XML validation error must be presented."""

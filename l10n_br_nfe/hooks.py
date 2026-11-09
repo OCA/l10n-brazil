@@ -18,27 +18,34 @@ def post_init_hook(env):
         [("danfe_profile_id", "=", False)]
     ).danfe_profile_id = env.ref("l10n_br_nfe.danfe_profile_default")
     if env.ref("base.module_l10n_br_nfe").demo:
-        res_items = (
-            "nfe",
-            "samples",
-            "v4_0",
-            "leiauteNFe",
-            "35180834128745000152550010000474491454651420-nfe.xml",
+        import_demo_nfe(env)
+
+
+def import_demo_nfe(env):
+    """Import a sample supplier NF-e as demo data. Also used by the tests that
+    load the demo data as fixtures, as Odoo 19 installs no demo data by
+    default."""
+    res_items = (
+        "nfe",
+        "samples",
+        "v4_0",
+        "leiauteNFe",
+        "35180834128745000152550010000474491454651420-nfe.xml",
+    )
+    binding = TnfeProc.from_xml(
+        importlib.resources.files(nfelib.__name__)
+        .joinpath(*res_items)
+        .read_bytes()
+        .decode()
+    )
+    document_number = binding.NFe.infNFe.ide.nNF
+    existing_nfes = env["l10n_br_fiscal.document"].search(
+        [("document_number", "=", document_number)]
+    )
+    try:
+        existing_nfes.unlink()
+        env["l10n_br_fiscal.document"].import_binding_nfe(
+            binding, edoc_type="in", dry_run=False
         )
-        binding = TnfeProc.from_xml(
-            importlib.resources.files(nfelib.__name__)
-            .joinpath(*res_items)
-            .read_bytes()
-            .decode()
-        )
-        document_number = binding.NFe.infNFe.ide.nNF
-        existing_nfes = env["l10n_br_fiscal.document"].search(
-            [("document_number", "=", document_number)]
-        )
-        try:
-            existing_nfes.unlink()
-            env["l10n_br_fiscal.document"].import_binding_nfe(
-                binding, edoc_type="in", dry_run=False
-            )
-        except ValidationError:
-            _logger.info(f"NF-e already {document_number} imported by hooks")
+    except ValidationError:
+        _logger.info(f"NF-e already {document_number} imported by hooks")

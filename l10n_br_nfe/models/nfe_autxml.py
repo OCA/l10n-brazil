@@ -1,7 +1,7 @@
 # Copyright 2026 Engenere (<https://engenere.one>).
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields
+from odoo import api, fields, models
 
 from odoo.addons.spec_driven_model.models import spec_models
 
@@ -37,13 +37,10 @@ class NFeAutXML(spec_models.SpecModel):
         compute_sudo=True,
     )
 
-    _sql_constraints = [
-        (
-            "autxml_partner_document_uniq",
-            'unique("nfe40_autXML_infNFe_id", partner_id)',
-            "This partner is already authorized to download this document XML.",
-        ),
-    ]
+    _autxml_partner_document_uniq = models.Constraint(
+        'unique("nfe40_autXML_infNFe_id", partner_id)',
+        "This partner is already authorized to download this document XML.",
+    )
 
     @api.depends("partner_id.nfe40_CNPJ", "partner_id.nfe40_CPF")
     def _compute_nfe40_cnpj_cpf(self):

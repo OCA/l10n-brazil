@@ -22,6 +22,18 @@ class TestNFeExportLC(TestNFeExport):
         ]
         super().setUpClass(nfe_list)
 
+    @classmethod
+    def prepare_test_nfe(cls, nfe):
+        # the Odoo 19 demo data gives a barcode to the Flipover product; the
+        # expected XML files were generated without it (cEAN SEM GTIN)
+        nfe.fiscal_line_ids.product_id.barcode = False
+        # with the demo data this partner is created before l10n_br_fiscal
+        # adds ind_ie_dest, so it keeps the column default "1" that the
+        # expected XML files carry; created later it would be computed as "9"
+        if nfe.partner_id == cls.env.ref("l10n_br_base.res_partner_cliente11_sp"):
+            nfe.partner_id.ind_ie_dest = "1"
+        return super().prepare_test_nfe(nfe)
+
     def test_serialize_xml(self):
         for nfe_data in self.nfe_list:
             diff = self.serialize_xml(nfe_data)

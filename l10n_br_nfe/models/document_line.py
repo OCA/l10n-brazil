@@ -247,8 +247,8 @@ class NFeLine(spec_models.StackedModel):
         nfe40_xProd = (
             self.product_id.with_context(
                 display_default_code=False,
-                lang=self._context.get("force_product_lang")  # used for tests
-                or self._context.get("lang"),
+                lang=self.env.context.get("force_product_lang")  # used for tests
+                or self.env.context.get("lang"),
             ).display_name
             or self.name
             or ""

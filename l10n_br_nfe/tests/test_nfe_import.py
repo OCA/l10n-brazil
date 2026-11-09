@@ -7,11 +7,18 @@ import re
 import nfelib
 from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
 
-from odoo.models import NewId
+from odoo.api import NewId
 from odoo.tests import TransactionCase
+
+from .tools import load_nfe_fixture_files
 
 
 class NFeImportTest(TransactionCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        load_nfe_fixture_files(cls.env)
+
     def test_import_in_nfe_dry_run(self):
         res_items = (
             "nfe",

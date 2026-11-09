@@ -18,6 +18,8 @@ from brazilfiscalreport.danfe import (
 from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
 
+from .tools import load_nfe_fixture_files
+
 DANFE_CLASS = "odoo.addons.l10n_br_nfe.report.ir_actions_report.Danfe"
 
 # 1x1 PNG
@@ -31,6 +33,7 @@ class TestDanfeGeneration(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        load_nfe_fixture_files(cls.env)
         cls.nfe = cls.env.ref("l10n_br_nfe.demo_nfe_natural_icms_18_red_51_11")
         cls.default_profile = cls.env.ref("l10n_br_nfe.danfe_profile_default")
 

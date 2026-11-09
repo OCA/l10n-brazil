@@ -14,6 +14,8 @@ from odoo.tools import config
 from odoo.addons import l10n_br_nfe
 from odoo.addons.l10n_br_fiscal.constants.fiscal import DOCUMENT_STATE_DRAFT
 
+from .tools import load_nfe_fixture_files
+
 _logger = logging.getLogger(__name__)
 
 
@@ -21,6 +23,7 @@ class TestNFeExport(TransactionCase):
     @classmethod
     def setUpClass(cls, nfe_list):
         super().setUpClass()
+        load_nfe_fixture_files(cls.env)
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.nfe_list = nfe_list
         for nfe_data in cls.nfe_list:

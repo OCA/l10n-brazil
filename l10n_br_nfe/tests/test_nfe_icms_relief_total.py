@@ -16,10 +16,18 @@ class TestNFeICMSReliefTotal(TransactionCase):
         cls.product = cls.env["product.product"].create(
             {"name": "ICMS Relief Product", "list_price": 100.0}
         )
+        partner = cls.env["res.partner"].create(
+            {
+                "name": "ICMS Relief Customer",
+                "is_company": True,
+                "country_id": cls.env.ref("base.br").id,
+                "state_id": cls.env.ref("base.state_br_sp").id,
+            }
+        )
         cls.document = cls.env["l10n_br_fiscal.document"].create(
             {
                 "company_id": cls.company.id,
-                "partner_id": cls.env.ref("l10n_br_base.res_partner_cliente1_sp").id,
+                "partner_id": partner.id,
                 "fiscal_operation_type": "out",
                 "document_type_id": cls.env.ref("l10n_br_fiscal.document_55").id,
             }
