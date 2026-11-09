@@ -13,7 +13,13 @@ def post_init_hook(env):
             "Skipping fiscal demo post_init_hook: demo data not being installed."
         )
         return
+    set_demo_product_fiscal_data(env)
 
+
+def set_demo_product_fiscal_data(env):
+    """Set the company-dependent fiscal values of the demo products for the
+    demo companies. Also used by the tests that load the demo data as
+    fixtures, as Odoo 19 installs no demo data by default."""
     try:
         company_sn = env.ref("l10n_br_base.empresa_simples_nacional")
         company_lp = env.ref("l10n_br_base.empresa_lucro_presumido")
