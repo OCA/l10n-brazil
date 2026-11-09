@@ -165,6 +165,16 @@ msgid "Authorization Protocol Not Found!"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_autxml__partner_id
+msgid "Authorized Partner"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model_terms:ir.ui.view,arch_db:l10n_br_cte.cte_document_form_view
+msgid "Authorized to Download the XML"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_infcte__cte40_autXML
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_infcte__cte40_autXML
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_infcte__cte40_autXML
@@ -253,7 +263,6 @@ msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__res_company__cte40_choice_emit__cte40_cnpj
-#: model:ir.model.fields.selection,name:l10n_br_cte.selection__res_partner__cte40_choice_autxml__cte40_cnpj
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__res_partner__cte40_choice_dest__cte40_cnpj
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__res_partner__cte40_choice_emit__cte40_cnpj
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__res_partner__cte40_choice_exped__cte40_cnpj
@@ -281,6 +290,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_autxml__cte40_CNPJ
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_autxml__cte40_CNPJ
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_autxml__cte40_CNPJ
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_autxml__cte40_CNPJ
 msgid "CNPJ do autorizado"
 msgstr ""
 
@@ -288,6 +298,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_autxml__cte40_CNPJ
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_autxml__cte40_CNPJ
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tgtve_autxml__cte40_CNPJ
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_cte_autxml__cte40_CNPJ
 msgid ""
 "CNPJ do autorizado\n"
 "Informar zeros não significativos"
@@ -339,12 +350,6 @@ msgid "CNPJ/CPF do Parceiro (cte_choice_tlocal)"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_choice_autxml
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_choice_autxml
-msgid "CNPJ/CPF do Parceiro Autorizado"
-msgstr ""
-
-#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_choice_dest
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_choice_dest
 msgid "CNPJ/CPF/idEstrangeiro (cte_choice_dest)"
@@ -376,7 +381,6 @@ msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__res_company__cte40_choice_emit__cte40_cpf
-#: model:ir.model.fields.selection,name:l10n_br_cte.selection__res_partner__cte40_choice_autxml__cte40_cpf
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__res_partner__cte40_choice_dest__cte40_cpf
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__res_partner__cte40_choice_emit__cte40_cpf
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__res_partner__cte40_choice_exped__cte40_cpf
@@ -392,6 +396,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_autxml__cte40_CPF
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_autxml__cte40_CPF
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_autxml__cte40_CPF
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_autxml__cte40_CPF
 msgid "CPF do autorizado"
 msgstr ""
 
@@ -399,6 +404,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_autxml__cte40_CPF
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_autxml__cte40_CPF
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tgtve_autxml__cte40_CPF
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_cte_autxml__cte40_CPF
 msgid ""
 "CPF do autorizado\n"
 "Informar zeros não significativos"
@@ -828,6 +834,7 @@ msgid "Country state"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_autxml__create_uid
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_cargo_quantity_infos__create_uid
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aereo__create_uid
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aereo_peri__create_uid
@@ -842,6 +849,7 @@ msgid "Created by"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_autxml__create_date
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_cargo_quantity_infos__create_date
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aereo__create_date
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aereo_peri__create_date
@@ -884,7 +892,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_autxml__cte40_autXML_infCte_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_autxml__cte40_autXML_infCte_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_autxml__cte40_autXML_infCte_id
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_autXML_infCte_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_autxml__cte40_autXML_infCte_id
 msgid "Cte40 Autxml Infcte"
 msgstr ""
 
@@ -2012,6 +2020,7 @@ msgid "Display IBS/CBS"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_autxml__display_name
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_cargo_quantity_infos__display_name
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aereo__display_name
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aereo_peri__display_name
@@ -2584,6 +2593,7 @@ msgid "ICMSSN"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_autxml__id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_cargo_quantity_infos__id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aereo__id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aereo_peri__id
@@ -3483,6 +3493,7 @@ msgid "Lacres das Unidades de Transporte"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_autxml____last_update
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_cargo_quantity_infos____last_update
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aereo____last_update
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aereo_peri____last_update
@@ -3497,6 +3508,7 @@ msgid "Last Modified on"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_autxml__write_uid
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_cargo_quantity_infos__write_uid
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aereo__write_uid
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aereo_peri__write_uid
@@ -3511,6 +3523,7 @@ msgid "Last Updated by"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_autxml__write_date
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_cargo_quantity_infos__write_date
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aereo__write_date
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aereo_peri__write_date
@@ -3834,6 +3847,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tprotgtve_infprot__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tunidadetransp__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tunidcarga__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_autxml__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_cargo_quantity_infos__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aereo__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aereo_peri__brl_currency_id
@@ -4409,6 +4423,11 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__cte40_tpImp__2
 msgid "Paisagem."
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model,name:l10n_br_cte.model_l10n_br_cte_autxml
+msgid "Person Authorized to Download the CT-e XML"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -5034,6 +5053,11 @@ msgstr ""
 msgid ""
 "The partner responsible for sending the goods, typically the issuer of the "
 "document. This field is primarily used when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.constraint,message:l10n_br_cte.constraint_l10n_br_cte_autxml_autxml_partner_document_uniq
+msgid "This partner is already authorized to download this document XML."
 msgstr ""
 
 #. module: l10n_br_cte
