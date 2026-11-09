@@ -11,7 +11,7 @@ from erpbrasil.base.fiscal.cnpj_cpf import formata
 
 from odoo import Command, _, api, fields, models
 from odoo.exceptions import UserError
-from odoo.osv import expression
+from odoo.fields import Domain
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import MODELO_FISCAL_NFE
 
@@ -182,7 +182,7 @@ class DocumentImportWizard(models.TransientModel):
 
         rec_id = False
         if domains:
-            domain = expression.OR(domains)
+            domain = Domain.OR(domains)
             rec_id = self.env["product.product"].search(domain, limit=1)
         return rec_id
 

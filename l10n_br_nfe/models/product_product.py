@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, models
-from odoo.osv import expression
+from odoo.fields import Domain
 
 
 class ProductProduct(models.Model):
@@ -44,11 +44,11 @@ class ProductProduct(models.Model):
             if domain
         ]
         if informed_domains:
-            match = self.search(expression.OR(informed_domains), limit=1)
+            match = self.search(Domain.OR(informed_domains), limit=1)
             if match:
                 return match.id
 
-        if self._context.get("dry_run"):
+        if self.env.context.get("dry_run"):
             rec_id = self.new(rec_dict).id
         else:
             rec_id = self.with_context(parent_dict=parent_dict).create(rec_dict).id
@@ -67,7 +67,7 @@ class ProductProduct(models.Model):
         from XML -> Odoo by overriding the product default_get method
         """
         values = super().default_get(default_fields)
-        parent_dict = self._context.get("parent_dict", {})
+        parent_dict = self.env.context.get("parent_dict", {})
         if parent_dict.get("nfe40_xProd"):
             values["name"] = parent_dict["nfe40_xProd"]
 

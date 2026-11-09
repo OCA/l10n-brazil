@@ -43,6 +43,7 @@ from odoo.addons.l10n_br_nfe.models.document import NFe
 
 from .mock_utils import NFeMock, nfe_mock
 from .test_nfe_serialize import TestNFeExport
+from .tools import load_nfe_fixture_files
 
 NFE_LC_DEMO = "l10n_br_nfe.demo_nfe_natural_icms_18_red_51_11"
 NFE_LC_DEMO_2 = "l10n_br_nfe.demo_nfe_natural_icms_7_resale"
@@ -262,6 +263,7 @@ class TestNFeWorkflowXmlValidation(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        load_nfe_fixture_files(cls.env)
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
         cls.env.user.company_ids += cls.company
@@ -404,6 +406,7 @@ class TestNFeWorkflowImportedDocument(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        load_nfe_fixture_files(cls.env)
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         binding = TnfeProc.from_xml(
             importlib.resources.files(nfelib.__name__)

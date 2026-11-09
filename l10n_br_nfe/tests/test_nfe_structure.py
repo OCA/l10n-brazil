@@ -10,12 +10,14 @@ from odoo.addons.spec_driven_model.models.spec_models import SpecModel
 from ..models.document import NFe
 from ..models.document_line import NFeLine
 from ..models.document_related import NFeRelated
+from .tools import load_nfe_fixture_files
 
 
 class NFeStructure(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        load_nfe_fixture_files(cls.env)
 
     @classmethod
     def get_stacked_tree(cls, klass):

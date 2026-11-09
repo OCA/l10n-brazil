@@ -7,3 +7,9 @@
 # `AttributeError: module 'lib' has no attribute 'GEN_EMAIL'`.
 # Drop this pin once the CI image ships cryptography >= 42 and pyOpenSSL >= 24.
 signxml==3.2.2
+# Same reason for requests-pkcs12, pulled in by brazil_fiscal_client (the
+# nfelib[soap] transmission of l10n_br_nfe): 1.23 and later require
+# cryptography >= 42. Drop it together with the signxml pin.
+requests-pkcs12==1.22
+# l10n_br_nfe tests compare serialized XML with xmldiff
+xmldiff

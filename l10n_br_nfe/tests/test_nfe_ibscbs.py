@@ -5,6 +5,8 @@ from decimal import Decimal
 
 from odoo.tests import TransactionCase, tagged
 
+from .tools import load_nfe_fixture_files
+
 
 @tagged("post_install", "-at_install")
 class TestNFeIBSCBS(TransactionCase):
@@ -13,6 +15,7 @@ class TestNFeIBSCBS(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        load_nfe_fixture_files(cls.env)
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
 
         # Get or create company
@@ -402,6 +405,7 @@ class TestNFeVItemVNFTot(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        load_nfe_fixture_files(cls.env)
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
 
         cls.company = cls.env.ref("base.main_company")
@@ -587,6 +591,7 @@ class TestNFeIBSCBSFiscalOperation(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        load_nfe_fixture_files(cls.env)
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
 
         cls.company = cls.env.ref("base.main_company")
