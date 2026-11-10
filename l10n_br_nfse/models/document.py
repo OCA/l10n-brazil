@@ -385,6 +385,57 @@ class Document(models.Model):
             return self.rps_number
         return f"{self.rps_number}-{self.document_number}"
 
+    # -------------------------------------------------------------------------
+    # IBS/CBS group (tax reform), shared by the NFS-e layouts
+    # -------------------------------------------------------------------------
+
+    def _nfse_ibscbs_line(self):
+        """Return the line the IBSCBS group of the NFS-e is built from.
+
+        A NFS-e declares a single service, so the data of the group comes from
+        the first line, the same one exported for the service and its values.
+        """
+        self.ensure_one()
+        return self.fiscal_line_ids[:1]
+
+    def _nfse_export_ibscbs(self):
+        """Return True when the NFS-e must carry the IBSCBS group.
+
+        Like the NF-e IBSCBS group, the NFS-e one is exported as soon as the
+        line carries the data of the tax reform: the cClassTrib classification
+        plus the CST and the cIndOp operation indicator, both mandatory in the
+        group.
+
+        A line carrying the cClassTrib but missing one of the two other data
+        would produce an invalid group. A NFS-e without the group is still a
+        valid document, so the group is skipped rather than blocking the
+        emission, but the reason is logged: nothing else tells the user why
+        the group left the document.
+        """
+        self.ensure_one()
+        line = self._nfse_ibscbs_line()
+        if not line.tax_classification_id:
+            return False
+        missing = [
+            label
+            for value, label in (
+                (line.operation_indicator_id, "cIndOp"),
+                (line.ibs_cst_id or line.cbs_cst_id, "CST"),
+            )
+            if not value
+        ]
+        if not missing:
+            return True
+        _logger.warning(
+            "NFS-e %s: line %s carries the RTC classification %s but no %s, "
+            "so the document is exported without the IBSCBS group.",
+            self.display_name,
+            line.display_name,
+            line.tax_classification_id.code,
+            " and no ".join(missing),
+        )
+        return False
+
     def _convert_binding_value_to_odoo(self, binding_type, object_filed, value):
         if value is None:
             return value
