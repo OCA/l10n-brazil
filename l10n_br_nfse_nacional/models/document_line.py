@@ -8,6 +8,14 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK_SIMPLES_AL
 from odoo.addons.spec_driven_model.models import spec_models
 
 
+def _nfse10_amount(value):
+    """Format an amount the way the NFS-e schema expects it (2 decimals).
+
+    The export skips an empty element, so a zero amount stays False.
+    """
+    return f"{value:.2f}" if value else False
+
+
 class L10nBrFiscalDocumentLine(spec_models.SpecModel):
     _name = "l10n_br_fiscal.document.line"
     _inherit = [
@@ -98,7 +106,7 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
     nfse10_cTribNac = fields.Char(related="national_taxation_code_id.code_unmasked")
     nfse10_cTribMun = fields.Char(related="city_taxation_code_id.code_unmasked")
     nfse10_cNBS = fields.Char(related="nbs_id.code_unmasked")
-    nfse10_xDescServ = fields.Char(related="name")
+    nfse10_xDescServ = fields.Char(compute="_compute_nfse10_xDescServ")
 
     nfse10_vServ = fields.Char(compute="_compute_nfse10_valores")
     nfse10_vDescIncond = fields.Char(compute="_compute_nfse10_valores")
@@ -143,18 +151,67 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
             rec.nfse10_piscofins = rec.id
             rec.nfse10_totTrib = rec.id
 
-    @api.depends("price_gross", "discount_value", "issqn_desc_cond_amount")
+    def _nfse10_declares_document(self):
+        """True when this line carries the single service declared in the DPS.
+
+        The DPS has one serv and one valores group, built from a single line
+        (see the document). With the consolidation option on, that line
+        reports the amounts of the whole document instead of its own ones.
+        """
+        self.ensure_one()
+        document = self.document_id
+        return bool(
+            document.nfse_nacional_concat_lines
+            and self == document._nfse10_service_line()
+        )
+
+    @api.depends(
+        "name",
+        "product_id",
+        "document_id.nfse_nacional_concat_lines",
+        "document_id.fiscal_line_ids.name",
+        "document_id.fiscal_line_ids.product_id",
+    )
+    def _compute_nfse10_xDescServ(self):
+        """Describe the single DPS service, with the descriptions of the lines.
+
+        xDescServ is required by the schema (max 2000 characters, at least one
+        non blank character), so a truncated concatenation is trimmed and the
+        description of the line is used as the last resort.
+        """
+        for rec in self:
+            text = rec.name
+            if rec._nfse10_declares_document():
+                names = [
+                    line.name
+                    for line in rec.document_id.fiscal_line_ids
+                    if line.product_id and line.name
+                ]
+                text = "\n".join(names)[:2000].rstrip() or rec.name
+            rec.nfse10_xDescServ = text
+
+    @api.depends(
+        "price_gross",
+        "discount_value",
+        "issqn_desc_cond_amount",
+        "document_id.nfse_nacional_concat_lines",
+        "document_id.fiscal_line_ids.price_gross",
+        "document_id.fiscal_line_ids.discount_value",
+        "document_id.fiscal_line_ids.issqn_desc_cond_amount",
+    )
     def _compute_nfse10_valores(self):
         for rec in self:
-            rec.nfse10_vServ = f"{rec.price_gross:.2f}" if rec.price_gross else False
-            rec.nfse10_vDescIncond = (
-                f"{rec.discount_value:.2f}" if rec.discount_value else False
-            )
-            rec.nfse10_vDescCond = (
-                f"{rec.issqn_desc_cond_amount:.2f}"
-                if rec.issqn_desc_cond_amount
-                else False
-            )
+            price_gross = rec.price_gross
+            discount = rec.discount_value
+            cond_discount = rec.issqn_desc_cond_amount
+            if rec._nfse10_declares_document():
+                totals = rec.document_id._nfse10_totals()
+                price_gross = totals["price_gross"]
+                discount = totals["discount_value"]
+                cond_discount = totals["issqn_desc_cond_amount"]
+            rec.nfse10_vServ = _nfse10_amount(price_gross)
+            rec.nfse10_vDescIncond = _nfse10_amount(discount)
+            rec.nfse10_vDescCond = _nfse10_amount(cond_discount)
 
     @api.depends("issqn_tax_id", "issqn_eligibility")
     def _compute_nfse10_trib_issqn(self):
@@ -173,28 +230,46 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
             else:
                 rec.nfse10_tribISSQN = "1"
 
-    @api.depends("issqn_wh_value")
+    @api.depends(
+        "issqn_wh_value",
+        "document_id.nfse_nacional_concat_lines",
+        "document_id.fiscal_line_ids.issqn_wh_value",
+    )
     def _compute_nfse10_trib_mun(self):
         # pAliq is optional in the XSD and, for a municipality that joined the
         # national system, the ADN takes the ISSQN rate from its own municipal
         # parameters. Informing it anyway is refused by business rules such as
         # E0625 (rate informed without ISSQN withholding), so it is left out.
         for rec in self:
+            issqn_wh_value = rec.issqn_wh_value
+            if rec._nfse10_declares_document():
+                totals = rec.document_id._nfse10_totals()
+                issqn_wh_value = totals["issqn_wh_value"]
             rec.nfse10_pAliq = False
-            rec.nfse10_tpRetISSQN = "2" if rec.issqn_wh_value > 0 else "1"
+            rec.nfse10_tpRetISSQN = "2" if issqn_wh_value > 0 else "1"
 
-    @api.depends("inss_wh_value", "irpj_wh_value", "csll_wh_value")
+    @api.depends(
+        "inss_wh_value",
+        "irpj_wh_value",
+        "csll_wh_value",
+        "document_id.nfse_nacional_concat_lines",
+        "document_id.fiscal_line_ids.inss_wh_value",
+        "document_id.fiscal_line_ids.irpj_wh_value",
+        "document_id.fiscal_line_ids.csll_wh_value",
+    )
     def _compute_nfse10_trib_fed(self):
         for rec in self:
-            rec.nfse10_vRetCP = (
-                f"{rec.inss_wh_value:.2f}" if rec.inss_wh_value else False
-            )
-            rec.nfse10_vRetIRRF = (
-                f"{rec.irpj_wh_value:.2f}" if rec.irpj_wh_value else False
-            )
-            rec.nfse10_vRetCSLL = (
-                f"{rec.csll_wh_value:.2f}" if rec.csll_wh_value else False
-            )
+            inss = rec.inss_wh_value
+            irpj = rec.irpj_wh_value
+            csll = rec.csll_wh_value
+            if rec._nfse10_declares_document():
+                totals = rec.document_id._nfse10_totals()
+                inss = totals["inss_wh_value"]
+                irpj = totals["irpj_wh_value"]
+                csll = totals["csll_wh_value"]
+            rec.nfse10_vRetCP = _nfse10_amount(inss)
+            rec.nfse10_vRetIRRF = _nfse10_amount(irpj)
+            rec.nfse10_vRetCSLL = _nfse10_amount(csll)
 
     @api.depends(
         "pis_cst_code",
@@ -206,25 +281,44 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
         "cofins_value",
         "pis_wh_value",
         "cofins_wh_value",
+        "document_id.nfse_nacional_concat_lines",
+        "document_id.fiscal_line_ids.pis_base",
+        "document_id.fiscal_line_ids.cofins_base",
+        "document_id.fiscal_line_ids.pis_percent",
+        "document_id.fiscal_line_ids.cofins_percent",
+        "document_id.fiscal_line_ids.pis_value",
+        "document_id.fiscal_line_ids.cofins_value",
+        "document_id.fiscal_line_ids.cofins_wh_value",
+        "document_id.fiscal_line_ids.pis_wh_value",
     )
     def _compute_nfse10_pis_cofins(self):
         valid_cst = dict(self._fields["nfse10_CST"].selection)
         for rec in self:
             cst = rec.pis_cst_code
-            rec.nfse10_CST = cst if cst in valid_cst else "00"
             base = rec.pis_base or rec.cofins_base or 0.0
-            rec.nfse10_vBCPisCofins = f"{base:.2f}" if base else False
-            rec.nfse10_pAliqPis = f"{rec.pis_percent:.2f}" if rec.pis_percent else False
+            pis_percent = rec.pis_percent
+            cofins_percent = rec.cofins_percent
+            pis = rec.pis_value
+            cofins = rec.cofins_value
+            withheld = rec.pis_wh_value or rec.cofins_wh_value
+            if rec._nfse10_declares_document():
+                document = rec.document_id
+                totals = document._nfse10_totals()
+                base = totals["pis_base"]
+                pis = totals["pis_value"]
+                cofins = totals["cofins_value"]
+                withheld = totals["pis_wh_value"] or totals["cofins_wh_value"]
+                pis_percent = document._nfse10_weighted_percent(("pis_percent",))
+                cofins_percent = document._nfse10_weighted_percent(("cofins_percent",))
+            rec.nfse10_CST = cst if cst in valid_cst else "00"
+            rec.nfse10_vBCPisCofins = _nfse10_amount(base)
+            rec.nfse10_pAliqPis = f"{pis_percent:.2f}" if pis_percent else False
             rec.nfse10_pAliqCofins = (
-                f"{rec.cofins_percent:.2f}" if rec.cofins_percent else False
+                f"{cofins_percent:.2f}" if cofins_percent else False
             )
-            rec.nfse10_vPis = f"{rec.pis_value:.2f}" if rec.pis_value else False
-            rec.nfse10_vCofins = (
-                f"{rec.cofins_value:.2f}" if rec.cofins_value else False
-            )
-            rec.nfse10_tpRetPisCofins = (
-                "1" if (rec.pis_wh_value or rec.cofins_wh_value) else "2"
-            )
+            rec.nfse10_vPis = _nfse10_amount(pis)
+            rec.nfse10_vCofins = _nfse10_amount(cofins)
+            rec.nfse10_tpRetPisCofins = "1" if withheld else "2"
 
     @api.depends(
         "company_id.tax_framework",
@@ -235,12 +329,27 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
         "csll_percent",
         "inss_percent",
         "issqn_percent",
+        "document_id.nfse_nacional_concat_lines",
+        "document_id.fiscal_line_ids.pis_percent",
+        "document_id.fiscal_line_ids.cofins_percent",
+        "document_id.fiscal_line_ids.irpj_percent",
+        "document_id.fiscal_line_ids.csll_percent",
+        "document_id.fiscal_line_ids.inss_percent",
+        "document_id.fiscal_line_ids.issqn_percent",
+        "document_id.fiscal_line_ids.price_gross",
     )
     def _compute_nfse10_tot_trib(self):
         # totTrib is a mandatory xs:choice among vTotTrib, pTotTrib, indTotTrib
         # and pTotTribSN. The national environment refuses indTotTrib and
         # pTotTribSN for a company outside the Simples Nacional (E0713), which
         # informs the approximate burden in pTotTrib instead.
+        federal_fields = (
+            "pis_percent",
+            "cofins_percent",
+            "irpj_percent",
+            "csll_percent",
+            "inss_percent",
+        )
         for rec in self:
             simples = rec.company_id.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL
             percent = (
@@ -255,26 +364,23 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
                 rec.nfse10_pTotTribFed = False
                 rec.nfse10_pTotTribEst = False
                 rec.nfse10_pTotTribMun = False
+                continue
+            rec.nfse10_indTotTrib = False
+            rec.nfse10_pTotTribSN = False
+            rec.nfse10_pTotTrib = rec.id
+            if rec._nfse10_declares_document():
+                document = rec.document_id
+                federal = document._nfse10_weighted_percent(federal_fields)
+                municipal = document._nfse10_weighted_percent(("issqn_percent",))
             else:
-                rec.nfse10_indTotTrib = False
-                rec.nfse10_pTotTribSN = False
-                rec.nfse10_pTotTrib = rec.id
                 # The approximate federal burden of a service adds the
                 # withheld IRPJ, CSLL and INSS to PIS/COFINS: leaving them out
                 # understates pTotTribFed and the DANFSE approximate total.
-                federal = sum(
-                    rec[f] or 0.0
-                    for f in (
-                        "pis_percent",
-                        "cofins_percent",
-                        "irpj_percent",
-                        "csll_percent",
-                        "inss_percent",
-                    )
-                )
-                rec.nfse10_pTotTribFed = f"{federal:.2f}"
-                rec.nfse10_pTotTribEst = "0.00"
-                rec.nfse10_pTotTribMun = f"{rec.issqn_percent or 0.0:.2f}"
+                federal = sum(rec[field] or 0.0 for field in federal_fields)
+                municipal = rec.issqn_percent or 0.0
+            rec.nfse10_pTotTribFed = f"{federal:.2f}"
+            rec.nfse10_pTotTribEst = "0.00"
+            rec.nfse10_pTotTribMun = f"{municipal:.2f}"
 
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
         internal_stack_mappings = [
