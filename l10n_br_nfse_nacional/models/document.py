@@ -163,57 +163,6 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
     # Inverse Methods
     ##########################
 
-    def _nfse_ibscbs_line(self):
-        """Return the line the DPS IBSCBS group is built from.
-
-        A DPS declares a single servico, so the RTC data of the group comes
-        from the first line, the same one already exported for the serv and
-        valores groups.
-        """
-        self.ensure_one()
-        return self.fiscal_line_ids[:1]
-
-    def _nfse_export_ibscbs(self):
-        """Return True when the DPS must carry the RTC IBSCBS group.
-
-        Like the NF-e IBSCBS group, the DPS one (leiaute 1.01) is exported as
-        soon as the line carries the RTC data: the cClassTrib classification
-        plus the CST and the cIndOp operation indicator, both mandatory in the
-        group. The cIndOp is read from the line, which is where the user
-        informs it (from the product or from the line view), like the other
-        NFS-e layouts do.
-
-        A line carrying the cClassTrib but missing one of the two other data
-        would produce an invalid group. A DPS without the IBSCBS group is a
-        valid 1.01 document, so the group is skipped rather than blocking the
-        emission, but the reason is logged: nothing else tells the user why
-        the group left the DPS.
-        """
-        self.ensure_one()
-        line = self._nfse_ibscbs_line()
-        if not line.tax_classification_id:
-            # No RTC data: the document keeps the legacy 1.00 shape.
-            return False
-        missing = [
-            label
-            for value, label in (
-                (line.operation_indicator_id, "cIndOp"),
-                (line.ibs_cst_id or line.cbs_cst_id, "CST"),
-            )
-            if not value
-        ]
-        if not missing:
-            return True
-        _logger.warning(
-            "NFS-e %s: line %s carries the RTC classification %s but no %s, "
-            "so the DPS is exported without the IBSCBS group.",
-            self.display_name,
-            line.display_name,
-            line.tax_classification_id.code,
-            " and no ".join(missing),
-        )
-        return False
-
     def _export_tag_nfse_10_ibscbs(self, xsd_fields, class_obj, export_dict):
         """Export the IBSCBS group declared in the DPS (leiaute 1.04.01, RTC).
 

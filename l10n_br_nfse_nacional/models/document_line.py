@@ -4,7 +4,6 @@
 
 from odoo import api, fields
 
-from odoo.addons.l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK_SIMPLES_ALL
 from odoo.addons.spec_driven_model.models import spec_models
 
 
@@ -242,13 +241,9 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
         # pTotTribSN for a company outside the Simples Nacional (E0713), which
         # informs the approximate burden in pTotTrib instead.
         for rec in self:
-            simples = rec.company_id.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL
-            percent = (
-                rec.company_id.simplified_tax_range_id.total_tax_percent
-                if simples
-                else 0.0
-            )
-            if simples:
+            burden = rec._nfse_approximate_tax_burden()
+            if burden["simples"]:
+                percent = burden["simples_percent"]
                 rec.nfse10_indTotTrib = False if percent else "0"
                 rec.nfse10_pTotTribSN = f"{percent:.2f}" if percent else False
                 rec.nfse10_pTotTrib = False
@@ -259,22 +254,9 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
                 rec.nfse10_indTotTrib = False
                 rec.nfse10_pTotTribSN = False
                 rec.nfse10_pTotTrib = rec.id
-                # The approximate federal burden of a service adds the
-                # withheld IRPJ, CSLL and INSS to PIS/COFINS: leaving them out
-                # understates pTotTribFed and the DANFSE approximate total.
-                federal = sum(
-                    rec[f] or 0.0
-                    for f in (
-                        "pis_percent",
-                        "cofins_percent",
-                        "irpj_percent",
-                        "csll_percent",
-                        "inss_percent",
-                    )
-                )
-                rec.nfse10_pTotTribFed = f"{federal:.2f}"
-                rec.nfse10_pTotTribEst = "0.00"
-                rec.nfse10_pTotTribMun = f"{rec.issqn_percent or 0.0:.2f}"
+                rec.nfse10_pTotTribFed = f"{burden['federal_percent']:.2f}"
+                rec.nfse10_pTotTribEst = f"{burden['state_percent']:.2f}"
+                rec.nfse10_pTotTribMun = f"{burden['city_percent']:.2f}"
 
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
         internal_stack_mappings = [
