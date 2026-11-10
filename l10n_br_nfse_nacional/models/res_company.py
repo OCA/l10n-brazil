@@ -56,7 +56,15 @@ class ResCompany(spec_models.SpecModel):
                 rec.nfse10_regApTribSN = False
                 rec.nfse10_regEspTrib = "0"
 
-    def _export_fields_res_company(self, xsd_fields, class_obj, export_dict):
+    def _export_fields_nfse_10_tcinfoprestador(
+        self, xsd_fields, class_obj, export_dict
+    ):
+        """Keep the prestador fields the DPS must not declare out of the DPS.
+
+        The hook is named after the spec class of the group, which is what
+        spec_driven_model dispatches on once the group is exported through
+        the stacked infDPS of the fiscal document.
+        """
         for field_name in PRESTADOR_SELF_EMITTED_EXCLUDED:
             if field_name in xsd_fields:
                 xsd_fields.remove(field_name)
