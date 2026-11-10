@@ -33,6 +33,8 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 
 from ..constants.paulistana import CONSULTA_LOTE, ENVIO_LOTE_RPS
 
+NFSE_PAULISTANA_BENS_IMOVEIS_SUBITENS = ("25.05", "15.09", "17.12", "10.05")
+
 
 def filter_oca_nfse(record):
     if record.processador_edoc == PROCESSADOR_OCA and record.document_type_id.code in [
@@ -117,6 +119,12 @@ class Document(models.Model):
             edocs.append(record.serialize_nfse_paulistana())
         return edocs
 
+    def _nfse_paulistana_tp_oper(self):
+        line = self.fiscal_line_ids[:1]
+        if line.service_type_id.code in NFSE_PAULISTANA_BENS_IMOVEIS_SUBITENS:
+            return "1"
+        return None
+
     def serialize_nfse_paulistana(self):
         dados_lote_rps = self._prepare_lote_rps()
         dados_servico = self._prepare_dados_servico()
@@ -192,6 +200,11 @@ class Document(models.Model):
                 self.fiscal_line_ids[:1].operation_indicator_id.code,
             ),
             indDest=self._convert_type_nfselib_paulistana(tpIBSCBS, "indDest", 1),
+            tpOper=self._convert_type_nfselib_paulistana(
+                tpIBSCBS,
+                "tpOper",
+                self._nfse_paulistana_tp_oper(),
+            ),
             valores=valores,
         )
         return tpRPS(
