@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="nfse_giss_res_company_form" model="ir.ui.view">
+        <field name="name">res.company.form (in l10n_br_nfse_giss)</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="l10n_br_nfse.nfse_res_company_form" />
+        <field name="arch" type="xml">
+            <field name="provedor_nfse" position="after">
+                <field name="nfse_giss_host" invisible="provedor_nfse != 'giss'" />
+            </field>
+        </field>
+    </record>
+</odoo>
