@@ -105,6 +105,36 @@ class L10nBrFiscalDocument(spec_models.StackedModel):
     # next to the other one.
     _nfse10_stacking_skip_paths = ("nfse10_vTotTrib",)
 
+    # When dynamic stacking is applied the DPS structure is:
+    # (+ content of the m2o is stacked in the parent / - standard m2o /
+    # ≡ o2m; the mapped Odoo model may follow the tag)
+    NFSE_TREE = """
++ <tcinfdps>
+    - <subst>
+    - <prest> res.company
+    - <toma> res.partner
+    - <interm> res.partner
+    + <serv>
+        + <locPrest>
+        + <cServ>
+        - <comExt>
+        - <obra>
+        - <atvEvento>
+        - <infoCompl>
+    + <valores>
+        + <vServPrest>
+        + <vDescCondIncond>
+        - <vAjusteBC>
+        + <trib>
+            + <tribMun>
+                - <exigSusp>
+                - <BM>
+            + <tribFed>
+                + <piscofins>
+            + <totTrib>
+                + <pTotTrib>
+    - <IBSCBS>"""
+
     nfse10_Id = fields.Char(compute="_compute_nfse10_id")
     nfse10_tpAmb = fields.Selection(related="nfse_environment")
     nfse10_dhEmi = fields.Char(compute="_compute_nfse10_dates")
