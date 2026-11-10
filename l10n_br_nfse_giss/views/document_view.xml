@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="nfse_giss_document_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.document.form (in l10n_br_nfse_giss)</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="inherit_id" ref="l10n_br_nfse.nfse_document_form_inherit" />
+        <field name="arch" type="xml">
+            <field name="verify_code" position="after">
+                <field name="is_nfse_giss" invisible="1" />
+                <field name="nfse_giss_national_key" invisible="not is_nfse_giss" />
+                <field
+                    name="nfse_giss_cancel_code"
+                    invisible="not is_nfse_giss or state_edoc != 'autorizada'"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>
