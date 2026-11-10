@@ -1,6 +1,7 @@
 from . import test_adn_transport
 from . import test_nfse_structure
 from . import test_nfse_schema
+from . import test_nfse_multiline_dps
 from . import test_nfse_import
 from . import test_nfse_ibscbs
 from . import test_nfse_serialize
