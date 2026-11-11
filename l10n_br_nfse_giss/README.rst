@@ -45,6 +45,12 @@ O módulo:
   guarda o protocolo e consulta o lote até a nota sair;
 - antes de enviar, consulta o RPS na prefeitura: depois de uma queda de
   conexão o lote pode ter sido recebido, e reenviar é recusado;
+- tomador no exterior com o endereço do exterior, o NIF e o país pelo
+  código ISO numérico; na exportação de serviço (exigibilidade do ISS 4,
+  exportação, na linha), o serviço vai para o país do tomador com o
+  grupo de comércio exterior, e a nota de fatura em moeda estrangeira
+  sai em reais pela taxa da fatura, com a moeda e o valor original no
+  grupo;
 - grava o número, o código de verificação e a chave nacional da NFS-e;
 - cancela a NFS-e com o motivo escolhido no documento.
 
@@ -83,10 +89,11 @@ emissão por RPS liberada.
 Known issues / Roadmap
 ======================
 
-- Tomador no exterior, comércio exterior (grupo ``comExt``) e NFS-e de
-  fatura em moeda estrangeira: dependem dos dados de comércio exterior
-  no ``l10n_br_nfse`` e do código ISO numérico do país. Hoje o envio
-  para tomador no exterior é recusado com uma mensagem.
+- Grupo ``comExt``: a moeda vai com o código do BACEN, como pede o XSD,
+  mas a NFS-e autorizada mostra o código ISO, USD; confirmar na primeira
+  emissão. A exportação faturada em reais sai sem o grupo, e a
+  movimentação temporária de bens e o envio ao MDIC ficam fixos em não e
+  em não enviar.
 - Substituição de NFS-e (``SubstituirNfse``).
 - Ler de volta os valores de IBS/CBS calculados pela prefeitura no
   retorno (``IBSCBSTotal``).
