@@ -52,6 +52,45 @@ BRAZIL_TZ = pytz.timezone("America/Sao_Paulo")
 
 _logger = logging.getLogger(__name__)
 
+# Line amounts a DPS declares, summed over every fiscal line when the company
+# declares all of them in the single service of the document.
+NFSE_NACIONAL_SUMMED_FIELDS = (
+    "price_gross",  # vServ
+    "discount_value",  # vDescIncond
+    "issqn_desc_cond_amount",  # vDescCond
+    "inss_wh_value",  # vRetCP
+    "irpj_wh_value",  # vRetIRRF
+    "csll_wh_value",  # vRetCSLL
+    "pis_value",  # vPis
+    "cofins_value",  # vCofins
+    "issqn_wh_value",  # tpRetISSQN (the withheld amount itself is not exported)
+    "pis_wh_value",  # tpRetPisCofins
+    "cofins_wh_value",  # tpRetPisCofins
+)
+
+# Codes the DPS declares once for its single service. They cannot be summed:
+# two different values mean the document bills several services, which a DPS
+# cannot describe. (line field, label, compared even when empty)
+NFSE_NACIONAL_SERVICE_CODE_FIELDS = (
+    ("nfse10_cTribNac", "cTribNac", True),
+    ("nfse10_cTribMun", "cTribMun", False),
+    ("nfse10_cNBS", "cNBS", False),
+    ("nfse10_cLocPrestacao", "cLocPrestacao", False),
+    ("nfse10_tribISSQN", "tribISSQN", False),
+    ("nfse10_CST", "PIS/COFINS CST", False),
+)
+
+# The RTC classification of the IBSCBS group is declared once as well.
+NFSE_NACIONAL_RTC_CLASSIFICATION = "RTC cClassTrib"
+NFSE_NACIONAL_RTC_CST = "RTC CST"
+NFSE_NACIONAL_RTC_INDOP = "RTC cIndOp"
+
+# The codes the DPS cannot leave empty: two blank values there are a
+# difference like any other.
+NFSE_NACIONAL_REQUIRED_CODE_LABELS = {
+    label for _field, label, required in NFSE_NACIONAL_SERVICE_CODE_FIELDS if required
+}
+
 
 def filter_nfse_nacional(record):
     return (
@@ -106,6 +145,9 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
     nfse10_valores = fields.Many2one(
         "l10n_br_fiscal.document.line", compute="_compute_nfse10_serv_valores"
     )
+    nfse_nacional_concat_lines = fields.Boolean(
+        related="company_id.nfse_nacional_concat_lines"
+    )
 
     nfse_key = fields.Char(
         string="NFS-e Access Key", size=50, copy=False, readonly=True
@@ -141,15 +183,153 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
                 rec.nfse10_dhEmi = False
                 rec.nfse10_dCompet = False
 
-    @api.depends("fiscal_line_ids")
+    @api.depends("fiscal_line_ids", "company_id.nfse_nacional_concat_lines")
     def _compute_nfse10_serv_valores(self):
         for rec in self:
-            if rec.fiscal_line_ids:
-                rec.nfse10_serv = rec.fiscal_line_ids[0].id
-                rec.nfse10_valores = rec.fiscal_line_ids[0].id
-            else:
-                rec.nfse10_serv = False
-                rec.nfse10_valores = False
+            line = rec._nfse10_service_line()
+            rec.nfse10_serv = line.id or False
+            rec.nfse10_valores = line.id or False
+
+    def _nfse10_service_line(self):
+        """Return the line the single serv and valores groups are built from.
+
+        Off the consolidation option the legacy behaviour is kept: the first
+        line of the document, whatever it holds. On, the codes of the single
+        cServ element must come from a line that declares a service, so the
+        first line carrying a product is used; its amounts are then the
+        document totals computed on the line.
+        """
+        self.ensure_one()
+        if not self.nfse_nacional_concat_lines:
+            return self.fiscal_line_ids[:1]
+        product_lines = self.fiscal_line_ids.filtered("product_id")
+        return product_lines[:1] or self.fiscal_line_ids[:1]
+
+    def _nfse10_totals(self):
+        """Amounts of the whole document, declared by the single DPS service."""
+        self.ensure_one()
+        lines = self.fiscal_line_ids
+        totals = {
+            field_name: sum(lines.mapped(field_name))
+            for field_name in NFSE_NACIONAL_SUMMED_FIELDS
+        }
+        # the PIS/COFINS base of a line falls back to the other contribution
+        totals["pis_base"] = sum(
+            line.pis_base or line.cofins_base or 0.0 for line in lines
+        )
+        return totals
+
+    def _nfse10_weighted_percent(self, field_names):
+        """Rate of the consolidated service: a rate is not additive.
+
+        The lines rates are averaged, weighted by the line value, so that the
+        percentage declared for the whole service stays coherent with the
+        amounts summed for it.
+        """
+        self.ensure_one()
+        lines = self.fiscal_line_ids
+        total = sum(lines.mapped("price_gross"))
+        if not total:
+            return 0.0
+        weighted = sum(
+            (line.price_gross or 0.0)
+            * sum(line[field_name] or 0.0 for field_name in field_names)
+            for line in lines
+        )
+        return weighted / total
+
+    def _nfse10_service_code_values(self, line):
+        """Values the single serv, trib and RTC groups declare per service.
+
+        They cannot be summed nor averaged: two different values mean the
+        document holds several services and cannot be declared as one.
+        """
+        self.ensure_one()
+        return {
+            label: getattr(line, field_name) or None
+            for field_name, label, _required in NFSE_NACIONAL_SERVICE_CODE_FIELDS
+        }
+
+    def _nfse10_rtc_code_values(self, line):
+        self.ensure_one()
+        return {
+            NFSE_NACIONAL_RTC_CLASSIFICATION: line.tax_classification_id.code or None,
+            NFSE_NACIONAL_RTC_CST: (line.ibs_cst_id or line.cbs_cst_id).code or None,
+            NFSE_NACIONAL_RTC_INDOP: line.operation_indicator_id.code or None,
+        }
+
+    def _nfse10_collect_service_codes(self, lines):
+        """Map each declared field to the `line -> value` pairs it holds.
+
+        Blank values are left out of the comparison for the optional codes: a
+        line that simply does not inform cTribMun or cNBS must not block a
+        document whose other lines agree on it. The required code (cTribNac)
+        is always compared, and so is the RTC classification as soon as one
+        line carries it.
+        """
+        self.ensure_one()
+        collected = {}
+        for line in lines:
+            values = self._nfse10_service_code_values(line)
+            values.update(self._nfse10_rtc_code_values(line))
+            for label, value in values.items():
+                if not value and label not in NFSE_NACIONAL_REQUIRED_CODE_LABELS:
+                    continue
+                collected.setdefault(label, []).append((line.name, value))
+        return collected
+
+    def _nfse10_service_mismatches(self):
+        """Return the `label: line -> value` descriptions of a split needed."""
+        self.ensure_one()
+        lines = self.fiscal_line_ids.filtered("product_id")
+        if len(lines) < 2:
+            return []
+        mismatches = []
+        for label, declared in self._nfse10_collect_service_codes(lines).items():
+            if len({value for _name, value in declared}) < 2:
+                continue
+            details = ", ".join(
+                f"{name or _('line without description')} -> {value or _('empty')}"
+                for name, value in declared
+            )
+            mismatches.append(f"{label}: {details}")
+        return mismatches
+
+    def _check_nfse_service_consistency(self):
+        """Refuse to declare line 1 for a document holding several services.
+
+        The DPS has a single cServ element and a single RTC classification:
+        picking one of them silently would transmit a document whose code does
+        not describe the services it bills. With the consolidation option on
+        the mismatch is an error; off, the legacy export is kept but the
+        mismatch is logged so nobody transmits the wrong code by accident.
+        """
+        self.ensure_one()
+        mismatches = self._nfse10_service_mismatches()
+        if not mismatches:
+            return
+        if not self.nfse_nacional_concat_lines:
+            _logger.warning(
+                "NFS-e %s: the DPS declares a single service but its lines "
+                "differ on %s. Only the first line is declared; enable "
+                '"Declare all lines in the DPS" or split the document.',
+                self.display_name,
+                "; ".join(mismatches),
+            )
+            return
+        raise UserError(
+            _(
+                "The DPS of %(document)s declares a single service, but its "
+                "lines cannot be merged into one:\n\n%(details)s\n\n"
+                "Split the document into one NFS-e per service, or turn off "
+                '"%(option)s" to declare only the first line.'
+            )
+            % {
+                "document": self.display_name,
+                "details": "\n".join(mismatches),
+                "option": _("Declare all lines in the DPS"),
+            }
+        )
 
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
         if field_name == "nfse10_infDPS":
@@ -167,11 +347,10 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
         """Return the line the DPS IBSCBS group is built from.
 
         A DPS declares a single servico, so the RTC data of the group comes
-        from the first line, the same one already exported for the serv and
-        valores groups.
+        from the same line already exported for the serv and valores groups.
         """
         self.ensure_one()
-        return self.fiscal_line_ids[:1]
+        return self._nfse10_service_line()
 
     def _nfse_export_ibscbs(self):
         """Return True when the DPS must carry the RTC IBSCBS group.
@@ -287,6 +466,7 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)
         for record in self.filtered(filter_nfse_nacional):
+            record._check_nfse_service_consistency()
             inf_dps = record._build_binding("nfse", "10")
             nfse = Dps(infDPS=inf_dps, versao="1.00", signature=None)
             edocs.append(nfse)
