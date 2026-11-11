@@ -909,6 +909,18 @@ msgid "Sefin Nacional (ADN)"
 msgstr ""
 
 #. module: l10n_br_nfse_nacional
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_res_company__nfse_nacional_send_im
+msgid "Send the IM (municipal registration)"
+msgstr ""
+
+#. module: l10n_br_nfse_nacional
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_res_company__nfse_nacional_send_im
+msgid ""
+"Send the provider municipal registration (prest/IM) in the DPS.\n"
+"Only enable it when the issuer's municipality has complementary information registered in the CNC NFS-e: otherwise the ADN rejects the DPS with E0120."
+msgstr ""
+
+#. module: l10n_br_nfse_nacional
 #: model:ir.model.fields.selection,name:l10n_br_nfse_nacional.selection__l10n_br_fiscal_document_cancel_wizard__nfse_nacional_motive__2
 msgid "Serviço não prestado"
 msgstr ""
