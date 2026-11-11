@@ -325,11 +325,15 @@ class ResPartner(spec_models.SpecModel):
         for rec in self:
             rec.cte40_enderFerro = rec.id
 
-    @api.depends("vat", "country_id")
+    @api.depends("vat", "country_id", "parent_id.cnpj_cpf_stripped")
     def _compute_cte_stored_data(self):
         """Compute stored CT-e CNPJ/CPF fields."""
         for rec in self:
             cnpj_cpf = rec.cnpj_cpf_stripped
+            if not cnpj_cpf and rec.parent_id and rec.parent_id.country_id.code == "BR":
+                # Addresses without their own document inherit the Brazilian
+                # parent partner's one (see the twin l10n_br_nfe commit).
+                cnpj_cpf = rec.parent_id.cnpj_cpf_stripped
             if cnpj_cpf:
                 if rec.country_id.code != "BR":
                     rec.cte40_CNPJ = ""
@@ -349,11 +353,15 @@ class ResPartner(spec_models.SpecModel):
                 rec.cte40_CNPJ = ""
                 rec.cte40_CPF = ""
 
-    @api.depends("l10n_br_ie_code", "vat", "country_id")
+    @api.depends("l10n_br_ie_code", "vat", "country_id", "parent_id.cnpj_cpf_stripped")
     def _compute_cte_data(self):
         """Set schema data which are not just related fields"""
         for rec in self:
             cnpj_cpf = rec.cnpj_cpf_stripped
+            if not cnpj_cpf and rec.parent_id and rec.parent_id.country_id.code == "BR":
+                # Addresses without their own document inherit the Brazilian
+                # parent partner's one (see the twin l10n_br_nfe commit).
+                cnpj_cpf = rec.parent_id.cnpj_cpf_stripped
             if cnpj_cpf:
                 if rec.country_id.code != "BR":
                     rec.cte40_choice_toma = "cte40_idEstrangeiro"
