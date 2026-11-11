@@ -205,7 +205,7 @@ class ResPartner(spec_models.SpecModel):
         compute_sudo=True,
     )
 
-    @api.depends("company_type", "vat", "country_id")
+    @api.depends("vat", "country_id")
     def _compute_mdfe_id_numbers(self):
         """Compute stored identification fields (CNPJ, CPF, idEstrangeiro)"""
         for rec in self:
@@ -213,10 +213,15 @@ class ResPartner(spec_models.SpecModel):
             if cnpj_cpf:
                 if rec.country_id.code != "BR":
                     rec.mdfe30_idEstrangeiro = rec.vat
-                elif rec.is_company:
+                elif len(cnpj_cpf) == 14:
+                    # 14 chars: CNPJ (numeric or alphanumeric, NT 2025.001).
+                    # The tag follows the actual document, not is_company:
+                    # a pessoa física may carry a CNPJ (e.g. produtor rural,
+                    # see OCA/l10n-brazil#5580).
                     rec.mdfe30_CNPJ = cnpj_cpf
                     rec.mdfe30_CPF = None
                 else:
+                    # 11 digits: CPF
                     rec.mdfe30_CPF = cnpj_cpf
                     rec.mdfe30_CNPJ = None
             else:
@@ -225,7 +230,6 @@ class ResPartner(spec_models.SpecModel):
                 rec.mdfe30_idEstrangeiro = ""
 
     @api.depends(
-        "company_type",
         "l10n_br_ie_code",
         "vat",
         "country_id",
@@ -239,7 +243,7 @@ class ResPartner(spec_models.SpecModel):
             if cnpj_cpf:
                 if rec.country_id.code != "BR":
                     rec.mdfe30_choice_tcontractor = "mdfe30_idEstrangeiro"
-                elif rec.is_company:
+                elif len(cnpj_cpf) == 14:
                     rec.mdfe30_choice_emit = "mdfe30_CNPJ"
                     rec.mdfe30_choice_autxml = "mdfe30_CNPJ"
                     rec.mdfe30_choice_trailer_owner = "mdfe30_CNPJ"
