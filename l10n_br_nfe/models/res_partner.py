@@ -189,11 +189,18 @@ class ResPartner(spec_models.SpecModel):
         for rec in self:
             rec.nfe40_enderDest = rec.id
 
-    @api.depends("l10n_br_ie_code", "vat", "country_id")
+    @api.depends("l10n_br_ie_code", "vat", "country_id", "parent_id.cnpj_cpf_stripped")
     def _compute_nfe_data(self):
         """Set schema data which are not just related fields"""
         for rec in self:
             cnpj_cpf = rec.cnpj_cpf_stripped
+            if not cnpj_cpf and rec.parent_id and rec.parent_id.country_id.code == "BR":
+                # Delivery/pickup addresses (tlocal/entrega/retirada) usually
+                # have no document of their own: inherit the Brazilian parent
+                # partner's one, as the pre-#5580-cleanup _export_field code
+                # intended (its fallback never fired because the
+                # nfe40_choice_tlocal gate was False for vat-less children).
+                cnpj_cpf = rec.parent_id.cnpj_cpf_stripped
             if cnpj_cpf:
                 if rec.country_id.code != "BR":
                     rec.nfe40_choice_dest = "nfe40_idEstrangeiro"
