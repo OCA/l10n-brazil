@@ -501,17 +501,13 @@ class ResPartner(spec_models.SpecModel):
         ):
             return "CTE EMITIDO EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL"
 
-        if xsd_field in ("cte40_CNPJ", "cte40_CPF"):
-            # Caso o CNPJ/CPF esteja em branco e o parceiro tenha um parent_id
-            # É exportado o CNPJ/CPF do parent_id é importate para o endereço
-            # de entrega/retirada
-            if not self.cnpj_cpf_stripped and self.parent_id:
-                cnpj_cpf = self.parent_id.cnpj_cpf_stripped
-            else:
-                cnpj_cpf = self.cnpj_cpf_stripped
-
-            if xsd_field == self.cte40_choice_tlocal:
-                return cnpj_cpf
+        # The CNPJ/CPF tag values are exported from the computed fields
+        # (cte40_CNPJ/cte40_CPF, see _compute_cte_stored_data): the single
+        # source of truth for the document number. The re-derivation from
+        # cnpj_cpf_stripped that used to live here was redundant (for
+        # partners with a document it returned the computed value) and its
+        # parent_id fallback was dead code (cte40_choice_tlocal is always
+        # False for vat-less children).
 
         if self.country_id.code != "BR":
             if xsd_field == "cte40_xBairro":
