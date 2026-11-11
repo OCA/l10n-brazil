@@ -325,7 +325,7 @@ class ResPartner(spec_models.SpecModel):
         for rec in self:
             rec.cte40_enderFerro = rec.id
 
-    @api.depends("company_type", "vat", "country_id")
+    @api.depends("vat", "country_id")
     def _compute_cte_stored_data(self):
         """Compute stored CT-e CNPJ/CPF fields."""
         for rec in self:
@@ -334,17 +334,22 @@ class ResPartner(spec_models.SpecModel):
                 if rec.country_id.code != "BR":
                     rec.cte40_CNPJ = ""
                     rec.cte40_CPF = ""
-                elif rec.is_company:
+                elif len(cnpj_cpf) == 14:
+                    # 14 chars: CNPJ (numeric or alphanumeric, NT 2025.001).
+                    # The tag follows the actual document, not is_company:
+                    # a pessoa física may carry a CNPJ (e.g. produtor rural,
+                    # see OCA/l10n-brazil#5580).
                     rec.cte40_CNPJ = cnpj_cpf
                     rec.cte40_CPF = None
                 else:
+                    # 11 digits: CPF
                     rec.cte40_CPF = cnpj_cpf
                     rec.cte40_CNPJ = None
             else:
                 rec.cte40_CNPJ = ""
                 rec.cte40_CPF = ""
 
-    @api.depends("company_type", "l10n_br_ie_code", "vat", "country_id")
+    @api.depends("l10n_br_ie_code", "vat", "country_id")
     def _compute_cte_data(self):
         """Set schema data which are not just related fields"""
         for rec in self:
@@ -357,7 +362,7 @@ class ResPartner(spec_models.SpecModel):
                     rec.cte40_choice_receb = "cte40_idEstrangeiro"
                     rec.cte40_choice_exped = "cte40_idEstrangeiro"
                     rec.cte40_choice_tlocal = False
-                elif rec.is_company:
+                elif len(cnpj_cpf) == 14:
                     rec.cte40_choice_tlocal = "cte40_CNPJ"
                     rec.cte40_choice_toma = "cte40_CNPJ"
                     rec.cte40_choice_emit = "cte40_CNPJ"
