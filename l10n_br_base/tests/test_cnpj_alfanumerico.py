@@ -27,7 +27,17 @@ class CNPJAlfanumericoTest(TransactionCase):
             "zip": "29161-695",
         }
 
-        cls.partner_pix = cls.env.ref("l10n_br_base.res_partner_amd")
+        cls.partner_pix = (
+            cls.env["res.partner"]
+            .with_context(tracking_disable=True)
+            .create(
+                {
+                    "name": "Parceiro PIX CNPJ Alfanumérico",
+                    "is_company": True,
+                    "country_id": cls.br_country.id,
+                }
+            )
+        )
 
     def test_company_valid_alphanumeric_cnpj(self):
         """Creating a company with a valid alphanumeric CNPJ must succeed."""
