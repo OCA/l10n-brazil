@@ -7,3 +7,11 @@
 # `AttributeError: module 'lib' has no attribute 'GEN_EMAIL'`.
 # Drop this pin once the CI image ships cryptography >= 42 and pyOpenSSL >= 24.
 signxml==3.2.2
+# Same reason for requests-pkcs12, pulled in by brazil_fiscal_client (the
+# nfelib[soap] transmission of l10n_br_nfe): 1.23 and later require
+# cryptography >= 42. Drop it together with the signxml pin.
+requests-pkcs12==1.22
+# l10n_br_nfe tests compare serialized XML with xmldiff
+xmldiff
+odoo-addon-spec_driven_model @ git+https://github.com/OCA/l10n-brazil.git@refs/pull/5272/head#subdirectory=spec_driven_model
+odoo-addon-l10n_br_nfe_spec @ git+https://github.com/OCA/l10n-brazil.git@refs/pull/5273/head#subdirectory=l10n_br_nfe_spec
