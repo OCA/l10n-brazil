@@ -331,17 +331,12 @@ class ResPartner(spec_models.SpecModel):
         ):
             return "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL"
 
-        if xsd_field in ("nfe40_CNPJ", "nfe40_CPF"):
-            # Caso o CNPJ/CPF esteja em branco e o parceiro tenha um parent_id
-            # É exportado o CNPJ/CPF do parent_id é importate para o endereço
-            # de entrega/retirada
-            if not self.vat and self.parent_id:
-                cnpj_cpf = punctuation_rm(self.parent_id.vat)
-            else:
-                cnpj_cpf = punctuation_rm(self.vat)
-
-            if xsd_field == self.nfe40_choice_tlocal:
-                return cnpj_cpf
+        # The CNPJ/CPF tag values are exported from the computed fields
+        # (nfe40_CNPJ/nfe40_CPF, see _compute_nfe_data): the single source
+        # of truth for the document number. The re-derivation from self.vat
+        # that used to live here was redundant (for partners with a vat it
+        # returned the computed value) and its parent_id fallback was dead
+        # code (nfe40_choice_tlocal is always False for vat-less children).
 
         if self.country_id.code != "BR":
             if xsd_field == "nfe40_xBairro":
