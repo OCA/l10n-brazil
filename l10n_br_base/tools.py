@@ -56,7 +56,7 @@ def check_cnpj_cpf(env, cnpj_cpf_value, country, force_validation=False):
     :return:
     """
     if env and cnpj_cpf_value and country:
-        if country == env.ref("base.br"):
+        if country.code == "BR":
             disable_cpf_cnpj_validation = env["ir.config_parameter"].sudo().get_param(
                 "l10n_br_base.disable_cpf_cnpj_validation", default=False
             ) or env.context.get("disable_cpf_cnpj_validation")
