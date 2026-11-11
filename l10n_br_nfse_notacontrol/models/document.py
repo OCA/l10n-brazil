@@ -240,7 +240,17 @@ class L10nBrFiscalDocument(models.Model):
             if aliq is not None and ret is not None:
                 ret.addnext(aliq)
         inf = root.find(f"{{{NS}}}infDPS")
-        if inf is None or inf.find(f"{{{NS}}}IBSCBS") is not None:
+        if inf is None:
+            return
+        # NT 009 moved finNFSe to infDPS; the NotaControl 1.01 layout keeps it
+        # as the first element of IBSCBS
+        fin = inf.find(f"{{{NS}}}finNFSe")
+        if fin is not None:
+            inf.remove(fin)
+        ibscbs = inf.find(f"{{{NS}}}IBSCBS")
+        if ibscbs is not None:
+            if fin is not None and ibscbs.find(f"{{{NS}}}finNFSe") is None:
+                ibscbs.insert(0, fin)
             return
 
         def sub(parent, tag, text=None):
@@ -249,7 +259,9 @@ class L10nBrFiscalDocument(models.Model):
             return el
 
         ibscbs = sub(inf, "IBSCBS")
-        for tag in ("finNFSe", "cIndOp", "indDest"):
+        default_fin = IBSCBS_DEFAULT["finNFSe"]
+        sub(ibscbs, "finNFSe", fin.text if fin is not None else default_fin)
+        for tag in ("cIndOp", "indDest"):
             sub(ibscbs, tag, IBSCBS_DEFAULT[tag])
         g = sub(sub(sub(ibscbs, "valores"), "trib"), "gIBSCBS")
         sub(g, "CST", IBSCBS_DEFAULT["CST"])

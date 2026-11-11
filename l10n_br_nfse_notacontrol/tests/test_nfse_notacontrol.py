@@ -4,7 +4,6 @@
 from unittest import mock
 
 from lxml import etree
-from nfelib.nfse.bindings.v1_0.dps_v1_01 import Dps
 
 from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase, tagged
@@ -188,12 +187,17 @@ class TestNfseNotaControl(TransactionCase):
 
     def test_adjust_dps_keeps_exported_ibscbs(self):
         dps = (
-            f'<DPS xmlns="{NS}" versao="1.00"><infDPS><IBSCBS><finNFSe>0</finNFSe>'
-            "<cIndOp>030101</cIndOp></IBSCBS></infDPS></DPS>"
+            f'<DPS xmlns="{NS}" versao="1.00"><infDPS><finNFSe>1</finNFSe>'
+            "<IBSCBS><cIndOp>030101</cIndOp></IBSCBS></infDPS></DPS>"
         )
         root = etree.fromstring(self.doc._notacontrol_adjust_dps(dps).encode())
         self.assertEqual(len(root.findall(f".//{{{NS}}}IBSCBS")), 1)
-        self.assertEqual(root.findtext(f".//{{{NS}}}cIndOp"), "030101")
+        # finNFSe of NT 009 (infDPS) goes back into IBSCBS, as NotaControl asks
+        ibscbs = root.find(f".//{{{NS}}}IBSCBS")
+        self.assertEqual(
+            [(etree.QName(el).localname, el.text) for el in ibscbs],
+            [("finNFSe", "1"), ("cIndOp", "030101")],
+        )
 
     def test_competence_is_local_date(self):
         self.doc.document_date = "2026-09-25 01:30:00"  # UTC, 22:30 in Goiania
@@ -251,13 +255,10 @@ class TestNfseNotaControl(TransactionCase):
         prest = [etree.QName(el).localname for el in inf.find(f"{{{NS}}}prest")]
         self.assertNotIn("xNome", prest)
         self.assertNotIn("end", prest)
-        self.assertIsNotNone(inf.find(f"{{{NS}}}IBSCBS"))
-        # apart from Goiania's 9-digit cTribMun, the DPS is a valid national
-        # DPS 1.01
-        for el in inf.iter(f"{{{NS}}}cTribMun"):
-            el.getparent().remove(el)
-        errors = Dps.schema_validation(etree.tostring(root, encoding=str))
-        self.assertEqual(errors, [])
+        # IBSCBS as in the NFS-e Goiania authorizes: finNFSe inside the group
+        self.assertIsNone(inf.find(f"{{{NS}}}finNFSe"))
+        ibscbs = [etree.QName(el).localname for el in inf.find(f"{{{NS}}}IBSCBS")]
+        self.assertEqual(ibscbs[:3], ["finNFSe", "cIndOp", "indDest"])
 
     def test_authorized_response(self):
         self.doc._notacontrol_process_response(
