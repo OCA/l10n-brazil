@@ -189,27 +189,33 @@ class ResPartner(spec_models.SpecModel):
         for rec in self:
             rec.nfe40_enderDest = rec.id
 
-    @api.depends("is_company", "l10n_br_ie_code", "vat", "country_id")
+    @api.depends("l10n_br_ie_code", "vat", "country_id")
     def _compute_nfe_data(self):
         """Set schema data which are not just related fields"""
         for rec in self:
-            if rec.cnpj_cpf_stripped:
+            cnpj_cpf = rec.cnpj_cpf_stripped
+            if cnpj_cpf:
                 if rec.country_id.code != "BR":
                     rec.nfe40_choice_dest = "nfe40_idEstrangeiro"
                     rec.nfe40_choice_tlocal = False
-                elif rec.is_company:
+                elif len(cnpj_cpf) == 14:
+                    # 14 chars: CNPJ (numeric or alphanumeric, NT 2025.001).
+                    # The tag follows the actual document, not is_company:
+                    # a pessoa física may carry a CNPJ (e.g. produtor rural,
+                    # see OCA/l10n-brazil#5580).
                     rec.nfe40_choice_tlocal = "nfe40_CNPJ"
                     rec.nfe40_choice_emit = "nfe40_CNPJ"
                     rec.nfe40_choice_dest = "nfe40_CNPJ"
                     rec.nfe40_choice_transporta = "nfe40_CNPJ"
-                    rec.nfe40_CNPJ = rec.cnpj_cpf_stripped
+                    rec.nfe40_CNPJ = cnpj_cpf
                     rec.nfe40_CPF = None
                 else:
+                    # 11 digits: CPF
                     rec.nfe40_choice_tlocal = "nfe40_CPF"
                     rec.nfe40_choice_emit = "nfe40_CPF"
                     rec.nfe40_choice_dest = "nfe40_CPF"
                     rec.nfe40_choice_transporta = "nfe40_CPF"
-                    rec.nfe40_CPF = rec.cnpj_cpf_stripped
+                    rec.nfe40_CPF = cnpj_cpf
                     rec.nfe40_CNPJ = None
             else:
                 rec.nfe40_choice_tlocal = False
