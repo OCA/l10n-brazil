@@ -13,6 +13,11 @@ O módulo:
   protocolo e consulta o lote até a nota sair;
 - antes de enviar, consulta o RPS na prefeitura: depois de uma queda de conexão
   o lote pode ter sido recebido, e reenviar é recusado;
+- tomador no exterior com o endereço do exterior, o NIF e o país pelo código
+  ISO numérico; na exportação de serviço (exigibilidade do ISS 4, exportação, na
+  linha), o serviço vai para o país do tomador com o grupo de comércio
+  exterior, e a nota de fatura em moeda estrangeira sai em reais pela taxa da
+  fatura, com a moeda e o valor original no grupo;
 - grava o número, o código de verificação e a chave nacional da NFS-e;
 - cancela a NFS-e com o motivo escolhido no documento.
 

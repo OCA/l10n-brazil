@@ -26,6 +26,8 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 )
 from odoo.addons.l10n_br_nfse.models.document import filter_processador_edoc_nfse
 
+from ..constants import COUNTRY_ISO_NUMERIC
+
 _logger = logging.getLogger(__name__)
 
 try:
@@ -40,8 +42,7 @@ except ImportError:  # pragma: no cover
     _logger.debug("erpbrasil.edoc with the Giss provider or nfselib.giss missing")
 
 TZ_BR = pytz.timezone("America/Sao_Paulo")
-# CodigoPais is the ISO 3166 numeric code with four digits, not the BACEN one
-COUNTRY_BRAZIL = "0076"
+CITY_ABROAD = 9999999
 NFSE_GISS_CANCEL_CODES = [
     ("1", "1 - Erro na emissão"),
     ("2", "2 - Serviço não prestado"),
@@ -207,6 +208,10 @@ class Document(models.Model):
         municipio = int(
             dados["municipio_prestacao_servico"] or dados["codigo_municipio"]
         )
+        # the export of a service is chosen on the line, never inferred from
+        # the customer: it goes to the city abroad, in the country of the
+        # customer, with the foreign trade group
+        export = line.issqn_eligibility == "4"
         valores = tipos.TcValoresDeclaracaoServico(
             valor_servicos=_decimal(dados["valor_servicos"]),
             valor_deducoes=_optional(dados["valor_deducoes"]),
@@ -238,13 +243,15 @@ class Document(models.Model):
             # 9 digits on the way in, dotted on the way back
             codigo_nbs=dados["codigo_nbs_unmasked"] or None,
             discriminacao=dados["discriminacao"],
-            codigo_municipio=municipio,
-            codigo_pais=COUNTRY_BRAZIL,
+            codigo_municipio=CITY_ABROAD if export else municipio,
+            codigo_pais=self._giss_country_code(
+                (self.partner_id if export else self.company_id).country_id
+            ),
             exigibilidade_iss=line.issqn_eligibility or "1",
             municipio_incidencia=(
                 municipio if (line.issqn_eligibility or "1") == "1" else None
             ),
-            com_ext=self._giss_com_ext(dados),
+            com_ext=self._giss_com_ext(dados) if export else None,
         )
 
     def _giss_trib(self, dados):
@@ -319,30 +326,59 @@ class Document(models.Model):
         )
 
     def _giss_com_ext(self, dados):
-        """Foreign trade group (``comExt``). Hook: the base module does not
-        carry the foreign trade data of the service yet."""
-        return None
+        """Foreign trade group (``comExt``) of an export invoiced in a foreign
+        currency; an export invoiced in reais goes without it."""
+        foreign = dados.get("comercio_exterior")
+        if not foreign:
+            return None
+        if not foreign["codigo_moeda"]:
+            raise UserError(
+                self.env._(
+                    "NFS-e GissOnline: the currency %(currency)s has no BACEN code.",
+                    currency=foreign["moeda_original"],
+                )
+            )
+        return tipos.TccomExterior(
+            md_prestacao=tipos.TsmodoPrestacao(foreign["modo_prestacao"]),
+            vinc_prest=tipos.TsvincPrest(foreign["vinculo_negocio"]),
+            # BACEN code, as the XSD asks; the authorized NFS-e shows "USD",
+            # but the answer reformats the values (see the item and the rate)
+            tp_moeda=foreign["codigo_moeda"],
+            v_serv_moeda=_decimal(foreign["valor_servico_moeda_original"]),
+            mec_afcomex_p=tipos.TsmecAfcomExPrest(foreign["mecanismo_prestador"]),
+            mec_afcomex_t=tipos.TsmecAfcomExToma(foreign["mecanismo_tomador"]),
+            mov_temp_bens=tipos.TsmovTempBens("1"),
+            mdic=tipos.TsenvMdic("0"),
+        )
+
+    def _giss_country_code(self, country):
+        code = COUNTRY_ISO_NUMERIC.get(country.code or "")
+        if not code:
+            raise UserError(
+                self.env._(
+                    "NFS-e GissOnline: %(partner)s has no country with an ISO "
+                    "3166 numeric code.",
+                    partner=self.partner_id.display_name,
+                )
+            )
+        return code.zfill(4)
 
     def _giss_tomador(self):
         self.ensure_one()
         dados = self._prepare_dados_tomador()
-        exterior = dados["uf"] == "EX"
+        contato = tipos.TcContato(email=[dados["email"]]) if dados["email"] else None
+        if dados["uf"] == "EX":
+            return tipos.TcDadosTomador(
+                nif_tomador=(dados["nif"] or "").strip()[:40] or None,
+                razao_social=dados["razao_social"],
+                endereco_exterior=self._giss_endereco_exterior(dados),
+                contato=contato,
+            )
         identificacao = None
         if dados["cnpj"] or dados["cpf"]:
             identificacao = tipos.TcIdentificacaoPessoaEmpresa(
                 cpf_cnpj=tipos.TcCpfCnpj(cnpj=dados["cnpj"], cpf=dados["cpf"]),
                 inscricao_municipal=dados["inscricao_municipal"] or None,
-            )
-        if exterior:
-            # The address abroad takes the ISO 3166 numeric code of the
-            # country, which Odoo does not carry, and the service takes the
-            # foreign trade group: both come with the foreign trade data.
-            raise UserError(
-                self.env._(
-                    "NFS-e GissOnline: customers abroad are not supported yet "
-                    "(%(partner)s).",
-                    partner=self.partner_id.display_name,
-                )
             )
         endereco = tipos.TcEndereco(
             endereco=dados["endereco"],
@@ -357,7 +393,21 @@ class Document(models.Model):
             identificacao_tomador=identificacao,
             razao_social=dados["razao_social"],
             endereco=endereco,
-            contato=tipos.TcContato(email=[dados["email"]]) if dados["email"] else None,
+            contato=contato,
+        )
+
+    def _giss_endereco_exterior(self, dados):
+        partner = self.partner_id
+        cidade = dados["descricao_municipio"][:60]
+        return tipos.TcEnderecoExterior(
+            codigo_pais=self._giss_country_code(partner.country_id),
+            endereco_completo_exterior=(
+                ", ".join(filter(None, [partner.street, partner.street2])) or cidade
+            )[:255],
+            # mandatory: an address without a postal code goes with zeros
+            c_end_post=(partner.zip or "").strip()[:11] or "0000",
+            x_cidade=cidade,
+            x_est_prov_reg=(partner.state_id.name or "EXTERIOR")[:60],
         )
 
     # -------------------------------------------------------------------------

@@ -302,10 +302,74 @@ class TestNFSeGiss(TestFiscalDocumentNFSeCommon):
         self.line.operation_indicator_id = False
         self.assertIsNone(self._rps().find(f".//{T}IBSCBS"))
 
-    def test_customer_abroad_is_refused_with_a_message(self):
-        self.nfse.partner_id.country_id = self.env.ref("base.us")
-        with self.assertRaises(UserError):
-            self._rps()
+    def _abroad(self):
+        self.nfse.partner_id.write(
+            {
+                "country_id": self.env.ref("base.us").id,
+                "state_id": self.env.ref("base.state_us_10").id,
+                "city_id": False,
+                "city": "Miami",
+                "street": "100 Fictitious Avenue",
+                "street2": False,
+                "zip": "33101",
+                "vat": "12-3456789",
+            }
+        )
+
+    def _in_dollars(self):
+        return patch.object(
+            type(self.nfse),
+            "_nfse_foreign_currency_rate",
+            return_value=(self.env.ref("base.USD"), 5.0),
+        )
+
+    def test_export_to_a_customer_abroad(self):
+        self._abroad()
+        self.line.issqn_eligibility = "4"
+        self.nfse.nfse_foreign_trade_mode = "4"
+        with self._in_dollars():
+            declaracao = self._rps().find(f".//{T}InfDeclaracaoPrestacaoServico")
+        tomador = declaracao.find(f"{T}TomadorServico")
+        self.assertIsNone(tomador.find(f"{T}IdentificacaoTomador"))
+        self.assertEqual(tomador.findtext(f"{T}NifTomador"), "12-3456789")
+        exterior = tomador.find(f"{T}EnderecoExterior")
+        # ISO 3166 numeric, not the BACEN code of the country (2496)
+        self.assertEqual(exterior.findtext(f"{T}CodigoPais"), "0840")
+        self.assertEqual(exterior.findtext(f"{T}cEndPost"), "33101")
+        self.assertEqual(exterior.findtext(f"{T}xCidade"), "Miami")
+        self.assertEqual(exterior.findtext(f"{T}xEstProvReg"), "Florida")
+        servico = declaracao.find(f"{T}Servico")
+        self.assertEqual(servico.findtext(f"{T}ExigibilidadeISS"), "4")
+        self.assertEqual(servico.findtext(f"{T}CodigoMunicipio"), "9999999")
+        self.assertEqual(servico.findtext(f"{T}CodigoPais"), "0840")
+        # in reais by the invoice rate, and in dollars in the foreign trade group
+        self.assertEqual(
+            float(servico.findtext(f"{T}Valores/{T}ValorServicos")),
+            round(self.line.price_gross * 5.0, 2),
+        )
+        com_ext = servico.find(f"{T}comExt")
+        self.assertEqual(com_ext.findtext(f"{T}tpMoeda"), "220")
+        self.assertEqual(
+            float(com_ext.findtext(f"{T}vServMoeda")), round(self.line.price_gross, 2)
+        )
+        self.assertEqual(com_ext.findtext(f"{T}mdPrestacao"), "4")
+        self.assertEqual(com_ext.findtext(f"{T}mecAFComexP"), "01")
+
+    def test_taxed_service_in_dollars_is_not_an_export(self):
+        """A contract in dollars in Brazil, or a customer abroad paying ISS."""
+        with self._in_dollars():
+            in_brazil = self._rps().find(f".//{T}Servico")
+            self._abroad()
+            abroad = self._rps().find(f".//{T}Servico")
+        self.assertEqual(
+            float(in_brazil.findtext(f"{T}Valores/{T}ValorServicos")),
+            round(self.line.price_gross * 5.0, 2),
+        )
+        for servico in (in_brazil, abroad):
+            self.assertEqual(servico.findtext(f"{T}ExigibilidadeISS"), "1")
+            self.assertEqual(servico.findtext(f"{T}CodigoMunicipio"), "3518800")
+            self.assertEqual(servico.findtext(f"{T}CodigoPais"), "0076")
+            self.assertIsNone(servico.find(f"{T}comExt"))
 
     # ----------------------------------------------------------- transmission
 
