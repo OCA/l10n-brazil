@@ -73,9 +73,13 @@ class TestDfeMockDistribution(TransactionCase):
             self.company.sudo().write({"dfe_mock_mode": True})
 
     def test_get_processor_other_fiscal_type_delegates(self):
-        """The pool only holds NF-e payloads, so other types reach super()."""
+        """The pool only holds NF-e payloads, so other types reach super().
+
+        Use a type no module handles: "cte" stops raising as soon as
+        l10n_br_cte_dfe is installed alongside this module.
+        """
         with self.assertRaises(NotImplementedError):
-            self.company._dfe_get_processor("cte")
+            self.company._dfe_get_processor("unhandled")
 
     # ── consultar_distribuicao ──────────────────────────────────────────
 
