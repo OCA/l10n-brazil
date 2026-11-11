@@ -36,8 +36,10 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_REJEITADA,
+    TAX_FRAMEWORK_SIMPLES_ALL,
 )
 from odoo.addons.spec_driven_model.models import spec_models
+from odoo.addons.spec_driven_model.models.spec_export import SpecMixinExport
 
 from ..constants.nfse_nacional import (
     ADN_BASE_URL,
@@ -61,26 +63,77 @@ def filter_nfse_nacional(record):
     )
 
 
-class L10nBrFiscalDocument(spec_models.SpecModel):
+def _nfse10_amount(value):
+    """Format an amount the way the NFS-e schema expects it (2 decimals).
+
+    The export skips an empty element, so a zero amount stays False.
+    """
+    return f"{value:.2f}" if value else False
+
+
+class L10nBrFiscalDocument(spec_models.StackedModel):
+    """The DPS of a NFS-e Nacional, as a stacked spec model of the schema.
+
+    A DPS declares a single service: infDPS has no list of items. The whole
+    tree of the schema is therefore stacked on the fiscal document, and the
+    service data is computed from the fiscal lines, which stay the place
+    where the services are described (product, taxes, NBS and taxation
+    codes). The prestador and the tomador are not stacked: they are the
+    mapped res.company and res.partner records, like emit and dest in a NF-e.
+    """
+
     _name = "l10n_br_fiscal.document"
-    _inherit = [
-        "l10n_br_fiscal.document",
-        #        "nfse.10.tcinfnfse",
-        "nfse.10.tcdps",
-        "nfse.10.tcinfdps",
-    ]
+    _inherit = ["l10n_br_fiscal.document", "nfse.10.tcinfdps"]
 
     _nfse10_odoo_module = (
         "odoo.addons.l10n_br_nfse_spec.models.v1_0.tipos_complexos_v1_01"
     )
     _nfse10_binding_module = "nfelib.nfse.bindings.v1_0.tipos_complexos_v1_01"
-    _nfse10_binding_type = "TcinfDps"  # Tcdps"
-    #    _nfse10_binding_module = "nfelib.nfse.bindings.v1_0.dps_v1_01"
-    #    _nfse10_binding_type = "Dps" #Tcdps"
-
-    nfse10_infDPS = fields.Many2one(
-        "l10n_br_fiscal.document", compute="_compute_nfse10_self"
+    _nfse10_binding_type = "TcinfDps"
+    _nfse10_stacking_mixin = "nfse.10.tcinfdps"
+    # Groups the schema declares as optional (so they are not stacked by
+    # default) but the DPS always declares: leaving them out of the stack
+    # would send their values to a side table, outside the fiscal document.
+    _nfse10_stacking_force_paths = (
+        "tcinfdps.valores.vDescCondIncond",
+        "tcinfdps.valores.trib.tribFed",
+        "tcinfdps.valores.trib.tribFed.piscofins",
+        "tcinfdps.valores.trib.totTrib.pTotTrib",
     )
+    # totTrib is an xs:choice: vTotTrib and pTotTrib are exclusive, so the
+    # unused member must stay out of the stack or it would be exported empty
+    # next to the other one.
+    _nfse10_stacking_skip_paths = ("nfse10_vTotTrib",)
+
+    # When dynamic stacking is applied the DPS structure is:
+    # (+ content of the m2o is stacked in the parent / - standard m2o /
+    # ≡ o2m; the mapped Odoo model may follow the tag)
+    NFSE_TREE = """
++ <tcinfdps>
+    - <subst>
+    - <prest> res.company
+    - <toma> res.partner
+    - <interm> res.partner
+    + <serv>
+        + <locPrest>
+        + <cServ>
+        - <comExt>
+        - <obra>
+        - <atvEvento>
+        - <infoCompl>
+    + <valores>
+        + <vServPrest>
+        + <vDescCondIncond>
+        - <vAjusteBC>
+        + <trib>
+            + <tribMun>
+                - <exigSusp>
+                - <BM>
+            + <tribFed>
+                + <piscofins>
+            + <totTrib>
+                + <pTotTrib>
+    - <IBSCBS>"""
 
     nfse10_Id = fields.Char(compute="_compute_nfse10_id")
     nfse10_tpAmb = fields.Selection(related="nfse_environment")
@@ -100,13 +153,6 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
     nfse10_toma = fields.Many2one("res.partner", compute="_compute_nfse10_toma")
     nfse10_interm = fields.Many2one("res.partner")
 
-    nfse10_serv = fields.Many2one(
-        "l10n_br_fiscal.document.line", compute="_compute_nfse10_serv_valores"
-    )
-    nfse10_valores = fields.Many2one(
-        "l10n_br_fiscal.document.line", compute="_compute_nfse10_serv_valores"
-    )
-
     nfse_key = fields.Char(
         string="NFS-e Access Key", size=50, copy=False, readonly=True
     )
@@ -114,9 +160,114 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
     nfse_protocol = fields.Char(string="NFS-e Protocol", copy=False, readonly=True)
     edoc_error_message = fields.Text(readonly=True, copy=False)
 
-    def _compute_nfse10_self(self):
-        for rec in self:
-            rec.nfse10_infDPS = rec.id
+    def _nfse10_service_line(self):
+        """Return the fiscal line the single DPS service is computed from."""
+        self.ensure_one()
+        return self.fiscal_line_ids[:1]
+
+    def _prepare_nfse10_service(self):
+        """Declare the single service of the DPS from the fiscal lines.
+
+        The serv, valores and trib groups of infDPS are stacked on the
+        document as plain fields, like the NF-e totals: the schema holds one
+        service per document, so the values of that service are prepared here
+        from the line that describes it, right before the export. A document
+        imported from a received DPS has no fiscal line and keeps the values
+        the DPS declared.
+        """
+        self.ensure_one()
+        line = self._nfse10_service_line()
+        if not line:
+            return
+        # serv/cServ and serv/locPrest
+        self.nfse10_cTribNac = line.national_taxation_code_id.code_unmasked
+        self.nfse10_cTribMun = line.city_taxation_code_id.code_unmasked
+        self.nfse10_cNBS = line.nbs_id.code_unmasked
+        self.nfse10_cLocPrestacao = line.issqn_fg_city_id.ibge_code
+        self.nfse10_xDescServ = line.name
+        # valores/vServPrest and valores/vDescCondIncond
+        self.nfse10_vServ = _nfse10_amount(line.price_gross)
+        self.nfse10_vDescIncond = _nfse10_amount(line.discount_value)
+        self.nfse10_vDescCond = _nfse10_amount(line.issqn_desc_cond_amount)
+        # valores/trib/tribMun
+        self._prepare_nfse10_trib_mun(line)
+        # valores/trib/tribFed
+        self.nfse10_vRetCP = _nfse10_amount(line.inss_wh_value)
+        self.nfse10_vRetIRRF = _nfse10_amount(line.irpj_wh_value)
+        self.nfse10_vRetCSLL = _nfse10_amount(line.csll_wh_value)
+        self._prepare_nfse10_piscofins(line)
+        self._prepare_nfse10_tot_trib(line)
+
+    def _prepare_nfse10_trib_mun(self, line):
+        # issqn_eligibility defaults to "2" (Não incidência) and is rarely set,
+        # so only its explicit export and immunity values are taken from it.
+        # Non-incidence (such as the rental of movable goods, STF SV 31) comes
+        # from the ISSQN NT tax of the fiscal operation.
+        issqn_nt = self.env.ref("l10n_br_fiscal.tax_issqn_nt", False)
+        if line.issqn_eligibility == "4":
+            self.nfse10_tribISSQN = "3"
+        elif line.issqn_eligibility == "5":
+            self.nfse10_tribISSQN = "2"
+        elif issqn_nt and line.issqn_tax_id == issqn_nt:
+            self.nfse10_tribISSQN = "4"
+        else:
+            self.nfse10_tribISSQN = "1"
+        # pAliq is optional in the XSD and, for a municipality that joined the
+        # national system, the ADN takes the ISSQN rate from its own municipal
+        # parameters. Informing it anyway is refused by business rules such as
+        # E0625 (rate informed without ISSQN withholding), so it is left out.
+        self.nfse10_pAliq = False
+        self.nfse10_tpRetISSQN = "2" if line.issqn_wh_value > 0 else "1"
+
+    def _prepare_nfse10_piscofins(self, line):
+        valid_cst = dict(self._fields["nfse10_CST"].selection)
+        cst = line.pis_cst_code
+        self.nfse10_CST = cst if cst in valid_cst else "00"
+        self.nfse10_vBCPisCofins = _nfse10_amount(line.pis_base or line.cofins_base)
+        self.nfse10_pAliqPis = _nfse10_amount(line.pis_percent)
+        self.nfse10_pAliqCofins = _nfse10_amount(line.cofins_percent)
+        self.nfse10_vPis = _nfse10_amount(line.pis_value)
+        self.nfse10_vCofins = _nfse10_amount(line.cofins_value)
+        self.nfse10_tpRetPisCofins = (
+            "1" if (line.pis_wh_value or line.cofins_wh_value) else "2"
+        )
+
+    def _prepare_nfse10_tot_trib(self, line):
+        # totTrib is a mandatory xs:choice among vTotTrib, pTotTrib, indTotTrib
+        # and pTotTribSN. The national environment refuses indTotTrib and
+        # pTotTribSN for a company outside the Simples Nacional (E0713), which
+        # informs the approximate burden in pTotTrib instead.
+        simples = self.company_id.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL
+        percent = (
+            self.company_id.simplified_tax_range_id.total_tax_percent
+            if simples
+            else 0.0
+        )
+        if simples:
+            self.nfse10_indTotTrib = False if percent else "0"
+            self.nfse10_pTotTribSN = _nfse10_amount(percent)
+            self.nfse10_pTotTribFed = False
+            self.nfse10_pTotTribEst = False
+            self.nfse10_pTotTribMun = False
+            return
+        self.nfse10_indTotTrib = False
+        self.nfse10_pTotTribSN = False
+        # The approximate federal burden of a service adds the withheld IRPJ,
+        # CSLL and INSS to PIS/COFINS: leaving them out understates pTotTribFed
+        # and the DANFSE approximate total.
+        federal = sum(
+            line[field] or 0.0
+            for field in (
+                "pis_percent",
+                "cofins_percent",
+                "irpj_percent",
+                "csll_percent",
+                "inss_percent",
+            )
+        )
+        self.nfse10_pTotTribFed = f"{federal:.2f}"
+        self.nfse10_pTotTribEst = "0.00"
+        self.nfse10_pTotTribMun = f"{line.issqn_percent or 0.0:.2f}"
 
     @api.depends("partner_id.cnpj_cpf_stripped", "partner_id.nfse10_cNaoNIF")
     def _compute_nfse10_toma(self):
@@ -141,22 +292,28 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
                 rec.nfse10_dhEmi = False
                 rec.nfse10_dCompet = False
 
-    @api.depends("fiscal_line_ids")
-    def _compute_nfse10_serv_valores(self):
-        for rec in self:
-            if rec.fiscal_line_ids:
-                rec.nfse10_serv = rec.fiscal_line_ids[0].id
-                rec.nfse10_valores = rec.fiscal_line_ids[0].id
-            else:
-                rec.nfse10_serv = False
-                rec.nfse10_valores = False
-
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
-        if field_name == "nfse10_infDPS":
-            return self._build_binding(
-                class_name=class_obj._fields[field_name].comodel_name
-            )
-        return super()._export_many2one(field_name, xsd_required, class_obj)
+        """Export the DPS groups with the generic stacking algorithm.
+
+        The other Brazilian DPS modules stack their own leiaute on the same
+        l10n_br_fiscal.document model, so their _export_many2one overrides
+        sit in the same MRO: l10n_br_nfe drops every non required stacked
+        group whose denormalized fields are all empty. The DPS always
+        declares vDescCondIncond and tribFed (piscofins included) even when
+        they hold no value, so the nfse fields are exported here with the
+        generic implementation instead of being pruned by a sibling module.
+
+        The totTrib xs:choice is the only conditional member: the pTotTrib
+        percentages (a company outside the Simples Nacional) must not appear
+        next to pTotTribSN and vice versa.
+        """
+        if not field_name.startswith(f"{self._spec_prefix()}_"):
+            return super()._export_many2one(field_name, xsd_required, class_obj)
+        if field_name == "nfse10_pTotTrib" and not self.nfse10_pTotTribFed:
+            return False
+        return SpecMixinExport._export_many2one(
+            self, field_name, xsd_required, class_obj
+        )
 
     ##########################
     # NFS-e tag: IBSCBS
@@ -252,13 +409,17 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
         )
 
     def import_binding_nfse(self, binding, edoc_type="in", dry_run=False):
+        """Build the fiscal document from the infDPS of a received DPS.
+
+        The whole DPS is stacked on the fiscal document, so the import fills
+        the document fields instead of scattering the groups of the schema
+        into separate records.
+        """
         if hasattr(binding, "DPS"):
             binding = binding.DPS
-        document = (
-            self.env["nfse.10.tcdps"]
-            .with_context(tracking_disable=True, edoc_type=edoc_type)
-            .build_from_binding("nfse", "10", binding.infDPS, dry_run=dry_run)
-        )
+        document = self.with_context(
+            tracking_disable=True, edoc_type=edoc_type
+        ).build_from_binding("nfse", "10", binding.infDPS, dry_run=dry_run)
         return document
 
     @api.constrains("document_key")
@@ -287,6 +448,7 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)
         for record in self.filtered(filter_nfse_nacional):
+            record._prepare_nfse10_service()
             inf_dps = record._build_binding("nfse", "10")
             nfse = Dps(infDPS=inf_dps, versao="1.00", signature=None)
             edocs.append(nfse)
