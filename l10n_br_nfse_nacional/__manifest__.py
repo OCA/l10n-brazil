@@ -27,6 +27,7 @@
     "data": [
         "wizards/document_cancel_wizard.xml",
         "views/document_view.xml",
+        "views/res_company_view.xml",
         "report/danfse_nacional.xml",
     ],
     "demo": [

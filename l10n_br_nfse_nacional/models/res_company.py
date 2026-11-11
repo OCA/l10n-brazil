@@ -35,6 +35,14 @@ class ResCompany(spec_models.SpecModel):
 
     nfse10_end = fields.Many2one("res.partner", related="partner_id")
 
+    nfse_nacional_send_im = fields.Boolean(
+        string="Send the IM (municipal registration)",
+        help="Send the provider municipal registration (prest/IM) in the DPS.\n"
+        "Only enable it when the issuer's municipality has complementary "
+        "information registered in the CNC NFS-e: otherwise the ADN rejects "
+        "the DPS with E0120.",
+    )
+
     # Overriding the inherited fields to make them computed
     nfse10_opSimpNac = fields.Selection(compute="_compute_nfse10_reg_trib")
     nfse10_regApTribSN = fields.Selection(compute="_compute_nfse10_reg_trib")
@@ -60,6 +68,15 @@ class ResCompany(spec_models.SpecModel):
         for field_name in PRESTADOR_SELF_EMITTED_EXCLUDED:
             if field_name in xsd_fields:
                 xsd_fields.remove(field_name)
+        # prest/IM is only accepted by the ADN when the issuer's municipality
+        # has complementary information registered in the CNC NFS-e; sending it
+        # otherwise is refused with "E0120 - IM do prestador não deve ser
+        # informado, pois não existem informações complementares registradas no
+        # CNC NFS-e do município emissor informado na DPS". The element is
+        # optional in the leiaute (nfelib TcinfoPrestador.IM has no required
+        # flag), so it is opt-in per company.
+        if not self.nfse_nacional_send_im and "nfse10_IM" in xsd_fields:
+            xsd_fields.remove("nfse10_IM")
 
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
         if field_name == "nfse10_regTrib":
