@@ -302,6 +302,14 @@ class TestNFSeGiss(TestFiscalDocumentNFSeCommon):
         self.line.operation_indicator_id = False
         self.assertIsNone(self._rps().find(f".//{T}IBSCBS"))
 
+    def test_rps_describes_every_line(self):
+        self.line.name = "Frete aereo"
+        self.line.copy({"name": "Armazenagem", "product_id": self.line.product_id.id})
+        self.assertEqual(
+            self._rps().findtext(f".//{T}Servico/{T}Discriminacao"),
+            "Frete aereo\nArmazenagem",
+        )
+
     def _abroad(self):
         self.nfse.partner_id.write(
             {

@@ -242,7 +242,7 @@ class Document(models.Model):
             codigo_tributacao_municipio=dados["codigo_tributacao_municipio"],
             # 9 digits on the way in, dotted on the way back
             codigo_nbs=dados["codigo_nbs_unmasked"] or None,
-            discriminacao=dados["discriminacao"],
+            discriminacao=self._giss_discriminacao(),
             codigo_municipio=CITY_ABROAD if export else municipio,
             codigo_pais=self._giss_country_code(
                 (self.partner_id if export else self.company_id).country_id
@@ -253,6 +253,16 @@ class Document(models.Model):
             ),
             com_ext=self._giss_com_ext(dados) if export else None,
         )
+
+    def _giss_discriminacao(self):
+        """Description of every line, one per row (2000 characters at most).
+
+        The RPS declares a single service with the values of all the lines, so
+        the description lists them all, not only the first one.
+        """
+        return "\n".join(
+            line.name for line in self.fiscal_line_ids if line.product_id and line.name
+        )[:2000]
 
     def _giss_trib(self, dados):
         """Federal taxes and the approximate tax burden (group ``trib``)."""
