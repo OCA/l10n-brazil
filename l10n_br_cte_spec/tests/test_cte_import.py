@@ -5,9 +5,9 @@
 import dataclasses
 import re
 from datetime import datetime
+from importlib import resources
 
 import nfelib
-import pkg_resources
 from nfelib.cte.bindings.v4_0.cte_v4_00 import Tcte
 
 from odoo import Command, api, fields, models
@@ -279,9 +279,9 @@ class NFeImportTest(TransactionCase):
             "v4_0",
             "43120178408960000182570010000000041000000047-cte.xml",
         )
-        resource_path = "/".join(res_items)
-        cte_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
-        binding = Tcte.from_xml(cte_stream.read().decode())
+        binding = Tcte.from_xml(
+            resources.files(nfelib.__name__).joinpath(*res_items).read_bytes().decode()
+        )
         cte = (
             self.env["cte.40.tcte_infcte"]
             .with_context(tracking_disable=True, edoc_type="in", lang="pt_BR")

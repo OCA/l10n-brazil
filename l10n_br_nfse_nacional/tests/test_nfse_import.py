@@ -2,7 +2,8 @@
 # Copyright 2026 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import pkg_resources
+import importlib.resources
+
 from nfelib.nfse.bindings.v1_0.dps_v1_01 import Dps
 
 from odoo.tests import TransactionCase, tagged
@@ -16,11 +17,12 @@ from odoo.addons import l10n_br_nfse_nacional
 class NfseImportTest(TransactionCase):
     def test_import_dps(self):
         res_items = ("tests", "nfse", "v1_00", "DPS", "dps-regime-normal.xml")
-        resource_path = "/".join(res_items)
-        xml_stream = pkg_resources.resource_stream(
-            l10n_br_nfse_nacional.__name__, resource_path
+        binding = Dps.from_xml(
+            importlib.resources.files(l10n_br_nfse_nacional.__name__)
+            .joinpath(*res_items)
+            .read_bytes()
+            .decode()
         )
-        binding = Dps.from_xml(xml_stream.read().decode())
 
         doc = self.env["l10n_br_fiscal.document"].import_binding_nfse(
             binding, edoc_type="in", dry_run=True

@@ -5,9 +5,9 @@
 import dataclasses
 import re
 from datetime import datetime
+from importlib import resources
 
 import nfelib
-import pkg_resources
 from nfelib.mdfe.bindings.v3_0.mdfe_v3_00 import Tmdfe
 
 from odoo import Command, api, fields, models
@@ -271,9 +271,9 @@ class NFeImportTest(TransactionCase):
             "v3_0",
             "41190876676436000167580010000500001000437558-mdfe.xml",
         )
-        resource_path = "/".join(res_items)
-        mdfe_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
-        binding = Tmdfe.from_xml(mdfe_stream.read().decode())
+        binding = Tmdfe.from_xml(
+            resources.files(nfelib.__name__).joinpath(*res_items).read_bytes().decode()
+        )
         mdfe = (
             self.env["mdfe.30.tmdfe_infmdfe"]
             .with_context(tracking_disable=True, edoc_type="in", lang="pt_BR")
@@ -288,9 +288,9 @@ class NFeImportTest(TransactionCase):
             "v3_0",
             "50170876063965000276580010000011311421039568-mdfe.xml",
         )
-        resource_path = "/".join(res_items)
-        mdfe_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
-        binding = Tmdfe.from_xml(mdfe_stream.read().decode())
+        binding = Tmdfe.from_xml(
+            resources.files(nfelib.__name__).joinpath(*res_items).read_bytes().decode()
+        )
         mdfe = (
             self.env["mdfe.30.tmdfe_infmdfe"]
             .with_context(tracking_disable=True, edoc_type="in", lang="pt_BR")
