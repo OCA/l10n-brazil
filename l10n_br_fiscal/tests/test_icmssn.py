@@ -55,11 +55,47 @@ class TestICMSSN(TransactionCase):
 
     def test_icmssn_tax_rate(self):
         """Test to verify if the calculation of the icms credit
-        for Simples Nacional companies is correct."""
-        self.assertEqual(self.line_venda.icmssn_percent, 2.70)
+        for Simples Nacional companies is correct. The rate keeps the 4
+        decimal places pCredSN takes: 8.4393% x 32% = 2.7006% and
+        7.9393% x 33.5% = 2.6597%."""
+        self.assertEqual(self.line_venda.icmssn_percent, 2.7006)
         self.assertEqual(self.line_venda.icmssn_credit_value, 20.25)
-        self.assertEqual(self.line_revenda.icmssn_percent, 2.66)
+        self.assertEqual(self.line_revenda.icmssn_percent, 2.6597)
         self.assertEqual(self.line_revenda.icmssn_credit_value, 19.95)
+
+    def test_icmssn_non_contributor(self):
+        """A non-contributor of the ICMS cannot take the credit of the
+        Simples Nacional: the line gets the CSOSN 102, not a 101 without
+        credit."""
+        self.partner.ind_ie_dest = "9"
+        document = self._create_document()
+        line = self._create_line(document, "fo_venda_venda_nao_contribuinte")
+        self.assertEqual(
+            line.icmssn_tax_id,
+            self.env.ref("l10n_br_fiscal.tax_icms_sn_sem_credito"),
+        )
+        self.assertEqual(
+            line.icms_cst_id, self.env.ref("l10n_br_fiscal.cst_icmssn_102")
+        )
+        self.assertFalse(line.icmssn_percent)
+        self.assertFalse(line.icmssn_credit_value)
+
+    def test_icmssn_non_contributor_with_st(self):
+        """With ICMS ST the CSOSN 201 gives way to the 202."""
+        tax_201 = self.env.ref("l10n_br_fiscal.tax_icms_sn_com_credito_st")
+        operation_line = self.env.ref("l10n_br_fiscal.fo_venda_venda")
+        self.partner.ind_ie_dest = "9"
+        mapping_result = {"taxes": {tax_201.tax_domain: tax_201}}
+        operation_line._map_icmssn_tax_without_credit(mapping_result, self.partner)
+        self.assertEqual(
+            mapping_result["taxes"][tax_201.tax_domain],
+            self.env.ref("l10n_br_fiscal.tax_icms_sn_sem_credito_st"),
+        )
+        # a contributor keeps the tax with credit
+        self.partner.ind_ie_dest = "1"
+        mapping_result = {"taxes": {tax_201.tax_domain: tax_201}}
+        operation_line._map_icmssn_tax_without_credit(mapping_result, self.partner)
+        self.assertEqual(mapping_result["taxes"][tax_201.tax_domain], tax_201)
 
     def test_icmssn_range(self):
         """Each line tells the range of the annex it was taxed by."""
@@ -80,7 +116,7 @@ class TestICMSSN(TransactionCase):
         sale move but is taxed by the Annex II, whatever the company is."""
         self.company.is_industry = False
         self.line_revenda.cfop_id = self.env.ref("l10n_br_fiscal.cfop_5124")
-        self.assertEqual(self.line_revenda.icmssn_percent, 2.70)
+        self.assertEqual(self.line_revenda.icmssn_percent, 2.7006)
         self.assertEqual(self.line_revenda.icmssn_credit_value, 20.25)
 
     def test_icmssn_tax_rate_of_cfop_not_for_sale(self):
@@ -89,11 +125,11 @@ class TestICMSSN(TransactionCase):
         II of its furniture CNAE, and the industry flag when its CNAE has no
         annex."""
         self.line_venda.cfop_id = self.env.ref("l10n_br_fiscal.cfop_5949")
-        self.assertEqual(self.line_venda.icmssn_percent, 2.70)
+        self.assertEqual(self.line_venda.icmssn_percent, 2.7006)
         self.company.is_industry = False
         self.company.cnae_main_id = False
         self.line_revenda.cfop_id = self.env.ref("l10n_br_fiscal.cfop_5949")
-        self.assertEqual(self.line_revenda.icmssn_percent, 2.66)
+        self.assertEqual(self.line_revenda.icmssn_percent, 2.6597)
 
     def test_icmssn_tax_rate_without_cfop(self):
         """The account lines give None as CFOP when they have none."""
@@ -111,7 +147,7 @@ class TestICMSSN(TransactionCase):
             operation_line=self.env.ref("l10n_br_fiscal.fo_venda_venda"),
             cfop=None,
         )
-        self.assertEqual(result["taxes"]["icmssn"]["percent_amount"], 2.70)
+        self.assertEqual(result["taxes"]["icmssn"]["percent_amount"], 2.7006)
         self.assertEqual(result["taxes"]["icmssn"]["tax_value"], 2.70)
 
     def _get_credit_comment(self, document):
@@ -124,8 +160,8 @@ class TestICMSSN(TransactionCase):
         self.assertTrue(
             comment.endswith(
                 "Permite o aproveitamento do crédito de ICMS, no valor de "
-                "R$\N{NO-BREAK SPACE}40,20, correspondente à alíquota de 2,70% para "
-                "industrialização e de 2,66% para revenda, nos termos do artigo 23 "
+                "R$\N{NO-BREAK SPACE}40,20, correspondente à alíquota de 2,7006% para "
+                "industrialização e de 2,6597% para revenda, nos termos do artigo 23 "
                 "da LC 123/2006."
             ),
             comment,
@@ -137,7 +173,7 @@ class TestICMSSN(TransactionCase):
         self.assertTrue(
             comment.endswith(
                 "no valor de R$\N{NO-BREAK SPACE}20,25, correspondente à alíquota "
-                "de 2,70%, nos termos do artigo 23 da LC 123/2006."
+                "de 2,7006%, nos termos do artigo 23 da LC 123/2006."
             ),
             comment,
         )
@@ -145,7 +181,7 @@ class TestICMSSN(TransactionCase):
         self.assertTrue(
             comment.endswith(
                 "no valor de R$\N{NO-BREAK SPACE}19,95, correspondente à alíquota "
-                "de 2,66%, nos termos do artigo 23 da LC 123/2006."
+                "de 2,6597%, nos termos do artigo 23 da LC 123/2006."
             ),
             comment,
         )
@@ -156,7 +192,7 @@ class TestICMSSN(TransactionCase):
         self.company.annual_revenue = 100000.0
         comment = self._get_credit_comment(self.document)
         self.assertIn(
-            "correspondente à alíquota de 2,70% para industrialização e de 2,66% "
+            "correspondente à alíquota de 2,7006% para industrialização e de 2,6597% "
             "para revenda",
             comment,
         )
@@ -165,11 +201,11 @@ class TestICMSSN(TransactionCase):
         """The comment follows the annex each line was taxed by, even when
         the main activity of the company changes afterwards."""
         self.line_venda.cfop_id = self.env.ref("l10n_br_fiscal.cfop_5949")
-        self.assertEqual(self.line_venda.icmssn_percent, 2.70)
+        self.assertEqual(self.line_venda.icmssn_percent, 2.7006)
         self.company.cnae_main_id = self.env.ref("l10n_br_fiscal.cnae_4744001")
         comment = self._get_credit_comment(self.document)
         self.assertIn(
-            "correspondente à alíquota de 2,70% para industrialização e de 2,66% "
+            "correspondente à alíquota de 2,7006% para industrialização e de 2,6597% "
             "para revenda",
             comment,
         )
