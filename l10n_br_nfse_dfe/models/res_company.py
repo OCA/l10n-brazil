@@ -87,6 +87,15 @@ class ResCompany(models.Model):
         help="Service product applied when a national NFS-e is imported "
         "and the wizard has no product yet.",
     )
+    nfse_import_fiscal_operation_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.operation",
+        string="Default NFS-e Import Operation",
+        domain="[('fiscal_operation_type', '=', 'in'), ('state', '=', 'approved'), "
+        "'|', ('company_id', '=', False), ('company_id', '=', id)]",
+        help="Fiscal operation applied when a national NFS-e is imported. "
+        "Leave it empty to use the only inbound ISSQN operation line, "
+        "or to let the user choose when that line is missing or ambiguous.",
+    )
 
     def _dfe_document_distribution(self, fiscal_type):
         if fiscal_type == "nfse":
