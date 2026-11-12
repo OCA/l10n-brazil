@@ -2,7 +2,8 @@
 # Copyright 2025 - TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import pkg_resources
+import importlib.resources
+
 from nfelib.cte.bindings.v4_0.cte_v4_00 import Tcte
 
 from odoo.models import NewId
@@ -21,9 +22,12 @@ class CTeImportTest(TransactionCase):
             "CTe51160724686092000173570010000000031000000024.xml",
         )
 
-        resource_path = "/".join(res_items)
-        cte_stream = pkg_resources.resource_stream(l10n_br_cte.__name__, resource_path)
-        binding = Tcte.from_xml(cte_stream.read().decode())
+        binding = Tcte.from_xml(
+            importlib.resources.files(l10n_br_cte.__name__)
+            .joinpath(*res_items)
+            .read_bytes()
+            .decode()
+        )
         self.env["l10n_br_fiscal.document"].search(
             [("document_number", "=", 571)]
         ).unlink()
@@ -42,9 +46,12 @@ class CTeImportTest(TransactionCase):
             "CTe51160724686092000173570010000000031000000024.xml",
         )
 
-        resource_path = "/".join(res_items)
-        cte_stream = pkg_resources.resource_stream(l10n_br_cte.__name__, resource_path)
-        binding = Tcte.from_xml(cte_stream.read().decode())
+        binding = Tcte.from_xml(
+            importlib.resources.files(l10n_br_cte.__name__)
+            .joinpath(*res_items)
+            .read_bytes()
+            .decode()
+        )
         self.env["l10n_br_fiscal.document"].search(
             [("document_number", "=", 571)]
         ).unlink()
