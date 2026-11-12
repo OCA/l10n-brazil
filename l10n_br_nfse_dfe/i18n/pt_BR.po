@@ -72,6 +72,11 @@ msgid "Date"
 msgstr "Data"
 
 #. module: l10n_br_nfse_dfe
+#: model:ir.model.fields,field_description:l10n_br_nfse_dfe.field_res_company__nfse_import_fiscal_operation_id
+msgid "Default NFS-e Import Operation"
+msgstr ""
+
+#. module: l10n_br_nfse_dfe
 #: model:ir.model.fields,field_description:l10n_br_nfse_dfe.field_res_company__nfse_import_product_id
 msgid "Default NFS-e Import Product"
 msgstr "Produto padrão de importação de NFS-e"
@@ -123,6 +128,14 @@ msgstr "Tipo Fiscal"
 #: model:ir.model,name:l10n_br_nfse_dfe.model_l10n_br_fiscal_dfe_document
 msgid "Fiscal document from distribution service"
 msgstr "Documento fiscal do serviço de distribuição"
+
+#. module: l10n_br_nfse_dfe
+#: model:ir.model.fields,help:l10n_br_nfse_dfe.field_res_company__nfse_import_fiscal_operation_id
+msgid ""
+"Fiscal operation applied when a national NFS-e is imported. Leave it empty "
+"to use the only inbound ISSQN operation line, or to let the user choose when "
+"that line is missing or ambiguous."
+msgstr ""
 
 #. module: l10n_br_nfse_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_document_tree
