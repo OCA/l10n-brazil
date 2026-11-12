@@ -302,7 +302,7 @@ class Partner(models.Model):
         """Check if is a Brazilian Partner."""
         if (
             self.country_id
-            and self.country_id == self.env.ref("base.br")
+            and self.country_id.code == "BR"
             or self.vat
             and (cnpj_cpf.validar_cnpj(self.vat) or cnpj_cpf.validar_cpf(self.vat))
         ):
