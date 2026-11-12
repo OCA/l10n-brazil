@@ -2,6 +2,7 @@
 # Copyright 2025 - TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+import base64
 import importlib.resources
 
 from nfelib.cte.bindings.v4_0.cte_v4_00 import Tcte
@@ -108,3 +109,58 @@ class CTeImportTest(TransactionCase):
 
     def test_import_out_cte(self):
         "(can be useful after an ERP migration)"
+
+    def test_import_wizard_cte_proc(self):
+        """The wizard accepts the authorized XML (cteProc), as DF-e delivers it."""
+        access_key = "35240759594315000157570010000057311040445890"
+        res_items = ("tests", "cte", "v4_00", "leiauteCTe", f"CTe{access_key}.xml")
+        cte_xml = (
+            importlib.resources.files(l10n_br_cte.__name__)
+            .joinpath(*res_items)
+            .read_bytes()
+            .decode()
+            .split("?>", 1)[1]
+            .strip()
+        )
+        proc_xml = (
+            '<cteProc xmlns="http://www.portalfiscal.inf.br/cte" versao="4.00">'
+            f"{cte_xml}"
+            '<protCTe versao="4.00"><infProt><tpAmb>2</tpAmb>'
+            "<verAplic>SP_CTE_PL_4.00</verAplic>"
+            f"<chCTe>{access_key}</chCTe>"
+            "<dhRecbto>2024-07-10T10:00:00-03:00</dhRecbto>"
+            "<nProt>135240000000002</nProt><digVal>YWJj</digVal>"
+            "<cStat>100</cStat><xMotivo>Autorizado o uso do CT-e</xMotivo>"
+            "</infProt></protCTe></cteProc>"
+        )
+        # the demo CT-e of the Simples Nacional company uses this key
+        self.env["l10n_br_fiscal.document"].search(
+            [("document_key", "=", access_key)]
+        ).unlink()
+
+        wizard = (
+            self.env["l10n_br_fiscal.document.import.wizard"]
+            .with_context(default_file=base64.b64encode(proc_xml.encode()))
+            .create({})
+        )
+        wizard._onchange_file()
+
+        self.assertEqual(wizard.document_type_id.code, "57")
+        self.assertEqual(wizard.document_key.replace(" ", ""), access_key)
+        self.assertEqual(wizard.issuer_legal_name, "Empresa Simples Nacional")
+        self.assertEqual(wizard.destination_cnpj, "46.081.676/0001-58")
+        self.assertEqual(
+            wizard.destination_name,
+            "CTE EMITIDO EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL",
+        )
+
+        # the CT-e wizard does not guess the operation: the user picks it
+        wizard.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras")
+        wizard.action_import_and_open_document()
+
+        document = wizard.document_id
+        self.assertEqual(document.document_key, access_key)
+        self.assertEqual(document.document_type_id.code, "57")
+        self.assertEqual(document.fiscal_operation_id, wizard.fiscal_operation_id)
+        self.assertEqual(document.fiscal_operation_type, "in")
+        self.assertEqual(document.issuer, "partner")
