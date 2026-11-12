@@ -94,6 +94,21 @@
                     </field>
                 </group>
             </page>
+            <page name="others" position="inside">
+                <group
+                    name="cte_autxml"
+                    string="Authorized to Download the XML"
+                    invisible="document_type not in ('57',)"
+                >
+                    <field name="cte40_autXML" nolabel="1" colspan="2">
+                        <list editable="bottom">
+                            <field name="partner_id" />
+                            <field name="cte40_CNPJ" />
+                            <field name="cte40_CPF" />
+                        </list>
+                    </field>
+                </group>
+            </page>
             <page name="delivery" position="after">
                 <page string="Modais" name="modais" invisible="document_type != '57'">
                     <group>

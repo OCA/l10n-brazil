@@ -116,9 +116,9 @@ class TestCTeSerialize(TransactionCase):
             "2024-11-22", "%Y-%m-%d"
         ).date()  # Data prevista de entrega
         cte.cte40_CL = "TEST_CL"  # Código de Localidade
-        cte.cte40_cTar = "TAR123"  # Código da Tarifa
+        cte.cte40_cTar = "TAR1"  # Código da Tarifa
         cte.cte40_vTar = 2500.00  # Valor da Tarifa
-        cte.cte40_xDime = "Dimensão Padrão"  # Dimensões do volume
+        cte.cte40_xDime = "Dim. Padrão"  # Dimensões do volume
 
         # Lista de produtos perigosos
         cte.cte40_peri = [
@@ -180,7 +180,7 @@ class TestCTeSerialize(TransactionCase):
     def prepare_modal_ferroviario_data(cls, cte):
         # Dados gerais do modal ferroviário
         cte.cte40_tpTraf = "1"  # Tipo de Tráfego: 1 = Nacional, 2 = Internacional
-        cte.cte40_fluxo = "Fluxo Norte-Sul"  # Fluxo de transporte
+        cte.cte40_fluxo = "Norte-Sul"  # Fluxo de transporte
         cte.cte40_vFrete = 5000.00  # Valor do frete ferroviário
         cte.cte40_chCTeFerroOrigem = (
             "CTE123456789"  # Chave do CTe Ferroviário de origem

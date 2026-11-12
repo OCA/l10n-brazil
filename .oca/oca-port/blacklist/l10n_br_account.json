@@ -1,0 +1,5 @@
+{
+  "pull_requests": {
+    "OCA/l10n-brazil#4562": "out of the l10n_br_account scope: the fix replaces cancel_move_ids' button_cancel call with a manual reconcile/analytic cleanup, which belongs to the fiscal document cancellation flow (l10n_br_fiscal_edi), not to l10n_br_account"
+  }
+}
