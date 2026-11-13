@@ -356,7 +356,7 @@ class CNABReturnEvent(models.Model):
         move_vals = self._get_tariff_move_vals()
         move_id = move_obj.create(move_vals)
         self._create_tariff_move_lines(move_id)
-        move_id.post()
+        move_id.action_post()
         self.generated_move_id = move_id
 
     def _create_rebate_move_lines(self, move_id):
