@@ -329,6 +329,22 @@ class TestNfseDfe(TransactionCase):
         with self.assertRaises(UserError):
             document.import_document()
 
+    def test_cancelled_nfse_import_is_refused(self):
+        document = self.env["l10n_br_fiscal_dfe.document"].create(
+            {
+                "access_key": "8" * 50,
+                "company_id": self.company.id,
+                "fiscal_type": "nfse",
+                "document_state": "3",
+            }
+        )
+        with self.assertRaises(UserError) as cancelled:
+            document.with_context(lang="en_US").import_document()
+        self.assertEqual(
+            str(cancelled.exception),
+            "This document was cancelled at the source.",
+        )
+
     def test_specific_search_accepts_50_digits(self):
         wizard = self.env["dfe.specific.search.wizard"].create(
             {

@@ -54,6 +54,7 @@ class L10nBrFiscalDfeDocument(models.Model):
     def import_document(self):
         if self.fiscal_type != "nfse":
             return super().import_document()
+        self._check_import_allowed()
         complete = self._get_complete_dfe()
         if not complete or not complete.attachment_id:
             raise UserError(
