@@ -57,7 +57,7 @@ def _build_dfe_response(
     parts = []
     for nsu, schema, xml_content in doczip_list:
         encoded = _gzip_base64(xml_content)
-        parts.append(f'<docZip NSU="{nsu}" schema="{schema}">' f"{encoded}</docZip>")
+        parts.append(f'<docZip NSU="{nsu}" schema="{schema}">{encoded}</docZip>')
     doczip_xml = "".join(parts)
     return (
         '<?xml version="1.0" encoding="UTF-8"?>'
@@ -1091,9 +1091,7 @@ class TestDFe(TransactionCase):
     @mock.patch.object(DefaultTransport, "post")
     def test_create_from_unknown_schema(self, mock_post):
         """Unknown schema creates a minimal DFe record."""
-        unknown_xml = (
-            '<unknownDoc xmlns="http://example.com">' "<id>1</id></unknownDoc>"
-        )
+        unknown_xml = '<unknownDoc xmlns="http://example.com"><id>1</id></unknownDoc>'
         response = _build_dfe_response(
             [("000000000000302", "unknownDoc_v1.00.xsd", unknown_xml)],
             ult_nsu="000000000000302",
