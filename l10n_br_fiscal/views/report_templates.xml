@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <!-- Blocks shared by the printed reports of the fiscal documents.
+         The options are in the fiscal settings, Printed Reports. -->
+
+    <template id="report_company_fiscal_data">
+        <li
+            t-if="company._get_report_option('report_company_fiscal_data')"
+            name="l10n_br_company_fiscal_data"
+            class="small mt-1"
+        >
+            <t
+                t-foreach="company.partner_id._get_report_fiscal_data(tax_framework=company.report_tax_framework)"
+                t-as="data"
+            >
+                <span t-out="data" />
+                <br t-if="not data_last" />
+            </t>
+        </li>
+    </template>
+
+    <template id="report_partner_fiscal_data">
+        <div name="l10n_br_partner_fiscal_data" class="small mt-1">
+            <t t-foreach="partner._get_report_fiscal_data()" t-as="data">
+                <span t-out="data" />
+                <br t-if="not data_last" />
+            </t>
+        </div>
+    </template>
+
+    <template id="report_fiscal_operation">
+        <div
+            t-if="doc.fiscal_operation_id and doc.company_id._get_report_option('report_fiscal_operation')"
+            class="col"
+            name="informations_fiscal_operation"
+        >
+            <strong>Fiscal Operation</strong>
+            <div t-field="doc.fiscal_operation_id" />
+        </div>
+    </template>
+
+    <template id="report_line_product_code">
+        <t
+            t-if="line.company_id.country_id.code == 'BR'"
+            t-out="line._get_report_product_code()"
+        />
+    </template>
+
+    <template id="report_line_fiscal_details">
+        <t
+            t-set="details"
+            t-value="line.company_id.country_id.code == 'BR' and line._get_report_fiscal_details()"
+        />
+        <div t-if="details" class="text-muted small" t-out="details" />
+    </template>
+
+    <template id="report_line_fiscal_taxes">
+        <small
+            t-foreach="line.fiscal_tax_ids.filtered(lambda x: x.percent_amount or x.value_amount)"
+            t-as="tax"
+            class="d-block"
+            t-out="tax.name"
+        />
+    </template>
+
+    <!-- Rows of the totals table, in place of the document_tax_totals call -->
+    <template id="report_fiscal_totals">
+        <tr
+            t-foreach="fiscal_totals['rows']"
+            t-as="row"
+            t-att-class="'o_total fw-bold' if row[2] else None"
+        >
+            <td t-out="row[0]" />
+            <td class="text-end text-nowrap">
+                <span
+                    t-out="row[1]"
+                    t-options="{'widget': 'monetary', 'display_currency': currency}"
+                />
+            </td>
+        </tr>
+        <t t-if="fiscal_totals['included']">
+            <tr class="text-muted small">
+                <td colspan="2">
+                    <em>Taxes included in the price (informative)</em>
+                </td>
+            </tr>
+            <tr
+                t-foreach="fiscal_totals['included']"
+                t-as="row"
+                class="text-muted small"
+            >
+                <td class="ps-3" t-out="row[0]" />
+                <td class="text-end text-nowrap">
+                    <span
+                        t-out="row[1]"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"
+                    />
+                </td>
+            </tr>
+        </t>
+    </template>
+
+    <!-- Company fiscal data in the header of every layout -->
+    <template id="external_layout_standard" inherit_id="web.external_layout_standard">
+        <!-- the company tax ID is already in the company fiscal data -->
+        <xpath
+            expr="//li[@t-if='not forced_vat']/t[@t-if='company.vat']"
+            position="attributes"
+        >
+            <attribute
+                name="t-if"
+            >company.vat and not company._get_report_option('report_company_fiscal_data')</attribute>
+        </xpath>
+        <xpath expr="//ul[@name='company_address_list']" position="inside">
+            <t t-call="l10n_br_fiscal.report_company_fiscal_data" />
+        </xpath>
+    </template>
+
+    <template id="external_layout_boxed" inherit_id="web.external_layout_boxed">
+        <!-- the company tax ID is already in the company fiscal data -->
+        <xpath
+            expr="//li[@t-if='not forced_vat']/t[@t-if='company.vat']"
+            position="attributes"
+        >
+            <attribute
+                name="t-if"
+            >company.vat and not company._get_report_option('report_company_fiscal_data')</attribute>
+        </xpath>
+        <xpath expr="//ul[@name='company_address_list']" position="inside">
+            <t t-call="l10n_br_fiscal.report_company_fiscal_data" />
+        </xpath>
+    </template>
+
+    <template id="external_layout_bold" inherit_id="web.external_layout_bold">
+        <!-- the company tax ID is already in the company fiscal data -->
+        <xpath
+            expr="//li[@t-if='not forced_vat']/t[@t-if='company.vat']"
+            position="attributes"
+        >
+            <attribute
+                name="t-if"
+            >company.vat and not company._get_report_option('report_company_fiscal_data')</attribute>
+        </xpath>
+        <xpath expr="//ul[@name='company_address_list']" position="inside">
+            <t t-call="l10n_br_fiscal.report_company_fiscal_data" />
+        </xpath>
+    </template>
+
+    <template id="external_layout_striped" inherit_id="web.external_layout_striped">
+        <!-- the company tax ID is already in the company fiscal data -->
+        <xpath
+            expr="//li[@t-if='not forced_vat']/t[@t-if='company.vat']"
+            position="attributes"
+        >
+            <attribute
+                name="t-if"
+            >company.vat and not company._get_report_option('report_company_fiscal_data')</attribute>
+        </xpath>
+        <xpath expr="//ul[@name='company_address_list']" position="inside">
+            <t t-call="l10n_br_fiscal.report_company_fiscal_data" />
+        </xpath>
+    </template>
+
+    <template id="external_layout_folder" inherit_id="web.external_layout_folder">
+        <!-- the company tax ID is already in the company fiscal data -->
+        <xpath
+            expr="//li[@t-if='not forced_vat']/t[@t-if='company.vat']"
+            position="attributes"
+        >
+            <attribute
+                name="t-if"
+            >company.vat and not company._get_report_option('report_company_fiscal_data')</attribute>
+        </xpath>
+        <xpath expr="//ul[@name='company_address_list']" position="inside">
+            <t t-call="l10n_br_fiscal.report_company_fiscal_data" />
+        </xpath>
+    </template>
+
+    <template id="external_layout_wave" inherit_id="web.external_layout_wave">
+        <!-- the company tax ID is already in the company fiscal data -->
+        <xpath
+            expr="//li[@t-if='not forced_vat']/t[@t-if='company.vat']"
+            position="attributes"
+        >
+            <attribute
+                name="t-if"
+            >company.vat and not company._get_report_option('report_company_fiscal_data')</attribute>
+        </xpath>
+        <xpath expr="//ul[@name='company_address_list']" position="inside">
+            <t t-call="l10n_br_fiscal.report_company_fiscal_data" />
+        </xpath>
+    </template>
+
+    <template id="external_layout_bubble" inherit_id="web.external_layout_bubble">
+        <!-- the company tax ID is already in the company fiscal data -->
+        <xpath
+            expr="//li[@t-if='not forced_vat']/t[@t-if='company.vat']"
+            position="attributes"
+        >
+            <attribute
+                name="t-if"
+            >company.vat and not company._get_report_option('report_company_fiscal_data')</attribute>
+        </xpath>
+        <xpath expr="//ul[@name='company_address_list']" position="inside">
+            <t t-call="l10n_br_fiscal.report_company_fiscal_data" />
+        </xpath>
+    </template>
+</odoo>
