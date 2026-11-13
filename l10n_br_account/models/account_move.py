@@ -317,6 +317,7 @@ class AccountMove(models.Model):
 
         return result
 
+    @api.depends("document_type_id")
     def _compute_l10n_latam_document_type(self):
         """Override to map fiscal document_type_id to l10n_latam_document_type_id.
 
@@ -341,14 +342,17 @@ class AccountMove(models.Model):
             if current_values[move.id] and not move.l10n_latam_document_type_id:
                 move.l10n_latam_document_type_id = current_values[move.id]
 
-        # Set document type based on fiscal document_type_id.code
+        # The fiscal document_type_id is the source of truth: the upstream compute
+        # picks the first available LATAM type (NF-e), which is wrong for any
+        # other fiscal type (NFS-e, NFC-e...), so the LATAM type follows the
+        # fiscal one while the invoice can still be edited.
         for move in self.filtered(
-            lambda m: m.document_type_id and not m.l10n_latam_document_type_id
+            lambda m: m.document_type_id and m.state == "draft" and not m.posted_before
         ):
             latam_doc_type = self._find_latam_document_type(
                 move.document_type_id, move.company_id
             )
-            if latam_doc_type:
+            if latam_doc_type and move.l10n_latam_document_type_id != latam_doc_type:
                 move.l10n_latam_document_type_id = latam_doc_type
 
     @api.model
