@@ -17,9 +17,9 @@ class TestAccountNFCeContingency(AccountMoveBRCommon):
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
 
         # Add required groups BEFORE accessing e-doc data
-        cls.env.user.groups_id |= cls.env.ref("l10n_br_nfe.group_manager")
-        cls.env.user.groups_id |= cls.env.ref("l10n_br_fiscal.group_manager")
-        cls.env.user.groups_id |= cls.env.ref("account.group_account_manager")
+        cls.env.user.group_ids |= cls.env.ref("l10n_br_nfe.group_manager")
+        cls.env.user.group_ids |= cls.env.ref("l10n_br_fiscal.group_manager")
+        cls.env.user.group_ids |= cls.env.ref("account.group_account_manager")
 
         # Grant access to all companies (demo data belongs to different companies)
         companies = cls.env["res.company"].search([])

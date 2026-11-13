@@ -26,8 +26,8 @@ class TestGeneratePaymentInfo(AccountMoveBRCommon):
         ):
             load_account_nfe_fixture_files(cls.env)
 
-        cls.env.user.groups_id |= cls.env.ref("l10n_br_nfe.group_manager")
-        cls.env.user.groups_id |= cls.env.ref("l10n_br_fiscal.group_manager")
+        cls.env.user.group_ids |= cls.env.ref("l10n_br_nfe.group_manager")
+        cls.env.user.group_ids |= cls.env.ref("l10n_br_fiscal.group_manager")
         cls.configure_normal_company_taxes()
 
         cls.payment_mode = cls.env["account.payment.mode"].create(

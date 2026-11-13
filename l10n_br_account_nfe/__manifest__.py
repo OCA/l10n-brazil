@@ -13,13 +13,13 @@
     "author": "Engenere,Akretion,Odoo Community Association (OCA)",
     "maintainers": ["antoniospneto", "felipemotter", "mbcosta"],
     "website": "https://github.com/OCA/l10n-brazil",
-    "version": "18.0.1.1.1",
+    "version": "19.0.1.0.0",
     "development_status": "Beta",
     "depends": [
         "l10n_br_nfe",
         "l10n_br_account",
         "l10n_br_account_due_list",
-        "account_payment_partner",
+        "account_payment_mode",
     ],
     "data": [
         "views/account_payment_mode.xml",
@@ -28,6 +28,9 @@
     ],
     "demo": [
         "demo/account_payment_mode_demo.xml",
+    ],
+    "oca_data_manual": [
+        "demo/account_invoice_sn_demo.xml",
     ],
     "post_init_hook": "post_init_hook",
     "installable": True,
