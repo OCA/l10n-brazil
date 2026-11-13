@@ -414,7 +414,7 @@
     </record>
 
     <record id="brasil_400_return_06" model="l10n_br_cnab.code">
-        <field name="name">Liquidação Normal)</field>
+        <field name="name">Liquidação Normal</field>
         <field name="code">06</field>
         <field name="code_type">return_move_code</field>
         <field
@@ -842,7 +842,7 @@
     </record>
 
     <record id="brasil_400_return_44" model="l10n_br_cnab.code">
-        <field name="name">Boleto pago com cheque devolvido)</field>
+        <field name="name">Boleto pago com cheque devolvido</field>
         <field name="code">44</field>
         <field name="code_type">return_move_code</field>
         <field
@@ -856,7 +856,7 @@
     </record>
 
     <record id="brasil_400_return_46" model="l10n_br_cnab.code">
-        <field name="name">Boleto pago com cheque, aguardando compensação)</field>
+        <field name="name">Boleto pago com cheque, aguardando compensação</field>
         <field name="code">46</field>
         <field name="code_type">return_move_code</field>
         <field
