@@ -3,7 +3,7 @@
 
 import logging
 
-from odoo.exceptions import AccessError, UserError
+from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.tests.common import TransactionCase
 from odoo.tools import mute_logger
 
@@ -453,3 +453,36 @@ class TestIrModelDataEditableMixinOnNcm(TransactionCase):
             ]
         )
         self.assertEqual(nbm_xml_id.name, "nbm_0000100001")
+
+    def test_15_pis_cofins_monofasico_only_on_the_keyword(self):
+        """A "sico" substring such as in "Básico" is not monofasico."""
+        pc_basico = self.env["l10n_br_fiscal.tax.pis.cofins"].create(
+            {
+                "code": "997",
+                "name": "Regime Básico",
+                "piscofins_type": "product",
+            }
+        )
+        self.assertEqual(pc_basico._get_xml_id_name(), "tax_pis_cofins_997")
+
+        # A PIS tax named "Básico" must keep the standard convention: the
+        # "sico" substring used to be taken for "monofasico".
+        tax_basico = self.env.ref("l10n_br_fiscal.tax_pis_0_65").copy(
+            {"name": "PIS Básico 0,65%"}
+        )
+        self.assertEqual(tax_basico._get_xml_id_name(), "tax_pis_0_65")
+
+    def test_16_service_type_code_is_unique(self):
+        """The service type code is the base of its xml_id: keep it unique."""
+        ServiceType = self.env["l10n_br_fiscal.service.type"]
+        service_type = self.env.ref("l10n_br_fiscal.service_type_101")
+        with self.assertRaises(ValidationError):
+            ServiceType.create(
+                {
+                    "code": service_type.code,
+                    "name": "Duplicated service type",
+                    "internal_type": "normal",
+                }
+            )
+        with self.assertRaises(ValidationError):
+            service_type.code = self.env.ref("l10n_br_fiscal.service_type_102").code
