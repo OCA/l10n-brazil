@@ -1,8 +1,11 @@
 # generated from manifests external_dependencies
+brazil_fiscal_client
 brazilcep
+brazilfiscalreport
 email-validator
 erpbrasil-base>=2.4.2
 erpbrasil.assinatura
+nfelib
 num2words
 phonenumbers
 transitions
