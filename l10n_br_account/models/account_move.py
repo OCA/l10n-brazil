@@ -438,7 +438,7 @@ class AccountMove(models.Model):
                         values = {
                             "balance": term.get("company_amount"),
                             "amount_currency": term.get("foreign_amount"),
-                            "discount_amount_currency": term.get(
+                            "discount_amount_currency": invoice_payment_terms.get(
                                 "discount_amount_currency"
                             )
                             or 0.0,
