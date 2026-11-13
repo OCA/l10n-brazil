@@ -149,3 +149,67 @@ class TestReturnLog(AccountTestInvoicingCommon):
         self.assertEqual(sum_balance(rebate_moves), 2.00)
         self.assertEqual(sum_balance(discount_moves), 10.00)
         self.assertEqual(sum_balance(tariff_moves), 5.00)
+
+    def test_outstanding_account_from_journal(self):
+        """The journal payment method line account wins over the chart one."""
+        transit_account = self.env["account.account"].create(
+            {
+                "company_ids": [Command.link(self.company.id)],
+                "code": "TEST4",
+                "name": "Payments in transit",
+                "account_type": "asset_current",
+                "reconcile": True,
+            }
+        )
+        self.bank_journal_itau.outbound_payment_method_line_ids.write(
+            {"payment_account_id": transit_account.id}
+        )
+        return_log = self.return_log_obj.create(
+            {"journal_id": self.bank_journal_itau.id, "type": "outbound"}
+        )
+        event = self.event_obj.create({"cnab_return_log_id": return_log.id})
+        self.assertEqual(event._get_outstanding_account("outbound"), transit_account)
+        self.assertNotEqual(event._get_outstanding_account("inbound"), transit_account)
+
+    def test_outbound_liquidation_sets_cnab_state_done(self):
+        """A paid vendor line leaves the 'exported' state after the return."""
+        bill = self.env["account.move"].create(
+            {
+                "partner_id": self.partner_a.id,
+                "move_type": "in_invoice",
+                "invoice_date": fields.Date.today(),
+                "company_id": self.company.id,
+                "journal_id": self.company_data["default_journal_purchase"].id,
+                "invoice_line_ids": [
+                    Command.create(
+                        {
+                            "product_id": self.product_a.id,
+                            "quantity": 1.0,
+                            "price_unit": 300.0,
+                        }
+                    )
+                ],
+            }
+        )
+        bill.action_post()
+        payable_line = bill.line_ids.filtered(
+            lambda line: line.account_type == "liability_payable"
+        )
+        payable_line.cnab_state = "exported"
+        return_log = self.return_log_obj.create(
+            {"journal_id": self.bank_journal_itau.id, "type": "outbound"}
+        )
+        event = self.event_obj.create(
+            {
+                "gen_liquidation_move": True,
+                "payment_value": 300.00,
+                "real_payment_date": date(2023, 4, 1),
+                "cnab_return_log_id": return_log.id,
+                "move_line_ids": payable_line,
+                "your_number": "P00001",
+            }
+        )
+        event.confirm_event()
+        self.assertTrue(payable_line.reconciled)
+        self.assertEqual(payable_line.cnab_state, "done")
+        self.assertEqual(event.generated_move_id.state, "posted")

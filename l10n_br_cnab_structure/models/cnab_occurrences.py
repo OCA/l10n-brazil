@@ -28,6 +28,13 @@ class CNABOccurrences(models.Model):
         help="Mark this option if this occurrence corresponds to a liquidation move.",
     )
 
+    not_accepted = fields.Boolean(
+        string="Not Accepted by Bank",
+        help="Mark this option if this occurrence means the bank rejected the "
+        "payment. The journal item goes back to the payment line wizard with "
+        "the option 'Allow lines with rejected return'.",
+    )
+
     @api.depends("code", "name")
     def _compute_name(self):
         for rec in self:
