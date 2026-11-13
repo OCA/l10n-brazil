@@ -42,6 +42,13 @@ class TestDocumentRpsNumber(TransactionCase):
         self.nfse.document_number = "123"
         self.assertEqual(self.nfse._prepare_event_document_number(), "50-123")
 
+    def test_the_special_regime_comes_from_the_company(self):
+        document = self.env["l10n_br_fiscal.document"]
+        field = ["taxation_special_regime"]
+        self.assertFalse(document.default_get(field).get(field[0]))
+        self.env.company.nfse_taxation_special_regime = "3"
+        self.assertEqual(document.default_get(field)[field[0]], "3")
+
     def test_the_event_number_is_the_document_number_without_a_rps(self):
         self.nfse.rps_number = False
         self.nfse.document_number = "123"
