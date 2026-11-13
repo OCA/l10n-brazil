@@ -37,3 +37,7 @@ class CST(models.Model):
             _("CST already exists with this code !"),
         )
     ]
+
+    def _get_xml_id_name(self):
+        self.ensure_one()
+        return f"cst_{self.tax_domain}_{self.code}"

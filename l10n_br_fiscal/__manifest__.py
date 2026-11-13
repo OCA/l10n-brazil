@@ -10,7 +10,7 @@
     "maintainers": ["renatonlima", "rvalyi"],
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Production/Stable",
-    "version": "16.0.26.2.1",
+    "version": "16.0.26.2.2",
     "depends": [
         "product",
         "uom_alias",
@@ -135,6 +135,7 @@
     "installable": True,
     "application": True,
     "auto_install": False,
+    "post_init_hook": "post_init_hook",
     "external_dependencies": {
         "python": [
             "erpbrasil-base>=2.4.2",

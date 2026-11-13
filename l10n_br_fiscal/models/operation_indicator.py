@@ -75,3 +75,10 @@ class OperationIndicator(models.Model):
         string="Related DFes",
         help="Digital Fiscal Documents that accept this indicator",
     )
+
+    def _get_xml_id_name(self):
+        """xml_id convention of the cIndOp table (see the data file)."""
+        self.ensure_one()
+        if not self.code:
+            return None
+        return f"operation_indicator_{self.code}"

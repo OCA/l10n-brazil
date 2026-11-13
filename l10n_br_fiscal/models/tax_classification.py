@@ -124,3 +124,16 @@ class TaxClassification(models.Model):
         string="Related DFes",
         help="Related Digital Fiscal Documents",
     )
+
+    def _get_xml_id_name(self):
+        """xml_id convention of the cClassTrib table (see the data file).
+
+        The table is official and grows with the tax reform, so a
+        classification entered by hand can later show up in the data file:
+        naming it like the data file makes the module update reuse that
+        record instead of creating a duplicate.
+        """
+        self.ensure_one()
+        if not self.code:
+            return None
+        return f"tax_classification_{self.code}"

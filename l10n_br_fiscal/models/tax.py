@@ -118,6 +118,7 @@ class Tax(models.Model):
     """
 
     _name = "l10n_br_fiscal.tax"
+    _inherit = "l10n_br_fiscal.data.editable.mixin"
     _order = "sequence, tax_domain, name"
     _description = "Fiscal Tax"
 
@@ -950,3 +951,53 @@ class Tax(models.Model):
                 tax.tax_base_type = ICMS_ST_BASE_TYPE_REL.get(tax.icmsst_base_type)
             elif tax.tax_base_type is None:
                 tax.tax_base_type = False
+
+    def _get_xml_id_name(self):
+        """
+        Generate XML ID name like: tax_pis_value_0_0211.
+        It works for 98% of the cases, the common
+        cases for which the user may create a missing tax record.
+        Some other cases like tax_icms_isento or tax_csll_nt don't
+        follow a common pattern, but they are rare exception the user is
+        not expect to create manually.
+        """
+
+        def fmt(val):
+            # Odoo Float fields are doubles: a computed rate of 0.1 can be
+            # stored as 0.09999999999999999 and a rate of 26.36 as
+            # 26.360000000000003. The xml_id conventions use at most 4
+            # decimals (tax_pis_value_0_0211), so format with 4 decimals
+            # and drop the trailing zeros; otherwise the write() guard of
+            # the mixin would refuse a legit write of the same rate.
+            return f"{val:.4f}".rstrip("0").rstrip(".").replace(".", "_")
+
+        self.ensure_one()
+        if not self.tax_domain:
+            return None
+
+        name_lower = self.name.lower()
+
+        # PIS / COFINS
+        if self.tax_domain in ("pis", "cofins"):
+            # Monofasico. Do not widen this to a substring such as "sico":
+            # it also matches "Básico" or "Clássico" and would give the
+            # monofasico convention to unrelated manual taxes.
+            if "monofásico" in name_lower or "monofasico" in name_lower:
+                if self.value_amount:
+                    return f"tax_{self.tax_domain}_value_{fmt(self.value_amount)}"
+                return f"tax_{self.tax_domain}_monofasico_{fmt(self.percent_amount)}"
+
+            # Aliq Dif
+            if "aliq" in name_lower and "dif" in name_lower:
+                # Using fields assuming they are populated correctly for these taxes
+                return (
+                    f"tax_{self.tax_domain}_aliqdif_"
+                    f"{fmt(self.percent_debit_credit)}_cred_{fmt(self.percent_amount)}"
+                )
+
+        # Standard format
+        res = f"tax_{self.tax_domain}_{fmt(self.percent_amount)}"
+        if self.percent_reduction:
+            res += f"_red_{fmt(self.percent_reduction)}"
+
+        return res
