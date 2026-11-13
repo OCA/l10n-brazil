@@ -152,7 +152,7 @@
                     role="alert"
                     invisible="state_edoc not in ('rejeitada', 'denegada')"
                 >Fiscal Document:
-                <field name="document_type_id" readonly="1" />
+                <field name="document_type_id" readonly="1" class="me-1" />
                 <strong>
                     <field name="state_edoc" readonly="1" />
                 </strong></div>
@@ -161,14 +161,14 @@
                     role="alert"
                     invisible="state_edoc != 'autorizada'"
                 >Fiscal Document:
-                <field name="document_type_id" readonly="1" />
+                <field name="document_type_id" readonly="1" class="me-1" />
                 <strong>Authorized</strong></div>
                 <div
                     class="alert alert-warning"
                     role="alert"
                     invisible="state_edoc != 'cancelada'"
                 >Fiscal Document:
-                <field name="document_type_id" readonly="1" />
+                <field name="document_type_id" readonly="1" class="me-1" />
                 <strong>Cancelled</strong></div>
                 <sheet string="Fiscal Document">
                     <div class="oe_button_box" name="button_box" />
