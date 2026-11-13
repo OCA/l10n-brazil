@@ -325,6 +325,13 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                 line.ipi_guideline_id = mapping_result["ipi_guideline"]
                 line.tax_classification_id = mapping_result["tax_classification"]
                 line.icms_tax_benefit_id = mapping_result["icms_tax_benefit_id"]
+                line.issqn_eligibility = (
+                    mapping_result["issqn_eligibility"] or ISSQN_ELIGIBILITY_DEFAULT
+                )
+                line.operation_indicator_id = (
+                    mapping_result["operation_indicator"]
+                    or line.product_id.operation_indicator_id
+                )
 
                 if line._is_imported():
                     continue
@@ -333,6 +340,9 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                 for tax in mapping_result["taxes"].values():
                     taxes |= tax
                 line.fiscal_tax_ids = taxes
+            else:
+                line.issqn_eligibility = ISSQN_ELIGIBILITY_DEFAULT
+                line.operation_indicator_id = line.product_id.operation_indicator_id
 
     @api.depends("fiscal_operation_line_id")
     def _compute_comment_ids(self):
@@ -558,7 +568,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                 line.fiscal_genre_id = False
                 line.service_type_id = False
                 line.national_taxation_code_id = False
-                line.operation_indicator_id = False
                 continue
             p = line.product_id
             line.fiscal_type = p.fiscal_type
@@ -571,7 +580,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             line.fiscal_genre_id = p.fiscal_genre_id
             line.service_type_id = p.service_type_id
             line.national_taxation_code_id = p.national_taxation_code_id
-            line.operation_indicator_id = p.operation_indicator_id
 
     @api.depends("product_id")
     def _compute_city_taxation_code_id(self):
@@ -1264,7 +1272,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     operation_indicator_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation.indicator",
         string="Operation Indicator",
-        compute="_compute_product_fiscal_fields",
+        compute="_compute_fiscal_tax_ids",
         store=True,
         readonly=False,
         precompute=True,
@@ -1310,7 +1318,10 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     issqn_eligibility = fields.Selection(
         selection=ISSQN_ELIGIBILITY,
         string="ISSQN Eligibility",
-        default=ISSQN_ELIGIBILITY_DEFAULT,
+        compute="_compute_fiscal_tax_ids",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # indIncentivo
