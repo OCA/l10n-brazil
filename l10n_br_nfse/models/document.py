@@ -67,7 +67,7 @@ class Document(models.Model):
     )
     taxation_special_regime = fields.Selection(
         selection=TAXATION_SPECIAL_REGIME,
-        default="1",
+        default=lambda self: self.env.company.nfse_taxation_special_regime,
     )
     verify_code = fields.Char(
         copy=False,

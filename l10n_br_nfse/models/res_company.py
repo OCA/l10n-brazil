@@ -7,6 +7,7 @@ from ..constants.nfse import (
     FOREIGN_TRADE_MODE,
     NFSE_ENVIRONMENT_DEFAULT,
     NFSE_ENVIRONMENTS,
+    TAXATION_SPECIAL_REGIME,
 )
 
 
@@ -32,6 +33,11 @@ class ResCompany(models.Model):
         default="1",
         help="Default service mode (mdPrestacao) of the NFS-e of invoices in "
         "foreign currency.",
+    )
+    nfse_taxation_special_regime = fields.Selection(
+        selection=TAXATION_SPECIAL_REGIME,
+        string="NFSe Taxation Special Regime",
+        help="Default of the NFS-e of the company; empty when it has none.",
     )
     nfse_city_logo = fields.Binary(
         string="NFSe City Logo",
