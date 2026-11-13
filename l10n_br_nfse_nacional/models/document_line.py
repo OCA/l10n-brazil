@@ -158,8 +158,7 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
 
     @api.depends("issqn_tax_id", "issqn_eligibility")
     def _compute_nfse10_trib_issqn(self):
-        # issqn_eligibility defaults to "2" (Não incidência) and is rarely set,
-        # so only its explicit export and immunity values are taken from it.
+        # Only the export and immunity values of issqn_eligibility are taken.
         # Non-incidence (such as the rental of movable goods, STF SV 31) comes
         # from the ISSQN NT tax of the fiscal operation.
         issqn_nt = self.env.ref("l10n_br_fiscal.tax_issqn_nt", False)
