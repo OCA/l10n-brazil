@@ -115,6 +115,7 @@ class L10nBrFiscalDfeDocument(models.Model):
             "target": "new",
             "context": {
                 "default_access_key": self.access_key,
+                "default_dfe_document_id": self.id,
             },
         }
 
