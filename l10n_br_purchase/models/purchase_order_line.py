@@ -118,7 +118,7 @@ class PurchaseOrderLine(models.Model):
                 )
             return res
 
-    @api.onchange("fiscal_tax_ids")
+    @api.onchange("fiscal_tax_ids", "fiscal_operation_line_id")
     def _onchange_fiscal_tax_ids(self):
         if self.fiscal_operation_line_id:
             self.taxes_id = self.fiscal_tax_ids.account_taxes(
