@@ -349,6 +349,7 @@ class TestNFSeGiss(TestFiscalDocumentNFSeCommon):
         servico = declaracao.find(f"{T}Servico")
         self.assertEqual(servico.findtext(f"{T}ExigibilidadeISS"), "4")
         self.assertEqual(servico.findtext(f"{T}CodigoMunicipio"), "9999999")
+        self.assertEqual(servico.findtext(f"{T}MunicipioIncidencia"), "3518800")
         self.assertEqual(servico.findtext(f"{T}CodigoPais"), "0840")
         # in reais by the invoice rate, and in dollars in the foreign trade group
         self.assertEqual(
